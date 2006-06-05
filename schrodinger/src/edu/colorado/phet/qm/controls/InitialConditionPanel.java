@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 
@@ -71,7 +71,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         return ySlider.getValue() * getDiscreteModel().getGridHeight();
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return schrodingerControlPanel.getDiscreteModel();
     }
 

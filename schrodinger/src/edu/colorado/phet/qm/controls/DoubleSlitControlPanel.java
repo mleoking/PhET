@@ -6,8 +6,8 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.FractionalDoubleSlit;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 
@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
  */
 
 public class DoubleSlitControlPanel extends VerticalLayoutPanel {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private HorizontalDoubleSlit horizontalDoubleSlit;
     private JComponent slitSize;
     private JComponent slitSeparation;
@@ -34,11 +34,11 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     private SchrodingerModule module;
     private FractionalDoubleSlit fractionalSlit;
 
-    public DoubleSlitControlPanel( final DiscreteModel discreteModel, SchrodingerModule schrodingerModule ) {
-        this.discreteModel = discreteModel;
+    public DoubleSlitControlPanel( final QWIModel QWIModel, SchrodingerModule schrodingerModule ) {
+        this.QWIModel = QWIModel;
         this.module = schrodingerModule;
-        this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
-        this.fractionalSlit = discreteModel.getFractionalDoubleSlit();
+        this.horizontalDoubleSlit = QWIModel.getDoubleSlitPotential();
+        this.fractionalSlit = QWIModel.getFractionalDoubleSlit();
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             double insetY = 10 / 60.0;
 
@@ -157,7 +157,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         double getMax();
     }
 
-    private DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    private QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 }

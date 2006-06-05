@@ -11,8 +11,8 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
@@ -38,7 +38,7 @@ import java.util.Random;
 
 public class SchrodingerModule extends PiccoloModule {
     private SchrodingerPanel schrodingerPanel;
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private PhetApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
     private ParticleUnits particleUnits;
@@ -54,6 +54,17 @@ public class SchrodingerModule extends PiccoloModule {
         this.resolution = getResolutionSetups()[0];
         setModel( new BaseModel() );
         setLogoPanelVisible( false );
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                SchrodingerModule.this.stepInTime( dt );
+            }
+        } );
+    }
+
+    private void stepInTime( double dt ) {
+        if( QWIModel != null ) {
+            QWIModel.stepInTime( dt );
+        }
     }
 
     protected void finishInit() {
@@ -97,25 +108,21 @@ public class SchrodingerModule extends PiccoloModule {
         }
     }
 
-    protected void setDiscreteModel( DiscreteModel model ) {
-        if( discreteModel != null ) {
-            getModel().removeModelElement( discreteModel );
-        }
-        discreteModel = model;
-        addModelElement( discreteModel );
+    protected void setDiscreteModel( QWIModel model ) {
+        this.QWIModel = model;
     }
 
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
 
-    public DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    public QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 
     public void reset() {
         clearPotential();
-        discreteModel.reset();
+        QWIModel.reset();
         schrodingerPanel.reset();
         resetViewTransform();
     }
@@ -125,14 +132,14 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void fireParticle( WaveSetup waveSetup ) {
-        discreteModel.fireParticle( waveSetup );
+        QWIModel.fireParticle( waveSetup );
         schrodingerPanel.updateGraphics();
     }
 
     public void setGridSize( final int nx, final int ny ) {
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                discreteModel.setGridSize( nx, ny );
+                QWIModel.setGridSize( nx, ny );
                 getModel().removeModelElement( this );
             }
         } );
@@ -157,7 +164,7 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void addDetector( Detector detector ) {
-        discreteModel.addDetector( detector );
+        QWIModel.addDetector( detector );
         schrodingerPanel.addDetectorGraphic( detector );
     }
 
@@ -170,7 +177,7 @@ public class SchrodingerModule extends PiccoloModule {
 
         RectangularPotential rectangularPotential = new RectangularPotential( getDiscreteModel(), x, y, w, w );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
-        discreteModel.addPotential( rectangularPotential );//todo should be a composite.
+        QWIModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
     }
@@ -231,14 +238,14 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void removeAllDetectors() {
-        while( discreteModel.getDetectorSet().numDetectors() > 0 ) {
-            getSchrodingerPanel().removeDetectorGraphic( discreteModel.getDetectorSet().detectorAt( 0 ) );
+        while( QWIModel.getDetectorSet().numDetectors() > 0 ) {
+            getSchrodingerPanel().removeDetectorGraphic( QWIModel.getDetectorSet().detectorAt( 0 ) );
         }
     }
 
     public void removeAllPotentialBarriers() {
-        while( discreteModel.getCompositePotential().numPotentials() > 0 ) {
-            getDiscreteModel().removePotential( discreteModel.getCompositePotential().potentialAt( 0 ) );
+        while( QWIModel.getCompositePotential().numPotentials() > 0 ) {
+            getDiscreteModel().removePotential( QWIModel.getCompositePotential().potentialAt( 0 ) );
         }
     }
 

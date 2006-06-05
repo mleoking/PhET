@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -53,7 +53,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
                 rightSlit.setSelected( intensityModule.isRightDetectorEnabled() );
             }
         } );
-        intensityModule.getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        intensityModule.getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
                 synchronizeModelState();
             }

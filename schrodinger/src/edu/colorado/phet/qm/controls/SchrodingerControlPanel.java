@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -159,7 +159,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         module.fireParticle( waveSetup );
     }
 
-    public DiscreteModel getDiscreteModel() {
+    public QWIModel getDiscreteModel() {
         return module.getDiscreteModel();
     }
 

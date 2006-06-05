@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 
 import java.awt.*;
@@ -15,19 +15,19 @@ import java.util.ArrayList;
  */
 
 public class DGModel {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private FractionalAtomLattice fractionalAtomLattice;
     private ConcreteAtomLattice concreteAtomLattice;
     private ArrayList listeners = new ArrayList();
     private double defaultLatticeY0 = 0.25;
 
-    public DGModel( DiscreteModel discreteModel ) {
-        this.discreteModel = discreteModel;
-        concreteAtomLattice = new ConcreteAtomLattice( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
-        discreteModel.addPotential( concreteAtomLattice );
+    public DGModel( QWIModel QWIModel ) {
+        this.QWIModel = QWIModel;
+        concreteAtomLattice = new ConcreteAtomLattice( QWIModel.getGridWidth(), QWIModel.getGridHeight() );
+        QWIModel.addPotential( concreteAtomLattice );
         fractionalAtomLattice = createAtomLattice( false );
         updatePotential();
-        discreteModel.addListener( new DiscreteModel.Adapter() {
+        QWIModel.addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 updatePotential();
             }
@@ -39,12 +39,12 @@ public class DGModel {
     }
 
     private FractionalAtomLattice createAtomLattice( boolean circular ) {
-        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, defaultLatticeY0, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
-               new SquareAtomLattice( 0.05, 0.15, defaultLatticeY0, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
+               new SquareAtomLattice( 0.05, 0.15, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     public Wavefunction getWavefunction() {
-        return discreteModel.getWavefunction();
+        return QWIModel.getWavefunction();
     }
 
     public boolean isAtomShapeCircular() {
@@ -66,7 +66,7 @@ public class DGModel {
     }
 
     public Point getCenterAtomPoint() {
-        return fractionalAtomLattice.getCenterAtomConcretePoint( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
+        return fractionalAtomLattice.getCenterAtomConcretePoint( QWIModel.getGridWidth(), QWIModel.getGridHeight() );
     }
 
     static interface Listener {
@@ -84,14 +84,14 @@ public class DGModel {
     }
 
     private void clearWave() {
-        discreteModel.clearWavefunction();
+        QWIModel.clearWavefunction();
     }
 
     private void updatePotential() {
-        discreteModel.removePotential( concreteAtomLattice );
+        QWIModel.removePotential( concreteAtomLattice );
         concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice(
-                discreteModel.getGridWidth(), discreteModel.getGridHeight() );
-        discreteModel.addPotential( concreteAtomLattice );
+                QWIModel.getGridWidth(), QWIModel.getGridHeight() );
+        QWIModel.addPotential( concreteAtomLattice );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.potentialChanged();

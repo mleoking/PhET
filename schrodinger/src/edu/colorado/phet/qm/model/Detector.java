@@ -20,7 +20,7 @@ public class Detector extends RectangularObject {
     private int numTimeStepsBetweenDetect = 10;
     private int timeSinceLast = 0;
     private static final Random random = new Random();
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private static double probabilityScaleFudgeFactor = 5.0;
 //    private boolean oneShotDetection;
 
@@ -33,9 +33,9 @@ public class Detector extends RectangularObject {
 //        System.out.println( "probabilityScaleFudgeFactor = " + probabilityScaleFudgeFactor );
     }
 
-    public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
-        super( discreteModel, x, y, width, height );
-        this.discreteModel = discreteModel;
+    public Detector( QWIModel QWIModel, int x, int y, int width, int height ) {
+        super( QWIModel, x, y, width, height );
+        this.QWIModel = QWIModel;
 //        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
     }
 
@@ -138,7 +138,7 @@ public class Detector extends RectangularObject {
         else {
             expelWavefunction( wavefunction );
         }
-        discreteModel.copyActualToSource();
+        QWIModel.copyActualToSource();
         timeSinceLast = 0;
         return grabbed;
     }
@@ -147,8 +147,8 @@ public class Detector extends RectangularObject {
         //force the wavefunction out.
         double mag = wavefunction.getMagnitude();
         zero( wavefunction );
-        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
-            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+        if( QWIModel.getPropagator() instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)QWIModel.getPropagator();
             if( classicalWavePropagator.getLast2() != null ) {
                 zero( classicalWavePropagator.getLast() );
                 zero( classicalWavePropagator.getLast2() );
@@ -160,8 +160,8 @@ public class Detector extends RectangularObject {
     private void grabWavefunction( Wavefunction wavefunction ) {
         zeroElsewhere( wavefunction );
         wavefunction.normalize();
-        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
-            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+        if( QWIModel.getPropagator() instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)QWIModel.getPropagator();
             if( classicalWavePropagator.getLast2() != null ) {
                 zeroElsewhere( classicalWavePropagator.getLast() );
                 zeroElsewhere( classicalWavePropagator.getLast2() );

@@ -13,7 +13,7 @@ import java.awt.*;
  */
 
 public class RectangularObject extends SimpleObservable {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private int x;
     private int y;
     private int width;
@@ -39,15 +39,15 @@ public class RectangularObject extends SimpleObservable {
         }
     }
 
-    public RectangularObject( final DiscreteModel discreteModel, int x, int y, int width, int height ) {
-        this.discreteModel = discreteModel;
+    public RectangularObject( final QWIModel QWIModel, int x, int y, int width, int height ) {
+        this.QWIModel = QWIModel;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        discreteModel.addListener( new DiscreteModel.Adapter() {
+        QWIModel.addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
-                Rectangle b = fractionalSize.getBounds( discreteModel.getWavefunction().getWidth(), discreteModel.getWavefunction().getHeight() );
+                Rectangle b = fractionalSize.getBounds( QWIModel.getWavefunction().getWidth(), QWIModel.getWavefunction().getHeight() );
                 setBoundsInternal( b.x, b.y, b.width, b.height );
             }
         } );
@@ -55,7 +55,7 @@ public class RectangularObject extends SimpleObservable {
     }
 
     private void updateFractionalSize() {
-        this.fractionalSize.update( getBounds(), discreteModel.getWavefunction().getWidth(), discreteModel.getWavefunction().getHeight() );
+        this.fractionalSize.update( getBounds(), QWIModel.getWavefunction().getWidth(), QWIModel.getWavefunction().getHeight() );
     }
 
     public Rectangle getBounds() {

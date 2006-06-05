@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
@@ -48,7 +48,7 @@ public class DGModule extends IntensityModule {
                 updateProtractor();
             }
         } );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 updateProtractor();
             }

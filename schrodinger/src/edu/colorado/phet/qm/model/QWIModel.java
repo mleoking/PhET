@@ -20,7 +20,7 @@ import java.util.Map;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class DiscreteModel implements ModelElement {
+public class QWIModel implements ModelElement {
     private WaveModel waveModel;
     private CompositePotential compositePotential;
 
@@ -49,15 +49,15 @@ public class DiscreteModel implements ModelElement {
     public static final double DEFAULT_DT = 1E-5;
     private FractionalDoubleSlit fractionalDoubleSlit;
 
-    public DiscreteModel() {
+    public QWIModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
     }
 
-    public DiscreteModel( int width, int height ) {
+    public QWIModel( int width, int height ) {
         this( width, height, DEFAULT_DT, createInitWave() );
     }
 
-    public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
+    public QWIModel( int width, int height, double deltaTime, Wave wave ) {
         this.compositePotential = new CompositePotential();
         this.sourcePotential = new CompositePotential();
         this.deltaTime = deltaTime;
@@ -85,14 +85,14 @@ public class DiscreteModel implements ModelElement {
             final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
             sourceWaveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     sourceWaveDebugger.update();
                 }
             } );
             final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", getWavefunction() );
             waveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     waveDebugger.update();
                 }
             } );
@@ -587,15 +587,15 @@ public class DiscreteModel implements ModelElement {
     public static interface Listener {
         void propagatorChanged();
 
-        void finishedTimeStep( DiscreteModel model );
+        void finishedTimeStep( QWIModel model );
 
         void sizeChanged();
 
         void potentialChanged();
 
-        void beforeTimeStep( DiscreteModel discreteModel );
+        void beforeTimeStep( QWIModel QWIModel );
 
-        void particleFired( DiscreteModel discreteModel );
+        void particleFired( QWIModel QWIModel );
 
         void doubleSlitVisibilityChanged();
     }
@@ -605,7 +605,7 @@ public class DiscreteModel implements ModelElement {
         public void propagatorChanged() {
         }
 
-        public void finishedTimeStep( DiscreteModel model ) {
+        public void finishedTimeStep( QWIModel model ) {
         }
 
         public void sizeChanged() {
@@ -614,10 +614,10 @@ public class DiscreteModel implements ModelElement {
         public void potentialChanged() {
         }
 
-        public void beforeTimeStep( DiscreteModel discreteModel ) {
+        public void beforeTimeStep( QWIModel QWIModel ) {
         }
 
-        public void particleFired( DiscreteModel discreteModel ) {
+        public void particleFired( QWIModel QWIModel ) {
         }
 
         public void doubleSlitVisibilityChanged() {

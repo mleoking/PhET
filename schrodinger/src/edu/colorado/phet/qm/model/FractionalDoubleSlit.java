@@ -9,21 +9,21 @@ package edu.colorado.phet.qm.model;
  */
 
 public class FractionalDoubleSlit {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private double y;
     private double height;
     private double slitSize;
     private double slitSeparation;
     private double potential;
 
-    public FractionalDoubleSlit( DiscreteModel discreteModel, double y, double height, double slitSize, double slitSeparation ) {
-        this.discreteModel = discreteModel;
+    public FractionalDoubleSlit( QWIModel QWIModel, double y, double height, double slitSize, double slitSeparation ) {
+        this.QWIModel = QWIModel;
         this.y = y;
         this.height = height;
         this.slitSize = slitSize;
         this.slitSeparation = slitSeparation;
         update();
-        discreteModel.addListener( new DiscreteModel.Adapter() {
+        QWIModel.addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 update();
             }
@@ -40,14 +40,14 @@ public class FractionalDoubleSlit {
     }
 
     private void update() {
-        discreteModel.getDoubleSlitPotential().setGridWidth( discreteModel.getGridWidth() );
-        discreteModel.getDoubleSlitPotential().setGridHeight( discreteModel.getGridHeight() );
-        discreteModel.getDoubleSlitPotential().setHeight( round( height * discreteModel.getGridHeight() ) );
-        discreteModel.getDoubleSlitPotential().setSlitSeparation( round( slitSeparation * discreteModel.getGridWidth() ) );
-        int gridWidth = discreteModel.getGridWidth();
+        QWIModel.getDoubleSlitPotential().setGridWidth( QWIModel.getGridWidth() );
+        QWIModel.getDoubleSlitPotential().setGridHeight( QWIModel.getGridHeight() );
+        QWIModel.getDoubleSlitPotential().setHeight( round( height * QWIModel.getGridHeight() ) );
+        QWIModel.getDoubleSlitPotential().setSlitSeparation( round( slitSeparation * QWIModel.getGridWidth() ) );
+        int gridWidth = QWIModel.getGridWidth();
         int slitSize = round( this.slitSize * gridWidth );
-        discreteModel.getDoubleSlitPotential().setSlitSize( slitSize );
-        discreteModel.getDoubleSlitPotential().setY( round( y * discreteModel.getGridHeight() ) );
+        QWIModel.getDoubleSlitPotential().setSlitSize( slitSize );
+        QWIModel.getDoubleSlitPotential().setY( round( y * QWIModel.getGridHeight() ) );
     }
 
     private int round( double v ) {

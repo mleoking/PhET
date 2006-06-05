@@ -17,7 +17,7 @@ import java.awt.*;
 
 public class PhotonWave {
     private SchrodingerModule module;
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private CylinderSource waveSource;
     private double momentum = 2.0 / 10.0 * Math.PI;
     private double dPhase = Math.PI / 6;
@@ -27,23 +27,23 @@ public class PhotonWave {
     private double intensityScale = 0.75;
     private int waveSourceHeight = 2;
     private ModelElement phaseUpdate;
-    private DiscreteModel.Adapter waveSourceBoundaryConditionSetter;
+    private QWIModel.Adapter waveSourceBoundaryConditionSetter;
 
-    public PhotonWave( SchrodingerModule module, DiscreteModel discreteModel ) {
+    public PhotonWave( SchrodingerModule module, QWIModel QWIModel ) {
         this.module = module;
-        this.discreteModel = discreteModel;
+        this.QWIModel = QWIModel;
         this.waveSource = new CylinderSource( createRectRegionForCylinder(), createWave( phase ) );
         phaseUpdate = new ModelElement() {
             public void stepInTime( double dt ) {
                 updatePhase();
             }
         };
-        waveSourceBoundaryConditionSetter = new DiscreteModel.Adapter() {
-            public void beforeTimeStep( DiscreteModel discreteModel ) {
+        waveSourceBoundaryConditionSetter = new QWIModel.Adapter() {
+            public void beforeTimeStep( QWIModel QWIModel ) {
                 initializeEntrantWave();
             }
         };
-        discreteModel.addListener( new DiscreteModel.Adapter() {
+        QWIModel.addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 updateWaveSource();
             }
@@ -52,8 +52,8 @@ public class PhotonWave {
 
     protected void initializeEntrantWave() {
 //        waveSource.initializeEntrantWave( discreteModel);
-        waveSource.initializeEntrantWave( discreteModel.getWaveModel(), discreteModel.getSimulationTime() );
-        waveSource.initializeEntrantWave( discreteModel.getSourceWaveModel(), discreteModel.getSimulationTime() );
+        waveSource.initializeEntrantWave( QWIModel.getWaveModel(), QWIModel.getSimulationTime() );
+        waveSource.initializeEntrantWave( QWIModel.getSourceWaveModel(), QWIModel.getSimulationTime() );
     }
 
     public CylinderSource getWaveSource() {
@@ -111,8 +111,8 @@ public class PhotonWave {
         return getDiscreteModel().getWavefunction();
     }
 
-    public DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    public QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 
     public void setIntensity( double intensity ) {

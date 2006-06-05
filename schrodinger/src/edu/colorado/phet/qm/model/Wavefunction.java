@@ -48,7 +48,7 @@ public class Wavefunction {
     public void combineWaves( Rectangle region, Wavefunction a, Wavefunction b ) {
         for( int i = region.x; i < region.x + region.width; i++ ) {
             for( int j = region.y; j < region.y + region.height; j++ ) {
-                double sum = SplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
+                double sum = QWISplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
                 setValue( i, j, new Complex( sum, 0 ) );
             }
         }

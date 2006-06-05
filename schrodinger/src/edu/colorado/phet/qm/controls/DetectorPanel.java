@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -81,7 +81,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
         add( removeAll );
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return module.getDiscreteModel();
     }
 }

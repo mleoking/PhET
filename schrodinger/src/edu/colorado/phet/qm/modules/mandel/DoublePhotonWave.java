@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.CylinderSource;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.PhotonWave;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wave;
 
 /**
@@ -21,8 +21,8 @@ public class DoublePhotonWave extends PhotonWave {
     private CylinderSource leftWaveSource;
     private CylinderSource rightWaveSource;
 
-    public DoublePhotonWave( SchrodingerModule schrodingerModule, DiscreteModel discreteModel ) {
-        super( schrodingerModule, discreteModel );
+    public DoublePhotonWave( SchrodingerModule schrodingerModule, QWIModel QWIModel ) {
+        super( schrodingerModule, QWIModel );
         setOn();
         setIntensity( 1.0 );
         this.leftWaveSource = new CylinderSource( createRectRegionForCylinder(), createWave( super.getPhase() ) );
