@@ -22,6 +22,9 @@ import java.awt.event.ActionListener;
 
 public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {
     private QWIPanel QWIPanel;
+    private VisButton grayMag;
+    private VisButton realGray;
+    private VisButton[] visButton;
 //    private JRadioButton phaseColorRadioButton;
 
     public PhotonVisualizationPanel( QWIPanel QWIPanel ) {
@@ -30,10 +33,10 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
         setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        JRadioButton grayMag = createVisualizationButton( "Time-Averaged Intensity", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( "Time-Averaged Intensity", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        JRadioButton realGray = createVisualizationButton( "E-Field", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( "E-Field", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
 //        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
@@ -41,11 +44,11 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
 //
 //        phaseColorRadioButton = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
 //        addFullWidth( phaseColorRadioButton );
+        visButton = new VisButton[]{grayMag, realGray};
     }
 
-    private JRadioButton createVisualizationButton( String s, final ComplexColorMap colorMap, final WaveValueAccessor waveValueAccessor, boolean b, ButtonGroup buttonGroup ) {
-        JRadioButton radioButton = new JRadioButton( s );
-        radioButton.addActionListener( new ActionListener() {
+    private VisButton createVisualizationButton( String s, final ComplexColorMap colorMap, final WaveValueAccessor waveValueAccessor, boolean b, ButtonGroup buttonGroup ) {
+        VisButton radioButton = new VisButton( s, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 QWIPanel.setVisualizationStyle( colorMap, waveValueAccessor );
             }
@@ -55,11 +58,16 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
         return radioButton;
     }
 
-//    public void setPhaseColorEnabled( boolean b ) {
-//        phaseColorRadioButton.setEnabled( b );
-//    }
-
     public Component getPanel() {
         return this;
+    }
+
+    public void applyChanges() {
+        for( int i = 0; i < visButton.length; i++ ) {
+            VisButton button = visButton[i];
+            if( button.isSelected() ) {
+                button.fireEvent();
+            }
+        }
     }
 }

@@ -11,8 +11,21 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
  */
 
 public class VisualizationPanelContainer extends VerticalLayoutPanel {
+    private IVisualizationPanel photonVisualizationPanel;
+    private IVisualizationPanel particleVisualizationPanel;
+
+    public VisualizationPanelContainer( IVisualizationPanel photonVisualizationPanel, IVisualizationPanel particleVisualizationPanel ) {
+        this.photonVisualizationPanel = photonVisualizationPanel;
+        this.particleVisualizationPanel = particleVisualizationPanel;
+    }
+
     public void setContent( IVisualizationPanel visualizationPanel ) {
         removeAll();
         add( visualizationPanel.getPanel() );
+        visualizationPanel.applyChanges();
+    }
+
+    public void setPhotonMode( boolean photonMode ) {
+        setContent( photonMode ? photonVisualizationPanel : particleVisualizationPanel );
     }
 }

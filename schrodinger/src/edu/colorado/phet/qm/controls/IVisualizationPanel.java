@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -12,4 +14,20 @@ import java.awt.*;
 
 public interface IVisualizationPanel {
     Component getPanel();
+
+    void applyChanges();
+
+    public static class VisButton extends JRadioButton {
+        private ActionListener actionListener;
+
+        public VisButton( String s, ActionListener actionListener ) {
+            super( s );
+            this.actionListener = actionListener;
+            addActionListener( actionListener );
+        }
+
+        public void fireEvent() {
+            actionListener.actionPerformed( null );
+        }
+    }
 }

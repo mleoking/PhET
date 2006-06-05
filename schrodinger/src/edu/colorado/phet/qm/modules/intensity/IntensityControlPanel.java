@@ -35,8 +35,9 @@ public class IntensityControlPanel extends QWIControlPanel {
         addSeparator();
         addSpacer();
 
-        particleVisualizationPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
         photonVisualizationPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
+        particleVisualizationPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
+
         intensityModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }
@@ -49,10 +50,9 @@ public class IntensityControlPanel extends QWIControlPanel {
             }
         } );
 
-        visualizationPanel = new VisualizationPanelContainer();
+        visualizationPanel = new VisualizationPanelContainer( photonVisualizationPanel, particleVisualizationPanel );
 //        addControl( particleVisualizationPanel );
         addControl( visualizationPanel );
-        updateVisualizationPanel();
         new ComponentCenterer( resetButton, super.getContentPanel() ).start();
         ExpandableDoubleSlitPanel expandableDoubleSlitPanel = new ExpandableDoubleSlitPanel( intensityModule );
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
@@ -66,12 +66,11 @@ public class IntensityControlPanel extends QWIControlPanel {
     }
 
     private void updateVisualizationPanel() {
-        boolean photon = intensityModule.getIntensityPanel().getHighIntensityGun().isPhotonMode();
-        visualizationPanel.setContent( photon ? photonVisualizationPanel : particleVisualizationPanel );
-//        visualizationPanel.setContent( particleVisualizationPanel );
-//        HighIntensityGunGraphic gun = intensityModule.getIntensityPanel().getHighIntensityGun();
-//        particleVisualizationPanel.setPhaseColorEnabled( !gun.isPhotonMode() );
-//        visualizationPanel.setPhaseColorEnabled
+        visualizationPanel.setPhotonMode( isPhotonMode() );
+    }
+
+    private boolean isPhotonMode() {
+        return intensityModule.getIntensityPanel().getHighIntensityGun().isPhotonMode();
     }
 
 

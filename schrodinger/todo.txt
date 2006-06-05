@@ -1,10 +1,3 @@
-•	Changing the particle type often messes up the wave function display.  
-If you change the wave function display for one type of particle and then 
-switch to a different type of particle, the actual display is the same as for 
-the particle you just switched from, but the radio button for the display 
-corresponds to whatever was last selected for the new type of particle, 
-so that the radio button and the actual display don’t match.
-
 •	In “hits” mode, the dots appear on the screen in columns, 
 so it appears that there are many very thin interference fringes:
  
