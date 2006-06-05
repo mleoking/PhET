@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.actions.SetInstalledSimulatonSortAction;
+import edu.colorado.phet.simlauncher.actions.SetInstalledSimSortAction;
 import edu.colorado.phet.simlauncher.SimTable;
 import edu.colorado.phet.simlauncher.Options;
 
@@ -19,12 +19,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * InstalledSimsSortMenu
+ * InstalledSimSortMenu
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsSortMenu extends JMenu implements Options.ChangeListener{
+public class InstalledSimSortMenu extends JMenu implements Options.ChangeListener{
     private JRadioButtonMenuItem alphabeticalSortMI;
     private JRadioButtonMenuItem mostRecentlyUsedMI;
     private JRadioButtonMenuItem customMI;
@@ -32,7 +32,7 @@ public class InstalledSimsSortMenu extends JMenu implements Options.ChangeListen
     /**
      * Constructor
      */
-    public InstalledSimsSortMenu() {
+    public InstalledSimSortMenu() {
         super( "Sort installed simulations" );
 
         // Listen for changes in the Options
@@ -40,17 +40,17 @@ public class InstalledSimsSortMenu extends JMenu implements Options.ChangeListen
 
         alphabeticalSortMI = new JRadioButtonMenuItem( "Alphabetical" );
         add( alphabeticalSortMI );
-        alphabeticalSortMI.addActionListener( new SetInstalledSimulatonSortAction( SimTable.NAME_SORT) );
+        alphabeticalSortMI.addActionListener( new SetInstalledSimSortAction( SimTable.NAME_SORT) );
 
         mostRecentlyUsedMI = new JRadioButtonMenuItem( "Most recently used first" );
         add( mostRecentlyUsedMI );
-        mostRecentlyUsedMI.addActionListener( new SetInstalledSimulatonSortAction( SimTable.MOST_RECENTLY_USED_SORT ) );
+        mostRecentlyUsedMI.addActionListener( new SetInstalledSimSortAction( SimTable.MOST_RECENTLY_USED_SORT ) );
 
         customMI = new JRadioButtonMenuItem( "Custom" );
         add( customMI );
         customMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( InstalledSimsSortMenu.this, "User can reorder the simulations in the list by drag-and-drop, \nthen have that order preserved " );
+                JOptionPane.showMessageDialog( InstalledSimSortMenu.this, "User can reorder the simulations in the list by drag-and-drop, \nthen have that order preserved " );
             }
         } );
 

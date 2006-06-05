@@ -11,29 +11,29 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationContainer;
+import edu.colorado.phet.simlauncher.SimContainer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * LaunchSimulationAction
+ * UninstallSimAction
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstallSimulationAction extends AbstractAction {
+public class UninstallSimAction extends AbstractAction {
     private Component component;
     private Action action;
 
 
-    public UninstallSimulationAction( Component component, SimulationContainer simulationContainer ) {
+    public UninstallSimAction( Component component, SimContainer simContainer ) {
         this.component = component;
-        action = new SimulationContainerAction( simulationContainer );
+        action = new SimulationContainerAction( simContainer );
     }
 
-    public UninstallSimulationAction( Component component, Simulation simulation ) {
+    public UninstallSimAction( Component component, Simulation simulation ) {
         this.component = component;
         action = new SimulationAction( simulation );
     }
@@ -54,14 +54,14 @@ public class UninstallSimulationAction extends AbstractAction {
     }
 
     private static class SimulationContainerAction implements Action {
-        SimulationContainer simulationContainer;
+        SimContainer simContainer;
 
-        public SimulationContainerAction( SimulationContainer simulationContainer ) {
-            this.simulationContainer = simulationContainer;
+        public SimulationContainerAction( SimContainer simContainer ) {
+            this.simContainer = simContainer;
         }
 
         public void doIt( Component component ) {
-            simulationContainer.getSimulation().uninstall();
+            simContainer.getSimulation().uninstall();
         }
     }
 

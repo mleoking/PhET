@@ -54,7 +54,7 @@ public class Catalog implements Simulation.ChangeListener {
         if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
             catalogResource.download();
         }
-        simulations = new SimulationFactory().getSimulations( catalogResource.getLocalFile() );
+        simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
         installedSimulations = new ArrayList();

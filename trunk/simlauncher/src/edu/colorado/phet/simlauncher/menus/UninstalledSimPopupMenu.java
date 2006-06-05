@@ -11,27 +11,27 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
+import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 
 import javax.swing.*;
 
 /**
- * SimulationPopupMenu
+ * UninstalledSimPopupMenu
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstalledSimulationPopupMenu extends JPopupMenu {
+public class UninstalledSimPopupMenu extends JPopupMenu {
 
     /**
      * 
      * @param simulation
      */
-    public UninstalledSimulationPopupMenu( Simulation simulation ) {
+    public UninstalledSimPopupMenu( Simulation simulation ) {
 
         // Install menu item
         JMenuItem launchMI = new JMenuItem( "Install");
-        launchMI.addActionListener( new InstallSimulationAction( this, simulation ) );
+        launchMI.addActionListener( new InstallSimAction( this, simulation ) );
         add( launchMI );
     }
 }

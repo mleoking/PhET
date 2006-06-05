@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
-import edu.colorado.phet.simlauncher.menus.InstalledSimulationPopupMenu;
+import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
+import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ import java.awt.event.MouseEvent;
  * @version $Revision$
  */
 public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
-                                                         SimulationContainer {
+                                                         SimContainer {
 
     private SimTable simTable;
     private SimTable.SimComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
@@ -58,7 +58,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn = new JButton( "Launch" );
         // Add an extension to the Launch action that resorts the table if the sort order is
         // most-recently-used
-        launchBtn.addActionListener( new LaunchSimulationAction( this, this ) {
+        launchBtn.addActionListener( new LaunchSimAction( this, this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
                 if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT )) {
@@ -139,7 +139,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
-            new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+            new InstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
         }
 
         // If a double left click, launch the simulation

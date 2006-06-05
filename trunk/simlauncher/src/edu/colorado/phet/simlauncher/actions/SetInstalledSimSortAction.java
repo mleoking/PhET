@@ -17,19 +17,21 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * MostRecentlyUsedSortAction
+ * SetInstalledSimSortAction
+ * <p>
+ * An action that sets the sort type for the installed simulations
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SetInstalledSimulatonSortAction extends AbstractAction {
+public class SetInstalledSimSortAction extends AbstractAction {
     private SimTable.SimComparator sortType;
 
-    public SetInstalledSimulatonSortAction( SimTable.SimComparator sortType ) {
+    public SetInstalledSimSortAction( SimTable.SimComparator sortType ) {
         this.sortType = sortType;
     }
 
     public void actionPerformed( ActionEvent e ) {
-        Options.instance().setInstalledSimulationsSortType( sortType );
+        Options.instance().setInstalledSimSortType( sortType );
     }
 }

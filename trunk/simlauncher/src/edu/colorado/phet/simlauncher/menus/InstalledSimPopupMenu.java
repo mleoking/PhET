@@ -11,10 +11,9 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationContainer;
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
+import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
+import edu.colorado.phet.simlauncher.actions.UninstallSimAction;
+import edu.colorado.phet.simlauncher.actions.UpdateSimAction;
 
 import javax.swing.*;
 
@@ -24,27 +23,27 @@ import javax.swing.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimulationPopupMenu extends JPopupMenu {
+public class InstalledSimPopupMenu extends JPopupMenu {
 
     /**
      *
      * @param simulation
      */
-    public InstalledSimulationPopupMenu( Simulation simulation ) {
+    public InstalledSimPopupMenu( Simulation simulation ) {
 
         // Launch menu item
         JMenuItem launchMI = new JMenuItem( "Launch");
-        launchMI.addActionListener( new LaunchSimulationAction( this, simulation ) );
+        launchMI.addActionListener( new LaunchSimAction( this, simulation ) );
         add( launchMI );
 
         // Update check menu item
         JMenuItem updateCheckMI = new JMenuItem( "Check for update");
-        updateCheckMI.addActionListener( new UpdateSimulationAction( this, simulation ));
+        updateCheckMI.addActionListener( new UpdateSimAction( this, simulation ));
         add( updateCheckMI );
 
         // Uninstall menu item
         JMenuItem uninstallMI = new JMenuItem( "Uninstall");
-        uninstallMI.addActionListener( new UninstallSimulationAction( this, simulation ));
+        uninstallMI.addActionListener( new UninstallSimAction( this, simulation ));
         add( uninstallMI);
     }
 }

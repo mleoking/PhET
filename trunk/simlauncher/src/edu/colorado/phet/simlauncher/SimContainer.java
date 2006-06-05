@@ -19,6 +19,6 @@ package edu.colorado.phet.simlauncher;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface SimulationContainer {
+public interface SimContainer {
     Simulation getSimulation();
 }

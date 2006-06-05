@@ -123,7 +123,7 @@ public class Options {
         return installedSimulationsSortType;
     }
 
-    public void setInstalledSimulationsSortType( SimTable.SimComparator installedSimulationsSortType ) {
+    public void setInstalledSimSortType( SimTable.SimComparator installedSimulationsSortType ) {
         this.installedSimulationsSortType = installedSimulationsSortType;
         optionsChanged = true;
         notifyListeners();
