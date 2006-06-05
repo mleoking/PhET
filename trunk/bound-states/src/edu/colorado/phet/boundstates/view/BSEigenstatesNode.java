@@ -13,15 +13,15 @@ package edu.colorado.phet.boundstates.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.event.AxisChangeListener;
+import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -32,26 +32,31 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
- * BSEigenstatesNode displays a potential's eigenstates as a set of horizontal lines.
- * Clicking on a line selects it.  Moving the cursor over the Energy chart highlights
+ * BSEigenstatesNode is an "overlay" on top of BSEnergyPlot.
+ * It supports selection and hiliting of eigenstates.
+ * Moving the cursor over the Energy chart highlights
  * the line that is closest to the mouse cursor.
+ * Clicking on an eigenstate selects it.
+ * <p>
+ * This node does not draw the eigenstates; drawing is handled by BSEnergyPlot.
+ * This node does draws the value of the hilited eigenstate, which is positioned
+ * at the far left edge of the chart, just above the hilited eigenstate line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSEigenstatesNode extends PComposite implements Observer, AxisChangeListener {
+public class BSEigenstatesNode extends PComposite implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------    
     
-    private static final int MIN_DECIMAL_PLACES = 2; // min decimal places shown for energy value
-    private static final int MAX_DECIMAL_PLACES = 12; // max decimal places shown for energy value
+    private static final int MIN_DECIMAL_PLACES = 2; // min decimal places for displaying energy value
+    private static final int MAX_DECIMAL_PLACES = 12; // max decimal places for displaying energy value
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,10 +67,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     
     private PCanvas _canvas;
     private BSCombinedChartNode _chartNode;
-    private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
     private HTMLNode _hiliteValueNode;
-    
-    private Color _normalColor, _hiliteColor, _selectionColor;
     
     // Used to determine the number of decimal places in display of the hilited energy value.
     private NumberFormat _differenceFormat;
@@ -95,12 +97,13 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         }
         _differenceFormat = new DecimalFormat( format );
         
-        _lines = new ArrayList();
         _hiliteValueNode = new HTMLNode();
         _hiliteValueNode.setFont( BSConstants.HILITE_ENERGY_FONT );
         _hiliteValueNode.setVisible( false );
         _hiliteValueNode.setOffset( 100, 100 );
+        addChild( _hiliteValueNode );
         
+        // Handle mouse events
         PBasicInputEventHandler mouseHandler = new PBasicInputEventHandler() {
             public void mouseMoved( PInputEvent event ) {
                 handleHighlight( event );
@@ -115,7 +118,13 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         addInputEventListener( mouseHandler );
         
         // Watch for changes to the Energy (y) axis range
-        _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().addChangeListener( this );
+        ValueAxis yAxis = _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis();
+        yAxis.addChangeListener( new AxisChangeListener() {
+            public void axisChanged( AxisChangeEvent event ) {
+                // Clear the hilite index
+                _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+            }
+        } );
         
         setColorScheme( BSConstants.COLOR_SCHEME );
     }
@@ -134,6 +143,11 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the model.
+     * 
+     * @param model
+     */
     public void setModel( BSModel model ) {
         if ( model != _model ) {
             if ( _model != null ) {
@@ -141,44 +155,22 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
             }
             _model = model;
             _model.addObserver( this );
-            updateEigenstatesDisplay();
+            updateHiliteValueDisplay();
         }
     }
     
+    /**
+     * Sets the color scheme.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
-        
-        _normalColor = colorScheme.getEigenstateNormalColor();
-        _hiliteColor = colorScheme.getEigenstateHiliteColor();
-        _selectionColor = colorScheme.getEigenstateSelectionColor();
-        
         Color c = colorScheme.getChartColor();
         Color hiliteValueBackground = new Color( c.getRed(), c.getGreen(), c.getBlue(), BSConstants.HILITE_VALUE_BACKGROUND_ALPHA );
         _hiliteValueNode.setPaint( hiliteValueBackground );
-        _hiliteValueNode.setHTMLColor( _hiliteColor );
-        
-        updateEigenstatesDisplay();
+        _hiliteValueNode.setHTMLColor( colorScheme.getEigenstateHiliteColor() );
     }
-    
-    private boolean isInitalized() {
-        return ( _model != null );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Public selectors and hiliters
-    //----------------------------------------------------------------------------
-    
-    public void selectEigenstate() {
-        handleSelection();
-    }
-    
-    public void hiliteEigenstate( double energy ) {
-        // Find the closest eigenstate...
-        int hiliteIndex = _model.getClosestEigenstateIndex( energy, BSConstants.HILITE_ENERGY_THRESHOLD );
 
-        // Update the model...
-        _model.setHilitedEigenstateIndex( hiliteIndex );
-    }
-    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -192,6 +184,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     private void handleSelection() {
         final int hiliteIndex = _model.getHilitedEigenstateIndex();
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
             BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
             final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
             superpositionCoefficients.setNotifyEnabled( false );  // we're going to change them all
@@ -238,143 +231,39 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _model ) {
-            if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
-                BSEigenstate[] eigenstates = _model.getEigenstates();
-                if ( eigenstates.length != _lines.size() ) {
-                    updateEigenstatesDisplay();
-                }
-                updateSelectionDisplay();
-            }
-            else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-                updateHiliteDisplay();
-            }
-            else if ( arg == BSModel.PROPERTY_POTENTIAL ) {
-                updateEigenstatesDisplay();
-            }
+        if ( o == _model && arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+            updateHiliteValueDisplay();
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // AxisChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the display when the Energy axis range changes.
-     */
-    public void axisChanged( AxisChangeEvent event ) {
-        updateEigenstatesDisplay();
     }
     
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
-    /**
-     * Public interface for forcing an update.
-     */
-    public void update() {
-        updateEigenstatesDisplay();
-    }
-    
-    /*
-     * Updates the display to account for changes in the model or the canvas size.
-     */
-    private void updateEigenstatesDisplay() {
-
-        if ( !isInitalized() ) {
-            return;
-        }
-        
-        setBounds( _chartNode.getEnergyPlotBounds() );
-        
-        removeAllChildren();
-        
-        _lines.clear();
-        
-        // Determine the Energy chart's bounds...
-        BSCombinedChart chart = _chartNode.getCombinedChart();
-        final double minEnergy = chart.getEnergyPlot().getRangeAxis().getLowerBound();
-        final double maxEnergy = chart.getEnergyPlot().getRangeAxis().getUpperBound();
-        final double minPosition = chart.getEnergyPlot().getDomainAxis().getLowerBound();
-        final double maxPosition = chart.getEnergyPlot().getDomainAxis().getUpperBound();
-        
-        // Create a line for each eigenstate...
-        BSEigenstate[] eigenstates = _model.getEigenstates();
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            final double energy = eigenstates[i].getEnergy();
-            Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
-            Point2D pRight = _chartNode.energyToNode( new Point2D.Double( maxPosition, energy ) );
-            Point2D[] points = new Point2D[] { pLeft, pRight };
-            PPath line = new PPath();
-            line.setPathToPolyline( points );
-            line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-            line.setStrokePaint( _normalColor );
-            line.setVisible( energy >= minEnergy && energy <= maxEnergy );
-            addChild( line );
-            _lines.add( line );
-        }
-
-        addChild( _hiliteValueNode ); // add last, so it's on top
-        
-        _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
-        updateSelectionDisplay();
-    }
-      
-    /*
-     * Updates the display so that all eigenstates with 
-     * non-zero superposition coefficients appear to be selected.
-     */
-    private void updateSelectionDisplay() {   
-        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
-        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
-        for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            final double value = superpositionCoefficients.getCoefficient( i );
-            PPath line = (PPath) _lines.get( i );
-            if ( value == 0 ) {
-                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-                line.setStrokePaint( _normalColor );
-            }
-            else {
-                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
-                line.setStrokePaint( _selectionColor );
-                line.moveToFront();
-            }
-        }
-        _hiliteValueNode.moveToFront();
-    }
-    
     /*
      * Updates the display so that the the hilited eigenstate 
      * appears to be hilited.
      */
-    private void updateHiliteDisplay() {
+    private void updateHiliteValueDisplay() {
 
-        // Clear the previous highlight...
-        clearHiliteDisplay();
-        
         _hiliteIndex = _model.getHilitedEigenstateIndex();
-        
-        if ( _hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+        if ( _hiliteIndex == BSEigenstate.INDEX_UNDEFINED ) {
+            _hiliteValueNode.setVisible( false );
+        }
+        else {
+            _hiliteValueNode.setVisible( true );
             
-            // Set the new highlight...
-            PPath line = (PPath) _lines.get( _hiliteIndex );
-            if ( line.getVisible() ) {
-                
-                line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
-                line.setStrokePaint( _hiliteColor );
-                line.moveToFront();
-
-                // Show the eigenstate's value...
-                String text = createValueString( _hiliteIndex );
-                _hiliteValueNode.setHTML( text );
-                _hiliteValueNode.setVisible( line.getVisible() );
-
-                // Position the value just above the hilited line...
-                Rectangle2D bounds = line.getFullBounds();
-                _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
-                _hiliteValueNode.moveToFront();
-            }
+            // Set the displayed value...
+            String text = createValueString( _hiliteIndex );
+            _hiliteValueNode.setHTML( text );
+            
+            // Position the value just above the hilited eigenstate, at left edge of chart...
+            final double minPosition = _chartNode.getCombinedChart().getPositionRange().getLowerBound();
+            final double hiliteEnergy = _model.getEigenstate( _hiliteIndex ).getEnergy();
+            Point2D p = _chartNode.energyToNode( new Point2D.Double( minPosition, hiliteEnergy ) );
+            final double x = p.getX() + 2;
+            final double y = p.getY() - _hiliteValueNode.getHeight() - 1;
+            _hiliteValueNode.setOffset( x, y );
         }
     }
     
@@ -383,24 +272,14 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     //----------------------------------------------------------------------------
     
     /*
-     * Clears the current highlight.
+     * Sets the cursor based on the index of the hilite eigenstate.
      */
-    private void clearHiliteDisplay() {
-        if ( _hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
-            BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
-            final double value = superpositionCoefficients.getCoefficient( _hiliteIndex );
-            PPath line = (PPath) _lines.get( _hiliteIndex );
-            if ( value == 0 ) {
-                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-                line.setStrokePaint( _normalColor );
-                line.moveToBack();
-            }
-            else {
-                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
-                line.setStrokePaint( _selectionColor );
-                line.moveToFront();
-            }
-            _hiliteValueNode.setVisible( false );
+    private void setCursor( final int hiliteIndex ) {
+        if ( _hiliteIndex == BSEigenstate.INDEX_UNDEFINED ) {
+          _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
+        }
+        else {
+          _canvas.setCursor( BSConstants.HAND_CURSOR );
         }
     }
     
@@ -414,7 +293,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         BSEigenstate[] eigenstates = _model.getEigenstates();
         double energy = eigenstates[hiliteIndex].getEnergy();
         int subscript = eigenstates[hiliteIndex].getSubscript();
-        NumberFormat format = createFormat( hiliteIndex );
+        NumberFormat format = createValueFormat( hiliteIndex );
         String energyString = format.format( energy );
         
         return "<html> E<sub>" + subscript + "</sub> = " + energyString + "</html>";
@@ -426,7 +305,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
      * 
      * @param hiliteIndex
      */
-    private NumberFormat createFormat( int hiliteIndex ) {
+    private NumberFormat createValueFormat( int hiliteIndex ) {
         
         // Determine the smallest difference between adjacent eigenstate energies...
         BSEigenstate[] eigenstates = _model.getEigenstates();
@@ -471,25 +350,5 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
             formatString += "0";
         }
         return new DecimalFormat( formatString );
-    }
-    
-    /*
-     * Sets the cursor based on the index of the hilite eigenstate.
-     * If the eigenstate is visible, use the hand cursor.
-     * Otherwise use the default (arrow) cursor.
-     */
-    private void setCursor( final int hiliteIndex ) {
-        if ( _hiliteIndex == BSEigenstate.INDEX_UNDEFINED ) {
-          _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
-        }
-        else {
-            PPath line = (PPath) _lines.get( hiliteIndex );
-            if ( line.getVisible() ) {
-                _canvas.setCursor( BSConstants.HAND_CURSOR );
-            }
-            else {
-                _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
-            }
-        }
     }
 }

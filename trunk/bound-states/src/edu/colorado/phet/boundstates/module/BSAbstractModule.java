@@ -324,7 +324,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _chartNode.updateChartRenderingInfo();
             
             _eigenstatesNode.setTransform( chartTransform );
-            _eigenstatesNode.update();
+            _eigenstatesNode.setBounds( _chartNode.getEnergyPlotBounds() );
         }
         
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
