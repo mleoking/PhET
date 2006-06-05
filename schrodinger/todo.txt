@@ -1,9 +1,3 @@
-•	If you start in E-field view and turn off detector, 
-view changes temporarily to time-averaged intensity in upper half of box.  
-This effect also happens for electrons.
->>This is not a visualization problem, but related to the switch from the 2-lattice model to the single lattice model. 
->>I'm not sure how the values for the single lattice are being determined.
-
 •	Changing the particle type often messes up the wave function display.  
 If you change the wave function display for one type of particle and then 
 switch to a different type of particle, the actual display is the same as for 

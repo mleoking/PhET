@@ -128,7 +128,7 @@ public class IntensityManager {
     }
 
     private QWIModel getDiscreteModel() {
-        return qwiModule.getDiscreteModel();
+        return qwiModule.getQWIModel();
     }
 
     public double getProbabilityScaleFudgeFactor() {

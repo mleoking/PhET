@@ -44,7 +44,7 @@ public class Photon extends GunParticle {
         super.active = true;
         getSchrodingerModule().setUnits( photonUnits );
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
-        abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
+        abstractGunGraphic.getSchrodingerModule().getQWIModel().setPropagatorClassical();
         JComponent sliderAsComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
         abstractGunGraphic.setGunControls( sliderAsComponent );
     }

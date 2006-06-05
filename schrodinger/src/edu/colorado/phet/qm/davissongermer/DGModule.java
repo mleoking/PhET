@@ -21,7 +21,7 @@ import java.awt.event.ComponentEvent;
 
 public class DGModule extends IntensityModule {
     private Protractor protractor;
-    private DGModel dgModel = new DGModel( getDiscreteModel() );
+    private DGModel dgModel = new DGModel( getQWIModel() );
     private DGPlotFrame dgPlotFrame;
 
     /**
@@ -48,7 +48,7 @@ public class DGModule extends IntensityModule {
                 updateProtractor();
             }
         } );
-        getDiscreteModel().addListener( new QWIModel.Adapter() {
+        getQWIModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 updateProtractor();
             }
@@ -60,7 +60,7 @@ public class DGModule extends IntensityModule {
                 updateProtractor();
             }
         } );
-        getDiscreteModel().setBarrierAbsorptive( false );
+        getQWIModel().setBarrierAbsorptive( false );
     }
 
     private void updateProtractor() {
@@ -113,7 +113,7 @@ public class DGModule extends IntensityModule {
     }
 
     public void clearWave() {
-        getDiscreteModel().clearWavefunction();
+        getQWIModel().clearWavefunction();
     }
 
     public DGModel getDGModel() {

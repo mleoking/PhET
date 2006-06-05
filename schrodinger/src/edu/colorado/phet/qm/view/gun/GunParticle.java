@@ -104,7 +104,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected QWIModel getDiscreteModel() {
-        return getSchrodingerModule().getDiscreteModel();
+        return getSchrodingerModule().getQWIModel();
     }
 
     protected double getStartDxLattice() {

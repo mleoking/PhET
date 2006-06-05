@@ -143,7 +143,7 @@ public class DGPlotPanel extends PSwingCanvas {
     }
 
     protected Wavefunction getWavefunction() {
-        return dgModule.getDiscreteModel().getWavefunction();
+        return dgModule.getQWIModel().getWavefunction();
     }
 
     private double getIntensity( double angle ) {

@@ -30,11 +30,11 @@ public class QWIState implements Serializable {
     }
 
     public QWIState( QWIModule qwiModule ) {
-        for( int i = 0; i < qwiModule.getDiscreteModel().getDetectorSet().numDetectors(); i++ ) {
-            Detector detector = qwiModule.getDiscreteModel().getDetectorSet().detectorAt( i );
+        for( int i = 0; i < qwiModule.getQWIModel().getDetectorSet().numDetectors(); i++ ) {
+            Detector detector = qwiModule.getQWIModel().getDetectorSet().detectorAt( i );
             detectorList.add( new DetectorState( detector ) );
         }
-        CompositePotential compositePotential = qwiModule.getDiscreteModel().getCompositePotential();
+        CompositePotential compositePotential = qwiModule.getQWIModel().getCompositePotential();
         for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
             Potential pot = compositePotential.potentialAt( i );
             if( pot instanceof RectangularPotential ) {
@@ -69,16 +69,16 @@ public class QWIState implements Serializable {
 //        schrodingerModule.addPotential();
         for( int i = 0; i < detectorList.size(); i++ ) {
             DetectorState detectorState = (DetectorState)detectorList.get( i );
-            Detector detector = new Detector( qwiModule.getDiscreteModel(),
+            Detector detector = new Detector( qwiModule.getQWIModel(),
                                               detectorState.getX(), detectorState.getY(), detectorState.getWidth(), detectorState.getHeight() );
-            qwiModule.getDiscreteModel().addDetector( detector );
+            qwiModule.getQWIModel().addDetector( detector );
             qwiModule.getSchrodingerPanel().addDetectorGraphic( detector );
         }
         for( int i = 0; i < rectBarrierList.size(); i++ ) {
             RectBarrierState rectBarrierState = (RectBarrierState)rectBarrierList.get( i );
-            RectangularPotential potential = new RectangularPotential( qwiModule.getDiscreteModel(), rectBarrierState.getX(), rectBarrierState.getY(), rectBarrierState.getWidth(), rectBarrierState.getHeight() );
+            RectangularPotential potential = new RectangularPotential( qwiModule.getQWIModel(), rectBarrierState.getX(), rectBarrierState.getY(), rectBarrierState.getWidth(), rectBarrierState.getHeight() );
             qwiModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( qwiModule.getSchrodingerPanel(), potential ) );
-            qwiModule.getDiscreteModel().addPotential( potential );
+            qwiModule.getQWIModel().addPotential( potential );
         }
     }
 
@@ -154,10 +154,10 @@ public class QWIState implements Serializable {
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         QWIModule qwiModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
 //        schrodingerModule
-        qwiModule.getDiscreteModel().addDetector( new Detector( qwiModule.getDiscreteModel(), 5, 6, 7, 8 ) );
-        qwiModule.getDiscreteModel().addDetector( new Detector( qwiModule.getDiscreteModel(), 1, 1, 2, 2 ) );
-        qwiModule.getDiscreteModel().addPotential( new RectangularPotential( qwiModule.getDiscreteModel(), 0, 0, 100, 100 ) );
-        qwiModule.getDiscreteModel().addPotential( new RectangularPotential( qwiModule.getDiscreteModel(), 9, 9, 9, 9 ) );
+        qwiModule.getQWIModel().addDetector( new Detector( qwiModule.getQWIModel(), 5, 6, 7, 8 ) );
+        qwiModule.getQWIModel().addDetector( new Detector( qwiModule.getQWIModel(), 1, 1, 2, 2 ) );
+        qwiModule.getQWIModel().addPotential( new RectangularPotential( qwiModule.getQWIModel(), 0, 0, 100, 100 ) );
+        qwiModule.getQWIModel().addPotential( new RectangularPotential( qwiModule.getQWIModel(), 9, 9, 9, 9 ) );
 //        persistenceManager.save( new QWIState( schrodingerModule ) );
         Object o = persistenceManager.load();
         System.out.println( "o = " + o );

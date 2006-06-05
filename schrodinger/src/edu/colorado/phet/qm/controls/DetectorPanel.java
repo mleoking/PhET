@@ -82,6 +82,6 @@ public class DetectorPanel extends VerticalLayoutPanel {
     }
 
     private QWIModel getDiscreteModel() {
-        return module.getDiscreteModel();
+        return module.getQWIModel();
     }
 }

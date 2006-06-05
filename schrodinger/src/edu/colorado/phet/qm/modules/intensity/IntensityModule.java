@@ -37,7 +37,7 @@ public class IntensityModule extends QWIModule {
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
         QWISplitModel = new QWISplitModel();
-        setDiscreteModel( QWISplitModel );
+        setQWIModel( QWISplitModel );
         highIntensitySchrodingerPanel = createIntensityPanel();
         setSchrodingerPanel( highIntensitySchrodingerPanel );
         intensityControlPanel = new IntensityControlPanel( this );
@@ -45,9 +45,9 @@ public class IntensityModule extends QWIModule {
 
         synchronizeModel();
 
-        getDiscreteModel().addListener( new QWIModel.Adapter() {
+        getQWIModel().addListener( new QWIModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
-                if( !getDiscreteModel().isDoubleSlitEnabled() ) {
+                if( !getQWIModel().isDoubleSlitEnabled() ) {
                     setRightDetectorEnabled( false );
                     setLeftDetectorEnabled( false );
                 }
@@ -61,8 +61,13 @@ public class IntensityModule extends QWIModule {
         } );
     }
 
-//    public boolean hasHelp() {
-//        return true;
+//    protected void stepInTime( double dt ) {
+//        super.stepInTime( dt );
+//        //copy the current QWIModel to the unused one.
+//        QWIModel model = getQWIModel();
+//        if( model == QWISplitModel ) {
+//            
+//        }
 //    }
 
     private boolean isInverseSlits() {
@@ -104,7 +109,7 @@ public class IntensityModule extends QWIModule {
     }
 
     private void setRightDetectorActive( boolean selected ) {
-        if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
+        if( !getQWIModel().isDoubleSlitEnabled() && selected ) {
             return;
         }
         if( isRightDetectorEnabled() != selected ) {
@@ -123,7 +128,7 @@ public class IntensityModule extends QWIModule {
     }
 
     private void setLeftDetectorActive( boolean selected ) {
-        if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
+        if( !getQWIModel().isDoubleSlitEnabled() && selected ) {
             return;
         }
         if( isLeftDetectorEnabled() != selected ) {

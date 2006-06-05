@@ -61,7 +61,7 @@ public class QWIModule extends PiccoloModule {
         } );
     }
 
-    private void stepInTime( double dt ) {
+    protected void stepInTime( double dt ) {
         if( qwiModel != null ) {
             qwiModel.stepInTime( dt );
         }
@@ -83,7 +83,7 @@ public class QWIModule extends PiccoloModule {
             }
         } );
         optionsMenu = new QWIOptionsMenu( this );
-        getDiscreteModel().getDoubleSlitPotential().addListener( new HorizontalDoubleSlit.Listener() {
+        getQWIModel().getDoubleSlitPotential().addListener( new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {
                 getSchrodingerPanel().updateWaveGraphic();
             }
@@ -108,15 +108,16 @@ public class QWIModule extends PiccoloModule {
         }
     }
 
-    protected void setDiscreteModel( QWIModel model ) {
+    protected void setQWIModel( QWIModel model ) {
         this.qwiModel = model;
+//        System.out.println( "model = " + model );
     }
 
     public QWIPanel getSchrodingerPanel() {
         return QWIPanel;
     }
 
-    public QWIModel getDiscreteModel() {
+    public QWIModel getQWIModel() {
         return qwiModel;
     }
 
@@ -148,18 +149,18 @@ public class QWIModule extends PiccoloModule {
     boolean firstDetector = true;
 
     public void addDetector() {
-        int detectorWidth = (int)( getDiscreteModel().getGridWidth() / 4.5 );
+        int detectorWidth = (int)( getQWIModel().getGridWidth() / 4.5 );
         int detectorHeight = detectorWidth;
 
-        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - detectorWidth );
-        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - detectorHeight );
+        int x = random.nextInt( getQWIModel().getWavefunction().getWidth() - detectorWidth );
+        int y = random.nextInt( getQWIModel().getWavefunction().getHeight() - detectorHeight );
         if( firstDetector ) {
-            x = getDiscreteModel().getWavefunction().getWidth() / 2 - detectorWidth / 2;
-            y = getDiscreteModel().getWavefunction().getHeight() / 2;
+            x = getQWIModel().getWavefunction().getWidth() / 2 - detectorWidth / 2;
+            y = getQWIModel().getWavefunction().getHeight() / 2;
             firstDetector = false;
         }
 
-        Detector detector = new Detector( getDiscreteModel(), x, y, detectorWidth, detectorHeight );
+        Detector detector = new Detector( getQWIModel(), x, y, detectorWidth, detectorHeight );
         addDetector( detector );
     }
 
@@ -171,11 +172,11 @@ public class QWIModule extends PiccoloModule {
     static final Random random = new Random( 0 );
 
     public void addPotential() {
-        int w = (int)( getDiscreteModel().getGridWidth() / 4.5 );
-        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - w );
-        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - w );
+        int w = (int)( getQWIModel().getGridWidth() / 4.5 );
+        int x = random.nextInt( getQWIModel().getWavefunction().getWidth() - w );
+        int y = random.nextInt( getQWIModel().getWavefunction().getHeight() - w );
 
-        RectangularPotential rectangularPotential = new RectangularPotential( getDiscreteModel(), x, y, w, w );
+        RectangularPotential rectangularPotential = new RectangularPotential( getQWIModel(), x, y, w, w );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         qwiModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
@@ -201,12 +202,12 @@ public class QWIModule extends PiccoloModule {
     }
 
     public void removePotential( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        getDiscreteModel().removePotential( rectangularPotentialGraphic.getPotential() );
+        getQWIModel().removePotential( rectangularPotentialGraphic.getPotential() );
         getSchrodingerPanel().removePotentialGraphic( rectangularPotentialGraphic );
     }
 
     public void clearPotential() {
-        getDiscreteModel().clearPotentialIgnoreSlits();
+        getQWIModel().clearPotentialIgnoreSlits();
         getSchrodingerPanel().clearPotential();
     }
 
@@ -214,7 +215,7 @@ public class QWIModule extends PiccoloModule {
 //        System.out.println( "Set wave size= " + size );
         Command cmd = new Command() {
             public void doIt() {
-                getDiscreteModel().setWaveSize( size, size );
+                getQWIModel().setWaveSize( size, size );
                 getSchrodingerPanel().setWaveSize( size, size );
             }
         };
@@ -228,7 +229,7 @@ public class QWIModule extends PiccoloModule {
 
     public Map getModelParameters() {
         Hashtable modelParameters = new Hashtable();
-        modelParameters.putAll( getDiscreteModel().getModelParameters() );
+        modelParameters.putAll( getQWIModel().getModelParameters() );
 
         AbstractGunGraphic gun = getSchrodingerPanel().getGunGraphic();
         Map parameters = gun.getModelParameters();
@@ -245,7 +246,7 @@ public class QWIModule extends PiccoloModule {
 
     public void removeAllPotentialBarriers() {
         while( qwiModel.getCompositePotential().numPotentials() > 0 ) {
-            getDiscreteModel().removePotential( qwiModel.getCompositePotential().potentialAt( 0 ) );
+            getQWIModel().removePotential( qwiModel.getCompositePotential().potentialAt( 0 ) );
         }
     }
 

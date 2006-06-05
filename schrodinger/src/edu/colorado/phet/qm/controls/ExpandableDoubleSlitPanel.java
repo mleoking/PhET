@@ -18,7 +18,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
     public ExpandableDoubleSlitPanel( final QWIModule module ) {
         super( "Double Slits >>", "Disable Slits<<" );
         this.module = module;
-        addControlFullWidth( new DoubleSlitControlPanel( module.getDiscreteModel(), module ) );
+        addControlFullWidth( new DoubleSlitControlPanel( module.getQWIModel(), module ) );
         addListener( new Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                 getDiscreteModel().setDoubleSlitEnabled( false );
@@ -42,6 +42,6 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
     }
 
     private QWIModel getDiscreteModel() {
-        return module.getDiscreteModel();
+        return module.getQWIModel();
     }
 }
