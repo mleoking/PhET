@@ -96,12 +96,13 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         private JButton installBtn;
         private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
-                                                                      GridBagConstraints.BOTH,
+                                                                      GridBagConstraints.NONE,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
         private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                              GridBagConstraints.CENTER,
-                                                                              GridBagConstraints.NONE,
-                                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                             GridBagConstraints.CENTER,
+                                                                             GridBagConstraints.NONE,
+//                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                             new Insets( 10, 0, 20, 0 ), 0, 0 );
 
         public SimPanel() {
             super( new GridBagLayout() );

@@ -10,7 +10,6 @@ Bugs
 ========
 Features
 ========
-- Put up "Please wait..." dialog while installing
 - check for updates to installer itself
 - Check for new versions
 - CatalogResource should be stored above the cache
@@ -18,7 +17,6 @@ Features
 - On startup, if there is no catalog and client is offline, let the user know
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
 
-- Put up progress dialog when installing
 - Add a way to get activities from the database for a simulation
 - Categories for installed simulations
 - Don't want to sort by update date. This would require too much network overhead every time you start the app.
@@ -28,6 +26,7 @@ Features
 ================
 Done, not posted
 ================
+- Put up progress dialog when installing
 - Store/retrieve Options
 - Alphabetical order for installed simulations
 - Right-click > Install doesn't launch
