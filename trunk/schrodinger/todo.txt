@@ -1,5 +1,3 @@
-Putting a detector on the slits,  then turning the gun on empty graphics to appear north of the barriers.
-
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 
@@ -9,16 +7,15 @@ I extend the lattice beyond the visible region;
 here it could also be done, but very time consuming to implement, 
 and would slow down the sim (scales with the size of the boundary).
  
-I just looked at QWI for the first time since its wiggle me was added.
-Once Chris has written the standard wiggle me,
-would it be easy for you to change the one in QWI?
-I barely noticed it when I opened the sim.
+Initial Wiggle me is hard to see:
 If it were a font that is about twice as large, bold,
 colored (red maybe) and without a bubble I think it’d be more prominent.
 It should enter from the top of the screen and descend
 down to the location that it sits in now.
-If this is still a lot of work even after Chris writes the standard wiggle me,
-then don’t worry about it.
+
+•	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
+>> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
+>>Question is in to the team.
 
 Bug: Mandel panel photons all have same wavelength (though different color)
 The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
@@ -29,16 +26,8 @@ Mandel Panel should have both visualization styles
 Reset should reset wavelength, velocity,
 >>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
 
-Bug: In all panels, if you move the wavelength slider all the way to the left, funny little brown squares flash all over the wave:
-     >>I Can't reproduce this.
-
 In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
       >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
-
-•	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
->> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
->>Question is in to the team.
-
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
@@ -69,7 +58,11 @@ Add a close button for the stopwatch.
 
 Modelslider labels have a bug on mac.
 
+Bug: In all panels, if you move the wavelength slider all the way to the left, funny little brown squares flash all over the wave:
+     >>I Can't reproduce this.
+     
 •	In Java version 1.4.2_03, the slider leaves a little trail when you move it 
 and has a green rectangle behind the tick marks (see below).  
 This problem does not appear in Java version 1.5.0_04 or 1.5.0_06.
 Very difficult ( interface not exposed, internal bug in Java?).
+
