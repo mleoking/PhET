@@ -10,6 +10,7 @@ Bugs
 ========
 Features
 ========
+- Add option to "show all" or "show sims not installed" for uninstalled simulations.
 - Add "Go online" menu item
 - Handle Flash sims
 - check for updates to installer itself
