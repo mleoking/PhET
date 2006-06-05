@@ -28,4 +28,10 @@ public interface WaveValueAccessor {
             return Math.abs( wavefunction.valueAt( i, j ).getImaginary() );
         }
     }
+
+    public class Empty implements WaveValueAccessor {
+        public double getValue( Wavefunction wavefunction, int i, int j ) {
+            return 0;
+        }
+    }
 }

@@ -65,7 +65,7 @@ public class RectangleGraphic extends PNode {
         update();
         getColorGrid().addListener( new ColorGrid.Listener() {
             public void update() {
-                System.out.println( "RectangleGraphic.update" );
+//                System.out.println( "RectangleGraphic.update" );
                 RectangleGraphic.this.update();
             }
         } );

@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
@@ -207,20 +206,24 @@ public class QWIPanel extends PhetPCanvas {
         }
     }
 
-    private void updateWavefunctionGraphic() {
+    protected void updateWavefunctionGraphic() {
         updateWavefunctionColorMap();
         updateWaveGraphic();
     }
 
     protected void updateWavefunctionColorMap() {
-        getWavefunctionGraphic().setColorMap( createColorMap() );
+        ColorMap colorMap = createColorMap();
+//        System.out.println( "colorMap = " + colorMap );
+        getWavefunctionGraphic().setColorMap( colorMap );
     }
 
     public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
-        this.complexColorMap = colorMap;
-        this.waveValueAccessor = waveValueAccessor;
-        updateWavefunctionGraphic();
-        notifyVisualizationStyleChanged();
+        if( this.complexColorMap != colorMap || this.waveValueAccessor != waveValueAccessor ) {
+            this.complexColorMap = colorMap;
+            this.waveValueAccessor = waveValueAccessor;
+            updateWavefunctionGraphic();
+            notifyVisualizationStyleChanged();
+        }
     }
 
     private void notifyVisualizationStyleChanged() {
@@ -239,23 +242,13 @@ public class QWIPanel extends PhetPCanvas {
     }
 
     protected ColorMap createColorMap() {
-//        System.out.println( "waveValueAccessor = " + waveValueAccessor );
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
-//            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
             if( waveValueAccessor instanceof WaveValueAccessor.Imag ) {
-                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor() {
-                    public double getValue( Wavefunction wavefunction, int i, int j ) {
-                        return 0;
-                    }
-                } );
+                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Empty() );
             }
             else {
-//                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
-//                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Magnitude() );
                 return new PhotonColorMap( this, photon.getWavelengthNM(), waveValueAccessor );
             }
-//            return new RealPhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
-//            return new ComplexColorMapAdapter(getDiscreteModel().getWavefunction(), new GrayscaleColorMap.Real() );
         }
         else {
             return new ComplexColorMapAdapter( getDiscreteModel().getWavefunction(), complexColorMap );

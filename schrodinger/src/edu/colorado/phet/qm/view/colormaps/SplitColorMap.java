@@ -16,27 +16,27 @@ import java.awt.*;
  */
 
 public class SplitColorMap implements ColorMap {
-    private SplitModel SplitModel;
+    private SplitModel splitModel;
     private ColorData rootColor;
     private double intensityScale = 20;
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
-    public SplitColorMap( SplitModel SplitModel, IntensityBeamPanel schrodingerPanel ) {
-        this.SplitModel = SplitModel;
+    public SplitColorMap( SplitModel splitModel, IntensityBeamPanel schrodingerPanel ) {
+        this.splitModel = splitModel;
         setRootColor( schrodingerPanel.getRootColor() );
     }
 
     public Paint getColor( int i, int k ) {
-        Rectangle[] areas = SplitModel.getDoubleSlitPotential().getSlitAreas();
+        Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
         double abs = 0;
         if( contains( areas, i, k ) ) {
-            abs += getValue( SplitModel.getLeftWavefunction(), i, k );
-            abs += getValue( SplitModel.getRightWavefunction(), i, k );
+            abs += getValue( splitModel.getLeftWavefunction(), i, k );
+            abs += getValue( splitModel.getRightWavefunction(), i, k );
         }
         else {
-            abs += getValue( SplitModel.getLeftWavefunction(), i, k );
-            abs += getValue( SplitModel.getRightWavefunction(), i, k );
-            abs += getValue( SplitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
+            abs += getValue( splitModel.getLeftWavefunction(), i, k );
+            abs += getValue( splitModel.getRightWavefunction(), i, k );
+            abs += getValue( splitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
         }
         if( abs > 1 ) {
             abs = 1;
