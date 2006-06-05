@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -15,10 +15,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class SingleParticleSchrodingerPanel extends SchrodingerPanel {
+public class SingleParticleSchrodingerPanel extends QWIPanel {
     private SingleParticleGunGraphic abstractGun;
 
-    public SingleParticleSchrodingerPanel( final SchrodingerModule module ) {
+    public SingleParticleSchrodingerPanel( final QWIModule module ) {
         super( module );
         abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );

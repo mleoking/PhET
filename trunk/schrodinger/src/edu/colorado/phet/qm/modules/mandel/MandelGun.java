@@ -8,7 +8,7 @@ import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.gun.*;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.colorado.phet.qm.view.piccolo.HorizontalWireConnector;
@@ -38,16 +38,16 @@ public class MandelGun extends PhetPNode {
     private OnOffCheckBox onOffCheckBox;
     private PSwing onGunGraphic;
 
-    public MandelGun( String image, SchrodingerPanel schrodingerPanel ) {
+    public MandelGun( String image, QWIPanel QWIPanel ) {
         pimage = PImageFactory.create( image );
         addChild( pimage );
-        gunControlPanel = new GunControlPanel( schrodingerPanel );
+        gunControlPanel = new GunControlPanel( QWIPanel );
 
         intensitySlider = new IntensitySlider( Color.blue, IntensitySlider.HORIZONTAL, new Dimension( 140, 30 ) );
         intensitySlider.setValue( 100 );
         VerticalLayoutPanel vlp = new VerticalLayoutPanel();
         vlp.addFullWidth( intensitySlider );
-        wavelengthSliderGraphic = new SRRWavelengthSlider( schrodingerPanel );
+        wavelengthSliderGraphic = new SRRWavelengthSlider( QWIPanel );
         final SRRWavelengthSliderComponent srrWavelengthSliderComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
         vlp.addFullWidth( srrWavelengthSliderComponent );
         gunControlPanel.setGunControls( vlp );
@@ -82,7 +82,7 @@ public class MandelGun extends PhetPNode {
                 fireIntensityChanged();
             }
         } );
-        onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
+        onGunGraphic = new PSwing( QWIPanel, onOffCheckBox );
         onGunGraphic.addInputEventListener( new CursorHandler() );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
             }
         } );
         add( rightSlit );
-        intensityModule.getSchrodingerPanel().addListener( new SchrodingerPanel.Adapter() {
+        intensityModule.getSchrodingerPanel().addListener( new QWIPanel.Adapter() {
             public void inverseSlitsChanged() {
                 setButtonsEnabled( !isInverseSlits() );
             }

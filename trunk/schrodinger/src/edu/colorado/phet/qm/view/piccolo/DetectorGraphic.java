@@ -2,9 +2,9 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.qm.QWILookAndFeel;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -30,8 +30,8 @@ public class DetectorGraphic extends RectangleGraphic {
     private static Color fill = new Color( 200, 180, 150, 0 );
     private boolean probDisplayAllowedToBeVisible = true;
 
-    public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
-        super( schrodingerPanel, detector, fill );
+    public DetectorGraphic( final QWIPanel QWIPanel, final Detector detector ) {
+        super( QWIPanel, detector, fill );
         this.detector = detector;
 
         darkGreen = new Color( 50, 230, 75 );
@@ -47,13 +47,13 @@ public class DetectorGraphic extends RectangleGraphic {
             }
         } );
 
-        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        JButton closeButton = QWILookAndFeel.createCloseButton();
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
+                QWIPanel.removeDetectorGraphic( DetectorGraphic.this );
             }
         } );
-        closeGraphic = new PSwing( schrodingerPanel, closeButton );
+        closeGraphic = new PSwing( QWIPanel, closeButton );
         addChild( closeGraphic );
 
         update();

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
 
@@ -69,7 +69,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
                 getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
             }
         } );
-        getSchrodingerPanel().addListener( new SchrodingerPanel.Adapter() {
+        getSchrodingerPanel().addListener( new QWIPanel.Adapter() {
             public void fadeStateChanged() {
                 fadeCheckbox.setSelected( getSchrodingerPanel().isFadeEnabled() );
             }
@@ -130,7 +130,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         return null;
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    private QWIPanel getSchrodingerPanel() {
         return detectorSheetPNode.getSchrodingerPanel();
     }
 

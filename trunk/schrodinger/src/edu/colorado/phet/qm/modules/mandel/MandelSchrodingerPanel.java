@@ -2,14 +2,14 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
         this.mandelModule = mandelModule;
     }
 
-    protected SchrodingerScreenNode createSchrodingerScreenNode( SchrodingerModule module ) {
+    protected QWIScreenNode createSchrodingerScreenNode( QWIModule module ) {
         return new MandelSchrodingerScreenNode( module, this );
     }
 

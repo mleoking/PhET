@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.phetcommon.ShinyPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +36,7 @@ import java.io.IOException;
  */
 
 public class DetectorSheetPNode extends PhetPNode {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
     private BufferedImage bufferedImage;
     private ScreenGraphic screenGraphic;
@@ -54,11 +54,11 @@ public class DetectorSheetPNode extends PhetPNode {
     private final double shearAngle = 0.4636;
     private PText title = new PText();
 
-    public DetectorSheetPNode( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
+    public DetectorSheetPNode( final QWIPanel QWIPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
         this.detectorSheetHeight = detectorSheetHeight;
 
-        this.schrodingerPanel = schrodingerPanel;
+        this.QWIPanel = QWIPanel;
         recreateImage();
 //        title.setShadowColor( Color.black );
         title.setTextPaint( Color.black );
@@ -80,7 +80,7 @@ public class DetectorSheetPNode extends PhetPNode {
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
-        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) );
+        detectorSheetControlPanelPNode = new PSwing( QWIPanel, new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
 
 //        FontSetter.setFont( new Font( "Lucida Sans",Font.PLAIN, 8 ),detectorSheetControlPanel );
@@ -94,7 +94,7 @@ public class DetectorSheetPNode extends PhetPNode {
         };
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeListener );
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, changeListener );
-        schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
+        QWIPanel.addListener( new QWIPanel.Adapter() {
             public void fadeStateChanged() {
                 synchronizeFadeState();
             }
@@ -111,8 +111,8 @@ public class DetectorSheetPNode extends PhetPNode {
 
     private boolean isSmoothScreen() {
 
-        if( schrodingerPanel instanceof HighIntensitySchrodingerPanel ) {
-            HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)schrodingerPanel;
+        if( QWIPanel instanceof HighIntensitySchrodingerPanel ) {
+            HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)QWIPanel;
             return ip.isSmoothScreen();
         }
         return false;
@@ -134,7 +134,7 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     public void synchronizeFadeState() {
-        if( schrodingerPanel.isFadeEnabled() ) {
+        if( QWIPanel.isFadeEnabled() ) {
             getBaseModel().addModelElement( fadeElement );
         }
         else {
@@ -145,11 +145,11 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     private BaseModel getBaseModel() {
-        return schrodingerPanel.getSchrodingerModule().getModel();
+        return QWIPanel.getSchrodingerModule().getModel();
     }
 
     public boolean isFadeEnabled() {
-        return schrodingerPanel.isFadeEnabled();
+        return QWIPanel.isFadeEnabled();
     }
 
     public void setBrightness( double value ) {
@@ -246,8 +246,8 @@ public class DetectorSheetPNode extends PhetPNode {
 //        System.out.println( "rootColor = " + rootColor );
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 
     private void addBrightnessSlider() {

@@ -4,10 +4,10 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -24,14 +24,13 @@ import java.io.IOException;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerControlPanel extends ControlPanel {
-    private SchrodingerModule module;
+public class QWIControlPanel extends ControlPanel {
+    private QWIModule module;
 
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
 
-    public SchrodingerControlPanel( final SchrodingerModule module ) {
-        super( module );
+    public QWIControlPanel( final QWIModule module ) {
         this.module = module;
         getContentPanel().setAnchor( GridBagConstraints.WEST );
         this.initialConditionPanel = createInitialConditionPanel();
@@ -40,7 +39,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
         advancedICPanel.addListener( new AdvancedPanel.Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
-                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this );
+                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( QWIControlPanel.this );
                 parent.invalidate();
                 parent.validate();
                 parent.repaint();
@@ -123,7 +122,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return new InitialConditionPanel( this );
     }
 
-    private VerticalLayoutPanel createSimulationPanel( final SchrodingerModule module ) {
+    private VerticalLayoutPanel createSimulationPanel( final QWIModule module ) {
         VerticalLayoutPanel simulationPanel = new VerticalLayoutPanel();
         simulationPanel.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
 
@@ -150,7 +149,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return simulationPanel;
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
+    public QWIPanel getSchrodingerPanel() {
         return module.getSchrodingerPanel();
     }
 
@@ -163,7 +162,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return module.getDiscreteModel();
     }
 
-    public SchrodingerModule getModule() {
+    public QWIModule getModule() {
         return module;
     }
 

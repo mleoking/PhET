@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,12 +27,12 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
     protected final JCheckBox autoFireJCheckBox;
     private GunControlPanel gunControlPanel;
 
-    public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
-        super( schrodingerPanel );
+    public SingleParticleGunGraphic( final QWIPanel QWIPanel ) {
+        super( QWIPanel );
         fireOne = new PlainFireButton( this, this );
         fireOne.addButtonEnableDisable();
 
-        autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
+        autoFire = new AutoFire( this, QWIPanel.getIntensityDisplay() );
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
 
         this.gunControlPanel = createGunControlPanel();

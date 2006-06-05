@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.QWIModel;
 
 /**
@@ -13,9 +13,9 @@ import edu.colorado.phet.qm.model.QWIModel;
  */
 
 public class ExpandableDoubleSlitPanel extends AdvancedPanel {
-    private SchrodingerModule module;
+    private QWIModule module;
 
-    public ExpandableDoubleSlitPanel( final SchrodingerModule module ) {
+    public ExpandableDoubleSlitPanel( final QWIModule module ) {
         super( "Double Slits >>", "Disable Slits<<" );
         this.module = module;
         addControlFullWidth( new DoubleSlitControlPanel( module.getDiscreteModel(), module ) );

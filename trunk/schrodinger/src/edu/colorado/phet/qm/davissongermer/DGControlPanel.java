@@ -26,7 +26,6 @@ public class DGControlPanel extends ControlPanel {
     private DGModule dgModule;
 
     public DGControlPanel( DGModule dgModule ) {
-        super( dgModule );
         this.dgModule = dgModule;
         addRulerPanel();
         addProtractorPanel();

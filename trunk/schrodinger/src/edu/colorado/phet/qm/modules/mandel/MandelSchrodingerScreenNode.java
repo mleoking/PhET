@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.view.QWIPanel;
+import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
 /**
  * User: Sam Reid
@@ -12,9 +12,9 @@ import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
  * Copyright (c) Mar 2, 2006 by Sam Reid
  */
 
-public class MandelSchrodingerScreenNode extends SchrodingerScreenNode {
-    public MandelSchrodingerScreenNode( SchrodingerModule module, SchrodingerPanel schrodingerPanel ) {
-        super( module, schrodingerPanel );
+public class MandelSchrodingerScreenNode extends QWIScreenNode {
+    public MandelSchrodingerScreenNode( QWIModule module, QWIPanel QWIPanel ) {
+        super( module, QWIPanel );
         getDetectorSheetPNode().setTitle( "Black & White Screen" );
     }
 

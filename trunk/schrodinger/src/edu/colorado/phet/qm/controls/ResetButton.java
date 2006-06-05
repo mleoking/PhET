@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 
 public class ResetButton extends JButton {
-    public ResetButton( final SchrodingerModule module ) {
+    public ResetButton( final QWIModule module ) {
         super( "Reset" );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

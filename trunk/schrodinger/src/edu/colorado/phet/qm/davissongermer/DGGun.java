@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.gun.*;
 
 import javax.swing.*;
@@ -20,8 +20,8 @@ public class DGGun extends HighIntensityGunGraphic implements FireParticle {
     private DGParticle dgParticle;
     private FireButton fireOne;
 
-    public DGGun( SchrodingerPanel schrodingerPanel ) {
-        super( schrodingerPanel );
+    public DGGun( QWIPanel QWIPanel ) {
+        super( QWIPanel );
     }
 
     public DGParticle getDgParticle() {

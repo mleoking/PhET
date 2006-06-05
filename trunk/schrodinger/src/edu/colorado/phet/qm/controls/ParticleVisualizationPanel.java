@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.GrayscaleColorMap;
@@ -22,11 +22,11 @@ import java.awt.event.ActionListener;
  */
 
 public class ParticleVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
     private JRadioButton phaseColorRadioButton;
 
-    public ParticleVisualizationPanel( SchrodingerPanel schrodingerPanel ) {
-        this.schrodingerPanel = schrodingerPanel;
+    public ParticleVisualizationPanel( QWIPanel QWIPanel ) {
+        this.QWIPanel = QWIPanel;
 
         setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -49,7 +49,7 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
         JRadioButton radioButton = new JRadioButton( s );
         radioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.setVisualizationStyle( colorMap, waveValueAccessor );
+                QWIPanel.setVisualizationStyle( colorMap, waveValueAccessor );
             }
         } );
         buttonGroup.add( radioButton );

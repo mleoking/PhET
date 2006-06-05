@@ -2,7 +2,7 @@ package edu.colorado.phet.qm.persistence;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
@@ -29,12 +29,12 @@ public class QWIState implements Serializable {
     public QWIState() {
     }
 
-    public QWIState( SchrodingerModule schrodingerModule ) {
-        for( int i = 0; i < schrodingerModule.getDiscreteModel().getDetectorSet().numDetectors(); i++ ) {
-            Detector detector = schrodingerModule.getDiscreteModel().getDetectorSet().detectorAt( i );
+    public QWIState( QWIModule qwiModule ) {
+        for( int i = 0; i < qwiModule.getDiscreteModel().getDetectorSet().numDetectors(); i++ ) {
+            Detector detector = qwiModule.getDiscreteModel().getDetectorSet().detectorAt( i );
             detectorList.add( new DetectorState( detector ) );
         }
-        CompositePotential compositePotential = schrodingerModule.getDiscreteModel().getCompositePotential();
+        CompositePotential compositePotential = qwiModule.getDiscreteModel().getCompositePotential();
         for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
             Potential pot = compositePotential.potentialAt( i );
             if( pot instanceof RectangularPotential ) {
@@ -63,22 +63,22 @@ public class QWIState implements Serializable {
         return super.toString() + ", det" + detectorList + ", pot=" + rectBarrierList;
     }
 
-    public void restore( SchrodingerModule schrodingerModule ) {
-        schrodingerModule.removeAllDetectors();
-        schrodingerModule.removeAllPotentialBarriers();
+    public void restore( QWIModule qwiModule ) {
+        qwiModule.removeAllDetectors();
+        qwiModule.removeAllPotentialBarriers();
 //        schrodingerModule.addPotential();
         for( int i = 0; i < detectorList.size(); i++ ) {
             DetectorState detectorState = (DetectorState)detectorList.get( i );
-            Detector detector = new Detector( schrodingerModule.getDiscreteModel(),
+            Detector detector = new Detector( qwiModule.getDiscreteModel(),
                                               detectorState.getX(), detectorState.getY(), detectorState.getWidth(), detectorState.getHeight() );
-            schrodingerModule.getDiscreteModel().addDetector( detector );
-            schrodingerModule.getSchrodingerPanel().addDetectorGraphic( detector );
+            qwiModule.getDiscreteModel().addDetector( detector );
+            qwiModule.getSchrodingerPanel().addDetectorGraphic( detector );
         }
         for( int i = 0; i < rectBarrierList.size(); i++ ) {
             RectBarrierState rectBarrierState = (RectBarrierState)rectBarrierList.get( i );
-            RectangularPotential potential = new RectangularPotential( schrodingerModule.getDiscreteModel(), rectBarrierState.getX(), rectBarrierState.getY(), rectBarrierState.getWidth(), rectBarrierState.getHeight() );
-            schrodingerModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( schrodingerModule.getSchrodingerPanel(), potential ) );
-            schrodingerModule.getDiscreteModel().addPotential( potential );
+            RectangularPotential potential = new RectangularPotential( qwiModule.getDiscreteModel(), rectBarrierState.getX(), rectBarrierState.getY(), rectBarrierState.getWidth(), rectBarrierState.getHeight() );
+            qwiModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( qwiModule.getSchrodingerPanel(), potential ) );
+            qwiModule.getDiscreteModel().addPotential( potential );
         }
     }
 
@@ -152,12 +152,12 @@ public class QWIState implements Serializable {
     public static void main( String[] args ) throws Exception {
         QWIApplication app = new QWIApplication( args );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
-        SchrodingerModule schrodingerModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
+        QWIModule qwiModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
 //        schrodingerModule
-        schrodingerModule.getDiscreteModel().addDetector( new Detector( schrodingerModule.getDiscreteModel(), 5, 6, 7, 8 ) );
-        schrodingerModule.getDiscreteModel().addDetector( new Detector( schrodingerModule.getDiscreteModel(), 1, 1, 2, 2 ) );
-        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( schrodingerModule.getDiscreteModel(), 0, 0, 100, 100 ) );
-        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( schrodingerModule.getDiscreteModel(), 9, 9, 9, 9 ) );
+        qwiModule.getDiscreteModel().addDetector( new Detector( qwiModule.getDiscreteModel(), 5, 6, 7, 8 ) );
+        qwiModule.getDiscreteModel().addDetector( new Detector( qwiModule.getDiscreteModel(), 1, 1, 2, 2 ) );
+        qwiModule.getDiscreteModel().addPotential( new RectangularPotential( qwiModule.getDiscreteModel(), 0, 0, 100, 100 ) );
+        qwiModule.getDiscreteModel().addPotential( new RectangularPotential( qwiModule.getDiscreteModel(), 9, 9, 9, 9 ) );
 //        persistenceManager.save( new QWIState( schrodingerModule ) );
         Object o = persistenceManager.load();
         System.out.println( "o = " + o );

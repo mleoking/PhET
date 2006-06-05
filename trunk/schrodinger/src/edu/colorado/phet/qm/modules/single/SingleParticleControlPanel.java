@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.modules.single;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.model.Detector;
 
@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class SingleParticleControlPanel extends SchrodingerControlPanel {
+public class SingleParticleControlPanel extends QWIControlPanel {
     private IVisualizationPanel particleVisPanel;
     private IVisualizationPanel photonVisPanel;
     private VisualizationPanelContainer visPanel;
@@ -54,7 +54,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         particleVisPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
         photonVisPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
         visPanel = new VisualizationPanelContainer();
-        singleParticleModule.addListener( new SchrodingerModule.Listener() {
+        singleParticleModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }
 

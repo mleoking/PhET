@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -99,7 +99,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         getSchrodingerModule().fireParticle( initialWavefunction );
     }
 
-    SchrodingerModule getSchrodingerModule() {
+    QWIModule getSchrodingerModule() {
         return gunGraphic.getSchrodingerModule();
     }
 

@@ -2,11 +2,11 @@
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.CollapseComputation;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.Random;
  */
 
 public class IntensityManager {
-    private SchrodingerModule schrodingerModule;
-    private SchrodingerPanel schrodingerPanel;
+    private QWIModule qwiModule;
+    private QWIPanel QWIPanel;
 
     private DetectorSheetPNode detectorSheetPNode;
     private Random random;
@@ -32,10 +32,10 @@ public class IntensityManager {
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
 
-    public IntensityManager( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, DetectorSheetPNode detectorSheetPNode ) {
+    public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
-        this.schrodingerModule = schrodingerModule;
-        this.schrodingerPanel = schrodingerPanel;
+        this.qwiModule = qwiModule;
+        this.QWIPanel = QWIPanel;
         this.random = new Random();
     }
 
@@ -123,12 +123,12 @@ public class IntensityManager {
         return y;
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 
     private QWIModel getDiscreteModel() {
-        return schrodingerModule.getDiscreteModel();
+        return qwiModule.getDiscreteModel();
     }
 
     public double getProbabilityScaleFudgeFactor() {

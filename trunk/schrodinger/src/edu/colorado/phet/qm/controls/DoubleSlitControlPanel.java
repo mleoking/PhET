@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.FractionalDoubleSlit;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -31,12 +31,12 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     private JComponent slitSeparation;
     private JComponent verticalPosition;
     private SlitDetectorPanel slitDetectorPanel;
-    private SchrodingerModule module;
+    private QWIModule module;
     private FractionalDoubleSlit fractionalSlit;
 
-    public DoubleSlitControlPanel( final QWIModel QWIModel, SchrodingerModule schrodingerModule ) {
+    public DoubleSlitControlPanel( final QWIModel QWIModel, QWIModule qwiModule ) {
         this.QWIModel = QWIModel;
-        this.module = schrodingerModule;
+        this.module = qwiModule;
         this.horizontalDoubleSlit = QWIModel.getDoubleSlitPotential();
         this.fractionalSlit = QWIModel.getFractionalDoubleSlit();
         verticalPosition = createComponent( "Vertical Position", new Setter() {
@@ -109,12 +109,12 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         add( slitSeparation );
         add( verticalPosition );
 
-        if( schrodingerModule instanceof IntensityModule ) {//todo use polymorphism here
-            slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)schrodingerModule );
+        if( qwiModule instanceof IntensityModule ) {//todo use polymorphism here
+            slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)qwiModule );
             addFullWidth( slitDetectorPanel );
         }
         setControlsEnabled( true );
-        addFullWidth( new InverseSlitsCheckbox( schrodingerModule.getSchrodingerPanel() ) );
+        addFullWidth( new InverseSlitsCheckbox( qwiModule.getSchrodingerPanel() ) );
     }
 
     public SlitDetectorPanel getSlitDetectorPanel() {

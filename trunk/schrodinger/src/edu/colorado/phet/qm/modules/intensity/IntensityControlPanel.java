@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.util.ComponentCenterer;
 
@@ -15,7 +15,7 @@ import java.awt.*;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class IntensityControlPanel extends SchrodingerControlPanel {
+public class IntensityControlPanel extends QWIControlPanel {
     private IntensityModule intensityModule;
     private ParticleVisualizationPanel particleVisualizationPanel;
     private VisualizationPanelContainer visualizationPanel;
@@ -37,7 +37,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
 
         particleVisualizationPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
         photonVisualizationPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
-        intensityModule.addListener( new SchrodingerModule.Listener() {
+        intensityModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }
 

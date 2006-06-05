@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.qm.QWILookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -64,7 +64,7 @@ public class RulerImageGraphic extends PNode {
     }
 
     private JButton createCloseButton() {
-        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        JButton closeButton = QWILookAndFeel.createCloseButton();
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 close();

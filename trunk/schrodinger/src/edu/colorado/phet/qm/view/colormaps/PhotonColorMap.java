@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 
 import java.awt.*;
@@ -16,22 +16,22 @@ import java.awt.*;
  */
 
 public class PhotonColorMap implements ColorMap {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
     private WaveValueAccessor waveValueAccessor;
     private double intensityScale = 20;
     private ColorData rootColor;
 
-    public PhotonColorMap( SchrodingerPanel schrodingerPanel, double wavelengthNM, WaveValueAccessor waveValueAccessor ) {
+    public PhotonColorMap( QWIPanel QWIPanel, double wavelengthNM, WaveValueAccessor waveValueAccessor ) {
         if( waveValueAccessor == null ) {
             throw new RuntimeException( "Null waveValueAccessor" );
         }
-        this.schrodingerPanel = schrodingerPanel;
+        this.QWIPanel = QWIPanel;
         this.waveValueAccessor = waveValueAccessor;
         this.rootColor = new ColorData( wavelengthNM );
     }
 
     public Paint getColor( int i, int k ) {
-        Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
+        Wavefunction wavefunction = QWIPanel.getDiscreteModel().getWavefunction();
         double abs = waveValueAccessor.getValue( wavefunction, i, k ) * intensityScale;
         if( abs > 1 ) {
             abs = 1;
@@ -48,6 +48,6 @@ public class PhotonColorMap implements ColorMap {
     }
 
     public Potential getPotential() {
-        return schrodingerPanel.getDiscreteModel().getPotential();
+        return QWIPanel.getDiscreteModel().getPotential();
     }
 }

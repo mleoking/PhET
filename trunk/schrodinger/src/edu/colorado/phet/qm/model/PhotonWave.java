@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.waves.FlatDampedWave;
 import edu.colorado.phet.qm.model.waves.PlaneWave;
 
@@ -16,7 +16,7 @@ import java.awt.*;
  */
 
 public class PhotonWave {
-    private SchrodingerModule module;
+    private QWIModule module;
     private QWIModel QWIModel;
     private CylinderSource waveSource;
     private double momentum = 2.0 / 10.0 * Math.PI;
@@ -29,7 +29,7 @@ public class PhotonWave {
     private ModelElement phaseUpdate;
     private QWIModel.Adapter waveSourceBoundaryConditionSetter;
 
-    public PhotonWave( SchrodingerModule module, QWIModel QWIModel ) {
+    public PhotonWave( QWIModule module, QWIModel QWIModel ) {
         this.module = module;
         this.QWIModel = QWIModel;
         this.waveSource = new CylinderSource( createRectRegionForCylinder(), createWave( phase ) );

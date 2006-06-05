@@ -4,11 +4,11 @@ package edu.colorado.phet.qm.modules.intensity;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.QWISplitModel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
 import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class IntensityModule extends SchrodingerModule {
+public class IntensityModule extends QWIModule {
     private QWISplitModel QWISplitModel;
     private HighIntensitySchrodingerPanel highIntensitySchrodingerPanel;
     private IntensityControlPanel intensityControlPanel;
@@ -54,7 +54,7 @@ public class IntensityModule extends SchrodingerModule {
             }
         } );
         finishInit();
-        getSchrodingerPanel().addListener( new SchrodingerPanel.Adapter() {
+        getSchrodingerPanel().addListener( new QWIPanel.Adapter() {
             public void inverseSlitsChanged() {
                 updateDetectors();
             }

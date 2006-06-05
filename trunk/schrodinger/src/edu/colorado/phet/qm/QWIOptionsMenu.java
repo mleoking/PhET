@@ -6,7 +6,7 @@ import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.phetcommon.UIController;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,15 +21,15 @@ import java.util.Map;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class SchrodingerOptionsMenu extends JMenu {
-    private SchrodingerModule schrodingerModule;
+public class QWIOptionsMenu extends JMenu {
+    private QWIModule qwiModule;
     private JDialog dialog;
     private JDialog propagatorControlFrame;
 
-    public SchrodingerOptionsMenu( final SchrodingerModule schrodingerModule ) {
+    public QWIOptionsMenu( final QWIModule qwiModule ) {
         super( "Options" );
         setMnemonic( 'o' );
-        this.schrodingerModule = schrodingerModule;
+        this.qwiModule = qwiModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 
         final JCheckBoxMenuItem x = new JCheckBoxMenuItem( "Show Observable <X>" );
@@ -49,17 +49,17 @@ public class SchrodingerOptionsMenu extends JMenu {
         add( y );
 
         JMenuItem item = new JMenuItem( "Resolution" );
-        final ResolutionControl resolutionControl = new ResolutionControl( schrodingerModule );
+        final ResolutionControl resolutionControl = new ResolutionControl( qwiModule );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( dialog == null ) {
-                    dialog = new JDialog( schrodingerModule.getPhetFrame() );
+                    dialog = new JDialog( qwiModule.getPhetFrame() );
 
                     dialog.setContentPane( resolutionControl.getControls() );
                     dialog.pack();
-                    schrodingerModule.addListener( new SchrodingerModule.Listener() {
+                    qwiModule.addListener( new QWIModule.Listener() {
                         public void deactivated() {
-                            schrodingerModule.removeListener( this );
+                            qwiModule.removeListener( this );
                             dialog.setVisible( false );
                             dialog.dispose();
                         }
@@ -90,7 +90,7 @@ public class SchrodingerOptionsMenu extends JMenu {
         propagators.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( propagatorControlFrame == null ) {
-                    propagatorControlFrame = new JDialog( schrodingerModule.getPhetFrame(), "Propagators" );
+                    propagatorControlFrame = new JDialog( qwiModule.getPhetFrame(), "Propagators" );
 
                     propagatorControlFrame.setContentPane( new PropagatorPanel( getDiscreteModel() ) );
                     propagatorControlFrame.pack();
@@ -112,11 +112,11 @@ public class SchrodingerOptionsMenu extends JMenu {
     }
 
     private QWIModel getDiscreteModel() {
-        return schrodingerModule.getDiscreteModel();
+        return qwiModule.getDiscreteModel();
     }
 
     private void printModelParameters() {
-        Map modelParams = schrodingerModule.getModelParameters();
+        Map modelParams = qwiModule.getModelParameters();
         String text = toText( modelParams );
         JOptionPane.showMessageDialog( this, text );
     }
@@ -135,7 +135,7 @@ public class SchrodingerOptionsMenu extends JMenu {
         return text;
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerModule.getSchrodingerPanel();
+    private QWIPanel getSchrodingerPanel() {
+        return qwiModule.getSchrodingerPanel();
     }
 }

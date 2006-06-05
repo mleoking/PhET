@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.QWIModel;
 
 import javax.swing.*;
@@ -17,9 +17,9 @@ import java.awt.event.ActionListener;
  */
 
 public class DetectorPanel extends VerticalLayoutPanel {
-    private SchrodingerModule module;
+    private QWIModule module;
 
-    public DetectorPanel( final SchrodingerModule module ) {
+    public DetectorPanel( final QWIModule module ) {
         this.module = module;
         setFillNone();
         setBorder( BorderFactory.createTitledBorder( "Detection" ) );

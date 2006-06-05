@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  */
 
 public class PotentialPanel extends VerticalLayoutPanel {
-    public PotentialPanel( final SchrodingerModule module ) {
+    public PotentialPanel( final QWIModule module ) {
 
         setFillNone();
         setBorder( BorderFactory.createTitledBorder( "Potential" ) );
