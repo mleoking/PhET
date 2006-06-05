@@ -37,13 +37,13 @@ import java.lang.reflect.InvocationTargetException;
 public class QWIApplication extends PiccoloPhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "1.00.01";
-    private String[] args;
+    public static String VERSION = "1.00.02";
+//    private String[] args;
     private IntensityModule intensityModule;
 
-    public QWIApplication( String[] args ) throws InvocationTargetException, InterruptedException {
+    public QWIApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
-        this.args = args;
+//        this.args = args;
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
         addModule( intensityModule );
         addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
@@ -86,9 +86,9 @@ public class QWIApplication extends PiccoloPhetApplication {
         return new SwingClock( 30, 1 );
     }
 
-    public String[] getArgs() {
-        return args;
-    }
+//    public String[] getArgs() {
+//        return args;
+//    }
 
 //    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
 //        return new QWIFrame( phetApplication );
