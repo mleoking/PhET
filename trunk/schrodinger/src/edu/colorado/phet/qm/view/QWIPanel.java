@@ -199,21 +199,20 @@ public class QWIPanel extends PhetPCanvas {
         this.photon = photon;
 
         getDetectorSheetPNode().setDisplayPhotonColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
-        updateWavefunctionGraphic();
+        update();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleTypeChanged();
         }
     }
 
-    protected void updateWavefunctionGraphic() {
+    protected void update() {
         updateWavefunctionColorMap();
         updateWaveGraphic();
     }
 
     protected void updateWavefunctionColorMap() {
         ColorMap colorMap = createColorMap();
-//        System.out.println( "colorMap = " + colorMap );
         getWavefunctionGraphic().setColorMap( colorMap );
     }
 
@@ -221,7 +220,7 @@ public class QWIPanel extends PhetPCanvas {
         if( this.complexColorMap != colorMap || this.waveValueAccessor != waveValueAccessor ) {
             this.complexColorMap = colorMap;
             this.waveValueAccessor = waveValueAccessor;
-            updateWavefunctionGraphic();
+            update();
             notifyVisualizationStyleChanged();
         }
     }

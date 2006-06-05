@@ -60,9 +60,9 @@ public class MandelSchrodingerPanel extends IntensityBeamPanel {
         return (MandelGunSet)getGunGraphic();
     }
 
-    public void setSplitMode( boolean splitMode ) {
-        updateWavefunctionColorMap();
-    }
+//    public void setSplitMode( boolean splitMode ) {
+//        updateWavefunctionColorMap();
+//    }
 
     public void wavelengthChanged() {
         getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule(), createAccessor() ) );
