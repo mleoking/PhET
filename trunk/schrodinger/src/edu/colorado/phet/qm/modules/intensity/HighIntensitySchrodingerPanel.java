@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.SmoothIntensityDisplay;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.ContinuousDisplay;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -21,13 +21,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public class HighIntensitySchrodingerPanel extends QWIPanel {
+
     private QWIModule intensityModule;
-    private SmoothIntensityDisplay smoothIntensityDisplay;
-    private boolean smoothScreen = false;
+    private ContinuousDisplay continuousDisplay;
     private SplitColorMap splitColorMap;
     private HighIntensityGunGraphic highIntensityGun;
-    public static final boolean SMOOTH_SCREEN_DEFAULT = true;
     private boolean splitMode = false;
+    private boolean continuousMode = false;
+
+    public static final boolean CONTINUOUS_MODE_DEFAULT = true;
 
     public HighIntensitySchrodingerPanel( QWIModule intensityModule ) {
         super( intensityModule );
@@ -41,8 +43,8 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
         getIntensityDisplay().setHighIntensityMode();
 
         setNormalGraphics();
-        smoothIntensityDisplay = new SmoothIntensityDisplay( this, getIntensityDisplay() );
-        setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
+        continuousDisplay = new ContinuousDisplay( this, getIntensityDisplay() );
+        setContinuousMode( CONTINUOUS_MODE_DEFAULT );
         if( intensityModule instanceof IntensityModule ) {//todo fix this.
             splitColorMap = new SplitColorMap( ( (IntensityModule)intensityModule ).getSplitModel(), this );
         }
@@ -131,19 +133,19 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
         }
     }
 
-    public void setSmoothScreen( boolean smoothScreen ) {
-        if( smoothScreen != this.smoothScreen ) {
-            this.smoothScreen = smoothScreen;
+    public void setContinuousMode( boolean continuousMode ) {
+        if( continuousMode != this.continuousMode ) {
+            this.continuousMode = continuousMode;
             getDetectorSheetPNode().clearScreen();
-            if( smoothScreen ) {
+            if( continuousMode ) {
                 getDetectorSheetPNode().setSaveButtonVisible( true );
             }
         }
     }
 
     protected void updateScreen() {
-        if( smoothScreen ) {
-            smoothIntensityDisplay.updateValues();
+        if( continuousMode ) {
+            continuousDisplay.updateValues();
         }
         else {
             getIntensityDisplay().tryDetecting();
@@ -158,12 +160,12 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
         setVisualizationStyle( getComplexColorMap(), getWaveValueAccessor() );
     }
 
-    public boolean isSmoothScreen() {
-        return smoothScreen;
+    public boolean isContinuousMode() {
+        return continuousMode;
     }
 
-    public SmoothIntensityDisplay getSmoothIntensityDisplay() {
-        return smoothIntensityDisplay;
+    public ContinuousDisplay getContinuousDisplay() {
+        return continuousDisplay;
     }
 
     public void setPhoton( Photon photon ) {
@@ -171,8 +173,8 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
         if( splitColorMap != null ) {
             splitColorMap.setRootColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
         }
-        if( smoothIntensityDisplay != null ) {
-            smoothIntensityDisplay.setPhotonColor( photon == null ? null : photon.getRootColor() );
+        if( continuousDisplay != null ) {
+            continuousDisplay.setPhotonColor( photon == null ? null : photon.getRootColor() );
         }
     }
 

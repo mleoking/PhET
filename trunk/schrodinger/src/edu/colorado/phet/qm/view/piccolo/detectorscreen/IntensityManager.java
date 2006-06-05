@@ -79,25 +79,15 @@ public class IntensityManager {
 
     private void detectOne( Wavefunction sub ) {
         Point pt = new CollapseComputation().getCollapsePoint( sub, sub.getBounds() );
-        double randOffsetX = 0;
-        if( random.nextDouble() < 1.0 ) {
-            int randAmount = random.nextInt( 4 ) + 1;
-            if( random.nextBoolean() ) {
-                randOffsetX = -randAmount;
-            }
-            else {
-                randOffsetX = randAmount;
-            }
-        }
+        double sep = Math.abs( getModelToViewTransform1d().evaluate( pt.x ) - getModelToViewTransform1d().evaluate( pt.x + 1 ) );
+        double MAX_RAND_OFFSET = sep / 2;
+//        System.out.println( "MAX_RAND_OFFSET = " + MAX_RAND_OFFSET );
+        double randomDX = random.nextDouble() * MAX_RAND_OFFSET * ( random.nextBoolean() ? 1.0 : -1.0 );
 
-        int x = (int)( getModelToViewTransform1d().evaluate( pt.x ) + randOffsetX );
-        x *= 1.0;//getWavePanelScale();
-        int y = getDetectY();
+        double x = getModelToViewTransform1d().evaluate( pt.x ) + randomDX;
+//        x *= 1.0;//getWavePanelScale();
+        double y = getDetectY();
 
-        addDetectionEvent( x, y );
-    }
-
-    private void addDetectionEvent( int x, int y ) {
         detectorSheetPNode.addDetectionEvent( x, y );
     }
 

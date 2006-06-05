@@ -1,6 +1,3 @@
-•	In “hits” mode, the dots appear on the screen in columns, 
-so it appears that there are many very thin interference fringes:
- 
 •	The “one-shot” checkbox doesn’t work.  
 If auto-detect is checked, the detector is always one-shot, regardless of whether one-shot is checked or not.  
 If auto-detect is off, the detector always allows multiple detections, regardless of whether one-shot is checked or not.  
