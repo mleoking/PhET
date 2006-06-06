@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel (exception in FastPathRenderer on Windowswith JDK 1.4.2)
+- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - bug: time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
@@ -15,6 +15,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- switch back to FastPathRenderer for curves?
 - implement Save/Load for model
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - hide the dot in the center of the magnifying glass
