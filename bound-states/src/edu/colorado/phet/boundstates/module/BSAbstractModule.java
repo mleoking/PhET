@@ -279,11 +279,14 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Help
         //----------------------------------------------------------------------------
         
-        HelpPane helpPane = getDefaultHelpPane();
-
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.potentialControl" ), HelpBalloon.RIGHT_CENTER, 40 );
-        helpPane.add( configureHelp );
-        configureHelp.pointAt( _controlPanel.getPotentialControl() );
+        if ( hasHelp() ) {
+            HelpPane helpPane = getDefaultHelpPane();
+            
+            // This is a sample -- replace with real help items.
+            HelpBalloon sampleHelp = new HelpBalloon( helpPane, "Sample help item", HelpBalloon.RIGHT_CENTER, 40 );
+            helpPane.add( sampleHelp );
+            sampleHelp.pointAt( _controlPanel.getPotentialControl() );
+        }
         
 //        String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
 //        BSWiggleMe wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
@@ -436,7 +439,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
        
     public boolean hasHelp() {
-        return true;
+        // On 6/6/2006, we decided to disable help.
+        return false;
     }
     
     /**
