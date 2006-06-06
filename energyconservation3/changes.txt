@@ -1,4 +1,4 @@
-0.00.23
+0.00.23 (6-6-2006)
 Renamed JNLP Launch title from Energy Sk8r to Energy Skate Park
 Brightened the skater image.
 Performance bugfix.

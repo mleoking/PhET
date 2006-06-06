@@ -22,9 +22,10 @@ public class TestMotionHelpBalloon {
 
         PCanvas pCanvas = new PCanvas();
         MotionHelpBalloon helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
-        helpBalloon.animateTo( 500, 500 );
+
         pCanvas.getLayer().addChild( helpBalloon );
-        helpBalloon.setOffset( 0, 0 );
+        helpBalloon.setOffset( 500, -20 );
+        helpBalloon.animateTo( 250, 250 );
 
         frame.setContentPane( pCanvas );
     }
