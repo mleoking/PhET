@@ -36,6 +36,7 @@ import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.help.BSWiggleMe;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
@@ -280,6 +281,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         helpPane.add( configureHelp );
         configureHelp.pointAt( _controlPanel.getPotentialControl() );
         
+        String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
+        BSWiggleMe wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
+        _parentNode.addChild( wiggleMe );
+        wiggleMe.setOffset( 250, -50 );
+        wiggleMe.animateTo( 250, 250 );
+
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
