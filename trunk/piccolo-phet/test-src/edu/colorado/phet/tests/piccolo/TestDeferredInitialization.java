@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.tests;
+package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.DeferredInitializationModule;
