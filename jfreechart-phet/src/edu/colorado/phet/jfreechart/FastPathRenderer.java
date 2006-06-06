@@ -92,16 +92,29 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
 
+        boolean previousPointGood = false;
+        
         // Build the complete path...
         _path.reset();
         final int numberOfItems = dataset.getItemCount( series );
         for ( int i = 0; i < numberOfItems; i++ ) {
+            
             // Get the data item's x & y values...
             final double x = dataset.getXValue( series, i );
             final double y = dataset.getYValue( series, i );
+            if ( Double.isNaN( x ) || Double.isNaN( y ) ) {
+                previousPointGood = false;
+                continue;
+            }
+            
             // Convert to screen coordinates...
             final double tx = domainAxis.valueToJava2D( x, dataArea, xAxisLocation );
             final double ty = rangeAxis.valueToJava2D( y, dataArea, yAxisLocation );
+            if ( Double.isNaN( tx ) || Double.isNaN( ty ) ) {
+                previousPointGood = false;
+                continue;
+            }
+            
             // Adjust for plot orientation...
             float fx = (float) tx;
             float fy = (float) ty;
@@ -110,13 +123,16 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
                 fx = (float) ty;
                 fy = (float) tx;
             }
+            
             // Add to the path...
-            if ( i == 0 ) {
+            if ( !previousPointGood ) {
                 _path.moveTo( fx, fy );
             }
             else {
                 _path.lineTo( fx, fy );
             }
+            
+            previousPointGood = true;
         }
 
         // Enable antialiasing...
