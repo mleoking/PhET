@@ -2,9 +2,6 @@
 Remaining Work
 #######################################
 
-Can you fix start up loading window to read Energy Skate Park (right now it reads Energy S8ter)?
->>Maybe needs to be done for the main-site jnlp file.
-
 I still would very much like an optional grid... It would help in measuring heights and such . 
 (I see it on the low priority list, but as I consider how you'd use it for measurements, 
 I feel like it would be a beneficial addition). 
