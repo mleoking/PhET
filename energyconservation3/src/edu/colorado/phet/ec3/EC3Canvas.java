@@ -16,6 +16,7 @@ import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -81,6 +82,12 @@ public class EC3Canvas extends PhetPCanvas {
             public void mouseReleased( MouseEvent e ) {
             }
         } );
+    }
+
+    public void paintComponent( Graphics g ) {
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+        super.paintComponent( g );
     }
 
     private void addGraphicsUpdate( EC3Module ec3Module ) {
