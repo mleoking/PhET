@@ -125,6 +125,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
         revalidate();
+        repaint();
 
         // Disable the lauch button. Since the table is new, there can't be any simulation selected
         launchBtn.setEnabled( false );
@@ -139,7 +140,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
-            new InstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
+            new InstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
         }
 
         // If a double left click, launch the simulation
