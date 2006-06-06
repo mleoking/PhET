@@ -18,6 +18,7 @@ import java.util.Observer;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -30,7 +31,6 @@ import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.jfreechart.FastPathRenderer;
 
 
 /**
@@ -82,7 +82,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             dataset.addSeries( _hilitedEigenstateSeries );
             setDataset( _hilitedEigenstateIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new EigenstatesRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createEigenstatesRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
             renderer.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
             setRenderer( _hilitedEigenstateIndex, renderer );
@@ -97,7 +97,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             dataset.addSeries( _selectedEigenstateSeries );
             setDataset( _selectedEigenstateIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new EigenstatesRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createEigenstatesRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateSelectionColor() );
             renderer.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
             setRenderer( _selectedEigenstateIndex, renderer );
@@ -112,7 +112,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             dataset.addSeries( _normalEigenstateSeries );
             setDataset( _normalEigenstateIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new EigenstatesRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createEigenstatesRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
             renderer.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
             setRenderer( _normalEigenstateIndex, renderer );
@@ -127,7 +127,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             dataset.addSeries( _potentialSeries );
             setDataset( _potentialIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialIndex, renderer );
