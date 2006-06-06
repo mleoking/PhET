@@ -24,25 +24,24 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class InstallSimAction extends AbstractAction {
+    private SimContainer simContainer;
     private Component component;
-    private InstallSimAction.Action action;
     private JDialog waitDlg;
 
-    public InstallSimAction( Component component, SimContainer simContainer ) {
+    public InstallSimAction( SimContainer simContainer,Component component ) {
         this.component = component;
-        action = new InstallSimAction.SimContainerAction( simContainer );
+        this.simContainer = simContainer;
     }
 
-    public InstallSimAction( Component component, Simulation simulation ) {
-        this.component = component;
-        action = new InstallSimAction.SimAction( simulation );
+    public InstallSimAction( Simulation simulation, Component component ) {
+        this( new DefaultSimContainer( simulation ), component );
     }
 
     public void actionPerformed( ActionEvent e ) {
-        action.doIt( component );
+        install( simContainer.getSimulation() );
     }
 
-    private void showWaitDialog( Thread thread ) {
+    private void showWaitDialog() {
         JFrame frame = (JFrame)SwingUtilities.getRoot( component );
         waitDlg = new JDialog( frame, "Installing...", true );
         JLabel message = new JLabel( "Please wait while the simulation is being installed..." );
@@ -82,38 +81,6 @@ public class InstallSimAction extends AbstractAction {
             }
         });
         installerThread.start();
-        showWaitDialog( installerThread );
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Wrapped actions
-    //--------------------------------------------------------------------------------------------------
-
-    private static interface Action {
-        void doIt( Component component );
-    }
-
-    private class SimContainerAction implements InstallSimAction.Action {
-        SimContainer simContainer;
-
-        public SimContainerAction( SimContainer simContainer ) {
-            this.simContainer = simContainer;
-        }
-
-        public void doIt( Component component ) {
-            install( simContainer.getSimulation() );
-        }
-    }
-
-    private class SimAction implements InstallSimAction.Action {
-        Simulation simulation;
-
-        public SimAction( Simulation simulation ) {
-            this.simulation = simulation;
-        }
-
-        public void doIt( Component component ) {
-            install( simulation );
-        }
+        showWaitDialog();
     }
 }

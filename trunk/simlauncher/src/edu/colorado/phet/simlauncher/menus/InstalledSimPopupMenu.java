@@ -33,17 +33,17 @@ public class InstalledSimPopupMenu extends JPopupMenu {
 
         // Launch menu item
         JMenuItem launchMI = new JMenuItem( "Launch");
-        launchMI.addActionListener( new LaunchSimAction( this, simulation ) );
+        launchMI.addActionListener( new LaunchSimAction( simulation ) );
         add( launchMI );
 
         // Update check menu item
         JMenuItem updateCheckMI = new JMenuItem( "Check for update");
-        updateCheckMI.addActionListener( new UpdateSimAction( this, simulation ));
+        updateCheckMI.addActionListener( new UpdateSimAction( simulation ));
         add( updateCheckMI );
 
         // Uninstall menu item
         JMenuItem uninstallMI = new JMenuItem( "Uninstall");
-        uninstallMI.addActionListener( new UninstallSimAction( this, simulation ));
+        uninstallMI.addActionListener( new UninstallSimAction( simulation, this ));
         add( uninstallMI);
     }
 }
