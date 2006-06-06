@@ -19,7 +19,7 @@ information.
         codebase="http://www.colorado.edu/physics/phet/"
         href="dev/ec3/@VERSION@/ec3.jnlp">
     <information>
-        <title>Energy Sk8r</title>
+        <title>Energy Skate Park</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
         <description>Energy Conservation in 2D</description>
