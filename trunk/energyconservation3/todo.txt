@@ -5,11 +5,16 @@ Remaining Work
 Can you fix start up loading window to read Energy Skate Park (right now it reads Energy S8ter)?
 >>Maybe needs to be done for the main-site jnlp file.
 
-On my computer the skater guy can start smooth but gets into a very jerky motion (extremely reproducible ... I just take the original U-track, grab the right-hand point, drag it down so it is a ramp going, then guy's motion becomes very jerky when he gets near the bottom of this track)... I don't think this was the way he worked before? (I checked and it's not a problem on 0.16 for instance). (This one needs to be fixed before posting I think). 
+On my computer the skater guy can start smooth but gets into a very jerky motion (extremely reproducible ... 
+I just take the original U-track, grab the right-hand point, 
+drag it down so it is a ramp going, then guy's motion becomes very jerky when he gets near the bottom of this track)... 
+I don't think this was the way he worked before? 
+(I checked and it's not a problem on 0.16 for instance). 
+(This one needs to be fixed before posting I think). 
 
-The man is a lot darker than he used to be, he seems like he's always in the shadow. 
-
-I still would very much like an optional grid... It would help in measuring heights and such . (I see it on the low priority list, but as I consider how you'd use it for measurements, I feel like it would be a beneficial addition). 
+I still would very much like an optional grid... It would help in measuring heights and such . 
+(I see it on the low priority list, but as I consider how you'd use it for measurements, 
+I feel like it would be a beneficial addition). 
 
 #################################################################
 Low Priority
