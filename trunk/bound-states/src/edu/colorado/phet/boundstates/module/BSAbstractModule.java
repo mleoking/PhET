@@ -52,6 +52,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -160,6 +161,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Piccolo canvas
         {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
+            _canvas.setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+            _canvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+            _canvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             _canvas.setBackground( BSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
         }
@@ -281,11 +285,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         helpPane.add( configureHelp );
         configureHelp.pointAt( _controlPanel.getPotentialControl() );
         
-        String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
-        BSWiggleMe wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
-        _parentNode.addChild( wiggleMe );
-        wiggleMe.setOffset( 250, -50 );
-        wiggleMe.animateTo( 250, 250 );
+//        String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
+//        BSWiggleMe wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
+//        _parentNode.addChild( wiggleMe );
+//        wiggleMe.setOffset( 250, -50 );
+//        wiggleMe.animateTo( 250, 250 );
 
         //----------------------------------------------------------------------------
         // Initialze the module state
