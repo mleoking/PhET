@@ -35,4 +35,8 @@ public class BSClock extends SwingClock {
     public BSClock() {
         super( WALL_DT, new TimingStrategy.Constant( SIM_DT ) );
     }
+    
+    public void setSimulationTimeChange( final double dt ) {
+        setTimingStrategy( new TimingStrategy.Constant( dt ) );
+    }
 }
