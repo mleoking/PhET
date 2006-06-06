@@ -40,6 +40,14 @@ public class SimResource {
         this.url = url;
         this.localRoot = localRoot;
         localFile = getLocalFile( localRoot );
+        if( isInstalled() ) {
+            try {
+                metaData = new MetaData( localFile );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -108,7 +116,8 @@ public class SimResource {
     }
 
     private void saveMetaData() throws IOException {
-        this.metaData = MetaData.initMetaData( url );
+        this.metaData = new MetaData( url );
+//        this.metaData = MetaData.initMetaData( url );
         metaData.saveForFile( localFile );
     }
 

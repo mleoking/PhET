@@ -5,30 +5,41 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - Options are getting saved too many time when thubmnails are turned off
 - Moving Man doesn't fly because there is a jar from a shared directory. Need to build the path correctly
-- double click launches twice
 
 ========
 Features
 ========
+- Encapsulate PhetConnection
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
 - Add "Go online" menu item
 - Handle Flash sims
 - check for updates to installer itself
-- Check for new versions
 - CatalogResource should be stored above the cache
 - Application must work properly when offline
 - On startup, if there is no catalog and client is offline, let the user know
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
+- Display abstracts - installing description needs to be debugged
 
 - Add a way to get activities from the database for a simulation
 - Categories for installed simulations
 - Don't want to sort by update date. This would require too much network overhead every time you start the app.
 - Putting up a table that can be sorted by different columns would look odd when a simulation belongs to several different categories
 
+=======
+Testing
+=======
+- Test update check for all SimResource types
+- Do extensive offline testing
 
 ================
 Done, not posted
 ================
+- double click launches twice
+- Check for new versions
+
+=======
+0.00.01
+=======
 - Put up progress dialog when installing
 - Store/retrieve Options
 - Alphabetical order for installed simulations
@@ -41,3 +52,4 @@ Done, not posted
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
 - Popup menus aren't always displayed in the right place
+
