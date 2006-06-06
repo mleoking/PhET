@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 05/30/06-06/05/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - revised estimate for remaining work
+  - finished magnifying glass (a couple of minor outstanding issues)
+  - fixed normalization of superposition coefficients
+  - discussed wave function normalization problem with Sam McKagan
+  - published 0.00.08
+  - restart the clock when anything in the model changes
+  - refactored/simplified the code for drawing and selecting eigenstates
+  - started work on Save/Load feature
+
+  Common Code:
+  - discussed requirements for Wiggle Me with Sam Reid
+  - tested and contributed to new Splash window
+  
+WHAT'S NEXT:
+ 
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - June 14-19
+  - July 17-26
+  - August 14-24
+  
+--
