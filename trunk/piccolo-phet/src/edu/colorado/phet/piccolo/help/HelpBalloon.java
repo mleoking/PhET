@@ -47,6 +47,11 @@ public class HelpBalloon extends AbstractHelpItem {
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
+    
+    /**
+     * Enumeration class that is used to describe positions where 
+     * the arrow tail is attached to the balloon.
+     */
     public static class Attachment {
         private String name;
 
@@ -361,6 +366,11 @@ public class HelpBalloon extends AbstractHelpItem {
 
     // Arrow attributes ------------------------------------------------------
 
+    public void setArrowVisible( boolean arrowVisible ) {
+        _arrowVisible = arrowVisible;
+        updateDisplay();
+    }
+    
     public void setArrowFillPaint( Paint paint ) {
         _arrowNode.setPaint( paint );
     }
@@ -805,10 +815,5 @@ public class HelpBalloon extends AbstractHelpItem {
         }
 
         return p;
-    }
-
-    public void setArrowVisible( boolean arrowVisible ) {
-        this._arrowVisible = arrowVisible;
-        updateDisplay();
     }
 }
