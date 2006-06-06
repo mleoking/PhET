@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 
 public class EC3Application extends PhetApplication {
     private EC3Module module;
-    private static final String VERSION = "0.00.23";
+    private static final String VERSION = "0.00.24";
 
     public EC3Application( String[] args ) {
         super( args, "Energy Skate Park", "Energy Conservation", VERSION, new EC3FrameSetup() );
