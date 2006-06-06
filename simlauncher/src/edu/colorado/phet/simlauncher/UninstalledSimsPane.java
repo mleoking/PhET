@@ -150,20 +150,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             simTable = new SimTable( simListA,
                                      Options.instance().isShowUninstalledThumbnails(),
                                      simTableSortType );
-            simTable.addMouseListener( new MouseAdapter() {
-                public void mouseClicked( MouseEvent e ) {
-                    handleSimulationSelection( e );
-                }
-
-                public void mousePressed( MouseEvent e ) {
-//                    handleSimulationSelection( e );
-                }
-
-                // Required to get e.isPopupTrigger() to return true on right-click
-                public void mouseReleased( MouseEvent e ) {
-                    handleSimulationSelection( e );
-                }
-            } );
+            simTable.addMouseListener( new MouseHandler() );
 
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
@@ -172,30 +159,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // Disable the install button, since there is no selected simulation anymore
             installBtn.setEnabled( false );
-        }
-
-        /**
-         * Handles selection events on the JTable of simulations
-         * @param event
-         */
-        private void handleSimulationSelection( MouseEvent event ) {
-            Simulation sim = simTable.getSelection();
-            installBtn.setEnabled( sim != null );
-
-            // If right click, pop up context menu
-            if( event.isPopupTrigger() && sim != null ) {
-                new UninstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
-            }
-
-            // If a double left click, offer to install the simulation
-            if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-                int choice = JOptionPane.showConfirmDialog( this, "Do you want to install the simulation?", "Confirm", JOptionPane.OK_CANCEL_OPTION );
-                if( choice == JOptionPane.OK_OPTION ) {
-                    sim.install();
-                }
-            }
-
-            changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -215,6 +178,43 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             return simTable.getSimulation();
         }
 
+
+        //--------------------------------------------------------------------------------------------------
+        // Handles mouse clicks on the simulation table
+        //--------------------------------------------------------------------------------------------------
+
+        private class MouseHandler extends MouseAdapter {
+            public void mouseClicked( MouseEvent event ) {
+                // If a double left click, offer to install the simulation
+                Simulation sim = simTable.getSelection();
+                installBtn.setEnabled( sim != null );
+                if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
+                    int choice = JOptionPane.showConfirmDialog( UninstalledSimsPane.this,
+                                                                "Do you want to install the simulation?",
+                                                                "Confirm",
+                                                                JOptionPane.OK_CANCEL_OPTION );
+                    if( choice == JOptionPane.OK_OPTION ) {
+                        sim.install();
+                    }
+                }
+                // Notify change listeners
+                changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
+            }
+
+            // Required to get e.isPopupTrigger() to return true on right-click
+            public void mouseReleased( MouseEvent event ) {
+                Simulation sim = simTable.getSelection();
+                installBtn.setEnabled( sim != null );
+
+                // If right click, pop up context menu
+                if( event.isPopupTrigger() && sim != null ) {
+                    new UninstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
+                }
+
+                // Notify change listeners
+                changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
