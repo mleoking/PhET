@@ -18,6 +18,7 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.*;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -107,7 +108,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _realSeries );
             setDataset( _realIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( BSConstants.REAL_STROKE );
             setRenderer( _realIndex, renderer );
@@ -120,7 +121,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _imaginarySeries );
             setDataset( _imaginaryIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( BSConstants.IMAGINARY_STROKE );
             setRenderer( _imaginaryIndex, renderer );
@@ -133,7 +134,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _magnitudeSeries );
             setDataset( _magnitudeIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( BSConstants.MAGNITUDE_STROKE );
             setRenderer( _magnitudeIndex, renderer );
@@ -146,7 +147,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _phaseSeries );
             setDataset( _phaseIndex, dataset );
-            XYItemRenderer renderer = new PhaseRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createPhaseRenderer();
             setRenderer( _phaseIndex, renderer );
         }
         
@@ -157,7 +158,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _probabilityDensitySeries );
             setDataset( _probabilityDensityIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() ); // use magnitude color!
             renderer.setStroke( BSConstants.PROBABILITY_DENSITY_STROKE );
             setRenderer( _probabilityDensityIndex, renderer );
@@ -172,7 +173,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _hiliteSeries );
             setDataset( _hiliteIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
             renderer.setStroke( BSConstants.HILITE_STROKE );
             setRenderer( _hiliteIndex, renderer );

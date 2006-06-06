@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel (on Windows)
+- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel (exception in FastPathRenderer on Windowswith JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - bug: time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
@@ -57,6 +57,8 @@ CLEANUP:
 
 
 DONE:
+(6/6/06) - replace FastPathRenderer with StandardXYItemRenderer with setDrawSeriesLineAsPath(true)
+(6/6/06) - add BSRendererFactory to encapsulate creation of JFreeChart renderers
 (6/6/06) - add checkbox to make the clock run 10x faster
 (6/6/06) - disable help
 (6/6/06) - add wiggle me, found problems, commented out code in BSAbstractModule
