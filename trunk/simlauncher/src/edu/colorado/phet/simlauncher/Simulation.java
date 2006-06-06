@@ -119,6 +119,7 @@ public class Simulation {
             jarResource.download();
         }
         thumbnailResource.download();
+        descriptionResource.download();
 
         changeListenerProxy.installed( new ChangeEvent( this ) );
     }

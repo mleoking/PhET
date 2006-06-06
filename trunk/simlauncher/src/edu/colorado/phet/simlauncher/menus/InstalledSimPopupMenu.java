@@ -11,9 +11,7 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
-import edu.colorado.phet.simlauncher.actions.UninstallSimAction;
-import edu.colorado.phet.simlauncher.actions.UpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.*;
 
 import javax.swing.*;
 
@@ -36,10 +34,20 @@ public class InstalledSimPopupMenu extends JPopupMenu {
         launchMI.addActionListener( new LaunchSimAction( simulation ) );
         add( launchMI );
 
+        // Description menu item
+        JMenuItem descriptionMI = new JMenuItem( "Show description");
+        descriptionMI.addActionListener( new DisplaySimDescriptionAction( simulation, this ) );
+        add( descriptionMI );
+
         // Update check menu item
         JMenuItem updateCheckMI = new JMenuItem( "Check for update");
-        updateCheckMI.addActionListener( new UpdateSimAction( simulation ));
+        updateCheckMI.addActionListener( new CheckForUpdateSimAction( simulation, this ));
         add( updateCheckMI );
+
+        // Update menu item
+        JMenuItem updateMI = new JMenuItem( "Update simulation");
+        updateMI .addActionListener( new UpdateSimAction( simulation ) );
+        add( updateMI );
 
         // Uninstall menu item
         JMenuItem uninstallMI = new JMenuItem( "Uninstall");
