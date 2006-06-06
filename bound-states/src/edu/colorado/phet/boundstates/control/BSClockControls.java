@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
@@ -42,7 +43,7 @@ public class BSClockControls extends JPanel implements ClockListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IClock _clock;
+    private BSClock _clock;
     
     private JButton _restartButton;
     private JButton _playButton;
@@ -50,6 +51,7 @@ public class BSClockControls extends JPanel implements ClockListener {
     private JButton _stepButton;
     private JTextField _timeTextField;
     private JLabel _timeUnitsLabel;
+    private JCheckBox _fasterCheckBox;
     
     private NumberFormat _timeFormat;
 
@@ -62,7 +64,7 @@ public class BSClockControls extends JPanel implements ClockListener {
      * 
      * @param clock
      */
-    public BSClockControls( IClock clock ) {
+    public BSClockControls( BSClock clock ) {
         super();
         
         // Clock
@@ -97,7 +99,7 @@ public class BSClockControls extends JPanel implements ClockListener {
         JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {
             JLabel clockLabel = new JLabel( clockIcon );
-            _timeTextField = new JTextField( "0000000000" );
+            _timeTextField = new JTextField( "00000000" );
             _timeTextField.setFont( BSConstants.TIME_DISPLAY_FONT );
             _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
             _timeTextField.setText( "0" );
@@ -107,11 +109,16 @@ public class BSClockControls extends JPanel implements ClockListener {
             _timeUnitsLabel = new JLabel( timeUnitsLabel );
             _timeUnitsLabel.setFont( BSConstants.TIME_UNITS_FONT );
             
-            _timeFormat = new DecimalFormat( "0" );
+            _timeFormat = BSConstants.TIME_FORMAT;
             
             timePanel.add( clockLabel );
             timePanel.add( _timeTextField );
             timePanel.add( _timeUnitsLabel );
+        }
+        
+        // "Faster" check box
+        {
+            _fasterCheckBox = new JCheckBox( SimStrings.get( "button.playFaster" ) );
         }
         
         // Clock control buttons
@@ -132,11 +139,16 @@ public class BSClockControls extends JPanel implements ClockListener {
         setLayout(  new FlowLayout( FlowLayout.CENTER ) );
         if ( BSConstants.TIME_DISPLAY_VISIBLE ) {
             add( timePanel );
-            add( Box.createHorizontalStrut( 30 ) ); // space between time display and controls
         }
+        add( _fasterCheckBox );
         add( controlsPanel );
         
         // Interactivity
+        _fasterCheckBox.addActionListener( new ActionListener() { 
+            public void actionPerformed( ActionEvent event ) {
+                handleFaster();
+            }
+        } );
         _restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleRestart();
@@ -199,28 +211,24 @@ public class BSClockControls extends JPanel implements ClockListener {
     public IClock getClock() {
         return _clock;
     }
-    
-    /**
-     * Sets the time units label.
-     * 
-     * @param label
-     */
-    public void setTimeUnitsLabel( String label ) {
-        _timeUnitsLabel.setText( label );
-    }
-    
-    /**
-     * Sets the formatter used to format the time display.
-     * 
-     * @param enabled
-     */
-    public void setTimeFormat( NumberFormat format ) {
-        _timeFormat = format;
-    }
-    
+
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
+    
+    private void handleFaster() {
+        _clock.pause();
+        _clock.resetSimulationTime();
+        if ( _fasterCheckBox.isSelected() ) {
+            _timeFormat = BSConstants.TIME_FORMAT_FASTER;
+            _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP_FASTER );
+        }
+        else {
+            _timeFormat = BSConstants.TIME_FORMAT;
+            _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP );
+        }
+        _clock.start();
+    }
     
     private void handleRestart() {
         _clock.resetSimulationTime();
