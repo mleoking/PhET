@@ -217,8 +217,6 @@ public class BSClockControls extends JPanel implements ClockListener {
     //----------------------------------------------------------------------------
     
     private void handleFaster() {
-        _clock.pause();
-        _clock.resetSimulationTime();
         if ( _fasterCheckBox.isSelected() ) {
             _timeFormat = BSConstants.TIME_FORMAT_FASTER;
             _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP_FASTER );
@@ -227,7 +225,7 @@ public class BSClockControls extends JPanel implements ClockListener {
             _timeFormat = BSConstants.TIME_FORMAT;
             _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP );
         }
-        _clock.start();
+        _clock.resetSimulationTime();
     }
     
     private void handleRestart() {
