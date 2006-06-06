@@ -107,20 +107,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                  simTableSortType );
 
         // Add mouse handler
-        simTable.addMouseListener( new MouseAdapter() {
-            public void mouseClicked( MouseEvent e ) {
-                handleSimulationSelection( e );
-            }
-
-            public void mousePressed( MouseEvent e ) {
-//                handleSimulationSelection( e );
-            }
-
-            // Required to get e.isPopupTrigger() to return true on right-click
-            public void mouseReleased( MouseEvent e ) {
-                handleSimulationSelection( e );
-            }
-        } );
+        simTable.addMouseListener( new MouseHandler() );
 
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
@@ -129,27 +116,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // Disable the lauch button. Since the table is new, there can't be any simulation selected
         launchBtn.setEnabled( false );
-    }
-
-    /**
-     * @param event
-     */
-    private void handleSimulationSelection( MouseEvent event ) {
-        Simulation sim = simTable.getSelection();
-        launchBtn.setEnabled( sim != null );
-
-        // If it's a right click and a simulation is selected, pop up the context menu
-        if( event.isPopupTrigger() && sim != null ) {
-            new InstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
-        }
-
-        // If a double left click, launch the simulation
-        if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-            sim.launch();
-        }
-
-        // Notify change listeners
-        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -167,5 +133,38 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     public Simulation getSimulation() {
         return simTable.getSimulation();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Handles mouse clicks on the simulation table
+    //--------------------------------------------------------------------------------------------------
+
+    private class MouseHandler extends MouseAdapter {
+        public void mouseClicked( MouseEvent event ) {
+            Simulation sim = simTable.getSelection();
+            launchBtn.setEnabled( sim != null );
+
+            // If a double left click, launch the simulation
+            if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
+                sim.launch();
+            }
+
+            // Notify change listeners
+            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+        }
+
+        // Required to get e.isPopupTrigger() to return true on right-click
+        public void mouseReleased( MouseEvent event ) {
+            Simulation sim = simTable.getSelection();
+            launchBtn.setEnabled( sim != null );
+
+            // If it's a right click and a simulation is selected, pop up the context menu
+            if( event.isPopupTrigger() && sim != null ) {
+                new InstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
+            }
+
+            // Notify change listeners
+            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+        }
     }
 }
