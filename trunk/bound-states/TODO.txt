@@ -5,10 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - bug: time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
 - drag handles for each potential type (all slightly different)
+- add 10x speed up control for clock, "speed up time" checkbox in control panel
 - compare everything to Schmidt-Lee applet
 - cache wavefunction solutions
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
@@ -19,7 +21,6 @@ MEDIUM PRIORITY:
 - hide the dot in the center of the magnifying glass
 - hide y-axis tick labels (and tick marks?) on bottom plots
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
-- "superposition state presets" feature
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -57,6 +58,8 @@ CLEANUP:
 
 
 DONE:
+(6/6/06) - disable help
+(6/6/06) - add wiggle me, found problems, commented out code in BSAbstractModule
 (6/5/06) - restart the clock when anything in the model changes (except the hilited eigenstate)
 (6/5/06) - move eigenstate drawing out of BSEigenstatesNode and into BSEnergyPlot (simplifies code)
 (6/2/06) - move mag glass back to default position when window size changes
@@ -368,6 +371,8 @@ DONE:
 
 
 REJECTED:
+(6/6/06) - "superposition state presets" feature (difficult to specify, difficult to implement, not essential to learning goals)
+(6/6/06) - help items (can't think of any they want)
 (6/2/06) - comment out block of normalization code in SchmidtLeeSolver (values got huge, way off the bottom plot scale)
 (6/2/06) - scale the magnifying glass when the canvas size changes (not necessary, difficult, see note in BSAbstractModule.layoutCanvas)
 (6/2/06) - set initial mag glass osition, centered on lowest "band" of eigenstates shown in Energy chart (hard code it to most likely position)
