@@ -130,6 +130,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
          */
         private void updateSimTable() {
             if( simTable != null ) {
+                System.out.println( "UninstalledSimsPane$SimPanel.updateSimTable" );
                 remove( simTableScrollPane );
                 simTableScrollPane.remove( simTable );
             }
@@ -167,6 +168,10 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
             revalidate();
+            repaint();
+
+            // Disable the install button, since there is no selected simulation anymore
+            installBtn.setEnabled( false );
         }
 
         /**
@@ -179,7 +184,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // If right click, pop up context menu
             if( event.isPopupTrigger() && sim != null ) {
-                new UninstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
+                new UninstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
             }
 
             // If a double left click, offer to install the simulation

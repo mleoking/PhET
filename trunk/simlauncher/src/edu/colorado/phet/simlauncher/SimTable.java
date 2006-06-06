@@ -93,8 +93,9 @@ public class SimTable extends JTable implements SimContainer {
 
         // Name the columns
         TableColumn nameCol = getColumn( "name" );
-        nameCol.setMinWidth( 200 );
-        nameCol.setMaxWidth( 200 );
+//        nameCol.setMinWidth( 200 );
+//        nameCol.setMaxWidth( 200 );
+        nameCol.setWidth( 200 );
         if( showThumbnails ) {
             TableColumn thumbnailCol = getColumn( "thumbnail" );
             thumbnailCol.setMinWidth( 150 );
