@@ -1,5 +1,6 @@
 0.00.23
 Renamed JNLP Launch title from Energy Sk8r to Energy Skate Park
+Brightened the skater image.
 
 -Version 0.00.22 (6-2-2006)
 Decreased the sensitivity of the 'return the skater' button; skater has to be completely offscreen (not partially offscreen)
