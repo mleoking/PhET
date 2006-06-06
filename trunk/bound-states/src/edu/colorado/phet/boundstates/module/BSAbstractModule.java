@@ -258,8 +258,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Clock Controls
         {
-            _clockControls = new BSClockControls( getClock() );
-            _clockControls.setTimeFormat( BSConstants.TIME_FORMAT );
+            _clockControls = new BSClockControls( (BSClock)getClock() );
             setClockControlPanel( _clockControls );
             addClockListener( new ClockAdapter() {
                 public void simulationTimeReset( ClockEvent clockEvent ) {

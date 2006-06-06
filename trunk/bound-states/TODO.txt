@@ -5,12 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel
+- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel (on Windows)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - bug: time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
 - drag handles for each potential type (all slightly different)
-- add 10x speed up control for clock, "speed up time" checkbox in control panel
 - compare everything to Schmidt-Lee applet
 - cache wavefunction solutions
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
@@ -58,6 +57,7 @@ CLEANUP:
 
 
 DONE:
+(6/6/06) - add checkbox to make the clock run 10x faster
 (6/6/06) - disable help
 (6/6/06) - add wiggle me, found problems, commented out code in BSAbstractModule
 (6/5/06) - restart the clock when anything in the model changes (except the hilited eigenstate)

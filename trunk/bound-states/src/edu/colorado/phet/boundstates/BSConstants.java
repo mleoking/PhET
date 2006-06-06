@@ -51,9 +51,11 @@ public class BSConstants {
     
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final double CLOCK_STEP = 0.01; // fs, femtoseconds (model time)
+    public static final double CLOCK_STEP_FASTER = 0.1; // fs, femtoseconds (model time)
     
     /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
+    public static final DecimalFormat TIME_FORMAT_FASTER = new DecimalFormat( "0.0" );
     
     /* Is the time display visible next to the clock controls? */
     public static final boolean TIME_DISPLAY_VISIBLE = true;
