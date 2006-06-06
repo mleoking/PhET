@@ -24,48 +24,17 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class LaunchSimAction extends AbstractAction {
-    private Component component;
-    private Action action;
+    private SimContainer simContainer;
 
-    public LaunchSimAction( Component component, SimContainer simContainer ) {
-        this.component = component;
-        action = new SimulationContainerAction( simContainer );
+    public LaunchSimAction( SimContainer simContainer ) {
+        this.simContainer = simContainer;
     }
 
-    public LaunchSimAction( Component component, Simulation simulation ) {
-        this.component = component;
-        action = new SimulationAction( simulation );
+    public LaunchSimAction( Simulation simulation ) {
+        this( new DefaultSimContainer( simulation ) );
     }
 
     public void actionPerformed( ActionEvent e ) {
-        action.doIt();
-    }
-
-    private static interface Action {
-        void doIt();
-    }
-
-    private class SimulationAction implements Action {
-        Simulation simulation;
-
-        public SimulationAction( Simulation simulation ) {
-            this.simulation = simulation;
-        }
-
-        public void doIt() {
-            simulation.launch();
-        }
-    }
-
-    private class SimulationContainerAction implements Action {
-        SimContainer simContainer;
-
-        public SimulationContainerAction( SimContainer simContainer ) {
-            this.simContainer = simContainer;
-        }
-
-        public void doIt() {
-            simContainer.getSimulation().launch();
-        }
+        simContainer.getSimulation().launch();
     }
 }

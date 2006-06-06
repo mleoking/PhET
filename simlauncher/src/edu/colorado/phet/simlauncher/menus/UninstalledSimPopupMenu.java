@@ -31,7 +31,7 @@ public class UninstalledSimPopupMenu extends JPopupMenu {
 
         // Install menu item
         JMenuItem launchMI = new JMenuItem( "Install");
-        launchMI.addActionListener( new InstallSimAction( this, simulation ) );
+        launchMI.addActionListener( new InstallSimAction( simulation, this ) );
         add( launchMI );
     }
 }

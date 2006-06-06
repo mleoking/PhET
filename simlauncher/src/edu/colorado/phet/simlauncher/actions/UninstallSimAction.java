@@ -24,56 +24,22 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class UninstallSimAction extends AbstractAction {
+    private SimContainer simContainer;
     private Component component;
-    private Action action;
 
-
-    public UninstallSimAction( Component component, SimContainer simContainer ) {
+    public UninstallSimAction( SimContainer simContainer, Component component ) {
+        this.simContainer = simContainer;
         this.component = component;
-        action = new SimulationContainerAction( simContainer );
     }
 
-    public UninstallSimAction( Component component, Simulation simulation ) {
-        this.component = component;
-        action = new SimulationAction( simulation );
+    public UninstallSimAction( Simulation simulation, Component component ) {
+        this( new DefaultSimContainer( simulation ), component );
     }
 
     public void actionPerformed( ActionEvent e ) {
         int choice = JOptionPane.showConfirmDialog( component, "Are you sure?", "Confirm", JOptionPane.OK_CANCEL_OPTION );
         if( choice == JOptionPane.OK_OPTION ) {
-            action.doIt( component );
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Wrapped actions
-    //--------------------------------------------------------------------------------------------------
-
-    private static interface Action {
-        void doIt( Component component );
-    }
-
-    private static class SimulationContainerAction implements Action {
-        SimContainer simContainer;
-
-        public SimulationContainerAction( SimContainer simContainer ) {
-            this.simContainer = simContainer;
-        }
-
-        public void doIt( Component component ) {
             simContainer.getSimulation().uninstall();
-        }
-    }
-
-    private static class SimulationAction implements Action {
-        Simulation simulation;
-
-        public SimulationAction( Simulation simulation ) {
-            this.simulation = simulation;
-        }
-
-        public void doIt( Component component ) {
-            simulation.uninstall();
         }
     }
 }

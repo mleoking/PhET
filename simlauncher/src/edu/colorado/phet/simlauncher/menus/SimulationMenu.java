@@ -44,20 +44,19 @@ class SimulationMenu extends JMenu {
 
         // Menu items for installed simulations
         launchMI = new JMenuItem( "Launch simulation" );
-        launchMI.addActionListener( new LaunchSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        launchMI.addActionListener( new LaunchSimAction( TopLevelPane.getInstance().getInstalledSimsPane() ) );
         add( launchMI );
         updateMI = new JMenuItem( "Check for updates" );
-        updateMI.addActionListener( new UpdateSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        updateMI.addActionListener( new UpdateSimAction( TopLevelPane.getInstance().getInstalledSimsPane() ) );
         add( updateMI );
         uninstallMI = new JMenuItem( "Uninstall" );
-        uninstallMI.addActionListener( new UninstallSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        uninstallMI.addActionListener( new UninstallSimAction( TopLevelPane.getInstance().getInstalledSimsPane(), this ) );
         add( uninstallMI );
 
         //Menu items for uninstalled simulations
         add( new JPopupMenu.Separator() );
         installMI = new JMenuItem( "Install" );
-        installMI.addActionListener( new InstallSimAction( this,
-                                                           TopLevelPane.getInstance().getUninstalledSimsPane() ) );
+        installMI.addActionListener( new InstallSimAction( TopLevelPane.getInstance().getUninstalledSimsPane(), this ) );
         add( installMI );
 
         // Set up listeners that will cause the proper menu items to be enabled and disabled when

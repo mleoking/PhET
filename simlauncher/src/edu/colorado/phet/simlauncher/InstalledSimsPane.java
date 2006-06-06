@@ -58,7 +58,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn = new JButton( "Launch" );
         // Add an extension to the Launch action that resorts the table if the sort order is
         // most-recently-used
-        launchBtn.addActionListener( new LaunchSimAction( this, this ) {
+        launchBtn.addActionListener( new LaunchSimAction( this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
                 if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT )) {
