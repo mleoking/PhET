@@ -25,7 +25,6 @@ public class TestMotionHelpBalloon {
         helpBalloon.animateTo( 500, 500 );
         pCanvas.getLayer().addChild( helpBalloon );
         helpBalloon.setOffset( 0, 0 );
-        helpBalloon.setEnabled( true );
 
         frame.setContentPane( pCanvas );
     }
