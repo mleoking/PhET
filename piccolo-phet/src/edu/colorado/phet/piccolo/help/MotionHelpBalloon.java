@@ -123,7 +123,7 @@ public class MotionHelpBalloon extends HelpBalloon {
             PActivity activity = activitySource.createActivity();
             getRoot().addActivity( activity );
             started = true;
-            System.out.println( "Started activity." );
+//            System.out.println( "Started activity." );
         }
     }
 
