@@ -121,6 +121,10 @@ public class BSApplication extends PiccoloPhetApplication {
             _manyWellsModule = new BSManyWellsModule();
             addModule( _manyWellsModule );
         }
+        
+        //  The first module has a wiggle me
+        BSAbstractModule firstModule = (BSAbstractModule) getModules()[0];
+        firstModule.setHasWiggleMe( true );
     }
     
     /*
