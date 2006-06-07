@@ -1,0 +1,128 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+package edu.colorado.phet.simlauncher;
+
+import edu.colorado.phet.common.util.EventChannel;
+
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.IOException;
+import java.util.EventObject;
+import java.util.EventListener;
+
+/**
+ * PhetSiteConnection
+ * <p>
+ * An abstraction of the connection to the Phet Web Site.
+ * <p>
+ * Has a Thread that occaisionally checks to see if an actual connection to the
+ * PhET site is available, and fires change events to its change listeners when the
+ * state of that connection changes.
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
+public class PhetSiteConnection {
+
+    private static PhetSiteConnection instance;
+    public static PhetSiteConnection instance() {
+        if( instance == null ) {
+            instance = new PhetSiteConnection();
+        }
+        return instance;
+    }
+
+    private boolean isAvailable;
+    private URL url;
+
+    private PhetSiteConnection() {
+        url = Configuration.instance().getPhetUrl();
+
+        ConnectionMonitor connectionMonitor = new ConnectionMonitor();
+        connectionMonitor.start();
+    }
+
+    public boolean isConnected() {
+        boolean connected;
+        try {
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+            connected = true;
+        }
+        catch( IOException e ) {
+            connected = false;
+        }
+        return connected;
+    }
+
+    public synchronized void updateAvailability() {
+        boolean connected = isConnected();
+        if( connected != isAvailable ) {
+            isAvailable = connected;
+            changeListenerProxy.connectionChanged( new ChangeEvent( this ) );
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Thread for periodically checking for an actual connection
+    //--------------------------------------------------------------------------------------------------
+
+    private class ConnectionMonitor extends Thread {
+        private boolean stop = false;
+        public void run() {
+
+            while( !stop ) {
+                try {
+                    Thread.sleep( 1000 );
+                }
+                catch( InterruptedException e ) {
+                    setStop();
+                }
+                updateAvailability();
+            }
+        }
+
+        synchronized void setStop() {
+            stop = true;
+        }
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public PhetSiteConnection getPhetSiteConnection() {
+            return (PhetSiteConnection)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void connectionChanged( ChangeEvent event );
+    }
+
+}
