@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.AWTSplashWindow;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -18,6 +19,7 @@ import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.util.ClockFactory;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -29,7 +31,8 @@ import java.util.Arrays;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
-public class NuclearPhysicsApplication extends PhetApplication {
+public class NuclearPhysicsApplication extends PiccoloPhetApplication {
+//public class NuclearPhysicsApplication extends PhetApplication {
 
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
@@ -60,6 +63,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
+        AWTSplashWindow.setDefaultBackground( Color.lightGray );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
@@ -97,7 +101,6 @@ public class NuclearPhysicsApplication extends PhetApplication {
                     e.printStackTrace();
                 }
             }
-
         }
 
         static Font font = new Font( "Lucida sans", Font.BOLD, 16 );

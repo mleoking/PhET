@@ -56,7 +56,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
+                if( !(SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this )== null )) {
                 SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ).validate();
+                }
             }
         } );
 
