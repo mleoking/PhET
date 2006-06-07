@@ -62,11 +62,21 @@ public class SimLauncher {
     private void startupNotices( Component parent ) {
         boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl() );
 
-        // Tell the user if we're not online
-        if( !PhetSiteConnection.instance().isConnected() ) {
+        // No internet connection and no installed simulations
+        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() == null) {
             JOptionPane.showMessageDialog( parent,
-                                           "<html>You are working offline, and will not be able to" +
-                                           "<br>browse the online catalog of simulations. " );
+                                           "<html>You have no simulations installed and are do not have an" +
+                                           "internet connection to the PhET web site." +
+                                           "<br><br>You need to establish an internet connection before you can"+
+                                           "<br>install any PhET simulations. " );
+        }
+
+        // Installed simulations, but no internet connection
+        else if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null) {
+            JOptionPane.showMessageDialog( parent,
+                                           "<html>You are working offline." +
+                                           "<br><br>You will be able to run simulations you've installed, but "+
+                                           "will not be able to browse the online catalog of simulations. " );
         }
 
         // If there aren't any simulations installed, ask the user if he'd like to go to the catalog
