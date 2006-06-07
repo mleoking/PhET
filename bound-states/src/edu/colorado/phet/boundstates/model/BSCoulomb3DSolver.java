@@ -48,14 +48,15 @@ public class BSCoulomb3DSolver extends BSAbstractCoulombSolver {
     //----------------------------------------------------------------------------
     
     /*
-     * Calculates the normalized wave function at a position.
+     * Calculates the scaled wave function at a position.
+     * Scaled means that the maximum amplitude is 1.
      * 
      * @param n eigenstate subscript, n=1,2,3,...
      * @param x position, in nm
      * @param a common constant
-     * @return normalized value of psi
+     * @return scaled value of psi
      */
-    protected double psiNormalized( final int n, final double x, final double a ) {
+    protected double psiScaled( final int n, final double x, final double a ) {
         assert( n >= 1 );
         return ( SQRT_PI * Math.pow( ( n * a ), 1.5 ) * psi( n, x ) );
     }
