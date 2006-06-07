@@ -222,4 +222,8 @@ public class BSModel extends BSObservable implements Observer {
         }
         return _eigenstates[ index ];
     }
+    
+    public boolean isSuperpositionState() {
+        return _superpositionCoefficients.isSuperpositionState();
+    }
 }
