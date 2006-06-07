@@ -276,4 +276,14 @@ public class BSSuperpositionCoefficients extends BSObservable {
         }
         return total;
     }
+    
+    /**
+     * Determines whether this set of coefficients represents a superposition state.
+     * We are in a superposition state if we have at least 2 non-zero coefficients.
+     * 
+     * @return true or false
+     */
+    public boolean isSuperpositionState() {
+        return ( getNumberOfNonZeroCoefficients() > 1 );
+    }
 }
