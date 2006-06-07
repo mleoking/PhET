@@ -7,7 +7,7 @@ $Revision$
 IN PROGRESS:
 
 HIGH PRIORITY:
-- calle BSWiggleMe.start in BSAbstractModule.addWiggleMe
+- call BSWiggleMe.start in BSAbstractModule.addWiggleMe
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
