@@ -16,6 +16,8 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
     }
 
     private static class TestMotionHelpBalloonStartTimeModule extends Module {
+        private MotionHelpBalloon helpBalloon;
+
         public TestMotionHelpBalloonStartTimeModule() throws InterruptedException {
             super( "test", new SwingClock( 30, 1 ) );
 
@@ -23,7 +25,7 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
             pCanvas.setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             pCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             pCanvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-            MotionHelpBalloon helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
+            helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
             helpBalloon.animateTo( 500, 500 );
             helpBalloon.setOffset( 250, 0 );
@@ -31,6 +33,11 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
 
             setSimulationPanel( pCanvas );
             Thread.sleep( 5000 );//simulate long startup time
+        }
+
+        public void activate() {
+            super.activate();
+            helpBalloon.start();
         }
     }
 

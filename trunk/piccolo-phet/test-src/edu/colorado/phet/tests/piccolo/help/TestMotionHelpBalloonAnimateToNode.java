@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 
 public class TestMotionHelpBalloonAnimateToNode {
     private JFrame frame;
+    private MotionHelpBalloon helpBalloon;
 
 
     public TestMotionHelpBalloonAnimateToNode() {
@@ -23,12 +24,12 @@ public class TestMotionHelpBalloonAnimateToNode {
         PCanvas pCanvas = new PCanvas();
 
         PUtil.DEFAULT_ACTIVITY_STEP_RATE = 1;
-        PUtil.ACTIVITY_SCHEDULER_FRAME_DELAY = 20;
+        PUtil.ACTIVITY_SCHEDULER_FRAME_DELAY = 10;
 
         final PNode dst = new PText( "Destination" );
         pCanvas.getLayer().addChild( dst );
         dst.setOffset( 500, 500 );
-        MotionHelpBalloon helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
+        helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
         helpBalloon.animateTo( dst );
         pCanvas.getLayer().addChild( helpBalloon );
         helpBalloon.setOffset( 0, 0 );
@@ -50,5 +51,6 @@ public class TestMotionHelpBalloonAnimateToNode {
 
     private void start() {
         frame.setVisible( true );
+        helpBalloon.start();
     }
 }

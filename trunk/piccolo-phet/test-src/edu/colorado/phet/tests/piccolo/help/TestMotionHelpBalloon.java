@@ -14,6 +14,7 @@ import javax.swing.*;
 
 public class TestMotionHelpBalloon {
     private JFrame frame;
+    private MotionHelpBalloon helpBalloon;
 
     public TestMotionHelpBalloon() {
         frame = new JFrame();
@@ -21,7 +22,7 @@ public class TestMotionHelpBalloon {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PCanvas pCanvas = new PCanvas();
-        MotionHelpBalloon helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
+        helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
         pCanvas.getLayer().addChild( helpBalloon );
         helpBalloon.setOffset( 500, -20 );
@@ -36,6 +37,7 @@ public class TestMotionHelpBalloon {
 
     private void start() {
         frame.setVisible( true );
+        helpBalloon.start();
     }
 }
 
