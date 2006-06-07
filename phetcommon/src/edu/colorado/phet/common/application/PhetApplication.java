@@ -53,6 +53,7 @@ public class PhetApplication {
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
     private PhetLookAndFeel phetLookAndFeel;
+    private boolean started = false;
 
     /**
      * Get the last created PhetApplication.
@@ -209,6 +210,7 @@ public class PhetApplication {
 
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
+        started = true;
     }
 
     private void initializeModuleReferenceSizes() {
@@ -432,11 +434,13 @@ public class PhetApplication {
     /**
      * Sets the look and feel for this application.
      * Use null to avoid using any PhetLookAndFeel.
-     * This is currently a no-op if called after startApplication.
      *
      * @param phetLookAndFeel can be null.
      */
     public void setPhetLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
         this.phetLookAndFeel = phetLookAndFeel;
+        if( started ) {
+            phetLookAndFeel.initLookAndFeel();
+        }
     }
 }
