@@ -9,6 +9,9 @@ import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
@@ -27,6 +30,7 @@ public class MotionHelpBalloon extends HelpBalloon {
     private ActivitySource activitySource;
     private static final int DEFAULT_DURATION = 3000;
     private PCanvas canvas;
+    private Timer timer;
 
     public MotionHelpBalloon( PCanvas canvas, String s ) {
         super( canvas, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
@@ -40,6 +44,15 @@ public class MotionHelpBalloon extends HelpBalloon {
             }
         } );
         testStartActivity();
+        timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                testStartActivity();
+                if( started ) {
+                    timer.stop();
+                }
+            }
+        } );
+        timer.start();
     }
 
     public void animateTo( double x, double y ) {
