@@ -20,8 +20,12 @@ public class SoundWaveGraphic extends PNode {
     private WaveModelGraphic waveModelGraphic;
     private double particleSize = 1 * 0.75;
     private static final double MAX_PARTICLE_SIZE = 60 * 0.35;
-    private boolean grayscaleVisible = true;
-    private boolean particlesVisible = false;
+
+//    private boolean grayscaleVisible = true;
+//    private boolean particlesVisible = false;
+    //this is a trial for a few interviews to set particle mode default on initialization.
+    private boolean grayscaleVisible = false;
+    private boolean particlesVisible = true;
 
     public SoundWaveGraphic( WaveModelGraphic waveModelGraphic, PressureWaveGraphic pressureWaveGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
