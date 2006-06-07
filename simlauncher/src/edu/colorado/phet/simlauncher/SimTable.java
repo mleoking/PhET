@@ -66,7 +66,6 @@ public class SimTable extends JTable implements SimContainer {
         Object[][] rowData = new Object[sims.size()][3];
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
-//            System.out.println( "sim.getThumbnail() = " + sim.getThumbnail().getIconHeight() );
             Object[] row = new Object[]{sim.getName(), sim.getThumbnail()};
             rowData[i] = row;
         }

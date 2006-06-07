@@ -22,6 +22,18 @@ import java.util.*;
 
 /**
  * Simulation
+ * <p>
+ * A Simulation has a collection of SimResources. They include
+ * <ul>
+ * <li>a JnlpResource
+ * <li>one or more JarResources
+ * <li>a ThumbnailResource
+ * <li>a DescriptionResource
+ * </ul>
+ * A Simulation also has an assiciated file that keeps track of the time when the simulation
+ * was last launched (the lastLaunchedTimestampFile). This is used to sort installed installed
+ * simulations by most-recently-used status.
+ *
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -76,18 +88,19 @@ public class Simulation {
         this.jnlpUrl = jnlpUrl;
         this.localRoot = localRoot;
         this.jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-
-//        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-//        resources.add( jnlpResource );
-//        if( jnlpResource.isRemoteAvailable() ) {
-//            jarResources = jnlpResource.getJarResources();
-//            for( int i = 0; i < jarResources.length; i++ ) {
-//                JarResource jarResource = jarResources[i];
-//                resources.add( jarResource );
-//            }
-//        }
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
+
+        // If the simulation is installed, create its resource objects
+        if( isInstalled() ) {
+            resources.add( jnlpResource );
+            jnlpResource.getJarResources();
+            JarResource[] jarResources = jnlpResource.getJarResources();
+            for( int i = 0; i < jarResources.length; i++ ) {
+                JarResource jarResource = jarResources[i];
+                resources.add( jarResource );
+            }
+        }
 
         // Create the file that will store the timestamp of the last time we were launched
         String subPath = jnlpUrl.getPath().substring( 0, jnlpUrl.getPath().lastIndexOf( '/' ) );
