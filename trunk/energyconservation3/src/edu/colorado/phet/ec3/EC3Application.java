@@ -21,13 +21,12 @@ public class EC3Application extends PhetApplication {
 
     public EC3Application( String[] args ) {
         super( args, "Energy Skate Park", "Energy Conservation", VERSION, new EC3FrameSetup() );
-
+        setPhetLookAndFeel( new EC3LookAndFeel() );
         module = new EC3Module( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
     }
 
     public static void main( final String[] args ) {
-        EC3LookAndFeel.initLookAndFeel();
         new EC3Application( args ).start();
     }
 
