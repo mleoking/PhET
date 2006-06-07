@@ -30,7 +30,6 @@ MEDIUM PRIORITY:
 - pause clock by default?
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
-- different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
 - rename BSEigenstatesNode to BSEigenstatesManipulatorNode
@@ -378,6 +377,7 @@ DONE:
 
 
 REJECTED:
+(6/7/06) - different method of solving when multi-wells are spaced far apart? (we don't have this problem)
 (6/6/06) - "superposition state presets" feature (difficult to specify, difficult to implement, not essential to learning goals)
 (6/6/06) - help items (can't think of any they want)
 (6/2/06) - comment out block of normalization code in SchmidtLeeSolver (values got huge, way off the bottom plot scale)
