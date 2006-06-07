@@ -60,20 +60,19 @@ public class PhetLookAndFeel {
 
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
-        "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
-        "Label", "Menu", "MenuBar", "MenuItem",
-        "OptionPane", "Panel",
-        "RadioButton", "RadioButtonMenuItem",
-        "Slider", "Spinner",
-        "TabbedPane", "TextArea", "TextField", "TextPane",
-        "ScrollBar", "Viewport"
+            "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
+            "Label", "Menu", "MenuBar", "MenuItem",
+            "OptionPane", "Panel",
+            "RadioButton", "RadioButtonMenuItem",
+            "Slider", "Spinner",
+            "TabbedPane", "TextArea", "TextField", "TextPane",
+            "ScrollBar", "Viewport"
     };
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private int os; // the operating system
     private Font font;
     private Font titledBorderFont;
     private Font tabFont;
@@ -90,22 +89,8 @@ public class PhetLookAndFeel {
      * Sole constructor.
      */
     public PhetLookAndFeel() {
-        os = getOperatingSystem();
-        setDefaults();
-    }
-
-    /**
-     * Sets the default values for the settable UI resources.
-     */
-    private void setDefaults() {
-//        int fontSize = getFontSizeForScreen();
-//        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-//        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-        foregroundColor = Color.BLACK;
-        backgroundColor = new Color( 200, 240, 200 );  // light green
-        textFieldBackgroundColor = Color.WHITE;
-        tabFont = new Font( "Lucida Sans", Font.BOLD, 18 );
-        insets = null;
+        setTabFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        //other defaults go here...
     }
 
     //----------------------------------------------------------------------------
@@ -175,8 +160,17 @@ public class PhetLookAndFeel {
     /**
      * Applies this PhetLookAndFeel, effectively installing the resources it
      * describes in the UIDefaults database.
+     *
+     * @deprecated use updateDefaults()
      */
     public void apply() {
+        updateDefaults();
+    }
+
+    /**
+     * Adds the look and feel values specified in this look and feel into the UIManager's defaults.
+     */
+    public void updateDefaults() {
         UIDefaults defaults = UIManager.getDefaults();
         putDefaults( defaults );
     }
@@ -257,8 +251,9 @@ public class PhetLookAndFeel {
         if( buttonBackgroundResource != null ) {
             add( keyValuePairs, "Button", "background", buttonBackgroundResource );
         }
-
-        add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
+        if( tabFont != null ) {
+            add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
+        }
 
         return keyValuePairs.toArray();
     }
@@ -308,38 +303,83 @@ public class PhetLookAndFeel {
         return os;
     }
 
+    public void initLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel( getLookAndFeelClassName() );
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
+        updateDefaults();
+        refreshApp();
+    }
+
+    /**
+     * Taken from http://mindprod.com/jgloss/laf.html
+     */
+    private void refreshApp() {
+// refreshing the Look and Feel of the entire app
+        Frame frames[] = Frame.getFrames();
+
+// refresh all Frames in the app
+        for( int i = 0; i < frames.length; i++ ) {
+            SwingUtilities.updateComponentTreeUI( frames[i] );
+            Window windows[] = frames[i].getOwnedWindows();
+
+            // refresh all windows and dialogs of the frame
+            for( int j = 0; j < windows.length; j++ ) {
+                SwingUtilities.updateComponentTreeUI( windows[j] );
+            }
+        }
+// It should not be necessary to revalidate or repaint on top of that.
+    }
+
     /**
      * Sets the look and feel based on the operating system.
+     *
+     * @deprecated use initLookAndFeel
      */
     public static void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel( new PhetLookAndFeel().getLookAndFeelClassName() );
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
+    }
 
-        int os = getOperatingSystem();
-
-        if( os == OS_WINDOWS ) {
-            try {
-//                UIManager.setLookAndFeel( new SmoothLookAndFeel() );//TODO fails on Carl & Kathy's machine.
-                UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+    protected String getLookAndFeelClassName() {
+        String javaVersion = System.getProperty( "java.version" );
+//        System.out.println( "javaVersion = " + javaVersion );
+        boolean oldJava = javaVersion.toLowerCase().startsWith( "1.4" ) || javaVersion.startsWith( "1.3" );
+        if( getOperatingSystem() == OS_WINDOWS ) {
+            if( oldJava ) {
+                return WindowsLookAndFeel.class.getName();
             }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();
+            else {
+                return UIManager.getCrossPlatformLookAndFeelClassName();
             }
         }
         else {
-            try {
-                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-            }
-            catch( ClassNotFoundException e ) {
-                e.printStackTrace();
-            }
-            catch( InstantiationException e ) {
-                e.printStackTrace();
-            }
-            catch( IllegalAccessException e ) {
-                e.printStackTrace();
-            }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();
-            }
+            return UIManager.getSystemLookAndFeelClassName();
         }
     }
 
@@ -350,12 +390,12 @@ public class PhetLookAndFeel {
      * For resolutions of 800x600 or lower, we scale the default font size by 800/1024.
      *
      * @return the font size
+     * @deprecated use the instance based methods
      */
     public static int getFontSizeForScreen() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         JPanel panel = new JPanel();
         int fontSize = panel.getFont().getSize();
-        ;
         if( screenSize.width <= 800 ) {
             fontSize = (int)( fontSize * ( 800.0 / 1024 ) );
         }
