@@ -139,6 +139,10 @@ public class PressureWaveGraphic extends PNode {
         int spacingBetweenCells = (int)latticeScreenCoordinates.getCellWidth();
         setSpaceBetweenCells( spacingBetweenCells );
         background.setPathTo( new Rectangle2D.Double( 0, 0, latticeScreenCoordinates.getScreenRect().getWidth(), latticeScreenCoordinates.getScreenRect().getHeight() ) );
+//        for( int i = 0; i < particles.size(); i++ ) {
+//            Particle particle = (Particle)particles.get( i );
+//            particle.updateBounds();
+//        }
     }
 
     private void reorderChildren() {
@@ -248,6 +252,14 @@ public class PressureWaveGraphic extends PNode {
         public Point getHome() {
             return new Point( homeX, homeY );
         }
+
+//        public void updateBounds() {
+//            a=homeX*latticeScreenCoordinates.getCellWidth();
+//            b=homeY*latticeScreenCoordinates.getCellWidth();
+//            velocity=new Vector2D.Double( );
+//            
+//            update();
+//        }
 
 //        protected void paint( PPaintContext paintContext ) {
 //            Object interp=paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_INTERPOLATION );
