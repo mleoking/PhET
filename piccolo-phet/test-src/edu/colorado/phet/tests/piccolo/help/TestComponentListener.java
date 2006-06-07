@@ -28,7 +28,7 @@ public class TestComponentListener {
             }
 
             public void componentResized( ComponentEvent e ) {
-                System.out.println( "TestMotionHelpBalloon.componentShown" );
+                System.out.println( "TestMotionHelpBalloon.resized" );
             }
 
             public void componentShown( ComponentEvent e ) {

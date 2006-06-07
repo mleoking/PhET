@@ -7,13 +7,10 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivityScheduler;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -30,7 +27,6 @@ public class MotionHelpBalloon extends HelpBalloon {
     private ActivitySource activitySource;
     private static final int DEFAULT_DURATION = 3000;
     private PCanvas canvas;
-    private Timer timer;
 
     public MotionHelpBalloon( PCanvas canvas, String s ) {
         super( canvas, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
@@ -38,21 +34,6 @@ public class MotionHelpBalloon extends HelpBalloon {
         setArrowVisible( false );
         setEnabled( true );
         this.canvas = canvas;
-        canvas.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                testStartActivity();
-            }
-        } );
-        testStartActivity();
-        timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                testStartActivity();
-                if( started ) {
-                    timer.stop();
-                }
-            }
-        } );
-        timer.start();
     }
 
     public void animateTo( double x, double y ) {
@@ -123,20 +104,41 @@ public class MotionHelpBalloon extends HelpBalloon {
 
     public void animateTo( PNode node ) {
         this.activitySource = new AnimateToNode( this, node );
-        testStartActivity();
     }
 
-    protected void paint( PPaintContext paintContext ) {
-        super.paint( paintContext );
-        testStartActivity();
+    Timer timer;
+
+    /**
+     * Starts the animation.
+     */
+    public void start() {
+        if( !started && activitySource != null ) {
+            if( getRoot() != null ) {
+                getRoot().addActivity( activitySource.createActivity() );
+            }
+            else if( timer == null ) {
+                timer = new Timer( 30, new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        if( getRoot() != null ) {
+                            getRoot().addActivity( activitySource.createActivity() );
+                            timer.stop();
+                        }
+                        else {
+                            System.out.println( "Waiting for proot." );
+                        }
+                    }
+                } );
+                timer.start();
+            }
+        }
     }
 
     private void testStartActivity() {
-        if( getRoot() != null && activitySource != null && !started && canvas.isVisible() ) {
+        if( getRoot() != null && activitySource != null && !started ) {
             PActivity activity = activitySource.createActivity();
             getRoot().addActivity( activity );
             started = true;
-//            System.out.println( "Started activity." );
+            System.out.println( "Started activity." );
         }
     }
 
