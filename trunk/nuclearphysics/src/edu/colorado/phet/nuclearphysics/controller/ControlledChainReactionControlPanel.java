@@ -9,6 +9,8 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
