@@ -39,10 +39,11 @@ public class TopLevelPane extends JTabbedPane {
     }
 
     // Enumeration of panes
-    public static class PaneID{
+    public static class PaneID {
         private PaneID() {
         }
     }
+
     public static PaneID INSTALLED_SIMS_PANE = new PaneID();
     public static PaneID ONLINE_SIMS_PANE = new PaneID();
 
@@ -56,10 +57,16 @@ public class TopLevelPane extends JTabbedPane {
     private TopLevelPane() {
         installedSimsPane = new InstalledSimsPane();
         addTab( "Installed Simulations", installedSimsPane );
-        if( Catalog.instance().isRemoteAvailable() ) {
-            uninstalledSimsPane = new UninstalledSimsPane();
-            addTab( "Simulations Available for Installation", uninstalledSimsPane );
-        }
+
+        // Listen for changes in the connection to the PhET site, to know whether the online
+        // catalog should be displayed
+        PhetSiteConnection.instance().addChangeListener( new PhetSiteConnection.ChangeListener() {
+            public void connectionChanged( PhetSiteConnection.ChangeEvent event ) {
+                enableDisableOnlineCatalog( event.getPhetSiteConnection() );
+            }
+        } );
+        enableDisableOnlineCatalog( PhetSiteConnection.instance() );
+
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -68,6 +75,27 @@ public class TopLevelPane extends JTabbedPane {
                 ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
             }
         } );
+    }
+
+    /**
+     * Manages the presence of the tabbed pane for the online catalog based on whether
+     * we have a connection to the Phet site
+     *
+     * @param phetSiteConnection
+     */
+    private void enableDisableOnlineCatalog( PhetSiteConnection phetSiteConnection ) {
+        if( phetSiteConnection.isConnected() ) {
+            if( Catalog.instance().isRemoteAvailable() && uninstalledSimsPane == null ) {
+                uninstalledSimsPane = new UninstalledSimsPane();
+                addTab( "Simulations Available for Installation", uninstalledSimsPane );
+            }
+        }
+        else {
+            if( uninstalledSimsPane != null ) {
+                remove( uninstalledSimsPane );
+                uninstalledSimsPane = null;
+            }
+        }
     }
 
     /**
