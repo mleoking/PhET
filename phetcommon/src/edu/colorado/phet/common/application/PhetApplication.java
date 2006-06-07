@@ -430,7 +430,9 @@ public class PhetApplication {
     }
 
     /**
-     * Sets the look and feel for this application.  Use null to avoid using any PhetLookAndFeel.
+     * Sets the look and feel for this application.
+     * Use null to avoid using any PhetLookAndFeel.
+     * This is currently a no-op if called after startApplication.
      *
      * @param phetLookAndFeel can be null.
      */
