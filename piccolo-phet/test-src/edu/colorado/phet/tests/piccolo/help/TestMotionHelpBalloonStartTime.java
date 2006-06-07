@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolo.util.PUtil;
 
 public class TestMotionHelpBalloonStartTime extends PhetApplication {
 
@@ -24,9 +25,9 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
             pCanvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             MotionHelpBalloon helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
-//            helpBalloon.animateTo( 500, 500 );
+            helpBalloon.animateTo( 500, 500 );
+            helpBalloon.setOffset( 250, 0 );
             pCanvas.getLayer().addChild( helpBalloon );
-            helpBalloon.setOffset( 0, 0 );
 
             setSimulationPanel( pCanvas );
             Thread.sleep( 5000 );//simulate long startup time
@@ -34,6 +35,8 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
     }
 
     public static void main( String[] args ) throws InterruptedException {
+        PUtil.DEFAULT_ACTIVITY_STEP_RATE = 1;
+        PUtil.ACTIVITY_SCHEDULER_FRAME_DELAY = 1;
         new TestMotionHelpBalloonStartTime( args ).startApplication();
     }
 
