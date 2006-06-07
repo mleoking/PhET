@@ -126,6 +126,16 @@ public abstract class AbstractHelpItem extends PNode {
     }
     
     /**
+     * Determines whether this help item is enabled.
+     * See setEnabled for more documentation.
+     * 
+     * @return true or false
+     */
+    public boolean isEnabled() {
+        return _enabled;
+    }
+    
+    /**
      * Determines if a node is visible.
      * A node is visible if it and and all of its ancestors is visible.
      * 
