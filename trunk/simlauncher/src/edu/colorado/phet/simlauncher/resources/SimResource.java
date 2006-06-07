@@ -58,9 +58,21 @@ public class SimResource {
         return localFile != null && localFile.exists();
     }
 
-    public boolean isCurrent() {
-        if( !LauncherUtil.instance().isRemoteAvailable( url ) ) {
-            throw new RuntimeException( "not online" );
+    /**
+     * Tells if the remote component of the resource is accessible
+     * @return true if the remote component is accessible, false otherwise
+     */
+    public boolean isRemoteAvailable() {
+        return LauncherUtil.instance().isRemoteAvailable( url );
+    }
+
+    /**
+     * Tells if the local version of the resource is current with the remote version
+     * @return true if the local version of the resource is current
+     */
+    public boolean isCurrent() throws SimResourceException {
+        if( !isRemoteAvailable() ) {
+            throw new SimResourceException( "Not online" );
         }
 
         // Get timestamp for remote
@@ -86,7 +98,7 @@ public class SimResource {
         return localTimestamp == remoteTimestamp;
     }
 
-    public void download() {
+    public void download() throws SimResourceException {
         if( !isCurrent() ) {
             try {
                 if( !localFile.getParentFile().exists() ) {
@@ -121,7 +133,7 @@ public class SimResource {
         metaData.saveForFile( localFile );
     }
 
-    public void update() {
+    public void update() throws SimResourceException {
         if( !isCurrent() ) {
             download();
         }
@@ -154,6 +166,7 @@ public class SimResource {
      */
     public void uninstall() {
         localFile.delete();
+        metaData.deleteForFile( localFile );
         metaData = null;
     }
 }

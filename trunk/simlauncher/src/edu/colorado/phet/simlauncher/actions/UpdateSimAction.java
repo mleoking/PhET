@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,8 +36,13 @@ public class UpdateSimAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         Simulation sim = simContainer.getSimulation();
-        if( sim.isInstalled() && !sim.isCurrent() ) {
-            sim.update();
+        try {
+            if( sim.isInstalled() && !sim.isCurrent() ) {
+                sim.update();
+            }
+        }
+        catch( SimResourceException e1 ) {
+            e1.printStackTrace();
         }
     }
 }

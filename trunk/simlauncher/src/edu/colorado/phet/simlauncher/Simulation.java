@@ -12,10 +12,7 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 import edu.colorado.phet.simlauncher.util.FileUtil;
-import edu.colorado.phet.simlauncher.resources.JnlpResource;
-import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
-import edu.colorado.phet.simlauncher.resources.JarResource;
-import edu.colorado.phet.simlauncher.resources.SimResource;
+import edu.colorado.phet.simlauncher.resources.*;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -36,6 +33,7 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
     private static HashMap namesToSims = new HashMap();
+    private File localRoot;
 
     /**
      * Returns the Simulation instance for the simulation with a specified name.
@@ -76,14 +74,18 @@ public class Simulation {
         this.name = name;
         this.description = description;
         this.jnlpUrl = jnlpUrl;
+        this.localRoot = localRoot;
+        this.jnlpResource = new JnlpResource( jnlpUrl, localRoot );
 
-        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-        resources.add( jnlpResource );
-        jarResources = jnlpResource.getJarResources();
-        for( int i = 0; i < jarResources.length; i++ ) {
-            JarResource jarResource = jarResources[i];
-            resources.add( jarResource );
-        }
+//        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
+//        resources.add( jnlpResource );
+//        if( jnlpResource.isRemoteAvailable() ) {
+//            jarResources = jnlpResource.getJarResources();
+//            for( int i = 0; i < jarResources.length; i++ ) {
+//                JarResource jarResource = jarResources[i];
+//                resources.add( jarResource );
+//            }
+//        }
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
 
@@ -112,14 +114,24 @@ public class Simulation {
     /**
      * Downloads all the resources for the simulation
      */
-    public void install() {
+    public void install() throws SimResourceException {
+        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         jnlpResource.download();
+        resources.add( jnlpResource );
+        if( jnlpResource.isRemoteAvailable() ) {
+            jarResources = jnlpResource.getJarResources();
+            for( int i = 0; i < jarResources.length; i++ ) {
+                JarResource jarResource = jarResources[i];
+                resources.add( jarResource );
+            }
+        }
+
         for( int i = 0; i < jarResources.length; i++ ) {
             JarResource jarResource = jarResources[i];
             jarResource.download();
         }
         thumbnailResource.download();
-        descriptionResource.download();
+//        descriptionResource.download();
 
         changeListenerProxy.installed( new ChangeEvent( this ) );
     }
@@ -206,7 +218,7 @@ public class Simulation {
      * @return true if the simulation is installed
      */
     public boolean isInstalled() {
-        return this.jnlpResource.isInstalled();
+        return jnlpResource != null && jnlpResource.isInstalled();
     }
 
     /**
@@ -214,7 +226,7 @@ public class Simulation {
      *
      * @return true if the local version is current
      */
-    public boolean isCurrent() {
+    public boolean isCurrent() throws SimResourceException {
         boolean isCurrent = true;
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
@@ -226,7 +238,7 @@ public class Simulation {
     /**
      * Updates the local version of the simulation with the one on the PhET web site
      */
-    public void update() {
+    public void update() throws SimResourceException {
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
             simResource.update();

@@ -24,7 +24,7 @@ import javax.swing.*;
 public class UninstalledSimPopupMenu extends JPopupMenu {
 
     /**
-     * 
+     *
      * @param simulation
      */
     public UninstalledSimPopupMenu( Simulation simulation ) {

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 /**
  * LauncherUtil
@@ -62,11 +63,11 @@ public class LauncherUtil {
     private boolean refreshOnline() {
         try {
             URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
             long lastModified = urlConnection.getLastModified();
             return lastModified != 0;
         }
         catch( IOException e ) {
-            e.printStackTrace();
             return false;
         }
     }

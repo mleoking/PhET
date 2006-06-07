@@ -13,6 +13,7 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,10 +100,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                                                                       GridBagConstraints.NONE,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
         private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                             GridBagConstraints.CENTER,
-                                                                             GridBagConstraints.NONE,
-//                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-                                                                             new Insets( 10, 0, 20, 0 ), 0, 0 );
+                                                                              GridBagConstraints.CENTER,
+                                                                              GridBagConstraints.NONE,
+                                                                              new Insets( 10, 0, 20, 0 ), 0, 0 );
 
         public SimPanel() {
             super( new GridBagLayout() );
@@ -194,7 +194,12 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                                                                 "Confirm",
                                                                 JOptionPane.OK_CANCEL_OPTION );
                     if( choice == JOptionPane.OK_OPTION ) {
-                        sim.install();
+                        try {
+                            sim.install();
+                        }
+                        catch( SimResourceException e ) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 // Notify change listeners

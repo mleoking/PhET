@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.JnlpFile;
 import edu.colorado.phet.simlauncher.InvalidJnlpException;
+import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
 import java.io.BufferedWriter;
@@ -29,7 +30,7 @@ import java.net.URL;
  */
 public class JnlpResource extends SimResource {
 
-    private static String FILE_SEPARATOR = System.getProperty( "file.separator");
+    private static String FILE_SEPARATOR = System.getProperty( "file.separator" );
     private static String LOCAL_CODEBASE_PREFIX = "file:" + FILE_SEPARATOR + FILE_SEPARATOR;
 
     private String remoteCodebase;
@@ -37,16 +38,16 @@ public class JnlpResource extends SimResource {
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
         this.url = url;
+    }
+
+    public void download() throws SimResourceException {
+        super.download();
         try {
             remoteCodebase = new JnlpFile( url ).getCodebase();
         }
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
         }
-    }
-
-    public void download() {
-        super.download();
 
         // Modify codebase of the file
         JnlpFile jnlpFile = null;
@@ -68,7 +69,8 @@ public class JnlpResource extends SimResource {
             String relativeCodebase = null;
             URL tempURL = new URL( remoteCodebase );
             relativeCodebase = tempURL.getHost() + tempURL.getPath();
-            String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + FILE_SEPARATOR;
+            String lastChar = relativeCodebase.endsWith( "/" ) || relativeCodebase.endsWith( "\\" ) ? "" : FILE_SEPARATOR;
+            String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar;
             jnlpFile.setCodebase( newCodebase );
             BufferedWriter out = new BufferedWriter( new FileWriter( getLocalFileName() ) );
             out.write( jnlpFile.toString() );
@@ -88,6 +90,7 @@ public class JnlpResource extends SimResource {
 
     /**
      * Gets the JarResources specified in this jnlp file
+     * todo: The way I handle not being connected to the PhET site is not very good here.
      *
      * @return an array of JnlpResources
      */
@@ -112,7 +115,12 @@ public class JnlpResource extends SimResource {
         String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];
         for( int i = 0; i < urlStrings.length; i++ ) {
-            String urlString = new String( getRemoteCodebase() ).concat( "/" ).concat( urlStrings[i] );
+            String codebase = Configuration.instance().getPhetUrl().toString();
+            if( remoteCodebase != null ) {
+                codebase = remoteCodebase;
+            }
+            String s = codebase.endsWith( "/") || codebase.endsWith( "\\") ? "" : "/";
+            String urlString = new String( codebase ).concat( s ).concat( urlStrings[i] );
             URL url = null;
             try {
                 url = new URL( urlString );
@@ -133,9 +141,5 @@ public class JnlpResource extends SimResource {
         DebugStringFile jnlpFile = new DebugStringFile( getLocalFile().getAbsolutePath() );
         String s = jnlpFile.getContents();
         return s;
-    }
-
-    private String getRemoteCodebase() {
-        return remoteCodebase;
     }
 }

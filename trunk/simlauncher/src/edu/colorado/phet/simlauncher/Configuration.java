@@ -113,7 +113,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     // Attributes of the Configuration, and their getters and setters. Note the style of initialization
     // used here, rather than initializing the attribute in their declarations. I ran into
     // java.lang.ExceptionInInitializerError exceptions when I tried initializing them in the
-    // declaration. 
+    // declaration.
     //--------------------------------------------------------------------------------------------------
 
     // Location of local cache

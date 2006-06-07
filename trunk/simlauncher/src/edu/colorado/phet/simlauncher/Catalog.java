@@ -12,6 +12,8 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.resources.CatalogResource;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import java.util.*;
 
@@ -29,9 +31,12 @@ public class Catalog implements Simulation.ChangeListener {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private static Catalog instance = new Catalog();
+    private static Catalog instance;
 
     public static Catalog instance() {
+        if( instance == null ) {
+            instance = new Catalog();
+        }
         return instance;
     }
 
@@ -51,8 +56,12 @@ public class Catalog implements Simulation.ChangeListener {
     private Catalog() {
 
         // If the catalog isn't installed yet, go get it
-        if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
-            catalogResource.download();
+        try {
+            if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
+                catalogResource.download();
+            }
+        }
+        catch( SimResourceException e ) {
         }
         simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
@@ -68,7 +77,17 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     /**
+     * Tells if the remote component of the catalog is available
+     * @return true if the remote component of the catalog is available
+     */
+    public boolean isRemoteAvailable() {
+        return catalogResource.isRemoteAvailable();
+    }
+
+
+    /**
      * Returns all the simulations in the catalog
+     *
      * @return All simulations
      */
     public List getAllSimulations() {
@@ -77,6 +96,7 @@ public class Catalog implements Simulation.ChangeListener {
 
     /**
      * Returns all the installed simulations
+     *
      * @return all installed simulations
      */
     public List getInstalledSimulations() {
@@ -85,6 +105,7 @@ public class Catalog implements Simulation.ChangeListener {
 
     /**
      * Returns all the categories
+     *
      * @return all the categories
      */
     public List getCategories() {
