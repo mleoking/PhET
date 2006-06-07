@@ -1,14 +1,19 @@
 package edu.colorado.phet.piccolo.help;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PRoot;
 import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivityScheduler;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -19,53 +24,92 @@ import java.awt.geom.Point2D;
 
 public class MotionHelpBalloon extends HelpBalloon {
     private boolean started = false;
-    private PActivity activity;
-    private final int DEFAULT_DURATION = 3000;
+    private ActivitySource activitySource;
+    private static final int DEFAULT_DURATION = 3000;
+    private PCanvas canvas;
 
-    public MotionHelpBalloon( PCanvas helpPane, String s ) {
-        super( helpPane, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
+    public MotionHelpBalloon( PCanvas canvas, String s ) {
+        super( canvas, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
         setBalloonVisible( false );
         setArrowVisible( false );
         setEnabled( true );
+        this.canvas = canvas;
+        canvas.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                testStartActivity();
+            }
+        } );
+        testStartActivity();
     }
 
     public void animateTo( double x, double y ) {
-        setActivity( animateToPositionScaleRotation( x, y, 1, 0, DEFAULT_DURATION ) );
-        testStartActivity();
+        activitySource = new AnimateToXY( this, x, y, DEFAULT_DURATION );
     }
 
-    private void setActivity( PActivity activity ) {
-        if( this.activity != null ) {
-            this.activity.terminate();
+    public static interface ActivitySource {
+        PActivity createActivity();
+    }
+
+    public static class AnimateToXY implements ActivitySource {
+        private PNode node;
+        private double x;
+        private double y;
+        private long duration;
+
+        public AnimateToXY( PNode node, double x, double y, long duration ) {
+            this.node = node;
+            this.x = x;
+            this.y = y;
+            this.duration = duration;
         }
-        this.activity = activity;
-        testStartActivity();
+
+        public PActivity createActivity() {
+            PActivity activity = node.animateToPositionScaleRotation( x, y, 1, 0, duration );
+            unschedule( node, activity );
+            return activity;
+        }
     }
 
-    public void animateTo( final PNode node, final PhetPCanvas canvas ) {
-        Point2D loc = super.mapLocation( node, canvas );
-        final Runnable updateActivity = new Runnable() {
-            public void run() {
-                Point2D loc = mapLocation( node, canvas );
-                PActivity a2 = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
-                setActivity( a2 );
-                started = false;
-                testStartActivity();
+    private static void unschedule( PNode source, PActivity activity ) {
+        PRoot r = source.getRoot();
+        if( r != null ) {
+            PActivityScheduler sched = r.getActivityScheduler();
+            if( sched != null ) {
+                sched.removeActivity( activity );
             }
-        };
-        activity = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
-//        final PropertyChangeListener plc = new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                updateActivity.run();
-//            }
-//        };
-//        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, plc );
-//        node.addPropertyChangeListener( PROPERTY_BOUNDS, plc );
-        canvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                updateActivity.run();
-            }
-        } );
+        }
+    }
+
+    public static class AnimateToNode implements ActivitySource {
+        private MotionHelpBalloon motionHelpBalloon;
+        private PNode dst;
+
+        public AnimateToNode( MotionHelpBalloon motionHelpBalloon, PNode dst ) {
+            this.motionHelpBalloon = motionHelpBalloon;
+            this.dst = dst;
+        }
+
+        public PActivity createActivity() {
+            Point2D loc = motionHelpBalloon.mapLocation( dst, motionHelpBalloon.canvas );
+            final PTransformActivity activity = motionHelpBalloon.animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
+            dst.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    PAffineTransform t = motionHelpBalloon.getTransform();
+                    Point2D loc = motionHelpBalloon.mapLocation( dst, motionHelpBalloon.canvas );
+                    t.setOffset( loc.getX(), loc.getY() );
+                    t.setScale( 1.0 );
+                    t.setRotation( 0.0 );
+                    double[]m = new double[6];
+                    t.getMatrix( m );
+                    activity.setDestinationTransform( m );
+                }
+            } );
+            return activity;
+        }
+    }
+
+    public void animateTo( PNode node ) {
+        this.activitySource = new AnimateToNode( this, node );
         testStartActivity();
     }
 
@@ -75,16 +119,17 @@ public class MotionHelpBalloon extends HelpBalloon {
     }
 
     private void testStartActivity() {
-        if( getRoot() != null && activity != null && !started ) {
+        if( getRoot() != null && activitySource != null && !started && canvas.isVisible() ) {
+            PActivity activity = activitySource.createActivity();
             getRoot().addActivity( activity );
             started = true;
+            System.out.println( "Started activity." );
         }
     }
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( !visible && activity != null ) {
-            activity.terminate();
-        }
+        setPickable( visible );
+        setChildrenPickable( visible );
     }
 }
