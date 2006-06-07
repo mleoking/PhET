@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- calle BSWiggleMe.start in BSAbstractModule.addWiggleMe
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
@@ -21,7 +22,6 @@ MEDIUM PRIORITY:
 - hide the dot in the center of the magnifying glass
 - hide y-axis tick labels (and tick marks?) on bottom plots
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
-- add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - time display and animation pauses every few clock ticks (garbage collection?)
