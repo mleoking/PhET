@@ -77,15 +77,15 @@ public class SimListingOptionsAction extends AbstractAction {
         optionsPane.add( iconOptionCB_B, gbc );
         optionsPane.add( abstractCB_B, gbc );
 
-        int option = JOptionPane.showOptionDialog( parent,
-                                                   optionsPane,
-                                                   "Simulation Listing Options",
-                                                   JOptionPane.OK_CANCEL_OPTION,
-                                                   JOptionPane.QUESTION_MESSAGE,
-                                                   null, null,
-                                                   JOptionPane.OK_OPTION );
-        if( option == JOptionPane.OK_OPTION ) {
-            Options.instance().notifyListeners();
-        }
+//        int option = JOptionPane.showOptionDialog( parent,
+//                                                   optionsPane,
+//                                                   "Simulation Listing Options",
+//                                                   JOptionPane.OK_CANCEL_OPTION,
+//                                                   JOptionPane.QUESTION_MESSAGE,
+//                                                   null, null,
+//                                                   JOptionPane.OK_OPTION );
+//        if( option == JOptionPane.OK_OPTION ) {
+//            Options.instance().notifyListeners();
+//        }
     }
 }

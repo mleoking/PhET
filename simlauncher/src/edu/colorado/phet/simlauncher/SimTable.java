@@ -59,7 +59,7 @@ public class SimTable extends JTable implements SimContainer {
         setRowSelectionAllowed( true );
         // Allow only single a selection
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         // Create the row data for the table
         sims = simList;
         Collections.sort( sims, sortType );

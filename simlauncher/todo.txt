@@ -9,6 +9,8 @@ Bugs
 ========
 Features
 ========
+- Maximize frame doesn't enlarge the table
+- installed sims popup menu needs to respond to being offline
 - Encapsulate PhetConnection
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
 - Add "Go online" menu item

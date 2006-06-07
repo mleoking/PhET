@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -21,14 +23,18 @@ import java.awt.event.ComponentEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TopLevelPane extends JTabbedPane  {
+public class TopLevelPane extends JTabbedPane {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private static TopLevelPane instance = new TopLevelPane();
+    private static TopLevelPane instance;
+
     public static TopLevelPane getInstance() {
+        if( instance == null ) {
+            instance = new TopLevelPane();
+        }
         return instance;
     }
 
@@ -49,15 +55,17 @@ public class TopLevelPane extends JTabbedPane  {
 
     private TopLevelPane() {
         installedSimsPane = new InstalledSimsPane();
-        addTab( "Installed Simulations", installedSimsPane  );
-        uninstalledSimsPane = new UninstalledSimsPane();
-        addTab( "Online Catalog", uninstalledSimsPane );
+        addTab( "Installed Simulations", installedSimsPane );
+        if( Catalog.instance().isRemoteAvailable() ) {
+            uninstalledSimsPane = new UninstalledSimsPane();
+            addTab( "Simulations Available for Installation", uninstalledSimsPane );
+        }
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth()),
-                                                 Math.max( 300, (int)getSize().getHeight())) );
-                ((JFrame)SwingUtilities.getRoot( TopLevelPane.this )).pack();
+                setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth() ),
+                                                 Math.max( 300, (int)getSize().getHeight() ) ) );
+                ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
             }
         } );
     }

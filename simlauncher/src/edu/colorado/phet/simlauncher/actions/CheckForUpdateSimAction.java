@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -49,17 +50,22 @@ public class CheckForUpdateSimAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         Simulation sim = simContainer.getSimulation();
-        if( !sim.isInstalled() ) {
-            result = SIM_NOT_INSTALLED;
-            showResult( "The simulation is not installed" );
+        try {
+            if( !sim.isInstalled() ) {
+                result = SIM_NOT_INSTALLED;
+                showResult( "The simulation is not installed" );
+            }
+            else if( !sim.isCurrent() ) {
+                result = UPDATE_AVAILABLE;
+                showResult( "An update is available" );
+            }
+            else {
+                result = NO_UPDATE_AVAILABLE;
+                showResult( "The installed simulation is current" );
+            }
         }
-        else if( !sim.isCurrent() ) {
-            result = UPDATE_AVAILABLE;
-            showResult( "An update is available" );
-        }
-        else {
-            result = NO_UPDATE_AVAILABLE;
-            showResult( "The installed simulation is current" );
+        catch( SimResourceException e1 ) {
+            e1.printStackTrace();
         }
     }
 
