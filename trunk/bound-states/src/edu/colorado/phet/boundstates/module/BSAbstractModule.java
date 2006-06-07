@@ -117,6 +117,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSClockControls _clockControls;
     private ZoomControl _energyZoomControl;
     private PSwing _energyZoomControlNode;
+    
+    // Help
+    private BSWiggleMe _wiggleMe;
+    private boolean _hasWiggleMe;
 
     // Dialogs
     private JDialog _configureDialog;
@@ -286,12 +290,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             helpPane.add( sampleHelp );
             sampleHelp.pointAt( _controlPanel.getPotentialControl() );
         }
-        
-//        String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
-//        BSWiggleMe wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
-//        _parentNode.addChild( wiggleMe );
-//        wiggleMe.setOffset( 250, -50 );
-//        wiggleMe.animateTo( 250, 250 );
 
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -443,6 +441,16 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     }
     
     /**
+     * Starts the wiggle me animation the first time the module is visited.
+     */
+    public void activate() {
+        super.activate();
+        if ( _hasWiggleMe ) {
+            addWiggleMe();
+        }
+    }
+    
+    /**
      * Disposes of dialogs when we switch to some other module.
      */
     public void deactivate() {
@@ -460,11 +468,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
     
     /**
-     * Reset the clock when the model changes.
+     * Respond to model changes.
      */
     public void update( Observable o, Object arg ) {
         if ( o == _model && arg != BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
            resetClock();
+           disableWiggleMe();
         }
     }
     
@@ -605,6 +614,45 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Clock
         resetClock();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Wiggle Me
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Determines whether this module has a wiggle me.
+     * This must be called before the module is activated.
+     * 
+     * @param hasWiggleMe
+     */
+    public void setHasWiggleMe( boolean hasWiggleMe ) {
+        _hasWiggleMe = hasWiggleMe;
+    }
+    
+    /*
+     * Adds the module's wiggle me.
+     */
+    private void addWiggleMe() {
+        if ( _wiggleMe == null ) {
+            // Wiggle Me that points at the eigenstates
+            String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
+            _wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
+            _parentNode.addChild( _wiggleMe );
+            _wiggleMe.setOffset( 250, -50 );
+            _wiggleMe.animateTo( 250, 250 );
+        }
+    }
+    
+    /*
+     * Remove the module's wiggle me.
+     */
+    private void disableWiggleMe() {
+        if ( _wiggleMe != null && _wiggleMe.isEnabled() ) {
+            _wiggleMe.setEnabled( false );
+            _parentNode.removeChild( _wiggleMe );
+            // don't set _wiggleMe to null or another one will be added by activate
+        }
     }
     
     //----------------------------------------------------------------------------

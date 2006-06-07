@@ -58,6 +58,10 @@ CLEANUP:
 
 
 DONE:
+(6/7/06) - add wiggle me when module is activated, disable when model is changed
+(6/7/06) - added wiggle me to the first module displayed
+(6/7/06) - sync with piccolo-phet, work on problem with starting of wiggle me animation
+(6/7/06) - sync with phetcommon, test with new PhetLookAndFeel
 (6/6/06) - replace FastPathRenderer with StandardXYItemRenderer with setDrawSeriesLineAsPath(true)
 (6/6/06) - add BSRendererFactory to encapsulate creation of JFreeChart renderers
 (6/6/06) - add checkbox to make the clock run 10x faster
