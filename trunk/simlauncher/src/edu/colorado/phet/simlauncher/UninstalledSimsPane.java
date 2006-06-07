@@ -97,7 +97,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private JButton installBtn;
         private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
-                                                                      GridBagConstraints.NONE,
+                                                                      GridBagConstraints.VERTICAL,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
         private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                               GridBagConstraints.CENTER,

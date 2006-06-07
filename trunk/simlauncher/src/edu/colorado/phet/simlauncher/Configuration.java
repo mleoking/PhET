@@ -62,6 +62,18 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         }
     }
 
+    // The parent directory s=of all simulations
+    private static String SIMUALATIONS_PATH = "/simulations";
+    private static URL DEFAULT_SIMULATIONS_URL;
+    static {
+        try {
+            DEFAULT_SIMULATIONS_URL = new URL( DEFAULT_PHET_URL_STRING + SIMUALATIONS_PATH );
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+    }
+
     // The Catalog
     private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
     private static URL DEFAULT_CATALOG_URL;
@@ -142,6 +154,20 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     public void setPhetUrl( URL phetUrl ) {
         this.phetUrl = phetUrl;
+    }
+
+    // Location of the simulations relative to phetUrl and local root
+    private URL simulationsUrl;
+
+    public URL getSimulationsUrl() {
+        if( simulationsUrl == null ) {
+            simulationsUrl = DEFAULT_SIMULATIONS_URL;
+        }
+        return simulationsUrl;
+    }
+
+    public void setSimulationsUrl( URL simulationsUrl ) {
+        this.simulationsUrl = simulationsUrl;
     }
 
     // Location of catalog relative to phetUrl and local root

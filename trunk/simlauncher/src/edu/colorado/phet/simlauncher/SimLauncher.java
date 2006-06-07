@@ -76,7 +76,7 @@ public class SimLauncher {
             JOptionPane.showMessageDialog( parent,
                                            "<html>You are working offline." +
                                            "<br><br>You will be able to run simulations you've installed, but "+
-                                           "will not be able to browse the online catalog of simulations. " );
+                                           "<br>will not be able to browse the online catalog of simulations. " );
         }
 
         // If there aren't any simulations installed, ask the user if he'd like to go to the catalog

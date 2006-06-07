@@ -158,6 +158,8 @@ public class SimResource {
         String pathSeparator = FileUtil.getPathSeparator();
         path = path.replace( '/', pathSeparator.charAt( 0 ) );
         path = path.replace( '\\', pathSeparator.charAt( 0 ) );
+
+//        System.out.println( "url.getHost() + pathSeparator + path = " + url.getHost() + pathSeparator + path );
         return new File( localRoot, url.getHost() + pathSeparator + path );
     }
 

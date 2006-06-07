@@ -104,7 +104,7 @@ public class JnlpResource extends SimResource {
                 e.printStackTrace();
             }
         }
-        else {
+        else { // todo: take this out? it's never called
             try {
                 jnlpFile = new JnlpFile( url );
             }
@@ -115,7 +115,7 @@ public class JnlpResource extends SimResource {
         String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];
         for( int i = 0; i < urlStrings.length; i++ ) {
-            String codebase = Configuration.instance().getPhetUrl().toString();
+            String codebase = Configuration.instance().getSimulationsUrl().toString();
             if( remoteCodebase != null ) {
                 codebase = remoteCodebase;
             }
