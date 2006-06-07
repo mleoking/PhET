@@ -57,6 +57,7 @@ CLEANUP:
 
 
 DONE:
+(6/7/06) - change "normalize" to "scale" throughout the Coulomb solvers
 (6/7/06) - add methods to model for determining if we're in a superposition state
 (6/7/06) - add wiggle me when module is activated, disable when model is changed
 (6/7/06) - added wiggle me to the first module displayed

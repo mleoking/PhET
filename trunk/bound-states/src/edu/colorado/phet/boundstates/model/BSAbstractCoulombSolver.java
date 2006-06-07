@@ -112,7 +112,7 @@ public abstract class BSAbstractCoulombSolver {
         double x = minX;
         double y = 0;
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            y = psiNormalized( n, x, _a );
+            y = psiScaled( n, x, _a );
             points[i] = new Point2D.Double( x, y );
             x += dx;
         }
@@ -120,19 +120,20 @@ public abstract class BSAbstractCoulombSolver {
     }
     
     /*
-     * Calculates the normalized wave function at a position.
+     * Calculates the scaled wave function at a position.
+     * Scaled means that the maximum amplitude is 1.
      * This must be implemented by the subclass.
      * 
      * @param n eigenstate subscript, n=1,2,3,...
      * @param x position, in nm
      * @param a common constant
-     * @return normalized value of psi
+     * @return scaled value of psi
      */
-    protected abstract double psiNormalized( final int n, final double x, final double a );
+    protected abstract double psiScaled( final int n, final double x, final double a );
     
     /*
-     * Calculates the unnormalized wave function at a position.
-     * Should be called by subclass' implementation of psiNormalized.
+     * Calculates the unscaled wave function at a position.
+     * Should be called by subclass' implementation of psiScaled.
      * 
      * @param n eigenstate subscript n=1,2,3,...
      * @param x position, in nm
