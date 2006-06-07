@@ -370,17 +370,20 @@ public class PhetLookAndFeel {
         String javaVersion = System.getProperty( "java.version" );
 //        System.out.println( "javaVersion = " + javaVersion );
         boolean oldJava = javaVersion.toLowerCase().startsWith( "1.4" ) || javaVersion.startsWith( "1.3" );
+        String lafClassName = null;
         if( getOperatingSystem() == OS_WINDOWS ) {
             if( oldJava ) {
-                return WindowsLookAndFeel.class.getName();
+                lafClassName = WindowsLookAndFeel.class.getName();
             }
             else {
-                return UIManager.getCrossPlatformLookAndFeelClassName();
+                lafClassName = UIManager.getCrossPlatformLookAndFeelClassName();
             }
         }
         else {
-            return UIManager.getSystemLookAndFeelClassName();
+            lafClassName = UIManager.getSystemLookAndFeelClassName();
         }
+//        System.out.println( "lafClassName = "  + lafClassName );
+        return lafClassName;
     }
 
     /**
