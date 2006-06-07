@@ -29,6 +29,11 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class PhetUtilities {
+    // Operating Systems
+    public static final int OS_WINDOWS = 0;
+    public static final int OS_MACINTOSH = 1;
+    public static final int OS_OTHER = 2;
+
     private static ArrayList pendingRunnables = new ArrayList();
 
     /**
@@ -42,7 +47,7 @@ public class PhetUtilities {
     public static void invokeLater( Runnable runnable ) {
         pendingRunnables.add( runnable );
         Module activeModule = getActiveModule();
-        if( activeModule != null ){
+        if( activeModule != null ) {
             IClock clock = activeModule.getClock();
             for( int i = 0; i < pendingRunnables.size(); i++ ) {
                 Runnable target = (Runnable)pendingRunnables.get( i );
@@ -86,5 +91,33 @@ public class PhetUtilities {
      */
     public static IClock getActiveClock() {
         return getActiveModule().getClock();
+    }
+
+    /**
+     * Gets the operating system type.
+     *
+     * @return OS_WINDOWS, OS_MACINTOSH, or OS_OTHER
+     */
+    public static int getOperatingSystem() {
+
+        // Get the operating system name.
+        String osName = "";
+        try {
+            osName = System.getProperty( "os.name" ).toLowerCase();
+        }
+        catch( Throwable t ) {
+            t.printStackTrace();
+        }
+
+        // Convert to one of the operating system constants.
+        int os = OS_OTHER;
+        if( osName.indexOf( "windows" ) >= 0 ) {
+            os = OS_WINDOWS;
+        }
+        else if( osName.indexOf( "mac" ) >= 0 ) {
+            os = OS_MACINTOSH;
+        }
+
+        return os;
     }
 }

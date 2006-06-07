@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import edu.colorado.phet.common.util.PhetUtilities;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -23,24 +24,22 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * PhetLookAndFeel describes the UI resources that need to be installed in
- * the UIDefaults database.  It provides methods for describing the values
- * for those resources, as well as methods for updating the UIDefaults database.
+ * PhetLookAndFeel manages the Look and Feel for a PhetApplication.
+ * It provides convenience methods for setting background color, fonts, etc.
  * <p/>
+ * Sample subclass:
+ * <code>
+ * class SamplePhetLookAndFeel extends PhetLookAndFeel {
+ * public TestPhetLookAndFeelExample() {
+ * setBackgroundColor( Color.blue );
+ * setForegroundColor( Color.white );
+ * setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+ * }
+ * }
+ * </code>
  * Sample usage:
  * <code>
- * //Choose the default look and feel for your system.
- * //This must be done early in the application so no components get constructed with the wrong UI.
- * PhetLookAndFeel.setLookAndFeel();
- * //Create the usual PhetLookAndFeel (whatever we deem that to be)
- * PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
- * //customize it here for your own application.
- * lookAndFeel.setBackgroundColor( Color.blue );
- * lookAndFeel.setForegroundColor( Color.red );
- * lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
- * //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
- * // to your system defaults.
- * lookAndFeel.apply();
+ * phetApplication.setPhetLookAndFeel(new SamplePhetLookAndFeel());
  * </code>
  * * <p/>
  *
@@ -52,11 +51,6 @@ public class PhetLookAndFeel {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-
-    // Operating Systems
-    public static final int OS_WINDOWS = 0;
-    public static final int OS_MACINTOSH = 1;
-    public static final int OS_OTHER = 2;
 
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
@@ -271,38 +265,6 @@ public class PhetLookAndFeel {
         array.add( value );
     }
 
-    //----------------------------------------------------------------------------
-    // Static utilities
-    //----------------------------------------------------------------------------
-
-    /**
-     * Gets the operating system type.
-     *
-     * @return OS_WINDOWS, OS_MACINTOSH, or OS_OTHER
-     */
-    public static int getOperatingSystem() {
-
-        // Get the operating system name.
-        String osName = "";
-        try {
-            osName = System.getProperty( "os.name" ).toLowerCase();
-        }
-        catch( Throwable t ) {
-            t.printStackTrace();
-        }
-
-        // Convert to one of the operating system constants.
-        int os = OS_OTHER;
-        if( osName.indexOf( "windows" ) >= 0 ) {
-            os = OS_WINDOWS;
-        }
-        else if( osName.indexOf( "mac" ) >= 0 ) {
-            os = OS_MACINTOSH;
-        }
-
-        return os;
-    }
-
     public void initLookAndFeel() {
         try {
             UIManager.setLookAndFeel( getLookAndFeelClassName() );
@@ -324,6 +286,7 @@ public class PhetLookAndFeel {
     }
 
     /**
+     * Makes sure the component tree UI of all frames are updated.
      * Taken from http://mindprod.com/jgloss/laf.html
      */
     private void refreshApp() {
@@ -366,12 +329,21 @@ public class PhetLookAndFeel {
         }
     }
 
+    /**
+     * Determines the look and feel class name that will be used by this PhetLookAndFeel.
+     * The default behavior is:
+     * >> - Aqua on Mac
+     * >> - Windows LAF for Window JDK 1.4.2
+     * >> - default LAF (Ocean) for Windows with JDK 1.5
+     * >> - default LAF for all other cases (eg, Linux)
+     *
+     * @return the class name for the look and feel.
+     */
     protected String getLookAndFeelClassName() {
         String javaVersion = System.getProperty( "java.version" );
-//        System.out.println( "javaVersion = " + javaVersion );
         boolean oldJava = javaVersion.toLowerCase().startsWith( "1.4" ) || javaVersion.startsWith( "1.3" );
         String lafClassName = null;
-        if( getOperatingSystem() == OS_WINDOWS ) {
+        if( PhetUtilities.getOperatingSystem() == PhetUtilities.OS_WINDOWS ) {
             if( oldJava ) {
                 lafClassName = WindowsLookAndFeel.class.getName();
             }
@@ -382,7 +354,6 @@ public class PhetLookAndFeel {
         else {
             lafClassName = UIManager.getSystemLookAndFeelClassName();
         }
-//        System.out.println( "lafClassName = "  + lafClassName );
         return lafClassName;
     }
 
@@ -402,7 +373,6 @@ public class PhetLookAndFeel {
         if( screenSize.width <= 800 ) {
             fontSize = (int)( fontSize * ( 800.0 / 1024 ) );
         }
-//        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screenSize = " + screenSize + " fontSize = " + fontSize );
         return fontSize;
     }
 
