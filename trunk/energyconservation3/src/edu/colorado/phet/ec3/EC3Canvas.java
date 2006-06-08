@@ -358,4 +358,5 @@ public class EC3Canvas extends PhetPCanvas {
     public boolean isZeroPointVisible() {
         return rootNode.isZeroPointVisible();
     }
+
 }
