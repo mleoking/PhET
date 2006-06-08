@@ -16,6 +16,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
 - implement Save/Load for model
