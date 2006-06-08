@@ -53,17 +53,17 @@ Gun should shrink for small screen size (gun size is now incorrectly dependent o
 Add separate control for box physical size (independent of lattice size)?
 
 Center the Reset All and Clear Wave buttons.
-    This is difficult, given the "all control panels should have the same width" constraint.
+>>This is difficult, given the "all control panels should have the same width" constraint.
 
 Add a close button for the stopwatch.
 
 Modelslider labels have a bug on mac.
 
 Bug: In all panels, if you move the wavelength slider all the way to the left, funny little brown squares flash all over the wave:
-     >>I Can't reproduce this.
+>>I Can't reproduce this.
      
-•	In Java version 1.4.2_03, the slider leaves a little trail when you move it 
+In Java version 1.4.2_03, the slider leaves a little trail when you move it 
 and has a green rectangle behind the tick marks (see below).  
 This problem does not appear in Java version 1.5.0_04 or 1.5.0_06.
-Very difficult ( interface not exposed, internal bug in Java?).
+>>Very difficult ( interface not exposed, internal bug in Java?).
 
