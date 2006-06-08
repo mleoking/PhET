@@ -61,6 +61,18 @@ public class BSCoulomb1DSolver extends BSAbstractCoulombSolver {
         return SCALING_COEFFICIENTS.length;
     }
     
+    /**
+     * Gets the scaling coefficient used for a specified eigenstate index.
+     * @param n eigenstate subscript, n=1,2,3,...
+     * @return
+     */
+    public static double getScalingCoefficient( final int n ) {
+        if ( n < 1 || n > SCALING_COEFFICIENTS.length ) {
+            throw new IndexOutOfBoundsException( "no scaling coefficient for n=" + n );
+        }
+        return SCALING_COEFFICIENTS[ n - 1 ];
+    }
+    
     //----------------------------------------------------------------------------
     // BSAbstractCoulombSolver implementation
     //----------------------------------------------------------------------------
@@ -71,14 +83,10 @@ public class BSCoulomb1DSolver extends BSAbstractCoulombSolver {
      * 
      * @param n eigenstate subscript, n=1,2,3,...
      * @param x position, in nm
-     * @param a common constant
      * @return scaled value of psi
      */
-    protected double psiScaled( final int n, final double x, final double a ) {
-        if ( n < 1 || n > SCALING_COEFFICIENTS.length ) {
-            throw new IndexOutOfBoundsException( "no scaling coefficient for n=" + n );
-        }
-        final double A = SCALING_COEFFICIENTS[ n - 1 ];
+    protected double psiScaled( final int n, final double x ) {
+        final double A = getScalingCoefficient( n );
         return ( Math.sqrt( BSConstants.ELECTRON_MASS / getMass() ) * A * x * psi( n, x ) );
     }
 }

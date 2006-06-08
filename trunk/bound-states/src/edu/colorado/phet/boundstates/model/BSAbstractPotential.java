@@ -235,6 +235,26 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         return points;
     }
     
+    /**
+     * Gets the coefficient required to normalize a wave function that 
+     * was produced using the Schmidt-Lee solver.
+     * 
+     * @param points
+     * @param eigenstateIndex 0,...n
+     * @return
+     */
+    public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
+        // Assume that dx is the same between all points.
+        final double dx = points[1].getX() - points[0].getX();
+        // Sum the square of each y value.
+        double sum = 0;
+        for ( int i = 0; i < points.length; i++ ) {
+            final double y = points[i].getY();
+            sum += ( y * y );
+        }
+        return ( 1 / Math.sqrt( sum * dx ) );
+    }
+    
     /*
      * Gets the eigenstate solver.
      */

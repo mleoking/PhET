@@ -115,6 +115,19 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
         }
     }
     
+    /**
+     * Gets the coefficient required to normalize a wave function that 
+     * was produced using the 1D Coulomb solver.
+     * 
+     * @param points
+     * @param eigenstateIndex 0,...n
+     * @return
+     */
+    public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
+        final int eigenstateSubscript = eigenstateIndex + 1; // Coulomb subscripts start with 1
+        return ( 1 / BSCoulomb1DSolver.getScalingCoefficient( eigenstateSubscript ) );
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------

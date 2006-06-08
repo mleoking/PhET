@@ -5,9 +5,10 @@ $Revision$
 ===============================================================================
 
 IN PROGRESS:
-- normalize time-independent wave functions when in a superposition state
+- normalize time-dependent wave function when in a superposition state
 
 HIGH PRIORITY:
+- use wave function cache in BSBottomPlot.updateHiliteDataset instead of calling potential.getWaveFunctionPoints
 - call BSWiggleMe.start in BSAbstractModule.addWiggleMe
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
@@ -57,6 +58,9 @@ CLEANUP:
 
 
 DONE:
+(6/7/06) - normalize wave function dataset points when in a superposition state
+(6/7/06) - add getNormalizationCoefficient to potential model
+(6/7/06) - add BSWaveFunctionCache for caching points, normalization coefficients, etc.
 (6/7/06) - change "normalize" to "scale" throughout the Coulomb solvers
 (6/7/06) - add methods to model for determining if we're in a superposition state
 (6/7/06) - add wiggle me when module is activated, disable when model is changed
