@@ -48,6 +48,7 @@ public class EC3RootNode extends PhetRootPNode {
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
+    private GridNode gridNode;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -69,6 +70,7 @@ public class EC3RootNode extends PhetRootPNode {
         screenBackground = new BackgroundNode( ec3Canvas, null, floorGraphic );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
         offscreenManIndicator = new OffscreenManIndicator( ec3Canvas, ec3Module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
+        gridNode = new GridNode();
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
@@ -86,6 +88,8 @@ public class EC3RootNode extends PhetRootPNode {
         addWorldChild( toolboxPlaceholder );
         addScreenChild( zeroPointPotentialGraphic );
         addScreenChild( offscreenManIndicator );
+        addWorldChild( gridNode );
+        setGridVisible( false );
 
         resetDefaults();
         ec3Canvas.addComponentListener( new ComponentListener() {
@@ -386,5 +390,13 @@ public class EC3RootNode extends PhetRootPNode {
 
     public boolean isZeroPointVisible() {
         return zeroPointPotentialGraphic.getVisible();
+    }
+
+    public boolean isGridVisible() {
+        return gridNode.getVisible();
+    }
+
+    public void setGridVisible( boolean selected ) {
+        gridNode.setVisible( selected );
     }
 }

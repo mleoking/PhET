@@ -109,6 +109,8 @@ public class EC3ControlPanel extends ControlPanel {
         }
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
 
+        addControlFullWidth( new GridLinesCheckBox( module ) );
+
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
 
