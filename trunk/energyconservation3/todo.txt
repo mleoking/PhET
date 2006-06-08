@@ -5,10 +5,6 @@ Remaining Work
 One question I have is were we going to have a mystery planet where 
 they would have to figure out the acceleration due to gravity?
 
-Sam, I was just playing with this and the path tracker with the 
-readout for KE, PE, and TE isn't working ... it gives the same value 
-for each dot.
-
 #################################################################
 Low Priority
 #######################################

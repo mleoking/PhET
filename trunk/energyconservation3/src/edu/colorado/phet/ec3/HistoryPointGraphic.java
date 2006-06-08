@@ -32,12 +32,8 @@ public class HistoryPointGraphic extends PNode {
         addChild( path );
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
         path.setPaint( Color.yellow );
-        update();
-        htmlGraphic = new HTMLNode( "<html>" +
-                                    "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                                    "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
-                                    "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
-                                    "</html>" );
+
+        htmlGraphic = new HTMLNode();
 
         htmlGraphic.scale( scale );
         htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
@@ -46,6 +42,7 @@ public class HistoryPointGraphic extends PNode {
                 toggleVisible();
             }
         } );
+        update();
     }
 
     private void toggleVisible() {
@@ -63,6 +60,11 @@ public class HistoryPointGraphic extends PNode {
 
     private void update() {
         setOffset( historyPoint.getX(), historyPoint.getY() );
+        htmlGraphic.setHTML( "<html>" +
+                             "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
+                             "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                             "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                             "</html>" );
     }
 
     public void setHistoryPoint( HistoryPoint historyPoint ) {
