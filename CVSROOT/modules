@@ -177,7 +177,7 @@ moving-man movingman &phetcommon-module &charts-0module
 mri mri &piccolo-phet-module &mechanics &collision-dir &quantum-rjl
 
 # Nuclear physics
-nuclear-physics nuclearphysics &phetgraphics-module &mechanics-module &collision-dir
+nuclear-physics nuclearphysics &phetcommon-module &mechanics-dir &piccolo-phet-dir &collision-dir
 
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts-dir
