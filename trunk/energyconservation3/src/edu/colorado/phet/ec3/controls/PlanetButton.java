@@ -20,7 +20,7 @@ public class PlanetButton extends JRadioButton {
     private boolean selected;
 
     public PlanetButton( final EC3Module module, final Planet planet, boolean selected ) {
-        super( planet.getName(), selected );
+        super( planet.getName() + " (" + ( Math.abs( planet.getGravity() ) ) + " N/kg)", selected );
         this.planet = planet;
         this.selected = selected;
         addActionListener( new ActionListener() {
