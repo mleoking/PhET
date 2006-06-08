@@ -28,9 +28,7 @@ public class TestMotionHelpBalloonAnimateToNode {
 
         final PNode dst = new PText( "Destination" );
         pCanvas.getLayer().addChild( dst );
-        dst.setOffset( 500, 500 );
         helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
-        helpBalloon.animateTo( dst );
         pCanvas.getLayer().addChild( helpBalloon );
         helpBalloon.setOffset( 0, 0 );
 
@@ -39,18 +37,16 @@ public class TestMotionHelpBalloonAnimateToNode {
             public void actionPerformed( ActionEvent e ) {
                 double hz = 0.5;
                 double angfreq = hz * 2 * Math.PI;
-                dst.setOffset( 500, 400 + 100 * Math.sin( System.currentTimeMillis() / 1000.0 * angfreq ) );
+                dst.setOffset( 450, 400 + 100 * Math.sin( System.currentTimeMillis() / 1000.0 * angfreq ) );
             }
         } );
+
+        frame.setVisible( true );
         timer.start();
+        helpBalloon.animateTo( dst );
     }
 
     public static void main( String[] args ) {
-        new TestMotionHelpBalloonAnimateToNode().start();
-    }
-
-    private void start() {
-        frame.setVisible( true );
-        helpBalloon.start();
+        new TestMotionHelpBalloonAnimateToNode();
     }
 }
