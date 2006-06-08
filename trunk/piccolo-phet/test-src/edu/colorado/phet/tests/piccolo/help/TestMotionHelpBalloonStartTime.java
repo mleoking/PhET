@@ -27,7 +27,6 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
             pCanvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
-            helpBalloon.animateTo( 500, 500 );
             helpBalloon.setOffset( 250, 0 );
             pCanvas.getLayer().addChild( helpBalloon );
 
@@ -37,7 +36,7 @@ public class TestMotionHelpBalloonStartTime extends PhetApplication {
 
         public void activate() {
             super.activate();
-            helpBalloon.start();
+            helpBalloon.animateTo( 500, 500 );
         }
     }
 

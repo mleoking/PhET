@@ -22,22 +22,19 @@ public class TestMotionHelpBalloon {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PCanvas pCanvas = new PCanvas();
+        frame.setContentPane( pCanvas );
+        
         helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
         pCanvas.getLayer().addChild( helpBalloon );
         helpBalloon.setOffset( 500, -20 );
-        helpBalloon.animateTo( 250, 250 );
 
-        frame.setContentPane( pCanvas );
+        frame.setVisible( true );
+        helpBalloon.animateTo( 250, 250 );
     }
 
     public static void main( String[] args ) {
-        new TestMotionHelpBalloon().start();
-    }
-
-    private void start() {
-        frame.setVisible( true );
-        helpBalloon.start();
+        new TestMotionHelpBalloon();
     }
 }
 
