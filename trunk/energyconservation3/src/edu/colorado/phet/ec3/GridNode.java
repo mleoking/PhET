@@ -54,6 +54,14 @@ public class GridNode extends PhetPNode {
                 addChild( text );
             }
         }
+        setPickable( false );
+        setChildrenPickable( false );
+    }
+
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     private PNode createYNode( double minX, double maxX, double y ) {
