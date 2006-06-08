@@ -14,8 +14,10 @@ import java.awt.*;
  */
 
 public class EC3LookAndFeel extends PhetLookAndFeel {
+    public static final Color backgroundColor = new Color( 200, 240, 200 );
+
     public EC3LookAndFeel() {
-        setBackgroundColor( new Color( 200, 240, 200 ) );
+        setBackgroundColor( backgroundColor );
         setTextFieldBackgroundColor( Color.white );
         setTabFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
     }

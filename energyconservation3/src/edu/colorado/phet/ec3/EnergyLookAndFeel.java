@@ -70,4 +70,8 @@ public class EnergyLookAndFeel {
     public Color getThermalEnergyColor() {
         return thermalEnergyColor;
     }
+
+    public Color getBackground() {
+        return myGreen;
+    }
 }

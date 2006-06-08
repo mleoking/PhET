@@ -9,9 +9,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.IconComponent;
-import edu.colorado.phet.ec3.controls.GravitySlider;
 import edu.colorado.phet.ec3.controls.PieChartControlPanel;
-import edu.colorado.phet.ec3.controls.PlanetButton;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
@@ -33,8 +31,7 @@ import java.io.IOException;
 
 public class EC3ControlPanel extends ControlPanel {
     private EC3Module module;
-    private JCheckBox showBackgroundCheckbox;
-    private PlanetButton[] planetButtons;
+
 
     public EC3ControlPanel( final EC3Module module ) {
         this.module = module;
@@ -223,57 +220,11 @@ public class EC3ControlPanel extends ControlPanel {
 
     private VerticalLayoutPanel getLocationPanel( EC3Module module ) {
 //        ButtonGroup location = new ButtonGroup();
-        PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
-        PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
-        PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
-        PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
-        planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
-//        location.add( space );
-//        location.add( moon );
-//        location.add( earth );
-//        location.add( jupiter );
-        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Location" ) );
-        verticalLayoutPanel.setFillHorizontal();
-        showBackgroundCheckbox = new JCheckBox( "Show Background", true );
-        verticalLayoutPanel.add( showBackgroundCheckbox );
-        verticalLayoutPanel.add( space );
-        verticalLayoutPanel.add( moon );
-        verticalLayoutPanel.add( earth );
-        verticalLayoutPanel.add( jupiter );
-        final JComponent gravitySlider = new GravitySlider( module );
-        verticalLayoutPanel.addFullWidth( gravitySlider );
-
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                synchronizePlanet();
-            }
-
-        } );
-        synchronizePlanet();
-        new Planet.Earth().apply( module );
-        return verticalLayoutPanel;
+        return new LocationControlPanel( module );
     }
 
 //    Planet[] planets = new Planet[]{new Planet.Earth(), new Planet.Moon(), new Planet.Jupiter()};
 
-    private void synchronizePlanet() {
-        module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
-        boolean matched = false;
-        for( int i = 0; i < planetButtons.length; i++ ) {
-            Planet planet = planetButtons[i].getPlanet();
-            if( module.getEnergyConservationModel().getGravity() == planet.getGravity() ) {
-                planet.apply( module );
-                matched = true;
-            }
-//            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
-            boolean match = module.getEnergyConservationModel().getGravity() == planet.getGravity();
-            planetButtons[i].setSelected( match );
-        }
-        if( !matched ) {
-            module.getEnergyConservationCanvas().getRootNode().clearBackground();
-        }
-    }
 
     private void resetSkater() {
         module.resetSkater();
