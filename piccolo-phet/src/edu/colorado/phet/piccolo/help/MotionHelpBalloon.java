@@ -27,6 +27,7 @@ public class MotionHelpBalloon extends HelpBalloon {
     private ActivitySource activitySource;
     private static final int DEFAULT_DURATION = 3000;
     private PCanvas canvas;
+    private Timer timer;
 
     public MotionHelpBalloon( PCanvas canvas, String s ) {
         super( canvas, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
@@ -106,8 +107,6 @@ public class MotionHelpBalloon extends HelpBalloon {
         this.activitySource = new AnimateToNode( this, node );
     }
 
-    Timer timer;
-
     /**
      * Starts the animation.
      */
@@ -130,15 +129,6 @@ public class MotionHelpBalloon extends HelpBalloon {
                 } );
                 timer.start();
             }
-        }
-    }
-
-    private void testStartActivity() {
-        if( getRoot() != null && activitySource != null && !started ) {
-            PActivity activity = activitySource.createActivity();
-            getRoot().addActivity( activity );
-            started = true;
-            System.out.println( "Started activity." );
         }
     }
 
