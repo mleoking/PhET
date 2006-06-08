@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
-- cache wavefunction solutions
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
