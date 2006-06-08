@@ -24,6 +24,7 @@ public class HistoryPointGraphic extends PNode {
     private HistoryPoint historyPoint;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
     private HTMLNode htmlGraphic;
+    private String html = "";
 
     public HistoryPointGraphic( final HistoryPoint historyPoint ) {
         this.historyPoint = historyPoint;
@@ -50,6 +51,7 @@ public class HistoryPointGraphic extends PNode {
             removeChild( htmlGraphic );
         }
         else {
+            updateHTMLText();
             addChild( htmlGraphic );
         }
     }
@@ -60,11 +62,22 @@ public class HistoryPointGraphic extends PNode {
 
     private void update() {
         setOffset( historyPoint.getX(), historyPoint.getY() );
-        htmlGraphic.setHTML( "<html>" +
-                             "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                             "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
-                             "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
-                             "</html>" );
+        html = ( "<html>" +
+                 "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
+                 "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                 "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                 "</html>" );
+        if( isHTMLVisible() ) {
+            updateHTMLText();
+        }
+    }
+
+    private void updateHTMLText() {
+        htmlGraphic.setHTML( html );
+    }
+
+    private boolean isHTMLVisible() {
+        return getChildrenReference().contains( htmlGraphic );
     }
 
     public void setHistoryPoint( HistoryPoint historyPoint ) {
