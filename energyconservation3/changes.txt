@@ -1,5 +1,6 @@
 0.00.26 (6-8-2006)
 Fixed gravity controls.
+Fixed: readout of history points is incorrect. 
 
 0.00.25 (6-7-2006)
 Added an optional overlay grid.
