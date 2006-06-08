@@ -191,7 +191,6 @@ public class BSWaveFunctionCache {
                 
                 // Compute the coefficient used to normalize the time-independent wave function when in a superposition state.
                 final double normalizationCoefficient = potential.getNormalizationCoefficient( points, i );
-                System.out.println( "normalizationCoefficient[" + i + "]=" + normalizationCoefficient );//XXX
                 
                 // Add an item to the cache
                 Item item = new Item( i, normalizationCoefficient, points );
