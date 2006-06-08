@@ -25,6 +25,7 @@ public class GravitySlider extends ModelSlider {
     public GravitySlider( final EC3Module module ) {
         super( "Gravity", "N/kg", 0, -EnergyConservationModel.G_JUPITER * 1.2, -EnergyConservationModel.G_EARTH, new DecimalFormat( "0.00" ) );
         Hashtable modelTicks = new Hashtable();
+//        modelTicks.put( new Double( 0 ), new JLabel( "Space" ) );
         modelTicks.put( new Double( -EnergyConservationModel.G_EARTH ), new JLabel( "Earth" ) );
         modelTicks.put( new Double( -EnergyConservationModel.G_MOON ), new JLabel( "Moon" ) );
         modelTicks.put( new Double( -EnergyConservationModel.G_JUPITER ), new JLabel( "Jupiter" ) );
