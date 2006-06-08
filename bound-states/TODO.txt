@@ -8,7 +8,6 @@ IN PROGRESS:
 - normalize time-dependent wave function when in a superposition state
 
 HIGH PRIORITY:
-- use wave function cache in BSBottomPlot.updateHiliteDataset instead of calling potential.getWaveFunctionPoints
 - call BSWiggleMe.start in BSAbstractModule.addWiggleMe
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
@@ -19,6 +18,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
 - implement Save/Load for model
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
