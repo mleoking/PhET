@@ -1,7 +1,5 @@
 ===============================================================================
-"To Do" list for "Bound States" simulation
-
-$Revision$
+"To Do" list for "Bound States" simulation          $Revision$
 ===============================================================================
 
 IN PROGRESS:
