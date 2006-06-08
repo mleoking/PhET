@@ -194,7 +194,7 @@ public class TestHelpPane extends PhetApplication {
             } );
             
             // Control panel
-            ControlPanel controlPanel = new ControlPanel( this );
+            ControlPanel controlPanel = new ControlPanel();
             setControlPanel( controlPanel );
             controlPanel.addControl( screenCheckBox );
             controlPanel.addControl( worldCheckBox );

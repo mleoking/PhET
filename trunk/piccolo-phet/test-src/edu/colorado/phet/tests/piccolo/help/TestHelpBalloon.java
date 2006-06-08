@@ -384,7 +384,7 @@ public class TestHelpBalloon extends PhetApplication {
             }
 
             // Control panel
-            ControlPanel controlPanel = new ControlPanel( this );
+            ControlPanel controlPanel = new ControlPanel();
             setControlPanel( controlPanel );
             controlPanel.addControlFullWidth( canvasPanel );
             controlPanel.addVerticalSpace( 20 );
