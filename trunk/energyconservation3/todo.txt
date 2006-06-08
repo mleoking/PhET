@@ -4,7 +4,14 @@ Remaining Work
 
 I still would very much like an optional grid... It would help in measuring heights and such . 
 (I see it on the low priority list, but as I consider how you'd use it for measurements, 
-I feel like it would be a beneficial addition). 
+I feel like it would be a beneficial addition).
+ 
+We do have a wiggle me in radio waves where it comes up each time 
+you go to the manual setting until the user wiggles the electron. 
+Once it’s been wiggled, it doesn’t’ appear again.  If they go to the manual setting and 
+do stuff but not wiggle the electron then it will pop up the next time you go to that setting.  
+This would be fine for nrg sk8r also. We could have it appear when you go to space and 
+until you use the rocket it will reappear each time you go to space.
 
 #################################################################
 Low Priority
