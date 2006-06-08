@@ -6,7 +6,7 @@ IN PROGRESS:
 - normalize time-dependent wave function when in a superposition state
 
 HIGH PRIORITY:
-- call BSWiggleMe.start in BSAbstractModule.addWiggleMe
+- wiggle me animation is jerky
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
@@ -57,6 +57,7 @@ CLEANUP:
 
 
 DONE:
+(6/8/06) - piccolo-phet: rewrite MotionHelpBalloon
 (6/7/06) - normalize wave function dataset points when in a superposition state
 (6/7/06) - add getNormalizationCoefficient to potential model
 (6/7/06) - add BSWaveFunctionCache for caching points, normalization coefficients, etc.
