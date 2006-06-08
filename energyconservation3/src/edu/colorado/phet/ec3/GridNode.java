@@ -42,7 +42,7 @@ public class GridNode extends PhetPNode {
         }
         for( double y = minY; y <= maxY; y += dy ) {
             addChild( createYNode( minX, maxX, y ) );
-            if( y % 2 == 0 && y <= 8 && y >= 2 ) {
+            if( y % 2 == 0 && y <= 6 && y >= 2 ) {
                 String aText = "" + (int)y;
                 if( aText.equals( "0" ) ) {
                     aText = "0 meters";

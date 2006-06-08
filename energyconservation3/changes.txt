@@ -1,4 +1,4 @@
-0.00.25
+0.00.25 (6-7-2006)
 Added an optional overlay grid.
 Fixed a bug in the wiggle me.
 

@@ -2,19 +2,6 @@
 Remaining Work
 #######################################
 
-I still would very much like an optional grid... It would help in measuring heights and such . 
-(I see it on the low priority list, but as I consider how you'd use it for measurements, 
-I feel like it would be a beneficial addition).
- 
-We do have a wiggle me in radio waves where it comes up each time 
-you go to the manual setting until the user wiggles the electron. 
-Once it’s been wiggled, it doesn’t’ appear again.  If they go to the manual setting and 
-do stuff but not wiggle the electron then it will pop up the next time you go to that setting.  
-This would be fine for nrg sk8r also. We could have it appear when you go to space and 
-until you use the rocket it will reappear each time you go to space.
-
-Make it come up at full screen for low resolution (looked terrible on meeting laptop)
-
 #################################################################
 Low Priority
 #######################################
@@ -29,15 +16,6 @@ Add game-ish modes to sk8r application
 	. Jump the buses?
 
 Bug: When user drags track that skater is resting on, the skater doesn't move with it.
-__
-One solution (which I think would be nice) ... would be to have the
-optional grid on the play area and then the show the same grid on the
-energy vs position graphs... so if the grid spacing were every meter
-then there would be a faint grid in the background of the plot as
-well as the background of the play area that was every meter.  This
-way they don't have to be the same "scale" but you can still make the
-connection.  The ruler and the graph match so it seems like it
-wouldn't be that hard program wise???
 
 Another bug ...
 The sim was running in the background for the last hour or so, and
@@ -45,14 +23,6 @@ now when I bring it to the foreground I can't get it to redraw it's
 screen .. it's all white until I mouse over sections, but even then
 it's erratic whether it will redraw or not.
 __
-
-I can't remember the idea exactly, but looking at the sim again, I do
-think it would be a good option... not a default.  It will allow you
-to make nice tracks ... e.g. if I start the guy at this line then he
-will only rise to that same line or he will get over the hill as long
-as the hill is below that line... it gives you reference heights ...
-I would make them some nice increments.. like every 1 or 2 meters,
-and make them pretty dim.
 
 In my brief play I found a bug ... in the attached screen shot the
 skater doesn't fall off the track even though he gets completely off the edge.

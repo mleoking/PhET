@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -17,5 +18,9 @@ public class EC3LookAndFeel extends PhetLookAndFeel {
         setBackgroundColor( new Color( 200, 240, 200 ) );
         setTextFieldBackgroundColor( Color.white );
         setTabFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+    }
+
+    protected String getLookAndFeelClassName() {
+        return UIManager.getSystemLookAndFeelClassName();//windows on windows, please
     }
 }
