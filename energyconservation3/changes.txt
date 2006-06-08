@@ -1,3 +1,7 @@
+0.00.25
+Added an optional overlay grid.
+Fixed a bug in the wiggle me.
+
 0.00.24 (6-6-2006)
 Bugfix in the build process (wouldn't run under 1.4)
 
