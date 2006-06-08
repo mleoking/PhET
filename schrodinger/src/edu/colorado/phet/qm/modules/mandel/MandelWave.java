@@ -24,18 +24,20 @@ public class MandelWave implements Wave {
         this( distFromLeft, momentum, momentum, phase, dPhase, intensity, intensity, waveWidth );
     }
 
-    public MandelWave( int distFromLeft, double momentumLeft, double momentumRight, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
+    public MandelWave( int leftWaveX, double momentumLeft, double momentumRight, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
         this.momentum = momentumLeft;
         this.phase = phase;
         this.waveWidth = waveWidth;
 
         PlaneWave2D leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumLeft, 0 ), 100 );
         leftWave.setPhase( phase );
-        this.leftWave = new MandelWaveDamp( distFromLeft, leftWave, leftIntensity, waveWidth );
+        this.leftWave = new MandelWaveDamp( leftWaveX, leftWave, leftIntensity, waveWidth );
 
         PlaneWave2D rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
         rightWave.setPhase( phase + dPhase );
-        this.rightWave = new MandelWaveDamp( waveWidth - distFromLeft, rightWave, rightIntensity, waveWidth );
+        int rightWaveX = waveWidth - leftWaveX;
+//        System.out.println( "leftWaveX = " + leftWaveX +", rightWaveX="+rightWaveX+", waveWidth="+waveWidth);
+        this.rightWave = new MandelWaveDamp( rightWaveX, rightWave, rightIntensity, waveWidth );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
