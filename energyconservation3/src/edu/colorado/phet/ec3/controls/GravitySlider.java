@@ -32,8 +32,13 @@ public class GravitySlider extends ModelSlider {
 //        modelTicks.put( new Double( -EnergyConservationModel.G_MOON ), new JLabel( "Moon" ) );
         modelTicks.put( new Double( -EnergyConservationModel.G_JUPITER ), new JLabel( "Jupiter" ) );
 //        setModelTicks( new double[]{-EnergyConservationModel.G_MOON, -EnergyConservationModel.G_EARTH, -EnergyConservationModel.G_JUPITER} );
-        setModelTicks( new double[]{0, -EnergyConservationModel.G_EARTH, -EnergyConservationModel.G_JUPITER} );
+//        setModelTicks( new double[]{0, -EnergyConservationModel.G_EARTH, -EnergyConservationModel.G_JUPITER} );
+//        setModelTicks( new double[]{0, 5,10,15,20,25,30} );
+        setMajorTickSpacing( 10 );
+        setNumMinorTicksPerMajorTick( 2 );
+//        setNumMinorTicks( 0);
         setModelLabels( modelTicks );
+
 //        setModelTicks( new double[]{0, 10, 20, 30, 40} );
 //        setNumMajorTicks( 4 );
 //        setNumMinorTicksPerMajorTick( 2 );
