@@ -56,6 +56,7 @@ CLEANUP:
 
 
 DONE:
+(6/8/06) - work on scaling of time-dependent wave function, not finished
 (6/8/06) - piccolo-phet: rewrite MotionHelpBalloon
 (6/7/06) - normalize wave function dataset points when in a superposition state
 (6/7/06) - add getNormalizationCoefficient to potential model
