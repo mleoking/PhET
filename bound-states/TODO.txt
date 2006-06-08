@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- normalize time-dependent wave function when in a superposition state
+- scale time-dependent wave function when in a superposition state
 
 HIGH PRIORITY:
 - wiggle me animation is jerky
