@@ -37,10 +37,16 @@ public class MotionHelpBalloon extends HelpBalloon {
         this.canvas = canvas;
     }
 
+    /**
+     * Sets up the node so that when start() is called, it will animation to the specified location.
+     */
     public void animateTo( double x, double y ) {
         activitySource = new AnimateToXY( this, x, y, DEFAULT_DURATION );
     }
 
+    /**
+     * Creates an activity to animate the MotionHelpBalloon.
+     */
     public static interface ActivitySource {
         PActivity createActivity();
     }
@@ -65,6 +71,13 @@ public class MotionHelpBalloon extends HelpBalloon {
         }
     }
 
+    /**
+     * Removes the Activity from the scheduler, to ensure it doesn't run until necessary.
+     * This is used because some convenience methods for creating Activities automatically schedule the activity.
+     *
+     * @param source
+     * @param activity
+     */
     private static void unschedule( PNode source, PActivity activity ) {
         PRoot r = source.getRoot();
         if( r != null ) {
@@ -99,6 +112,7 @@ public class MotionHelpBalloon extends HelpBalloon {
                     activity.setDestinationTransform( m );
                 }
             } );
+            unschedule( motionHelpBalloon, activity );
             return activity;
         }
     }
