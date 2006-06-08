@@ -13,6 +13,8 @@ do stuff but not wiggle the electron then it will pop up the next time you go to
 This would be fine for nrg sk8r also. We could have it appear when you go to space and 
 until you use the rocket it will reappear each time you go to space.
 
+Make it come up at full screen for low resolution (looked terrible on meeting laptop)
+
 #################################################################
 Low Priority
 #######################################
