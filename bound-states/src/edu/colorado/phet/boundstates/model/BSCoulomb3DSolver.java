@@ -44,6 +44,24 @@ public class BSCoulomb3DSolver extends BSAbstractCoulombSolver {
     }
     
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the scaling coefficient used for a specified eigenstate index.
+     * @param n eigenstate subscript, n=1,2,3,...
+     * @param mass particle mass
+     * @return
+     */
+    public static double getScalingCoefficient( int n, double mass ) {
+        if ( n < 1 ) {
+            throw new IndexOutOfBoundsException( "Coulomb eigenstate subscripts start at 1: " + n );
+        }
+        final double a = get_a( mass );
+        return ( SQRT_PI * Math.pow( ( n * a ), 1.5 ) );
+    }
+    
+    //----------------------------------------------------------------------------
     // BSAbstractCoulombSolver implementation
     //----------------------------------------------------------------------------
     
@@ -53,11 +71,10 @@ public class BSCoulomb3DSolver extends BSAbstractCoulombSolver {
      * 
      * @param n eigenstate subscript, n=1,2,3,...
      * @param x position, in nm
-     * @param a common constant
      * @return scaled value of psi
      */
-    protected double psiScaled( final int n, final double x, final double a ) {
+    protected double psiScaled( final int n, final double x ) {
         assert( n >= 1 );
-        return ( SQRT_PI * Math.pow( ( n * a ), 1.5 ) * psi( n, x ) );
+        return ( getScalingCoefficient( n, getMass() ) * psi( n, x ) );
     }
 }

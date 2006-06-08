@@ -60,7 +60,7 @@ public abstract class BSAbstractCoulombSolver {
         _offset = potential.getOffset();
         _mass = particle.getMass();
         _l = DEFAULT_ANGULAR_MOMENTUM_QUANTUM_NUMBER;
-        _a = ( BSConstants.HBAR * BSConstants.HBAR ) / ( _mass * BSConstants.KE2 );
+        _a = get_a( particle.getMass() );
     }
     
     //----------------------------------------------------------------------------
@@ -69,6 +69,10 @@ public abstract class BSAbstractCoulombSolver {
     
     protected double getMass() {
         return _mass;
+    }
+    
+    protected static double get_a( final double mass ) {
+        return ( BSConstants.HBAR * BSConstants.HBAR ) / ( mass * BSConstants.KE2 );
     }
     
     //----------------------------------------------------------------------------
@@ -112,7 +116,7 @@ public abstract class BSAbstractCoulombSolver {
         double x = minX;
         double y = 0;
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            y = psiScaled( n, x, _a );
+            y = psiScaled( n, x );
             points[i] = new Point2D.Double( x, y );
             x += dx;
         }
@@ -129,7 +133,7 @@ public abstract class BSAbstractCoulombSolver {
      * @param a common constant
      * @return scaled value of psi
      */
-    protected abstract double psiScaled( final int n, final double x, final double a );
+    protected abstract double psiScaled( final int n, final double x );
     
     /*
      * Calculates the unscaled wave function at a position.

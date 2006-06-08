@@ -96,6 +96,20 @@ public class BSCoulomb3DWell extends BSCoulomb1DWells {
         }
     }
     
+    /**
+     * Gets the coefficient required to normalize a wave function that 
+     * was produced using the 1D Coulomb solver.
+     * 
+     * @param points
+     * @param eigenstateIndex 0,...n
+     * @return
+     */
+    public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
+        final double mass = getParticle().getMass();
+        final int eigenstateSubscript = eigenstateIndex + 1; // Coulomb subscripts start with 1
+        return ( 1 / BSCoulomb3DSolver.getScalingCoefficient( eigenstateSubscript, mass ) );
+    }
+    
     /*
      * Calculates the eignestates for the potential using an analytic solver.
      */
