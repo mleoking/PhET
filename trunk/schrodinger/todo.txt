@@ -9,6 +9,7 @@ and was much more noticeable in the interview than it is in this screen shot).
 I extend the lattice beyond the visible region;
 here it could also be done, but very time consuming to implement, 
 and would slow down the sim (scales with the size of the boundary).
+>>I checked the x locations of the wave sources, and they are symmetric.
 
 Initial Wiggle me is hard to see:
 If it were a font that is about twice as large, bold,
