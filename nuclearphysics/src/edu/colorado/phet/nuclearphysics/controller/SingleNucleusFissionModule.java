@@ -33,13 +33,16 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
-        init( clock );
+        this.clock = clock;
+//        init( clock );
     }
 
-    protected void init( IClock clock ) {
+    protected void init() {
+//    protected void init( IClock clock ) {
+        super.init();
         addPhysicalPanel( getPhysicalPanel() );
 
-        this.clock = clock;
+//        this.clock = clock;
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {

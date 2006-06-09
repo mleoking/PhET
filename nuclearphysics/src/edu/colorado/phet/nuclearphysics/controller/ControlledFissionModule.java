@@ -108,9 +108,9 @@ public class ControlledFissionModule extends ChainReactionModule {
         super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
         // Set up the control panel
         super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
-        init( getClock() );
+//        init( getClock() );
 
-        setParameterDefaults();
+//        setParameterDefaults();
     }
 
     protected List getLegendClasses() {
@@ -138,7 +138,8 @@ public class ControlledFissionModule extends ChainReactionModule {
         createNuclei();
     }
 
-    protected void init( IClock clock ) {
+    protected void init( /*IClock clock */) {
+        super.init();
 
         //  Create the list for the nuetron launchers
         neutronLaunchers = new ArrayList();
@@ -160,7 +161,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                              vesselHeight,
                              numChannels,
                              (NuclearPhysicsModel)getModel(),
-                             clock );
+                             getClock() );
         getModel().addModelElement( vessel );
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
@@ -219,6 +220,8 @@ public class ControlledFissionModule extends ChainReactionModule {
                 // noop
             }
         } );
+
+        setParameterDefaults();    
     }
 
     /**
@@ -463,7 +466,8 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
 
     public void start() {
-        init( getClock() );
+        init( );
+//        init( getClock() );
         return;
     }
 

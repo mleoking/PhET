@@ -16,6 +16,7 @@ Alpha Radiation
 -   Alpha particle sometimes disappears for first step of decay
 
 Fission:
+-   Obsolete Interface exception when running under 1.4.
 
 Chain Reaction panel
 ?	Once the Legend is reduced to the applicable items only and the Help button is removed, this should give more room for the controls.

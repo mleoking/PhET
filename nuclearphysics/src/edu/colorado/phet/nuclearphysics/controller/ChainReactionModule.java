@@ -49,6 +49,11 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     public ChainReactionModule( String name, IClock clock ) {
         super( name, clock );
 
+//        init();
+    }
+
+    protected void init() {
+
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
 
