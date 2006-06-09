@@ -22,6 +22,7 @@ MEDIUM PRIORITY:
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - hide the dot in the center of the magnifying glass
 - hide y-axis tick labels (and tick marks?) on bottom plots
+- remove horizontal grid lines from BSBottomPlot
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one

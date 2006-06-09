@@ -194,6 +194,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         setBackgroundPaint( BSConstants.COLOR_SCHEME.getChartColor() );
         setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
+        setRangeGridlinesVisible( true ); //XXX remove!
         setDomainGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
@@ -491,8 +492,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
                 psiSum[i] = new MutableComplex();
             }
             
-            final boolean normalize = _model.isSuperpositionState();
-            
             MutableComplex y = new MutableComplex();
             MutableComplex Ft = new MutableComplex();
             
@@ -508,12 +507,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
                 // Data points
                 Point2D[] points = item.getPoints(); // Ps(x)
                 
-                // Normalization coefficient
-                double A = 1;
-                if ( normalize ) {
-                    A = item.getNormalizationCoefficient();
-                }
-                
                 // F(t) = e^(-i * E * t / hbar), where E = eigenstate energy 
                 final double E = eigenstates[eigenstateIndex].getEnergy();
                 Ft.setValue( Complex.I );
@@ -522,14 +515,29 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
 
                 // Superposition coefficient 
                 final double C = coefficients.getCoefficient( eigenstateIndex );
-
+                
+                // Normalization coefficient
+                final double A = item.getNormalizationCoefficient();
+                
                 for ( int j = 0; j < points.length; j++ ) {
-                    // Psi(x,t) = Psi(x) * A * F(t) * C
+                    // Psi(x,t) = Psi(x) * F(t) * C * A
                     y.setValue( points[j].getY() );
-                    y.multiply( A );
                     y.multiply( Ft );
-                    y.multiply( C );
+                    if ( C != 1 ) {
+                        y.multiply( C );
+                    }
+                    if ( A != 1 ) {
+                        y.multiply( A );
+                    }
                     psiSum[j].add( y );
+                }
+            }
+            
+            // Scale the wave function sum
+            final double S = _cache.getSumScalingCoefficient();
+            if ( S != 1 ) {
+                for ( int j = 0; j < psiSum.length; j++ ) {
+                    psiSum[j].multiply( S );
                 }
             }
         }
