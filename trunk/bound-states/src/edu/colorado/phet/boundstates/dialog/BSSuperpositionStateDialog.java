@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -160,7 +161,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         assert( eigenstates.length == numberOfCoefficients );
         
         int groundStateSubscript = _model.getPotential().getGroundStateSubscript();
-        String es = createEquationString( groundStateSubscript );
+        String es = createSuperpositionEquation( groundStateSubscript );
         JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
@@ -258,22 +259,23 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Equation creation
     //----------------------------------------------------------------------------
     
-    private static String createEquationString( final int groundStateSubscript ) {
+    private static String createSuperpositionEquation( final int groundStateSubscript ) {
+        int i = groundStateSubscript;
         String s = "<html>" + PSI + "(x) = " + 
-            createTermString( groundStateSubscript ) + " + " + 
-            createTermString( groundStateSubscript + 1 ) + " + ... + " + 
-            createTermString( "n" );
+            "c<sub>" + i + "</sub>" + PSI + "<sub>" + i++ + "</sub>(x) + " +
+            "c<sub>" + i + "</sub>" + PSI + "<sub>" + i++ + "</sub>(x) + ... + " + 
+            "c<sub>n</sub>" + PSI + "<sub>n</sub>(x)";
+        return s;
+    }
+ 
+    private static String createNormalizationEquation( final int groundStateSubscript ) {
+        int i = groundStateSubscript;
+        String s = "c<sub>" + i++ + "</sub><sup>2</sup> + " +
+                   "c<sub>" + i++ + "</sub><sup>2</sup> + ... + " + 
+                   "c<sub>n</sub><sup>2</sup> = 1";
         return s;
     }
     
-    private static String createTermString( int subscript ) {
-        return createTermString( Integer.toString( subscript ) );
-    }
-    
-    private static String createTermString( String subscript ) {
-        return "c<sub>" + subscript + "</sub>" + PSI + "<sub>" + subscript + "</sub>(x)";
-    }
- 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -426,7 +428,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             apply();
         }
         else {
-            String message = SimStrings.get( "message.confirmNormalizeApply" );
+            String pattern = SimStrings.get( "message.confirmNormalizeApply" );
+            int groundStateSubscript = _model.getPotential().getGroundStateSubscript();
+            String equation = createNormalizationEquation( groundStateSubscript );
+            Object[] objs = { equation };
+            MessageFormat format = new MessageFormat( pattern );
+            String message = format.format( objs );
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 // Yes -> normalize, apply

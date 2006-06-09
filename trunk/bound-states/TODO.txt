@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- scale time-dependent wave function when in a superposition state
 
 HIGH PRIORITY:
 - wiggle me animation is jerky
@@ -16,6 +15,7 @@ HIGH PRIORITY:
 - superposition dialog asks you if you want to normalize even when values look normalized
 
 MEDIUM PRIORITY:
+- add a button to superposition dialog that sets all coefficients to zero
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
@@ -58,6 +58,8 @@ CLEANUP:
 
 
 DONE:
+(6/9/06) - add normalization equation to confirmation in superposition dialog
+(6/9/06) - Sam M says that scaling of time-dependent wave function is OK as is
 (6/8/06) - work on scaling of time-dependent wave function, not finished
 (6/8/06) - piccolo-phet: rewrite MotionHelpBalloon
 (6/7/06) - normalize wave function dataset points when in a superposition state
@@ -385,6 +387,7 @@ DONE:
 
 
 REJECTED:
+(6/7/06) - method of scaling time-dependent wave function doesn't always result in max amplitude=1 over time (we can't solve this)
 (6/7/06) - update while sliders are dragging (fine as is, no one has complained)
 (6/7/06) - how does the user know the mass in the Two and Many panels? there is no mass control (not intended to be quantitative)
 (6/7/06) - different method of solving when multi-wells are spaced far apart? (we don't have this problem)
