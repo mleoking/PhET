@@ -51,7 +51,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG = true;
+    // Shows the center point of the lens, useful for debugging
+    private static final boolean SHOW_CENTER_POINT = false;
     
     // Default values for things that can be changed with mutators
     private static final double DEFAULT_MAGNIFICATION = 10; // magnification power
@@ -157,7 +158,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
         // Center point of the lens, for debugging
         PPath centerNode = new PPath();
-        if ( DEBUG ) {
+        if ( SHOW_CENTER_POINT ) {
             final double diameter = 5;
             final double radius = diameter / 2;
             Shape centerShape = new Ellipse2D.Double( -radius, -radius, diameter, diameter );
