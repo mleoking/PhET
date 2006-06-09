@@ -17,8 +17,8 @@ MEDIUM PRIORITY:
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
+- existing Save/Load code is broken, throws exception related to BSBottomPlot
 - implement Save/Load for model
-- implement Save/Load of clock speed setting
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -53,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+(6/9/06) - implement Save/Load of clock speed setting
 (6/9/06) - replace "Play Fast" checkbox with a clock speed sider (1,10,100,1000x, normal-fast labels, snap to ticks)
 (6/9/06) - remove horizontal grid lines, hide y-axis tick labels on bottom plots
 (6/9/06) - hide the dot in the center of the magnifying glass
