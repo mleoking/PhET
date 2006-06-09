@@ -18,6 +18,10 @@ import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Presents a number of U235 and U238 nuclei, and an optional containment vessel, and a gun that fires a
+ * single neutron at the central U235 nucleus. It's supposed to represent a bomb.
+ */
 public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener {
 
     private Containment containment;
@@ -195,8 +199,17 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         return location;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of Containment.ResizeListener
+    //--------------------------------------------------------------------------------------------------
+
+
     public void containementResized( Containment containment ) {
         Shape bounds = containment.getShape();
+
+        // Recompute the spot from which neutrons are fired
+        computeNeutronLaunchParams();
+        
         ArrayList removeList = new ArrayList();
         for( int i = 0; i < nuclei.size(); i++ ) {
             Nucleus nucleus = (Nucleus)nuclei.get( i );

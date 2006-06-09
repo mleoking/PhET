@@ -25,7 +25,6 @@ Chain Reaction panel
 -   % spinner acts unpleasant when a spinner is spun after a fission run
 -   Replace spinner with a slider(?) and text box
 -   nucleus on graph pane of single nucleus fission module flashes
-- Neutron is fired from the same spot in the panel, regardless of the size of the vessel
 
 
 Controlled Reaction
@@ -37,7 +36,6 @@ Controlled Reaction
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.
--   The "hidden" U238 nuclei are now displayed because of the new listener mechanism for creating nucleus graphic
 
 
 ================
@@ -73,9 +71,11 @@ Chain Reaction panel
 ?	I would suggest a vessel that’s half as thick.
 ?	There’s a wierd little box that shows up around Enable Containment Vessel when you choose the check box but once you do something else in the control panel it disappears.
 -   "Enable Containment Vessel" color isn't the same as the other labels in the panel
+-   Neutron is fired from the same spot in the panel, regardless of the size of the vessel
 
 Controlled Reaction
 ?	The neutrons in this panel have tails and look like photons.  They should just be round balls.
+-   The "hidden" U238 nuclei are now displayed because of the new listener mechanism for creating nucleus graphic
 
 Historical  todos
 =================
