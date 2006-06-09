@@ -14,6 +14,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- mouse events don't go thru wiggle me, nothing happens when use clicks on it
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
