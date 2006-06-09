@@ -27,10 +27,12 @@ public class TxGraphic extends CompositePhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        GraphicsState gs = new GraphicsState( g );
-        g.transform( atx );
-        graphic.paint( g );
-        gs.restoreGraphics();
+        if( isVisible() ) {
+            GraphicsState gs = new GraphicsState( g );
+            g.transform( atx );
+            graphic.paint( g );
+            gs.restoreGraphics();
+        }
     }
 
     public PhetGraphic getWrappedGraphic() {

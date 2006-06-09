@@ -208,7 +208,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         }
 
         // Add the daughter nucleus
-        getPhysicalPanel().addNucleus(decayProducts.getDaughter());
         getModel().addModelElement(decayProducts.getDaughter());
         getPotentialProfilePanel().addPotentialProfile(decayProducts.getDaughter());
 

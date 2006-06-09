@@ -19,11 +19,13 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -199,6 +201,24 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Reset the energy graph dialog
         resetEnergyGraphDialog();
+
+        // Add a listener that will hide the U238 nuclei that are just here to dampen the reaction
+        getPhysicalPanel().addGraphicListener( new PhysicalPanel.GraphicListener() {
+            public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
+                PhetGraphic graphic = event.getPhetGraphic();
+                if( graphic instanceof Uranium238Graphic ){
+                    graphic.setVisible( false );
+                }
+                 if(graphic instanceof TxGraphic
+                           && ((TxGraphic)graphic).getWrappedGraphic() instanceof Uranium238Graphic) {
+                    graphic.setVisible( false );
+                }
+            }
+
+            public void graphicRemoved( PhysicalPanel.GraphicEvent event ) {
+                // noop
+            }
+        } );
     }
 
     /**
