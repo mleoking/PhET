@@ -4,12 +4,12 @@ Bugs
 - Thumbnails don't display the first time they come down.
 - Clearing the cache doesn't update the installed and available sims lists
 - Options are getting saved too many time when thubmnails are turned off
-- Moving Man doesn't fly because there is a jar from a shared directory. Need to build the path correctly
+- Moving Man doesn't launch. SmoothMetal shows up as corrupted.
 
 ========
 Features
 ========
-- Maximize frame doesn't enlarge the table
+- Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
 - Add "Go online" menu item
 - Handle Flash sims
@@ -32,6 +32,7 @@ Testing
 ================
 Done, not posted
 ================
+- Maximize frame doesn't enlarge the table
 - Encapsulate PhetConnection
 - On startup, if there is no catalog and client is offline, let the user know
 - Application must work properly when offline
