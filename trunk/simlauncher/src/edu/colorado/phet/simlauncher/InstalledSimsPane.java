@@ -111,11 +111,14 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
-        revalidate();
-        repaint();
 
         // Disable the lauch button. Since the table is new, there can't be any simulation selected
         launchBtn.setEnabled( false );
+
+        // This is required to get rid of screen turds if the old table had a scrollbar and the
+        // new one doesn't
+        revalidate();
+        repaint();
     }
 
     //--------------------------------------------------------------------------------------------------

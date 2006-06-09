@@ -130,7 +130,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
          */
         private void updateSimTable() {
             if( simTable != null ) {
-                System.out.println( "UninstalledSimsPane$SimPanel.updateSimTable" );
                 remove( simTableScrollPane );
                 simTableScrollPane.remove( simTable );
             }
@@ -154,11 +153,13 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
-            revalidate();
-            repaint();
 
             // Disable the install button, since there is no selected simulation anymore
             installBtn.setEnabled( false );
+
+            // This is required to get rid of screen turds if the old table had a scrollbar and the
+            // new one doesn't
+            repaint();
         }
 
         //--------------------------------------------------------------------------------------------------

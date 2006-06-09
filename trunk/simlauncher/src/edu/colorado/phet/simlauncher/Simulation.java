@@ -251,11 +251,13 @@ public class Simulation implements SimContainer {
      * Updates the local version of the simulation with the one on the PhET web site
      */
     public void update() throws SimResourceException {
-        for( int i = 0; i < resources.size(); i++ ) {
-            SimResource simResource = (SimResource)resources.get( i );
-            simResource.update();
-        }
-        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+        uninstall();
+        install();
+//        for( int i = 0; i < resources.size(); i++ ) {
+//            SimResource simResource = (SimResource)resources.get( i );
+//            simResource.update();
+//        }
+//        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -24,6 +24,6 @@ public class SimUpdateMenuItem extends PhetSiteConnectionDependentMenuItem {
 
     public SimUpdateMenuItem( SimContainer simContainer, PhetSiteConnection phetSiteConnection ) {
         super( "Update simulation", phetSiteConnection );
-        addActionListener( new UpdateSimAction( simContainer ) );
+        addActionListener( new UpdateSimAction( simContainer, this ) );
     }
 }
