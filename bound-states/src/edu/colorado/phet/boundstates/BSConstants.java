@@ -134,13 +134,11 @@ public class BSConstants {
     // Energy range is set per potential type in subclasses of BSAbstractModuleSpec.
     
     // Wave Function
-//    public static final Range WAVE_FUNCTION_RANGE = new Range( -1.15, +1.15 );
     public static final Range WAVE_FUNCTION_RANGE = new Range( -1.55, +1.55 );
     public static final double WAVE_FUNCTION_TICK_SPACING = 0.5;
     public static final DecimalFormat WAVE_FUNCTION_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Probability Density
-//    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 1.05 );
     public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 1.55 );
     public static final double PROBABILITY_DENSITY_TICK_SPACING = 0.5;
     public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
