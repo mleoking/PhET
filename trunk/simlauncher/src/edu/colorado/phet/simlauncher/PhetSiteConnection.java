@@ -51,6 +51,13 @@ public class PhetSiteConnection {
         connectionMonitor.start();
     }
 
+    /**
+     * Tries to connect to the PhET site with a URLConnection. When there is a connection,
+     * the check completes very quickly. If there is no connection, the first check takes
+     * a few seconds, and each subsequent check is very quick.
+     *
+     * @return true if there is a connection to the PhET web site
+     */
     public boolean isConnected() {
         boolean connected;
         try {
