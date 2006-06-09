@@ -59,6 +59,7 @@ CLEANUP:
 
 
 DONE:
+(6/9/06) - add tolerance to superposition coefficient normalization checks since user can old enter 2 decimal places 
 (6/9/06) - simplify many of the methods in superposition model
 (6/9/06) - add Clear button to superposition dialog
 (6/9/06) - add normalization equation to confirmation in superposition dialog

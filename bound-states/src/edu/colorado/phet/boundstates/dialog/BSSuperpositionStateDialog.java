@@ -61,6 +61,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     private static final int SPINNER_COLUMNS = 4;
     
+    /*
+     * The amount of normalization error we're willing to accept 
+     * is related to the precision of the coefficients that we're 
+     * displaying. For example, if the user may only be able to
+     * enter 0.54, when the actual coefficient should be 0.543.
+     */
+    private static final double NORMALIZATION_ERROR = BSConstants.COEFFICIENT_STEP;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -336,7 +344,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      * Applies the local coefficient values to the model.
      */
     private void apply() {
-        if ( _localCoefficients.isNormalized() ) {
+        if ( _localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
             BSSuperpositionCoefficients modelCoefficients = _model.getSuperpositionCoefficients();
             modelCoefficients.setNotifyEnabled( false );
             final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
@@ -442,7 +450,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private void handleApplyAction() {
 
-        if ( _localCoefficients.isNormalized() ) {
+        if ( _localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
             apply();
         }
         else {
@@ -473,7 +481,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
         else {
             String message = SimStrings.get( "message.confirmApplyClose" );
-            if ( !_localCoefficients.isNormalized() ) {
+            if ( !_localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
                 message = SimStrings.get( "message.confirmNormalizeApplyClose" );
             }
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
