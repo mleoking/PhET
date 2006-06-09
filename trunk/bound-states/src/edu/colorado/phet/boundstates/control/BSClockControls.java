@@ -11,14 +11,17 @@
 
 package edu.colorado.phet.boundstates.control;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Hashtable;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSClock;
@@ -51,7 +54,7 @@ public class BSClockControls extends JPanel implements ClockListener {
     private JButton _stepButton;
     private JTextField _timeTextField;
     private JLabel _timeUnitsLabel;
-    private JCheckBox _fasterCheckBox;
+    private JSlider _clockIndexSlider;
     
     private NumberFormat _timeFormat;
 
@@ -69,6 +72,7 @@ public class BSClockControls extends JPanel implements ClockListener {
         
         // Clock
         _clock = clock;
+        _clock.setSimulationTimeChange( BSConstants.DEFAULT_CLOCK_STEP );
         _clock.addClockListener( this );
         
         // Labels
@@ -109,16 +113,36 @@ public class BSClockControls extends JPanel implements ClockListener {
             _timeUnitsLabel = new JLabel( timeUnitsLabel );
             _timeUnitsLabel.setFont( BSConstants.TIME_UNITS_FONT );
             
-            _timeFormat = BSConstants.TIME_FORMAT;
+            _timeFormat = BSConstants.DEFAULT_CLOCK_FORMAT;
             
             timePanel.add( clockLabel );
             timePanel.add( _timeTextField );
             timePanel.add( _timeUnitsLabel );
         }
         
-        // "Faster" check box
+        // Speed slider
         {
-            _fasterCheckBox = new JCheckBox( SimStrings.get( "button.playFaster" ) );
+            _clockIndexSlider = new JSlider();
+            _clockIndexSlider.setMinimum( 0 );
+            _clockIndexSlider.setMaximum( BSConstants.CLOCK_STEPS.length - 1 );
+            _clockIndexSlider.setMajorTickSpacing( 1 );
+            _clockIndexSlider.setPaintTicks( true );
+            _clockIndexSlider.setPaintLabels( true );
+            _clockIndexSlider.setSnapToTicks( true );
+            _clockIndexSlider.setValue( BSConstants.DEFAULT_CLOCK_INDEX );
+            
+            // Label the min "normal", the max "fast".
+            String normalString = SimStrings.get( "label.clockSpeed.normal" );
+            String fastString = SimStrings.get( "label.clockSpeed.fast" );
+            Hashtable labelTable = new Hashtable();
+            labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
+            labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
+            _clockIndexSlider.setLabelTable( labelTable );
+            
+            // Set the slider's physical width
+            Dimension preferredSize = _clockIndexSlider.getPreferredSize();
+            Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
+            _clockIndexSlider.setPreferredSize( size );
         }
         
         // Clock control buttons
@@ -137,16 +161,14 @@ public class BSClockControls extends JPanel implements ClockListener {
         
         // Layout
         setLayout(  new FlowLayout( FlowLayout.CENTER ) );
-        if ( BSConstants.TIME_DISPLAY_VISIBLE ) {
-            add( timePanel );
-        }
-        add( _fasterCheckBox );
+        add( timePanel );
+        add( _clockIndexSlider );
         add( controlsPanel );
         
         // Interactivity
-        _fasterCheckBox.addActionListener( new ActionListener() { 
-            public void actionPerformed( ActionEvent event ) {
-                handleFaster();
+        _clockIndexSlider.addChangeListener( new ChangeListener() { 
+            public void stateChanged( ChangeEvent event ) {
+                handleClockIndexChange();
             }
         } );
         _restartButton.addActionListener( new ActionListener() {
@@ -216,16 +238,11 @@ public class BSClockControls extends JPanel implements ClockListener {
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleFaster() {
-        if ( _fasterCheckBox.isSelected() ) {
-            _timeFormat = BSConstants.TIME_FORMAT_FASTER;
-            _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP_FASTER );
-        }
-        else {
-            _timeFormat = BSConstants.TIME_FORMAT;
-            _clock.setSimulationTimeChange( BSConstants.CLOCK_STEP );
-        }
-        _clock.resetSimulationTime();
+    private void handleClockIndexChange() {
+        int index = _clockIndexSlider.getValue();
+        _timeFormat = BSConstants.CLOCK_FORMATS[index];
+        _clock.setSimulationTimeChange( BSConstants.CLOCK_STEPS[index] );
+        _clock.resetSimulationTime(); // so the clock display doesn't overflow
     }
     
     private void handleRestart() {
@@ -263,11 +280,9 @@ public class BSClockControls extends JPanel implements ClockListener {
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        if ( BSConstants.TIME_DISPLAY_VISIBLE ) {
-            double time = _clock.getSimulationTime();
-            String sValue = _timeFormat.format( time );
-            _timeTextField.setText( sValue );
-        }
+        double time = _clock.getSimulationTime();
+        String sValue = _timeFormat.format( time );
+        _timeTextField.setText( sValue );
     }
     
     //----------------------------------------------------------------------------
