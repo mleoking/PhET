@@ -50,7 +50,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     private static final boolean AUTO_SORT = false;
     
     // Are ticks visible on the Y axis?
-    private static final boolean Y_AXIS_TICK_LABELS_VISIBLE = true;
+    private static final boolean Y_AXIS_TICK_LABELS_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -194,7 +194,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         setBackgroundPaint( BSConstants.COLOR_SCHEME.getChartColor() );
         setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setRangeGridlinesVisible( true ); //XXX remove!
         setDomainGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
