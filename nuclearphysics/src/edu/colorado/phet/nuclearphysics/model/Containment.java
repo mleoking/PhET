@@ -120,6 +120,16 @@ public class Containment extends SimpleObservable {
                 if( o instanceof Neutron ) {
                     detectAndDoCollision( (Neutron)o );
                 }
+                if( o instanceof Nucleus ) {
+                    detectAndDoCollision( (Nucleus)o );
+                }
+            }
+        }
+
+        private void detectAndDoCollision( Nucleus nucleus ) {
+            double distSq = nucleus.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
+            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
+                nucleus.setVelocity( 0, 0 );
             }
         }
 
