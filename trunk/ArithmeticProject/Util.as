@@ -1,4 +1,4 @@
-﻿//general utilities
+﻿//general utilities updated in June 2006
 
 class Util{
 	public static var STAGEH:Number = Stage.height;
