@@ -32,6 +32,10 @@ Testing
 ================
 Done, not posted
 ================
+
+=======
+0.00.02
+=======
 - Maximize frame doesn't enlarge the table
 - Encapsulate PhetConnection
 - On startup, if there is no catalog and client is offline, let the user know
