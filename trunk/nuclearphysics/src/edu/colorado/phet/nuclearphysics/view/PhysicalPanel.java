@@ -15,10 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Rubidium;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -28,6 +25,15 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+/**
+ * A panel thst shows the physical representation of what's going on.
+ * <p>
+ * When a Nucleus instance is added to this panel, the panel calls a factory object to make a
+ * graphic for the nucleus.
+ * <p>
+ * Every time a nucleus is added to this panel, the panel binds a listener to the nucleus that
+ * will remove it's associated graphic when the nucleus fires a leavingSystem() message.
+ */
 public class PhysicalPanel extends TxApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
@@ -43,7 +49,7 @@ public class PhysicalPanel extends TxApparatusPanel {
      * Constructor
      * @param clock
      */
-    public PhysicalPanel( IClock clock ) {
+    public PhysicalPanel( IClock clock, NuclearPhysicsModel model ) {
         super( clock );
         this.setBackground( backgroundColor );
         setPhysicalScale( 1 );
@@ -58,6 +64,17 @@ public class PhysicalPanel extends TxApparatusPanel {
                     nucleonTx.concatenate( originTx );
                     nucleonTx.concatenate( scaleTx );
                 }
+            }
+        } );
+
+        // Add a listener that will
+        model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+            public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
+                addNucleus( event.getNucleus() );
+            }
+
+            public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
+
             }
         } );
     }
@@ -85,18 +102,6 @@ public class PhysicalPanel extends TxApparatusPanel {
         TxGraphic txg = new TxGraphic( graphic, nucleonTx );
         super.addGraphic( txg );
     }
-
-    /**
-     * todo: Is this needed?
-     * @param graphics
-     */
-//    protected void paintComponent( Graphics graphics ) {
-//        Graphics2D g2 = (Graphics2D)graphics;
-//        GraphicsState gs = new GraphicsState( g2 );
-//        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
-//        super.paintComponent( g2 );
-//        gs.restoreGraphics();
-//    }
 
     public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
         TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );

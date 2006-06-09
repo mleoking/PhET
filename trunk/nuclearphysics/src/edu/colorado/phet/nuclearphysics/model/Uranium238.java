@@ -37,6 +37,10 @@ public class Uranium238 extends Nucleus {
         this.model = model;
     }
 
+    /**
+     * Checks to see if we're struck by a neutron and, if so, initiates fission
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
@@ -53,17 +57,18 @@ public class Uranium238 extends Nucleus {
         }
     }
 
-    // todo: Try to rewrite this so we just get rid of the thing right away
+    /**
+     * Removes the U238 nucleus from the model and replaces it with a U239 nucleus
+     * @param neutron
+     */
     public void fission( Neutron neutron ) {
         if( random.nextDouble() <= ABSORPTION_PROBABILITY ) {
-            // Move the neutron way, way away so it doesn't show and doesn't
-            // cause another fission event. It will be destroyed later. Do it
-            // twice so the neutron's previous position gets set to the same thing.
-//            neutron.setPosition( 100E3, 100E3 );
-//            neutron.setPosition( 100E3, 100E3 );
-//            neutron.setVelocity( 0, 0 );
-
+            Uranium239 u239 = new Uranium239( this.getPosition(), model );
             model.removeModelElement( neutron );
+            this.leaveSystem();
+
+            model.addModelElement( u239 );
+            
         }
     }
 }

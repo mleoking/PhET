@@ -16,11 +16,11 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.geom.Point2D;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
@@ -61,6 +61,15 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                 }
             }
         } );
+    }
+
+    protected java.util.List getLegendClasses() {
+        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
+                LegendPanel.NEUTRON,
+                LegendPanel.PROTON,
+                LegendPanel.U235
+        };
+        return Arrays.asList( legendClasses );
     }
 
     public void stop() {

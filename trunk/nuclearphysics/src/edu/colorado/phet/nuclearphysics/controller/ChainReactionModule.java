@@ -127,7 +127,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected void addNucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
-        getPhysicalPanel().addNucleus( nucleus );
+//        getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
     }
 

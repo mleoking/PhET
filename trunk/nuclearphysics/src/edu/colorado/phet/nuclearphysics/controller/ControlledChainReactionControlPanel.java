@@ -46,7 +46,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         //
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                SwingUtilities.getWindowAncestor( ControlledChainReactionControlPanel.this ).validate();
+//                SwingUtilities.getWindowAncestor( ControlledChainReactionControlPanel.this ).validate();
             }
         } );
 
