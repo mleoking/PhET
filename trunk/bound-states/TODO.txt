@@ -54,9 +54,7 @@ CLEANUP:
 
 
 DONE:
-
-- hide y-axis tick labels (and tick marks?) on bottom plots
-- remove horizontal grid lines from BSBottomPlot
+(6/9/06) - remove horizontal grid lines, hide y-axis tick labels on bottom plots
 (6/9/06) - hide the dot in the center of the magnifying glass
 (6/9/06) - add tolerance to superposition coefficient normalization checks since user can old enter 2 decimal places 
 (6/9/06) - simplify many of the methods in superposition model
