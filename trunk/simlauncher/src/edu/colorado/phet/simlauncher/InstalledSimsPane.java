@@ -22,7 +22,7 @@ import java.awt.event.MouseEvent;
 
 /**
  * InstalledSimsPane
- * <p>
+ * <p/>
  * The enabling/disabling of the Launch button is not clean. I couldn't see how to do it in one place.
  *
  * @author Ron LeMaster
@@ -61,7 +61,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn.addActionListener( new LaunchSimAction( this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
-                if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT )) {
+                if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) ) {
                     updateSimTable();
                 }
             }

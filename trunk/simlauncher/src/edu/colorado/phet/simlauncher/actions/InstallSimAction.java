@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
@@ -29,13 +29,9 @@ public class InstallSimAction extends AbstractAction {
     private Component component;
     private JDialog waitDlg;
 
-    public InstallSimAction( SimContainer simContainer,Component component ) {
+    public InstallSimAction( SimContainer simContainer, Component component ) {
         this.component = component;
         this.simContainer = simContainer;
-    }
-
-    public InstallSimAction( Simulation simulation, Component component ) {
-        this( new DefaultSimContainer( simulation ), component );
     }
 
     public void actionPerformed( ActionEvent e ) {
@@ -72,10 +68,11 @@ public class InstallSimAction extends AbstractAction {
     /**
      * Puts up a dialog, then kicks off the installation in a separate thread. When the
      * simulation is installed, the dialog goes away.
+     *
      * @param simulation
      */
     private void install( final Simulation simulation ) {
-        Thread installerThread = new Thread( new Runnable( ){
+        Thread installerThread = new Thread( new Runnable() {
             public void run() {
                 try {
                     simulation.install();
@@ -85,7 +82,7 @@ public class InstallSimAction extends AbstractAction {
                 }
                 hideWaitDialog();
             }
-        });
+        } );
         installerThread.start();
         showWaitDialog();
     }

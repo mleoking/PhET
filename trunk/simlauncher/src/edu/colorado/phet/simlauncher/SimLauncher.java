@@ -63,19 +63,20 @@ public class SimLauncher {
         boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl() );
 
         // No internet connection and no installed simulations
-        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() == null) {
+        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() == null ) {
             JOptionPane.showMessageDialog( parent,
                                            "<html>You have no simulations installed and are do not have an" +
                                            "internet connection to the PhET web site." +
-                                           "<br><br>You need to establish an internet connection before you can"+
+                                           "<br><br>You need to establish an internet connection before you can" +
                                            "<br>install any PhET simulations. " );
         }
 
         // Installed simulations, but no internet connection
-        else if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null) {
+        else
+        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
             JOptionPane.showMessageDialog( parent,
                                            "<html>You are working offline." +
-                                           "<br><br>You will be able to run simulations you've installed, but "+
+                                           "<br><br>You will be able to run simulations you've installed, but " +
                                            "<br>will not be able to browse the online catalog of simulations. " );
         }
 

@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class SimulationList extends JList {
 
-    public SimulationList( final List simulations) {
-        super( getSimEntries( simulations ));
+    public SimulationList( final List simulations ) {
+        super( getSimEntries( simulations ) );
     }
 
     private static Object[] getSimEntries( List simulations ) {
@@ -31,9 +31,9 @@ public class SimulationList extends JList {
 
         for( int i = 0; i < simulations.size(); i++ ) {
             Simulation simulation = (Simulation)simulations.get( i );
-            JPanel panel = new JPanel( new GridLayout( 1, 2 ));
-            panel.add( new JLabel( simulation.getName() ));
-            panel.add( new JLabel( simulation.getThumbnail() ));
+            JPanel panel = new JPanel( new GridLayout( 1, 2 ) );
+            panel.add( new JLabel( simulation.getName() ) );
+            panel.add( new JLabel( simulation.getThumbnail() ) );
             entries[i] = panel;
         }
         return entries;
@@ -44,9 +44,9 @@ public class SimulationList extends JList {
 
         for( int i = 0; i < simulations.length; i++ ) {
             Simulation simulation = (Simulation)simulations[i];
-            JPanel panel = new JPanel( new GridLayout( 1, 2 ));
-            panel.add( new JLabel( simulation.getName()));
-            panel.add( new JLabel( simulation.getThumbnail() ));
+            JPanel panel = new JPanel( new GridLayout( 1, 2 ) );
+            panel.add( new JLabel( simulation.getName() ) );
+            panel.add( new JLabel( simulation.getThumbnail() ) );
             entries[i] = panel;
         }
         return entries;

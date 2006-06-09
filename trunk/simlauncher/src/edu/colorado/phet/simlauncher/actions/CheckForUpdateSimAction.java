@@ -15,8 +15,8 @@ import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * UpdateSimAction
@@ -42,10 +42,6 @@ public class CheckForUpdateSimAction extends AbstractAction {
     public CheckForUpdateSimAction( SimContainer simContainer, Component parent ) {
         this.simContainer = simContainer;
         this.parent = parent;
-    }
-
-    public CheckForUpdateSimAction( Simulation simulation, Component parent ) {
-        this( new DefaultSimContainer( simulation ), parent );
     }
 
     public void actionPerformed( ActionEvent e ) {

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
@@ -28,10 +28,6 @@ public class UpdateSimAction extends AbstractAction {
 
     public UpdateSimAction( SimContainer simContainer ) {
         this.simContainer = simContainer;
-    }
-
-    public UpdateSimAction( Simulation simulation ) {
-        this( new DefaultSimContainer( simulation ) );
     }
 
     public void actionPerformed( ActionEvent e ) {

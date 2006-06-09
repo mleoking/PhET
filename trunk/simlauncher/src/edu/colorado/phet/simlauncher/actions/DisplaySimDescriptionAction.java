@@ -11,7 +11,6 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.Simulation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +18,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * DisplaySimDescriptionAction
- * <p>
+ * <p/>
  * Displays the abstract for a simulation in a JOptionPane
  *
  * @author Ron LeMaster
@@ -32,10 +31,6 @@ public class DisplaySimDescriptionAction extends AbstractAction {
     public DisplaySimDescriptionAction( SimContainer simContainer, Component parent ) {
         this.simContainer = simContainer;
         this.parent = parent;
-    }
-
-    public DisplaySimDescriptionAction( Simulation simulation, Component parent ) {
-        this( new DefaultSimContainer( simulation ), parent );
     }
 
     public void actionPerformed( ActionEvent e ) {

@@ -13,8 +13,8 @@ package edu.colorado.phet.simlauncher.actions;
 import edu.colorado.phet.simlauncher.Options;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * SimListingOptionsAction

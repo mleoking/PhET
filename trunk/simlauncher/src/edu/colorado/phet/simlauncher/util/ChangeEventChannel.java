@@ -31,6 +31,7 @@ public class ChangeEventChannel extends EventChannel {
 
     public interface ChangeEventSource {
         public void addChangeListener( ChangeEventChannel.ChangeListener listener );
+
         public void removeChangeListener( ChangeEventChannel.ChangeListener listener );
     }
 
@@ -43,6 +44,6 @@ public class ChangeEventChannel extends EventChannel {
     }
 
     public void notifyChangeListeners( Object source ) {
-        ((ChangeListener)getListenerProxy()).stateChanged( new ChangeEvent( source ) );
+        ( (ChangeListener)getListenerProxy() ).stateChanged( new ChangeEvent( source ) );
     }
 }

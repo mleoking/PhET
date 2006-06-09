@@ -42,6 +42,6 @@ public class Category {
     }
 
     public List getSimulations() {
-        return simulations;        
+        return simulations;
     }
 }

@@ -10,11 +10,7 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.Options;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * SimLauncherMenuBar

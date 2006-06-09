@@ -24,13 +24,12 @@ import javax.swing.*;
 public class UninstalledSimPopupMenu extends JPopupMenu {
 
     /**
-     *
      * @param simulation
      */
     public UninstalledSimPopupMenu( Simulation simulation ) {
 
         // Install menu item
-        JMenuItem launchMI = new JMenuItem( "Install");
+        JMenuItem launchMI = new JMenuItem( "Install" );
         launchMI.addActionListener( new InstallSimAction( simulation, this ) );
         add( launchMI );
     }

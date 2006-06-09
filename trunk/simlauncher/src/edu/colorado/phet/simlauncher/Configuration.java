@@ -11,13 +11,10 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
-import edu.colorado.phet.simlauncher.resources.CatalogResource;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Configuration
@@ -65,6 +62,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     // The parent directory s=of all simulations
     private static String SIMUALATIONS_PATH = "/simulations";
     private static URL DEFAULT_SIMULATIONS_URL;
+
     static {
         try {
             DEFAULT_SIMULATIONS_URL = new URL( DEFAULT_PHET_URL_STRING + SIMUALATIONS_PATH );
@@ -77,6 +75,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     // The Catalog
     private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
     private static URL DEFAULT_CATALOG_URL;
+
     static {
         try {
             DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_URL_STRING + CATALOG_PATH );
@@ -89,6 +88,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     // The Options store
     private static String DEFAULT_OPTIONS_PATH = "options.properties";
     private static File DEFAULT_OPTIONS_FILE;
+
     static {
         DEFAULT_OPTIONS_FILE = new File( DEFAULT_CACHE_PATH + "/" + DEFAULT_OPTIONS_PATH );
     }
@@ -130,6 +130,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     // Location of local cache
     private File localRoot;
+
     public File getLocalRoot() {
         if( localRoot == null ) {
             localRoot = DEFAULT_CACHE;
