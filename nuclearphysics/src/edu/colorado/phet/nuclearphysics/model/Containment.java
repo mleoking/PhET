@@ -15,8 +15,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Containment extends SimpleObservable {
-    //public class Containment extends Box2D {
-    //    private Rectangle2D shape;
     private Shape shape;
     private double wallThickness = 80;
     double opacity = 1;
@@ -36,6 +34,7 @@ public class Containment extends SimpleObservable {
         Ellipse2D containmentShape = (Ellipse2D)getShape();
         containmentShape.setFrame( containmentShape.getX() + dr, containmentShape.getY() + dr,
                                    containmentShape.getWidth() - dr * 2, containmentShape.getHeight() - dr * 2 );
+        shape = containmentShape;
         notifyResizeListeners();
     }
 
