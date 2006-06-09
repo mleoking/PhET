@@ -83,9 +83,9 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
         g2.transform( atx );
         update();
 //        g2.drawImage( img, (int)position.getX(), (int)position.getY(), null );
-//        if( img == null ) {
-//            System.out.println( "NucleusGraphic.paint" );
-//        }
+        if( img == null ) {
+            System.out.println( "NucleusGraphic.paint" );
+        }
         g2.drawRenderedImage( img, AffineTransform.getTranslateInstance( position.getX(), position.getY()));
 //        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
         gs.restoreGraphics();

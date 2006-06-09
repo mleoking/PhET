@@ -32,6 +32,12 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     public MultipleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
 
+//        init();
+    }
+
+    protected void init() {
+        super.init();
+        
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
@@ -110,7 +116,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     }
 
     private void addContainment() {
-        containment = new Containment( new Point2D.Double( 0, 0 ), 400 );
+        containment = new Containment( new Point2D.Double( 0, 0 ), 400, (NuclearPhysicsModel)getModel() );
         containment.addResizeListener( this );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 10 );
@@ -209,7 +215,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         // Recompute the spot from which neutrons are fired
         computeNeutronLaunchParams();
-        
+
         ArrayList removeList = new ArrayList();
         for( int i = 0; i < nuclei.size(); i++ ) {
             Nucleus nucleus = (Nucleus)nuclei.get( i );

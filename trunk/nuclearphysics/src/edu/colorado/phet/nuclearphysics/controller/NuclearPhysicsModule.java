@@ -29,6 +29,7 @@ import java.awt.*;
  * <p>
  * Abstract methods:
  * <ul>
+ * <li>init()   This is called on the first activation of the module, so that initialization can be defered
  * <li>getLegendClasses() - Provides the classes of model elements for
  * which there should be graphics in the control panel's legend
  * </ul>
@@ -39,6 +40,7 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     private PhysicalPanel physicalPanel;
     private IClock clock;
     private NuclearPhysicsControlPanel nuclearPysicslControlPanel;
+    private boolean init;
 
     public NuclearPhysicsModule( String name, IClock clock ) {
         super( name, clock );
@@ -67,7 +69,14 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         setControlPanel( controlPanel );
         nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this, getLegendClasses() );
         getControlPanel().addControl( nuclearPysicslControlPanel );
+
+//        init();
     }
+
+    /**
+     *
+     */
+    protected abstract void init();
 
     /**
      * Returns a list of LegendPanel.LegendItem instances that indicate which items should be in the module's
@@ -75,6 +84,17 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
      * @return a list
      */
     protected abstract List getLegendClasses();
+
+    /**
+     * Call init() the first time the module is activated
+     */
+    public void activate() {
+        if( !init ) {
+            init();
+            init = true;
+        }
+        super.activate();
+    }
 
     public IClock getClock() {
         return clock;
