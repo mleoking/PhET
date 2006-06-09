@@ -30,7 +30,7 @@ public class BSClock extends SwingClock {
     private static final int WALL_DT = ( 1000 / BSConstants.CLOCK_FRAME_RATE );
     
     /* Simulation time between clock ticks (units defined by the simulation) */
-    private static final double SIM_DT = BSConstants.CLOCK_STEP;
+    private static final double SIM_DT = BSConstants.DEFAULT_CLOCK_STEP;
     
     public BSClock() {
         super( WALL_DT, new TimingStrategy.Constant( SIM_DT ) );

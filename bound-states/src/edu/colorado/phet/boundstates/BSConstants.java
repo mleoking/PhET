@@ -50,15 +50,22 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_STEP = 0.01; // fs, femtoseconds (model time)
-    public static final double CLOCK_STEP_FASTER = 0.1; // fs, femtoseconds (model time)
     
-    /* Controls how time is displayed, should match CLOCK_STEP precision */
-    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
-    public static final DecimalFormat TIME_FORMAT_FASTER = new DecimalFormat( "0.0" );
+    // The clock control area has a slider for choosing a clock "speed".
+    // These are the clock steps (model time in fs) that correspond to each speed setting.
+    public static final double[] CLOCK_STEPS = {
+        0.01, 0.1, 1, 10
+    };
     
-    /* Is the time display visible next to the clock controls? */
-    public static final boolean TIME_DISPLAY_VISIBLE = true;
+    // One entry for each entry in CLOCK_STEPS
+    public static final DecimalFormat[] CLOCK_FORMATS = {
+        new DecimalFormat( "0.00" ), new DecimalFormat( "0.0" ), new DecimalFormat( "0" ), new DecimalFormat( "0" )
+    };
+    
+    // Defaults
+    public static final int DEFAULT_CLOCK_INDEX = 0;
+    public static final double DEFAULT_CLOCK_STEP = CLOCK_STEPS[ DEFAULT_CLOCK_INDEX ];
+    public static final DecimalFormat DEFAULT_CLOCK_FORMAT = CLOCK_FORMATS[ DEFAULT_CLOCK_INDEX ];
     
     //----------------------------------------------------------------------------
     // Fonts
