@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
+- superposition dialog asks you if you want to normalize even when values look normalized
 
 MEDIUM PRIORITY:
 - move wave function cache out of BSBottomPlot and into model
