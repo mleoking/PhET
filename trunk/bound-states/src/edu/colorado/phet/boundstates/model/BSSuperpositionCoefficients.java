@@ -14,6 +14,8 @@ package edu.colorado.phet.boundstates.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.boundstates.BSConstants;
+
 /**
  * BSSuperpositionCoefficients is a collection of superposition coefficients.
  *
@@ -21,12 +23,6 @@ import java.util.Iterator;
  * @version $Revision$
  */
 public class BSSuperpositionCoefficients extends BSObservable {
-   
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double NORMALIZATION_ERROR = 0.00001;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -236,7 +232,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
             notifyObservers();
         }
     }
-    
+   
     /**
      * Are the coefficients normalized?
      * Does c1^2 + c2^2 + ... + cn^2 = 1 ?
@@ -244,8 +240,23 @@ public class BSSuperpositionCoefficients extends BSObservable {
      * @return true or false
      */
     public boolean isNormalized() {
+        return isNormalized( 0 /* normalizationError */ );
+    }
+    
+    /**
+     * This version of isNormalized allows you to specify
+     * how close is good enough to be considered normalized.
+     * This method is useful when the view only allows the user
+     * to enter values with a limited precision.  For example, 
+     * the user may only be able to enter 0.54, when the actual
+     * coefficient should be 0.543.
+     * 
+     * @return true or false
+     */
+    public boolean isNormalized( double normalizationError ) {
         final double sumOfSquares = getSumOfSquares();
-        return ( sumOfSquares > 0 && sumOfSquares < 1 + NORMALIZATION_ERROR && sumOfSquares > 1 - NORMALIZATION_ERROR );
+        final double difference = Math.abs( 1 - sumOfSquares );
+        return ( difference <= normalizationError );
     }
     
     /**
