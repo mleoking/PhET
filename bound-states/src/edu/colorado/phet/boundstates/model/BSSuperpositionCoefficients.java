@@ -179,7 +179,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
     }
     
     /**
-     * Sets a coefficient's value.
+     * Sets a coefficient's value and notifies observers.
      * 
      * @param index
      * @param value a value between 0 and 1 inclusive
@@ -199,39 +199,41 @@ public class BSSuperpositionCoefficients extends BSObservable {
     
     /**
      * Sets one coefficient to 1, all others to zero.
+     * Observers are notified.
      * 
      * @param index
      */
-    public void setCoefficient( int index ) {
+    public void setOneCoefficient( int index ) {
         if ( index > _coefficients.size() - 1 ) {
             throw new IndexOutOfBoundsException( "index is out of bounds: " + index );
         }
-        int numberOfCoefficients = _coefficients.size();
-        _coefficients.clear();
-        for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            if ( i == index ) {
-                _coefficients.add( new Double( 1 ) );
-            }
-            else {
-                _coefficients.add( new Double( 0 ) );
-            }
-        }
+        boolean notifyEnabled = isNotifyEnabled();
+        setNotifyEnabled( false );
+        setAllZero();
+        setCoefficient( index, 1 );
+        setNotifyEnabled( notifyEnabled );
         notifyObservers();
     }
     
     /**
      * Normalizes the coefficients, such that
      * c1^2 + c2^2 + ... + cn^2 = 1
+     * 
+     * If normalization was required, observers are notified.
      */
     public void normalize() {
         final double sumOfSquares = getSumOfSquares();
         if ( sumOfSquares != 0 ) {
-            int numberOfCoefficients = _coefficients.size();
-            for ( int i = 0; i < numberOfCoefficients; i++ ) {
-                final double coefficient = ((Double) _coefficients.get( i ) ).doubleValue();
+            boolean notifyEnabled = isNotifyEnabled();
+            setNotifyEnabled( false );
+            final int n = getNumberOfCoefficients();
+            for ( int i = 0; i < n; i++ ) {
+                double coefficient = getCoefficient( i );
                 double normalizedValue = Math.sqrt( ( coefficient * coefficient ) / sumOfSquares );
-                _coefficients.set( i, new Double( normalizedValue ) );
+                setCoefficient( i, normalizedValue );
             }
+            setNotifyEnabled( notifyEnabled );
+            notifyObservers();
         }
     }
     
@@ -253,10 +255,9 @@ public class BSSuperpositionCoefficients extends BSObservable {
      */
     public double getSum() {
         double total = 0;
-        Iterator i = _coefficients.iterator();
-        while ( i.hasNext() ) {
-            double coefficient = ((Double)i.next()).doubleValue();
-            total += coefficient;
+        final int n = getNumberOfCoefficients();
+        for ( int i = 0; i < n; i++ ) {
+            total += getCoefficient( i );
         }
         return total;
     }
@@ -269,9 +270,9 @@ public class BSSuperpositionCoefficients extends BSObservable {
      */
     private double getSumOfSquares() {
         double total = 0;
-        Iterator i = _coefficients.iterator();
-        while ( i.hasNext() ) {
-            double coefficient = ((Double)i.next()).doubleValue();
+        final int n = getNumberOfCoefficients();
+        for ( int i = 0; i < n; i++ ) {
+            double coefficient = getCoefficient( i );
             total += ( coefficient * coefficient );
         }
         return total;
@@ -285,5 +286,19 @@ public class BSSuperpositionCoefficients extends BSObservable {
      */
     public boolean isSuperpositionState() {
         return ( getNumberOfNonZeroCoefficients() > 1 );
+    }
+    
+    /**
+     * Sets all coefficients to zero and notifies observers.
+     */
+    public void setAllZero() {
+        boolean notifyEnabled = isNotifyEnabled();
+        setNotifyEnabled( false );
+        final int n = getNumberOfCoefficients();
+        for ( int i = 0; i < n; i++ ) {
+            setCoefficient( i, 0 );
+        }
+        setNotifyEnabled( notifyEnabled );
+        notifyObservers();
     }
 }

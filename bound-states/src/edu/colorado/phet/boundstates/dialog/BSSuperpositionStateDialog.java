@@ -59,7 +59,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private static final char PSI = BSConstants.LOWERCASE_PSI;
     
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
-    private static final int SPINNER_COLUMNS = 3;
+    private static final int SPINNER_COLUMNS = 4;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -72,6 +72,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private JPanel _dynamicPanel;
     private ArrayList _spinners; // array of DoubleSpinner
+    private JButton _clearButton;
     private JButton _normalizeButton;
     private JButton _applyButton;
     private JButton _closeButton;
@@ -233,6 +234,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      */
     private JPanel createActionsPanel() {
 
+        _clearButton = new JButton( SimStrings.get( "button.clear" ) );
+        _clearButton.addActionListener( _eventListener );
+        
         _normalizeButton = new JButton( SimStrings.get( "button.normalize" ) );
         _normalizeButton.addActionListener( _eventListener );
       
@@ -242,7 +246,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         _closeButton = new JButton( SimStrings.get( "button.close" ) );
         _closeButton.addActionListener( _eventListener );
 
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 3, 10, 0 ) );
+        final int rows = 1;
+        final int columns = 4; /* same as number of buttons! */
+        final int hgap = 5;
+        final int vgap = 0;
+        JPanel buttonPanel = new JPanel( new GridLayout( rows, columns, hgap, vgap ) );
+        buttonPanel.add( _clearButton );
         buttonPanel.add( _normalizeButton );
         buttonPanel.add( _applyButton );
         buttonPanel.add( _closeButton );
@@ -393,7 +402,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
         
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _normalizeButton ) {
+            if ( event.getSource() == _clearButton ) {
+                handleClearAction();
+            }
+            else if ( event.getSource() == _normalizeButton ) {
                 handleNormalizeAction();
             }
             else if ( event.getSource() == _applyButton ) {
@@ -415,6 +427,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
+    }
+    
+    private void handleClearAction() {
+       _localCoefficients.setAllZero();
+       updateSpinners();
+       updateButtons();
     }
     
     private void handleNormalizeAction() {
