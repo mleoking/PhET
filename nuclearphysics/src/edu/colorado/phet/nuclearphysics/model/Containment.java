@@ -128,8 +128,14 @@ public class Containment extends SimpleObservable {
 
         private void detectAndDoCollision( Nucleus nucleus ) {
             double distSq = nucleus.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
+            double embeddedDist = 30;
             if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
                 nucleus.setVelocity( 0, 0 );
+                double dx = ( nucleus.getPosition().getX() - shape.getCenterX() ) / Math.sqrt( distSq )
+                        * ( embeddedDist  + shape.getWidth() / 2 );
+                double dy = ( nucleus.getPosition().getY() - shape.getCenterY() ) / Math.sqrt( distSq )
+                        * ( embeddedDist  + shape.getWidth() / 2 );
+                nucleus.setPosition( shape.getCenterX() + dx, shape.getCenterY() + dy );
             }
         }
 

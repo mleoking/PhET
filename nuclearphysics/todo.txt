@@ -19,13 +19,10 @@ Fission:
 -   Obsolete Interface exception when running under 1.4.
 
 Chain Reaction panel
-?	Once the Legend is reduced to the applicable items only and the Help button is removed, this should give more room for the controls.
+?	Instead of fading the containment vessel needs to break open/explode.
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
 ?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
-?	Instead of fading the containment vessel needs to break open/explode.
--   % spinner acts unpleasant when a spinner is spun after a fission run
 -   Replace spinner with a slider(?) and text box
--   nucleus on graph pane of single nucleus fission module flashes
 
 
 Controlled Reaction
@@ -66,6 +63,8 @@ Fission:
 -   nucleus on graph pane of single nucleus fission module flashes
 
 Chain Reaction panel
+-   Neutrons are either absorbed or reflected when they hit the containment vessel.
+-   Nuclei are absorbed when them hit the containment vessel.
 ?	U239 should be what U238 turns into once they absorb a neutron.
 ?	Remove “Number of” and just have the label 235U nuclei (with spelling correction) as the label for each spinner.
 ?	Remove “Percent” put a % sign to the right of the box or better yet, in the box with the number so that it’s formatted the same as the number.
@@ -73,6 +72,8 @@ Chain Reaction panel
 ?	There’s a wierd little box that shows up around Enable Containment Vessel when you choose the check box but once you do something else in the control panel it disappears.
 -   "Enable Containment Vessel" color isn't the same as the other labels in the panel
 -   Neutron is fired from the same spot in the panel, regardless of the size of the vessel
+?	Once the Legend is reduced to the applicable items only and the Help button is removed, this should give more room for the controls.
+-   % spinner acts unpleasant when a spinner is spun after a fission run
 
 Controlled Reaction
 ?	The neutrons in this panel have tails and look like photons.  They should just be round balls.
