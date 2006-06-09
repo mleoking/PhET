@@ -58,6 +58,8 @@ CLEANUP:
 
 
 DONE:
+(6/9/06) - simplify many of the methods in superposition model
+(6/9/06) - add Clear button to superposition dialog
 (6/9/06) - add normalization equation to confirmation in superposition dialog
 (6/9/06) - Sam M says that scaling of time-dependent wave function is OK as is
 (6/8/06) - work on scaling of time-dependent wave function, not finished
