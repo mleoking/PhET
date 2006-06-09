@@ -83,6 +83,7 @@ public class BSWaveFunctionCache {
     
     private ArrayList _items; // contents of the cache, array of CacheItem
     private double _minPosition, _maxPosition; // position range used to compute the cache
+    private double _sumScalingCoefficient; // coefficient used to scale the summed wave functions
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -116,6 +117,14 @@ public class BSWaveFunctionCache {
      */
     public double getMaxPosition() {
         return _maxPosition;
+    }
+    
+    /**
+     * Gets the coefficient used to scale the summed wave functions.
+     * @return
+     */
+    public double getSumScalingCoefficient() {
+        return _sumScalingCoefficient;
     }
     
     /**
@@ -177,25 +186,56 @@ public class BSWaveFunctionCache {
         BSAbstractPotential potential = model.getPotential();
         BSEigenstate[] eigenstates = model.getEigenstates();
         BSSuperpositionCoefficients superpositionCoefficients = model.getSuperpositionCoefficients();
+        final boolean isSuperpositionState = superpositionCoefficients.isSuperpositionState();
         
         // Iterate over the superposition coefficients...
         final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        double[] sumY = null;
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
             
             // Add an item to the cache for each non-zero superposition coefficient
-            final double coefficient = superpositionCoefficients.getCoefficient( i );
-            if ( coefficient != 0 ) {
+            final double superpositionCoefficient = superpositionCoefficients.getCoefficient( i );
+            if ( superpositionCoefficient != 0 ) {
                 
                 // Compute the points that approximate the time-independent wave function
                 Point2D[] points = potential.getWaveFunctionPoints( eigenstates[i], minPosition, maxPosition );
                 
-                // Compute the coefficient used to normalize the time-independent wave function when in a superposition state.
-                final double normalizationCoefficient = potential.getNormalizationCoefficient( points, i );
+                // Compute the coefficient used to normalize the time-independent wave function.
+                double normalizationCoefficient = 1;
+                if ( isSuperpositionState ) {
+                    normalizationCoefficient = potential.getNormalizationCoefficient( points, i );
+                }
                 
                 // Add an item to the cache
                 Item item = new Item( i, normalizationCoefficient, points );
                 _items.add( item );
+                
+                // Add this wave function's amplitudes to the sum 
+                // (normalized and multiplied by its superposition coefficient)
+                if ( isSuperpositionState ) {
+                    if ( sumY == null ) {
+                        sumY = new double[points.length]; // each wave function has the same number of points
+                    }
+                    for ( int j = 0; j < points.length; j++ ) {
+                        sumY[j] += ( normalizationCoefficient * superpositionCoefficient * points[j].getY() );
+                    }
+                }
             }
+        }
+        
+        // Calculate the scaling coefficient for the sum of the wave functions.
+        if ( !isSuperpositionState ) {
+            _sumScalingCoefficient = 1;
+        }
+        else {
+            double maxY = 0;
+            for ( int i = 0; i < sumY.length; i++ ) {
+                double absY = Math.abs( sumY[i] );
+                if ( absY > maxY ) {
+                    maxY = absY;
+                }
+            }
+            _sumScalingCoefficient = 1 / maxY;
         }
     }
 }
