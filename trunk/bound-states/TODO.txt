@@ -13,7 +13,6 @@ HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
-- superposition dialog asks you if you want to normalize even when values look normalized
 
 MEDIUM PRIORITY:
 - move wave function cache out of BSBottomPlot and into model
@@ -25,7 +24,6 @@ MEDIUM PRIORITY:
 - hide the dot in the center of the magnifying glass
 - hide y-axis tick labels (and tick marks?) on bottom plots
 - remove horizontal grid lines from BSBottomPlot
-- restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - time display and animation pauses every few clock ticks (garbage collection?)
@@ -391,6 +389,7 @@ DONE:
 
 
 REJECTED:
+(6/9/06) - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE (Sam likes the new ranges)
 (6/7/06) - method of scaling time-dependent wave function doesn't always result in max amplitude=1 over time (we can't solve this)
 (6/7/06) - update while sliders are dragging (fine as is, no one has complained)
 (6/7/06) - how does the user know the mass in the Two and Many panels? there is no mass control (not intended to be quantitative)
