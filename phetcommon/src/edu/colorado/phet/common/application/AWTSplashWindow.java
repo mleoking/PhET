@@ -41,6 +41,11 @@ import java.text.MessageFormat;
  */
 public class AWTSplashWindow extends Window {
 
+    private static Color DEFAULT_BACKGROUND = Color.white;
+    public static void setDefaultBackground( Color DEFAULT_BACKGROUND ) {
+        AWTSplashWindow.DEFAULT_BACKGROUND = DEFAULT_BACKGROUND;
+    }
+
     private static final String LOGO_RESOURCE_NAME = "images/Phet-Flatirons-logo-3-small.gif";
 
     private boolean done = false; // flag that tells the animation thread to stop
@@ -113,6 +118,9 @@ public class AWTSplashWindow extends Window {
         // Paint in a separate thread.
         // We need to paint the entire panel or some things don't paint.
         startPaintThread( panel );
+
+        // Set the background color
+        setBackground( DEFAULT_BACKGROUND );
 
         invalidate();
         pack();
