@@ -234,6 +234,23 @@ public class BSClockControls extends JPanel implements ClockListener {
         return _clock;
     }
 
+    /**
+     * Gets the clock index.
+     * @return
+     */
+    public int getClockIndex() {
+        return _clockIndexSlider.getValue();
+    }
+    
+    /**
+     * Sets the clock index.
+     * @param index
+     */
+    public void setClockIndex( int index ) {
+        _clockIndexSlider.setValue( index );
+        handleClockIndexChange();
+    }
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------

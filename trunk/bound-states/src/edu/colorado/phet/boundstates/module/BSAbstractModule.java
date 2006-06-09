@@ -613,6 +613,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         }
         
         // Clock
+        _clockControls.setClockIndex( BSConstants.DEFAULT_CLOCK_INDEX );
         resetClock();
     }
     
@@ -669,6 +670,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Clock
         config.setClockRunning( getClock().isRunning() );
+        config.setClockIndex( _clockControls.getClockIndex() );
         
         // Model
         //XXX
@@ -698,6 +700,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         else {
             getClock().pause();
         }
+        _clockControls.setClockIndex( config.getClockIndex() );
     
         // Model
         //XXX

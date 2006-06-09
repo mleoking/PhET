@@ -30,6 +30,7 @@ public class BSModuleConfig implements BSSerializable {
     
     // Clock
     private boolean _clockRunning;
+    private int _clockIndex;
     
     // Model
     //XXX
@@ -64,6 +65,14 @@ public class BSModuleConfig implements BSSerializable {
         return _clockRunning;
     }
 
+    public void setClockIndex( int clockIndex ) {
+        _clockIndex = clockIndex;
+    }
+    
+    public int getClockIndex() {
+        return _clockIndex;
+    }
+    
     public BSBottomPlotMode getBottomPlotMode() {
         return BSBottomPlotMode.getByName( _bottomPlotMode );
     }
