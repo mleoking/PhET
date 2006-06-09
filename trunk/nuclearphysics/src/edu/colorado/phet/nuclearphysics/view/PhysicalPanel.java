@@ -12,6 +12,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -24,6 +25,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.EventObject;
+import java.util.EventListener;
 
 /**
  * A panel thst shows the physical representation of what's going on.
@@ -67,14 +70,20 @@ public class PhysicalPanel extends TxApparatusPanel {
             }
         } );
 
-        // Add a listener that will
+        // Add a listener that will put graphics on the panel for nuclei, and create
+        // listeners to remove the graphics if the nuclei leave the model
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
-                addNucleus( event.getNucleus() );
+                Nucleus nucleus = event.getNucleus();
+                NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
+                final TxGraphic txg = new TxGraphic( ng, nucleonTx );
+                nucleus.addListener( new GraphicRemover( txg ));
+                PhysicalPanel.super.addGraphic( txg, nucleusLevel );
+                graphicListenerProxy.graphicAdded( new GraphicEvent( txg ) );
             }
 
             public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
-
+                //noop
             }
         } );
     }
@@ -140,6 +149,37 @@ public class PhysicalPanel extends TxApparatusPanel {
 
         public void leavingSystem( NuclearModelElement nme ) {
             removeGraphic( graphic );
+            graphicListenerProxy.graphicRemoved( new GraphicEvent( graphic ) );
         }
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // ChangeListener definition
+    //--------------------------------------------------------------------------------------------------
+    EventChannel changeEventChannel = new EventChannel( GraphicListener.class );
+    GraphicListener graphicListenerProxy = (GraphicListener)changeEventChannel.getListenerProxy();
+
+    public void addGraphicListener( GraphicListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeGraphicListener( GraphicListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class GraphicEvent extends EventObject {
+        public GraphicEvent( PhetGraphic source ) {
+            super( source );
+        }
+
+        public PhetGraphic getPhetGraphic() {
+            return (PhetGraphic)getSource();
+        }
+    }
+
+    public interface GraphicListener extends EventListener {
+        void graphicAdded( GraphicEvent event );
+        void graphicRemoved( GraphicEvent event );
     }
 }
