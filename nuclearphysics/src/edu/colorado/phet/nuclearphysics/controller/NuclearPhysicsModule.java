@@ -24,6 +24,16 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * An abstract class that has base behaviors for all modules in this simulation.
+ * <p>
+ * Abstract methods:
+ * <ul>
+ * <li>getLegendClasses() - Provides the classes of model elements for
+ * which there should be graphics in the control panel's legend
+ * </ul>
+ *
+ */
 abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     private ApparatusPanel apparatusPanel;
     private PhysicalPanel physicalPanel;
@@ -35,7 +45,8 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         this.clock = clock;
 
         // Start the model
-        this.setModel( new NuclearPhysicsModel() );
+        NuclearPhysicsModel model = new NuclearPhysicsModel();
+        this.setModel( model );
         this.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 // todo: get rid of this, and make the graphics self-painting
@@ -47,7 +58,7 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         apparatusPanel = new NuclearPhysicsApparatusPanel( clock );
         super.setApparatusPanel( apparatusPanel );
 
-        physicalPanel = new PhysicalPanel( clock );
+        physicalPanel = new PhysicalPanel( clock, model );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
@@ -82,7 +93,6 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
 
     protected void addNucleus( Nucleus nucleus ) {
         this.getModel().addModelElement( nucleus );
-        physicalPanel.addNucleus( nucleus );
     }
 
     protected void addNeutron( final NuclearParticle particle ) {

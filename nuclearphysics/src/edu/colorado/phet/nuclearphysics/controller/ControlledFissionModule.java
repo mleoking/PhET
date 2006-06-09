@@ -219,11 +219,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             // is there to make all the rods evenly spaced within the vessel.
             rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                           yMin ),
-//                                                          channel.getMinY() ),
-new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                    yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
-                                                                        model,
-                                                                        rodAbsorptionProbability );
+                                      new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ),
+                                      channel.getWidth(),
+                                      model,
+                                      rodAbsorptionProbability );
             model.addModelElement( rods[i] );
         }
         return rods;
@@ -239,32 +239,32 @@ new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
         nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
 
-        BufferedImage sourceImg = null;
-        if( nucleus instanceof Uranium235 ) {
-            sourceImg = u235Img;
-        }
-        else if( nucleus instanceof Rubidium ) {
-            sourceImg = rubidiumImg;
-        }
-        else if( nucleus instanceof Cesium ) {
-            sourceImg = cesiumImg;
-        }
-        else if( sourceImg == null ) {
-//            throw new RuntimeException( "nucleus is of unexpected type" );
-        }
-        if( sourceImg != null ) {
-            final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
-                                                               sourceImg,
-                                                               (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
-                                                               (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
-            NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-                public void leavingSystem( NuclearModelElement nme ) {
-                    getPhysicalPanel().removeGraphic( nig );
-                }
-            };
-            nucleus.addListener( listener );
-            getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
-        }
+//        BufferedImage sourceImg = null;
+//        if( nucleus instanceof Uranium235 ) {
+//            sourceImg = u235Img;
+//        }
+//        else if( nucleus instanceof Rubidium ) {
+//            sourceImg = rubidiumImg;
+//        }
+//        else if( nucleus instanceof Cesium ) {
+//            sourceImg = cesiumImg;
+//        }
+//        else if( sourceImg == null ) {
+////            throw new RuntimeException( "nucleus is of unexpected type" );
+//        }
+//        if( sourceImg != null ) {
+//            final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
+//                                                               sourceImg,
+//                                                               (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
+//                                                               (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
+//            NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+//                public void leavingSystem( NuclearModelElement nme ) {
+//                    getPhysicalPanel().removeGraphic( nig );
+//                }
+//            };
+//            nucleus.addListener( listener );
+//            getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
+//        }
     }
 
 
@@ -343,7 +343,6 @@ new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
         developmentControlDialog.setLocation( (int)phetFrame.getWidth() - developmentControlDialog.getWidth(),
                                               (int)( phetFrame.getLocation().getX() + phetFrame.getHeight() / 2 ) );
     }
-
 
     //----------------------------------------------------------------
     // Getters and setters
@@ -552,7 +551,7 @@ new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
     private double orgDt;
 
     public void setSlowMotion( boolean b ) {
-        throw new RuntimeException( "Needs to be re-implemented with new clock");
+        throw new RuntimeException( "Needs to be re-implemented with new clock" );
 //        if( b ) {
 //            orgDt = getClock().getDt();
 //            getClock().setDt( orgDt / 5 );
@@ -591,7 +590,6 @@ new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
             periodicNeutronGun.setEnabled( enabled );
         }
     }
-
 
     //----------------------------------------------------------------
     // Inner classes
@@ -638,7 +636,7 @@ new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
             this.enabled = enabled;
         }
 
-        public void clockTicked(ClockEvent clockEvent) {
+        public void clockTicked( ClockEvent clockEvent ) {
             if( clockEvent.getSimulationTime() - lastTimeFired > period ) {
                 lastTimeFired = clockEvent.getSimulationTime();
                 if( enabled ) {

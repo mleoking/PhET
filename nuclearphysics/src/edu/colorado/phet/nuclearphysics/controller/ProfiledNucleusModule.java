@@ -16,7 +16,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class ProfiledNucleusModule extends NuclearPhysicsModule {
+public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     private Nucleus nucleus;
     private PotentialProfilePanel potentialProfilePanel;
@@ -46,15 +46,15 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         getApparatusPanel().add( component, physicalPanelGBC );
     }
 
-    protected List getLegendClasses() {
-        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
-                LegendPanel.NEUTRON,
-                LegendPanel.PROTON,
-                LegendPanel.ALPHA_PARTICLE,
-                LegendPanel.U235
-        };
-        return Arrays.asList( legendClasses );
-    }
+//    protected List getLegendClasses() {
+//        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
+//                LegendPanel.NEUTRON,
+//                LegendPanel.PROTON,
+//                LegendPanel.ALPHA_PARTICLE,
+//                LegendPanel.U235
+//        };
+//        return Arrays.asList( legendClasses );
+//    }
 
     public void setNucleus( Nucleus nucleus ) {
         this.nucleus = nucleus;

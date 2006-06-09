@@ -16,13 +16,13 @@ import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.EventListener;
-import java.util.EventObject;
+import java.util.*;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
@@ -53,13 +53,23 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
     protected void init( IClock clock ) {
 //        getApparatusPanel().setLayout(new GridLayout(2, 1));
-        physicalPanel = new AlphaDecayPhysicalPanel( clock );
+        physicalPanel = new AlphaDecayPhysicalPanel( clock, (NuclearPhysicsModel)getModel() );
         super.setPhysicalPanel(physicalPanel);
 //        getApparatusPanel().remove(0);
 //        getApparatusPanel().add(physicalPanel, 0);
         addPhysicalPanel( physicalPanel );
         alphaDecayControlPanel = new AlphaDecayControlPanel(this);
         super.addControlPanelElement(alphaDecayControlPanel);
+    }
+
+    protected java.util.List getLegendClasses() {
+        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
+                LegendPanel.NEUTRON,
+                LegendPanel.PROTON,
+                LegendPanel.ALPHA_PARTICLE,
+                LegendPanel.U235
+        };
+        return Arrays.asList( legendClasses );
     }
 
     public void activate() {

@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -43,8 +44,8 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
      * Constructor
      * @param clock
      */
-    public AlphaDecayPhysicalPanel( IClock clock ) {
-        super( clock );
+    public AlphaDecayPhysicalPanel( IClock clock, NuclearPhysicsModel model ) {
+        super( clock, model );
         this.setBackground( backgroundColor );
     }
 
