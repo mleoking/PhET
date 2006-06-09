@@ -16,11 +16,11 @@ HIGH PRIORITY:
 - superposition dialog asks you if you want to normalize even when values look normalized
 
 MEDIUM PRIORITY:
-- add a button to superposition dialog that sets all coefficients to zero
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
 - implement Save/Load for model
+- implement Save/Load of clock speed setting
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - hide the dot in the center of the magnifying glass
 - hide y-axis tick labels (and tick marks?) on bottom plots
