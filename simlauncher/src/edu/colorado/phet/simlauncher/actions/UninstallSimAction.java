@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimContainer;
 
 import javax.swing.*;
@@ -30,10 +29,6 @@ public class UninstallSimAction extends AbstractAction {
     public UninstallSimAction( SimContainer simContainer, Component component ) {
         this.simContainer = simContainer;
         this.component = component;
-    }
-
-    public UninstallSimAction( Simulation simulation, Component component ) {
-        this( new DefaultSimContainer( simulation ), component );
     }
 
     public void actionPerformed( ActionEvent e ) {

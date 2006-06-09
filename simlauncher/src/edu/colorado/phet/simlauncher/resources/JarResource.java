@@ -23,5 +23,5 @@ public class JarResource extends SimResource {
     public JarResource( URL url, File localRoot ) {
         super( url, localRoot );
     }
-    
+
 }

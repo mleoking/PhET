@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimContainer;
 
 import javax.swing.*;
@@ -27,10 +26,6 @@ public class LaunchSimAction extends AbstractAction {
 
     public LaunchSimAction( SimContainer simContainer ) {
         this.simContainer = simContainer;
-    }
-
-    public LaunchSimAction( Simulation simulation ) {
-        this( new DefaultSimContainer( simulation ) );
     }
 
     public void actionPerformed( ActionEvent e ) {

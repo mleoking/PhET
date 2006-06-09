@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher.resources;
 
-import edu.colorado.phet.simlauncher.JnlpFile;
-import edu.colorado.phet.simlauncher.InvalidJnlpException;
 import edu.colorado.phet.simlauncher.Configuration;
+import edu.colorado.phet.simlauncher.InvalidJnlpException;
+import edu.colorado.phet.simlauncher.JnlpFile;
 import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
 import java.io.BufferedWriter;
@@ -119,7 +119,7 @@ public class JnlpResource extends SimResource {
             if( remoteCodebase != null ) {
                 codebase = remoteCodebase;
             }
-            String s = codebase.endsWith( "/") || codebase.endsWith( "\\") ? "" : "/";
+            String s = codebase.endsWith( "/" ) || codebase.endsWith( "\\" ) ? "" : "/";
             String urlString = new String( codebase ).concat( s ).concat( urlStrings[i] );
             URL url = null;
             try {

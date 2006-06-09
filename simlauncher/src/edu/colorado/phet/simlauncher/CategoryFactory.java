@@ -14,15 +14,13 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
-import java.io.IOException;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * CategoryFactory
- * <p>
+ * <p/>
  * Creates Category objects from the information in an XML file
  *
  * @author Ron LeMaster
@@ -58,8 +56,8 @@ public class CategoryFactory {
                 List sims = new ArrayList();
                 for( int j = 0; j < simElements.size(); j++ ) {
                     Element simElement = (Element)simElements.get( j );
-                    String simName = simElement.getAttribute( simulationNameAttrib).getValue();
-                    sims.add( Simulation.getSimulationForName( simName ));
+                    String simName = simElement.getAttribute( simulationNameAttrib ).getValue();
+                    sims.add( Simulation.getSimulationForName( simName ) );
                 }
                 categoryList.add( new Category( catName, sims ) );
             }

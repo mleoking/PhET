@@ -12,17 +12,17 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.IOException;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * PhetSiteConnection
- * <p>
+ * <p/>
  * An abstraction of the connection to the Phet Web Site.
- * <p>
+ * <p/>
  * Has a Thread that occaisionally checks to see if an actual connection to the
  * PhET site is available, and fires change events to its change listeners when the
  * state of that connection changes.
@@ -33,6 +33,7 @@ import java.util.EventListener;
 public class PhetSiteConnection {
 
     private static PhetSiteConnection instance;
+
     public static PhetSiteConnection instance() {
         if( instance == null ) {
             instance = new PhetSiteConnection();
@@ -77,6 +78,7 @@ public class PhetSiteConnection {
 
     private class ConnectionMonitor extends Thread {
         private boolean stop = false;
+
         public void run() {
 
             while( !stop ) {
@@ -94,7 +96,6 @@ public class PhetSiteConnection {
             stop = true;
         }
     }
-
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners

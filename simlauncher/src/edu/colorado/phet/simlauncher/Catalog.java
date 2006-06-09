@@ -13,9 +13,11 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.resources.CatalogResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
-import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * Catalog
@@ -78,6 +80,7 @@ public class Catalog implements Simulation.ChangeListener {
 
     /**
      * Tells if the remote component of the catalog is available
+     *
      * @return true if the remote component of the catalog is available
      */
     public boolean isRemoteAvailable() {

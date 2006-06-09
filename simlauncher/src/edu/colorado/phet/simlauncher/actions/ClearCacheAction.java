@@ -14,8 +14,8 @@ import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.util.FileUtil;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 
 /**

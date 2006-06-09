@@ -16,7 +16,7 @@ import java.io.IOException;
 
 /**
  * DebugStringFile
- * <p>
+ * <p/>
  * A simple File that can return its contents as a String
  *
  * @author Ron LeMaster

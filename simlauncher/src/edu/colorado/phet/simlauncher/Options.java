@@ -12,11 +12,11 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
-import java.io.*;
 
 /**
  * Options
@@ -30,6 +30,7 @@ public class Options {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     private static Options instance;
+
     public static Options instance() {
         return instance;
     }
@@ -53,7 +54,7 @@ public class Options {
             }
             catch( FileNotFoundException e ) {
             }
-            catch( Exception e ){
+            catch( Exception e ) {
             }
         }
         else {
@@ -85,7 +86,7 @@ public class Options {
         }
         catch( FileNotFoundException e ) {
         }
-        catch( Exception e ){
+        catch( Exception e ) {
         }
     }
 

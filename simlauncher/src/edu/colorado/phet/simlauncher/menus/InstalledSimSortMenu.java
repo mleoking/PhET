@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.actions.SetInstalledSimSortAction;
-import edu.colorado.phet.simlauncher.SimTable;
 import edu.colorado.phet.simlauncher.Options;
+import edu.colorado.phet.simlauncher.SimTable;
+import edu.colorado.phet.simlauncher.actions.SetInstalledSimSortAction;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * InstalledSimSortMenu
@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimSortMenu extends JMenu implements Options.ChangeListener{
+public class InstalledSimSortMenu extends JMenu implements Options.ChangeListener {
     private JRadioButtonMenuItem alphabeticalSortMI;
     private JRadioButtonMenuItem mostRecentlyUsedMI;
     private JRadioButtonMenuItem customMI;
@@ -40,7 +40,7 @@ public class InstalledSimSortMenu extends JMenu implements Options.ChangeListene
 
         alphabeticalSortMI = new JRadioButtonMenuItem( "Alphabetical" );
         add( alphabeticalSortMI );
-        alphabeticalSortMI.addActionListener( new SetInstalledSimSortAction( SimTable.NAME_SORT) );
+        alphabeticalSortMI.addActionListener( new SetInstalledSimSortAction( SimTable.NAME_SORT ) );
 
         mostRecentlyUsedMI = new JRadioButtonMenuItem( "Most recently used first" );
         add( mostRecentlyUsedMI );

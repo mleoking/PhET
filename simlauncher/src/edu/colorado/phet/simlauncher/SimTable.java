@@ -38,7 +38,6 @@ public class SimTable extends JTable implements SimContainer {
     public static SimComparator NAME_SORT = new NameComparator();
     public static SimComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
 
-
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -58,7 +57,7 @@ public class SimTable extends JTable implements SimContainer {
         setColumnSelectionAllowed( false );
         setRowSelectionAllowed( true );
         // Allow only single a selection
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
         // Create the row data for the table
         sims = simList;
@@ -105,6 +104,7 @@ public class SimTable extends JTable implements SimContainer {
 
     /**
      * Returns the currently selected simulation
+     *
      * @return The currently selected simulation, or null if none is selected
      */
     public Simulation getSelection() {
@@ -121,6 +121,7 @@ public class SimTable extends JTable implements SimContainer {
 
     /**
      * Returns the height of the tallest row needed for any simulation
+     *
      * @return The height of the tallest row
      */
     private int getMaxRowHeight() {
@@ -137,6 +138,7 @@ public class SimTable extends JTable implements SimContainer {
 
     /**
      * Returns the height of the tallest cell needed for all the entries in a specified column
+     *
      * @param col
      * @return The height of the tallest cell needed for all the entries in a specified column
      */
@@ -281,12 +283,12 @@ public class SimTable extends JTable implements SimContainer {
 
     /**
      * Returns the currently selected simulation
+     *
      * @return the currently selected simulation
      */
     public Simulation getSimulation() {
         return getSelection();
     }
-
 
 
     //--------------------------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ import java.awt.*;
 
 /**
  * PhetSiteConnectionStatusNotifier
- * <p>
+ * <p/>
  * Notifies the user when the status of the connection to the PhET site changes
  *
  * @author Ron LeMaster
@@ -48,17 +48,17 @@ public class PhetSiteConnectionStatusNotifier implements PhetSiteConnection.Chan
     private void displayDisconnectedMessage() {
         JOptionPane.showMessageDialog( parent,
                                        "<html>Your connection to the PhET web site has been lost." +
-        "<br><br>You will not be able to browse the online catalog or " +
-        "<br>check for updates to your installed simulations." +
-        "</html>");
+                                       "<br><br>You will not be able to browse the online catalog or " +
+                                       "<br>check for updates to your installed simulations." +
+                                       "</html>" );
     }
 
     private void displayReconnectedMessage() {
         JOptionPane.showMessageDialog( parent,
                                        "<html>Your connection to the PhET web site has been re-established." +
-        "<br><br>You will now be able to browse the online catalog" +
-        "<br>check for updates to your installed simulations." +
-        "</html>");
+                                       "<br><br>You will now be able to browse the online catalog" +
+                                       "<br>check for updates to your installed simulations." +
+                                       "</html>" );
     }
 
 

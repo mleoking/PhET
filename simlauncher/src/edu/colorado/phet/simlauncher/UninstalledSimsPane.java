@@ -12,8 +12,8 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
-import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,7 +177,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         public Simulation getSimulation() {
             return simTable.getSimulation();
         }
-
 
         //--------------------------------------------------------------------------------------------------
         // Handles mouse clicks on the simulation table

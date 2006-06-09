@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

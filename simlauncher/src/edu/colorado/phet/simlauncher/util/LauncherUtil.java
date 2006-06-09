@@ -16,11 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownHostException;
 
 /**
  * LauncherUtil
- * <p>
+ * <p/>
  * Provides some utilities specific to the SimLauncher application
  *
  * @author Ron LeMaster

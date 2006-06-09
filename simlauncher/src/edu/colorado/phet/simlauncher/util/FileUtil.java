@@ -14,7 +14,7 @@ import java.io.File;
 
 /**
  * FileUtil
- * <p>
+ * <p/>
  * Static utility functions for working with files
  *
  * @author Ron LeMaster
@@ -30,12 +30,12 @@ public class FileUtil {
      * @param file
      * @return true if everything is deleted successfully, false otherwise
      */
-    public static boolean deleteDir(File file ) {
-        if (file.isDirectory()) {
+    public static boolean deleteDir( File file ) {
+        if( file.isDirectory() ) {
             String[] children = file.list();
-            for (int i=0; i<children.length; i++) {
-                boolean success = deleteDir(new File(file, children[i]));
-                if (!success) {
+            for( int i = 0; i < children.length; i++ ) {
+                boolean success = deleteDir( new File( file, children[i] ) );
+                if( !success ) {
                     return false;
                 }
             }
@@ -46,6 +46,7 @@ public class FileUtil {
 
     /**
      * Returns the path separator for the local file system
+     *
      * @return the path separator
      */
     public static String getPathSeparator() {

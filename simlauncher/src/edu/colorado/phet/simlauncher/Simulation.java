@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.util.LauncherUtil;
-import edu.colorado.phet.simlauncher.util.FileUtil;
-import edu.colorado.phet.simlauncher.resources.*;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.simlauncher.resources.*;
+import edu.colorado.phet.simlauncher.util.FileUtil;
+import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  * Simulation
- * <p>
+ * <p/>
  * A Simulation has a collection of SimResources. They include
  * <ul>
  * <li>a JnlpResource
@@ -34,11 +34,10 @@ import java.util.*;
  * was last launched (the lastLaunchedTimestampFile). This is used to sort installed installed
  * simulations by most-recently-used status.
  *
- *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Simulation {
+public class Simulation implements SimContainer {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -273,6 +272,14 @@ public class Simulation {
 
     public ImageIcon getThumbnail() {
         return thumbnailResource.getImageIcon();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of SimContainer
+    //--------------------------------------------------------------------------------------------------
+
+    public Simulation getSimulation() {
+        return this;
     }
 
     //--------------------------------------------------------------------------------------------------

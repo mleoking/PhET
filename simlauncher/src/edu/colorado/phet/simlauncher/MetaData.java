@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -46,6 +49,7 @@ public class MetaData extends Properties {
 //        return toMetaFile( local ).exists();
 //    }
 //
+
     private static File toMetaFile( File f ) {
         return new File( f.getAbsolutePath() + "-meta" );
     }
@@ -57,7 +61,7 @@ public class MetaData extends Properties {
         setProperty( REMOTE_PATH, url.getPath() );
     }
 
-    public MetaData( File localResourceFile) throws IOException {
+    public MetaData( File localResourceFile ) throws IOException {
         load( new FileInputStream( toMetaFile( localResourceFile ) ) );
     }
 

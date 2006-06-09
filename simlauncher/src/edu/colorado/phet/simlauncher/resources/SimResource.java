@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher.resources;
 
-import edu.colorado.phet.simlauncher.util.LauncherUtil;
-import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.MetaData;
+import edu.colorado.phet.simlauncher.util.FileUtil;
+import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,6 +52,7 @@ public class SimResource {
 
     /**
      * Tells if the resource is installed locally
+     *
      * @return true if the resource is installed locally
      */
     public boolean isInstalled() {
@@ -60,6 +61,7 @@ public class SimResource {
 
     /**
      * Tells if the remote component of the resource is accessible
+     *
      * @return true if the remote component is accessible, false otherwise
      */
     public boolean isRemoteAvailable() {
@@ -68,6 +70,7 @@ public class SimResource {
 
     /**
      * Tells if the local version of the resource is current with the remote version
+     *
      * @return true if the local version of the resource is current
      */
     public boolean isCurrent() throws SimResourceException {
@@ -149,6 +152,7 @@ public class SimResource {
 
     /**
      * Creates a local file for the resource
+     *
      * @param localRoot
      * @return the local file
      */

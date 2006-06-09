@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * SetInstalledSimSortAction
- * <p>
+ * <p/>
  * An action that sets the sort type for the installed simulations
  *
  * @author Ron LeMaster
