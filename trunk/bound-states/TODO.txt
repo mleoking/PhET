@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- replace "Play Fast" checkbox with a clock speed sider (1,10,100,1000x, normal-fast labels, snap to ticks)
 - wiggle me animation is jerky
 - bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
