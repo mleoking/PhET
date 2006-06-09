@@ -159,6 +159,9 @@ public class BSApplication extends PiccoloPhetApplication {
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
+            
+            saveItem.setEnabled( false );//XXX disable until working
+            loadItem.setEnabled( false );//XXX disable until working
         }
         
         // Colors menu
