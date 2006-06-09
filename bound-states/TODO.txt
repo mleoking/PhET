@@ -53,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+0.00.09...
 (6/9/06) - disable Save/Load menu items until those features are working
 (6/9/06) - implement Save/Load of clock speed setting
 (6/9/06) - replace "Play Fast" checkbox with a clock speed sider (1,10,100,1000x, normal-fast labels, snap to ticks)
