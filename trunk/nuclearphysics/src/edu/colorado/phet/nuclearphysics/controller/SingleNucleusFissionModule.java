@@ -22,10 +22,15 @@ import java.awt.geom.Point2D;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * Presents a single U235 nucleus and a potential profile graph in a panel below it. A single neutron is fired at
+ * the U235 nucleus, which then rattles around for a bit while its potential energy increases until it gets to the
+ * top of the profile, then breaks apart in a fission event.
+ */
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
-    private IClock clock;
+//    private IClock clock;
     private double orgDt;
     private Uranium235 nucleus;
     private Neutron neutron;
@@ -33,16 +38,29 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
-        this.clock = clock;
+//        this.clock = clock;
 //        init( clock );
     }
 
     protected void init() {
-//    protected void init( IClock clock ) {
         super.init();
-        addPhysicalPanel( getPhysicalPanel() );
+        init( getClock() );
+    }
 
-//        this.clock = clock;
+
+    private class MyPhysicalPanel extends PhysicalPanel {
+        public MyPhysicalPanel() {
+            super( getClock(), (NuclearPhysicsModel)getModel() );
+            setOrigin( new Point2D.Double( this.getWidth() / 2, this.getHeight() / 2 ) );
+            getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
+        }
+    }
+    protected void init( IClock clock ) {
+        super.init();
+        MyPhysicalPanel physicalPanel = new MyPhysicalPanel();
+        setPhysicalPanel( physicalPanel );
+        addPhysicalPanel( physicalPanel );
+
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {

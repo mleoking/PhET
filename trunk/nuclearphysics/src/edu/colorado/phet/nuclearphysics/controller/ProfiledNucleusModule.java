@@ -16,6 +16,9 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A module that presents a PhysicalPanel at the top and PotentialProfilePanel below.
+ */
 public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     private Nucleus nucleus;
