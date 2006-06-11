@@ -5,7 +5,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
@@ -15,7 +14,6 @@ import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
-import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -38,12 +36,13 @@ public class QWIApplication extends PiccoloPhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
     public static String VERSION = "1.01";
-//    private String[] args;
     private IntensityModule intensityModule;
 
     public QWIApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
-//        this.args = args;
+        new QWIPhetLookAndFeel() .initLookAndFeel();
+        super.setPhetLookAndFeel( null );
+
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
         addModule( intensityModule );
         addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
@@ -85,24 +84,6 @@ public class QWIApplication extends PiccoloPhetApplication {
     private static IClock createClock() {
         return new SwingClock( 30, 1 );
     }
-
-//    public String[] getArgs() {
-//        return args;
-//    }
-
-//    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
-//        return new QWIFrame( phetApplication );
-//    }
-
-//    class QWIFrame extends PhetFrame {
-//        public QWIFrame( PhetApplication phetApplication ) {
-//            super( phetApplication );
-//        }
-//
-//        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-//            return new MyTabbedModulePane( application, modules );
-//        }
-//    }
 
     class MyTabbedModulePane extends TabbedModulePane {
 
@@ -148,10 +129,10 @@ public class QWIApplication extends PiccoloPhetApplication {
     }
 
     private static void oldmain( String[] args ) throws InterruptedException, InvocationTargetException {
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
-        phetLookAndFeel.apply();
+//        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+//        phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
+//        phetLookAndFeel.apply();
         final QWIApplication QWIApplication = new QWIApplication( args );
         QWIApplication.startApplication();
         if( QWIApplication.intensityModule != null ) {
