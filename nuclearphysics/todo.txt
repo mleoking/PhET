@@ -9,6 +9,7 @@
 -   Area behind tabs is the wrong color in 1.5
 -   check boxes aren't visible in 1.4
 -   "About" box is illegible, and mentions fusion
+-   UI colors aren't initialized properly since modules defer their initialization
 
 Alpha Radiation
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
@@ -26,6 +27,8 @@ Chain Reaction panel
 
 
 Controlled Reaction
+-   Startup time way too slow
+-   Performance in general is very slow
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	The text labeling the graphs is very light and hard to read.
 ?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.

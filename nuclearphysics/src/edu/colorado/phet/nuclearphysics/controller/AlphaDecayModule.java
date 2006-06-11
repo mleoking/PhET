@@ -63,7 +63,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         addPhysicalPanel( physicalPanel );
         alphaDecayControlPanel = new AlphaDecayControlPanel(this);
         super.addControlPanelElement(alphaDecayControlPanel);
-        System.out.println( "AlphaDecayModule.init" );
     }
 
     protected java.util.List getLegendClasses() {

@@ -38,6 +38,13 @@ import java.util.Arrays;
 
 /**
  * ControlledFissionModule
+ * <p/>
+ * Presents a large number of U235 nuclei and control rods in a chamber. Neutrons are fired into the chamber, and
+ * the chain reaction is controlled by rods that absorb neutron. The rods can be moved in and out of the chamber
+ * by the user.
+ * <p/>
+ * There a U238 nuclei in the chamber, equal in number to and event spaced between the U235 nuclei, that act as dampers
+ * for the reaction. These nuclei do not have visible graphics. The user is not supposed to know they are there.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -82,7 +89,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private double vesselHeight;
     private int numChannels = 5;
     private Vessel vessel;
-    private int nCols = 20;
+    private int nCols;
     private ControlRodGroupGraphic controlRodGroupGraphic;
     private ControlRod[] controlRods;
     private int numNeutronsFired = 1;
@@ -113,6 +120,7 @@ public class ControlledFissionModule extends ChainReactionModule {
 //        setParameterDefaults();
     }
 
+
     protected List getLegendClasses() {
         Object[] legendClasses = new Object[]{
 //                LegendPanel.NEUTRON,
@@ -122,6 +130,12 @@ public class ControlledFissionModule extends ChainReactionModule {
 //                LegendPanel.U238
         };
         return Arrays.asList( legendClasses );
+    }
+
+    protected void init() {
+        super.init();
+        init( getClock() );
+//        setParameterDefaults();
     }
 
     /**
@@ -138,8 +152,13 @@ public class ControlledFissionModule extends ChainReactionModule {
         createNuclei();
     }
 
-    protected void init( /*IClock clock */) {
-        super.init();
+    protected void init( IClock clock ) {
+
+        // Set congtrol parameters
+        setNumNeutronsFired( DEFAULT_NUM_NEUTRONS_FIRED );
+        setNumControlRods( DEFAULT_NUM_CONTROLS_RODS );
+        setU235AbsorptionProbability( DEAFULT_U235_ABSORPTION_PROB );
+        setU238AbsorptionProbability( DEAFULT_U238_ABSORPTION_PROB );
 
         //  Create the list for the nuetron launchers
         neutronLaunchers = new ArrayList();
@@ -161,7 +180,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                              vesselHeight,
                              numChannels,
                              (NuclearPhysicsModel)getModel(),
-                             getClock() );
+                             clock );
         getModel().addModelElement( vessel );
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
@@ -181,6 +200,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             controlRodPositionY = controlRod.getLocation().getY();
         }
         controlRods = createControlRods( controlRodPositionY, vessel );
+        setRodAbsorptionProbability( DEAFULT_ROD_ABSORPTION_PROB );
         controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
                                                              controlRods,
                                                              vessel,
@@ -197,21 +217,15 @@ public class ControlledFissionModule extends ChainReactionModule {
         thermometer.setNumericReadoutEnabled( false );
         getPhysicalPanel().addOriginCenteredGraphic( thermometer, 1000 );
 
-        // Create the nuclei
-        createNuclei();
-
-        // Reset the energy graph dialog
-        resetEnergyGraphDialog();
-
         // Add a listener that will hide the U238 nuclei that are just here to dampen the reaction
         getPhysicalPanel().addGraphicListener( new PhysicalPanel.GraphicListener() {
             public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
                 PhetGraphic graphic = event.getPhetGraphic();
-                if( graphic instanceof Uranium238Graphic ){
+                if( graphic instanceof Uranium238Graphic ) {
                     graphic.setVisible( false );
                 }
-                 if(graphic instanceof TxGraphic
-                           && ((TxGraphic)graphic).getWrappedGraphic() instanceof Uranium238Graphic) {
+                if( graphic instanceof TxGraphic
+                    && ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium238Graphic ) {
                     graphic.setVisible( false );
                 }
             }
@@ -221,7 +235,12 @@ public class ControlledFissionModule extends ChainReactionModule {
             }
         } );
 
-        setParameterDefaults();    
+        // Create the nuclei
+        setInterNucleusSpacing( DEFAULT_INTER_NUCLEAR_SPACING );
+        createNuclei();
+
+        // Reset the energy graph dialog
+        resetEnergyGraphDialog();
     }
 
     /**
@@ -243,10 +262,9 @@ public class ControlledFissionModule extends ChainReactionModule {
             rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                           yMin ),
                                       new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ),
-                                      channel.getWidth(),
-                                      model,
-                                      rodAbsorptionProbability );
+                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
+                                                                                                              model,
+                                                                                                              rodAbsorptionProbability );
             model.addModelElement( rods[i] );
         }
         return rods;
@@ -262,32 +280,32 @@ public class ControlledFissionModule extends ChainReactionModule {
         nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
 
-//        BufferedImage sourceImg = null;
-//        if( nucleus instanceof Uranium235 ) {
-//            sourceImg = u235Img;
-//        }
-//        else if( nucleus instanceof Rubidium ) {
-//            sourceImg = rubidiumImg;
-//        }
-//        else if( nucleus instanceof Cesium ) {
-//            sourceImg = cesiumImg;
-//        }
-//        else if( sourceImg == null ) {
-////            throw new RuntimeException( "nucleus is of unexpected type" );
-//        }
-//        if( sourceImg != null ) {
-//            final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
-//                                                               sourceImg,
-//                                                               (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
-//                                                               (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
-//            NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-//                public void leavingSystem( NuclearModelElement nme ) {
-//                    getPhysicalPanel().removeGraphic( nig );
-//                }
-//            };
-//            nucleus.addListener( listener );
-//            getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
-//        }
+        BufferedImage sourceImg = null;
+        if( nucleus instanceof Uranium235 ) {
+            sourceImg = u235Img;
+        }
+        else if( nucleus instanceof Rubidium ) {
+            sourceImg = rubidiumImg;
+        }
+        else if( nucleus instanceof Cesium ) {
+            sourceImg = cesiumImg;
+        }
+        else if( sourceImg == null ) {
+//            throw new RuntimeException( "nucleus is of unexpected type" );
+        }
+        if( sourceImg != null ) {
+            final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
+                                                               sourceImg,
+                                                               (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
+                                                               (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
+            NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+                public void leavingSystem( NuclearModelElement nme ) {
+                    getPhysicalPanel().removeGraphic( nig );
+                }
+            };
+            nucleus.addListener( listener );
+            getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
+        }
     }
 
 
@@ -295,6 +313,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      * Puts nuclei in the vessel on a grid laid out by the vessel.
      */
     protected void createNuclei() {
+
         // Create U235 nuclei
         Point2D[] locations = vessel.getInitialNucleusLocations( nCols );
         for( int i = 0; i < locations.length; i++ ) {
@@ -385,8 +404,8 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void setNumControlRods( int n ) {
         numChannels = n;
-        stop();
-        start();
+//        stop();
+//        start();
     }
 
     public void setU235AbsorptionProbability( double probability ) {
@@ -401,8 +420,8 @@ public class ControlledFissionModule extends ChainReactionModule {
         double diam = new Uranium235( new Point2D.Double(), null ).getRadius() * 2;
         double spacing = diam * modelValue;
         nCols = (int)( vessel.getWidth() / spacing );
-        stop();
-        start();
+//        stop();
+//        start();
     }
 
     public double getInterNucleusSpacing() {
@@ -466,8 +485,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
 
     public void start() {
-        init( );
-//        init( getClock() );
+        init( getClock() );
         return;
     }
 
