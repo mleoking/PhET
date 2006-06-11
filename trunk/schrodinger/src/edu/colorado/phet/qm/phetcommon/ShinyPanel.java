@@ -83,6 +83,9 @@ public class ShinyPanel extends JPanel {
 
     private void init( JComponent container, boolean b ) {
         container.setOpaque( b );
+        if( container instanceof JSlider ) {
+            container.setBackground( new Color( 0, 0, 0, 0 ) );
+        }
         initListeners( container );
         for( int i = 0; i < container.getComponentCount(); i++ ) {
             Component child = container.getComponent( i );
