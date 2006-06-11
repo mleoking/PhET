@@ -1,3 +1,5 @@
+1.01 Posted on Main Site 6-11-2006
+
 New in 1.00.02
 Bugfix: When automatic switching from phase color to magnitude is performed, the radio buttons reflect this change.
 
