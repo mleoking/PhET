@@ -23,10 +23,10 @@ public class KirkhoffSolver {
     public static boolean debugging = false;
 //    public static boolean debugging = true;
     public boolean running = false;
-    private boolean queue = false;
+//    private boolean queue = false;
 
-    public KirkhoffSolver() {
-    }
+//    public KirkhoffSolver() {
+//    }
 
     public void apply( final Circuit circuit ) {
         applyOrig( circuit );
