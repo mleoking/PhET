@@ -439,8 +439,8 @@ public class PhetApplication {
      */
     public void setPhetLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
         this.phetLookAndFeel = phetLookAndFeel;
-        if( started ) {
-            phetLookAndFeel.initLookAndFeel();
+        if( started && this.phetLookAndFeel != null ) {
+            this.phetLookAndFeel.initLookAndFeel();
         }
     }
 }
