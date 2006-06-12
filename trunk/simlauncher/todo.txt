@@ -9,6 +9,8 @@ Bugs
 ========
 Features
 ========
+- In PhetWebPage, handle things like "img =" and "img="
+
 - Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
 - Add "Go online" menu item
