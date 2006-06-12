@@ -5,7 +5,7 @@
  * <http://www.opensourcephysics.org/>
  */
 
-package edu.colorado.phet.quantumtunneling.model.splitoperator;
+package edu.colorado.phet.quantumtunneling.splitoperator;
 
 /**
  * FFT computes FFT's of complex, double precision data of arbitrary length n.

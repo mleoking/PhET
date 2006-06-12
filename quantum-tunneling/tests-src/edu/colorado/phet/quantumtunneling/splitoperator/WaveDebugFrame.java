@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.quantumtunneling.model.splitoperator;
+package edu.colorado.phet.quantumtunneling.splitoperator;
 
 import edu.colorado.phet.quantumtunneling.model.IWavePacketSolver;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
