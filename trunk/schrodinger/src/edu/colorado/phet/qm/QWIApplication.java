@@ -40,7 +40,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     public QWIApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
 
-        super.setPhetLookAndFeel( null );
+//        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
         addModule( intensityModule );

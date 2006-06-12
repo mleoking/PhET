@@ -14,7 +14,6 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -52,8 +51,6 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
-    private PhetLookAndFeel phetLookAndFeel;
-    private boolean started = false;
 
     /**
      * Get the last created PhetApplication.
@@ -123,9 +120,6 @@ public class PhetApplication {
         phetFrame = createPhetFrame();
         frameSetup.initialize( phetFrame );
 
-        this.phetLookAndFeel = new PhetLookAndFeel();//create a default PhetLookAndFeel (whatever that is)
-        //can be overriden with setPhetLookAndFeel(null);
-
         // Handle command line arguments
         parseArgs( args );
     }
@@ -189,9 +183,6 @@ public class PhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if( phetLookAndFeel != null ) {
-            phetLookAndFeel.initLookAndFeel();
-        }
         if( moduleManager.numModules() == 0 ) {
             throw new RuntimeException( "No modules in module manager" );
         }
@@ -210,7 +201,7 @@ public class PhetApplication {
 
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
-        started = true;
+//        started = true;
     }
 
     private void initializeModuleReferenceSizes() {
@@ -429,18 +420,5 @@ public class PhetApplication {
      */
     public Module[] getModules() {
         return moduleManager.getModules();
-    }
-
-    /**
-     * Sets the look and feel for this application.
-     * Use null to avoid using any PhetLookAndFeel.
-     *
-     * @param phetLookAndFeel can be null.
-     */
-    public void setPhetLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
-        this.phetLookAndFeel = phetLookAndFeel;
-        if( started && this.phetLookAndFeel != null ) {
-            this.phetLookAndFeel.initLookAndFeel();
-        }
     }
 }
