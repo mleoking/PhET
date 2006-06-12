@@ -39,3 +39,5 @@ Just found a small bug: If I resize the simulation, the close and rotate
 buttons on the ruler move off the ruler.  Also, if I put the ruler too 
 far to the right and make the simulation size smaller, the ruler goes 
 off the screen and I can't get it back without resizing.
+I should mention that the bug is only there when the ruler is rotated 
+vertically.
