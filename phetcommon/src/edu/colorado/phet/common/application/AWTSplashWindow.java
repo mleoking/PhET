@@ -41,9 +41,9 @@ import java.text.MessageFormat;
  */
 public class AWTSplashWindow extends Window {
 
-    private static Color DEFAULT_BACKGROUND = Color.white;
-    public static void setDefaultBackground( Color DEFAULT_BACKGROUND ) {
-        AWTSplashWindow.DEFAULT_BACKGROUND = DEFAULT_BACKGROUND;
+    private static Color defaultBackground = Color.white;
+    public static void setDefaultBackground( Color color ) {
+        AWTSplashWindow.defaultBackground = color;
     }
 
     private static final String LOGO_RESOURCE_NAME = "images/Phet-Flatirons-logo-3-small.gif";
@@ -120,7 +120,7 @@ public class AWTSplashWindow extends Window {
         startPaintThread( panel );
 
         // Set the background color
-        setBackground( DEFAULT_BACKGROUND );
+        setBackground( defaultBackground );
 
         invalidate();
         pack();
