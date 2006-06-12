@@ -7,5 +7,5 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
  * Copyright (c) Jun 14, 2004 by Sam Reid
  */
 public interface CircuitSolutionListener {
-    void finishedKirkhoff();
+    void circuitSolverFinished();
 }

@@ -19,7 +19,9 @@ import java.util.Hashtable;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class ModifiedNodalAnalysis extends KirkhoffSolver {
+//public class ModifiedNodalAnalysis extends KirkhoffSolver {
+public class ModifiedNodalAnalysis extends CircuitSolver {
+//    private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
 
     /*
@@ -60,7 +62,7 @@ through the m independent voltage sources in the circuit.
         }
         //        applyOrig( circuit );
 
-        fireKirkhoffSolved();
+        fireCircuitSolved();
         //        applyOrig( circuit );
     }
 

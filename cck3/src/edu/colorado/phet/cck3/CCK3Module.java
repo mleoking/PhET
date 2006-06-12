@@ -320,7 +320,7 @@ public class CCK3Module extends Module {
         }
 
         circuitSolver.addSolutionListener( new CircuitSolutionListener() {
-            public void finishedKirkhoff() {
+            public void circuitSolverFinished() {
                 voltmeterGraphic.recomputeVoltage();
             }
         } );
@@ -432,7 +432,7 @@ public class CCK3Module extends Module {
     private void addVirtualAmmeter() {
         virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );
         circuitSolver.addSolutionListener( new CircuitSolutionListener() {
-            public void finishedKirkhoff() {
+            public void circuitSolverFinished() {
                 virtualAmmeter.recompute();
             }
         } );

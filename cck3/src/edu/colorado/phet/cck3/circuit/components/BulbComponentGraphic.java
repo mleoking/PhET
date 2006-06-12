@@ -64,7 +64,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
         };
         transform.addTransformListener( transformListener );
         circuitSolutionListener = new CircuitSolutionListener() {
-            public void finishedKirkhoff() {
+            public void circuitSolverFinished() {
                 changeIntensity();
             }
         };

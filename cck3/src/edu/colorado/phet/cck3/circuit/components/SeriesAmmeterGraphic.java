@@ -75,7 +75,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
         };
         transform.addTransformListener( transformListener );
         circuitSolutionListener = new CircuitSolutionListener() {
-            public void finishedKirkhoff() {
+            public void circuitSolverFinished() {
                 DecimalFormat df = module.getDecimalFormat();
                 String form = df.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " " + SimStrings.get( "SeriesAmmeterGraphic.Amps" );

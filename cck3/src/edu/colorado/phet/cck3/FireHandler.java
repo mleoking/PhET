@@ -20,7 +20,7 @@ public class FireHandler implements CircuitSolutionListener {
         this.circuitGraphic = circuitGraphic;
     }
 
-    public void finishedKirkhoff() {
+    public void circuitSolverFinished() {
         addFires();
     }
 
