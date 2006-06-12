@@ -21,9 +21,6 @@ public class TestPhetLookAndFeel extends PhetApplication {
         super( args, TestPhetLookAndFeel.class.getName(), "description", "version" );
         addModule( new TestPhetLookAndFeelModule( "Module A" ) );
         addModule( new TestPhetLookAndFeelModule( "Module 1" ) );
-        //Do nothing to use the default PhetLookAndFeel, whatever that is...
-
-        setPhetLookAndFeel( new TestPhetLookAndFeelExample() );//or use a line like this to use a custom look and feel.
     }
 
     static class TestPhetLookAndFeelExample extends PhetLookAndFeel {
@@ -42,6 +39,7 @@ public class TestPhetLookAndFeel extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        new TestPhetLookAndFeelExample().initLookAndFeel();
         new TestPhetLookAndFeel( args ).startApplication();
     }
 }
