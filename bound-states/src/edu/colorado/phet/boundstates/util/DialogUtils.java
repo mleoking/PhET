@@ -119,4 +119,15 @@ public class DialogUtils {
         JDialog dialog = pane.createDialog( parentComponent, title );
         dialog.show();
     }
+    
+    /**
+     * Shows a localized Error message dialog with "OK" option.
+     * 
+     * @param parentComponent
+     * @param message
+     */
+    public static void showErrorDialog( Component parentComponent, String message ) {
+        showMessageDialog( parentComponent, message, SimStrings.get( "title.error"), JOptionPane.ERROR_MESSAGE );
+    }
+    
 }
