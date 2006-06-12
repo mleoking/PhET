@@ -20,10 +20,14 @@ public class FlatDampedWave implements Wave {
     private int radiusForMax = 3;
 
     public FlatDampedWave( Wave wave, double intensity, int width ) {
+        this( wave, intensity, width, 7 * width / 100.0 );
+    }
+
+    public FlatDampedWave( Wave wave, double intensity, int width, double dxLattice ) {
         this.wave = wave;
         this.intensity = intensity;
         this.x0 = width / 2;
-        this.dxLattice = 7 * width / 100.0;
+        this.dxLattice = dxLattice;
         this.radiusForMax = (int)( 3 * width / 100.0 );
     }
 

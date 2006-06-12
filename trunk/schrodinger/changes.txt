@@ -1,3 +1,6 @@
+1.01.01 (6-11-2006)
+Posted test with decreased min velocity and increased photon wave width.
+
 1.01 Posted on Main Site 6-11-2006
 
 New in 1.00.02
