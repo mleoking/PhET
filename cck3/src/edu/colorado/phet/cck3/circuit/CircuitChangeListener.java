@@ -6,6 +6,6 @@ package edu.colorado.phet.cck3.circuit;
  * Time: 2:44:40 PM
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
-public interface KirkhoffListener {
+public interface CircuitChangeListener {
     public void circuitChanged();
 }

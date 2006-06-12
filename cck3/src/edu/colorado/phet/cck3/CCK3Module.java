@@ -5,8 +5,8 @@ import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
+import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolver;
 import edu.colorado.phet.cck3.circuit.kirkhoff.ModifiedNodalAnalysis;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
@@ -77,8 +77,8 @@ public class CCK3Module extends Module {
     private CCK2ImageSuite imageSuite;
     private ParticleSet particleSet;
     private ConstantDensityLayout layout;
-    private KirkhoffSolver kirkhoffSolver;
-    private KirkhoffListener kirkhoffListener;
+    private CircuitSolver circuitSolver;
+    private CircuitChangeListener circuitChangeListener;
 
     private static final double SCALE = .5;
     private double aspectRatio = 1.2;
@@ -193,14 +193,14 @@ public class CCK3Module extends Module {
             }
         } );
         //        kirkhoffSolver = new KirkhoffSolver();
-        kirkhoffSolver = new ModifiedNodalAnalysis();
-        kirkhoffListener = new KirkhoffListener() {
+        circuitSolver = new ModifiedNodalAnalysis();
+        circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
-                kirkhoffSolver.apply( circuit );
+                circuitSolver.apply( circuit );
             }
         };
 
-        circuit = new Circuit( kirkhoffListener );
+        circuit = new Circuit( circuitChangeListener );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
@@ -287,12 +287,12 @@ public class CCK3Module extends Module {
         return viewBounds;
     }
 
-    public KirkhoffSolver getKirkhoffSolver() {
-        return kirkhoffSolver;
+    public CircuitSolver getKirkhoffSolver() {
+        return circuitSolver;
     }
 
-    public KirkhoffListener getKirkhoffListener() {
-        return kirkhoffListener;
+    public CircuitChangeListener getKirkhoffListener() {
+        return circuitChangeListener;
     }
 
     private void doinit() throws IOException {
@@ -319,7 +319,7 @@ public class CCK3Module extends Module {
             e.printStackTrace();
         }
 
-        kirkhoffSolver.addSolutionListener( new KirkhoffSolutionListener() {
+        circuitSolver.addSolutionListener( new CircuitSolutionListener() {
             public void finishedKirkhoff() {
                 voltmeterGraphic.recomputeVoltage();
             }
@@ -342,7 +342,7 @@ public class CCK3Module extends Module {
                 voltmeterGraphic.recomputeVoltage();
             }
         } );
-        kirkhoffSolver.addSolutionListener( new FireHandler( circuitGraphic ) );
+        circuitSolver.addSolutionListener( new FireHandler( circuitGraphic ) );
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
@@ -431,7 +431,7 @@ public class CCK3Module extends Module {
 
     private void addVirtualAmmeter() {
         virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );
-        kirkhoffSolver.addSolutionListener( new KirkhoffSolutionListener() {
+        circuitSolver.addSolutionListener( new CircuitSolutionListener() {
             public void finishedKirkhoff() {
                 virtualAmmeter.recompute();
             }
@@ -626,7 +626,7 @@ public class CCK3Module extends Module {
         }
         //        circuitGraphic.fixJunctionGraphics();
         layout.relayout( circuit.getBranches() );
-        kirkhoffSolver.apply( circuit );
+        circuitSolver.apply( circuit );
         circuitGraphic.reapplySolderGraphics();
         getApparatusPanel().repaint();
     }

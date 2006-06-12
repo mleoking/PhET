@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;
@@ -18,14 +18,14 @@ public class Switch extends CircuitComponent {
     boolean closed;
     double OPEN_RESISTANCE = Double.parseDouble( "10E10" );
 
-    public Switch( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
+    public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
         super.setResistance( OPEN_RESISTANCE );
         setKirkhoffEnabled( true );
     }
 
-    public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
+    public Switch( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
         setKirkhoffEnabled( false );
         this.closed = !closed;//to guarantee a change in setClosed.

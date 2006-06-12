@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck3.tests;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
@@ -25,7 +25,7 @@ public class TestKirkhoff {
     }
 
     public static void test1() {
-        KirkhoffListener kl = new KirkhoffListener() {
+        CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
             }
         };
@@ -45,7 +45,7 @@ public class TestKirkhoff {
     }
 
     public static void test2() {
-        KirkhoffListener kl = new KirkhoffListener() {
+        CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
             }
         };
@@ -66,7 +66,7 @@ public class TestKirkhoff {
     }
 
     public static void test3() {
-        KirkhoffListener kl = new KirkhoffListener() {
+        CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
             }
         };

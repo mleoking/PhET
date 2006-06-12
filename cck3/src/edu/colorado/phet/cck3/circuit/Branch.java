@@ -30,12 +30,12 @@ public class Branch extends SimpleObservableDebug {
     private String label;
     private static int indexCounter = 0;
 
-    private CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
+    private CompositeCircuitChangeListener compositeKirkhoffListener = new CompositeCircuitChangeListener();
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
     private boolean kirkhoffEnabled = true;
 
-    protected Branch( KirkhoffListener listener ) {
+    protected Branch( CircuitChangeListener listener ) {
         label = toLabel( indexCounter++ );
         setResistance( CCK3Module.MIN_RESISTANCE );
         addKirkhoffListener( listener );
@@ -45,7 +45,7 @@ public class Branch extends SimpleObservableDebug {
         return label.hashCode();
     }
 
-    public Branch( KirkhoffListener listener, Junction startJunction, Junction endJunction ) {
+    public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
         this.startJunction = startJunction;
         this.endJunction = endJunction;
@@ -64,8 +64,8 @@ public class Branch extends SimpleObservableDebug {
         ivListeners.add( currentListener );
     }
 
-    public void addKirkhoffListener( KirkhoffListener kirkhoffListener ) {
-        compositeKirkhoffListener.addKirkhoffListener( kirkhoffListener );
+    public void addKirkhoffListener( CircuitChangeListener circuitChangeListener ) {
+        compositeKirkhoffListener.addKirkhoffListener( circuitChangeListener );
     }
 
     public void addObserver( SimpleObserver so ) {
@@ -256,7 +256,7 @@ public class Branch extends SimpleObservableDebug {
     public void addAttributes( XMLElement branchElement ) {
     }
 
-    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, KirkhoffListener kl ) {
+    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, CircuitChangeListener kl ) {
         return new Branch( kl, startJunction, endJunction );
     }
 

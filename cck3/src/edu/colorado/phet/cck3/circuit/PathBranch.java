@@ -17,7 +17,7 @@ public class PathBranch extends Branch {
     protected ArrayList segments = new ArrayList();
     private Point2D.Double startPoint;
 
-    public PathBranch( KirkhoffListener listener, Junction startJunction, Junction endJunction ) {
+    public PathBranch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         super( listener, startJunction, endJunction );
     }
 

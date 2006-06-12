@@ -9,21 +9,21 @@ import java.util.ArrayList;
  * Time: 2:45:10 PM
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
-public class CompositeKirkhoffListener implements KirkhoffListener {
+public class CompositeCircuitChangeListener implements CircuitChangeListener {
     ArrayList list = new ArrayList();
 
-    public void addKirkhoffListener( KirkhoffListener kl ) {
+    public void addKirkhoffListener( CircuitChangeListener kl ) {
         list.add( kl );
     }
 
-    public void removeKirkhoffListener( KirkhoffListener kl ) {
+    public void removeKirkhoffListener( CircuitChangeListener kl ) {
         list.remove( kl );
     }
 
     public void circuitChanged() {
         for( int i = 0; i < list.size(); i++ ) {
-            KirkhoffListener kirkhoffListener = (KirkhoffListener)list.get( i );
-            kirkhoffListener.circuitChanged();
+            CircuitChangeListener circuitChangeListener = (CircuitChangeListener)list.get( i );
+            circuitChangeListener.circuitChanged();
         }
     }
 }

@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKPhetGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -38,7 +38,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
     private ArrayList listeners = new ArrayList();
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    private KirkhoffSolutionListener kirkhoffSolutionListener;
+    private CircuitSolutionListener circuitSolutionListener;
     private PhetShapeGraphic highlightGraphic;
     private Stroke highlightStroke = new BasicStroke( 5 );
     private double tilt;
@@ -63,12 +63,12 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
             }
         };
         transform.addTransformListener( transformListener );
-        kirkhoffSolutionListener = new KirkhoffSolutionListener() {
+        circuitSolutionListener = new CircuitSolutionListener() {
             public void finishedKirkhoff() {
                 changeIntensity();
             }
         };
-        module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
+        module.getKirkhoffSolver().addSolutionListener( circuitSolutionListener );
 
         srcShape = new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT );
         lbg = new LightBulbGraphic( srcShape );
@@ -185,7 +185,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
     public void delete() {
         transform.removeTransformListener( transformListener );
         component.removeObserver( simpleObserver );
-        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
+        module.getKirkhoffSolver().removeSolutionListener( circuitSolutionListener );
     }
 
     public void paint( Graphics2D g ) {

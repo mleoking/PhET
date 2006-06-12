@@ -6,6 +6,6 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
  * Time: 8:20:04 PM
  * Copyright (c) Jun 14, 2004 by Sam Reid
  */
-public interface KirkhoffSolutionListener {
+public interface CircuitSolutionListener {
     void finishedKirkhoff();
 }

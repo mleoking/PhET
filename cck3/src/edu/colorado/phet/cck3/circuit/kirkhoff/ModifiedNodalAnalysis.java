@@ -47,10 +47,10 @@ through the m independent voltage sources in the circuit.
 //            Branch[] branchs = (Branch[])strongComponents.get( i );
 //            System.out.println( "i=" + i + ", Arrays.asList( branchs ) = " + Arrays.asList( branchs ) );
 //        }
-        KirkhoffListener kirkhoffListener = new CompositeKirkhoffListener();
+        CircuitChangeListener circuitChangeListener = new CompositeCircuitChangeListener();
         for( int i = 0; i < strongComponents.size(); i++ ) {
             Branch[] branchs = (Branch[])strongComponents.get( i );
-            Circuit subCircuit = new Circuit( kirkhoffListener );
+            Circuit subCircuit = new Circuit( circuitChangeListener );
             for( int j = 0; j < branchs.length; j++ ) {
                 Branch branch = branchs[j];
                 subCircuit.addBranch( branch );
@@ -98,7 +98,7 @@ through the m independent voltage sources in the circuit.
     static class InternalResistor extends Resistor {
 
         public InternalResistor( double resistance ) {
-            super( new Point2D.Double(), new Vector2D.Double(), 1, 1, new KirkhoffListener() {
+            super( new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
                 public void circuitChanged() {
                 }
             } );
@@ -136,7 +136,7 @@ through the m independent voltage sources in the circuit.
     private EquivalentCircuit getEquivalentCircuit( Circuit circuit ) {
         EquivalentCircuit equivalentCircuit = new EquivalentCircuit();
 
-        Circuit c = new Circuit( new KirkhoffListener() {
+        Circuit c = new Circuit( new CircuitChangeListener() {
             public void circuitChanged() {
             }
         } );

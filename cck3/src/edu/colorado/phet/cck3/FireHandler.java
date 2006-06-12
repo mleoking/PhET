@@ -4,7 +4,7 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
 
 /**
  * User: Sam Reid
@@ -12,7 +12,7 @@ import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
  * Time: 12:05:48 PM
  * Copyright (c) Jun 24, 2004 by Sam Reid
  */
-public class FireHandler implements KirkhoffSolutionListener {
+public class FireHandler implements CircuitSolutionListener {
     CircuitGraphic circuitGraphic;
     public static double FIRE_CURRENT = 10;
 

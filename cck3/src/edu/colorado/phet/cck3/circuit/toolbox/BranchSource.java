@@ -4,9 +4,9 @@ package edu.colorado.phet.cck3.circuit.toolbox;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.Branch;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.common.PhetTooltipControl;
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -39,7 +39,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     private PhetGraphic schematic;
     private CircuitGraphic circuitGraphic;
     private Branch branch;
-    private KirkhoffListener kirkhoffListener;
+    private CircuitChangeListener circuitChangeListener;
     private CCK3Module module;
     private PhetGraphic lifelike;
     private PhetTextGraphic textGraphic;
@@ -49,13 +49,13 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     protected BranchSource( final PhetGraphic lifelike,
                             final PhetGraphic schematic,
                             final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
-                            final Branch branch, KirkhoffListener kl, String name, final CCK3Module module ) {
+                            final Branch branch, CircuitChangeListener kl, String name, final CCK3Module module ) {
         super( lifelike );
         this.lifelike = lifelike;
         this.schematic = schematic;
         this.circuitGraphic = circuitGraphic;
         this.branch = branch;
-        this.kirkhoffListener = kl;
+        this.circuitChangeListener = kl;
         this.module = module;
         addCursorHandBehavior();
         MouseInputAdapter ad = new MouseInputAdapter() {
@@ -144,7 +144,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class WireSource extends BranchSource {
         private double finalLength;
 
-        public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, KirkhoffListener kl, double finalLength, CCK3Module module ) {
+        public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, CircuitChangeListener kl, double finalLength, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Wire" ), module );
             this.finalLength = finalLength;
         }
@@ -154,7 +154,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             dir = dir.getInstanceOfMagnitude( -finalLength );
             Point2D src = super.branch.getEndJunction().getPosition();
             Point2D dst = dir.getDestination( src );
-            Branch b = new Branch( super.kirkhoffListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
+            Branch b = new Branch( super.circuitChangeListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
             return b;
         }
 
@@ -163,7 +163,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class BatterySource extends BranchSource {
         private ComponentDimension finalDim;
 
-        public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl, CCK3Module module ) {
+        public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Battery" ), module );
             this.finalDim = finalDim;
         }
@@ -171,7 +171,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = new Vector2D.Double( super.branch.getStartJunction().getPosition(), super.branch.getEndJunction().getPosition() );
             dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
-            Battery batt = new Battery( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.kirkhoffListener, super.module.isInternalResistanceOn() );
+            Battery batt = new Battery( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
             batt.setInternalResistance( Battery.DEFAULT_INTERNAL_RESISTANCE );
             return batt;
         }
@@ -182,7 +182,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double distBetweenJunctions;
 
         public BulbSource( PhetGraphic boundedGraphic, CircuitGraphic circuitGraphic,
-                           ApparatusPanel panel, Bulb branch, PhetGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
+                           ApparatusPanel panel, Bulb branch, PhetGraphic schematic, ComponentDimension finalDim, CircuitChangeListener kl,
                            double distBetweenJunctions, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.LightBulb" ), module );
             this.finalDim = finalDim;
@@ -197,7 +197,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 dir = new ImmutableVector2D.Double( 1, 0 );
                 start = new Point2D.Double( start.getX() - distBetweenJunctions, start.getY() );
             }
-            Bulb bulb = new Bulb( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.kirkhoffListener );
+            Bulb bulb = new Bulb( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
             if( super.circuitGraphic.isLifelike() ) {
                 return bulb;
             }
@@ -212,7 +212,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
 
         public ResistorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
-                               ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd, CCK3Module module ) {
+                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Resistor" ), module );
             this.cd = cd;
         }
@@ -220,7 +220,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( cd.getLength() );
-            Resistor res = new Resistor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.kirkhoffListener );
+            Resistor res = new Resistor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
             return res;
         }
     }
@@ -229,7 +229,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
         Switch myswitch;
 
-        public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, KirkhoffListener kl, ComponentDimension cd, CCK3Module module ) {
+        public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Switch" ), module );
             this.cd = cd;
             this.myswitch = branch;
@@ -238,7 +238,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( cd.getLength() );
-            Switch myswitch = new Switch( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.kirkhoffListener );
+            Switch myswitch = new Switch( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
             return myswitch;
         }
 
@@ -249,7 +249,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double length;
         private double height;
 
-        public AmmeterSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl,
+        public AmmeterSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, CircuitChangeListener kl,
                               AbstractVector2D dir, double length, double height, CCK3Module module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Ammeter" ), module );
             this.dir = dir;
@@ -258,7 +258,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         }
 
         public Branch createBranch() {
-            SeriesAmmeter sam = new SeriesAmmeter( super.kirkhoffListener, super.branch.getStartJunction().getPosition(), dir, length, height );
+            SeriesAmmeter sam = new SeriesAmmeter( super.circuitChangeListener, super.branch.getStartJunction().getPosition(), dir, length, height );
             return sam;
         }
 
