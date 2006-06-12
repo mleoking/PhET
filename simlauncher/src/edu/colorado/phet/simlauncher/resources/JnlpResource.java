@@ -42,14 +42,8 @@ public class JnlpResource extends SimResource {
 
     public void download() throws SimResourceException {
         super.download();
-        try {
-            remoteCodebase = new JnlpFile( url ).getCodebase();
-        }
-        catch( InvalidJnlpException e ) {
-            e.printStackTrace();
-        }
 
-        // Modify codebase of the file
+        // Get the reomote codebase, and modify codebase of the local jnlp file
         JnlpFile jnlpFile = null;
         try {
             jnlpFile = new JnlpFile( getLocalFile() );
@@ -57,7 +51,6 @@ public class JnlpResource extends SimResource {
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
         }
-
         remoteCodebase = jnlpFile.getCodebase();
         String localPath = getLocalFileName();
         if( System.getProperty( "os.name" ).toLowerCase().contains( "windows" ) && localPath.contains( ":" ) ) {

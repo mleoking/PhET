@@ -45,6 +45,38 @@ public class SimFactory {
     String categoryNameAttrib = "name";
 
 
+    /**
+     * Gets a list of Simulations given a PhetWebPage
+     *
+     * @param phetWebPage
+     * @return
+     */
+    public List getSimulations( PhetWebPage phetWebPage ) {
+        List sims = new ArrayList( );
+        List simSpecs = phetWebPage.getSimSpecs();
+        for( int i = 0; i < simSpecs.size(); i++ ) {
+            PhetWebPage.SimSpec simSpec = (PhetWebPage.SimSpec)simSpecs.get( i );
+
+            String name = Integer.toString( i );
+            String description = new String( name );
+            ThumbnailResource thumbnailResource = null;
+            URL jnlpUrl = null;
+            try {
+                thumbnailResource = new ThumbnailResource( new URL( simSpec.getThumbnailPath() ),
+                                                           Configuration.instance().getLocalRoot());
+                jnlpUrl = new URL( simSpec.getJnlpPath());
+            }
+            catch( MalformedURLException e ) {
+                e.printStackTrace();
+            }
+            Simulation simulation = new Simulation( name, description, thumbnailResource, jnlpUrl,
+                                                    Configuration.instance().getLocalRoot()
+                                                    );
+            sims.add( simulation );
+        }
+        return sims;
+    }
+
     public List getSimulations( File xmlFile ) {
         File localRoot = Configuration.instance().getLocalRoot();
         List simList = new ArrayList();
@@ -70,7 +102,6 @@ public class SimFactory {
                 String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
                 ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
                 if( !thumbnailResource.getLocalFile().exists() ) {
-                    System.out.println( "SimulationFactory.getSimulations" );
                     thumbnailResource.download();
                 }
 

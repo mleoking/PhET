@@ -12,6 +12,8 @@ package edu.colorado.phet.simlauncher;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,6 +28,11 @@ import java.net.URL;
  * @version $Revision$
  */
 public class PhetWebPage {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static final String COMMENT_START = "<!--";
     private static final String COMMENT_END = "-->";
     private static final String ANCHOR_TAG_START = "<a";
@@ -39,7 +46,11 @@ public class PhetWebPage {
     private static final String SINGLE_QUOTE_STR = "\'";
     private static final String EQUALS_STR = "=";
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
+    private Set jnlpsFound = new HashSet();
     private String path;
 
     public PhetWebPage( String path ) {
@@ -91,40 +102,57 @@ public class PhetWebPage {
                     int jnlpPathEnd = searchBuffer.indexOf( JNLP_TOKEN, hrefStart );
                     if( jnlpPathEnd > -1 && jnlpPathEnd < tagEndPos ) {
 
-                        // Get the jnlp path from the original page text
-                        int equalsPos = searchBuffer.indexOf( EQUALS_STR, hrefStart );
-                        String jnlpPath = text.substring( equalsPos + 2, jnlpPathEnd + JNLP_TOKEN.length() ).trim();
-                        System.out.println( "jnlpPath = " + jnlpPath );
+                        // Get the jnlp path from the original page text. If we haven't seen this one before, proceed
+                        // with getting the rest of the requisite attributes.
+                        String jnlpPath = getJnlpPath( searchBuffer, hrefStart, text );
+                        if( !jnlpsFound.contains( jnlpPath ) ) {
+                            jnlpsFound.add( jnlpPath );
 
-                        // Get the thumbnail path from the original page text
-                        String thumbnailPath = null;
-                        int imgStart = searchBuffer.indexOf( IMG_TAG_START, jnlpPathEnd );
-                        if( imgStart > -1 ) {
-                            int srcStart = searchBuffer.indexOf( SRC_START, imgStart );
-                            int imgQuotePosA = searchBuffer.indexOf( QUOTE_STR, srcStart );
-                            int imgQuotePosB = searchBuffer.indexOf( QUOTE_STR, imgQuotePosA + 1 );
-                            thumbnailPath = text.substring( imgQuotePosA + 1, imgQuotePosB );
-                            System.out.println( "thumbnailPath = " + thumbnailPath );
+                            // Get the thumbnail path from the original page text
+                            String thumbnailPath = getThumbnailPath( searchBuffer, jnlpPathEnd, text );
+
+                            // Get the abstract path from the original page text
+                            String abstractPath = getAbstractPath( searchBuffer, hrefStart, tagEndPos, text );
+
+                            // Create a SimSpec and add it to the list
+                            simSpecs.add( new SimSpec( jnlpPath, thumbnailPath, abstractPath ) );
                         }
-
-                        // Get the abstract path from the original page text
-                        String abstractPath = null;
-                        int absStart = searchBuffer.indexOf( ABS_START, hrefStart );
-                        if( absStart > -1 && absStart < tagEndPos ) {
-                            int absPathStart = searchBuffer.indexOf( SINGLE_QUOTE_STR, absStart ) + 1;
-                            int absPathEnd = searchBuffer.indexOf( SINGLE_QUOTE_STR, absPathStart + 1 );
-                            abstractPath = text.substring( absPathStart, absPathEnd );
-                            System.out.println( "abstractPath = " + abstractPath );
-                        }
-
-                        // Create a SimSpec and add it to the list
-                        simSpecs.add( new SimSpec( jnlpPath, thumbnailPath, abstractPath ) );
                     }
                 }
             }
         } while( anchorTagFound );
 
         return simSpecs;
+    }
+
+    private String getJnlpPath( StringBuffer searchBuffer, int searchStart, StringBuffer text ) {
+        int end = searchBuffer.indexOf( JNLP_TOKEN, searchStart );
+        int equalsPos = searchBuffer.indexOf( EQUALS_STR, searchStart );
+        String jnlpPath = path + "/../" + text.substring( equalsPos + 2, end + JNLP_TOKEN.length() ).trim();
+        return jnlpPath;
+    }
+
+    private String getAbstractPath( StringBuffer searchBuffer, int searchStart, int searchLimit, StringBuffer text ) {
+        String abstractPath = null;
+        int absStart = searchBuffer.indexOf( ABS_START, searchStart );
+        if( absStart > -1 && absStart < searchLimit ) {
+            int absPathStart = searchBuffer.indexOf( SINGLE_QUOTE_STR, absStart ) + 1;
+            int absPathEnd = searchBuffer.indexOf( SINGLE_QUOTE_STR, absPathStart + 1 );
+            abstractPath = path + "/../" + text.substring( absPathStart, absPathEnd );
+        }
+        return abstractPath;
+    }
+
+    private String getThumbnailPath( StringBuffer searchBuffer, int searchStart, StringBuffer text ) {
+        String thumbnailPath = null;
+        int imgStart = searchBuffer.indexOf( IMG_TAG_START, searchStart );
+        if( imgStart > -1 ) {
+            int srcStart = searchBuffer.indexOf( SRC_START, imgStart );
+            int imgQuotePosA = searchBuffer.indexOf( QUOTE_STR, srcStart );
+            int imgQuotePosB = searchBuffer.indexOf( QUOTE_STR, imgQuotePosA + 1 );
+            thumbnailPath = path + "/../" + text.substring( imgQuotePosA + 1, imgQuotePosB );
+        }
+        return thumbnailPath;
     }
 
     public StringBuffer getText( String urlPath ) {
