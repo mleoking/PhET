@@ -18,40 +18,15 @@ import java.util.*;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class KirkhoffSolver implements CircuitSolver {
-    private ArrayList listeners = new ArrayList();
+public class KirkhoffSolver extends CircuitSolver {
     public static boolean debugging = false;
     public boolean running = false;
 
+    public KirkhoffSolver() {
+    }
+
     public void apply( final Circuit circuit ) {
         applyOrig( circuit );
-//        Runnable r = new Runnable() {
-//            public void run() {
-//                if( running ) {
-//                    return;
-//                }
-//                running = true;
-//                System.out.println( "Running Kirkhoff" );
-//                applyOrig( circuit );
-//                running = false;
-//                System.out.println( "Finished Kirkhoff" );
-//                //need to handle queues
-//                if( queue ) {
-//                    queue = false;
-//                    Thread t = new Thread( this );
-//                    t.setPriority( Thread.MIN_PRIORITY );
-//                    t.start();
-//                }
-//            }
-//        };
-//        Thread t = new Thread( r );
-//        t.setPriority( Thread.MIN_PRIORITY );
-//        if( !running ) {
-//            t.start();
-//        }
-//        else {
-//            queue = true;
-//        }
     }
 
     public void applyOrig( Circuit circuit ) {
@@ -87,15 +62,9 @@ public class KirkhoffSolver implements CircuitSolver {
 
         //apply the solution.
         mt.applySolution( solution );
-        fireKirkhoffSolved();
+        fireCircuitSolved();
     }
 
-    protected void fireKirkhoffSolved() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            CircuitSolutionListener circuitSolutionListener = (CircuitSolutionListener)listeners.get( i );
-            circuitSolutionListener.finishedKirkhoff();
-        }
-    }
 
     public static class MatrixSystem {
         Matrix a;
@@ -262,14 +231,6 @@ public class KirkhoffSolver implements CircuitSolver {
             equations.add( eq );
         }
         return (Equation[])equations.toArray( new Equation[0] );
-    }
-
-    public void addSolutionListener( CircuitSolutionListener ksl ) {
-        listeners.add( ksl );
-    }
-
-    public void removeSolutionListener( CircuitSolutionListener circuitSolutionListener ) {
-        listeners.remove( circuitSolutionListener );
     }
 
     public static class Equation {
