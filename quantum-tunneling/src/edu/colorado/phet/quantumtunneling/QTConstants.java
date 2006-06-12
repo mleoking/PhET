@@ -140,7 +140,9 @@ public class QTConstants {
             new ZoomSpec( new Range( -1.5, 1.5 ), 0.5,  "0.0" ),
             new ZoomSpec( new Range( -2.0, 2.0 ), 1,    "0" ),
             new ZoomSpec( new Range( -2.5, 2.5 ), 1,    "0" ),
-            new ZoomSpec( new Range( -3.0, 3.0 ), 1,    "0" )
+            new ZoomSpec( new Range( -3.0, 3.0 ), 1,    "0" ),
+            new ZoomSpec( new Range( -3.5, 3.5 ), 1,    "0" ),
+            new ZoomSpec( new Range( -4.0, 4.0 ), 1,    "0" )
     };
     public static final int DEFAULT_WAVE_FUNCTION_ZOOM_INDEX = 3;
     public static final Range DEFAULT_WAVE_FUNCTION_RANGE = WAVE_FUNCTION_ZOOM_SPECS[ DEFAULT_WAVE_FUNCTION_ZOOM_INDEX ].getRange();
@@ -148,12 +150,14 @@ public class QTConstants {
     // Probability Density
     public static final ZoomSpec[] PROBABILITY_DENSITY_ZOOM_SPECS = {
                          /* range, tickSpacing, tickPattern */
-            new ZoomSpec( new Range( 0, 0.25 ), 0.05, "0.00" ),
-            new ZoomSpec( new Range( 0, 1 ),    0.25, "0.00" ),
-            new ZoomSpec( new Range( 0, 2.25 ), 0.5,  "0.0" ),
-            new ZoomSpec( new Range( 0, 4 ),    1,    "0" ),
-            new ZoomSpec( new Range( 0, 6.25 ), 1,    "0" ),
-            new ZoomSpec( new Range( 0, 9 ),    1,    "0" )
+            new ZoomSpec( new Range( 0, 0.25 ),  0.05, "0.00" ),
+            new ZoomSpec( new Range( 0, 1 ),     0.25, "0.00" ),
+            new ZoomSpec( new Range( 0, 2.25 ),  0.5,  "0.0" ),
+            new ZoomSpec( new Range( 0, 4 ),     1,    "0" ),
+            new ZoomSpec( new Range( 0, 6.25 ),  1,    "0" ),
+            new ZoomSpec( new Range( 0, 9 ),     1,    "0" ),
+            new ZoomSpec( new Range( 0, 12.25 ), 2,    "0" ),
+            new ZoomSpec( new Range( 0, 16 ),    2,    "0" )
     };
     public static final int DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX = 3;
     public static final Range DEFAULT_PROBABILITY_DENSITY_RANGE = PROBABILITY_DENSITY_ZOOM_SPECS[ DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX ].getRange();
