@@ -29,8 +29,8 @@
 		explode_sound.attachSound("explode");
 	}//end of constructor
 	
-	function soundAlarm():Void{
-		playSound(fuelAlarm_sound);
+	function soundAlarm(loop:Number):Void{
+		playSound(fuelAlarm_sound, loop);
 	}
 	
 	function soundThrust():Void{
@@ -61,17 +61,17 @@
 		adjustThrust_sound.stop();
 	}
 	
-	function soundSideThrust():Void{
-		playSound(sideThrust_sound);
+	function soundSideThrust(loop:Number):Void{
+		playSound(sideThrust_sound,loop);
 	}
 	
-	function soundExplosion():Void{
-		playSound(explode_sound);
+	function soundExplosion(loop:Number):Void{
+		playSound(explode_sound,loop);
 	}
 	
-	function playSound(mySound:Sound):Void{
+	function playSound(mySound:Sound,loop:Number):Void{
 		if(soundOn){
-			mySound.start();
+			mySound.start(0,loop);
 		}
 	}
 }//end of class SoundMaker
