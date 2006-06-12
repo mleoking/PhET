@@ -20,8 +20,8 @@ import java.util.List;
  * @version $Revision$
  */
 public class TestPhetWebPage {
-    static String pagePath = "file:///Phet/temp/top-simulations.htm";
-//    static String pagePath = "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm";
+//    static String pagePath = "file:///Phet/temp/top-simulations.htm";
+    static String pagePath = "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm";
 
     public static void main( String[] args ) {
         PhetWebPage phetWebPage = new PhetWebPage(pagePath);

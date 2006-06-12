@@ -10,6 +10,7 @@ Bugs
 Features
 ========
 - In PhetWebPage, handle things like "img =" and "img="
+- In PhetWebPage, be more careful about using the <a> tag with the JNLP that also has the thumbnail and abstract
 
 - Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
