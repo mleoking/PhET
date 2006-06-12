@@ -2,8 +2,8 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
 
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 
 import java.util.ArrayList;
@@ -142,7 +142,8 @@ public class Path {
             Branch out = outs[i];
             Junction opposite = out.opposite( lastPathElement );
             if( !init.containsBranch( out ) ) {//don't cross the same branch twice.
-                if( init.containsJunction( opposite ) ) {//we found a loop, but we're only returning those that start the path.
+                if( init.containsJunction( opposite ) )
+                {//we found a loop, but we're only returning those that start the path.
                     if( init.getStartJunction() == opposite ) {
                         Path newPath = new Path( init, out, opposite );
                         if( isUniqueLoop( all, newPath ) ) {
@@ -279,7 +280,7 @@ public class Path {
 
         Junction j0 = new Junction( 0, 0 );
         Junction j1 = new Junction( 1, 0 );
-        KirkhoffListener kl = new KirkhoffListener() {
+        CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
             }
         };

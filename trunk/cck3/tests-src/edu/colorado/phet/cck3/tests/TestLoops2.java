@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.tests;
 
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.kirkhoff.Path;
 
 /**
@@ -15,7 +15,7 @@ import edu.colorado.phet.cck3.circuit.kirkhoff.Path;
  */
 public class TestLoops2 {
     public static void main( String[] args ) {
-        KirkhoffListener kl = new KirkhoffListener() {
+        CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
             }
         };

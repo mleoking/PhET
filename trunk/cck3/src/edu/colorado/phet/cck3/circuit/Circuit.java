@@ -27,11 +27,11 @@ public class Circuit {
     private ArrayList branches = new ArrayList();
     private ArrayList junctions = new ArrayList();
     private ArrayList listeners = new ArrayList();
-    private KirkhoffListener kirkhoffListener;
+    private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
 
-    public Circuit( KirkhoffListener kirkhoffListener ) {
-        this.kirkhoffListener = kirkhoffListener;
+    public Circuit( CircuitChangeListener circuitChangeListener ) {
+        this.circuitChangeListener = circuitChangeListener;
     }
 
     public void addCircuitListener( CircuitListener listener ) {
@@ -217,7 +217,7 @@ public class Circuit {
         }
         remove( junction );
         fireJunctionsMoved();
-        kirkhoffListener.circuitChanged();
+        circuitChangeListener.circuitChanged();
         fireJunctionsSplit( junction, newJunctions );
         return newJunctions;
     }
@@ -331,7 +331,7 @@ public class Circuit {
 
     public void fireKirkhoffChanged() {
         if( fireKirkhoffChanges ) {
-            kirkhoffListener.circuitChanged();
+            circuitChangeListener.circuitChanged();
         }
     }
 
@@ -390,7 +390,7 @@ public class Circuit {
     }
 
 
-    public static Circuit parseXML( IXMLElement xml, KirkhoffListener kl, CCK3Module module ) {
+    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, CCK3Module module ) {
         Circuit cir = new Circuit( kl );
         for( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
@@ -415,7 +415,7 @@ public class Circuit {
         return cir;
     }
 
-    public static Branch toBranch( CCK3Module module, KirkhoffListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
+    public static Branch toBranch( CCK3Module module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if( type.equals( Branch.class.getName() ) ) {
             Branch branch = new Branch( kl, startJunction, endJunction );
@@ -609,7 +609,7 @@ public class Circuit {
         junctions.add( 0, junction );
     }
 
-    public KirkhoffListener getKirkhoffListener() {
-        return kirkhoffListener;
+    public CircuitChangeListener getKirkhoffListener() {
+        return circuitChangeListener;
     }
 }

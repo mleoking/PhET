@@ -18,15 +18,10 @@ import java.util.*;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class KirkhoffSolver {
+public class KirkhoffSolver implements CircuitSolver {
     private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
-//    public static boolean debugging = true;
     public boolean running = false;
-//    private boolean queue = false;
-
-//    public KirkhoffSolver() {
-//    }
 
     public void apply( final Circuit circuit ) {
         applyOrig( circuit );
@@ -97,8 +92,8 @@ public class KirkhoffSolver {
 
     protected void fireKirkhoffSolved() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            KirkhoffSolutionListener kirkhoffSolutionListener = (KirkhoffSolutionListener)listeners.get( i );
-            kirkhoffSolutionListener.finishedKirkhoff();
+            CircuitSolutionListener circuitSolutionListener = (CircuitSolutionListener)listeners.get( i );
+            circuitSolutionListener.finishedKirkhoff();
         }
     }
 
@@ -269,12 +264,12 @@ public class KirkhoffSolver {
         return (Equation[])equations.toArray( new Equation[0] );
     }
 
-    public void addSolutionListener( KirkhoffSolutionListener ksl ) {
+    public void addSolutionListener( CircuitSolutionListener ksl ) {
         listeners.add( ksl );
     }
 
-    public void removeSolutionListener( KirkhoffSolutionListener kirkhoffSolutionListener ) {
-        listeners.remove( kirkhoffSolutionListener );
+    public void removeSolutionListener( CircuitSolutionListener circuitSolutionListener ) {
+        listeners.remove( circuitSolutionListener );
     }
 
     public static class Equation {

@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.tests.mna;
 
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
@@ -26,7 +26,7 @@ public class NodeAnalysisTest {
         return rx;
     }
 
-    static KirkhoffListener kl = new KirkhoffListener() {
+    static CircuitChangeListener kl = new CircuitChangeListener() {
         public void circuitChanged() {
         }
     };

@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -40,7 +40,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private String fixedMessage;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    private KirkhoffSolutionListener kirkhoffSolutionListener;
+    private CircuitSolutionListener circuitSolutionListener;
     private int numWindows = 3;
 
     private PhetShapeGraphic highlightRegion;
@@ -74,7 +74,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
             }
         };
         transform.addTransformListener( transformListener );
-        kirkhoffSolutionListener = new KirkhoffSolutionListener() {
+        circuitSolutionListener = new CircuitSolutionListener() {
             public void finishedKirkhoff() {
                 DecimalFormat df = module.getDecimalFormat();
                 String form = df.format( Math.abs( component.getCurrent() ) );
@@ -82,7 +82,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
                 changed();
             }
         };
-        module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
+        module.getKirkhoffSolver().addSolutionListener( circuitSolutionListener );
         blackGraphic = new PhetShapeGraphic( parent, new Area(), stroke, Color.black );
 
         addGraphic( highlightRegion );
@@ -181,7 +181,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     public void delete() {
         component.removeObserver( simpleObserver );
         transform.removeTransformListener( transformListener );
-        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
+        module.getKirkhoffSolver().removeSolutionListener( circuitSolutionListener );
     }
 
 }

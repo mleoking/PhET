@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.PathBranch;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -28,7 +28,7 @@ public class Filament extends PathBranch {
     private Point2D pin;
     private boolean connectAtRight = true;
 
-    public Filament( KirkhoffListener kl, Junction tailJunction, Junction shellJunction, int numPeaks, double pivotToResistorDY, double resistorWidth, double zigHeight ) {
+    public Filament( CircuitChangeListener kl, Junction tailJunction, Junction shellJunction, int numPeaks, double pivotToResistorDY, double resistorWidth, double zigHeight ) {
         super( kl, tailJunction, shellJunction );
         this.shellJunction = shellJunction;
         this.tailJunction = tailJunction;
