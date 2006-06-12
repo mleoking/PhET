@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.quantumtunneling.model.rungekutta;
+package edu.colorado.phet.quantumtunneling.rungekutta;
 
 /**
  * Allows manipulation of complex numbers.  Implementation is such that a

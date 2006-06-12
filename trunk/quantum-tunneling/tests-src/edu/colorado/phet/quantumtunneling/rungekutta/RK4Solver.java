@@ -1,4 +1,4 @@
-package edu.colorado.phet.quantumtunneling.model.rungekutta;
+package edu.colorado.phet.quantumtunneling.rungekutta;
 
 import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
