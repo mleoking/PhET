@@ -1,3 +1,6 @@
+New in 0.00.12 (6-11-2006)
+Rebuild with latest QWI.
+
 *New in 0.11 (2-21-2006)
 Save Snapshot layers the data in the same graph.
 Added a graph legend (shows what fraction of the default velocity you used).
