@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * User: Sam Reid
@@ -40,7 +39,7 @@ public class QWIApplication extends PiccoloPhetApplication {
 
     public QWIApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
-        new QWIPhetLookAndFeel() .initLookAndFeel();
+
         super.setPhetLookAndFeel( null );
 
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
@@ -111,33 +110,22 @@ public class QWIApplication extends PiccoloPhetApplication {
         };
     }
 
-    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+    public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    oldmain( args );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-                catch( InvocationTargetException e ) {
-                    e.printStackTrace();
-                }
+                oldmain( args );
             }
         } );
-//        oldmain( args );
     }
 
-    private static void oldmain( String[] args ) throws InterruptedException, InvocationTargetException {
-//        PhetLookAndFeel.setLookAndFeel();
-//        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-//        phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
-//        phetLookAndFeel.apply();
+    private static void oldmain( String[] args ) {
+        new QWIPhetLookAndFeel() .initLookAndFeel();
         final QWIApplication QWIApplication = new QWIApplication( args );
         QWIApplication.startApplication();
         if( QWIApplication.intensityModule != null ) {
             addWiggleMe( QWIApplication );
         }
+        System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
     }
 
     private static void addWiggleMe( final QWIApplication QWIApplication ) {
