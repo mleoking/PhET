@@ -63,6 +63,21 @@ far to the right and make the simulation size smaller, the ruler goes
 off the screen and I can't get it back without resizing.
 I should mention that the bug is only there when the ruler is rotated 
 vertically.
+
+I can't get the save/load feature to work in QWI.  I thought maybe it 
+had gotten broken somewhere along the way, but even if I go back to old 
+versions, it doesn't work.  It creates a file that contains nothing but 
+the following text:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.5.0_06" class="java.beans.XMLDecoder">
+  <object class="edu.colorado.phet.qm.persistence.QWIState"/>
+</java>
+
+When I load this file, there are no error messages, but nothing happens.
+
+Sam
+
      
 ############################################
 # Lower Priority
