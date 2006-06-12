@@ -107,17 +107,20 @@ class Lander{
 			vY = vX = 0;
 			yPos = 0;
 			//this.pos.y = 0;
-			this.angle = 0;
+			//this.angle = 0;
 			this.cosTheta = 1;
 			this.sinTheta = 0;
 			this.setThrust(0);
-			if(this.landingSpeed < this.softLandingSpeed && this.angle < 0.1){
+			if(this.landingSpeed < this.softLandingSpeed && this.angle < 0.2){
 				crashState = "softLanded";
-			}else if(this.landingSpeed < this.hardLandingSpeed && this.angle < 0.1){
+				this.angle = 0;
+			}else if(this.landingSpeed < this.hardLandingSpeed && this.angle < 0.2){
 				crashState = "hardLanded";
+				this.angle = 0;
 			}else{
 				crashState = "crashLanded";
 				this.setRemainingFuel(0);
+				this.angle = 0;
 				mySoundMaker.soundExplosion(1);
 			}
 			//trace("landing speed = " + this.landingSpeed + "    "+crashState);
