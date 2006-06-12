@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 
 DONE:
+(6/12/06) - change zoom levels again
 (6/12/06) - add one zoom level for debugging that shows entire curve
 (6/12/06) - add additional zoom levels for Wave Function and Prob Density charts
 1.03.00...
