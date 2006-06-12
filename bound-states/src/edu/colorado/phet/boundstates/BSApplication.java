@@ -13,8 +13,8 @@ package edu.colorado.phet.boundstates;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
@@ -30,8 +30,10 @@ import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
 import edu.colorado.phet.boundstates.util.ArgUtils;
+import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -257,7 +259,7 @@ public class BSApplication extends PiccoloPhetApplication {
      * @throws InvocationTargetException 
      * @throws InterruptedException 
      */
-    public static void main( final String[] args ) throws IOException, InterruptedException, InvocationTargetException {
+    public static void main( final String[] args ) {
 
         /* 
          * Wrap the body of main in invokeLater, so that all initialization occurs 
@@ -271,24 +273,40 @@ public class BSApplication extends PiccoloPhetApplication {
 
             public void run() {
 
-                // Initialize localization.
-                SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
-                
-                // Title, etc.
-                String title = SimStrings.get( "BSApplication.title" );
-                String description = SimStrings.get( "BSApplication.description" );
-                String version = BSVersion.NUMBER;
+                try {
+                    // Initialize look-and-feel
+                    PhetLookAndFeel laf = new PhetLookAndFeel();
+                    laf.initLookAndFeel();
 
-                // Frame setup
-                int width = BSConstants.APP_FRAME_WIDTH;
-                int height = BSConstants.APP_FRAME_HEIGHT;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+                    // Initialize localization.
+                    SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
 
-                // Create the application.
-                BSApplication app = new BSApplication( args, title, description, version, frameSetup );
+                    // Title, etc.
+                    String title = SimStrings.get( "BSApplication.title" );
+                    String description = SimStrings.get( "BSApplication.description" );
+                    String version = BSVersion.NUMBER;
 
-                // Start the application.
-                app.startApplication();
+                    // Frame setup
+                    int width = BSConstants.APP_FRAME_WIDTH;
+                    int height = BSConstants.APP_FRAME_HEIGHT;
+                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+
+                    // Create the application.
+                    BSApplication app = new BSApplication( args, title, description, version, frameSetup );
+
+                    // Start the application.
+                    app.startApplication();
+                }
+                catch ( Exception e ) {
+                    // Inform the user of the exception, then exit.
+                    String pattern = SimStrings.get( "message.fatalException" );
+                    Object[] objs = { e.getMessage() };
+                    MessageFormat format = new MessageFormat( pattern );
+                    String message = format.format( objs );
+                    DialogUtils.showErrorDialog( null, message );
+                    e.printStackTrace();
+                    System.exit( 1 );
+                }
             }
         } );
     }

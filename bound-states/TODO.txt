@@ -54,6 +54,8 @@ CLEANUP:
 
 
 DONE:
+(6/12/06) - wrap body of main in try/catch, post error dialog and exit if an Exception occurs
+(6/12/06) - move PhetLookAndFeel to main
 0.00.09...
 (6/9/06) - disable Save/Load menu items until those features are working
 (6/9/06) - implement Save/Load of clock speed setting
