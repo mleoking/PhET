@@ -10,13 +10,11 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.EventObject;
-import java.util.EventListener;
+import java.util.*;
 
 public class NuclearPhysicsModel extends BaseModel {
-    private LinkedList nuclearModelElements = new LinkedList();
+    private List nuclearModelElements = new ArrayList();
+    private List neutrons = new ArrayList();
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
@@ -29,6 +27,10 @@ public class NuclearPhysicsModel extends BaseModel {
         if( modelElement instanceof Nucleus ) {
             nucleusListenerProxy.nucleusRemoved( new ChangeEvent( (Nucleus)modelElement ) );
         }
+
+        if( modelElement instanceof Neutron ) {
+            neutrons.add( modelElement );
+        }
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -39,6 +41,10 @@ public class NuclearPhysicsModel extends BaseModel {
 
         if( modelElement instanceof Nucleus ) {
             nucleusListenerProxy.nucleusAdded( new ChangeEvent( (Nucleus)modelElement ) );
+        }
+
+        if( modelElement instanceof Neutron ) {
+            neutrons.add( modelElement );
         }
     }
 
@@ -54,6 +60,9 @@ public class NuclearPhysicsModel extends BaseModel {
         return nuclearModelElements;
     }
 
+    public List getNeutrons() {
+        return neutrons;
+    }
 
     //--------------------------------------------------------------------------------------------------
     // ChangeListener definition

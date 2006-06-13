@@ -28,6 +28,8 @@ Chain Reaction panel
 
 
 Controlled Reaction
+- Be smarter about collision detection
+- Use flyweight for nucleus graphics
 -   Startup time way too slow
 -   Performance in general is very slow
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
@@ -43,6 +45,7 @@ Controlled Reaction
 Done no posted
 ================
 - Improved performance on Chain Reaction and Controlled Reaction modules.
+- Slowed the clock for the Chain Reaction module.
 
 ================
 1.08.03
