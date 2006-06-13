@@ -25,19 +25,19 @@ public class TestPhetWebPage {
 
     public static void main( String[] args ) {
         PhetWebPage phetWebPage = new PhetWebPage(pagePath);
-//        StringBuffer text = phetWebPage.getText();
-//        System.out.println( "text = " + text );
-//
-//        System.out.println( "=============================================" );
-//        System.out.println( "=============================================" );
-//        System.out.println( "=============================================" );
+        StringBuffer text = phetWebPage.getText( pagePath);
+        System.out.println( "text = " + text );
+
+        System.out.println( "=============================================" );
+        System.out.println( "=============================================" );
+        System.out.println( "=============================================" );
 
 //        System.out.println( "phetWebPage.stripComments( ) = " + phetWebPage.stripComments() );
 
         List simSpecs = phetWebPage.getSimSpecs();
         for( int i = 0; i < simSpecs.size(); i++ ) {
             PhetWebPage.SimSpec simSpec = (PhetWebPage.SimSpec)simSpecs.get( i );
-            System.out.println( "simSpec = " + simSpec.getJnlpPath() + "\t" + simSpec.getThumbnailPath() + "\t" + simSpec.getAbstractPath() );
+            System.out.println( "simSpec = "+ simSpec.getName() + "\t" + simSpec.getJnlpPath() + "\t" + simSpec.getThumbnailPath() + "\t" + simSpec.getAbstractPath() );
         }
     }
 }

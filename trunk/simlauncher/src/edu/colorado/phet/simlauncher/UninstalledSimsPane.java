@@ -166,7 +166,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         // Implementation of Catalog.ChangeListener
         //--------------------------------------------------------------------------------------------------
 
-        public void catatlogChanged( Catalog.ChangeEvent event ) {
+        public void catalogChanged( Catalog.ChangeEvent event ) {
             updateSimTable();
             changeEventChannel.notifyChangeListeners( this );
         }

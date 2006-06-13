@@ -22,7 +22,8 @@ import java.util.List;
 /**
  * Catalog
  * <p/>
- * A catalog of all the available simulations
+ * A catalog of all the available simulations. It also keeps lists of the simulations that are
+ * installed and not installed. 
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -65,6 +66,7 @@ public class Catalog implements Simulation.ChangeListener {
         }
         catch( SimResourceException e ) {
         }
+//        simulations = new SimFactory().getSimulations( new PhetWebPage( "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm" ) );
         simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
@@ -79,6 +81,24 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     /**
+     * Refreshes the lists of installed and uninstalled simulations, and notifies listeners
+     */
+    public void refreshInstalledUninstalledLists() {
+        simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
+        categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
+
+        installedSimulations = new ArrayList();
+        for( int i = 0; i < simulations.size(); i++ ) {
+            Simulation simulation = (Simulation)simulations.get( i );
+            simulation.addChangeListener( this );
+            if( simulation.isInstalled() ) {
+                installedSimulations.add( simulation );
+            }
+        }
+        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
+    }
+
+    /**
      * Tells if the remote component of the catalog is available
      *
      * @return true if the remote component of the catalog is available
@@ -86,7 +106,6 @@ public class Catalog implements Simulation.ChangeListener {
     public boolean isRemoteAvailable() {
         return catalogResource.isRemoteAvailable();
     }
-
 
     /**
      * Returns all the simulations in the catalog
@@ -121,16 +140,16 @@ public class Catalog implements Simulation.ChangeListener {
 
     public void installed( Simulation.ChangeEvent event ) {
         installedSimulations.add( event.getSimulation() );
-        changeListenerProxy.catatlogChanged( new ChangeEvent( this ) );
+        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
     public void uninstalled( Simulation.ChangeEvent event ) {
         installedSimulations.remove( event.getSimulation() );
-        changeListenerProxy.catatlogChanged( new ChangeEvent( this ) );
+        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
     public void updated( Simulation.ChangeEvent event ) {
-        // noop
+        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -158,7 +177,7 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     public interface ChangeListener extends EventListener {
-        void catatlogChanged( ChangeEvent event );
+        void catalogChanged( ChangeEvent event );
     }
 
 }

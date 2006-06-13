@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -65,14 +66,22 @@ public class SimTable extends JTable implements SimContainer {
         Object[][] rowData = new Object[sims.size()][3];
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
-            Object[] row = new Object[]{sim.getName(), sim.getThumbnail()};
+
+            String isCurrent = "";
+            try {
+                isCurrent = sim.isCurrent() ? "up to date" : "update available";
+            }
+            catch( SimResourceException e ) {
+                e.printStackTrace();
+            }
+            Object[] row = new Object[]{sim.getName(), sim.getThumbnail(), isCurrent };
             rowData[i] = row;
         }
 
         // Create the header
         Object[] header = null;
         if( showThumbnails ) {
-            header = new Object[]{"name", "thumbnail"};
+            header = new Object[]{"name", "thumbnail", "is current"};
         }
         else {
             header = new Object[]{"name"};

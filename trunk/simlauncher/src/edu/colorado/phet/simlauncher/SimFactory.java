@@ -57,7 +57,8 @@ public class SimFactory {
         for( int i = 0; i < simSpecs.size(); i++ ) {
             PhetWebPage.SimSpec simSpec = (PhetWebPage.SimSpec)simSpecs.get( i );
 
-            String name = Integer.toString( i );
+            String name = simSpec.getName();
+//            String name = Integer.toString( i );
             String description = new String( name );
             ThumbnailResource thumbnailResource = null;
             URL jnlpUrl = null;

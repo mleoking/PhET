@@ -125,7 +125,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     // Implementation of Catalog.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void catatlogChanged( Catalog.ChangeEvent event ) {
+    public void catalogChanged( Catalog.ChangeEvent event ) {
         updateSimTable();
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }

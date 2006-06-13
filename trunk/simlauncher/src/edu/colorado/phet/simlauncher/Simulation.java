@@ -44,7 +44,6 @@ public class Simulation implements SimContainer {
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
     private static HashMap namesToSims = new HashMap();
-    private File localRoot;
 
     /**
      * Returns the Simulation instance for the simulation with a specified name.
@@ -55,7 +54,7 @@ public class Simulation implements SimContainer {
     public static Simulation getSimulationForName( String name ) {
         Simulation sim = (Simulation)namesToSims.get( name );
         if( sim == null ) {
-            throw new IllegalArgumentException( "name not recognized" );
+            throw new IllegalArgumentException( "name not recognized: " + name );
         }
         return sim;
     }
@@ -72,6 +71,8 @@ public class Simulation implements SimContainer {
     private JarResource[] jarResources;
     private List resources = new ArrayList();
     private File lastLaunchedTimestampFile;
+    private File localRoot;
+
 
     /**
      * Constructor
@@ -127,21 +128,23 @@ public class Simulation implements SimContainer {
      * Downloads all the resources for the simulation
      */
     public void install() throws SimResourceException {
+
+        // Install the JNLP resource
         jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         jnlpResource.download();
         resources.add( jnlpResource );
+
+        // Install all the jar resoureces mentioned in the JNLP
         if( jnlpResource.isRemoteAvailable() ) {
             jarResources = jnlpResource.getJarResources();
             for( int i = 0; i < jarResources.length; i++ ) {
                 JarResource jarResource = jarResources[i];
                 resources.add( jarResource );
+                jarResource.download();
             }
         }
 
-        for( int i = 0; i < jarResources.length; i++ ) {
-            JarResource jarResource = jarResources[i];
-            jarResource.download();
-        }
+        // Install the thumbnail resource
         thumbnailResource.download();
 //        descriptionResource.download();
 
@@ -251,13 +254,14 @@ public class Simulation implements SimContainer {
      * Updates the local version of the simulation with the one on the PhET web site
      */
     public void update() throws SimResourceException {
-        uninstall();
-        install();
-//        for( int i = 0; i < resources.size(); i++ ) {
-//            SimResource simResource = (SimResource)resources.get( i );
-//            simResource.update();
-//        }
-//        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+
+        // Note that calling uninstall() and then install() doesn't work!!!!
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource resource = (SimResource)resources.get( i );
+            resource.uninstall();
+            resource.download();
+        }
+        changeListenerProxy.updated( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -290,15 +294,11 @@ public class Simulation implements SimContainer {
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public void addChangeListener
-            ( ChangeListener
-                    listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener
-            ( ChangeListener
-                    listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 
@@ -314,9 +314,7 @@ public class Simulation implements SimContainer {
 
     public interface ChangeListener extends EventListener {
         void installed( ChangeEvent event );
-
         void uninstalled( ChangeEvent event );
-
         void updated( ChangeEvent event );
     }
 
