@@ -60,18 +60,23 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         setModules( modules );
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main( final String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
         AWTSplashWindow.setDefaultBackground( Color.lightGray );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
-                }
-                catch( UnsupportedLookAndFeelException e ) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
+//                    new NuclearPhysicsApplication( args ).startApplication();
+//                }
+//                catch( UnsupportedLookAndFeelException e ) {
+//                    e.printStackTrace();
+//                }
 
                 new NuclearPhysicsApplication( args ).startApplication();
             }

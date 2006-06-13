@@ -27,6 +27,7 @@ public class Uranium238Graphic extends NucleusGraphic {
         this.nucleus = nucleus;
     }
 
+    boolean init;
     public void paint( Graphics2D g ) {
         nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
         super.paint( g );

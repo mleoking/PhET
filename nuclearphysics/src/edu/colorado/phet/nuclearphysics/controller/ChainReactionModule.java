@@ -85,6 +85,23 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
                 }
             }
         } );
+
+        // Add a listener to the model that will remove nuclei from our internal lists when they leave
+        // the model.
+        ((NuclearPhysicsModel)getModel()).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+            public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
+                // noop
+            }
+
+            public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
+                if( event.getNucleus() instanceof Uranium238 ) {
+                    u238Nuclei.remove( event.getNucleus() );
+                }
+                if( event.getNucleus() instanceof Uranium235 ) {
+                    u235Nuclei.remove( event.getNucleus() );
+                }
+            }
+        } );
     }
 
     protected Line2D.Double getNeutronPath() {
