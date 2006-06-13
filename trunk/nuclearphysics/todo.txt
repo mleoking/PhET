@@ -10,6 +10,7 @@
 -   check boxes aren't visible in 1.4
 -   "About" box is illegible, and mentions fusion
 -   UI colors aren't initialized properly since modules defer their initialization
+-   Remove Phet logo from control panel
 
 Alpha Radiation
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
@@ -18,6 +19,7 @@ Alpha Radiation
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
+-   After firing a neutron, disable Fire Neutron button until module is reset
 
 Chain Reaction panel
 ?	Instead of fading the containment vessel needs to break open/explode.
@@ -40,7 +42,7 @@ Controlled Reaction
 
 
 ================
-Done, not posted
+1.08.03
 ================
 ?	Should start up on first tab
 ?	Pause and Play settings stay where they are placed when you switch panes.  What has been changed in one pane should not affect the next pane. Is it possible that the sim is still moving the alpha particles around in the first pane while the user is looking at other panes since the play and pause buttons are all connected?
@@ -49,7 +51,7 @@ Done, not posted
 ?	Have the legend on each panel only display the applicable items to each tab.
 -   Button labels are illegible in 1.5
 ?	You can’t see what the buttons (Reset, Help, Pause) say.  They look grayed out on my computer. In fact, the ‘grayed out’ play and step buttons are many times easier to read than the active play button.
-?	Change tabs so that they look like our new Tabs. Not very do-able. I made them bigger, though, and more prominent
+?	Changed tabs so that they look like our new Tabs.
 
 
 Alpha Radiation
@@ -66,6 +68,7 @@ Fission:
 -   nucleus on graph pane of single nucleus fission module flashes
 
 Chain Reaction panel
+-   Neutron is fired from the same spot in the panel, regardless of the size of the vessel
 -   Neutrons are either absorbed or reflected when they hit the containment vessel.
 -   Nuclei are absorbed when them hit the containment vessel.
 ?	U239 should be what U238 turns into once they absorb a neutron.
@@ -74,7 +77,6 @@ Chain Reaction panel
 ?	I would suggest a vessel that’s half as thick.
 ?	There’s a wierd little box that shows up around Enable Containment Vessel when you choose the check box but once you do something else in the control panel it disappears.
 -   "Enable Containment Vessel" color isn't the same as the other labels in the panel
--   Neutron is fired from the same spot in the panel, regardless of the size of the vessel
 ?	Once the Legend is reduced to the applicable items only and the Help button is removed, this should give more room for the controls.
 -   % spinner acts unpleasant when a spinner is spun after a fission run
 

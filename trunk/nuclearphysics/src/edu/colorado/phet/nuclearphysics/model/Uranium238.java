@@ -66,6 +66,7 @@ public class Uranium238 extends Nucleus {
             Uranium239 u239 = new Uranium239( this.getPosition(), model );
             model.removeModelElement( neutron );
             this.leaveSystem();
+            model.removeModelElement( this );
 
             model.addModelElement( u239 );
             

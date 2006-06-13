@@ -154,7 +154,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setBackground( Color.white );
 
         final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
-        containmentCB.setForeground( Color.white );
+//        containmentCB.setForeground( Color.white );
         containmentCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setContainmentEnabled( containmentCB.isSelected() );
