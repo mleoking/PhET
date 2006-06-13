@@ -14,7 +14,6 @@
 
 Alpha Radiation
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
--   profile panel isn't centered properly relative to the upper panel
 -   Alpha particle sometimes disappears for first step of decay
 
 Fission:
@@ -40,6 +39,15 @@ Controlled Reaction
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.
 
+================
+Done no posted
+================
+- Improved performance on Chain Reaction and Controlled Reaction modules.
+
+================
+1.08.03
+================
+- profile panel isn't centered properly relative to the upper panel
 
 ================
 1.08.03
