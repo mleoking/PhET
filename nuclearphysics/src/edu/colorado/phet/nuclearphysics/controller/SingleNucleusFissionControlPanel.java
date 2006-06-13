@@ -26,18 +26,23 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
 
-        JButton fireNeutronBtn = new JButton( SimStrings.get( "SingleNucleusFissionControlPanel.FireButton" ) );
+        final JButton fireNeutronBtn = new JButton( SimStrings.get( "SingleNucleusFissionControlPanel.FireButton" ) );
+        final JButton resetBtn = new JButton( SimStrings.get( "SingleNucleusFissionControlPanel.ResetButton" ) );
+        resetBtn.setEnabled( false );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
+                fireNeutronBtn.setEnabled( false );
+                resetBtn.setEnabled( true );
             }
         } );
 
-        JButton resetBtn = new JButton( SimStrings.get( "SingleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
+                fireNeutronBtn.setEnabled( true );
+                resetBtn.setEnabled( false );
             }
         } );
 
