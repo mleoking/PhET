@@ -12,7 +12,6 @@ import java.awt.geom.GeneralPath;
  * User: Sam Reid
  * Date: Feb 28, 2006
  * Time: 6:01:09 PM
- * Copyright (c) Feb 28, 2006 by Sam Reid
  */
 
 public class WaveDebugFrame extends JFrame {
