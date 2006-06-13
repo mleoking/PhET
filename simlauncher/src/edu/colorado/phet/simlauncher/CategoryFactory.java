@@ -34,6 +34,7 @@ public class CategoryFactory {
     private String simulationElementName = "simulation";
     private String simulationNameAttrib = "name";
 
+
     public List getCategories( File xmlFile ) {
         List categoryList = new ArrayList();
         try {

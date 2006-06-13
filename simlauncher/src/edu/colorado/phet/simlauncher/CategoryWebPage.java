@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.List;
+import java.util.ArrayList;
 import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 /**
  * PhetWebPage
@@ -27,7 +27,7 @@ import java.net.URL;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhetWebPage {
+public class CategoryWebPage {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -57,15 +57,15 @@ public class PhetWebPage {
     private Set jnlpsFound = new HashSet();
     private String path;
 
-    public PhetWebPage( String path ) {
+    public CategoryWebPage( String path ) {
         this.path = path;
     }
 
 
     /**
-     * Get simulation specs
+     * Get category specs
      * <p/>
-     * Returns a list of SimSpecs for all the simulations on this page
+     * Returns a list of CategorySpecs for all simulations in a specified directory
      */
     public List getSimSpecs() {
         List simSpecs = new ArrayList();
@@ -87,23 +87,23 @@ public class PhetWebPage {
             simFound = false;
 
             // Scan for JNLP
-            int jnlpDivStart = searchBuffer.indexOf( JNLP_DIV, searchStart );
+            int jnlpDivStart = searchBuffer.indexOf( CategoryWebPage.JNLP_DIV, searchStart );
             if( jnlpDivStart > -1 ) {
 
                 // debug
-                String s = searchBuffer.substring( jnlpDivStart, searchBuffer.indexOf( TAG_CLOSE, jnlpDivStart ) + 1 );
+                String s = searchBuffer.substring( jnlpDivStart, searchBuffer.indexOf( CategoryWebPage.TAG_CLOSE, jnlpDivStart ) + 1 );
 //                System.out.println( "s = " + s );
 
                 simFound = true;
-                searchStart = jnlpDivStart + JNLP_DIV.length();
+                searchStart = jnlpDivStart + CategoryWebPage.JNLP_DIV.length();
 
                 // Find the href
-                int hrefStart = searchBuffer.indexOf( HREF_START, searchStart );
+                int hrefStart = searchBuffer.indexOf( CategoryWebPage.HREF_START, searchStart );
                 if( hrefStart > -1 ) {
 
                     // If the last token before the closing " is ".jnlp", we have a simulation tag
-                    int tagEndPos = searchBuffer.indexOf( TAG_CLOSE, hrefStart );
-                    int jnlpPathEnd = searchBuffer.indexOf( JNLP_TOKEN, hrefStart );
+                    int tagEndPos = searchBuffer.indexOf( CategoryWebPage.TAG_CLOSE, hrefStart );
+                    int jnlpPathEnd = searchBuffer.indexOf( CategoryWebPage.JNLP_TOKEN, hrefStart );
                     if( jnlpPathEnd > -1 && jnlpPathEnd < tagEndPos ) {
 
                         // Get the jnlp path from the original page text. If we haven't seen this one before, proceed
@@ -122,7 +122,7 @@ public class PhetWebPage {
 //                            String abstractPath = getAbstractPath( searchBuffer, hrefStart, tagEndPos, text );
 
                             // Create a SimSpec and add it to the list
-                            simSpecs.add( new SimSpec( name, jnlpPath, thumbnailPath, "" ) );
+                            simSpecs.add( new CategoryWebPage.SimSpec( name, jnlpPath, thumbnailPath, "" ) );
                         }
                     }
                 }
@@ -133,18 +133,18 @@ public class PhetWebPage {
     }
 
     private String getJnlpPath( StringBuffer searchBuffer, int searchStart, StringBuffer text ) {
-        int end = searchBuffer.indexOf( JNLP_TOKEN, searchStart );
-        int equalsPos = searchBuffer.indexOf( EQUALS_STR, searchStart );
-        String jnlpPath = path + "/../" + text.substring( equalsPos + 2, end + JNLP_TOKEN.length() ).trim();
+        int end = searchBuffer.indexOf( CategoryWebPage.JNLP_TOKEN, searchStart );
+        int equalsPos = searchBuffer.indexOf( CategoryWebPage.EQUALS_STR, searchStart );
+        String jnlpPath = path + "/../" + text.substring( equalsPos + 2, end + CategoryWebPage.JNLP_TOKEN.length() ).trim();
         return jnlpPath;
     }
 
     private String getName( StringBuffer searchBuffer, int searchStart, StringBuffer text ) {
         String name = null;
-        int divStart = searchBuffer.indexOf( NAME_DIV, searchStart );
+        int divStart = searchBuffer.indexOf( CategoryWebPage.NAME_DIV, searchStart );
         if( divStart > -1 ) {
-            int nameStart = searchBuffer.indexOf( TAG_CLOSE, divStart );
-            int nameEnd = searchBuffer.indexOf( TAG_OPEN, nameStart + 1 );
+            int nameStart = searchBuffer.indexOf( CategoryWebPage.TAG_CLOSE, divStart );
+            int nameEnd = searchBuffer.indexOf( CategoryWebPage.TAG_OPEN, nameStart + 1 );
             name = text.substring( nameStart + 1, nameEnd );
         }
         return name;
@@ -152,10 +152,10 @@ public class PhetWebPage {
 
     private String getAbstractPath( StringBuffer searchBuffer, int searchStart, int searchLimit, StringBuffer text ) {
         String abstractPath = null;
-        int absStart = searchBuffer.indexOf( ABS_START, searchStart );
+        int absStart = searchBuffer.indexOf( CategoryWebPage.ABS_START, searchStart );
         if( absStart > -1 && absStart < searchLimit ) {
-            int absPathStart = searchBuffer.indexOf( SINGLE_QUOTE_STR, absStart ) + 1;
-            int absPathEnd = searchBuffer.indexOf( SINGLE_QUOTE_STR, absPathStart + 1 );
+            int absPathStart = searchBuffer.indexOf( CategoryWebPage.SINGLE_QUOTE_STR, absStart ) + 1;
+            int absPathEnd = searchBuffer.indexOf( CategoryWebPage.SINGLE_QUOTE_STR, absPathStart + 1 );
             abstractPath = path + "/../" + text.substring( absPathStart, absPathEnd );
         }
         return abstractPath;
@@ -163,11 +163,11 @@ public class PhetWebPage {
 
     private String getThumbnailPath( StringBuffer searchBuffer, int searchStart, StringBuffer text ) {
         String thumbnailPath = null;
-        int imgStart = searchBuffer.indexOf( THUMBNAIL_DIV, searchStart );
+        int imgStart = searchBuffer.indexOf( CategoryWebPage.THUMBNAIL_DIV, searchStart );
         if( imgStart > -1 ) {
-            int srcStart = searchBuffer.indexOf( SRC_START, imgStart );
-            int imgQuotePosA = searchBuffer.indexOf( QUOTE_STR, srcStart );
-            int imgQuotePosB = searchBuffer.indexOf( QUOTE_STR, imgQuotePosA + 1 );
+            int srcStart = searchBuffer.indexOf( CategoryWebPage.SRC_START, imgStart );
+            int imgQuotePosA = searchBuffer.indexOf( CategoryWebPage.QUOTE_STR, srcStart );
+            int imgQuotePosB = searchBuffer.indexOf( CategoryWebPage.QUOTE_STR, imgQuotePosA + 1 );
             thumbnailPath = path + "/../" + text.substring( imgQuotePosA + 1, imgQuotePosB );
         }
         return thumbnailPath;
@@ -210,11 +210,11 @@ public class PhetWebPage {
         int searchStart = 0;
         do {
             commentFound = false;
-            int commentStart = text.indexOf( COMMENT_START, searchStart );
+            int commentStart = text.indexOf( CategoryWebPage.COMMENT_START, searchStart );
             if( commentStart > -1 ) {
                 searchStart = commentStart;
                 commentFound = true;
-                int commentEnd = text.indexOf( COMMENT_END, commentStart ) + COMMENT_END.length();
+                int commentEnd = text.indexOf( CategoryWebPage.COMMENT_END, commentStart ) + CategoryWebPage.COMMENT_END.length();
                 text.replace( commentStart, commentEnd, "" );
             }
         } while( commentFound );

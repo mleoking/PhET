@@ -5,12 +5,18 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - Options are getting saved too many time when thubmnails are turned off
 - Moving Man doesn't launch. SmoothMetal shows up as corrupted.
+- Getting wrong icons in SimSpecs.
 
 ========
 Features
 ========
+- Should be able to force an update.
+- "Print all" utility for teachers. (Trish's request)
+- Write utility to generate the catalog XML file, rather than parsing it on the fly in SimLauncher. Then SimFactory
+would only work with an XML file.
 - In PhetWebPage, handle things like "img =" and "img="
 - In PhetWebPage, be more careful about using the <a> tag with the JNLP that also has the thumbnail and abstract
+- Make CategoryFactory use a PhetWebPage
 
 - Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
