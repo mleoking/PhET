@@ -9,7 +9,6 @@ import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
  * User: Sam Reid
  * Date: Feb 28, 2006
  * Time: 4:33:24 PM
- * Copyright (c) Feb 28, 2006 by Sam Reid
  */
 
 public class SplitOperatorSolver extends RichardsonSolver {
