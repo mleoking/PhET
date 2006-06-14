@@ -9,23 +9,45 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium235;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class Uranium235Graphic extends NucleusGraphic {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
     private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
     private static Stroke fontOutlineStroke = new BasicStroke( 1f );
+    private static Random random = new Random();
+    private static int numImagesToUse = 15;
+    // An array of differently randomized images of U235 nuclei, that we will choose randomly between at runtime
+    private static BufferedImage[] imagesToUse = new BufferedImage[numImagesToUse];
+    static {
+        Nucleus nucleus = new Nucleus( new Point2D.Double( ), Uranium235.NUM_PROTONS, Uranium235.NUM_NEUTRONS );
+        for( int i = 0; i < imagesToUse.length; i++ ) {
+            imagesToUse[i] = computeImage( nucleus );
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
     private boolean displayLabel = true;
 
     public Uranium235Graphic( Nucleus nucleus ) {
-        super( nucleus );
-        this.nucleus = nucleus;
+        super( nucleus, imagesToUse[ random.nextInt( numImagesToUse )] );
     }
 
     public void setDisplayLabel( boolean displayLabel ) {
@@ -36,7 +58,7 @@ public class Uranium235Graphic extends NucleusGraphic {
         super.paint( g );
 
         if( displayLabel ) {
-            nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
+            nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
             AffineTransform orgTx = g.getTransform();
             g.transform( nucleusTx );
 

@@ -75,7 +75,7 @@ public class PhysicalPanel extends TxApparatusPanel {
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
-                NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
+                NucleusGraphic ng = new NucleusGraphicFactory().create( nucleus );
                 final TxGraphic txg = new TxGraphic( ng, nucleonTx );
                 nucleus.addListener( new GraphicRemover( txg ));
                 PhysicalPanel.super.addGraphic( txg, nucleusLevel );
@@ -98,13 +98,6 @@ public class PhysicalPanel extends TxApparatusPanel {
         nucleonTx.setToIdentity();
         nucleonTx.concatenate( originTx );
         nucleonTx.concatenate( scaleTx );
-    }
-
-    public void addNucleus( final Nucleus nucleus ) {
-        NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
-        final TxGraphic txg = new TxGraphic( ng, nucleonTx );
-        nucleus.addListener( new GraphicRemover( txg ));
-        super.addGraphic( txg, nucleusLevel );
     }
 
     public void addGraphic( PhetGraphic graphic ) {

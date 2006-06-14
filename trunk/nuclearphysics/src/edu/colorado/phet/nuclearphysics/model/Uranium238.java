@@ -19,6 +19,8 @@ public class Uranium238 extends Nucleus {
     // Class fields and methods
     //----------------------------------------------------------------
 
+    public static final int NUM_PROTONS = 92;
+    public static final int NUM_NEUTRONS = 146;
     private static Random random = new Random();
     // The likelihood that a neutron striking a U235 nucleus will be absorbed, causing fission
     private static double ABSORPTION_PROBABILITY = 1;
@@ -34,7 +36,7 @@ public class Uranium238 extends Nucleus {
     private BaseModel model;
 
     public Uranium238( Point2D position, BaseModel model ) {
-        super( position, 92, 146 );
+        super( position, NUM_PROTONS, NUM_NEUTRONS );
         this.model = model;
     }
 

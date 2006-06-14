@@ -21,28 +21,14 @@ import java.awt.image.ImageObserver;
 
 public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static NeutronGraphic neutronGraphic = new NeutronGraphic();
     private static ProtonGraphic protonGraphic = new ProtonGraphic();
 
-
-    private Point2D.Double position = new Point2D.Double();
-    Nucleus nucleus;
-    private BufferedImage img;
-    private AffineTransform atx = new AffineTransform();
-
-    public NucleusGraphic( Nucleus nucleus ) {
-        nucleus.addObserver( this );
-        this.nucleus = nucleus;
-        this.position.x = nucleus.getPosition().getX();
-        this.position.y = nucleus.getPosition().getY();
-        img = computeImage();
-    }
-
-    public void setTransform( AffineTransform atx ) {
-        this.atx = atx;
-    }
-
-    protected BufferedImage computeImage() {
+    protected static BufferedImage computeImage( Nucleus nucleus ) {
         BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               BufferedImage.TYPE_INT_ARGB );
@@ -65,6 +51,31 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
         }
         g.dispose();
         return bi;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private Point2D.Double position = new Point2D.Double();
+    private Nucleus nucleus;
+    private BufferedImage img;
+    private AffineTransform atx = new AffineTransform();
+
+    public NucleusGraphic( Nucleus nucleus ) {
+        this( nucleus, computeImage( nucleus));
+    }
+
+    protected NucleusGraphic( Nucleus nucleus, BufferedImage img ) {
+        nucleus.addObserver( this );
+        this.nucleus = nucleus;
+        this.position.x = nucleus.getPosition().getX();
+        this.position.y = nucleus.getPosition().getY();
+        this.img = img;
+    }
+
+    public void setTransform( AffineTransform atx ) {
+        this.atx = atx;
     }
 
     public void paint( Graphics2D g2, double x, double y ) {
