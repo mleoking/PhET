@@ -13,7 +13,7 @@ import edu.colorado.phet.nuclearphysics.model.Uranium239;
 
 public class NucleusGraphicFactory {
 
-    public static NucleusGraphic create( Nucleus nucleus ) {
+    public NucleusGraphic create( Nucleus nucleus ) {
 
         if( nucleus instanceof Uranium235 ) {
             return new Uranium235Graphic( nucleus );

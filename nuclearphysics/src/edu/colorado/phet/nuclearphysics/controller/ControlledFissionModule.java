@@ -66,17 +66,16 @@ public class ControlledFissionModule extends ChainReactionModule {
     private static final double DEAFULT_ROD_ABSORPTION_PROB = 1.0;
     private static final double DEFAULT_INTER_NUCLEAR_SPACING = 2.5;
 
-    private static NucleusGraphic ng2;
     private static BufferedImage u235Img;
     private static BufferedImage rubidiumImg;
     private static BufferedImage cesiumImg;
 
+    // Make flyweights for nucleus graphics
     static {
-        ng2 = NucleusGraphicFactory.create( new Uranium235( new Point2D.Double(),
-                                                            null ) );
-        u235Img = ng2.getImage();
-        rubidiumImg = NucleusGraphicFactory.create( new Rubidium( new Point2D.Double() ) ).getImage();
-        cesiumImg = NucleusGraphicFactory.create( new Cesium( new Point2D.Double() ) ).getImage();
+        NucleusGraphicFactory nucleusGraphicFactory = new NucleusGraphicFactory();
+        u235Img = nucleusGraphicFactory.create( new Uranium235( new Point2D.Double(), null ) ).getImage();
+        rubidiumImg = nucleusGraphicFactory.create( new Rubidium( new Point2D.Double() ) ).getImage();
+        cesiumImg = nucleusGraphicFactory.create( new Cesium( new Point2D.Double() ) ).getImage();
     }
 
     //----------------------------------------------------------------
@@ -259,9 +258,11 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param nucleus
      */
     protected void addNucleus( Nucleus nucleus ) {
-        nuclei.add( nucleus );
-        nucleus.addFissionListener( this );
+//        nuclei.add( nucleus );
+//        nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
+
+        if( true ) return;
 
         BufferedImage sourceImg = null;
         if( nucleus instanceof Uranium235 ) {
@@ -310,6 +311,8 @@ public class ControlledFissionModule extends ChainReactionModule {
             nucleus.addFissionListener( vessel );
         }
 
+        System.out.println( "ControlledFissionModule.createNuclei B" );
+
         // Create U238 nuclei
         double spacing = locations[0].distance( locations[1] );
         for( int i = 0; i < locations.length; i++ ) {
@@ -324,7 +327,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             nucleus.addFissionListener( vessel );
         }
 
+        System.out.println( "ControlledFissionModule.createNuclei C" );
+
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
+
+        System.out.println( "ControlledFissionModule.createNuclei D" );
     }
 
     private void resetEnergyGraphDialog() {
