@@ -21,6 +21,7 @@ Fission:
 -   After firing a neutron, disable Fire Neutron button until module is reset
 
 Chain Reaction panel
+-   U238 spinner doesn't respond properly to the first mouse click
 ?	Instead of fading the containment vessel needs to break open/explode.
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
 ?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
@@ -28,6 +29,7 @@ Chain Reaction panel
 
 
 Controlled Reaction
+- Startup is too slow
 - Be smarter about collision detection
 - Use flyweight for nucleus graphics
 -   Startup time way too slow

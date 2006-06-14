@@ -48,15 +48,16 @@ public class Uranium238 extends Nucleus {
         // Check to see if we are being hit by a neutron
         // todo: this is the bottleneck in the whole module. We could improve it by just
         // getting the neutrons from the model.
-        List neutrons = ((NuclearPhysicsModel)model).getNeutrons();
-        for( int i = 0; i < neutrons.size(); i++ ) {
-            Neutron neutron = (Neutron)neutrons.get( i );
-            if( neutron.getPosition().distanceSq( this.getPosition() )
-                < this.getRadius() * this.getRadius() ) {
-                this.fission( neutron );
-            }
+//        List neutrons = ((NuclearPhysicsModel)model).getNeutrons();
+//        for( int i = 0; i < neutrons.size(); i++ ) {
+//            Neutron neutron = (Neutron)neutrons.get( i );
+//            if( neutron.getPosition().distanceSq( this.getPosition() )
+//                < this.getRadius() * this.getRadius() ) {
+//                System.out.println( "Uranium238.stepInTime" );
+//                this.fission( neutron );
+//            }
+//        }
 
-        }
 //        for( int i = 0; i < model.numModelElements(); i++ ) {
 //            ModelElement me = model.modelElementAt( i );
 //            if( me instanceof Neutron ) {

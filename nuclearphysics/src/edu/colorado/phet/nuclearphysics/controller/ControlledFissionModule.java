@@ -29,12 +29,7 @@ import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * ControlledFissionModule
@@ -43,7 +38,10 @@ import java.util.Arrays;
  * the chain reaction is controlled by rods that absorb neutron. The rods can be moved in and out of the chamber
  * by the user.
  * <p/>
- * There a U238 nuclei in the chamber, equal in number to and event spaced between the U235 nuclei, that act as dampers
+ * The chamger is divided up by channels in which control rods can move in and out. The Uranium nuclei are placed
+ * evenly in the areas between the channels.
+ * <p/>
+ * There are U238 nuclei in the chamber, equal in number to and event spaced between the U235 nuclei, that act as dampers
  * for the reaction. These nuclei do not have visible graphics. The user is not supposed to know they are there.
  *
  * @author Ron LeMaster
@@ -113,11 +111,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public ControlledFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
-        // Set up the control panel
         super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
-//        init( getClock() );
-
-//        setParameterDefaults();
     }
 
 
@@ -135,7 +129,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     protected void init() {
         super.init();
         init( getClock() );
-//        setParameterDefaults();
     }
 
     /**
@@ -217,27 +210,17 @@ public class ControlledFissionModule extends ChainReactionModule {
         thermometer.setNumericReadoutEnabled( false );
         getPhysicalPanel().addOriginCenteredGraphic( thermometer, 1000 );
 
-        // Add a listener that will hide the U238 nuclei that are just here to dampen the reaction
-        getPhysicalPanel().addGraphicListener( new PhysicalPanel.GraphicListener() {
-            public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
-                PhetGraphic graphic = event.getPhetGraphic();
-                if( graphic instanceof Uranium238Graphic ) {
-                    graphic.setVisible( false );
-                }
-                if( graphic instanceof TxGraphic
-                    && ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium238Graphic ) {
-                    graphic.setVisible( false );
-                }
-            }
-
-            public void graphicRemoved( PhysicalPanel.GraphicEvent event ) {
-                // noop
-            }
-        } );
+        // Add a listener that will hide the U238 and U239 nuclei that are just here to dampen the reaction
+        getPhysicalPanel().addGraphicListener( new NucleusGraphicRemover() );
 
         // Create the nuclei
         setInterNucleusSpacing( DEFAULT_INTER_NUCLEAR_SPACING );
         createNuclei();
+
+        // Create the object that will detect neutron/Uranium collisions and invoke fission behavior. Note
+        // that this can't be done until after the call to createNuclei(), because the FissionDetector
+        // depends on knowing their placement so that it can optimize performance.
+        getModel().addModelElement( new FissionDetector( (NuclearPhysicsModel)getModel() ) );
 
         // Reset the energy graph dialog
         resetEnergyGraphDialog();
@@ -637,6 +620,9 @@ public class ControlledFissionModule extends ChainReactionModule {
     // Inner classes
     //----------------------------------------------------------------
 
+    /**
+     * ?????
+     */
     private class NeutronLauncher implements ModelElement {
         private long startTime = System.currentTimeMillis();
         private BaseModel model;
@@ -703,6 +689,110 @@ public class ControlledFissionModule extends ChainReactionModule {
                 neutronPath = new Line2D.Double( x, y, xMid, yMid );
                 ControlledFissionModule.super.fireNeutron();
             }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    /**
+     * Detects fission caused by collisions between neutrons and U235 or U238 nuclei
+     */
+    private class FissionDetector implements ModelElement {
+        private Line2D utilLine = new Line2D.Double();
+        private NuclearPhysicsModel model;
+        private Map interChannelAreaToNucleiMap = new HashMap();
+
+        public FissionDetector( NuclearPhysicsModel model ) {
+            this.model = model;
+
+            // Determine the bounds of the areas between the channels. These are the only places
+            // nuclei are.
+            // Make a map of lists, keyed by the channels in the vessel
+            Rectangle2D[] channels = vessel.getChannels();
+            double x = vessel.getBounds().getX();
+            double y = vessel.getBounds().getY();
+            double height = vessel.getBounds().getHeight();
+            double width = vessel.getBounds().getWidth() / ( channels.length + 1 );
+            for( int i = 0; i < channels.length + 1; i++ ) {
+                x = vessel.getBounds().getX() + ( i * width );
+                Rectangle2D interChannelArea = new Rectangle2D.Double( x, y, width, height );
+                interChannelAreaToNucleiMap.put( interChannelArea, new ArrayList() );
+            }
+
+            // Get the U235 neutrons and put them in bins according to their x coordinates
+            List modelElements = model.getNuclearModelElements();
+            for( int i = 0; i < modelElements.size(); i++ ) {
+                Object o = modelElements.get( i );
+                if( o instanceof Uranium235 || o instanceof Uranium238 ) {
+                    Nucleus nucleus = (Nucleus)o;
+                    Iterator interChannelAreaIterator = interChannelAreaToNucleiMap.keySet().iterator();
+                    while( interChannelAreaIterator.hasNext() ) {
+                        Rectangle2D interChannelArea = (Rectangle2D)interChannelAreaIterator.next();
+                        if( interChannelArea.contains( nucleus.getPosition().getX(),
+                                                       nucleus.getPosition().getY() ) ) {
+                            List nuclei = (List)interChannelAreaToNucleiMap.get( interChannelArea );
+                            nuclei.add( nucleus );
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Detects collisions between neutrons and U235 and U238 nuclei, and invokes the
+         * fision behavior on the Uranium nucleus if a collision occurs.
+         *
+         * @param dt
+         */
+        public void stepInTime( double dt ) {
+            // Check all neutrons
+            for( int i = 0; i < neutrons.size(); i++ ) {
+                Neutron neutron = (Neutron)neutrons.get( i );
+                utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
+
+                // Find the interChannelArea that the neutron is currently in
+                Iterator interChannelAreaIt = interChannelAreaToNucleiMap.keySet().iterator();
+                while( interChannelAreaIt.hasNext() ) {
+                    Rectangle2D area = (Rectangle2D)interChannelAreaIt.next();
+                    if( area.contains( neutron.getPosition() ) ) {
+
+                        // See if the neutron has hit any of the nuclei in the area
+                        List nuclei = (List)interChannelAreaToNucleiMap.get( area );
+                        for( int j = 0; j < nuclei.size(); j++ ) {
+                            Nucleus nucleus = (Nucleus)nuclei.get( j );
+                            double perpDist = utilLine.ptSegDistSq( nucleus.getPosition() );
+                            if( perpDist <= nucleus.getRadius() * nucleus.getRadius() ) {
+                                nucleus.fission( neutron );
+                                // Take the old nucleus off the list. It's fissioned, so it's
+                                // really not around anymore
+                                nuclei.remove( nucleus );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private class NucleusGraphicRemover implements PhysicalPanel.GraphicListener {
+        public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
+            PhetGraphic graphic = event.getPhetGraphic();
+            if( graphic instanceof Uranium238Graphic ) {
+        //                    graphic.setVisible( false );
+                getPhysicalPanel().removeGraphic( graphic );
+            }
+            if( graphic instanceof TxGraphic
+                && ( ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium238Graphic
+                     || ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium239Graphic ) ) {
+        //                    graphic.setVisible( false );
+                getPhysicalPanel().removeGraphic( graphic );
+            }
+        }
+
+        public void graphicRemoved( PhysicalPanel.GraphicEvent event ) {
+            // noop
         }
     }
 }
