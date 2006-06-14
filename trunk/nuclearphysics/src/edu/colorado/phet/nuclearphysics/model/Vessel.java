@@ -233,11 +233,19 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
                         double dy = ( neutron.getPosition().getY() - this.getY() ) % this.getHeight();
                         double y = dy > 0 ? dy + this.getY() : dy + this.getY() + this.getHeight();
 
+
+                        x = ( neutron.getPosition().getX() - this.getX() + this.getWidth() ) % this.getWidth() + this.getX();
+                        y = ( neutron.getPosition().getY() - this.getY() + this.getHeight() ) % this.getHeight() + this.getY();
+
                         // Subtle: Set the position of the neutron twice, so the collision detectionn mechanism
                         // won't think the neutron has collided with the nuclei between it's old position and
                         // its new one, as it wraps
                         neutron.setPosition( x, y );
                         neutron.setPosition( x, y );
+
+                        if( !this.contains( neutron.getPosition() )) {
+                            System.out.println( "Vessel.stepInTime: neutron outside of vessel" );
+                        }
                     }
                     else {
                         model.removeModelElement( neutron );

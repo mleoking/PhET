@@ -57,34 +57,35 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
 
-        // Add a model element that watches for collisions between neutrons and
-        // nuclei
-        getModel().addModelElement( new ModelElement() {
-            private Line2D utilLine = new Line2D.Double();
-
-            public void stepInTime( double dt ) {
-                for( int i = 0; i < neutrons.size(); i++ ) {
-                    Neutron neutron = (Neutron)neutrons.get( i );
-                    utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
-                    // Check U235 nuclei
-                    for( int j = 0; j < u235Nuclei.size(); j++ ) {
-                        Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
-                        double perpDist = utilLine.ptSegDistSq( u235.getPosition() );
-                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
-                            u235.fission( neutron );
-                        }
-                    }
-                    // Check U238 nuclei
-                    for( int j = 0; j < u238Nuclei.size(); j++ ) {
-                        Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
-                        double perpDist = utilLine.ptSegDistSq( u238.getPosition() );
-                        if( perpDist <= u238.getRadius() * u238.getRadius() ) {
-                            u238.fission( neutron );
-                        }
-                    }
-                }
-            }
-        } );
+//        // Add a model element that watches for collisions between neutrons and
+//        // nuclei
+//        getModel().addModelElement( new ModelElement() {
+//            private Line2D utilLine = new Line2D.Double();
+//
+//            public void stepInTime( double dt ) {
+//                for( int i = 0; i < neutrons.size(); i++ ) {
+//                    Neutron neutron = (Neutron)neutrons.get( i );
+//                    utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
+//                    // Check U235 nuclei
+//                    for( int j = 0; j < u235Nuclei.size(); j++ ) {
+//                        Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
+//                        double perpDist = utilLine.ptSegDistSq( u235.getPosition() );
+//                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
+//                            u235.fission( neutron );
+//                        }
+//                    }
+//                    // Check U238 nuclei
+//                    for( int j = 0; j < u238Nuclei.size(); j++ ) {
+//                        Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
+//                        double perpDist = utilLine.ptSegDistSq( u238.getPosition() );
+//                        if( perpDist <= u238.getRadius() * u238.getRadius() ) {
+//                            System.out.println( "ChainReactionModule.stepInTime" );
+//                            u238.fission( neutron );
+//                        }
+//                    }
+//                }
+//            }
+//        } );
 
         // Add a listener to the model that will remove nuclei from our internal lists when they leave
         // the model.
