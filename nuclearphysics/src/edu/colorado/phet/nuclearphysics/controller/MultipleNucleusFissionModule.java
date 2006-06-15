@@ -83,7 +83,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Add a bunch of nuclei, including one in the middle that we can fire a neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), (NuclearPhysicsModel)getModel() );
         getModel().addModelElement( centralNucleus );
-        u235Nuclei.add( centralNucleus );
+        getU235Nuclei().add( centralNucleus );
         addNucleus( centralNucleus );
 
         // If the containment is enabled, recreate it, so it will be fully
@@ -226,8 +226,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         computeNeutronLaunchParams();
 
         ArrayList removeList = new ArrayList();
-        for( int i = 0; i < nuclei.size(); i++ ) {
-            Nucleus nucleus = (Nucleus)nuclei.get( i );
+        for( int i = 0; i < getNuclei().size(); i++ ) {
+            Nucleus nucleus = (Nucleus)getNuclei().get( i );
             if( nucleus.getPosition().distance( 0, 0 ) + 50 > bounds.getBounds2D().getWidth() / 2 ) {
                 removeList.add( nucleus );
             }
@@ -237,10 +237,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             getModel().removeModelElement( nucleus );
             // This is lazy and crude, but let's just remove from all the lists, so
             // we don't have to check types, use logic, etc.
-            nuclei.remove( nucleus );
-            u235Nuclei.remove( nucleus );
-            u238Nuclei.remove( nucleus );
-            u239Nuclei.remove( nucleus );
+            getNuclei().remove( nucleus );
+            getU235Nuclei().remove( nucleus );
+            getU238Nuclei().remove( nucleus );
+            getU239Nuclei().remove( nucleus );
         }
     }
 
@@ -255,7 +255,11 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         private Line2D utilLine = new Line2D.Double();
 
         public void stepInTime( double dt ) {
-            for( int i = 0; i < neutrons.size(); i++ ) {
+            List neutrons = getNeutrons();
+            List u235Nuclei = getU235Nuclei();
+            List u238Nuclei = getU238Nuclei();
+            for( int i = neutrons.size() - 1; i >= 0; i-- ) {
+//            for( int i = 0; i < neutrons.size(); i++ ) {
                 Neutron neutron = (Neutron)neutrons.get( i );
                 utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
                 // Check U235 nuclei

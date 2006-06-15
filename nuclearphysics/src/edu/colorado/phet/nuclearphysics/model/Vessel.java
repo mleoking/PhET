@@ -46,8 +46,8 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     private Rectangle2D[] rodChannels;
     private NuclearPhysicsModel model;
     private ScalarDataRecorder temperatureRecorder;
-//    private boolean simulatesInfiniteSize = false;
-    private boolean simulatesInfiniteSize = true;
+    private boolean simulatesInfiniteSize = false;
+//    private boolean simulatesInfiniteSize = true;
 
     /**
      * @param x
@@ -206,7 +206,9 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     public void stepInTime( double v ) {
 
         List modelElements = model.getNuclearModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
+        // Count down the list in case some model elements end up being removed while we iterate
+        for( int i = modelElements.size() - 1; i >= 0; i-- ) {
+//        for( int i = 0; i < modelElements.size(); i++ ) {
             ModelElement modelElement = (ModelElement)modelElements.get( i );
             if( modelElement instanceof Neutron ) {
                 final Neutron neutron = (Neutron)modelElement;
@@ -233,10 +235,6 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
                         // Wrap the y coordinate
                         double dy = ( neutron.getPosition().getY() - this.getY() ) % this.getHeight();
                         double y = dy > 0 ? dy + this.getY() : dy + this.getY() + this.getHeight();
-
-
-                        x = ( neutron.getPosition().getX() - this.getX() + this.getWidth() ) % this.getWidth() + this.getX();
-                        y = ( neutron.getPosition().getY() - this.getY() + this.getHeight() ) % this.getHeight() + this.getY();
 
                         // Subtle: Set the position of the neutron twice, so the collision detectionn mechanism
                         // won't think the neutron has collided with the nuclei between it's old position and

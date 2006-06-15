@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.awt.geom.Line2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
@@ -41,6 +42,14 @@ public class ControlRod implements ModelElement {
     private double absoprtionProbability;
     private NuclearPhysicsModel model;
 
+    /**
+     *
+     * @param p1
+     * @param p2
+     * @param thickness
+     * @param model
+     * @param absoprtionProbability
+     */
     public ControlRod( Point2D p1, Point2D p2, double thickness, NuclearPhysicsModel model, double absoprtionProbability ) {
 
         this.model = model;

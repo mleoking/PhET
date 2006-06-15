@@ -50,7 +50,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, 5 ) );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( ClockFactory.create( 40, 1.5 ) );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( ClockFactory.create( 40, 6 ) );
-        Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 40, 40 ) );
+        Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 40, 20 ) );
         Module[] modules = new Module[]{
                 alphaModule,
                 singleNucleusFissionModule,

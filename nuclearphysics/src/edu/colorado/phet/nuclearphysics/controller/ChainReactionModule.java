@@ -33,11 +33,11 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected static Random random = new Random();
     protected static int s_maxPlacementAttempts = 100;
     protected Neutron neutronToAdd;
-    protected ArrayList nuclei = new ArrayList();
-    protected ArrayList u235Nuclei = new ArrayList();
-    protected ArrayList u238Nuclei = new ArrayList();
-    protected ArrayList u239Nuclei = new ArrayList();
-    protected ArrayList neutrons = new ArrayList();
+    private ArrayList nuclei = new ArrayList();
+    private ArrayList u235Nuclei = new ArrayList();
+    private ArrayList u238Nuclei = new ArrayList();
+    private ArrayList u239Nuclei = new ArrayList();
+    private ArrayList neutrons = new ArrayList();
     protected double neutronLaunchAngle;
     protected Point2D.Double neutronLaunchPoint;
 
@@ -75,6 +75,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         return neutronPath;
     }
 
+    public ArrayList getNeutrons() {
+        return neutrons;
+    }
+
     public ArrayList getNuclei() {
         return nuclei;
     }
@@ -85,6 +89,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     public ArrayList getU238Nuclei() {
         return u238Nuclei;
+    }
+
+    public ArrayList getU239Nuclei() {
+        return u239Nuclei;
     }
 
     public Nucleus addU235Nucleus() {

@@ -51,7 +51,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         } );
 
         // Create the controls
-        JButton fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
+        JButton fireNeutronBtn = new JButton( SimStrings.get( "ControlledFissionControlPanel.FireButton" ) );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();

@@ -18,7 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-public class Kaboom extends PhetGraphic implements Runnable {
+public class Kaboom extends PhetGraphic {
     private static long waitTime = 100;
     private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
     private static String kaboomStr = SimStrings.get( "Kaboom.KaboomText" );
@@ -54,9 +54,6 @@ public class Kaboom extends PhetGraphic implements Runnable {
 
         double theta = Math.random() * Math.PI - ( Math.PI / 2 );
         kaboomStrTx = AffineTransform.getRotateInstance( theta );
-
-        //        Thread thread = new Thread( this );
-        //        thread.start();
     }
 
     public void paint( Graphics2D g ) {
@@ -93,24 +90,6 @@ public class Kaboom extends PhetGraphic implements Runnable {
                 }
             } );
         }
-    }
-
-    public void run() {
-        while( kaboomAlpha > 0 ) {
-            try {
-                Thread.sleep( waitTime );
-                kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
-                radius += radiusIncr;
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                apparatusPanel.removeGraphic( Kaboom.this );
-            }
-        } );
     }
 
     protected Rectangle determineBounds() {
