@@ -26,14 +26,6 @@ import java.util.Hashtable;
 public class ModifiedNodalAnalysis extends CircuitSolver {
     public static boolean debugging = false;
 
-    /*
-The x matrix:
-is an (n+m)x1 vector that holds the unknown quantities
-(node voltages and the currents through the independent voltage sources).
-the top n elements are the n node voltages.
-the bottom m elements represent the currents
-through the m independent voltage sources in the circuit.
-*/
     public synchronized void apply( final Circuit circuit ) {
         ArrayList strongComponents = getStrongComponents( circuit );
         for( int i = 0; i < strongComponents.size(); i++ ) {
@@ -407,9 +399,9 @@ the D matrix is mxm and is zero if only independent sources are considered.
         ArrayList all = new ArrayList();
         Branch[] branches = circuit.getBranches();
         for( int i = 0; i < branches.length; i++ ) {
-            Branch branche = branches[i];
-            if( branche instanceof Battery ) {
-                all.add( branche );
+            Branch branch = branches[i];
+            if( branch instanceof Battery ) {
+                all.add( branch );
             }
         }
         return (Battery[])all.toArray( new Battery[0] );
