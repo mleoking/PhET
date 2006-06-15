@@ -41,7 +41,7 @@ Controlled Reaction
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.
 
 ================
-Done no posted
+1.08.05
 ================
 - Improved performance on Chain Reaction and Controlled Reaction modules.
 - Slowed the clock for the Chain Reaction module.
