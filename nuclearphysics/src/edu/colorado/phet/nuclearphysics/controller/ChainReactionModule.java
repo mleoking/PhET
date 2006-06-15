@@ -44,6 +44,11 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     // todo: push this down to the MultipleNucleusFissionModule
     protected Line2D.Double neutronPath;
 
+    /**
+     *
+     * @param name
+     * @param clock
+     */
     public ChainReactionModule( String name, IClock clock ) {
         super( name, clock );
     }

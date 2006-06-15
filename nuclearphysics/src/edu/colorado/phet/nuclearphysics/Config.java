@@ -11,6 +11,8 @@ import java.awt.*;
 
 public class Config {
 
+    public static String version = "1.08";
+
     //    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 250, 75 );
     //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
     public static double AlphaLocationUncertaintySigmaFactor = 0.34;
