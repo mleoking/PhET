@@ -105,7 +105,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         Nucleus nucleus = getNucleus();
         getModel().removeModelElement(nucleus);
 
-        ((NuclearPhysicsModel) getModel()).removeNuclearPartilces();
+        ((NuclearPhysicsModel) getModel()).removeNuclearParticles();
 
         getPotentialProfilePanel().removeAllAlphaParticles();
         getPotentialProfilePanel().removeAllPotentialProfiles();

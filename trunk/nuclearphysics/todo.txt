@@ -30,6 +30,7 @@ Chain Reaction panel
 
 
 Controlled Reaction
+- Something seems to be running in the background even when nothing is really going on
 -   Performance in general is very slow
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	The text labeling the graphs is very light and hard to read.

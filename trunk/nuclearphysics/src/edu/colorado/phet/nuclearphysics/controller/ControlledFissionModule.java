@@ -97,7 +97,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private PeriodicNeutronGun periodicNeutronGun;
     private int DEFAULT_NUM_NEUTRONS_FIRED = 2;
     private int DEFAULT_NUM_CONTROLS_RODS = 5;
-    private ArrayList neutronLaunchers;
+    private ArrayList neutronLaunchers = new ArrayList();
     private FissionDetector fissionDetector;
 
     // TODO: clean up when refactoring is done
@@ -148,9 +148,6 @@ public class ControlledFissionModule extends ChainReactionModule {
         setNumControlRods( DEFAULT_NUM_CONTROLS_RODS );
         setU235AbsorptionProbability( DEAFULT_U235_ABSORPTION_PROB );
         setU238AbsorptionProbability( DEAFULT_U238_ABSORPTION_PROB );
-
-        //  Create the list for the nuetron launchers
-        neutronLaunchers = new ArrayList();
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( SCALE );
@@ -223,6 +220,41 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Reset the energy graph dialog
         resetEnergyGraphDialog();
+    }
+
+    public void start() {
+        init( getClock() );
+        return;
+    }
+
+    public void stop() {
+        super.stop();
+
+        // Remove  all the neutron launchers from the model
+        for( int i = 0; i < neutronLaunchers.size(); i++ ) {
+            NeutronLauncher neutronLauncher = (NeutronLauncher)neutronLaunchers.get( i );
+            getModel().removeModelElement( neutronLauncher );
+        }
+        neutronLaunchers.clear();
+
+        // Remove all the control rods
+        getModel().removeModelElement( vessel );
+        for( int i = 0; i < controlRods.length; i++ ) {
+            ControlRod controlRod = controlRods[i];
+            getModel().removeModelElement( controlRod );
+        }
+
+        // Remove the fission detector
+        getModel().removeModelElement( fissionDetector );
+        fissionDetector = null;
+
+        // Make sure all the nuclei are gone
+        ( (NuclearPhysicsModel)getModel() ).removeNuclearParticles();
+        u235Nuclei.clear();
+        u238Nuclei.clear();
+        u239Nuclei.clear();
+
+        getPhysicalPanel().removeAllGraphics();
     }
 
     /**
@@ -469,33 +501,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
     // Implementation of abstract methods
     //----------------------------------------------------------------
-
-    public void start() {
-        init( getClock() );
-        return;
-    }
-
-    public void stop() {
-        super.stop();
-
-        // Remove  all the neutron launchers from the model
-        for( int i = 0; i < neutronLaunchers.size(); i++ ) {
-            NeutronLauncher neutronLauncher = (NeutronLauncher)neutronLaunchers.get( i );
-            getModel().removeModelElement( neutronLauncher );
-        }
-
-        getModel().removeModelElement( vessel );
-        for( int i = 0; i < controlRods.length; i++ ) {
-            ControlRod controlRod = controlRods[i];
-            getModel().removeModelElement( controlRod );
-        }
-
-        u235Nuclei.clear();
-        u238Nuclei.clear();
-        u239Nuclei.clear();
-
-        getPhysicalPanel().removeAllGraphics();
-    }
 
     /**
      * Computes where the neutron will be fired from, and in what direction. It picks a random point within
