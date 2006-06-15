@@ -28,7 +28,6 @@ import java.util.*;
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
-//    private IClock clock;
     private double orgDt;
     private Uranium235 nucleus;
     private Neutron neutron;
@@ -36,8 +35,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
-//        this.clock = clock;
-//        init( clock );
     }
 
     protected void init() {

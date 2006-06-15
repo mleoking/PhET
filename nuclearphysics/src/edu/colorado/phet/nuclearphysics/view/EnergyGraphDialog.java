@@ -17,6 +17,8 @@ import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -26,6 +28,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
+//public class EnergyGraphDialog extends JInternalFrame {
 public class EnergyGraphDialog extends JDialog {
     private static final Color BACKGROUND_COLOR = new Color( 255, 255, 225 );
 
@@ -37,10 +40,12 @@ public class EnergyGraphDialog extends JDialog {
     private EnergyRatePanel energyRatePanel;
 
     public EnergyGraphDialog( Frame owner, int numNuclei ) throws HeadlessException {
+//        super( "Energy Graphs", false, false );
         super( owner, "Energy Graphs", false );
 
-        setUndecorated( true );
-        getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+        setResizable( false );
+//        setUndecorated( true );
+//        getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
         JPanel contentPane = new JPanel( new GridLayout( 1, 2 ) );
         setContentPane( contentPane );
@@ -51,6 +56,7 @@ public class EnergyGraphDialog extends JDialog {
         contentPane.add( totalEnergyPanel );
 
         reset( numNuclei );
+        setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
 
         this.pack();
     }
