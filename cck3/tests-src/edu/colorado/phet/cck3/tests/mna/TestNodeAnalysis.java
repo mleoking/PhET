@@ -20,7 +20,6 @@ public class TestNodeAnalysis extends NodeAnalysisTest {
     }
 
     private void start() {
-
         Resistor r1 = newResistor( 2 );
         Resistor r2 = newResistor( 4 );
         Resistor r3 = newResistor( 8 );
