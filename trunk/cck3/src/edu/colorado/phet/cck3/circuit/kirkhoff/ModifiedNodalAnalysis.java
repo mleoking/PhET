@@ -3,13 +3,17 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.Branch;
+import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
+import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -19,9 +23,7 @@ import java.util.Hashtable;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-//public class ModifiedNodalAnalysis extends KirkhoffSolver {
 public class ModifiedNodalAnalysis extends CircuitSolver {
-//    private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
 
     /*
@@ -33,6 +35,24 @@ the bottom m elements represent the currents
 through the m independent voltage sources in the circuit.
 */
     public synchronized void apply( final Circuit circuit ) {
+        ArrayList strongComponents = getStrongComponents( circuit );
+        for( int i = 0; i < strongComponents.size(); i++ ) {
+            Circuit subCircuit = createSubCircuit( (Branch[])strongComponents.get( i ) );
+            solve( subCircuit );
+        }
+        fireCircuitSolved();
+    }
+
+    private Circuit createSubCircuit( Branch[] branchs ) {
+        Circuit subCircuit = new Circuit();
+        for( int j = 0; j < branchs.length; j++ ) {
+            Branch branch = branchs[j];
+            subCircuit.addBranch( branch );
+        }
+        return subCircuit;
+    }
+
+    private ArrayList getStrongComponents( Circuit circuit ) {
         ArrayList strongComponents = new ArrayList();
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
@@ -44,35 +64,23 @@ through the m independent voltage sources in the circuit.
                 strongComponents.add( sc );
             }
         }
-//        System.out.println( "strongComponents.size() = " + strongComponents.size() );
-//        for( int i = 0; i < strongComponents.size(); i++ ) {
-//            Branch[] branchs = (Branch[])strongComponents.get( i );
-//            System.out.println( "i=" + i + ", Arrays.asList( branchs ) = " + Arrays.asList( branchs ) );
-//        }
-        CircuitChangeListener circuitChangeListener = new CompositeCircuitChangeListener();
-        for( int i = 0; i < strongComponents.size(); i++ ) {
-            Branch[] branchs = (Branch[])strongComponents.get( i );
-            Circuit subCircuit = new Circuit( circuitChangeListener );
-            for( int j = 0; j < branchs.length; j++ ) {
-                Branch branch = branchs[j];
-                subCircuit.addBranch( branch );
-            }
-            //            subCircuit.addBranch( );
-            solve( subCircuit );
+        if( debugging ) {
+            debugStrongComponents( strongComponents );
         }
-        //        applyOrig( circuit );
-
-        fireCircuitSolved();
-        //        applyOrig( circuit );
+        return strongComponents;
     }
 
-    private void solve( Circuit subCircuit ) {
-        //        new Throwable( ).printStackTrace( );
-        //        System.out.println( "circuit = " + circuit );
-        EquivalentCircuit equivalentCircuit = getEquivalentCircuit( subCircuit );
-        //        System.out.println( "circuit = " + circuit );
-        //        System.out.println( "equivalentCircuit = " + equivalentCircuit );
-        applyOrig( equivalentCircuit.getCircuit() );
+    private void debugStrongComponents( ArrayList strongComponents ) {
+        System.out.println( "strongComponents.size() = " + strongComponents.size() );
+        for( int i = 0; i < strongComponents.size(); i++ ) {
+            Branch[] branchs = (Branch[])strongComponents.get( i );
+            System.out.println( "i=" + i + ", Arrays.asList( branchs ) = " + Arrays.asList( branchs ) );
+        }
+    }
+
+    private void solve( Circuit circuit ) {
+        EquivalentCircuit equivalentCircuit = getEquivalentCircuit( circuit );
+        applyMNA( equivalentCircuit.getCircuit() );
         Enumeration keys = equivalentCircuit.branchMap.keys();
         while( keys.hasMoreElements() ) {
             Branch branch = (Branch)keys.nextElement();
@@ -98,7 +106,6 @@ through the m independent voltage sources in the circuit.
     }
 
     static class InternalResistor extends Resistor {
-
         public InternalResistor( double resistance ) {
             super( new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
                 public void circuitChanged() {
@@ -199,64 +206,65 @@ through the m independent voltage sources in the circuit.
         return equivalentCircuit;
     }
 
-    public void applyOrig( final Circuit circuit ) {
-
+    public void applyMNA( final Circuit circuit ) {
         clear( circuit );
         if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
-
-            //1. choose a ground.  Vertex 0 shall be the ground.
+            //1. choose a ground.  
+            // Vertex 0 shall be the ground.
 
             //2. Generate A.
             Matrix a = generateA( circuit );
             //            System.out.println( "a=" );
-            //            a.print( 5, 5 );
+//                        a.print( 5, 5 );
 
             //3. Generate z for x=A-1 z .
             Matrix z = generateZ( circuit );
             //            System.out.println( "Z=" );
             //            z.print( 5, 5 );
-            try {
 
+            try {
                 Matrix x = a.solve( z );
                 //                System.out.println( "x = " + x );
                 //                x.print( 5, 5 );
-
-                int n = circuit.numJunctions() - 1;
-                for( int i = 0; i < circuit.numBranches(); i++ ) {
-                    Branch branch = circuit.branchAt( i );
-                    int startIndex = circuit.indexOf( branch.getStartJunction() );
-                    int endIndex = circuit.indexOf( branch.getEndJunction() );
-                    double startVolts = 0;
-                    if( startIndex > 0 ) {
-                        startVolts = x.get( startIndex - 1, 0 );
-                    }
-                    double endVolts = 0;
-                    if( endIndex > 0 ) {
-                        endVolts = x.get( endIndex - 1, 0 );
-                    }
-                    double dv = endVolts - startVolts;
-                    if( branch instanceof Battery ) {
-                    }
-                    else {
-                        branch.setKirkhoffEnabled( false );
-                        branch.setVoltageDrop( dv );
-                        branch.setCurrent( dv / branch.getResistance() );
-                        branch.setKirkhoffEnabled( true );
-                    }
-                }
-                Battery[] batt = getBatteries( circuit );
-                for( int i = 0; i < batt.length; i++ ) {
-                    Battery battery = batt[i];
-                    int index = i + n;
-                    double current = x.get( index, 0 );
-                    battery.setCurrent( -current );
-                }
+                applySolutionToCircuit( circuit, x );
             }
             catch( RuntimeException re ) {
                 System.out.println( "re = " + re );
             }
         }
+    }
 
+    private void applySolutionToCircuit( Circuit circuit, Matrix x ) {
+        int n = circuit.numJunctions() - 1;
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            int startIndex = circuit.indexOf( branch.getStartJunction() );
+            int endIndex = circuit.indexOf( branch.getEndJunction() );
+            double startVolts = 0;
+            if( startIndex > 0 ) {
+                startVolts = x.get( startIndex - 1, 0 );
+            }
+            double endVolts = 0;
+            if( endIndex > 0 ) {
+                endVolts = x.get( endIndex - 1, 0 );
+            }
+            double dv = endVolts - startVolts;
+            if( branch instanceof Battery ) {
+            }
+            else {
+                branch.setKirkhoffEnabled( false );
+                branch.setVoltageDrop( dv );
+                branch.setCurrent( dv / branch.getResistance() );
+                branch.setKirkhoffEnabled( true );
+            }
+        }
+        Battery[] batt = getBatteries( circuit );
+        for( int i = 0; i < batt.length; i++ ) {
+            Battery battery = batt[i];
+            int index = i + n;
+            double current = x.get( index, 0 );
+            battery.setCurrent( -current );
+        }
     }
 
     private void clear( Circuit circuit ) {

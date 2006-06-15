@@ -30,6 +30,10 @@ public class Circuit {
     private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
 
+    public Circuit() {
+        this( new CompositeCircuitChangeListener() );
+    }
+
     public Circuit( CircuitChangeListener circuitChangeListener ) {
         this.circuitChangeListener = circuitChangeListener;
     }
