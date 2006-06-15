@@ -29,7 +29,7 @@ public class NuclearPhysicsModel extends BaseModel {
         }
 
         if( modelElement instanceof Neutron ) {
-            neutrons.add( modelElement );
+            neutrons.remove( modelElement );
         }
     }
 

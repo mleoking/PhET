@@ -29,10 +29,12 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private long orgDelay;
     private double orgDt;
 
+    /**
+     * Constructor
+     * @param clock
+     */
     public MultipleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
-
-//        init();
     }
 
     protected void init() {
@@ -93,6 +95,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         computeNeutronLaunchParams();
     }
 
+    public void stop() {
+        super.stop();
+    }
+
     protected void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
         if( containment != null ) {
@@ -121,12 +127,14 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     private void addContainment() {
         containment = new Containment( new Point2D.Double( 0, 0 ), 400, (NuclearPhysicsModel)getModel() );
+        getModel().addModelElement( containment );
         containment.addResizeListener( this );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 10 );
     }
 
     private void removeContainment() {
+        getModel().removeModelElement( containment );
         containment = null;
         getPhysicalPanel().removeGraphic( containmentGraphic );
     }
@@ -145,8 +153,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     }
 
     protected Point2D.Double findLocationForNewNucleus() {
-        // Determine the area in which the nucleus can be place. This depends on whether the
-        // containment vessel is enabled or not.
 
         // Determine the model bounds represented by the current size of the apparatus panel
         Rectangle2D r = getPhysicalPanel().getBounds();
@@ -213,7 +219,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     // Implementation of Containment.ResizeListener
     //--------------------------------------------------------------------------------------------------
 
-
     public void containementResized( Containment containment ) {
         Shape bounds = containment.getShape();
 
@@ -266,7 +271,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                     Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
                     double perpDist = utilLine.ptSegDistSq( u238.getPosition() );
                     if( perpDist <= u238.getRadius() * u238.getRadius() ) {
-                        System.out.println( "ChainReactionModule.stepInTime" );
                         u238.fission( neutron );
                     }
                 }
