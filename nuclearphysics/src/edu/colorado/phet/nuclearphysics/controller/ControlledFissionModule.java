@@ -273,6 +273,9 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @return an array of control rods
      */
     private ControlRod[] createControlRods( double yMin, Vessel vessel ) {
+
+        // Some excess length for the control rods so they will stick out the bottom of the vessel
+        double controlRodExcess = 200;
         ControlRod[] rods = new ControlRod[vessel.getNumControlRodChannels()];
         NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
         Rectangle2D[] channels = vessel.getChannels();
@@ -284,9 +287,10 @@ public class ControlledFissionModule extends ChainReactionModule {
             rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                           yMin ),
                                       new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
-                                                                                                              model,
-                                                                                                              rodAbsorptionProbability );
+                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) + controlRodExcess ),
+                                      channel.getWidth(),
+                                      model,
+                                      rodAbsorptionProbability );
             model.addModelElement( rods[i] );
         }
         return rods;

@@ -44,7 +44,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     public NuclearPhysicsApplication( String[] args ) {
         super( args, SimStrings.get( "NuclearPhysicsApplication.title" ),
                SimStrings.get( "NuclearPhysicsApplication.description" ),
-               SimStrings.get( Config.version ),
+               Config.version,
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, 5 ) );

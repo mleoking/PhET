@@ -12,11 +12,18 @@ import java.awt.geom.Point2D;
 
 public class Uranium239 extends Nucleus {
 
-    private Neutron fissionInstigatingNeutron;
-    private BaseModel model;
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
 
+    public static final int NUM_PROTONS = 92;
+    public static final int NUM_NEUTRONS = 147;
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+    
     public Uranium239( Point2D position, BaseModel model ) {
-        super( position, 92, 147 );
-        this.model = model;
+        super( position, NUM_PROTONS, NUM_NEUTRONS );
     }
 }
