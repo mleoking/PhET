@@ -27,7 +27,6 @@ public class Neutron extends NuclearParticle {
                      (float)( Math.sin( theta ) * Config.neutronSpeed ) );
     }
 
-
     public void setPosition( double v, double v1 ) {
         if( v == 100000 ) {
             System.out.println( "!!!" );

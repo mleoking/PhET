@@ -20,21 +20,39 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A vessel that is supposed to emulate the containment vessel of a nuclear bomb
+ * A vessel that is supposed to emulate the containment vessel of a nuclear bomb.
+ * <p>
+ * This class implements Modelelement, so it can detect when nuclei and neutrons hit it.
  */
-public class Containment extends SimpleObservable {
+public class Containment extends SimpleObservable implements ModelElement {
     private Ellipse2D shape;
     private double wallThickness = 80;
     double opacity = 1;
     private ArrayList resizeListeners = new ArrayList();
+    private Containment.NeutronCollisionDetector neutronCollisionDetector;
+    private NuclearPhysicsModel model;
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
         Ellipse2D shape = new Ellipse2D.Double( center.getX() - radius, center.getY() - radius,
                                                 radius * 2, radius * 2 );
         this.shape = shape;
+        this.model = model;
 
-        model.addModelElement( new NeutronCollisionDetector( model ) );
+        neutronCollisionDetector = new NeutronCollisionDetector( model );
+    }
+
+    public void stepInTime( double dt ) {
+            List elements = model.getNuclearModelElements();
+            for( int i = 0; i < elements.size(); i++ ) {
+                Object o = elements.get( i );
+                if( o instanceof Neutron ) {
+                    neutronCollisionDetector.detectAndDoCollision( (Neutron)o );
+                }
+                if( o instanceof Nucleus ) {
+                    neutronCollisionDetector.detectAndDoCollision( (Nucleus)o );
+                }
+            }
     }
 
     public void adjustRadius( double dr ) {
@@ -102,7 +120,7 @@ public class Containment extends SimpleObservable {
     /**
      * Detects neutrons hitting the vessel, and doing the correct thing when they do.
      */
-    private class NeutronCollisionDetector implements ModelElement {
+    private class NeutronCollisionDetector {
         private Random random = new Random();
 
         private NuclearPhysicsModel model;

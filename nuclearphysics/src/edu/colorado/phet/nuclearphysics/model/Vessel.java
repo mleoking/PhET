@@ -204,6 +204,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
      * @param v
      */
     public void stepInTime( double v ) {
+
         List modelElements = model.getNuclearModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             ModelElement modelElement = (ModelElement)modelElements.get( i );

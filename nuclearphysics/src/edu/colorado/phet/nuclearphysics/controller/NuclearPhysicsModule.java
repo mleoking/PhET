@@ -69,8 +69,6 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         setControlPanel( controlPanel );
         nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this, getLegendClasses() );
         getControlPanel().addControl( nuclearPysicslControlPanel );
-
-//        init();
     }
 
     /**
@@ -101,14 +99,11 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     }
 
     public void setPhysicalPanel( PhysicalPanel physicalPanel ) {
-//        apparatusPanel.remove( physicalPanel );
         this.physicalPanel = physicalPanel;
-//        apparatusPanel.add( physicalPanel );
     }
 
     protected void addControlPanelElement( JPanel panel ) {
         nuclearPysicslControlPanel.addPanelElement( panel );
-//        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
     }
 
     protected void addNucleus( Nucleus nucleus ) {

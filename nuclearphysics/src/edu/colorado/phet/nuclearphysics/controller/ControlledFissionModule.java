@@ -98,6 +98,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int DEFAULT_NUM_NEUTRONS_FIRED = 2;
     private int DEFAULT_NUM_CONTROLS_RODS = 5;
     private ArrayList neutronLaunchers;
+    private FissionDetector fissionDetector;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -116,11 +117,7 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     protected List getLegendClasses() {
         Object[] legendClasses = new Object[]{
-//                LegendPanel.NEUTRON,
-//                LegendPanel.PROTON,
-//                LegendPanel.ALPHA_PARTICLE,
-//                LegendPanel.U235,
-//                LegendPanel.U238
+                // no legend
         };
         return Arrays.asList( legendClasses );
     }
@@ -219,7 +216,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         // Create the object that will detect neutron/Uranium collisions and invoke fission behavior. Note
         // that this can't be done until after the call to createNuclei(), because the FissionDetector
         // depends on knowing their placement so that it can optimize performance.
-        getModel().addModelElement( new FissionDetector( (NuclearPhysicsModel)getModel() ) );
+        if( fissionDetector == null ) {
+            fissionDetector = new FissionDetector( (NuclearPhysicsModel)getModel() );
+            getModel().addModelElement( fissionDetector );
+        }
 
         // Reset the energy graph dialog
         resetEnergyGraphDialog();
@@ -258,11 +258,13 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param nucleus
      */
     protected void addNucleus( Nucleus nucleus ) {
-//        nuclei.add( nucleus );
-//        nucleus.addFissionListener( this );
+        nuclei.add( nucleus );
+        nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
 
-        if( true ) return;
+        if( true ) {
+            return;
+        }
 
         BufferedImage sourceImg = null;
         if( nucleus instanceof Uranium235 ) {
@@ -311,8 +313,6 @@ public class ControlledFissionModule extends ChainReactionModule {
             nucleus.addFissionListener( vessel );
         }
 
-        System.out.println( "ControlledFissionModule.createNuclei B" );
-
         // Create U238 nuclei
         double spacing = locations[0].distance( locations[1] );
         for( int i = 0; i < locations.length; i++ ) {
@@ -327,11 +327,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             nucleus.addFissionListener( vessel );
         }
 
-        System.out.println( "ControlledFissionModule.createNuclei C" );
-
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
-
-        System.out.println( "ControlledFissionModule.createNuclei D" );
     }
 
     private void resetEnergyGraphDialog() {
@@ -493,6 +489,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             ControlRod controlRod = controlRods[i];
             getModel().removeModelElement( controlRod );
         }
+
+        u235Nuclei.clear();
+        u238Nuclei.clear();
+        u239Nuclei.clear();
+
         getPhysicalPanel().removeAllGraphics();
     }
 
@@ -729,6 +730,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             }
 
             // Get the U235 neutrons and put them in bins according to their x coordinates
+
             List modelElements = model.getNuclearModelElements();
             for( int i = 0; i < modelElements.size(); i++ ) {
                 Object o = modelElements.get( i );
@@ -764,7 +766,6 @@ public class ControlledFissionModule extends ChainReactionModule {
                 while( interChannelAreaIt.hasNext() ) {
                     Rectangle2D area = (Rectangle2D)interChannelAreaIt.next();
                     if( area.contains( neutron.getPosition() ) ) {
-
                         // See if the neutron has hit any of the nuclei in the area
                         List nuclei = (List)interChannelAreaToNucleiMap.get( area );
                         for( int j = 0; j < nuclei.size(); j++ ) {
@@ -787,13 +788,13 @@ public class ControlledFissionModule extends ChainReactionModule {
         public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
             PhetGraphic graphic = event.getPhetGraphic();
             if( graphic instanceof Uranium238Graphic ) {
-        //                    graphic.setVisible( false );
+//                            graphic.setVisible( false );
                 getPhysicalPanel().removeGraphic( graphic );
             }
             if( graphic instanceof TxGraphic
                 && ( ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium238Graphic
                      || ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium239Graphic ) ) {
-        //                    graphic.setVisible( false );
+//                            graphic.setVisible( false );
                 getPhysicalPanel().removeGraphic( graphic );
             }
         }

@@ -26,7 +26,6 @@ public class ContainmentGraphic extends CompositePhetGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
-    private int strokeWidth;
     private Stroke outlineStroke = new BasicStroke( 1 );
     private Area mouseableArea;
     private Point lastDragPt;
@@ -65,7 +64,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             dx /= atx.getScaleX();
             dy /= atx.getScaleY();
             double dr = Math.sqrt( dx * dx + dy * dy );
-            if( gettingSmaller ) {
+            if( !gettingSmaller ) {
                 dr = -dr;
             }
             containment.adjustRadius( dr );
@@ -76,7 +75,6 @@ public class ContainmentGraphic extends CompositePhetGraphic {
     private class Rep extends PhetShapeGraphic implements SimpleObserver {
         Ellipse2D outer = new Ellipse2D.Double();
         Ellipse2D inner = new Ellipse2D.Double();
-        private Stroke stroke = new BasicStroke( strokeWidth );
         private Color color = Color.black;
         private Color outlineColor = new Color( 255, 0, 0 );
         private Color backgroundColor;
@@ -157,7 +155,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             atx.transform( p, p );
             double d1 = p.distance( lastDragPt );
             double d2 = p.distance( e.getPoint() );
-            gettingSmaller = ( d2 > d1 );
+            gettingSmaller = ( d2 < d1 );
             lastDragPt = e.getPoint();
         }
     }

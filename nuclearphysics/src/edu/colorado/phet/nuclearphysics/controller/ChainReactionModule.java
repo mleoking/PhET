@@ -16,14 +16,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Arrays;
 
 /**
  * ChainReactionModule
@@ -48,44 +46,12 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     public ChainReactionModule( String name, IClock clock ) {
         super( name, clock );
-
-//        init();
     }
 
     protected void init() {
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
-
-//        // Add a model element that watches for collisions between neutrons and
-//        // nuclei
-//        getModel().addModelElement( new ModelElement() {
-//            private Line2D utilLine = new Line2D.Double();
-//
-//            public void stepInTime( double dt ) {
-//                for( int i = 0; i < neutrons.size(); i++ ) {
-//                    Neutron neutron = (Neutron)neutrons.get( i );
-//                    utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
-//                    // Check U235 nuclei
-//                    for( int j = 0; j < u235Nuclei.size(); j++ ) {
-//                        Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
-//                        double perpDist = utilLine.ptSegDistSq( u235.getPosition() );
-//                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
-//                            u235.fission( neutron );
-//                        }
-//                    }
-//                    // Check U238 nuclei
-//                    for( int j = 0; j < u238Nuclei.size(); j++ ) {
-//                        Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
-//                        double perpDist = utilLine.ptSegDistSq( u238.getPosition() );
-//                        if( perpDist <= u238.getRadius() * u238.getRadius() ) {
-//                            System.out.println( "ChainReactionModule.stepInTime" );
-//                            u238.fission( neutron );
-//                        }
-//                    }
-//                }
-//            }
-//        } );
 
         // Add a listener to the model that will remove nuclei from our internal lists when they leave
         // the model.
@@ -150,7 +116,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected void addNucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
-//        getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
     }
 
@@ -188,8 +153,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // Add fission products
         addNucleus( products.getDaughter1() );
         addNucleus( products.getDaughter2() );
-//        super.addNucleus( products.getDaughter1() );
-//        super.addNucleus( products.getDaughter2() );
         nuclei.add( products.getDaughter1() );
         nuclei.add( products.getDaughter2() );
 
