@@ -18,7 +18,6 @@ Alpha Radiation
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
--   After firing a neutron, disable Fire Neutron button until module is reset
 
 Chain Reaction panel
 -   U238 spinner doesn't respond properly to the first mouse click
@@ -35,10 +34,22 @@ Controlled Reaction
 ?	The text labeling the graphs is very light and hard to read.
 ?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
 ?	In addition, the black container should block neutrons.
-?	Things move in this panel too fast also. I’d suggest half speed and we’ll look again.  It may need to be slower.
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
+
+
+
+================
+Done not posted
+================
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.
+?	Things move in this panel too fast also. I’d suggest half speed and we’ll look again.  It may need to be slower.
+
+================
+1.08.06
+================
+- After firing a neutron, disable Fire Neutron button until module is reset
+- Controlled reaction works properly both before and after resets.
 
 ================
 1.08.05

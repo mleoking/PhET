@@ -44,8 +44,8 @@ public class ControlRod implements ModelElement {
 
     /**
      *
-     * @param p1
-     * @param p2
+     * @param p1 The top point of the mid-line of the control rod
+     * @param p2 The bottom point of the mid-line of the control rod
      * @param thickness
      * @param model
      * @param absoprtionProbability
