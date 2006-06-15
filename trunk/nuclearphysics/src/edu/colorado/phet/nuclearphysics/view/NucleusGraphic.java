@@ -85,7 +85,6 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
                       (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       null );
-//                      this );
         gs.restoreGraphics();
     }
 
@@ -93,12 +92,7 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( atx );
         update();
-//        g2.drawImage( img, (int)position.getX(), (int)position.getY(), null );
-        if( img == null ) {
-            System.out.println( "NucleusGraphic.paint" );
-        }
-        g2.drawRenderedImage( img, AffineTransform.getTranslateInstance( position.getX(), position.getY()));
-//        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+        g2.drawImage( img, (int)position.getX(), (int)position.getY(), null );
         gs.restoreGraphics();
     }
 
