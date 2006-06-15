@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -29,7 +30,9 @@ import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * ControlledFissionModule
@@ -43,7 +46,7 @@ import java.util.*;
  * <p/>
  * There are U238 nuclei in the chamber, equal in number to and event spaced between the U235 nuclei, that act as dampers
  * for the reaction. These nuclei do not have visible graphics. The user is not supposed to know they are there.
- * <p>
+ * <p/>
  * The model is given a FissionDetector instance that takes care of detecting when neutrons hit nuclei, and what
  * should happen when they do. FissionDetector is somewhat intelligent about searching for collisions to reduce the
  * number of checks between neutrons and nuclei.
@@ -68,6 +71,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private static final double DEAFULT_U235_ABSORPTION_PROB = 0.75;
     private static final double DEAFULT_U238_ABSORPTION_PROB = 0.25;
     private static final double DEAFULT_ROD_ABSORPTION_PROB = 1.0;
+//    private static final double DEFAULT_INTER_NUCLEAR_SPACING = 10;
     private static final double DEFAULT_INTER_NUCLEAR_SPACING = 2.5;
 
     private static BufferedImage u235Img;
@@ -254,9 +258,9 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Make sure all the nuclei are gone
         ( (NuclearPhysicsModel)getModel() ).removeNuclearParticles();
-        u235Nuclei.clear();
-        u238Nuclei.clear();
-        u239Nuclei.clear();
+        getU235Nuclei().clear();
+        getU238Nuclei().clear();
+        getU239Nuclei().clear();
 
         getPhysicalPanel().removeAllGraphics();
     }
@@ -294,7 +298,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param nucleus
      */
     protected void addNucleus( Nucleus nucleus ) {
-        nuclei.add( nucleus );
+        getNuclei().add( nucleus );
         nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
 
@@ -341,7 +345,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         for( int i = 0; i < locations.length; i++ ) {
             Point2D location = locations[i];
             Nucleus nucleus = new Uranium235( location, (NuclearPhysicsModel)getModel() );
-            u235Nuclei.add( nucleus );
+            getU235Nuclei().add( nucleus );
             addNucleus( nucleus );
 
             // Add the vessel as a listener for when the nucleus fissions, so
@@ -355,7 +359,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             Point2D location = new Point2D.Double( locations[i].getX() + spacing / 2,
                                                    locations[i].getY() + spacing / 2 );
             Nucleus nucleus = new Uranium238( location, getModel() );
-            u238Nuclei.add( nucleus );
+            getU238Nuclei().add( nucleus );
             addNucleus( nucleus );
 
             // Add the vessel as a listener for when the nucleus fissions, so
@@ -370,7 +374,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         if( energyGraphDialog != null ) {
             // Tell the energy dialog how many nuclei there are, so it can set up the
             // total energy gauge
-            energyGraphDialog.reset( u235Nuclei.size() );
+            energyGraphDialog.reset( getU235Nuclei().size() );
             vessel.addChangeListener( energyGraphDialog.getVesselChangeListener() );
 
             // Add the energyGraphDialog as a listener to all the U235 nuclei that are already in existence
@@ -397,7 +401,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         // Add the dialog that will show the energy tracking gauges
         if( energyGraphDialog == null ) {
             energyGraphDialog = new EnergyGraphDialog( phetFrame,
-                                                       u235Nuclei.size() );
+                                                       getU235Nuclei().size() );
             energyGraphDialog.setVisible( true );
         }
         resetEnergyGraphDialog();
@@ -464,7 +468,6 @@ public class ControlledFissionModule extends ChainReactionModule {
         ArrayList chambersUsed = new ArrayList();
         for( int i = 0; i < numNeutronsFired; i++ ) {
             Integer chamberIdx = null;
-            int j = 0;
             do {
                 computeNeutronLaunchParams();
                 chamberIdx = new Integer( vessel.getChamberIdx( neutronLaunchPoint.getX() ) );
@@ -765,7 +768,9 @@ public class ControlledFissionModule extends ChainReactionModule {
          * @param dt
          */
         public void stepInTime( double dt ) {
+
             // Check all neutrons
+            List neutrons = new ArrayList( getNeutrons() );
             for( int i = 0; i < neutrons.size(); i++ ) {
                 Neutron neutron = (Neutron)neutrons.get( i );
                 utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
@@ -775,6 +780,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                 while( interChannelAreaIt.hasNext() ) {
                     Rectangle2D area = (Rectangle2D)interChannelAreaIt.next();
                     if( area.contains( neutron.getPosition() ) ) {
+
                         // See if the neutron has hit any of the nuclei in the area
                         List nuclei = (List)interChannelAreaToNucleiMap.get( area );
                         for( int j = 0; j < nuclei.size(); j++ ) {
@@ -793,17 +799,19 @@ public class ControlledFissionModule extends ChainReactionModule {
         }
     }
 
+    /**
+     * Removes the U238 and U239 graphics that the PhysicalPanel adds when U238 and U239 model instances are
+     * created. These nuclei are just there to dampen the reaction, and we don't want the user to know they are there.
+     */
     private class NucleusGraphicRemover implements PhysicalPanel.GraphicListener {
         public void graphicAdded( PhysicalPanel.GraphicEvent event ) {
             PhetGraphic graphic = event.getPhetGraphic();
             if( graphic instanceof Uranium238Graphic ) {
-//                            graphic.setVisible( false );
                 getPhysicalPanel().removeGraphic( graphic );
             }
             if( graphic instanceof TxGraphic
                 && ( ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium238Graphic
                      || ( (TxGraphic)graphic ).getWrappedGraphic() instanceof Uranium239Graphic ) ) {
-//                            graphic.setVisible( false );
                 getPhysicalPanel().removeGraphic( graphic );
             }
         }
