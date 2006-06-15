@@ -43,6 +43,10 @@ import java.util.*;
  * <p/>
  * There are U238 nuclei in the chamber, equal in number to and event spaced between the U235 nuclei, that act as dampers
  * for the reaction. These nuclei do not have visible graphics. The user is not supposed to know they are there.
+ * <p>
+ * The model is given a FissionDetector instance that takes care of detecting when neutrons hit nuclei, and what
+ * should happen when they do. FissionDetector is somewhat intelligent about searching for collisions to reduce the
+ * number of checks between neutrons and nuclei.
  *
  * @author Ron LeMaster
  * @version $Revision$
