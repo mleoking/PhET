@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
@@ -19,7 +18,6 @@ import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.geom.Point2D;
-import java.awt.*;
 import java.util.*;
 
 /**
@@ -97,7 +95,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getPotentialProfilePanel().removeAllGraphics();
         getPhysicalPanel().removeAllGraphics();
         getModel().removeModelElement( nucleus );
-        ( (NuclearPhysicsModel)getModel() ).removeNuclearPartilces();
+        ( (NuclearPhysicsModel)getModel() ).removeNuclearParticles();
 
         for( int i = 0; i < transientModelElements.size(); i++ ) {
             ModelElement modelElement = (ModelElement)transientModelElements.get( i );

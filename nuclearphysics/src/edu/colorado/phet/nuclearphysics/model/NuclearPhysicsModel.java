@@ -48,7 +48,7 @@ public class NuclearPhysicsModel extends BaseModel {
         }
     }
 
-    public void removeNuclearPartilces() {
+    public void removeNuclearParticles() {
         while( nuclearModelElements.size() > 0 ) {
             NuclearModelElement nuclearModelElement = (NuclearModelElement)nuclearModelElements.get( 0 );
             this.removeModelElement( nuclearModelElement );
