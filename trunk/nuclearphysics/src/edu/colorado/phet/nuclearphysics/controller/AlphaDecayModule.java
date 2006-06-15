@@ -48,18 +48,12 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
      */
     public AlphaDecayModule(IClock clock) {
         super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock);
-//        init( clock );
     }
 
     protected void init() {
-//    protected void init( IClock clock ) {
         super.init();
-//        getApparatusPanel().setLayout(new GridLayout(2, 1));
         physicalPanel = new AlphaDecayPhysicalPanel( getClock(), (NuclearPhysicsModel)getModel() );
-//        physicalPanel = new AlphaDecayPhysicalPanel( clock, (NuclearPhysicsModel)getModel() );
         super.setPhysicalPanel(physicalPanel);
-//        getApparatusPanel().remove(0);
-//        getApparatusPanel().add(physicalPanel, 0);
         addPhysicalPanel( physicalPanel );
         alphaDecayControlPanel = new AlphaDecayControlPanel(this);
         super.addControlPanelElement(alphaDecayControlPanel);

@@ -7,6 +7,8 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.nuclearphysics.view.EnergyGraphDialog;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,10 +16,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.Random;
 
 public class ControlledChainReactionControlPanel extends JPanel {
@@ -51,6 +50,21 @@ public class ControlledChainReactionControlPanel extends JPanel {
         } );
 
         // Create the controls
+
+        // Check box to show/ hide energy graphs
+        final JCheckBox energyGraphCB = new JCheckBox( SimStrings.get( "ControlledFissionControlPanel.EnergyGraphControl" ) );
+        energyGraphCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setEnergyGraphsVisible( energyGraphCB.isSelected() );
+            }
+        } );
+        energyGraphCB.setSelected( false );
+        module.setEnergyGraphsVisible( false );
+        module.getEnergyGraphDialog().addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                energyGraphCB.setSelected( false );
+            }
+        } );
 
         // fire and reset buttons
         final JButton fireNeutronBtn = new JButton( SimStrings.get( "ControlledFissionControlPanel.FireButton" ) );
@@ -97,6 +111,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
                                                                2, 1, 1, 1, GridBagConstraints.CENTER,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 5, 5, 5, 5 ), 5, 5 );
+        add( energyGraphCB, gbcCenter );
         add( fireNeutronBtn, gbcCenter );
         add( resetBtn, gbcCenter );
 

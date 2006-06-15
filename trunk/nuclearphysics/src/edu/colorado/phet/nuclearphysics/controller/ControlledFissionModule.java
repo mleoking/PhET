@@ -99,6 +99,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private ControlRod[] controlRods;
     private int numNeutronsFired = 1;
     private EnergyGraphDialog energyGraphDialog;
+    private boolean energyGraphDialogVisible;
     private long fissionDelay;
     private double rodAbsorptionProbability = 1;
     private DevelopmentControlDialog developmentControlDialog;
@@ -119,7 +120,6 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public ControlledFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
-        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
     }
 
 
@@ -132,6 +132,12 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     protected void init() {
         super.init();
+        energyGraphDialog = new EnergyGraphDialog( PhetUtilities.getPhetFrame(), getU235Nuclei().size() );
+        Container container = PhetUtilities.getPhetFrame();
+        int x = container.getX() + 30;
+        int y = container.getY() + container.getHeight() - energyGraphDialog.getHeight() - 30;
+        energyGraphDialog.setLocation( x, y );
+        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
         init( getClock() );
     }
 
@@ -395,27 +401,24 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     /**
      * Handle all the gummy stuff caused by the fact that our constructor gets called before the PhetFrame is made.
-     *
-     * @param application
      */
-    public void activate( PhetApplication application ) {
+    public void activate() {
         super.activate();
-        PhetFrame phetFrame = PhetUtilities.getPhetFrame();
-
-        // Add the dialog that will show the energy tracking gauges
-        if( energyGraphDialog == null ) {
-            energyGraphDialog = new EnergyGraphDialog( phetFrame,
-                                                       getU235Nuclei().size() );
-            energyGraphDialog.setVisible( true );
-        }
         resetEnergyGraphDialog();
+        energyGraphDialog.setVisible( energyGraphDialogVisible );
 
         // create the dialog with the developers' controls
+        PhetFrame phetFrame = PhetUtilities.getPhetFrame();
         developmentControlDialog = new DevelopmentControlDialog( phetFrame, this );
         developmentControlDialog.setLocation( (int)phetFrame.getWidth() - developmentControlDialog.getWidth(),
                                               (int)( phetFrame.getLocation().getX() + phetFrame.getHeight() / 2 ) );
     }
 
+    public void deactivate() {
+        energyGraphDialogVisible = energyGraphDialog.isVisible();
+        energyGraphDialog.setVisible( false );
+        super.deactivate();
+    }
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
@@ -638,6 +641,14 @@ public class ControlledFissionModule extends ChainReactionModule {
         if( periodicNeutronGun != null ) {
             periodicNeutronGun.setEnabled( enabled );
         }
+    }
+
+    public void setEnergyGraphsVisible( boolean visible ) {
+        energyGraphDialog.setVisible( visible );
+    }
+
+    public EnergyGraphDialog getEnergyGraphDialog() {
+        return energyGraphDialog;
     }
 
     //----------------------------------------------------------------

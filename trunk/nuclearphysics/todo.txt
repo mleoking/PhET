@@ -30,7 +30,6 @@ Chain Reaction panel
 Controlled Reaction
 - Something seems to be running in the background even when nothing is really going on
 -   Performance in general is very slow
-?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	The text labeling the graphs is very light and hard to read.
 ?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
 ?	In addition, the black container should block neutrons.
@@ -42,6 +41,7 @@ Controlled Reaction
 ================
 Done not posted
 ================
+?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.
 ?	Things move in this panel too fast also. I’d suggest half speed and we’ll look again.  It may need to be slower.
 
