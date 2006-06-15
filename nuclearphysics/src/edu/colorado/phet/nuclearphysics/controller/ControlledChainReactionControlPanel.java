@@ -51,23 +51,29 @@ public class ControlledChainReactionControlPanel extends JPanel {
         } );
 
         // Create the controls
-        JButton fireNeutronBtn = new JButton( SimStrings.get( "ControlledFissionControlPanel.FireButton" ) );
+
+        // fire and reset buttons
+        final JButton fireNeutronBtn = new JButton( SimStrings.get( "ControlledFissionControlPanel.FireButton" ) );
+        final JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+        resetBtn.setEnabled( false );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
                 percentDecayTF.setText( "0" );
                 percentDecayTF.setEditable( false );
                 percentDecayTF.setBackground( Color.white );
+                fireNeutronBtn.setEnabled( false );
+                resetBtn.setEnabled( true );
             }
         } );
 
-        // The reset button
-        JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
                 percentDecayTF.setText( "0" );
+                fireNeutronBtn.setEnabled( true );
+                resetBtn.setEnabled( false );
             }
         } );
 
