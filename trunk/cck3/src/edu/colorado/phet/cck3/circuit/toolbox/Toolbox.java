@@ -193,10 +193,6 @@ public class Toolbox extends CompositeGraphic {
             super( component );
             setVisible( true );
         }
-
-        public void setBoundsDirty() {
-            super.setBoundsDirty();
-        }
     }
 
     private void doUpdate() {
