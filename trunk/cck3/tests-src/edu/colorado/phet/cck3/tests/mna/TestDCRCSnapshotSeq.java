@@ -29,7 +29,7 @@ public class TestDCRCSnapshotSeq extends NodeAnalysisTest {
 
     private void runOnce( double s ) {
         Resistor res = newResistor( 5 );
-        Battery bat = newBattery( 12 );
+        Battery bat = newBattery( Math.cos( s ) );
         Capacitor cap = newCapacitor( 7 );
 
         Circuit circuit = new Circuit( kl );
@@ -50,7 +50,8 @@ public class TestDCRCSnapshotSeq extends NodeAnalysisTest {
         new ModifiedNodalAnalysis().apply( circuit );
 //        System.out.println( "cap.getVoltageDrop() = \t" + cap.getVoltageDrop() );
 
-        System.out.println( cap.getVoltageDrop() + "\t\t" + cap.getCurrent() );
+//        System.out.println( cap.getVoltageDrop() + "\t\t" + cap.getCurrent() );
+        System.out.println( cap.getCurrent() );
 //        System.out.println( res.getVoltageDrop() );
 
     }
