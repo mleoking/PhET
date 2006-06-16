@@ -26,6 +26,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
@@ -199,6 +200,15 @@ public class CCK3Module extends Module {
                 circuitSolver.apply( circuit );
             }
         };
+
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                if( circuit.isDynamic() ) {
+                    circuit.stepInTime( dt );
+                    circuitSolver.apply( circuit );
+                }
+            }
+        } );
 
         circuit = new Circuit( circuitChangeListener );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
