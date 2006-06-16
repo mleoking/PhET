@@ -119,7 +119,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        super.paint( g );    //To change body of overridden methods use File | Settings | File Templates.
+        super.paint( g );
         textGraphic.paint( g );
         shapeGraphic.paint( g );
     }
@@ -261,7 +261,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         }
 
         public void setVisible( boolean visible ) {
-            super.setVisible( visible );    //To change body of overridden methods use File | Settings | File Templates.
+            super.setVisible( visible );
             super.textGraphic.setVisible( visible );
         }
     }
