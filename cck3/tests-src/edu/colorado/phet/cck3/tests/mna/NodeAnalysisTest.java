@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.components.Capacitor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -54,5 +55,13 @@ public class NodeAnalysisTest {
         b.setVoltageDrop( volts );
         return b;
     }
+
+
+    public Capacitor newCapacitor( double cap ) {
+        Capacitor b = new Capacitor( new Point2D.Double(), new Vector2D.Double(), 1, 1, kl );
+        b.setCapacitance( cap );
+        return b;
+    }
+
 
 }

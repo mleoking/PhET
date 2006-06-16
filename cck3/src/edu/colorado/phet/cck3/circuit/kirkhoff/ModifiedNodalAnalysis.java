@@ -392,6 +392,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
                 }
             }
         }
+        System.out.println( "g=" );
+        g.print( 5, 5 );
         return g;
     }
 
