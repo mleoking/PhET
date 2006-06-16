@@ -49,7 +49,9 @@ public class TestDCRCSnapshotSeq extends NodeAnalysisTest {
 //        new ModifiedNodalAnalysis().applyMNA( circuit );
         new ModifiedNodalAnalysis().apply( circuit );
 //        System.out.println( "cap.getVoltageDrop() = \t" + cap.getVoltageDrop() );
-        System.out.println( cap.getVoltageDrop() );
+
+        System.out.println( cap.getVoltageDrop() + "\t\t" + cap.getCurrent() );
+//        System.out.println( res.getVoltageDrop() );
 
     }
 }
