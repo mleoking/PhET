@@ -90,6 +90,7 @@ public class CCK3Module extends Module {
     public static double ELECTRON_DX = .56 * SCALE;
     private static final double switchscale = 1.45;
     public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
+    public static final ComponentDimension CAP_DIM = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
     public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE * switchscale, 0.8 * SCALE * switchscale );
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
     public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );

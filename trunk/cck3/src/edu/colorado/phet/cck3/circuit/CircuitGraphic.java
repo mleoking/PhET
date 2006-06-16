@@ -816,7 +816,10 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         public void addGraphic( Branch b ) {
-            if( b instanceof Battery ) {
+            if( b instanceof Capacitor ) {
+                addCapacitorGraphic( (Capacitor)b );
+            }
+            else if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
             }
             else if( b instanceof Bulb ) {
@@ -837,6 +840,11 @@ public class CircuitGraphic extends CompositeGraphic {
             else {
                 addWireGraphic( b );
             }
+        }
+
+        private void addCapacitorGraphic( Capacitor b ) {
+            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getCapacitorImage(), apparatusPanel, b, transform );
+            CircuitGraphic.this.addGraphic( b, ccbg );
         }
 
         private void addGrabBagGraphic( GrabBagResistor b ) {

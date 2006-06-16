@@ -45,6 +45,7 @@ public class Toolbox extends CompositeGraphic {
     private BranchSource.SwitchSource switchSource;
     private BranchSource.AmmeterSource ammeterSource;
     private double schematicWireThickness = .1;
+    private BranchSource.CapacitorSource capacitorSource;
 
     public Toolbox( Rectangle2D modelRect, CCK3Module module, Color backgroundColor ) {
         this.module = module;
@@ -86,7 +87,10 @@ public class Toolbox extends CompositeGraphic {
         Vector2D.Double dir = new Vector2D.Double( 1, 0 );
         y += dy / 2;
         y = addWireBranch( componentX, y, componentX2, dy );
-        y = addPlainResistors( componentWidth, componentX, y, dir, dy );
+        y = addCapacitor( componentWidth, componentX, y, dir, dy );
+        if( module.getParameters().allowPlainResistors() ) {
+            y = addPlainResistors( componentWidth, componentX, y, dir, dy );
+        }
         y = addBattery( componentWidth, componentX, y, dir, dy );
         y = addBulb( componentWidth, y, componentX, dy );
         y = addSwitch( componentWidth, componentX, y, dir, dy );
@@ -178,16 +182,29 @@ public class Toolbox extends CompositeGraphic {
     }
 
     private double addPlainResistors( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
-        if( module.getParameters().allowPlainResistors() ) {
-            BufferedImage resistorImage = module.getImageSuite().getResistorImage();
-            double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
-            Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );
-            ResistorGraphic rg = new ResistorGraphic( resistorImage, parent, resistor, transform );
-            SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
-            resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
-            addSource( resistorSource );
-            y += dy;
-        }
+
+        BufferedImage resistorImage = module.getImageSuite().getResistorImage();
+        double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
+        Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );
+        ResistorGraphic rg = new ResistorGraphic( resistorImage, parent, resistor, transform );
+        SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
+        resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
+        addSource( resistorSource );
+        y += dy;
+
+        return y;
+    }
+
+    private double addCapacitor( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
+        BufferedImage im = module.getImageSuite().getCapacitorImage();
+        double initialHeight = CCK3Module.CAP_DIM.getHeightForLength( componentWidth );
+        Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
+        CircuitComponentImageGraphic rg = new CircuitComponentImageGraphic( im, parent, resistor, transform );
+        SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
+        capacitorSource = new BranchSource.CapacitorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
+        addSource( capacitorSource );
+        y += dy;
+
         return y;
     }
 

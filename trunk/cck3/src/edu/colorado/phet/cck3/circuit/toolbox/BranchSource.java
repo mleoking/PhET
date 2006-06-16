@@ -266,4 +266,20 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         }
     }
 
+
+    public static class CapacitorSource extends BranchSource {
+        private ComponentDimension cd;
+
+        public CapacitorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
+                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Capacitor" ), module );
+            this.cd = cd;
+        }
+
+        public Branch createBranch() {
+            AbstractVector2D dir = super.getDirection();
+            dir = dir.getInstanceOfMagnitude( cd.getLength() );
+            return new Capacitor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
+        }
+    }
 }
