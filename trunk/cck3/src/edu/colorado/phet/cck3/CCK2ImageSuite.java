@@ -1,6 +1,7 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.CachingImageLoader;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -24,6 +25,8 @@ public class CCK2ImageSuite {
     private CachingImageLoader imageLoader = new CachingImageLoader();
     private BufferedImage capacitorImage;
     private String capImageLoc = "images/cap5.gif";
+    private String acImageLoc = "images/ac.gif";
+    private BufferedImage acImage;
 
     public CCK2ImageSuite() throws IOException {
         loadImages();
@@ -38,6 +41,7 @@ public class CCK2ImageSuite {
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
         capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
+        acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );
 //        capacitorImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null,capacitorImage, 50);
     }
 
@@ -75,4 +79,7 @@ public class CCK2ImageSuite {
         return imageLoader;
     }
 
+    public BufferedImage getACImage() {
+        return acImage;
+    }
 }
