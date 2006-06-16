@@ -819,6 +819,9 @@ public class CircuitGraphic extends CompositeGraphic {
             if( b instanceof Capacitor ) {
                 addCapacitorGraphic( (Capacitor)b );
             }
+            else if( b instanceof ACVoltageSource ) {
+                addACGraphic( (ACVoltageSource)b );
+            }
             else if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
             }
@@ -840,6 +843,11 @@ public class CircuitGraphic extends CompositeGraphic {
             else {
                 addWireGraphic( b );
             }
+        }
+
+        private void addACGraphic( ACVoltageSource acVoltageSource ) {
+            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), apparatusPanel, acVoltageSource, transform );
+            CircuitGraphic.this.addGraphic( acVoltageSource, ccbg );
         }
 
         private void addCapacitorGraphic( Capacitor b ) {

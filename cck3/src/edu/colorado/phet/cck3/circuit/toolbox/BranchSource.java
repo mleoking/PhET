@@ -282,4 +282,24 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             return new Capacitor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
         }
     }
+
+
+    public static class ACSource extends BranchSource {
+        private ComponentDimension finalDim;
+
+        public ACSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.AC" ), module );
+            this.finalDim = finalDim;
+        }
+
+        public Branch createBranch() {
+            AbstractVector2D dir = new Vector2D.Double( super.branch.getStartJunction().getPosition(), super.branch.getEndJunction().getPosition() );
+            dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
+            Battery batt = new ACVoltageSource( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
+
+            batt.setInternalResistance( Battery.DEFAULT_INTERNAL_RESISTANCE );
+            return batt;
+        }
+    }
+
 }
