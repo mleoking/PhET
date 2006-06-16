@@ -16,12 +16,14 @@ import java.io.IOException;
  */
 public class CCK2ImageSuite {
 
-    ImageSuite lifelikeImageSuite;
+    private ImageSuite lifelikeImageSuite;
     private BufferedImage closedImage;
     private String batteryImageLocation = "images/AA-battery-100.gif";
-    String resistorImageLocation = "images/resistor3.gif";
+    private String resistorImageLocation = "images/resistor3.gif";
     private BufferedImage resistorImage;
-    CachingImageLoader imageLoader = new CachingImageLoader();
+    private CachingImageLoader imageLoader = new CachingImageLoader();
+    private BufferedImage capacitorImage;
+    private String capImageLoc = "images/cap5.gif";
 
     public CCK2ImageSuite() throws IOException {
         loadImages();
@@ -35,6 +37,8 @@ public class CCK2ImageSuite {
         resistorImage = ImageLoader.loadBufferedImage( resistorImageLocation );
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
+        capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
+//        capacitorImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null,capacitorImage, 50);
     }
 
     public ImageSuite getLifelikeSuite() {
@@ -61,6 +65,10 @@ public class CCK2ImageSuite {
 
     public BufferedImage getResistorImage() {
         return resistorImage;
+    }
+
+    public BufferedImage getCapacitorImage() {
+        return capacitorImage;
     }
 
     public CachingImageLoader getImageLoader() {
