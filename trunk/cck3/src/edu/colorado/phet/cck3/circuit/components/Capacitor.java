@@ -15,31 +15,34 @@ import java.awt.geom.Point2D;
  */
 
 public class Capacitor extends Resistor implements DynamicBranch {
+
+    private double MIN_TIME = 0.001;
+    private double time = MIN_TIME;
+    double cap = 1;
+
     public Capacitor( Point2D.Double aDouble, AbstractVector2D dir, double componentWidth, double initialHeight, CircuitChangeListener kirkhoffListener ) {
         super( aDouble, dir, componentWidth, initialHeight, kirkhoffListener );
     }
 
-    private double time = 0.001;
-
-
-    double cap = 1;
-
     public double getResistance() {
-//        double r = 1.0 / ( time * cap );
-        double r = ( time * cap );
-//        System.out.println( "r = " + r );
-        return r;
+        return ( time * cap );
     }
 
     public void stepInTime( double dt ) {
         if( Math.abs( getCurrent() ) > 0.001 ) {
             time += dt;
         }
-
-//        System.out.println( getCurrent() );
     }
 
     public void resetDynamics() {
-        time = 0.001;
+        time = MIN_TIME;
+    }
+
+    public void setCapacitance( double cap ) {
+        this.cap = cap;
+    }
+
+    public void setTime( double s ) {
+        this.time = s + MIN_TIME;
     }
 }
