@@ -616,4 +616,22 @@ public class Circuit {
     public CircuitChangeListener getKirkhoffListener() {
         return circuitChangeListener;
     }
+
+    public boolean isDynamic() {
+        for( int i = 0; i < numBranches(); i++ ) {
+            if( branchAt( i ) instanceof DynamicBranch ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void stepInTime( double dt ) {
+        for( int i = 0; i < numBranches(); i++ ) {
+            if( branchAt( i ) instanceof DynamicBranch ) {
+                DynamicBranch b = (DynamicBranch)branchAt( i );
+                b.stepInTime( dt );
+            }
+        }
+    }
 }

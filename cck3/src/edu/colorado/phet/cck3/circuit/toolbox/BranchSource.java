@@ -37,12 +37,12 @@ import java.awt.geom.Point2D;
  */
 public abstract class BranchSource extends DefaultInteractiveGraphic {
     private PhetGraphic schematic;
-    private CircuitGraphic circuitGraphic;
-    private Branch branch;
-    private CircuitChangeListener circuitChangeListener;
-    private CCK3Module module;
+    protected CircuitGraphic circuitGraphic;
+    protected Branch branch;
+    protected CircuitChangeListener circuitChangeListener;
+    protected CCK3Module module;
     private PhetGraphic lifelike;
-    private PhetTextGraphic textGraphic;
+    protected PhetTextGraphic textGraphic;
     private PhetShapeGraphic shapeGraphic;//for debugging.
     private TransformListener tl;
 
@@ -137,7 +137,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
     public abstract Branch createBranch();
 
-    private Vector2D getDirection() {
+    protected Vector2D getDirection() {
         return new Vector2D.Double( branch.getStartJunction().getPosition(), branch.getEndJunction().getPosition() );
     }
 
@@ -172,6 +172,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             AbstractVector2D dir = new Vector2D.Double( super.branch.getStartJunction().getPosition(), super.branch.getEndJunction().getPosition() );
             dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
             Battery batt = new Battery( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
+//            Battery batt = new ACVoltageSource( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
+//            ACVoltageSource batt = new ACVoltageSource( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
+//            batt.setFrequency(1.0);
             batt.setInternalResistance( Battery.DEFAULT_INTERNAL_RESISTANCE );
             return batt;
         }
