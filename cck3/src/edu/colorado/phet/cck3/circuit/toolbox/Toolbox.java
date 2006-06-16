@@ -195,7 +195,7 @@ public class Toolbox extends CompositeGraphic {
         }
 
         public void setBoundsDirty() {
-            super.setBoundsDirty();    //To change body of overridden methods use File | Settings | File Templates.
+            super.setBoundsDirty();
         }
     }
 
