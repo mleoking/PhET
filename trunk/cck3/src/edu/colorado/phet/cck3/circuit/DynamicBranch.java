@@ -5,4 +5,6 @@ package edu.colorado.phet.cck3.circuit;
  */
 public interface DynamicBranch {
     void stepInTime( double dt );
+
+    void resetDynamics();
 }

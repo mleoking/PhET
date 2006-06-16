@@ -634,4 +634,13 @@ public class Circuit {
             }
         }
     }
+
+    public void resetDynamics() {
+        for( int i = 0; i < numBranches(); i++ ) {
+            if( branchAt( i ) instanceof DynamicBranch ) {
+                DynamicBranch b = (DynamicBranch)branchAt( i );
+                b.resetDynamics();
+            }
+        }
+    }
 }

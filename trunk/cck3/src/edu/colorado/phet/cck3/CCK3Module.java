@@ -780,6 +780,19 @@ public class CCK3Module extends Module {
         app.getApplicationView().getPhetFrame().doLayout();
         app.getApplicationView().getPhetFrame().repaint();
         cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
+        cck.getApparatusPanel().addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_C ) {
+                    cck.clearCapacitors();
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
         cck.getApparatusPanel().addKeyListener( new SimpleKeyEvent( KeyEvent.VK_D ) {
             public void invoke() {
                 cck.debugListeners();
@@ -846,6 +859,10 @@ public class CCK3Module extends Module {
                 clock.setPaused( false );
             }
         } );
+    }
+
+    private void clearCapacitors() {
+        circuit.resetDynamics();
     }
 
     private void clockTickFinished() {
