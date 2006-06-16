@@ -5,6 +5,7 @@ import Jama.Matrix;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.components.Capacitor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -213,16 +214,16 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
     public void applyMNA( final Circuit circuit ) {
         clear( circuit );
         ArrayList bonusElements = new ArrayList();
-//        for( int i = 0; i < circuit.numBranches(); i++ ) {
-//            Branch branch = circuit.branchAt( i );
-//            if( branch instanceof Capacitor ) {
-//                HelperBattery parallelShort = new HelperBattery( 0, 0, branch );
-//                parallelShort.setStartJunction( branch.getStartJunction() );
-//                parallelShort.setEndJunction( branch.getEndJunction() );
-//                circuit.addBranch( parallelShort );
-//                bonusElements.add( parallelShort );
-//            }
-//        }
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            if( branch instanceof Capacitor ) {
+                HelperBattery parallelShort = new HelperBattery( 0, 0, branch );
+                parallelShort.setStartJunction( branch.getStartJunction() );
+                parallelShort.setEndJunction( branch.getEndJunction() );
+                circuit.addBranch( parallelShort );
+                bonusElements.add( parallelShort );
+            }
+        }
 
         if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
             //1. choose a ground.  

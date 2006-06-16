@@ -48,8 +48,8 @@ public class TestACRC extends NodeAnalysisTest {
             circuit.addJunction( j2 );
             circuit.addJunction( j3 );
 
-//            new ModifiedNodalAnalysis().applyMNA( circuit );
-            new ModifiedNodalAnalysis().apply( circuit );
+            new ModifiedNodalAnalysis().applyMNA( circuit );
+//            new ModifiedNodalAnalysis().apply( circuit );
             System.out.println( res.getCurrent() );
 
 //            return;
