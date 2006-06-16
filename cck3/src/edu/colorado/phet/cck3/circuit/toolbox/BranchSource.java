@@ -154,8 +154,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             dir = dir.getInstanceOfMagnitude( -finalLength );
             Point2D src = super.branch.getEndJunction().getPosition();
             Point2D dst = dir.getDestination( src );
-            Branch b = new Branch( super.circuitChangeListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
-            return b;
+            return new Branch( super.circuitChangeListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
         }
 
     }
@@ -199,7 +198,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 dir = new ImmutableVector2D.Double( 1, 0 );
                 start = new Point2D.Double( start.getX() - distBetweenJunctions, start.getY() );
             }
-            Bulb bulb = new FakeCapacitor( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
+            Bulb bulb = new Bulb( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
+            //            Bulb bulb = new FakeCapacitor( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
             if( super.circuitGraphic.isLifelike() ) {
                 return bulb;
             }
@@ -222,8 +222,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( cd.getLength() );
-            Resistor res = new Resistor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
-            return res;
+            return new Resistor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
         }
     }
 
@@ -240,10 +239,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( cd.getLength() );
-            Switch myswitch = new Switch( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
-            return myswitch;
+            return new Switch( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
         }
-
     }
 
     public static class AmmeterSource extends BranchSource {
@@ -260,8 +257,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         }
 
         public Branch createBranch() {
-            SeriesAmmeter sam = new SeriesAmmeter( super.circuitChangeListener, super.branch.getStartJunction().getPosition(), dir, length, height );
-            return sam;
+            return new SeriesAmmeter( super.circuitChangeListener, super.branch.getStartJunction().getPosition(), dir, length, height );
         }
 
         public void setVisible( boolean visible ) {
