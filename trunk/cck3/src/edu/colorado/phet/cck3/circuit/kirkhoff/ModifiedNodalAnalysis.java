@@ -3,10 +3,7 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
@@ -137,10 +134,7 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
     private EquivalentCircuit getEquivalentCircuit( Circuit circuit ) {
         EquivalentCircuit equivalentCircuit = new EquivalentCircuit();
 
-        Circuit c = new Circuit( new CircuitChangeListener() {
-            public void circuitChanged() {
-            }
-        } );
+        Circuit c = new Circuit( new CompositeCircuitChangeListener() );
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             if( branch instanceof Battery ) {
@@ -198,27 +192,61 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
         return equivalentCircuit;
     }
 
+    static class HelperBattery extends Battery {
+        private Branch parent;
+
+        public HelperBattery( double voltage, double internalResistance, Branch parent ) {
+            super( voltage, internalResistance );
+            this.parent = parent;
+        }
+
+        public void setCurrent( double current ) {
+            super.setCurrent( current );
+            parent.setCurrent( current );
+        }
+
+        public double getResistance() {
+            return 0;
+        }
+    }
+
     public void applyMNA( final Circuit circuit ) {
         clear( circuit );
+        ArrayList bonusElements = new ArrayList();
+//        for( int i = 0; i < circuit.numBranches(); i++ ) {
+//            Branch branch = circuit.branchAt( i );
+//            if( branch instanceof Capacitor ) {
+//                HelperBattery parallelShort = new HelperBattery( 0, 0, branch );
+//                parallelShort.setStartJunction( branch.getStartJunction() );
+//                parallelShort.setEndJunction( branch.getEndJunction() );
+//                circuit.addBranch( parallelShort );
+//                bonusElements.add( parallelShort );
+//            }
+//        }
+
         if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
             //1. choose a ground.  
             // Vertex 0 shall be the ground.
 
             //2. Generate A.
             Matrix a = generateA( circuit );
-//                        System.out.println( "a=" );
-//                        a.print( 5, 5 );
+//            System.out.println( "a=" );
+//            a.print( 5, 5 );
 
             //3. Generate z for x=A-1 z .
             Matrix z = generateZ( circuit );
-//                        System.out.println( "Z=" );
-//                        z.print( 5, 5 );
+//            System.out.println( "Z=" );
+//            z.print( 5, 5 );
 
             try {
                 Matrix x = a.solve( z );
                 //                System.out.println( "x = " + x );
                 //                x.print( 5, 5 );
-                applySolutionToCircuit( circuit, x );
+                applySolutionToCircuit( circuit, x, bonusElements );
+                while( bonusElements.size() > 0 ) {
+                    circuit.remove( (Branch)bonusElements.get( 0 ) );
+                    bonusElements.remove( 0 );
+                }
             }
             catch( RuntimeException re ) {
                 System.out.println( "re = " + re );
@@ -226,7 +254,7 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
         }
     }
 
-    private void applySolutionToCircuit( Circuit circuit, Matrix x ) {
+    private void applySolutionToCircuit( Circuit circuit, Matrix x, ArrayList bonus ) {
         int n = circuit.numJunctions() - 1;
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
@@ -243,6 +271,12 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
             double dv = endVolts - startVolts;
             if( branch instanceof Battery ) {
             }
+//            else if( branch instanceof Capacitor ) {
+//                branch.setKirkhoffEnabled( false );
+//                branch.setVoltageDrop( dv );
+//                branch.setCurrent( 0 );
+//                branch.setKirkhoffEnabled( true );
+//            }
             else {
                 branch.setKirkhoffEnabled( false );
                 branch.setVoltageDrop( dv );

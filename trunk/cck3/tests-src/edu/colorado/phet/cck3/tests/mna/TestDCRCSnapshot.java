@@ -42,6 +42,7 @@ public class TestDCRCSnapshot extends NodeAnalysisTest {
         circuit.setTime( 6 );
         new ModifiedNodalAnalysis().applyMNA( circuit );
         System.out.println( "cap.getVoltageDrop() = " + cap.getVoltageDrop() );
+        System.out.println( "cap.getCurrent() = " + cap.getCurrent() );
 
     }
 }
