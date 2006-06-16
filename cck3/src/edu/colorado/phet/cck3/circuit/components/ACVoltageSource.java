@@ -46,4 +46,8 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     public void stepInTime( double dt ) {
         this.time += dt;
     }
+
+    public void resetDynamics() {
+        time = 0;
+    }
 }

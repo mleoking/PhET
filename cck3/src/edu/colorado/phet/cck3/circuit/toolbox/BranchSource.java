@@ -173,8 +173,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
             Battery batt = new Battery( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
 //            Battery batt = new ACVoltageSource( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
-//            ACVoltageSource batt = new ACVoltageSource( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener, super.module.isInternalResistanceOn() );
-//            batt.setFrequency(1.0);
+
             batt.setInternalResistance( Battery.DEFAULT_INTERNAL_RESISTANCE );
             return batt;
         }
@@ -200,7 +199,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 dir = new ImmutableVector2D.Double( 1, 0 );
                 start = new Point2D.Double( start.getX() - distBetweenJunctions, start.getY() );
             }
-            Bulb bulb = new Bulb( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
+            Bulb bulb = new FakeCapacitor( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.circuitChangeListener );
             if( super.circuitGraphic.isLifelike() ) {
                 return bulb;
             }
