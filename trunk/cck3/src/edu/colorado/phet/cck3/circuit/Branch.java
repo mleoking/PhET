@@ -45,6 +45,10 @@ public class Branch extends SimpleObservableDebug {
         return label.hashCode();
     }
 
+    public void setDebugLabel( String label ) {
+        this.label = label;
+    }
+
     public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
         this.startJunction = startJunction;

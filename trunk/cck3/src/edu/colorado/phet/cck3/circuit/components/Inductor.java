@@ -14,18 +14,19 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 16, 2006 by Sam Reid
  */
 
-public class Capacitor extends Resistor implements DynamicBranch {
+public class Inductor extends Resistor implements DynamicBranch {
 
     private double MIN_TIME = 0;
     private double time = 1;
-    double cap = 1;
+//    double cap = 1;
+    private double inductance;
 
-    public Capacitor( Point2D.Double aDouble, AbstractVector2D dir, double componentWidth, double initialHeight, CircuitChangeListener kirkhoffListener ) {
+    public Inductor( Point2D.Double aDouble, AbstractVector2D dir, double componentWidth, double initialHeight, CircuitChangeListener kirkhoffListener ) {
         super( aDouble, dir, componentWidth, initialHeight, kirkhoffListener );
     }
 
     public double getResistance() {
-        double res = 1.0 / ( time * cap );
+        double res = time * inductance;
 //        System.out.println( "res = " + res );
         return res;
     }
@@ -40,11 +41,11 @@ public class Capacitor extends Resistor implements DynamicBranch {
         time = MIN_TIME;
     }
 
-    public void setCapacitance( double cap ) {
-        this.cap = cap;
-    }
-
     public void setTime( double s ) {
         this.time = s + MIN_TIME;
+    }
+
+    public void setInductance( double inductance ) {
+        this.inductance = inductance;
     }
 }
