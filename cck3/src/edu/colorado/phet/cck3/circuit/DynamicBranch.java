@@ -7,4 +7,6 @@ public interface DynamicBranch {
     void stepInTime( double dt );
 
     void resetDynamics();
+
+    void setTime( double time );
 }

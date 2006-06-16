@@ -206,13 +206,13 @@ public class ModifiedNodalAnalysis extends CircuitSolver {
 
             //2. Generate A.
             Matrix a = generateA( circuit );
-            //            System.out.println( "a=" );
+//                        System.out.println( "a=" );
 //                        a.print( 5, 5 );
 
             //3. Generate z for x=A-1 z .
             Matrix z = generateZ( circuit );
-            //            System.out.println( "Z=" );
-            //            z.print( 5, 5 );
+//                        System.out.println( "Z=" );
+//                        z.print( 5, 5 );
 
             try {
                 Matrix x = a.solve( z );
@@ -317,6 +317,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
                 a.set( row, col, g.get( row, col ) );
             }
         }
+//        System.out.println( "a = " + a );
+//        a.print( 3,3);
         return a;
     }
 
@@ -365,12 +367,13 @@ the D matrix is mxm and is zero if only independent sources are considered.
             double value = 0;
             for( int k = 0; k < b.length; k++ ) {
                 if( !( b[k] instanceof Battery ) ) {
-                    double term = 1.0 / b[k].getResistance();//should ignore batteries,non?  We'll have to think of internal resistance.
+                    double term = 1.0 / b[k].getResistance();
+//                    if( i == 1 ) {
+//                        System.out.println( "term = " + term );
+//                    }
                     value += term;
                 }
             }
-            //            int diag = i - 1;
-            //            System.out.println( "diag = " + diag + ", value=" + value );
             g.set( i - 1, i - 1, value );
         }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -392,8 +395,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
                 }
             }
         }
-        System.out.println( "g=" );
-        g.print( 5, 5 );
+//        System.out.println( "g = " + g );
+//        g.print( 3, 3 );
         return g;
     }
 

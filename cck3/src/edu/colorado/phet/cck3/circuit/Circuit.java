@@ -643,4 +643,13 @@ public class Circuit {
             }
         }
     }
+
+    public void setTime( double time ) {
+        for( int i = 0; i < numBranches(); i++ ) {
+            if( branchAt( i ) instanceof DynamicBranch ) {
+                DynamicBranch b = (DynamicBranch)branchAt( i );
+                b.setTime( time );
+            }
+        }
+    }
 }
