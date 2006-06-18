@@ -178,22 +178,22 @@ public class MNACircuit {
         }
 
         public void stamp( MNASystem system ) {
-            //voltage goes from k to l...
-            int k = getStartJunction();
-            int L = getEndJunction();
             system.addVoltageTerm( this );
         }
     }
 
     /**
      * Admittance * x = source.
+     * We construct the Full MNA equations,
+     * the 0th row and column should be discarded prior to use, since we will choose
+     * the voltage of the 0th node to be zero.
      */
     public static class MNASystem {
-        Matrix admittance;
-        Matrix source;
+        private Matrix admittance;
+        private Matrix source;
         private int numVoltageVariables;
         private int numCurrentVariables;
-        ArrayList voltageSources = new ArrayList();
+        private ArrayList voltageSources = new ArrayList();
 
         public MNASystem( int numVoltageVariables, int numCurrentVariables ) {
             this.numVoltageVariables = numVoltageVariables;
@@ -207,8 +207,8 @@ public class MNACircuit {
             return numVoltageVariables + numCurrentVariables;
         }
 
-        public void addAdmittance( int row, int col, double value ) {
-            admittance.set( row, col, admittance.get( row, col ) + value );
+        public void addAdmittance( int srcNode, int dstNode, double value ) {
+            admittance.set( srcNode, dstNode, admittance.get( srcNode, dstNode ) + value );
         }
 
         public void addSource( int row, double v ) {
@@ -231,7 +231,7 @@ public class MNACircuit {
             voltageSources.add( voltageSource );
             int k = voltageSource.getStartJunction();
             int L = voltageSource.getEndJunction();
-            int at = numVoltageVariables + voltageSources.size();
+            int at = numVoltageVariables + voltageSources.size() - 1;
             admittance.set( at, k, 1 );
             admittance.set( at, L, -1 );
 
@@ -243,6 +243,7 @@ public class MNACircuit {
     }
 
     public MNASystem getMNASystem() {
+        assert getNodeCount() >= 2;
         MNASystem system = new MNASystem( getNodeCount(), getCurrentVariableCount() );
         for( int i = 0; i < components.size(); i++ ) {
             MNAComponent component = (MNAComponent)components.get( i );
