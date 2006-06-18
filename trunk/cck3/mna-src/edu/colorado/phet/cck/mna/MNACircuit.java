@@ -1,14 +1,16 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck.mna;
 
+import Jama.Matrix;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 /**
- * User: Sam Reid
- * Date: Jun 18, 2006
- * Time: 12:45:27 PM
- * Copyright (c) Jun 18, 2006 by Sam Reid
+ * Assumes nodes are numbered consecutively: i.e. a netlist:
+ * i1 0 3 1.0
+ * r1 1 3 1.0 would be illegal.
  */
 
 public class MNACircuit {
@@ -58,7 +60,16 @@ public class MNACircuit {
         components.clear();
     }
 
-    public static class MNAComponent {
+    public void parseNetList( String netlist ) {
+        StringTokenizer st = new StringTokenizer( netlist, "\n" + System.getProperty( "line.separator" ) );
+        ArrayList list = new ArrayList();
+        while( st.hasMoreTokens() ) {
+            list.add( st.nextToken() );
+        }
+        parseNetList( (String[])list.toArray( new String[0] ) );
+    }
+
+    public static abstract class MNAComponent {
         String name;
         int startJunction;
         int endJunction;
@@ -84,6 +95,12 @@ public class MNACircuit {
         public String toString() {
             return name + " " + startJunction + " " + endJunction;
         }
+
+        public int getCurrentVariableCount() {
+            return 0;
+        }
+
+        public abstract void stamp( MNASystem system );
     }
 
     public static class MNAResistor extends MNAComponent {
@@ -100,6 +117,15 @@ public class MNACircuit {
 
         public String toString() {
             return super.toString() + " " + resistance;
+        }
+
+        public void stamp( MNASystem s ) {
+            int i = getStartJunction();
+            int j = getEndJunction();
+            s.addAdmittance( i, i, 1 / resistance );
+            s.addAdmittance( j, j, 1 / resistance );
+            s.addAdmittance( i, j, -1 / resistance );
+            s.addAdmittance( j, i, -1 / resistance );
         }
     }
 
@@ -118,6 +144,12 @@ public class MNACircuit {
         public String toString() {
             return super.toString() + " " + current;
         }
+
+        public void stamp( MNASystem system ) {
+            system.addSource( getStartJunction(), -current );
+            system.addSource( getEndJunction(), current );
+        }
+
     }
 
     public static class MNAVoltageSource extends MNAComponent {
@@ -135,5 +167,74 @@ public class MNACircuit {
         public String toString() {
             return super.toString() + " " + voltage;
         }
+
+        public int getCurrentVariableCount() {
+            return 1;
+        }
+
+        public void stamp( MNASystem system ) {
+        }
+    }
+
+    /**
+     * Admittance * x = source.
+     */
+    public static class MNASystem {
+        Matrix admittance;
+        Matrix source;
+        private int numVoltageVariables;
+        private int numCurrentVariables;
+
+        public MNASystem( int numVoltageVariables, int numCurrentVariables ) {
+            this.numVoltageVariables = numVoltageVariables;
+            this.numCurrentVariables = numCurrentVariables;
+
+            admittance = new Matrix( getNumVariables(), getNumVariables() );
+            source = new Matrix( getNumVariables(), 1 );
+        }
+
+        private int getNumVariables() {
+            return numVoltageVariables + numCurrentVariables;
+        }
+
+        public void addAdmittance( int row, int col, double value ) {
+            admittance.set( row, col, admittance.get( row, col ) + value );
+        }
+
+        public void addSource( int row, double v ) {
+            source.set( row, 0, source.get( row, 0 ) + v );
+        }
+    }
+
+    public MNASystem getMNASystem() {
+        MNASystem system = new MNASystem( getNodeCount(), getCurrentVariableCount() );
+        for( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent)components.get( i );
+            component.stamp( system );
+        }
+        return system;
+    }
+
+    private int getCurrentVariableCount() {
+        int sum = 0;
+        for( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent)components.get( i );
+            sum += component.getCurrentVariableCount();
+        }
+        return sum;
+    }
+
+    private int getNodeCount() {
+        HashSet hashSet = new HashSet();
+        for( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent)components.get( i );
+            hashSet.add( new Integer( component.getStartJunction() ) );
+            hashSet.add( new Integer( component.getEndJunction() ) );
+        }
+        return hashSet.size();
+    }
+
+    public Matrix getSourceMatrix() {
+
     }
 }
