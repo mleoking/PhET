@@ -8,7 +8,7 @@ package edu.colorado.phet.cck.mna;
  * Copyright (c) Jun 18, 2006 by Sam Reid
  */
 
-public class TestMNACircuit {
+public class TestMNACircuit_1_4_6 {
     public static void main( String[] args ) {
         String netlist = "i1 0 1 1.0\n" +
                          "r2 1 0 1.0\n" +
@@ -22,5 +22,7 @@ public class TestMNACircuit {
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
         System.out.println( "circuit = " + circuit );
+        MNACircuit.MNASystem system = circuit.getMNASystem();
+        System.out.println( "system = " + system );
     }
 }
