@@ -3,6 +3,8 @@ package edu.colorado.phet.cck.mna;
 
 import Jama.Matrix;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
@@ -11,6 +13,9 @@ import java.util.StringTokenizer;
  * Assumes nodes are numbered consecutively: i.e. a netlist:
  * i1 0 3 1.0
  * r1 1 3 1.0 would be illegal.
+ * <p/>
+ * Todo:
+ * make sure we're eliminating node 0.
  */
 
 public class MNACircuit {
@@ -173,6 +178,10 @@ public class MNACircuit {
         }
 
         public void stamp( MNASystem system ) {
+            //voltage goes from k to l...
+            int k = getStartJunction();
+            int L = getEndJunction();
+            system.addVoltageTerm( this );
         }
     }
 
@@ -184,6 +193,7 @@ public class MNACircuit {
         Matrix source;
         private int numVoltageVariables;
         private int numCurrentVariables;
+        ArrayList voltageSources = new ArrayList();
 
         public MNASystem( int numVoltageVariables, int numCurrentVariables ) {
             this.numVoltageVariables = numVoltageVariables;
@@ -203,6 +213,32 @@ public class MNACircuit {
 
         public void addSource( int row, double v ) {
             source.set( row, 0, source.get( row, 0 ) + v );
+        }
+
+        public String toString() {
+            return toString( 3, 3 );
+        }
+
+        private String toString( int w, int d ) {
+            StringWriter admString = new StringWriter();
+            admittance.print( new PrintWriter( admString ), w, d );
+            StringWriter sourceString = new StringWriter();
+            source.print( new PrintWriter( sourceString ), w, d );
+            return admString + "\n" + sourceString;
+        }
+
+        public void addVoltageTerm( MNAVoltageSource voltageSource ) {
+            voltageSources.add( voltageSource );
+            int k = voltageSource.getStartJunction();
+            int L = voltageSource.getEndJunction();
+            int at = numVoltageVariables + voltageSources.size();
+            admittance.set( at, k, 1 );
+            admittance.set( at, L, -1 );
+
+            admittance.set( k, at, 1 );
+            admittance.set( L, at, -1 );
+
+            source.set( at, 0, voltageSource.getVoltage() );
         }
     }
 
@@ -234,7 +270,4 @@ public class MNACircuit {
         return hashSet.size();
     }
 
-    public Matrix getSourceMatrix() {
-
-    }
 }
