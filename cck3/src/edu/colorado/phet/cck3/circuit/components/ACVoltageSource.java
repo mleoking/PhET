@@ -17,6 +17,8 @@ import java.awt.geom.Point2D;
 
 public class ACVoltageSource extends Battery implements DynamicBranch {
     private double time = 0;
+    private double amplitude = 10;
+    private double frequency = 1.0 / 100.0;//hz
 
     public ACVoltageSource( double voltage, double internalResistance ) {
         super( voltage, internalResistance );
@@ -34,13 +36,9 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
     }
 
-    double maxvolts = 10;
-    double frequency = 1.0 / 100.0;//hz
-
     public double getVoltageDrop() {
         double scale = Math.sin( time * frequency * Math.PI * 2 );
-        double v = maxvolts * scale;
-        return v;
+        return amplitude * scale;
     }
 
     public void stepInTime( double dt ) {
@@ -53,5 +51,13 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
 
     public void setTime( double time ) {
         this.time = time;
+    }
+
+    public void setAmplitude( double value ) {
+        this.amplitude = value;
+    }
+
+    public void setFrequency( double frequency ) {
+        this.frequency = frequency;
     }
 }

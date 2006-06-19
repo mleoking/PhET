@@ -1,6 +1,8 @@
 new in...
 Rewrote circuit analysis algorithm.
 Bugfix: Help panel was gone.
+Added popup menus for AC amplitude & frequency
+o Add popup menus for Capacitance
 
 Version 3.49 (posted on 4-17-2006)
 * fixed build script, posted 3.49 with improved look and feel (mac support, windows support).
