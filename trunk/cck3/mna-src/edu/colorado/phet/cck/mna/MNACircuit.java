@@ -54,6 +54,9 @@ public class MNACircuit {
         else if( name.toLowerCase().startsWith( "v" ) ) {
             return new MNAVoltageSource( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
+        else if( name.toLowerCase().startsWith( "c" ) ) {
+            return new MNACapacitor( name, start, end, Double.parseDouble( detailArray[0] ) );
+        }
         else {
             throw new RuntimeException( "Illegal component type: " + line );
         }
@@ -72,10 +75,42 @@ public class MNACircuit {
         parseNetList( (String[])list.toArray( new String[0] ) );
     }
 
+    /*
+     * Default implementation; other strategies could be used.
+     */
+    public MNACircuit createCompanionModel( double dt ) {
+        MNACircuit circuit = new MNACircuit();
+        int freeIndex = getNodeCount();
+        for( int i = 0; i < getComponentCount(); i++ ) {
+            if( getComponent( i ) instanceof MNACapacitor ) {
+                MNACapacitor c = (MNACapacitor)getComponent( i );
+                MNAComponent veq = new MNAVoltageSource( "veq[from " + c.getName() + "]", c.getStartJunction(), freeIndex,
+                                                         c.getVoltage() + dt / 2 / c.getCapacitance() * c.getCurrent() );
+                MNAComponent req = new MNAResistor( "req[from " + c.getName() + "]", freeIndex, c.getEndJunction(),
+                                                    dt / 2 / c.getCapacitance() );
+                circuit.addComponent( veq );
+                circuit.addComponent( req );
+                freeIndex ++;
+            }
+            else {
+                circuit.addComponent( (MNAComponent)getComponent( i ).clone() );
+            }
+        }
+        return circuit;
+    }
+
+    private MNAComponent getComponent( int i ) {
+        return (MNAComponent)components.get( i );
+    }
+
+    private int getComponentCount() {
+        return components.size();
+    }
+
     public static abstract class MNAComponent {
-        String name;
-        int startJunction;
-        int endJunction;
+        private String name;
+        private int startJunction;
+        private int endJunction;
 
         public MNAComponent( String name, int startJunction, int endJunction ) {
             this.name = name;
@@ -104,6 +139,57 @@ public class MNACircuit {
         }
 
         public abstract void stamp( MNASystem system );
+
+        public Object clone() {
+            try {
+                MNAComponent clone = (MNAComponent)super.clone();
+                clone.name = name;
+                clone.startJunction = startJunction;
+                clone.endJunction = endJunction;
+                return clone;
+            }
+            catch( CloneNotSupportedException e ) {
+                e.printStackTrace();
+                throw new RuntimeException( e );
+            }
+        }
+    }
+
+    public static class MNACapacitor extends MNAComponent {
+        private double capacitance;
+        private double voltage = 0.0;
+        private double current = 0.0;//todo shouldn't this be modeled by a dc analysis as a short circuit to start?
+
+        public MNACapacitor( String name, int startJunction, int endJunction, double capacitance ) {
+            super( name, startJunction, endJunction );
+            this.capacitance = capacitance;
+        }
+
+        public double getCapacitance() {
+            return capacitance;
+        }
+
+        public String toString() {
+            return super.toString() + " " + capacitance;
+        }
+
+        public void stamp( MNASystem system ) {
+            throw new RuntimeException( "Capacitors cannot stamp; use a companion model." );
+        }
+
+        public Object clone() {
+            MNACapacitor capacitor = (MNACapacitor)super.clone();
+            capacitor.capacitance = capacitance;
+            return capacitor;
+        }
+
+        public double getVoltage() {
+            return voltage;
+        }
+
+        public double getCurrent() {
+            return current;
+        }
     }
 
     public static class MNAResistor extends MNAComponent {
@@ -130,6 +216,12 @@ public class MNACircuit {
             s.addAdmittance( i, j, -1 / resistance );
             s.addAdmittance( j, i, -1 / resistance );
         }
+
+        public Object clone() {
+            MNAResistor clone = (MNAResistor)super.clone();
+            clone.resistance = resistance;
+            return clone;
+        }
     }
 
     public static class MNACurrentSource extends MNAComponent {
@@ -153,6 +245,11 @@ public class MNACircuit {
             system.addSource( getEndJunction(), current );
         }
 
+        public Object clone() {
+            MNACurrentSource clone = (MNACurrentSource)super.clone();
+            clone.current = current;
+            return clone;
+        }
     }
 
     public static class MNAVoltageSource extends MNAComponent {
@@ -177,6 +274,12 @@ public class MNACircuit {
 
         public void stamp( MNASystem system ) {
             system.addVoltageTerm( this );
+        }
+
+        public Object clone() {
+            MNAVoltageSource clone = (MNAVoltageSource)super.clone();
+            clone.voltage = voltage;
+            return clone;
         }
     }
 
