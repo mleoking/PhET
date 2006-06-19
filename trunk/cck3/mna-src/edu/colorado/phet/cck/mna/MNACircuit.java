@@ -203,6 +203,14 @@ public class MNACircuit {
             source = new Matrix( getNumVariables(), 1 );
         }
 
+        public Matrix getAdmittanceMatrix() {
+            return admittance;
+        }
+
+        public Matrix getSourceMatrix() {
+            return source;
+        }
+
         private int getNumVariables() {
             return numVoltageVariables + numCurrentVariables;
         }
