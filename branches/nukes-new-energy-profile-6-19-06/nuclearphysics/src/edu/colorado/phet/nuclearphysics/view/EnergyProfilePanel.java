@@ -101,7 +101,7 @@ public class EnergyProfilePanel extends TxApparatusPanel {
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
     private HashMap profileNucleusMap = new HashMap();
-    private Point2D origin;
+    private Point2D origin = new Point2D.Double( );
     private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
@@ -131,20 +131,19 @@ public class EnergyProfilePanel extends TxApparatusPanel {
                                                  Color.darkGray ) );
         this.setBorder( border );
 
-        title = new PhetTextGraphic2( this,
-                                      Config.PROFILE_PANEL_TITLE_FONT,
-                                      SimStrings.get( "PotentialProfilePanel.title" ),
-                                      Color.black );
-        addGraphic( title );
+//        title = new PhetTextGraphic2( this,
+//                                      Config.PROFILE_PANEL_TITLE_FONT,
+//                                      SimStrings.get( "PotentialProfilePanel.title" ),
+//                                      Color.black );
+//        addGraphic( title );
     }
 
     private void setOrgFields() {
         if( !init ) {
             orgBounds = new Rectangle( getBounds() );
-//            origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.9 );
             profileTx.setToTranslation( origin.getX(),
                                         origin.getY() );
-            title.setLocation( 10, 10 );
+//            title.setLocation( 10, 10 );
             init = true;
         }
     }
@@ -162,7 +161,7 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         super.paintComponent( g2 );
 
         // Draw axes
-        origin.setLocation( getWidth()/ 2, getHeight() / 2 );
+        origin.setLocation( getWidth()/ 2, getHeight() / 5 );
         g2.translate( origin.getX(), origin.getY() );
         drawAxes( g2 );
 //        drawGridlines( g2 );
@@ -252,7 +251,6 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         AffineTransform orgTx = g2.getTransform();
         int arrowOffset = 20;
 
-//        g2.transform( profileTx );
         g2.setColor( EnergyProfilePanel.axisColor );
         g2.setStroke( EnergyProfilePanel.axisStroke );
 
@@ -276,7 +274,6 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         g2.fill( EnergyProfilePanel.arrowhead );
         g2.setTransform( tempTx );
         g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMin ) );
-        //        g2.transform( AffineTransform.getRotateInstance( 0 );
         g2.fill( EnergyProfilePanel.arrowhead );
         g2.setTransform( tempTx );
         g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMax ) );
@@ -308,28 +305,21 @@ public class EnergyProfilePanel extends TxApparatusPanel {
     public void addEnergyProfile( Nucleus nucleus ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this, nucleus );
         nucleus.getEnergylProfile().addObserver( ppg );
-//        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
         addGraphic( txg, EnergyProfilePanel.nucleusLayer );
 
-        double x = ppg.getOrigin().getX();
-        double y = ppg.getOrigin().getY();
-        origin = ppg.getOrigin();
+        System.out.println( "txg = " + txg );
     }
 
     public void removeEnergyProfile( EnergyProfile potentialProfile ) {
         PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
+
+        System.out.println( "ppg = " + ppg );
     }
 
-//    public void removeEnergyProfile( PotentialProfile potentialProfile ) {
-//        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
-//        removeGraphic( ppg );
-//        potentialProfileMap.remove( potentialProfile );
-//    }
-//
     public void removeAllPotentialProfiles() {
         Iterator it = potentialProfileMap.values().iterator();
         while( it.hasNext() ) {
@@ -396,13 +386,13 @@ public class EnergyProfilePanel extends TxApparatusPanel {
      */
     public void addNucleus( Nucleus nucleus, Color color ) {
         this.addEnergyProfile( nucleus );
-        if( color == null ) {
-            removeEnergyProfile( nucleus.getEnergylProfile() );
-        }
-        else {
-            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getEnergylProfile() );
-            ppg.setColor( color );
-        }
+//        if( color == null ) {
+//            removeEnergyProfile( nucleus.getEnergylProfile() );
+//        }
+//        else {
+//            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getEnergylProfile() );
+//            ppg.setColor( color );
+//        }
     }
 
 }

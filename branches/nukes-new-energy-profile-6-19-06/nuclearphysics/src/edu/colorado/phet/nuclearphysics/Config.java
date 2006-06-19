@@ -15,6 +15,7 @@ public class Config {
 
     //    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 250, 75 );
     //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
+//    public static double AlphaLocationUncertaintySigmaFactor = 0.5;
     public static double AlphaLocationUncertaintySigmaFactor = 0.34;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.3;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.333;

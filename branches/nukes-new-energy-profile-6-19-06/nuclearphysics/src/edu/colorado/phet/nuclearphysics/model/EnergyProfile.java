@@ -32,23 +32,34 @@ import java.awt.geom.*;
  */
 public class EnergyProfile extends SimpleObservable implements SimpleObserver {
     private double width;
-    private double wellWidth;
     private double maxEnergy;
     private double minEnergy;
     private Shape[] shape = new Shape[5];
     private double alphaDecayX;
-    private GeneralPath profilePath;
-    private GeneralPath profileBackgroundPath;
+    private GeneralPath potentilaProfilePath;
+    private Shape totalEnergyPath;
     private CubicUtil cubicUtil;
     private Nucleus nucleus;
 
 
     public EnergyProfile( Nucleus nucleus ) {
         this.nucleus = nucleus;
-        this.width = Config.defaultProfileWidth;
-        this.minEnergy = -( 0.5 * nucleus.getNumNeutrons() );
-        this.maxEnergy = minEnergy + 2 * nucleus.getNumProtons();
+        this.width = Config.defaultProfileWidth * 2;
+        this.minEnergy = computeMinEnergy( nucleus );
+        this.maxEnergy = computeMaxEnergy( nucleus );
         this.generate();
+    }
+
+    private double computeMaxEnergy( Nucleus nucleus ) {
+        double maxEnergy = minEnergy + 2.5 * nucleus.getNumProtons();
+        System.out.println( "maxEnergy = " + maxEnergy );
+        return maxEnergy;
+    }
+
+    private int computeMinEnergy( Nucleus nucleus ) {
+        int n = 130;
+        int minEnergy = - ( n + ( nucleus.getNumNeutrons() - n ) * 4 );
+        return minEnergy;
     }
 
 
@@ -98,20 +109,25 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
     private void generate() {
 
         // Draw the curve going up the left side of the potential profile
-        Point2D endPt1 = new Point2D.Double( -getWidth() / 2, 0 );
-        Point2D endPt2 = new Point2D.Double( -getWidth() / 20, -maxEnergy );
+        Point2D endPt1 = new Point2D.Double( -getWidth() / 4, 0 );
+//        Point2D endPt1 = new Point2D.Double( -getWidth() / 2, 0 );
+        Point2D endPt2 = new Point2D.Double( -40, -maxEnergy );
+//        Point2D endPt2 = new Point2D.Double( -getWidth() / 20, -maxEnergy );
 
         Point2D ctrlPt1 = new Point2D.Double();
-        ctrlPt1.setLocation( endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) * 8 / 8 ),
+        ctrlPt1.setLocation( endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) * 2 / 8 ),
                              endPt1.getY() );
         Point2D ctrlPt2A = new Point2D.Double();
         ctrlPt2A.setLocation( endPt2.getX(),
-                              endPt2.getY() + 50 );
+                              endPt2.getY() + Math.abs( endPt2.getY() * 7 / 8 ));
         shape[0] = new CubicCurve2D.Double( endPt1.getX(), endPt1.getY(),
                                             ctrlPt1.getX(), ctrlPt1.getY(),
                                             ctrlPt2A.getX(), ctrlPt2A.getY(),
                                             endPt2.getX(), endPt2.getY() );
 
+        // Instantiate a CubicUtil. We'll use it later
+        cubicUtil = new CubicUtil( endPt1, ctrlPt1,
+                                   endPt2, ctrlPt2A );
 
         // Draw the curve down into the left side of the potential well
         Point2D endPt3 = new Point2D.Double( endPt2.getX(), -getMinEnergy() );
@@ -134,43 +150,50 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
                                             ctrlPt6.getX(), ctrlPt6.getY(),
                                             endPt6.getX(), endPt6.getY());
 
-        profilePath = new GeneralPath();
-        profilePath.append( shape[0], true );
-        profilePath.append( shape[1], true );
-        profilePath.append( shape[2], true );
-        profilePath.append( shape[3], true );
-        profilePath.append( shape[4], true );
-
-        profileBackgroundPath = new GeneralPath();
-        profileBackgroundPath.append( shape[0], true );
-        profileBackgroundPath.append( shape[1], true );
-        profileBackgroundPath.append( shape[2], true );
-        profileBackgroundPath.append( shape[3], true );
-
-        // Instantiate a CubicUtil. We'll use it later
-        cubicUtil = new CubicUtil( endPt1, ctrlPt1,
-                                   endPt2, ctrlPt2A );
+        potentilaProfilePath = new GeneralPath();
+        potentilaProfilePath.append( shape[0], true );
+        potentilaProfilePath.append( shape[1], true );
+        potentilaProfilePath.append( shape[2], true );
+        potentilaProfilePath.append( shape[3], true );
+        potentilaProfilePath.append( shape[4], true );
 
         // Compute the distance from the profile's center that corresponds to the alpha decay
         // threshold
         // todo: like spot for problem!!!!
-        alphaDecayX = getHillX( -minEnergy );
+        alphaDecayX = getHillX( minEnergy );
+        alphaDecayX = -50;
 //        alphaDecayX = getHillX( -getWellPotential() );
+
+        // Generate the line for the total energy
+        totalEnergyPath = new Line2D.Double( -2000, getTotalEnergy(), 2000, getTotalEnergy() );
+//        totalEnergyPath = new Line2D.Double( -Double.MAX_VALUE, getTotalEnergy(), Double.MAX_VALUE, getTotalEnergy() );
 
         // Tell everyone we've changed
         notifyObservers();
     }
 
-    public GeneralPath getPath() {
-        return profilePath;
+    public GeneralPath getPotentialEnergyPath() {
+        return potentilaProfilePath;
     }
 
-    public GeneralPath getBackgroundPath() {
-        return profileBackgroundPath;
+    public Shape getTotalEnergyPath() {
+        return totalEnergyPath;
     }
 
     public double getAlphaDecayX() {
         return this.alphaDecayX;
+    }
+
+    /**
+     * I made up the function. It is constructed to make the level drop when the min energy drops
+     * @return
+     */
+    public double getTotalEnergy() {
+//        return 20;
+        double energy = minEnergy + 2 * ( nucleus.getNumProtons() - 1 );
+        energy = getHillY( alphaDecayX );
+//        System.out.println( "energy = " + energy );
+        return energy;
     }
 
     /**
@@ -228,9 +251,9 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
     public void update() {
         this.width = Config.defaultProfileWidth;
         if( minEnergy !=-( 0.5 * nucleus.getNumNeutrons() )
-            || maxEnergy != minEnergy + 2 * nucleus.getNumProtons() ) {
-            this.minEnergy = -( 0.5 * nucleus.getNumNeutrons() );
-            this.maxEnergy = minEnergy + 2 * nucleus.getNumProtons();
+            || maxEnergy != computeMaxEnergy( nucleus ) ) {
+            this.minEnergy = computeMinEnergy( nucleus );
+            this.maxEnergy = computeMaxEnergy( nucleus );
             generate();
         }
     }

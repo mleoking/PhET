@@ -40,7 +40,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private float[] dashPattern = {10f};
     private float dashPhase = 5f;
     private final Stroke leaderLineStroke = new BasicStroke(1f, BasicStroke.CAP_BUTT,
-                                                            BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase);
+                                                            BasicStroke.JOIN_MITER, miterLimit,
+                                                            dashPattern, dashPhase);
 
     /**
      * Constructor
@@ -194,7 +195,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
-        getEnergyProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
+//        getEnergyProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
 
         // Bind the alpha particles to the daughter nucleus
         Uranium235 u235 = (Uranium235) decayProducts.getParent();
@@ -206,7 +207,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         // Add the daughter nucleus
         getModel().addModelElement(decayProducts.getDaughter());
-        getEnergyProfilePanel().addEnergyProfile(decayProducts.getDaughter());
+//        getEnergyProfilePanel().addEnergyProfile(decayProducts.getDaughter());
 
         // Set the size of the alpha decay threshold ring and the positions of the
         // leader lines

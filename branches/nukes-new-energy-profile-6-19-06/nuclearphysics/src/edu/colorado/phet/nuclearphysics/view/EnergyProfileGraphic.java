@@ -14,9 +14,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.Uranium235;
 
 import java.awt.image.ImageObserver;
 import java.awt.image.BufferedImage;
@@ -42,7 +42,12 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
 
     private Color color = Color.blue;
     private Color backgroundColor = new Color( 200, 200, 255 );
-    private Stroke stroke = new BasicStroke( 2f );
+    private Stroke potentialProfileStroke = new BasicStroke( 2f );
+    float miterLimit = 10f;
+    float[] dashPattern = {10f};
+    float dashPhase = 5f;
+    Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
+                                                BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
 
     private EnergyProfile profile;
 //    private Point2D.Double origin;
@@ -65,6 +70,7 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
 
     /**
      * Gets the location of the origin (0,0) within the bounds of the graphic
+     *
      * @return a Point2D
      */
     public Point2D getOrigin() {
@@ -79,27 +85,18 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
         GraphicsState gs = new GraphicsState( g );
 
         profileTx.setToIdentity();
-        /**
-         *  Note: This line now puts the x location at 0, so it won't jiggle while a
-         * nucleus that is fissioning jiggles. This will not work if we want to go
-         * back to having two profiles that move away with the daughter nuclei after
-         * a fission event. To make that happen, inable the commented line of code
-         */
-//        profileTx.translate( 0, 0 );
-        //        profileTx.translate( nucleus.getLocation().getX(), 0 );
-//        g.transform( profileTx );
-//        g.drawImage( image, -image.getWidth( EnergyProfileGraphic.imgObs ) / 2,
-//                     -200, EnergyProfileGraphic.imgObs );
-//                     -image.getHeight( EnergyProfileGraphic.imgObs ), EnergyProfileGraphic.imgObs );
-
-//        profileTx.translate( -profile.getWidth() / 2, -profile.getMaxEnergy() );
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//        g.transform( profileTx );
+
         g.setColor( color );
-        g.setStroke( stroke );
-        g.draw(  profile.getPath() );
+        g.setStroke( potentialProfileStroke );
+        g.draw( profile.getPotentialEnergyPath() );
+
         g.setColor( Color.red );
-        g.drawArc( -3, -3, 6,6, 0, 360 );
+        g.setStroke( totalEnergyStroke );
+        g.draw( profile.getTotalEnergyPath() );
+
+        // Debug
+//        g.drawArc( -3, -3, 6,6, 0, 360 );
         gs.restoreGraphics();
     }
 
@@ -121,10 +118,10 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
 //        g.fill( atx.createTransformedShape( profile.getBackgroundPath() ) );
         GraphicsUtil.setAlpha( g, 1 );
         g.setColor( color );
-        g.setStroke( stroke );
+        g.setStroke( potentialProfileStroke );
         atx.setToIdentity();
         atx.translate( profile.getWidth() / 2, profile.getMaxEnergy() );
-        g.draw( atx.createTransformedShape( profile.getPath() ) );
+        g.draw( atx.createTransformedShape( profile.getPotentialEnergyPath() ) );
 
         g.dispose();
 
