@@ -1,26 +1,32 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.cck.mna.tests;
+package edu.colorado.phet.cck.mna.junit;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck.mna.JamaUtil;
 import edu.colorado.phet.cck.mna.MNACircuit;
+import junit.framework.TestCase;
 
 /**
  * User: Sam Reid
  * Date: Jun 18, 2006
- * Time: 1:23:55 PM
+ * Time: 10:49:36 PM
  * Copyright (c) Jun 18, 2006 by Sam Reid
  */
 
-public class TestMNACircuit_2_2_5 {
-    public static void main( String[] args ) {
-        double g1 = 1;
-        double g2 = 2;
-        double g3 = 3;
-        double i1 = 4;
-        double v1 = 5;
-        double v2 = 6;
+public class TestMNA_2_2_5 extends TestCase {
+    public void test1() {
+        runMatrixTest( 1, 1, 1, 1, 1, 1 );
+    }
 
+    public void test2() {
+        runMatrixTest( 1, 2, 3, 4, 5, 6 );
+    }
+
+    public void test3() {
+        runMatrixTest( 3, 5, 2, 7, 9, 13 );
+    }
+
+    private void runMatrixTest( int g1, int g2, int g3, int i1, int v1, int v2 ) {
         String netlist = "" +
                          "r1 1 2 " + 1.0 / g1 + "\n" +
                          "v1 1 0 " + v1 + "\n" +
@@ -30,9 +36,7 @@ public class TestMNACircuit_2_2_5 {
                          "r3 3 0 " + 1.0 / g3 + "\n";
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        System.out.println( "circuit = " + circuit );
         MNACircuit.MNASystem system = circuit.getFullMNASystem();
-        System.out.println( "system = " + system );
         Matrix reducedAdmittance = system.getReducedAdmittanceMatrix();
 
         Matrix desiredReducedAdmittanceMatrix = new Matrix( new double[][]{
@@ -42,21 +46,14 @@ public class TestMNACircuit_2_2_5 {
                 {1, 0, 0, 0, 0},
                 {0, 1, -1, 0, 0},
         } );
-        System.out.println( "desiredReducedAdmittanceMatrixesiredReducedAdmittanceMatrix = " + desiredReducedAdmittanceMatrix );
-        desiredReducedAdmittanceMatrix.print( 3, 3 );
-
-        System.out.println( "reducedAdmittance = " + reducedAdmittance );
-        reducedAdmittance.print( 3, 3 );
-        System.out.println( "JamaUtil.equals( desiredReducedAdmittanceMatrix,reducedAdmittance ) = " + JamaUtil.equals( desiredReducedAdmittanceMatrix, reducedAdmittance ) );
 
         Matrix reducedSourceMatrix = system.getReducedSourceMatrix();
-        System.out.println( "reducedSourceMatrix = " + reducedSourceMatrix );
-        reducedSourceMatrix.print( 3, 3 );
         Matrix desiredReducedSourceMatrix = new Matrix( new double[][]{
                 {0, 0, i1, v1, v2}
         } );
-
         desiredReducedSourceMatrix = desiredReducedSourceMatrix.transpose();
-        System.out.println( "JamaUtil.equals( reducedSourceMatrix,desiredReducedSourceMatrix) = " + JamaUtil.equals( reducedSourceMatrix, desiredReducedSourceMatrix ) );
+
+        assertEquals( true, JamaUtil.equals( reducedSourceMatrix, desiredReducedSourceMatrix ) );
+        assertEquals( true, JamaUtil.equals( desiredReducedAdmittanceMatrix, reducedAdmittance ) );
     }
 }
