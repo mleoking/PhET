@@ -135,6 +135,7 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
+        super.addControlFullWidth( getHelpPanel() );
     }
 
     private void add( JComponent component ) {
