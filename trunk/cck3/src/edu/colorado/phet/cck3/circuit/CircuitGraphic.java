@@ -148,41 +148,8 @@ public class CircuitGraphic extends CompositeGraphic {
         addCircuitGraphicListener( new CircuitGraphicListener() {
             public void graphicAdded( Branch branch, InteractiveGraphic graphic ) {
                 if( branch instanceof CircuitComponent ) {
-                    ReadoutGraphic rg = null;
-                    if( branch instanceof Battery ) {
-                        rg = new ReadoutGraphic.BatteryReadout( module, branch, transform, module.getApparatusPanel(), readoutGraphicsVisible, module.getDecimalFormat() );
-                    }
-                    else if( branch instanceof SeriesAmmeter ) {
-                        rg = null;
-                    }
-                    else if( branch instanceof Capacitor ) {
-                        rg = new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
-                            protected String[] getText() {
-                                double r = branch.getResistance();
-                                if( branch instanceof Switch ) {
-                                    Switch swit = (Switch)branch;
-                                    if( !swit.isClosed() ) {
-                                        r = Double.POSITIVE_INFINITY;
-                                    }
-                                }
-                                String cap = getFormatter().format( ( (Capacitor)branch ).getCapacitance() );
-                                cap = abs( cap );
-                                String text = cap + " Farads";
-                                return new String[]{text};
-                            }
-                        };
-                        rg.setVisible( readoutGraphicsVisible );
-                    }
-                    else {
-                        if( branch instanceof GrabBagResistor ) {
-                            rg = new GrabBagReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
-                        }
-                        else {
-                            rg = new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
-                            rg.setVisible( readoutGraphicsVisible );
-                        }
-                    }
-
+                    ReadoutGraphic rg = createReadoutGraphic( (CircuitComponent)branch, module );
+                    rg.setVisible( readoutGraphicsVisible );
                     if( rg != null ) {
                         readoutMap.put( branch, rg );
                         readouts.addGraphic( rg );
@@ -198,6 +165,31 @@ public class CircuitGraphic extends CompositeGraphic {
             }
         } );
 
+    }
+
+    private ReadoutGraphic createReadoutGraphic( CircuitComponent branch, CCK3Module module ) {
+        if( branch instanceof ACVoltageSource ) {
+            return new ACReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+        }
+        else if( branch instanceof Battery ) {
+            return new ReadoutGraphic.BatteryReadout( module, branch, transform, module.getApparatusPanel(), readoutGraphicsVisible, module.getDecimalFormat() );
+        }
+        else if( branch instanceof SeriesAmmeter ) {
+            return null;
+        }
+        else if( branch instanceof Capacitor ) {
+            return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
+                protected String[] getText() {
+                    return new String[]{format( ( (Capacitor)branch ).getCapacitance() ) + " Farads"};
+                }
+            };
+        }
+        else if( branch instanceof GrabBagResistor ) {
+            return new GrabBagReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+        }
+        else {
+            return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+        }
     }
 
     public void reapplySolderGraphics() {
@@ -226,8 +218,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public ReadoutGraphic getReadoutGraphic( Branch branch ) {
-        ReadoutGraphic rg = (ReadoutGraphic)readoutMap.get( branch );
-        return rg;
+        return (ReadoutGraphic)readoutMap.get( branch );
     }
 
     public void setAllReadoutsVisible( boolean visible ) {

@@ -8,8 +8,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import net.n3.nanoxml.IXMLElement;
-import net.n3.nanoxml.XMLElement;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -257,12 +255,12 @@ public class Branch extends SimpleObservableDebug {
         return new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
     }
 
-    public void addAttributes( XMLElement branchElement ) {
-    }
+//    public void addAttributes( XMLElement branchElement ) {
+//    }
 
-    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, CircuitChangeListener kl ) {
-        return new Branch( kl, startJunction, endJunction );
-    }
+//    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, CircuitChangeListener kl ) {
+//        return new Branch( kl, startJunction, endJunction );
+//    }
 
     public void delete() {
         removeAllObservers();

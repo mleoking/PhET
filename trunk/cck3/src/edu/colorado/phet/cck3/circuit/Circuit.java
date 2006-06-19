@@ -435,9 +435,26 @@ public class Circuit {
             res.setResistance( val );
             return res;
         }
+        else if( type.equals( ACVoltageSource.class.getName() ) ) {
+            double amplitude = Double.parseDouble( xml.getAttribute( "amplitude", Double.NaN + "" ) );
+            double freq = Double.parseDouble( xml.getAttribute( "frequency", Double.NaN + "" ) );
+            double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
+            ACVoltageSource voltageSource = new ACVoltageSource( kl, startJunction, endJunction, length, height, CCK3Module.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            voltageSource.setInternalResistance( internalResistance );
+            voltageSource.setAmplitude( amplitude );
+            voltageSource.setFrequency( freq );
+            return voltageSource;
+        }
+        else if( type.equals( Capacitor.class.getName() ) ) {
+            Capacitor capacitor = new Capacitor( kl, startJunction, endJunction, length, height );
+            capacitor.setVoltageDrop( Double.parseDouble( xml.getAttribute( "voltage", Double.NaN + "" ) ) );
+            capacitor.setCurrent( Double.parseDouble( xml.getAttribute( "current", Double.NaN + "" ) ) );
+            capacitor.setCapacitance( Double.parseDouble( xml.getAttribute( "capacitance", Double.NaN + "" ) ) );
+            return capacitor;
+        }
         else if( type.equals( Battery.class.getName() ) ) {
-            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
-            double resistance = Double.parseDouble( resVal );
+//            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+//            double resistance = Double.parseDouble( resVal );
 
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
             //            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
@@ -453,8 +470,7 @@ public class Circuit {
             String closedVal = xml.getAttribute( "closed", "false" );
             boolean closed = closedVal != null && closedVal.equals( new Boolean( true ).toString() );
             //            boolean closed = Boolean.getBoolean( closedVal );
-            Switch swit = new Switch( kl, startJunction, endJunction, closed, length, height );
-            return swit;
+            return new Switch( kl, startJunction, endJunction, closed, length, height );
         }
         else if( type.equals( Bulb.class.getName() ) ) {
             String widthStr = xml.getAttribute( "width", Double.NaN + "" );
@@ -470,8 +486,7 @@ public class Circuit {
             return bulb;
         }
         else if( type.equals( SeriesAmmeter.class.getName() ) ) {
-            Branch amm = new SeriesAmmeter( kl, startJunction, endJunction, length, height );
-            return amm;
+            return (Branch)new SeriesAmmeter( kl, startJunction, endJunction, length, height );
         }
         else if( type.equals( GrabBagResistor.class.getName() ) ) {
             Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
@@ -509,7 +524,13 @@ public class Circuit {
                 branchElement.setAttribute( "length", cc.getLength() + "" );
                 branchElement.setAttribute( "height", cc.getHeight() + "" );
             }
-            if( branch instanceof Battery ) {
+            if( branch instanceof ACVoltageSource ) {
+                ACVoltageSource batt = (ACVoltageSource)branch;
+                branchElement.setAttribute( "amplitude", batt.getAmplitude() + "" );
+                branchElement.setAttribute( "frequency", batt.getFrequency() + "" );
+                branchElement.setAttribute( "internalResistance", batt.getInteralResistance() + "" );
+            }
+            else if( branch instanceof Battery ) {
                 Battery batt = (Battery)branch;
                 branchElement.setAttribute( "voltage", branch.getVoltageDrop() + "" );
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );
@@ -531,6 +552,12 @@ public class Circuit {
                 branchElement.setAttribute( "closed", sw.isClosed() + "" );
             }
             else if( branch instanceof SeriesAmmeter ) {
+            }
+            else if( branch instanceof Capacitor ) {
+                Capacitor cap = (Capacitor)branch;
+                branchElement.setAttribute( "capacitance", cap.getCapacitance() + "" );
+                branchElement.setAttribute( "voltage", cap.getVoltageDrop() + "" );
+                branchElement.setAttribute( "current", cap.getCurrent() + "" );
             }
             xe.addChild( branchElement );
         }
