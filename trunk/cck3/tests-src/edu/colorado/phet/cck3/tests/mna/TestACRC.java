@@ -33,7 +33,7 @@ public class TestACRC extends NodeAnalysisTest {
             Battery bat = newBattery( Math.cos( s ) );
             Capacitor cap = newCapacitor( 7 );
 //            System.out.println( "cap.getResistance() = " + cap.getResistance() );
-            cap.setTime( s );
+//            cap.setTime( s );
             Circuit circuit = new Circuit( kl );
             circuit.addBranch( bat );
             circuit.addBranch( res );

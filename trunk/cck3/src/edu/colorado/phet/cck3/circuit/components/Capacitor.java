@@ -1,65 +1,67 @@
-/* Copyright 2004, Sam Reid */
+/** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.CompositeCircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.DynamicBranch;
+import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
- * Date: Jun 16, 2006
- * Time: 12:50:58 AM
- * Copyright (c) Jun 16, 2006 by Sam Reid
+ * Date: May 28, 2004
+ * Time: 1:11:17 PM
+ * Copyright (c) May 28, 2004 by Sam Reid
  */
+public class Capacitor extends CircuitComponent implements DynamicBranch {
+    double capacitance = 0.01;
 
-public class Capacitor extends Resistor implements DynamicBranch {
-
-    private double MIN_TIME = 0;
-    private double time = 0.001;
-    double cap = 10;
-
-    public Capacitor( Point2D.Double aDouble, AbstractVector2D dir, double componentWidth, double initialHeight, CircuitChangeListener kirkhoffListener ) {
-        super( aDouble, dir, componentWidth, initialHeight, kirkhoffListener );
+    public Capacitor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
+        super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
+        setResistance( CCK3Module.MIN_RESISTANCE );
+        setKirkhoffEnabled( true );
     }
 
-    public Capacitor( double capacitance ) {
-        this( new Point2D.Double( 0, 0 ), new Vector2D.Double( 1, 0 ), 5, 5, new CompositeCircuitChangeListener() );
-        setCapacitance( capacitance );
+    public Capacitor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
+        super( kl, startJunction, endjJunction, length, height );
     }
 
-    public double getResistance() {
-//        double res = 1.0 / ( time * cap );
-        double res = ( time * cap );//inverted since there are 2 reciprocals in the MNA
-//        System.out.println( "res = " + res );
-        return res;
+    public Capacitor( double resistance ) {
+        this( new Point2D.Double(), new Vector2D.Double(), 1, 1, new CircuitChangeListener() {
+            public void circuitChanged() {
+            }
+        } );
+        setKirkhoffEnabled( false );
+        setResistance( resistance );
+        setKirkhoffEnabled( true );
     }
 
-    public void stepInTime( double dt ) {
-//        System.out.println( "Math.abs( getCurrent( )) = " + Math.abs( getCurrent() ) );
-//        System.out.println( "getVoltageDrop() = " + getVoltageDrop() );
-//        System.out.println( getVoltageDrop() );
-        if( Math.abs( getCurrent() ) > 0.001 ) {
-            time += dt;
-        }
-    }
-
-    public void resetDynamics() {
-        time = MIN_TIME;
-    }
-
-    public void setCapacitance( double cap ) {
-        this.cap = cap;
-    }
-
-    public void setTime( double s ) {
-        this.time = s + MIN_TIME;
+    public void addAttributes( IXMLElement xml ) {
+        xml.setAttribute( "resistance", getResistance() + "" );
     }
 
     public double getCapacitance() {
-        return cap;
+        return capacitance;
+    }
+
+    public void setCapacitance( double capacitance ) {
+        this.capacitance = capacitance;
+    }
+
+    public void stepInTime( double dt ) {
+    }
+
+    public void resetDynamics() {
+        setKirkhoffEnabled( false );
+        setVoltageDrop( 0.0 );
+        setKirkhoffEnabled( true );
+    }
+
+    public void setTime( double time ) {
     }
 }
