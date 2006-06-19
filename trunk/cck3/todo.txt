@@ -9,6 +9,7 @@ o Readout for ac frequency and amplitude. (It is presently instantaneous voltage
 o Visualization for charge flow across capacitor
 o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.
+o Capacitors & AC elements cannot be saved or loaded.
 
 Questions:
 Do we want current sources?  Physics is already implemented.
