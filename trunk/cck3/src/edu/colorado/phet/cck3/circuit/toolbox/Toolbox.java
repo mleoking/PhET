@@ -84,8 +84,12 @@ public class Toolbox extends CompositeGraphic {
         double componentX = modelRect.getX() + modelRect.getWidth() * fracInsetX;
         double componentX2 = componentX + componentWidth;
         double y = modelRect.getY() + modelRect.getHeight();
+        int numComponents = 6;
+        if( module.getParameters().getAllowDynamics() ) {
+            numComponents += 2;
+        }
 //        double dy = -modelRect.getHeight() / 6.2;
-        double dy = -modelRect.getHeight() / 8.2;
+        double dy = -modelRect.getHeight() / ( numComponents + 0.2 );
         Vector2D.Double dir = new Vector2D.Double( 1, 0 );
         y += dy / 2;
         y = addWireBranch( componentX, y, componentX2, dy );
@@ -97,8 +101,10 @@ public class Toolbox extends CompositeGraphic {
         y = addBulb( componentWidth, y, componentX, dy );
         y = addSwitch( componentWidth, componentX, y, dir, dy );
 
-        y = addAC( componentWidth, componentX, y, dir, dy );
-        y = addCapacitor( componentWidth, componentX, y, dir, dy );
+        if( module.getParameters().getAllowDynamics() ) {
+            y = addAC( componentWidth, componentX, y, dir, dy );
+            y = addCapacitor( componentWidth, componentX, y, dir, dy );
+        }
 
         addAmmeter( componentWidth, componentX, y, dir );
         setLifelike( module.getCircuitGraphic().isLifelike() );

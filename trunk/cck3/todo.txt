@@ -13,3 +13,4 @@ Do we want current sources?  Physics is already implemented.
 #Lower Priority
 #######################
 Help button should be moved south.
+There is some text near the top left of the screen; we can see the descenders dropping down.
