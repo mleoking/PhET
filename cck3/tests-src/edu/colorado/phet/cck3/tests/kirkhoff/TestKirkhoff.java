@@ -4,9 +4,9 @@ package edu.colorado.phet.cck3.tests.kirkhoff;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;

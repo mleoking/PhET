@@ -3,9 +3,9 @@ package edu.colorado.phet.cck3.tests.junit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -58,7 +58,7 @@ public class TestCurrent extends TestCase {
         double currentThroughResistor = resistor.getCurrent();
 
         //This doesn't account for battery internal resistance.
-        
+
         assertEquals( "Wrong current for r=" + r + ", v=" + v, -v / r, currentThroughResistor, .1 );
         assertEquals( "Wrong voltage drop for r=" + r + ", v=" + v, v, module.getCircuit().getVoltage( new VoltmeterGraphic.JunctionConnection( resistor.getStartJunction() ),
                                                                                                        new VoltmeterGraphic.JunctionConnection( resistor.getEndJunction() ) ),

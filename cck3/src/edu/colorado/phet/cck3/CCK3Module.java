@@ -2,12 +2,12 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
+import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
+import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
-import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolver;
-import edu.colorado.phet.cck3.circuit.kirkhoff.ModifiedNodalAnalysis;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
@@ -197,7 +197,8 @@ public class CCK3Module extends Module {
             }
         } );
         //        kirkhoffSolver = new KirkhoffSolver();
-        circuitSolver = new ModifiedNodalAnalysis();
+//        circuitSolver = new ModifiedNodalAnalysis_Orig();
+        circuitSolver = new MNASolver();
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
                 circuitSolver.apply( circuit );

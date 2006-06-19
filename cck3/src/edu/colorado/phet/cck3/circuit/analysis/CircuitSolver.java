@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck3.circuit.kirkhoff;
+package edu.colorado.phet.cck3.circuit.analysis;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
 

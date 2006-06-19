@@ -3,10 +3,10 @@ package edu.colorado.phet.cck3.tests.mna;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.analysis.ModifiedNodalAnalysis_Orig;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Capacitor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.cck3.circuit.kirkhoff.ModifiedNodalAnalysis;
 
 /**
  * User: Sam Reid
@@ -48,7 +48,7 @@ public class TestDCRC extends NodeAnalysisTest {
             circuit.addJunction( j3 );
 
 //            new ModifiedNodalAnalysis().applyMNA( circuit );
-            new ModifiedNodalAnalysis().apply( circuit );
+            new ModifiedNodalAnalysis_Orig().apply( circuit );
             System.out.println( res.getCurrent() );
 //            System.out.println( circuit.getVoltage( j1,j2));
 

@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.circuit.kirkhoff;
+package edu.colorado.phet.cck3.circuit.analysis;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck3.circuit.Branch;

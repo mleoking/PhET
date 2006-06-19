@@ -444,12 +444,24 @@ public class MNACircuit {
         public Matrix getSolutionMatrix() {
             Matrix reducedAdmittance = getReducedAdmittanceMatrix();
             Matrix reducedSource = getReducedSourceMatrix();
-            Matrix result = reducedAdmittance.solve( reducedSource );
-            Matrix paddedResult = new Matrix( result.getRowDimension() + 1, result.getColumnDimension() );
-            for( int i = 1; i < paddedResult.getRowDimension(); i++ ) {
-                paddedResult.set( i, 0, result.get( i - 1, 0 ) );//set the 0th node voltage equal to zero
+            try {
+                Matrix result = reducedAdmittance.solve( reducedSource );
+                Matrix paddedResult = new Matrix( result.getRowDimension() + 1, result.getColumnDimension() );
+                for( int i = 1; i < paddedResult.getRowDimension(); i++ ) {
+                    paddedResult.set( i, 0, result.get( i - 1, 0 ) );//set the 0th node voltage equal to zero
+                }
+                return paddedResult;
             }
-            return paddedResult;
+            catch( RuntimeException re ) {
+                if( re.getMessage().toLowerCase().indexOf( "singular" ) > 0 ) {
+                    //ignore
+                    //todo: how should error handling work here?
+                    return new Matrix( getNumVariables(), 1 );
+                }
+                else {
+                    throw re;
+                }
+            }
         }
 
         public int getNumCurrentVariables() {
