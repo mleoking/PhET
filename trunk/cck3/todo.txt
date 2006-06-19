@@ -1,11 +1,10 @@
 ################################################
 #Remaining Work
 #######################
-o Add popup menus for AC amplitude & frequency
-o Add popup menus for Capacitance
 o Schematic icons for ac & capacitors
 o Improved toolbar for advanced components.
 o Add inductors.
+o Internationalize new material.
 
 Questions:
 Do we want current sources?  Physics is already implemented.

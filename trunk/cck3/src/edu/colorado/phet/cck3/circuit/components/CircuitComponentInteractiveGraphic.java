@@ -43,7 +43,12 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         addMouseInputListener( mouseListener );
 
         CircuitComponent cc = circuitComponentGraphic.getCircuitComponent();
-        if( cc instanceof Battery ) {
+        if( cc instanceof ACVoltageSource ) {
+            final ACVoltageSource acVoltageSource = (ACVoltageSource)cc;
+            menu = new ACVoltageSourceMenu( acVoltageSource, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
+        }
+        else if( cc instanceof Battery ) {
             final Battery batt = (Battery)cc;
             menu = new BatteryJMenu( batt, module );
             addPopupMenuBehavior( menu.getMenuComponent() );
@@ -66,6 +71,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         else if( cc instanceof SeriesAmmeter ) {
             SeriesAmmeter ammeter = (SeriesAmmeter)cc;
             menu = new SeriesAmmeterMenu( ammeter, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
+        }
+        else if( cc instanceof Capacitor ) {
+            Capacitor c = (Capacitor)cc;
+            menu = new CapacitorMenu( c, module );
             addPopupMenuBehavior( menu.getMenuComponent() );
         }
 
@@ -126,7 +136,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                     }
                 }
             } );
-            if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
+            if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) )
+            {
                 if( module.getParameters().allowShowReadouts() ) {
                     menu.add( showValue );
                 }
@@ -193,6 +204,41 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 menu.add( edit );
                 finish();
             }
+        }
+
+        public JPopupMenu getMenuComponent() {
+            return getMenu();
+        }
+
+        public void delete() {
+            super.delete();
+            if( editor != null ) {
+                editor.delete();
+            }
+        }
+
+    }
+
+    static class CapacitorMenu extends ComponentMenu {
+        Capacitor res;
+        private ComponentEditor editor;
+
+        public CapacitorMenu( final Capacitor capacitor, CCK3Module module ) {
+            super( capacitor, module );
+            this.res = capacitor;
+            editor = new ComponentEditor( module, "Capacitance", capacitor, module.getApparatusPanel(), "Capacitance", "Farads", 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
+                protected void doChange( double value ) {
+                    capacitor.setCapacitance( value );
+                }
+            };
+            JMenuItem edit = new JMenuItem( "Edit Capacitance" );
+            edit.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    editor.setVisible( true );
+                }
+            } );
+            menu.add( edit );
+            finish();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -302,7 +348,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
         public static final ArrayList instances = new ArrayList();
         private ComponentEditor.BatteryResistanceEditor resistanceEditor;
-        private ComponentEditor.BatteryEditor editor;
+        private ComponentEditor editor;
         private JCheckBoxMenuItem setVisibleItem;
 
         public BatteryJMenu( final Battery branch, CCK3Module module ) {
@@ -310,13 +356,14 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             this.battery = branch;
             this.module = module;
             JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
-            editor = new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
+            editor = createVoltageEditor( branch );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
                 }
             } );
             add( edit );
+            addOptionalItemsAfterEditor();
 
             editInternal = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.InternalResistanceMenuItem" ) );
             editInternal.setEnabled( false );
@@ -338,6 +385,21 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
             setVisibleItem = ComponentMenu.finish( module, branch, this );
             instances.add( this );
+        }
+
+        public Battery getBattery() {
+            return battery;
+        }
+
+        protected void addOptionalItemsAfterEditor() {
+        }
+
+        public CCK3Module getModule() {
+            return module;
+        }
+
+        protected ComponentEditor createVoltageEditor( Battery branch ) {
+            return new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
         }
 
         public void show( Component invoker, int x, int y ) {

@@ -113,6 +113,10 @@ public class ReadoutGraphic implements Graphic {
         }
     }
 
+    public DecimalFormat getFormatter() {
+        return formatter;
+    }
+
     protected String[] getText() {
         double r = branch.getResistance();
         if( branch instanceof Switch ) {
@@ -133,7 +137,7 @@ public class ReadoutGraphic implements Graphic {
         return new String[]{text};
     }
 
-    private String abs( String vol ) {
+    protected String abs( String vol ) {
         StringTokenizer st = new StringTokenizer( vol, ".0" );
         if( st.hasMoreTokens() && st.nextToken().equals( "-" ) ) {
             return vol.substring( 1 );

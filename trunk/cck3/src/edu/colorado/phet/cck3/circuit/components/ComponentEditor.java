@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -25,11 +26,11 @@ import java.text.DecimalFormat;
  */
 public abstract class ComponentEditor extends JDialog {
     private CCK3Module module;
-    private CircuitComponent element;
+    protected CircuitComponent element;
     private Component parent;
     private Circuit circuit;
-    private PhetSlider slider;
-    private JPanel contentPane;
+    protected PhetSlider slider;
+    protected JPanel contentPane;
     private CircuitListener circuitListener;
 
     public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
@@ -281,5 +282,18 @@ public abstract class ComponentEditor extends JDialog {
         circuit.removeCircuitListener( circuitListener );
         setVisible( false );
         dispose();
+    }
+
+    public static class ACVoltageSourceEditor extends ComponentEditor {
+        private ACVoltageSource branch;
+
+        public ACVoltageSourceEditor( CCK3Module module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
+            super( module, "AC Voltage Source Editor", branch, apparatusPanel, "AC Voltage", "Volts", 0, 100, 10, circuit );
+            this.branch = branch;
+        }
+
+        protected void doChange( double value ) {
+            branch.setAmplitude( value );
+        }
     }
 }

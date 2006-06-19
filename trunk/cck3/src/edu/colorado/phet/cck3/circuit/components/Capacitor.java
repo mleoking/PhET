@@ -18,7 +18,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 28, 2004 by Sam Reid
  */
 public class Capacitor extends CircuitComponent implements DynamicBranch {
-    double capacitance = 0.01;
+    public static final double DEFAULT_CAPACITANCE = 0.01;
+    double capacitance = DEFAULT_CAPACITANCE;
 
     public Capacitor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
@@ -51,6 +52,8 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
 
     public void setCapacitance( double capacitance ) {
         this.capacitance = capacitance;
+        notifyObservers();
+        fireKirkhoffChange();
     }
 
     public void stepInTime( double dt ) {

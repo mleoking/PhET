@@ -37,6 +37,17 @@ public class MNASolver extends CircuitSolver {
             mnaCircuit.addComponent( toMNAComponent( branch, i, startJunction, endJunction ) );
         }
         MNACircuit.MNASolution solution = mnaCircuit.getCompanionModel( dt ).getSolution();
+        if( !solution.isLegalSolution() ) {
+            System.out.println( "solution.isLegalSolution() = " + solution.isLegalSolution() );
+            for( int i = 0; i < circuit.numBranches(); i++ ) {
+                Branch branch = circuit.branchAt( i );
+                branch.setCurrent( 0.0 );
+                if( !( branch instanceof Battery ) ) {
+                    branch.setVoltageDrop( 0.0 );
+                }
+            }
+            return;
+        }
 //        System.out.println( "solution = " + solution );
 //        int freeIndex = solution.getNumVoltages() + getBatteries( circuit ).length;//todo loose coupling, we'd like to get the current for the capacitor directly.
         for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -70,6 +81,7 @@ public class MNASolver extends CircuitSolver {
             batteryAt( circuit, i ).setKirkhoffEnabled( true );
         }
         fireCircuitSolved();
+
     }
 
     private void clearCircuit() {

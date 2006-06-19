@@ -155,6 +155,24 @@ public class CircuitGraphic extends CompositeGraphic {
                     else if( branch instanceof SeriesAmmeter ) {
                         rg = null;
                     }
+                    else if( branch instanceof Capacitor ) {
+                        rg = new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
+                            protected String[] getText() {
+                                double r = branch.getResistance();
+                                if( branch instanceof Switch ) {
+                                    Switch swit = (Switch)branch;
+                                    if( !swit.isClosed() ) {
+                                        r = Double.POSITIVE_INFINITY;
+                                    }
+                                }
+                                String cap = getFormatter().format( ( (Capacitor)branch ).getCapacitance() );
+                                cap = abs( cap );
+                                String text = cap + " Farads";
+                                return new String[]{text};
+                            }
+                        };
+                        rg.setVisible( readoutGraphicsVisible );
+                    }
                     else {
                         if( branch instanceof GrabBagResistor ) {
                             rg = new GrabBagReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
@@ -164,6 +182,7 @@ public class CircuitGraphic extends CompositeGraphic {
                             rg.setVisible( readoutGraphicsVisible );
                         }
                     }
+
                     if( rg != null ) {
                         readoutMap.put( branch, rg );
                         readouts.addGraphic( rg );

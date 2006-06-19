@@ -516,6 +516,18 @@ public class MNACircuit {
 //            solutionMatrix.print( new PrintWriter( admString ), 3, 3 );
 //            return "solution=" + admString.toString();
         }
+
+        public boolean isLegalSolution() {
+            for( int i = 0; i < solutionMatrix.getRowDimension(); i++ ) {
+                for( int j = 0; j < solutionMatrix.getColumnDimension(); j++ ) {
+                    if( Double.isNaN( solutionMatrix.get( i, j ) ) || Double.isInfinite( solutionMatrix.get( i, j ) ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     public MNASolution getSolution() {
