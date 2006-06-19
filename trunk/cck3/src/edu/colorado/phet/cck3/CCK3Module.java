@@ -1222,9 +1222,13 @@ public class CCK3Module extends Module {
         private boolean hideAllElectrons = false;
         private boolean grabBagMode = false;
         private boolean useVisualControlPanel = true;
+        private boolean dynamics = false;
 
         public SetupParameters( CCK3Module module, String[] args ) {
             this.args = args;
+            if( containsArg( "-dynamics" ) ) {
+                dynamics = true;
+            }
             if( containsArg( "-virtuallab" ) ) {
                 virtualLab = true;
             }
@@ -1312,6 +1316,10 @@ public class CCK3Module extends Module {
 
         public boolean getUseAdvancedControlPanel() {
             return useAdvancedControlPanel;
+        }
+
+        public boolean getAllowDynamics() {
+            return dynamics;
         }
     }
 

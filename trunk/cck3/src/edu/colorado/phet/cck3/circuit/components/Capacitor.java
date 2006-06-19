@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 28, 2004 by Sam Reid
  */
 public class Capacitor extends CircuitComponent implements DynamicBranch {
-    public static final double DEFAULT_CAPACITANCE = 0.01;
+    public static final double DEFAULT_CAPACITANCE = 0.02;
     double capacitance = DEFAULT_CAPACITANCE;
 
     public Capacitor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
