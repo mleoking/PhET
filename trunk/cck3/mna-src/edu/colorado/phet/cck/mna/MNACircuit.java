@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 
 /**
- * Assumes nodes are numbered consecutively: i.e. a netlist:
+ * Assumes nodes are numbered consecutively: i.e. this netlist:
  * i1 0 3 1.0
  * r1 1 3 1.0 would produce incorrect results.
  * //todo add a test for this.
@@ -247,6 +247,15 @@ public class MNACircuit {
             source.set( at, 0, voltageSource.getVoltage() );
         }
 
+        public Matrix getReducedAdmittanceMatrix() {
+            Matrix reduced = JamaUtil.deleteRow( admittance, 0 );
+            reduced = JamaUtil.deleteColumn( reduced, 0 );
+            return reduced;
+        }
+
+        public Matrix getReducedSourceMatrix() {
+            return JamaUtil.deleteRow( this.source, 0 );
+        }
     }
 
     public MNASystem getFullMNASystem() {
