@@ -160,6 +160,10 @@ public class ReadoutGraphic implements Graphic {
         transform.removeTransformListener( transformListener );
     }
 
+    public String format( double amplitude ) {
+        return abs( formatter.format( amplitude ) );
+    }
+
     public static class BatteryReadout extends ReadoutGraphic {
 
         public BatteryReadout( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {

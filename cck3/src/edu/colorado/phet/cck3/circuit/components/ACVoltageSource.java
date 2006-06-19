@@ -60,4 +60,13 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     public void setFrequency( double frequency ) {
         this.frequency = frequency;
     }
+
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    public double getFrequency() {
+        return frequency;
+    }
+
 }

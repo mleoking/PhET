@@ -150,7 +150,11 @@ public abstract class ComponentEditor extends JDialog {
     private void setReadoutVisible( boolean visible ) {
         ReadoutGraphic rg = module.getCircuitGraphic().getReadoutGraphic( element );
         if( rg == null ) {
-            throw new RuntimeException( "Null ReadoutGRaphic for component." );
+//            throw new RuntimeException( "Null ReadoutGRaphic for component: "+element.getClass()+", element="+element );
+            //maybe it was already removed...
+            if( visible ) {
+                throw new RuntimeException( "Null ReadoutGRaphic for component: " + element.getClass() + ", element=" + element );
+            }
         }
         else {
             rg.setVisible( visible );
