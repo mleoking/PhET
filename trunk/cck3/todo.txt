@@ -5,9 +5,10 @@ o Add popup menus for AC amplitude & frequency
 o Add popup menus for Capacitance
 o Schematic icons for ac & capacitors
 o Improved toolbar for advanced components.
+o Add inductors.
 
 Questions:
-Do we want current sources?  Physics is already there.
+Do we want current sources?  Physics is already implemented.
 
 ################################################
 #Lower Priority
