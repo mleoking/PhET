@@ -14,6 +14,9 @@ import java.util.StringTokenizer;
  * i1 0 3 1.0
  * r1 1 3 1.0 would produce incorrect results.
  * //todo add a test for this.
+ * <p/>
+ * References:
+ * 1. Electronic Circuit and System Simulation Methods, Pillage L.T. Rohrer, R.A., Visweswariah, C.
  */
 
 public class MNACircuit {
