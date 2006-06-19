@@ -10,17 +10,18 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * Copyright (c) Jun 19, 2006 by Sam Reid
  */
 
-public class TestRC {
+public class TestRC_AC {
     double v = 0;
     double i = 0.0;
     double dt = 0.01;
     private int numSteps = 10000;
+    private double time = 0;
 
-    public TestRC() {
+    public TestRC_AC() {
     }
 
     public static void main( String[] args ) {
-        new TestRC().start();
+        new TestRC_AC().start();
     }
 
     private void start() {
@@ -30,8 +31,9 @@ public class TestRC {
     }
 
     private void step() {
+        time += dt;
         MNACircuit circuit = new MNACircuit();
-        circuit.addComponent( new MNACircuit.MNAVoltageSource( "v0", 0, 1, 9.0 ) );
+        circuit.addComponent( new MNACircuit.MNAVoltageSource( "v0", 0, 1, 9.0 * Math.sin( time ) ) );
         circuit.addComponent( new MNACircuit.MNAResistor( "r1", 1, 2, 3.0 ) );
         circuit.addComponent( new MNACircuit.MNACapacitor( "c1", 2, 0, 3.0, v, i ) );
         MNACircuit companion = circuit.createCompanionModel( dt );
@@ -39,6 +41,5 @@ public class TestRC {
         this.i = solution.getCurrent( 1 );//should be same everywhere
         this.v = solution.getVoltage( 2 ) - solution.getVoltage( 0 );
         System.out.println( v );
-//        System.out.println( i );
     }
 }
