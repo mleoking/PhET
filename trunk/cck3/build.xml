@@ -103,9 +103,10 @@
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <!--<fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>-->
                 <!--<fileset file="screenshot.gif"/>-->
-                <!--<fileset file="README"/>-->
+                <fileset file="README"/>
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
+                <fileset file="screenshot.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -120,6 +121,7 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
+                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>

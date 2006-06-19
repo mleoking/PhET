@@ -32,5 +32,7 @@ information.
         <j2se version="1.4+"/>
         <jar href="cck/@VERSION@/cck-pro.jar"/>
     </resources>
-    <application-desc main-class="@MAIN-CLASS@"/>
+    <application-desc main-class="@MAIN-CLASS@">
+        <argument>-dynamics</argument>
+    </application-desc>
 </jnlp>
