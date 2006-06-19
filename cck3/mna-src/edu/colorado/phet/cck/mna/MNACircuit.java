@@ -12,10 +12,8 @@ import java.util.StringTokenizer;
 /**
  * Assumes nodes are numbered consecutively: i.e. a netlist:
  * i1 0 3 1.0
- * r1 1 3 1.0 would be illegal.
- * <p/>
- * Todo:
- * make sure we're eliminating node 0.
+ * r1 1 3 1.0 would produce incorrect results.
+ * //todo add a test for this.
  */
 
 public class MNACircuit {
@@ -248,6 +246,7 @@ public class MNACircuit {
 
             source.set( at, 0, voltageSource.getVoltage() );
         }
+
     }
 
     public MNASystem getFullMNASystem() {

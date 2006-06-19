@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck.mna.junit;
 
 import Jama.Matrix;
+import edu.colorado.phet.cck.mna.JamaUtil;
 import edu.colorado.phet.cck.mna.MNACircuit;
 import junit.framework.TestCase;
 
@@ -25,9 +26,9 @@ public class Test_1_4_6_NA_Generation extends TestCase {
                          "i9 0 4 1.0";
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        System.out.println( "circuit = " + circuit );
+
         MNACircuit.MNASystem system = circuit.getFullMNASystem();
-        System.out.println( "system = " + system );
+
 
         double[][]values = new double[][]{
                 {4, -1, -1, -1, -1},
@@ -37,16 +38,12 @@ public class Test_1_4_6_NA_Generation extends TestCase {
                 {-1, 0, 0, -1, 2}
         };
         Matrix admittance = new Matrix( values );
-        System.out.println( "admittance = " + admittance );
-        admittance.print( 3, 3 );
 
         Matrix source = new Matrix( new double[][]{{
                 -2, 1, 0, 0, 1
         }} );
         source = source.transpose();
-        System.out.println( "source = " + source );
-        source.print( 3, 3 );
-        assertEquals( true, MatrixComparator.equals( system.getAdmittanceMatrix(), admittance ) );
-        assertEquals( true, MatrixComparator.equals( system.getSourceMatrix(), source ) );
+        assertEquals( true, JamaUtil.equals( system.getAdmittanceMatrix(), admittance ) );
+        assertEquals( true, JamaUtil.equals( system.getSourceMatrix(), source ) );
     }
 }
