@@ -102,13 +102,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public void start() {
         nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
-        nucleus.setPotential( nucleus.getPotentialProfile().getWellPotential() );
+        nucleus.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
         getPotentialProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
-        nucleus.addObserver( getNucleus().getPotentialProfile() );
+        nucleus.addObserver( getNucleus().getEnergylProfile() );
     }
 
     public void activate() {
@@ -180,7 +180,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
                 double d = daughter.getPosition().distance( parent.getPosition() );
                 Vector2D a = null;
-                PotentialProfile profile = parent.getPotentialProfile();
+                EnergyProfile profile = parent.getEnergylProfile();
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
                 force = -profile.getDyDx( -d ) * forceScale;
@@ -200,8 +200,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                 double potential = 0;
                 // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
                 // Without it, the
-                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
-                    potential = profile.getMaxPotential();
+                if( Math.abs( d ) <= Math.abs( profile.getMaxEnergy() - 10 ) ) {
+//                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
+                    potential = profile.getMaxEnergy();
                 }
                 else {
                     potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );

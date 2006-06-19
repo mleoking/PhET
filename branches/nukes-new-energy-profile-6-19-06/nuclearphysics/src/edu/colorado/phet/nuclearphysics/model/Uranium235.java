@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
@@ -68,7 +67,7 @@ public class Uranium235 extends Nucleus {
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
             alphaParticles[i] = new AlphaParticle( position,
-                                                   getPotentialProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
+                                                   getEnergylProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
             alphaParticles[i].setNucleus( this );
         }
     }
@@ -131,7 +130,7 @@ public class Uranium235 extends Nucleus {
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
             if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
-                > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
+                > getEnergylProfile().getAlphaDecayX() * getEnergylProfile().getAlphaDecayX() ) {
 
                 if( !preDecayStep ) {
                     for( int i = 0; i < preDecayListeners.size(); i++ ) {
@@ -146,9 +145,9 @@ public class Uranium235 extends Nucleus {
 //                double d = alphaParticle.getPosition().distance( this.getPosition() );
 //                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
 //                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
-//                dx *= this.getPotentialProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
-//                dy *= this.getPotentialProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
-//                alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
+//                dx *= this.getEnergylProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
+//                dy *= this.getEnergylProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
+//                alphaParticle.setPotential( getEnergylProfile().getHillY( getEnergylProfile().getAlphaDecayX() ) );
 //                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
 //                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
 
@@ -166,7 +165,8 @@ public class Uranium235 extends Nucleus {
         // Handle fission morphing
         if( morphTargetNeutrons > 0 ) {
             setPotential( getPotential() + Config.U235MorphSpeedFactor );
-            if( getPotential() > getPotentialProfile().getMaxPotential()
+            if( getPotential() > getEnergylProfile().getMaxEnergy()
+//            if( getPotential() > getEnergylProfile().getMaxPotential()
                 || !doMorph ) {
                 // Before we morph, make sure the parent nucleus is centered. That is, don't
                 // leave it where itr jittered to.

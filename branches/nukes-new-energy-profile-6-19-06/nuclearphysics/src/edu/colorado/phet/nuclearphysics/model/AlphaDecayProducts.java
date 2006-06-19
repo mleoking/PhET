@@ -18,7 +18,7 @@ public class AlphaDecayProducts {
         this.alphaParticle = alphaParticle;
         this.alphaParticle.setNucleus( daughter );
         this.alphaParticle.setEscaped( true );
-        alphaParticle.setPotential( parent.getPotentialProfile().getHillY( parent.getPotentialProfile().getAlphaDecayX() ) );
+        alphaParticle.setPotential( parent.getEnergylProfile().getHillY( parent.getEnergylProfile().getAlphaDecayX() ) );
     }
 
     public Nucleus getParent() {

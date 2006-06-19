@@ -17,7 +17,8 @@ public class Nucleus extends NuclearModelElement {
     private int numNeutrons;
     private double potential;
     private double radius;
-    private PotentialProfile potentialProfile;
+    private EnergyProfile potentialProfile;
+//    private PotentialProfile potentialProfile;
     private ArrayList fissionListeners = new ArrayList();
 
     public Nucleus( Point2D position, int numProtons, int numNeutrons ) {
@@ -25,7 +26,8 @@ public class Nucleus extends NuclearModelElement {
         this.setPosition( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
-        this.potentialProfile = new PotentialProfile( this );
+        this.potentialProfile = new EnergyProfile( this );
+//        this.potentialProfile = new PotentialProfile( this );
 
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
@@ -70,7 +72,8 @@ public class Nucleus extends NuclearModelElement {
         this.potential = potential;
     }
 
-    public PotentialProfile getPotentialProfile() {
+    public EnergyProfile getEnergylProfile() {
+//    public PotentialProfile getEnergylProfile() {
         return potentialProfile;
     }
 

@@ -1,39 +1,45 @@
-/**
- * Class: PotentialProfileGraphic
- * Package: edu.colorado.phet.nuclearphysics.view
- * Author: Another Guy
- * Date: Feb 26, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 
-public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleObserver {
+public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObserver {
 
-    //
-    // Statics
-    //
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static ImageObserver imgObs = new ImageObserver() {
         public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
             return false;
         }
     };
 
-    //
+    //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
-    //
+    //--------------------------------------------------------------------------------------------------
+
     private Color color = Color.blue;
     private Color backgroundColor = new Color( 200, 200, 255 );
     private Stroke stroke = new BasicStroke( 2f );
@@ -44,7 +50,7 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
     private Image image;
     private Nucleus nucleus;
 
-    public PotentialProfileGraphic( Component component, Nucleus nucleus ) {
+    public EnergyProfileGraphic( Component component, Nucleus nucleus ) {
         super( component );
         this.nucleus = nucleus;
         this.profile = nucleus.getEnergylProfile();
@@ -78,8 +84,8 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
         profileTx.translate( 0, 0 );
         //        profileTx.translate( nucleus.getLocation().getX(), 0 );
         g.transform( profileTx );
-        g.drawImage( image, -image.getWidth( imgObs ) / 2,
-                     -image.getHeight( imgObs ), imgObs );
+        g.drawImage( image, -image.getWidth( EnergyProfileGraphic.imgObs ) / 2,
+                     -image.getHeight( EnergyProfileGraphic.imgObs ), EnergyProfileGraphic.imgObs );
 
         gs.restoreGraphics();
     }
@@ -87,6 +93,7 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
     private Image buildImage() {
         AffineTransform atx = new AffineTransform();
         int imageHeight = (int)Math.max( profile.getMaxEnergy(), profile.getMinEnergy() );
+//        int imageHeight = (int)Math.max( profile.getMaxPotential(), profile.getWellPotential() );
         BufferedImage bi = new BufferedImage( (int)( profile.getWidth() ),
                                               imageHeight,
                                               BufferedImage.TYPE_INT_ARGB );

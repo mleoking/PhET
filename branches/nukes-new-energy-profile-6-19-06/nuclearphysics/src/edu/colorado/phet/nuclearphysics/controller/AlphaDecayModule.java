@@ -172,8 +172,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     private void setRingAttributes(Nucleus nucleus) {
-        if (nucleus.getPotentialProfile().getAlphaDecayX() < 0) {
-            double radius = Math.abs(nucleus.getPotentialProfile().getAlphaDecayX());
+        if (nucleus.getEnergylProfile().getAlphaDecayX() < 0) {
+            double radius = Math.abs(nucleus.getEnergylProfile().getAlphaDecayX());
             double x = getNucleus().getPosition().getX() - radius;
             double y = getNucleus().getPosition().getY() - radius;
             alphaRing = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
@@ -194,7 +194,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
-        getPotentialProfilePanel().removePotentialProfile(decayProducts.getParent().getPotentialProfile());
+        getPotentialProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
 
         // Bind the alpha particles to the daughter nucleus
         Uranium235 u235 = (Uranium235) decayProducts.getParent();

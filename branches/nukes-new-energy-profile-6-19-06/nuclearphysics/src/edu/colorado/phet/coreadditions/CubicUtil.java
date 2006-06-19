@@ -13,10 +13,10 @@ import java.awt.geom.Point2D;
  * See: http://www.moshplant.com/direct-or/bezier/math.html
  */
 public class CubicUtil {
-    private Point2D.Double endPt1;
-    private Point2D.Double endPt2;
-    private Point2D.Double ctrlPt1;
-    private Point2D.Double ctrlPt2;
+    private Point2D endPt1;
+    private Point2D endPt2;
+    private Point2D ctrlPt1;
+    private Point2D ctrlPt2;
 
     double cx, cy, bx, by, ax, ay;
     double x0;
@@ -29,8 +29,8 @@ public class CubicUtil {
     double y2;
 
 
-    public CubicUtil( Point2D.Double endPt1, Point2D.Double ctrlPt1,
-                      Point2D.Double ctrlPt2, Point2D.Double endPt2 ) {
+    public CubicUtil( Point2D endPt1, Point2D ctrlPt1,
+                      Point2D ctrlPt2, Point2D endPt2 ) {
         this.endPt1 = endPt1;
         this.endPt2 = endPt2;
         this.ctrlPt1 = ctrlPt1;

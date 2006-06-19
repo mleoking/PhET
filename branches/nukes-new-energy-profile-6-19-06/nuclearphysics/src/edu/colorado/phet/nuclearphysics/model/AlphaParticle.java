@@ -80,13 +80,14 @@ public class AlphaParticle extends Nucleus {
                     double dx = d * Math.cos( theta );
                     double dy = d * Math.sin( theta );
                     setLocation( dx, dy );
-                    this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
+                    this.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
+//                    this.setPotential( nucleus.getEnergylProfile().getWellPotential() );
                 }
             }
             else {
                 // Accelerate the alpha particle away from the nucleus, with a force
                 // proportional to its height on the profile
-                PotentialProfile profile = nucleus.getPotentialProfile();
+                EnergyProfile profile = nucleus.getEnergylProfile();
                 double d = this.getPosition().distance( nucleus.getPosition() );
 
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
