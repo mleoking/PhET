@@ -11,11 +11,13 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * Copyright (c) Jun 18, 2006 by Sam Reid
  */
 
-public class MNATest {
+public class MNATest2 {
     public static void main( String[] args ) {
         String[]netlist = new String[]{
-                "V1 0 1 10",
-                "R1 1 0 1"
+                "V1 0 1 9",
+                "R1 1 2 1",
+                "R2 2 3 1",
+                "R3 3 0 1"
         };
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
