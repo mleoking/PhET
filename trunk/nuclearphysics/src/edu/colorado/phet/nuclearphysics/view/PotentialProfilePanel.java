@@ -1,9 +1,12 @@
-/**
- * Class: PotentialProfilePanel
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Feb 28, 2004
- * Time: 6:03:01 AM
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -37,8 +40,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
+ * PotentialProfilePanel
+ * <p>
+ * Presents a panel, in the ApparatusPanel, that shows a graph of the potential energy
+ * an alpha particle has when it is in a nucleus, and when it decays from a nucleus. 
  *
+ * @author Ron LeMaster
+ * @version $Revision$
  */
+
 public class PotentialProfilePanel extends TxApparatusPanel {
 
     //----------------------------------------------------------------
@@ -124,8 +134,8 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         this.setBorder( border );
 
         title = new PhetTextGraphic2( this,
-                                      Config.PROFILE_PANEL_TITLE_FONT ,
-                                      SimStrings.get("PotentialProfilePanel.title"),
+                                      Config.PROFILE_PANEL_TITLE_FONT,
+                                      SimStrings.get( "PotentialProfilePanel.title" ),
                                       Color.black );
         addGraphic( title );
     }
