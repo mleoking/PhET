@@ -5,6 +5,7 @@ o Schematic icons for ac & capacitors
 o Improved toolbar for advanced components.
 o Add inductors.
 o Internationalize new material.
+o Readout for ac frequency and amplitude. (It is presently instantaneous voltage and internal resistance).
 
 Questions:
 Do we want current sources?  Physics is already implemented.
