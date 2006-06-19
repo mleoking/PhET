@@ -256,6 +256,17 @@ public class MNACircuit {
         public Matrix getReducedSourceMatrix() {
             return JamaUtil.deleteRow( this.source, 0 );
         }
+
+        public Matrix solve() {
+            Matrix reducedAdmittance = getReducedAdmittanceMatrix();
+            Matrix reducedSource = getReducedSourceMatrix();
+            Matrix result = reducedAdmittance.solve( reducedSource );
+            Matrix paddedResult = new Matrix( result.getRowDimension() + 1, result.getColumnDimension() );
+            for( int i = 1; i < paddedResult.getRowDimension(); i++ ) {
+                paddedResult.set( i, 0, result.get( i - 1, 0 ) );//set the 0th node voltage equal to zero
+            }
+            return paddedResult;
+        }
     }
 
     public MNASystem getFullMNASystem() {

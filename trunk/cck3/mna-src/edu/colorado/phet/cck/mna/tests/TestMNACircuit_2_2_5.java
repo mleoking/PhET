@@ -58,5 +58,7 @@ public class TestMNACircuit_2_2_5 {
 
         desiredReducedSourceMatrix = desiredReducedSourceMatrix.transpose();
         System.out.println( "JamaUtil.equals( reducedSourceMatrix,desiredReducedSourceMatrix) = " + JamaUtil.equals( reducedSourceMatrix, desiredReducedSourceMatrix ) );
+
+
     }
 }
