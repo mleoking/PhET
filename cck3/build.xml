@@ -104,7 +104,7 @@
                 <!--<fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>-->
                 <!--<fileset file="screenshot.gif"/>-->
                 <!--<fileset file="README"/>-->
-                <!--<fileset file="todo.txt"/>-->
+                <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
             </sftp>
         </maverick-ssh>
