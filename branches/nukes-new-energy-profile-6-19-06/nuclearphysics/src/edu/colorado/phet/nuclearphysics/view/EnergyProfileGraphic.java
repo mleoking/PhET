@@ -45,7 +45,7 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
     private Stroke stroke = new BasicStroke( 2f );
 
     private EnergyProfile profile;
-    private Point2D.Double origin;
+//    private Point2D.Double origin;
     private AffineTransform profileTx = new AffineTransform();
     private Image image;
     private Nucleus nucleus;
@@ -63,8 +63,12 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
         image = buildImage();
     }
 
-    public void setOrigin( Point2D.Double origin ) {
-        this.origin = origin;
+    /**
+     * Gets the location of the origin (0,0) within the bounds of the graphic
+     * @return a Point2D
+     */
+    public Point2D getOrigin() {
+        return new Point2D.Double( profile.getWidth() / 2, profile.getMaxEnergy() );
     }
 
     public EnergyProfile getProfile() {
@@ -81,18 +85,28 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
          * back to having two profiles that move away with the daughter nuclei after
          * a fission event. To make that happen, inable the commented line of code
          */
-        profileTx.translate( 0, 0 );
+//        profileTx.translate( 0, 0 );
         //        profileTx.translate( nucleus.getLocation().getX(), 0 );
-        g.transform( profileTx );
-        g.drawImage( image, -image.getWidth( EnergyProfileGraphic.imgObs ) / 2,
-                     -image.getHeight( EnergyProfileGraphic.imgObs ), EnergyProfileGraphic.imgObs );
+//        g.transform( profileTx );
+//        g.drawImage( image, -image.getWidth( EnergyProfileGraphic.imgObs ) / 2,
+//                     -200, EnergyProfileGraphic.imgObs );
+//                     -image.getHeight( EnergyProfileGraphic.imgObs ), EnergyProfileGraphic.imgObs );
 
+//        profileTx.translate( -profile.getWidth() / 2, -profile.getMaxEnergy() );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        g.transform( profileTx );
+        g.setColor( color );
+        g.setStroke( stroke );
+        g.draw(  profile.getPath() );
+        g.setColor( Color.red );
+        g.drawArc( -3, -3, 6,6, 0, 360 );
         gs.restoreGraphics();
     }
 
     private Image buildImage() {
         AffineTransform atx = new AffineTransform();
-        int imageHeight = (int)Math.max( profile.getMaxEnergy(), profile.getMinEnergy() );
+        int imageHeight = (int)( profile.getMaxEnergy() - profile.getMinEnergy() );
+//        int imageHeight = (int)Math.max( profile.getMaxEnergy(), profile.getMinEnergy() );
 //        int imageHeight = (int)Math.max( profile.getMaxPotential(), profile.getWellPotential() );
         BufferedImage bi = new BufferedImage( (int)( profile.getWidth() ),
                                               imageHeight,
@@ -104,13 +118,15 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
         // has negative x coordinates. That's why is has to be translated
         g.setColor( backgroundColor );
         GraphicsUtil.setAlpha( g, 1 );
-        g.fill( atx.createTransformedShape( profile.getBackgroundPath() ) );
+//        g.fill( atx.createTransformedShape( profile.getBackgroundPath() ) );
         GraphicsUtil.setAlpha( g, 1 );
         g.setColor( color );
         g.setStroke( stroke );
         atx.setToIdentity();
-        atx.translate( profile.getWidth() / 2, imageHeight );
+        atx.translate( profile.getWidth() / 2, profile.getMaxEnergy() );
         g.draw( atx.createTransformedShape( profile.getPath() ) );
+
+        g.dispose();
 
         // To give the PhetImageGraphic and image
         setImage( bi );

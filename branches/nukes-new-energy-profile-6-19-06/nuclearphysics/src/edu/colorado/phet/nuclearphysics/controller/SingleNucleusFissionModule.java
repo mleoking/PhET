@@ -89,7 +89,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     public void stop() {
-        getPotentialProfilePanel().removeAllGraphics();
+        getEnergyProfilePanel().removeAllGraphics();
         getPhysicalPanel().removeAllGraphics();
         getModel().removeModelElement( nucleus );
         ( (NuclearPhysicsModel)getModel() ).removeNuclearParticles();
@@ -105,7 +105,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         nucleus.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
-        getPotentialProfilePanel().addNucleusGraphic( nucleus );
+        getEnergyProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
         nucleus.addObserver( getNucleus().getEnergylProfile() );
@@ -218,8 +218,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         dn2.setPosition( 0, 0 );
         super.addNucleus( dn1, null );
         super.addNucleus( dn2, null );
-        getPotentialProfilePanel().addNucleusGraphic( dn1 );
-        getPotentialProfilePanel().addNucleusGraphic( dn2 );
+        getEnergyProfilePanel().addNucleusGraphic( dn1 );
+        getEnergyProfilePanel().addNucleusGraphic( dn2 );
 
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),

@@ -101,9 +101,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         ((NuclearPhysicsModel) getModel()).removeNuclearParticles();
 
-        getPotentialProfilePanel().removeAllAlphaParticles();
-        getPotentialProfilePanel().removeAllPotentialProfiles();
-        getPotentialProfilePanel().removeGraphic(leaderLines);
+        getEnergyProfilePanel().removeAllAlphaParticles();
+        getEnergyProfilePanel().removeAllPotentialProfiles();
+        getEnergyProfilePanel().removeGraphic(leaderLines);
 
         getPhysicalPanel().removeAllGraphics();
         getPhysicalPanel().removeGraphic(ringGraphic);
@@ -120,7 +120,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         alphaParticle.stepInTime(0);
         this.getModel().addModelElement(alphaParticle);
         physicalPanel.addAlphaParticle(alphaParticle);
-        getPotentialProfilePanel().addAlphaParticle(alphaParticle, nucleus);
+        getEnergyProfilePanel().addAlphaParticle(alphaParticle, nucleus);
     }
 
     private void addRingGraphic(Nucleus nucleus) {
@@ -168,7 +168,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             }
         };
         this.getPhysicalPanel().addOriginCenteredGraphic(leaderLines, leaderLineLevel);
-        this.getPotentialProfilePanel().addOriginCenteredGraphic(leaderLines);
+        this.getEnergyProfilePanel().addOriginCenteredGraphic(leaderLines);
     }
 
     private void setRingAttributes(Nucleus nucleus) {
@@ -194,7 +194,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
-        getPotentialProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
+        getEnergyProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
 
         // Bind the alpha particles to the daughter nucleus
         Uranium235 u235 = (Uranium235) decayProducts.getParent();
@@ -206,7 +206,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         // Add the daughter nucleus
         getModel().addModelElement(decayProducts.getDaughter());
-        getPotentialProfilePanel().addPotentialProfile(decayProducts.getDaughter());
+        getEnergyProfilePanel().addEnergyProfile(decayProducts.getDaughter());
 
         // Set the size of the alpha decay threshold ring and the positions of the
         // leader lines

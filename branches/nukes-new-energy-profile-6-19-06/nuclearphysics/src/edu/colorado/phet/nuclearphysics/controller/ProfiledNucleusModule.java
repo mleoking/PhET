@@ -13,12 +13,9 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
-import edu.colorado.phet.nuclearphysics.view.LegendPanel;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanel;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * A module that presents a PhysicalPanel at the top and PotentialProfilePanel below.
@@ -26,7 +23,7 @@ import java.util.List;
 public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     private Nucleus nucleus;
-    private PotentialProfilePanel potentialProfilePanel;
+    private EnergyProfilePanel energyProfilePanel;
     private GridBagConstraints physicalPanelGBC;
 
     public ProfiledNucleusModule( String name, IClock clock ) {
@@ -44,8 +41,8 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                                      GridBagConstraints.BOTH,
                                                                      new Insets( 0,0,0,0), 0,0 );
 
-        potentialProfilePanel = new PotentialProfilePanel( getClock() );
-        getApparatusPanel().add( potentialProfilePanel, profilePanelGBC );
+        energyProfilePanel = new EnergyProfilePanel( getClock() );
+        getApparatusPanel().add( energyProfilePanel, profilePanelGBC );
     }
 
     protected void addPhysicalPanel( Component component ) {
@@ -63,20 +60,20 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     protected void addNucleus( Nucleus nucleus ) {
         super.addNucleus( nucleus );
-        potentialProfilePanel.addPotentialProfile( nucleus );
+        energyProfilePanel.addEnergyProfile( nucleus );
     }
 
     protected void addNucleus( Nucleus nucleus, Color color ) {
         super.addNucleus( nucleus );
-        potentialProfilePanel.addNucleus( nucleus, color );
+        energyProfilePanel.addNucleus( nucleus, color );
     }
 
-    protected PotentialProfilePanel getPotentialProfilePanel() {
-        return potentialProfilePanel;
+    protected EnergyProfilePanel getEnergyProfilePanel() {
+        return energyProfilePanel;
     }
 
     public void clear() {
-        getPotentialProfilePanel().clear();
+        getEnergyProfilePanel().clear();
         this.getModel().removeModelElement( nucleus );
     }
 }
