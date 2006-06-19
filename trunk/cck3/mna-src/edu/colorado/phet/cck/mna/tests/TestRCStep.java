@@ -20,7 +20,7 @@ public class TestRCStep {
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
         double dt = 0.01;
-        MNACircuit companion = circuit.createCompanionModel( dt );
+        MNACircuit companion = circuit.getCompanionModel( dt );
         System.out.println( "companion = " + companion );
         MNACircuit.MNASolution solution = companion.getMNASystem().getSolution();
         System.out.println( "solution = " + solution );
