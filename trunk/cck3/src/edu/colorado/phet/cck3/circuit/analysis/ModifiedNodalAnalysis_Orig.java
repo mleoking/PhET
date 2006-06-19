@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.circuit.kirkhoff;
+package edu.colorado.phet.cck3.circuit.analysis;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck3.CCK3Module;
@@ -21,7 +21,7 @@ import java.util.Hashtable;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class ModifiedNodalAnalysis extends CircuitSolver {
+public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     public static boolean debugging = false;
 
     public synchronized void apply( final Circuit circuit ) {

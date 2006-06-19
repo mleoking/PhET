@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
+import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKPhetGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;

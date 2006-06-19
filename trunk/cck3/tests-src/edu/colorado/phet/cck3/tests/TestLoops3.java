@@ -5,7 +5,7 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.kirkhoff.Path;
+import edu.colorado.phet.cck3.circuit.analysis.Path;
 
 /**
  * User: Sam Reid

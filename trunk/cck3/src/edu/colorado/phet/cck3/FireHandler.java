@@ -4,7 +4,7 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
-import edu.colorado.phet.cck3.circuit.kirkhoff.CircuitSolutionListener;
+import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 
 /**
  * User: Sam Reid

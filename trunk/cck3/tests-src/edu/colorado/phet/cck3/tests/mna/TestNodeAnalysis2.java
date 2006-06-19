@@ -3,9 +3,9 @@ package edu.colorado.phet.cck3.tests.mna;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.analysis.ModifiedNodalAnalysis_Orig;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.cck3.circuit.kirkhoff.ModifiedNodalAnalysis;
 
 /**
  * User: Sam Reid
@@ -33,7 +33,7 @@ public class TestNodeAnalysis2 extends NodeAnalysisTest {
         circuit.addJunction( j1 );
         circuit.addJunction( j2 );
 
-        new ModifiedNodalAnalysis().apply( circuit );
+        new ModifiedNodalAnalysis_Orig().apply( circuit );
         System.out.println( "r1.getCurrent() = " + res.getCurrent() );
     }
 }
