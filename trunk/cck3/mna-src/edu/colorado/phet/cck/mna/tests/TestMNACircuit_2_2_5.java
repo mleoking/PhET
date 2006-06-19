@@ -1,5 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.cck.mna;
+package edu.colorado.phet.cck.mna.tests;
+
+import Jama.Matrix;
+import edu.colorado.phet.cck.mna.MNACircuit;
 
 /**
  * User: Sam Reid
@@ -22,5 +25,7 @@ public class TestMNACircuit_2_2_5 {
         System.out.println( "circuit = " + circuit );
         MNACircuit.MNASystem system = circuit.getFullMNASystem();
         System.out.println( "system = " + system );
+        Matrix reducedAdmittance = system.getReducedAdmittanceMatrix();
+
     }
 }

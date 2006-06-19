@@ -1,5 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.cck.mna;
+package edu.colorado.phet.cck.mna.tests;
+
+import edu.colorado.phet.cck.mna.MNACircuit;
 
 /**
  * User: Sam Reid
