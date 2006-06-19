@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
@@ -198,7 +199,8 @@ public class CCK3Module extends Module {
         } );
         //        kirkhoffSolver = new KirkhoffSolver();
 //        circuitSolver = new ModifiedNodalAnalysis_Orig();
-        circuitSolver = new MNASolver();
+//        circuitSolver = new MNASolver();
+        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
                 circuitSolver.apply( circuit );
