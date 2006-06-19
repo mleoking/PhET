@@ -55,7 +55,9 @@ public class MNACircuit {
             return new MNAVoltageSource( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
         else if( name.toLowerCase().startsWith( "c" ) ) {
-            return new MNACapacitor( name, start, end, Double.parseDouble( detailArray[0] ) );
+            double voltage = detailArray.length > 1 ? Double.parseDouble( detailArray[1] ) : 0.0;
+            double current = detailArray.length > 2 ? Double.parseDouble( detailArray[2] ) : 0.0;
+            return new MNACapacitor( name, start, end, Double.parseDouble( detailArray[0] ), voltage, current );
         }
         else {
             throw new RuntimeException( "Illegal component type: " + line );
@@ -77,6 +79,7 @@ public class MNACircuit {
 
     /*
      * Default implementation; other strategies could be used.
+     *todo: adding batteries is altering the number of solution currents; we'll have to keep track of this.
      */
     public MNACircuit createCompanionModel( double dt ) {
         MNACircuit circuit = new MNACircuit();
@@ -84,9 +87,9 @@ public class MNACircuit {
         for( int i = 0; i < getComponentCount(); i++ ) {
             if( getComponent( i ) instanceof MNACapacitor ) {
                 MNACapacitor c = (MNACapacitor)getComponent( i );
-                MNAComponent veq = new MNAVoltageSource( "veq[from " + c.getName() + "]", c.getStartJunction(), freeIndex,
+                MNAComponent veq = new MNAVoltageSource( "veq[companion to" + c.getName() + "]", c.getStartJunction(), freeIndex,
                                                          c.getVoltage() + dt / 2 / c.getCapacitance() * c.getCurrent() );
-                MNAComponent req = new MNAResistor( "req[from " + c.getName() + "]", freeIndex, c.getEndJunction(),
+                MNAComponent req = new MNAResistor( "req[companion to" + c.getName() + "]", freeIndex, c.getEndJunction(),
                                                     dt / 2 / c.getCapacitance() );
                 circuit.addComponent( veq );
                 circuit.addComponent( req );
@@ -107,7 +110,7 @@ public class MNACircuit {
         return components.size();
     }
 
-    public static abstract class MNAComponent {
+    public static abstract class MNAComponent implements Cloneable {
         private String name;
         private int startJunction;
         private int endJunction;
@@ -160,8 +163,10 @@ public class MNACircuit {
         private double voltage = 0.0;
         private double current = 0.0;//todo shouldn't this be modeled by a dc analysis as a short circuit to start?
 
-        public MNACapacitor( String name, int startJunction, int endJunction, double capacitance ) {
+        public MNACapacitor( String name, int startJunction, int endJunction, double capacitance, double voltage, double current ) {
             super( name, startJunction, endJunction );
+            this.current = current;
+            this.voltage = voltage;
             this.capacitance = capacitance;
         }
 
@@ -416,6 +421,25 @@ public class MNACircuit {
         public int getNumCurrents() {
             return mnaSystem.getNumCurrentVariables();
         }
+
+        public String toString() {
+            ArrayList v = new ArrayList();
+            for( int i = 0; i < getNumVoltages(); i++ ) {
+                v.add( new Double( getVoltage( i ) ) );
+            }
+            ArrayList c = new ArrayList();
+            for( int i = 0; i < getNumCurrents(); i++ ) {
+                c.add( new Double( getCurrent( i ) ) );
+            }
+            return "voltage=" + v.toString() + ", current=" + c.toString();
+//            StringWriter admString = new StringWriter();
+//            solutionMatrix.print( new PrintWriter( admString ), 3, 3 );
+//            return "solution=" + admString.toString();
+        }
+    }
+
+    public MNASolution getSolution() {
+        return getMNASystem().getSolution();
     }
 
     public MNASystem getMNASystem() {
