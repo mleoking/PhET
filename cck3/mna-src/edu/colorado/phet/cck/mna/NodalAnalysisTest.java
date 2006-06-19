@@ -16,7 +16,7 @@ public class NodalAnalysisTest {
         };
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        MNACircuit.MNASystem system = circuit.getMNASystem();
+        MNACircuit.MNASystem system = circuit.getFullMNASystem();
         System.out.println( "system = " + system );
 
     }

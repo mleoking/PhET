@@ -242,7 +242,7 @@ public class MNACircuit {
         }
     }
 
-    public MNASystem getMNASystem() {
+    public MNASystem getFullMNASystem() {
         assert getNodeCount() >= 2;
         MNASystem system = new MNASystem( getNodeCount(), getCurrentVariableCount() );
         for( int i = 0; i < components.size(); i++ ) {
