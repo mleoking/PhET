@@ -24,7 +24,7 @@ public class TestMNACircuit_1_4_6 {
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
         System.out.println( "circuit = " + circuit );
-        MNACircuit.MNASystem system = circuit.getFullMNASystem();
+        MNACircuit.MNASystem system = circuit.getMNASystem();
         System.out.println( "system = " + system );
     }
 }
