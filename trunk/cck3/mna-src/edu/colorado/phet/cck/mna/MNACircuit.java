@@ -213,6 +213,10 @@ public class MNACircuit {
             return numVoltageVariables + numCurrentVariables;
         }
 
+        public int getNumVoltageVariables() {
+            return numVoltageVariables;
+        }
+
         public void addAdmittance( int srcNode, int dstNode, double value ) {
             admittance.set( srcNode, dstNode, admittance.get( srcNode, dstNode ) + value );
         }
@@ -257,7 +261,11 @@ public class MNACircuit {
             return JamaUtil.deleteRow( this.source, 0 );
         }
 
-        public Matrix solve() {
+        public MNASolution getSolution() {
+            return new MNASolution( this, getSolutionMatrix() );
+        }
+
+        public Matrix getSolutionMatrix() {
             Matrix reducedAdmittance = getReducedAdmittanceMatrix();
             Matrix reducedSource = getReducedSourceMatrix();
             Matrix result = reducedAdmittance.solve( reducedSource );
@@ -267,9 +275,47 @@ public class MNACircuit {
             }
             return paddedResult;
         }
+
+        public int getNumCurrentVariables() {
+            return numCurrentVariables;
+        }
     }
 
-    public MNASystem getFullMNASystem() {
+    public static class MNASolution {
+        private MNASystem mnaSystem;
+        private Matrix solutionMatrix;
+
+        public MNASolution( MNASystem mnaSystem, Matrix solutionMatrix ) {
+            this.mnaSystem = mnaSystem;
+            this.solutionMatrix = solutionMatrix;
+        }
+
+        public double getVoltage( int node ) {
+            return solutionMatrix.get( node, 0 );
+        }
+
+        public double getCurrent( int batteryIndex ) {
+            return solutionMatrix.get( batteryIndex + mnaSystem.getNumVoltageVariables(), 0 );
+        }
+
+        public MNASystem getMnaSystem() {
+            return mnaSystem;
+        }
+
+        public Matrix getSolutionMatrix() {
+            return solutionMatrix;
+        }
+
+        public int getNumVoltages() {
+            return mnaSystem.getNumVoltageVariables();
+        }
+
+        public int getNumCurrents() {
+            return mnaSystem.getNumCurrentVariables();
+        }
+    }
+
+    public MNASystem getMNASystem() {
         assert getNodeCount() >= 2;
         MNASystem system = new MNASystem( getNodeCount(), getCurrentVariableCount() );
         for( int i = 0; i < components.size(); i++ ) {

@@ -20,10 +20,10 @@ public class MNATest3 {
         };
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        MNACircuit.MNASystem system = circuit.getFullMNASystem();
+        MNACircuit.MNASystem system = circuit.getMNASystem();
         System.out.println( "system = " + system );
 
-        Matrix solution = system.solve();
+        Matrix solution = system.getSolutionMatrix();
         System.out.println( "solution = " + solution );
         solution.print( 3, 3 );
     }

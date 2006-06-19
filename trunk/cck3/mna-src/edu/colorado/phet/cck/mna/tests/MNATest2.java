@@ -21,11 +21,20 @@ public class MNATest2 {
         };
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        MNACircuit.MNASystem system = circuit.getFullMNASystem();
+        MNACircuit.MNASystem system = circuit.getMNASystem();
         System.out.println( "system = " + system );
 
-        Matrix solution = system.solve();
+        Matrix solution = system.getSolutionMatrix();
         System.out.println( "solution = " + solution );
         solution.print( 3, 3 );
+        MNACircuit.MNASolution mnaSolution = system.getSolution();
+        double voltageAtNode0 = mnaSolution.getVoltage( 0 );
+        System.out.println( "voltageAtNode0 = " + voltageAtNode0 );
+        for( int i = 0; i < mnaSolution.getNumVoltages(); i++ ) {
+            System.out.println( "mnaSolution.getVoltage(" + i + ") = " + mnaSolution.getVoltage( i ) );
+        }
+        for( int i = 0; i < mnaSolution.getNumCurrents(); i++ ) {
+            System.out.println( "mnaSolution.getCurrent( " + i + ") = " + mnaSolution.getCurrent( i ) );
+        }
     }
 }

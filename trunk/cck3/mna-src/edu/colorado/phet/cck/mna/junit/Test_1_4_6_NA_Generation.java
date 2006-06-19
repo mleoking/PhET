@@ -27,7 +27,7 @@ public class Test_1_4_6_NA_Generation extends TestCase {
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
 
-        MNACircuit.MNASystem system = circuit.getFullMNASystem();
+        MNACircuit.MNASystem system = circuit.getMNASystem();
 
 
         double[][]values = new double[][]{

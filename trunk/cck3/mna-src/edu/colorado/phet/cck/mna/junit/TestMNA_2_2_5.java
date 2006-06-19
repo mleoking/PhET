@@ -36,7 +36,7 @@ public class TestMNA_2_2_5 extends TestCase {
                          "r3 3 0 " + 1.0 / g3 + "\n";
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
-        MNACircuit.MNASystem system = circuit.getFullMNASystem();
+        MNACircuit.MNASystem system = circuit.getMNASystem();
         Matrix reducedAdmittance = system.getReducedAdmittanceMatrix();
 
         Matrix desiredReducedAdmittanceMatrix = new Matrix( new double[][]{
