@@ -19,7 +19,7 @@ public class TestCompanionModel {
         circuit.parseNetList( netlist );
         System.out.println( "circuit = " + circuit );
 
-        MNACircuit companionModel = circuit.createCompanionModel( 0.1 );
+        MNACircuit companionModel = circuit.getCompanionModel( 0.1 );
         System.out.println( "companionModel = " + companionModel );
     }
 }

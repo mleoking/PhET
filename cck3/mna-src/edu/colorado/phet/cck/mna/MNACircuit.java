@@ -62,6 +62,11 @@ public class MNACircuit {
             double current = detailArray.length > 2 ? Double.parseDouble( detailArray[2] ) : 0.0;
             return new MNACapacitor( name, start, end, Double.parseDouble( detailArray[0] ), voltage, current );
         }
+        else if( name.toUpperCase().startsWith( "L" ) ) {
+            double voltage = detailArray.length > 1 ? Double.parseDouble( detailArray[1] ) : 0.0;
+            double current = detailArray.length > 2 ? Double.parseDouble( detailArray[2] ) : 0.0;
+            return new MNAInductor( name, start, end, Double.parseDouble( detailArray[0] ), voltage, current );
+        }
         else {
             throw new RuntimeException( "Illegal component type: " + line );
         }
@@ -84,23 +89,42 @@ public class MNACircuit {
      * Default implementation; other strategies could be used.
      *todo: adding batteries is altering the number of solution currents; we'll have to keep track of this.
      */
-    public MNACircuit createCompanionModel( double dt ) {
+    public MNACircuit getCompanionModel( double dt ) {
         MNACircuit circuit = new MNACircuit();
         int freeIndex = getNodeCount();
+        ArrayList companionVoltageSources = new ArrayList();//add them last so they don't interfere with mapping of original batteries
         for( int i = 0; i < getComponentCount(); i++ ) {
             if( getComponent( i ) instanceof MNACapacitor ) {
+                //Use Thevenin form of Trapezoidal companion model, see [1] p 83
                 MNACapacitor c = (MNACapacitor)getComponent( i );
                 MNAComponent veq = new MNAVoltageSource( "veq[companion to" + c.getName() + "]", c.getStartJunction(), freeIndex,
                                                          c.getVoltage() + dt / 2 / c.getCapacitance() * c.getCurrent() );
                 MNAComponent req = new MNAResistor( "req[companion to" + c.getName() + "]", freeIndex, c.getEndJunction(),
                                                     dt / 2 / c.getCapacitance() );
-                circuit.addComponent( veq );
+//                circuit.addComponent( veq );
+                circuit.addComponent( req );
+                companionVoltageSources.add( veq );
+                freeIndex ++;
+            }
+            else if( getComponent( i ) instanceof MNAInductor ) {
+                //Use Norton form of Trapezoidal companion model, see [1] p 86
+                MNAInductor L = (MNAInductor)getComponent( i );
+                MNAComponent veq = new MNAVoltageSource( "veq[companion to" + L.getName() + "]", L.getStartJunction(), freeIndex,
+                                                         L.getVoltage() + 2 * L.getInductance() * L.getCurrent() / dt );
+                MNAComponent req = new MNAResistor( "req[companion to" + L.getName() + "]", freeIndex, L.getEndJunction(),
+                                                    2 * L.getInductance() / dt );
+//                circuit.addComponent( veq );
+                companionVoltageSources.add( veq );
                 circuit.addComponent( req );
                 freeIndex ++;
             }
             else {
                 circuit.addComponent( (MNAComponent)getComponent( i ).clone() );
             }
+        }
+        for( int i = 0; i < companionVoltageSources.size(); i++ ) {
+            MNAVoltageSource mnaVoltageSource = (MNAVoltageSource)companionVoltageSources.get( i );
+            circuit.addComponent( mnaVoltageSource );
         }
         return circuit;
     }
@@ -161,15 +185,37 @@ public class MNACircuit {
         }
     }
 
-    public static class MNACapacitor extends MNAComponent {
-        private double capacitance;
+    public abstract static class MNADynamicComponent extends MNAComponent {
         private double voltage = 0.0;
         private double current = 0.0;//todo shouldn't this be modeled by a dc analysis as a short circuit to start?
 
-        public MNACapacitor( String name, int startJunction, int endJunction, double capacitance, double voltage, double current ) {
+        public MNADynamicComponent( String name, int startJunction, int endJunction, double voltage, double current ) {
             super( name, startJunction, endJunction );
             this.current = current;
             this.voltage = voltage;
+        }
+
+        public Object clone() {
+            MNADynamicComponent dynamicComponent = (MNADynamicComponent)super.clone();
+            dynamicComponent.voltage = voltage;
+            dynamicComponent.current = current;
+            return dynamicComponent;
+        }
+
+        public double getVoltage() {
+            return voltage;
+        }
+
+        public double getCurrent() {
+            return current;
+        }
+    }
+
+    public static class MNACapacitor extends MNADynamicComponent {
+        private double capacitance;
+
+        public MNACapacitor( String name, int startJunction, int endJunction, double capacitance, double voltage, double current ) {
+            super( name, startJunction, endJunction, voltage, current );
             this.capacitance = capacitance;
         }
 
@@ -178,7 +224,7 @@ public class MNACircuit {
         }
 
         public String toString() {
-            return super.toString() + " " + capacitance;
+            return super.toString() + " " + capacitance + " voltage=" + getVoltage() + ", current=" + getCurrent();
         }
 
         public void stamp( MNASystem system ) {
@@ -190,13 +236,32 @@ public class MNACircuit {
             capacitor.capacitance = capacitance;
             return capacitor;
         }
+    }
 
-        public double getVoltage() {
-            return voltage;
+    public static class MNAInductor extends MNADynamicComponent {
+        private double inductance;
+
+        public MNAInductor( String name, int startJunction, int endJunction, double inductance, double voltage, double current ) {
+            super( name, startJunction, endJunction, voltage, current );
+            this.inductance = inductance;
         }
 
-        public double getCurrent() {
-            return current;
+        public double getInductance() {
+            return inductance;
+        }
+
+        public String toString() {
+            return super.toString() + " " + inductance + " voltage=" + getVoltage() + ", current=" + getCurrent();
+        }
+
+        public void stamp( MNASystem system ) {
+            throw new RuntimeException( "Capacitors cannot stamp; use a companion model." );
+        }
+
+        public Object clone() {
+            MNAInductor inductor = (MNAInductor)super.clone();
+            inductor.inductance = inductance;
+            return inductor;
         }
     }
 
