@@ -68,6 +68,7 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
+    private static final String VERSION = "3.01.00";
 
     private SetupParameters parameters;
     private Circuit circuit;
@@ -138,7 +139,6 @@ public class CCK3Module extends Module {
 
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
-    private static final String VERSION = "3.49";
 
 
     public CCK3Module( String[] args ) throws IOException {

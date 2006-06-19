@@ -5,6 +5,7 @@
 -injars lib\localJNLP.jar
 -injars lib\nanoxml-2.2.1.jar
 -injars lib\smoothmetal.jar
+-injars lib\junit.jar
 -outjars ant_output\jars\cck-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
