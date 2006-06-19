@@ -1,8 +1,12 @@
-/**
- * Class: ProfiledNucleusModule
- * Package: edu.colorado.phet.nuclearphysics.view
- * Author: Another Guy
- * Date: Mar 7, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
@@ -48,16 +52,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
         physicalPanelGBC.gridy = 0;
         getApparatusPanel().add( component, physicalPanelGBC );
     }
-
-//    protected List getLegendClasses() {
-//        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
-//                LegendPanel.NEUTRON,
-//                LegendPanel.PROTON,
-//                LegendPanel.ALPHA_PARTICLE,
-//                LegendPanel.U235
-//        };
-//        return Arrays.asList( legendClasses );
-//    }
 
     public void setNucleus( Nucleus nucleus ) {
         this.nucleus = nucleus;
