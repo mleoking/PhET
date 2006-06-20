@@ -283,7 +283,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
              * "endPath: bad path" on Windows.  So we constrain the y coordinates
              * to the visible range of the chart.
              */
-            double x = points[i].getX();
+            final double x = points[i].getX();
             double y = points[i].getY();
             if ( y > maxY ) { 
                 y = maxY + 1;
