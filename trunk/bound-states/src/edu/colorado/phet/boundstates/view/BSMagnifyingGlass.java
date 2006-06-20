@@ -444,7 +444,20 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 double energy = potential.getEnergyAt( position );
                 
                 final double x = ( position - centerPosition ) / magDeltaPosition;
-                final double y = ( centerEnergy - energy ) / magDeltaEnergy; // Java's +y is down!
+                double y = ( centerEnergy - energy ) / magDeltaEnergy; // Java's +y is down!
+                /* 
+                 * WORKAROUND:
+                 * JFreeChart handles Double.NaN ok, but infinite or very large values
+                 * in the dataset will cause a sun.dc.pr.PRException with the message 
+                 * "endPath: bad path" on Windows.  So we constrain the y coordinates
+                 * to some sufficiently large value.
+                 */
+                if ( y > 2000 ) {
+                    y = 2000;
+                }
+                else if ( y < -2000 ) {
+                    y = -2000;
+                }
                 
                 if ( position == magMinPosition ) {
                     path.moveTo( (float) x, (float) y );

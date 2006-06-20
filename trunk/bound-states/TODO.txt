@@ -54,7 +54,8 @@ CLEANUP:
 
 
 DONE:
-(6/20/06) - fix "bad path" exceptions by constraining energy chart y values to chart range
+(6/20/06) - fix "bad path" exceptions by constraining potential energy values in mag glass
+(6/20/06) - fix "bad path" exceptions by constraining potential energy chart y values to chart range
 (6/13/06) - replace "infinity" potential values with Double.MAX_VALUE, didn't fix the "bad path" exception
 (6/12/06) - wrap body of main in try/catch, post error dialog and exit if an Exception occurs
 (6/12/06) - move PhetLookAndFeel to main
