@@ -271,24 +271,27 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         _potentialSeries.clear();
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
+        final double minY = getRangeAxis().getLowerBound();
+        final double maxY = getRangeAxis().getUpperBound();
         BSAbstractPotential potential = _model.getPotential();
         Point2D[] points = potential.getPotentialPoints( minX, maxX, _dx );
         for ( int i = 0; i < points.length; i++ ) {
             /* 
              * WORKAROUND:
-             * JFreeChart handles Double.NaN ok, but infinite values in the dataset will cause
-             * a sun.dc.pr.PRException with the message "endPath: bad path" on Windows.
+             * JFreeChart handles Double.NaN ok, but infinite or very large values
+             * in the dataset will cause a sun.dc.pr.PRException with the message 
+             * "endPath: bad path" on Windows.  So we constrain the y coordinates
+             * to the visible range of the chart.
              */
+            double x = points[i].getX();
             double y = points[i].getY();
-            if ( y == Double.NEGATIVE_INFINITY ) {
-                y = -Double.MAX_VALUE;
-                System.out.println( "replacing NEGATIVE_INFINITY with -MAX_VALUE" );//XXX
+            if ( y > maxY ) { 
+                y = maxY + 1;
             }
-            else if ( y == Double.POSITIVE_INFINITY ) {
-                y = Double.MAX_VALUE;
-                System.out.println( "replacing POSITIVE_INFINITY with MAX_VALUE" );//XXX
+            else if ( y < minY ) {
+                y = minY - 1;
             }
-            _potentialSeries.add( points[i].getX(), points[i].getY() );
+            _potentialSeries.add( x, y );
         }
         _potentialSeries.setNotify( true );
     }
