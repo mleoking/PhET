@@ -1,3 +1,4 @@
+- There is something running all the time, even when the current panel is paused
 - Every nucleus is getting a Profile instance. They don't all need one!!!
 
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
@@ -13,6 +14,7 @@
 -   Remove Phet logo from control panel
 
 Alpha Radiation
+- Straighten out sign issues with total energy, min energy, max energy, etc., and their display sense in the profile panel
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
 -   Alpha particle sometimes disappears for first step of decay
 
