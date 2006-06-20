@@ -86,7 +86,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
-//        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
 
