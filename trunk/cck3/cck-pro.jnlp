@@ -19,11 +19,11 @@ information.
         codebase="http://www.colorado.edu/physics/phet/dev/"
         href="cck/@VERSION@/cck-pro.jnlp">
     <information>
-        <title>Wave Interference</title>
+        <title>The Circuit Construction Kit</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
-        <description>Wave Interference</description>
-        <description kind="short">Wave Interference</description>
+        <description>The Circuit Construction Kit</description>
+        <description kind="short">The Circuit Construction Kit</description>
         <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
