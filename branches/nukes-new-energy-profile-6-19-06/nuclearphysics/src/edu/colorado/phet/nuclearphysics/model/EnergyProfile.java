@@ -52,7 +52,6 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
 
     private double computeMaxEnergy( Nucleus nucleus ) {
         double maxEnergy = minEnergy + 2.5 * nucleus.getNumProtons();
-        System.out.println( "maxEnergy = " + maxEnergy );
         return maxEnergy;
     }
 
@@ -250,7 +249,7 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
      */
     public void update() {
         this.width = Config.defaultProfileWidth;
-        if( minEnergy !=-( 0.5 * nucleus.getNumNeutrons() )
+        if( minEnergy != computeMinEnergy( nucleus )
             || maxEnergy != computeMaxEnergy( nucleus ) ) {
             this.minEnergy = computeMinEnergy( nucleus );
             this.maxEnergy = computeMaxEnergy( nucleus );

@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -58,6 +59,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         addPhysicalPanel( physicalPanel );
         alphaDecayControlPanel = new AlphaDecayControlPanel(this);
         super.addControlPanelElement(alphaDecayControlPanel);
+        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
     }
 
     protected java.util.List getLegendClasses() {
@@ -81,8 +83,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     public void start() {
+
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
+//        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
 
@@ -106,7 +110,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getEnergyProfilePanel().removeAllPotentialProfiles();
         getEnergyProfilePanel().removeGraphic(leaderLines);
 
-        getPhysicalPanel().removeAllGraphics();
+//        getPhysicalPanel().removeAllGraphics();
         getPhysicalPanel().removeGraphic(ringGraphic);
         getPhysicalPanel().removeGraphic(leaderLines);
 

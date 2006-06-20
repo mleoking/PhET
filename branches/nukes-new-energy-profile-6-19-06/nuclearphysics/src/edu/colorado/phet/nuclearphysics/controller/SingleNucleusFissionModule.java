@@ -42,7 +42,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         init( getClock() );
     }
 
-
     private class MyPhysicalPanel extends PhysicalPanel {
         public MyPhysicalPanel() {
             super( getClock(), (NuclearPhysicsModel)getModel() );
@@ -50,12 +49,15 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
         }
     }
+
     protected void init( IClock clock ) {
         super.init();
         MyPhysicalPanel physicalPanel = new MyPhysicalPanel();
         setPhysicalPanel( physicalPanel );
         addPhysicalPanel( physicalPanel );
 
+        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
+        
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {

@@ -53,7 +53,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         Graphics2D g2 = (Graphics2D)graphics;
 
         // Set the origin
-        setOrigin( new Point2D.Double( this.getWidth() / 2, this.getHeight() / 2 ) );
+//        setOrigin( new Point2D.Double( this.getWidth() / 2, this.getHeight() / 2 ) );
         getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
 
         // Draw everything that isn't special to this panel

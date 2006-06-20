@@ -31,6 +31,7 @@ public class AlphaParticle extends Nucleus {
     //    private static double forceScale = 0.0008;
     private int stepCnt;
     private int stepsBetweenRandomPlacements = 4;
+    private Point2D locationRelativeToParentNucleus = new Point2D.Double( );
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -64,6 +65,15 @@ public class AlphaParticle extends Nucleus {
         super.setPosition( x, y );
     }
 
+    public Point2D getLocationRelativeToParentNucleus() {
+        locationRelativeToParentNucleus.setLocation( getPosition() );
+        if( nucleus != null ) {
+            locationRelativeToParentNucleus.setLocation( getPosition().getX() - nucleus.getPosition().getX(),
+                                                         getPosition().getY() - nucleus.getPosition().getY());
+        }
+        return locationRelativeToParentNucleus;
+    }
+
     /**
      * Puts the alpha partical in a randomly selected position if it hasn't escaped from the nucleus.
      *
@@ -79,8 +89,8 @@ public class AlphaParticle extends Nucleus {
                     double theta = random.nextDouble() * Math.PI * 2;
                     double dx = d * Math.cos( theta );
                     double dy = d * Math.sin( theta );
-                    setLocation( dx, dy );
-                    this.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
+                    setLocation( nucleus.getPosition().getX() + dx, nucleus.getPosition().getY() + dy );
+                    this.setPotential( -nucleus.getEnergylProfile().getTotalEnergy() );
 //                    this.setPotential( nucleus.getEnergylProfile().getWellPotential() );
                 }
             }
@@ -92,7 +102,8 @@ public class AlphaParticle extends Nucleus {
 
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
-                force = -profile.getDyDx( -d ) * forceScale;
+                force = -profile.getDyDx( -d ) * forceScale * 1000;
+//                force = -profile.getDyDx( -d ) * forceScale;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
                     double dx = this.getPosition().getX() - nucleus.getPosition().getX();
