@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - wiggle me animation is jerky
-- bug: potential for 1D & 3D coulomb isn't displayed in "One Well" panel ("bad path" exception on Windows with JDK 1.4.2)
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - drag handles for each potential type (all slightly different)
@@ -29,6 +28,7 @@ MEDIUM PRIORITY:
 - pause clock by default?
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
+- zoom buttons in energy chart are sometimes transparent on Windows
 
 LOW PRIORITY:
 - make plots in bottom chart look smoother on Windows
