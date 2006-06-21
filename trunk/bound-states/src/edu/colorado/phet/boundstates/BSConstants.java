@@ -1,4 +1,4 @@
-/* Copyright 2005, University of Colorado */
+/* Copyright 2006, University of Colorado */
 
 /*
  * CVS Info -
@@ -78,6 +78,7 @@ public class BSConstants {
     public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
     public static final Font TIME_DISPLAY_FONT = new Font( BSConstants.FONT_NAME, Font.BOLD, 22 );
     public static final Font TIME_UNITS_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
+    public static final Font DRAG_HANDLE_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 12 );
     
     //----------------------------------------------------------------------------
     // Special characters
@@ -100,6 +101,7 @@ public class BSConstants {
     public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 2f );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
     public static final Stroke HILITE_STROKE = new BasicStroke( 1f );
+    public static final Stroke DRAG_HANDLE_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Paints
@@ -116,6 +118,10 @@ public class BSConstants {
     
     // Transparency (alpha) of the background for the hilited eigenstate's value
     public static final int HILITE_VALUE_BACKGROUND_ALPHA = 175;
+    
+    // Drag handles
+    public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
+    public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Images
