@@ -124,9 +124,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
                                                                new BasicStroke( 10 ),
                                                                Color.gray );
         addGraphic( borderGraphic, 0 );
-
         setClip( border );
-
     }
 
     private void setOrgFields() {
@@ -304,8 +302,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
             g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
             g2.setColor( Color.black );
-            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( "Potential energy", g2 );
-            g2.drawString( "Potential energy", insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"), g2 );
+            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"),
+                           insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
         }
 
         {
@@ -313,8 +312,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
             g2.drawLine( insets.left, insets.top * 2, insets.left + 30, insets.top * 2 );
             g2.setColor( Color.black );
-            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( "Total energy", g2 );
-            g2.drawString( "Total energy", insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), g2 );
+            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
         }
 
 
