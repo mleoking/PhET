@@ -120,4 +120,13 @@ public class PhetUtilities {
 
         return os;
     }
+    
+    /**
+     * Determines whether we're running on a Macintosh.
+     * 
+     * @return true or false
+     */
+    public static boolean isMacintosh() {
+        return getOperatingSystem() == OS_MACINTOSH;
+    }
 }
