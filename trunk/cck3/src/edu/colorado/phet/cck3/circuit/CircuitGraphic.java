@@ -934,6 +934,9 @@ public class CircuitGraphic extends CompositeGraphic {
             else if( b instanceof SeriesAmmeter ) {
                 addSeriesAmmeterGraphic( (SeriesAmmeter)b );
             }
+            else if( b instanceof Capacitor ) {
+                addCapatitorGraphic( (Capacitor)b );
+            }
             else {
                 addWireGraphic( b );
             }
@@ -978,6 +981,11 @@ public class CircuitGraphic extends CompositeGraphic {
         private void addBatteryGraphic( Battery component ) {
             SchematicBatteryGraphic ccbg = new SchematicBatteryGraphic( apparatusPanel, component, getTransform(), wireThickness );
             CircuitGraphic.this.addGraphic( component, ccbg );
+        }
+
+        private void addCapatitorGraphic( Capacitor capactior ) {
+            SchematicCapacitorGraphic schematicCapacitorGraphic = new SchematicCapacitorGraphic( apparatusPanel, capactior, getTransform(), wireThickness );
+            CircuitGraphic.this.addGraphic( capactior, schematicCapacitorGraphic );
         }
 
     }
