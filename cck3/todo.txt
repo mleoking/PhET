@@ -14,6 +14,17 @@ Questions:
 Do we want current sources?  Physics is already implemented.
 How should capacitors look with respect to charge, current and voltage drop?
 
+CCK charge visualization
+use + and - inside plate graphic
+plate graphic should be schematic always
+plate charge should build as 1:1 (until maxed out)
+Add a timer.
+Add inductors
+CCK Bug: 'Advanced' disappears on control panel.
+Ask Wendy & Chris if there should be a separate toolbar for dynamic components.
+Add floating graph components for reading current.
+Could set node voltages from the MNA, then use that to compute voltmeter readouts (instead of graph theory computation).
+
 ################################################
 #Lower Priority
 #######################
