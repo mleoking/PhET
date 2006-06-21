@@ -61,6 +61,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
 //    private EnergyProfile profile;
     private AffineTransform profileTx = new AffineTransform();
     private Nucleus nucleus;
+    private ProfileType profileType;
 
     /**
      * Sole constructor
@@ -78,6 +79,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     public EnergyProfileGraphic( Component component, Nucleus nucleus, ProfileType profileType ) {
         super( component );
         this.nucleus = nucleus;
+        this.profileType = profileType;
         if( profileType == TOTAL_ENERGY ) {
             this.profile = nucleus.getEnergylProfile();
         }
@@ -85,7 +87,6 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
             this.profile = nucleus.getPotentialProfile();
         }
     }
-
 
     public void setColor( Color color ) {
         this.potentialProfileColor = color;

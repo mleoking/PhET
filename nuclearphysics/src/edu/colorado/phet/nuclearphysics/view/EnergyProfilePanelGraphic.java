@@ -34,7 +34,7 @@ import java.util.Iterator;
  * <p/>
  * Presents a panel, in the ApparatusPanel, that shows a graph of the potential energy
  * an alpha particle has when it is in a nucleus, and when it decays from a nucleus.
- * <p>
+ * <p/>
  * This class takes a ProfileType in its constructor that tells if it is going to show
  * an old-style potential energy curve, or the new-style square sided well profile with
  * a total energy line on it.
@@ -157,7 +157,12 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setTransform( orgTx );
 
             // Draw axes
-            origin.setLocation( getWidth() / 2, getHeight() / 5 );
+            if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
+                origin.setLocation( getWidth() / 2, getHeight() / 4 );
+            }
+            else if( profileType == EnergyProfileGraphic.POTENTIAL_ENERGY ) {
+                origin.setLocation( getWidth() / 2, getHeight() * 3 / 4 );
+            }
             g2.translate( origin.getX(), origin.getY() );
             drawAxes( g2 );
 
@@ -197,7 +202,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( profileTx );
-            double dy = -( ((AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
+            double dy = -( ( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setTransform( orgTx );
@@ -308,8 +313,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
             g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
             g2.setColor( Color.black );
-            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"), g2 );
-            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"),
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ), g2 );
+            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ),
                            insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
         }
 
