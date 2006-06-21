@@ -213,7 +213,7 @@ public class Toolbox extends CompositeGraphic {
         Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
         CircuitComponentImageGraphic rg = new CircuitComponentImageGraphic( im, parent, resistor, transform );
         SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
-        capacitorSource = new BranchSource.CapacitorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
+        capacitorSource = new BranchSource.CapacitorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
         addSource( capacitorSource );
         y += dy;
 
