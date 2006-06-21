@@ -26,16 +26,13 @@ MEDIUM PRIORITY:
 - pause clock by default?
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
-- zoom buttons in energy chart are sometimes transparent on Windows
 
 LOW PRIORITY:
 - make plots in bottom chart look smoother on Windows
-- rename BSEigenstatesNode to BSEigenstatesManipulatorNode
 - refactor BSAbstractModule, it's too big
 - refactor other classes that have gotten too big
 - make sure things update properly when clock is paused
 - wave function curves look segmented when screen resolution is decreased after sim is started
-- scale position axis to fit excited portion of wavefunction (might not do this)
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 - additional zoom levels for Coulomb
 
@@ -53,8 +50,9 @@ CLEANUP:
 
 
 DONE:
-(6/20/06) - fix copyright date in all source files, should be Copyright 2006
-(6/20/06) - add constants related to drag handles to BSConstants
+(6/21/06) - bugfix: zoom buttons in energy chart are sometimes transparent on Windows
+(6/21/06) - fix copyright date in all source files, should be Copyright 2006
+(6/21/06) - add constants related to drag handles to BSConstants
 (6/20/06) - fix "bad path" exceptions by constraining potential energy values in mag glass
 (6/20/06) - fix "bad path" exceptions by constraining potential energy chart y values to chart range
 (6/13/06) - replace "infinity" potential values with Double.MAX_VALUE, didn't fix the "bad path" exception
@@ -398,6 +396,8 @@ DONE:
 
 
 REJECTED:
+(6/21/06) - rename BSEigenstatesNode to BSEigenstatesManipulatorNode (would lose CVS history)
+(6/21/06) - scale position axis to fit excited portion of wavefunction (not necessary)
 (6/9/06) - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE (Sam likes the new ranges)
 (6/7/06) - method of scaling time-dependent wave function doesn't always result in max amplitude=1 over time (we can't solve this)
 (6/7/06) - update while sliders are dragging (fine as is, no one has complained)
