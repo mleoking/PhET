@@ -52,6 +52,8 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -642,6 +644,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _parentNode.addChild( _wiggleMe );
             _wiggleMe.setOffset( 250, -50 );
             _wiggleMe.animateTo( 250, 250 );
+            _wiggleMe.addInputEventListener( new PBasicInputEventHandler() {
+                // Clicking on the wiggle me makes it go away.
+                public void mousePressed( PInputEvent event ) {
+                    disableWiggleMe();
+                }
+            } );
         }
     }
     
