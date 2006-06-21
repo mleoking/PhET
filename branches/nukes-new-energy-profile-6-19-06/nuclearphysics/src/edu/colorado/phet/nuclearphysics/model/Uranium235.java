@@ -70,6 +70,12 @@ public class Uranium235 extends Nucleus {
                                                    getEnergylProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
             alphaParticles[i].setNucleus( this );
         }
+
+        System.out.println( "getRadius() = " + getRadius() );
+    }
+
+    public double getRadius() {
+        return super.getRadius();
     }
 
     /**

@@ -27,11 +27,6 @@ public class Nucleus extends NuclearModelElement {
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = new EnergyProfile( this );
-//        this.potentialProfile = new PotentialProfile( this );
-
-        int numParticles = getNumNeutrons() + getNumProtons();
-        double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
-        radius = Math.sqrt( particleArea / Math.PI ) / 3;
     }
 
     public Point2D getCM() {
@@ -42,7 +37,20 @@ public class Nucleus extends NuclearModelElement {
         return 0;
     }
 
+    /**
+     * Returns the radius of the nucleus. This is a rough calculation based on the number of protons and neutrons
+     * in the nucleus.
+     * <p>
+     * This is essentially a derived attribute, in that its value isn't determined until the first time it is
+     * called for.
+     * @return a rough estimate of the nucleus' radius
+     */
     public double getRadius() {
+        if( radius == 0 ) {
+            int numParticles = getNumNeutrons() + getNumProtons();
+            double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
+            radius = Math.sqrt( particleArea / Math.PI ) / 3;
+        }
         return radius;
     }
 
@@ -91,5 +99,7 @@ public class Nucleus extends NuclearModelElement {
 
     public FissionProducts getFissionProducts( Neutron neutron ) {
         throw new RuntimeException( "Generic nucleus cannot undergo fission" );
-    };
+    }
+
+    ;
 }
