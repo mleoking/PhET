@@ -82,7 +82,7 @@ public class AlphaParticle extends Nucleus {
                     double dy = d * Math.sin( theta );
                     setLocation( nucleus.getPosition().getX() + dx, nucleus.getPosition().getY() + dy );
                     this.setPotential( -nucleus.getEnergylProfile().getTotalEnergy() );
-//                    this.setPotential( nucleus.getEnergylProfile().getWellPotential() );
+//                    this.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
                 }
             }
             else {

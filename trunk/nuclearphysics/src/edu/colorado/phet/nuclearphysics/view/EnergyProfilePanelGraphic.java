@@ -34,6 +34,10 @@ import java.util.Iterator;
  * <p/>
  * Presents a panel, in the ApparatusPanel, that shows a graph of the potential energy
  * an alpha particle has when it is in a nucleus, and when it decays from a nucleus.
+ * <p>
+ * This class takes a ProfileType in its constructor that tells if it is going to show
+ * an old-style potential energy curve, or the new-style square sided well profile with
+ * a total energy line on it.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -105,6 +109,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private HashMap wellParticles = new HashMap();
     private boolean init = false;
     private Rectangle orgBounds;
+    private EnergyProfileGraphic.ProfileType profileType;
 
     private double width = 800;
     private double height = 300;
@@ -114,8 +119,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param component
      */
-    public EnergyProfilePanelGraphic( Component component ) {
+    public EnergyProfilePanelGraphic( Component component, EnergyProfileGraphic.ProfileType profileType ) {
         super( component );
+        this.profileType = profileType;
 
         RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );
         PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
@@ -325,8 +331,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param nucleus
      */
-    public void addEnergyProfile( Nucleus nucleus ) {
-        EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus );
+    public void addEnergyProfile( Nucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
+        EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus, profileType );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
         addGraphic( txg, EnergyProfilePanelGraphic.nucleusLayer );
@@ -408,7 +414,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      * @param color
      */
     public void addNucleus( Nucleus nucleus, Color color ) {
-        this.addEnergyProfile( nucleus );
+        this.addEnergyProfile( nucleus, profileType );
 //        if( color == null ) {
 //            removeEnergyProfile( nucleus.getEnergylProfile() );
 //        }
