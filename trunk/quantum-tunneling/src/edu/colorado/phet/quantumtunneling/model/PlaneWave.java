@@ -17,6 +17,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
+import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
 /**
@@ -186,9 +187,15 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
      */
     public WaveFunctionSolution solveWaveFunction( double x ) {
         WaveFunctionSolution solution = null;
-        if ( _solver != null && !_measureEnabled ) {
-            double t = getTime();
-            solution = _solver.solve( x, t );
+        if ( _solver != null ) {
+            final double t = getTime();
+            if ( _measureEnabled ) {
+                // When a measurement is made for a plane wave, the value is zero everywhere.
+                solution = new WaveFunctionSolution( x, t, Complex.ZERO, Complex.ZERO );
+            }
+            else {
+                solution = _solver.solve( x, t );
+            }
         }
         return solution;
     }

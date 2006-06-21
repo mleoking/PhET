@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 
 DONE:
+(6/21/06) - change: when making a quantum measurement for a plane wave, set the wave function to zero everywhere
 1.04.00...
 (6/13/06) - change zoom levels again
 (6/12/06) - change zoom levels again
