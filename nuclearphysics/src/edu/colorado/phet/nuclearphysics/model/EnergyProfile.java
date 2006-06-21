@@ -11,7 +11,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.coreadditions.CubicUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 
@@ -30,7 +29,7 @@ import java.awt.geom.*;
  * <li>The shape of the tails is exponential
  * </ul>
  */
-public class EnergyProfile extends SimpleObservable implements SimpleObserver {
+public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
     private double width;
     private double maxEnergy;
     private double minEnergy;
@@ -161,7 +160,7 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
         // todo: like spot for problem!!!!
         alphaDecayX = getHillX( minEnergy );
         alphaDecayX = -50;
-//        alphaDecayX = getHillX( -getWellPotential() );
+//        alphaDecayX = getHillX( -getMinEnergy() );
 
         // Generate the line for the total energy
         totalEnergyPath = new Line2D.Double( -2000, getTotalEnergy(), 2000, getTotalEnergy() );

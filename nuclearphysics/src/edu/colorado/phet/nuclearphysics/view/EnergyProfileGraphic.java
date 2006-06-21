@@ -14,24 +14,37 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
 
 import java.awt.image.ImageObserver;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class EnergyProfileGraphic extends PhetShapeGraphic {
-//public class EnergyProfileGraphic extends PhetImageGraphic {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+
+    /**
+     * An enumeration type that tells whether the profile shown is the old-style potential energy curve,
+     * or the new square-sided profile with a total energy line on it.
+     */
+    public static class ProfileType {
+        private ProfileType() {
+        }
+    }
+    public static ProfileType TOTAL_ENERGY = new ProfileType();
+    public static ProfileType POTENTIAL_ENERGY = new ProfileType();
+
+
     public static Color potentialProfileColor = Color.blue;
-    public static  Stroke potentialProfileStroke = new BasicStroke( 2f );
+    public static Stroke potentialProfileStroke = new BasicStroke( 2f );
     private static float miterLimit = 10f;
     private static float[] dashPattern = {10f};
     private static float dashPhase = 0f;
     public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
-                                                BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
     public static Color totalEnergyColor = Color.red;
 
     private static ImageObserver imgObs = new ImageObserver() {
@@ -44,27 +57,41 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-
-    private EnergyProfile profile;
+    private IEnergyProfile profile;
+//    private EnergyProfile profile;
     private AffineTransform profileTx = new AffineTransform();
     private Nucleus nucleus;
 
     /**
      * Sole constructor
+     *
      * @param component
      * @param nucleus
      */
-    public EnergyProfileGraphic( Component component, Nucleus nucleus ) {
+//    public EnergyProfileGraphic( Component component, Nucleus nucleus ) {
+//        this( component, nucleus, TOTAL_ENERGY );
+////        super( component );
+////        this.nucleus = nucleus;
+////        this.profile = nucleus.getEnergylProfile();
+//    }
+
+    public EnergyProfileGraphic( Component component, Nucleus nucleus, ProfileType profileType ) {
         super( component );
         this.nucleus = nucleus;
-        this.profile = nucleus.getEnergylProfile();
+        if( profileType == TOTAL_ENERGY ) {
+            this.profile = nucleus.getEnergylProfile();
+        }
+        else if( profileType == POTENTIAL_ENERGY ) {
+            this.profile = nucleus.getPotentialProfile();
+        }
     }
+
 
     public void setColor( Color color ) {
         this.potentialProfileColor = color;
     }
 
-    public EnergyProfile getProfile() {
+    public IEnergyProfile getProfile() {
         return profile;
     }
 
@@ -80,7 +107,9 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
 
         g.setColor( totalEnergyColor );
         g.setStroke( totalEnergyStroke );
-        g.draw( profile.getTotalEnergyPath() );
+        if( profile.getTotalEnergyPath() != null ) {
+            g.draw( profile.getTotalEnergyPath() );
+        }
 
         // Debug
 //        g.drawArc( -3, -3, 6,6, 0, 360 );

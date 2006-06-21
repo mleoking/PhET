@@ -12,10 +12,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.Kaboom;
-import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
-import edu.colorado.phet.nuclearphysics.view.LegendPanel;
+import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -34,7 +31,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private ArrayList transientModelElements = new ArrayList();
 
     public SingleNucleusFissionModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
+        super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
     }
 
     protected void init() {

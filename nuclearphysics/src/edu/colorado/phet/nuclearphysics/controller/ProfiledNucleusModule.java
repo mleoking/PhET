@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfileGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -36,9 +37,11 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
     private EnergyProfilePanelGraphic energyProfilePanel;
 //    private EnergyProfilePanel energyProfilePanel;
     private GridBagConstraints physicalPanelGBC;
+    private EnergyProfileGraphic.ProfileType profileType;
 
-    public ProfiledNucleusModule( String name, IClock clock ) {
+    public ProfiledNucleusModule( String name, IClock clock, EnergyProfileGraphic.ProfileType profileType ) {
         super( name, clock );
+        this.profileType = profileType;
     }
 
     protected void init() {
@@ -52,40 +55,15 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                                      GridBagConstraints.BOTH,
                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel() );
+        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
         energyProfilePanel.setVisible( true );
-//        energyProfilePanel = new EnergyProfilePanel( getClock() );
-
-//        final JDialog profilePanelDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-//        profilePanelDlg.getContentPane().setLayout( new BorderLayout( ));
-//        profilePanelDlg.getContentPane().add( energyProfilePanel );
-//        profilePanelDlg.pack();
-//        final Component apparatusPanel = getApparatusPanel();
-//        profilePanelDlg.setLocationRelativeTo( apparatusPanel );
-//        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                final JDialog profilePanelDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-//                profilePanelDlg.getContentPane().setLayout( new BorderLayout( ));
-//                profilePanelDlg.getContentPane().add( energyProfilePanel );
-//                profilePanelDlg.pack();
-//                final Component apparatusPanel = getApparatusPanel();
-//                profilePanelDlg.setLocationRelativeTo( apparatusPanel );
-//                profilePanelDlg.setLocation( (apparatusPanel.getWidth() - profilePanelDlg.getWidth()) / 2,
-//                                             (apparatusPanel.getHeight() - profilePanelDlg.getHeight()) / 2);
-//                profilePanelDlg.setVisible( true );
-//            }
-//        } );
-//        profilePanelDlg.setLocation( (apparatusPanel.getWidth() - profilePanelDlg.getWidth()) / 2,
-//                                     (apparatusPanel.getHeight() - profilePanelDlg.getHeight()) / 2);
-//        profilePanelDlg.setVisible( true );
-//        getApparatusPanel().add( energyProfilePanel, profilePanelGBC );
 
         NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
                 if( !( nucleus instanceof AlphaParticle ) ) {
-                    energyProfilePanel.addEnergyProfile( event.getNucleus() );
+                    energyProfilePanel.addEnergyProfile( event.getNucleus(), profileType );
                 }
             }
 
@@ -118,8 +96,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     protected void addNucleus( Nucleus nucleus ) {
         getModel().addModelElement( nucleus );
-//        super.addNucleus( nucleus );
-//        energyProfilePanel.addEnergyProfile( nucleus );
     }
 
     protected void addNucleus( Nucleus nucleus, Color color ) {
@@ -128,7 +104,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
     }
 
     protected EnergyProfilePanelGraphic getEnergyProfilePanel() {
-//    protected EnergyProfilePanel getEnergyProfilePanel() {
         return energyProfilePanel;
     }
 

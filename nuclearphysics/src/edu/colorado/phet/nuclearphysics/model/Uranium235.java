@@ -165,7 +165,7 @@ public class Uranium235 extends Nucleus {
         if( morphTargetNeutrons > 0 ) {
             setPotential( getPotential() + Config.U235MorphSpeedFactor );
             if( getPotential() > getEnergylProfile().getMaxEnergy()
-//            if( getPotential() > getEnergylProfile().getMaxPotential()
+//            if( getPotential() > getEnergylProfile().getMaxEnergy()
                 || !doMorph ) {
                 // Before we morph, make sure the parent nucleus is centered. That is, don't
                 // leave it where itr jittered to.

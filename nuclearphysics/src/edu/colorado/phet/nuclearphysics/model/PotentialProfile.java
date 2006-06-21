@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.coreadditions.CubicUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 
@@ -30,7 +29,7 @@ import java.awt.geom.Point2D;
  * model will be improved sometime soon, I hope.)
  * - The bottom of the well has an x coordinate of 0
  */
-public class PotentialProfile extends SimpleObservable implements SimpleObserver {
+public class PotentialProfile extends SimpleObservable implements IEnergyProfile {
     private double width;
     private double maxPotential;
     private double wellDepth;
@@ -82,20 +81,20 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
         generate();
     }
 
-    public double getMaxPotential() {
+    public double getMaxEnergy() {
         return maxPotential;
     }
 
-    public void setMaxPotential( double maxPotential ) {
+    public void setMaxEnergy( double maxPotential ) {
         this.maxPotential = maxPotential;
         generate();
     }
 
-    public double getWellPotential() {
+    public double getMinEnergy() {
         return maxPotential - wellDepth;
     }
 
-    public void setWellPotential( double wellPotential ) {
+    public void setMinEnergy( double wellPotential ) {
         this.wellDepth = maxPotential - wellPotential;
         generate();
     }
@@ -130,7 +129,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
         endPt1.x = -getWidth() / 2;
         endPt1.y = 0;
         endPt2.x = -getWidth() / 20;
-        endPt2.y = -getMaxPotential();
+        endPt2.y = -getMaxEnergy();
 
         ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) * 8 / 8 );
         ctrlPt1.y = endPt1.getY();
@@ -144,7 +143,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
 
         // Draw the curve down into the left side of the potential well
         endPt3.x = 0;
-        endPt3.y = -getWellPotential();
+        endPt3.y = -getMinEnergy();
 
         ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 16 );
         ctrlPt2B.y = endPt2.getY();
@@ -193,13 +192,13 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
 
         // Compute the distance from the profile's center that corresponds to the alpha decay
         // threshold
-        alphaDecayX = getHillX( -getWellPotential() );
+        alphaDecayX = getHillX( -getMinEnergy() );
 
         // Tell everyone we've changed
         notifyObservers();
     }
 
-    public GeneralPath getPath() {
+    public GeneralPath getPotentialEnergyPath() {
         return profilePath;
     }
 
@@ -316,5 +315,14 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
     public double getDyDx( double v ) {
         double dyDx = cubicUtil.dyDx( v );
         return Double.isNaN( dyDx ) ? 0 : dyDx;
+    }
+
+
+    public Shape getTotalEnergyPath() {
+        return null;
+    }
+
+    public double getTotalEnergy() {
+        return getMinEnergy();
     }
 }

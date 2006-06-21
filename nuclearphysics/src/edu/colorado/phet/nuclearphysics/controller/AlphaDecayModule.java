@@ -14,10 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
-import edu.colorado.phet.nuclearphysics.view.Kaboom;
-import edu.colorado.phet.nuclearphysics.view.LegendPanel;
-import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
+import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -49,7 +46,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
      * @param clock
      */
     public AlphaDecayModule(IClock clock) {
-        super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock);
+        super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock, EnergyProfileGraphic.TOTAL_ENERGY );
+//        super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock, EnergyProfileGraphic.POTENTIAL_ENERGY);
     }
 
     protected void init() {
