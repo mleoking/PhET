@@ -10,19 +10,13 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
 
 import java.awt.image.ImageObserver;
-import java.awt.image.BufferedImage;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
 
 public class EnergyProfileGraphic extends PhetShapeGraphic {
@@ -31,6 +25,14 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+    public static Color potentialProfileColor = Color.blue;
+    public static  Stroke potentialProfileStroke = new BasicStroke( 2f );
+    private static float miterLimit = 10f;
+    private static float[] dashPattern = {10f};
+    private static float dashPhase = 0f;
+    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
+                                                BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+    public static Color totalEnergyColor = Color.red;
 
     private static ImageObserver imgObs = new ImageObserver() {
         public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
@@ -42,13 +44,6 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private Color color = Color.blue;
-    private Stroke potentialProfileStroke = new BasicStroke( 2f );
-    float miterLimit = 10f;
-    float[] dashPattern = {10f};
-    float dashPhase = 5f;
-    Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
-                                                BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
 
     private EnergyProfile profile;
     private AffineTransform profileTx = new AffineTransform();
@@ -66,7 +61,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     }
 
     public void setColor( Color color ) {
-        this.color = color;
+        this.potentialProfileColor = color;
     }
 
     public EnergyProfile getProfile() {
@@ -79,11 +74,11 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
         profileTx.setToIdentity();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        g.setColor( color );
+        g.setColor( potentialProfileColor );
         g.setStroke( potentialProfileStroke );
         g.draw( profile.getPotentialEnergyPath() );
 
-        g.setColor( Color.red );
+        g.setColor( totalEnergyColor );
         g.setStroke( totalEnergyStroke );
         g.draw( profile.getTotalEnergyPath() );
 

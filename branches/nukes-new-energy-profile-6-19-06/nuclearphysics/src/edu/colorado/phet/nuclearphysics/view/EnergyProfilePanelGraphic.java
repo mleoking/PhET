@@ -118,7 +118,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     public EnergyProfilePanelGraphic( Component component, IClock clock ) {
         super( component );
 
-        RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 20, 20 );
+        RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );
         PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
                                                                border,
                                                                EnergyProfilePanelGraphic.backgroundColor,
@@ -157,9 +157,10 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             origin.setLocation( getWidth() / 2, getHeight() / 5 );
             g2.translate( origin.getX(), origin.getY() );
             drawAxes( g2 );
-//        drawGridlines( g2 );
 
             gs2.restoreGraphics();
+
+            drawLegend( g2 );
         }
 
 //        g2.setColor( Color.red );
@@ -199,41 +200,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setTransform( orgTx );
         }
 
-        gs.restoreGraphics();
-    }
-
-    private void drawGridlines( Graphics2D g2 ) {
-        GraphicsState gs = new GraphicsState( g2 );
-        AffineTransform orgTx = g2.getTransform();
-
-        g2.transform( profileTx );
-
-        int lineSpacing = 50;
-        int x0 = 0;
-        int y0 = 0;
-        g2.setColor( Color.lightGray );
-
-        // draw vertical lines from origin right
-        for( int x = x0; x < getWidth() / 2; x += lineSpacing ) {
-            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
-        }
-
-        // draw vertical lines from origin left
-        for( int x = x0; x > -( getWidth() / 2 ); x -= lineSpacing ) {
-            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
-        }
-
-        // draw horizontal lines from origin up
-        for( int y = y0; y > 0 - (int)profileTx.getTranslateY(); y -= lineSpacing ) {
-            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
-        }
-
-        // draw horizontal lines from origin down
-        for( int y = y0; y < getHeight() - (int)profileTx.getTranslateY(); y += lineSpacing ) {
-            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
-        }
-
-        g2.setTransform( orgTx );
         gs.restoreGraphics();
     }
 
@@ -284,17 +250,17 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
             // x axis ticks
             for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
-                g2.drawLine( x, -( tickHeight / 2), x, tickHeight / 2);
+                g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
             }
 
             // x axis ticks
             for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
-                g2.drawLine( x, -( tickHeight / 2), x, tickHeight / 2);
+                g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
             }
 
             // y axis ticks
             for( int y = 0; y < yAxisMax; y += tickSpacing ) {
-                g2.drawLine( yAxisXLoc -( tickHeight / 2), y, yAxisXLoc + (tickHeight / 2), y );
+                g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
             }
         }
 
@@ -313,8 +279,45 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             // x axis
             Rectangle2D xAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.xAxisLabel, g2 );
             g2.drawString( EnergyProfilePanelGraphic.xAxisLabel, (int)( -yAxisXLoc - xAxisLabelBounds.getWidth() ),
-                           (int)xAxisLabelBounds.getHeight()+ 5 );
+                           (int)xAxisLabelBounds.getHeight() + 5 );
         }
+
+        gs.restoreGraphics();
+    }
+
+    private void drawLegend( Graphics2D g2 ) {
+
+        GraphicsState gs = new GraphicsState( g2 );
+
+        int legendWidth = 180;
+        int legendHeight = 60;
+        int insetFromPanel = 20;
+        Stroke borderStroke = new BasicStroke( 3 );
+        Point legendLoc = new Point( getWidth() - legendWidth - insetFromPanel, getHeight() - legendHeight - insetFromPanel );
+        g2.setStroke( borderStroke );
+        g2.setColor( Color.gray );
+        g2.drawRoundRect( legendLoc.x, legendLoc.y, legendWidth, legendHeight, 15, 15 );
+
+        g2.translate( legendLoc.x, legendLoc.y );
+        Insets insets = new Insets( 20, 20, 0, 0 );
+        {
+            g2.setColor( EnergyProfileGraphic.potentialProfileColor );
+            g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
+            g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
+            g2.setColor( Color.black );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( "Potential energy", g2 );
+            g2.drawString( "Potential energy", insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
+        }
+
+        {
+            g2.setColor( EnergyProfileGraphic.totalEnergyColor );
+            g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
+            g2.drawLine( insets.left, insets.top * 2, insets.left + 30, insets.top * 2 );
+            g2.setColor( Color.black );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( "Total energy", g2 );
+            g2.drawString( "Total energy", insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
+        }
+
 
         gs.restoreGraphics();
     }
