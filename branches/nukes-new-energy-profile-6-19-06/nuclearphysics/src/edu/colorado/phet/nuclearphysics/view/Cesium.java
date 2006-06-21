@@ -11,8 +11,8 @@ import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import java.awt.geom.Point2D;
 
 public class Cesium extends Nucleus {
-    private static final int numNeutrons = 86;
-    private static final int numProtons = 55;
+    public static final int numNeutrons = 86;
+    public static final int numProtons = 55;
 
     public Cesium( Point2D position ) {
         super( position, numProtons, numNeutrons );

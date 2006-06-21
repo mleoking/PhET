@@ -112,9 +112,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     /**
      * Sole constructor
      *
-     * @param clock
+     * @param component
      */
-    public EnergyProfilePanelGraphic( Component component, IClock clock ) {
+    public EnergyProfilePanelGraphic( Component component ) {
         super( component );
 
         RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );

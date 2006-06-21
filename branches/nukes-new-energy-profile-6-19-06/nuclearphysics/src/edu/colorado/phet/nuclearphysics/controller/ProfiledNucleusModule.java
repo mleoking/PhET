@@ -59,7 +59,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                                      GridBagConstraints.BOTH,
                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), getClock() );
+        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel() );
         energyProfilePanel.setVisible( true );
 //        energyProfilePanel = new EnergyProfilePanel( getClock() );
 

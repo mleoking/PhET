@@ -1,4 +1,4 @@
-- There is something running all the time, even when the current panel is paused
+- AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
 
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
@@ -14,9 +14,7 @@
 -   Remove Phet logo from control panel
 
 Alpha Radiation
-- Straighten out sign issues with total energy, min energy, max energy, etc., and their display sense in the profile panel
-?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
--   Alpha particle sometimes disappears for first step of decay
+- rewind feature
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
@@ -42,6 +40,17 @@ Controlled Reaction
 
 ================
 Done not posted
+================
+
+Alpha Decay
+- Straighten out sign issues with total energy, min energy, max energy, etc., and their display sense in the profile panel
+- Redesigned the energy profile panel
+- change to polonium
+
+
+
+================
+1.08.07
 ================
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	Maybe extend the blue so that the holder of the blue is below the black and we can see that they are connected.  This might help cue the user to the handle. Maybe move whole the vessel and handle over to the left a bit so handle isn’t so crowded.

@@ -67,7 +67,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 LegendPanel.NEUTRON,
                 LegendPanel.PROTON,
                 LegendPanel.ALPHA_PARTICLE,
-                LegendPanel.U235
+                LegendPanel.Po210,
+                LegendPanel.Pb206
         };
         return Arrays.asList( legendClasses );
     }
@@ -85,9 +86,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     public void start() {
 
         // todo: combine these calls
-        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
+        Polonium210 nucleus = new Polonium210( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
+//        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         setNucleus( nucleus );
-        setUraniumNucleus( nucleus );
+        addNucleus( nucleus );
+//        setUraniumNucleus( nucleus );
 
         nucleus.addDecayListener(this);
 
@@ -198,10 +201,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
-//        getEnergyProfilePanel().removeEnergyProfile(decayProducts.getParent().getEnergylProfile());
 
         // Bind the alpha particles to the daughter nucleus
-        Uranium235 u235 = (Uranium235) decayProducts.getParent();
+        Polonium210 u235 = (Polonium210) decayProducts.getParent();
+//        Uranium235 u235 = (Uranium235) decayProducts.getParent();
         AlphaParticle[] alphaParticles = u235.getAlphaParticles();
         for (int i = 0; i < alphaParticles.length; i++) {
             AlphaParticle alphaParticle = alphaParticles[i];
