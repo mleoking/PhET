@@ -14,11 +14,12 @@ public class AlphaDecayProducts {
 
     public AlphaDecayProducts( Nucleus parent, AlphaParticle alphaParticle ) {
         this.parent = parent;
-        this.daughter = new Thorium143( parent.getPosition() );
+        this.daughter = new Lead206( parent.getPosition() );
+//        this.daughter = new Thorium141( parent.getPosition() );
         this.alphaParticle = alphaParticle;
         this.alphaParticle.setNucleus( daughter );
         this.alphaParticle.setEscaped( true );
-        alphaParticle.setPotential( parent.getPotentialProfile().getHillY( parent.getPotentialProfile().getAlphaDecayX() ) );
+        alphaParticle.setPotential( parent.getEnergylProfile().getHillY( parent.getEnergylProfile().getAlphaDecayX() ) );
     }
 
     public Nucleus getParent() {

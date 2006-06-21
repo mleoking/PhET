@@ -15,23 +15,16 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -300,17 +293,17 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
     public void addPotentialProfile( Nucleus nucleus ) {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
-        nucleus.getPotentialProfile().addObserver( ppg );
+        nucleus.getEnergylProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
-        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
+        potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
         addGraphic( txg, nucleusLayer );
     }
 
-    public void removePotentialProfile( PotentialProfile potentialProfile ) {
-        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
+    public void removeEnergyProfile( EnergyProfile energyProfile ) {
+        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( energyProfile );
         removeGraphic( ppg );
-        potentialProfileMap.remove( potentialProfile );
+        potentialProfileMap.remove( energyProfile );
     }
 
     public void removeAllPotentialProfiles() {
@@ -380,10 +373,10 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     public void addNucleus( Nucleus nucleus, Color color ) {
         this.addPotentialProfile( nucleus );
         if( color == null ) {
-            removePotentialProfile( nucleus.getPotentialProfile() );
+            removeEnergyProfile( nucleus.getEnergylProfile() );
         }
         else {
-            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getPotentialProfile() );
+            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getEnergylProfile() );
             ppg.setColor( color );
         }
     }

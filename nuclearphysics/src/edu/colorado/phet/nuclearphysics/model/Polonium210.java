@@ -1,35 +1,39 @@
-/**
- * Class: Uranium235
- * Package: edu.colorado.phet.nuclearphysics.model
- * Author: Another Guy
- * Date: Feb 26, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.ArrayList;
+import java.awt.geom.Point2D;
 
 /**
- * Uranium235
- * <p>
+ * Polonium210
+ * <p/>
  * These are special nuclei that can fission and decay. The stepInTime() method is
  * pretty complicated, and could benefit from refactoring it into a state machine, or pluggable
  * behaviors (perhaps a stepInTimeStrategy).
- * <p>
+ * <p/>
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */
-public class Uranium235 extends Nucleus {
+public class Polonium210 extends Nucleus {
 
     //----------------------------------------------------------------
     // Class data and methods
     //----------------------------------------------------------------
-    public final static int NUM_PROTONS = 92;
-    public final static int NUM_NEUTRONS = 143;
+    public final static int NUM_PROTONS = 84;
+    public final static int NUM_NEUTRONS = 126;
 
     private static Random random = new Random();
     // The likelihood that a neutron striking a U235 nucleus will be absorbed, causing fission
@@ -39,7 +43,7 @@ public class Uranium235 extends Nucleus {
 
 
     public static void setAbsoptionProbability( double probability ) {
-        ABSORPTION_PROBABILITY = probability;
+        Polonium210.ABSORPTION_PROBABILITY = probability;
     }
 
     //----------------------------------------------------------------
@@ -61,8 +65,8 @@ public class Uranium235 extends Nucleus {
     private boolean doMorph = false;
     private double jiggleOrgX;
 
-    public Uranium235( Point2D position, NuclearPhysicsModel model ) {
-        super( position, NUM_PROTONS, NUM_NEUTRONS );
+    public Polonium210( Point2D position, NuclearPhysicsModel model ) {
+        super( position, Polonium210.NUM_PROTONS, Polonium210.NUM_NEUTRONS );
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
             alphaParticles[i] = new AlphaParticle( position,
@@ -99,14 +103,14 @@ public class Uranium235 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        if( random.nextDouble() <= ABSORPTION_PROBABILITY ) {
+        if( Polonium210.random.nextDouble() <= Polonium210.ABSORPTION_PROBABILITY ) {
             morph( getNumNeutrons() - 100, getNumProtons() );
             fissionInstigatingNeutron = neutron;
             // Move the neutron way, way away so it doesn't show and doesn't
             // cause another fission event. It will be destroyed later. Do it
             // twice so the neutron's previous position gets set to the same thing
-            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
-            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
+            neutron.setPosition( Polonium210.HoldingAreaCoord.getX(), Polonium210.HoldingAreaCoord.getY() );
+            neutron.setPosition( Polonium210.HoldingAreaCoord.getX(), Polonium210.HoldingAreaCoord.getY() );
             neutron.setVelocity( 0, 0 );
 
             neutron.leaveSystem();
@@ -140,16 +144,6 @@ public class Uranium235 extends Nucleus {
                     return;
                 }
 
-                // set the alpha particle directly on the profile
-//                double d = alphaParticle.getPosition().distance( this.getPosition() );
-//                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
-//                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
-//                dx *= this.getEnergylProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
-//                dy *= this.getEnergylProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
-//                alphaParticle.setPotential( getEnergylProfile().getHillY( getEnergylProfile().getAlphaDecayX() ) );
-//                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
-//                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
-
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
@@ -165,7 +159,6 @@ public class Uranium235 extends Nucleus {
         if( morphTargetNeutrons > 0 ) {
             setPotential( getPotential() + Config.U235MorphSpeedFactor );
             if( getPotential() > getEnergylProfile().getMaxEnergy()
-//            if( getPotential() > getEnergylProfile().getMaxPotential()
                 || !doMorph ) {
                 // Before we morph, make sure the parent nucleus is centered. That is, don't
                 // leave it where itr jittered to.
@@ -181,8 +174,8 @@ public class Uranium235 extends Nucleus {
 
             // Jiggle the nucleus
             double d = 1.8;
-            double dx = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
-            double dy = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
+            double dx = Polonium210.random.nextGaussian() * d * ( Polonium210.random.nextBoolean() ? 1 : -1 );
+            double dy = Polonium210.random.nextGaussian() * d * ( Polonium210.random.nextBoolean() ? 1 : -1 );
             this.setPosition( jiggleOrgX + dx, getPosition().getY() + dy );
             //            this.setPosition( getPosition().getX() + dx, getPosition().getY() + dy );
         }
@@ -191,7 +184,7 @@ public class Uranium235 extends Nucleus {
     public FissionProducts getFissionProducts( Neutron neutron ) {
 
         Nucleus daughter1 = new Rubidium( this.getPosition() );
-        double theta = random.nextDouble() * Math.PI;
+        double theta = Polonium210.random.nextDouble() * Math.PI;
         double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
         double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
         daughter1.setVelocity( (float)( -vx ), (float)( -vy ) );
@@ -203,7 +196,7 @@ public class Uranium235 extends Nucleus {
 
         Neutron[] neutronProducts = new Neutron[3];
         for( int i = 0; i < 3; i++ ) {
-            theta = random.nextDouble() * Math.PI * 2;
+            theta = Polonium210.random.nextDouble() * Math.PI * 2;
             neutronProducts[i] = new Neutron( this.getPosition(), theta );
         }
 

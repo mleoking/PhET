@@ -10,31 +10,28 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 
-import javax.swing.border.Border;
-import javax.swing.border.BevelBorder;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
+import java.awt.geom.*;
 import java.util.HashMap;
 import java.util.Iterator;
 
 /**
  * PotentialProfilePanel
- * <p>
+ * <p/>
  * Presents a panel, in the ApparatusPanel, that shows a graph of the potential energy
  * an alpha particle has when it is in a nucleus, and when it decays from a nucleus.
  *
@@ -42,7 +39,7 @@ import java.util.Iterator;
  * @version $Revision$
  */
 
-public class EnergyProfilePanel extends TxApparatusPanel {
+public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
     //----------------------------------------------------------------
     // Class fields and methods
@@ -63,33 +60,33 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         String family = "SansSerif";
         int style = Font.BOLD;
         int size = 12;
-        EnergyProfilePanel.axisLabelFont = new Font( family, style, size );
+        EnergyProfilePanelGraphic.axisLabelFont = new Font( family, style, size );
     }
 
     private static GeneralPath arrowhead = new GeneralPath();
 
     static {
-        EnergyProfilePanel.arrowhead.moveTo( 0, 0 );
-        EnergyProfilePanel.arrowhead.lineTo( 5, 10 );
-        EnergyProfilePanel.arrowhead.lineTo( -5, 10 );
-        EnergyProfilePanel.arrowhead.closePath();
+        EnergyProfilePanelGraphic.arrowhead.moveTo( 0, 0 );
+        EnergyProfilePanelGraphic.arrowhead.lineTo( 5, 10 );
+        EnergyProfilePanelGraphic.arrowhead.lineTo( -5, 10 );
+        EnergyProfilePanelGraphic.arrowhead.closePath();
     }
 
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-        EnergyProfilePanel.atx.setToIdentity();
-        EnergyProfilePanel.atx.translate( x, y );
-        EnergyProfilePanel.atx.scale( scale, scale );
-        EnergyProfilePanel.atx.translate( -x, -y );
-        return EnergyProfilePanel.atx;
+        EnergyProfilePanelGraphic.atx.setToIdentity();
+        EnergyProfilePanelGraphic.atx.translate( x, y );
+        EnergyProfilePanelGraphic.atx.scale( scale, scale );
+        EnergyProfilePanelGraphic.atx.translate( -x, -y );
+        return EnergyProfilePanelGraphic.atx;
     }
 
     public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-        EnergyProfilePanel.atx.setToIdentity();
-        EnergyProfilePanel.atx.translate( x, y );
-        EnergyProfilePanel.atx.rotate( theta );
-        EnergyProfilePanel.atx.translate( -x, -y );
-        return EnergyProfilePanel.atx;
+        EnergyProfilePanelGraphic.atx.setToIdentity();
+        EnergyProfilePanelGraphic.atx.translate( x, y );
+        EnergyProfilePanelGraphic.atx.rotate( theta );
+        EnergyProfilePanelGraphic.atx.translate( -x, -y );
+        return EnergyProfilePanelGraphic.atx;
     }
 
     //----------------------------------------------------------------
@@ -101,8 +98,7 @@ public class EnergyProfilePanel extends TxApparatusPanel {
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
     private HashMap profileNucleusMap = new HashMap();
-    private Point2D origin = new Point2D.Double( );
-    private Point2D.Double strLoc = new Point2D.Double();
+    private Point2D origin = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
@@ -110,32 +106,25 @@ public class EnergyProfilePanel extends TxApparatusPanel {
     private boolean init = false;
     private Rectangle orgBounds;
 
+    private double width = 800;
+    private double height = 300;
+
     /**
      * Sole constructor
      *
-     * @param clock
+     * @param component
      */
-    public EnergyProfilePanel( IClock clock ) {
-        super( clock );
-        this.setBackground( EnergyProfilePanel.backgroundColor );
-        Border border = BorderFactory.createCompoundBorder(
-                BorderFactory.createBevelBorder( BevelBorder.RAISED,
-                                                 Color.lightGray,
-                                                 Color.lightGray,
-                                                 Color.darkGray,
-                                                 Color.darkGray ),
-                BorderFactory.createBevelBorder( BevelBorder.LOWERED,
-                                                 Color.lightGray,
-                                                 Color.lightGray,
-                                                 Color.darkGray,
-                                                 Color.darkGray ) );
-        this.setBorder( border );
+    public EnergyProfilePanelGraphic( Component component ) {
+        super( component );
 
-//        title = new PhetTextGraphic2( this,
-//                                      Config.PROFILE_PANEL_TITLE_FONT,
-//                                      SimStrings.get( "PotentialProfilePanel.title" ),
-//                                      Color.black );
-//        addGraphic( title );
+        RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );
+        PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
+                                                               border,
+                                                               EnergyProfilePanelGraphic.backgroundColor,
+                                                               new BasicStroke( 10 ),
+                                                               Color.gray );
+        addGraphic( borderGraphic, 0 );
+        setClip( border );
     }
 
     private void setOrgFields() {
@@ -143,30 +132,33 @@ public class EnergyProfilePanel extends TxApparatusPanel {
             orgBounds = new Rectangle( getBounds() );
             profileTx.setToTranslation( origin.getX(),
                                         origin.getY() );
-//            title.setLocation( 10, 10 );
             init = true;
         }
     }
 
-    protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
+    public void paint( Graphics2D g2 ) {
         GraphicsState gs = new GraphicsState( g2 );
 
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves
-        GraphicsUtil.setAlpha( g2, 1 );
-        g2.setColor( EnergyProfilePanel.backgroundColor );
-        GraphicsState gs2 = new GraphicsState( g2 );
-        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        super.paintComponent( g2 );
+        {
+            AffineTransform orgTx = g2.getTransform();
+            GraphicsUtil.setAlpha( g2, 1 );
+            g2.setColor( EnergyProfilePanelGraphic.backgroundColor );
+            GraphicsState gs2 = new GraphicsState( g2 );
+            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+            super.paint( g2 );
+            g2.setTransform( orgTx );
 
-        // Draw axes
-        origin.setLocation( getWidth()/ 2, getHeight() / 5 );
-        g2.translate( origin.getX(), origin.getY() );
-        drawAxes( g2 );
-//        drawGridlines( g2 );
+            // Draw axes
+            origin.setLocation( getWidth() / 2, getHeight() / 5 );
+            g2.translate( origin.getX(), origin.getY() );
+            drawAxes( g2 );
 
-        gs2.restoreGraphics();
+            gs2.restoreGraphics();
+
+            drawLegend( g2 );
+        }
 
 //        g2.setColor( Color.red );
 //        g2.drawArc( -3, -3, 6,6, 0, 360 );
@@ -196,50 +188,15 @@ public class EnergyProfilePanel extends TxApparatusPanel {
             double xStat = alphaParticleGraphic.getNucleus().getPosition().getX();
             double yStat = alphaParticleGraphic.getNucleus().getPosition().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
-            GraphicsUtil.setAlpha( g2, EnergyProfilePanel.ghostAlpha );
+            GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( profileTx );
-            double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getPotential();
+            double dy = -( ((AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setTransform( orgTx );
         }
 
-        gs.restoreGraphics();
-    }
-
-    private void drawGridlines( Graphics2D g2 ) {
-        GraphicsState gs = new GraphicsState( g2 );
-        AffineTransform orgTx = g2.getTransform();
-
-        g2.transform( profileTx );
-
-        int lineSpacing = 50;
-        int x0 = 0;
-        int y0 = 0;
-        g2.setColor( Color.lightGray );
-
-        // draw vertical lines from origin right
-        for( int x = x0; x < getWidth() / 2; x += lineSpacing ) {
-            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
-        }
-
-        // draw vertical lines from origin left
-        for( int x = x0; x > -( getWidth() / 2 ); x -= lineSpacing ) {
-            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
-        }
-
-        // draw horizontal lines from origin up
-        for( int y = y0; y > 0 - (int)profileTx.getTranslateY(); y -= lineSpacing ) {
-            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
-        }
-
-        // draw horizontal lines from origin down
-        for( int y = y0; y < getHeight() - (int)profileTx.getTranslateY(); y += lineSpacing ) {
-            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
-        }
-
-        g2.setTransform( orgTx );
         gs.restoreGraphics();
     }
 
@@ -249,10 +206,11 @@ public class EnergyProfilePanel extends TxApparatusPanel {
 
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
+
         int arrowOffset = 20;
 
-        g2.setColor( EnergyProfilePanel.axisColor );
-        g2.setStroke( EnergyProfilePanel.axisStroke );
+        g2.setColor( EnergyProfilePanelGraphic.axisColor );
+        g2.setStroke( EnergyProfilePanelGraphic.axisStroke );
 
         int xAxisMin = -this.getWidth() / 2 + arrowOffset;
         int xAxisMax = this.getWidth() / 2 - arrowOffset;
@@ -260,56 +218,118 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
         int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
 
+        int yAxisXLoc = -350;
         xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
-        yAxis.setLine( 0, yAxisMin, 0, yAxisMax );
+        yAxis.setLine( yAxisXLoc, yAxisMin, yAxisXLoc, yAxisMax );
         g2.draw( xAxis );
         g2.draw( yAxis );
         AffineTransform tempTx = g2.getTransform();
         g2.transform( AffineTransform.getTranslateInstance( xAxisMax, 0 ) );
         g2.transform( AffineTransform.getRotateInstance( Math.PI / 2 ) );
-        g2.fill( EnergyProfilePanel.arrowhead );
+        g2.fill( EnergyProfilePanelGraphic.arrowhead );
         g2.setTransform( tempTx );
         g2.transform( AffineTransform.getTranslateInstance( xAxisMin, 0 ) );
         g2.transform( AffineTransform.getRotateInstance( -Math.PI / 2 ) );
-        g2.fill( EnergyProfilePanel.arrowhead );
+        g2.fill( EnergyProfilePanelGraphic.arrowhead );
         g2.setTransform( tempTx );
-        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMin ) );
-        g2.fill( EnergyProfilePanel.arrowhead );
+        g2.transform( AffineTransform.getTranslateInstance( yAxisXLoc, yAxisMin ) );
+        g2.fill( EnergyProfilePanelGraphic.arrowhead );
         g2.setTransform( tempTx );
-        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMax ) );
+        g2.transform( AffineTransform.getTranslateInstance( yAxisXLoc, yAxisMax ) );
         g2.transform( AffineTransform.getRotateInstance( Math.PI ) );
-        g2.fill( EnergyProfilePanel.arrowhead );
+        g2.fill( EnergyProfilePanelGraphic.arrowhead );
+
+        // Tick marks
+        {
+            g2.setTransform( orgTx );
+            int tickSpacing = 40;
+            int tickHeight = 10;
+
+            // x axis ticks
+            for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
+                g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
+            }
+
+            // x axis ticks
+            for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
+                g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
+            }
+
+            // y axis ticks
+            for( int y = 0; y < yAxisMax; y += tickSpacing ) {
+                g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
+            }
+        }
 
         // Draw labels
-        g2.setFont( EnergyProfilePanel.axisLabelFont );
-        g2.setColor( Color.black );
-        FontMetrics fm = g2.getFontMetrics();
+        {
+            g2.setFont( EnergyProfilePanelGraphic.axisLabelFont );
+            g2.setColor( Color.black );
 
-        strLoc.setLocation( profileTx.getTranslateX() + fm.getHeight(), 0 );
-        strLoc.setLocation( 10, 120 );
-        AffineTransform strTx = EnergyProfilePanel.rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
-        g2.transform( strTx );
-        g2.drawString( EnergyProfilePanel.yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
-        g2.setTransform( orgTx );
-        strLoc.setLocation( profileTx.getTranslateX() + 10,
-                            profileTx.getTranslateY() + fm.getHeight() );
-        g2.drawString( EnergyProfilePanel.xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
+            // y axis
+            AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
+            g2.transform( strTx );
+            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabel, g2 );
+            g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, -(int)( yAxisLabelBounds.getWidth() + 10 ), -10 + yAxisXLoc );
+            g2.setTransform( orgTx );
+
+            // x axis
+            Rectangle2D xAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.xAxisLabel, g2 );
+            g2.drawString( EnergyProfilePanelGraphic.xAxisLabel, (int)( -yAxisXLoc - xAxisLabelBounds.getWidth() ),
+                           (int)xAxisLabelBounds.getHeight() + 5 );
+        }
+
+        gs.restoreGraphics();
+    }
+
+    private void drawLegend( Graphics2D g2 ) {
+
+        GraphicsState gs = new GraphicsState( g2 );
+
+        int legendWidth = 180;
+        int legendHeight = 60;
+        int insetFromPanel = 20;
+        Stroke borderStroke = new BasicStroke( 3 );
+        Point legendLoc = new Point( getWidth() - legendWidth - insetFromPanel, getHeight() - legendHeight - insetFromPanel );
+        g2.setStroke( borderStroke );
+        g2.setColor( Color.gray );
+        g2.drawRoundRect( legendLoc.x, legendLoc.y, legendWidth, legendHeight, 15, 15 );
+
+        g2.translate( legendLoc.x, legendLoc.y );
+        Insets insets = new Insets( 20, 20, 0, 0 );
+        {
+            g2.setColor( EnergyProfileGraphic.potentialProfileColor );
+            g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
+            g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
+            g2.setColor( Color.black );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"), g2 );
+            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy"),
+                           insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
+        }
+
+        {
+            g2.setColor( EnergyProfileGraphic.totalEnergyColor );
+            g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
+            g2.drawLine( insets.left, insets.top * 2, insets.left + 30, insets.top * 2 );
+            g2.setColor( Color.black );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), g2 );
+            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
+        }
+
 
         gs.restoreGraphics();
     }
 
     /**
      * Adds the energy profile to the panel, and sets the origin for the graphics on the panel
+     *
      * @param nucleus
      */
     public void addEnergyProfile( Nucleus nucleus ) {
-        EnergyProfileGraphic ppg = new EnergyProfileGraphic( this, nucleus );
-//        nucleus.getEnergylProfile().addObserver( ppg );
+        EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
-        addGraphic( txg, EnergyProfilePanel.nucleusLayer );
-
-        System.out.println( "txg = " + txg );
+        addGraphic( txg, EnergyProfilePanelGraphic.nucleusLayer );
     }
 
     public void removeEnergyProfile( EnergyProfile potentialProfile ) {
@@ -333,7 +353,7 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         wellParticles.put( alphaParticleGraphic, nucleus );
         alphaParticle.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
-                EnergyProfilePanel.this.removeGraphic( alphaParticleGraphic );
+                EnergyProfilePanelGraphic.this.removeGraphic( alphaParticleGraphic );
                 alphaParticle.removeListener( this );
                 wellParticles.remove( alphaParticleGraphic );
             }
@@ -352,7 +372,12 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         profileNucleusMap.clear();
         potentialProfileMap.clear();
         wellParticles.clear();
-        super.removeAllGraphics();
+//        super.removeAllGraphics();
+        PhetGraphic[] graphics = super.getGraphics();
+        for( int i = 0; i < graphics.length; i++ ) {
+            PhetGraphic graphic = graphics[i];
+            removeGraphic( graphic );
+        }
     }
 
     public void addOriginCenteredGraphic( PhetGraphic graphic ) {
