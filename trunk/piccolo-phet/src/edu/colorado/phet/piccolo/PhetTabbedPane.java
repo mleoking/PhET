@@ -117,6 +117,28 @@ public class PhetTabbedPane extends JPanel {
         Rectangle bounds = component.getBounds();
         for( int i = 0; i < getTabCount(); i++ ) {
             tabPane.getTabs()[i].getComponent().setSize( bounds.width, bounds.height );//to mimic behavior in JTabbedPane
+            updateLayout( tabPane.getTabs()[i].getComponent() );
+        }
+    }
+
+    /**
+     * Todo: Identify why this workaround is necessary and delete it.
+     * <p/>
+     * This is a utility function for ensuring that all layouts in this component hierarchy
+     * have a chance to reflect their new parent's sizes.
+     * <p/>
+     * We added this to solve the problem visible in bound states on 6-21-2006 5:24pm that
+     * when changing tabs, there would be a visible resize after selection.
+     *
+     * @param component
+     */
+    private void updateLayout( Component component ) {
+        component.doLayout();
+        if( component instanceof Container ) {
+            Container c = (Container)component;
+            for( int i = 0; i < c.getComponentCount(); i++ ) {
+                updateLayout( c.getComponent( i ) );
+            }
         }
     }
 
@@ -186,6 +208,7 @@ public class PhetTabbedPane extends JPanel {
             tab.setSelected( false );
         }
         tabPane.addTab( tab );
+        relayoutComponents();
     }
 
     /**
