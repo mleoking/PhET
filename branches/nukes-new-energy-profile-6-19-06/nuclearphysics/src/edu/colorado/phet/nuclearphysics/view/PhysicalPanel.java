@@ -121,7 +121,6 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
-        System.out.println( "origin = " + origin );
         originTx.setToTranslation( origin.getX(), origin.getY() );
         nucleonTx.setToIdentity();
         nucleonTx.concatenate( originTx );

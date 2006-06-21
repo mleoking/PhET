@@ -313,8 +313,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
-
-        System.out.println( "ppg = " + ppg );
     }
 
     public void removeAllPotentialProfiles() {

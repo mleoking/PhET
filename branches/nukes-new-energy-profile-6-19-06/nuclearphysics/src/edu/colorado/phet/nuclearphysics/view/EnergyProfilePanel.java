@@ -316,8 +316,6 @@ public class EnergyProfilePanel extends TxApparatusPanel {
         PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
-
-        System.out.println( "ppg = " + ppg );
     }
 
     public void removeAllPotentialProfiles() {

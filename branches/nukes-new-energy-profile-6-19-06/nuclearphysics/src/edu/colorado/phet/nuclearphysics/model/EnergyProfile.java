@@ -110,9 +110,6 @@ public class EnergyProfile extends SimpleObservable implements SimpleObserver {
         // Draw the curve going up the left side of the potential profile
         Point2D endPt1 = new Point2D.Double( -getWidth() / 4, 0 );
 //        Point2D endPt1 = new Point2D.Double( -getWidth() / 2, 0 );
-        if( nucleus instanceof Uranium235 ) {
-            System.out.println( "EnergyProfile.generate" );
-        }
         Point2D endPt2 = new Point2D.Double( -nucleus.getRadius(), -maxEnergy );
 //        Point2D endPt2 = new Point2D.Double( -getWidth() / 20, -maxEnergy );
 

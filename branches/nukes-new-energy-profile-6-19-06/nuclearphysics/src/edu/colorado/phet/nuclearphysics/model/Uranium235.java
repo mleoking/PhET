@@ -36,7 +36,6 @@ public class Uranium235 extends Nucleus {
     private static double ABSORPTION_PROBABILITY = 1;
     // Location to put neutrons until they can be removed from the model
     public static final Point2D HoldingAreaCoord = new Point2D.Double( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY );
-    //    private static final int U235MorphSpeedFactor = 5;
 
 
     public static void setAbsoptionProbability( double probability ) {
@@ -70,12 +69,6 @@ public class Uranium235 extends Nucleus {
                                                    getEnergylProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
             alphaParticles[i].setNucleus( this );
         }
-
-        System.out.println( "getRadius() = " + getRadius() );
-    }
-
-    public double getRadius() {
-        return super.getRadius();
     }
 
     /**

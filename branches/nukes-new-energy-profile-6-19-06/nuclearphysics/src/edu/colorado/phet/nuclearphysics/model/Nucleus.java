@@ -18,7 +18,6 @@ public class Nucleus extends NuclearModelElement {
     private double potential;
     private double radius;
     private EnergyProfile potentialProfile;
-//    private PotentialProfile potentialProfile;
     private ArrayList fissionListeners = new ArrayList();
 
     public Nucleus( Point2D position, int numProtons, int numNeutrons ) {
