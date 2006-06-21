@@ -15,7 +15,6 @@ MEDIUM PRIORITY:
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
-- switch back to FastPathRenderer for curves?
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -396,6 +395,7 @@ DONE:
 
 
 REJECTED:
+(6/21/06) - switch back to FastPathRenderer for curves (doesn't seem to be any faster, stick with StandardXYItemRenderer)
 (6/21/06) - rename BSEigenstatesNode to BSEigenstatesManipulatorNode (would lose CVS history)
 (6/21/06) - scale position axis to fit excited portion of wavefunction (not necessary)
 (6/9/06) - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE (Sam likes the new ranges)
