@@ -62,11 +62,6 @@ public class PhysicalPanel extends TxApparatusPanel {
                 if( !init ) {
                     init = true;
                     setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ));
-//                    origin = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
-//                    originTx.setToTranslation( origin.getX(), origin.getY() );
-//                    nucleonTx.setToIdentity();
-//                    nucleonTx.concatenate( originTx );
-//                    nucleonTx.concatenate( scaleTx );
                 }
             }
         } );

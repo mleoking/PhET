@@ -11,6 +11,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -24,7 +25,8 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
 
-public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObserver {
+public class EnergyProfileGraphic extends PhetShapeGraphic {
+//public class EnergyProfileGraphic extends PhetImageGraphic {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -41,7 +43,6 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
     //--------------------------------------------------------------------------------------------------
 
     private Color color = Color.blue;
-    private Color backgroundColor = new Color( 200, 200, 255 );
     private Stroke potentialProfileStroke = new BasicStroke( 2f );
     float miterLimit = 10f;
     float[] dashPattern = {10f};
@@ -50,31 +51,22 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
                                                 BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
 
     private EnergyProfile profile;
-//    private Point2D.Double origin;
     private AffineTransform profileTx = new AffineTransform();
-    private Image image;
     private Nucleus nucleus;
 
+    /**
+     * Sole constructor
+     * @param component
+     * @param nucleus
+     */
     public EnergyProfileGraphic( Component component, Nucleus nucleus ) {
         super( component );
         this.nucleus = nucleus;
         this.profile = nucleus.getEnergylProfile();
-        this.profile.addObserver( this );
-        image = buildImage();
     }
 
     public void setColor( Color color ) {
         this.color = color;
-        image = buildImage();
-    }
-
-    /**
-     * Gets the location of the origin (0,0) within the bounds of the graphic
-     *
-     * @return a Point2D
-     */
-    public Point2D getOrigin() {
-        return new Point2D.Double( profile.getWidth() / 2, profile.getMaxEnergy() );
     }
 
     public EnergyProfile getProfile() {
@@ -99,41 +91,4 @@ public class EnergyProfileGraphic extends PhetImageGraphic implements SimpleObse
 //        g.drawArc( -3, -3, 6,6, 0, 360 );
         gs.restoreGraphics();
     }
-
-    private Image buildImage() {
-        AffineTransform atx = new AffineTransform();
-        int imageHeight = (int)( profile.getMaxEnergy() - profile.getMinEnergy() );
-//        int imageHeight = (int)Math.max( profile.getMaxEnergy(), profile.getMinEnergy() );
-//        int imageHeight = (int)Math.max( profile.getMaxPotential(), profile.getWellPotential() );
-        BufferedImage bi = new BufferedImage( (int)( profile.getWidth() ),
-                                              imageHeight,
-                                              BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g = (Graphics2D)bi.getGraphics();
-        GraphicsUtil.setAntiAliasingOn( g );
-
-        // Note that the profile path is centered on the y axis, so half of it
-        // has negative x coordinates. That's why is has to be translated
-        g.setColor( backgroundColor );
-        GraphicsUtil.setAlpha( g, 1 );
-//        g.fill( atx.createTransformedShape( profile.getBackgroundPath() ) );
-        GraphicsUtil.setAlpha( g, 1 );
-        g.setColor( color );
-        g.setStroke( potentialProfileStroke );
-        atx.setToIdentity();
-        atx.translate( profile.getWidth() / 2, profile.getMaxEnergy() );
-        g.draw( atx.createTransformedShape( profile.getPotentialEnergyPath() ) );
-
-        g.dispose();
-
-        // To give the PhetImageGraphic and image
-        setImage( bi );
-
-        return bi;
-    }
-
-    public void update() {
-        image = buildImage();
-    }
-
-
 }

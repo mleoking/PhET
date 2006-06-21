@@ -304,7 +304,7 @@ public class EnergyProfilePanel extends TxApparatusPanel {
      */
     public void addEnergyProfile( Nucleus nucleus ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this, nucleus );
-        nucleus.getEnergylProfile().addObserver( ppg );
+//        nucleus.getEnergylProfile().addObserver( ppg );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
         addGraphic( txg, EnergyProfilePanel.nucleusLayer );

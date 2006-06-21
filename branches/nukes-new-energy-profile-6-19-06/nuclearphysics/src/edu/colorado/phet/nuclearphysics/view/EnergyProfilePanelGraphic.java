@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -25,9 +24,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 
-import javax.swing.border.Border;
-import javax.swing.border.BevelBorder;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.HashMap;
@@ -103,7 +99,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     // Maps potential profiles to the nucleus graphics associated with them
     private HashMap profileNucleusMap = new HashMap();
     private Point2D origin = new Point2D.Double();
-    private Point2D.Double strLoc = new Point2D.Double();
+//    private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
@@ -247,6 +243,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
+
         int arrowOffset = 20;
 
         g2.setColor( EnergyProfilePanelGraphic.axisColor );
@@ -258,8 +255,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
         int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
 
+        int yAxisXLoc = -350;
         xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
-        yAxis.setLine( 0, yAxisMin, 0, yAxisMax );
+        yAxis.setLine( yAxisXLoc, yAxisMin, yAxisXLoc, yAxisMax );
         g2.draw( xAxis );
         g2.draw( yAxis );
         AffineTransform tempTx = g2.getTransform();
@@ -271,27 +269,52 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         g2.transform( AffineTransform.getRotateInstance( -Math.PI / 2 ) );
         g2.fill( EnergyProfilePanelGraphic.arrowhead );
         g2.setTransform( tempTx );
-        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMin ) );
+        g2.transform( AffineTransform.getTranslateInstance( yAxisXLoc, yAxisMin ) );
         g2.fill( EnergyProfilePanelGraphic.arrowhead );
         g2.setTransform( tempTx );
-        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMax ) );
+        g2.transform( AffineTransform.getTranslateInstance( yAxisXLoc, yAxisMax ) );
         g2.transform( AffineTransform.getRotateInstance( Math.PI ) );
         g2.fill( EnergyProfilePanelGraphic.arrowhead );
 
-        // Draw labels
-        g2.setFont( EnergyProfilePanelGraphic.axisLabelFont );
-        g2.setColor( Color.black );
-        FontMetrics fm = g2.getFontMetrics();
+        // Tick marks
+        {
+            g2.setTransform( orgTx );
+            int tickSpacing = 40;
+            int tickHeight = 10;
 
-        strLoc.setLocation( profileTx.getTranslateX() + fm.getHeight(), 0 );
-        strLoc.setLocation( 10, 120 );
-        AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
-        g2.transform( strTx );
-        g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
-        g2.setTransform( orgTx );
-        strLoc.setLocation( profileTx.getTranslateX() + 10,
-                            profileTx.getTranslateY() + fm.getHeight() );
-        g2.drawString( EnergyProfilePanelGraphic.xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
+            // x axis ticks
+            for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
+                g2.drawLine( x, -( tickHeight / 2), x, tickHeight / 2);
+            }
+
+            // x axis ticks
+            for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
+                g2.drawLine( x, -( tickHeight / 2), x, tickHeight / 2);
+            }
+
+            // y axis ticks
+            for( int y = 0; y < yAxisMax; y += tickSpacing ) {
+                g2.drawLine( yAxisXLoc -( tickHeight / 2), y, yAxisXLoc + (tickHeight / 2), y );
+            }
+        }
+
+        // Draw labels
+        {
+            g2.setFont( EnergyProfilePanelGraphic.axisLabelFont );
+            g2.setColor( Color.black );
+
+            // y axis
+            AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
+            g2.transform( strTx );
+            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabel, g2 );
+            g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, -(int)( yAxisLabelBounds.getWidth() + 10 ), -10 + yAxisXLoc );
+            g2.setTransform( orgTx );
+
+            // x axis
+            Rectangle2D xAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.xAxisLabel, g2 );
+            g2.drawString( EnergyProfilePanelGraphic.xAxisLabel, (int)( -yAxisXLoc - xAxisLabelBounds.getWidth() ),
+                           (int)xAxisLabelBounds.getHeight()+ 5 );
+        }
 
         gs.restoreGraphics();
     }
@@ -303,7 +326,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      */
     public void addEnergyProfile( Nucleus nucleus ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus );
-        nucleus.getEnergylProfile().addObserver( ppg );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
         addGraphic( txg, EnergyProfilePanelGraphic.nucleusLayer );
