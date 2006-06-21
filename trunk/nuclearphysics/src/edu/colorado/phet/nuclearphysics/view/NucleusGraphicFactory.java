@@ -6,15 +6,18 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.model.Uranium238;
-import edu.colorado.phet.nuclearphysics.model.Uranium239;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 public class NucleusGraphicFactory {
 
     public NucleusGraphic create( Nucleus nucleus ) {
 
+        if( nucleus instanceof Polonium210 ) {
+            return new Polonium210Graphic( nucleus );
+        }
+        if( nucleus instanceof Lead206 ) {
+            return new Lead206Graphic( nucleus );
+        }
         if( nucleus instanceof Uranium235 ) {
             return new Uranium235Graphic( nucleus );
         }

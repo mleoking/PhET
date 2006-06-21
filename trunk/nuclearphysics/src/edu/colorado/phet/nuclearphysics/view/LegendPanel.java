@@ -12,9 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.GridBagUtil;
-import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.util.List;
 import javax.swing.*;
@@ -41,6 +39,8 @@ public class LegendPanel extends JPanel {
     public static final LegendItem U235 = new LegendItem();
     public static final LegendItem U238 = new LegendItem();
     public static final LegendItem U239 = new LegendItem();
+    public static final LegendItem Po210 = new LegendItem();
+    public static final LegendItem Pb206 = new LegendItem();
 
     /**
      * @param modelClasses
@@ -67,31 +67,19 @@ public class LegendPanel extends JPanel {
         Icon alphaParticleImg = AlphaParticleGraphic.getIcon();
 
         Nucleus u235 = new Uranium235( new Point2D.Double(), null );
-        u235.setPosition( u235.getRadius(), u235.getRadius() );
-        Uranium235Graphic u235G = new Uranium235Graphic( u235 );
-        BufferedImage u235Img = new BufferedImage( (int)u235.getRadius(), (int)u235.getRadius(), BufferedImage.TYPE_INT_ARGB );
-        Graphics2D gu235 = (Graphics2D)u235Img.getGraphics();
-        gu235.transform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
-        u235G.paint( gu235 );
-        ImageIcon u235Icon = new ImageIcon( u235Img );
+        ImageIcon u235Icon = createIcon( u235 );
 
-        Nucleus u238 = new Uranium235( new Point2D.Double(), null );
-        u238.setPosition( u238.getRadius(), u238.getRadius() );
-        Uranium238Graphic u238G = new Uranium238Graphic( u238 );
-        BufferedImage u238Img = new BufferedImage( (int)u238.getRadius(), (int)u238.getRadius(), BufferedImage.TYPE_INT_ARGB );
-        Graphics2D gu238 = (Graphics2D)u238Img.getGraphics();
-        gu238.transform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
-        u238G.paint( gu238 );
-        ImageIcon u238Icon = new ImageIcon( u238Img );
+        Nucleus u238 = new Uranium238( new Point2D.Double(), null );
+        ImageIcon u238Icon = createIcon( u238 );
 
-        Nucleus u239 = new Uranium235( new Point2D.Double(), null );
-        u239.setPosition( u239.getRadius(), u239.getRadius() );
-        Uranium239Graphic u239G = new Uranium239Graphic( u239 );
-        BufferedImage u239Img = new BufferedImage( (int)u239.getRadius(), (int)u239.getRadius(), BufferedImage.TYPE_INT_ARGB );
-        Graphics2D gu239 = (Graphics2D)u239Img.getGraphics();
-        gu239.transform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
-        u239G.paint( gu239 );
-        ImageIcon u239Icon = new ImageIcon( u239Img );
+        Nucleus u239 = new Uranium239( new Point2D.Double(), null );
+        ImageIcon u239Icon = createIcon( u239 );
+
+        Nucleus po210 = new Polonium210( new Point2D.Double(), null );
+        ImageIcon po210Icon = createIcon( po210 );
+
+        Nucleus pb206 = new Lead206( new Point2D.Double() );
+        ImageIcon pb206Icon = createIcon( pb206 );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         this.setBorder( BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "NuclearPhysicsControlPanel.LegendBorder" ) ) );
@@ -139,9 +127,35 @@ public class LegendPanel extends JPanel {
                                                  GridBagConstraints.HORIZONTAL,
                                                  GridBagConstraints.WEST );
             }
+            if( allModelClasses || modelClasses.contains( Po210 ) ) {
+                GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Polonium210Label" ), po210Icon, SwingConstants.LEFT ),
+                                                 0, rowIdx++,
+                                                 1, 1,
+                                                 GridBagConstraints.HORIZONTAL,
+                                                 GridBagConstraints.WEST );
+            }
+            if( allModelClasses || modelClasses.contains( Pb206 ) ) {
+                GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Lead206Label" ), pb206Icon, SwingConstants.LEFT ),
+                                                 0, rowIdx++,
+                                                 1, 1,
+                                                 GridBagConstraints.HORIZONTAL,
+                                                 GridBagConstraints.WEST );
+            }
         }
         catch( AWTException e ) {
             e.printStackTrace();
         }
     }
+
+    private ImageIcon createIcon( Nucleus nucleus ) {
+        nucleus.setPosition( nucleus.getRadius(), nucleus.getRadius() );
+        NucleusGraphic nucleusGraphic = new NucleusGraphicFactory().create( nucleus );
+        BufferedImage nucleusImage = new BufferedImage( (int)nucleus.getRadius(), (int)nucleus.getRadius(), BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = (Graphics2D)nucleusImage.getGraphics();
+        g2.transform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
+        nucleusGraphic.paint( g2 );
+        return new ImageIcon( nucleusImage );
+    }
+
+
 }

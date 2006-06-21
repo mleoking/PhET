@@ -12,11 +12,11 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
 
-public class Rubidium extends Nucleus {
-    public static final int numNeutrons = 56;
-    public static final int numProtons = 37;
+public class Lead206 extends Nucleus {
+    public static final int numNeutrons = 124;
+    public static final int numProtons = 82;
 
-    public Rubidium( Point2D position ) {
-        super( position, numProtons, numNeutrons );
+    public Lead206( Point2D position ) {
+        super( position, Lead206.numProtons, Lead206.numNeutrons );
     }
 }

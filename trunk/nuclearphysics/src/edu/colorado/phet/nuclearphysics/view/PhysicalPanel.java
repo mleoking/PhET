@@ -41,7 +41,7 @@ public class PhysicalPanel extends TxApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
     private boolean init = false;
-    private Point2D.Double origin;
+    private Point2D.Double origin = new Point2D.Double( );
     private AffineTransform originTx = new AffineTransform();
     private AffineTransform scaleTx = new AffineTransform();
     private AffineTransform nucleonTx = new AffineTransform();
@@ -61,11 +61,7 @@ public class PhysicalPanel extends TxApparatusPanel {
             public void componentResized( ComponentEvent e ) {
                 if( !init ) {
                     init = true;
-                    origin = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
-                    originTx.setToTranslation( origin.getX(), origin.getY() );
-                    nucleonTx.setToIdentity();
-                    nucleonTx.concatenate( originTx );
-                    nucleonTx.concatenate( scaleTx );
+                    setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ));
                 }
             }
         } );
@@ -118,8 +114,12 @@ public class PhysicalPanel extends TxApparatusPanel {
         return super.getGraphicTx();
     }
 
-    protected void setOrigin( Point2D.Double origin ) {
+    public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
+        originTx.setToTranslation( origin.getX(), origin.getY() );
+        nucleonTx.setToIdentity();
+        nucleonTx.concatenate( originTx );
+        nucleonTx.concatenate( scaleTx );
     }
 
     protected Point2D.Double getOrigin() {

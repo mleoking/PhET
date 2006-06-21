@@ -17,7 +17,7 @@ public class Nucleus extends NuclearModelElement {
     private int numNeutrons;
     private double potential;
     private double radius;
-    private PotentialProfile potentialProfile;
+    private EnergyProfile potentialProfile;
     private ArrayList fissionListeners = new ArrayList();
 
     public Nucleus( Point2D position, int numProtons, int numNeutrons ) {
@@ -25,11 +25,7 @@ public class Nucleus extends NuclearModelElement {
         this.setPosition( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
-        this.potentialProfile = new PotentialProfile( this );
-
-        int numParticles = getNumNeutrons() + getNumProtons();
-        double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
-        radius = Math.sqrt( particleArea / Math.PI ) / 3;
+        this.potentialProfile = new EnergyProfile( this );
     }
 
     public Point2D getCM() {
@@ -40,7 +36,20 @@ public class Nucleus extends NuclearModelElement {
         return 0;
     }
 
+    /**
+     * Returns the radius of the nucleus. This is a rough calculation based on the number of protons and neutrons
+     * in the nucleus.
+     * <p>
+     * This is essentially a derived attribute, in that its value isn't determined until the first time it is
+     * called for.
+     * @return a rough estimate of the nucleus' radius
+     */
     public double getRadius() {
+        if( radius == 0 ) {
+            int numParticles = getNumNeutrons() + getNumProtons();
+            double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
+            radius = Math.sqrt( particleArea / Math.PI ) / 3;
+        }
         return radius;
     }
 
@@ -70,7 +79,7 @@ public class Nucleus extends NuclearModelElement {
         this.potential = potential;
     }
 
-    public PotentialProfile getPotentialProfile() {
+    public EnergyProfile getEnergylProfile() {
         return potentialProfile;
     }
 
@@ -88,5 +97,5 @@ public class Nucleus extends NuclearModelElement {
 
     public FissionProducts getFissionProducts( Neutron neutron ) {
         throw new RuntimeException( "Generic nucleus cannot undergo fission" );
-    };
+    }
 }
