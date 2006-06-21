@@ -12,6 +12,7 @@ package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  * GraphicsUtil
@@ -62,9 +63,23 @@ public class GraphicsUtil {
         return atx;
     }
 
-    // Sets anti-aliasing on for a specified Graphics2D
+    /**
+     * Sets anti-aliasing on for a specified Graphics2D
+     * @param g2
+     * @return the Graphics2D with the hint set
+     */
     public static Graphics2D setAntiAliasingOn( Graphics2D g2 ) {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         return g2;
+    }
+
+    /**
+     * Gets the bounding rectangle for a string
+     * @param str
+     * @param g2
+     * @return The bounding rectangle
+     */
+    public static Rectangle2D getStringBounds( String str, Graphics2D g2 ) {
+        return g2.getFont().getStringBounds( str, g2.getFontRenderContext() );
     }
 }
