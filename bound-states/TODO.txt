@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 - wiggle me animation is jerky
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
-- mouse events don't go thru wiggle me, nothing happens when use clicks on it
 - move wave function cache out of BSBottomPlot and into model
 - cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 - switch back to FastPathRenderer for curves?
@@ -50,6 +49,7 @@ CLEANUP:
 
 
 DONE:
+(6/21/06) - make wiggle me go away when you click on it
 (6/21/06) - bugfix: zoom buttons in energy chart are sometimes transparent on Windows
 (6/21/06) - fix copyright date in all source files, should be Copyright 2006
 (6/21/06) - add constants related to drag handles to BSConstants
