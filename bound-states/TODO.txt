@@ -8,31 +8,30 @@ HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - implement Save/Load for model
 - existing Save/Load code is broken, throws exception related to BSBottomPlot
+- time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
+- verify that datasets are updated only when absolutely necessary
+- make sure things update properly when clock is paused
 - wiggle me animation is jerky
-- bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
-- bug: Energy datasets drawn on top of mag glass when configuring potential (Mac only?)
-- move wave function cache out of BSBottomPlot and into model
-- cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
+- bug: Energy datasets are drawn on top of mag glass when configuring potential (Mac only?)
 - bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
-- use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
-- time display and animation pauses every few clock ticks (garbage collection?)
-- add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - reduce startup time
-- pause clock by default?
-- green eigenstate lines have varying brightnesses on Windows
-- verify that datasets are updated only when absolutely necessary
 
 LOW PRIORITY:
+- bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
+- green eigenstate lines have varying brightnesses on Windows
 - make plots in bottom chart look smoother on Windows
 - refactor BSAbstractModule, it's too big
 - refactor other classes that have gotten too big
-- make sure things update properly when clock is paused
 - wave function curves look segmented when screen resolution is decreased after sim is started
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 - additional zoom levels for Coulomb
+- add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
+- use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
+- move wave function cache out of BSBottomPlot and into model
+- cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 
 OPTIMIZATIONS:
 - setPickable(false) on non-interactive graphics
@@ -395,6 +394,7 @@ DONE:
 
 
 REJECTED:
+(6/21/06) - pause clock by default (requirement changed, should be running by default)
 (6/21/06) - switch back to FastPathRenderer for curves (doesn't seem to be any faster, stick with StandardXYItemRenderer)
 (6/21/06) - rename BSEigenstatesNode to BSEigenstatesManipulatorNode (would lose CVS history)
 (6/21/06) - scale position axis to fit excited portion of wavefunction (not necessary)
