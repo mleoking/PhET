@@ -53,6 +53,8 @@ CLEANUP:
 
 
 DONE:
+(6/20/06) - fix copyright date in all source files, should be Copyright 2006
+(6/20/06) - add constants related to drag handles to BSConstants
 (6/20/06) - fix "bad path" exceptions by constraining potential energy values in mag glass
 (6/20/06) - fix "bad path" exceptions by constraining potential energy chart y values to chart range
 (6/13/06) - replace "infinity" potential values with Double.MAX_VALUE, didn't fix the "bad path" exception
