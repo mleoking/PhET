@@ -99,7 +99,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     // Maps potential profiles to the nucleus graphics associated with them
     private HashMap profileNucleusMap = new HashMap();
     private Point2D origin = new Point2D.Double();
-//    private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
@@ -194,7 +193,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( profileTx );
-            double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getPotential();
+            double dy = -( ((AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setTransform( orgTx );

@@ -80,7 +80,6 @@ public class Nucleus extends NuclearModelElement {
     }
 
     public EnergyProfile getEnergylProfile() {
-//    public PotentialProfile getEnergylProfile() {
         return potentialProfile;
     }
 
@@ -99,6 +98,4 @@ public class Nucleus extends NuclearModelElement {
     public FissionProducts getFissionProducts( Neutron neutron ) {
         throw new RuntimeException( "Generic nucleus cannot undergo fission" );
     }
-
-    ;
 }

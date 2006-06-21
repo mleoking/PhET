@@ -65,15 +65,6 @@ public class AlphaParticle extends Nucleus {
         super.setPosition( x, y );
     }
 
-    public Point2D getLocationRelativeToParentNucleus() {
-        locationRelativeToParentNucleus.setLocation( getPosition() );
-        if( nucleus != null ) {
-            locationRelativeToParentNucleus.setLocation( getPosition().getX() - nucleus.getPosition().getX(),
-                                                         getPosition().getY() - nucleus.getPosition().getY());
-        }
-        return locationRelativeToParentNucleus;
-    }
-
     /**
      * Puts the alpha partical in a randomly selected position if it hasn't escaped from the nucleus.
      *
@@ -120,6 +111,9 @@ public class AlphaParticle extends Nucleus {
         }
     }
 
+    public double getParentNucleusTotalEnergy() {
+        return -nucleus.getEnergylProfile().getTotalEnergy();
+    }
     //--------------------------------------------------------------------------------------------------
     // Implementation of Body
     //--------------------------------------------------------------------------------------------------
