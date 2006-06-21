@@ -11,21 +11,14 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
-import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanel;
-import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 import edu.colorado.phet.coreadditions.TxGraphic;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * A module that presents a PhysicalPanel at the top and PotentialProfilePanel below.
