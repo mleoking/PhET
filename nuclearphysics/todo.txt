@@ -1,5 +1,8 @@
+- Profiled nucleus modules don't account properly for resizing before the first time they're activated
+
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
+- Something is running in the Single Fission module, even when it's paused.
 
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
 ?	Need a color selection option for control panel.
@@ -45,6 +48,9 @@ Alpha Decay
 - Straighten out sign issues with total energy, min energy, max energy, etc., and their display sense in the profile panel
 - Redesigned the energy profile panel
 - change to polonium
+
+Single Nucleus Fission
+ - Energy profile appears in a pane floating on the apparatus panel
 
 
 
