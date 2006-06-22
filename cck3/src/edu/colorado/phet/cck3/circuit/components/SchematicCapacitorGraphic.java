@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -43,7 +44,7 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic {
 
     private void update() {
         double charge = capacitor.getCharge();
-        System.out.println( "charge = " + charge );
+//        System.out.println( "charge = " + charge );
         ModelViewTransform2D transform = super.getModelViewTransform2D();
         Capacitor component = capacitor;
         Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
@@ -81,6 +82,24 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic {
                 }
             }
         } );
+    }
+
+    public Shape getCapacitorClip() {
+//        double charge = capacitor.getCharge();
+//        System.out.println( "charge = " + charge );
+        ModelViewTransform2D transform = super.getModelViewTransform2D();
+        Capacitor component = capacitor;
+        Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
+//        double viewThickness = transform.modelToViewDifferentialY( getWireThickness() );
+
+        ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
+        Point2D cat = vector.getScaledInstance( getFracDistToPlate() ).getDestination( src );
+        Point2D ano = vector.getScaledInstance( 1 - getFracDistToPlate() ).getDestination( src );
+
+        Line2D.Double line = new Line2D.Double( cat, ano );
+        Stroke str = new BasicStroke( 30, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+        return str.createStrokedShape( line );
     }
 
     private interface ChargeGraphic {
