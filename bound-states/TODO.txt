@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- bug in PhetTabbedPane: contents of PCanvas visibly resize when you first visit "Two" and "Many" panels
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
@@ -47,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+(6/22/06) - verified bugfix to PhetTabbedPane that resulted in visible resizing of play area
 (6/21/06) - make wiggle me go away when you click on it
 (6/21/06) - bugfix: zoom buttons in energy chart are sometimes transparent on Windows
 (6/21/06) - fix copyright date in all source files, should be Copyright 2006
