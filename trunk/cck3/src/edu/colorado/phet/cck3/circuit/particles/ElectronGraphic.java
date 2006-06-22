@@ -103,10 +103,13 @@ public class ElectronGraphic extends PhetImageGraphic {
             }
         }
         Shape origClip = graphics2D.getClip();
-//        graphics2D.clip(module.getElectronClip());
 
-//        graphics2D.setClip( getTransform().createTransformedShape( module.getElectronClip() ) );
-        graphics2D.setClip( module.getElectronClip() );
+        Shape electronClip = module.getElectronClip();
+//        System.out.println( "electronClip.getBounds() = " + electronClip.getBounds() );
+        if( !electronClip.getBounds().equals( new Rectangle( 0, 0, 0, 0 ) ) ) {
+            graphics2D.setClip( electronClip );
+        }
+
         super.paint( graphics2D );
         graphics2D.setClip( origClip );
     }

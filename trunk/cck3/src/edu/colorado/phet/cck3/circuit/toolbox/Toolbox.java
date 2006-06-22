@@ -298,9 +298,12 @@ public class Toolbox extends CompositeGraphic {
         }
         switchSource.setLifelike( lifelike );
         ammeterSource.setLifelike( lifelike );
-        capacitorSource.setLifelike( lifelike );
-        acSource.setLifelike( lifelike );
-
+        if( capacitorSource != null ) {
+            capacitorSource.setLifelike( lifelike );
+        }
+        if( acSource != null ) {
+            acSource.setLifelike( lifelike );
+        }
     }
 
     /**

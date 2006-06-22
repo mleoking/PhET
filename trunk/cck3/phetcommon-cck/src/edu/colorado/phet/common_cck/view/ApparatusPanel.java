@@ -9,8 +9,8 @@ package edu.colorado.phet.common_cck.view;
 
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  *
  * @see edu.colorado.phet.common_cck.view.graphics.Graphic
  */
-public class ApparatusPanel extends JPanel {
+public class ApparatusPanel extends PhetPCanvas {
 
     //
     // Statics
@@ -46,15 +46,15 @@ public class ApparatusPanel extends JPanel {
 
     ArrayList graphicsSetups = new ArrayList();
 
-    protected ApparatusPanel( Object dummy ) {
-        super( null );
-    }
+//    protected ApparatusPanel( Object dummy ) {
+//        super( null );
+//    }
 
     public ApparatusPanel() {
         // Call superclass constructor with null so that we
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
-        super( null );
+        super();
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
         //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
@@ -87,7 +87,7 @@ public class ApparatusPanel extends JPanel {
      *
      * @param graphics
      */
-    protected void paintComponent( Graphics graphics ) {
+    public void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         super.paintComponent( g2 );
         GraphicsState state = new GraphicsState( g2 );
