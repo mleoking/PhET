@@ -16,19 +16,24 @@ import javax.swing.*;
 
 public class TestFloatingChart {
     private JFrame frame;
+    private SwingClock clock;
 
     public TestFloatingChart() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PSwingCanvas contentPane = new PSwingCanvas();
-        SwingClock clock = new SwingClock( 30, 1 );
+        clock = new SwingClock( 30, 1 );
         FloatingChart floatingChart = new FloatingChart( "floating chart test", new FloatingChart.ValueReader() {
             public double getValue( double x, double y ) {
-                return Math.sin( x ) * y;
+                double v = y;
+//                System.out.println( "v = " + v );
+                return v;
             }
         }, clock );
+        floatingChart.setOffset( 100, 100 );
         contentPane.getLayer().addChild( floatingChart );
+        contentPane.setPanEventHandler( null );
         frame.setContentPane( contentPane );
     }
 
@@ -37,6 +42,7 @@ public class TestFloatingChart {
     }
 
     private void start() {
+        clock.start();
         frame.setVisible( true );
     }
 }

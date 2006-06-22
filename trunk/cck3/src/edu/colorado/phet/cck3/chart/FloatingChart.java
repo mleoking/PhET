@@ -3,6 +3,8 @@ package edu.colorado.phet.cck3.chart;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -63,6 +65,12 @@ public class FloatingChart extends PhetPNode {
         originalDisplacement = getDisplacement();
 //        System.out.println( "originalDisplacement = " + originalDisplacement );
         update();
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                super.simulationTimeChanged( clockEvent );
+                update();
+            }
+        } );
     }
 
     private Vector2D getDisplacement() {
@@ -107,10 +115,11 @@ public class FloatingChart extends PhetPNode {
 //            double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
 //            textReadout.setText( WIStrings.getString( "magnitude.0" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
         stripChartJFCNode.addValue( clock.getSimulationTime(), value );
+
 //        }
 //        else {
 //            textReadout.setText( "" );
-        stripChartJFCNode.addValue( clock.getSimulationTime(), 0.0 );
+//        stripChartJFCNode.addValue( clock.getSimulationTime(), 0.0 );
 //        }
         updateTextBackground();
     }

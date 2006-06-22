@@ -67,7 +67,9 @@ public class StripChartJFCNode extends PNode {
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setTickLabelsVisible( false );
         plot.getRangeAxis().setAutoRange( false );
-        plot.getRangeAxis().setRange( -1, 1 );
+//        plot.getRangeAxis().setRange( -1, 1 );
+        plot.getRangeAxis().setRange( -500, 500 );
+        plot.getDomainAxis().setRange( -500, 500 );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( true, false );
         renderer.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ) );
         renderer.setPaint( Color.blue );
@@ -80,21 +82,22 @@ public class StripChartJFCNode extends PNode {
             //todo can we temporarily disable render, do both steps as batch?
 //            series.add( x, y, series.getItemCount() < 100 );
 //            System.out.println( "x = " + x + ", y=" + y + ", dom=" + jFreeChart.getXYPlot().getDomainAxis().getRange() + ", ran=" + jFreeChart.getXYPlot().getRangeAxis().getRange() );
-            series.add( x, y, series.getItemCount() < 100 );
-            if( series.getItemCount() < 10 ) {
-                double x0 = series.getX( 0 ).doubleValue();
-                double dx = x - x0;
-                double projectedMax = dx * 100 / ( series.getItemCount() - 1 ) + x0;
-                jFreeChart.getXYPlot().getDomainAxis().setRange( x0, projectedMax );
-//                jFreeChart.getXYPlot().getRangeAxis().setRange( -1,1);
+//            series.add( x, y, series.getItemCount() < 100 );
+            series.add( x, y );
+//            if( series.getItemCount() < 10 ) {
+//                double x0 = series.getX( 0 ).doubleValue();
+//                double dx = x - x0;
+//                double projectedMax = dx * 100 / ( series.getItemCount() - 1 ) + x0;
+//                jFreeChart.getXYPlot().getDomainAxis().setRange( x0, projectedMax );
+////                jFreeChart.getXYPlot().getRangeAxis().setRange( -1,1);
+////                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
+//            }
+//            else if( series.getItemCount() == 100 ) {
 //                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
-            }
-            else if( series.getItemCount() == 100 ) {
-                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
-            }
-            if( series.getItemCount() > 100 ) {
-                series.remove( 0 );
-            }
+//            }
+//            if( series.getItemCount() > 100 ) {
+//                series.remove( 0 );
+//            }
         }
     }
 }
