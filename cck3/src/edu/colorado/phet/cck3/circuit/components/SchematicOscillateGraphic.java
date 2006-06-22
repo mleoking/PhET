@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class SchematicResistorGraphic extends PhetShapeGraphic implements IComponentGraphic {
+public class SchematicOscillateGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private double wireThickness;
@@ -34,7 +34,7 @@ public class SchematicResistorGraphic extends PhetShapeGraphic implements ICompo
     private TransformListener transformListener;
     private PhetShapeGraphic highlightRegion;
 
-    public SchematicResistorGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
+    public SchematicOscillateGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
         super( parent, new Area(), Color.black );
         highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
@@ -63,7 +63,8 @@ public class SchematicResistorGraphic extends PhetShapeGraphic implements ICompo
     private AbstractVector2D getVector( double east, double north ) {
         AbstractVector2D e = eastDir.getScaledInstance( east );
         AbstractVector2D n = northDir.getScaledInstance( north );
-        return e.getAddedInstance( n );
+        AbstractVector2D sum = e.getAddedInstance( n );
+        return sum;
     }
 
     protected void changed() {
@@ -81,21 +82,39 @@ public class SchematicResistorGraphic extends PhetShapeGraphic implements ICompo
         double resistorThickness = viewThickness / 2.5;
         double resistorWidth = catPoint.distance( anoPoint );
         int numPeaks = 3;
-        double zigHeight = viewThickness * 1.2;
+//        double zigHeight = viewThickness * 1.2;
         //zig zags go here.
         int numQuarters = ( numPeaks - 1 ) * 4 + 2;
         double numWaves = numQuarters / 4.0;
         double wavelength = resistorWidth / numWaves;
-        double quarterWavelength = wavelength / 4.0;
-        double halfWavelength = wavelength / 2.0;
+//        double quarterWavelength = wavelength / 4.0;
+//        double halfWavelength = wavelength / 2.0;
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( catPoint );
-        path.lineToRelative( getVector( quarterWavelength, zigHeight ) );
-        for( int i = 0; i < numPeaks - 1; i++ ) {
-            path.lineToRelative( getVector( halfWavelength, -2 * zigHeight ) );
-            path.lineToRelative( getVector( halfWavelength, 2 * zigHeight ) );
+        double dist = catPoint.distance( anoPoint );
+        double dx = 1;
+        double fracDistToStartSine = 0.15;
+        double sinDist = dist - 2 * dist * fracDistToStartSine;
+//        System.out.println( "sinDist = " + sinDist );
+        double omega = 2 * Math.PI / ( sinDist );
+        for( double x = 0; x < dist; x += dx ) {
+            double y = -10 * Math.sin( ( x - dist * fracDistToStartSine ) * omega );
+            AbstractVector2D v = getVector( x, y );
+            Point2D pt = v.getDestination( catPoint );
+            if( x > dist * fracDistToStartSine && x < ( dist - dist * fracDistToStartSine ) ) {
+                path.lineTo( pt );
+            }
+            else {
+                path.moveTo( pt );
+            }
         }
-        path.lineToRelative( getVector( quarterWavelength, -zigHeight ) );
+
+//        path.lineToRelative( getVector( quarterWavelength, zigHeight ) );
+//        for( int i = 0; i < numPeaks - 1; i++ ) {
+//            path.lineToRelative( getVector( halfWavelength, -2 * zigHeight ) );
+//            path.lineToRelative( getVector( halfWavelength, 2 * zigHeight ) );
+//        }
+//        path.lineToRelative( getVector( quarterWavelength, -zigHeight ) );
         Shape shape = path.getGeneralPath();
         BasicStroke stroke = new BasicStroke( (float)resistorThickness );
 

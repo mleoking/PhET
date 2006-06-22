@@ -933,7 +933,10 @@ public class CircuitGraphic extends CompositeGraphic {
         double wireThickness = .13;
 
         public void addGraphic( Branch b ) {
-            if( b instanceof Battery ) {
+            if( b instanceof ACVoltageSource ) {
+                addACGraphic( (ACVoltageSource)b );
+            }
+            else if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
             }
             else if( b instanceof Bulb ) {
@@ -994,6 +997,11 @@ public class CircuitGraphic extends CompositeGraphic {
 
         private void addBatteryGraphic( Battery component ) {
             SchematicBatteryGraphic ccbg = new SchematicBatteryGraphic( apparatusPanel, component, getTransform(), wireThickness );
+            CircuitGraphic.this.addGraphic( component, ccbg );
+        }
+
+        private void addACGraphic( ACVoltageSource component ) {
+            SchematicACGraphic ccbg = new SchematicACGraphic( apparatusPanel, component, getTransform(), wireThickness );
             CircuitGraphic.this.addGraphic( component, ccbg );
         }
 

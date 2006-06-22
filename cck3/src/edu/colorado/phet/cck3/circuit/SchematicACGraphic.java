@@ -1,8 +1,8 @@
-/** Sam Reid*/
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.circuit.components.Bulb;
-import edu.colorado.phet.cck3.circuit.components.SchematicResistorGraphic;
+import edu.colorado.phet.cck3.circuit.components.ACVoltageSource;
+import edu.colorado.phet.cck3.circuit.components.SchematicOscillateGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -17,13 +17,13 @@ import java.awt.geom.Point2D;
  * Time: 11:45:11 PM
  * Copyright (c) Jun 20, 2004 by Sam Reid
  */
-public class SchematicBulbGraphic extends SchematicResistorGraphic {
-    private Bulb bulb;
+public class SchematicACGraphic extends SchematicOscillateGraphic {
+//    private ACVoltageSource bulb;
     private PhetShapeGraphic shapeGraphic;
 
-    public SchematicBulbGraphic( Component parent, Bulb bulb, ModelViewTransform2D transform, double wireThickness ) {
-        super( parent, bulb, transform, wireThickness );
-        this.bulb = bulb;
+    public SchematicACGraphic( Component parent, ACVoltageSource ac, ModelViewTransform2D transform, double wireThickness ) {
+        super( parent, ac, transform, wireThickness );
+//        this.bulb = ac;
         shapeGraphic = new PhetShapeGraphic( parent, null, new BasicStroke( 3.0f ), Color.black );
         changed();
         setVisible( true );

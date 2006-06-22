@@ -222,12 +222,15 @@ public class Toolbox extends CompositeGraphic {
     }
 
     private double addAC( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
-        double battToolHeight = CCK3Module.AC_DIM.getHeightForLength( componentWidth );
+        double acToolHeight = CCK3Module.AC_DIM.getHeightForLength( componentWidth );
 
-        ACVoltageSource batt = new ACVoltageSource( new Point2D.Double( componentX, y ), dir, componentWidth, battToolHeight, module.getKirkhoffListener(), module.isInternalResistanceOn() );
-        CircuitComponentImageGraphic acGraphic = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), parent, batt, transform );
-        SchematicBatteryGraphic ac = new SchematicBatteryGraphic( parent, batt, transform, schematicWireThickness );
-        acSource = new BranchSource.ACSource( acGraphic, ac, module.getCircuitGraphic(), parent, batt, CCK3Module.AC_DIM, module.getKirkhoffListener(), module );
+        ACVoltageSource ac = new ACVoltageSource( new Point2D.Double( componentX, y ), dir,
+                                                  componentWidth, acToolHeight, module.getKirkhoffListener(), module.isInternalResistanceOn() );
+        CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), parent, ac, transform );
+//        SchematicOscillateGraphic schematic = new SchematicOscillateGraphic( parent, batt, transform, schematicWireThickness );
+        SchematicOscillateGraphic schematic = new SchematicACGraphic( parent, ac, transform, schematicWireThickness );
+        acSource = new BranchSource.ACSource( lifelike, schematic, module.getCircuitGraphic(),
+                                              parent, ac, CCK3Module.AC_DIM, module.getKirkhoffListener(), module );
         addSource( acSource );
         y += dy;
         return y;
@@ -295,6 +298,9 @@ public class Toolbox extends CompositeGraphic {
         }
         switchSource.setLifelike( lifelike );
         ammeterSource.setLifelike( lifelike );
+        capacitorSource.setLifelike( lifelike );
+        acSource.setLifelike( lifelike );
+
     }
 
     /**
