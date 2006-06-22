@@ -78,6 +78,9 @@ public class Nucleus extends NuclearModelElement {
     }
 
     public void setPotential( double potential ) {
+        if( potential > -10 ) {
+            System.out.println( "Nucleus.setPotential" );
+        }
         this.potential = potential;
     }
 

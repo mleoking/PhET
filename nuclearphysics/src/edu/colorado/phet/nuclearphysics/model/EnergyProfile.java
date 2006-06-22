@@ -56,7 +56,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
 
     private int computeMinEnergy( Nucleus nucleus ) {
         int n = 130;
-        int minEnergy = - ( n + ( nucleus.getNumNeutrons() - n ) * 4 );
+        int minEnergy = - ( n + ( n - nucleus.getNumNeutrons() ) * 4 );
         return minEnergy;
     }
 

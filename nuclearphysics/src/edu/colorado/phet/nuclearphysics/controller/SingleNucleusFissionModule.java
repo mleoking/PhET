@@ -240,20 +240,23 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             }
             daughter.setAcceleration( a );
 
+
+            daughter.setPotential( profile.getMaxEnergy() );
+            // We're ignoring the code below that makes the daughter nucleui in the energy panel follow the
+            // profile.
             // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
             // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
             // down the profile
-            double potential = 0;
+//            double potential = 0;
             // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
-            // Without it, the
-            if( Math.abs( d ) <= Math.abs( profile.getMaxEnergy() - 10 ) ) {
-        //                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
-                potential = profile.getMaxEnergy();
-            }
-            else {
-                potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
-            }
-            daughter.setPotential( potential );
+//            if( Math.abs( d ) <= Math.abs( profile.getMaxEnergy() - 10 ) ) {
+//        //                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
+//                potential = profile.getMaxEnergy();
+//            }
+//            else {
+//                potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+//            }
+//            daughter.setPotential( potential );
         }
     }
 }
