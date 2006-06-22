@@ -22,7 +22,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
-public class ContainmentGraphic extends CompositePhetGraphic {
+public class ContainmentGraphic extends CompositePhetGraphic implements Containment.ChangeListener {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
@@ -34,6 +34,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
     public ContainmentGraphic( Containment containment, Component component, AffineTransform atx ) {
         super( null );
         this.containment = containment;
+        containment.addChangeListener( this );
         this.atx = atx;
         rep = new Rep( component );
         addGraphic( rep );
@@ -158,5 +159,13 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             gettingSmaller = ( d2 < d1 );
             lastDragPt = e.getPoint();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of Containment.ChangeListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void containmentExploded( Containment.ChangeEvent event ) {
+        System.out.println( "ContainmentGraphic.containmentExploded" );
     }
 }

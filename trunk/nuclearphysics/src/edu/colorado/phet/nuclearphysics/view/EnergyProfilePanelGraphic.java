@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.coreadditions.TxGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -53,17 +53,19 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private static Color backgroundColor = new Color( 255, 255, 255 );
     private static String xAxisLabel = SimStrings.get( "PotentialProfilePanel.XAxisLabel" );
     private static String yAxisLabel = SimStrings.get( "PotentialProfilePanel.YAxisLabel" );
+    private static String originLabel = "0";
     private static Font axisLabelFont;
+    private static Font legendFont;
     private static float ghostAlpha = 1f;
-    private static double profileLayer = 10;
     private static double nucleusLayer = 20;
     private static AffineTransform atx = new AffineTransform();
 
     static {
         String family = "SansSerif";
         int style = Font.BOLD;
-        int size = 12;
+        int size = 14;
         EnergyProfilePanelGraphic.axisLabelFont = new Font( family, style, size );
+        EnergyProfilePanelGraphic.legendFont = new Font( family, style, 12 );
     }
 
     private static GeneralPath arrowhead = new GeneralPath();
@@ -186,7 +188,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             nucleusTx.translate( 0, -nucleus.getPotential() );
 
 //            System.out.println( "-nucleus.getPotential() = " + -nucleus.getPotential() );
-            
+
             nucleusTx.scale( 0.5, 0.5 );
 //            nucleusTx.translate( nucleus.getPosition().getX(), 0 );
             nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
@@ -205,7 +207,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( profileTx );
-            double dy = -( ( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
+            double dy = ( ( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setTransform( orgTx );
@@ -256,7 +258,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         // Tick marks
         {
             g2.setTransform( orgTx );
-            int tickSpacing = 40;
+            int tickSpacing = 35;
             int tickHeight = 10;
 
             // x axis ticks
@@ -273,12 +275,18 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             for( int y = 0; y < yAxisMax; y += tickSpacing ) {
                 g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
             }
+            for( int y = 0; y > yAxisMin; y -= tickSpacing ) {
+                g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
+            }
         }
 
         // Draw labels
         {
             g2.setFont( EnergyProfilePanelGraphic.axisLabelFont );
             g2.setColor( Color.black );
+
+            // origin
+            g2.drawString( EnergyProfilePanelGraphic.originLabel, yAxisXLoc + 5, -5 );
 
             // y axis
             AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
@@ -302,7 +310,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         int legendWidth = 180;
         int legendHeight = 60;
-        Insets insetsFromPanel = new Insets( 0, 0, 100, 20);
+        Insets insetsFromPanel = new Insets( 0, 0, 100, 20 );
         Stroke borderStroke = new BasicStroke( 3 );
         Point legendLoc = new Point( getWidth() - legendWidth - insetsFromPanel.right, getHeight() - legendHeight - insetsFromPanel.bottom );
         g2.setStroke( borderStroke );
@@ -316,6 +324,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
             g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
             g2.setColor( Color.black );
+            g2.setFont( legendFont );
             Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ), g2 );
             g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ),
                            insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );

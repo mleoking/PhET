@@ -1,3 +1,4 @@
+- Don't need fision behavior in Polonium. Make a Fisionable interface.
 - Profiled nucleus modules don't account properly for resizing before the first time they're activated
 
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
@@ -41,7 +42,7 @@ Controlled Reaction
 
 
 ================
-Done not posted
+1.08.08
 ================
 
 Alpha Decay
