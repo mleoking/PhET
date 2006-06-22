@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.chart.FloatingChart;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
@@ -922,15 +921,12 @@ public class CCK3Module extends Module {
         return area;
     }
 
+    SwingClock clock = new SwingClock( 30, 1 );
+
     public void addFloatingChart() {
-        SwingClock clock = new SwingClock( 30, 1 );
-        FloatingChart chart = new FloatingChart( "Chart", new FloatingChart.ValueReader() {
-            public double getValue( double x, double y ) {
-                return y;
-            }
-        }, clock );
         clock.start();
-        chart.setOffset( 100, 100 );
+        CCKFloatingChart chart = new CCKFloatingChart( "Current", clock, getCircuitGraphic() );
+        chart.setOffset( 200, 200 );
         getApparatusPanel().addScreenChild( chart );
     }
 
