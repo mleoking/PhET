@@ -211,6 +211,15 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _viewNode.addChild( _chartEdgeNode ); // on top, to cover plots that fall off edge of chart
         }
 
+        // Picking -- only the physical "parts" are pickable
+        {
+            this.setPickable( false );
+            _viewNode.setPickable( false );
+            _viewNode.setChildrenPickable( false );
+            _partsNode.setPickable( true );
+            _partsNode.setChildrenPickable( true );
+        }
+        
         addChild( _viewNode );
         addChild( _partsNode ); // on top, so we get mouse events
     }
@@ -316,8 +325,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        setPickable( visible );
-        setChildrenPickable( visible );
+        _partsNode.setPickable( visible );
+        _partsNode.setChildrenPickable( visible );
         if ( visible ) {
             updateDisplay();
         }
