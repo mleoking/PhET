@@ -203,7 +203,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
         return getBounds().contains( x, y );
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         return getBoundsWithBrighties();
     }
 

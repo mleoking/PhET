@@ -128,5 +128,5 @@ public abstract class PhetGraphic implements BoundedGraphic {
         }
     }
 
-    public abstract Rectangle determineBounds();
+    protected abstract Rectangle determineBounds();
 }
