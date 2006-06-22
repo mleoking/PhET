@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.boundstates.control.draghandles;
+package edu.colorado.phet.boundstates.draghandles;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
