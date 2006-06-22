@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.chart.FloatingChart;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
@@ -21,6 +22,7 @@ import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.cck3.common.ColorDialog;
 import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.cck3.phetcommon.PhetLookAndFeel;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
@@ -168,7 +170,8 @@ public class CCK3Module extends Module {
             }
         } );
         getApparatusPanel().setFocusable( true );
-        getApparatusPanel().setBackground( apparatusPanelColor );
+//        getApparatusPanel().setBackground( apparatusPanelColor );
+        getApparatusPanel().setBackground( new Color( 0, 0, 0, 0 ) );
         DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
             }
@@ -917,6 +920,18 @@ public class CCK3Module extends Module {
             }
         }
         return area;
+    }
+
+    public void addFloatingChart() {
+        SwingClock clock = new SwingClock( 30, 1 );
+        FloatingChart chart = new FloatingChart( "Chart", new FloatingChart.ValueReader() {
+            public double getValue( double x, double y ) {
+                return y;
+            }
+        }, clock );
+        clock.start();
+        chart.setOffset( 100, 100 );
+        getApparatusPanel().addScreenChild( chart );
     }
 
     public static class SimpleKeyEvent implements KeyListener {

@@ -205,6 +205,7 @@ public class FloatingChart extends PhetPNode {
             protected void drag( PInputEvent event ) {
                 super.drag( event );
                 intensityReader.detachCrosshair();
+                event.setHandled( true );
             }
 
             protected void superdrag( PInputEvent event ) {

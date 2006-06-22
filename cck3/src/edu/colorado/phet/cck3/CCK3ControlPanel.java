@@ -135,7 +135,23 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
+
+        if( module.getParameters().getAllowDynamics() ) {
+            addFloatingCharts();
+        }
+
         super.addControlFullWidth( getHelpPanel() );
+    }
+
+    private void addFloatingCharts() {
+        JButton floatingChartButton = new JButton( "Add Chart" );
+        floatingChartButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "CCK3ControlPanel.actionPerformed" );
+                module.addFloatingChart();
+            }
+        } );
+        addControl( floatingChartButton );
     }
 
     private void add( JComponent component ) {
