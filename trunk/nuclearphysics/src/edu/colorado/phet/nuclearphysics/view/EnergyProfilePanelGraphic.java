@@ -382,7 +382,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         profileNucleusMap.clear();
         potentialProfileMap.clear();
         wellParticles.clear();
-//        super.removeAllGraphics();
         PhetGraphic[] graphics = super.getGraphics();
         for( int i = 0; i < graphics.length; i++ ) {
             PhetGraphic graphic = graphics[i];
@@ -408,17 +407,4 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     public void removeNucleusGraphic( Nucleus nucleus ) {
         profileNucleusMap.remove( nucleus );
     }
-
-    /**
-     * Adds a nucleus and its potential profile to the panel. The color
-     * parameter specifies the color in which the profile is to be drawn.
-     * If it is null, no profile is drawn.
-     *
-     * @param nucleus
-     * @param color
-     */
-    public void addNucleus( Nucleus nucleus, Color color ) {
-        this.addEnergyProfile( nucleus, profileType );
-    }
-
 }

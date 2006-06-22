@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.GraphicsSetup;
@@ -17,9 +16,6 @@ import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
@@ -53,7 +49,6 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         Graphics2D g2 = (Graphics2D)graphics;
 
         // Set the origin
-//        setOrigin( new Point2D.Double( this.getWidth() / 2, this.getHeight() / 2 ) );
         getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
 
         // Draw everything that isn't special to this panel

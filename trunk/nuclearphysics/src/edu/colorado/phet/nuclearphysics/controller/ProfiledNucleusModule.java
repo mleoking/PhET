@@ -12,11 +12,9 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.coreadditions.TxGraphic;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 import edu.colorado.phet.nuclearphysics.view.EnergyProfileGraphic;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,7 +33,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     private Nucleus nucleus;
     private EnergyProfilePanelGraphic energyProfilePanel;
-//    private EnergyProfilePanel energyProfilePanel;
     private GridBagConstraints physicalPanelGBC;
     private EnergyProfileGraphic.ProfileType profileType;
 
@@ -44,6 +41,9 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
         this.profileType = profileType;
     }
 
+    /**
+     *
+     */
     protected void init() {
         getApparatusPanel().setLayout( new GridBagLayout() );
         physicalPanelGBC = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -57,24 +57,12 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
         energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
         energyProfilePanel.setVisible( true );
-
-        NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
-        model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
-            public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
-                Nucleus nucleus = event.getNucleus();
-                if( !( nucleus instanceof AlphaParticle ) ) {
-                    energyProfilePanel.addEnergyProfile( event.getNucleus(), profileType );
-                }
-            }
-
-            public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
-                if( !( nucleus instanceof AlphaParticle ) ) {
-                    energyProfilePanel.removeEnergyProfile( event.getNucleus().getEnergyProfile() );
-                }
-            }
-        } );
     }
 
+    /**
+     *
+     * @param component
+     */
     protected void addPhysicalPanel( Component component ) {
         physicalPanelGBC.gridy = 0;
 
@@ -100,7 +88,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     protected void addNucleus( Nucleus nucleus, Color color ) {
         super.addNucleus( nucleus );
-        energyProfilePanel.addNucleus( nucleus, color );
     }
 
     protected EnergyProfilePanelGraphic getEnergyProfilePanel() {
