@@ -99,9 +99,8 @@ public class PotentialProfile extends SimpleObservable implements IEnergyProfile
         generate();
     }
 
-    public void setWellDepth( double wellDepth ) {
-        this.wellDepth = wellDepth;
-        generate();
+    public double getWellDept() {
+        return wellDepth;
     }
 
     /**

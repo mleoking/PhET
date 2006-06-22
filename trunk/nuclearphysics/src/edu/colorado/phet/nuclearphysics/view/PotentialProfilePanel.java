@@ -293,17 +293,18 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
     public void addPotentialProfile( Nucleus nucleus ) {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
-        nucleus.getEnergylProfile().addObserver( ppg );
+        nucleus.getPotentialProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
-        potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
+        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
         addGraphic( txg, nucleusLayer );
     }
 
-    public void removeEnergyProfile( EnergyProfile energyProfile ) {
-        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( energyProfile );
+    private void removeEnergyProfile( PotentialProfile potentialProfile ) {
+        // todo: HERE's were to look
+        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
-        potentialProfileMap.remove( energyProfile );
+        potentialProfileMap.remove( potentialProfile );
     }
 
     public void removeAllPotentialProfiles() {
@@ -373,10 +374,10 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     public void addNucleus( Nucleus nucleus, Color color ) {
         this.addPotentialProfile( nucleus );
         if( color == null ) {
-            removeEnergyProfile( nucleus.getEnergylProfile() );
+            removeEnergyProfile( nucleus.getPotentialProfile() );
         }
         else {
-            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getEnergylProfile() );
+            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getPotentialProfile() );
             ppg.setColor( color );
         }
     }

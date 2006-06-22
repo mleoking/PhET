@@ -81,7 +81,7 @@ public class Nucleus extends NuclearModelElement {
         this.potential = potential;
     }
 
-    public EnergyProfile getEnergylProfile() {
+    public EnergyProfile getEnergyProfile() {
         return energyProfile;
     }
 

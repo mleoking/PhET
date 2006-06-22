@@ -39,6 +39,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         init( getClock() );
     }
 
+    /**
+     * A subclass of PhysicalPanel that sets the origin in the middle of the pane.
+     */
     private class MyPhysicalPanel extends PhysicalPanel {
         public MyPhysicalPanel() {
             super( getClock(), (NuclearPhysicsModel)getModel() );
@@ -101,13 +104,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public void start() {
         nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
-        nucleus.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
+        nucleus.setPotential( nucleus.getPotentialProfile().getMinEnergy() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
         getEnergyProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
-        nucleus.addObserver( getNucleus().getEnergylProfile() );
+        nucleus.addObserver( getNucleus().getPotentialProfile() );
     }
 
     public void activate() {
@@ -168,47 +171,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         // Add a model element that will make the daughter nuclei slide down the
         // profile
-        ModelElement daughterStepper = new ModelElement() {
-            private double forceScale = 0.1;
-
-            public void stepInTime( double dt ) {
-                stepDaughterNucleus( products.getParent(), products.getDaughter1() );
-                stepDaughterNucleus( products.getParent(), products.getDaughter2() );
-            }
-
-            private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
-                double d = daughter.getPosition().distance( parent.getPosition() );
-                Vector2D a = null;
-                EnergyProfile profile = parent.getEnergylProfile();
-                double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
-                force = Double.isNaN( force ) ? 0 : force;
-                force = -profile.getDyDx( -d ) * forceScale;
-                if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
-                    double dx = daughter.getPosition().getX() - parent.getPosition().getX();
-                    double dy = daughter.getPosition().getY() - parent.getPosition().getY();
-                    a = new Vector2D.Double( (float)dx, (float)dy ).normalize().scale( force );
-                }
-                else {
-                    a = new Vector2D.Double( daughter.getVelocity() ).normalize().scale( force );
-                }
-                daughter.setAcceleration( a );
-
-                // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
-                // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
-                // down the profile
-                double potential = 0;
-                // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
-                // Without it, the
-                if( Math.abs( d ) <= Math.abs( profile.getMaxEnergy() - 10 ) ) {
-//                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
-                    potential = profile.getMaxEnergy();
-                }
-                else {
-                    potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
-                }
-                daughter.setPotential( potential );
-            }
-        };
+        ModelElement daughterStepper = new FissionProductsStepper( products );
         getModel().addModelElement( daughterStepper );
         transientModelElements.add( daughterStepper );
 
@@ -224,5 +187,57 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
+    }
+
+    /**
+     * A model element that steps the products of the fission
+     */
+    private static class FissionProductsStepper implements ModelElement {
+        private double forceScale;
+        private final FissionProducts products;
+
+        public FissionProductsStepper( FissionProducts products ) {
+            this.products = products;
+            forceScale = 0.1;
+        }
+
+        public void stepInTime( double dt ) {
+            stepDaughterNucleus( products.getParent(), products.getDaughter1() );
+            stepDaughterNucleus( products.getParent(), products.getDaughter2() );
+        }
+
+        private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
+            double d = daughter.getPosition().distance( parent.getPosition() );
+            Vector2D a = null;
+            IEnergyProfile profile = parent.getPotentialProfile();
+//            EnergyProfile profile = parent.getEnergyProfile();
+            double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
+            force = Double.isNaN( force ) ? 0 : force;
+            force = -profile.getDyDx( -d ) * forceScale;
+            if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
+                double dx = daughter.getPosition().getX() - parent.getPosition().getX();
+                double dy = daughter.getPosition().getY() - parent.getPosition().getY();
+                a = new Vector2D.Double( (float)dx, (float)dy ).normalize().scale( force );
+            }
+            else {
+                a = new Vector2D.Double( daughter.getVelocity() ).normalize().scale( force );
+            }
+            daughter.setAcceleration( a );
+
+            // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
+            // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
+            // down the profile
+            double potential = 0;
+            // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
+            // Without it, the
+            if( Math.abs( d ) <= Math.abs( profile.getMaxEnergy() - 10 ) ) {
+        //                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
+                potential = profile.getMaxEnergy();
+            }
+            else {
+                potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+            }
+            daughter.setPotential( potential );
+        }
     }
 }

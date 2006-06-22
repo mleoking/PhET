@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,7 +36,7 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
     private Color backgroundColor = new Color( 200, 200, 255 );
     private Stroke stroke = new BasicStroke( 2f );
 
-    private EnergyProfile profile;
+    private IEnergyProfile profile;
     private Point2D.Double origin;
     private AffineTransform profileTx = new AffineTransform();
 //    private Image image;
@@ -44,8 +45,7 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
     public PotentialProfileGraphic( Component component, Nucleus nucleus ) {
         super( component );
         this.nucleus = nucleus;
-        this.profile = nucleus.getEnergylProfile();
-        this.profile.addObserver( this );
+        this.profile = nucleus.getPotentialProfile();
 //        image = buildImage();
     }
 
@@ -58,7 +58,7 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
         this.origin = origin;
     }
 
-    public EnergyProfile getProfile() {
+    public IEnergyProfile getProfile() {
         return profile;
     }
 

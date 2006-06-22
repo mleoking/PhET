@@ -17,7 +17,7 @@ public class Thorium141 extends Nucleus {
         // Leave the number of protons at 92, so it will give the same max potential
         // as U235, even though this is inaccurate
         super( position, 90, 141 );
-//        getEnergylProfile().setMinEnergy( 2 );
-        getEnergylProfile().notifyObservers();
+//        getEnergyProfile().setMinEnergy( 2 );
+        getEnergyProfile().notifyObservers();
     }
 }
