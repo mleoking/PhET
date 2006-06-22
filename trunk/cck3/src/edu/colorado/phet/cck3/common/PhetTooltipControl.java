@@ -19,26 +19,32 @@ public class PhetTooltipControl implements MouseInputListener {
     JComponent component;
     String text;
     PhetTooltipGraphic textGraphic;
-    ActionListener actor = new ActionListener() {
-        public void actionPerformed( ActionEvent e ) {
-            tick();
-        }
-    };
     private MouseEvent e;
 
-    private void tick() {
-        textGraphic.setPosition( (int)( e.getX() - textGraphic.getBounds().getWidth() * 1.5 ), e.getY() );
-        textGraphic.setVisible( true );
-    }
-
-    Timer timer = new Timer( 1000, actor );
+    Timer timer = null;
 
     public PhetTooltipControl( ApparatusPanel component, String text ) {
+        timer = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                tick();
+            }
+        } );
         this.component = component;
         this.text = text;
         textGraphic = new PhetTooltipGraphic( component, text );
         component.addGraphic( textGraphic, ApparatusPanel.LAYER_TOP );
         timer.setRepeats( false );
+        tick();
+    }
+
+    private void tick() {
+        if( e == null ) {
+            textGraphic.setVisible( false );
+        }
+        else {
+            textGraphic.setPosition( (int)( e.getX() - textGraphic.getBounds().getWidth() * 1.5 ), e.getY() );
+            textGraphic.setVisible( true );
+        }
     }
 
     public void mouseClicked( MouseEvent e ) {
