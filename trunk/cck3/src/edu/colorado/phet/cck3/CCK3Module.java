@@ -70,7 +70,7 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-    private static final String VERSION = "3.01.01";
+    private static final String VERSION = "3.01.02";
 
     private SetupParameters parameters;
     private Circuit circuit;

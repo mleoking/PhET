@@ -1,7 +1,6 @@
 ################################################
 #Remaining Work
 #######################
-o Schematic icons for ac & capacitors
 o Improved toolbar for advanced components.
 o Add inductors.
 o Internationalize new material.

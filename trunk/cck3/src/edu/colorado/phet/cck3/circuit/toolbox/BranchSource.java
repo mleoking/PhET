@@ -45,6 +45,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     protected PhetTextGraphic textGraphic;
     private PhetShapeGraphic shapeGraphic;//for debugging.
     private TransformListener tl;
+    protected int textOffsetY = 0;
 
     protected BranchSource( final PhetGraphic lifelike,
                             final PhetGraphic schematic,
@@ -104,7 +105,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 int width = textGraphic.getBounds().width;
                 int height = textGraphic.getBounds().height;
                 Point at = new Point( bc.x - width / 2, bc.y + height );
-                textGraphic.setPosition( at.x, at.y );
+                textGraphic.setPosition( at.x, at.y + textOffsetY );
 //                shapeGraphic.setShape( new Rectangle( rect ) );
                 if( branch.getClass().equals( Branch.class ) ) {
 //                    System.out.println( "rect = " + rect );
@@ -287,9 +288,11 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class ACSource extends BranchSource {
         private ComponentDimension finalDim;
 
-        public ACSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.AC" ), module );
+        public ACSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch,
+                         ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
+            super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.AC" ), module );
             this.finalDim = finalDim;
+            super.textOffsetY = 7;
         }
 
         public Branch createBranch() {
