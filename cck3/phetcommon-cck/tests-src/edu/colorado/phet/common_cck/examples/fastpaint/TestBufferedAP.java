@@ -38,7 +38,7 @@ public class TestBufferedAP {
             buffer = (BufferedImage)createImage( getWidth(), getHeight() );
         }
 
-        protected void paintComponent( Graphics graphics ) {
+        public void paintComponent( Graphics graphics ) {
             Graphics2D bufferGraphics = buffer.createGraphics();
             super.paintComponent( bufferGraphics );
             bufferGraphics.drawRenderedImage( buffer, new AffineTransform() );
