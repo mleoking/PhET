@@ -208,6 +208,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of DecayListener
+    //--------------------------------------------------------------------------------------------------
+
     public void alphaDecay(AlphaDecayProducts decayProducts) {
 
         alphaDecayControlPanel.stopTimer();

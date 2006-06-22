@@ -28,6 +28,10 @@ import java.awt.geom.*;
  * <li>The sides of the well are vertical, and the bottom is horizontal.
  * <li>The shape of the tails is exponential
  * </ul>
+ * <p>
+ * The profile is completely jimmied, because I was given no physical model to base it on, only told that "it should
+ * look like this," and handed a piece of paper.
+ * </ul>
  */
 public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
     private double width;
@@ -49,17 +53,39 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
         this.generate();
     }
 
+    /**
+     * The max energy doesn't change for anything.
+     *
+     * @param nucleus
+     * @return
+     */
     private double computeMaxEnergy( Nucleus nucleus ) {
-        double maxEnergy = minEnergy + 2.5 * nucleus.getNumProtons();
+        double maxEnergy = 20;
+//        double maxEnergy = minEnergy + 2.5 * nucleus.getNumProtons();
         return maxEnergy;
     }
 
+    /**
+     * A totally hacked function that work only with Polonium on the particular panel we're putting up.
+     *
+     * @param nucleus
+     * @return
+     */
     private int computeMinEnergy( Nucleus nucleus ) {
-        int n = 130;
-        int minEnergy = - ( n + ( n - nucleus.getNumNeutrons() ) * 4 );
+        int n = 128;
+        int minEnergy = - ( n + ( n - nucleus.getNumNeutrons() ) * 20 );
         return minEnergy;
     }
 
+    /**
+     * I made up the function. It is constructed to make the level drop when the min energy drops
+     *
+     * @return
+     */
+    public double getTotalEnergy() {
+        double energy = minEnergy + 180;
+        return energy;
+    }
 
     public double getWidth() {
         return width;
@@ -117,7 +143,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
                              endPt1.getY() );
         Point2D ctrlPt2A = new Point2D.Double();
         ctrlPt2A.setLocation( endPt2.getX(),
-                              endPt2.getY() + Math.abs( endPt2.getY() * 7 / 8 ));
+                              endPt2.getY() + Math.abs( endPt2.getY() * 7 / 8 ) );
         shape[0] = new CubicCurve2D.Double( endPt1.getX(), endPt1.getY(),
                                             ctrlPt1.getX(), ctrlPt1.getY(),
                                             ctrlPt2A.getX(), ctrlPt2A.getY(),
@@ -146,7 +172,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
         shape[4] = new CubicCurve2D.Double( endPt5.getX(), endPt5.getY(),
                                             ctrlPt5A.getX(), ctrlPt5A.getY(),
                                             ctrlPt6.getX(), ctrlPt6.getY(),
-                                            endPt6.getX(), endPt6.getY());
+                                            endPt6.getX(), endPt6.getY() );
 
         potentilaProfilePath = new GeneralPath();
         potentilaProfilePath.append( shape[0], true );
@@ -163,8 +189,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
 //        alphaDecayX = getHillX( -getMinEnergy() );
 
         // Generate the line for the total energy
-        totalEnergyPath = new Line2D.Double( -2000, getTotalEnergy(), 2000, getTotalEnergy() );
-//        totalEnergyPath = new Line2D.Double( -Double.MAX_VALUE, getTotalEnergy(), Double.MAX_VALUE, getTotalEnergy() );
+        totalEnergyPath = new Line2D.Double( -2000, -getTotalEnergy(), 2000, -getTotalEnergy() );
 
         // Tell everyone we've changed
         notifyObservers();
@@ -180,18 +205,6 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
 
     public double getAlphaDecayX() {
         return this.alphaDecayX;
-    }
-
-    /**
-     * I made up the function. It is constructed to make the level drop when the min energy drops
-     * @return
-     */
-    public double getTotalEnergy() {
-//        return 20;
-        double energy = minEnergy + 2 * ( nucleus.getNumProtons() - 1 );
-        energy = getHillY( alphaDecayX );
-//        System.out.println( "energy = " + energy );
-        return energy;
     }
 
     /**

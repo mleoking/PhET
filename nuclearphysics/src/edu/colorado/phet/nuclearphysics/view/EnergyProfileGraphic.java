@@ -57,24 +57,16 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     //--------------------------------------------------------------------------------------------------
 
     private IEnergyProfile profile;
-//    private EnergyProfile profile;
-    private AffineTransform profileTx = new AffineTransform();
     private Nucleus nucleus;
     private ProfileType profileType;
 
     /**
-     * Sole constructor
+     * Only constructor
      *
      * @param component
      * @param nucleus
+     * @param profileType
      */
-//    public EnergyProfileGraphic( Component component, Nucleus nucleus ) {
-//        this( component, nucleus, TOTAL_ENERGY );
-////        super( component );
-////        this.nucleus = nucleus;
-////        this.profile = nucleus.getEnergyProfile();
-//    }
-
     public EnergyProfileGraphic( Component component, Nucleus nucleus, ProfileType profileType ) {
         super( component );
         this.nucleus = nucleus;
@@ -98,7 +90,6 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     public void paint( Graphics2D g ) {
         GraphicsState gs = new GraphicsState( g );
 
-        profileTx.setToIdentity();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         g.setColor( potentialProfileColor );

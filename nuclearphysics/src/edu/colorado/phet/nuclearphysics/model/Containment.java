@@ -7,17 +7,18 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 
-import java.util.List;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 /**
  * A vessel that is supposed to emulate the containment vessel of a nuclear bomb.
@@ -31,6 +32,12 @@ public class Containment extends SimpleObservable implements ModelElement {
     private ArrayList resizeListeners = new ArrayList();
     private Containment.NeutronCollisionDetector neutronCollisionDetector;
     private NuclearPhysicsModel model;
+
+    // Fields having to do with the containment blowing up
+    private double totalImpact;
+    private double neutronImpact = 1;
+    private double nucleusImpact = 10;
+    private double explosionThreshold = 50;
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
@@ -94,6 +101,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     public void dissolve() {
         double decr = 0.05;
         opacity = Math.max( opacity - decr, 0 );
+        System.out.println( "opacity = " + opacity );
         notifyObservers();
     }
 
@@ -105,6 +113,14 @@ public class Containment extends SimpleObservable implements ModelElement {
         return wallThickness;
     }
 
+    private void recordImpact( double impact ) {
+        totalImpact += impact;
+        if( totalImpact > explosionThreshold ) {
+            model.removeModelElement( this );
+            changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Listeners
     //--------------------------------------------------------------------------------------------------
@@ -112,6 +128,36 @@ public class Containment extends SimpleObservable implements ModelElement {
     public interface ResizeListener {
         void containementResized( Containment containment );
     }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // ChangeListener definition
+    //--------------------------------------------------------------------------------------------------
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public Containment get() {
+            return (Containment)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void containmentExploded( ChangeEvent event );
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Inner Classes
@@ -150,10 +196,12 @@ public class Containment extends SimpleObservable implements ModelElement {
             if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
                 nucleus.setVelocity( 0, 0 );
                 double dx = ( nucleus.getPosition().getX() - shape.getCenterX() ) / Math.sqrt( distSq )
-                        * ( embeddedDist  + shape.getWidth() / 2 );
+                            * ( embeddedDist  + shape.getWidth() / 2 );
                 double dy = ( nucleus.getPosition().getY() - shape.getCenterY() ) / Math.sqrt( distSq )
-                        * ( embeddedDist  + shape.getWidth() / 2 );
+                            * ( embeddedDist  + shape.getWidth() / 2 );
                 nucleus.setPosition( shape.getCenterX() + dx, shape.getCenterY() + dy );
+
+                recordImpact( nucleusImpact );
             }
         }
 
@@ -161,6 +209,7 @@ public class Containment extends SimpleObservable implements ModelElement {
             double distSq = neutron.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
             if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
                 handleCollision( neutron );
+                recordImpact( neutronImpact );
             }
         }
 
