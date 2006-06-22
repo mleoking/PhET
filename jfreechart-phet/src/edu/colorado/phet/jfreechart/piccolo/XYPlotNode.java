@@ -287,9 +287,10 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
             g2.setRenderingHints( _renderingHints );
         }
         
-        // Clip to the data area
-        Shape restoreClip = g2.getClip();
-        g2.setClip( _dataArea );
+        // Clip to the data area.
+        // Do NOT call g2.setClip, or really bad things happen
+        // with drawing order on Macintosh (and possibly other platforms).
+        paintContext.pushClip( _dataArea );
         
         // Render each of the plot's datasets, in the proper order...
         int numberOfDatasets = _plot.getDatasetCount();
@@ -306,7 +307,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
         }
         
         // restore the clip
-        g2.setClip( restoreClip );
+        paintContext.popClip( null );
         
         // optionally stroke the data area -- do this after restoring the clip
         if ( _dataAreaStroked ) {
