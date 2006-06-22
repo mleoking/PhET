@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- bug: Energy datasets are drawn on top of mag glass when configuring potential (Mac only?)
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
@@ -45,6 +44,7 @@ CLEANUP:
 
 
 DONE:
+(6/22/06) - bugfix: Energy datasets are drawn on top of mag glass, XYPlotNode must set clip using PPaintContext.pushClip
 (6/22/06) - wrote a test program for XYPlotNode bug that causes plots to be drawn on top of things
 (6/22/06) - fix "pickable" flags from BSMagnifyingGlass node and its children
 (6/22/06) - delete BSMoreLessControl, not used

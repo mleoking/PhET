@@ -52,6 +52,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * In this example, try dragging either of the two rectangles.
  * You'll notice that the XYPlotNode will draw its plot on top of the
  * rectangle that is not being dragged.
+ * <p>
+ * The problem was fixed in XYPlotNode, by setting the clip 
+ * using PPaintContext.pushClip instead of Graphics2D.setClip.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
