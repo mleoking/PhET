@@ -861,8 +861,14 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addCapacitorGraphic( Capacitor b ) {
-            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getCapacitorImage(), apparatusPanel, b, transform );
-            CircuitGraphic.this.addGraphic( b, ccbg );
+//            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getCapacitorImage(), apparatusPanel, b, transform );
+//            CircuitGraphic.this.addGraphic( b, ccbg );
+
+            SchematicCapacitorGraphic schematicCapacitorGraphic = new SchematicCapacitorGraphic( apparatusPanel, b, getTransform(), new Schematic().wireThickness );
+//            schematicCapacitorGraphic.setPaint( Color.orange );
+            CircuitGraphic.this.addGraphic( b, schematicCapacitorGraphic );
+
+//            new Schematic().addCapatitorGraphic( b );
         }
 
         private void addGrabBagGraphic( GrabBagResistor b ) {
