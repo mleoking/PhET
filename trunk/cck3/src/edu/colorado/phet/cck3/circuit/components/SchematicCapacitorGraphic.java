@@ -21,6 +21,7 @@ import java.awt.geom.Rectangle2D;
 public class SchematicCapacitorGraphic extends SchematicPlatedGraphic {
     private Capacitor capacitor;
     private CompositePhetGraphic text;
+    private Color plusMinusColor = Color.black;
 
     public SchematicCapacitorGraphic( Component parent, Capacitor component, ModelViewTransform2D transform, double wireThickness ) {
         super( parent, component, transform, wireThickness, 0.325, 3, 3 );
@@ -47,7 +48,7 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic {
         Capacitor component = capacitor;
         Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
-        double viewThickness = transform.modelToViewDifferentialY( getWireThickness() );
+//        double viewThickness = transform.modelToViewDifferentialY( getWireThickness() );
 
         ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
         Point2D cat = vector.getScaledInstance( getFracDistToPlate() ).getDestination( src );
@@ -56,29 +57,82 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic {
         AbstractVector2D north = east.getNormalVector();
 
         double maxCharge = 0.2;
+        double MAX_NUM_TO_SHOW = 12;
+        int numToShow = (int)Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
+                                       MAX_NUM_TO_SHOW );
         text.clear();
-        Point2D root = east.getInstanceOfMagnitude( 7 ).getDestination( cat );
-        for( int i = 0; i < 10; i++ ) {
-            Point2D plus = north.getInstanceOfMagnitude( i * 7 ).getDestination( root );
-//            PhetTextGraphic graphic = new PhetTextGraphic( getComponent(), new Font( "Lucida Sans", Font.BOLD, 12 ), "+", Color.black, (int)plus.getX(), (int)plus.getY() );
-//            graphic.setPosition( (int)( plus.getX()-graphic.getWidth()/2 ),(int)(plus.getY()));
-            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), createPlusGraphic( plus ), Color.blue );
+        addCathodeCharges( east.getInstanceOfMagnitude( 8 ).getDestination( cat ), numToShow, north, new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                if( capacitor.getCharge() <= 0 ) {
+                    return createPlusGraphic( center );
+                }
+                else {
+                    return createMinusGraphic( center );
+                }
+            }
+        } );
+        addAnodeCharges( east.getInstanceOfMagnitude( -8 ).getDestination( ano ), numToShow, north, new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                if( capacitor.getCharge() > 0 ) {
+                    return createPlusGraphic( center );
+                }
+                else {
+                    return createMinusGraphic( center );
+                }
+            }
+        } );
+    }
+
+    private interface ChargeGraphic {
+
+        Shape createGraphic( Point2D plus );
+    }
+
+    private void addCathodeCharges( Point2D root, int numToShow, AbstractVector2D north, ChargeGraphic cg ) {
+        for( int i = 0; i < numToShow / 2; i++ ) {
+            Point2D center = north.getInstanceOfMagnitude( i * 7 ).getDestination( root );
+            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
+            text.addGraphic( graphic );
+        }
+        for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
+            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
+            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
             text.addGraphic( graphic );
         }
     }
 
-    public Rectangle determineBounds() {
+    private void addAnodeCharges( Point2D root, int numToShow, AbstractVector2D north, ChargeGraphic cg ) {
+        for( int i = 0; i < numToShow / 2; i++ ) {
+            Point2D center = north.getInstanceOfMagnitude( i * 7 ).getDestination( root );
+            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
+            text.addGraphic( graphic );
+        }
+        for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
+            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
+
+            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
+            text.addGraphic( graphic );
+        }
+    }
+
+    protected Rectangle determineBounds() {
         Rectangle s = super.determineBounds();
-        if( text != null && text.determineBounds() != null ) {
-            s = s.union( text.determineBounds() );
+        if( text != null && text.getBounds() != null ) {
+            s = s.union( text.getBounds() );
         }
         return s;
     }
 
-    private Shape createPlusGraphic( Point2D plus ) {
+    private Shape createPlusGraphic( Point2D loc ) {
         double w = 2;
-        Area area = new Area( new Rectangle2D.Double( plus.getX() - w, plus.getY(), w * 2 + 1, 1 ) );
-        area.add( new Area( new Rectangle2D.Double( plus.getX(), plus.getY() - w, 1, w * 2 + 1 ) ) );
+        Area area = new Area( new Rectangle2D.Double( loc.getX() - w, loc.getY(), w * 2 + 1, 1 ) );
+        area.add( new Area( new Rectangle2D.Double( loc.getX(), loc.getY() - w, 1, w * 2 + 1 ) ) );
         return area;
+    }
+
+    private Shape createMinusGraphic( Point2D loc ) {
+        double w = 2;
+//        area.add( new Area( new Rectangle2D.Double( loc.getX(), loc.getY() - w, 1, w * 2 + 1 ) ) );
+        return new Area( new Rectangle2D.Double( loc.getX() - w, loc.getY(), w * 2 + 1, 1 ) );
     }
 }

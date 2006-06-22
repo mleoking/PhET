@@ -18,7 +18,7 @@ public class PhetTransformGraphic extends PhetGraphic {
         this.transform = transform;
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         Rectangle origBounds = graphic.determineBounds();
         return transform.createTransformedShape( origBounds ).getBounds();
     }

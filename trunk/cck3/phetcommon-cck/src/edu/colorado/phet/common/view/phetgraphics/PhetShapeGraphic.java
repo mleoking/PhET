@@ -77,7 +77,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         if( shape == null ) {
             return null;
         }

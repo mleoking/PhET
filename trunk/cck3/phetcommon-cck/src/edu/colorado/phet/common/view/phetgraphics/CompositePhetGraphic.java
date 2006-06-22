@@ -38,7 +38,7 @@ public class CompositePhetGraphic extends PhetGraphic {
         return false;
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         if( list.size() == 0 ) {
             return null;
         }

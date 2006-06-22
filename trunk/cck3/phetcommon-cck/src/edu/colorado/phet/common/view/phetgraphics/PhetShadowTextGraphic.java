@@ -44,7 +44,7 @@ public class PhetShadowTextGraphic extends PhetGraphic implements IPhetTextGraph
         background.setVisible( visible );
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         Rectangle2D b = foreground.getBounds().createUnion( background.getBounds() );
         return RectangleUtils.toRectangle( b );
     }

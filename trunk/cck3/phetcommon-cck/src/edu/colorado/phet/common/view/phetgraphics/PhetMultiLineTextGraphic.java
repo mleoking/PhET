@@ -83,7 +83,7 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
         }
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         if( text.length == 0 ) {
             return null;
         }

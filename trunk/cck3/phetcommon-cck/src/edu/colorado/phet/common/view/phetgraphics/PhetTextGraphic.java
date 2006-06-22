@@ -35,7 +35,7 @@ public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
         }
     }
 
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         if( text == "" ) {
             return null;
         }
