@@ -67,4 +67,8 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
 
     public void setTime( double time ) {
     }
+
+    public double getCharge() {
+        return getCapacitance() / getVoltageDrop();
+    }
 }
