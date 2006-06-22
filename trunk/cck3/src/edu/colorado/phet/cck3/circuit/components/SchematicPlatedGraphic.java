@@ -59,17 +59,14 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
         setVisible( true );
     }
 
-
     private void changed() {
-        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
+        Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double viewThickness = transform.modelToViewDifferentialY( wireThickness );
 
-        double fracDistToCathode = this.fracDistToPlate;
-        double fracDistToAnode = ( 1 - fracDistToCathode );
-        ImmutableVector2D vector = new ImmutableVector2D.Double( srcpt, dstpt );
-        Point2D cat = vector.getScaledInstance( fracDistToCathode ).getDestination( srcpt );
-        Point2D ano = vector.getScaledInstance( fracDistToAnode ).getDestination( srcpt );
+        ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
+        Point2D cat = vector.getScaledInstance( fracDistToPlate ).getDestination( src );
+        Point2D ano = vector.getScaledInstance( 1 - fracDistToPlate ).getDestination( src );
         AbstractVector2D east = vector.getInstanceOfMagnitude( 1 );
         AbstractVector2D north = east.getNormalVector();
         double catHeight = viewThickness * this.scaleHeightLeft;
@@ -80,14 +77,14 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
         Point2D anoHat = north.getInstanceOfMagnitude( anoHeight ).getDestination( ano );
         Point2D anotail = north.getInstanceOfMagnitude( anoHeight ).getScaledInstance( -1 ).getDestination( ano );
 
-        double battThickness = viewThickness / 2;
+        double thickness = viewThickness / 2;
         Area area = new Area();
-        area.add( new Area( LineSegment.getSegment( srcpt, cat, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( ano, dstpt, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( catHat, cattail, battThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( anoHat, anotail, battThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( src, cat, viewThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( ano, dst, viewThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( catHat, cattail, thickness ) ) );
+        area.add( new Area( LineSegment.getSegment( anoHat, anotail, thickness ) ) );
         mouseArea = new Area( area );
-        mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
+        mouseArea.add( new Area( LineSegment.getSegment( src, dst, viewThickness ) ) );
         super.setShape( area );
         Stroke highlightStroke = new BasicStroke( 6 );
         highlightRegion.setShape( highlightStroke.createStrokedShape( area ) );
@@ -114,5 +111,13 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
 
     public boolean contains( int x, int y ) {
         return mouseArea.contains( x, y );
+    }
+
+    public double getWireThickness() {
+        return wireThickness;
+    }
+
+    public double getFracDistToPlate() {
+        return fracDistToPlate;
     }
 }

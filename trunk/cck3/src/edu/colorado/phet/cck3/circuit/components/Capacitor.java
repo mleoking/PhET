@@ -10,6 +10,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -20,6 +21,7 @@ import java.awt.geom.Point2D;
 public class Capacitor extends CircuitComponent implements DynamicBranch {
     public static final double DEFAULT_CAPACITANCE = 0.02;
     double capacitance = DEFAULT_CAPACITANCE;
+    private ArrayList listeners = new ArrayList();
 
     public Capacitor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
@@ -54,6 +56,12 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         this.capacitance = capacitance;
         notifyObservers();
         fireKirkhoffChange();
+        notifyChargeChanged();
+    }
+
+    public void setVoltageDrop( double voltageDrop ) {
+        super.setVoltageDrop( voltageDrop );
+        notifyChargeChanged();
     }
 
     public void stepInTime( double dt ) {
@@ -69,6 +77,21 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     }
 
     public double getCharge() {
-        return getCapacitance() / getVoltageDrop();
+        return getCapacitance() * getVoltageDrop();
+    }
+
+    public static interface Listener {
+        public void chargeChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyChargeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.chargeChanged();
+        }
     }
 }

@@ -32,3 +32,5 @@ Help button should be moved south.
 There is some text near the top left of the screen; we can see the descenders dropping down.
 o Improve the approximation for determining capacitor current.
 -Could use solution from companion model, but more difficult to code.
+
+There is a noticeable delay when dragging a component from the toolbox for the first time; this has confused some users.

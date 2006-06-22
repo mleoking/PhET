@@ -64,7 +64,7 @@ public class PhetImageGraphic extends PhetGraphic {
         return isVisible() && getShape().contains( x, y );
     }
 
-    protected Rectangle determineBounds() {
+    public Rectangle determineBounds() {
         return getShape().getBounds();
     }
 
