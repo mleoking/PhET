@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(6/22/06) - fix "pickable" flags from BSMagnifyingGlass node and its children
 (6/22/06) - delete BSMoreLessControl, not used
 (6/22/06) - verified that things update properly when clock is paused
 (6/22/06) - verified bugfix to PhetTabbedPane that resulted in visible resizing of play area
