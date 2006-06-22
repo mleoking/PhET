@@ -9,6 +9,7 @@ import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.circuit.components.SchematicCapacitorGraphic;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
@@ -53,6 +54,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -139,6 +141,7 @@ public class CCK3Module extends Module {
 
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
+    private Area electronClip = new Area();
 
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
@@ -888,6 +891,32 @@ public class CCK3Module extends Module {
         getApparatusPanel().requestFocus();
         Window window = SwingUtilities.getWindowAncestor( getApparatusPanel() );
         window.requestFocus();
+    }
+
+    public Shape getElectronClip() {
+//        this.electronClip = recomputeElectronClip();
+        return electronClip;
+    }
+
+    public void recomputeElectronClip() {
+        this.electronClip = determineElectronClip();
+    }
+
+    private Area determineElectronClip() {
+        Area area = new Area( new Rectangle2D.Double( -500, -500, 10000, 10000 ) );
+        for( int i = 0; i < circuitGraphic.getBranchGraphics().length; i++ ) {
+            //            if( circuitGraphic.getBranchGraphics()[i] instanceof SchematicCapacitorGraphic ) {
+            if( circuitGraphic.getBranchGraphics()[i] instanceof CircuitComponentInteractiveGraphic ) {
+                CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)circuitGraphic.getBranchGraphics()[i];
+                if( ccig.getCircuitComponentGraphic() instanceof SchematicCapacitorGraphic ) {
+                    SchematicCapacitorGraphic c = (SchematicCapacitorGraphic)ccig.getCircuitComponentGraphic();
+                    Shape capacitorClip = c.getCapacitorClip();
+                    //                    System.out.println( "capacitorClip.getBounds2D() = " + capacitorClip.getBounds2D() );
+                    area.subtract( new Area( capacitorClip ) );
+                }
+            }
+        }
+        return area;
     }
 
     public static class SimpleKeyEvent implements KeyListener {

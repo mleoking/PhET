@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -89,6 +90,11 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
         Stroke highlightStroke = new BasicStroke( 6 );
         highlightRegion.setShape( highlightStroke.createStrokedShape( area ) );
         highlightRegion.setVisible( component.isSelected() );
+        notifyChanged();
+    }
+
+    private void notifyChanged() {
+        notifyListeners();
     }
 
     public void paint( Graphics2D g ) {
@@ -119,5 +125,22 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
 
     public double getFracDistToPlate() {
         return fracDistToPlate;
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void areaChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.areaChanged();
+        }
     }
 }

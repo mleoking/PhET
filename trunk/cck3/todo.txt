@@ -10,10 +10,6 @@ o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 
-Questions:
-Do we want current sources?  Physics is already implemented.
-How should capacitors look with respect to charge, current and voltage drop?
-
 CCK charge visualization
 use + and - inside plate graphic
 plate graphic should be schematic always

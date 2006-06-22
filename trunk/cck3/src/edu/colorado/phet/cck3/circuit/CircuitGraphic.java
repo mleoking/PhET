@@ -347,6 +347,14 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     private void addGraphic( CircuitComponent component, IComponentGraphic ccbg ) {
+        if( ccbg instanceof SchematicCapacitorGraphic ) {
+            SchematicCapacitorGraphic scg = (SchematicCapacitorGraphic)ccbg;
+            scg.addListener( new SchematicPlatedGraphic.Listener() {
+                public void areaChanged() {
+                    module.recomputeElectronClip();
+                }
+            } );
+        }
         TotalComponentGraphic tcg = new TotalComponentGraphic( this, component, apparatusPanel, transform,
                                                                ccbg, JUNCTION_RADIUS, module );
         branches.addGraphic( tcg.getInteractiveBranchGraphic(), 1 );

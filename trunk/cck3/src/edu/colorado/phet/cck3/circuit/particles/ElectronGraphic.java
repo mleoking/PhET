@@ -76,6 +76,7 @@ public class ElectronGraphic extends PhetImageGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
+
         Branch branch = electron.getBranch();
         if( branch instanceof Bulb ) {
             Bulb bulb = (Bulb)branch;
@@ -101,7 +102,13 @@ public class ElectronGraphic extends PhetImageGraphic {
                 }
             }
         }
+        Shape origClip = graphics2D.getClip();
+//        graphics2D.clip(module.getElectronClip());
+
+//        graphics2D.setClip( getTransform().createTransformedShape( module.getElectronClip() ) );
+        graphics2D.setClip( module.getElectronClip() );
         super.paint( graphics2D );
+        graphics2D.setClip( origClip );
     }
 
     private void doUpdate() {
@@ -119,8 +126,7 @@ public class ElectronGraphic extends PhetImageGraphic {
         }
         Rectangle2D src = new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() );
         Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );
-        AffineTransform tx = AffineTransformUtil.getTransform( src, dst, Math.PI / 2 );//the pi/2 is a hack because AffineTransformUtil turns upside down.
-        return tx;
+        return AffineTransformUtil.getTransform( src, dst, Math.PI / 2 );
     }
 
     public Electron getElectron() {
