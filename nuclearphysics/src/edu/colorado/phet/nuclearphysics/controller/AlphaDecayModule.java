@@ -177,8 +177,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     private void setRingAttributes(Nucleus nucleus) {
-        if (nucleus.getEnergylProfile().getAlphaDecayX() < 0) {
-            double radius = Math.abs(nucleus.getEnergylProfile().getAlphaDecayX());
+        if (nucleus.getEnergyProfile().getAlphaDecayX() < 0) {
+            double radius = Math.abs(nucleus.getEnergyProfile().getAlphaDecayX());
             double x = getNucleus().getPosition().getX() - radius;
             double y = getNucleus().getPosition().getY() - radius;
             alphaRing = new Ellipse2D.Double(x, y, radius * 2, radius * 2);

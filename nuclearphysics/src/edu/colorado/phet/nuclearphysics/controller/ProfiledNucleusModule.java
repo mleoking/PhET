@@ -69,7 +69,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
             public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
                 if( !( nucleus instanceof AlphaParticle ) ) {
-                    energyProfilePanel.removeEnergyProfile( event.getNucleus().getEnergylProfile() );
+                    energyProfilePanel.removeEnergyProfile( event.getNucleus().getEnergyProfile() );
                 }
             }
         } );

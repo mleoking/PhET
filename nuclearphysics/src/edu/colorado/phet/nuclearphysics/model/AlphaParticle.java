@@ -81,14 +81,14 @@ public class AlphaParticle extends Nucleus {
                     double dx = d * Math.cos( theta );
                     double dy = d * Math.sin( theta );
                     setLocation( nucleus.getPosition().getX() + dx, nucleus.getPosition().getY() + dy );
-                    this.setPotential( -nucleus.getEnergylProfile().getTotalEnergy() );
-//                    this.setPotential( nucleus.getEnergylProfile().getMinEnergy() );
+                    this.setPotential( -nucleus.getEnergyProfile().getTotalEnergy() );
+//                    this.setPotential( nucleus.getEnergyProfile().getMinEnergy() );
                 }
             }
             else {
                 // Accelerate the alpha particle away from the nucleus, with a force
                 // proportional to its height on the profile
-                EnergyProfile profile = nucleus.getEnergylProfile();
+                EnergyProfile profile = nucleus.getEnergyProfile();
                 double d = this.getPosition().distance( nucleus.getPosition() );
 
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
@@ -112,7 +112,7 @@ public class AlphaParticle extends Nucleus {
     }
 
     public double getParentNucleusTotalEnergy() {
-        return -nucleus.getEnergylProfile().getTotalEnergy();
+        return -nucleus.getEnergyProfile().getTotalEnergy();
     }
     //--------------------------------------------------------------------------------------------------
     // Implementation of Body

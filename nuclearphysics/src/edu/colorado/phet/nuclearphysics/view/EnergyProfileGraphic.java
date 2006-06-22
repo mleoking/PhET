@@ -13,7 +13,6 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
 import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
 
 import java.awt.image.ImageObserver;
@@ -73,7 +72,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
 //        this( component, nucleus, TOTAL_ENERGY );
 ////        super( component );
 ////        this.nucleus = nucleus;
-////        this.profile = nucleus.getEnergylProfile();
+////        this.profile = nucleus.getEnergyProfile();
 //    }
 
     public EnergyProfileGraphic( Component component, Nucleus nucleus, ProfileType profileType ) {
@@ -81,7 +80,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
         this.nucleus = nucleus;
         this.profileType = profileType;
         if( profileType == TOTAL_ENERGY ) {
-            this.profile = nucleus.getEnergylProfile();
+            this.profile = nucleus.getEnergyProfile();
         }
         else if( profileType == POTENTIAL_ENERGY ) {
             this.profile = nucleus.getPotentialProfile();

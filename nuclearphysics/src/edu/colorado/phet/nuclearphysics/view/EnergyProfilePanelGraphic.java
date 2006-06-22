@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
@@ -184,11 +183,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
-//            nucleusTx.translate( 0, -nucleus.getPotentialProfile().getMinEnergy() + nucleus.getPotential());
-            nucleusTx.translate( 0, -nucleus.getPotentialProfile().getMinEnergy() );
-//            System.out.println( "nucleus.getPotential()  = " + nucleus.getPotential()  );
-
-//            nucleusTx.translate( 0, nucleus.getPotential() );
+            nucleusTx.translate( 0, -nucleus.getPotential() );
             nucleusTx.scale( 0.5, 0.5 );
             nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
             g2.transform( nucleusTx );
@@ -343,7 +338,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     public void addEnergyProfile( Nucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus, profileType );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
-        potentialProfileMap.put( nucleus.getEnergylProfile(), txg );
+        potentialProfileMap.put( nucleus.getEnergyProfile(), txg );
         addGraphic( txg, EnergyProfilePanelGraphic.nucleusLayer );
     }
 
