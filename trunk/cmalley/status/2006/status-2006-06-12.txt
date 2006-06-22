@@ -1,0 +1,50 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 06/06/06-06/12/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - normalize time-independent wave functions
+  - scale time-dependent wave function
+  - cache wave function points and normalization/scaling coefficients
+  - add wiggle me
+  - disable help
+  - add clock speed slider
+  - add Clear button to Superposition State dialog
+  - add normalization equation to message in confirmation dialog
+  - add "tolerance" to normalization of superposition coefficients
+  - remove y-axis tick labels on bottom charts
+  - refactor code that draws and interacts with eigenstates
+  - publish version 0.00.09
+  - investigate problem that's causing Coulomb potentials not to render on Windows
+  
+  Quantum Tunneling
+  - add additional zoom levels
+
+  Common Code:
+  - work on Wiggle Me with Sam Reid
+  - work on PhetLookAndFeel with Sam & Ron
+  
+  Misc:
+  - suggestions for gravity control in Energy Skater
+  
+WHAT'S NEXT:
+ 
+  o post Quantum Tunneling 1.04 to PhET website?
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - June 14-19
+  - July 17-26
+  - August 14-24
+  
+--

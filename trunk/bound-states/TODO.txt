@@ -22,7 +22,6 @@ LOW PRIORITY:
 - make plots in bottom chart look smoother on Windows
 - refactor BSAbstractModule, it's too big
 - refactor other classes that have gotten too big
-- wave function curves look segmented when screen resolution is decreased after sim is started
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 - additional zoom levels for Coulomb
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
@@ -397,6 +396,7 @@ DONE:
 
 
 REJECTED:
+(6/22/06) - wave function curves look segmented when screen resolution is decreased after sim is started (user must restart sim, no way to detect resolution change)
 (6/21/06) - pause clock by default (requirement changed, should be running by default)
 (6/21/06) - switch back to FastPathRenderer for curves (doesn't seem to be any faster, stick with StandardXYItemRenderer)
 (6/21/06) - rename BSEigenstatesNode to BSEigenstatesManipulatorNode (would lose CVS history)
