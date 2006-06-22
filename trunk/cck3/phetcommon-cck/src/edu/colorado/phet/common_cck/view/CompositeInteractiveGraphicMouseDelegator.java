@@ -19,10 +19,12 @@ import java.awt.event.MouseEvent;
  */
 public class CompositeInteractiveGraphicMouseDelegator implements MouseInputListener {
     CompositeGraphic compositeInteractiveGraphic;
+    private ApparatusPanel apparatusPanel;
     MouseInputListener activeUnit;
 
-    public CompositeInteractiveGraphicMouseDelegator( CompositeGraphic compositeInteractiveGraphic ) {
+    public CompositeInteractiveGraphicMouseDelegator( CompositeGraphic compositeInteractiveGraphic, ApparatusPanel apparatusPanel ) {
         this.compositeInteractiveGraphic = compositeInteractiveGraphic;
+        this.apparatusPanel = apparatusPanel;
     }
 
     public void startDragging( MouseEvent event, MouseInputListener activeUnit ) {
@@ -66,6 +68,9 @@ public class CompositeInteractiveGraphicMouseDelegator implements MouseInputList
     }
 
     private MouseInputListener getLeaf( Point p, CompositeGraphic cig ) {
+        if( apparatusPanel.isPiccoloInFront( p ) ) {
+            return null;
+        }
         Graphic[] graphics = cig.getGraphics();
         MouseInputListener result = null;
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {

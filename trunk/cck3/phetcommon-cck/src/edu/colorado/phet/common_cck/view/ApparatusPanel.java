@@ -7,11 +7,14 @@
  */
 package edu.colorado.phet.common_cck.view;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +45,7 @@ public class ApparatusPanel extends PhetPCanvas {
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     CompositeGraphic graphic = new CompositeGraphic();
-    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic, this );
 
     ArrayList graphicsSetups = new ArrayList();
 
@@ -89,8 +92,10 @@ public class ApparatusPanel extends PhetPCanvas {
      */
     public void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
-        super.paintComponent( g2 );
+
         GraphicsState state = new GraphicsState( g2 );
+        g2.setPaint( CCK3Module.apparatusPanelColor );
+        g2.fillRect( 0, 0, getWidth(), getHeight() );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
@@ -107,6 +112,8 @@ public class ApparatusPanel extends PhetPCanvas {
         g2.setColor( origColor );
         g2.setStroke( origStroke );
         state.restoreGraphics();
+
+        super.paintComponent( g2 );//puts piccolo on top
     }
 
     public void addGraphic( Graphic graphic, double level ) {
@@ -128,4 +135,24 @@ public class ApparatusPanel extends PhetPCanvas {
         return graphic;
     }
 
+    public boolean isPiccoloInFront( Point p ) {
+        PNode root = getLayer();
+        return contains( p, root );
+    }
+
+    private boolean contains( Point p, PNode root ) {
+        Rectangle2D r = new Rectangle2D.Double( p.getX(), p.getY(), 1, 1 );
+        root.globalToLocal( r );
+        if( root.intersects( r ) ) {
+//         if (root.getGlobalFullBounds().contains( p)){
+            return true;
+        }
+        for( int i = 0; i < root.getChildrenCount(); i++ ) {
+            PNode child = root.getChild( i );
+            if( contains( p, child ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
