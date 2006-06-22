@@ -33,6 +33,10 @@ public class FloatingChart extends PhetPNode {
     private StripChartJFCNode stripChartJFCNode;
     private boolean detached = false;
     private Vector2D originalDisplacement;
+
+    public void setValueReader( ValueReader valueReader ) {
+        this.valueReader = valueReader;
+    }
 //    private boolean constrainedToMidline = false;
 
     public static interface ValueReader {
