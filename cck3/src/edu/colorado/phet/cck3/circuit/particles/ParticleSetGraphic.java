@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit.particles;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common_cck.view.CompositeGraphic;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

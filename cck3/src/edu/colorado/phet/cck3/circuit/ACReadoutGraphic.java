@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.ACVoltageSource;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 
 import java.text.DecimalFormat;
 

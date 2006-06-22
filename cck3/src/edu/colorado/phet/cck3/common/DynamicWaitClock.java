@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common_cck.model.clock.AbstractClock;
+import edu.colorado.phet.common_cck.model.clock.ClockStateListener;
 
 
 public class DynamicWaitClock extends AbstractClock implements Runnable {

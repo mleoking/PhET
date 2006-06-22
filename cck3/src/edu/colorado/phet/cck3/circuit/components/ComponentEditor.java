@@ -3,13 +3,13 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.components.PhetSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common_cck.math.MathUtil;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.components.PhetSlider;
+import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common_cck.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

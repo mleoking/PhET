@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common_cck.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;
 

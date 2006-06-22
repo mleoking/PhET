@@ -2,14 +2,14 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Boundary;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.graphics.Boundary;
+import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.mousecontrols.CursorControl;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.util.ImageLoader;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;

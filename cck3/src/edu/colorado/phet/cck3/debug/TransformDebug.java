@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.debug;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

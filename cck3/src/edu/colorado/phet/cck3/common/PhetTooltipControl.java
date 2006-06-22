@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;

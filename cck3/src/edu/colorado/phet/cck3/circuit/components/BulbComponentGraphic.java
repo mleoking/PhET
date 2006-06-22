@@ -5,12 +5,12 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKPhetGraphic;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

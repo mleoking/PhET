@@ -6,8 +6,8 @@ import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.model.ModelElement;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.text.DecimalFormat;
 import java.util.*;

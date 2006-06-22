@@ -2,11 +2,11 @@
 package edu.colorado.phet.cck3.common;
 
 import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_cck.view.help.HelpItem;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Area;

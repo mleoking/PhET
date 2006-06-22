@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 

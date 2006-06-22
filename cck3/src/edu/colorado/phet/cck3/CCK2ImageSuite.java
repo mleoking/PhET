@@ -1,9 +1,9 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.CachingImageLoader;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_cck.view.util.CachingImageLoader;
+import edu.colorado.phet.common_cck.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;

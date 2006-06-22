@@ -2,16 +2,16 @@
 package edu.colorado.phet.cck3.tests;
 
 import edu.colorado.phet.cck3.common.Sine;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_cck.model.clock.AbstractClock;
+import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
+import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_cck.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 
 import javax.swing.*;
 import java.awt.*;

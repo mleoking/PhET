@@ -4,10 +4,10 @@ package edu.colorado.phet.cck3.grabbag;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common_cck.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;

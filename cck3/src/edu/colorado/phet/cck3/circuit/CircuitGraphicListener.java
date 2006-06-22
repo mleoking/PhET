@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
 
 /**
  * User: Sam Reid

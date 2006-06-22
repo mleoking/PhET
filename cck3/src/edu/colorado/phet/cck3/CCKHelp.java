@@ -5,15 +5,15 @@ import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.common.PositionedHelpItem;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common_cck.view.util.RectangleUtils;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -46,7 +46,7 @@ public class CCKHelp {
 
         ToolboxTarget toolboxTarget = new ToolboxTarget();
         myToolboxHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ToolboxHelp" ),
-                                            toolboxTarget, helpFont, getApparatusPanel() );
+                                                    toolboxTarget, helpFont, getApparatusPanel() );
         observer = new SimpleObserver() {
             public void update() {
                 myToolboxHelpItem.changed();
@@ -56,7 +56,7 @@ public class CCKHelp {
         myToolboxHelpItem.changed();
         JunctionTarget jt = new JunctionTarget();
         junctionHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.JunctionHelp" ),
-                                                    jt, helpFont, getApparatusPanel() );
+                                                   jt, helpFont, getApparatusPanel() );
         ComponentTarget ct = new ComponentTarget();
         componentHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ComponentHelp" ),
                                                     ct, helpFont, getApparatusPanel() );
@@ -72,7 +72,7 @@ public class CCKHelp {
 //        componentHelpItem.setVisible( h );
         myToolboxHelpItem.setEnabled( h );
         junctionHelpItem.setEnabled( h );
-        componentHelpItem.setEnabled( h );       
+        componentHelpItem.setEnabled( h );
 //        if( h ) {
 //            getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
 //            getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );
