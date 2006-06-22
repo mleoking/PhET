@@ -1182,7 +1182,7 @@ public class CCK3Module extends Module {
                 public void mouseDragged( MouseEvent e ) {
                     synchronizeImmediately();
                     try {
-                        Thread.sleep( 10 );
+                        Thread.sleep( 25 );//todo what is this for?
                     }
                     catch( InterruptedException e1 ) {
                         e1.printStackTrace();

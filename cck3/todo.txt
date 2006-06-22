@@ -25,7 +25,6 @@ Could set node voltages from the MNA, then use that to compute voltmeter readout
 #Lower Priority
 #######################
 Help button should be moved south.
-There is some text near the top left of the screen; we can see the descenders dropping down.
 o Improve the approximation for determining capacitor current.
 -Could use solution from companion model, but more difficult to code.
 

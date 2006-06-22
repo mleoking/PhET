@@ -1,3 +1,7 @@
+Version 3.01.02
+Added charge and current graphics for capacitors.
+Bugfix: There is some text near the top left of the screen; we can see the descenders dropping down.
+
 Version 3.01.01
 Added save/load for AC & Capacitors.
 Added readout graphics for AC
