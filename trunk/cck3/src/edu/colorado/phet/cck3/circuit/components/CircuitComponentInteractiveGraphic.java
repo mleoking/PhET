@@ -5,9 +5,9 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;

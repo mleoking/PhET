@@ -3,10 +3,10 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common_cck.util.SimpleObservable;
+import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;

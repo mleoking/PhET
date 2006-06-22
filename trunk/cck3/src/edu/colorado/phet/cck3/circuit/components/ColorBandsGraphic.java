@@ -1,7 +1,7 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common_cck.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

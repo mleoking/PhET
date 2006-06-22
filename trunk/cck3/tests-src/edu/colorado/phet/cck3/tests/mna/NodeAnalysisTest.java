@@ -9,7 +9,7 @@ import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Capacitor;
 import edu.colorado.phet.cck3.circuit.components.Inductor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common_cck.math.Vector2D;
 
 import java.awt.geom.Point2D;
 

@@ -4,10 +4,10 @@ package edu.colorado.phet.cck3.circuit.tools;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.Graphic;
+import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -41,7 +41,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
         addCursorHandBehavior();
         addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                if( module.getTransform().getViewBounds().contains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) ) {
+                if( module.getTransform().getViewBounds().contains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) )
+                {
                     trt.translate( (int)dx, (int)dy );
                     recompute();
                 }
@@ -77,8 +78,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
 
     private void resetText() {
         String[] text = new String[]{
-            SimStrings.get( "VirtualAmmeter.HelpString1" ),
-            SimStrings.get( "VirtualAmmeter.HelpString2" )
+                SimStrings.get( "VirtualAmmeter.HelpString1" ),
+                SimStrings.get( "VirtualAmmeter.HelpString2" )
         };
         trt.setText( text );
     }

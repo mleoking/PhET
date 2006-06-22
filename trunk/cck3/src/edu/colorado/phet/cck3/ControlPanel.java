@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common_cck.application.Module;
+import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_cck.view.help.HelpPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common_cck.math.Vector2D;
 
 import java.util.ArrayList;
 

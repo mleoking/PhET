@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Area;

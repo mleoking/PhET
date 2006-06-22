@@ -4,7 +4,7 @@ package edu.colorado.phet.cck3.circuit.particles;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_cck.model.ModelElement;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit.particles;
 
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import java.awt.geom.Point2D;
 import java.util.Arrays;

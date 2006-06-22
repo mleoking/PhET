@@ -3,12 +3,12 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
 import edu.colorado.phet.cck3.circuit.components.Switch;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_cck.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

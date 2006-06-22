@@ -2,10 +2,10 @@
 package edu.colorado.phet.cck3.tests;
 
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_cck.model.clock.AbstractClock;
+import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
+import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_cck.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

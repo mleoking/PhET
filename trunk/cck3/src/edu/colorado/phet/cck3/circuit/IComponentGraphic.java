@@ -2,9 +2,9 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common_cck.view.graphics.BoundedGraphic;
+import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;

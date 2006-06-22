@@ -2,12 +2,12 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.common.RoundGradientPaint;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common_cck.view.ApparatusPanel;
+import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_cck.view.graphics.Graphic;
+import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -48,7 +48,7 @@ public class LightBulbGraphic implements Graphic {
 
     public LightBulbGraphic( Rectangle2D bounds ) {
         this.bounds = bounds;
-        
+
         //reserve the top part for the bulb.
         double fracInsulator = .1;
         double fracTip = .04;

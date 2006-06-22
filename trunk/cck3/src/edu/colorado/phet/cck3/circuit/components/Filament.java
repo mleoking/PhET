@@ -5,9 +5,9 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.PathBranch;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common_cck.view.util.DoubleGeneralPath;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
