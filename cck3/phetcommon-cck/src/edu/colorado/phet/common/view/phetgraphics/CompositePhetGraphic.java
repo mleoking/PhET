@@ -38,7 +38,7 @@ public class CompositePhetGraphic extends PhetGraphic {
         return false;
     }
 
-    protected Rectangle determineBounds() {
+    public Rectangle determineBounds() {
         if( list.size() == 0 ) {
             return null;
         }
@@ -80,5 +80,11 @@ public class CompositePhetGraphic extends PhetGraphic {
 
     public void removeGraphic( PhetGraphic graphic ) {
         list.remove( graphic );
+    }
+
+    public void clear() {
+        while( numGraphics() > 0 ) {
+            removeGraphic( graphicAt( 0 ) );
+        }
     }
 }
