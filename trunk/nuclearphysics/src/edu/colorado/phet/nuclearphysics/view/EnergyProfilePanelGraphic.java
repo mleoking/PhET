@@ -184,7 +184,11 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
             nucleusTx.translate( 0, -nucleus.getPotential() );
+
+//            System.out.println( "-nucleus.getPotential() = " + -nucleus.getPotential() );
+            
             nucleusTx.scale( 0.5, 0.5 );
+//            nucleusTx.translate( nucleus.getPosition().getX(), 0 );
             nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
             g2.transform( nucleusTx );
             ng.paint( g2 );
