@@ -29,7 +29,6 @@ Chain Reaction panel
 
 Controlled Reaction
 - Something seems to be running in the background even when nothing is really going on
--   Performance in general is very slow
 ?	The text labeling the graphs is very light and hard to read.
 ?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
 ?	In addition, the black container should block neutrons.

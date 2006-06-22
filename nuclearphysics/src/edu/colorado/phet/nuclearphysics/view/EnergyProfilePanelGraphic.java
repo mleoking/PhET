@@ -184,7 +184,11 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
-            nucleusTx.translate( 0, -nucleus.getPotential() );
+//            nucleusTx.translate( 0, -nucleus.getPotentialProfile().getMinEnergy() + nucleus.getPotential());
+            nucleusTx.translate( 0, -nucleus.getPotentialProfile().getMinEnergy() );
+//            System.out.println( "nucleus.getPotential()  = " + nucleus.getPotential()  );
+
+//            nucleusTx.translate( 0, nucleus.getPotential() );
             nucleusTx.scale( 0.5, 0.5 );
             nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
             g2.transform( nucleusTx );
@@ -299,9 +303,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         int legendWidth = 180;
         int legendHeight = 60;
-        int insetFromPanel = 20;
+        Insets insetsFromPanel = new Insets( 0, 0, 100, 20);
         Stroke borderStroke = new BasicStroke( 3 );
-        Point legendLoc = new Point( getWidth() - legendWidth - insetFromPanel, getHeight() - legendHeight - insetFromPanel );
+        Point legendLoc = new Point( getWidth() - legendWidth - insetsFromPanel.right, getHeight() - legendHeight - insetsFromPanel.bottom );
         g2.setStroke( borderStroke );
         g2.setColor( Color.gray );
         g2.drawRoundRect( legendLoc.x, legendLoc.y, legendWidth, legendHeight, 15, 15 );
@@ -420,13 +424,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      */
     public void addNucleus( Nucleus nucleus, Color color ) {
         this.addEnergyProfile( nucleus, profileType );
-//        if( color == null ) {
-//            removeEnergyProfile( nucleus.getEnergylProfile() );
-//        }
-//        else {
-//            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getEnergylProfile() );
-//            ppg.setColor( color );
-//        }
     }
 
 }
