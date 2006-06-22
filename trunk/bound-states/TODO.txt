@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- bug: Energy datasets are drawn on top of mag glass when configuring potential (Mac only?)
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
@@ -13,7 +14,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - verify that datasets are updated only when absolutely necessary
 - wiggle me animation is jerky
-- bug: Energy datasets are drawn on top of mag glass when configuring potential (Mac only?)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - reduce startup time
 
@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(6/22/06) - wrote a test program for XYPlotNode bug that causes plots to be drawn on top of things
 (6/22/06) - fix "pickable" flags from BSMagnifyingGlass node and its children
 (6/22/06) - delete BSMoreLessControl, not used
 (6/22/06) - verified that things update properly when clock is paused
