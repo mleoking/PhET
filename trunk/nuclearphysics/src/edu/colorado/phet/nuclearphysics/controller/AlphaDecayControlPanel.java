@@ -25,7 +25,8 @@ public class AlphaDecayControlPanel extends JPanel {
     private JTextField timerTF;
     private Timer timer = new Timer();
     private SloMoAgent sloMoAgent;
-    private JCheckBox sloMoCB;
+    private JCheckBox pauseOnDelayCB;
+    private AlphaDecaySnapshot snapshot;
 
 
     class SloMoAgent implements PreDecayListener {
@@ -53,15 +54,31 @@ public class AlphaDecayControlPanel extends JPanel {
         timerTF.setPreferredSize( new Dimension( 80, 30 ) );
 
         // Allow user to pause clock when decay occurs
-        sloMoCB = new JCheckBox( SimStrings.get("AlphaDecayControlPanel.PauseOnDecay" ));
-        sloMoCB.addActionListener( new ActionListener() {
+        pauseOnDelayCB = new JCheckBox( SimStrings.get("AlphaDecayControlPanel.PauseOnDecay" ));
+        pauseOnDelayCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( sloMoCB.isSelected() ) {
+                if( pauseOnDelayCB.isSelected() ) {
                     ( (Polonium210)module.getNucleus() ).addPreDecayListener( sloMoAgent );
                 }
                 else {
                     ( (Polonium210)module.getNucleus() ).removePreDecayListener( sloMoAgent );
                 }
+            }
+        } );
+
+        // Allow user to rewind to the last alpha decay event
+        JButton rewindToDecayBtn = new JButton( "<html>Rewind to<br>last decay</html>");
+        rewindToDecayBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( snapshot != null ) {
+                    snapshot.restore();
+                }
+            }
+        } );
+
+        module.addChangeListener( new AlphaDecayModule.ChangeListener() {
+            public void decayOccurred( AlphaDecayModule.ChangeEvent event, AlphaDecaySnapshot alphaDecaySnapshot ) {
+                snapshot = alphaDecaySnapshot;
             }
         } );
 
@@ -74,7 +91,7 @@ public class AlphaDecayControlPanel extends JPanel {
                 if( clock.isPaused() ) {
                     clock.start();
                 }
-                if( sloMoCB.isSelected() ) {
+                if( pauseOnDelayCB.isSelected() ) {
                     ( (Polonium210)module.getNucleus() ).addPreDecayListener( sloMoAgent );
                 }
             }
@@ -98,7 +115,12 @@ public class AlphaDecayControlPanel extends JPanel {
                                              1, 1,
                                              GridBagConstraints.NONE,
                                              GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, sloMoCB,
+            GridBagUtil.addGridBagComponent( this, pauseOnDelayCB,
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, rewindToDecayBtn,
                                              0, rowIdx++,
                                              1, 1,
                                              GridBagConstraints.NONE,

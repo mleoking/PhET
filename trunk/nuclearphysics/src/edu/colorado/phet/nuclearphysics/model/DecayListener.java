@@ -8,5 +8,5 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 public interface DecayListener {
-    void alphaDecay( AlphaDecayProducts decayProducts );
+    void alphaDecay( AlphaDecayProducts decayProducts, AlphaDecaySnapshot alphaDecaySnapshot );
 }

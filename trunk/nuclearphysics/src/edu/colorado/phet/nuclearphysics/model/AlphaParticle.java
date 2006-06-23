@@ -28,10 +28,8 @@ public class AlphaParticle extends Nucleus {
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
     private static double forceScale = 0.01;
-    //    private static double forceScale = 0.0008;
     private int stepCnt;
     private int stepsBetweenRandomPlacements = 4;
-    private Point2D locationRelativeToParentNucleus = new Point2D.Double();
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -88,7 +86,6 @@ public class AlphaParticle extends Nucleus {
                     double dy = d * Math.sin( theta );
                     setLocation( nucleus.getPosition().getX() + dx, nucleus.getPosition().getY() + dy );
                     this.setPotential( -nucleus.getEnergyProfile().getTotalEnergy() );
-//                    this.setPotential( nucleus.getEnergyProfile().getMinEnergy() );
                 }
             }
             else {
@@ -109,8 +106,6 @@ public class AlphaParticle extends Nucleus {
                     a = new Vector2D.Double( this.getVelocity() ).normalize().scale( (float)force );
                 }
                 this.setAcceleration( a );
-                double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
-//                this.setPotential( potential );
             }
         }
     }
