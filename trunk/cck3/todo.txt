@@ -1,7 +1,6 @@
 ################################################
 #Remaining Work
 #######################
-o Improved toolbar for advanced components.
 o Add inductors.
 o Internationalize new material.
 o Visualization for charge flow across capacitor
@@ -20,6 +19,8 @@ Ask Wendy & Chris if there should be a separate toolbar for dynamic components.
 Add floating graph components for reading current.
 Could set node voltages from the MNA, then use that to compute voltmeter readouts (instead of graph theory computation).
 
+Iis the ac current (in a circuit with capacitor) symmetric?
+
 ################################################
 #Lower Priority
 #######################
@@ -28,3 +29,4 @@ o Improve the approximation for determining capacitor current.
 -Could use solution from companion model, but more difficult to code.
 
 There is a noticeable delay when dragging a component from the toolbox for the first time; this has confused some users.
+
