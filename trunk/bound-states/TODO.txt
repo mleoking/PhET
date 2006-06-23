@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - implement Save/Load for model
-- existing Save/Load code is broken, throws exception related to BSBottomPlot
 - time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
@@ -42,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+(6/23/06) - bugfix: existing Save/Load code is broken, throws exception related to BSBottomPlotMode
 (6/23/06) - work on problem with DoubleSpinner enter key, not fixed
 (6/23/06) - bugfix: green eigenstate lines have varying brightnesses on Windows (previous bugfix seems to have fixed this, verified on Ron's PC)
 (6/22/06) - bugfix: Energy datasets are drawn on top of mag glass, XYPlotNode must set clip using PPaintContext.pushClip
