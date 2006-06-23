@@ -284,6 +284,21 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         }
     }
 
+    public static class InductorSource extends BranchSource {
+        private ComponentDimension cd;
+
+        public InductorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
+                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Inductor" ), module );
+            this.cd = cd;
+        }
+
+        public Branch createBranch() {
+            AbstractVector2D dir = super.getDirection();
+            dir = dir.getInstanceOfMagnitude( cd.getLength() );
+            return new Inductor( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.circuitChangeListener );
+        }
+    }
 
     public static class ACSource extends BranchSource {
         private ComponentDimension finalDim;
