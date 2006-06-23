@@ -689,7 +689,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
-        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() );
+        config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
         //XXX
     }
     
@@ -719,7 +719,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
-        _controlPanel.setBottomPlotMode( config.getBottomPlotMode() );  // do this after setting views
+        _controlPanel.setBottomPlotMode( config.loadBottomPlotMode() );  // do this after setting views
         //XXX
     }
     

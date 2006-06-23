@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
-import edu.colorado.phet.boundstates.view.BSBottomPlot;
 
 
 /**
@@ -36,7 +35,7 @@ public class BSModuleConfig implements BSSerializable {
     //XXX
     
     // Controls
-    private String _bottomPlotMode;
+    private String _bottomPlotModeName;
     private boolean _magnifyingGlassSelected;
     private boolean _realSelected;
     private boolean _imaginarySelected;
@@ -73,12 +72,12 @@ public class BSModuleConfig implements BSSerializable {
         return _clockIndex;
     }
     
-    public BSBottomPlotMode getBottomPlotMode() {
-        return BSBottomPlotMode.getByName( _bottomPlotMode );
+    public String getBottomPlotModeName() {
+        return _bottomPlotModeName;
     }
     
-    public void setBottomPlotMode( BSBottomPlotMode bottomPlotMode ) {
-        _bottomPlotMode = bottomPlotMode.getName();
+    public void setBottomPlotModeName( String bottomPlotModeName ) {
+        _bottomPlotModeName = bottomPlotModeName;
     }
     
     public boolean isRealSelected() {
@@ -121,4 +120,15 @@ public class BSModuleConfig implements BSSerializable {
         _magnifyingGlassSelected = magnifyingGlassSelected;
     }
 
+    //----------------------------------------------------------------------------
+    // Convenience methods for non-JavaBean objects
+    //----------------------------------------------------------------------------
+    
+    public BSBottomPlotMode loadBottomPlotMode() {
+        return BSBottomPlotMode.getByName( _bottomPlotModeName );
+    }
+    
+    public void saveBottomPlotMode( BSBottomPlotMode bottomPlotMode ) {
+        setBottomPlotModeName( bottomPlotMode.getName() );
+    }
 }
