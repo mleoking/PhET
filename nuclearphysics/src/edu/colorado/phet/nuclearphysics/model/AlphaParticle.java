@@ -56,6 +56,10 @@ public class AlphaParticle extends Nucleus {
         this.nucleus = nucleus;
     }
 
+    public Nucleus getNucleus() {
+        return nucleus;
+    }
+
     public void setEscaped( boolean escaped, double escapeEnergy ) {
         this.escaped = escaped;
         this.escapeEnergy = escapeEnergy;
