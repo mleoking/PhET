@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.mna.MNACircuit;
  * Copyright (c) Jun 19, 2006 by Sam Reid
  */
 
-public class TestRLC {
+public class TestAC_RLC {
     double capV = 5.0;
     double capI = 2.0;
 
@@ -22,7 +22,7 @@ public class TestRLC {
     private double time = 0;
 
     public static void main( String[] args ) {
-        new TestRLC().start();
+        new TestAC_RLC().start();
     }
 
     private void start() {
