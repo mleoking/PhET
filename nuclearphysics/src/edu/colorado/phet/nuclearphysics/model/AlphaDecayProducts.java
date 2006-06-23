@@ -18,7 +18,7 @@ public class AlphaDecayProducts {
 //        this.daughter = new Thorium141( parent.getPosition() );
         this.alphaParticle = alphaParticle;
         this.alphaParticle.setNucleus( daughter );
-        this.alphaParticle.setEscaped( true );
+        this.alphaParticle.setEscaped( true, parent.getEnergyProfile().getTotalEnergy() );
         alphaParticle.setPotential( parent.getEnergyProfile().getHillY( parent.getEnergyProfile().getAlphaDecayX() ) );
     }
 

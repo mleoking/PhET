@@ -207,7 +207,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( profileTx );
-            double dy = ( ( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy() );
+            double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy();
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setTransform( orgTx );

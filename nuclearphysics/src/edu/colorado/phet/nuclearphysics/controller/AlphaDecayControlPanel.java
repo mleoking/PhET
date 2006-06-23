@@ -9,10 +9,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.coreadditions.GridBagUtil;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.model.DecayListener;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayProducts;
-import edu.colorado.phet.nuclearphysics.model.PreDecayListener;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -60,10 +57,10 @@ public class AlphaDecayControlPanel extends JPanel {
         sloMoCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( sloMoCB.isSelected() ) {
-                    ( (Uranium235)module.getNucleus() ).addPreDecayListener( sloMoAgent );
+                    ( (Polonium210)module.getNucleus() ).addPreDecayListener( sloMoAgent );
                 }
                 else {
-                    ( (Uranium235)module.getNucleus() ).removePreDecayListener( sloMoAgent );
+                    ( (Polonium210)module.getNucleus() ).removePreDecayListener( sloMoAgent );
                 }
             }
         } );
@@ -78,7 +75,7 @@ public class AlphaDecayControlPanel extends JPanel {
                     clock.start();
                 }
                 if( sloMoCB.isSelected() ) {
-                    ( (Uranium235)module.getNucleus() ).addPreDecayListener( sloMoAgent );
+                    ( (Polonium210)module.getNucleus() ).addPreDecayListener( sloMoAgent );
                 }
             }
         } );

@@ -14,7 +14,7 @@ import java.util.Random;
 
 /**
  * Alpha Particle
- * <p>
+ * <p/>
  * A type of nucleus that is either part of a larger nucleus, or has escaped. It's movement
  * behavior is dependent on this bit of its state.
  */
@@ -31,7 +31,7 @@ public class AlphaParticle extends Nucleus {
     //    private static double forceScale = 0.0008;
     private int stepCnt;
     private int stepsBetweenRandomPlacements = 4;
-    private Point2D locationRelativeToParentNucleus = new Point2D.Double( );
+    private Point2D locationRelativeToParentNucleus = new Point2D.Double();
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -41,6 +41,7 @@ public class AlphaParticle extends Nucleus {
     public boolean isInNucleus = true;
     private double statisticalPositionSigma;
     private boolean escaped = false;
+    private double escapeEnergy;
 
     /**
      * Constructor
@@ -57,8 +58,13 @@ public class AlphaParticle extends Nucleus {
         this.nucleus = nucleus;
     }
 
-    public void setEscaped( boolean escaped ) {
+    public void setEscaped( boolean escaped, double escapeEnergy ) {
         this.escaped = escaped;
+        this.escapeEnergy = escapeEnergy;
+    }
+
+    public boolean isEscaped() {
+        return escaped;
     }
 
     public void setLocation( double x, double y ) {
@@ -91,7 +97,7 @@ public class AlphaParticle extends Nucleus {
                 EnergyProfile profile = nucleus.getEnergyProfile();
                 double d = this.getPosition().distance( nucleus.getPosition() );
 
-                double force = Math.abs( profile.getHillY( -d ) ) * forceScale * 1000;
+                double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
@@ -104,13 +110,18 @@ public class AlphaParticle extends Nucleus {
                 }
                 this.setAcceleration( a );
                 double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
-                this.setPotential( potential );
+//                this.setPotential( potential );
             }
         }
     }
 
     public double getParentNucleusTotalEnergy() {
-        return -nucleus.getEnergyProfile().getTotalEnergy();
+        if( isEscaped() ) {
+            return escapeEnergy;
+        }
+        else {
+            return nucleus.getEnergyProfile().getTotalEnergy();
+        }
     }
     //--------------------------------------------------------------------------------------------------
     // Implementation of Body
