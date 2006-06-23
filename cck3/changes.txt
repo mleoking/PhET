@@ -1,3 +1,6 @@
+Version 3.01.03
+Added a floating graph components for reading current.
+
 Version 3.01.02
 Added charge and current graphics for capacitors.
 Bugfix: There is some text near the top left of the screen; we can see the descenders dropping down.
