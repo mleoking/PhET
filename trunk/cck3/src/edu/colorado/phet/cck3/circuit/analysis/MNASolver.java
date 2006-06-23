@@ -65,7 +65,7 @@ public class MNASolver extends CircuitSolver {
                 branch.setVoltageDrop( endVoltage - startVoltage );
                 double newVoltageDrop = branch.getVoltageDrop();
                 double dv = newVoltageDrop - origVoltageDrop;
-                branch.setCurrent( capFudgeFactor * c.getCapacitance() * dv / dt );//linear approx, see if it's good enough
+                branch.setCurrent( capFudgeFactor * c.getCapacitance() * dv / dt );//todo: linear approx, see if it's good enough
                 branch.setKirkhoffEnabled( true );
             }
             else if( !( branch instanceof Battery ) ) {

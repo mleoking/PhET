@@ -27,6 +27,9 @@ public class CCK2ImageSuite {
     private String capImageLoc = "images/cap5.gif";
     private String acImageLoc = "images/ac.gif";
     private BufferedImage acImage;
+    private BufferedImage inductorImage;
+//    private String inductorImageLoc="images/inductor1.jpg";
+    private String inductorImageLoc = "images/inductor2.gif";
 
     public CCK2ImageSuite() throws IOException {
         loadImages();
@@ -42,6 +45,7 @@ public class CCK2ImageSuite {
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
         capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
         acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );
+        inductorImage = ImageLoader.loadBufferedImage( inductorImageLoc );
 //        capacitorImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null,capacitorImage, 50);
     }
 
@@ -81,5 +85,9 @@ public class CCK2ImageSuite {
 
     public BufferedImage getACImage() {
         return acImage;
+    }
+
+    public BufferedImage getInductorImage() {
+        return inductorImage;
     }
 }

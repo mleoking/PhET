@@ -495,6 +495,13 @@ public class Circuit {
             res.setResistance( val );
             return res;
         }
+        else if( type.equals( Inductor.class.getName() ) ) {
+            Inductor inductor = new Inductor( kl, startJunction, endJunction, length, height );
+            inductor.setVoltageDrop( Double.parseDouble( xml.getAttribute( "voltage", Double.NaN + "" ) ) );
+            inductor.setCurrent( Double.parseDouble( xml.getAttribute( "current", Double.NaN + "" ) ) );
+            inductor.setInductance( Double.parseDouble( xml.getAttribute( "inductance", Double.NaN + "" ) ) );
+            return inductor;
+        }
         return null;
     }
 
@@ -558,6 +565,12 @@ public class Circuit {
                 branchElement.setAttribute( "capacitance", cap.getCapacitance() + "" );
                 branchElement.setAttribute( "voltage", cap.getVoltageDrop() + "" );
                 branchElement.setAttribute( "current", cap.getCurrent() + "" );
+            }
+            else if( branch instanceof Inductor ) {
+                Inductor ind = (Inductor)branch;
+                branchElement.setAttribute( "inductance", ind.getInductance() + "" );
+                branchElement.setAttribute( "voltage", ind.getVoltageDrop() + "" );
+                branchElement.setAttribute( "current", ind.getCurrent() + "" );
             }
             xe.addChild( branchElement );
         }

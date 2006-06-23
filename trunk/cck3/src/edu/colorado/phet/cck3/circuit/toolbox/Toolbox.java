@@ -47,6 +47,7 @@ public class Toolbox extends CompositeGraphic {
     private double schematicWireThickness = .1;
     private BranchSource.CapacitorSource capacitorSource;
     private BranchSource.ACSource acSource;
+    private BranchSource.InductorSource inductorSource;
 
     public Toolbox( Rectangle2D modelRect, CCK3Module module, Color backgroundColor ) {
         this.module = module;
@@ -104,6 +105,7 @@ public class Toolbox extends CompositeGraphic {
         if( module.getParameters().getAllowDynamics() ) {
             y = addAC( componentWidth, componentX, y, dir, dy );
             y = addCapacitor( componentWidth, componentX, y, dir, dy );
+            y = addInductor( componentWidth, componentX, y, dir, dy );
         }
 
         addAmmeter( componentWidth, componentX, y, dir );
@@ -208,16 +210,24 @@ public class Toolbox extends CompositeGraphic {
     }
 
     private double addCapacitor( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
-        BufferedImage im = module.getImageSuite().getCapacitorImage();
+//        BufferedImage im = module.getImageSuite().getCapacitorImage();
         double initialHeight = CCK3Module.CAP_DIM.getHeightForLength( componentWidth );
         Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
-//        CircuitComponentImageGraphic lifelikeGraphic = new CircuitComponentImageGraphic( im, parent, resistor, transform );
         SchematicCapacitorGraphic schematicGraphic = new SchematicCapacitorGraphic( parent, resistor, transform, schematicWireThickness );
-//        capacitorSource = new BranchSource.CapacitorSource( lifelikeGraphic, schematicGraphic, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
         capacitorSource = new BranchSource.CapacitorSource( schematicGraphic, schematicGraphic, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
         addSource( capacitorSource );
         y += dy;
+        return y;
+    }
 
+    private double addInductor( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
+        double initialHeight = CCK3Module.CAP_DIM.getHeightForLength( componentWidth );
+        Inductor inductor = new Inductor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
+        CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getInductorImage(), parent, inductor, transform );
+//        SchematicCapacitorGraphic schematicGraphic = new SchematicCapacitorGraphic( parent, inductor, transform, schematicWireThickness );
+        inductorSource = new BranchSource.InductorSource( lifelike, lifelike, module.getCircuitGraphic(), parent, inductor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
+        addSource( inductorSource );
+        y += dy;
         return y;
     }
 
