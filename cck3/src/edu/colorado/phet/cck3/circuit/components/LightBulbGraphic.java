@@ -132,8 +132,11 @@ public class LightBulbGraphic implements Graphic {
         g.setColor( Color.black );
         g.draw( bulb );
 
-        g.setPaint( paint );
-        g.fill( bulb );
+//        System.out.println( "intensity = " + intensity );
+        if( intensity > 0 ) {
+            g.setPaint( paint );
+            g.fill( bulb );
+        }
 
         g.setColor( insulatorColor );
         g.fill( insulator );
