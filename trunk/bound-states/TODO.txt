@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
-- green eigenstate lines have varying brightnesses on Windows
 - make plots in bottom chart look smoother on Windows
 - refactor BSAbstractModule, it's too big
 - refactor other classes that have gotten too big
@@ -43,6 +42,7 @@ CLEANUP:
 
 
 DONE:
+(6/23/06) - bugfix: green eigenstate lines have varying brightnesses on Windows (previous bugfix seems to have fixed this, verified on Ron's PC)
 (6/22/06) - bugfix: Energy datasets are drawn on top of mag glass, XYPlotNode must set clip using PPaintContext.pushClip
 (6/22/06) - wrote a test program for XYPlotNode bug that causes plots to be drawn on top of things
 (6/22/06) - fix "pickable" flags from BSMagnifyingGlass node and its children
