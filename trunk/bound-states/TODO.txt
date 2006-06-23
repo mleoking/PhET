@@ -41,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+(6/23/06) - add a flag to enable/disble the Save/Load feature
 (6/23/06) - bugfix: existing Save/Load code is broken, throws exception related to BSBottomPlotMode
 (6/23/06) - work on problem with DoubleSpinner enter key, not fixed
 (6/23/06) - bugfix: green eigenstate lines have varying brightnesses on Windows (previous bugfix seems to have fixed this, verified on Ron's PC)

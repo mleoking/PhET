@@ -57,6 +57,9 @@ public class BSApplication extends PiccoloPhetApplication {
     private static final String ARG_TWO = "-two";
     private static final String ARG_MANY = "-many";
     
+    // Save/Load feature enable
+    private static final boolean SAVE_LOAD_ENABLED = true;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -162,8 +165,8 @@ public class BSApplication extends PiccoloPhetApplication {
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
             
-            saveItem.setEnabled( false );//XXX disable until working
-            loadItem.setEnabled( false );//XXX disable until working
+            saveItem.setEnabled( SAVE_LOAD_ENABLED );
+            loadItem.setEnabled( SAVE_LOAD_ENABLED );
         }
         
         // Colors menu
