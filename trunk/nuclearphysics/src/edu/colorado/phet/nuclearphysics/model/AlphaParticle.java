@@ -91,27 +91,17 @@ public class AlphaParticle extends Nucleus {
                 EnergyProfile profile = nucleus.getEnergyProfile();
                 double d = this.getPosition().distance( nucleus.getPosition() );
 
-                double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
+                double force = Math.abs( profile.getHillY( -d ) ) * forceScale * 1000;
                 force = Double.isNaN( force ) ? 0 : force;
-                force = -profile.getDyDx( -d ) * forceScale * 1000;
-
-//                force = 0.006;
-//                force = -profile.getDyDx( -d ) * forceScale;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
-                    System.out.println( "AlphaParticle.stepInTime:   AAAAA" );
                     double dx = this.getPosition().getX() - nucleus.getPosition().getX();
                     double dy = this.getPosition().getY() - nucleus.getPosition().getY();
                     a = new Vector2D.Double( dx, dy ).normalize().scale( (float)force );
                 }
                 else {
-//                    System.out.println( "AlphaParticle.stepInTime:   BBBBB" );
                     a = new Vector2D.Double( this.getVelocity() ).normalize().scale( (float)force );
-//                    a = new Vector2D.Double( this.getVelocity() ).normalize().scale( (float)force );
                 }
-//                System.out.println( "force = " + force );
-//                System.out.println( "getVelocity() = " + getVelocity() );
-//                System.out.println( "a = " + a );
                 this.setAcceleration( a );
                 double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
                 this.setPotential( potential );
