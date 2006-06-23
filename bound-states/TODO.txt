@@ -42,6 +42,7 @@ CLEANUP:
 
 
 DONE:
+(6/23/06) - work on problem with DoubleSpinner enter key, not fixed
 (6/23/06) - bugfix: green eigenstate lines have varying brightnesses on Windows (previous bugfix seems to have fixed this, verified on Ron's PC)
 (6/22/06) - bugfix: Energy datasets are drawn on top of mag glass, XYPlotNode must set clip using PPaintContext.pushClip
 (6/22/06) - wrote a test program for XYPlotNode bug that causes plots to be drawn on top of things
