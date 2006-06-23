@@ -40,6 +40,7 @@ public class Polonium210 extends Nucleus {
     private static double ABSORPTION_PROBABILITY = 1;
     // Location to put neutrons until they can be removed from the model
     public static final Point2D HoldingAreaCoord = new Point2D.Double( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY );
+    private AlphaDecaySnapshot alphaDecaySnapshot;
 
 
     public static void setAbsoptionProbability( double probability ) {
@@ -65,6 +66,12 @@ public class Polonium210 extends Nucleus {
     private boolean doMorph = false;
     private double jiggleOrgX;
 
+    /**
+     * Only constructor
+     *
+     * @param position
+     * @param model
+     */
     public Polonium210( Point2D position, NuclearPhysicsModel model ) {
         super( position, Polonium210.NUM_PROTONS, Polonium210.NUM_NEUTRONS );
         this.model = model;
@@ -141,13 +148,14 @@ public class Polonium210 extends Nucleus {
                         decayListener.alphaDecayOnNextTimeStep();
                     }
                     preDecayStep = true;
+                    alphaDecaySnapshot = new AlphaDecaySnapshot( model );
                     return;
                 }
 
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
-                    decayListener.alphaDecay( decayProducts );
+                    decayListener.alphaDecay( decayProducts, alphaDecaySnapshot );
                 }
                 return;
             }

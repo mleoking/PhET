@@ -22,7 +22,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 
-public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
+public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener, PreDecayListener {
 
     private AlphaDecayPhysicalPanel physicalPanel;
     private Ellipse2D.Double alphaRing;
@@ -126,8 +126,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getEnergyProfilePanel().removeAllAlphaParticles();
         getEnergyProfilePanel().removeAllPotentialProfiles();
         getEnergyProfilePanel().removeGraphic(leaderLines);
-
-//        getPhysicalPanel().removeAllGraphics();
         getPhysicalPanel().removeGraphic(ringGraphic);
         getPhysicalPanel().removeGraphic(leaderLines);
 
@@ -212,11 +210,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     // Implementation of DecayListener
     //--------------------------------------------------------------------------------------------------
 
-    public void alphaDecay(AlphaDecayProducts decayProducts) {
+    public void alphaDecay(AlphaDecayProducts decayProducts, AlphaDecaySnapshot alphaDecaySnapshot ) {
 
         alphaDecayControlPanel.stopTimer();
 
-        changeListenerProxy.decayOccurred( new ChangeEvent( this ) );
+        changeListenerProxy.decayOccurred( new ChangeEvent( this ), alphaDecaySnapshot );
 
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
@@ -241,6 +239,13 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPhysicalPanel().addGraphic(kaboom);
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of PredecayListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void alphaDecayOnNextTimeStep() {
+//        changeListenerProxy.preDecayOccured( new ChangeEvent( this ) );
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
@@ -263,7 +268,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     public interface ChangeListener extends EventListener {
-        void decayOccurred( ChangeEvent event );
+        void decayOccurred( ChangeEvent event, AlphaDecaySnapshot alphaDecaySnapshot );
     }
-
 }

@@ -86,14 +86,6 @@ public class Uranium235 extends Nucleus {
         return alphaParticles;
     }
 
-    public void addPreDecayListener( PreDecayListener listener ) {
-        this.preDecayListeners.add( listener );
-    }
-
-    public void removePreDecayListener( PreDecayListener listener ) {
-        this.preDecayListeners.remove( listener );
-    }
-
     public void addDecayListener( DecayListener listener ) {
         this.decayListeners.add( listener );
     }
@@ -153,7 +145,7 @@ public class Uranium235 extends Nucleus {
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
-                    decayListener.alphaDecay( decayProducts );
+                    decayListener.alphaDecay( decayProducts, new AlphaDecaySnapshot( model ) );
                 }
                 return;
             }
