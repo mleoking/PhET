@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Capacitor;
+import edu.colorado.phet.cck3.circuit.components.Inductor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common_cck.math.Vector2D;
 
@@ -160,6 +161,14 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
                 fakeCapacitor.setVoltageDrop( branch.getVoltageDrop() );
                 equivalentCircuit.branchMap.put( branch, fakeCapacitor );
                 c.addBranch( fakeCapacitor );
+            }
+            else if( branch instanceof Inductor ) {
+                Inductor fakeInductor = new Inductor( branch.getResistance() );
+                fakeInductor.setInductance( ( (Inductor)branch ).getInductance() );
+                fakeInductor.setCurrent( branch.getCurrent() );
+                fakeInductor.setVoltageDrop( branch.getVoltageDrop() );
+                equivalentCircuit.branchMap.put( branch, fakeInductor );
+                c.addBranch( fakeInductor );
             }
             else {
                 Resistor fakeResistor = new Resistor( branch.getResistance() );

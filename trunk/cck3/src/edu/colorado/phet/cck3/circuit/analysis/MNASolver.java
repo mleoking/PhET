@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Capacitor;
+import edu.colorado.phet.cck3.circuit.components.Inductor;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 
 import java.util.ArrayList;
@@ -68,6 +69,18 @@ public class MNASolver extends CircuitSolver {
                 branch.setCurrent( capFudgeFactor * c.getCapacitance() * dv / dt );//todo: linear approx, see if it's good enough
                 branch.setKirkhoffEnabled( true );
             }
+            else if( branch instanceof Inductor ) {
+                //we'd like to read the current from the companion model.
+                Inductor L = (Inductor)branch;
+                branch.setKirkhoffEnabled( false );
+                double origCurrent = branch.getCurrent();
+                double origVoltageDrop = branch.getVoltageDrop();
+                branch.setVoltageDrop( endVoltage - startVoltage );
+                double deltaCurrent = origVoltageDrop / L.getInductance() * dt;
+                double newCurrent = origCurrent + deltaCurrent;
+                branch.setCurrent( newCurrent );//todo: linear approx, see if it's good enough
+                branch.setKirkhoffEnabled( true );
+            }
             else if( !( branch instanceof Battery ) ) {
                 branch.setKirkhoffEnabled( false );
                 branch.setVoltageDrop( endVoltage - startVoltage );
@@ -114,6 +127,10 @@ public class MNASolver extends CircuitSolver {
         }
         else if( branch instanceof Resistor ) {
             return new MNACircuit.MNAResistor( "r_" + index, start, end, branch.getResistance() );
+        }
+        else if( branch instanceof Inductor ) {
+            Inductor L = (Inductor)branch;
+            return new MNACircuit.MNAInductor( "L_" + index, start, end, L.getInductance(), L.getVoltageDrop(), L.getCurrent() );
         }
         else if( branch instanceof Branch ) {
             return new MNACircuit.MNAResistor( "r_" + index, start, end, branch.getResistance() );
