@@ -17,7 +17,10 @@ Add a timer.
 CCK Bug: 'Advanced' disappears on control panel.
 Could set node voltages from the MNA, then use that to compute voltmeter readouts (instead of graph theory computation).
 
+Bug: Capacitor clip should disappear when capacitors disappear.
 Is the ac current (in a circuit with capacitor) symmetric?
+
+When disconnected from the circuit, inductor still oscillated internally (is that maybe physical?)
 
 ################################################
 #Lower Priority

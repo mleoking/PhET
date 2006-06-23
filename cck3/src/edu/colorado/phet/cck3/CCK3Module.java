@@ -429,16 +429,20 @@ public class CCK3Module extends Module {
     }
 
     private Rectangle2D createToolboxBounds() {
-        double toolBoxWidthFrac = .07;
+        double toolBoxWidthFrac = .085;
         double toolBoxInsetXFrac = 1 - toolBoxWidthFrac * 1.5;
-        double toolBoxHeightFrac = .7;
-        double toolBoxInsetYFrac = .05;
+        double toolBoxHeightFrac = 0.82;
+//        double toolBoxInsetYFrac = .05;
+        double toolBoxInsetYFrac = 0.015;
         Rectangle2D modelBounds = transform.getModelBounds();
-        Rectangle2D toolboxBounds = new Rectangle2D.Double( modelBounds.getX() + modelBounds.getWidth() * toolBoxInsetXFrac,
-                                                            modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac,
-                                                            modelBounds.getWidth() * toolBoxWidthFrac,
-                                                            modelBounds.getHeight() * toolBoxHeightFrac );
-        return toolboxBounds;
+        double y = modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac;
+        System.out.println( "modelBounds.getY() = " + modelBounds.getY() + ", modelBounds.geth=" + modelBounds.getHeight() + ", tbiyf=" + toolBoxInsetYFrac );
+        System.out.println( "y = " + y );
+        double x = modelBounds.getX() + modelBounds.getWidth() * toolBoxInsetXFrac;
+        double h = modelBounds.getHeight() * toolBoxHeightFrac;
+        return new Rectangle2D.Double( x, y,
+                                       modelBounds.getWidth() * toolBoxWidthFrac,
+                                       h );
     }
 
     private void setupToolbox() {

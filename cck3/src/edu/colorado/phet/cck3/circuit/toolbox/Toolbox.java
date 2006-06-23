@@ -79,7 +79,8 @@ public class Toolbox extends CompositeGraphic {
         boundaryGraphic = new PhetShapeGraphic( parent, transform.createTransformedShape( modelRect ),
                                                 backgroundColor, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), Color.black );
 
-        double fracInsetX = .1;
+//        double fracInsetX = .1;
+        double fracInsetX = .2;
         double componentWidthFrac = 1 - fracInsetX * 2;
         double componentWidth = modelRect.getWidth() * componentWidthFrac;
         double componentX = modelRect.getX() + modelRect.getWidth() * fracInsetX;
@@ -87,7 +88,7 @@ public class Toolbox extends CompositeGraphic {
         double y = modelRect.getY() + modelRect.getHeight();
         int numComponents = 6;
         if( module.getParameters().getAllowDynamics() ) {
-            numComponents += 2;
+            numComponents += 3;
         }
 //        double dy = -modelRect.getHeight() / 6.2;
         double dy = -modelRect.getHeight() / ( numComponents + 0.2 );
