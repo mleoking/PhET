@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.util.List;
@@ -21,6 +20,8 @@ import java.awt.geom.Point2D;
 
 /**
  * AlphaDecaySnapshot
+ * <p>
+ * An object that saves and restores the state of the NuclearModelElements in at a point in time
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -34,7 +35,7 @@ public class AlphaDecaySnapshot {
         List modelElements = model.getNuclearModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElements.get( i );
-            SavedModelElement savedModelElement = new SavedModelElement( nuclearModelElement );
+            SavedModelElement savedModelElement = createSavedModelElement( nuclearModelElement );
             nuclearModelElementToSavedState.put( nuclearModelElement, savedModelElement );
         }
     }
@@ -52,19 +53,28 @@ public class AlphaDecaySnapshot {
         while( it.hasNext() ) {
             NuclearModelElement nuclearModelElement = (NuclearModelElement)it.next();
             SavedModelElement savedModelElement = (SavedModelElement)nuclearModelElementToSavedState.get( nuclearModelElement );
-            nuclearModelElement.setPosition( new Point2D.Double( savedModelElement.getPosition().getX(),
-                                                                 savedModelElement.getPosition().getY() ) );
-            nuclearModelElement.setVelocity( new Vector2D.Double( savedModelElement.getVelocity() ) );
-            nuclearModelElement.setAcceleration( new Vector2D.Double( savedModelElement.getAcceleration() ) );
-            nuclearModelElement.setMass( savedModelElement.getMass() );
+            savedModelElement.restore( nuclearModelElement );
             if( !model.getNuclearModelElements().contains( nuclearModelElement ) ) {
                 model.addModelElement( nuclearModelElement );
             }
         }
     }
 
+    private SavedModelElement createSavedModelElement( NuclearModelElement source ) {
+        if( source instanceof AlphaParticle ) {
+            return new SavedAlphParticle( (AlphaParticle)source );
+        }
+        else {
+            return new SavedModelElement( source );
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes for saving and restoring the state of NuclearModelElements and AlphaParticles
+    //--------------------------------------------------------------------------------------------------
+
     /**
-     * Class for saving the state of a NuclearModelElement
+     * Class for saving and restoring the state of a NuclearModelElement
      */
     private class SavedModelElement extends NuclearModelElement {
 
@@ -83,6 +93,35 @@ public class AlphaDecaySnapshot {
 
         public double getMomentOfInertia() {
             return 0;
+        }
+
+        void restore( NuclearModelElement nuclearModelElement) {
+            nuclearModelElement.setPosition( new Point2D.Double( getPosition().getX(),
+                                                                 getPosition().getY() ) );
+            nuclearModelElement.setVelocity( new Vector2D.Double( getVelocity() ) );
+            nuclearModelElement.setAcceleration( new Vector2D.Double( getAcceleration() ) );
+            nuclearModelElement.setMass( getMass() );
+        }
+    }
+
+    /**
+     * Class for saving and restoring the state of an AlphaParticle
+     */
+    private class SavedAlphParticle extends SavedModelElement {
+        private Nucleus parentNucleus;
+
+        protected SavedAlphParticle( AlphaParticle sourceModelElement ) {
+            super( sourceModelElement );
+            parentNucleus = sourceModelElement.getNucleus();
+        }
+
+        public Nucleus getParentNucleus() {
+            return parentNucleus;
+        }
+
+        void restore( NuclearModelElement nuclearModelElement) {
+            super.restore( nuclearModelElement );
+            ((AlphaParticle)nuclearModelElement).setNucleus( parentNucleus );
         }
     }
 }

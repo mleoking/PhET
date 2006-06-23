@@ -67,20 +67,27 @@ public class AlphaDecayControlPanel extends JPanel {
         } );
 
         // Allow user to rewind to the last alpha decay event
-        JButton rewindToDecayBtn = new JButton( "<html>Rewind to<br>last decay</html>");
+        final JButton rewindToDecayBtn = new JButton( "<html>Rewind to<br>last decay</html>");
         rewindToDecayBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( snapshot != null ) {
+                    module.getClock().pause();
                     snapshot.restore();
+                    rewindToDecayBtn.setEnabled( false );
                 }
             }
         } );
+        rewindToDecayBtn.setEnabled( false );
 
+        // Add a listener to the module that will tell us when an alpha decay event is about to occur, and saves
+        // a snapshot of the model
         module.addChangeListener( new AlphaDecayModule.ChangeListener() {
             public void decayOccurred( AlphaDecayModule.ChangeEvent event, AlphaDecaySnapshot alphaDecaySnapshot ) {
                 snapshot = alphaDecaySnapshot;
+                rewindToDecayBtn.setEnabled( true );
             }
         } );
+
 
         JButton resetBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
