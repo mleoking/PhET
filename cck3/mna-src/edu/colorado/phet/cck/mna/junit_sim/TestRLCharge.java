@@ -42,7 +42,7 @@ public class TestRLCharge extends TestCase {
         MNACircuit.MNASolution solution = companion.getSolution();
         this.i = -solution.getCurrent( 1 );//should be same everywhere
         this.v = -( solution.getVoltage( 2 ) - solution.getVoltage( 0 ) );
-        System.out.println( "i = " + i + ", desired=" + getDesiredCurrentExp() );
+//        System.out.println( "i = " + i + ", desired=" + getDesiredCurrentExp() );
         double a = i - getDesiredCurrentExp();
         this.squaredError = a * a;
     }
@@ -57,7 +57,7 @@ public class TestRLCharge extends TestCase {
 
     public void testRCCharge() {
         double MSE = new TestRLCharge().getMSE( 1000 );
-        System.out.println( "MSE = " + MSE );
+//        System.out.println( "MSE = " + MSE );
         double MIN_MSE = 1E-5;
         assertTrue( "Low mean square error test.", MSE < MIN_MSE );
 //        System.out.println( "MSE = " + MSE );
