@@ -1,3 +1,4 @@
+- Kabooms need to be rewirtten so they don't update when the clock is paused
 - Don't need fision behavior in Polonium. Make a Fisionable interface.
 - Profiled nucleus modules don't account properly for resizing before the first time they're activated
 
@@ -18,7 +19,9 @@
 -   Remove Phet logo from control panel
 
 Alpha Radiation
-- rewind feature
+- Implement Kathy's profile model
+- Change to Polonium 211
+- Calibrate time scale for alpha decay according to model
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
@@ -42,9 +45,18 @@ Controlled Reaction
 
 
 ================
+Done, not posted
+================
+- Containment blows up and fades
+
+================
+1.08.09
+================
+- rewind feature added
+
+================
 1.08.08
 ================
-
 Alpha Decay
 - Straighten out sign issues with total energy, min energy, max energy, etc., and their display sense in the profile panel
 - Redesigned the energy profile panel
