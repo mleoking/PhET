@@ -11,6 +11,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -37,7 +38,8 @@ public class Containment extends SimpleObservable implements ModelElement {
     private double totalImpact;
     private double neutronImpact = 1;
     private double nucleusImpact = 10;
-    private double explosionThreshold = 50;
+    private double explosionThreshold = Config.CONTAINMENT_EXPLOSION_THRESHOLD;
+    private List embeddedNuclearModelElements = new ArrayList( );
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
@@ -101,7 +103,6 @@ public class Containment extends SimpleObservable implements ModelElement {
     public void dissolve() {
         double decr = 0.05;
         opacity = Math.max( opacity - decr, 0 );
-        System.out.println( "opacity = " + opacity );
         notifyObservers();
     }
 
@@ -117,6 +118,10 @@ public class Containment extends SimpleObservable implements ModelElement {
         totalImpact += impact;
         if( totalImpact > explosionThreshold ) {
             model.removeModelElement( this );
+            for( int i = 0; i < embeddedNuclearModelElements.size(); i++ ) {
+                NuclearModelElement nuclearModelElement = (NuclearModelElement)embeddedNuclearModelElements.get( i );
+                model.removeModelElement( nuclearModelElement );
+            }
             changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
         }
     }
@@ -193,23 +198,24 @@ public class Containment extends SimpleObservable implements ModelElement {
         private void detectAndDoCollision( Nucleus nucleus ) {
             double distSq = nucleus.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
             double embeddedDist = 30;
-            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
+            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 && nucleus.getVelocity().getMagnitudeSq() > 0 ) {
                 nucleus.setVelocity( 0, 0 );
                 double dx = ( nucleus.getPosition().getX() - shape.getCenterX() ) / Math.sqrt( distSq )
                             * ( embeddedDist  + shape.getWidth() / 2 );
                 double dy = ( nucleus.getPosition().getY() - shape.getCenterY() ) / Math.sqrt( distSq )
                             * ( embeddedDist  + shape.getWidth() / 2 );
                 nucleus.setPosition( shape.getCenterX() + dx, shape.getCenterY() + dy );
-
                 recordImpact( nucleusImpact );
+                embeddedNuclearModelElements.add( nucleus );
             }
         }
 
         private void detectAndDoCollision( Neutron neutron ) {
             double distSq = neutron.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
-            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 ) {
+            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2  && neutron.getVelocity().getMagnitudeSq() > 0 ) {
                 handleCollision( neutron );
                 recordImpact( neutronImpact );
+                embeddedNuclearModelElements.add( neutron );
             }
         }
 

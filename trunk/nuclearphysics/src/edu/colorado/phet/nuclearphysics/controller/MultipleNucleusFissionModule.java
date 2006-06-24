@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
+import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -131,6 +132,16 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         containment.addResizeListener( this );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 10 );
+
+        // Add a listener that will add a graphic showing the containment blowing up when the
+        // containment explodes
+        containment.addChangeListener( new Containment.ChangeListener() {
+            public void containmentExploded( Containment.ChangeEvent event ) {
+                ExplodingContainmentGraphic ecg = new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this,
+                                                                                   containmentGraphic );
+                getPhysicalPanel().removeGraphic( containmentGraphic );
+            }
+        } );
     }
 
     private void removeContainment() {
