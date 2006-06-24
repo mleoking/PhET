@@ -43,9 +43,9 @@ public class ExplodingContainmentGraphic {
     private static Random random = new Random();
     private boolean kaboomed;
     private List kaboomGraphics = new ArrayList();
-    private JLabel labelMessage;
-    private PhetShapeGraphic backgroundGraphic;
-    private double blackBacgroundLayer = Double.MAX_VALUE - 2;
+//    private JLabel labelMessage;
+//    private PhetShapeGraphic backgroundGraphic;
+//    private double blackBacgroundLayer = Double.MAX_VALUE - 2;
     private double tileLayer = Double.MAX_VALUE;
 
 
@@ -103,16 +103,9 @@ public class ExplodingContainmentGraphic {
     }
 
     public void clearGraphics( ApparatusPanel apparatusPanel ) {
-//        List kaboomGraphics = getKaboomGraphics();
         for( int i = 0; i < kaboomGraphics.size(); i++ ) {
             PhetGraphic graphic = (PhetGraphic)kaboomGraphics.get( i );
             apparatusPanel.removeGraphic( graphic );
-        }
-        if( backgroundGraphic != null ) {
-            apparatusPanel.removeGraphic( backgroundGraphic );
-        }
-        if( labelMessage != null ) {
-            apparatusPanel.remove( labelMessage );
         }
         apparatusPanel.revalidate();
         apparatusPanel.repaint();
