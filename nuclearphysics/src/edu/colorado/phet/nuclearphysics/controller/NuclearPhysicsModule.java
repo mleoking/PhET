@@ -140,7 +140,7 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         addNucleus( uraniumNucleus );
     }
 
-    protected PhysicalPanel getPhysicalPanel() {
+    public PhysicalPanel getPhysicalPanel() {
         return physicalPanel;
     }
 
