@@ -1,7 +1,7 @@
 ################################################
 #Remaining Work
 #######################
-o Internationalize new material.
+o Internationalize new material. (needs spanish for some text).
 o Visualization for charge flow across capacitor
 o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.

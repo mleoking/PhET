@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.components.WIStrings;
 import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
@@ -144,7 +145,7 @@ public class CCK3ControlPanel extends ControlPanel {
     }
 
     private void addFloatingCharts() {
-        JButton floatingChartButton = new JButton( "Add Chart" );
+        JButton floatingChartButton = new JButton( WIStrings.getString( "add.chart" ) );
         floatingChartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                System.out.println( "CCK3ControlPanel.actionPerformed" );
