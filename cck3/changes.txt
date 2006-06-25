@@ -1,5 +1,6 @@
 Version 3.01.03
 Added a floating graph components for reading current.
+Added inductors.
 
 Version 3.01.02
 Added charge and current graphics for capacitors.
