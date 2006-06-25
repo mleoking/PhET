@@ -797,7 +797,8 @@ public class CCK3Module extends Module {
         cck.getApparatusPanel().addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_C ) {
-                    cck.clearCapacitors();
+//                    cck.clearCapacitors();
+                    cck.resetDynamics();
                 }
             }
 
@@ -875,7 +876,7 @@ public class CCK3Module extends Module {
         } );
     }
 
-    private void clearCapacitors() {
+    private void resetDynamics() {
         circuit.resetDynamics();
     }
 

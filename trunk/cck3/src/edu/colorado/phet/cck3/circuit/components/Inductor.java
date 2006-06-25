@@ -68,6 +68,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     public void resetDynamics() {
         setKirkhoffEnabled( false );
         setVoltageDrop( 0.0 );
+        setCurrent( 0.0 );
         setKirkhoffEnabled( true );
     }
 

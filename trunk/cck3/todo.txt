@@ -1,7 +1,6 @@
 ################################################
 #Remaining Work
 #######################
-o Add inductors.
 o Internationalize new material.
 o Visualization for charge flow across capacitor
 o Visualization for charge buildup on capacitor.
@@ -21,6 +20,7 @@ Bug: Capacitor clip should disappear when capacitors disappear.
 Is the ac current (in a circuit with capacitor) symmetric?
 
 When disconnected from the circuit, inductor still oscillated internally (is that maybe physical?)
+Delete button for charts.
 
 ################################################
 #Lower Priority
