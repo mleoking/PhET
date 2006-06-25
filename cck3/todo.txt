@@ -6,6 +6,7 @@ o Visualization for charge flow across capacitor
 o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
+o Add schematic view for inductors.
 
 CCK charge visualization
 use + and - inside plate graphic
