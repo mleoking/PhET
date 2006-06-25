@@ -51,6 +51,11 @@ public class MNASolver extends CircuitSolver {
         }
 //        System.out.println( "solution = " + solution );
 //        int freeIndex = solution.getNumVoltages() + getBatteries( circuit ).length;//todo loose coupling, we'd like to get the current for the capacitor directly.
+
+        /*This is meant to compute voltages at each node, so we can avoid a complex graph traversal later*/
+        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            circuit.junctionAt( i ).setVoltage( solution.getVoltage( i ) );
+        }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             int startJunction = circuit.indexOf( branch.getStartJunction() );

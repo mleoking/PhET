@@ -14,9 +14,11 @@ import java.util.ArrayList;
  */
 public class VoltageCalculation {
     private Circuit circuit;
+    private VoltageDifference voltageDifference;
 
     public VoltageCalculation( Circuit circuit ) {
         this.circuit = circuit;
+        voltageDifference = new GraphTraversalVoltage( circuit );
     }
 
     public double getVoltage( VoltmeterGraphic.Connection a, VoltmeterGraphic.Connection b ) {
@@ -36,8 +38,9 @@ public class VoltageCalculation {
 //            double voltInit = -( va + vb );
             //the sign of va and vb depend on the
 //            System.out.println( "voltInit = " + voltInit );
-            double junctionAnswer = getVoltage( new ArrayList(), startJ, endJ, 0 );
-            double junctionAnswer2 = -getVoltage( new ArrayList(), endJ, startJ, 0 );
+
+            double junctionAnswer = voltageDifference.getVoltage( new ArrayList(), startJ, endJ, 0 );
+            double junctionAnswer2 = -voltageDifference.getVoltage( new ArrayList(), endJ, startJ, 0 );
 //            System.out.println( "junctionAnswer = " + junctionAnswer );
 //            System.out.println( "junctionAnswer2 = " + junctionAnswer2 );
             double diff = ( junctionAnswer - junctionAnswer2 );
@@ -57,44 +60,57 @@ public class VoltageCalculation {
         }
     }
 
-    private double getVoltage( ArrayList visited, Junction at, Junction target, double volts ) {
-//        System.out.println( "at = " + at + ", target=" + target );
-//        System.out.println( "visited = " + visited );
-        if( at == target ) {
-            return volts;
-        }
-        Branch[] out = circuit.getAdjacentBranches( at );
-        for( int i = 0; i < out.length; i++ ) {
-            Branch branch = out[i];
-//            System.out.println( "branch = " + branch );
-            Junction opposite = branch.opposite( at );
-//            System.out.println( "opposite = " + opposite );
-            if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
-                double dv = 0.0;
-                if( branch instanceof Battery ) {
-                    Battery batt = (Battery)branch;
-                    dv = batt.getEffectiveVoltageDrop();//climb
-                }
-                else {
-                    dv = -branch.getVoltageDrop();//fall
-                }
-                if( branch.getEndJunction() == opposite ) {
-                    dv *= 1;
-                }
-                else {
-                    dv *= -1;
-                }
-//                System.out.println( "dv = " + dv );
-                ArrayList copy = new ArrayList( visited );
-                copy.add( branch );
-                double result = getVoltage( copy, opposite, target, volts + dv );
-                if( !Double.isInfinite( result ) ) {
-                    return result;
-                }
-            }
+    private static interface VoltageDifference {
+        public double getVoltage( ArrayList visited, Junction at, Junction target, double volts );
+    }
+
+    public static class GraphTraversalVoltage implements VoltageDifference {
+        Circuit circuit;
+
+        public GraphTraversalVoltage( Circuit circuit ) {
+            this.circuit = circuit;
         }
 
-        //no novel path to target, so voltage is infinite
-        return Double.POSITIVE_INFINITY;
+        public double getVoltage( ArrayList visited, Junction at, Junction target, double volts ) {
+//        System.out.println( "at = " + at + ", target=" + target );
+//        System.out.println( "visited = " + visited );
+            if( at == target ) {
+                return volts;
+            }
+            Branch[] out = circuit.getAdjacentBranches( at );
+            for( int i = 0; i < out.length; i++ ) {
+                Branch branch = out[i];
+//            System.out.println( "branch = " + branch );
+                Junction opposite = branch.opposite( at );
+//            System.out.println( "opposite = " + opposite );
+                if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
+                    double dv = 0.0;
+                    if( branch instanceof Battery ) {
+                        Battery batt = (Battery)branch;
+                        dv = batt.getEffectiveVoltageDrop();//climb
+                    }
+                    else {
+                        dv = -branch.getVoltageDrop();//fall
+                    }
+                    if( branch.getEndJunction() == opposite ) {
+                        dv *= 1;
+                    }
+                    else {
+                        dv *= -1;
+                    }
+//                System.out.println( "dv = " + dv );
+                    ArrayList copy = new ArrayList( visited );
+                    copy.add( branch );
+                    double result = getVoltage( copy, opposite, target, volts + dv );
+                    if( !Double.isInfinite( result ) ) {
+                        return result;
+                    }
+                }
+            }
+
+            //no novel path to target, so voltage is infinite
+            return Double.POSITIVE_INFINITY;
+        }
     }
+
 }
