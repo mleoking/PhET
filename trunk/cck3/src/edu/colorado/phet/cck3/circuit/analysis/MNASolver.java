@@ -27,7 +27,8 @@ public class MNASolver extends CircuitSolver {
 
     public void apply( Circuit circuit ) {
         if( circuit.numBranches() < 2 ) {
-            clearCircuit();
+            //can't clear the circuit because of dynamic components.
+//            clearCircuit();
             return;
         }
         MNACircuit mnaCircuit = new MNACircuit();
@@ -54,6 +55,7 @@ public class MNASolver extends CircuitSolver {
 
         /*This is meant to compute voltages at each node, so we can avoid a complex graph traversal later*/
         for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            System.out.println( "solution.getVoltage( i ) = " + solution.getVoltage( i ) );
             circuit.junctionAt( i ).setVoltage( solution.getVoltage( i ) );
         }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -101,10 +103,6 @@ public class MNASolver extends CircuitSolver {
         }
         fireCircuitSolved();
 
-    }
-
-    private void clearCircuit() {
-        //todo clear the circuit
     }
 
     private Branch batteryAt( Circuit circuit, int i ) {
