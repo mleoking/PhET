@@ -1,9 +1,6 @@
 ################################################
 #Remaining Work
 #######################
-o Internationalize new material. (needs spanish for some text).
-o Visualization for charge flow across capacitor
-o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 o Add schematic view for inductors.
@@ -15,6 +12,8 @@ o Is the ac current (in a circuit with capacitor) symmetric?
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
 o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
 
+o Visualization for charge flow across capacitor
+o Visualization for charge buildup on capacitor.
 One issue that I see with the way charge is represented is that the 
 capacitor looks like it gets fully charged (ie, plus and minus signs stop 
 appearing on the cap plates), and current still flows through the capacitor. 
