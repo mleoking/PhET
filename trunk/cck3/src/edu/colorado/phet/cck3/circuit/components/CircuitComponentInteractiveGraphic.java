@@ -226,12 +226,12 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public CapacitorMenu( final Capacitor capacitor, CCK3Module module ) {
             super( capacitor, module );
             this.res = capacitor;
-            editor = new ComponentEditor( module, "Capacitance", capacitor, module.getApparatusPanel(), "Capacitance", "Farads", 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
+            editor = new ComponentEditor( module, WIStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), WIStrings.getString( "capacitance" ), WIStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitance( value );
                 }
             };
-            JMenuItem edit = new JMenuItem( "Edit Capacitance" );
+            JMenuItem edit = new JMenuItem( WIStrings.getString( "edit.capacitance" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
