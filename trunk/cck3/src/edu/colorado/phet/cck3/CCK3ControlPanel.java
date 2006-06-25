@@ -138,8 +138,8 @@ public class CCK3ControlPanel extends ControlPanel {
 
         if( module.getParameters().getAllowDynamics() ) {
             addFloatingCharts();
+            addControl( new ResetDynamicsButton( module ) );
         }
-
         super.addControlFullWidth( getHelpPanel() );
     }
 

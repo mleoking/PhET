@@ -7,21 +7,13 @@ o Visualization for charge buildup on capacitor.
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 o Add schematic view for inductors.
-
-CCK charge visualization
-use + and - inside plate graphic
-plate graphic should be schematic always
-plate charge should build as 1:1 (until maxed out)
-
-Add a timer.
-CCK Bug: 'Advanced' disappears on control panel.
-Could set node voltages from the MNA, then use that to compute voltmeter readouts (instead of graph theory computation).
-
-Bug: Capacitor clip should disappear when capacitors disappear.
-Is the ac current (in a circuit with capacitor) symmetric?
-
-When disconnected from the circuit, inductor still oscillated internally (is that maybe physical?)
-Delete button for charts.
+o Add Delete button for charts.
+o Add a timer.
+o Bug: 'Advanced' disappears on control panel.
+o Bug: Capacitor clip should disappear when capacitors disappear.
+o Is the ac current (in a circuit with capacitor) symmetric?
+o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
+o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
 
 One issue that I see with the way charge is represented is that the 
 capacitor looks like it gets fully charged (ie, plus and minus signs stop 
@@ -43,3 +35,5 @@ o Improve the approximation for determining capacitor current.
 
 There is a noticeable delay when dragging a component from the toolbox for the first time; this has confused some users.
 Bug: capacitor clips are clipping all electrons, not just electrons in that branch of the circuit
+
+Explain and remove fudge factor for capacitor in MNASolution?
