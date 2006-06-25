@@ -78,6 +78,7 @@ public class MNASolver extends CircuitSolver {
                 branch.setVoltageDrop( endVoltage - startVoltage );
                 double deltaCurrent = origVoltageDrop / L.getInductance() * dt;
                 double newCurrent = origCurrent + deltaCurrent;
+//                System.out.println( "origVoltageDrop = " + origVoltageDrop +", origCurrent="+origCurrent+", newCurrent="+newCurrent);
                 branch.setCurrent( newCurrent );//todo: linear approx, see if it's good enough
                 branch.setKirkhoffEnabled( true );
             }
