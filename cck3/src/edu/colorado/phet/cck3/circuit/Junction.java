@@ -17,6 +17,7 @@ public class Junction extends SimpleObservableDebug {
     private int label = 0;
     private static int nextLabel = 0;
     private boolean selected = false;
+    private double voltage;//voltage relative to reference node.  To be used in computing potential drops, to avoid graph traversal.
 
     public Junction( double x, double y ) {
         this.x = x;
@@ -76,5 +77,13 @@ public class Junction extends SimpleObservableDebug {
 
     public boolean isSelected() {
         return selected;
+    }
+
+    public void setVoltage( double voltage ) {
+        this.voltage = voltage;
+    }
+
+    public double getVoltage() {
+        return voltage;
     }
 }
