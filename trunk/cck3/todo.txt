@@ -23,6 +23,17 @@ Is the ac current (in a circuit with capacitor) symmetric?
 When disconnected from the circuit, inductor still oscillated internally (is that maybe physical?)
 Delete button for charts.
 
+One issue that I see with the way charge is represented is that the 
+capacitor looks like it gets fully charged (ie, plus and minus signs stop 
+appearing on the cap plates), and current still flows through the capacitor. 
+This only happens under certain settings (eg, high voltage).  Another issue 
+is that the capacitor will appear fully charged at a low capacitance 
+(maximum number of plus and minus signs appear), and then when you increase 
+the capacitance, the capacitor still fully changes with the same number of 
+maximum plus and minus signs.  It appears at first that the amount of charge 
+on the fully charged capacitor is the same in both cases (low and high 
+capacitance).  These issues could be a little confusing for students.
+
 ################################################
 #Lower Priority
 #######################

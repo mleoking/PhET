@@ -6,6 +6,10 @@
 -injars lib\nanoxml-2.2.1.jar
 -injars lib\smoothmetal.jar
 -injars lib\junit.jar
+-injars jfreechart-dir\lib\gnujaxp.jar 
+-injars jfreechart-dir\lib\jcommon-1.0.0.jar 
+-injars jfreechart-dir\lib\jfreechart-1.0.0.jar
+-injars jfreechart-dir\lib\servlet.jar
 -outjars ant_output\jars\cck-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
@@ -14,20 +18,17 @@
 -dontobfuscate
 -verbose
 
-
-# Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class * {
+-keepclasseswithmembers public class edu.colorado.phet.cck3.CCK3Module {
     public static void main(java.lang.String[]);
 }
 
-# Keep - Library. Keep all externally accessible classes, fields, and methods.
--keep public class * {
-    public protected <fields>;
-    public protected <methods>;
-}
+#JFreeChartResources: For loading property files.
+-keep class org.jfree.chart.resources.JFreeChartResources
 
-# Also keep - Enumerations. Keep a method that is required in enumeration
-# classes.
+#JCommonResources: property file loader for jcommon
+-keep class org.jfree.resources.JCommonResources
+
+# Also keep - Enumerations. Keep a method that is required in enumeration classes.
 -keepclassmembers class * extends java.lang.Enum {
     public **[] values();
 }

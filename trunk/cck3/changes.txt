@@ -2,7 +2,7 @@ Version 3.01.03 (6-24-2006)
 Added a floating graph components for reading current.
 Added inductors.
 
-Version 3.01.02
+Version 3.01.02 (6-22-2006)
 Added charge and current graphics for capacitors.
 Bugfix: There is some text near the top left of the screen; we can see the descenders dropping down.
 Added schematic ac graphic
