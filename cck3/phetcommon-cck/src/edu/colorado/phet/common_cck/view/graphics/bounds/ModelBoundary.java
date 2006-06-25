@@ -6,12 +6,6 @@
  */
 package edu.colorado.phet.common_cck.view.graphics.bounds;
 
-/**
- * @deprecated
- */
 public interface ModelBoundary {
-    /**
-     * @deprecated
-     */
     boolean contains( double x, double y );
 }
