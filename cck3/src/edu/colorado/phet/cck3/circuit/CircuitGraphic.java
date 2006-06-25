@@ -662,6 +662,7 @@ public class CircuitGraphic extends CompositeGraphic {
                 }
             }
         }
+        module.recomputeElectronClip();
     }
 
     private void deleteReadoutGraphic( ReadoutGraphic rg ) {

@@ -1,5 +1,6 @@
 Version 3.01.04
 Added spanish for new components.
+Bugfix: Capacitor clip should disappear when capacitors disappear.
 
 Version 3.01.03 (6-24-2006)
 Added a floating graph components for reading current.

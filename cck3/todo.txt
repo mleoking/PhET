@@ -4,10 +4,10 @@
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 o Add schematic view for inductors.
+o Add component editor for inductor.
 o Add Delete button for charts.
 o Add a timer.
 o Bug: 'Advanced' disappears on control panel.
-o Bug: Capacitor clip should disappear when capacitors disappear.
 o Is the ac current (in a circuit with capacitor) symmetric?
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
 o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
@@ -33,6 +33,7 @@ o Improve the approximation for determining capacitor current.
 -Could use solution from companion model, but more difficult to code.
 
 There is a noticeable delay when dragging a component from the toolbox for the first time; this has confused some users.
+
 Bug: capacitor clips are clipping all electrons, not just electrons in that branch of the circuit
 
 Explain and remove fudge factor for capacitor in MNASolution?
