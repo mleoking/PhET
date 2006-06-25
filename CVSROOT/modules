@@ -127,8 +127,8 @@ battery-voltage batteryvoltage
 # Bernoulli
 bernoulli bernoulli
 
-# Circuit construction kit, phetcommon has been bundled in cck3/ directory, so we don't depend on being in a (very old) branch.
-cck cck3 &antutil-dir
+# Circuit construction kit
+cck cck3 &antutil-dir &jfreechart-dir &jfreechart-phet-dir &phetcommon-dir &piccolo-dir &piccolo-phet-dir
 
 # Discharge lamps
 dischargelamps fluorescent-lights &lasers
