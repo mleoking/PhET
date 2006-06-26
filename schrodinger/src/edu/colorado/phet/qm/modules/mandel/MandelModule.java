@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.WaveModel;
@@ -49,12 +51,11 @@ public class MandelModule extends QWIModule {
         mandelSchrodingerPanel.updateDetectorColors();
         getLeftGun().addListener( listener );
         getRightGun().addListener( listener );
+
         synchronizeModel();
-//        addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                mandelSchrodingerPanel.updateDetectorColors();
-//            }
-//        } );
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 1, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+        getLeftGun().setWavelength( linearFunction.evaluate( 0.75 / 3.0 ) );
+        getRightGun().setWavelength( linearFunction.evaluate( 2.0 / 3.0 ) );
     }
 
     private void clearWaves() {
