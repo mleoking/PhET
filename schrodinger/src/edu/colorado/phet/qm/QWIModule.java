@@ -10,10 +10,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.qm.controls.QWIControlPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
-import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.model.ParticleUnits;
-import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.WaveSetup;
+import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -59,6 +56,14 @@ public class QWIModule extends PiccoloModule {
                 QWIModule.this.stepInTime( dt );
             }
         } );
+//        clock.addClockListener( new ClockAdapter() {
+//            public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                if( clock.isPaused() ) {
+//                    //this probably means user pressed step
+//                    getSchrodingerPanel().updateWaveGraphic();
+//                }
+//            }
+//        } );
     }
 
     protected void stepInTime( double dt ) {
@@ -110,6 +115,11 @@ public class QWIModule extends PiccoloModule {
 
     protected void setQWIModel( QWIModel model ) {
         this.qwiModel = model;
+        qwiModel.getDetectorSet().addListener( new DetectorSet.Listener() {
+            public void detectionAttempted() {
+                getSchrodingerPanel().updateWaveGraphic();
+            }
+        } );
 //        System.out.println( "model = " + model );
     }
 

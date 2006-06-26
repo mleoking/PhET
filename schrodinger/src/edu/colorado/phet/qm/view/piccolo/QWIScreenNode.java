@@ -89,8 +89,8 @@ public class QWIScreenNode extends PNode {
         wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getQWIModel().getWavefunction() );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void finishedTimeStep( QWIModel model ) {
-                if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
-                    wavefunctionGraphic.update();
+                if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 || module.getClock().isPaused() ) {
+                    updateWaveGraphic();
                 }
             }
         } );
@@ -174,6 +174,10 @@ public class QWIScreenNode extends PNode {
             }
         } );
     }
+
+//    private void updateWavefunctionGraphic() {
+//        wavefunctionGraphic.update();
+//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return wavefunctionGraphic;

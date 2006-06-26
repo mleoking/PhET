@@ -38,16 +38,22 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( newDetector );
 
-        final JCheckBox repeats = new JCheckBox( "Repeats", getDiscreteModel().getDetectorSet().isRepeats() );
-        repeats.addActionListener( new ActionListener() {
+//        final JCheckBox repeats = new JCheckBox( "Repeats", getDiscreteModel().getDetectorSet().isRepeats() );
+//        repeats.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getDiscreteModel().getDetectorSet().setRepeats( repeats.isSelected() );
+//            }
+//        } );
+//        final JCheckBox oneshot = new JCheckBox( "One-Shot", getDiscreteModel().getDetectorSet().isOneShot() );
+//        oneshot.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getDiscreteModel().getDetectorSet().setOneShot( oneshot.isSelected() );
+//            }
+//        } );
+        final JCheckBox repeatDetect = new JCheckBox( "Repeat Detect", !getDiscreteModel().getDetectorSet().isOneShot() );
+        repeatDetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().getDetectorSet().setRepeats( repeats.isSelected() );
-            }
-        } );
-        final JCheckBox oneshot = new JCheckBox( "One-Shot", getDiscreteModel().getDetectorSet().isOneShot() );
-        oneshot.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().getDetectorSet().setOneShot( oneshot.isSelected() );
+                getDiscreteModel().getDetectorSet().setOneShot( !repeatDetect.isSelected() );
             }
         } );
 
@@ -55,13 +61,15 @@ public class DetectorPanel extends VerticalLayoutPanel {
         autodetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setAutoDetect( autodetect.isSelected() );
-                repeats.setEnabled( autodetect.isSelected() );
+//                repeats.setEnabled( autodetect.isSelected() );
+                repeatDetect.setEnabled( !autodetect.isSelected() );
             }
         } );
-
+        //*"Autodetect" has to be deselected before "Repeat Detect" can be checked.
+        repeatDetect.setEnabled( !autodetect.isSelected() );
         add( autodetect );
 //        add( repeats );
-        add( oneshot );
+        add( repeatDetect );
 
         final JButton detect = new JButton( "Detect!" );
         detect.addActionListener( new ActionListener() {
