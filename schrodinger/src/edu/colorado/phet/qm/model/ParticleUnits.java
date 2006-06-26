@@ -218,7 +218,7 @@ public class ParticleUnits {
             setMinVelocity( new Value( 0.1 / s, s, "km/s" ) );
             setMaxVelocity( new Value( 0.2 / s, s, "km/s" ) );
 
-            DecimalFormat defaultFormat = new DecimalFormat( "0.000" );
+            DecimalFormat defaultFormat = new DecimalFormat( "0.00" );
             setVelocityFormat( defaultFormat );
             setupLatticeAndRuler();
             setTimeScaleFactor( 10.0 );
