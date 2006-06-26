@@ -13,7 +13,9 @@ public class Config {
 
     public static String version = "1.08";
 
-    //    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 250, 75 );
+    //
+    public static final double ALPHA_DECAY_SIM_TIME_STEP = 5 * 0.516 / 0.471 * 0.615 / 0.372;
+
     //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
     public static double AlphaLocationUncertaintySigmaFactor = 0.4;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
