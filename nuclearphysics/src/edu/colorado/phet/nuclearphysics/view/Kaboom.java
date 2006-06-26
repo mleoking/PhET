@@ -11,6 +11,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +21,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+/**
+ * A graphic that simultaneously expands and fades as the model steps forward in time.
+ */
 public class Kaboom extends PhetGraphic {
     private static long waitTime = 100;
     private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
@@ -45,7 +51,8 @@ public class Kaboom extends PhetGraphic {
     public Kaboom( Point2D location,
                    double radiusIncr,
                    double maxRadius,
-                   ApparatusPanel apparatusPanel ) {
+                   ApparatusPanel apparatusPanel,
+                   BaseModel model ) {
         this.radiusIncr = radiusIncr;
         this.maxRadius = maxRadius;
         this.apparatusPanel = apparatusPanel;
@@ -54,11 +61,18 @@ public class Kaboom extends PhetGraphic {
 
         double theta = Math.random() * Math.PI - ( Math.PI / 2 );
         kaboomStrTx = AffineTransform.getRotateInstance( theta );
+
+
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                update();
+            }
+        } );
     }
 
     public void paint( Graphics2D g ) {
         GraphicsState gs = new GraphicsState( g );
-        update();
+//        update();
         shape.setFrameFromCenter( location.getX(), location.getY(),
                                   location.getX() + radius,
                                   location.getY() + radius );
@@ -78,18 +92,18 @@ public class Kaboom extends PhetGraphic {
     }
 
     private void update() {
-        if( kaboomAlpha > 0 ) {
-            kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
-            color = colors[( colors.length - 1 ) - (int)( kaboomAlpha * ( colors.length - 1 ) )];
-            radius += radiusIncr;
-        }
-        else {
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    apparatusPanel.removeGraphic( Kaboom.this );
-                }
-            } );
-        }
+            if( kaboomAlpha > 0 ) {
+                kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
+                color = colors[( colors.length - 1 ) - (int)( kaboomAlpha * ( colors.length - 1 ) )];
+                radius += radiusIncr;
+            }
+            else {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        apparatusPanel.removeGraphic( Kaboom.this );
+                    }
+                } );
+            }
     }
 
     protected Rectangle determineBounds() {

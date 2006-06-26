@@ -184,7 +184,8 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
-                                    25, 300, getPhysicalPanel() );
+                                    25, 300, getPhysicalPanel(),
+                                    getModel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 
