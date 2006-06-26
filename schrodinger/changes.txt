@@ -9,6 +9,8 @@ Bugfix: If you are stepping through time with detectors and there is a detection
 *Bugfix: When stepping, you have to push step twice for the wavefunction to update once.
 *"Autodetect" has to be deselected before "Repeat Detect" can be checked.
 Changed "one-shot" to “repeat detect”, behaves exactly opposite to “one-shot.”
+In High Intensity panel, changed “Advanced” to “Potential Barriers.”
+In Single Particles panel, break up “Advanced” into two buttons: “Potential Barriers” and “Detectors”
 
 1.01.03 (6-26-2006)
 Fixed factor of 10 problem: for matter waves, ruler units and units per clock tick on stopwatch are 10x bigger.

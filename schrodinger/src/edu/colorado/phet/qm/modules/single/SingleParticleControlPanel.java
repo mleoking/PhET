@@ -29,10 +29,10 @@ public class SingleParticleControlPanel extends QWIControlPanel {
 
     public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
-        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-        VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
-        advancedPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
-        advancedPanel.addControlFullWidth( detectorPanel );
+        AdvancedPanel potentialPanel = new AdvancedPanel( "Potential Barriers>>", "Hide Potential Barriers<<" );
+        potentialPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
+        AdvancedPanel detectorPanel = new AdvancedPanel( "Detectors>>", "Detectors<<" );
+        detectorPanel.addControlFullWidth( new DetectorPanel( singleParticleModule ) );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {
@@ -81,7 +81,8 @@ public class SingleParticleControlPanel extends QWIControlPanel {
         addSpacer();
         addControl( visPanel );
         addControl( doubleSlitPanel );
-        addControl( advancedPanel );
+        addControl( potentialPanel );
+        addControl( detectorPanel );
 
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }
