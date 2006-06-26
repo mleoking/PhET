@@ -38,17 +38,18 @@ public class MandelGun extends PhetPNode {
     private OnOffCheckBox onOffCheckBox;
     private PSwing onGunGraphic;
 
-    public MandelGun( String image, QWIPanel QWIPanel ) {
+    public MandelGun( String image, QWIPanel qwiPanel ) {
         pimage = PImageFactory.create( image );
         addChild( pimage );
-        gunControlPanel = new GunControlPanel( QWIPanel );
+        gunControlPanel = new GunControlPanel( qwiPanel );
 
         intensitySlider = new IntensitySlider( Color.blue, IntensitySlider.HORIZONTAL, new Dimension( 140, 30 ) );
         intensitySlider.setValue( 100 );
         VerticalLayoutPanel vlp = new VerticalLayoutPanel();
         vlp.addFullWidth( intensitySlider );
-        wavelengthSliderGraphic = new SRRWavelengthSlider( QWIPanel );
+        wavelengthSliderGraphic = new SRRWavelengthSlider( qwiPanel );
         final SRRWavelengthSliderComponent srrWavelengthSliderComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
+
         vlp.addFullWidth( srrWavelengthSliderComponent );
         gunControlPanel.setGunControls( vlp );
         addChild( gunControlPanel.getPSwing() );
@@ -82,7 +83,7 @@ public class MandelGun extends PhetPNode {
                 fireIntensityChanged();
             }
         } );
-        onGunGraphic = new PSwing( QWIPanel, onOffCheckBox );
+        onGunGraphic = new PSwing( qwiPanel, onOffCheckBox );
         onGunGraphic.addInputEventListener( new CursorHandler() );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );
@@ -144,6 +145,10 @@ public class MandelGun extends PhetPNode {
 
     public double getMomentum() {
         return 1.0 / getWavelength();//todo fix this!
+    }
+
+    public void setWavelength( double wavelength ) {
+        wavelengthSliderGraphic.setWavelength( wavelength );
     }
 
     public static interface Listener {

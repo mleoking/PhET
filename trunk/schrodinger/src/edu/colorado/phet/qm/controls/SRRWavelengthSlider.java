@@ -102,6 +102,12 @@ public class SRRWavelengthSlider extends PNode {
         }
     }
 
+    public void setWavelength( double wavelength ) {
+        double x = linearFunction.createInverse().evaluate( wavelength );
+        spectrumSliderKnob.setOffset( x, spectrumSliderKnob.getOffset().getY() );
+        dragPointChanged();
+    }
+
     public double getWavelength() {
         double x = spectrumSliderKnob.getOffset().getX();
         return linearFunction.evaluate( x );
