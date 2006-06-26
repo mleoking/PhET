@@ -22,6 +22,7 @@ Alpha Radiation
 - Implement Kathy's profile model
 - Change to Polonium 211
 - Calibrate time scale for alpha decay according to model
+- Rewind button is enabledbefore alph decay 
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
