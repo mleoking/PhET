@@ -13,12 +13,12 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
+import edu.colorado.phet.boundstates.persistence.BSSerializable;
 
 
 /**
@@ -37,7 +37,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DWells extends BSAbstractPotential {
+public class BSCoulomb1DWells extends BSAbstractPotential implements BSSerializable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,6 +61,14 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
         setSpacing( spacing );
     }
 
+    /**
+     * Zero-arg contructor, for Java Bean complicance.
+     * Clients should not use this contructor; it's intended for use by XMLEncoder.
+     */
+    public BSCoulomb1DWells() {
+        this( new BSParticle(), 1 /*numberOfWells*/, 0 /*offset*/, 1 /*spacing*/ );
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
