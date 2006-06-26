@@ -27,7 +27,7 @@ import java.awt.geom.Point2D;
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */
-public class Polonium211 extends ProfilableNucleus {
+public class Polonium211 extends ProfileableNucleus {
 
     //----------------------------------------------------------------
     // Class data and methods

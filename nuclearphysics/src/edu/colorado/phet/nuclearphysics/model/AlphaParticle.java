@@ -35,7 +35,7 @@ public class AlphaParticle extends Nucleus {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private ProfilableNucleus nucleus;
+    private ProfileableNucleus nucleus;
     public boolean isInNucleus = true;
     private double statisticalPositionSigma;
     private boolean escaped = false;
@@ -52,11 +52,11 @@ public class AlphaParticle extends Nucleus {
         this.statisticalPositionSigma = statisticalPositionSigma;
     }
 
-    public void setNucleus( ProfilableNucleus nucleus ) {
+    public void setNucleus( ProfileableNucleus nucleus ) {
         this.nucleus = nucleus;
     }
 
-    public ProfilableNucleus getNucleus() {
+    public ProfileableNucleus getNucleus() {
         return nucleus;
     }
 

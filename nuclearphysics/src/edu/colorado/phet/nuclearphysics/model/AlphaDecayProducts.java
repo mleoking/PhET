@@ -9,10 +9,10 @@ package edu.colorado.phet.nuclearphysics.model;
 
 public class AlphaDecayProducts {
     private Nucleus parent;
-    private ProfilableNucleus daughter;
+    private ProfileableNucleus daughter;
     private AlphaParticle alphaParticle;
 
-    public AlphaDecayProducts( ProfilableNucleus parent, AlphaParticle alphaParticle ) {
+    public AlphaDecayProducts( ProfileableNucleus parent, AlphaParticle alphaParticle ) {
         this.parent = parent;
         this.daughter = new Lead207( parent.getPosition() );
         this.alphaParticle = alphaParticle;
@@ -25,7 +25,7 @@ public class AlphaDecayProducts {
         return parent;
     }
 
-    public ProfilableNucleus getDaughter() {
+    public ProfileableNucleus getDaughter() {
         return daughter;
     }
 

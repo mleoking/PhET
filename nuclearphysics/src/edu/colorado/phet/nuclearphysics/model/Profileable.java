@@ -18,7 +18,7 @@ package edu.colorado.phet.nuclearphysics.model;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface EnergyProfilable {
+public interface Profileable {
 
     double getMinPotentialEnergy();
 }

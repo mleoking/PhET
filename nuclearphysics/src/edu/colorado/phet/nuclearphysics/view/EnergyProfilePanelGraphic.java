@@ -345,7 +345,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param nucleus
      */
-    public void addEnergyProfile( ProfilableNucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
+    public void addEnergyProfile( ProfileableNucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus, profileType );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergyProfile(), txg );

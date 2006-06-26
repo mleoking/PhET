@@ -34,6 +34,9 @@ import java.awt.geom.*;
  * </pre>
  */
 public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
+
+    private static double alphaParticleKE = 7.595;
+
     private double width;
     private double maxEnergy;
     private double minEnergy;
@@ -41,14 +44,14 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
     private GeneralPath potentilaProfilePath;
     private Shape totalEnergyPath;
     private CubicUtil cubicUtil;
-    private Nucleus nucleus;
+    private ProfileableNucleus nucleus;
     private double k;
     private double alphaParticleCharge;
 
     /**
      * @param nucleus
      */
-    public EnergyProfile( ProfilableNucleus nucleus ) {
+    public EnergyProfile( ProfileableNucleus nucleus ) {
         this.nucleus = nucleus;
         this.generate();
         this.width = Config.defaultProfileWidth * 2;
@@ -60,7 +63,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      * @return
      */
     public double getTotalEnergy() {
-        double energy = 7.595 * Config.modelToViewMeV;
+        double energy = ( 100 + minEnergy + alphaParticleKE ) * Config.modelToViewMeV;
         return energy;
     }
 
@@ -121,16 +124,17 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
         // Width of entire profile, in pixels
         double profileWidth = 800;
         double nucleausRadiusTemp = 7.12E-15;
-        double minPE = -100;
+//        double minPE = -100;
 
-        minEnergy = minPE;
+        minEnergy = nucleus.getMinPotentialEnergy();
+//        minEnergy = minPE;
 
         // Draw the right side of the profile
         GeneralPath potentialPath = new GeneralPath();
-        potentialPath.moveTo( 0, (float)( -minPE * Config.modelToViewMeV ) );
+        potentialPath.moveTo( 0, (float)( -minEnergy * Config.modelToViewMeV ) );
         potentialPath.lineTo( (float)( nucleausRadiusTemp * Config.modelToViewDist ),
-                              (float)( -minPE * Config.modelToViewMeV ) );
-        maxEnergy = minPE;
+                              (float)( -minEnergy * Config.modelToViewMeV ) );
+        maxEnergy = minEnergy;
         for( double r = nucleausRadiusTemp;
              r < profileWidth / Config.modelToViewDist / 2;
              r += 3 / Config.modelToViewDist ) {
