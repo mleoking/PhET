@@ -391,7 +391,7 @@ resolution, and a quarter as many times for high resolution.*/
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
 //        System.out.println( "particleUnits.getDt() = " + particleUnits.getDt() );
 //        System.out.println( "getTimeFudgeFactor() = " + getTimeFudgeFactor() );
-        stopwatchPanel.setScaleFactor( getTimeFudgeFactor() * particleUnits.getDt().getDisplayValue() );
+        stopwatchPanel.setScaleFactor( getTimeFudgeFactor() * particleUnits.getDt().getDisplayValue() * particleUnits.getTimeScaleFactor() );
 //        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() * getTimeFudgeFactor() );
         stopwatchPanel.setTimeFormat( new DecimalFormat( "0.000" ) );
         stopwatchPanel.reset();
