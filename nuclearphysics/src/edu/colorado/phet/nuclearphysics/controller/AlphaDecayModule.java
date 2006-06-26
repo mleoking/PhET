@@ -66,14 +66,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
-                if( !( nucleus instanceof AlphaParticle ) ) {
-                    getEnergyProfilePanel().addEnergyProfile( event.getNucleus(), EnergyProfileGraphic.TOTAL_ENERGY );
+                if( event.getNucleus() instanceof ProfilableNucleus ) {
+                    getEnergyProfilePanel().addEnergyProfile( (ProfilableNucleus)event.getNucleus(), EnergyProfileGraphic.TOTAL_ENERGY );
                 }
             }
 
             public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
-                if( !( getNucleus() instanceof AlphaParticle ) ) {
-                    getEnergyProfilePanel().removeEnergyProfile( event.getNucleus().getEnergyProfile() );
+                if( event.getNucleus() instanceof ProfilableNucleus ) {
+                    getEnergyProfilePanel().removeEnergyProfile( ((ProfilableNucleus)event.getNucleus()).getEnergyProfile() );
                 }
             }
         } );
@@ -103,7 +103,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     public void start() {
 
         // todo: combine these calls
-        Polonium210 nucleus = new Polonium210( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
+        Polonium211 nucleus = new Polonium211( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         setNucleus( nucleus );
         addNucleus( nucleus );
 
@@ -113,7 +113,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         for (int i = 0; i < nucleus.getAlphaParticles().length; i++) {
             addAlphaParticle(nucleus.getAlphaParticles()[i], getNucleus());
         }
-        addRingGraphic(getNucleus());
+        addRingGraphic(nucleus);
+//        addRingGraphic(getNucleus());
         alphaDecayControlPanel.startTimer();
     }
 
@@ -143,7 +144,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getEnergyProfilePanel().addAlphaParticle(alphaParticle, nucleus);
     }
 
-    private void addRingGraphic(Nucleus nucleus) {
+    private void addRingGraphic(ProfilableNucleus nucleus) {
         // Add a ring around the nucleus to show where its alpha decay radius is
         setRingAttributes(nucleus);
         final Stroke ringStroke = new BasicStroke(2f);
@@ -191,8 +192,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getEnergyProfilePanel().addOriginCenteredGraphic(leaderLines);
     }
 
-    private void setRingAttributes(Nucleus nucleus) {
-        if (nucleus.getEnergyProfile().getAlphaDecayX() < 0) {
+    private void setRingAttributes(ProfilableNucleus nucleus) {
+        if (nucleus.getEnergyProfile().getAlphaDecayX() < 0 || true) {
             double radius = Math.abs(nucleus.getEnergyProfile().getAlphaDecayX());
             double x = getNucleus().getPosition().getX() - radius;
             double y = getNucleus().getPosition().getY() - radius;
@@ -220,7 +221,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getModel().removeModelElement(decayProducts.getParent());
 
         // Bind the alpha particles to the daughter nucleus
-        Polonium210 u235 = (Polonium210) decayProducts.getParent();
+        Polonium211 u235 = (Polonium211) decayProducts.getParent();
         AlphaParticle[] alphaParticles = u235.getAlphaParticles();
         for (int i = 0; i < alphaParticles.length; i++) {
             AlphaParticle alphaParticle = alphaParticles[i];

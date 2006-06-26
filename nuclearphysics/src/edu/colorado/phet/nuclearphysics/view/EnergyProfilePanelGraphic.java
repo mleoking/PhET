@@ -18,10 +18,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.TxGraphic;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.EnergyProfile;
-import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -348,7 +345,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param nucleus
      */
-    public void addEnergyProfile( Nucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
+    public void addEnergyProfile( ProfilableNucleus nucleus, EnergyProfileGraphic.ProfileType profileType ) {
         EnergyProfileGraphic ppg = new EnergyProfileGraphic( this.getComponent(), nucleus, profileType );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
         potentialProfileMap.put( nucleus.getEnergyProfile(), txg );

@@ -21,6 +21,9 @@ public class Config {
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
     public static final int U235MorphSpeedFactor = 1;
 
+    // Converts physical nuclear distances to pixels
+    public static final double modelToViewDist = 30 / 7.12E-15;
+    public static final double modelToViewMeV = 50 / 33.1;
 
     public static final double neutronSpeed = 6;
     public static final double fissionDisplacementVelocity = 2;

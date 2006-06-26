@@ -21,7 +21,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-public class Polonium210Graphic extends NucleusGraphic {
+public class Polonium211Graphic extends NucleusGraphic {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -35,11 +35,11 @@ public class Polonium210Graphic extends NucleusGraphic {
     private static Random random = new Random();
     private static int numImagesToUse = 15;
     // An array of differently randomized images of U235 nuclei, that we will choose randomly between at runtime
-    private static BufferedImage[] imagesToUse = new BufferedImage[Polonium210Graphic.numImagesToUse];
+    private static BufferedImage[] imagesToUse = new BufferedImage[Polonium211Graphic.numImagesToUse];
     static {
         Nucleus nucleus = new Nucleus( new Point2D.Double( ), Uranium235.NUM_PROTONS, Uranium235.NUM_NEUTRONS );
-        for( int i = 0; i < Polonium210Graphic.imagesToUse.length; i++ ) {
-            Polonium210Graphic.imagesToUse[i] = computeImage( nucleus );
+        for( int i = 0; i < Polonium211Graphic.imagesToUse.length; i++ ) {
+            Polonium211Graphic.imagesToUse[i] = computeImage( nucleus );
         }
     }
 
@@ -49,8 +49,8 @@ public class Polonium210Graphic extends NucleusGraphic {
 
     private boolean displayLabel = true;
 
-    public Polonium210Graphic( Nucleus nucleus ) {
-        super( nucleus, Polonium210Graphic.imagesToUse[ Polonium210Graphic.random.nextInt( Polonium210Graphic.numImagesToUse )] );
+    public Polonium211Graphic( Nucleus nucleus ) {
+        super( nucleus, Polonium211Graphic.imagesToUse[ Polonium211Graphic.random.nextInt( Polonium211Graphic.numImagesToUse )] );
     }
 
     public void setDisplayLabel( boolean displayLabel ) {
@@ -61,20 +61,20 @@ public class Polonium210Graphic extends NucleusGraphic {
         super.paint( g );
 
         if( displayLabel ) {
-            Polonium210Graphic.nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
+            Polonium211Graphic.nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
             AffineTransform orgTx = g.getTransform();
-            g.transform( Polonium210Graphic.nucleusTx );
+            g.transform( Polonium211Graphic.nucleusTx );
 
             GraphicsUtil.setAntiAliasingOn( g );
 
-            g.setColor( Polonium210Graphic.color );
-            g.setFont( Polonium210Graphic.isotopeFont );
+            g.setColor( Polonium211Graphic.color );
+            g.setFont( Polonium211Graphic.isotopeFont );
             FontMetrics fm = g.getFontMetrics();
             g.drawString( SimStrings.get( "Polonium210Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Polonium210Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
-            g.setColor( Polonium210Graphic.color );
-            g.setFont( Polonium210Graphic.elementFont );
+            g.setColor( Polonium211Graphic.color );
+            g.setFont( Polonium211Graphic.elementFont );
             g.drawString( SimStrings.get( "Polonium210Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
         }

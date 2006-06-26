@@ -20,61 +20,38 @@ import java.awt.geom.*;
 /**
  * This class represents the energy profile of a particular atom.
  * <p/>
- * Here is my assumed model for the shape of the profile:
- * <ul>
- * <li>The width of the profile is the distance from tail to tail (i.e., twice the
- * distance from the center of the well to one of the tails).
- * <li>The tails flatten out at energy = 0
- * <li>The sides of the well are vertical, and the bottom is horizontal.
- * <li>The shape of the tails is exponential
- * </ul>
- * <p>
- * The profile is completely jimmied, because I was given no physical model to base it on, only told that "it should
- * look like this," and handed a piece of paper.
- * </ul>
+ * It is based on the following model:
+ * <pre>
+ * PE = (k * q1 * q2 ) / r
+ * where:
+ *  q1 = charge of an alpha particle (= 2 protons * 1.6E-19 / proton)
+ *  q2 = charge of the rest of the nucleus (= total number of protons -2 )
+ *  r = distance from center of nucleus, and r > nominal radius of nucleus
+ * <p/>
+ *  when r < nominal radius of nucleus, PE = -100 for now
+ * <p/>
+ *  according to Kathy Perkins' notes, k = 8.99E3
+ * </pre>
  */
 public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
     private double width;
     private double maxEnergy;
     private double minEnergy;
     private Shape[] shape = new Shape[5];
-    private double alphaDecayX;
     private GeneralPath potentilaProfilePath;
     private Shape totalEnergyPath;
     private CubicUtil cubicUtil;
     private Nucleus nucleus;
+    private double k;
+    private double alphaParticleCharge;
 
-
-    public EnergyProfile( Nucleus nucleus ) {
+    /**
+     * @param nucleus
+     */
+    public EnergyProfile( ProfilableNucleus nucleus ) {
         this.nucleus = nucleus;
-        this.width = Config.defaultProfileWidth * 2;
-        this.minEnergy = computeMinEnergy( nucleus );
-        this.maxEnergy = computeMaxEnergy( nucleus );
         this.generate();
-    }
-
-    /**
-     * The max energy doesn't change for anything.
-     *
-     * @param nucleus
-     * @return
-     */
-    private double computeMaxEnergy( Nucleus nucleus ) {
-        double maxEnergy = 20;
-//        double maxEnergy = minEnergy + 2.5 * nucleus.getNumProtons();
-        return maxEnergy;
-    }
-
-    /**
-     * A totally hacked function that work only with Polonium on the particular panel we're putting up.
-     *
-     * @param nucleus
-     * @return
-     */
-    private int computeMinEnergy( Nucleus nucleus ) {
-        int n = 128;
-        int minEnergy = - ( n + ( n - nucleus.getNumNeutrons() ) * 20 );
-        return minEnergy;
+        this.width = Config.defaultProfileWidth * 2;
     }
 
     /**
@@ -83,7 +60,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      * @return
      */
     public double getTotalEnergy() {
-        double energy = minEnergy + 180;
+        double energy = 7.595 * Config.modelToViewMeV;
         return energy;
     }
 
@@ -91,38 +68,47 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
         return width;
     }
 
-    public void setWidth( double width ) {
-        this.width = width;
-        generate();
-    }
-
     public double getMinEnergy() {
-        return minEnergy;
-    }
-
-    public void setMinEnergy( double minEnergy ) {
-        this.minEnergy = minEnergy;
+        return minEnergy * Config.modelToViewDist;
     }
 
     public double getMaxEnergy() {
-        return maxEnergy;
+        return maxEnergy * Config.modelToViewDist;
     }
 
-    public void setMaxEnergy( double maxEnergy ) {
-        this.maxEnergy = maxEnergy;
+    private double getPe( double x ) {
+        double nucleausRadiusTemp = 7.12E-15;
+        k = 8.99E3;
+        alphaParticleCharge = 2 * 1.6E-19;
+        double minPE = -100;
+
+        double xAbs = Math.abs( x );
+        if( xAbs < nucleausRadiusTemp ) {
+            return minPE;
+        }
+        else {
+            double r = xAbs;
+            double pe = ( k * ( nucleus.getNumProtons() - 2 ) * alphaParticleCharge ) / r;
+            double y = pe;
+            return y;
+        }
     }
 
     /**
-     * Returns the perpendicular distance from a point to the
-     * side of the profile. If the point is inside the hill,
-     * the value returned is < 0. If the point is outside the
-     * hill, the value returned is > 0.
+     * Returns the distance from the center of the nucleus of a specified potential energy.
      *
-     * @param pt
+     * @return Nan if the specified pe is out of range for the profile
      */
-    public double getDistFromHill( Point2D.Double pt ) {
-        double dx = Math.abs( pt.getX() ) - Math.abs( this.getHillX( pt.getY() ) );
-        return dx;
+    private double getR( double pe ) {
+        if( pe < minEnergy || pe > maxEnergy ) {
+            return Double.NaN;
+        }
+        else if( pe == minEnergy ) {
+            return 0;
+        }
+        else {
+            return ( k * ( nucleus.getNumProtons() - 2 ) * alphaParticleCharge ) / pe;
+        }
     }
 
     /**
@@ -132,61 +118,33 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      */
     private void generate() {
 
-        // Draw the curve going up the left side of the potential profile
-        Point2D endPt1 = new Point2D.Double( -getWidth() / 4, 0 );
-//        Point2D endPt1 = new Point2D.Double( -getWidth() / 2, 0 );
-        Point2D endPt2 = new Point2D.Double( -nucleus.getRadius(), -maxEnergy );
-//        Point2D endPt2 = new Point2D.Double( -getWidth() / 20, -maxEnergy );
+        // Width of entire profile, in pixels
+        double profileWidth = 800;
+        double nucleausRadiusTemp = 7.12E-15;
+        double minPE = -100;
 
-        Point2D ctrlPt1 = new Point2D.Double();
-        ctrlPt1.setLocation( endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) * 2 / 8 ),
-                             endPt1.getY() );
-        Point2D ctrlPt2A = new Point2D.Double();
-        ctrlPt2A.setLocation( endPt2.getX(),
-                              endPt2.getY() + Math.abs( endPt2.getY() * 7 / 8 ) );
-        shape[0] = new CubicCurve2D.Double( endPt1.getX(), endPt1.getY(),
-                                            ctrlPt1.getX(), ctrlPt1.getY(),
-                                            ctrlPt2A.getX(), ctrlPt2A.getY(),
-                                            endPt2.getX(), endPt2.getY() );
+        minEnergy = minPE;
 
-        // Instantiate a CubicUtil. We'll use it later
-        cubicUtil = new CubicUtil( endPt1, ctrlPt1,
-                                   endPt2, ctrlPt2A );
+        // Draw the right side of the profile
+        GeneralPath potentialPath = new GeneralPath();
+        potentialPath.moveTo( 0, (float)( -minPE * Config.modelToViewMeV ) );
+        potentialPath.lineTo( (float)( nucleausRadiusTemp * Config.modelToViewDist ),
+                              (float)( -minPE * Config.modelToViewMeV ) );
+        maxEnergy = minPE;
+        for( double r = nucleausRadiusTemp;
+             r < profileWidth / Config.modelToViewDist / 2;
+             r += 3 / Config.modelToViewDist ) {
+            double y = getPe( r );
+            maxEnergy = Math.max( y, maxEnergy );
+            potentialPath.lineTo( (float)( r * Config.modelToViewDist ),
+                                  (float)( -y * Config.modelToViewMeV ) );
+        }
+        // Make a copy of the path and reflect it horizontally
+        GeneralPath otherHalfOfPath = new GeneralPath( potentialPath );
+        otherHalfOfPath.transform( AffineTransform.getScaleInstance( -1, 1 ) );
 
-        // Draw the curve down into the left side of the potential well
-        Point2D endPt3 = new Point2D.Double( endPt2.getX(), -getMinEnergy() );
-
-        shape[1] = new Line2D.Double( endPt2, endPt3 );
-
-        // draw the curve for the right side of the well
-        AffineTransform horizontalReflectionTx = AffineTransform.getScaleInstance( -1, 1 );
-
-        Point2D endPt4 = horizontalReflectionTx.transform( endPt3, null );
-        Point2D endPt5 = horizontalReflectionTx.transform( endPt2, null );
-        Point2D endPt6 = horizontalReflectionTx.transform( endPt1, null );
-        Point2D ctrlPt5A = horizontalReflectionTx.transform( ctrlPt2A, null );
-        Point2D ctrlPt6 = horizontalReflectionTx.transform( ctrlPt1, null );
-
-        shape[2] = new Line2D.Double( endPt3, endPt4 );
-        shape[3] = new Line2D.Double( endPt4, endPt5 );
-        shape[4] = new CubicCurve2D.Double( endPt5.getX(), endPt5.getY(),
-                                            ctrlPt5A.getX(), ctrlPt5A.getY(),
-                                            ctrlPt6.getX(), ctrlPt6.getY(),
-                                            endPt6.getX(), endPt6.getY() );
-
-        potentilaProfilePath = new GeneralPath();
-        potentilaProfilePath.append( shape[0], true );
-        potentilaProfilePath.append( shape[1], true );
-        potentilaProfilePath.append( shape[2], true );
-        potentilaProfilePath.append( shape[3], true );
-        potentilaProfilePath.append( shape[4], true );
-
-        // Compute the distance from the profile's center that corresponds to the alpha decay
-        // threshold
-        // todo: like spot for problem!!!!
-        alphaDecayX = getHillX( minEnergy );
-        alphaDecayX = -50;
-//        alphaDecayX = getHillX( -getMinEnergy() );
+        potentialPath.append( otherHalfOfPath, false );
+        potentilaProfilePath = potentialPath;
 
         // Generate the line for the total energy
         totalEnergyPath = new Line2D.Double( -2000, -getTotalEnergy(), 2000, -getTotalEnergy() );
@@ -204,7 +162,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
     }
 
     public double getAlphaDecayX() {
-        return this.alphaDecayX;
+        return getR( getTotalEnergy() / Config.modelToViewMeV ) * Config.modelToViewDist;
     }
 
     /**
@@ -212,27 +170,6 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      */
     public Shape[] getShape() {
         return shape;
-    }
-
-    /**
-     * Gives the x coordinate of the hill-side of the profile that
-     * corresponds to a particular y coordinate.
-     * <p/>
-     * See: http://www.moshplant.com/direct-or/bezier/math.html
-     *
-     * @param y
-     * @return
-     */
-    private double getHillX( double y ) {
-        double[] roots = cubicUtil.getXforY( y );
-        double result = Double.NaN;
-        for( int i = 0; i < roots.length; i++ ) {
-            double root = roots[i];
-            if( !Double.isNaN( root ) ) {
-                result = root;
-            }
-        }
-        return result;
     }
 
     /**
@@ -245,28 +182,15 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      * @return
      */
     public double getHillY( double x ) {
-        double[] roots = cubicUtil.getYforX( x );
-        double result = Double.NaN;
-        for( int i = 0; i < roots.length; i++ ) {
-            double root = roots[i];
-            if( !Double.isNaN( root ) ) {
-                result = root;
-            }
-        }
-        return result;
+        return getPe( x );
     }
 
     /**
      * Shapes the profile based on the makeup of the nucleus
      */
     public void update() {
-        this.width = Config.defaultProfileWidth;
-        if( minEnergy != computeMinEnergy( nucleus )
-            || maxEnergy != computeMaxEnergy( nucleus ) ) {
-            this.minEnergy = computeMinEnergy( nucleus );
-            this.maxEnergy = computeMaxEnergy( nucleus );
-            generate();
-        }
+//        this.width = Config.defaultProfileWidth;
+//            generate();
     }
 
     public double getDyDx( double v ) {

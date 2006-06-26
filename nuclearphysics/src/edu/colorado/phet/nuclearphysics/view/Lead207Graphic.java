@@ -21,7 +21,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-public class Lead206Graphic extends NucleusGraphic {
+public class Lead207Graphic extends NucleusGraphic {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -35,11 +35,11 @@ public class Lead206Graphic extends NucleusGraphic {
     private static Random random = new Random();
     private static int numImagesToUse = 15;
     // An array of differently randomized images of U235 nuclei, that we will choose randomly between at runtime
-    private static BufferedImage[] imagesToUse = new BufferedImage[Lead206Graphic.numImagesToUse];
+    private static BufferedImage[] imagesToUse = new BufferedImage[Lead207Graphic.numImagesToUse];
     static {
         Nucleus nucleus = new Nucleus( new Point2D.Double( ), Uranium235.NUM_PROTONS, Uranium235.NUM_NEUTRONS );
-        for( int i = 0; i < Lead206Graphic.imagesToUse.length; i++ ) {
-            Lead206Graphic.imagesToUse[i] = computeImage( nucleus );
+        for( int i = 0; i < Lead207Graphic.imagesToUse.length; i++ ) {
+            Lead207Graphic.imagesToUse[i] = computeImage( nucleus );
         }
     }
 
@@ -49,8 +49,8 @@ public class Lead206Graphic extends NucleusGraphic {
 
     private boolean displayLabel = true;
 
-    public Lead206Graphic( Nucleus nucleus ) {
-        super( nucleus, Lead206Graphic.imagesToUse[ Lead206Graphic.random.nextInt( Lead206Graphic.numImagesToUse )] );
+    public Lead207Graphic( Nucleus nucleus ) {
+        super( nucleus, Lead207Graphic.imagesToUse[ Lead207Graphic.random.nextInt( Lead207Graphic.numImagesToUse )] );
     }
 
     public void setDisplayLabel( boolean displayLabel ) {
@@ -61,20 +61,20 @@ public class Lead206Graphic extends NucleusGraphic {
         super.paint( g );
 
         if( displayLabel ) {
-            Lead206Graphic.nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
+            Lead207Graphic.nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
             AffineTransform orgTx = g.getTransform();
-            g.transform( Lead206Graphic.nucleusTx );
+            g.transform( Lead207Graphic.nucleusTx );
 
             GraphicsUtil.setAntiAliasingOn( g );
 
-            g.setColor( Lead206Graphic.color );
-            g.setFont( Lead206Graphic.isotopeFont );
+            g.setColor( Lead207Graphic.color );
+            g.setFont( Lead207Graphic.isotopeFont );
             FontMetrics fm = g.getFontMetrics();
             g.drawString( SimStrings.get( "Lead206Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Lead206Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
-            g.setColor( Lead206Graphic.color );
-            g.setFont( Lead206Graphic.elementFont );
+            g.setColor( Lead207Graphic.color );
+            g.setFont( Lead207Graphic.elementFont );
             g.drawString( SimStrings.get( "Lead206Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
         }

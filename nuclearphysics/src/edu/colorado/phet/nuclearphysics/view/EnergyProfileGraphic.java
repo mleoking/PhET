@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.ProfilableNucleus;
 
 import java.awt.image.ImageObserver;
 import java.awt.*;
@@ -67,7 +68,7 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
      * @param nucleus
      * @param profileType
      */
-    public EnergyProfileGraphic( Component component, Nucleus nucleus, ProfileType profileType ) {
+    public EnergyProfileGraphic( Component component, ProfilableNucleus nucleus, ProfileType profileType ) {
         super( component );
         this.nucleus = nucleus;
         this.profileType = profileType;

@@ -12,11 +12,11 @@ public class NucleusGraphicFactory {
 
     public NucleusGraphic create( Nucleus nucleus ) {
 
-        if( nucleus instanceof Polonium210 ) {
-            return new Polonium210Graphic( nucleus );
+        if( nucleus instanceof Polonium211 ) {
+            return new Polonium211Graphic( nucleus );
         }
-        if( nucleus instanceof Lead206 ) {
-            return new Lead206Graphic( nucleus );
+        if( nucleus instanceof Lead207 ) {
+            return new Lead207Graphic( nucleus );
         }
         if( nucleus instanceof Uranium235 ) {
             return new Uranium235Graphic( nucleus );

@@ -9,13 +9,12 @@ package edu.colorado.phet.nuclearphysics.model;
 
 public class AlphaDecayProducts {
     private Nucleus parent;
-    private Nucleus daughter;
+    private ProfilableNucleus daughter;
     private AlphaParticle alphaParticle;
 
-    public AlphaDecayProducts( Nucleus parent, AlphaParticle alphaParticle ) {
+    public AlphaDecayProducts( ProfilableNucleus parent, AlphaParticle alphaParticle ) {
         this.parent = parent;
-        this.daughter = new Lead206( parent.getPosition() );
-//        this.daughter = new Thorium141( parent.getPosition() );
+        this.daughter = new Lead207( parent.getPosition() );
         this.alphaParticle = alphaParticle;
         this.alphaParticle.setNucleus( daughter );
         this.alphaParticle.setEscaped( true, parent.getEnergyProfile().getTotalEnergy() );
@@ -26,7 +25,7 @@ public class AlphaDecayProducts {
         return parent;
     }
 
-    public Nucleus getDaughter() {
+    public ProfilableNucleus getDaughter() {
         return daughter;
     }
 
