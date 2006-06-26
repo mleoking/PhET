@@ -25,6 +25,7 @@ public class QWIOptionsMenu extends JMenu {
     private QWIModule qwiModule;
     private JDialog dialog;
     private JDialog propagatorControlFrame;
+    private boolean debug = false;
 
     public QWIOptionsMenu( final QWIModule qwiModule ) {
         super( "Options" );
@@ -32,7 +33,7 @@ public class QWIOptionsMenu extends JMenu {
         this.qwiModule = qwiModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 
-        final JCheckBoxMenuItem x = new JCheckBoxMenuItem( "Show Observable <X>" );
+        final JCheckBoxMenuItem x = new JCheckBoxMenuItem( "Show Expectation Value <X>" );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
@@ -40,7 +41,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( x );
 
-        final JCheckBoxMenuItem y = new JCheckBoxMenuItem( "Show Observable <Y>" );
+        final JCheckBoxMenuItem y = new JCheckBoxMenuItem( "Show Expectation Value <Y>" );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );
@@ -76,14 +77,15 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( item );
 
-        JMenuItem printModelParameters = new JMenuItem( "Print Model Parameter" );
-        printModelParameters.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                printModelParameters();
-            }
-
-        } );
-        add( printModelParameters );
+        if( debug ) {
+            JMenuItem printModelParameters = new JMenuItem( "Print Model Parameter" );
+            printModelParameters.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    printModelParameters();
+                }
+            } );
+            add( printModelParameters );
+        }
 
         addSeparator();
         JMenuItem propagators = new JMenuItem( "Propagators" );

@@ -30,7 +30,7 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
     public PhotonVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
-        setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
+        setBorder( BorderFactory.createTitledBorder( "EM Wave Display" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
         grayMag = createVisualizationButton( "Time-Averaged Intensity", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );

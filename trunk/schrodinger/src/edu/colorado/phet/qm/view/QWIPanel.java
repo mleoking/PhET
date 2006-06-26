@@ -257,6 +257,8 @@ public class QWIPanel extends PhetPCanvas {
 
     public void clearWavefunction() {
         getDiscreteModel().clearWavefunction();
+        updateWaveGraphic();
+        repaint();
     }
 
     public void setFadeEnabled( boolean selected ) {
