@@ -1,3 +1,6 @@
+1.01.02 (6-26-2006)
+Changed the velocity slider ranges for particles.
+
 1.01.01 (6-11-2006)
 Posted test with decreased min velocity and increased photon wave width.
 
