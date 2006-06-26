@@ -1,3 +1,6 @@
+1.01.03 (6-26-2006)
+Fixed factor of 10 problem: for matter waves, ruler units and units per clock tick on stopwatch are 10x bigger.
+
 1.01.02 (6-26-2006)
 Changed the velocity slider ranges for particles.
 
