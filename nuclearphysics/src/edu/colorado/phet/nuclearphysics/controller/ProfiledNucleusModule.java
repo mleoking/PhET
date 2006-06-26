@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.ProfileableNucleus;
 import edu.colorado.phet.nuclearphysics.view.EnergyProfileGraphic;
 import edu.colorado.phet.nuclearphysics.view.EnergyProfilePanelGraphic;
 
@@ -31,7 +32,7 @@ import java.awt.geom.AffineTransform;
  */
 public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
-    private Nucleus nucleus;
+    private ProfileableNucleus nucleus;
     private EnergyProfilePanelGraphic energyProfilePanel;
     private GridBagConstraints physicalPanelGBC;
     private EnergyProfileGraphic.ProfileType profileType;
@@ -74,11 +75,11 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
         getApparatusPanel().add( component, physicalPanelGBC );
     }
 
-    public void setNucleus( Nucleus nucleus ) {
+    public void setNucleus( ProfileableNucleus nucleus ) {
         this.nucleus = nucleus;
     }
 
-    protected Nucleus getNucleus() {
+    protected ProfileableNucleus getNucleus() {
         return nucleus;
     }
 

@@ -8,6 +8,7 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.PhetUtilities;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -82,7 +83,9 @@ public class AlphaParticle extends Nucleus {
         super.stepInTime( dt );
         if( nucleus != null ) {
             if( !escaped ) {
-                if( ++stepCnt % stepsBetweenRandomPlacements == 0 ) {
+                // We only move the alpha particle every few time steps, or if the clock is paused and we
+                // got a tick from the user clicking the Step button
+                if( ++stepCnt % stepsBetweenRandomPlacements == 0 || PhetUtilities.getActiveClock().isPaused() ) {
                     // Generate a random position for the alpha particle
                     double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( random.nextBoolean() ? 1 : -1 );
                     double theta = random.nextDouble() * Math.PI * 2;

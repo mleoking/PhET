@@ -51,7 +51,7 @@ public class AlphaDecayControlPanel extends JPanel {
         timerTF.setEditable( false );
         timerTF.setBackground( Color.white );
         timerTF.setHorizontalAlignment( JTextField.RIGHT );
-        timerTF.setPreferredSize( new Dimension( 80, 30 ) );
+        timerTF.setPreferredSize( new Dimension( 60, 30 ) );
 
         // Allow user to pause clock when decay occurs
 //        pauseOnDelayCB = new JCheckBox( SimStrings.get("AlphaDecayControlPanel.PauseOnDecay" ));
@@ -105,47 +105,68 @@ public class AlphaDecayControlPanel extends JPanel {
         } );
 
         setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        try {
-            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, timerTF,
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-//            GridBagUtil.addGridBagComponent( this, pauseOnDelayCB,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                         GridBagConstraints.EAST,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 5, 5, 5, 5 ),0,0 );
+        add( new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ), gbc );
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        add( timerTF, gbc );
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridwidth = 2;
+//        gbc.gridy = 2;
+        add( rewindToDecayBtn, gbc );
+        gbc.gridy = 2;
+        add( resetBtn, gbc );
+
+
+//        int rowIdx = 0;
+//        try {
+//            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
 //                                             0, rowIdx++,
 //                                             1, 1,
 //                                             GridBagConstraints.NONE,
 //                                             GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, rewindToDecayBtn,
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, resetBtn,
-                                             0, rowIdx++,
-                                             1, 1,
-                                             GridBagConstraints.NONE,
-                                             GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
+//            GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
+//                                             0, rowIdx++,
+//                                             1, 1,
+//                                             GridBagConstraints.NONE,
+//                                             GridBagConstraints.CENTER );
+//            GridBagUtil.addGridBagComponent( this, timerTF,
+//                                             0, rowIdx++,
+//                                             1, 1,
+//                                             GridBagConstraints.NONE,
+//                                             GridBagConstraints.CENTER );
+////            GridBagUtil.addGridBagComponent( this, pauseOnDelayCB,
+////                                             0, rowIdx++,
+////                                             1, 1,
+////                                             GridBagConstraints.NONE,
+////                                             GridBagConstraints.CENTER );
+//            GridBagUtil.addGridBagComponent( this, rewindToDecayBtn,
+//                                             0, rowIdx++,
+//                                             1, 1,
+//                                             GridBagConstraints.NONE,
+//                                             GridBagConstraints.CENTER );
+//            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
+//                                             0, rowIdx++,
+//                                             1, 1,
+//                                             GridBagConstraints.NONE,
+//                                             GridBagConstraints.CENTER );
+//            GridBagUtil.addGridBagComponent( this, resetBtn,
+//                                             0, rowIdx++,
+//                                             1, 1,
+//                                             GridBagConstraints.NONE,
+//                                             GridBagConstraints.CENTER );
+//        }
+//        catch( AWTException e ) {
+//            e.printStackTrace();
+//        }
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "AlphaDecayControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
