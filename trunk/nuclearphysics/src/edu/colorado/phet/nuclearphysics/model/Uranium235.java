@@ -23,7 +23,7 @@ import java.util.Random;
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */
-public class Uranium235 extends Nucleus {
+public class Uranium235 extends ProfilableNucleus {
 
     //----------------------------------------------------------------
     // Class data and methods
@@ -64,11 +64,15 @@ public class Uranium235 extends Nucleus {
     public Uranium235( Point2D position, NuclearPhysicsModel model ) {
         super( position, NUM_PROTONS, NUM_NEUTRONS );
         this.model = model;
-        for( int i = 0; i < alphaParticles.length; i++ ) {
-            alphaParticles[i] = new AlphaParticle( position,
-                                                   getEnergyProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
-            alphaParticles[i].setNucleus( this );
-        }
+//        for( int i = 0; i < alphaParticles.length; i++ ) {
+//            alphaParticles[i] = new AlphaParticle( position,
+//                                                   getEnergyProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
+//            alphaParticles[i].setNucleus( this );
+//        }
+    }
+
+    public double getMinPotentialEnergy() {
+        return 0;
     }
 
     /**
@@ -118,38 +122,38 @@ public class Uranium235 extends Nucleus {
     public void stepInTime( double dt ) {
 
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has
-        for( int j = 0; j < alphaParticles.length; j++ ) {
-            AlphaParticle alphaParticle = alphaParticles[j];
-            if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
-                > getEnergyProfile().getAlphaDecayX() * getEnergyProfile().getAlphaDecayX() ) {
-
-                if( !preDecayStep ) {
-                    for( int i = 0; i < preDecayListeners.size(); i++ ) {
-                        PreDecayListener decayListener = (PreDecayListener)preDecayListeners.get( i );
-                        decayListener.alphaDecayOnNextTimeStep();
-                    }
-                    preDecayStep = true;
-                    return;
-                }
-
-                // set the alpha particle directly on the profile
-//                double d = alphaParticle.getPosition().distance( this.getPosition() );
-//                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
-//                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
-//                dx *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
-//                dy *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
-//                alphaParticle.setPotential( getEnergyProfile().getHillY( getEnergyProfile().getAlphaDecayX() ) );
-//                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
-//                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
-
-                AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
-                for( int i = 0; i < decayListeners.size(); i++ ) {
-                    DecayListener decayListener = (DecayListener)decayListeners.get( i );
-                    decayListener.alphaDecay( decayProducts, new AlphaDecaySnapshot( model ) );
-                }
-                return;
-            }
-        }
+//        for( int j = 0; j < alphaParticles.length; j++ ) {
+//            AlphaParticle alphaParticle = alphaParticles[j];
+//            if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
+//                > getEnergyProfile().getAlphaDecayX() * getEnergyProfile().getAlphaDecayX() ) {
+//
+//                if( !preDecayStep ) {
+//                    for( int i = 0; i < preDecayListeners.size(); i++ ) {
+//                        PreDecayListener decayListener = (PreDecayListener)preDecayListeners.get( i );
+//                        decayListener.alphaDecayOnNextTimeStep();
+//                    }
+//                    preDecayStep = true;
+//                    return;
+//                }
+//
+//                // set the alpha particle directly on the profile
+////                double d = alphaParticle.getPosition().distance( this.getPosition() );
+////                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
+////                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
+////                dx *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
+////                dy *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
+////                alphaParticle.setPotential( getEnergyProfile().getHillY( getEnergyProfile().getAlphaDecayX() ) );
+////                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
+////                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
+//
+//                AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
+//                for( int i = 0; i < decayListeners.size(); i++ ) {
+//                    DecayListener decayListener = (DecayListener)decayListeners.get( i );
+//                    decayListener.alphaDecay( decayProducts, new AlphaDecaySnapshot( model ) );
+//                }
+//                return;
+//            }
+//        }
 
         super.stepInTime( dt );
 

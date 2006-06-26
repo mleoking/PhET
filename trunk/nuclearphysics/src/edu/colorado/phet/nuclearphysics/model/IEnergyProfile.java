@@ -25,17 +25,9 @@ import java.awt.*;
 public interface IEnergyProfile extends IProfile, SimpleObserver {
     double getWidth();
 
-    void setWidth( double width );
-
     double getMinEnergy();
 
-    void setMinEnergy( double minEnergy );
-
     double getMaxEnergy();
-
-    void setMaxEnergy( double maxEnergy );
-
-    double getDistFromHill( Point2D.Double pt );
 
     GeneralPath getPotentialEnergyPath();
 

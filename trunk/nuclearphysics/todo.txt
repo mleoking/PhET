@@ -1,4 +1,5 @@
-- Don't need fision behavior in Polonium. Make a Fisionable interface.
+- Refactor EnergyProfile so it's in model coordinates
+- Don't need fision behavior in Polonium. Make a Fisionable intNerface.
 - Profiled nucleus modules don't account properly for resizing before the first time they're activated
 
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.

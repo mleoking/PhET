@@ -27,13 +27,14 @@ import java.awt.geom.Point2D;
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */
-public class Polonium210 extends Nucleus {
+public class Polonium211 extends ProfilableNucleus {
 
     //----------------------------------------------------------------
     // Class data and methods
     //----------------------------------------------------------------
     public final static int NUM_PROTONS = 84;
-    public final static int NUM_NEUTRONS = 126;
+    public final static int NUM_NEUTRONS = 127;
+    public final static double MIN_POTENTIAL_ENERGY = -100;
 
     private static Random random = new Random();
     // The likelihood that a neutron striking a U235 nucleus will be absorbed, causing fission
@@ -44,7 +45,7 @@ public class Polonium210 extends Nucleus {
 
 
     public static void setAbsoptionProbability( double probability ) {
-        Polonium210.ABSORPTION_PROBABILITY = probability;
+        Polonium211.ABSORPTION_PROBABILITY = probability;
     }
 
     //----------------------------------------------------------------
@@ -72,14 +73,18 @@ public class Polonium210 extends Nucleus {
      * @param position
      * @param model
      */
-    public Polonium210( Point2D position, NuclearPhysicsModel model ) {
-        super( position, Polonium210.NUM_PROTONS, Polonium210.NUM_NEUTRONS );
+    public Polonium211( Point2D position, NuclearPhysicsModel model ) {
+        super( position, Polonium211.NUM_PROTONS, Polonium211.NUM_NEUTRONS );
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
             alphaParticles[i] = new AlphaParticle( position,
                                                    getEnergyProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
             alphaParticles[i].setNucleus( this );
         }
+    }
+
+    public double getMinPotentialEnergy() {
+        return MIN_POTENTIAL_ENERGY;
     }
 
     /**
@@ -110,14 +115,14 @@ public class Polonium210 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        if( Polonium210.random.nextDouble() <= Polonium210.ABSORPTION_PROBABILITY ) {
+        if( Polonium211.random.nextDouble() <= Polonium211.ABSORPTION_PROBABILITY ) {
             morph( getNumNeutrons() - 100, getNumProtons() );
             fissionInstigatingNeutron = neutron;
             // Move the neutron way, way away so it doesn't show and doesn't
             // cause another fission event. It will be destroyed later. Do it
             // twice so the neutron's previous position gets set to the same thing
-            neutron.setPosition( Polonium210.HoldingAreaCoord.getX(), Polonium210.HoldingAreaCoord.getY() );
-            neutron.setPosition( Polonium210.HoldingAreaCoord.getX(), Polonium210.HoldingAreaCoord.getY() );
+            neutron.setPosition( Polonium211.HoldingAreaCoord.getX(), Polonium211.HoldingAreaCoord.getY() );
+            neutron.setPosition( Polonium211.HoldingAreaCoord.getX(), Polonium211.HoldingAreaCoord.getY() );
             neutron.setVelocity( 0, 0 );
 
             neutron.leaveSystem();
@@ -182,8 +187,8 @@ public class Polonium210 extends Nucleus {
 
             // Jiggle the nucleus
             double d = 1.8;
-            double dx = Polonium210.random.nextGaussian() * d * ( Polonium210.random.nextBoolean() ? 1 : -1 );
-            double dy = Polonium210.random.nextGaussian() * d * ( Polonium210.random.nextBoolean() ? 1 : -1 );
+            double dx = Polonium211.random.nextGaussian() * d * ( Polonium211.random.nextBoolean() ? 1 : -1 );
+            double dy = Polonium211.random.nextGaussian() * d * ( Polonium211.random.nextBoolean() ? 1 : -1 );
             this.setPosition( jiggleOrgX + dx, getPosition().getY() + dy );
             //            this.setPosition( getPosition().getX() + dx, getPosition().getY() + dy );
         }
@@ -192,7 +197,7 @@ public class Polonium210 extends Nucleus {
     public FissionProducts getFissionProducts( Neutron neutron ) {
 
         Nucleus daughter1 = new Rubidium( this.getPosition() );
-        double theta = Polonium210.random.nextDouble() * Math.PI;
+        double theta = Polonium211.random.nextDouble() * Math.PI;
         double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
         double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
         daughter1.setVelocity( (float)( -vx ), (float)( -vy ) );
@@ -204,7 +209,7 @@ public class Polonium210 extends Nucleus {
 
         Neutron[] neutronProducts = new Neutron[3];
         for( int i = 0; i < 3; i++ ) {
-            theta = Polonium210.random.nextDouble() * Math.PI * 2;
+            theta = Polonium211.random.nextDouble() * Math.PI * 2;
             neutronProducts[i] = new Neutron( this.getPosition(), theta );
         }
 

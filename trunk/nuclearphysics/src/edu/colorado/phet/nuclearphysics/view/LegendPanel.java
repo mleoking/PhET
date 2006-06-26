@@ -78,10 +78,10 @@ public class LegendPanel extends JPanel {
         Nucleus u239 = new Uranium239( new Point2D.Double(), null );
         ImageIcon u239Icon = createIcon( u239 );
 
-        Nucleus po210 = new Polonium210( new Point2D.Double(), null );
+        Nucleus po210 = new Polonium211( new Point2D.Double(), null );
         ImageIcon po210Icon = createIcon( po210 );
 
-        Nucleus pb206 = new Lead206( new Point2D.Double() );
+        Nucleus pb206 = new Lead207( new Point2D.Double() );
         ImageIcon pb206Icon = createIcon( pb206 );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
