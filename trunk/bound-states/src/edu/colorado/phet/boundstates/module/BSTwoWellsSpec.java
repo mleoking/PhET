@@ -40,7 +40,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final boolean MAGNIFYING_GLASS_SELECTED = false;
     
     // Particle ranges (min, max, default, significantDecimalPlaces)
-    private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 1 );
+    private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 2 );
     
     // Number of wells (min, max, default, significantDecimalPlaces)
     private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 2, 2, 2 );
