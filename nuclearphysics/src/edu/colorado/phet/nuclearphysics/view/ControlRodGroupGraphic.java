@@ -15,6 +15,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -107,6 +109,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
         private ControlRod[] controlRods;
         private PhetImageGraphic handleGraphic;
         private PhetShapeGraphic connectorGraphic;
+        private Rectangle2D verticalBar;
 
         public Rep( Component component, ControlRod[] controlRods ) {
             super( component );
@@ -125,7 +128,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
                                                      new Color( 130, 150, 40 ),
 //                                                     Color.ORANGE,
 //                                                     (Color)rodGraphics[0].getFill(),
-                                                     new BasicStroke( 5 ), Color.black );
+new BasicStroke( 5 ), Color.black );
             this.addGraphic( connectorGraphic );
 
             // A handle to put on the connector bar
@@ -155,9 +158,9 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
             location.setLocation( controlRods[0].getBounds().getMinX(),
                                   controlRods[0].getBounds().getMaxY() );
             Rectangle2D horizontalBar = new Rectangle2D.Double( location.getX(), location.getY(), connectorWidth, 150 );
-            Rectangle2D verticalBar = new Rectangle2D.Double( location.getX() + connectorWidth,
-                                                              controlRods[0].getBounds().getY(), 100,
-                                                              horizontalBar.getMaxY() - controlRods[0].getBounds().getY() );
+            verticalBar = new Rectangle2D.Double( location.getX() + connectorWidth,
+                                                  controlRods[0].getBounds().getY(), 100,
+                                                  horizontalBar.getMaxY() - controlRods[0].getBounds().getY() );
             Area connectorArea = new Area( horizontalBar );
             connectorArea.add( new Area( verticalBar ) );
             connectorShape = connectorArea;
@@ -172,6 +175,18 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
             saveGraphicsState( graphics2D );
             graphics2D.transform( atx );
             super.paint( graphics2D );
+
+            String str = SimStrings.get("ControlledFissionControlPanel.ControlRodAdjuster");
+//            String str = "Control Rod Adjuster";
+            double x = verticalBar.getCenterX();
+            double y = verticalBar.getCenterY();
+            graphics2D.transform( AffineTransform.getRotateInstance( -Math.PI /2,
+                                                                     x, y ));
+            Font font = new Font( "SansSerif", Font.BOLD, 72 );
+            graphics2D.setFont( font );
+            Rectangle2D rect = GraphicsUtil.getStringBounds( str, graphics2D );
+            graphics2D.drawString( str, (float)(x - rect.getWidth() / 2),
+                                   (float)(y + 25) );
             restoreGraphicsState();
         }
 
