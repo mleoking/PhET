@@ -41,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+(6/26/06) - increase mass slider precision to 2 decimal places
 (6/23/06) - add a flag to enable/disble the Save/Load feature
 (6/23/06) - bugfix: existing Save/Load code is broken, throws exception related to BSBottomPlotMode
 (6/23/06) - work on problem with DoubleSpinner enter key, not fixed
