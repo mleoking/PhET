@@ -19,35 +19,40 @@
 -   Remove Phet logo from control panel
 
 Alpha Radiation
-- Implement Kathy's profile model
-- Change to Polonium 211
-- Calibrate time scale for alpha decay according to model
-- Rewind button is enabledbefore alph decay 
+- Rewind button is enabledbefore alph decay
 
 Fission:
 -   Obsolete Interface exception when running under 1.4.
 
 Chain Reaction panel
 -   U238 spinner doesn't respond properly to the first mouse click
-?	Instead of fading the containment vessel needs to break open/explode.
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
-?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
 -   Replace spinner with a slider(?) and text box
 
 
 Controlled Reaction
+- Put legends in properties
 - Something seems to be running in the background even when nothing is really going on
-?	The text labeling the graphs is very light and hard to read.
-?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
-?	In addition, the black container should block neutrons.
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
 
 
 
 ================
-Done, not posted
+Done not posted
 ================
+- The text labeling the graphs is very light and hard to read.
+?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
+?	In addition, the black container should block neutrons.
+?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
+
+
+================
+1.08.10
+================
+- Implement Kathy's profile model
+- Change to Polonium 211
+- Calibrate time scale for alpha decay according to model
 - Kabooms need to be rewirtten so they don't update when the clock is paused
 - Containment blows up and fades
 
