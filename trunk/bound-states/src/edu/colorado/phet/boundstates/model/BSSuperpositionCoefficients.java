@@ -60,6 +60,31 @@ public class BSSuperpositionCoefficients extends BSObservable {
     //----------------------------------------------------------------------------
     
     /**
+     * Gets the coefficients values.
+     * @return
+     */
+    public double[] getCoefficients() {
+        double[] values = new double[ getNumberOfCoefficients() ];
+        for ( int i = 0; i < values.length; i++ ) {
+            values[i] = getCoefficient( i );
+        }
+        return values;
+    }
+    
+    /**
+     * Sets the coefficient values.
+     * @param values
+     */
+    public void setCoefficients( double[] values ) {
+        setNotifyEnabled( false );
+        setNumberOfCoefficients( values.length );
+        for ( int i = 0; i < values.length; i++ ) {
+            setCoefficient( i, values[i] );
+        }
+        setNotifyEnabled( true );
+    }
+    
+    /**
      * Sets the number of coefficients.
      * <p>
      * If there are no coefficients, the first one is set to 1 and all others to zero.

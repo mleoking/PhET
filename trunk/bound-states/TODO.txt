@@ -6,10 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
-- implement Save/Load for model
 - time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
+- bug: magnifying glass is always selected when loading a config
 - verify that datasets are updated only when absolutely necessary
 - wiggle me animation is jerky
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
@@ -41,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+(6/26/06) - implement Save/Load for model
 (6/26/06) - increase mass slider precision to 2 decimal places
 (6/23/06) - add a flag to enable/disble the Save/Load feature
 (6/23/06) - bugfix: existing Save/Load code is broken, throws exception related to BSBottomPlotMode

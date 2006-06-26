@@ -12,11 +12,11 @@
 package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
+import edu.colorado.phet.boundstates.persistence.BSSerializable;
 
 
 /**
@@ -32,7 +32,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorWell extends BSAbstractPotential{
+public class BSHarmonicOscillatorWell extends BSAbstractPotential implements BSSerializable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -61,6 +61,14 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
         super( particle, 1 /* numberOfWells */, offset );
         setAngularFrequency( angularFrequency );
+    }
+    
+    /**
+     * Zero-arg contructor, for Java Bean complicance.
+     * Clients should not use this contructor; it's intended for use by XMLEncoder.
+     */
+    public BSHarmonicOscillatorWell() {
+        this( new BSParticle(), 0 /*offset*/, 1 /*angularFrequency*/ );
     }
     
     //----------------------------------------------------------------------------

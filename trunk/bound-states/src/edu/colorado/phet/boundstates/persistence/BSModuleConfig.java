@@ -12,6 +12,8 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
+import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.model.*;
 
 
 /**
@@ -32,7 +34,15 @@ public class BSModuleConfig implements BSSerializable {
     private int _clockIndex;
     
     // Model
-    //XXX
+    private BSParticle _particle;
+    private BSAsymmetricWell _asymmetricWell;
+    private BSCoulomb1DWells _coulomb1DWells;
+    private BSCoulomb3DWell _coulomb3DWell;
+    private BSHarmonicOscillatorWell _harmonicOscillatorWell;
+    private BSSquareWells _squareWells;
+    private int _hiliteEigenstateIndex;
+    private String _selectedWellTypeName;
+    private double[] _superpositionCoefficients;
     
     // Controls
     private String _bottomPlotModeName;
@@ -41,7 +51,6 @@ public class BSModuleConfig implements BSSerializable {
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
     private boolean _phaseSelected;
-    //XXX
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -120,15 +129,95 @@ public class BSModuleConfig implements BSSerializable {
         _magnifyingGlassSelected = magnifyingGlassSelected;
     }
 
+    public BSParticle getParticle() {
+        return _particle;
+    }
+    
+    public void setParticle( BSParticle particle ) {
+        _particle = particle;
+    }
+
+    public BSAsymmetricWell getAsymmetricWell() {
+        return _asymmetricWell;
+    }
+    
+    public void setAsymmetricWell( BSAsymmetricWell asymmetricWell ) {
+        _asymmetricWell = asymmetricWell;
+    }
+    
+    public BSCoulomb1DWells getCoulomb1DWells() {
+        return _coulomb1DWells;
+    }
+    
+    public void setCoulomb1DWells( BSCoulomb1DWells coulomb1DWells ) {
+        _coulomb1DWells = coulomb1DWells;
+    }
+    
+    public BSCoulomb3DWell getCoulomb3DWell() {
+        return _coulomb3DWell;
+    }
+    
+    public void setCoulomb3DWell( BSCoulomb3DWell coulomb3DWell ) {
+        _coulomb3DWell = coulomb3DWell;
+    }
+    
+    public BSHarmonicOscillatorWell getHarmonicOscillatorWell() {
+        return _harmonicOscillatorWell;
+    }
+    
+    public void setHarmonicOscillatorWell( BSHarmonicOscillatorWell harmonicOscillatorWell ) {
+        _harmonicOscillatorWell = harmonicOscillatorWell;
+    }
+    
+    public int getHiliteEigenstateIndex() {
+        return _hiliteEigenstateIndex;
+    }
+    
+    public void setHiliteEigenstateIndex( int hiliteEigenstateIndex ) {
+        _hiliteEigenstateIndex = hiliteEigenstateIndex;
+    }
+    
+    public String getSelectedWellTypeName() {
+        return _selectedWellTypeName;
+    }
+    
+    public void setSelectedWellTypeName( String selectedWellTypeName ) {
+        _selectedWellTypeName = selectedWellTypeName;
+    }
+
+    public BSSquareWells getSquareWells() {
+        return _squareWells;
+    }
+    
+    public void setSquareWells( BSSquareWells squareWells ) {
+        _squareWells = squareWells;
+    }
+    
+    public double[] getSuperpositionCoefficients() {
+        return _superpositionCoefficients;
+    }
+    
+    public void setSuperpositionCoefficients( double[] superpositionCoefficients ) {
+        _superpositionCoefficients = superpositionCoefficients;
+    }
+    
     //----------------------------------------------------------------------------
     // Convenience methods for non-JavaBean objects
     //----------------------------------------------------------------------------
-    
+
     public BSBottomPlotMode loadBottomPlotMode() {
         return BSBottomPlotMode.getByName( _bottomPlotModeName );
     }
     
     public void saveBottomPlotMode( BSBottomPlotMode bottomPlotMode ) {
         setBottomPlotModeName( bottomPlotMode.getName() );
+    }
+    
+    public BSWellType loadBSelectedWellType() {
+        return BSWellType.getByName( _selectedWellTypeName );
+    }
+    
+    public void saveSelectedWellType( BSWellType wellType ) {
+        setSelectedWellTypeName( wellType.getName() );
     }
 }

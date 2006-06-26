@@ -18,6 +18,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.persistence.BSSerializable;
 
 
 /**
@@ -36,7 +37,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     private int _numberOfWells;
     private double _center; // the center, in nm
     private double _offset; // the offset, in eV
-    private BSParticle _particle;
+    private transient BSParticle _particle;
     private BSEigenstate[] _eigenstates; // Eigenstates cache
 
     //----------------------------------------------------------------------------
