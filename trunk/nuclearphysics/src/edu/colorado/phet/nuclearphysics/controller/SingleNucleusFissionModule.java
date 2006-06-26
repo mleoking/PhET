@@ -85,9 +85,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
-                if( nucleus instanceof ProfilableNucleus ) {
+                if( nucleus instanceof ProfileableNucleus ) {
 //                if( !( nucleus instanceof AlphaParticle ) ) {
-                    getEnergyProfilePanel().addEnergyProfile( (ProfilableNucleus)event.getNucleus(),
+                    getEnergyProfilePanel().addEnergyProfile( (ProfileableNucleus)event.getNucleus(),
                                                               EnergyProfileGraphic.POTENTIAL_ENERGY );
 
                     // Only add one profile. Otherwise, the fission products end up with profiles

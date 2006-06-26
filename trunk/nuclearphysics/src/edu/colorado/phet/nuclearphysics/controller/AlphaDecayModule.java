@@ -66,14 +66,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
-                if( event.getNucleus() instanceof ProfilableNucleus ) {
-                    getEnergyProfilePanel().addEnergyProfile( (ProfilableNucleus)event.getNucleus(), EnergyProfileGraphic.TOTAL_ENERGY );
+                if( event.getNucleus() instanceof ProfileableNucleus ) {
+                    getEnergyProfilePanel().addEnergyProfile( (ProfileableNucleus)event.getNucleus(), EnergyProfileGraphic.TOTAL_ENERGY );
                 }
             }
 
             public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
-                if( event.getNucleus() instanceof ProfilableNucleus ) {
-                    getEnergyProfilePanel().removeEnergyProfile( ((ProfilableNucleus)event.getNucleus()).getEnergyProfile() );
+                if( event.getNucleus() instanceof ProfileableNucleus ) {
+                    getEnergyProfilePanel().removeEnergyProfile( ((ProfileableNucleus)event.getNucleus()).getEnergyProfile() );
                 }
             }
         } );
@@ -144,7 +144,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getEnergyProfilePanel().addAlphaParticle(alphaParticle, nucleus);
     }
 
-    private void addRingGraphic(ProfilableNucleus nucleus) {
+    private void addRingGraphic(ProfileableNucleus nucleus) {
         // Add a ring around the nucleus to show where its alpha decay radius is
         setRingAttributes(nucleus);
         final Stroke ringStroke = new BasicStroke(2f);
@@ -192,7 +192,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getEnergyProfilePanel().addOriginCenteredGraphic(leaderLines);
     }
 
-    private void setRingAttributes(ProfilableNucleus nucleus) {
+    private void setRingAttributes(ProfileableNucleus nucleus) {
         if (nucleus.getEnergyProfile().getAlphaDecayX() < 0 || true) {
             double radius = Math.abs(nucleus.getEnergyProfile().getAlphaDecayX());
             double x = getNucleus().getPosition().getX() - radius;

@@ -18,10 +18,10 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class ProfilableNucleus extends Nucleus implements EnergyProfilable {
+public abstract class ProfileableNucleus extends Nucleus implements Profileable {
     private EnergyProfile energyProfile;
 
-    public ProfilableNucleus( Point2D position, int numProtons, int numNeutrons ) {
+    public ProfileableNucleus( Point2D position, int numProtons, int numNeutrons ) {
         super( position, numProtons, numNeutrons );
         this.energyProfile = new EnergyProfile( this );
     }

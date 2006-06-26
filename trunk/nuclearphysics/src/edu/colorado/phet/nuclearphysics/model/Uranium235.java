@@ -23,7 +23,7 @@ import java.util.Random;
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */
-public class Uranium235 extends ProfilableNucleus {
+public class Uranium235 extends ProfileableNucleus {
 
     //----------------------------------------------------------------
     // Class data and methods

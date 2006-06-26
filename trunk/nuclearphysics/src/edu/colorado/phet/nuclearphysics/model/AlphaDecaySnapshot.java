@@ -108,7 +108,7 @@ public class AlphaDecaySnapshot {
      * Class for saving and restoring the state of an AlphaParticle
      */
     private class SavedAlphParticle extends SavedModelElement {
-        private ProfilableNucleus parentNucleus;
+        private ProfileableNucleus parentNucleus;
 
         protected SavedAlphParticle( AlphaParticle sourceModelElement ) {
             super( sourceModelElement );
