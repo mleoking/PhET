@@ -19,6 +19,7 @@ public class Wavefunction {
     public Complex[][] wavefunction;
     private double magnitude = 0.0;
     private boolean magnitudeDirty = true;
+    private boolean debug = false;
 
     public Wavefunction( Wavefunction wavefunction ) {
         this( wavefunction.wavefunction );
@@ -185,7 +186,7 @@ public class Wavefunction {
 
         double diff = 1.0 - postProb;
         double err = Math.abs( diff );
-        if( err > 0.0001 ) {
+        if( err > 0.0001 && debug ) {
             System.out.println( "Error in probability normalization, norm=" + postProb + ", err=" + err );
 //            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
 //            throw new RuntimeException( "Error in probability normalization." );

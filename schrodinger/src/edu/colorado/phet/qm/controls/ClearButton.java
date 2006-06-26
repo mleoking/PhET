@@ -15,11 +15,11 @@ import java.awt.event.ActionListener;
  */
 
 public class ClearButton extends JButton {
-    public ClearButton( final QWIPanel QWIPanel ) {
+    public ClearButton( final QWIPanel qwiPanel ) {
         super( "Clear Wave" );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                QWIPanel.clearWavefunction();
+                qwiPanel.clearWavefunction();
             }
         } );
     }
