@@ -44,6 +44,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private int startNumU235;
     private JButton fireNeutronBtn;
     private JButton resetBtn;
+    private boolean containmentEnabled;
 
     /**
      * Constructor
@@ -56,8 +57,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( !(SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this )== null )) {
-                SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ).validate();
+                if( !( SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ) == null ) ) {
+                    SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ).validate();
                 }
             }
         } );
@@ -153,14 +154,23 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setEditable( false );
         percentDecayTF.setBackground( Color.white );
 
-        final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
-//        containmentCB.setForeground( Color.white );
-        containmentCB.addActionListener( new ActionListener() {
+//        final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
+//        containmentCB.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setContainmentEnabled( containmentCB.isSelected() );
+//            }
+//        } );
+
+        final JButton containmentBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.EnableContainment" ) );
+        containmentBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setContainmentEnabled( containmentCB.isSelected() );
+                containmentEnabled = !containmentEnabled;
+                module.setContainmentEnabled( containmentEnabled );
+                String label = containmentEnabled ? SimStrings.get( "MultipleNucleusFissionControlPanel.DisableContainment")
+                               : SimStrings.get("MultipleNucleusFissionControlPanel.EnableContainment");
+                containmentBtn.setText( label );
             }
         } );
-
 
         // Layout the panel
         setLayout( new GridBagLayout() );
@@ -173,7 +183,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         GridBagConstraints gbcCenter = new GridBagConstraints( 0, 0, 2, 1, 1, 1, GridBagConstraints.CENTER,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 5, 5, 5, 5 ), 5, 5 );
-        add( containmentCB, gbcCenter );
+        add( containmentBtn, gbcCenter );
+//        add( containmentCB, gbcCenter );
         gbcLeft.gridy = 1;
         add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.235ULabel" ) ), gbcLeft );
         gbcRight.gridy = 1;

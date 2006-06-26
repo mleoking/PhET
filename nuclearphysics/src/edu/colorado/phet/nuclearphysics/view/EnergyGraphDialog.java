@@ -38,15 +38,16 @@ public class EnergyGraphDialog extends JDialog {
     private double totalEnergy = 0;
     private TotalEnergyPanel totalEnergyPanel;
     private EnergyRatePanel energyRatePanel;
+    String family = "SansSerif";
+    int style = Font.BOLD;
+    int size = 14;
+    private Font font = new Font( family, Font.BOLD, size );
+    
 
     public EnergyGraphDialog( Frame owner, int numNuclei ) throws HeadlessException {
-//        super( "Energy Graphs", false, false );
         super( owner, "Energy Graphs", false );
 
         setResizable( false );
-//        setUndecorated( true );
-//        getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
-
         JPanel contentPane = new JPanel( new GridLayout( 1, 2 ) );
         setContentPane( contentPane );
 
@@ -99,6 +100,7 @@ public class EnergyGraphDialog extends JDialog {
             at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
+            g2.setFont( font );
             g2.drawString( "Energy production rate (J/sec)", 0, 0 );
         }
 
@@ -126,6 +128,7 @@ public class EnergyGraphDialog extends JDialog {
             at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
+            g2.setFont( font );
             g2.drawString( "Total energy produced (J)", 0, 0 );
         }
 
