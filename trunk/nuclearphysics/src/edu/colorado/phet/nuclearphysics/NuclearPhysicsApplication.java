@@ -71,14 +71,6 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         AWTSplashWindow.setDefaultBackground( Color.lightGray );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-//                try {
-//                    UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
-//                    new NuclearPhysicsApplication( args ).startApplication();
-//                }
-//                catch( UnsupportedLookAndFeelException e ) {
-//                    e.printStackTrace();
-//                }
-
                 new NuclearPhysicsApplication( args ).startApplication();
             }
         } );
