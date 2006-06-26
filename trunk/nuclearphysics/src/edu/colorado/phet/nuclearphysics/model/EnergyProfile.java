@@ -182,7 +182,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      * @return
      */
     public double getHillY( double x ) {
-        return getPe( x );
+        return getPe( x / Config.modelToViewDist );
     }
 
     /**
