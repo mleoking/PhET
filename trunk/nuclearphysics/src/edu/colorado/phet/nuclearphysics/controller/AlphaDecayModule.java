@@ -235,7 +235,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         setRingAttributes(decayProducts.getDaughter());
 
         // Make a bang!
-        Kaboom kaboom = new Kaboom(new Point2D.Double(), 25, 300, getPhysicalPanel());
+        Kaboom kaboom = new Kaboom(new Point2D.Double(), 25, 300, getPhysicalPanel(), getModel() );
         getPhysicalPanel().addGraphic(kaboom);
     }
 

@@ -1,4 +1,3 @@
-- Kabooms need to be rewirtten so they don't update when the clock is paused
 - Don't need fision behavior in Polonium. Make a Fisionable interface.
 - Profiled nucleus modules don't account properly for resizing before the first time they're activated
 
@@ -47,6 +46,7 @@ Controlled Reaction
 ================
 Done, not posted
 ================
+- Kabooms need to be rewirtten so they don't update when the clock is paused
 - Containment blows up and fades
 
 ================
