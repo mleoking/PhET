@@ -28,7 +28,7 @@ import edu.colorado.phet.boundstates.persistence.BSSerializable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BSAbstractPotential extends BSObservable implements Observer {
+public abstract class BSAbstractPotential extends BSObservable implements Observer, BSSerializable {
     
     //----------------------------------------------------------------------------
     // Instance data
