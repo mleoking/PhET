@@ -1,6 +1,9 @@
 ############################################
 # Remaining Work
 ########################
+
+How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
+
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 

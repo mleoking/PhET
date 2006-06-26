@@ -18,6 +18,7 @@ public class DetectorSet {
     private boolean autodetect = true;
     private boolean repeats = false;//forAutoDetect
     private boolean oneShot = true;
+    private ArrayList listeners = new ArrayList();
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
@@ -118,6 +119,9 @@ public class DetectorSet {
                 }
             }
         }
+        if( detectors.size() > 0 ) {
+            notifyDetectionFinished();
+        }
     }
 
     private Wavefunction getWavefunction() {
@@ -163,4 +167,20 @@ public class DetectorSet {
     public boolean isRepeats() {
         return repeats;
     }
+
+    public static interface Listener {
+        void detectionAttempted();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyDetectionFinished() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.detectionAttempted();
+        }
+    }
+
 }
