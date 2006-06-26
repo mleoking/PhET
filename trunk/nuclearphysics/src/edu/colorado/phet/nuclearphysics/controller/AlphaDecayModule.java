@@ -113,8 +113,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         for (int i = 0; i < nucleus.getAlphaParticles().length; i++) {
             addAlphaParticle(nucleus.getAlphaParticles()[i], getNucleus());
         }
-        addRingGraphic(nucleus);
-//        addRingGraphic(getNucleus());
+        addRingGraphic(getNucleus());
         alphaDecayControlPanel.startTimer();
     }
 
@@ -193,7 +192,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     private void setRingAttributes(ProfileableNucleus nucleus) {
-        if (nucleus.getEnergyProfile().getAlphaDecayX() < 0 || true) {
+        if ( nucleus.getEnergyProfile().getAlphaDecayX() > 0 ) {
             double radius = Math.abs(nucleus.getEnergyProfile().getAlphaDecayX());
             double x = getNucleus().getPosition().getX() - radius;
             double y = getNucleus().getPosition().getY() - radius;
@@ -205,6 +204,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             leaderLine1 = null;
             leaderLine2 = null;
         }
+    }
+
+    public void setRingAttributes() {
+        setRingAttributes( getNucleus() );
     }
 
     //--------------------------------------------------------------------------------------------------

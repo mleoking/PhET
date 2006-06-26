@@ -48,7 +48,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
             GridBagUtil.addGridBagComponent( mainPanel, panel,
                                               0, rowIdx++,
                                               1, 1,
-                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {

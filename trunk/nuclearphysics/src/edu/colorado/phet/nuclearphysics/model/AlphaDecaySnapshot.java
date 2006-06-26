@@ -11,6 +11,8 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 
 import java.util.List;
 import java.util.Map;
@@ -29,9 +31,13 @@ import java.awt.geom.Point2D;
 public class AlphaDecaySnapshot {
     private NuclearPhysicsModel model;
     private Map nuclearModelElementToSavedState = new HashMap();
+    private AlphaDecayModule module;
 
     public AlphaDecaySnapshot( NuclearPhysicsModel model ) {
         this.model = model;
+
+        // This is a bad hack so we can get the ring and leader line graphics to be restored.
+        module = (AlphaDecayModule)PhetUtilities.getActiveModule();
         List modelElements = model.getNuclearModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElements.get( i );
@@ -58,6 +64,9 @@ public class AlphaDecaySnapshot {
                 model.addModelElement( nuclearModelElement );
             }
         }
+
+        // Restore the graphics
+        module.setRingAttributes();
     }
 
     private SavedModelElement createSavedModelElement( NuclearModelElement source ) {
