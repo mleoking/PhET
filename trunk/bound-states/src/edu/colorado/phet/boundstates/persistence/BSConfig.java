@@ -57,8 +57,8 @@ public class BSConfig implements BSSerializable {
         return _globalConfig;
     }    
     
-    public void setOneWellModuleConfig( BSModuleConfig qtConfig ) {
-        this._oneWellModuleConfig = qtConfig;
+    public void setOneWellModuleConfig( BSModuleConfig oneWellModuleConfig ) {
+        _oneWellModuleConfig = oneWellModuleConfig;
     }
     
     public BSModuleConfig getOneWellModuleConfig() {
@@ -69,15 +69,15 @@ public class BSConfig implements BSSerializable {
         return _twoWellsModuleConfig;
     }
     
-    public void setTwoWellsModuleConfig( BSModuleConfig twoModuleConfig ) {
-        _twoWellsModuleConfig = twoModuleConfig;
+    public void setTwoWellsModuleConfig( BSModuleConfig twoWellsModuleConfig ) {
+        _twoWellsModuleConfig = twoWellsModuleConfig;
     }
     
     public BSModuleConfig getManyWellsModuleConfig() {
         return _manyWellsModuleConfig;
     }
 
-    public void setManyWellsModuleConfig( BSModuleConfig manyModuleConfig ) {
-        _manyWellsModuleConfig = manyModuleConfig;
+    public void setManyWellsModuleConfig( BSModuleConfig manyWellsModuleConfig ) {
+        _manyWellsModuleConfig = manyWellsModuleConfig;
     }
 }
