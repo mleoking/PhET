@@ -41,15 +41,16 @@ Controlled Reaction
 ================
 Done not posted
 ================
-- The text labeling the graphs is very light and hard to read.
-?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
-?	In addition, the black container should block neutrons.
-?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
-
+- put the Rewind to last decay button at the bottom next to the play button.
+- kabooms are removed from simulation on rewind of alpha decay
 
 ================
 1.08.10
 ================
+- The text labeling the graphs is very light and hard to read.
+?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
+?	In addition, the black container should block neutrons.
+?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
 - Implement Kathy's profile model
 - Change to Polonium 211
 - Calibrate time scale for alpha decay according to model
