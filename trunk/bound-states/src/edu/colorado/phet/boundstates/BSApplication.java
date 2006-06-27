@@ -288,40 +288,28 @@ public class BSApplication extends PiccoloPhetApplication {
 
             public void run() {
 
-                try {
-                    // Initialize look-and-feel
-                    PhetLookAndFeel laf = new PhetLookAndFeel();
-                    laf.initLookAndFeel();
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
 
-                    // Initialize localization.
-                    SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
+                // Initialize localization.
+                SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
 
-                    // Title, etc.
-                    String title = SimStrings.get( "BSApplication.title" );
-                    String description = SimStrings.get( "BSApplication.description" );
-                    String version = BSVersion.NUMBER;
+                // Title, etc.
+                String title = SimStrings.get( "BSApplication.title" );
+                String description = SimStrings.get( "BSApplication.description" );
+                String version = BSVersion.NUMBER;
 
-                    // Frame setup
-                    int width = BSConstants.APP_FRAME_WIDTH;
-                    int height = BSConstants.APP_FRAME_HEIGHT;
-                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+                // Frame setup
+                int width = BSConstants.APP_FRAME_WIDTH;
+                int height = BSConstants.APP_FRAME_HEIGHT;
+                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
-                    // Create the application.
-                    BSApplication app = new BSApplication( args, title, description, version, frameSetup );
+                // Create the application.
+                BSApplication app = new BSApplication( args, title, description, version, frameSetup );
 
-                    // Start the application.
-                    app.startApplication();
-                }
-                catch ( Exception e ) {
-                    // Inform the user of the exception, then exit.
-                    String pattern = SimStrings.get( "message.fatalException" );
-                    Object[] objs = { e.getMessage() };
-                    MessageFormat format = new MessageFormat( pattern );
-                    String message = format.format( objs );
-                    DialogUtils.showErrorDialog( null, message );
-                    e.printStackTrace();
-                    System.exit( 1 );
-                }
+                // Start the application.
+                app.startApplication();
             }
         } );
     }

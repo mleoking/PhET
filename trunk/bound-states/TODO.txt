@@ -3,14 +3,17 @@
 ===============================================================================
 
 IN PROGRESS:
+- persistence doesn't save which Colors menu item is selected
+- persistence doesn't save which panel is selected
+- bug: saved config has instances of non-existent potentials for "two" and "many" panels
+- bug: assertion error when loading config for all 3 panels
+- bug: magnifying glass is always selected when loading a 3-panel config, OK when only 1 panel
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
-- bug: assertion error when loading config for all 3 panels
-- bug: magnifying glass is always selected when loading a 3-panel config, OK when only 1 panel
 - verify that datasets are updated only when absolutely necessary
 - wiggle me animation is jerky
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
@@ -42,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(6/27/06) - remove try/catch block around main
 (6/26/06) - added a BSModuleConfig instance to persistence for each module
 (6/26/06) - implement Save/Load for model
 (6/26/06) - increase mass slider precision to 2 decimal places
