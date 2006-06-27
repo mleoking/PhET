@@ -489,17 +489,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     public void reset() {
         
         // Close all dialogs...
-        {
-            if ( _configureDialog != null ) {
-                _configureDialog.dispose();
-                _configureDialog = null;
-            }
-
-            if ( _superpositionStateDialog != null ) {
-                _superpositionStateDialog.dispose();
-                _superpositionStateDialog = null;
-            }
-        }
+        closeAllDialogs();
         
         // Model
         {
@@ -619,6 +609,22 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         resetClock();
     }
     
+    /*
+     * Closes all dialogs.
+     */
+    private void closeAllDialogs() {
+
+        if ( _configureDialog != null ) {
+            _configureDialog.dispose();
+            _configureDialog = null;
+        }
+
+        if ( _superpositionStateDialog != null ) {
+            _superpositionStateDialog.dispose();
+            _superpositionStateDialog = null;
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Wiggle Me
     //----------------------------------------------------------------------------
@@ -705,6 +711,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      */
     public void load( BSModuleConfig config ) {
         
+        closeAllDialogs();
+        
         // Clock
         if ( config.isClockRunning() ) {
             getClock().start();
@@ -715,24 +723,65 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _clockControls.setClockIndex( config.getClockIndex() );
     
         // Model
-        _particle = config.loadParticle();
-        _asymmetricWell = config.loadAsymmetricPotential( _particle );
-        _coulomb1DWells = config.loadCoulomb1DPotential( _particle );
-        _coulomb3DWell = config.loadCoulomb3DPotential( _particle );
-        _harmonicOscillatorWell = config.loadHarmonicOscillatorPotential( _particle );
-        _squareWells = config.loadSquarePotential( _particle );
-        setWellType( config.loadSelectedWellType() );
-        _superpositionCoefficients.setCoefficients( config.getSuperpositionCoefficients() ); // do this after calling setWellType!
+        _model.setNotifyEnabled( false );
+        {
+            // load the particle
+            _particle = config.loadParticle();
+            _model.setParticle( _particle );
+            
+            // load the potentials
+            _asymmetricWell = config.loadAsymmetricPotential( _particle );
+            _coulomb1DWells = config.loadCoulomb1DPotential( _particle );
+            _coulomb3DWell = config.loadCoulomb3DPotential( _particle );
+            _harmonicOscillatorWell = config.loadHarmonicOscillatorPotential( _particle );
+            _squareWells = config.loadSquarePotential( _particle );
+            
+            // set the potential that is selected
+            BSWellType wellType = config.loadSelectedWellType();
+            BSAbstractPotential potential = null;
+            if ( wellType == BSWellType.ASYMMETRIC ) {
+                potential = _asymmetricWell;
+            }
+            else if ( wellType == BSWellType.COULOMB_1D ) {
+                assert ( _coulomb1DWells != null );
+                potential = _coulomb1DWells;
+            }
+            else if ( wellType == BSWellType.COULOMB_3D ) {
+                assert ( _coulomb3DWell != null );
+                potential = _coulomb3DWell;
+            }
+            else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
+                potential = _harmonicOscillatorWell;
+            }
+            else if ( wellType == BSWellType.SQUARE ) {
+                potential = _squareWells;
+            }
+            else {
+                throw new IllegalArgumentException( "unsupported wellType: " + wellType );
+            }
+            assert ( potential != null );
+            _model.setPotential( potential );
+            
+            // Restore coefficients after setting potential
+            double[] c = config.getSuperpositionCoefficients();
+            for ( int i = 0; i < c.length; i++ ) {
+                _superpositionCoefficients.setCoefficient( i, c[i] );
+            }
+        }
+        _model.setNotifyEnabled( true );
         
-        // Control panel
+        // Controls
         _controlPanel.setMagnifyingGlassSelected( config.isMagnifyingGlassSelected() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
-        _controlPanel.setBottomPlotMode( config.loadBottomPlotMode() );  // do this after setting views
+        _controlPanel.setBottomPlotMode( config.loadBottomPlotMode() );  // do this after setting real/img/mag/phase views
         _controlPanel.setParticleMass( _particle.getMass() );
-        _controlPanel.setWellType( config.loadSelectedWellType() );
+        _controlPanel.setWellType( _model.getWellType() );
+        _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
+        _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+        configureZoomControls( _model.getWellType() );
     }
     
     /**
@@ -814,7 +863,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     }
     
     public void setWellType( BSWellType wellType ) {
-        
+
         if ( wellType != _model.getWellType() ) {
             
             if ( _configureDialog != null ) {
@@ -822,17 +871,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
 
             configureZoomControls( wellType );
-            
+
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
                 potential = _asymmetricWell;
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
-                assert( _coulomb1DWells != null );
+                assert ( _coulomb1DWells != null );
                 potential = _coulomb1DWells;
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
-                assert( _coulomb3DWell != null );
+                assert ( _coulomb3DWell != null );
                 potential = _coulomb3DWell;
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
@@ -844,9 +893,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
             }
-            assert( potential != null );
+            assert ( potential != null );
             _model.setPotential( potential );
-            
+
             _controlPanel.setWellType( wellType );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
