@@ -73,14 +73,14 @@ public class BSPersistenceManager {
             }
             
             // Two Wells module
-            BSAbstractModule twoWellsModule = _app.getOneWellModule();
+            BSAbstractModule twoWellsModule = _app.getTwoWellsModule();
             if ( twoWellsModule != null ) {
                 BSModuleConfig twoWellsModuleConfig = config.getTwoWellsModuleConfig();
                 twoWellsModule.save( twoWellsModuleConfig );
             }
             
             // Many Wells module
-            BSAbstractModule manyWellsModule = _app.getOneWellModule();
+            BSAbstractModule manyWellsModule = _app.getManyWellsModule();
             if ( manyWellsModule != null ) {
                 BSModuleConfig manyWellsModuleConfig = config.getManyWellsModuleConfig();
                 manyWellsModule.save( manyWellsModuleConfig );

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.persistence.BSSerializable;
 
 
 /**
@@ -34,7 +33,7 @@ import edu.colorado.phet.boundstates.persistence.BSSerializable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb3DWell extends BSCoulomb1DWells implements BSSerializable {
+public class BSCoulomb3DWell extends BSCoulomb1DWells {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -54,14 +53,6 @@ public class BSCoulomb3DWell extends BSCoulomb1DWells implements BSSerializable 
      */
     public BSCoulomb3DWell( BSParticle particle, double offset ) {
         super( particle, 1 /* numberOfWells */, offset, 0 /* spacing */ );
-    }
-    
-    /**
-     * Zero-arg contructor, for Java Bean complicance.
-     * Clients should not use this contructor; it's intended for use by XMLEncoder.
-     */
-    public BSCoulomb3DWell() {
-        super();
     }
     
     //----------------------------------------------------------------------------

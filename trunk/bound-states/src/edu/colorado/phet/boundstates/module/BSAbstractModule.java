@@ -680,13 +680,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.setClockIndex( _clockControls.getClockIndex() );
         
         // Model
-        config.setParticle( _particle );
-        config.setAsymmetricWell( _asymmetricWell );
-        config.setCoulomb1DWells( _coulomb1DWells );
-        config.setCoulomb3DWell( _coulomb3DWell );
-        config.setHarmonicOscillatorWell( _harmonicOscillatorWell );
-        config.setSquareWells( _squareWells );
-        config.setHiliteEigenstateIndex( _model.getHilitedEigenstateIndex() );
+        config.saveParticle( _particle );
+        config.saveAsymmetricPotential( _asymmetricWell );
+        config.saveCoulomb1DPotential( _coulomb1DWells );
+        config.saveCoulomb3DPotential( _coulomb3DWell );
+        config.saveHarmonicOscillatorPotential( _harmonicOscillatorWell );
+        config.saveSquarePotential( _squareWells );
         config.setSuperpositionCoefficients( _superpositionCoefficients.getCoefficients() );
         
         // Control panel
@@ -716,28 +715,14 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _clockControls.setClockIndex( config.getClockIndex() );
     
         // Model
-        _particle = config.getParticle();
-        _asymmetricWell = config.getAsymmetricWell();
-        _coulomb1DWells = config.getCoulomb1DWells();
-        _coulomb3DWell = config.getCoulomb3DWell();
-        _harmonicOscillatorWell = config.getHarmonicOscillatorWell();
-        _squareWells = config.getSquareWells();
-        if ( _asymmetricWell != null ) {
-            _asymmetricWell.setParticle( _particle );
-        }
-        if ( _coulomb1DWells != null ) {
-            _coulomb1DWells.setParticle( _particle );
-        }
-        if ( _coulomb3DWell != null ) {
-            _coulomb3DWell.setParticle( _particle );
-        }
-        if ( _harmonicOscillatorWell != null ) {
-            _harmonicOscillatorWell.setParticle( _particle );
-        }
-        if ( _squareWells != null ) {
-            _squareWells.setParticle( _particle );
-        }
-        _model.setHilitedEigenstateIndex( config.getHiliteEigenstateIndex() );
+        _particle = config.loadParticle();
+        _asymmetricWell = config.loadAsymmetricPotential( _particle );
+        _coulomb1DWells = config.loadCoulomb1DPotential( _particle );
+        _coulomb3DWell = config.loadCoulomb3DPotential( _particle );
+        _harmonicOscillatorWell = config.loadHarmonicOscillatorPotential( _particle );
+        _squareWells = config.loadSquarePotential( _particle );
+        setWellType( config.loadSelectedWellType() );
+        _superpositionCoefficients.setCoefficients( config.getSuperpositionCoefficients() ); // do this after calling setWellType!
         
         // Control panel
         _controlPanel.setMagnifyingGlassSelected( config.isMagnifyingGlassSelected() );
@@ -748,10 +733,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setBottomPlotMode( config.loadBottomPlotMode() );  // do this after setting views
         _controlPanel.setParticleMass( _particle.getMass() );
         _controlPanel.setWellType( config.loadSelectedWellType() );
-        
-        // Module
-        setWellType( config.loadSelectedWellType() );
-        _superpositionCoefficients.setCoefficients( config.getSuperpositionCoefficients() ); // do this after calling setWellType!
     }
     
     /**
