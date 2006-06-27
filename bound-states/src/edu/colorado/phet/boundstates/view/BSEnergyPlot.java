@@ -246,6 +246,12 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
                 updateHiliteEigenstatesDataset();
             }
+            else if ( arg == null ) {
+                // Multiple things may have changed, so update everything.
+                updateDatasets();
+                updateSelectionEigenstatesDataset();
+                updateHiliteEigenstatesDataset();
+            }
         }
     }
     
