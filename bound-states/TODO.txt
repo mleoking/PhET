@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(6/27/06) - bail on serializing model, use lightweight JavaBeans to XML encode the state of model components
 (6/27/06) - remove try/catch block around main
 (6/26/06) - added a BSModuleConfig instance to persistence for each module
 (6/26/06) - implement Save/Load for model

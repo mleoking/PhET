@@ -34,13 +34,12 @@ public class BSModuleConfig implements BSSerializable {
     private int _clockIndex;
     
     // Model
-    private BSParticle _particle;
-    private BSAsymmetricWell _asymmetricWell;
-    private BSCoulomb1DWells _coulomb1DWells;
-    private BSCoulomb3DWell _coulomb3DWell;
-    private BSHarmonicOscillatorWell _harmonicOscillatorWell;
-    private BSSquareWells _squareWells;
-    private int _hiliteEigenstateIndex;
+    private BSParticleConfig _particleConfig;
+    private BSAsymmetricConfig _asymmetricConfig;
+    private BSCoulomb1DConfig _coulomb1DConfig;
+    private BSCoulomb3DConfig _coulomb3DConfig;
+    private BSHarmonicOscillatorConfig _harmonicOscillatorConfig;
+    private BSSquareConfig _squareConfig;
     private String _selectedWellTypeName;
     private double[] _superpositionCoefficients;
     
@@ -129,52 +128,44 @@ public class BSModuleConfig implements BSSerializable {
         _magnifyingGlassSelected = magnifyingGlassSelected;
     }
 
-    public BSParticle getParticle() {
-        return _particle;
+    public BSParticleConfig getParticleConfig() {
+        return _particleConfig;
     }
     
-    public void setParticle( BSParticle particle ) {
-        _particle = particle;
+    public void setParticleConfig( BSParticleConfig particleConfig ) {
+        _particleConfig = particleConfig;
     }
 
-    public BSAsymmetricWell getAsymmetricWell() {
-        return _asymmetricWell;
+    public BSAsymmetricConfig getAsymmetricConfig() {
+        return _asymmetricConfig;
     }
     
-    public void setAsymmetricWell( BSAsymmetricWell asymmetricWell ) {
-        _asymmetricWell = asymmetricWell;
+    public void setAsymmetricConfig( BSAsymmetricConfig asymmetricConfig ) {
+        _asymmetricConfig = asymmetricConfig;
     }
     
-    public BSCoulomb1DWells getCoulomb1DWells() {
-        return _coulomb1DWells;
+    public BSCoulomb1DConfig getCoulomb1DConfig() {
+        return _coulomb1DConfig;
     }
     
-    public void setCoulomb1DWells( BSCoulomb1DWells coulomb1DWells ) {
-        _coulomb1DWells = coulomb1DWells;
+    public void setCoulomb1DConfig( BSCoulomb1DConfig coulomb1DConfig ) {
+        _coulomb1DConfig = coulomb1DConfig;
     }
     
-    public BSCoulomb3DWell getCoulomb3DWell() {
-        return _coulomb3DWell;
+    public BSCoulomb3DConfig getCoulomb3DConfig() {
+        return _coulomb3DConfig;
     }
     
-    public void setCoulomb3DWell( BSCoulomb3DWell coulomb3DWell ) {
-        _coulomb3DWell = coulomb3DWell;
+    public void setCoulomb3DConfig( BSCoulomb3DConfig coulomb3DConfig ) {
+        _coulomb3DConfig = coulomb3DConfig;
     }
     
-    public BSHarmonicOscillatorWell getHarmonicOscillatorWell() {
-        return _harmonicOscillatorWell;
+    public BSHarmonicOscillatorConfig getHarmonicOscillatorConfig() {
+        return _harmonicOscillatorConfig;
     }
     
-    public void setHarmonicOscillatorWell( BSHarmonicOscillatorWell harmonicOscillatorWell ) {
-        _harmonicOscillatorWell = harmonicOscillatorWell;
-    }
-    
-    public int getHiliteEigenstateIndex() {
-        return _hiliteEigenstateIndex;
-    }
-    
-    public void setHiliteEigenstateIndex( int hiliteEigenstateIndex ) {
-        _hiliteEigenstateIndex = hiliteEigenstateIndex;
+    public void setHarmonicOscillatorConfig( BSHarmonicOscillatorConfig harmonicOscillatorConfig ) {
+        _harmonicOscillatorConfig = harmonicOscillatorConfig;
     }
     
     public String getSelectedWellTypeName() {
@@ -185,12 +176,12 @@ public class BSModuleConfig implements BSSerializable {
         _selectedWellTypeName = selectedWellTypeName;
     }
 
-    public BSSquareWells getSquareWells() {
-        return _squareWells;
+    public BSSquareConfig getSquareConfig() {
+        return _squareConfig;
     }
     
-    public void setSquareWells( BSSquareWells squareWells ) {
-        _squareWells = squareWells;
+    public void setSquareConfig( BSSquareConfig squareConfig ) {
+        _squareConfig = squareConfig;
     }
     
     public double[] getSuperpositionCoefficients() {
@@ -219,5 +210,63 @@ public class BSModuleConfig implements BSSerializable {
     
     public void saveSelectedWellType( BSWellType wellType ) {
         setSelectedWellTypeName( wellType.getName() );
+    }
+    
+    public BSParticle loadParticle() {
+        return _particleConfig.toParticle();
+    }
+    
+    public void saveParticle( BSParticle particle ) {
+        setParticleConfig( new BSParticleConfig( particle ) );
+    }
+    
+    public BSAsymmetricWell loadAsymmetricPotential( BSParticle particle ) {
+        return _asymmetricConfig.toPotential( particle );
+    }
+    
+    public void saveAsymmetricPotential( BSAsymmetricWell potential ) {
+        if ( potential != null ) {
+            setAsymmetricConfig( new BSAsymmetricConfig( potential ) );
+        }
+    }
+    
+    public BSCoulomb1DWells loadCoulomb1DPotential( BSParticle particle ) {
+        return _coulomb1DConfig.toPotential( particle );
+    }
+    
+    public void saveCoulomb1DPotential( BSCoulomb1DWells potential ) {
+        if ( potential != null ) {
+            setCoulomb1DConfig( new BSCoulomb1DConfig( potential ) );
+        }
+    }
+    
+    public BSCoulomb3DWell loadCoulomb3DPotential( BSParticle particle ) {
+        return _coulomb3DConfig.toPotential( particle );
+    }
+    
+    public void saveCoulomb3DPotential( BSCoulomb3DWell potential ) {
+        if ( potential != null ) {
+            setCoulomb3DConfig( new BSCoulomb3DConfig( potential ) );
+        }
+    }
+    
+    public BSHarmonicOscillatorWell loadHarmonicOscillatorPotential( BSParticle particle ) {
+        return _harmonicOscillatorConfig.toPotential( particle );
+    }
+    
+    public void saveHarmonicOscillatorPotential( BSHarmonicOscillatorWell potential ) {
+        if ( potential != null ) {
+            setHarmonicOscillatorConfig( new BSHarmonicOscillatorConfig( potential ) );
+        }
+    }
+    
+    public BSSquareWells loadSquarePotential( BSParticle particle ) {
+        return _squareConfig.toPotential( particle );
+    }
+    
+    public void saveSquarePotential( BSSquareWells potential ) {
+        if ( potential != null ) {
+            setSquareConfig( new BSSquareConfig( potential ) );
+        }
     }
 }

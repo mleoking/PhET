@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
-import edu.colorado.phet.boundstates.persistence.BSSerializable;
 
 
 /**
@@ -35,7 +34,7 @@ import edu.colorado.phet.boundstates.persistence.BSSerializable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareWells extends BSAbstractPotential implements BSSerializable {
+public class BSSquareWells extends BSAbstractPotential {
    
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,14 +63,6 @@ public class BSSquareWells extends BSAbstractPotential implements BSSerializable
         setHeight( height );
         setWidth( width );
         setSeparation( separation );
-    }
-    
-    /**
-     * Zero-arg contructor, for Java Bean complicance.
-     * Clients should not use this contructor; it's intended for use by XMLEncoder.
-     */
-    public BSSquareWells() {
-        this( new BSParticle(), 1 /*numberOfWells*/, 0 /*offset*/, 1 /*height*/, 1 /*width*/, 1 /*separation*/ );
     }
     
     //----------------------------------------------------------------------------
