@@ -29,6 +29,8 @@ import edu.colorado.phet.boundstates.util.IntegerRange;
  */
 public class BSOneWellSpec extends BSAbstractModuleSpec {
 
+    private static final String ID = "oneWellModule";
+    
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.ASYMMETRIC, BSWellType.COULOMB_1D, BSWellType.COULOMB_3D, BSWellType.HARMONIC_OSCILLATOR };
     private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
     
@@ -121,6 +123,8 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     public BSOneWellSpec() {
         super();
 
+        setId( ID );
+        
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );

@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- persistence doesn't save which panel is selected
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
@@ -41,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+(6/27/06) - save/load active module state
 (6/27/06) - fix bugs in BSAbstractModule.load
 (6/27/06) - bail on serializing model, use lightweight JavaBeans to XML encode the state of model components
 (6/27/06) - remove try/catch block around main
