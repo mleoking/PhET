@@ -2,10 +2,20 @@
 # Remaining Work
 ########################
 
+2-lasers panel seems asymmetric since beams can get out of phase.
+
+•	Fix save/load.
+    o	Test this on other machines, fine on my development machine & test machine.
+    o	Communicating with Sam M about this bug.
+
+•	If I move the wavelength slider all the way to the left, strange spots and stripes appear on the wavelength slider, the wave, and the screen.  If I pause the simulation and move the window around, there seem to be words written on the background behind the spots.  If I take a screen shot, the spots don’t appear on the screenshot.  I swear I’m not making this up.
+    o	>>I’ve had trouble reproducing this.
+
 How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
 
-Bug: In DoublePhotonWave, getMomentum() is returning with unknown units.
-
+•	Fix asymmetry problems outlined in email.
+I've figured out what the problem is with the asymmetry in the Two Lasers panel in QWI: the center of the left laser is 14 pixels from the left edge of the box and the center of the right laser is only 13 pixels from the edge of the box.  My guess is that you're measuring the distance from the center of the box, but it's rounding in some weird way because there are an odd numbers of pixels (45) in the box.  Can you fix this?
+>>This problem may be alleviated due to the inexact wavelengths that will be most frequent now.
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 
@@ -15,12 +25,6 @@ I extend the lattice beyond the visible region;
 here it could also be done, but very time consuming to implement, 
 and would slow down the sim (scales with the size of the boundary).
 >>I checked the x locations of the wave sources, and they are symmetric.
-
-Bug: Mandel panel photons all have same wavelength (though different color)
-The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
-Mandel Panel should have both visualization styles
->>This proves difficult with the current setup.  I estimate 2+ hours to add these features.  For right now, I've reverted to intensity-view only, and wavelength is changed with color.
->>see MandelSchrodingerPanel::createAccessor() for debugging this.
 
 Reset should reset wavelength, velocity,
 >>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
@@ -39,50 +43,6 @@ screen so it's easy to see the individual pixels, you can see that
 changing the width and separation of the slits often changes things in 
 very weird asymmetric ways.
 ___
-Remember when we were working on units in QWI and there was a mysterious 
-factor of 10 that I couldn't figure out, so I told you to just roll it 
-in and not worry about it?  Well, I finally figured out where it came 
-from!  The units on the ruler for matter particles are off by a factor 
-of 10.  Rather than being 0.45nm wide, the box should be 4.5nm wide, so 
-the units on the ruler should be 10 times as large.  To compensate for 
-this, we made the units per clock tick 10x too small.
-
-The current units per clock tick are:
-
-Electrons    0.005 fs
-Neutrons    0.01 ps
-He Atoms    0.05 ps
-(At medium resolution, divide these numbers by 4, at high, by 16)
-
-
-The correct units per clock tick are:
-
-Electrons    0.05 fs
-Neutrons    0.1 ps
-He Atoms    0.5 ps
-(At medium resolution, divide these numbers by 4, at high, by 16)
-___
-Just found a small bug: If I resize the simulation, the close and rotate 
-buttons on the ruler move off the ruler.  Also, if I put the ruler too 
-far to the right and make the simulation size smaller, the ruler goes 
-off the screen and I can't get it back without resizing.
-I should mention that the bug is only there when the ruler is rotated 
-vertically.
-
-I can't get the save/load feature to work in QWI.  I thought maybe it 
-had gotten broken somewhere along the way, but even if I go back to old 
-versions, it doesn't work.  It creates a file that contains nothing but 
-the following text:
-
-<?xml version="1.0" encoding="UTF-8"?>
-<java version="1.5.0_06" class="java.beans.XMLDecoder">
-  <object class="edu.colorado.phet.qm.persistence.QWIState"/>
-</java>
-
-When I load this file, there are no error messages, but nothing happens.
-
-Sam
-
      
 ############################################
 # Lower Priority
@@ -138,3 +98,5 @@ Detectors in Single Particles Panel:
       >>Scratched because we don't know how to handle multiple detectors yet.
 
 "Copy Screen" instances shouldn't appear on top of one another.
+
+Bug: In DoublePhotonWave, getMomentum() is returning with unknown units.
