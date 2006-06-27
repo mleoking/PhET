@@ -20,6 +20,7 @@ public class PlaneWave2D implements Wave {
 
     private double scale = 1.0;
     private double phase = 0.0;
+    private double dPhase;
 
     public PlaneWave2D( AbstractVector2D k, double gridDim ) {
         this.k = k;
@@ -41,13 +42,21 @@ public class PlaneWave2D implements Wave {
     public Complex getValue( int i, int j, double simulationTime ) {
         Vector2D loc = new Vector2D.Double( i, j );
         double kDotJ = k.dot( loc );
-        double kk = k.dot( k );
-        Complex complex = new Complex( Math.cos( kDotJ / gridDim - kk * simulationTime + phase ), Math.sin( kDotJ / gridDim - kk * simulationTime + phase ) );
+        double w = 1.0 / k.getMagnitude();
+        phase = 0 + dPhase;
+//        System.out.println( "w = " + w );
+        Complex complex = new Complex(
+                Math.cos( kDotJ / gridDim - w * simulationTime + phase ),
+                Math.sin( kDotJ / gridDim - w * simulationTime + phase ) );
         complex.scale( scale );
         return complex;
     }
 
     public void setPhase( double phase ) {
         this.phase = phase;
+    }
+
+    public void setPhaseOffset( double dPhase ) {
+        this.dPhase = dPhase;
     }
 }

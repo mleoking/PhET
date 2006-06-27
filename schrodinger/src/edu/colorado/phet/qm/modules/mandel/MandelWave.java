@@ -16,32 +16,23 @@ import edu.colorado.phet.qm.model.waves.PlaneWave2D;
 public class MandelWave implements Wave {
     private MandelWaveDamp leftWave;
     private MandelWaveDamp rightWave;
-    private double momentum;
-    private double phase;
-    private int waveWidth;
-
-    public MandelWave( int distFromLeft, double momentum, double phase, double dPhase, double intensity, int waveWidth ) {
-        this( distFromLeft, momentum, momentum, phase, dPhase, intensity, intensity, waveWidth );
-    }
 
     public MandelWave( int leftWaveX, double momentumLeft, double momentumRight, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
-        this.momentum = momentumLeft;
-        this.phase = phase;
-        this.waveWidth = waveWidth;
-
         PlaneWave2D leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumLeft, 0 ), 100 );
         leftWave.setPhase( phase );
+        leftWave.setPhaseOffset( 0 );
         this.leftWave = new MandelWaveDamp( leftWaveX, leftWave, leftIntensity, waveWidth );
 
         PlaneWave2D rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
-        rightWave.setPhase( phase + dPhase );
+        rightWave.setPhaseOffset( -dPhase );
         int rightWaveX = waveWidth - leftWaveX;
-//        System.out.println( "leftWaveX = " + leftWaveX +", rightWaveX="+rightWaveX+", waveWidth="+waveWidth);
+//        System.out.println( "leftWaveX = " + leftWaveX + ", rightWaveX=" + rightWaveX + ", waveWidth=" + waveWidth );
         this.rightWave = new MandelWaveDamp( rightWaveX, rightWave, rightIntensity, waveWidth );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        return leftWave.getValue( i, j, simulationTime ).plus( rightWave.getValue( i, j, simulationTime ) );
+        double t = simulationTime * 1000 * 3 * 1.2;//todo magic number
+        return leftWave.getValue( i, j, t ).plus( rightWave.getValue( i, j, t ) );
     }
 
 }

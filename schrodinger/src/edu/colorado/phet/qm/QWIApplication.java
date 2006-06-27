@@ -39,7 +39,6 @@ public class QWIApplication extends PiccoloPhetApplication {
 
     public QWIApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
-
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
@@ -74,6 +73,7 @@ public class QWIApplication extends PiccoloPhetApplication {
         } );
         getPhetFrame().addFileMenuItem( load );
         getPhetFrame().addFileMenuSeparator();
+
     }
 
     private QWIModule getActiveSchrodingerModule() {

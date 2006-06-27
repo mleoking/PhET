@@ -20,9 +20,11 @@ public class DoublePhotonWave extends PhotonWave {
     private MandelModule.BeamParam rightParam;
     private CylinderSource leftWaveSource;
     private CylinderSource rightWaveSource;
+    private PhotonMandelBeam photonMandelBeam;
 
-    public DoublePhotonWave( QWIModule qwiModule, QWIModel QWIModel ) {
+    public DoublePhotonWave( QWIModule qwiModule, QWIModel QWIModel, PhotonMandelBeam photonMandelBeam ) {
         super( qwiModule, QWIModel );
+        this.photonMandelBeam = photonMandelBeam;
         setOn();
         setIntensity( 1.0 );
         this.leftWaveSource = new CylinderSource( createRectRegionForCylinder(), createWave( super.getPhase() ) );
@@ -51,14 +53,24 @@ public class DoublePhotonWave extends PhotonWave {
     }
 
     protected Wave createLeftWave() {
+//        double rightMag = isCombinedWaveModel() ? getTotalWaveMagnitudeRight() : 0.0;
+//        return new MandelWave( (int)getInsetX(), getMomentum(), getMomentum(), getPhase(), dPhase, getTotalWaveMagnitudeLeft(), rightMag,
+//                               getDiscreteModel().getWavefunction().getWidth() );
+//        System.out.println( "getMomentum() = " + getMomentum() );
+//        System.out.println( "leftParam.getMomentum() = " + leftParam.getMomentum() );
+//        System.out.println( "rightParam.getMomentum() = " + rightParam.getMomentum() );
+
         double rightMag = isCombinedWaveModel() ? getTotalWaveMagnitudeRight() : 0.0;
-        return new MandelWave( (int)getInsetX(), getMomentum(), getMomentum(), getPhase(), dPhase, getTotalWaveMagnitudeLeft(), rightMag,
+        return new MandelWave( (int)getInsetX(), leftParam.getMomentum() * scale, rightParam.getMomentum() * scale, getPhase(), dPhase, getTotalWaveMagnitudeLeft(), rightMag,
                                getDiscreteModel().getWavefunction().getWidth() );
     }
 
+    double scale = 5.4E-4 / 2;
+//    double scale=1.0;
+
     protected Wave createRightWave() {
         double leftMag = isCombinedWaveModel() ? getTotalWaveMagnitudeLeft() : 0.0;
-        return new MandelWave( (int)getInsetX(), getMomentum(), getMomentum(), getPhase(), dPhase, leftMag, getTotalWaveMagnitudeRight(),
+        return new MandelWave( (int)getInsetX(), leftParam.getMomentum() * scale, rightParam.getMomentum() * scale, getPhase(), dPhase, leftMag, getTotalWaveMagnitudeRight(),
                                getDiscreteModel().getWavefunction().getWidth() );
     }
 

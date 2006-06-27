@@ -41,6 +41,7 @@ public class QWIModule extends PiccoloModule {
     private ParticleUnits particleUnits;
     private ArrayList listeners = new ArrayList();
     private ResolutionControl.ResolutionSetup resolution;
+    static final Random random = new Random( 0 );
 
     /**
      * @param schrodingerApplication
@@ -56,14 +57,6 @@ public class QWIModule extends PiccoloModule {
                 QWIModule.this.stepInTime( dt );
             }
         } );
-//        clock.addClockListener( new ClockAdapter() {
-//            public void simulationTimeChanged( ClockEvent clockEvent ) {
-//                if( clock.isPaused() ) {
-//                    //this probably means user pressed step
-//                    getSchrodingerPanel().updateWaveGraphic();
-//                }
-//            }
-//        } );
     }
 
     protected void stepInTime( double dt ) {
@@ -179,8 +172,6 @@ public class QWIModule extends PiccoloModule {
         QWIPanel.addDetectorGraphic( detector );
     }
 
-    static final Random random = new Random( 0 );
-
     public void addPotential() {
         int w = (int)( getQWIModel().getGridWidth() / 4.5 );
         int x = random.nextInt( getQWIModel().getWavefunction().getWidth() - w );
@@ -261,7 +252,6 @@ public class QWIModule extends PiccoloModule {
     }
 
     public void setUnits( ParticleUnits particleUnits ) {
-//        System.out.println( "particleUnits = " + particleUnits );
         this.particleUnits = particleUnits;
         if( QWIPanel != null ) {
             QWIPanel.setUnits( particleUnits );
@@ -295,10 +285,8 @@ public class QWIModule extends PiccoloModule {
         String[]names = new String[]{"low", "medium", "high"};
         double[]lightFudge = new double[]{1, 0.5, 0.25};
         double[]particleFudge = new double[]{1, 1.0 / 4.0, 1.0 / 16.0};
-//        Integer[]v = new Integer[configFor1024x768.length];
         ResolutionControl.ResolutionSetup[] resolutionSetup = new ResolutionControl.ResolutionSetup[configFor1024x768.length];
         for( int i = 0; i < resolutionSetup.length; i++ ) {
-//            resolutionSetup[i] = new Integer( configFor1024x768[i] );
             resolutionSetup[i] = new ResolutionControl.ResolutionSetup( configFor1024x768[i], names[i], lightFudge[i], particleFudge[i] );
         }
         return resolutionSetup;

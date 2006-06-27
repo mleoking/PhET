@@ -17,6 +17,7 @@ public class MandelModel extends QWIModel {
 
     private boolean split = false;
     private static final boolean DEBUG_MANDEL_WAVES = false;
+    private double simulationTime = 0.0;
 
     public MandelModel() {
         this( QWIModel.DEFAULT_WIDTH, QWIModel.DEFAULT_WIDTH );
@@ -58,6 +59,10 @@ public class MandelModel extends QWIModel {
         rightWaveModel.setPropagator( propagator.copy() );
     }
 
+    public double getSimulationTime() {
+        return simulationTime;
+    }
+
     protected void step() {
         beforeTimeStep();
         if( !split ) {
@@ -71,6 +76,7 @@ public class MandelModel extends QWIModel {
             getDamping().damp( rightWaveModel.getWavefunction() );
         }
         incrementTimeStep();
+        simulationTime += getDeltaTime();
         finishedTimeStep();
     }
 

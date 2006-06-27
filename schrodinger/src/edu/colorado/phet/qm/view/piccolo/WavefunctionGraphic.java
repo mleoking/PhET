@@ -22,7 +22,6 @@ import java.awt.image.BufferedImage;
 public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
     private boolean displayXExpectation;
     private boolean displayYExpectation;
-    private boolean displayCollapsePoint;
     private boolean displayPyExpectation = false;
     private QWIModel QWIModel;
 
@@ -37,10 +36,6 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
 
     public void setDisplayYExpectation( boolean displayYExpectation ) {
         this.displayYExpectation = displayYExpectation;
-    }
-
-    public void setDisplayCollapsePoint( boolean displayCollapsePoint ) {
-        this.displayCollapsePoint = displayCollapsePoint;
     }
 
     protected void decorateBuffer() {
@@ -59,12 +54,6 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
             g2.setColor( Color.blue );
             g2.fillRect( 0, (int)y, image.getWidth(), 2 );
         }
-//        if( displayCollapsePoint ) {
-//            Point collapsePoint = getDiscreteModel().getCollapsePoint();
-//            Rectangle rect = colorGrid.getRectangle( collapsePoint.x, collapsePoint.y );
-//            g2.setColor( Color.green );
-//            g2.fillOval( rect.x, rect.y, rect.width, rect.height );
-//        }
         if( displayPyExpectation ) {
             double px = new PxValue().compute( getWavefunction() );
             System.out.println( "px = " + px );
