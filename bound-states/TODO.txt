@@ -40,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+0.0.10...
 (6/27/06) - save/load active module state
 (6/27/06) - fix bugs in BSAbstractModule.load
 (6/27/06) - bail on serializing model, use lightweight JavaBeans to XML encode the state of model components
