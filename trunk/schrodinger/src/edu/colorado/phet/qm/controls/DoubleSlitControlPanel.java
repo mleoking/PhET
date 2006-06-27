@@ -70,7 +70,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
 
             public double getMin() {
-                return 4 / 60.0;
+                return 4 / 45.0;
             }
 
             public double getMax() {
@@ -88,7 +88,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
 
             public double getMin() {
-                return 0;
+                return 6 / 45.0;
             }
 
             public double getMax() {
@@ -103,7 +103,6 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( absorbtiveSlit );
-
 
         add( slitSize );
         add( slitSeparation );

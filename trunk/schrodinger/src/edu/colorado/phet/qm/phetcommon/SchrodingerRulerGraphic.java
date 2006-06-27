@@ -13,6 +13,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 /**
@@ -54,6 +57,22 @@ public class SchrodingerRulerGraphic extends PhetPNode {
 
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addInputEventListener( new HalfOnscreenDragHandler( component, this ) );
+        component.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                rotate();
+                rotate();
+            }
+        } );
+        component.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                Rectangle2D bounds = rulerGraphic.getGlobalFullBounds();
+                Rectangle2D screen = new Rectangle2D.Double( 0, 0, component.getWidth(), component.getHeight() );
+                if( !screen.intersects( bounds ) ) {
+//                    System.out.println( "Moved ruler manually." );
+                    setOffset( 100, 100 );
+                }
+            }
+        } );
     }
 
     private JButton createCloseButton() {

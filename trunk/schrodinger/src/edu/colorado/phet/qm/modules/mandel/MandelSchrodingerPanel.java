@@ -29,7 +29,7 @@ public class MandelSchrodingerPanel extends IntensityBeamPanel {
     }
 
     protected QWIScreenNode createSchrodingerScreenNode( QWIModule module ) {
-        return new MandelSchrodingerScreenNode( module, this );
+        return new MandelSchrodingerScreenNode( (MandelModule)module, this );
     }
 
     protected void doAddGunControlPanel() {
@@ -125,7 +125,7 @@ public class MandelSchrodingerPanel extends IntensityBeamPanel {
     }
 
     private WaveValueAccessor createAccessor() {
-        return new WaveValueAccessor.Real();//todo uncomment this to facilitate testing of wavelength
-//        return new WaveValueAccessor.Magnitude();
+//        return new WaveValueAccessor.Real();//todo uncomment this to facilitate testing of wavelength
+        return new WaveValueAccessor.Magnitude();
     }
 }

@@ -290,12 +290,18 @@ public class QWIScreenNode extends PNode {
                 int latticeWidth = getWavefunctionGraphic().getWavefunction().getWidth();
 //                System.out.println( "latticeWidth = " + latticeWidth );
 //                System.out.println( "colorGridImageWidth = " + colorGridWidth );
-                double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunNode.getFullBounds().getMinX() );
+                double minX = getLayoutMinX();
                 double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunNode.getFullBounds().getMaxX() );
-                minX = Math.max( minX, 0 );
+//                minX = Math.max( minX, 0 );
+
+//                System.out.println( "minX = " + minX );
+//                System.out.println( "maxX = " + maxX );
                 double mainWidth = maxX - minX;
+//                System.out.println( "mainWidth = " + mainWidth );
                 double availableWidth = QWIPanel.getWidth() - mainWidth;
+//                System.out.println( "availableWidth = " + availableWidth );
                 double wavefunctionGraphicX = getWavefunctionGraphicX( availableWidth );
+//                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
 //                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
                 wavefunctionGraphic.setOffset( wavefunctionGraphicX, detectorSheetPNode.getDetectorHeight() );
 //                wavefunctionGraphic.setOffset( 5, detectorSheetPNode.getDetectorHeight() );
@@ -330,6 +336,10 @@ public class QWIScreenNode extends PNode {
                 }
             }
         }
+    }
+
+    protected double getLayoutMinX() {
+        return Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunNode.getFullBounds().getMinX() );
     }
 
     protected double getWavefunctionGraphicX( double availableWidth ) {
@@ -477,22 +487,6 @@ resolution, and a quarter as many times for high resolution.*/
         showZoom( child, zoominText );
     }
 
-//    private void updateRulerUnits() {
-//        String[]readings = new String[6];
-//        for( int i = 0; i < readings.length; i++ ) {
-//            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
-//            readings[i] = new String( "" + new DecimalFormat( "0.0" ).format( v ) + "" );
-//        }
-//        rulerGraphic.getRulerGraphic().setReadings( readings );
-//
-//        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
-//        double waveAreaViewWidth = 45 * particleUnits.getDx().getDisplayValue();
-//
-//        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * ( readings.length - 1 );
-//        rulerGraphic.getRulerGraphic().setMeasurementPixelWidth( rulerPixelWidth );
-//        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
-//    }
-
     private void updateRulerUnits() {
         String[]readings = new String[particleUnits.getNumRulerReadings()];
         double dx = particleUnits.getRulerWidth() / ( readings.length - 1 );
@@ -619,8 +613,6 @@ resolution, and a quarter as many times for high resolution.*/
             relayout();
         }
         else {
-
-
             int gunIndex = 0;
             if( getChildrenReference().contains( abstractGunNode ) ) {
                 gunIndex = getChildrenReference().indexOf( abstractGunNode );
@@ -636,11 +628,7 @@ resolution, and a quarter as many times for high resolution.*/
 
     public void setCellSize( int size ) {
         if( this.cellSize != size ) {
-//            int waveSize = 480 / size;
-//            System.out.println( "waveSize = " + waveSize );
             this.cellSize = size;
-//            getDiscreteModel().setWaveSize( waveSize, waveSize );
-//            layoutChildren( true );
         }
     }
 
