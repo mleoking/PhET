@@ -76,7 +76,6 @@ public class ControlledChainReactionControlPanel extends JPanel {
                 percentDecayTF.setText( "0" );
                 percentDecayTF.setEditable( false );
                 percentDecayTF.setBackground( Color.white );
-                fireNeutronBtn.setEnabled( false );
                 resetBtn.setEnabled( true );
             }
         } );
@@ -86,7 +85,6 @@ public class ControlledChainReactionControlPanel extends JPanel {
                 module.stop();
                 module.start();
                 percentDecayTF.setText( "0" );
-                fireNeutronBtn.setEnabled( true );
                 resetBtn.setEnabled( false );
             }
         } );

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 
-import javax.swing.event.ChangeListener;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * A vessel that is supposed to emulate the containment vessel of a nuclear bomb.
- * <p>
+ * <p/>
  * This class implements Modelelement, so it can detect when nuclei and neutrons hit it.
  */
 public class Containment extends SimpleObservable implements ModelElement {
@@ -31,7 +31,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     private double wallThickness = 80;
     double opacity = 1;
     private ArrayList resizeListeners = new ArrayList();
-    private Containment.NeutronCollisionDetector neutronCollisionDetector;
+    private Containment.MyCollisionDetector collisionDetector;
     private NuclearPhysicsModel model;
 
     // Fields having to do with the containment blowing up
@@ -39,7 +39,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     private double neutronImpact = 1;
     private double nucleusImpact = 10;
     private double explosionThreshold = Config.CONTAINMENT_EXPLOSION_THRESHOLD;
-    private List embeddedNuclearModelElements = new ArrayList( );
+    private List embeddedNuclearModelElements = new ArrayList();
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
@@ -48,20 +48,25 @@ public class Containment extends SimpleObservable implements ModelElement {
         this.shape = shape;
         this.model = model;
 
-        neutronCollisionDetector = new NeutronCollisionDetector( model );
+        collisionDetector = new MyCollisionDetector( model );
     }
 
+    /**
+     * Handles neutrons and nuclei striking the vessel
+     *
+     * @param dt
+     */
     public void stepInTime( double dt ) {
-            List elements = model.getNuclearModelElements();
-            for( int i = 0; i < elements.size(); i++ ) {
-                Object o = elements.get( i );
-                if( o instanceof Neutron ) {
-                    neutronCollisionDetector.detectAndDoCollision( (Neutron)o );
-                }
-                if( o instanceof Nucleus ) {
-                    neutronCollisionDetector.detectAndDoCollision( (Nucleus)o );
-                }
+        List elements = model.getNuclearModelElements();
+        for( int i = 0; i < elements.size(); i++ ) {
+            Object o = elements.get( i );
+            if( o instanceof Neutron ) {
+                collisionDetector.detectAndDoCollision( (Neutron)o );
             }
+            if( o instanceof Nucleus ) {
+                collisionDetector.detectAndDoCollision( (Nucleus)o );
+            }
+        }
     }
 
     public void adjustRadius( double dr ) {
@@ -114,15 +119,29 @@ public class Containment extends SimpleObservable implements ModelElement {
         return wallThickness;
     }
 
+    /**
+     * Records the impact of a neutron or nucleus with the containment vessel. When enough impacts
+     * have occured, the vessel blows up.
+     *
+     * @param impact
+     */
     private void recordImpact( double impact ) {
         totalImpact += impact;
         if( totalImpact > explosionThreshold ) {
-            model.removeModelElement( this );
-            for( int i = 0; i < embeddedNuclearModelElements.size(); i++ ) {
-                NuclearModelElement nuclearModelElement = (NuclearModelElement)embeddedNuclearModelElements.get( i );
-                model.removeModelElement( nuclearModelElement );
-            }
-            changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
+
+            // Defer blowing up the containment until the end of the time step, so that all nuclei that hit
+            // the vessel during this time step get removed from the model
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    model.removeModelElement( Containment.this );
+                    while( embeddedNuclearModelElements.size() > 0 ) {
+                        NuclearModelElement nuclearModelElement = (NuclearModelElement)embeddedNuclearModelElements.get( 0 );
+                        model.removeModelElement( nuclearModelElement );
+                        embeddedNuclearModelElements.remove( 0 );
+                    }
+                    changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
+                }
+            } );
         }
     }
 
@@ -163,7 +182,6 @@ public class Containment extends SimpleObservable implements ModelElement {
         void containmentExploded( ChangeEvent event );
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Inner Classes
     //--------------------------------------------------------------------------------------------------
@@ -171,14 +189,14 @@ public class Containment extends SimpleObservable implements ModelElement {
     /**
      * Detects neutrons hitting the vessel, and doing the correct thing when they do.
      */
-    private class NeutronCollisionDetector {
+    private class MyCollisionDetector {
         private Random random = new Random();
 
         private NuclearPhysicsModel model;
         private double absorptionProbability = 0.5;
         private double reflectionSpreadAngle = Math.toRadians( 30 );
 
-        public NeutronCollisionDetector( NuclearPhysicsModel model ) {
+        public MyCollisionDetector( NuclearPhysicsModel model ) {
             this.model = model;
         }
 
@@ -198,12 +216,12 @@ public class Containment extends SimpleObservable implements ModelElement {
         private void detectAndDoCollision( Nucleus nucleus ) {
             double distSq = nucleus.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
             double embeddedDist = 30;
-            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2 && nucleus.getVelocity().getMagnitudeSq() > 0 ) {
+            if( distSq > shape.getWidth() / 2 * shape.getWidth() / 2 && nucleus.getVelocity().getMagnitudeSq() > 0 ) {
                 nucleus.setVelocity( 0, 0 );
                 double dx = ( nucleus.getPosition().getX() - shape.getCenterX() ) / Math.sqrt( distSq )
-                            * ( embeddedDist  + shape.getWidth() / 2 );
+                            * ( embeddedDist + shape.getWidth() / 2 );
                 double dy = ( nucleus.getPosition().getY() - shape.getCenterY() ) / Math.sqrt( distSq )
-                            * ( embeddedDist  + shape.getWidth() / 2 );
+                            * ( embeddedDist + shape.getWidth() / 2 );
                 nucleus.setPosition( shape.getCenterX() + dx, shape.getCenterY() + dy );
                 recordImpact( nucleusImpact );
                 embeddedNuclearModelElements.add( nucleus );
@@ -212,7 +230,7 @@ public class Containment extends SimpleObservable implements ModelElement {
 
         private void detectAndDoCollision( Neutron neutron ) {
             double distSq = neutron.getPosition().distanceSq( shape.getCenterX(), shape.getCenterY() );
-            if( distSq > shape.getWidth()/ 2 * shape.getWidth() / 2  && neutron.getVelocity().getMagnitudeSq() > 0 ) {
+            if( distSq > shape.getWidth() / 2 * shape.getWidth() / 2 && neutron.getVelocity().getMagnitudeSq() > 0 ) {
                 handleCollision( neutron );
                 recordImpact( neutronImpact );
                 embeddedNuclearModelElements.add( neutron );
@@ -222,6 +240,7 @@ public class Containment extends SimpleObservable implements ModelElement {
         /**
          * The neutron is either absorbed or reflected in a somewhat random direction. The likelihood of
          * the neutron being absorbed is controlled by a field (absorptionProbability).
+         *
          * @param neutron
          */
         private void handleCollision( Neutron neutron ) {
@@ -231,7 +250,7 @@ public class Containment extends SimpleObservable implements ModelElement {
             else {
                 Vector2D v = neutron.getVelocity();
                 double theta = Math.atan2( shape.getCenterY() - neutron.getPositionPrev().getY(),
-                                           shape.getCenterX() - neutron.getPositionPrev().getX());
+                                           shape.getCenterX() - neutron.getPositionPrev().getX() );
                 double gamma = theta + random.nextDouble() * reflectionSpreadAngle * MathUtil.nextRandomSign();
                 double delta = gamma - v.getAngle();
                 v.rotate( delta );

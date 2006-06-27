@@ -86,7 +86,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 Nucleus nucleus = event.getNucleus();
                 if( nucleus instanceof ProfileableNucleus ) {
-//                if( !( nucleus instanceof AlphaParticle ) ) {
                     getEnergyProfilePanel().addEnergyProfile( (ProfileableNucleus)event.getNucleus(),
                                                               EnergyProfileGraphic.POTENTIAL_ENERGY );
 
@@ -129,7 +128,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getEnergyProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
-        nucleus.addObserver( getNucleus().getPotentialProfile() );
     }
 
     public void activate() {
