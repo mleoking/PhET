@@ -10,27 +10,25 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
-import edu.colorado.phet.coreadditions.TxGraphic;
 
+import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -71,7 +69,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     private static final double DEAFULT_U235_ABSORPTION_PROB = 0.75;
     private static final double DEAFULT_U238_ABSORPTION_PROB = 0.25;
     private static final double DEAFULT_ROD_ABSORPTION_PROB = 1.0;
-//    private static final double DEFAULT_INTER_NUCLEAR_SPACING = 10;
     private static final double DEFAULT_INTER_NUCLEAR_SPACING = 2.5;
 
     private static BufferedImage u235Img;
@@ -420,6 +417,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         energyGraphDialog.setVisible( false );
         super.deactivate();
     }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------

@@ -11,11 +11,17 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.awt.geom.Line2D;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Presents a single U235 nucleus and a potential profile graph in a panel below it. A single neutron is fired at
@@ -25,7 +31,6 @@ import java.util.*;
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
-    private double orgDt;
     private Uranium235 nucleus;
     private Neutron neutron;
     private ArrayList transientModelElements = new ArrayList();
@@ -99,6 +104,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             }
         } );
 
+        // Start things up
+        this.start();
     }
 
     protected java.util.List getLegendClasses() {
@@ -128,16 +135,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getEnergyProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
-    }
-
-    public void activate() {
-        super.activate();
-        this.start();
-    }
-
-    public void deactivate() {
-        super.deactivate(  );
-        this.stop();
     }
 
     /**

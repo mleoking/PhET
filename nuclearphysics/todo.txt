@@ -41,6 +41,8 @@ Controlled Reaction
 ================
 Done not posted
 ================
+- Single nucleus fission energy profile panel has a total energy line. 
+- Fission panel saves state when you tab away from it and back again.
 - Chain reaction panel
     - no orphaned nuclei are left after the containment vessel explodes.
 - Controlled Chain Reaction panel
