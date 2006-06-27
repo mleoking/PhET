@@ -747,10 +747,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
         _controlPanel.setBottomPlotMode( config.loadBottomPlotMode() );  // do this after setting views
         _controlPanel.setParticleMass( _particle.getMass() );
-        _controlPanel.setWellType( config.loadBSelectedWellType() );
+        _controlPanel.setWellType( config.loadSelectedWellType() );
         
         // Module
-        setWellType( config.loadBSelectedWellType() );
+        setWellType( config.loadSelectedWellType() );
         _superpositionCoefficients.setCoefficients( config.getSuperpositionCoefficients() ); // do this after calling setWellType!
     }
     
