@@ -27,8 +27,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
-    private long orgDelay;
-    private double orgDt;
 
     /**
      * Constructor
@@ -58,6 +56,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Add a model element that watches for collisions between neutrons and
         // nuclei
         getModel().addModelElement( new FissionDetector() );
+
+        // Start it up
+        start();
     }
 
     protected List getLegendClasses() {
@@ -69,16 +70,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 LegendPanel.U239
         };
         return Arrays.asList( legendClasses );
-    }
-
-    public void activate() {
-        super.activate();
-        start();
-    }
-
-    public void deactivate() {
-        super.deactivate();
-        stop();
     }
 
     public void start() {
@@ -95,10 +86,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             setContainmentEnabled( true );
         }
         computeNeutronLaunchParams();
-    }
-
-    public void stop() {
-        super.stop();
     }
 
     protected void computeNeutronLaunchParams() {

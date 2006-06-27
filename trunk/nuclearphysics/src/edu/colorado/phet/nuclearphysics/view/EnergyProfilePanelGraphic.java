@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 
@@ -176,21 +177,37 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         // Draw nuclei
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
+        boolean lineDrawn = false;
         while( nucleusIt.hasNext() ) {
             Nucleus nucleus = (Nucleus)nucleusIt.next();
             PhetGraphic ng = (PhetGraphic)profileNucleusMap.get( nucleus );
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
+
+            // A sloppy hack to get a total energy line drawn on the potential energy profile
+            // of the Fission: One Nucleus module
+            if( !lineDrawn ) {
+                g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
+                g2.setColor( EnergyProfileGraphic.totalEnergyColor );
+                g2.drawLine( 0,
+                             (int)( profileTx.getTranslateY() - nucleus.getPotential() ),
+                             getWidth(),
+                             (int)( profileTx.getTranslateY() - nucleus.getPotential() ) );
+                lineDrawn = true;
+            }
+
             nucleusTx.translate( 0, -nucleus.getPotential() );
-
-//            System.out.println( "-nucleus.getPotential() = " + -nucleus.getPotential() );
-
-            nucleusTx.scale( 0.5, 0.5 );
-//            nucleusTx.translate( nucleus.getPosition().getX(), 0 );
+            double scale = 0.5;
+            nucleusTx.scale( scale, scale );
             nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
             g2.transform( nucleusTx );
-            ng.paint( g2 );
+
+            // Ugly hack to clip the nucleus graphic
+            if( nucleus.getPosition().getX() > -getWidth() * scale
+                    && nucleus.getPosition().getX() < getWidth() * scale ) {
+                ng.paint( g2 );
+            }
             g2.setTransform( orgTx );
         }
 
