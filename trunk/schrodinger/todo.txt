@@ -26,9 +26,6 @@ here it could also be done, but very time consuming to implement,
 and would slow down the sim (scales with the size of the boundary).
 >>I checked the x locations of the wave sources, and they are symmetric.
 
-Reset should reset wavelength, velocity,
->>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
-
 I've figured out what the problem is with the asymmetry in the Two 
 Lasers panel in QWI: the center of the left laser is 14 pixels from the 
 left edge of the box and the center of the right laser is only 13 pixels 
@@ -37,13 +34,9 @@ distance from the center of the box, but it's rounding in some weird way
   because there are an odd numbers of pixels (45) in the box.  Can you 
 fix this?
 
-Also, I did another interview on Saturday and there were more problems 
-with asymmetry in the other two panels.  If you make the simulation full 
-screen so it's easy to see the individual pixels, you can see that 
-changing the width and separation of the slits often changes things in 
-very weird asymmetric ways.
-___
-     
+Reset should reset wavelength, velocity,
+>>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
+    
 ############################################
 # Lower Priority
 ########################
