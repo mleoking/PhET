@@ -57,6 +57,10 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             public double getMax() {
                 return ResolutionControl.DEFAULT_WAVE_SIZE / 60.0 - insetY;
             }
+
+            public int getViewValue( Function modelToView ) {
+                return (int)modelToView.evaluate( getValue() );
+            }
         } );
 
 
@@ -76,6 +80,10 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             public double getMax() {
                 return 25 / 60.0;
             }
+
+            public int getViewValue( Function modelToView ) {
+                return (int)modelToView.evaluate( getValue() );
+            }
         } );
 
         slitSeparation = createComponent( "Slit Separation", new Setter() {
@@ -93,6 +101,10 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
 
             public double getMax() {
                 return 30 / 60.0;
+            }
+
+            public int getViewValue( Function modelToView ) {
+                return (int)modelToView.evaluate( getValue() );
             }
         } );
 
@@ -129,7 +141,8 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     private JComponent createComponent( String title, final Setter setter ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( setter.getMin(), setter.getMax(), 0, 100 );
         final Function.LinearFunction viewToModel = new Function.LinearFunction( 0, 100, setter.getMin(), setter.getMax() );
-        int value = (int)modelToView.evaluate( setter.getValue() );
+        int value = setter.getViewValue( modelToView );
+
 //        System.out.println( "title: " + title + "+value = " + value );
         final JSlider comp = new JSlider( 0, 100, value );
         comp.setBorder( BorderFactory.createTitledBorder( title ) );
@@ -140,7 +153,8 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                comp.setValue( (int)modelToView.evaluate( setter.getValue() ) );
+//                comp.setValue( (int)modelToView.evaluate( setter.getValue() ) );
+                comp.setValue( setter.getViewValue( modelToView ) );
             }
         } );
         return comp;
@@ -154,6 +168,8 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         double getMin();
 
         double getMax();
+
+        int getViewValue( Function modelToView );
     }
 
     private QWIModel getDiscreteModel() {

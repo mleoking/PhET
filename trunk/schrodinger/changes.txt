@@ -17,6 +17,7 @@ Two Lasers Panel: Fixed left gun control running off the screen.
 Slider Scales: Width and Separation – currently min width is 3 pixels and min separation is zero.  Set min width to 4 pixels and min separation to 6 pixels.
 Bugfix: If ruler is oriented vertically and I resize the simulation, the close and rotate buttons on the ruler move off the ruler.
 Bugfix: If I put the ruler too far to the right and make the simulation size smaller, the ruler goes off the screen and I can't get it back without resizing.
+Fixed the slit controls so the slit is constrained to be symmetric with respect to slit separation and size.
 
 1.01.03 (6-26-2006)
 Fixed factor of 10 problem: for matter waves, ruler units and units per clock tick on stopwatch are 10x bigger.

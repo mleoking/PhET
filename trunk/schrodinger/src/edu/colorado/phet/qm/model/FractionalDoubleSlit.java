@@ -43,11 +43,17 @@ public class FractionalDoubleSlit {
         QWIModel.getDoubleSlitPotential().setGridWidth( QWIModel.getGridWidth() );
         QWIModel.getDoubleSlitPotential().setGridHeight( QWIModel.getGridHeight() );
         QWIModel.getDoubleSlitPotential().setHeight( round( height * QWIModel.getGridHeight() ) );
-        QWIModel.getDoubleSlitPotential().setSlitSeparation( round( slitSeparation * QWIModel.getGridWidth() ) );
-        int gridWidth = QWIModel.getGridWidth();
-        int slitSize = round( this.slitSize * gridWidth );
-        QWIModel.getDoubleSlitPotential().setSlitSize( slitSize );
+        QWIModel.getDoubleSlitPotential().setSlitSeparation( roundEven( slitSeparation * QWIModel.getGridWidth() ) );
+        QWIModel.getDoubleSlitPotential().setSlitSize( roundEven( this.slitSize * QWIModel.getGridWidth() ) );
         QWIModel.getDoubleSlitPotential().setY( round( y * QWIModel.getGridHeight() ) );
+    }
+
+    private int roundEven( double v ) {
+        int value = round( v );
+        if( value % 2 == 0 ) {
+            value++;
+        }
+        return value;
     }
 
     private int round( double v ) {
