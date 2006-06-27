@@ -87,6 +87,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             }
         } );
+
+        // Start the module. This creates the requisite nucleus, alpha particles, etc.
+        start();
     }
 
     protected java.util.List getLegendClasses() {
@@ -98,16 +101,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 LegendPanel.Pb206
         };
         return Arrays.asList( legendClasses );
-    }
-
-    public void activate() {
-        super.activate();
-        start();
-    }
-
-    public void deactivate() {
-        super.deactivate();
-        stop();
     }
 
     public void start() {

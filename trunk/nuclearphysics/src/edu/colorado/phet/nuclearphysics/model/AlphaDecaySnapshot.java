@@ -55,14 +55,14 @@ public class AlphaDecaySnapshot {
     public void restore() {
         // Remove current model elements that need to be rewound (nuclear particles) or simply removed (kabooms)
         List modelElements = model.getModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
+        for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             if( modelElements.get( i ) instanceof NuclearModelElement ) {
                 NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElements.get( i );
                 if( !nuclearModelElementToSavedState.keySet().contains( nuclearModelElement ) ) {
                     model.removeModelElement( nuclearModelElement );
                 }
             }
-            if( modelElements.get( i ) instanceof Kaboom ) {
+            else if( modelElements.get( i ) instanceof Kaboom ) {
                 Kaboom kaboom = (Kaboom)(ModelElement)modelElements.get( i );
                 kaboom.leaveSystem();
             }
