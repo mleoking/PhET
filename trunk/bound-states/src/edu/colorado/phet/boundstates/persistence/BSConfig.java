@@ -27,7 +27,9 @@ public class BSConfig implements BSSerializable {
     //----------------------------------------------------------------------------
     
     private BSGlobalConfig _globalConfig;
-    private BSModuleConfig _moduleConfig;
+    private BSModuleConfig _oneWellModuleConfig;
+    private BSModuleConfig _twoWellsModuleConfig;
+    private BSModuleConfig _manyWellsModuleConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,7 +40,9 @@ public class BSConfig implements BSSerializable {
      */
     public BSConfig() {
         _globalConfig = new BSGlobalConfig();
-        _moduleConfig = new BSModuleConfig();
+        _oneWellModuleConfig = new BSModuleConfig();
+        _twoWellsModuleConfig = new BSModuleConfig();
+        _manyWellsModuleConfig = new BSModuleConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -53,11 +57,27 @@ public class BSConfig implements BSSerializable {
         return _globalConfig;
     }    
     
-    public void setModuleConfig( BSModuleConfig qtConfig ) {
-        this._moduleConfig = qtConfig;
+    public void setOneWellModuleConfig( BSModuleConfig qtConfig ) {
+        this._oneWellModuleConfig = qtConfig;
     }
     
-    public BSModuleConfig getModuleConfig() {
-        return _moduleConfig;
+    public BSModuleConfig getOneWellModuleConfig() {
+        return _oneWellModuleConfig;
+    }
+    
+    public BSModuleConfig getTwoWellsModuleConfig() {
+        return _twoWellsModuleConfig;
+    }
+    
+    public void setTwoWellsModuleConfig( BSModuleConfig twoModuleConfig ) {
+        _twoWellsModuleConfig = twoModuleConfig;
+    }
+    
+    public BSModuleConfig getManyWellsModuleConfig() {
+        return _manyWellsModuleConfig;
+    }
+
+    public void setManyWellsModuleConfig( BSModuleConfig manyModuleConfig ) {
+        _manyWellsModuleConfig = manyModuleConfig;
     }
 }
