@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - reduce startup time
 
 LOW PRIORITY:
+- help items
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - make plots in bottom chart look smoother on Windows
 - refactor BSAbstractModule, it's too big
