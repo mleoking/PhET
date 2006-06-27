@@ -30,6 +30,8 @@ import edu.colorado.phet.boundstates.util.IntegerRange;
  */
 public class BSTwoWellsSpec extends BSAbstractModuleSpec {
 
+    private static final String ID = "twoWellsModule";
+    
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
     private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
     
@@ -88,6 +90,8 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     public BSTwoWellsSpec() {
         super();
 
+        setId( ID );
+        
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );

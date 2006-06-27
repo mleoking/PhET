@@ -236,16 +236,21 @@ public class BSApplication extends PiccoloPhetApplication {
      * 
      * @param appConfig
      */
-    public void save( BSConfig appConfig ) {
+    public void save( BSGlobalConfig config ) {
         
-        BSGlobalConfig config = appConfig.getGlobalConfig();
-        
-        config.setCvsTag( BSVersion.CVS_TAG );
+        // Version and build information
         config.setVersionNumber( BSVersion.NUMBER );
+        config.setCvsTag( BSVersion.CVS_TAG );
         
         // Color scheme
         config.setColorSchemeName( _colorsMenu.getColorSchemeName() );
         config.setColorScheme( _colorsMenu.getColorScheme() );
+        
+        // Active module
+        Module activeModule = getActiveModule();
+        assert( activeModule instanceof BSAbstractModule ); // all modules are of this type
+        BSAbstractModule module = (BSAbstractModule)activeModule;
+        config.setActiveModuleId( module.getId() );
     }
 
     /**
@@ -253,14 +258,24 @@ public class BSApplication extends PiccoloPhetApplication {
      * 
      * @param appConfig
      */
-    public void load( BSConfig appConfig ) {
-        
-        BSGlobalConfig config = appConfig.getGlobalConfig();
-        
+    public void load( BSGlobalConfig config ) {
+
         // Color scheme
         String colorSchemeName = config.getColorSchemeName();
         BSColorScheme colorScheme = config.getColorScheme().toBSColorScheme();
         _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
+        
+        // Active module
+        String id = config.getActiveModuleId();
+        Module[] modules = getModules();
+        for ( int i = 0; i < modules.length; i++ ) {
+            assert ( modules[i] instanceof BSAbstractModule ); // all module are of this type
+            BSAbstractModule module = (BSAbstractModule) modules[i];
+            if ( id.equals( module.getId() ) ) {
+                setActiveModule( module );
+                break;
+            }
+        }
     }
 
     //----------------------------------------------------------------------------

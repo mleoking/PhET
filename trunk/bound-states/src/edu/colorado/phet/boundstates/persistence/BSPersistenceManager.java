@@ -63,7 +63,7 @@ public class BSPersistenceManager {
         BSConfig config = new BSConfig();
         {
             // Globals 
-            _app.save( config );
+            _app.save( config.getGlobalConfig() );
             
             // One Well module
             BSAbstractModule oneWellModule = _app.getOneWellModule();
@@ -133,7 +133,7 @@ public class BSPersistenceManager {
         BSConfig config = (BSConfig) object;
         try {
             // Global
-            _app.load( config );
+            _app.load( config.getGlobalConfig() );
             
             // One Well module
             BSAbstractModule oneWellModule = _app.getOneWellModule();

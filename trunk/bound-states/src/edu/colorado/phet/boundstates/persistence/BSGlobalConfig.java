@@ -12,6 +12,10 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.module.BSAbstractModule;
+import edu.colorado.phet.boundstates.module.BSManyWellsModule;
+import edu.colorado.phet.boundstates.module.BSOneWellModule;
+import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
 
 
 
@@ -25,6 +29,14 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 public class BSGlobalConfig implements BSSerializable {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final int ONE_WELL_MODULE = 1;
+    public static final int TWO_WELL_MODULE = 2;
+    public static final int MANY_WELL_MODULE = 3;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -32,6 +44,7 @@ public class BSGlobalConfig implements BSSerializable {
     private String _cvsTag;
     private String _colorSchemeName;
     private BSColorSchemeConfig _colorScheme;
+    private String _activeModuleId;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,4 +94,12 @@ public class BSGlobalConfig implements BSSerializable {
     public void setColorScheme( BSColorScheme colorScheme ) {
         setColorScheme( new BSColorSchemeConfig( colorScheme ) );
     }
+
+    public String getActiveModuleId() {
+        return _activeModuleId;
+    }
+    
+    public void setActiveModuleId( String selectedModuleId ) {
+        _activeModuleId = selectedModuleId;
+    }  
 }

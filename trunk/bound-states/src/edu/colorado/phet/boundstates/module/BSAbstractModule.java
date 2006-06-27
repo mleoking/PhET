@@ -133,7 +133,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     
     // Module specification
     private BSAbstractModuleSpec _moduleSpec;
- 
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -142,6 +142,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * Constructor.
      * 
      * @param title
+     * @param moduleSpec
      */
     public BSAbstractModule( String title, BSAbstractModuleSpec moduleSpec ) {
         
@@ -1000,5 +1001,15 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         ZoomSpec zoomSpec = wellSpec.getEnergyZoomSpec();
         _energyZoomControlNode.setVisible( zoomSpec.getNumberOfZoomLevels() > 1 );
         _energyZoomControl.setZoomSpec( zoomSpec );
+    }
+    
+    /**
+     * Gets the unique identifier that identifies this module,
+     * used by the Save/Load feature to restore module selection.
+     * 
+     * @return
+     */
+    public String getId() {
+        return _moduleSpec.getId();
     }
 }

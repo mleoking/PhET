@@ -24,6 +24,8 @@ import edu.colorado.phet.boundstates.util.IntegerRange;
  */
 public abstract class BSAbstractModuleSpec {
 
+    private String _id;
+    
     private BSWellType[] _wellTypes;
     private BSWellType _defaultWellType;
 
@@ -46,6 +48,14 @@ public abstract class BSAbstractModuleSpec {
     private double _magnification;
     
     public BSAbstractModuleSpec() {}
+    
+    public String getId() {
+        return _id;
+    }
+    
+    public void setId( String id ) {
+        _id = id;
+    }
     
     public boolean isOffsetControlSupported() {
         return _offsetControlSupported;
