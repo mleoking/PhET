@@ -12,7 +12,10 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.view.Kaboom;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,7 @@ import java.awt.geom.Point2D;
 
 /**
  * AlphaDecaySnapshot
- * <p>
+ * <p/>
  * An object that saves and restores the state of the NuclearModelElements in at a point in time
  *
  * @author Ron LeMaster
@@ -46,12 +49,22 @@ public class AlphaDecaySnapshot {
         }
     }
 
+    /**
+     * Restores key elements of the model to their state immediately before the decay
+     */
     public void restore() {
-        List modelElements = model.getNuclearModelElements();
+        // Remove current model elements that need to be rewound (nuclear particles) or simply removed (kabooms)
+        List modelElements = model.getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
-            NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElements.get( i );
-            if( !nuclearModelElementToSavedState.keySet().contains( nuclearModelElement ) ) {
-                model.removeModelElement( nuclearModelElement );
+            if( modelElements.get( i ) instanceof NuclearModelElement ) {
+                NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElements.get( i );
+                if( !nuclearModelElementToSavedState.keySet().contains( nuclearModelElement ) ) {
+                    model.removeModelElement( nuclearModelElement );
+                }
+            }
+            if( modelElements.get( i ) instanceof Kaboom ) {
+                Kaboom kaboom = (Kaboom)(ModelElement)modelElements.get( i );
+                kaboom.leaveSystem();
             }
         }
 
@@ -104,7 +117,7 @@ public class AlphaDecaySnapshot {
             return 0;
         }
 
-        void restore( NuclearModelElement nuclearModelElement) {
+        void restore( NuclearModelElement nuclearModelElement ) {
             nuclearModelElement.setPosition( new Point2D.Double( getPosition().getX(),
                                                                  getPosition().getY() ) );
             nuclearModelElement.setVelocity( new Vector2D.Double( getVelocity() ) );
@@ -128,9 +141,9 @@ public class AlphaDecaySnapshot {
             return parentNucleus;
         }
 
-        void restore( NuclearModelElement nuclearModelElement) {
+        void restore( NuclearModelElement nuclearModelElement ) {
             super.restore( nuclearModelElement );
-            ((AlphaParticle)nuclearModelElement).setNucleus( parentNucleus );
+            ( (AlphaParticle)nuclearModelElement ).setNucleus( parentNucleus );
         }
     }
 }
