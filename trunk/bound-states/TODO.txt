@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- persistence doesn't save which Colors menu item is selected
 - persistence doesn't save which panel is selected
 
 HIGH PRIORITY:
