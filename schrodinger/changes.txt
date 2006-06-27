@@ -1,3 +1,6 @@
+1.01.05 (6-27-2006)
+Added save/load of double-slits.
+
 1.01.04 (6-27-2006)
 2 Lasers Panel:
     Actual wavelength of light should change as you move wavelength slider.

@@ -2,7 +2,10 @@
 # Remaining Work
 ########################
 
-Add a check to prevent from overwriting system files when saving..?
+Add a check to prevent from overwriting system files when saving..?  There is a confirm message, but it doesn't say anything about overwriting a file.
+
+Add save/load of detectors embedded in double-slits?
+>>Could be difficult because a save in one panel and load in the second panel could be inconsistent.
 
 2-lasers panel seems asymmetric since beams can get out of phase.
 
