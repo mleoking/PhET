@@ -22,13 +22,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.jfree.base.modules.AbstractModule;
-
 import edu.colorado.phet.boundstates.BSApplication;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.util.DialogUtils;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
