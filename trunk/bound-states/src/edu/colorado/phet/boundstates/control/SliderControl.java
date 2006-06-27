@@ -235,7 +235,8 @@ public class SliderControl extends JPanel {
             }
             else {
                 warnUser();
-                System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + value );
+                System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " 
+                        + "range is " + _min + " to " + _max + ", tried to set " + value );
                 updateView(); // revert
             }
         }
