@@ -15,9 +15,15 @@ import java.util.*;
 public class NuclearPhysicsModel extends BaseModel {
     private List nuclearModelElements = new ArrayList();
     private List neutrons = new ArrayList();
+    private List modelElements = new ArrayList();
+
+    public List getModelElements() {
+        return modelElements;
+    }
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
+        modelElements.remove( modelElement );
         if( modelElement instanceof NuclearModelElement ) {
             NuclearModelElement nuclearModelElement = (NuclearModelElement)modelElement;
             nuclearModelElements.remove( nuclearModelElement );
@@ -35,6 +41,7 @@ public class NuclearPhysicsModel extends BaseModel {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
+        modelElements.add( modelElement );
         if( modelElement instanceof NuclearModelElement ) {
             nuclearModelElements.add( modelElement );
         }
@@ -63,6 +70,7 @@ public class NuclearPhysicsModel extends BaseModel {
     public List getNeutrons() {
         return neutrons;
     }
+
 
     //--------------------------------------------------------------------------------------------------
     // ChangeListener definition
