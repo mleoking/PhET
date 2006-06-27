@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
-- bug: need a different ModuleConfig subclass for each module
 - bug: assertion error when loading config for all 3 panels
 - bug: magnifying glass is always selected when loading a 3-panel config, OK when only 1 panel
 - verify that datasets are updated only when absolutely necessary
