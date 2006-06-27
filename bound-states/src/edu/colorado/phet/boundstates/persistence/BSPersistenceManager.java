@@ -69,12 +69,25 @@ public class BSPersistenceManager {
             // Globals 
             _app.save( config );
             
-            // Modules
-            Module[] modules = _app.getModules();
-            for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof BSAbstractModule ) {
-                    ( (BSAbstractModule) modules[i] ).save( config );
-                }
+            // One Well module
+            BSAbstractModule oneWellModule = _app.getOneWellModule();
+            if ( oneWellModule != null ) {
+                BSModuleConfig oneWellModuleConfig = config.getOneWellModuleConfig();
+                oneWellModule.save( oneWellModuleConfig );
+            }
+            
+            // Two Wells module
+            BSAbstractModule twoWellsModule = _app.getOneWellModule();
+            if ( twoWellsModule != null ) {
+                BSModuleConfig twoWellsModuleConfig = config.getTwoWellsModuleConfig();
+                twoWellsModule.save( twoWellsModuleConfig );
+            }
+            
+            // Many Wells module
+            BSAbstractModule manyWellsModule = _app.getOneWellModule();
+            if ( manyWellsModule != null ) {
+                BSModuleConfig manyWellsModuleConfig = config.getManyWellsModuleConfig();
+                manyWellsModule.save( manyWellsModuleConfig );
             }
         }
         
@@ -126,12 +139,25 @@ public class BSPersistenceManager {
             // Global
             _app.load( config );
             
-            // Modules
-            Module[] modules = _app.getModules();
-            for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof BSAbstractModule ) {
-                    ( (BSAbstractModule) modules[i] ).load( config );
-                }
+            // One Well module
+            BSAbstractModule oneWellModule = _app.getOneWellModule();
+            if ( oneWellModule != null ) {
+                BSModuleConfig oneWellModuleConfig = config.getOneWellModuleConfig();
+                oneWellModule.load( oneWellModuleConfig );
+            }
+            
+            // Two Wells module
+            BSAbstractModule twoWellsModule = _app.getOneWellModule();
+            if ( twoWellsModule != null ) {
+                BSModuleConfig twoWellsModuleConfig = config.getTwoWellsModuleConfig();
+                twoWellsModule.load( twoWellsModuleConfig );
+            }
+            
+            // Many Wells module
+            BSAbstractModule manyWellsModule = _app.getOneWellModule();
+            if ( manyWellsModule != null ) {
+                BSModuleConfig manyWellsModuleConfig = config.getManyWellsModuleConfig();
+                manyWellsModule.load( manyWellsModuleConfig );
             }
         }
         catch ( Exception e ) {

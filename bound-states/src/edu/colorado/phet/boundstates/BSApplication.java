@@ -206,6 +206,18 @@ public class BSApplication extends PiccoloPhetApplication {
         }
     }
     
+    public BSAbstractModule getOneWellModule() {
+        return _oneWellModule;
+    }
+    
+    public BSAbstractModule getTwoWellsModule() {
+        return _twoWellsModule;
+    }
+    
+    public BSAbstractModule getManyWellsModule() {
+        return _manyWellsModule;
+    }
+    
     //----------------------------------------------------------------------------
     // PhetApplication overrides
     //----------------------------------------------------------------------------

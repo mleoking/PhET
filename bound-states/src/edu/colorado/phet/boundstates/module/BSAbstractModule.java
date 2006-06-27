@@ -673,8 +673,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * 
      * @param appConfig
      */
-    public void save( BSConfig appConfig ) {
-        BSModuleConfig config = appConfig.getModuleConfig();
+    public void save( BSModuleConfig config ) {
         
         // Clock
         config.setClockRunning( getClock().isRunning() );
@@ -703,10 +702,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     /**
      * Loads the module's configuration by reading it from a provided configuration object.
      * 
-     * @param appConfig
+     * @param config
      */
-    public void load( BSConfig appConfig ) {
-        BSModuleConfig config = appConfig.getModuleConfig();
+    public void load( BSModuleConfig config ) {
         
         // Clock
         if ( config.isClockRunning() ) {
