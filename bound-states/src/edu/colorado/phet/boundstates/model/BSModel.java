@@ -95,6 +95,7 @@ public class BSModel extends BSObservable implements Observer {
     }
     
     public void setSuperpositionCoefficients( BSSuperpositionCoefficients superpositionCoefficients ) {
+        assert( superpositionCoefficients.getNumberOfCoefficients() == _eigenstates.length );
         if ( superpositionCoefficients != _superpositionCoefficients ) {
             if ( _superpositionCoefficients != null ) {
                 _superpositionCoefficients.deleteObserver( this );
