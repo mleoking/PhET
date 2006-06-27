@@ -248,6 +248,7 @@ public class QWIPanel extends PhetPCanvas {
             }
             else {
                 return new PhotonColorMap( this, photon.getWavelengthNM(), waveValueAccessor );
+//                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
             }
         }
         else {

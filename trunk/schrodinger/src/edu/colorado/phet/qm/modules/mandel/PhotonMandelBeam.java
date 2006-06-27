@@ -23,7 +23,7 @@ public class PhotonMandelBeam extends PhotonBeam {
 
     protected PhotonWave createCylinderWave() {
         if( doublePhotonWave == null ) {
-            this.doublePhotonWave = new DoublePhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+            this.doublePhotonWave = new DoublePhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel(), this );
         }
         return doublePhotonWave;
     }

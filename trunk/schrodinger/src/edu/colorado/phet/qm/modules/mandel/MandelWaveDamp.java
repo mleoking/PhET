@@ -15,8 +15,7 @@ public class MandelWaveDamp {
     private Wave wave;
     private double intensity;
     private int x0;
-    private double dxLattice = 4;
-//    private double dxLattice = 30;
+    private double dxLattice;
 
     public MandelWaveDamp( int x0, Wave wave, double intensity, int waveWidth ) {
         this.x0 = x0;
