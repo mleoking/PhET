@@ -116,7 +116,7 @@ public class PersistenceManager {
 
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "title.save" ) );
+        fileChooser.setDialogTitle( "Save" );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -128,8 +128,8 @@ public class PersistenceManager {
 
         // If the file exists, confirm overwrite.
         if( selectedFile.exists() ) {
-            String title = SimStrings.get( "title.confirm" );
-            String message = SimStrings.get( "Save.confirm.message" );
+            String title = "Confirm";
+            String message = "Confirm save?";
             int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
             if( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -168,7 +168,7 @@ public class PersistenceManager {
 
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "title.load" ) );
+        fileChooser.setDialogTitle( "Load File" );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -316,7 +316,7 @@ public class PersistenceManager {
      */
     public void showError( String format, String errorMessage ) {
         Window frame = getFrame();
-        String title = SimStrings.get( "title.error" );
+        String title = "Error";
         Object[] args = {errorMessage};
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

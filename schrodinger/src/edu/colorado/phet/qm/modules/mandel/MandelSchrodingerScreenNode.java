@@ -23,7 +23,7 @@ public class MandelSchrodingerScreenNode extends QWIScreenNode {
     protected double getWavefunctionGraphicX( double availableWidth ) {
 //        double x = mandelModule.getMandelSchrodingerPanel().getMandelGunSet().getLeftGun().getGunControlPanelPSwing().getFullBounds().getWidth();
 //        return Math.max( x, 150 );
-        return 150;
+        return 168;
     }
 
 //    protected double getLayoutMinX() {

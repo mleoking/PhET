@@ -2,6 +2,8 @@
 # Remaining Work
 ########################
 
+Add a check to prevent from overwriting system files when saving..?
+
 2-lasers panel seems asymmetric since beams can get out of phase.
 
 •	Fix save/load.

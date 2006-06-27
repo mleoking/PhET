@@ -4,6 +4,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
+import edu.colorado.phet.qm.model.FractionalDoubleSlit;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 public class QWIState implements Serializable {
     private ArrayList detectorList = new ArrayList();
     private ArrayList rectBarrierList = new ArrayList();
+    private DoubleSlitState doubleSlitState;
+    private boolean doubleSlitEnabled;
 
     public QWIState() {
     }
@@ -40,6 +43,80 @@ public class QWIState implements Serializable {
             if( pot instanceof RectangularPotential ) {
                 rectBarrierList.add( new RectBarrierState( (RectangularPotential)pot ) );
             }
+        }
+        this.doubleSlitState = new DoubleSlitState( qwiModule.getQWIModel().getFractionalDoubleSlit() );
+        this.doubleSlitEnabled = qwiModule.getQWIModel().isDoubleSlitEnabled();
+    }
+
+    public DoubleSlitState getDoubleSlitState() {
+        return doubleSlitState;
+    }
+
+    public void setDoubleSlitState( DoubleSlitState doubleSlitState ) {
+        this.doubleSlitState = doubleSlitState;
+    }
+
+    public boolean isDoubleSlitEnabled() {
+        return doubleSlitEnabled;
+    }
+
+    public void setDoubleSlitEnabled( boolean doubleSlitEnabled ) {
+        this.doubleSlitEnabled = doubleSlitEnabled;
+    }
+
+    public static class DoubleSlitState {
+        private double height;
+        private double separation;
+        private double size;
+        private double y;
+
+        public DoubleSlitState() {
+        }
+
+        public DoubleSlitState( FractionalDoubleSlit doubleSlitPotential ) {
+            this.height = doubleSlitPotential.getHeight();
+            this.separation = doubleSlitPotential.getSlitSeparation();
+            this.size = doubleSlitPotential.getSlitSize();
+            this.y = doubleSlitPotential.getY();
+        }
+
+        public double getHeight() {
+            return height;
+        }
+
+        public void setHeight( double height ) {
+            this.height = height;
+        }
+
+        public double getSeparation() {
+            return separation;
+        }
+
+        public void setSeparation( double separation ) {
+            this.separation = separation;
+        }
+
+        public double getSize() {
+            return size;
+        }
+
+        public void setSize( double size ) {
+            this.size = size;
+        }
+
+        public double getY() {
+            return y;
+        }
+
+        public void setY( double y ) {
+            this.y = y;
+        }
+
+        public void restore( FractionalDoubleSlit fractionalDoubleSlit ) {
+            fractionalDoubleSlit.setHeight( height );
+            fractionalDoubleSlit.setSlitSeparation( separation );
+            fractionalDoubleSlit.setSlitSize( size );
+            fractionalDoubleSlit.setY( y );
         }
     }
 
@@ -64,6 +141,7 @@ public class QWIState implements Serializable {
     }
 
     public void restore( QWIModule qwiModule ) {
+        qwiModule.getQWIModel().setDoubleSlitEnabled( false );
         qwiModule.removeAllDetectors();
         qwiModule.removeAllPotentialBarriers();
 //        schrodingerModule.addPotential();
@@ -80,6 +158,8 @@ public class QWIState implements Serializable {
             qwiModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( qwiModule.getSchrodingerPanel(), potential ) );
             qwiModule.getQWIModel().addPotential( potential );
         }
+        doubleSlitState.restore( qwiModule.getQWIModel().getFractionalDoubleSlit() );
+        qwiModule.getQWIModel().setDoubleSlitEnabled( doubleSlitEnabled );
     }
 
     public static class SerializableRect implements Serializable {
