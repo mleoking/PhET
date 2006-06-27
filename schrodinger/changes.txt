@@ -1,4 +1,4 @@
-1.01.04
+1.01.04 (6-27-2006)
 Changed format for helium max and min to 0.0 (not 0.000)
 Changed “Show Observable” to “Show Expectation Value”
 Removed “Print Model Parameter” menu item
@@ -13,6 +13,9 @@ In High Intensity panel, changed “Advanced” to “Potential Barriers.”
 In Single Particles panel, break up “Advanced” into two buttons: “Potential Barriers” and “Detectors”
 Default configuration should be for the lasers to be different colors, say blue and red – use a bright red, not the dark color at the far right end of the spectrum.
 2 Lasers: Actual wavelength of light should change as you move wavelength slider.
+Two Lasers Panel: Fixed left gun control running off the screen.
+Slider Scales: Width and Separation – currently min width is 3 pixels and min separation is zero.  Set min width to 4 pixels and min separation to 6 pixels.
+Bugfix: If ruler is oriented vertically and I resize the simulation, the close and rotate buttons on the ruler move off the ruler.
 
 1.01.03 (6-26-2006)
 Fixed factor of 10 problem: for matter waves, ruler units and units per clock tick on stopwatch are 10x bigger.

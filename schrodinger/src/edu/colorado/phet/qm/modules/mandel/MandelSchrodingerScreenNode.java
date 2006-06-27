@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
@@ -13,12 +12,24 @@ import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
  */
 
 public class MandelSchrodingerScreenNode extends QWIScreenNode {
-    public MandelSchrodingerScreenNode( QWIModule module, QWIPanel QWIPanel ) {
+    private MandelModule mandelModule;
+
+    public MandelSchrodingerScreenNode( MandelModule module, QWIPanel QWIPanel ) {
         super( module, QWIPanel );
         getDetectorSheetPNode().setTitle( "Black & White Screen" );
+        this.mandelModule = module;
     }
 
     protected double getWavefunctionGraphicX( double availableWidth ) {
-        return 140;
+//        double x = mandelModule.getMandelSchrodingerPanel().getMandelGunSet().getLeftGun().getGunControlPanelPSwing().getFullBounds().getWidth();
+//        return Math.max( x, 150 );
+        return 150;
     }
+
+//    protected double getLayoutMinX() {
+//        double sx = super.getLayoutMinX();
+//        double ax = mandelModule.getMandelSchrodingerPanel().getMandelGunSet().getLeftGun().getGunControlPanelPSwing().getFullBounds().getX();
+//        System.out.println( "sx = " + sx +", ax="+ax);
+//        return Math.min(sx,ax );
+//    }
 }
