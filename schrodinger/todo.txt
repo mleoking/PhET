@@ -130,3 +130,8 @@ down to the location that it sits in now.
 
 In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
       >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
+      
+Detectors in Single Particles Panel:
+      •	Each time a detection event occurs, make a note come up that says either “Detection: the _____ is in the detector!” or “Detection: the ______ is NOT in the detector!” where _____ is photon, electrons, etc.
+      >>Scratched because we don't know how to handle multiple detectors yet.
+      
