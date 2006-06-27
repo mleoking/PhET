@@ -41,17 +41,16 @@ Controlled Reaction
 ================
 Done not posted
 ================
-- Single nucleus fission energy profile panel has a total energy line. 
-- Fission panel saves state when you tab away from it and back again.
+- Panels save state properly when you tab away from and back to them    (0:45) 
+- Single nucleus fission energy profile panel has a total energy line.  (1:00)
 - Chain reaction panel
-    - no orphaned nuclei are left after the containment vessel explodes.
+    - no orphaned nuclei are left after the containment vessel explodes.    (0:30)
 - Controlled Chain Reaction panel
-    - Added legend
-    - Fire Neutrons button is always enabled
-- Changed colors of energy profiles to conform to QT
-- Now consistent when you have rewound and then move back and forth between the alpha radiation tab and the fission tab.
-- put the Rewind to last decay button at the bottom next to the play button.
-- kabooms are removed from simulation on rewind of alpha decay
+    - Added legend                                                          (0:15)
+    - Fire Neutrons button is always enabled                                (0:15)
+- Changed colors of energy profiles to conform to QT                        (0:15)
+- put the Rewind to last decay button at the bottom next to the play button.(0:30)
+- kabooms are removed from simulation on rewind of alpha decay              (0:30)
 
 ================
 1.08.10

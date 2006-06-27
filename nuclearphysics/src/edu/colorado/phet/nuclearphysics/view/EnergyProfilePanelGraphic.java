@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -125,11 +122,18 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );
         PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
                                                                border,
-                                                               EnergyProfilePanelGraphic.backgroundColor,
-                                                               new BasicStroke( 10 ),
-                                                               Color.gray );
+                                                               EnergyProfilePanelGraphic.backgroundColor
+//                                                               new BasicStroke( 10 ),
+//                                                               Color.gray );
+);
         addGraphic( borderGraphic, 0 );
-        setClip( border );
+
+
+        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png");
+        addGraphic( bezel, 1E9);
+        bezel.setLocation( -10,-10 );
+        setClip( bezel.getBounds() );
+//        setClip( border );
     }
 
     private void setOrgFields() {
