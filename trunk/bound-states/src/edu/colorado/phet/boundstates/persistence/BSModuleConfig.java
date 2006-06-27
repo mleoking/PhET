@@ -221,7 +221,11 @@ public class BSModuleConfig implements BSSerializable {
     }
     
     public BSAsymmetricWell loadAsymmetricPotential( BSParticle particle ) {
-        return _asymmetricConfig.toPotential( particle );
+        BSAsymmetricWell potential = null;
+        if ( _asymmetricConfig != null ) {
+            potential = _asymmetricConfig.toPotential( particle );
+        }
+        return potential;
     }
     
     public void saveAsymmetricPotential( BSAsymmetricWell potential ) {
@@ -231,7 +235,11 @@ public class BSModuleConfig implements BSSerializable {
     }
     
     public BSCoulomb1DWells loadCoulomb1DPotential( BSParticle particle ) {
-        return _coulomb1DConfig.toPotential( particle );
+        BSCoulomb1DWells potential = null;
+        if ( _coulomb1DConfig != null ) {
+            potential = _coulomb1DConfig.toPotential( particle );
+        }
+        return potential;
     }
     
     public void saveCoulomb1DPotential( BSCoulomb1DWells potential ) {
@@ -241,7 +249,11 @@ public class BSModuleConfig implements BSSerializable {
     }
     
     public BSCoulomb3DWell loadCoulomb3DPotential( BSParticle particle ) {
-        return _coulomb3DConfig.toPotential( particle );
+        BSCoulomb3DWell potential = null;
+        if ( _coulomb3DConfig != null ) {
+            potential = _coulomb3DConfig.toPotential( particle );
+        }
+        return potential;
     }
     
     public void saveCoulomb3DPotential( BSCoulomb3DWell potential ) {
@@ -251,9 +263,13 @@ public class BSModuleConfig implements BSSerializable {
     }
     
     public BSHarmonicOscillatorWell loadHarmonicOscillatorPotential( BSParticle particle ) {
-        return _harmonicOscillatorConfig.toPotential( particle );
+        BSHarmonicOscillatorWell potential = null;
+        if ( _harmonicOscillatorConfig != null ) {
+            potential = _harmonicOscillatorConfig.toPotential( particle );
+        }
+        return potential;
     }
-    
+
     public void saveHarmonicOscillatorPotential( BSHarmonicOscillatorWell potential ) {
         if ( potential != null ) {
             setHarmonicOscillatorConfig( new BSHarmonicOscillatorConfig( potential ) );
@@ -261,7 +277,11 @@ public class BSModuleConfig implements BSSerializable {
     }
     
     public BSSquareWells loadSquarePotential( BSParticle particle ) {
-        return _squareConfig.toPotential( particle );
+        BSSquareWells potential = null;
+        if ( _squareConfig != null ) {
+            potential = _squareConfig.toPotential( particle );
+        }
+        return potential;
     }
     
     public void saveSquarePotential( BSSquareWells potential ) {
