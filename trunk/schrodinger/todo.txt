@@ -136,4 +136,5 @@ In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolut
 Detectors in Single Particles Panel:
       •	Each time a detection event occurs, make a note come up that says either “Detection: the _____ is in the detector!” or “Detection: the ______ is NOT in the detector!” where _____ is photon, electrons, etc.
       >>Scratched because we don't know how to handle multiple detectors yet.
-      
+
+"Copy Screen" instances shouldn't appear on top of one another.
