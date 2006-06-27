@@ -51,7 +51,6 @@ public class QWIApplication extends PiccoloPhetApplication {
                 QWIModule qwiModule = getActiveSchrodingerModule();
                 new PersistenceManager( qwiModule.getSchrodingerPanel() ).save( new QWIState( qwiModule ) );
             }
-
         } );
         getPhetFrame().addFileMenuItem( save );
 
