@@ -37,14 +37,16 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     public static ProfileType POTENTIAL_ENERGY = new ProfileType();
 
 
-    public static Color potentialProfileColor = Color.blue;
+    public static Color potentialProfileColor = new Color(178,25,205);
+//    public static Color potentialProfileColor = Color.blue;
     public static Stroke potentialProfileStroke = new BasicStroke( 2f );
     private static float miterLimit = 10f;
     private static float[] dashPattern = {10f};
     private static float dashPhase = 0f;
-    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
-                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
-    public static Color totalEnergyColor = Color.red;
+//    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
+//                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+    public static Stroke totalEnergyStroke = new BasicStroke( 2f );
+    public static Color totalEnergyColor = Color.green;
 
     private static ImageObserver imgObs = new ImageObserver() {
         public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {

@@ -125,7 +125,8 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     protected List getLegendClasses() {
         Object[] legendClasses = new Object[]{
-                // no legend
+                LegendPanel.NEUTRON,
+                LegendPanel.U235,
         };
         return Arrays.asList( legendClasses );
     }

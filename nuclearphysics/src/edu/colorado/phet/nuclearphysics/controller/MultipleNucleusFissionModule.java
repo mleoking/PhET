@@ -32,6 +32,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     /**
      * Constructor
+     *
      * @param clock
      */
     public MultipleNucleusFissionModule( IClock clock ) {
@@ -40,7 +41,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     protected void init() {
         super.init();
-        
+
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
@@ -137,8 +138,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // containment explodes
         containment.addChangeListener( new Containment.ChangeListener() {
             public void containmentExploded( Containment.ChangeEvent event ) {
-                ExplodingContainmentGraphic ecg = new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this,
-                                                                                   containmentGraphic );
+                // The following constructor Creates a graphic AND ADDS IT TO THE APPARATUS PANEL
+                new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic );
                 getPhysicalPanel().removeGraphic( containmentGraphic );
             }
         } );

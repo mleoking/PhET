@@ -32,8 +32,15 @@ import java.awt.geom.*;
  * <p/>
  *  according to Kathy Perkins' notes, k = 8.99E3
  * </pre>
+ * <p>
+ * <h2>IMPORTANT NOTE!!!</h2>
+ * <p>
+ * Currently, this class is sort of screwed up between model and view units. Internally,
+ * all computations are done in model units. All getters, however, report things in
+ * view units. This should definitely be changed so that everything comes out in model units.
+ *
  */
-public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
+public class EnergyProfile implements IEnergyProfile {
 
     private static double alphaParticleKE = 7.595;
 
@@ -63,6 +70,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      * @return
      */
     public double getTotalEnergy() {
+//        double energy = alphaParticleKE * Config.modelToViewMeV;
         double energy = ( 100 + minEnergy + alphaParticleKE ) * Config.modelToViewMeV;
         return energy;
     }
@@ -124,10 +132,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
         // Width of entire profile, in pixels
         double profileWidth = 800;
         double nucleausRadiusTemp = 7.12E-15;
-//        double minPE = -100;
-
         minEnergy = nucleus.getMinPotentialEnergy();
-//        minEnergy = minPE;
 
         // Draw the right side of the profile
         GeneralPath potentialPath = new GeneralPath();
@@ -143,6 +148,7 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
             potentialPath.lineTo( (float)( r * Config.modelToViewDist ),
                                   (float)( -y * Config.modelToViewMeV ) );
         }
+
         // Make a copy of the path and reflect it horizontally
         GeneralPath otherHalfOfPath = new GeneralPath( potentialPath );
         otherHalfOfPath.transform( AffineTransform.getScaleInstance( -1, 1 ) );
@@ -152,9 +158,6 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
 
         // Generate the line for the total energy
         totalEnergyPath = new Line2D.Double( -2000, -getTotalEnergy(), 2000, -getTotalEnergy() );
-
-        // Tell everyone we've changed
-        notifyObservers();
     }
 
     public GeneralPath getPotentialEnergyPath() {
@@ -187,14 +190,6 @@ public class EnergyProfile extends SimpleObservable implements IEnergyProfile {
      */
     public double getHillY( double x ) {
         return getPe( x / Config.modelToViewDist );
-    }
-
-    /**
-     * Shapes the profile based on the makeup of the nucleus
-     */
-    public void update() {
-//        this.width = Config.defaultProfileWidth;
-//            generate();
     }
 
     public double getDyDx( double v ) {

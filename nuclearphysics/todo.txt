@@ -41,7 +41,13 @@ Controlled Reaction
 ================
 Done not posted
 ================
-- Now consistent when you have rewound and then move back and forth between the alpha radiation tab and the fission tab. 
+- Chain reaction panel
+    - no orphaned nuclei are left after the containment vessel explodes.
+- Controlled Chain Reaction panel
+    - Added legend
+    - Fire Neutrons button is always enabled
+- Changed colors of energy profiles to conform to QT
+- Now consistent when you have rewound and then move back and forth between the alpha radiation tab and the fission tab.
 - put the Rewind to last decay button at the bottom next to the play button.
 - kabooms are removed from simulation on rewind of alpha decay
 

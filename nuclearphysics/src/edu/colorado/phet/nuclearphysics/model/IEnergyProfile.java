@@ -22,7 +22,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface IEnergyProfile extends IProfile, SimpleObserver {
+public interface IEnergyProfile {
     double getWidth();
 
     double getMinEnergy();
