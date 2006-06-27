@@ -213,7 +213,7 @@ public class BSModuleConfig implements BSSerializable {
         setBottomPlotModeName( bottomPlotMode.getName() );
     }
     
-    public BSWellType loadBSelectedWellType() {
+    public BSWellType loadSelectedWellType() {
         return BSWellType.getByName( _selectedWellTypeName );
     }
     
