@@ -9,7 +9,7 @@ HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 
 MEDIUM PRIORITY:
-- verify that datasets are updated only when absolutely necessary
+- verify that time-independent wave functions are recomputed only when necessary
 - reduce startup time
 - attach a help item to one of the potential drag handles
 - help items don't fully draw when clock is running (Mac only?)
