@@ -187,6 +187,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _chart.setBackgroundPaint( BSConstants.CANVAS_BACKGROUND );
             
             _chartNode = new BSCombinedChartNode( _chart );
+            _chartNode.setPickable( false );
+            _chartNode.setChildrenPickable( false );
             _parentNode.addChild( _chartNode );
         }
         
@@ -226,11 +228,15 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             
             _energyPlotNode = new XYPlotNode( _energyPlot );
             _energyPlotNode.setRenderingHints( renderingHints );
+            _energyPlotNode.setPickable( false );
+            _energyPlotNode.setChildrenPickable( false );
             _energyPlotNode.setName( "energyPlotNode" ); // debug
             _parentNode.addChild( _energyPlotNode );
 
             _bottomPlotNode = new XYPlotNode( _bottomPlot );
             _bottomPlotNode.setRenderingHints( renderingHints );
+            _bottomPlotNode.setPickable( false );
+            _bottomPlotNode.setChildrenPickable( false );
             _bottomPlotNode.setName( "bottomPlotNode" ); // debug
             _parentNode.addChild( _bottomPlotNode );
         }
