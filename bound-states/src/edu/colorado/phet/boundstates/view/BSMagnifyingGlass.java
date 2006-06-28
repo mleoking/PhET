@@ -316,6 +316,16 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         updateDisplay();
     }
     
+    /**
+     * Gets a reference to the "parts" node, for attaching a help item.
+     * Clients should NOT change this node.
+     * 
+     * @return
+     */
+    public PNode getPartsNode() {
+        return _partsNode;
+    }
+    
     //----------------------------------------------------------------------------
     // Overrides
     //----------------------------------------------------------------------------
