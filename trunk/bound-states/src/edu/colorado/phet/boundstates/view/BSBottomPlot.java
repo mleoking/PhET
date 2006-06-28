@@ -441,10 +441,12 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         clearTimeDependentSeries();
         Complex[] psiSum = computeTimeDependentWaveFunction( t );
         if ( psiSum != null ) {
+            
             final double minX = _cache.getMinPosition();
             final double maxX = _cache.getMaxPosition();
             Point2D[] points = _cache.getItem( 0 ).getPoints(); // all wave functions should share the same x values
             assert ( psiSum.length == points.length );
+            
             for ( int i = 0; i < psiSum.length; i++ ) {
                 final double x = points[i].getX();
                 if ( x >= minX && x <= maxX ) {
