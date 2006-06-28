@@ -97,6 +97,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     // View
     private PhetPCanvas _canvas;
     private Dimension _initialCanvasSize; // the first non-zero canvas size
+    private Dimension _previousCanvasSize; // the previous canvas size
     private PNode _parentNode;
     private BSEnergyLegend _legend;
     private BSCombinedChart _chart;
@@ -173,6 +174,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _canvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             _canvas.setBackground( BSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
+            
+            _previousCanvasSize = new Dimension();
         }
         
         // Root of our scene graph
@@ -335,7 +338,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void layoutCanvas() {
 
         Dimension canvasSize = _canvas.getSize();
-        if ( canvasSize.getWidth() == 0 || canvasSize.getHeight() == 0 ) {
+        
+        // Do nothing if the canvas has a bogus, typically during startup.
+        if ( canvasSize.getWidth() <= 0 || canvasSize.getHeight() <= 0 ) {
             return;
         }
         
@@ -343,6 +348,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( _initialCanvasSize == null ) {
             _initialCanvasSize = canvasSize;
         }
+        
+        // Do nothing if the canvas size hasn't changed, typically during startup.
+        if ( canvasSize.equals( _previousCanvasSize ) ) {
+            return;
+        }
+        _previousCanvasSize.setSize( canvasSize );
         
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
