@@ -40,9 +40,6 @@ public class DefaultGunParticle extends GunParticle {
 
     private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
-//        velocitySlider.setLabelTable( createLabels( velocitySlider ) );
-//        velocitySlider.setPaintLabels( true );
-//        velocitySlider.setBorder( BorderFactory.createTitledBorder( new LineBorder( Color.white,1,true),"Velocity" , TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,new Font( "Lucida Sans",Font.BOLD, 10),Color.white ) );
         TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), "Velocity", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( "Lucida Sans", Font.BOLD, 12 ), Color.white ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -50,7 +47,6 @@ public class DefaultGunParticle extends GunParticle {
                 super.paintBorder( c, g, x, y, width, height );
             }
         };
-//        velocitySlider.setBorder( BorderFactory.createTitledBorder( new LineBorder( Color.white,1,true),"Velocity" , TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,new Font( "Lucida Sans",Font.BOLD, 12),Color.white ) );
 
         controlPanel = new VerticalLayoutPanel();
         controlPanel.addFullWidth( velocitySlider );
