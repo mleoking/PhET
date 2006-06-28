@@ -43,6 +43,7 @@ CLEANUP:
 
 
 DONE:
+(6/28/06) - remove decimal place from all ranges on for the Energy chart's Y axis
 (6/28/06) - reuse psiSum[] in BSBottomPlot to significantly reduce allocation of MutableComplex objects
 (6/28/06) - bugfix: magnifying glass doesn't update when zoom buttons are pressed
 (6/28/06) - add additional zoom levels for Coulomb in "Two" and "Many" panels
