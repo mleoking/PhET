@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
+- time display and animation pauses every few clock ticks (garbage collection?)
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
-- time display and animation pauses every few clock ticks (garbage collection?)
 
 MEDIUM PRIORITY:
 - verify that datasets are updated only when absolutely necessary
