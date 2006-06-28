@@ -9,29 +9,8 @@ Add a message to notify overwriting files when saving..?  There is a confirm mes
 How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
 Barriers too.
 
-•	Fix asymmetry problems outlined in email.
-I've figured out what the problem is with the asymmetry in the Two Lasers panel in QWI: the center of the left laser is 14 pixels from the left edge of the box and the center of the right laser is only 13 pixels from the edge of the box.  My guess is that you're measuring the distance from the center of the box, but it's rounding in some weird way because there are an odd numbers of pixels (45) in the box.  Can you fix this?
->>This problem may be alleviated due to the inexact wavelengths that will be most frequent now.
-•	For certain values of screen brightness in the two lasers panel, 
-if there are two lasers of different colors that are both at maximum intensity, 
-the pattern on the screen is asymmetric (this caused considerable confusion for student, 
-and was much more noticeable in the interview than it is in this screen shot).
->>This is from reflection on the boundary. In Wave Interference sim, 
-I extend the lattice beyond the visible region;
-here it could also be done, but very time consuming to implement, 
-and would slow down the sim (scales with the size of the boundary).
->>I checked the x locations of the wave sources, and they are symmetric.
-
-I've figured out what the problem is with the asymmetry in the Two 
-Lasers panel in QWI: the center of the left laser is 14 pixels from the 
-left edge of the box and the center of the right laser is only 13 pixels 
-from the edge of the box.  My guess is that you're measuring the 
-distance from the center of the box, but it's rounding in some weird way 
-  because there are an odd numbers of pixels (45) in the box.  Can you 
-fix this?
-
 Reset should reset wavelength, velocity,
->>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
+>>This proves to be very difficult right now (2+ hours?).  After refactoring, should be much easier.
     
 ############################################
 # Lower Priority
@@ -95,3 +74,25 @@ Add save/load of detectors embedded in double-slits?
 
 •	If I move the wavelength slider all the way to the left, strange spots and stripes appear on the wavelength slider, the wave, and the screen.  If I pause the simulation and move the window around, there seem to be words written on the background behind the spots.  If I take a screen shot, the spots don’t appear on the screenshot.  I swear I’m not making this up.
     o	>>I’ve had trouble reproducing this.
+
+•	Fix asymmetry problems outlined in email.
+I've figured out what the problem is with the asymmetry in the Two Lasers panel in QWI: the center of the left laser is 14 pixels from the left edge of the box and the center of the right laser is only 13 pixels from the edge of the box.  My guess is that you're measuring the distance from the center of the box, but it's rounding in some weird way because there are an odd numbers of pixels (45) in the box.  Can you fix this?
+>>This problem may be alleviated due to the inexact wavelengths that will be most frequent now.
+•	For certain values of screen brightness in the two lasers panel, 
+if there are two lasers of different colors that are both at maximum intensity, 
+the pattern on the screen is asymmetric (this caused considerable confusion for student, 
+and was much more noticeable in the interview than it is in this screen shot).
+>>This is from reflection on the boundary. In Wave Interference sim, 
+I extend the lattice beyond the visible region;
+here it could also be done, but very time consuming to implement, 
+and would slow down the sim (scales with the size of the boundary).
+>>I checked the x locations of the wave sources, and they are symmetric.
+
+I've figured out what the problem is with the asymmetry in the Two 
+Lasers panel in QWI: the center of the left laser is 14 pixels from the 
+left edge of the box and the center of the right laser is only 13 pixels 
+from the edge of the box.  My guess is that you're measuring the 
+distance from the center of the box, but it's rounding in some weird way 
+  because there are an odd numbers of pixels (45) in the box.  Can you 
+fix this?
+>>is this fixed?
