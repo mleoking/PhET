@@ -2,15 +2,15 @@
 # Remaining Work
 ########################
 2 lasers should snap to the value of the left laser, when interfering (to center the diffraction pattern).
+2-lasers panel seems asymmetric since beams can get out of phase.
 
 Can you please post a version of davisson germer in which the max 
 velocity is 4x the current max?
 
 Add a check to prevent from overwriting system files when saving..?  There is a confirm message, but it doesn't say anything about overwriting a file.
 
-2-lasers panel seems asymmetric since beams can get out of phase.
-
 How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
+Barriers too.
 
 •	Fix asymmetry problems outlined in email.
 I've figured out what the problem is with the asymmetry in the Two Lasers panel in QWI: the center of the left laser is 14 pixels from the left edge of the box and the center of the right laser is only 13 pixels from the edge of the box.  My guess is that you're measuring the distance from the center of the box, but it's rounding in some weird way because there are an odd numbers of pixels (45) in the box.  Can you fix this?
