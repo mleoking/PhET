@@ -6,6 +6,8 @@ import edu.colorado.phet.qm.QWILookAndFeel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.QWIPanel;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -36,6 +38,12 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         potDisplay.setPickable( false );
         potDisplay.setChildrenPickable( false );
         addChild( potDisplay );
+        addInputEventListener( new PDragEventHandler() {
+            protected void drag( PInputEvent event ) {
+                updateGraphics();
+            }
+
+        } );
         potential.addObserver( new SimpleObserver() {
             public void update() {
                 RectangularPotentialGraphic.this.update();
@@ -51,6 +59,11 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         addChild( closeGraphic );
         closeGraphic.setOffset( -closeGraphic.getWidth() - 2, 0 );
         update();
+        updateGraphics();
+    }
+
+    private void updateGraphics() {
+        super.getSchrodingerPanel().updateWaveGraphic();
     }
 
     private void remove() {
