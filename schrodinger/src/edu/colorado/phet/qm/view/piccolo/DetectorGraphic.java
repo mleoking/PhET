@@ -29,9 +29,11 @@ public class DetectorGraphic extends RectangleGraphic {
     private Color darkGreen;
     private static Color fill = new Color( 200, 180, 150, 0 );
     private boolean probDisplayAllowedToBeVisible = true;
+    private QWIPanel qwiPanel;
 
     public DetectorGraphic( final QWIPanel QWIPanel, final Detector detector ) {
         super( QWIPanel, detector, fill );
+        this.qwiPanel = QWIPanel;
         this.detector = detector;
 
         darkGreen = new Color( 50, 230, 75 );
@@ -43,6 +45,7 @@ public class DetectorGraphic extends RectangleGraphic {
         addChild( probDisplay );
         detector.addObserver( new SimpleObserver() {
             public void update() {
+                updateDetectorReadouts();
                 DetectorGraphic.this.update();
             }
         } );
@@ -56,7 +59,12 @@ public class DetectorGraphic extends RectangleGraphic {
         closeGraphic = new PSwing( QWIPanel, closeButton );
         addChild( closeGraphic );
 
+        updateDetectorReadouts();
         update();
+    }
+
+    private void updateDetectorReadouts() {
+        qwiPanel.updateDetectorReadouts();
     }
 
     public void setCloseButtonVisible( boolean visible ) {

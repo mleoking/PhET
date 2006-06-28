@@ -67,7 +67,6 @@ public class RectangularObject extends SimpleObservable {
         y += dy;
         updateFractionalSize();
         notifyObservers();
-
     }
 
     private void setBoundsInternal( int x, int y, int width, int height ) {

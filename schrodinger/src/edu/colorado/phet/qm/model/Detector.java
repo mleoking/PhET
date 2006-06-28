@@ -45,6 +45,7 @@ public class Detector extends RectangularObject {
     }
 
     public void updateProbability( Wavefunction wavefunction ) {
+        double origProb = probability;
         if( !enabled ) {
             return;
         }
@@ -60,7 +61,9 @@ public class Detector extends RectangularObject {
             }
         }
         this.probability = runningSum;
-        notifyObservers();//todo probabilty change event.
+        if( origProb != probability ) {
+            notifyObservers();//todo probabilty change event.
+        }
     }
 
     public boolean timeToFire() {

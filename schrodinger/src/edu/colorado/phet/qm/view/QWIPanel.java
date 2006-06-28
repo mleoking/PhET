@@ -341,6 +341,10 @@ public class QWIPanel extends PhetPCanvas {
         QWIScreenNode.setCellSize( size );
     }
 
+    public void updateDetectorReadouts() {
+        module.getQWIModel().getDetectorSet().updateDetectorProbabilities();
+    }
+
     public static interface Listener {
         public void fadeStateChanged();
 

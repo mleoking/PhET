@@ -6,9 +6,6 @@ velocity is 4x the current max?
 
 Add a message to notify overwriting files when saving?  There is a confirm message, but it doesn't say anything about overwriting a file.
 
-How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
-Barriers too.
-
 Reset should reset wavelength, velocity,
 >>This proves to be very difficult right now (2+ hours?).  After refactoring, should be much easier.
     
