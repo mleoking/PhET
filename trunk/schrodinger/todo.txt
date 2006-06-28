@@ -1,14 +1,7 @@
 ############################################
 # Remaining Work
 ########################
-
 2 lasers should snap to the value of the left laser, when interfering (to center the diffraction pattern).
-
-On the screen 
-brightness slider, there are tick marks at 0.25 and 0.75 that are 
-labeled as 0.2 and 0.8 because of rounding off, which is a bit 
-confusing.  Can you make these into minor ticks rather than major ticks, 
-so that there are only labels at 0, 0.5, and 1?  Thanks,
 
 Can you please post a version of davisson germer in which the max 
 velocity is 4x the current max?
