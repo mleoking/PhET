@@ -43,6 +43,8 @@ CLEANUP:
 
 
 DONE:
+(6/28/06) - bugfix: magnifying glass doesn't update when zoom buttons are pressed
+(6/28/06) - add additional zoom levels for Coulomb in "Two" and "Many" panels
 (6/28/06) - add help items
 0.0.10...
 (6/27/06) - save/load active module state

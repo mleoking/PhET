@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.*;
@@ -20,6 +19,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.PlotChangeEvent;
+import org.jfree.chart.event.PlotChangeListener;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
@@ -33,7 +35,6 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -45,7 +46,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSMagnifyingGlass extends PNode implements Observer {
+public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -239,6 +240,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
          // For constrained dragging, treat as a point at the center of the lens.
         _eventHandler.setTreatAsPointEnabled( true );
         _eventHandler.setNodeCenter( BEZEL_RADIUS, BEZEL_RADIUS );
+        
+        // Watches for changes to the Energy plot
+        XYPlot energyPlot = _chartNode.getCombinedChart().getEnergyPlot();
+        energyPlot.addChangeListener( this );
     }
     
     //----------------------------------------------------------------------------
@@ -382,6 +387,17 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
+        updateDisplay();
+    }
+    
+    //----------------------------------------------------------------------------
+    // PlotChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the Energy plot changes.
+     */
+    public void plotChanged( PlotChangeEvent event ) {
         updateDisplay();
     }
     
