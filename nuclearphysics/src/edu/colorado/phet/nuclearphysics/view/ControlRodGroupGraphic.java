@@ -227,7 +227,7 @@ new BasicStroke( 5 ), Color.black );
                     }
                     else if( dy > 0 && rep.location.getY() - rodLength + ( dy / atx.getScaleY() )
                                        >= vessel.getY() + vessel.getHeight() ) {
-                        dy = ( vessel.getY() - rep.location.getY() + ( rodLength * 2 ) ) * atx.getScaleY();
+                        dy = 0;
                     }
             }
             // Have to account for the SCALE of the affine transform before telling the model element to move

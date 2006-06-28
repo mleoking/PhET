@@ -42,19 +42,30 @@ public class EnergyGraphDialog extends JDialog {
     int style = Font.BOLD;
     int size = 14;
     private Font font = new Font( family, Font.BOLD, size );
-    
+    private Dimension panelSize = new Dimension( 100, 245 );
+    private Insets barInsets = new Insets( 5, 0, 5,0);
+
 
     public EnergyGraphDialog( Frame owner, int numNuclei ) throws HeadlessException {
         super( owner, "Energy Graphs", false );
 
         setResizable( false );
-        JPanel contentPane = new JPanel( new GridLayout( 1, 2 ) );
+        JPanel contentPane = new JPanel( new GridBagLayout() );
+        contentPane.setBackground( BACKGROUND_COLOR );
+//        JPanel contentPane = new JPanel( new GridLayout( 1, 2 ) );
+//        contentPane.setPreferredSize( panelSize );
         setContentPane( contentPane );
 
+        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE,0,
+                                                         1,1,1,1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 5, 0, 5, 0),0,0);
+
         energyRatePanel = new EnergyRatePanel();
-        contentPane.add( energyRatePanel );
+        contentPane.add( energyRatePanel, gbc );
         totalEnergyPanel = new TotalEnergyPanel();
-        contentPane.add( totalEnergyPanel );
+        contentPane.add( totalEnergyPanel, gbc  );
 
         reset( numNuclei );
         setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
@@ -85,9 +96,10 @@ public class EnergyGraphDialog extends JDialog {
         public EnergyRatePanel() {
             super( null );
             setBackground( BACKGROUND_COLOR );
-            setPreferredSize( new Dimension( 100, 200 ) );
+            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ));
             rateGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
-                                      200, Color.yellow,
+                                      getPreferredSize().getHeight() - 2,
+                                      Color.yellow,
                                       barWidth, true, 0, 1 );
         }
 
@@ -97,11 +109,12 @@ public class EnergyGraphDialog extends JDialog {
             rateGauge.paint( g2 );
             // Draw string rotated counter-clockwise 90 degrees
             AffineTransform at = new AffineTransform();
-            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
+            at.setToTranslation( 10, (int)getPreferredSize().getHeight() - 10 );
+//            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
             g2.setFont( font );
-            g2.drawString( "Energy production rate (J/sec)", 0, 0 );
+            g2.drawString( "Energy production rate (J/msec)", 0, 0 );
         }
 
         public void temperatureChanged( Vessel.ChangeEvent event ) {
@@ -114,9 +127,10 @@ public class EnergyGraphDialog extends JDialog {
         public TotalEnergyPanel() {
             super( null );
             setBackground( BACKGROUND_COLOR );
-            setPreferredSize( new Dimension( 100, 200 ) );
+            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ));
             totalEnergyGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
-                                             200, Color.green, barWidth, true, 0, 200 );
+                                             getPreferredSize().getHeight() - 2,
+                                             Color.green, barWidth, true, 0, 200 );
         }
 
         protected void paintComponent( Graphics g ) {
@@ -125,7 +139,8 @@ public class EnergyGraphDialog extends JDialog {
             totalEnergyGauge.paint( g2 );
             // Draw string rotated counter-clockwise 90 degrees
             AffineTransform at = new AffineTransform();
-            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
+            at.setToTranslation( 10, (int)getPreferredSize().getHeight() - 10 );
+//            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
             g2.setFont( font );
