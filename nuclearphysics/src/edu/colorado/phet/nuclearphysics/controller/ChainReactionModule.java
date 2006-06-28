@@ -58,6 +58,11 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
 
+
+        getPhysicalPanel().foo();
+
+        
+
         // Add a listener to the model that will remove nuclei from our internal lists when they leave
         // the model.
         ((NuclearPhysicsModel)getModel()).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
@@ -87,6 +92,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     public ArrayList getNuclei() {
         return nuclei;
     }
+
 
     public ArrayList getU235Nuclei() {
         return u235Nuclei;
