@@ -320,6 +320,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         // Draw labels
         {
+            g2.setTransform( orgTx );
             g2.setFont( EnergyProfilePanelGraphic.axisLabelFont );
             g2.setColor( Color.black );
 
@@ -330,7 +331,14 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
             g2.transform( strTx );
             Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabel, g2 );
-            g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, -(int)( yAxisLabelBounds.getWidth() + 10 ), -10 + yAxisXLoc );
+            double dy = 0;
+            if( profileTx.getTranslateY() > getHeight() / 2 ) {
+                dy = 10;
+            }
+            else {
+                dy = -(yAxisLabelBounds.getWidth() + 10 );
+            }
+            g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, (int)( dy ), -10 + yAxisXLoc );
             g2.setTransform( orgTx );
 
             // x axis

@@ -5,7 +5,6 @@
 
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
-- Something is running in the Single Fission module, even when it's paused.
 
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
 ?	Need a color selection option for control panel.
@@ -42,7 +41,11 @@ Controlled Reaction
 Done not posted
 ================
 
+- Found workaround to deal with change in PhetTabbedPane that broke some code (1:30)
+- changed units on bar charts on controlled chain reaction panel        (0:15)
+- you can lower the control rods below the bottom of the vessel         (0:15)
 - Total energy line on alpha decay panel stays put after alpha decay    (1:00)
+
 - Panels save state properly when you tab away from and back to them    (0:45) 
 - Single nucleus fission energy profile panel has a total energy line.  (1:00)
 - Chain reaction panel
@@ -55,8 +58,6 @@ Done not posted
 - kabooms are removed from simulation on rewind of alpha decay              (0:30)
 
 - Put legends in properties
-- changed units on bar charts on controlled chain reaction panel
-- you can lower the control rods below the bottom of the vessel
 
 ================
 1.08.10
