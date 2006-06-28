@@ -10,7 +10,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - verify that time-independent wave functions are recomputed only when necessary
-- reduce startup time
 - attach a help item to one of the potential drag handles
 - help items don't fully draw when clock is running (Mac only?)
 - turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only?)
@@ -407,6 +406,7 @@ DONE:
 
 
 REJECTED:
+(6/28/06) - used lazy module init to reduce startup time (too much work, no one is complaining about startup time)
 (6/28/06) - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one (they are sufficiently different to make this very difficult)
 (6/28/06) - move wave function cache out of BSBottomPlot and into BSModel (too big a change, cache needs to know about position range)
 (6/28/06) - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types (too big a change, no real payoff, would break things at this point)
