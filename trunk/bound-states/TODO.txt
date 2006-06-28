@@ -34,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+(6/28/06) - ensure that wave function cache is updated only once during startup
 (6/28/06) - ensure that BSAbstractModule.layoutCanvas is called once per module during startup
 (6/28/06) - set pickable=false for equations, chartNode, XYPlotNodes and their children
 (6/28/06) - remove decimal place from all ranges for the Energy chart's Y axis
