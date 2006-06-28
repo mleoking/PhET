@@ -11,7 +11,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - verify that datasets are updated only when absolutely necessary
 - wiggle me animation is jerky
-- Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - reduce startup time
 - attach a help item to one of the potential drag handles
 - help items don't fully draw when clock is running (Mac only?)
@@ -27,7 +26,6 @@ LOW PRIORITY:
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - move wave function cache out of BSBottomPlot and into model
-- cache wave functions used in BSBottomPlot.updateHiliteDataset instead of always calling potential.getWaveFunctionPoints
 
 OPTIMIZATIONS:
 - setPickable(false) on non-interactive graphics
@@ -413,6 +411,8 @@ DONE:
 
 
 REJECTED:
+(6/28/06) - cache wave functions for hilited eigenstate (payoff won't be perceptible)
+(6/28/06) - Carl reports a slow down after running the sim for awhile (cannot reproduce, not enough info, lots of changes since this was reported, may have fixed itself)
 (6/22/06) - wave function curves look segmented when screen resolution is decreased after sim is started (user must restart sim, no way to detect resolution change)
 (6/21/06) - pause clock by default (requirement changed, should be running by default)
 (6/21/06) - switch back to FastPathRenderer for curves (doesn't seem to be any faster, stick with StandardXYItemRenderer)
