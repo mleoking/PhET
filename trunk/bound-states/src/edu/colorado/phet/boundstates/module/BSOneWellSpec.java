@@ -56,7 +56,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range ASYMMETRIC_ENERGY_RANGE = new Range( -5.5, +15.5 ); // eV
     private static final double ASYMMETRIC_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat ASYMMETRIC_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat ASYMMETRIC_ENERGY_TICK_FORMAT = new DecimalFormat( "#0" );
     
     // Potential attributes
     private static final DoubleRange ASYMMETRIC_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
@@ -70,7 +70,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -15.5, +5.5 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "#0" );
     
     // Potential attributes
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
@@ -83,7 +83,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range COULOMB_3D_ENERGY_RANGE = new Range( -15.5, +5.5 ); // eV
     private static final double COULOMB_3D_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat COULOMB_3D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat COULOMB_3D_ENERGY_TICK_FORMAT = new DecimalFormat( "#0" );
 
     // Potential attributes
     private static final DoubleRange COULOMB_3D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
@@ -95,7 +95,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range HARMONIC_OSCILLATOR_ENERGY_RANGE = new Range( -5.5, +15.5 ); // eV
     private static final double HARMONIC_OSCILLATOR_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT = new DecimalFormat( "#0" );
     
     // Potential attributes
     private static final DoubleRange HARMONIC_OSCILLATOR_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
@@ -108,7 +108,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range SQUARE_ENERGY_RANGE = new Range( -5.5, +15.5 ); // eV
     private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "#0" );
     
     // Potential attributes
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV

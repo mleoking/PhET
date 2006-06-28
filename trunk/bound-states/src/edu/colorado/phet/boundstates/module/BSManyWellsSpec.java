@@ -56,17 +56,17 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // Energy axis zoom ranges
     private static final Range COULOMB_1D_ENERGY_RANGE1 = new Range( -20.5, 0.5 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING1 = 5; // eV
-    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT1 = new DecimalFormat( "0.0" );
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT1 = new DecimalFormat( "#0" );
     
     private static final Range COULOMB_1D_ENERGY_RANGE2 = new Range( -30.5, 0.5 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING2 = 5; // eV
-    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT2 = new DecimalFormat( "##0" );
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT2 = new DecimalFormat( "#0" );
     
     private static final Range COULOMB_1D_ENERGY_RANGE3 = new Range( -51, 1 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING3 = 10; // eV
-    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT3 = new DecimalFormat( "##0" );
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT3 = new DecimalFormat( "#0" );
     
-    private static final Range COULOMB_1D_ENERGY_RANGE4 = new Range( -105, 1 ); // eV
+    private static final Range COULOMB_1D_ENERGY_RANGE4 = new Range( -101, 1 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING4 = 20; // eV
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT4 = new DecimalFormat( "##0" );
     
@@ -85,7 +85,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // Energy axis
     private static final Range SQUARE_ENERGY_RANGE = new Range( -0.5, 20.5 ); // eV
     private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0" );
     
     // Potential attributes
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
