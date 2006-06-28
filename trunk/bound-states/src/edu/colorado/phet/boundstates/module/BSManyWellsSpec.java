@@ -53,15 +53,26 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // 1D Coulomb ranges
     //----------------------------------------------------------------------------
     
-    // Energy axis "zoomed in"
+    // Energy axis zoom ranges
     private static final Range COULOMB_1D_ENERGY_RANGE1 = new Range( -20.5, 0.5 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING1 = 5; // eV
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT1 = new DecimalFormat( "0.0" );
     
-    // Energy axis "zoomed out"
-    private static final Range COULOMB_1D_ENERGY_RANGE2 = new Range( -255, 5 ); // eV
-    private static final double COULOMB_1D_ENERGY_TICK_SPACING2 = 50; // eV
+    private static final Range COULOMB_1D_ENERGY_RANGE2 = new Range( -30.5, 0.5 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING2 = 5; // eV
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT2 = new DecimalFormat( "##0" );
+    
+    private static final Range COULOMB_1D_ENERGY_RANGE3 = new Range( -51, 1 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING3 = 10; // eV
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT3 = new DecimalFormat( "##0" );
+    
+    private static final Range COULOMB_1D_ENERGY_RANGE4 = new Range( -105, 1 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING4 = 20; // eV
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT4 = new DecimalFormat( "##0" );
+    
+    private static final Range COULOMB_1D_ENERGY_RANGE5 = new Range( -255, 5 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING5 = 50; // eV
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT5 = new DecimalFormat( "##0" );
     
     // Potential attributes
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
@@ -109,7 +120,10 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec1 = new AxisSpec( COULOMB_1D_ENERGY_RANGE1, COULOMB_1D_ENERGY_TICK_SPACING1, COULOMB_1D_ENERGY_TICK_FORMAT1 );
             AxisSpec axisSpec2 = new AxisSpec( COULOMB_1D_ENERGY_RANGE2, COULOMB_1D_ENERGY_TICK_SPACING2, COULOMB_1D_ENERGY_TICK_FORMAT2 );
-            AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2 };
+            AxisSpec axisSpec3 = new AxisSpec( COULOMB_1D_ENERGY_RANGE3, COULOMB_1D_ENERGY_TICK_SPACING3, COULOMB_1D_ENERGY_TICK_FORMAT3 );
+            AxisSpec axisSpec4 = new AxisSpec( COULOMB_1D_ENERGY_RANGE4, COULOMB_1D_ENERGY_TICK_SPACING4, COULOMB_1D_ENERGY_TICK_FORMAT4 );
+            AxisSpec axisSpec5 = new AxisSpec( COULOMB_1D_ENERGY_RANGE5, COULOMB_1D_ENERGY_TICK_SPACING5, COULOMB_1D_ENERGY_TICK_FORMAT5 );
+            AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2, axisSpec3, axisSpec4, axisSpec5 };
             ZoomSpec zoomSpec = new ZoomSpec( axisSpecs );
             BSWellSpec wellSpec = new BSWellSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
             setCoulomb1DSpec( wellSpec );
