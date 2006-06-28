@@ -57,6 +57,42 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // nuclei
         getModel().addModelElement( new FissionDetector() );
 
+        // Add a fire button to the play area
+        FireButton fireButton = new FireButton( getPhysicalPanel());
+        getPhysicalPanel().addGraphic( fireButton, 1E6 );
+        fireButton.setLocation(  700, 500 );
+        fireButton.addActionListener( new FireButton.ActionListener() {
+            public void actionPerformed( FireButton.ActionEvent event ) {
+                fireNeutron();
+            }
+        } );
+
+        ResetButton resetButton = new ResetButton( getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( resetButton, 1E6 );
+        resetButton.setLocation( (int)fireButton.getLocation().getX(),
+                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
+        resetButton.addActionListener( new PhetGraphicsButton.ActionListener() {
+            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
+                stop();
+                start();
+            }
+        } );
+
+        ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( containmentButton, 1E6 );
+        containmentButton.setLocation( (int)resetButton.getLocation().getX(),
+                                 (int)resetButton.getLocation().getY() + resetButton.getHeight() + 10 );
+        containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
+            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
+                if( containment == null ) {
+                    addContainment();
+                }
+                else {
+                    removeContainment();
+                }
+            }
+        } );
+
         // Start it up
         start();
     }
