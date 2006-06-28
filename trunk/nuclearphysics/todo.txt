@@ -1,5 +1,3 @@
-- graphics are off center on 3rd and 4th panels
-- you can lower the control rods below the bottom of the vessel
 
 - Refactor EnergyProfile so it's in model coordinates
 - Don't need fision behavior in Polonium. Make a Fisionable interface.
@@ -34,7 +32,6 @@ Chain Reaction panel
 
 
 Controlled Reaction
-- Put legends in properties
 - Something seems to be running in the background even when nothing is really going on
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
@@ -56,6 +53,10 @@ Done not posted
 - Changed colors of energy profiles to conform to QT                        (0:15)
 - put the Rewind to last decay button at the bottom next to the play button.(0:30)
 - kabooms are removed from simulation on rewind of alpha decay              (0:30)
+
+- Put legends in properties
+- changed units on bar charts on controlled chain reaction panel
+- you can lower the control rods below the bottom of the vessel
 
 ================
 1.08.10

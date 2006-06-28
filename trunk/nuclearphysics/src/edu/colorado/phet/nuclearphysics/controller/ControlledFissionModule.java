@@ -172,8 +172,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             getModel().removeModelElement( vessel );
             vessel.removeAllChangeListeners();
         }
-        vessel = new Vessel( -vesselWidth / 2,
+//        Insets vesselInsets = new Insets( 40, 20, 0, 0 );
+        vessel = new Vessel( -vesselWidth / 2 - 120,
                              -vesselHeight * .7,
+//        vessel = new Vessel( -vesselWidth / 2,
+//                             -vesselHeight * .7,
                              vesselWidth,
                              vesselHeight,
                              numChannels,
