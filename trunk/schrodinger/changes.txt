@@ -1,3 +1,6 @@
+1.01.06
+Removed feature: "Autodetect" has to be deselected before "Repeat Detect" can be checked. 
+
 1.01.05 (6-27-2006)
 Added save/load of double-slits.
 
@@ -20,8 +23,8 @@ Bugfix: If you pause the simulation and then press “Clear wave,” you have to ste
 Bugfix: If you are stepping through time with detectors and there is a detection, sometimes the detector turns gray and the wave function collapses in the same step, but sometimes the detector turns gray in one step and the wave function collapses in the next step.  It should always behave in the former way.
 Bugfix: If ruler is oriented vertically and I resize the simulation, the close and rotate buttons on the ruler move off the ruler.
 Bugfix: If I put the ruler too far to the right and make the simulation size smaller, the ruler goes off the screen and I can't get it back without resizing.
-*Bugfix: When stepping, you have to push step twice for the wavefunction to update once.
-*"Autodetect" has to be deselected before "Repeat Detect" can be checked.
+Bugfix: When stepping, you have to push step twice for the wavefunction to update once.
+"Autodetect" has to be deselected before "Repeat Detect" can be checked.
 
 1.01.03 (6-26-2006)
 Fixed factor of 10 problem: for matter waves, ruler units and units per clock tick on stopwatch are 10x bigger.
