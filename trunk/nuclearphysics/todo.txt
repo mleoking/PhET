@@ -44,6 +44,8 @@ Controlled Reaction
 ================
 Done not posted
 ================
+
+- Total energy line on alpha decay panel stays put after alpha decay    (1:00)
 - Panels save state properly when you tab away from and back to them    (0:45) 
 - Single nucleus fission energy profile panel has a total energy line.  (1:00)
 - Chain reaction panel

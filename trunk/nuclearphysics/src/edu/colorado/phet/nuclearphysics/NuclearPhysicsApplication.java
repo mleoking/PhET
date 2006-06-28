@@ -31,8 +31,8 @@ import java.util.Arrays;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
-public class NuclearPhysicsApplication extends PiccoloPhetApplication {
-//public class NuclearPhysicsApplication extends PhetApplication {
+//public class NuclearPhysicsApplication extends PiccoloPhetApplication {
+public class NuclearPhysicsApplication extends PhetApplication {
 
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
