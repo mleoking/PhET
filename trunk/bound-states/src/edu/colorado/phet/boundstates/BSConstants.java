@@ -157,6 +157,7 @@ public class BSConstants {
     public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Position
+    // NOTE! If you change the position range, you may need to change SCHMIDT_LEE_SAMPLE_POINTS.
     public static final Range POSITION_MODEL_RANGE = new Range( -3.5, 3.5 ); // nm
     public static final Range POSITION_VIEW_RANGE = POSITION_MODEL_RANGE;
     public static final double POSITION_TICK_SPACING = 1; // nm
