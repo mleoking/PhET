@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.gun.DefaultGunParticle;
 
@@ -17,7 +16,7 @@ public class DGParticle extends DefaultGunParticle {
     private double startYFraction = 0.75;
 
     public DGParticle( AbstractGunNode gunNode ) {
-        super( gunNode, "Electrons", "images/electron-thumb.png", new ParticleUnits.ElectronUnits() );
+        super( gunNode, "Electrons", "images/electron-thumb.png", new DGParticleUnits() );
     }
 
     protected double getStartDxLattice() {

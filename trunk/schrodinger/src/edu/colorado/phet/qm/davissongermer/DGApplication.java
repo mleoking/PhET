@@ -20,9 +20,9 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
  */
 
 public class DGApplication extends PiccoloPhetApplication {
+    public static String VERSION = "0.00.13";
     public static String TITLE = "Davisson-Germer Experiment";
     public static String DESCRIPTION = "Davisson-Germer Experiment";
-    public static String VERSION = "0.00.12";
 
     static {
         PhetLookAndFeel.setLookAndFeel();
