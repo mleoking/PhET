@@ -32,7 +32,7 @@ import java.io.IOException;
  */
 
 public class QWIApplication extends PiccoloPhetApplication {
-    public static String VERSION = "1.01.06";
+    public static String VERSION = "1.02.00";
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
     private IntensityModule intensityModule;
