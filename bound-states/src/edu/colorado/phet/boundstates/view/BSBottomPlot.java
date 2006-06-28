@@ -81,6 +81,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     private double _t; // time of the last clock tick
     
+    // Memory optimizations
+    private MutableComplex[] _psiSum; // reused by computeTimeDependentWaveFunction
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -476,8 +479,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * @param t
      */
     private Complex[] computeTimeDependentWaveFunction( final double t ) {
-
-        MutableComplex[] psiSum = null;
    
         if ( _cache.getSize() > 0 ) {
             
@@ -486,9 +487,18 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             assert( eigenstates.length == coefficients.getNumberOfCoefficients() );
             
             final int numberOfPoints = _cache.getNumberOfPointsInEachWaveFunction();
-            psiSum = new MutableComplex[ numberOfPoints ]; //TODO reuse previous psiSum if numberOfPoints hasn't changed!
-            for ( int i = 0; i < psiSum.length; i++ ) {
-                psiSum[i] = new MutableComplex();
+            
+            // Reuse previous psiSum array if numberOfPoints hasn't changed
+            if ( _psiSum == null || numberOfPoints != _psiSum.length ) {
+                _psiSum = new MutableComplex[numberOfPoints];
+                for ( int i = 0; i < _psiSum.length; i++ ) {
+                    _psiSum[i] = new MutableComplex();
+                }
+            }
+            else {
+                for ( int i = 0; i < _psiSum.length; i++ ) {
+                    _psiSum[i].setValue( 0 );
+                }
             }
             
             MutableComplex y = new MutableComplex();
@@ -528,19 +538,19 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
                     if ( A != 1 ) {
                         y.multiply( A );
                     }
-                    psiSum[j].add( y );
+                    _psiSum[j].add( y );
                 }
             }
             
             // Scale the wave function sum
             final double S = _cache.getSumScalingCoefficient();
             if ( S != 1 ) {
-                for ( int j = 0; j < psiSum.length; j++ ) {
-                    psiSum[j].multiply( S );
+                for ( int j = 0; j < _psiSum.length; j++ ) {
+                    _psiSum[j].multiply( S );
                 }
             }
         }
-        return psiSum;
+        return _psiSum;
     }
     
     /*
@@ -570,7 +580,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         _magnitudeSeries.setNotify( notify );
         _phaseSeries.setNotify( notify );
         _probabilityDensitySeries.setNotify( notify );
-        _hiliteSeries.setNotify( notify );
     }
 
     //----------------------------------------------------------------------------
