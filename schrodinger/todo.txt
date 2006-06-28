@@ -2,19 +2,20 @@
 # Remaining Work
 ########################
 
+2 lasers should snap to the value of the left laser, when interfering (to center the diffraction pattern).
+
+On the screen 
+brightness slider, there are tick marks at 0.25 and 0.75 that are 
+labeled as 0.2 and 0.8 because of rounding off, which is a bit 
+confusing.  Can you make these into minor ticks rather than major ticks, 
+so that there are only labels at 0, 0.5, and 1?  Thanks,
+
+Can you please post a version of davisson germer in which the max 
+velocity is 4x the current max?
+
 Add a check to prevent from overwriting system files when saving..?  There is a confirm message, but it doesn't say anything about overwriting a file.
 
-Add save/load of detectors embedded in double-slits?
->>Could be difficult because a save in one panel and load in the second panel could be inconsistent.
-
 2-lasers panel seems asymmetric since beams can get out of phase.
-
-•	Fix save/load.
-    o	Test this on other machines, fine on my development machine & test machine.
-    o	Communicating with Sam M about this bug.
-
-•	If I move the wavelength slider all the way to the left, strange spots and stripes appear on the wavelength slider, the wave, and the screen.  If I pause the simulation and move the window around, there seem to be words written on the background behind the spots.  If I take a screen shot, the spots don’t appear on the screenshot.  I swear I’m not making this up.
-    o	>>I’ve had trouble reproducing this.
 
 How about being able to move the detector around while the simulation is paused?  Its readout should update while dragging.
 
@@ -98,3 +99,9 @@ Detectors in Single Particles Panel:
 "Copy Screen" instances shouldn't appear on top of one another.
 
 Bug: In DoublePhotonWave, getMomentum() is returning with unknown units.
+
+Add save/load of detectors embedded in double-slits?
+>>Could be difficult because a save in one panel and load in the second panel could be inconsistent.
+
+•	If I move the wavelength slider all the way to the left, strange spots and stripes appear on the wavelength slider, the wave, and the screen.  If I pause the simulation and move the window around, there seem to be words written on the background behind the spots.  If I take a screen shot, the spots don’t appear on the screenshot.  I swear I’m not making this up.
+    o	>>I’ve had trouble reproducing this.

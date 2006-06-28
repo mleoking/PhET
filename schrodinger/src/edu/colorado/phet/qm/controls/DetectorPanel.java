@@ -61,12 +61,11 @@ public class DetectorPanel extends VerticalLayoutPanel {
         autodetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setAutoDetect( autodetect.isSelected() );
-//                repeats.setEnabled( autodetect.isSelected() );
-                repeatDetect.setEnabled( !autodetect.isSelected() );
+//                repeatDetect.setEnabled( !autodetect.isSelected() );
             }
         } );
         //*"Autodetect" has to be deselected before "Repeat Detect" can be checked.
-        repeatDetect.setEnabled( !autodetect.isSelected() );
+//        repeatDetect.setEnabled( !autodetect.isSelected() );
         add( autodetect );
 //        add( repeats );
         add( repeatDetect );
