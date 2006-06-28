@@ -141,7 +141,8 @@ public class MandelModule extends QWIModule {
         if( getWavefunctionDifference() < 10 ) {
             setSplitModel( false );
             BeamParam leftParam = new BeamParam( getLeftGun().getWavelength(), getLeftGun().getIntensity(), splitModel.getWaveModel() );
-            BeamParam rightParam = new BeamParam( getRightGun().getWavelength(), getRightGun().getIntensity(), splitModel.getWaveModel() );
+//            BeamParam rightParam = new BeamParam( getRightGun().getWavelength(), getRightGun().getIntensity(), splitModel.getWaveModel() );
+            BeamParam rightParam = new BeamParam( getLeftGun().getWavelength(), getRightGun().getIntensity(), splitModel.getWaveModel() );//todo here we're setting the right gun's wavelength to be that of the left gun.  Hopefully the controls don't reflect this, or it's not a problem.
             mandelSchrodingerPanel.getMandelGunSet().setBeamParameters( leftParam, rightParam );
         }
         else {
