@@ -13,9 +13,11 @@ MEDIUM PRIORITY:
 - wiggle me animation is jerky
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - reduce startup time
+- attach a help item to one of the potential drag handles
+- help items don't fully draw when clock is running (Mac only?)
+- turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only?)
 
 LOW PRIORITY:
-- help items
 - bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - make plots in bottom chart look smoother on Windows
 - refactor BSAbstractModule, it's too big
@@ -41,6 +43,7 @@ CLEANUP:
 
 
 DONE:
+(6/28/06) - add help items
 0.0.10...
 (6/27/06) - save/load active module state
 (6/27/06) - fix bugs in BSAbstractModule.load

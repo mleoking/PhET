@@ -288,10 +288,25 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( hasHelp() ) {
             HelpPane helpPane = getDefaultHelpPane();
             
-            // This is a sample -- replace with real help items.
-            HelpBalloon sampleHelp = new HelpBalloon( helpPane, "Sample help item", HelpBalloon.RIGHT_CENTER, 40 );
-            helpPane.add( sampleHelp );
-            sampleHelp.pointAt( _controlPanel.getPotentialControl() );
+            HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
+            helpPane.add(  restartHelp );
+            restartHelp.pointAt( _clockControls.getRestartComponent() );
+            
+            HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, SimStrings.get( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
+            helpPane.add(  clockSpeedHelp );
+            clockSpeedHelp.pointAt( _clockControls.getClockIndexComponent() );
+            
+            if ( _magnifyingGlass != null ) {
+                HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, SimStrings.get( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
+                helpPane.add( magnifyingGlassHelp );
+                magnifyingGlassHelp.pointAt( _magnifyingGlass.getPartsNode(), _canvas );
+            }
+            
+            HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
+            helpPane.add( zoomHelp );
+            zoomHelp.pointAt( _energyZoomControlNode, _canvas );
+            
+            //TODO attach a help item to one of the potential drag handles
         }
 
         //----------------------------------------------------------------------------
@@ -439,8 +454,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
        
     public boolean hasHelp() {
-        // On 6/6/2006, we decided to disable help.
-        return false;
+        return true;
     }
     
     /**
@@ -646,7 +660,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void addWiggleMe() {
         if ( _wiggleMe == null ) {
             // Wiggle Me that points at the eigenstates
-            String wiggleMeString = SimStrings.get( "help.wiggleMe.eigenstates" );
+            String wiggleMeString = SimStrings.get( "wiggleMe.eigenstates" );
             _wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
             _parentNode.addChild( _wiggleMe );
             _wiggleMe.setOffset( 250, -50 );

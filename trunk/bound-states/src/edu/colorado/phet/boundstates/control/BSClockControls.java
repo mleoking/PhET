@@ -226,6 +226,14 @@ public class BSClockControls extends JPanel implements ClockListener {
     }
     
     /**
+     * Gets the clock index (speed) component, used for attaching help items.
+     * @return
+     */
+    public JComponent getClockIndexComponent() {
+        return _clockIndexSlider;
+    }
+    
+    /**
      * Gets the clock associated with this control panel.
      * 
      * @return the clock
