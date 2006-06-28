@@ -1,9 +1,6 @@
 ############################################
 # Remaining Work
 ########################
-2 lasers should snap to the value of the left laser, when interfering (to center the diffraction pattern).
-2-lasers panel seems asymmetric since beams can get out of phase.
-
 Can you please post a version of davisson germer in which the max 
 velocity is 4x the current max?
 
