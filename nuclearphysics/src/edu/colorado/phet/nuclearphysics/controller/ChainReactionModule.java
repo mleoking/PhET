@@ -16,9 +16,11 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
+import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,9 +56,12 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     }
 
     protected void init() {
+        // Have to do this to make sure resize events get reported properly with PhetTabbedPane
+        getApparatusPanel().remove( getPhysicalPanel() );
+        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel());
+        setPhysicalPanel( physicalPanel );
+        getApparatusPanel().add( physicalPanel );
 
-        // set the SCALE of the physical panel so we can fit more nuclei in it
-        getPhysicalPanel().setPhysicalScale( 0.5 );
 
 
         getPhysicalPanel().foo();
