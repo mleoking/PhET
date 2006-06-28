@@ -45,14 +45,8 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     private static float dashPhase = 0f;
 //    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
 //                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
-    public static Stroke totalEnergyStroke = new BasicStroke( 2f );
+    public static Stroke totalEnergyStroke = new BasicStroke( 1f );
     public static Color totalEnergyColor = Color.green;
-
-    private static ImageObserver imgObs = new ImageObserver() {
-        public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
-            return false;
-        }
-    };
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -100,9 +94,9 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
 
         g.setColor( totalEnergyColor );
         g.setStroke( totalEnergyStroke );
-        if( profile.getTotalEnergyPath() != null ) {
-            g.draw( profile.getTotalEnergyPath() );
-        }
+//        if( profile.getTotalEnergyPath() != null ) {
+//            g.draw( profile.getTotalEnergyPath() );
+//        }
 
         // Debug
 //        g.drawArc( -3, -3, 6,6, 0, 360 );

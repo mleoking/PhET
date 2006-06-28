@@ -69,7 +69,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
         // Add the energy profile panel
         AffineTransform atx = new AffineTransform( getPhysicalPanel().getNucleonTx() );
-        atx.translate( -energyProfilePanel.getWidth()/ 2 , 150 );
+        atx.translate( -energyProfilePanel.getWidth() / 2 , 130 );
         TxGraphic txg = new TxGraphic( energyProfilePanel, atx ) ;
         getPhysicalPanel().addOriginCenteredGraphic( txg, 1E12 );
         getApparatusPanel().add( component, physicalPanelGBC );

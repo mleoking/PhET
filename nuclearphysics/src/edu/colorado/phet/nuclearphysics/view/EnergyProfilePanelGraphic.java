@@ -14,9 +14,11 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -32,6 +34,10 @@ import java.util.Iterator;
  * This class takes a ProfileType in its constructor that tells if it is going to show
  * an old-style potential energy curve, or the new-style square sided well profile with
  * a total energy line on it.
+ * <p>
+ * There are a couple of ugly hacks here. The total energy line for the potential energy profile
+ * for the single-nucleus fission module, for example, is drawn with g2.drawLine() in paint(), and
+ * uses a boolean to keep the line from overlaying a graphic it shouldn't
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -106,9 +112,13 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private boolean init = false;
     private Rectangle orgBounds;
     private EnergyProfileGraphic.ProfileType profileType;
+    private PhetShapeGraphic backgroundGraphic;
 
     private double width = 800;
     private double height = 300;
+    private int yAxisXLoc = -325;
+    // Insets of the ends of the axes from the boundary of the graphic
+    private Insets axisInsets = new Insets( 35, 35, 35, 35 );
 
     /**
      * Sole constructor
@@ -119,19 +129,17 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         super( component );
         this.profileType = profileType;
 
-        RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 30, 30 );
-        PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
-                                                               border,
-                                                               EnergyProfilePanelGraphic.backgroundColor
+        RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 50, 50 );
+        backgroundGraphic = new PhetShapeGraphic( component,
+                                                  border,
+                                                  EnergyProfilePanelGraphic.backgroundColor
 //                                                               new BasicStroke( 10 ),
 //                                                               Color.gray );
-);
-        addGraphic( borderGraphic, 0 );
+        );
+        addGraphic( backgroundGraphic, 0 );
 
-
-        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png");
-        addGraphic( bezel, 1E9);
-//        bezel.setLocation( -10,-10 );
+        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
+        addGraphic( bezel, 1E9 );
         setClip( bezel.getBounds() );
 //        setClip( border );
     }
@@ -151,17 +159,30 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves
         {
+            GraphicsState gs2 = new GraphicsState( g2 );
             AffineTransform orgTx = g2.getTransform();
             GraphicsUtil.setAlpha( g2, 1 );
             g2.setColor( EnergyProfilePanelGraphic.backgroundColor );
-            GraphicsState gs2 = new GraphicsState( g2 );
             g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
             super.paint( g2 );
+
+            // An ugly hack: This draws the total energy line for the alpha decay module.
+            // I ended p having to do this because the educators want this line to be in a
+            // place that isn't conformant to the energy profile model.
+            if( PhetUtilities.getActiveModule() instanceof AlphaDecayModule ) {
+                g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
+                g2.setColor( EnergyProfileGraphic.totalEnergyColor );
+                g2.drawLine( (int)backgroundGraphic.getBounds().getMinX() + 4,
+                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE  * Config.modelToViewMeV),
+                             (int)backgroundGraphic.getBounds().getMaxX()- 12,
+                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE  * Config.modelToViewMeV) );
+            }
+
             g2.setTransform( orgTx );
 
             // Draw axes
             if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
-                origin.setLocation( getWidth() / 2, getHeight() / 4 );
+                origin.setLocation( getWidth() / 2, getHeight() * 1 / 3 );
             }
             else if( profileType == EnergyProfileGraphic.POTENTIAL_ENERGY ) {
                 origin.setLocation( getWidth() / 2, getHeight() * 3 / 4 );
@@ -171,6 +192,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
             gs2.restoreGraphics();
 
+            // Draw the legend
             drawLegend( g2 );
         }
 
@@ -194,9 +216,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             if( !lineDrawn ) {
                 g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
                 g2.setColor( EnergyProfileGraphic.totalEnergyColor );
-                g2.drawLine( 0,
+                g2.drawLine( (int)backgroundGraphic.getBounds().getMinX() + 4,
                              (int)( profileTx.getTranslateY() - nucleus.getPotential() ),
-                             getWidth(),
+                             (int)backgroundGraphic.getBounds().getMaxX()- 12,
                              (int)( profileTx.getTranslateY() - nucleus.getPotential() ) );
                 lineDrawn = true;
             }
@@ -209,7 +231,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
             // Ugly hack to clip the nucleus graphic
             if( nucleus.getPosition().getX() > -getWidth() * scale
-                    && nucleus.getPosition().getX() < getWidth() * scale ) {
+                && nucleus.getPosition().getX() < getWidth() * scale ) {
                 ng.paint( g2 );
             }
             g2.setTransform( orgTx );
@@ -217,19 +239,20 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         // Draw "ghost" alpha particles in the potential well
         Iterator wellParticlesIt = wellParticles.keySet().iterator();
+        AffineTransform orgTx = g2.getTransform();
+        g2.transform( profileTx );
         while( wellParticlesIt.hasNext() ) {
             AlphaParticleGraphic alphaParticleGraphic = (AlphaParticleGraphic)wellParticlesIt.next();
             double xStat = alphaParticleGraphic.getNucleus().getPosition().getX();
             double yStat = alphaParticleGraphic.getNucleus().getPosition().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             GraphicsUtil.setAlpha( g2, EnergyProfilePanelGraphic.ghostAlpha );
-            AffineTransform orgTx = g2.getTransform();
-            g2.transform( profileTx );
             double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy();
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
-            g2.setTransform( orgTx );
+//            g2.setTransform( orgTx );
         }
+        g2.setTransform( orgTx );
 
         gs.restoreGraphics();
     }
@@ -241,18 +264,17 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
 
-        int arrowOffset = 20;
+//        int arrowOffset = 20;
 
         g2.setColor( EnergyProfilePanelGraphic.axisColor );
         g2.setStroke( EnergyProfilePanelGraphic.axisStroke );
 
-        int xAxisMin = -this.getWidth() / 2 + arrowOffset;
-        int xAxisMax = this.getWidth() / 2 - arrowOffset;
+        int xAxisMin = -this.getWidth() / 2 + axisInsets.left;
+        int xAxisMax = this.getWidth() / 2 - axisInsets.right;
 
-        int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
-        int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
+        int yAxisMin = -(int)( profileTx.getTranslateY() ) + axisInsets.top;
+        int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - axisInsets.bottom;
 
-        int yAxisXLoc = -350;
         xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
         yAxis.setLine( yAxisXLoc, yAxisMin, yAxisXLoc, yAxisMax );
         g2.draw( xAxis );
@@ -283,17 +305,15 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
                 g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
             }
-
-            // x axis ticks
-            for( int x = yAxisXLoc; x < xAxisMax; x += tickSpacing ) {
+            for( int x = yAxisXLoc; x > xAxisMin; x -= tickSpacing ) {
                 g2.drawLine( x, -( tickHeight / 2 ), x, tickHeight / 2 );
             }
 
             // y axis ticks
-            for( int y = 0; y < yAxisMax; y += tickSpacing ) {
+            for( int y = 0; y < yAxisMax - axisInsets.bottom; y += tickSpacing ) {
                 g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
             }
-            for( int y = 0; y > yAxisMin; y -= tickSpacing ) {
+            for( int y = 0; y > yAxisMin + axisInsets.top; y -= tickSpacing ) {
                 g2.drawLine( yAxisXLoc - ( tickHeight / 2 ), y, yAxisXLoc + ( tickHeight / 2 ), y );
             }
         }
@@ -320,16 +340,14 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         }
 
         gs.restoreGraphics();
-        g2.setTransform( orgTx );
     }
 
     private void drawLegend( Graphics2D g2 ) {
-
         GraphicsState gs = new GraphicsState( g2 );
 
         int legendWidth = 180;
         int legendHeight = 60;
-        Insets insetsFromPanel = new Insets( 0, 0, 100, 20 );
+        Insets insetsFromPanel = new Insets( 0, 0, 100, 28 );
         Stroke borderStroke = new BasicStroke( 3 );
         Point legendLoc = new Point( getWidth() - legendWidth - insetsFromPanel.right, getHeight() - legendHeight - insetsFromPanel.bottom );
         g2.setStroke( borderStroke );

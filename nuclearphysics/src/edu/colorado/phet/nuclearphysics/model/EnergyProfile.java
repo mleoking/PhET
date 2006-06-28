@@ -42,7 +42,7 @@ import java.awt.geom.*;
  */
 public class EnergyProfile implements IEnergyProfile {
 
-    private static double alphaParticleKE = 7.595;
+    public  static final double alphaParticleKE = 7.595;
 
     private double width;
     private double maxEnergy;
@@ -157,7 +157,10 @@ public class EnergyProfile implements IEnergyProfile {
         potentilaProfilePath = potentialPath;
 
         // Generate the line for the total energy
-        totalEnergyPath = new Line2D.Double( -2000, -getTotalEnergy(), 2000, -getTotalEnergy() );
+        totalEnergyPath = new Line2D.Double( -(profileWidth / 2),
+                                             -getTotalEnergy(),
+                                             profileWidth / 2,
+                                             -getTotalEnergy() );
     }
 
     public GeneralPath getPotentialEnergyPath() {
