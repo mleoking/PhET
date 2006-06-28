@@ -92,6 +92,7 @@ public class EnergyGraphDialog extends JDialog {
     //----------------------------------------------------------------
 
     private class EnergyRatePanel extends JPanel implements Vessel.ChangeListener {
+        private double scale = 0.4;
 
         public EnergyRatePanel() {
             super( null );
@@ -99,7 +100,8 @@ public class EnergyGraphDialog extends JDialog {
             setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ));
             rateGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
                                       getPreferredSize().getHeight() - 2,
-                                      Color.yellow,
+                                      Color.orange,
+//                                      Color.yellow,
                                       barWidth, true, 0, 1 );
         }
 
@@ -114,11 +116,11 @@ public class EnergyGraphDialog extends JDialog {
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
             g2.setFont( font );
-            g2.drawString( "Energy production rate (J/msec)", 0, 0 );
+            g2.drawString( "Energy production rate (J/sec)", 0, 0 );
         }
 
         public void temperatureChanged( Vessel.ChangeEvent event ) {
-            rateGauge.setLevel( event.getVessel().getTemperature() );
+            rateGauge.setLevel( event.getVessel().getTemperature() * scale  );
             EnergyGraphDialog.this.repaint();
         }
     }
