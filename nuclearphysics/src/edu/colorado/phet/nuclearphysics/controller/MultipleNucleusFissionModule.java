@@ -60,7 +60,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  700, 500 );
+        fireButton.setLocation(  700, 400 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();

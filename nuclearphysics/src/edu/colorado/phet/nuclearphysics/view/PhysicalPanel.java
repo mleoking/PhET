@@ -60,7 +60,6 @@ public class PhysicalPanel extends TxApparatusPanel {
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                System.out.println( "PhysicalPanel.componentResized: " + this );
                 if( !init ) {
                     init = true;
                     setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ) );
@@ -128,7 +127,6 @@ public class PhysicalPanel extends TxApparatusPanel {
     }
 
     public void setOrigin( Point2D.Double origin ) {
-        System.out.println( "origin = " + origin );
         this.origin = origin;
         originTx.setToTranslation( origin.getX(), origin.getY() );
         nucleonTx.setToIdentity();

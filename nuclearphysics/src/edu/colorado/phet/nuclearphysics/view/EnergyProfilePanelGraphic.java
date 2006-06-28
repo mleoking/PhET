@@ -18,6 +18,7 @@ import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.controller.FireButton;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
@@ -140,6 +141,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
         addGraphic( bezel, 1E9 );
+
         setClip( bezel.getBounds() );
 //        setClip( border );
     }
