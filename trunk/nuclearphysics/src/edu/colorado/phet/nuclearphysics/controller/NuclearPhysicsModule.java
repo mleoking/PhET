@@ -56,7 +56,6 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
             }
         } );
 
-        apparatusPanel = new ApparatusPanel();
         apparatusPanel = new NuclearPhysicsApparatusPanel( clock );
         super.setApparatusPanel( apparatusPanel );
 
