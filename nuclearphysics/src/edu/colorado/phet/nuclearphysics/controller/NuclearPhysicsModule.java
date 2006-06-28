@@ -10,19 +10,16 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.NuclearPhysicsApparatusPanel;
+import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * An abstract class that has base behaviors for all modules in this simulation.
