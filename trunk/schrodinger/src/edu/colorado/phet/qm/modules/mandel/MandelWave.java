@@ -25,8 +25,7 @@ public class MandelWave implements Wave {
 
         PlaneWave2D rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
         rightWave.setPhaseOffset( -dPhase );
-        int rightWaveX = waveWidth - leftWaveX;
-//        System.out.println( "leftWaveX = " + leftWaveX + ", rightWaveX=" + rightWaveX + ", waveWidth=" + waveWidth );
+        int rightWaveX = waveWidth - leftWaveX - 1;
         this.rightWave = new MandelWaveDamp( rightWaveX, rightWave, rightIntensity, waveWidth );
     }
 
