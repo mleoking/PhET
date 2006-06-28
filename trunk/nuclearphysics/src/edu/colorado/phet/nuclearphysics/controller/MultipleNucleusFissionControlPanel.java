@@ -90,20 +90,20 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         } );
 
         // Create the controls
-        fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
-        fireNeutronBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.fireNeutron();
-                percentDecayTF.setText( "0" );
-                percentDecayTF.setEditable( false );
-                percentDecayTF.setBackground( Color.white );
-                startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
-                fireNeutronBtn.setEnabled( false );
-                resetBtn.setEnabled( true );
-                numU235Spinner.setEnabled( false );
-                numU238Spinner.setEnabled( false );
-            }
-        } );
+//        fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
+//        fireNeutronBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.fireNeutron();
+//                percentDecayTF.setText( "0" );
+//                percentDecayTF.setEditable( false );
+//                percentDecayTF.setBackground( Color.white );
+//                startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
+//                fireNeutronBtn.setEnabled( false );
+//                resetBtn.setEnabled( true );
+//                numU235Spinner.setEnabled( false );
+//                numU238Spinner.setEnabled( false );
+//            }
+//        } );
 
         //--------------------------------------------------------------------------------------------------
         // Spinners
@@ -127,22 +127,22 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         // Buttons
         //--------------------------------------------------------------------------------------------------
 
-        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.stop();
-                module.start();
-                startNumU235 = 0;
-                percentDecayTF.setText( "0" );
-                numU235Spinner.setValue( new Integer( 1 ) );
-                numU238Spinner.setValue( new Integer( 0 ) );
-                fireNeutronBtn.setEnabled( true );
-                resetBtn.setEnabled( false );
-                numU235Spinner.setEnabled( true );
-                numU238Spinner.setEnabled( true );
-            }
-        } );
-        resetBtn.setEnabled( false );
+//        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+//        resetBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.stop();
+//                module.start();
+//                startNumU235 = 0;
+//                percentDecayTF.setText( "0" );
+//                numU235Spinner.setValue( new Integer( 1 ) );
+//                numU238Spinner.setValue( new Integer( 0 ) );
+//                fireNeutronBtn.setEnabled( true );
+//                resetBtn.setEnabled( false );
+//                numU235Spinner.setEnabled( true );
+//                numU238Spinner.setEnabled( true );
+//            }
+//        } );
+//        resetBtn.setEnabled( false );
 
         //--------------------------------------------------------------------------------------------------
         // Other controls
@@ -161,16 +161,16 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 //            }
 //        } );
 
-        final JButton containmentBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.EnableContainment" ) );
-        containmentBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                containmentEnabled = !containmentEnabled;
-                module.setContainmentEnabled( containmentEnabled );
-                String label = containmentEnabled ? SimStrings.get( "MultipleNucleusFissionControlPanel.DisableContainment")
-                               : SimStrings.get("MultipleNucleusFissionControlPanel.EnableContainment");
-                containmentBtn.setText( label );
-            }
-        } );
+//        final JButton containmentBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.EnableContainment" ) );
+//        containmentBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                containmentEnabled = !containmentEnabled;
+//                module.setContainmentEnabled( containmentEnabled );
+//                String label = containmentEnabled ? SimStrings.get( "MultipleNucleusFissionControlPanel.DisableContainment")
+//                               : SimStrings.get("MultipleNucleusFissionControlPanel.EnableContainment");
+//                containmentBtn.setText( label );
+//            }
+//        } );
 
         // Layout the panel
         setLayout( new GridBagLayout() );
@@ -183,7 +183,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         GridBagConstraints gbcCenter = new GridBagConstraints( 0, 0, 2, 1, 1, 1, GridBagConstraints.CENTER,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 5, 5, 5, 5 ), 5, 5 );
-        add( containmentBtn, gbcCenter );
+//        add( containmentBtn, gbcCenter );
 //        add( containmentCB, gbcCenter );
         gbcLeft.gridy = 1;
         add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.235ULabel" ) ), gbcLeft );
@@ -198,9 +198,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         gbcRight.gridy = 3;
         add( percentDecayTF, gbcRight );
         gbcCenter.gridy = 4;
-        add( fireNeutronBtn, gbcCenter );
+//        add( fireNeutronBtn, gbcCenter );
         gbcCenter.gridy = 5;
-        add( resetBtn, gbcCenter );
+//        add( resetBtn, gbcCenter );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
