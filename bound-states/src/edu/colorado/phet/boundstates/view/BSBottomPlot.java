@@ -218,6 +218,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             }
             _model = model;
             _model.addObserver( this );
+            updateCache();
             updateDatasets();
         }
     }
@@ -368,7 +369,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      */
     private void updateDatasets() {
         if ( _model != null ) {
-            updateCache();
             updateTimeDependentDatasets( _t );
             updateHiliteDataset();
         }
