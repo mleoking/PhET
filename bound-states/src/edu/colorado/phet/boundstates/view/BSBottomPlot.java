@@ -394,6 +394,15 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             final int hiliteIndex = _model.getHilitedEigenstateIndex();
             if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
                 
+                /* 
+                 * NOTE - 
+                 * The cache only contains wave functions for eigenstates with non-zero
+                 * superposition coefficients. It's possible for the user to hilite any of the
+                 * eigenstates, so we compute their wave functions as they're hilited.  A possible
+                 * optimization would be to look for the hilited eigenstate's wave function in
+                 * the cache, and compute it (and cache it) if we don't find it in the cache.
+                 * In practice, there is no perceptible performance difference.
+                 */
                 BSEigenstate[] eigenstates = _model.getEigenstates();
                 BSAbstractPotential potential = _model.getPotential();
                 final double minX = getDomainAxis().getLowerBound();
