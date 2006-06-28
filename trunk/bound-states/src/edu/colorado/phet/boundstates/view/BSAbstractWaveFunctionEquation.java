@@ -60,6 +60,8 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     public BSAbstractWaveFunctionEquation() {
         setFont( BSConstants.WAVE_FUNCTION_EQUATION_FONT );
         setHTMLColor( Color.BLACK );
+        setPickable( false );
+        setChildrenPickable( false );
         _location = new Point2D.Double();
         _mode = BSBottomPlotMode.PROBABILITY_DENSITY;
     }
