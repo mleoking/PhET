@@ -48,7 +48,6 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, Config.ALPHA_DECAY_SIM_TIME_STEP  ) );
-//        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, 5 ) );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( ClockFactory.create( 40, 1.5 ) );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( ClockFactory.create( 40, 6 ) );
         Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 40, 20 ) );

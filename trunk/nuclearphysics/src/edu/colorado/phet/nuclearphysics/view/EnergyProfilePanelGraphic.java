@@ -119,7 +119,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         super( component );
         this.profileType = profileType;
 
-        RoundRectangle2D border = new RoundRectangle2D.Double( 0, 0, width, height, 30, 30 );
+        RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 30, 30 );
         PhetShapeGraphic borderGraphic = new PhetShapeGraphic( component,
                                                                border,
                                                                EnergyProfilePanelGraphic.backgroundColor
@@ -131,7 +131,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png");
         addGraphic( bezel, 1E9);
-        bezel.setLocation( -10,-10 );
+//        bezel.setLocation( -10,-10 );
         setClip( bezel.getBounds() );
 //        setClip( border );
     }
@@ -320,6 +320,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         }
 
         gs.restoreGraphics();
+        g2.setTransform( orgTx );
     }
 
     private void drawLegend( Graphics2D g2 ) {

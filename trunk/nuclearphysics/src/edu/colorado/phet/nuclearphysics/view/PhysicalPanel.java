@@ -30,10 +30,10 @@ import java.util.EventListener;
 
 /**
  * A panel thst shows the physical representation of what's going on.
- * <p>
+ * <p/>
  * When a Nucleus instance is added to this panel, the panel calls a factory object to make a
  * graphic for the nucleus.
- * <p>
+ * <p/>
  * Every time a nucleus is added to this panel, the panel binds a listener to the nucleus that
  * will remove it's associated graphic when the nucleus fires a leavingSystem() message.
  */
@@ -41,7 +41,7 @@ public class PhysicalPanel extends TxApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
     private boolean init = false;
-    private Point2D.Double origin = new Point2D.Double( );
+    private Point2D.Double origin = new Point2D.Double();
     private AffineTransform originTx = new AffineTransform();
     private AffineTransform scaleTx = new AffineTransform();
     private AffineTransform nucleonTx = new AffineTransform();
@@ -50,6 +50,7 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     /**
      * Constructor
+     *
      * @param clock
      */
     public PhysicalPanel( IClock clock, NuclearPhysicsModel model ) {
@@ -61,7 +62,14 @@ public class PhysicalPanel extends TxApparatusPanel {
             public void componentResized( ComponentEvent e ) {
                 if( !init ) {
                     init = true;
-                    setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ));
+                    setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ) );
+                }
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                if( !init ) {
+                    init = true;
+                    setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ) );
                 }
             }
         } );
@@ -73,7 +81,7 @@ public class PhysicalPanel extends TxApparatusPanel {
                 Nucleus nucleus = event.getNucleus();
                 NucleusGraphic ng = new NucleusGraphicFactory().create( nucleus );
                 final TxGraphic txg = new TxGraphic( ng, nucleonTx );
-                nucleus.addListener( new GraphicRemover( txg ));
+                nucleus.addListener( new GraphicRemover( txg ) );
                 PhysicalPanel.super.addGraphic( txg, nucleusLevel );
                 graphicListenerProxy.graphicAdded( new GraphicEvent( txg ) );
             }
@@ -82,6 +90,10 @@ public class PhysicalPanel extends TxApparatusPanel {
                 //noop
             }
         } );
+    }
+
+    public void foo() {
+        setOrigin( new Point2D.Double( origin.getX() + getWidth() / 2, origin.getY() + getHeight() / 2 ) );
     }
 
     public double getScale() {
@@ -115,6 +127,7 @@ public class PhysicalPanel extends TxApparatusPanel {
     }
 
     public void setOrigin( Point2D.Double origin ) {
+        System.out.println( "origin = " + origin );
         this.origin = origin;
         originTx.setToTranslation( origin.getX(), origin.getY() );
         nucleonTx.setToIdentity();
@@ -173,6 +186,7 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     public interface GraphicListener extends EventListener {
         void graphicAdded( GraphicEvent event );
+
         void graphicRemoved( GraphicEvent event );
     }
 }
