@@ -129,8 +129,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Gets the slider's color
-     *
-     * @return
      */
     public Color getColor() {
         return _color;

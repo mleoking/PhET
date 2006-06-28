@@ -1,6 +1,7 @@
 1.01.06
 Removed feature: "Autodetect" has to be deselected before "Repeat Detect" can be checked. 
 On the screen brightness slider, removed tick marks 0.25 and 0.75 (incorrect because of rounding off).
+Synchronized 2 lasers to center the diffraction pattern and remove beats.
 
 1.01.05 (6-27-2006)
 Added save/load of double-slits.
