@@ -6,7 +6,6 @@ o Get the time units to work out correctly.
 o Add schematic view for inductors.
 o Add Delete button for charts.
 o Add a timer.
-o Bug: 'Advanced' disappears on control panel.
 o Is the ac current (in a circuit with capacitor) symmetric?
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
 
