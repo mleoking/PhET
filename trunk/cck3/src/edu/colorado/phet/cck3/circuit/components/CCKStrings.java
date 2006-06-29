@@ -10,7 +10,7 @@ import edu.colorado.phet.common_cck.view.util.SimStrings;
  * Copyright (c) Jun 24, 2006 by Sam Reid
  */
 
-public class WIStrings {
+public class CCKStrings {
     public static String getString( String s ) {
         return SimStrings.get( s );
     }

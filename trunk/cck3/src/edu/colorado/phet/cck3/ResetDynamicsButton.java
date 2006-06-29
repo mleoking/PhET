@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.components.WIStrings;
+import edu.colorado.phet.cck3.circuit.components.CCKStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ public class ResetDynamicsButton extends JButton {
     private CCK3Module module;
 
     public ResetDynamicsButton( final CCK3Module module ) {
-        super( WIStrings.getString( "reset.dynamics" ) );
+        super( CCKStrings.getString( "reset.dynamics" ) );
         this.module = module;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

@@ -225,8 +225,8 @@ public class Toolbox extends CompositeGraphic {
         double initialHeight = CCK3Module.CAP_DIM.getHeightForLength( componentWidth );
         Inductor inductor = new Inductor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
         CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getInductorImage(), parent, inductor, transform );
-//        SchematicCapacitorGraphic schematicGraphic = new SchematicCapacitorGraphic( parent, inductor, transform, schematicWireThickness );
-        inductorSource = new BranchSource.InductorSource( lifelike, lifelike, module.getCircuitGraphic(), parent, inductor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
+        SchematicInductorGraphic schematic = new SchematicInductorGraphic( parent, inductor, transform, schematicWireThickness );
+        inductorSource = new BranchSource.InductorSource( lifelike, schematic, module.getCircuitGraphic(), parent, inductor, module.getKirkhoffListener(), CCK3Module.INDUCTOR_DIM, module );
         addSource( inductorSource );
         y += dy;
         return y;
@@ -300,6 +300,7 @@ public class Toolbox extends CompositeGraphic {
         super.paint( g );
     }
 
+    //todo: refactor this to composite pattern
     public void setLifelike( boolean lifelike ) {
         wireSource.setLifelike( lifelike );
         batterySource.setLifelike( lifelike );
@@ -314,6 +315,9 @@ public class Toolbox extends CompositeGraphic {
         }
         if( acSource != null ) {
             acSource.setLifelike( lifelike );
+        }
+        if( inductorSource != null ) {
+            inductorSource.setLifelike( lifelike );
         }
     }
 

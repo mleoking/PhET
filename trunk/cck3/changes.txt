@@ -2,7 +2,8 @@
 Bugfix: When you charge a capacitor and completely disconnect if, the capacitor loses all its charge.
 Added readout for inductors.
 Added component editor for inductors.
-Bugfix: 'Advanced' border title disappears on control panel when expanding the advanced panel. 
+Bugfix: 'Advanced' border title disappears on control panel when expanding the advanced panel.
+Added schematic view for inductors.
 
 Version 3.01.04 (6-26-2006)
 Added spanish for new components.

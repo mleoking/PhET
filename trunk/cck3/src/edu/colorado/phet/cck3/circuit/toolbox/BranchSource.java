@@ -287,9 +287,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class InductorSource extends BranchSource {
         private ComponentDimension cd;
 
-        public InductorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
+        public InductorSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Inductor" ), module );
+            super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Inductor" ), module );
             this.cd = cd;
         }
 

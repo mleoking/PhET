@@ -180,7 +180,7 @@ public class CircuitGraphic extends CompositeGraphic {
         else if( branch instanceof Capacitor ) {
             return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
                 protected String[] getText() {
-                    String units = WIStrings.getString( "farads" );
+                    String units = CCKStrings.getString( "farads" );
                     return new String[]{format( ( (Capacitor)branch ).getCapacitance() ) + " " + units};
                 }
             };
@@ -191,7 +191,7 @@ public class CircuitGraphic extends CompositeGraphic {
         else if( branch instanceof Inductor ) {
             return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
                 protected String[] getText() {
-                    String units = WIStrings.getString( "henries" );
+                    String units = CCKStrings.getString( "henries" );
                     return new String[]{format( ( (Inductor)branch ).getInductance() ) + " " + units};
                 }
             };

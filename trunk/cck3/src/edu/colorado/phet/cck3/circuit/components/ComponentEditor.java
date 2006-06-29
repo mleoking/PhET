@@ -292,7 +292,7 @@ public abstract class ComponentEditor extends JDialog {
         private ACVoltageSource branch;
 
         public ACVoltageSourceEditor( CCK3Module module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
-            super( module, WIStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, WIStrings.getString( "BranchSource.AC" ), WIStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
+            super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
             this.branch = branch;
         }
 
