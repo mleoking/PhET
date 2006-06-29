@@ -692,4 +692,25 @@ public class Circuit {
             }
         }
     }
+
+    public int getInductorCount() {
+        int sum = 0;
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch instanceof Inductor ) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+    public int getCapacitorCount() {
+        int sum = 0;
+        for( int i = 0; i < numBranches(); i++ ) {
+            if( branchAt( i ) instanceof Capacitor ) {
+                sum++;
+            }
+        }
+        return sum;
+    }
 }
