@@ -127,22 +127,22 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         // Buttons
         //--------------------------------------------------------------------------------------------------
 
-//        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
-//        resetBtn.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.stop();
-//                module.start();
-//                startNumU235 = 0;
-//                percentDecayTF.setText( "0" );
-//                numU235Spinner.setValue( new Integer( 1 ) );
-//                numU238Spinner.setValue( new Integer( 0 ) );
+        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.stop();
+                module.start();
+                startNumU235 = 0;
+                percentDecayTF.setText( "0" );
+                numU235Spinner.setValue( new Integer( 1 ) );
+                numU238Spinner.setValue( new Integer( 0 ) );
 //                fireNeutronBtn.setEnabled( true );
 //                resetBtn.setEnabled( false );
-//                numU235Spinner.setEnabled( true );
-//                numU238Spinner.setEnabled( true );
-//            }
-//        } );
-//        resetBtn.setEnabled( false );
+                numU235Spinner.setEnabled( true );
+                numU238Spinner.setEnabled( true );
+            }
+        } );
+        resetBtn.setEnabled( true );
 
         //--------------------------------------------------------------------------------------------------
         // Other controls
@@ -200,7 +200,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         gbcCenter.gridy = 4;
 //        add( fireNeutronBtn, gbcCenter );
         gbcCenter.gridy = 5;
-//        add( resetBtn, gbcCenter );
+        add( resetBtn, gbcCenter );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
