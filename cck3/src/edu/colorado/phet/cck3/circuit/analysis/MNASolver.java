@@ -26,11 +26,11 @@ public class MNASolver extends CircuitSolver {
     private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
 
     public void apply( Circuit circuit ) {
-        if( circuit.numBranches() < 2 ) {
-            //can't clear the circuit because of dynamic components.
-//            clearCircuit();
-            return;
-        }
+//        if( circuit.numBranches() < 2 ) {
+//            //can't clear the circuit because of dynamic components.
+////            clearCircuit();
+//            return;
+//        }
         MNACircuit mnaCircuit = new MNACircuit();
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
@@ -39,6 +39,7 @@ public class MNASolver extends CircuitSolver {
             mnaCircuit.addComponent( toMNAComponent( branch, i, startJunction, endJunction ) );
         }
         MNACircuit.MNASolution solution = mnaCircuit.getCompanionModel( dt ).getSolution();
+//        System.out.println( "solution = " + solution );
         if( !solution.isLegalSolution() ) {
             System.out.println( "solution.isLegalSolution() = " + solution.isLegalSolution() );
             for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -54,10 +55,10 @@ public class MNASolver extends CircuitSolver {
 //        int freeIndex = solution.getNumVoltages() + getBatteries( circuit ).length;//todo loose coupling, we'd like to get the current for the capacitor directly.
 
         /*This is meant to compute voltages at each node, so we can avoid a complex graph traversal later*/
-        for( int i = 0; i < circuit.numJunctions(); i++ ) {
-            System.out.println( "solution.getVoltage( i ) = " + solution.getVoltage( i ) );
-            circuit.junctionAt( i ).setVoltage( solution.getVoltage( i ) );
-        }
+//        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+//            System.out.println( "solution.getVoltage( i ) = " + solution.getVoltage( i ) );
+//            circuit.junctionAt( i ).setVoltage( solution.getVoltage( i ) );
+//        }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             int startJunction = circuit.indexOf( branch.getStartJunction() );

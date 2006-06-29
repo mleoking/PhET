@@ -213,23 +213,19 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
     }
 
     public void applyRootSolver( final Circuit circuit ) {
-        if( ( getCapacitorCount( circuit ) > 0 || getBatteries( circuit ).length > 0 ) && circuit.numJunctions() > 2 ) {
+        //when requiring numJunctions>2, a lone capacitor gets cleared.
+//        if( ( getCapacitorCount( circuit ) > 0 || getBatteries( circuit ).length > 0 ) && circuit.numJunctions() > 2 ) {
+        if( ( circuit.getCapacitorCount() > 0 || getBatteries( circuit ).length > 0 ) || circuit.getInductorCount() > 0 )
+        {
+//            System.out.println( "Applying root solver" );
             rootSolver.apply( circuit );
         }
         else {
+//            System.out.println( "Clearing circuit" );
             clear( circuit );
         }
     }
 
-    private int getCapacitorCount( Circuit circuit ) {
-        int sum = 0;
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
-            if( circuit.branchAt( i )instanceof Capacitor ) {
-                sum++;
-            }
-        }
-        return sum;
-    }
 
     private void clear( Circuit circuit ) {
         for( int i = 0; i < circuit.numBranches(); i++ ) {

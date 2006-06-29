@@ -25,11 +25,6 @@ maximum plus and minus signs.  It appears at first that the amount of charge
 on the fully charged capacitor is the same in both cases (low and high 
 capacitance).  These issues could be a little confusing for students.
 
--When you charge a capacitor and disconnect if from the circuit in CCK, the 
-capacitor loses all its charge.  It will still keep its charge as long as 
-at least one other item is connected to it.  Is there anyway we can have a 
-capacitor (not connected to anything else) keep its charge?
-
 -If you build a simple circuit (battery, resistor, capacitor, and wires in 
 series) and wiggle an element or node back and forth around with the mouse, 
 the blue balls stop flowing from a node 2 or 3 nodes clock-wise from the 
