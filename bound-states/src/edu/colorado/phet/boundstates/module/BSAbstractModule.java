@@ -44,7 +44,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
@@ -505,8 +504,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      */
     public void setHelpEnabled( boolean enabled ) {
         super.setHelpEnabled( enabled );
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
-        SwingUtils.paintImmediately( frame );
+        SwingUtils.paintImmediately( getFrame() );
     }
     
     //----------------------------------------------------------------------------
