@@ -10,7 +10,6 @@
  */
 
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
-import edu.colorado.phet.simlauncher.resources.CatalogResource;
 import edu.colorado.phet.simlauncher.*;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class TestSimFactory {
     public static void main( String[] args ) throws IOException, SimResourceException {
         List simulations = new SimFactory().getSimulations( new PhetWebPage( "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm" ) );
         for( int i = 0; i < simulations.size(); i++ ) {
-            Simulation simulation = (Simulation)simulations.get( i );
+            JavaSimulation simulation = (JavaSimulation)simulations.get( i );
             simulation.install();
         }
     }

@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.JavaSimulation;
 import edu.colorado.phet.simlauncher.menus.menuitems.*;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public class InstalledSimPopupMenu extends JPopupMenu {
     /**
      * @param simulation
      */
-    public InstalledSimPopupMenu( Simulation simulation ) {
+    public InstalledSimPopupMenu( JavaSimulation simulation ) {
         add( new SimLaunchMenuItem( simulation ) );
         add( new SimDescriptionMenuItem( simulation ) );
         add( new SimUpdateCheckMenuItem( simulation, PhetSiteConnection.instance() ) );

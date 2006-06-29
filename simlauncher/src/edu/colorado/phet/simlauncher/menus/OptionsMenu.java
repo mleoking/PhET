@@ -28,8 +28,8 @@ class OptionsMenu extends JMenu {
         add( autoUpdateOption );
         autoUpdateOption.addActionListener( new AutoUpdateAction( this ) );
 
-        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations\nfor updates");
+        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates");
         add(checkAllForUpdates );
-        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));
+        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction());
     }
 }

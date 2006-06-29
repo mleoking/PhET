@@ -65,7 +65,7 @@ public class SimTable extends JTable implements SimContainer {
         Collections.sort( sims, sortType );
         Object[][] rowData = new Object[sims.size()][3];
         for( int i = 0; i < sims.size(); i++ ) {
-            Simulation sim = (Simulation)sims.get( i );
+            JavaSimulation sim = (JavaSimulation)sims.get( i );
 
             String isCurrent = "";
             try {
@@ -116,13 +116,13 @@ public class SimTable extends JTable implements SimContainer {
      *
      * @return The currently selected simulation, or null if none is selected
      */
-    public Simulation getSelection() {
-        Simulation sim = null;
+    public JavaSimulation getSelection() {
+        JavaSimulation sim = null;
         if( isVisible() ) {
             int idx = getSelectedRow();
             if( idx >= 0 ) {
                 String simName = (String)this.getValueAt( idx, 0 );
-                sim = Simulation.getSimulationForName( simName );
+                sim = JavaSimulation.getSimulationForName( simName );
             }
         }
         return sim;
@@ -191,22 +191,22 @@ public class SimTable extends JTable implements SimContainer {
 
     public static class NameComparator extends SimComparator {
         public int compare( Object o1, Object o2 ) {
-            if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
+            if( !( o1 instanceof JavaSimulation && o2 instanceof JavaSimulation ) ) {
                 throw new ClassCastException();
             }
-            Simulation s1 = (Simulation)o1;
-            Simulation s2 = (Simulation)o2;
+            JavaSimulation s1 = (JavaSimulation)o1;
+            JavaSimulation s2 = (JavaSimulation)o2;
             return s1.getName().compareTo( s2.getName() );
         }
     }
 
     public static class LastLaunchTimeComparator extends SimComparator {
         public int compare( Object o1, Object o2 ) {
-            if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
+            if( !( o1 instanceof JavaSimulation && o2 instanceof JavaSimulation ) ) {
                 throw new ClassCastException();
             }
-            Simulation s1 = (Simulation)o1;
-            Simulation s2 = (Simulation)o2;
+            JavaSimulation s1 = (JavaSimulation)o1;
+            JavaSimulation s2 = (JavaSimulation)o2;
             Long t1 = new Long( s1.getLastLaunchTimestamp() );
             Long t2 = new Long( s2.getLastLaunchTimestamp() );
             return t2.compareTo( t1 );
@@ -295,7 +295,7 @@ public class SimTable extends JTable implements SimContainer {
      *
      * @return the currently selected simulation
      */
-    public Simulation getSimulation() {
+    public JavaSimulation getSimulation() {
         return getSelection();
     }
 

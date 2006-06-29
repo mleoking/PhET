@@ -10,6 +10,7 @@ Bugs
 ========
 Features
 ========
+- Right-click should also select
 - Should be able to force an update.
 - "Print all" utility for teachers. (Trish's request)
 - Write utility to generate the catalog XML file, rather than parsing it on the fly in SimLauncher. Then SimFactory
@@ -17,6 +18,15 @@ would only work with an XML file.
 - In PhetWebPage, handle things like "img =" and "img="
 - In PhetWebPage, be more careful about using the <a> tag with the JNLP that also has the thumbnail and abstract
 - Make CategoryFactory use a PhetWebPage
+- Categorize installed simulations
+
+- Main page is installed sims, catalog is auxilliary window, or slide-out panel with list in it
+
+------------
+Deployment
+------------
+- Installer w/ Launch Anywhere?
+
 
 - Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for uninstalled simulations.
