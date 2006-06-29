@@ -11,17 +11,12 @@
 
 package edu.colorado.phet.boundstates.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -33,8 +28,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -233,6 +230,33 @@ public class TestHelpRepaint {
             return true;
         }
 
+        /* When the help state is changed, immediately repaint everything */
+        public void setHelpEnabled( boolean enabled ) {
+            super.setHelpEnabled( enabled );
+            PhetFrame frame = PhetApplication.instance().getPhetFrame();
+            paintImmediately( frame );
+        }
+        
+        /* Immediately paints a component and all of its children */
+        private void paintImmediately( Component component ) {
+            
+            // Paint the component
+            if ( component instanceof JComponent ) {
+                JComponent jcomponent = (JComponent)component;
+                jcomponent.paintImmediately( jcomponent.getBounds() );
+            }
+            
+            // Recursively paint children
+            if ( component instanceof Container ) {
+                Container container = (Container)component;
+                int numberOfChildren = container.getComponentCount();
+                for ( int i = 0; i < numberOfChildren; i++ ) {
+                    Component child = container.getComponent( i );
+                    paintImmediately( child );
+                }
+            }
+        }
+        
         // Called whenever the simulation's window size is changed
         private void updateLayout() {
 
