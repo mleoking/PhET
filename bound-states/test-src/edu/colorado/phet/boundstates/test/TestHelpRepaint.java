@@ -52,6 +52,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * (or parts of help items) that fall outside the PCanvas are
  * not painted. Other parts of the interface (eg, the Help button
  * in the control panel) are sometimes not properly painted.
+ * <p>
+ * The workaround is to force a paint of the entire component tree
+ * when the help state changes. Set setHelpEnabled and paintImmediately.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
