@@ -48,6 +48,8 @@ CCK detectors should readout empty data while off of wires.
 
 Add a gui component for clearing capacitors & inductors.
 
+Chart button should have icon, be located next to other measurement tools in the control panel.
+
 ################################################
 #Lower Priority
 #######################
