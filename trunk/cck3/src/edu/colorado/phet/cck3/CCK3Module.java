@@ -101,6 +101,7 @@ public class CCK3Module extends Module {
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
     public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
     public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
+    public static final ComponentDimension INDUCTOR_DIM = new ComponentDimension( 2.5 * SCALE, 0.6 * SCALE );
     private static double bulbLength = 1;
     private static double bulbHeight = 1.5;
     private static double bulbDistJ = .39333;
@@ -143,6 +144,7 @@ public class CCK3Module extends Module {
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
     private Area electronClip = new Area();
+
 
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );

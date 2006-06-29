@@ -887,14 +887,8 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addCapacitorGraphic( Capacitor b ) {
-//            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getCapacitorImage(), apparatusPanel, b, transform );
-//            CircuitGraphic.this.addGraphic( b, ccbg );
-
             SchematicCapacitorGraphic schematicCapacitorGraphic = new SchematicCapacitorGraphic( apparatusPanel, b, getTransform(), new Schematic().wireThickness );
-//            schematicCapacitorGraphic.setPaint( Color.orange );
             CircuitGraphic.this.addGraphic( b, schematicCapacitorGraphic );
-
-//            new Schematic().addCapatitorGraphic( b );
         }
 
         private void addGrabBagGraphic( GrabBagResistor b ) {
@@ -972,9 +966,19 @@ public class CircuitGraphic extends CompositeGraphic {
             else if( b instanceof Capacitor ) {
                 addCapatitorGraphic( (Capacitor)b );
             }
+            else if( b instanceof Inductor ) {
+                addInductorGraphic( (Inductor)b );
+            }
             else {
                 addWireGraphic( b );
             }
+        }
+
+        private void addInductorGraphic( Inductor inductor ) {
+//            CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getInductorImage(), apparatusPanel, inductor, transform );
+//            CircuitGraphic.this.addGraphic( inductor, lifelike );
+            SchematicInductorGraphic schematicInductorGraphic = new SchematicInductorGraphic( apparatusPanel, inductor, getTransform(), wireThickness );
+            CircuitGraphic.this.addGraphic( inductor, schematicInductorGraphic );
         }
 
         private void addBulbGraphic( Bulb bulb ) {
