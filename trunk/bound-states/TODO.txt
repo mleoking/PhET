@@ -20,7 +20,6 @@ LOW PRIORITY:
 - refactor classes that have gotten too big (eg, BSAbstractModule)
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 - incorrect hand cursor: move mouse from Energy chart to control panel to bottom chart
-- generate images for clock and zoom buttons, delete image files
 
 CLEANUP:
 - javadoc all code
@@ -408,6 +407,7 @@ DONE:
 
 
 REJECTED:
+(6/28/06) - generate images for clock and zoom buttons, delete image files (not worth the effort, would only save 3K)
 (6/28/06) - wave function cache could be smarter about saving stuff until the potential or particle have changed (too much work, not enough payoff)
 (6/28/06) - used lazy module init to reduce startup time (too much work, no one is complaining about startup time)
 (6/28/06) - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one (they are sufficiently different to make this very difficult)
