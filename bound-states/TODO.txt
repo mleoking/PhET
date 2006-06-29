@@ -10,7 +10,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
-- help items don't fully draw when clock is running (Mac only)
 - turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only)
 
 LOW PRIORITY:
@@ -32,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+(6/29/06) - bugfix: help items don't fully draw when clock is running (Mac only)
 (6/29/06) - verified that help-related problems are Mac-only
 (6/28/06) - previous 2 changes improve startup performance slightly
 (6/28/06) - ensure that wave function cache is updated only once during startup

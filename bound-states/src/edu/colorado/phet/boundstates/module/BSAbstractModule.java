@@ -38,14 +38,15 @@ import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.help.BSWiggleMe;
 import edu.colorado.phet.boundstates.model.*;
-import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -495,6 +496,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionStateDialog.dispose();
         }
         super.deactivate();
+    }
+    
+    /*
+     * WORKAROUND: 
+     * Force a repaint of the entire component tree when the help state changes.
+     * If we don't do this, then parts of help items don't draw properly on Macintosh.
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        super.setHelpEnabled( enabled );
+        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        SwingUtils.paintImmediately( frame );
     }
     
     //----------------------------------------------------------------------------
