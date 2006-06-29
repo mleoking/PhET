@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - bug: turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only)
 
 LOW PRIORITY:
-- wiggle me animation is jerky
+- wiggle me animation is jerky on some machines
 - bug: plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases
 - make plots in bottom chart look smoother on Windows
 - refactor classes that have gotten too big (eg, BSAbstractModule)
