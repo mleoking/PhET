@@ -166,4 +166,28 @@ public class SwingUtils {
             button.setOpaque( false );
         }
     }
+    
+    /**
+     * Forces an immediate repaint of a component and all of its children.
+     * 
+     * @param component
+     */
+    public static void paintImmediately( Component component ) {
+        
+        // Paint the component
+        if ( component instanceof JComponent ) {
+            JComponent jcomponent = (JComponent)component;
+            jcomponent.paintImmediately( jcomponent.getBounds() );
+        }
+        
+        // Recursively paint children
+        if ( component instanceof Container ) {
+            Container container = (Container)component;
+            int numberOfChildren = container.getComponentCount();
+            for ( int i = 0; i < numberOfChildren; i++ ) {
+                Component child = container.getComponent( i );
+                paintImmediately( child );
+            }
+        }
+    }
 }
