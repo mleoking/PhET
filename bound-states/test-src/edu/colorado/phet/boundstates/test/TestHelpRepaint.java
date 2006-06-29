@@ -23,11 +23,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -39,7 +37,6 @@ import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
@@ -74,8 +71,7 @@ public class TestHelpRepaint {
     private static final double DX = 1;
     private static final double MIN_Y = -100;
     private static final double MAX_Y = 100;
-
-
+    
     public static void main( final String[] args ) {
         try {
             TestApplication app = new TestApplication( args );
@@ -86,29 +82,27 @@ public class TestHelpRepaint {
         }
     }
 
-
     private static class TestApplication extends PiccoloPhetApplication {
-    public TestApplication( String[] args ) throws InterruptedException {
-        super( args, "TestHelpRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-        // Clock
-        IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );
+        public TestApplication( String[] args ) throws InterruptedException {
+            super( args, "TestHelpRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-        // Modules
-        Module moduleOne = new TestModule( "One", clock );
-        addModule( moduleOne );
-        Module moduleTwo = new TestModule( "Two", clock );
-        addModule( moduleTwo );
+            // Clock
+            IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );
+
+            // Modules
+            Module moduleOne = new TestModule( "One", clock );
+            addModule( moduleOne );
+            Module moduleTwo = new TestModule( "Two", clock );
+            addModule( moduleTwo );
+        }
     }
-    }
-
 
     private static class TestModule extends PiccoloModule {
 
         private PhetPCanvas _canvas;
         private XYSeries _series;
         private JFreeChartNode _chartNode;
-        private XYPlotNode _plotNode;
 
         public TestModule( String name, IClock clock ) {
             super( name, clock, false /* startsPaused */);
@@ -129,32 +123,42 @@ public class TestHelpRepaint {
             PNode parentNode = new PNode();
             _canvas.addScreenChild( parentNode );
 
-            // JFreeChartNode, for drawing the chart's background, contains no data.
-            XYPlot emptyPlot = createPlot();
-            JFreeChart chart = new JFreeChart( emptyPlot );
-            chart.setBackgroundPaint( BACKGROUND );
-            _chartNode = new JFreeChartNode( chart );
-            parentNode.addChild( _chartNode );
-
-            // XYPlotNode, plots the actual data on top of the chart
+            // Chart to display time-varying data
             {
                 // Series
                 final int seriesIndex = 0;
                 _series = new XYSeries( "Random data" );
-                XYSeriesCollection dataset = new XYSeriesCollection();
-                dataset.addSeries( _series );
 
                 // Plot
-                XYPlot plot = createPlot();
+                XYPlot plot = new XYPlot();
+                
+                // X axis
+                ValueAxis xAxis = new NumberAxis( "X" );
+                xAxis.setRange( MIN_X, MAX_X );
+                plot.setDomainAxis( xAxis );
+                
+                // Y axis
+                ValueAxis yAxis = new NumberAxis( "Y" );
+                yAxis.setRange( MIN_Y, MAX_Y );
+                plot.setRangeAxis( yAxis );
+                
+                // Dataset
+                XYSeriesCollection dataset = new XYSeriesCollection();
+                dataset.addSeries( _series );
                 plot.setDataset( seriesIndex, dataset );
+                
+                // Renderer
                 XYItemRenderer renderer = new StandardXYItemRenderer();
                 renderer.setPaint( Color.RED );
                 renderer.setStroke( new BasicStroke( 2f ) );
                 plot.setRenderer( seriesIndex, renderer );
 
-                // Plot node, draws data on top of the static chart
-                _plotNode = new XYPlotNode( plot );
-                parentNode.addChild( _plotNode );
+                // Chart
+                JFreeChart chart = new JFreeChart( plot );
+                chart.setBackgroundPaint( BACKGROUND );
+                
+                _chartNode = new JFreeChartNode( chart );
+                parentNode.addChild( _chartNode );
             }
 
             // Blue square, draggable
@@ -220,7 +224,7 @@ public class TestHelpRepaint {
                 }
             } );
 
-            // Default layout and data set...
+            // Default layout and data...
             updateLayout();
             updateData( 0 /* t=0 */);
         }
@@ -229,45 +233,18 @@ public class TestHelpRepaint {
             return true;
         }
 
-        // Creates the plot used by both the static chart and the XYPlotNode
-        private XYPlot createPlot() {
-            XYPlot plot = new XYPlot();
-            ValueAxis xAxis = new NumberAxis( "X" );
-            xAxis.setRange( MIN_X, MAX_X );
-            plot.setDomainAxis( xAxis );
-            ValueAxis yAxis = new NumberAxis( "Y" );
-            yAxis.setRange( MIN_Y, MAX_Y );
-            plot.setRangeAxis( yAxis );
-            plot.setRenderer( new StandardXYItemRenderer() );
-            return plot;
-        }
-
         // Called whenever the simulation's window size is changed
         private void updateLayout() {
 
             final double margin = 10;
 
-            // Chart
+            // Adjust the chart size
             double x = margin;
             double y = margin;
             double w = _canvas.getWidth() - ( 2 * margin );
             double h = _canvas.getHeight() - ( 2 * margin ) - y;
             _chartNode.setBounds( 0, 0, w, h );
             _chartNode.setOffset( x, y );
-            _chartNode.updateChartRenderingInfo();
-
-            // Plot bounds
-            ChartRenderingInfo chartInfo = _chartNode.getChartRenderingInfo();
-            PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
-            // Careful! getDataArea returns a direct reference!
-            Rectangle2D dataAreaRef = plotInfo.getDataArea();
-            Rectangle2D localBounds = new Rectangle2D.Double();
-            localBounds.setRect( dataAreaRef );
-            Rectangle2D plotBounds = _chartNode.localToGlobal( localBounds );
-
-            // Plot node
-            _plotNode.setOffset( 0, 0 );
-            _plotNode.setDataArea( plotBounds );
         }
 
         // Called whenever the clock ticks
@@ -281,5 +258,6 @@ public class TestHelpRepaint {
             }
             _series.setNotify( true );
         }
+        
     } // class TestModule
 }
