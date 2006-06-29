@@ -70,8 +70,8 @@ public class SimFactory {
             catch( MalformedURLException e ) {
                 e.printStackTrace();
             }
-            Simulation simulation = new Simulation( name, description, thumbnailResource, jnlpUrl,
-                                                    Configuration.instance().getLocalRoot()
+            JavaSimulation simulation = new JavaSimulation( name, description, thumbnailResource, jnlpUrl,
+                                                        Configuration.instance().getLocalRoot()
                                                     );
             sims.add( simulation );
         }
@@ -109,7 +109,7 @@ public class SimFactory {
                 String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();
                 URL jnlpURL = new URL( jnlpStr );
 
-                Simulation sim = new Simulation( name, str, thumbnailResource, jnlpURL, localRoot );
+                JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
                 simList.add( sim );
             }
         }

@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.JavaSimulation;
 import edu.colorado.phet.simlauncher.Catalog;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
@@ -26,7 +26,7 @@ public class InstalledSimsAtStartupTest {
     public static void main( String[] args ) throws SimResourceException {
         List sims = Catalog.instance().getInstalledSimulations();
         for( int i = 0; i < sims.size(); i++ ) {
-            Simulation simulation = (Simulation)sims.get( i );
+            JavaSimulation simulation = (JavaSimulation)sims.get( i );
             System.out.println( "simulation = " + simulation );
         }
     }

@@ -104,6 +104,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                                                                               GridBagConstraints.NONE,
                                                                               new Insets( 10, 0, 20, 0 ), 0, 0 );
 
+        /**
+         * Constructor
+         */
         public SimPanel() {
             super( new GridBagLayout() );
 
@@ -175,7 +178,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         // Implementation of SimulationContainer
         //--------------------------------------------------------------------------------------------------
 
-        public Simulation getSimulation() {
+        public JavaSimulation getSimulation() {
             return simTable.getSimulation();
         }
 
@@ -186,7 +189,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private class MouseHandler extends MouseAdapter {
             public void mouseClicked( MouseEvent event ) {
                 // If a double left click, offer to install the simulation
-                Simulation sim = simTable.getSelection();
+                JavaSimulation sim = simTable.getSelection();
                 installBtn.setEnabled( sim != null );
                 if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
                     int choice = JOptionPane.showConfirmDialog( UninstalledSimsPane.this,
@@ -208,7 +211,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent event ) {
-                Simulation sim = simTable.getSelection();
+                JavaSimulation sim = simTable.getSelection();
                 installBtn.setEnabled( sim != null );
 
                 // If right click, pop up context menu
@@ -226,7 +229,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
     // Implementation of SimulationContainer
     //--------------------------------------------------------------------------------------------------
 
-    public Simulation getSimulation() {
+    public JavaSimulation getSimulation() {
         return simulationPanel.getSimulation();
     }
 

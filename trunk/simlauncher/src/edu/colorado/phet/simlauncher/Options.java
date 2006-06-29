@@ -73,7 +73,7 @@ public class Options {
     /**
      * Private constructor to enforce singleton
      */
-    public Options() {
+    private Options() {
     }
 
     public void save() {

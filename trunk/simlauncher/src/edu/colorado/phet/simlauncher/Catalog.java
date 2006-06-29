@@ -28,7 +28,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Catalog implements Simulation.ChangeListener {
+public class Catalog implements JavaSimulation.ChangeListener {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -72,7 +72,7 @@ public class Catalog implements Simulation.ChangeListener {
 
         installedSimulations = new ArrayList();
         for( int i = 0; i < simulations.size(); i++ ) {
-            Simulation simulation = (Simulation)simulations.get( i );
+            JavaSimulation simulation = (JavaSimulation)simulations.get( i );
             simulation.addChangeListener( this );
             if( simulation.isInstalled() ) {
                 installedSimulations.add( simulation );
@@ -89,7 +89,7 @@ public class Catalog implements Simulation.ChangeListener {
 
         installedSimulations = new ArrayList();
         for( int i = 0; i < simulations.size(); i++ ) {
-            Simulation simulation = (Simulation)simulations.get( i );
+            JavaSimulation simulation = (JavaSimulation)simulations.get( i );
             simulation.addChangeListener( this );
             if( simulation.isInstalled() ) {
                 installedSimulations.add( simulation );
@@ -138,17 +138,17 @@ public class Catalog implements Simulation.ChangeListener {
     // Implementation of Simulation.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void installed( Simulation.ChangeEvent event ) {
+    public void installed( JavaSimulation.ChangeEvent event ) {
         installedSimulations.add( event.getSimulation() );
         changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
-    public void uninstalled( Simulation.ChangeEvent event ) {
+    public void uninstalled( JavaSimulation.ChangeEvent event ) {
         installedSimulations.remove( event.getSimulation() );
         changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
-    public void updated( Simulation.ChangeEvent event ) {
+    public void updated( JavaSimulation.ChangeEvent event ) {
         changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 

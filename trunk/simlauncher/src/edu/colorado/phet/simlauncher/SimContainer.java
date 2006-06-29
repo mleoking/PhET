@@ -26,5 +26,5 @@ package edu.colorado.phet.simlauncher;
  * @version $Revision$
  */
 public interface SimContainer {
-    Simulation getSimulation();
+    JavaSimulation getSimulation();
 }
