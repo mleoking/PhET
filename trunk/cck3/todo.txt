@@ -25,16 +25,6 @@ maximum plus and minus signs.  It appears at first that the amount of charge
 on the fully charged capacitor is the same in both cases (low and high 
 capacitance).  These issues could be a little confusing for students.
 
--If you build a simple circuit (battery, resistor, capacitor, and wires in 
-series) and wiggle an element or node back and forth around with the mouse, 
-the blue balls stop flowing from a node 2 or 3 nodes clock-wise from the 
-element or node you are moving around.  The blue balls stop flowing through 
-this particular node, but the rest keep on flowing, so you get a wire or 
-element with an absence of blue balls because they all flow out.  This may 
-be due to the fact that the wire has to redraw the number of blue balls 
-because wiggling an element or node changes the number of blue balls 
-(according to its length).
-
 -When you have an AC voltage source (10 volts) connected to a light bulb, 
 things don't quite look right at frequencies above, say, 5 Hz.  At 10 Hz, 
 you get this weird effect where current vs. time chart is modulated--you 
@@ -45,6 +35,11 @@ slate, the problem went away.  Maybe just a performance issue?
 
 -On that same note, the yellow light rays coming from the bulb in the 
 circuit described above tend to stutter and don't always flash consistently.
+
+increase spacing between buttons at the bottom of CCK control panel.
+Floating graph should have tick mark labels on the vertical scale.
+Quantitative graph values.
+CCK detectors should readout empty data while off of wires.
 
 ################################################
 #Lower Priority
@@ -58,3 +53,13 @@ There is a noticeable delay when dragging a component from the toolbox for the f
 Bug: capacitor clips are clipping all electrons, not just electrons in that branch of the circuit
 
 Explain and remove fudge factor for capacitor in MNASolution?
+
+-If you build a simple circuit (battery, resistor, capacitor, and wires in 
+series) and wiggle an element or node back and forth around with the mouse, 
+the blue balls stop flowing from a node 2 or 3 nodes clock-wise from the 
+element or node you are moving around.  The blue balls stop flowing through 
+this particular node, but the rest keep on flowing, so you get a wire or 
+element with an absence of blue balls because they all flow out.  This may 
+be due to the fact that the wire has to redraw the number of blue balls 
+because wiggling an element or node changes the number of blue balls 
+(according to its length).
