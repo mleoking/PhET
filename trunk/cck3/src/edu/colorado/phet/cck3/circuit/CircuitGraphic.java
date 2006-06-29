@@ -180,12 +180,21 @@ public class CircuitGraphic extends CompositeGraphic {
         else if( branch instanceof Capacitor ) {
             return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
                 protected String[] getText() {
-                    return new String[]{format( ( (Capacitor)branch ).getCapacitance() ) + " Farads"};
+                    String units = WIStrings.getString( "farads" );
+                    return new String[]{format( ( (Capacitor)branch ).getCapacitance() ) + " " + units};
                 }
             };
         }
         else if( branch instanceof GrabBagResistor ) {
             return new GrabBagReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+        }
+        else if( branch instanceof Inductor ) {
+            return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() ) {
+                protected String[] getText() {
+                    String units = WIStrings.getString( "henries" );
+                    return new String[]{format( ( (Inductor)branch ).getInductance() ) + " " + units};
+                }
+            };
         }
         else {
             return new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
