@@ -11,7 +11,6 @@ o Is the ac current (in a circuit with capacitor) symmetric?
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
 
 o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
- 
 http://techlib.com/craig/switching.htm
 >>At the bottom: there is a description of a real world (nonideal) inductor.  Maybe we should model something like this.
 http://www.play-hookey.com/dc_theory/rl_circuits.html
