@@ -531,12 +531,12 @@ public class CCK3ControlPanel extends ControlPanel {
             addListener( new Listener() {
                 public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                     module.setAdvancedEnabled( false );
-                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
+//                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
                 }
 
                 public void advancedPanelShown( AdvancedPanel advancedPanel ) {
                     module.setAdvancedEnabled( true );
-                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
+//                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
                 }
             } );
             this.module = module;

@@ -97,7 +97,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener)listeners.get( i );
             listener.advancedPanelShown( this );
         }
-        setBorder( BorderFactory.createRaisedBevelBorder() );
+//        setBorder( BorderFactory.createRaisedBevelBorder() );
         validateAll();
         validateTree();
     }
@@ -127,7 +127,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener)listeners.get( i );
             listener.advancedPanelHidden( this );
         }
-        setBorder( null );
+//        setBorder( null );
         validateAll();
         validateTree();
     }
