@@ -13,11 +13,11 @@ package edu.colorado.phet.simlauncher.resources;
 import edu.colorado.phet.simlauncher.util.ImageLoader;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.awt.image.BufferedImage;
-import java.awt.*;
 
 /**
  * ImageResource
@@ -33,7 +33,6 @@ public class ThumbnailResource extends SimResource {
         try {
             BufferedImage bImg = ImageLoader.loadBufferedImage( url );
             imageIcon = new ImageIcon( bImg );
-            throw new IOException( );
         }
         catch( IOException e ) {
             imageIcon = new ImageIcon( new NoImageImage() );

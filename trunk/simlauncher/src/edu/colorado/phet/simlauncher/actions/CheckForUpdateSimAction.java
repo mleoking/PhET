@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.JavaSimulation;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
@@ -45,7 +45,7 @@ public class CheckForUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        JavaSimulation sim = simContainer.getSimulation();
+        Simulation sim = simContainer.getSimulation();
         try {
             if( !sim.isInstalled() ) {
                 result = SIM_NOT_INSTALLED;

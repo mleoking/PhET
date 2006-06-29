@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.JavaSimulation;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
@@ -71,7 +71,7 @@ public class InstallSimAction extends AbstractAction {
      *
      * @param simulation
      */
-    private void install( final JavaSimulation simulation ) {
+    private void install( final Simulation simulation ) {
         Thread installerThread = new Thread( new Runnable() {
             public void run() {
                 try {

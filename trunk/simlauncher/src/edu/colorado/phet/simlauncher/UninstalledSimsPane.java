@@ -178,7 +178,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         // Implementation of SimulationContainer
         //--------------------------------------------------------------------------------------------------
 
-        public JavaSimulation getSimulation() {
+        public Simulation getSimulation() {
             return simTable.getSimulation();
         }
 
@@ -189,7 +189,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private class MouseHandler extends MouseAdapter {
             public void mouseClicked( MouseEvent event ) {
                 // If a double left click, offer to install the simulation
-                JavaSimulation sim = simTable.getSelection();
+                Simulation sim = simTable.getSelection();
                 installBtn.setEnabled( sim != null );
                 if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
                     int choice = JOptionPane.showConfirmDialog( UninstalledSimsPane.this,
@@ -211,7 +211,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent event ) {
-                JavaSimulation sim = simTable.getSelection();
+                Simulation sim = simTable.getSelection();
                 installBtn.setEnabled( sim != null );
 
                 // If right click, pop up context menu
@@ -229,7 +229,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
     // Implementation of SimulationContainer
     //--------------------------------------------------------------------------------------------------
 
-    public JavaSimulation getSimulation() {
+    public Simulation getSimulation() {
         return simulationPanel.getSimulation();
     }
 
