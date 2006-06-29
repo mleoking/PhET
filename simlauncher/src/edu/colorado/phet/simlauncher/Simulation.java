@@ -11,9 +11,10 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.simlauncher.resources.*;
+import edu.colorado.phet.simlauncher.resources.SimResource;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 import edu.colorado.phet.simlauncher.util.FileUtil;
-import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -22,85 +23,48 @@ import java.util.*;
 
 /**
  * Simulation
- * <p/>
- * A Simulation has a collection of SimResources. They include
- * <ul>
- * <li>a JnlpResource
- * <li>one or more JarResources
- * <li>a ThumbnailResource
- * <li>a DescriptionResource
- * </ul>
- * A Simulation also has an assiciated file that keeps track of the time when the simulation
- * was last launched (the lastLaunchedTimestampFile). This is used to sort installed installed
- * simulations by most-recently-used status.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Simulation implements SimContainer {
+public abstract class Simulation implements SimContainer {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
-    private static boolean DEBUG = false;
-    private static HashMap namesToSims = new HashMap();
 
-    /**
-     * Returns the Simulation instance for the simulation with a specified name.
-     *
-     * @param name
-     * @return the simulation with the specified name
-     */
-    public static Simulation getSimulationForName( String name ) {
-        Simulation sim = (Simulation)namesToSims.get( name );
-        if( sim == null ) {
-            throw new IllegalArgumentException( "name not recognized: " + name );
-        }
-        return sim;
-    }
+    private static HashMap namesToSims = new HashMap();
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
+
     private String name;
     private String description;
     private URL jnlpUrl;
-    private JnlpResource jnlpResource;
+
     private SimResource descriptionResource;
     private ThumbnailResource thumbnailResource;
-    private JarResource[] jarResources;
+//    private JarResource[] jarResources;
     private List resources = new ArrayList();
     private File lastLaunchedTimestampFile;
     private File localRoot;
 
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
 
-    /**
-     * Constructor
-     *
-     * @param name
-     * @param description
-     * @param thumbnail
-     * @param jnlpUrl
-     */
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
     public Simulation( String name, String description, ThumbnailResource thumbnail, URL jnlpUrl, File localRoot ) {
         this.name = name;
         this.description = description;
         this.jnlpUrl = jnlpUrl;
         this.localRoot = localRoot;
-        this.jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-        thumbnailResource = thumbnail;
-        resources.add( thumbnailResource );
 
-        // If the simulation is installed, create its resource objects
-        if( isInstalled() ) {
-            resources.add( jnlpResource );
-            jnlpResource.getJarResources();
-            JarResource[] jarResources = jnlpResource.getJarResources();
-            for( int i = 0; i < jarResources.length; i++ ) {
-                JarResource jarResource = jarResources[i];
-                resources.add( jarResource );
-            }
-        }
+        thumbnailResource = thumbnail;
+        addResource( thumbnailResource );
 
         // Create the file that will store the timestamp of the last time we were launched
         String subPath = jnlpUrl.getPath().substring( 0, jnlpUrl.getPath().lastIndexOf( '/' ) );
@@ -115,6 +79,39 @@ public class Simulation implements SimContainer {
         namesToSims.put( name, this );
     }
 
+    protected void addResource( SimResource simResource ) {
+        resources.add( simResource );
+    }
+
+    /**
+     * Returns the Simulation instance for the simulation with a specified name.
+     *
+     * @param name
+     * @return the simulation with the specified name
+     */
+    public static JavaSimulation getSimulationForName( String name ) {
+        JavaSimulation sim = (JavaSimulation)namesToSims.get( name );
+        if( sim == null ) {
+            throw new IllegalArgumentException( "name not recognized: " + name );
+        }
+        return sim;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+
+    public abstract void launch();
+
+    /**
+     * Tells if the simulation is installed locally
+     *
+     * @return true if the simulation is installed
+     */
+    public abstract boolean isInstalled();
+
+
+
     protected void finalize() throws Throwable {
         namesToSims.remove( getName() );
         super.finalize();
@@ -125,24 +122,10 @@ public class Simulation implements SimContainer {
     }
 
     /**
-     * Downloads all the resources for the simulation
+     * Downloads all the resources for the simulation. Must be extended by
+     * subclasses
      */
     public void install() throws SimResourceException {
-
-        // Install the JNLP resource
-        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-        jnlpResource.download();
-        resources.add( jnlpResource );
-
-        // Install all the jar resoureces mentioned in the JNLP
-        if( jnlpResource.isRemoteAvailable() ) {
-            jarResources = jnlpResource.getJarResources();
-            for( int i = 0; i < jarResources.length; i++ ) {
-                JarResource jarResource = jarResources[i];
-                resources.add( jarResource );
-                jarResource.download();
-            }
-        }
 
         // Install the thumbnail resource
         thumbnailResource.download();
@@ -168,34 +151,11 @@ public class Simulation implements SimContainer {
     }
 
     /**
-     * Launches the simulation
-     * todo: put more smarts in here
-     */
-    public void launch() {
-        String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
-        if( DEBUG ) {
-            for( int i = 0; i < commands.length; i++ ) {
-                System.out.println( "commands[i] = " + commands[i] );
-            }
-        }
-        final Process process;
-        try {
-            process = Runtime.getRuntime().exec( commands );
-            // Get the input stream and read from it
-            new Thread( new LauncherUtil.OutputRedirection( process.getInputStream() ) ).start();
-            recordLastLaunchTime();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Records the current time in the last-launch timestamp file
      *
-     * @throws IOException
+     * @throws java.io.IOException
      */
-    private void recordLastLaunchTime() throws IOException {
+    protected void recordLastLaunchTime() throws IOException {
         long time = System.currentTimeMillis();
         if( lastLaunchedTimestampFile.exists() ) {
             lastLaunchedTimestampFile.delete();
@@ -228,15 +188,6 @@ public class Simulation implements SimContainer {
     }
 
     /**
-     * Tells if the simulation is installed locally
-     *
-     * @return true if the simulation is installed
-     */
-    public boolean isInstalled() {
-        return jnlpResource != null && jnlpResource.isInstalled();
-    }
-
-    /**
      * Tells if this instance is current with the version on the PhET web site
      *
      * @return true if the local version is current
@@ -264,10 +215,6 @@ public class Simulation implements SimContainer {
         changeListenerProxy.updated( new ChangeEvent( this ) );
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Setters and getters
-    //--------------------------------------------------------------------------------------------------
-
     public String getName() {
         return name;
     }
@@ -280,19 +227,9 @@ public class Simulation implements SimContainer {
         return thumbnailResource.getImageIcon();
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimContainer
-    //--------------------------------------------------------------------------------------------------
-
     public Simulation getSimulation() {
         return this;
     }
-
-    //--------------------------------------------------------------------------------------------------
-    // Events and listeners
-    //--------------------------------------------------------------------------------------------------
-    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -307,15 +244,20 @@ public class Simulation implements SimContainer {
             super( source );
         }
 
-        public Simulation getSimulation() {
-            return (Simulation)getSource();
+        public JavaSimulation getSimulation() {
+            return (JavaSimulation)getSource();
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // ChangeListener interface
+    //--------------------------------------------------------------------------------------------------
+
     public interface ChangeListener extends EventListener {
         void installed( ChangeEvent event );
+
         void uninstalled( ChangeEvent event );
+
         void updated( ChangeEvent event );
     }
-
 }

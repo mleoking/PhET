@@ -9,8 +9,10 @@
  * Date modified : $Date$
  */
 
+import edu.colorado.phet.simlauncher.PhetWebPage;
+import edu.colorado.phet.simlauncher.SimFactory;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
-import edu.colorado.phet.simlauncher.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * TestSimFactory
  * <p>
- * gets all the simulations from the Top Simulations page and installs them 
+ * gets all the simulations from the Top Simulations page and installs them
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -27,7 +29,7 @@ public class TestSimFactory {
     public static void main( String[] args ) throws IOException, SimResourceException {
         List simulations = new SimFactory().getSimulations( new PhetWebPage( "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm" ) );
         for( int i = 0; i < simulations.size(); i++ ) {
-            JavaSimulation simulation = (JavaSimulation)simulations.get( i );
+            Simulation simulation = (Simulation)simulations.get( i );
             simulation.install();
         }
     }

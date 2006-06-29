@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
+import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -39,6 +40,7 @@ public class SimFactory {
     String simDescAttrib = "description";
     String simThumbnailAttib = "thumbnail";
     String simJnlpAttrib = "jnlp";
+    String simSwfAttrib = "swf";
 
     String categoriesElementName = "categories";
     String categoryElementName = "category";
@@ -52,27 +54,26 @@ public class SimFactory {
      * @return
      */
     public List getSimulations( PhetWebPage phetWebPage ) {
-        List sims = new ArrayList( );
+        List sims = new ArrayList();
         List simSpecs = phetWebPage.getSimSpecs();
         for( int i = 0; i < simSpecs.size(); i++ ) {
             PhetWebPage.SimSpec simSpec = (PhetWebPage.SimSpec)simSpecs.get( i );
 
             String name = simSpec.getName();
-//            String name = Integer.toString( i );
             String description = new String( name );
             ThumbnailResource thumbnailResource = null;
             URL jnlpUrl = null;
             try {
                 thumbnailResource = new ThumbnailResource( new URL( simSpec.getThumbnailPath() ),
-                                                           Configuration.instance().getLocalRoot());
-                jnlpUrl = new URL( simSpec.getJnlpPath());
+                                                           Configuration.instance().getLocalRoot() );
+                jnlpUrl = new URL( simSpec.getJnlpPath() );
             }
             catch( MalformedURLException e ) {
                 e.printStackTrace();
             }
             JavaSimulation simulation = new JavaSimulation( name, description, thumbnailResource, jnlpUrl,
-                                                        Configuration.instance().getLocalRoot()
-                                                    );
+                                                            Configuration.instance().getLocalRoot()
+            );
             sims.add( simulation );
         }
         return sims;
@@ -106,11 +107,23 @@ public class SimFactory {
                     thumbnailResource.download();
                 }
 
-                String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();
-                URL jnlpURL = new URL( jnlpStr );
+                // Check for a Java simulation
+                Attribute jnlpAttrib = element.getAttribute( simJnlpAttrib );
+                if( jnlpAttrib != null ) {
+                    String jnlpStr = jnlpAttrib.getValue();
+                    URL jnlpURL = new URL( jnlpStr );
+                    JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
+                    simList.add( sim );
+                }
 
-                JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
-                simList.add( sim );
+                // Check for a Flash simulation
+                Attribute swfAttrib = element.getAttribute( simSwfAttrib );
+                if( swfAttrib != null ) {
+                    String swfStr = swfAttrib.getValue();
+                    URL swfURL = new URL( swfStr );
+                    Simulation sim = new FlashSimulation( name, str, thumbnailResource, swfURL, localRoot );
+                    simList.add( sim );
+                }
             }
         }
         catch( Exception e ) {

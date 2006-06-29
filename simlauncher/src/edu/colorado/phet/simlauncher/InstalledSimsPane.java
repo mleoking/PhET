@@ -107,7 +107,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                  simTableSortType );
 
         // Add mouse handler
-//        simTable.addMouseListener( new MouseHandler() );
+        simTable.addMouseListener( new MouseHandler() );
 
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
@@ -134,7 +134,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     // Implementation of SimulationContainer
     //--------------------------------------------------------------------------------------------------
 
-    public JavaSimulation getSimulation() {
+    public Simulation getSimulation() {
         return simTable.getSimulation();
     }
 
@@ -144,7 +144,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     private class MouseHandler extends MouseAdapter {
         public void mouseClicked( MouseEvent event ) {
-            JavaSimulation sim = simTable.getSelection();
+            Simulation sim = simTable.getSelection();
             launchBtn.setEnabled( sim != null );
 
             // If a double left click, launch the simulation
@@ -158,7 +158,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // Required to get e.isPopupTrigger() to return true on right-click
         public void mouseReleased( MouseEvent event ) {
-            JavaSimulation sim = simTable.getSelection();
+            Simulation sim = simTable.getSelection();
             launchBtn.setEnabled( sim != null );
 
             // If it's a right click and a simulation is selected, pop up the context menu

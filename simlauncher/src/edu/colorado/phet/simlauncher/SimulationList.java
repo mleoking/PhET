@@ -30,7 +30,7 @@ public class SimulationList extends JList {
         JPanel[] entries = new JPanel[simulations.size()];
 
         for( int i = 0; i < simulations.size(); i++ ) {
-            JavaSimulation simulation = (JavaSimulation)simulations.get( i );
+            Simulation simulation = (Simulation)simulations.get( i );
             JPanel panel = new JPanel( new GridLayout( 1, 2 ) );
             panel.add( new JLabel( simulation.getName() ) );
             panel.add( new JLabel( simulation.getThumbnail() ) );
@@ -43,7 +43,7 @@ public class SimulationList extends JList {
         JPanel[] entries = new JPanel[simulations.length];
 
         for( int i = 0; i < simulations.length; i++ ) {
-            JavaSimulation simulation = (JavaSimulation)simulations[i];
+            Simulation simulation = (Simulation)simulations[i];
             JPanel panel = new JPanel( new GridLayout( 1, 2 ) );
             panel.add( new JLabel( simulation.getName() ) );
             panel.add( new JLabel( simulation.getThumbnail() ) );

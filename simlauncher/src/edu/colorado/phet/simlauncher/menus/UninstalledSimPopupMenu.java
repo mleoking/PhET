@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.JavaSimulation;
+import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class UninstalledSimPopupMenu extends JPopupMenu {
     /**
      * @param simulation
      */
-    public UninstalledSimPopupMenu( JavaSimulation simulation ) {
+    public UninstalledSimPopupMenu( Simulation simulation ) {
 
         // Install menu item
         JMenuItem launchMI = new JMenuItem( "Install" );
