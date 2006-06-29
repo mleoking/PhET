@@ -233,14 +233,14 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             this.inductor = inductor;
             double min = 0;
             double max = 50;
-            editor = new ComponentEditor( module, WIStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
-                                          WIStrings.getString( "inductance" ), WIStrings.getString( "henries" ), min, max,
+            editor = new ComponentEditor( module, CCKStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
+                                          CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), min, max,
                                           inductor.getInductance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
                     inductor.setInductance( value );
                 }
             };
-            JMenuItem edit = new JMenuItem( WIStrings.getString( "edit.inductance" ) );
+            JMenuItem edit = new JMenuItem( CCKStrings.getString( "edit.inductance" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
@@ -270,12 +270,12 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public CapacitorMenu( final Capacitor capacitor, CCK3Module module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
-            editor = new ComponentEditor( module, WIStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), WIStrings.getString( "capacitance" ), WIStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
+            editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitance( value );
                 }
             };
-            JMenuItem edit = new JMenuItem( WIStrings.getString( "edit.capacitance" ) );
+            JMenuItem edit = new JMenuItem( CCKStrings.getString( "edit.capacitance" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );

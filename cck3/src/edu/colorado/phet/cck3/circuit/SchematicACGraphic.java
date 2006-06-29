@@ -18,12 +18,10 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 20, 2004 by Sam Reid
  */
 public class SchematicACGraphic extends SchematicOscillateGraphic {
-//    private ACVoltageSource bulb;
     private PhetShapeGraphic shapeGraphic;
 
     public SchematicACGraphic( Component parent, ACVoltageSource ac, ModelViewTransform2D transform, double wireThickness ) {
         super( parent, ac, transform, wireThickness );
-//        this.bulb = ac;
         shapeGraphic = new PhetShapeGraphic( parent, null, new BasicStroke( 3.0f ), Color.black );
         changed();
         setVisible( true );
@@ -50,6 +48,7 @@ public class SchematicACGraphic extends SchematicOscillateGraphic {
             Point2D corner = new Vector2D.Double( radius, radius ).getDestination( ctr );
             ellipse.setFrameFromCenter( ctr, corner );
             shapeGraphic.setShape( ellipse );
+
         }
     }
 
@@ -59,6 +58,6 @@ public class SchematicACGraphic extends SchematicOscillateGraphic {
     }
 
     public boolean contains( int x, int y ) {
-        return shapeGraphic.getShape().contains( x, y );
+        return shapeGraphic.getShape().contains( x, y ) || super.contains( x, y );
     }
 }

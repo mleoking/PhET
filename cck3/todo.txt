@@ -47,6 +47,8 @@ Quantitative graph values.
 
 CCK detectors should readout empty data while off of wires.
 
+Add a gui component for clearing capacitors & inductors.
+
 ################################################
 #Lower Priority
 #######################

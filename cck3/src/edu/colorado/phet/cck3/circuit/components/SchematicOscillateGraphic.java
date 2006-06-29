@@ -63,8 +63,7 @@ public class SchematicOscillateGraphic extends PhetShapeGraphic implements IComp
     private AbstractVector2D getVector( double east, double north ) {
         AbstractVector2D e = eastDir.getScaledInstance( east );
         AbstractVector2D n = northDir.getScaledInstance( north );
-        AbstractVector2D sum = e.getAddedInstance( n );
-        return sum;
+        return e.getAddedInstance( n );
     }
 
     protected void changed() {
@@ -78,27 +77,18 @@ public class SchematicOscillateGraphic extends PhetShapeGraphic implements IComp
 
         eastDir = vector.getInstanceOfMagnitude( 1 );
         northDir = eastDir.getNormalVector();
-        double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
+        double viewThickness = getViewThickness();
         double resistorThickness = viewThickness / 2.5;
-        double resistorWidth = catPoint.distance( anoPoint );
-        int numPeaks = 3;
-//        double zigHeight = viewThickness * 1.2;
-        //zig zags go here.
-        int numQuarters = ( numPeaks - 1 ) * 4 + 2;
-        double numWaves = numQuarters / 4.0;
-        double wavelength = resistorWidth / numWaves;
-//        double quarterWavelength = wavelength / 4.0;
-//        double halfWavelength = wavelength / 2.0;
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( catPoint );
         double dist = catPoint.distance( anoPoint );
         double dx = 1;
-        double fracDistToStartSine = 0.15;
+        double fracDistToStartSine = getFracDistToStartSine();
         double sinDist = dist - 2 * dist * fracDistToStartSine;
 //        System.out.println( "sinDist = " + sinDist );
         double omega = 2 * Math.PI / ( sinDist );
         for( double x = 0; x < dist; x += dx ) {
-            double y = -10 * Math.sin( ( x - dist * fracDistToStartSine ) * omega );
+            double y = getY( x, dist, fracDistToStartSine, omega );
             AbstractVector2D v = getVector( x, y );
             Point2D pt = v.getDestination( catPoint );
             if( x > dist * fracDistToStartSine && x < ( dist - dist * fracDistToStartSine ) ) {
@@ -109,12 +99,6 @@ public class SchematicOscillateGraphic extends PhetShapeGraphic implements IComp
             }
         }
 
-//        path.lineToRelative( getVector( quarterWavelength, zigHeight ) );
-//        for( int i = 0; i < numPeaks - 1; i++ ) {
-//            path.lineToRelative( getVector( halfWavelength, -2 * zigHeight ) );
-//            path.lineToRelative( getVector( halfWavelength, 2 * zigHeight ) );
-//        }
-//        path.lineToRelative( getVector( quarterWavelength, -zigHeight ) );
         Shape shape = path.getGeneralPath();
         BasicStroke stroke = new BasicStroke( (float)resistorThickness );
 
@@ -129,6 +113,18 @@ public class SchematicOscillateGraphic extends PhetShapeGraphic implements IComp
         Stroke highlightStroke = new BasicStroke( 6 );
         highlightRegion.setShape( highlightStroke.createStrokedShape( area ) );
         highlightRegion.setVisible( component.isSelected() );
+    }
+
+    protected double getFracDistToStartSine() {
+        return 0.15;
+    }
+
+    protected double getViewThickness() {
+        return (double)Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
+    }
+
+    protected double getY( double x, double dist, double fracDistToStartSine, double omega ) {
+        return -10 * Math.sin( ( x - dist * fracDistToStartSine ) * omega );
     }
 
     public void paint( Graphics2D g ) {
