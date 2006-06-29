@@ -1,8 +1,6 @@
-- Modified in debug
-    profile
-    energyprofile
-    nucleusgraphicfactory            
+- Split "Alpha particle energy" to two lines
 
+- profiles should not be created for all nuclei
 - 2 graphics are being created for each model element because there are two physical panels per module.
 
 - Refactor EnergyProfile so it's in model coordinates
