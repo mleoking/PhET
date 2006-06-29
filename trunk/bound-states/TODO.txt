@@ -10,7 +10,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
-- turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only)
+- bug: turn on help in "One" panel, switch to "Many" panel, lots of stuff doesn't redraw (Mac only)
 
 LOW PRIORITY:
 - wiggle me animation is jerky
