@@ -4,13 +4,15 @@
 o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 o Add schematic view for inductors.
-o Add component editor for inductor.
 o Add Delete button for charts.
 o Add a timer.
 o Bug: 'Advanced' disappears on control panel.
 o Is the ac current (in a circuit with capacitor) symmetric?
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
+
 o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
+>>At the bottom of: http://techlib.com/craig/switching.htm there is a description of a real world (nonideal) inductor.  Maybe we should model something like this.
+>>http://www.play-hookey.com/dc_theory/rl_circuits.html has a believable explanation, might be good to model.
 
 o Visualization for charge flow across capacitor
 o Visualization for charge buildup on capacitor.
@@ -36,9 +38,12 @@ slate, the problem went away.  Maybe just a performance issue?
 -On that same note, the yellow light rays coming from the bulb in the 
 circuit described above tend to stutter and don't always flash consistently.
 
-increase spacing between buttons at the bottom of CCK control panel.
+Increase spacing between buttons at the bottom of CCK control panel.
+
 Floating graph should have tick mark labels on the vertical scale.
+
 Quantitative graph values.
+
 CCK detectors should readout empty data while off of wires.
 
 ################################################

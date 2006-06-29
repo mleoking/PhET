@@ -78,6 +78,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             menu = new CapacitorMenu( c, module );
             addPopupMenuBehavior( menu.getMenuComponent() );
         }
+        else if( cc instanceof Inductor ) {
+            Inductor L = (Inductor)cc;
+            menu = new InductorMenu( L, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
+        }
 
     }
 
@@ -219,13 +224,52 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     }
 
+    static class InductorMenu extends ComponentMenu {
+        private Inductor inductor;
+        private ComponentEditor editor;
+
+        public InductorMenu( final Inductor inductor, CCK3Module module ) {
+            super( inductor, module );
+            this.inductor = inductor;
+            double min = 0;
+            double max = 50;
+            editor = new ComponentEditor( module, WIStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
+                                          WIStrings.getString( "inductance" ), WIStrings.getString( "henries" ), min, max,
+                                          inductor.getInductance(), module.getCircuit() ) {
+                protected void doChange( double value ) {
+                    inductor.setInductance( value );
+                }
+            };
+            JMenuItem edit = new JMenuItem( WIStrings.getString( "edit.inductance" ) );
+            edit.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    editor.setVisible( true );
+                }
+            } );
+            menu.add( edit );
+            finish();
+        }
+
+        public JPopupMenu getMenuComponent() {
+            return getMenu();
+        }
+
+        public void delete() {
+            super.delete();
+            if( editor != null ) {
+                editor.delete();
+            }
+        }
+
+    }
+
     static class CapacitorMenu extends ComponentMenu {
-        Capacitor res;
+        private Capacitor capacitor;
         private ComponentEditor editor;
 
         public CapacitorMenu( final Capacitor capacitor, CCK3Module module ) {
             super( capacitor, module );
-            this.res = capacitor;
+            this.capacitor = capacitor;
             editor = new ComponentEditor( module, WIStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), WIStrings.getString( "capacitance" ), WIStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitance( value );
