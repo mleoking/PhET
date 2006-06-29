@@ -143,6 +143,12 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         getModel().addModelElement( nucleus );
     }
 
+    public void removeNucleus( Nucleus nucleus ) {
+        nuclei.remove( nucleus );
+        nucleus.removeFissionListener( this );
+        getModel().removeModelElement( nucleus );
+    }
+
     public void removeU235Nucleus( Uranium235 nucleus ) {
         u235Nuclei.remove( nucleus );
         removeNucleus( nucleus );
@@ -151,11 +157,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     public void removeU238Nucleus( Uranium238 nucleus ) {
         u238Nuclei.remove( nucleus );
         removeNucleus( nucleus );
-    }
-
-    public void removeNucleus( Nucleus nucleus ) {
-        nuclei.remove( nucleus );
-        getModel().removeModelElement( nucleus );
     }
 
     public void fireNeutron() {
@@ -218,7 +219,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // The class should be re-written so that everything is taken care
         // of by the nuclei list, and the others don't need to be iterated
         // here
-        for( int i = 0; i < nuclei.size(); i++ ) {
+        for( int i = nuclei.size() - 1; i >= 0;  i-- ) {
             removeNucleus( (Nucleus)nuclei.get( i ) );
         }
         for( int i = 0; i < u235Nuclei.size(); i++ ) {
