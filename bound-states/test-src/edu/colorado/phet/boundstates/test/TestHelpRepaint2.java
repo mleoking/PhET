@@ -1,35 +1,34 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.boundstates.test;
 
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.help.HelpPane;
-import edu.colorado.phet.piccolo.help.HelpBalloon;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.help.HelpBalloon;
+import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.JFreeChart;
+import java.awt.geom.Rectangle2D;
 
 /**
  * TestHelpRepaint demonstrates a problem with help items on Macintosh.
@@ -63,14 +62,87 @@ public class TestHelpRepaint2 {
                 try {
                     TestHelpRepaint2.TestApplication app = new TestHelpRepaint2.TestApplication( args );
                     app.startApplication();
+                    RepaintManager.setCurrentManager( new DebugRepaintManager() );
                 }
                 catch( Exception e ) {
                     e.printStackTrace();
                 }
             }
         } );
+
 //        TestApplication app = new TestApplication( args );
 //        app.startApplication();
+    }
+
+    static class DebugRepaintManager extends RepaintManager {
+        public DebugRepaintManager() {
+            super();
+            setDoubleBufferingEnabled( false );
+        }
+
+        public void paintDirtyRegions() {
+            super.paintDirtyRegions();
+        }
+
+        public void validateInvalidComponents() {
+            super.validateInvalidComponents();
+        }
+
+        public boolean isDoubleBufferingEnabled() {
+            return super.isDoubleBufferingEnabled();
+        }
+
+        public void setDoubleBufferingEnabled( boolean aFlag ) {
+            super.setDoubleBufferingEnabled( aFlag );
+        }
+
+        public Dimension getDoubleBufferMaximumSize() {
+            return super.getDoubleBufferMaximumSize();
+        }
+
+        public void setDoubleBufferMaximumSize( Dimension d ) {
+            super.setDoubleBufferMaximumSize( d );
+        }
+
+        public synchronized String toString() {
+            return super.toString();
+        }
+
+        public synchronized void addInvalidComponent( JComponent invalidComponent ) {
+            super.addInvalidComponent( invalidComponent );
+        }
+
+        public void markCompletelyClean( JComponent aComponent ) {
+            super.markCompletelyClean( aComponent );
+        }
+
+        public void markCompletelyDirty( JComponent aComponent ) {
+            super.markCompletelyDirty( aComponent );
+        }
+
+        public synchronized void removeInvalidComponent( JComponent component ) {
+            super.removeInvalidComponent( component );
+        }
+
+        public boolean isCompletelyDirty( JComponent aComponent ) {
+            return super.isCompletelyDirty( aComponent );
+        }
+
+        public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
+            super.addDirtyRegion( c, x, y, w, h );
+        }
+
+        public Image getOffscreenBuffer( Component c, int proposedWidth, int proposedHeight ) {
+            return super.getOffscreenBuffer( c, proposedWidth, proposedHeight );
+        }
+
+        public Image getVolatileOffscreenBuffer( Component c, int proposedWidth, int proposedHeight ) {
+            return super.getVolatileOffscreenBuffer( c, proposedWidth, proposedHeight );
+        }
+
+        public Rectangle getDirtyRegion( JComponent aComponent ) {
+            return super.getDirtyRegion( aComponent );
+        }
     }
 
     private static class TestApplication extends PiccoloPhetApplication {
@@ -244,7 +316,8 @@ public class TestHelpRepaint2 {
             // Generate some data for a time-varying function...
             _series.setNotify( false );
             _series.clear();
-            for( double x = TestHelpRepaint2.MIN_X; x <= TestHelpRepaint2.MAX_X + TestHelpRepaint2.DX; x += TestHelpRepaint2.DX ) {
+            for( double x = TestHelpRepaint2.MIN_X; x <= TestHelpRepaint2.MAX_X + TestHelpRepaint2.DX; x += TestHelpRepaint2.DX )
+            {
                 double y = TestHelpRepaint2.MAX_Y * Math.sin( 3 * x - t );
                 _series.add( x, y );
             }
