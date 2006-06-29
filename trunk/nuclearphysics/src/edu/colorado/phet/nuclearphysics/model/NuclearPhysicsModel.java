@@ -21,6 +21,13 @@ public class NuclearPhysicsModel extends BaseModel {
         return modelElements;
     }
 
+    public void removeAllModelElements() {
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)modelElements.get( i );
+            removeModelElement( modelElement );
+        }
+    }
+
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
         modelElements.remove( modelElement );
@@ -49,10 +56,10 @@ public class NuclearPhysicsModel extends BaseModel {
         if( modelElement instanceof Nucleus ) {
             nucleusListenerProxy.nucleusAdded( new ChangeEvent( (Nucleus)modelElement ) );
         }
-
-        if( modelElement instanceof Neutron ) {
-            neutrons.add( modelElement );
-        }
+//
+//        if( modelElement instanceof Neutron ) {
+//            neutrons.add( modelElement );
+//        }
     }
 
     public void removeNuclearParticles() {

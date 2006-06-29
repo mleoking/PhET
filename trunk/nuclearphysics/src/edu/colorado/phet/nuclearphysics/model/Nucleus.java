@@ -91,6 +91,10 @@ public class Nucleus extends NuclearModelElement {
         fissionListeners.add( listener );
     }
 
+    public void removeFissionListener( FissionListener listener ) {
+        fissionListeners.remove( listener );
+    }
+
     public void fission( Neutron neutron ) {
         FissionProducts fissionProducts = getFissionProducts( neutron );
         for( int i = 0; i < fissionListeners.size(); i++ ) {

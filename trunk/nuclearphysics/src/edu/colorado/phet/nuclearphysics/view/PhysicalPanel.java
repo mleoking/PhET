@@ -81,7 +81,7 @@ public class PhysicalPanel extends TxApparatusPanel {
                 Nucleus nucleus = event.getNucleus();
                 NucleusGraphic ng = new NucleusGraphicFactory().create( nucleus );
                 final TxGraphic txg = new TxGraphic( ng, nucleonTx );
-                nucleus.addListener( new GraphicRemover( txg ) );
+                nucleus.addListener( new GraphicRemover( txg, nucleus ) );
                 PhysicalPanel.super.addGraphic( txg, nucleusLevel );
                 graphicListenerProxy.graphicAdded( new GraphicEvent( txg ) );
             }
@@ -147,14 +147,17 @@ public class PhysicalPanel extends TxApparatusPanel {
     //----------------------------------------------------------------
     public class GraphicRemover implements NuclearModelElement.Listener {
         private PhetGraphic graphic;
+        private Nucleus nucleus;
 
-        public GraphicRemover( PhetGraphic graphic ) {
+        public GraphicRemover( PhetGraphic graphic, Nucleus nucleus ) {
             this.graphic = graphic;
+            this.nucleus = nucleus;
         }
 
         public void leavingSystem( NuclearModelElement nme ) {
             removeGraphic( graphic );
             graphicListenerProxy.graphicRemoved( new GraphicEvent( graphic ) );
+            nucleus.removeListener( this );
         }
     }
 

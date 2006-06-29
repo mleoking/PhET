@@ -7,11 +7,13 @@ Alpha Decay
 Let run until decay.
 Reset and let run until decay.
 Pauses and step
+Run/reset/run/reset many times
 
 Fission: One Nucleus Module
 ===========================
 Fire neutron
 Reset and fire
+Run/reset/run/reset many times
 
 Chain Reaction
 ==============
@@ -28,8 +30,11 @@ With containment
 Resize containment
     Populate and fire
 
+Run/reset/run/reset many times
+
 Controlled Chain Reaction
 =========================
 Fire neutron with rods all the way in
 Fire neutron with rods all the way out
 Reset and do again
+Run/reset/run/reset many times

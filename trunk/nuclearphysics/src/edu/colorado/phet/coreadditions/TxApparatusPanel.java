@@ -53,6 +53,11 @@ public class TxApparatusPanel extends ApparatusPanel2 {
             super.removeGraphic( (PhetGraphic)txGraphicMap.get( graphic ) );
             txGraphicMap.remove( graphic );
         }
+        if( graphic instanceof TxGraphic ) {
+            super.removeGraphic( (PhetGraphic)txGraphicMap.get( graphic ) );
+            TxGraphic txg = (TxGraphic)graphic;
+            txGraphicMap.remove( txg.getWrappedGraphic() );
+        }
     }
 
     public void removeAllGraphics() {

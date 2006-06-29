@@ -41,38 +41,6 @@ public class Uranium238 extends Nucleus {
     }
 
     /**
-     * Checks to see if we're struck by a neutron and, if so, initiates fission
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-
-        // Check to see if we are being hit by a neutron
-        // todo: this is the bottleneck in the whole module. We could improve it by just
-        // getting the neutrons from the model.
-//        List neutrons = ((NuclearPhysicsModel)model).getNeutrons();
-//        for( int i = 0; i < neutrons.size(); i++ ) {
-//            Neutron neutron = (Neutron)neutrons.get( i );
-//            if( neutron.getPosition().distanceSq( this.getPosition() )
-//                < this.getRadius() * this.getRadius() ) {
-//                System.out.println( "Uranium238.stepInTime" );
-//                this.fission( neutron );
-//            }
-//        }
-
-//        for( int i = 0; i < model.numModelElements(); i++ ) {
-//            ModelElement me = model.modelElementAt( i );
-//            if( me instanceof Neutron ) {
-//                Neutron neutron = (Neutron)me;
-//                if( neutron.getPosition().distanceSq( this.getPosition() )
-//                    < this.getRadius() * this.getRadius() ) {
-//                    this.fission( neutron );
-//                }
-//            }
-//        }
-    }
-
-    /**
      * Removes the U238 nucleus from the model and replaces it with a U239 nucleus
      * @param neutron
      */
@@ -84,7 +52,7 @@ public class Uranium238 extends Nucleus {
             model.removeModelElement( this );
 
             model.addModelElement( u239 );
-            
+
         }
     }
 }

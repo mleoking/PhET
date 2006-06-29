@@ -105,6 +105,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int DEFAULT_NUM_CONTROLS_RODS = 5;
     private ArrayList neutronLaunchers = new ArrayList();
     private FissionDetector fissionDetector;
+    private ControlledFissionModule.NucleusGraphicRemover nucleusGraphicRemover;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -172,11 +173,8 @@ public class ControlledFissionModule extends ChainReactionModule {
             getModel().removeModelElement( vessel );
             vessel.removeAllChangeListeners();
         }
-//        Insets vesselInsets = new Insets( 40, 20, 0, 0 );
         vessel = new Vessel( -vesselWidth / 2 - 120,
                              -vesselHeight * .7,
-//        vessel = new Vessel( -vesselWidth / 2,
-//                             -vesselHeight * .7,
                              vesselWidth,
                              vesselHeight,
                              numChannels,
@@ -219,7 +217,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         getPhysicalPanel().addOriginCenteredGraphic( thermometer, 1000 );
 
         // Add a listener that will hide the U238 and U239 nuclei that are just here to dampen the reaction
-        getPhysicalPanel().addGraphicListener( new NucleusGraphicRemover() );
+        if( nucleusGraphicRemover == null ) {
+            nucleusGraphicRemover = new NucleusGraphicRemover();
+            getPhysicalPanel().addGraphicListener( nucleusGraphicRemover );
+        }
 
         // Create the nuclei
         setInterNucleusSpacing( DEFAULT_INTER_NUCLEAR_SPACING );

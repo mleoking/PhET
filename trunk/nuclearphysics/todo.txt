@@ -1,3 +1,9 @@
+- Modified in debug
+    profile
+    energyprofile
+    nucleusgraphicfactory            
+
+- 2 graphics are being created for each model element because there are two physical panels per module.
 
 - Refactor EnergyProfile so it's in model coordinates
 - Don't need fision behavior in Polonium. Make a Fisionable interface.
