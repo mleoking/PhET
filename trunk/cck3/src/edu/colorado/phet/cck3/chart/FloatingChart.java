@@ -34,10 +34,6 @@ public class FloatingChart extends PhetPNode {
     private boolean detached = false;
     private Vector2D originalDisplacement;
 
-    public void setValueReader( ValueReader valueReader ) {
-        this.valueReader = valueReader;
-    }
-
     public static interface ValueReader {
         double getValue( double x, double y );
     }
@@ -47,7 +43,9 @@ public class FloatingChart extends PhetPNode {
         this.clock = clock;
         textReadout = new TextReadout();
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        stripChartJFCNode = new StripChartJFCNode( 175, 120, "time.s", title );
+//        stripChartJFCNode = new StripChartJFCNode( 175, 120, "time.s", title );
+        stripChartJFCNode = new StripChartJFCNode( 200, 150, "time.s", title );
+        stripChartJFCNode.setDomainRange( 0, 5 );
         CrosshairConnection crosshairConnection = new CrosshairConnection( this );
         addChild( textReadout );
         addChild( crosshairConnection );
@@ -72,6 +70,10 @@ public class FloatingChart extends PhetPNode {
                 update();
             }
         } );
+    }
+
+    public void setValueReader( ValueReader valueReader ) {
+        this.valueReader = valueReader;
     }
 
     private Vector2D getDisplacement() {
@@ -100,7 +102,9 @@ public class FloatingChart extends PhetPNode {
         Point2D location = crosshairGraphic.getGlobalTranslation();
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         double value = valueReader.getValue( location.getX(), location.getY() );
-        stripChartJFCNode.addValue( clock.getSimulationTime(), value );
+        CCKTime cckTime = new CCKTime();
+        double t = cckTime.getDisplayTime( clock.getSimulationTime() );
+        stripChartJFCNode.addValue( t, value );
         updateTextBackground();
     }
 
