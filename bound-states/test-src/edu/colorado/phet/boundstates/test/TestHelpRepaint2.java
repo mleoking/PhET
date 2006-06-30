@@ -58,7 +58,6 @@ public class TestHelpRepaint2 {
     public static void main( final String[] args ) throws InterruptedException {
         TestApplication app = new TestApplication( args );
         app.startApplication();
-        RepaintManager.setCurrentManager( new DebugRepaintManager() );
         PiccoloModule m = (PiccoloModule)app.getModules()[0];
         m.getModulePanel().setOpaque( false );
         m.getModulePanel().getSimulationPanel().setOpaque( false );
