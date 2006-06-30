@@ -52,8 +52,6 @@ public class EnergyGraphDialog extends JDialog {
         setResizable( false );
         JPanel contentPane = new JPanel( new GridBagLayout() );
         contentPane.setBackground( BACKGROUND_COLOR );
-//        JPanel contentPane = new JPanel( new GridLayout( 1, 2 ) );
-//        contentPane.setPreferredSize( panelSize );
         setContentPane( contentPane );
 
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE,0,
@@ -101,7 +99,6 @@ public class EnergyGraphDialog extends JDialog {
             rateGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
                                       getPreferredSize().getHeight() - 2,
                                       Color.orange,
-//                                      Color.yellow,
                                       barWidth, true, 0, 1 );
         }
 
@@ -112,7 +109,6 @@ public class EnergyGraphDialog extends JDialog {
             // Draw string rotated counter-clockwise 90 degrees
             AffineTransform at = new AffineTransform();
             at.setToTranslation( 10, (int)getPreferredSize().getHeight() - 10 );
-//            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
             g2.setFont( font );
@@ -142,7 +138,6 @@ public class EnergyGraphDialog extends JDialog {
             // Draw string rotated counter-clockwise 90 degrees
             AffineTransform at = new AffineTransform();
             at.setToTranslation( 10, (int)getPreferredSize().getHeight() - 10 );
-//            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
             at.rotate( -Math.PI / 2.0 );
             g2.transform( at );
             g2.setFont( font );
