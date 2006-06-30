@@ -84,34 +84,15 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             containment.addObserver( this );
             backgroundColor = component.getBackground();
             setPaint( color );
-            setStroke( outlineStroke );
-            setBorderColor( outlineColor );
+//            setStroke( outlineStroke );
+//            setBorderColor( outlineColor );
             setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
                                                    RenderingHints.VALUE_ANTIALIAS_ON ) );
             update();
         }
 
         public void update() {
-            Shape r = containment.getShape();
-            double strokeWidth = containment.getWallThickness();
-            outer.setFrame( r.getBounds2D().getMinX() - strokeWidth,
-                            r.getBounds2D().getMinY() - strokeWidth,
-                            r.getBounds2D().getWidth() + strokeWidth * 2,
-                            r.getBounds2D().getHeight() + strokeWidth * 2 );
-            inner.setFrame( r.getBounds2D().getMinX(),
-                            r.getBounds2D().getMinY(),
-                            r.getBounds2D().getWidth(),
-                            r.getBounds2D().getHeight() );
-            RoundRectangle2D gun = new RoundRectangle2D.Double();
-            double gunHeight = 40;
-            double gunLength = 15;
-            gun.setRoundRect( containment.getNeutronLaunchPoint().getX(),
-                              containment.getNeutronLaunchPoint().getY() - gunHeight / 2,
-                              gunLength, gunHeight, 15, 15 );
-            mouseableArea = new Area( outer );
-            mouseableArea.subtract( new Area( inner ) );
-            mouseableArea.add( new Area( gun ) );
-            this.setShape( mouseableArea );
+            this.setShape( containment.getArea() );
 
             double opacity = containment.getOpacity();
             int redLevel = (int)( backgroundColor.getRed() * ( 1 - opacity ) );
@@ -124,6 +105,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             setBoundsDirty();
             repaint();
         }
+
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
@@ -32,7 +33,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
-    private Point gunMuzzelLocation = new Point( -550, -15);
+    private Point gunMuzzelLocation = new Point( -550, 0);
     private PhetImageGraphic gunGraphic;
 
     /**
@@ -64,31 +65,39 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // nuclei
         getModel().addModelElement( new FissionDetector() );
 
+        // Ray gun
+        CompositePhetGraphic cpg = new CompositePhetGraphic( getPhysicalPanel() );
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
+        gunGraphic.setLocation( gunMuzzelLocation );
+        getPhysicalPanel().addGraphic( gunGraphic );
+
+
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  700, 400 );
+        fireButton.setLocation(  (int)( 50), 380 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
             }
         } );
 
-        ResetButton resetButton = new ResetButton( getPhysicalPanel() );
-        getPhysicalPanel().addGraphic( resetButton, 1E6 );
-        resetButton.setLocation( (int)fireButton.getLocation().getX(),
-                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
-        resetButton.addActionListener( new PhetGraphicsButton.ActionListener() {
-            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
-                stop();
-                start();
-            }
-        } );
+//        ResetButton resetButton = new ResetButton( getPhysicalPanel() );
+//        getPhysicalPanel().addGraphic( resetButton, 1E6 );
+//        resetButton.setLocation( (int)fireButton.getLocation().getX(),
+//                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
+//        resetButton.addActionListener( new PhetGraphicsButton.ActionListener() {
+//            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
+//                stop();
+//                start();
+//            }
+//        } );
 
         ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
-        containmentButton.setLocation( (int)resetButton.getLocation().getX(),
-                                 (int)resetButton.getLocation().getY() + resetButton.getHeight() + 10 );
+        containmentButton.setLocation( (int)fireButton.getLocation().getX(),
+                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
         containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
             public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
                 if( containment == null ) {
@@ -99,12 +108,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 }
             }
         } );
-
-        // Ray gun
-        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
-        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
-        gunGraphic.setLocation( gunMuzzelLocation );
-        getPhysicalPanel().addGraphic( gunGraphic );
 
         // Start it up
         start();
@@ -139,10 +142,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     protected void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
-        if( containment != null ) {
-            neutronLaunchPoint = containment.getNeutronLaunchPoint();
-            neutronLaunchAngle = 0;
-            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+        if( false && containment != null ) {
+//            neutronLaunchPoint = containment.getNeutronLaunchPoint();
+//            neutronLaunchAngle = 0;
+//            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
         else {
             double bounds = 600 / getPhysicalPanel().getScale();
@@ -157,7 +160,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
 
-        gunGraphic.setLocation( (int)neutronLaunchPoint.getX(), (int)neutronLaunchPoint.getY());
+//        gunGraphic.setLocation( (int)neutronLaunchPoint.getX(), (int)neutronLaunchPoint.getY());
 //        gunGraphic.repaint();
     }
 
@@ -224,7 +227,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         Shape bounds = null;
         if( containment != null ) {
-            bounds = containment.getShape();
+            bounds = containment.getInteriorArea();
+//            bounds = containment.getArea();
+//            bounds = containment.getShape();
         }
         else {
             bounds = modelBounds;
@@ -274,7 +279,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     //--------------------------------------------------------------------------------------------------
 
     public void containementResized( Containment containment ) {
-        Shape bounds = containment.getShape();
+        Shape bounds = containment.getArea();
+//        Shape bounds = containment.getShape();
 
         // Recompute the spot from which neutrons are fired
         computeNeutronLaunchParams();
