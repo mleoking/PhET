@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -26,10 +27,13 @@ import java.util.List;
  */
 public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener {
 
+    private double containmentGraphicLayer = 10;
+    private double gunGraphicLayer = containmentGraphicLayer + 1000;
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
-    private Point gunMuzzelLocation = new Point( -700, -15);
+    private Point gunMuzzelLocation = new Point( -550, -15);
+    private PhetImageGraphic gunGraphic;
 
     /**
      * Constructor
@@ -97,8 +101,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         } );
 
         // Ray gun
-        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
-        gunGraphic.setRegistrationPoint( -gunGraphic.getWidth(), 25 );
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
 
@@ -148,9 +152,13 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             neutronLaunchAngle += Math.PI;
             neutronLaunchPoint = new Point2D.Double( x, y );
 
+            neutronLaunchAngle = 0;
             neutronLaunchPoint = new Point2D.Double( gunMuzzelLocation.getX(), gunMuzzelLocation.getY());
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
+
+        gunGraphic.setLocation( (int)neutronLaunchPoint.getX(), (int)neutronLaunchPoint.getY());
+//        gunGraphic.repaint();
     }
 
     public void fission( FissionProducts products ) {
@@ -166,7 +174,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getModel().addModelElement( containment );
         containment.addResizeListener( this );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
-        getPhysicalPanel().addGraphic( containmentGraphic, 10 );
+        getPhysicalPanel().addGraphic( containmentGraphic, containmentGraphicLayer );
 
         // Add a listener that will add a graphic showing the containment blowing up when the
         // containment explodes
@@ -196,7 +204,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             removeContainment();
         }
         computeNeutronLaunchParams();
-        
     }
 
     protected Point2D.Double findLocationForNewNucleus() {
