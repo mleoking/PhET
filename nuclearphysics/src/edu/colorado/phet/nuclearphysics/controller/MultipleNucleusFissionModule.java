@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
@@ -27,6 +28,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
+
+    private Point gunMuzzelLocation = new Point( -700, -15);
 
     /**
      * Constructor
@@ -93,6 +96,12 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             }
         } );
 
+        // Ray gun
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        gunGraphic.setRegistrationPoint( -gunGraphic.getWidth(), 25 );
+        gunGraphic.setLocation( gunMuzzelLocation );
+        getPhysicalPanel().addGraphic( gunGraphic );
+
         // Start it up
         start();
     }
@@ -138,6 +147,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             double y = bounds * Math.sin( neutronLaunchAngle );
             neutronLaunchAngle += Math.PI;
             neutronLaunchPoint = new Point2D.Double( x, y );
+
+            neutronLaunchPoint = new Point2D.Double( gunMuzzelLocation.getX(), gunMuzzelLocation.getY());
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
     }
