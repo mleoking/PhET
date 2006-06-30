@@ -30,6 +30,7 @@ CLEANUP:
 
 
 DONE:
+0.00.11...
 (6/30/06) - rename potential model classes (eg, BSSquareWells -> BSSquarePotential)
 (6/30/06) - work on making plot antialiasing look better on Windows, no progress
 (6/30/06) - remove workaround for forcing repaint when help state changes, no longer needed
