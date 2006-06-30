@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSSquareWells;
+import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -53,7 +53,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
+    public BSSquareDialog( Frame parent, BSSquarePotential potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( wellSpec, offsetControlSupported );
         createUI( inputPanel );
@@ -186,7 +186,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
     protected void updateControls() {
 
-        BSSquareWells potential = (BSSquareWells) getPotential();
+        BSSquarePotential potential = (BSSquarePotential) getPotential();
 
         // Sync values
         _offsetSlider.setValue( potential.getOffset() );
@@ -252,19 +252,19 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     }
     
     private void handleHeightChange() {
-        BSSquareWells potential = (BSSquareWells) getPotential();
+        BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double height = _heightSlider.getValue();
         potential.setHeight( height );
     }
     
     private void handleWidthChange() {
-        BSSquareWells potential = (BSSquareWells) getPotential();
+        BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double width = _widthSlider.getValue();
         potential.setWidth( width );
     }
     
     private void handleSeparationChange() {
-        BSSquareWells potential = (BSSquareWells) getPotential();
+        BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double separation = _separationSlider.getValue();
         potential.setSeparation( separation );
     }

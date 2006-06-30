@@ -19,7 +19,8 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 
 /**
- * BSHarmonicOscillatorWell is the model of a potential composed of one Harmonic Oscillator well.
+ * BSHarmonicOscillatorPotential is the model of a potential composed
+ * of one Harmonic Oscillator well.
  * This implementation does not support multiple wells.
  * <p>
  * Our model supports these parameters:
@@ -31,7 +32,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorWell extends BSAbstractPotential {
+public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -57,7 +58,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential {
      * @param offset
      * @param angularFrequency
      */
-    public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
+    public BSHarmonicOscillatorPotential( BSParticle particle, double offset, double angularFrequency ) {
         super( particle, 1 /* numberOfWells */, offset );
         setAngularFrequency( angularFrequency );
     }

@@ -51,19 +51,19 @@ public class BSConfigureDialogFactory {
         final boolean offsetControlSupported = moduleSpec.isOffsetControlSupported();
         
         if ( wellType == BSWellType.ASYMMETRIC ) {
-            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) potential, moduleSpec.getAsymmetricSpec() );
+            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricPotential) potential, moduleSpec.getAsymmetricSpec() );
         }
         else if ( wellType == BSWellType.COULOMB_1D ) {
-            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) potential, moduleSpec.getCoulomb1DSpec(), offsetControlSupported );
+            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DPotential) potential, moduleSpec.getCoulomb1DSpec(), offsetControlSupported );
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
-            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) potential, moduleSpec.getCoulomb3DSpec() );
+            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DPotential) potential, moduleSpec.getCoulomb3DSpec() );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) potential, moduleSpec.getHarmonicOscillatorSpec() );
+            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorPotential) potential, moduleSpec.getHarmonicOscillatorSpec() );
         }
         else if ( wellType == BSWellType.SQUARE ) {
-            dialog = new BSSquareDialog( owner, (BSSquareWells) potential, moduleSpec.getSquareSpec(), offsetControlSupported );
+            dialog = new BSSquareDialog( owner, (BSSquarePotential) potential, moduleSpec.getSquareSpec(), offsetControlSupported );
         }
         else {
             throw new IllegalArgumentException( "unsupported well type: " + wellType );

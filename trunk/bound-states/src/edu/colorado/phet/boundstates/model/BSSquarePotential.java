@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 
 /**
- * BSSquareWell is the model of a potential composed of one or more Square wells.
+ * BSSquarePotential is the model of a potential composed of one or more Square wells.
  * <p>
  * Our model supports these parameters:
  * <ul>
@@ -34,7 +34,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareWells extends BSAbstractPotential {
+public class BSSquarePotential extends BSAbstractPotential {
    
     //----------------------------------------------------------------------------
     // Instance data
@@ -58,7 +58,7 @@ public class BSSquareWells extends BSAbstractPotential {
      * @param width
      * @param separation
      */
-    public BSSquareWells( BSParticle particle, int numberOfWells, double offset, double height, double width, double separation ) {
+    public BSSquarePotential( BSParticle particle, int numberOfWells, double offset, double height, double width, double separation ) {
         super( particle, numberOfWells, offset );
         setHeight( height );
         setWidth( width );

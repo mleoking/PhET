@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.model.BSParticle;
-import edu.colorado.phet.boundstates.model.BSSquareWells;
+import edu.colorado.phet.boundstates.model.BSSquarePotential;
 
 /**
  * BSSquareConfig is a Java Bean used for XML encoding the state 
@@ -31,7 +31,7 @@ public class BSSquareConfig implements BSSerializable {
     
     public BSSquareConfig() {}
     
-    public BSSquareConfig( BSSquareWells potential ) {
+    public BSSquareConfig( BSSquarePotential potential ) {
         _numberOfWells = potential.getNumberOfWells();
         _offset = potential.getOffset();
         _height =  potential.getHeight();
@@ -79,7 +79,7 @@ public class BSSquareConfig implements BSSerializable {
         _width = width;
     }
     
-    public BSSquareWells toPotential( BSParticle particle ) {
-        return new BSSquareWells( particle, _numberOfWells, _offset, _height, _width, _separation );
+    public BSSquarePotential toPotential( BSParticle particle ) {
+        return new BSSquarePotential( particle, _numberOfWells, _offset, _height, _width, _separation );
     }
 }

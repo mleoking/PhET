@@ -20,8 +20,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSCoulomb1DWells;
-import edu.colorado.phet.boundstates.model.BSCoulomb3DWell;
+import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
+import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
 import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -49,7 +49,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DWell potential, BSWellSpec wellSpec ) {
+    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSWellSpec wellSpec ) {
         super( parent, SimStrings.get( "BSCoulomb3DDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( wellSpec );
         createUI( inputPanel );
@@ -109,7 +109,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Obse
 
     protected void updateControls() {
         
-        BSCoulomb1DWells potential = (BSCoulomb1DWells) getPotential();
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         
         // Sync values
         _offsetSlider.setValue( potential.getOffset() );

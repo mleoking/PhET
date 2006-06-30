@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
-import edu.colorado.phet.boundstates.model.BSCoulomb3DWell;
+import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
 
 /**
@@ -27,7 +27,7 @@ public class BSCoulomb3DConfig implements BSSerializable {
     
     public BSCoulomb3DConfig() {}
     
-    public BSCoulomb3DConfig( BSCoulomb3DWell potential ) {
+    public BSCoulomb3DConfig( BSCoulomb3DPotential potential ) {
         _offset = potential.getOffset();
     }
 
@@ -39,7 +39,7 @@ public class BSCoulomb3DConfig implements BSSerializable {
         _offset = offset;
     }
     
-    public BSCoulomb3DWell toPotential( BSParticle particle ) {
-        return new BSCoulomb3DWell( particle, _offset );
+    public BSCoulomb3DPotential toPotential( BSParticle particle ) {
+        return new BSCoulomb3DPotential( particle, _offset );
     }
 }

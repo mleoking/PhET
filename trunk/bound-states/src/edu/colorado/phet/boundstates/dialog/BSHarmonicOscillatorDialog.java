@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorWell;
+import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -51,7 +51,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     /**
      * Constructor.
      */
-    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential, BSWellSpec wellSpec ) {
+    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorPotential potential, BSWellSpec wellSpec ) {
         super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( wellSpec );
         createUI( inputPanel );
@@ -138,7 +138,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     //----------------------------------------------------------------------------
 
     protected void updateControls() {
-        BSHarmonicOscillatorWell potential = (BSHarmonicOscillatorWell) getPotential();
+        BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential) getPotential();
         _offsetSlider.setValue( potential.getOffset() );
         _angularFrequencySlider.setValue( potential.getAngularFrequency() );
     }
@@ -188,7 +188,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     
     private void handleAngularFrequencyChange() {
         final double angularFrequency = _angularFrequencySlider.getValue();
-        BSHarmonicOscillatorWell potential = (BSHarmonicOscillatorWell) getPotential();
+        BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential) getPotential();
         potential.setAngularFrequency( angularFrequency );
     }
 

@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
+import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -51,7 +51,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
     /**
      * Constructor.
      */
-    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, BSWellSpec wellSpec ) {
+    public BSAsymmetricDialog( Frame parent, BSAsymmetricPotential potential, BSWellSpec wellSpec ) {
         super( parent, SimStrings.get( "BSAsymmetricDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( wellSpec );
         createUI( inputPanel );
@@ -158,7 +158,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
 
     protected void updateControls() {
         // Sync values
-        BSAsymmetricWell potential = (BSAsymmetricWell) getPotential();
+        BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
         _offsetSlider.setValue( potential.getOffset() );
         _heightSlider.setValue( potential.getHeight() );
         _widthSlider.setValue( potential.getWidth() );
@@ -208,13 +208,13 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
 
     private void handleWidthChange() {
         final double width = _widthSlider.getValue();
-        BSAsymmetricWell potential = (BSAsymmetricWell) getPotential();
+        BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
         potential.setWidth( width );
     }
     
     private void handleHeightChange() {
         final double height = _heightSlider.getValue();
-        BSAsymmetricWell potential = (BSAsymmetricWell) getPotential();
+        BSAsymmetricPotential potential = (BSAsymmetricPotential) getPotential();
         potential.setHeight( height );
     }
     

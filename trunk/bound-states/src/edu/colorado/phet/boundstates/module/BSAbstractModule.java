@@ -88,11 +88,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSModel _model;
     private BSParticle _particle;
     private BSSuperpositionCoefficients _superpositionCoefficients;
-    private BSAsymmetricWell _asymmetricWell;
-    private BSCoulomb1DWells _coulomb1DWells;
-    private BSCoulomb3DWell _coulomb3DWell;
-    private BSHarmonicOscillatorWell _harmonicOscillatorWell;
-    private BSSquareWells _squareWells;
+    private BSAsymmetricPotential _asymmetricPotential;
+    private BSCoulomb1DPotential _coulomb1DPotential;
+    private BSCoulomb3DPotential _coulomb3DPotential;
+    private BSHarmonicOscillatorPotential _harmonicOscillatorPotential;
+    private BSSquarePotential _squarePotential;
     
     // View
     private PhetPCanvas _canvas;
@@ -536,7 +536,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             
             wellSpec = _moduleSpec.getAsymmetricSpec();
             if ( wellSpec != null ) {
-                _asymmetricWell = new BSAsymmetricWell( _particle, 
+                _asymmetricPotential = new BSAsymmetricPotential( _particle, 
                     wellSpec.getOffsetRange().getDefault(), 
                     wellSpec.getHeightRange().getDefault(), 
                     wellSpec.getWidthRange().getDefault() );
@@ -544,7 +544,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             wellSpec = _moduleSpec.getCoulomb1DSpec();
             if ( wellSpec != null ) {
-                _coulomb1DWells = new BSCoulomb1DWells( _particle, 
+                _coulomb1DPotential = new BSCoulomb1DPotential( _particle, 
                     numberOfWells, 
                     wellSpec.getOffsetRange().getDefault(), 
                     wellSpec.getSpacingRange().getDefault() );
@@ -552,20 +552,20 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             
             wellSpec = _moduleSpec.getCoulomb3DSpec();
             if ( wellSpec != null ) {
-                _coulomb3DWell = new BSCoulomb3DWell( _particle, 
+                _coulomb3DPotential = new BSCoulomb3DPotential( _particle, 
                     wellSpec.getOffsetRange().getDefault() );
             }
             
             wellSpec = _moduleSpec.getHarmonicOscillatorSpec();
             if ( wellSpec != null ) {
-                _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
+                _harmonicOscillatorPotential = new BSHarmonicOscillatorPotential( _particle, 
                     wellSpec.getOffsetRange().getDefault(), 
                     wellSpec.getAngularFrequencyRange().getDefault() );
             }
             
             wellSpec = _moduleSpec.getSquareSpec();
             if ( wellSpec != null ) {
-                _squareWells = new BSSquareWells( _particle, 
+                _squarePotential = new BSSquarePotential( _particle, 
                     numberOfWells, 
                     wellSpec.getOffsetRange().getDefault(), 
                     wellSpec.getHeightRange().getDefault(), 
@@ -577,22 +577,22 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             BSAbstractPotential defaultPotential = null;
             BSWellType defaultWellType = _moduleSpec.getDefaultWellType();
             if ( defaultWellType == BSWellType.ASYMMETRIC ) {
-                defaultPotential = _asymmetricWell;
+                defaultPotential = _asymmetricPotential;
             }
             else if ( defaultWellType == BSWellType.COULOMB_1D ) {
-                defaultPotential = _coulomb1DWells;
+                defaultPotential = _coulomb1DPotential;
             }
             else if ( defaultWellType == BSWellType.COULOMB_1D ) {
-                defaultPotential = _coulomb1DWells;
+                defaultPotential = _coulomb1DPotential;
             }
             else if ( defaultWellType == BSWellType.COULOMB_3D ) {
-                defaultPotential = _coulomb3DWell;
+                defaultPotential = _coulomb3DPotential;
             }
             else if ( defaultWellType == BSWellType.HARMONIC_OSCILLATOR ) {
-                defaultPotential = _harmonicOscillatorWell;
+                defaultPotential = _harmonicOscillatorPotential;
             }
             else if ( defaultWellType == BSWellType.SQUARE ) {
-                defaultPotential = _squareWells;
+                defaultPotential = _squarePotential;
             }
             else {
                 throw new UnsupportedOperationException( "unsupported well type: " + defaultWellType );
@@ -719,11 +719,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Model
         config.saveParticle( _particle );
-        config.saveAsymmetricPotential( _asymmetricWell );
-        config.saveCoulomb1DPotential( _coulomb1DWells );
-        config.saveCoulomb3DPotential( _coulomb3DWell );
-        config.saveHarmonicOscillatorPotential( _harmonicOscillatorWell );
-        config.saveSquarePotential( _squareWells );
+        config.saveAsymmetricPotential( _asymmetricPotential );
+        config.saveCoulomb1DPotential( _coulomb1DPotential );
+        config.saveCoulomb3DPotential( _coulomb3DPotential );
+        config.saveHarmonicOscillatorPotential( _harmonicOscillatorPotential );
+        config.saveSquarePotential( _squarePotential );
         config.setSuperpositionCoefficients( _superpositionCoefficients.getCoefficients() );
         
         // Control panel
@@ -762,31 +762,31 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _model.setParticle( _particle );
             
             // load the potentials
-            _asymmetricWell = config.loadAsymmetricPotential( _particle );
-            _coulomb1DWells = config.loadCoulomb1DPotential( _particle );
-            _coulomb3DWell = config.loadCoulomb3DPotential( _particle );
-            _harmonicOscillatorWell = config.loadHarmonicOscillatorPotential( _particle );
-            _squareWells = config.loadSquarePotential( _particle );
+            _asymmetricPotential = config.loadAsymmetricPotential( _particle );
+            _coulomb1DPotential = config.loadCoulomb1DPotential( _particle );
+            _coulomb3DPotential = config.loadCoulomb3DPotential( _particle );
+            _harmonicOscillatorPotential = config.loadHarmonicOscillatorPotential( _particle );
+            _squarePotential = config.loadSquarePotential( _particle );
             
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
-                potential = _asymmetricWell;
+                potential = _asymmetricPotential;
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
-                assert ( _coulomb1DWells != null );
-                potential = _coulomb1DWells;
+                assert ( _coulomb1DPotential != null );
+                potential = _coulomb1DPotential;
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
-                assert ( _coulomb3DWell != null );
-                potential = _coulomb3DWell;
+                assert ( _coulomb3DPotential != null );
+                potential = _coulomb3DPotential;
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-                potential = _harmonicOscillatorWell;
+                potential = _harmonicOscillatorPotential;
             }
             else if ( wellType == BSWellType.SQUARE ) {
-                potential = _squareWells;
+                potential = _squarePotential;
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
@@ -906,21 +906,21 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
-                potential = _asymmetricWell;
+                potential = _asymmetricPotential;
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
-                assert ( _coulomb1DWells != null );
-                potential = _coulomb1DWells;
+                assert ( _coulomb1DPotential != null );
+                potential = _coulomb1DPotential;
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
-                assert ( _coulomb3DWell != null );
-                potential = _coulomb3DWell;
+                assert ( _coulomb3DPotential != null );
+                potential = _coulomb3DPotential;
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-                potential = _harmonicOscillatorWell;
+                potential = _harmonicOscillatorPotential;
             }
             else if ( wellType == BSWellType.SQUARE ) {
-                potential = _squareWells;
+                potential = _squarePotential;
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
