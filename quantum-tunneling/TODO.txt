@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(6/29/06) - move Swing/AWT paint workaround to PhetFrameWorkaround
 (6/29/06) - incorporate workaround for Swing/AWT paint priority problem, see QTApplication.createPhetFrame
 1.05.00...
 (6/21/06) - change: when making a quantum measurement for a plane wave, set the wave function to zero everywhere

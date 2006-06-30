@@ -31,7 +31,8 @@ CLEANUP:
 
 DONE:
 (6/29/06) - remove workaround for forcing repaint when help state changes, no longer needed
-(6/29/06) - incorporate workaround for Swing/AWT paint priority problem
+(6/29/06) - incorporate PhetFrameWorkaround
+(6/29/06) - phetcommon: put workaround for Swing/AWT paint priority problem into PhetFrameWorkaround
 (6/29/06) - bugfix: help items don't fully draw when clock is running (Mac only)
 (6/29/06) - verified that help-related problems are Mac-only
 (6/28/06) - previous 2 changes improve startup performance slightly
