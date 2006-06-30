@@ -8,6 +8,7 @@ Controlled Reaction panel.
 - Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
 find the place to put them, and it doesn't tell you why.
 - Get rid of metal L&F
+- replace spinners with sliders and text fields(?)
 
 
 
