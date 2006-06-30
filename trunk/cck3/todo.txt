@@ -1,7 +1,6 @@
 ################################################
 #Remaining Work
 #######################
-o Quantitative numerical tests for RC, RLC Circuits, etc.
 o Get the time units to work out correctly.
 o Add Delete button for charts.
 o Add a timer.
@@ -47,6 +46,8 @@ CCK detectors should readout empty data while off of wires.
 Chart button should have icon, be located next to other measurement tools in the control panel.
 
 Capacitor charges don't paint correctly.
+
+o Quantitative numerical tests for RC, RLC Circuits, etc.
 
 ################################################
 #Lower Priority

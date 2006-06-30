@@ -37,7 +37,6 @@ public class FloatingChart extends PhetPNode {
     public void setValueReader( ValueReader valueReader ) {
         this.valueReader = valueReader;
     }
-//    private boolean constrainedToMidline = false;
 
     public static interface ValueReader {
         double getValue( double x, double y );
@@ -67,11 +66,9 @@ public class FloatingChart extends PhetPNode {
         double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
         crosshairGraphic.translate( crosshairOffsetDX, 0 );
         originalDisplacement = getDisplacement();
-//        System.out.println( "originalDisplacement = " + originalDisplacement );
         update();
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-//                super.simulationTimeChanged( clockEvent );
                 update();
             }
         } );
@@ -80,11 +77,6 @@ public class FloatingChart extends PhetPNode {
     private Vector2D getDisplacement() {
         return new Vector2D.Double( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
     }
-
-//    public void setConstrainedToMidline( boolean constrainedToMidline ) {
-//        this.constrainedToMidline = constrainedToMidline;
-//        update();
-//    }
 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
@@ -104,27 +96,11 @@ public class FloatingChart extends PhetPNode {
     }
 
     public void update() {
-//        if( constrainedToMidline ) {
-//            Point2D pt = new Point2D.Double( crosshairGraphic.getGlobalTranslation().getX(), 
-//                                             latticeScreenCoordinates.getScreenRect().getY() + latticeScreenCoordinates.getScreenRect().getHeight() / 2 );
-//            detachCrosshair();
-//            crosshairGraphic.setGlobalTranslation( pt );
-//        }
         //get the coordinate in the wavefunctiongraphic.
         Point2D location = crosshairGraphic.getGlobalTranslation();
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         double value = valueReader.getValue( location.getX(), location.getY() );
-//        Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
-//        if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
-//            double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
-//            textReadout.setText( WIStrings.getString( "magnitude.0" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
         stripChartJFCNode.addValue( clock.getSimulationTime(), value );
-
-//        }
-//        else {
-//            textReadout.setText( "" );
-//        stripChartJFCNode.addValue( clock.getSimulationTime(), 0.0 );
-//        }
         updateTextBackground();
     }
 
@@ -175,7 +151,6 @@ public class FloatingChart extends PhetPNode {
             PPath circle = new PPath( aShape );
             circle.setStrokePaint( Color.red );
             circle.setStroke( new BasicStroke( 2 ) );
-//            setPaint( new Color( 0, 0, 0, 0 ) );//to make it grabbable inside
 
             PPath vertical = new PPath( new Line2D.Double( 0, -outerRadius, 0, outerRadius ) );
             vertical.setStroke( CROSSHAIR_STROKE );
@@ -218,7 +193,7 @@ public class FloatingChart extends PhetPNode {
 
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                intensityReader.crosshairDropped( event );
+                intensityReader.crosshairDropped();
             }
         }
 
@@ -227,7 +202,7 @@ public class FloatingChart extends PhetPNode {
         }
     }
 
-    private void crosshairDropped( PInputEvent event ) {
+    private void crosshairDropped() {
         double threshold = 30;
         if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
             && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
