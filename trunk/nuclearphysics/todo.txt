@@ -1,3 +1,14 @@
+- The ray gun image temporarily disappears during some fission events.
+- If you resize the window before displaying the Single Nucleus Fision panel for the first time,
+the elements on that panel will not be sized correctly.
+- "% Fissioned" spinner on the Chain Reaction panel shows bogus numbers if you change the number
+of nuclei in the play area after things have fissioned and before you hit the reset button.
+- Now that the neutrons don't have tails when they are flying around, you can't see them in the
+Controlled Reaction panel.
+- Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
+find the place to put them, and it doesn't tell you why.
+- Get rid of metal L&F
+
 
 
 - profiles should not be created for all nuclei
