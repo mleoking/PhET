@@ -194,7 +194,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         gbcRight.gridy = 2;
         add( numU238Spinner, gbcRight );
         gbcLeft.gridy = 3;
-        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ) ), gbcLeft );
+        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ), JLabel.RIGHT ), gbcLeft );
         gbcRight.gridy = 3;
         add( percentDecayTF, gbcRight );
         gbcCenter.gridy = 4;

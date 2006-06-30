@@ -34,7 +34,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private ContainmentGraphic containmentGraphic;
 
     private Point gunMuzzelLocation = new Point( -550, 0);
-    private PhetImageGraphic gunGraphic;
     private ExplodingContainmentGraphic explodingContainmentGraphic;
     private List explodingGraphics;
 
@@ -68,7 +67,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getModel().addModelElement( new FissionDetector() );
 
         // Ray gun
-        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
