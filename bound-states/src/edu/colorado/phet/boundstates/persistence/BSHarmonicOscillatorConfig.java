@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
-import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorWell;
+import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
 
 /**
@@ -28,7 +28,7 @@ public class BSHarmonicOscillatorConfig implements BSSerializable {
     
     public BSHarmonicOscillatorConfig() {}
     
-    public BSHarmonicOscillatorConfig( BSHarmonicOscillatorWell potential ) {
+    public BSHarmonicOscillatorConfig( BSHarmonicOscillatorPotential potential ) {
         _offset = potential.getOffset();
         _angularFrequency = potential.getAngularFrequency();
     }
@@ -49,7 +49,7 @@ public class BSHarmonicOscillatorConfig implements BSSerializable {
         _offset = offset;
     }
     
-    public BSHarmonicOscillatorWell toPotential( BSParticle particle ) {
-        return new BSHarmonicOscillatorWell( particle, _offset, _angularFrequency );
+    public BSHarmonicOscillatorPotential toPotential( BSParticle particle ) {
+        return new BSHarmonicOscillatorPotential( particle, _offset, _angularFrequency );
     }
 }

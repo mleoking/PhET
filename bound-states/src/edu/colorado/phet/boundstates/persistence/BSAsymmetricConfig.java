@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
-import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
+import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
 
 /**
@@ -29,7 +29,7 @@ public class BSAsymmetricConfig implements BSSerializable {
     
     public BSAsymmetricConfig() {}
     
-    public BSAsymmetricConfig( BSAsymmetricWell potential ) {
+    public BSAsymmetricConfig( BSAsymmetricPotential potential ) {
         _offset = potential.getOffset();
         _height = potential.getHeight();
         _width = potential.getWidth();
@@ -59,7 +59,7 @@ public class BSAsymmetricConfig implements BSSerializable {
         _width = width;
     }
     
-    public BSAsymmetricWell toPotential( BSParticle particle ) {
-        return new BSAsymmetricWell( particle, _offset, _height, _width );
+    public BSAsymmetricPotential toPotential( BSParticle particle ) {
+        return new BSAsymmetricPotential( particle, _offset, _height, _width );
     }
 }

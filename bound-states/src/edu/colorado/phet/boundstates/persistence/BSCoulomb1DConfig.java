@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
-import edu.colorado.phet.boundstates.model.BSCoulomb1DWells;
+import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.model.BSParticle;
 
 /**
@@ -29,7 +29,7 @@ public class BSCoulomb1DConfig implements BSSerializable {
     
     public BSCoulomb1DConfig() {}
 
-    public BSCoulomb1DConfig( BSCoulomb1DWells potential ) {
+    public BSCoulomb1DConfig( BSCoulomb1DPotential potential ) {
         _numberOfWells = potential.getNumberOfWells();
         _offset = potential.getOffset();
         _spacing = potential.getSpacing();
@@ -59,7 +59,7 @@ public class BSCoulomb1DConfig implements BSSerializable {
         _spacing = spacing;
     }
     
-    public BSCoulomb1DWells toPotential( BSParticle particle ) {
-        return new BSCoulomb1DWells( particle, _numberOfWells, _offset, _spacing );
+    public BSCoulomb1DPotential toPotential( BSParticle particle ) {
+        return new BSCoulomb1DPotential( particle, _numberOfWells, _offset, _spacing );
     }
 }

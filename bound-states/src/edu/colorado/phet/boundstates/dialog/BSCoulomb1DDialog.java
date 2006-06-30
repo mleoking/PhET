@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSCoulomb1DWells;
+import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -51,7 +51,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DWells potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
+    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSCoulomb1DDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( wellSpec, offsetControlSupported );
         createUI( inputPanel );
@@ -139,7 +139,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
 
     protected void updateControls() {
         
-        BSCoulomb1DWells potential = (BSCoulomb1DWells) getPotential();
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         
         // Sync values
         _offsetSlider.setValue( potential.getOffset() );
@@ -195,7 +195,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
     }
     
     private void handleSpacingChange() {
-        BSCoulomb1DWells potential = (BSCoulomb1DWells) getPotential();
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential) getPotential();
         final double spacing = _spacingSlider.getValue();
         potential.setSpacing( spacing );
     }

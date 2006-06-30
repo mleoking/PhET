@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 
 /**
- * BSAsymmetricWell is the model of a potential composed of one Asymmetric well.
+ * BSAsymmetricPotential is the model of a potential composed of one Asymmetric well.
  * <p>
  * Our model supports these parameters:
  * <ul>
@@ -30,7 +30,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAsymmetricWell extends BSAbstractPotential {
+public class BSAsymmetricPotential extends BSAbstractPotential {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,7 +51,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
      * @param height 
      * @param width
      */
-    public BSAsymmetricWell( BSParticle particle, double offset, double height, double width ) {
+    public BSAsymmetricPotential( BSParticle particle, double offset, double height, double width ) {
         super( particle, 1 /* numberOfWells */, offset );
         setHeight( height );
         setWidth( width );

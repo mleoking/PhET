@@ -220,71 +220,71 @@ public class BSModuleConfig implements BSSerializable {
         setParticleConfig( new BSParticleConfig( particle ) );
     }
     
-    public BSAsymmetricWell loadAsymmetricPotential( BSParticle particle ) {
-        BSAsymmetricWell potential = null;
+    public BSAsymmetricPotential loadAsymmetricPotential( BSParticle particle ) {
+        BSAsymmetricPotential potential = null;
         if ( _asymmetricConfig != null ) {
             potential = _asymmetricConfig.toPotential( particle );
         }
         return potential;
     }
     
-    public void saveAsymmetricPotential( BSAsymmetricWell potential ) {
+    public void saveAsymmetricPotential( BSAsymmetricPotential potential ) {
         if ( potential != null ) {
             setAsymmetricConfig( new BSAsymmetricConfig( potential ) );
         }
     }
     
-    public BSCoulomb1DWells loadCoulomb1DPotential( BSParticle particle ) {
-        BSCoulomb1DWells potential = null;
+    public BSCoulomb1DPotential loadCoulomb1DPotential( BSParticle particle ) {
+        BSCoulomb1DPotential potential = null;
         if ( _coulomb1DConfig != null ) {
             potential = _coulomb1DConfig.toPotential( particle );
         }
         return potential;
     }
     
-    public void saveCoulomb1DPotential( BSCoulomb1DWells potential ) {
+    public void saveCoulomb1DPotential( BSCoulomb1DPotential potential ) {
         if ( potential != null ) {
             setCoulomb1DConfig( new BSCoulomb1DConfig( potential ) );
         }
     }
     
-    public BSCoulomb3DWell loadCoulomb3DPotential( BSParticle particle ) {
-        BSCoulomb3DWell potential = null;
+    public BSCoulomb3DPotential loadCoulomb3DPotential( BSParticle particle ) {
+        BSCoulomb3DPotential potential = null;
         if ( _coulomb3DConfig != null ) {
             potential = _coulomb3DConfig.toPotential( particle );
         }
         return potential;
     }
     
-    public void saveCoulomb3DPotential( BSCoulomb3DWell potential ) {
+    public void saveCoulomb3DPotential( BSCoulomb3DPotential potential ) {
         if ( potential != null ) {
             setCoulomb3DConfig( new BSCoulomb3DConfig( potential ) );
         }
     }
     
-    public BSHarmonicOscillatorWell loadHarmonicOscillatorPotential( BSParticle particle ) {
-        BSHarmonicOscillatorWell potential = null;
+    public BSHarmonicOscillatorPotential loadHarmonicOscillatorPotential( BSParticle particle ) {
+        BSHarmonicOscillatorPotential potential = null;
         if ( _harmonicOscillatorConfig != null ) {
             potential = _harmonicOscillatorConfig.toPotential( particle );
         }
         return potential;
     }
 
-    public void saveHarmonicOscillatorPotential( BSHarmonicOscillatorWell potential ) {
+    public void saveHarmonicOscillatorPotential( BSHarmonicOscillatorPotential potential ) {
         if ( potential != null ) {
             setHarmonicOscillatorConfig( new BSHarmonicOscillatorConfig( potential ) );
         }
     }
     
-    public BSSquareWells loadSquarePotential( BSParticle particle ) {
-        BSSquareWells potential = null;
+    public BSSquarePotential loadSquarePotential( BSParticle particle ) {
+        BSSquarePotential potential = null;
         if ( _squareConfig != null ) {
             potential = _squareConfig.toPotential( particle );
         }
         return potential;
     }
     
-    public void saveSquarePotential( BSSquareWells potential ) {
+    public void saveSquarePotential( BSSquarePotential potential ) {
         if ( potential != null ) {
             setSquareConfig( new BSSquareConfig( potential ) );
         }

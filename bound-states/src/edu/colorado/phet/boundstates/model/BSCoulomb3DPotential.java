@@ -19,11 +19,11 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
- * BSCoulomb3DWell is the model of a potential composed of one 3-D Coulomb well.
+ * BSCoulomb3DPotential is the model of a potential composed of one 3-D Coulomb well.
  * This implementation does not support multiple wells.
  * <p>
  * Most of the implementation is identical to 1-D Coulomb, so we simply
- * extend BSCoulomb1DWell and replace override the pieces that are different.
+ * extend BSCoulomb1DPotential and replace override the pieces that are different.
  * <p>
  * Our model supports these parameters:
  * <ul>
@@ -33,7 +33,7 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb3DWell extends BSCoulomb1DWells {
+public class BSCoulomb3DPotential extends BSCoulomb1DPotential {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -51,7 +51,7 @@ public class BSCoulomb3DWell extends BSCoulomb1DWells {
      * @param particle
      * @param offset
      */
-    public BSCoulomb3DWell( BSParticle particle, double offset ) {
+    public BSCoulomb3DPotential( BSParticle particle, double offset ) {
         super( particle, 1 /* numberOfWells */, offset, 0 /* spacing */ );
     }
     

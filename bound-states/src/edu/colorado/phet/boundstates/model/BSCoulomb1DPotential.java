@@ -21,7 +21,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 
 /**
- * BSCoulomb1DWells is the model of a potential composed of 
+ * BSCoulomb1DPotential is the model of a potential composed of 
  * one or more 1-dimensional Coulomb wells.
  * <p>
  * Our model supports these parameters:
@@ -36,7 +36,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DWells extends BSAbstractPotential {
+public class BSCoulomb1DPotential extends BSAbstractPotential {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -55,7 +55,7 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
      * @param numberOfWells
      * @param spacing
      */
-    public BSCoulomb1DWells( BSParticle particle, int numberOfWells, double offset, double spacing ) {
+    public BSCoulomb1DPotential( BSParticle particle, int numberOfWells, double offset, double spacing ) {
         super( particle, numberOfWells, offset );
         setSpacing( spacing );
     }
