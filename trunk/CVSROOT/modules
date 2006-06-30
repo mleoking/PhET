@@ -171,7 +171,9 @@ molecular-reactions molecular-reactions &piccolo-phet-dir &piccolo-dir &phetcomm
 motion2d motion2d
 
 # Moving man
-moving-man movingman &phetcommon-dir &charts-dir &phetgraphics-dir
+#Moving Man is built on an old version of charts and phetcommon.  Use this tag for checkout (no current support for branch):
+#mm-tag-6-30-2006-i
+moving-man movingman &phetcommon-dir &charts-dir
 
 # MRI
 mri mri &piccolo-phet-module &mechanics &collision-dir &quantum-rjl
