@@ -12,12 +12,14 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.AffineTransform;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +36,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private Uranium235 nucleus;
     private Neutron neutron;
     private ArrayList transientModelElements = new ArrayList();
+    private Point gunMuzzelLocation = new Point( -250, 0);
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
@@ -104,6 +107,25 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
             }
         } );
 
+        // Ray gun
+        PhetImageGraphic gunGraphic;
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
+        gunGraphic.setTransform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
+        gunGraphic.setLocation( gunMuzzelLocation );
+        getPhysicalPanel().addGraphic( gunGraphic );
+
+
+        // Add a fire button to the play area
+        FireButton fireButton = new FireButton( getPhysicalPanel());
+        getPhysicalPanel().addGraphic( fireButton, 1E6 );
+        fireButton.setLocation(  (int)( 60), 230 );
+        fireButton.addActionListener( new FireButton.ActionListener() {
+            public void actionPerformed( FireButton.ActionEvent event ) {
+                fireNeutron();
+            }
+        } );
+
         // Start things up
         this.start();
     }
@@ -149,7 +171,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         double y = Math.min( h / 2, ( w / 2 ) * Math.abs( Math.tan( gamma ) ) );
         x *= MathUtil.getSign( Math.cos( gamma ) );
         y *= MathUtil.getSign( Math.sin( gamma ) );
-        neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
+        neutron = new Neutron( gunMuzzelLocation, 0 );
+//        neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
         super.addNeutron( neutron );
     }
 
