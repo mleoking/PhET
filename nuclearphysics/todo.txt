@@ -29,6 +29,7 @@ Fission:
 -   Obsolete Interface exception when running under 1.4.
 
 Chain Reaction panel
+- % text field doesn't update
 -   U238 spinner doesn't respond properly to the first mouse click
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
 -   Replace spinner with a slider(?) and text box
