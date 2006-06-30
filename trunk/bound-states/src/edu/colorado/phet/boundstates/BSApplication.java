@@ -33,6 +33,7 @@ import edu.colorado.phet.boundstates.util.ArgUtils;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -228,22 +229,11 @@ public class BSApplication extends PiccoloPhetApplication {
     }
     
     /*
-     * WORKAROUND for BugParade bug #4473503, see
-     * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503
-     * <p>
-     * Repaint requests go on the EventQueue with MEDIUM priority, while AWT repaint 
-     * requests go on the queue with LOW priority. This means our application sometimes
-     * never gets around to AWT painting. This workaround forces a graphics update.
-     * <p>
-     * NOTE! This workaround may cause performance problems.
+     * Workaround for Swing/AWT paint priority problem.
+     * See PhetFrameWorkaround javadoc for details.
      */
     protected PhetFrame createPhetFrame() {
-        return new PhetFrame( this ) {
-            public void repaint( long tm, int x, int y, int width, int height ) {
-                super.repaint( tm, x, y, width, height ); // in case other important stuff happens here.
-                update( getGraphics() );
-            }
-        };
+        return new PhetFrameWorkaround( this );
     }
 
     //----------------------------------------------------------------------------
