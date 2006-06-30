@@ -35,6 +35,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     private Point gunMuzzelLocation = new Point( -550, 0);
     private PhetImageGraphic gunGraphic;
+    private ExplodingContainmentGraphic explodingContainmentGraphic;
+    private List explodingGraphics;
 
     /**
      * Constructor
@@ -66,7 +68,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getModel().addModelElement( new FissionDetector() );
 
         // Ray gun
-        CompositePhetGraphic cpg = new CompositePhetGraphic( getPhysicalPanel() );
         gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
@@ -124,6 +125,17 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         return Arrays.asList( legendClasses );
     }
 
+    public void stop() {
+        super.stop();
+        for( int i = 0; i < explodingGraphics.size(); i++ ) {
+            ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
+            graphic.clearGraphics();
+        }
+//        if( explodingContainmentGraphic != null ) {
+//            explodingContainmentGraphic.clearGraphics();
+//        }
+    }
+
     public void start() {
         // Add a bunch of nuclei, including one in the middle that we can fire a neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), (NuclearPhysicsModel)getModel() );
@@ -148,20 +160,17 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 //            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
         else {
-            double bounds = 600 / getPhysicalPanel().getScale();
-            neutronLaunchAngle = random.nextDouble() * Math.PI * 2;
-            double x = bounds * Math.cos( neutronLaunchAngle );
-            double y = bounds * Math.sin( neutronLaunchAngle );
-            neutronLaunchAngle += Math.PI;
-            neutronLaunchPoint = new Point2D.Double( x, y );
-
+//            double bounds = 600 / getPhysicalPanel().getScale();
+//            neutronLaunchAngle = random.nextDouble() * Math.PI * 2;
+//            double x = bounds * Math.cos( neutronLaunchAngle );
+//            double y = bounds * Math.sin( neutronLaunchAngle );
+//            neutronLaunchAngle += Math.PI;
+//            neutronLaunchPoint = new Point2D.Double( x, y );
+//
             neutronLaunchAngle = 0;
             neutronLaunchPoint = new Point2D.Double( gunMuzzelLocation.getX(), gunMuzzelLocation.getY());
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
-
-//        gunGraphic.setLocation( (int)neutronLaunchPoint.getX(), (int)neutronLaunchPoint.getY());
-//        gunGraphic.repaint();
     }
 
     public void fission( FissionProducts products ) {
@@ -184,7 +193,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         containment.addChangeListener( new Containment.ChangeListener() {
             public void containmentExploded( Containment.ChangeEvent event ) {
                 // The following constructor Creates a graphic AND ADDS IT TO THE APPARATUS PANEL
-                new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic );
+                explodingGraphics = new ArrayList( );
+                explodingGraphics.add( new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic ));
                 getPhysicalPanel().removeGraphic( containmentGraphic );
             }
         } );

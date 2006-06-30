@@ -18,7 +18,6 @@ import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
-import edu.colorado.phet.nuclearphysics.controller.FireButton;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
@@ -35,7 +34,7 @@ import java.util.Iterator;
  * This class takes a ProfileType in its constructor that tells if it is going to show
  * an old-style potential energy curve, or the new-style square sided well profile with
  * a total energy line on it.
- * <p>
+ * <p/>
  * There are a couple of ugly hacks here. The total energy line for the potential energy profile
  * for the single-nucleus fission module, for example, is drawn with g2.drawLine() in paint(), and
  * uses a boolean to keep the line from overlaying a graphic it shouldn't
@@ -54,7 +53,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
     private static String xAxisLabel = SimStrings.get( "PotentialProfilePanel.XAxisLabel" );
-    private static String yAxisLabel = SimStrings.get( "PotentialProfilePanel.YAxisLabel" );
+    private static String[] yAxisLabels = new String[]{
+            SimStrings.get( "PotentialProfilePanel.YAxisLabel1" ),
+            SimStrings.get( "PotentialProfilePanel.YAxisLabel2" )};
     private static String originLabel = "0";
     private static Font axisLabelFont;
     private static Font legendFont;
@@ -175,9 +176,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
                 g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
                 g2.setColor( EnergyProfileGraphic.totalEnergyColor );
                 g2.drawLine( (int)backgroundGraphic.getBounds().getMinX() + 4,
-                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE  * Config.modelToViewMeV),
-                             (int)backgroundGraphic.getBounds().getMaxX()- 12,
-                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE  * Config.modelToViewMeV) );
+                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE * Config.modelToViewMeV ),
+                             (int)backgroundGraphic.getBounds().getMaxX() - 12,
+                             (int)( profileTx.getTranslateY() - EnergyProfile.alphaParticleKE * Config.modelToViewMeV ) );
             }
 
             g2.setTransform( orgTx );
@@ -220,7 +221,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
                 g2.setColor( EnergyProfileGraphic.totalEnergyColor );
                 g2.drawLine( (int)backgroundGraphic.getBounds().getMinX() + 4,
                              (int)( profileTx.getTranslateY() - nucleus.getPotential() ),
-                             (int)backgroundGraphic.getBounds().getMaxX()- 12,
+                             (int)backgroundGraphic.getBounds().getMaxX() - 12,
                              (int)( profileTx.getTranslateY() - nucleus.getPotential() ) );
                 lineDrawn = true;
             }
@@ -265,8 +266,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
-
-//        int arrowOffset = 20;
 
         g2.setColor( EnergyProfilePanelGraphic.axisColor );
         g2.setStroke( EnergyProfilePanelGraphic.axisStroke );
@@ -332,15 +331,16 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             // y axis
             AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
             g2.transform( strTx );
-            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabel, g2 );
+            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabels[0], g2 );
             double dy = 0;
             if( profileTx.getTranslateY() > getHeight() / 2 ) {
-                dy = 10;
+                dy = 30;
             }
             else {
-                dy = -(yAxisLabelBounds.getWidth() + 10 );
+                dy = -( yAxisLabelBounds.getWidth() + 25 );
             }
-            g2.drawString( EnergyProfilePanelGraphic.yAxisLabel, (int)( dy ), -10 + yAxisXLoc );
+            g2.drawString( EnergyProfilePanelGraphic.yAxisLabels[0], (int)( dy ), -10 + yAxisXLoc );
+            g2.drawString( EnergyProfilePanelGraphic.yAxisLabels[1], (int)( dy ), -10 + yAxisXLoc + 25);
             g2.setTransform( orgTx );
 
             // x axis
