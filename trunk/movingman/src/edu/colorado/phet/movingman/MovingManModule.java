@@ -46,7 +46,7 @@ import java.util.Locale;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class MovingManModule extends Module {
-
+    private static final String MOVING_MAN_VERSION = "1.15";
     private static boolean addJEP = true;
     private PhetFrame frame;
 
@@ -60,6 +60,7 @@ public class MovingManModule extends Module {
     // Localization
     public static final String localizedStringsPath = "localization/MovingManStrings";
     private boolean soundEnabled = true;
+
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
@@ -376,7 +377,7 @@ public class MovingManModule extends Module {
 //                getMan().setPosition( x );
 
             movingManModel.setReplayTime( requestedTime );
-            
+
 //            }
 //            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
 //            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
@@ -680,8 +681,20 @@ public class MovingManModule extends Module {
         plaf.apply();
         PhetLookAndFeel.setLookAndFeel();
 
-        // Initialize localized strings
-        SimStrings.init( args, localizedStringsPath );
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ) );
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+
+//        // Initialize localized strings
+//        SimStrings.init( args, localizedStringsPath );
 
         //Putting in swing thread avoids concurrentmodification exception in GraphicLayerSet.
         SwingUtilities.invokeAndWait( new Runnable() {
@@ -703,7 +716,7 @@ public class MovingManModule extends Module {
 //        clock.set
 //        clock.setDelay( 30 );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
-        String revision = "v1r13";
+        String revision = MOVING_MAN_VERSION;
         ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " - " + revision,
                                                       SimStrings.get( "MovingManApplication.description" ),
                                                       revision, setup );
@@ -713,7 +726,6 @@ public class MovingManModule extends Module {
         final MovingManModule m = new MovingManModule( clock );
 
         tpa.setModules( new Module[]{m} );
-
 
 //        final PhetFrame frame = tpa.getPhetFrame();
         m.setFrame( frame );
