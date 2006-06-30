@@ -497,16 +497,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         super.deactivate();
     }
     
-    /*
-     * WORKAROUND: 
-     * Force a repaint of the entire component tree when the help state changes.
-     * If we don't do this, then parts of help items don't draw properly on Macintosh.
-     */
-    public void setHelpEnabled( boolean enabled ) {
-        super.setHelpEnabled( enabled );
-        SwingUtils.paintImmediately( getFrame() );
-    }
-    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
