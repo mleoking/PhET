@@ -84,17 +84,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             }
         } );
 
-//        ResetButton resetButton = new ResetButton( getPhysicalPanel() );
-//        getPhysicalPanel().addGraphic( resetButton, 1E6 );
-//        resetButton.setLocation( (int)fireButton.getLocation().getX(),
-//                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
-//        resetButton.addActionListener( new PhetGraphicsButton.ActionListener() {
-//            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
-//                stop();
-//                start();
-//            }
-//        } );
-
         ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
         containmentButton.setLocation( (int)fireButton.getLocation().getX(),
@@ -127,7 +116,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     public void stop() {
         super.stop();
-        for( int i = 0; i < explodingGraphics.size(); i++ ) {
+        for( int i = 0; explodingGraphics != null && i < explodingGraphics.size(); i++ ) {
             ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
             graphic.clearGraphics();
         }
@@ -153,24 +142,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     }
 
     protected void computeNeutronLaunchParams() {
-        // Compute how we'll fire the neutron
-        if( false && containment != null ) {
-//            neutronLaunchPoint = containment.getNeutronLaunchPoint();
-//            neutronLaunchAngle = 0;
-//            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
-        }
-        else {
-//            double bounds = 600 / getPhysicalPanel().getScale();
-//            neutronLaunchAngle = random.nextDouble() * Math.PI * 2;
-//            double x = bounds * Math.cos( neutronLaunchAngle );
-//            double y = bounds * Math.sin( neutronLaunchAngle );
-//            neutronLaunchAngle += Math.PI;
-//            neutronLaunchPoint = new Point2D.Double( x, y );
-//
             neutronLaunchAngle = 0;
             neutronLaunchPoint = new Point2D.Double( gunMuzzelLocation.getX(), gunMuzzelLocation.getY());
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
-        }
     }
 
     public void fission( FissionProducts products ) {

@@ -1,5 +1,4 @@
 
-- Split "Alpha particle energy" to two lines
 
 - profiles should not be created for all nuclei
 - 2 graphics are being created for each model element because there are two physical panels per module.
@@ -11,7 +10,6 @@
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
 
-?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
 ?	Need a color selection option for control panel.
 ?	anti Alias the text (if it is already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
 ?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
@@ -44,11 +42,16 @@ Controlled Reaction
 ?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
 
 
-
 ================
 Done not posted
 ================
+- Split "Alpha particle energy" to two lines
+?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
+- % U235 fissioned now correct in Chain Reaction panel
 
+================
+Sandbox
+================
 - Found workaround to deal with change in PhetTabbedPane that broke some code (1:30)
 - changed units on bar charts on controlled chain reaction panel        (0:15)
 - you can lower the control rods below the bottom of the vessel         (0:15)

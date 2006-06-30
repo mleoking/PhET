@@ -46,6 +46,9 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     // todo: push this down to the MultipleNucleusFissionModule
     protected Line2D.Double neutronPath;
 
+    // The numberof U235 nuclei that are present when the neutron is fired;
+    private int startingNumU235;
+
     /**
      *
      * @param name
@@ -86,6 +89,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         } );
     }
 
+    public int getStartingNumU235() {
+        return startingNumU235;
+    }
+
     protected Line2D.Double getNeutronPath() {
         return neutronPath;
     }
@@ -97,7 +104,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     public ArrayList getNuclei() {
         return nuclei;
     }
-
 
     public ArrayList getU235Nuclei() {
         return u235Nuclei;
@@ -161,6 +167,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     public void fireNeutron() {
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchAngle );
+        startingNumU235 = u235Nuclei.size();
         neutrons.add( neutron );
         addNeutron( neutron );
     }
