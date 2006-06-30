@@ -138,21 +138,13 @@ public class CCK3ControlPanel extends ControlPanel {
         }
 
         if( module.getParameters().getAllowDynamics() ) {
-            addFloatingCharts();
+            addControl( Box.createVerticalStrut( 7 ) );
             addControl( new ResetDynamicsButton( module ) );
         }
+        addControl( Box.createVerticalStrut( 7 ) );
+//        addControl( Box.createVerticalBox( ));
+//        addControl( Box.createVerticalGlue( ));
         super.addControlFullWidth( getHelpPanel() );
-    }
-
-    private void addFloatingCharts() {
-        JButton floatingChartButton = new JButton( CCKStrings.getString( "add.chart" ) );
-        floatingChartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "CCK3ControlPanel.actionPerformed" );
-                module.addFloatingChart();
-            }
-        } );
-        addControl( floatingChartButton );
     }
 
     private void add( JComponent component ) {
@@ -279,6 +271,7 @@ public class CCK3ControlPanel extends ControlPanel {
 
         if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( virtualAmmeter, rhs );
+            rhs.gridy++;
         }
         lhs.gridy = 0;
         toolPanel.add( new JLabel( voltIcon ), lhs );
@@ -287,7 +280,23 @@ public class CCK3ControlPanel extends ControlPanel {
         lhs.gridy++;
         if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
+            lhs.gridy++;
         }
+
+        if( module.getParameters().getAllowDynamics() ) {
+            ImageIcon chartIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
+            toolPanel.add( new JLabel( chartIcon ), lhs );
+            JButton floatingChartButton = new JButton( CCKStrings.getString( "add.chart" ) );
+            floatingChartButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "CCK3ControlPanel.actionPerformed" );
+                    module.addFloatingChart();
+                }
+            } );
+            toolPanel.add( floatingChartButton, rhs );
+            lhs.gridy = 0;
+        }
+
         return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
     }
 
