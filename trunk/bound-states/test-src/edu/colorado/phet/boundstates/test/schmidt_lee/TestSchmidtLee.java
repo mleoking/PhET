@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.boundstates.test.schmidt_lee;
 
-import edu.colorado.phet.boundstates.model.BSSquareWells;
-
 import java.text.ParseException;
 
 /**
