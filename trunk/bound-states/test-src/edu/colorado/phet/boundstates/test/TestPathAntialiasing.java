@@ -26,10 +26,11 @@ public class TestPathAntialiasing {
      * @param x the value along the x-axis
      * @param halfY the value of the y-axis
      * @param maxX the width of the x-axis
+     * @param cycles number of cycles to be drawn
      * @return double
      */
-    private static double getNormalizedSine( double x, double halfY, double maxX ) {
-        double piDouble = 2 * Math.PI;
+    private static double getNormalizedSine( double x, double halfY, double maxX, int cycles ) {
+        double piDouble = 2 * Math.PI * cycles;
         double factor = piDouble / maxX;
         return (int) ( Math.sin( x * factor ) * halfY + halfY );
     }
@@ -40,7 +41,7 @@ public class TestPathAntialiasing {
         final GeneralPath path = new GeneralPath();
         final double dx = 1;
         for ( double x = 0; x <= FRAME_SIZE.width; x += dx ) {
-            final double y = getNormalizedSine( x, FRAME_SIZE.height/2, FRAME_SIZE.width );
+            final double y = getNormalizedSine( x, FRAME_SIZE.height/2, FRAME_SIZE.width, 5 /* cycles */ );
             if ( x == 0 ) {
                 path.moveTo( (float)x, (float)y );
             }
@@ -54,12 +55,13 @@ public class TestPathAntialiasing {
                 super.paintComponent( graphics );
                 // Draw the sine wave
                 Graphics2D g2 = (Graphics2D) graphics;
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
                 g2.setPaint( Color.RED );
                 g2.setStroke( new BasicStroke( 1f ) );
                 g2.draw( path );
             }
         };
+        panel.setBackground( Color.BLACK );
 
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
