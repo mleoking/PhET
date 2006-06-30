@@ -30,6 +30,7 @@ CLEANUP:
 
 
 DONE:
+(6/29/06) - work on making plot antialiasing look better on Windows, no progress
 (6/29/06) - remove workaround for forcing repaint when help state changes, no longer needed
 (6/29/06) - incorporate PhetFrameWorkaround
 (6/29/06) - phetcommon: put workaround for Swing/AWT paint priority problem into PhetFrameWorkaround
