@@ -196,6 +196,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             removeContainment();
         }
         computeNeutronLaunchParams();
+        
     }
 
     protected Point2D.Double findLocationForNewNucleus() {
