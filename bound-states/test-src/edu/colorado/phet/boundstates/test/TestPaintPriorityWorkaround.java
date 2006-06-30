@@ -32,17 +32,83 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 
 /**
- * TestHelpRepaint demonstrates a problem with help items on Macintosh.
+ * TestHelpRepaint2 demonstrates a problem with help items on Macintosh.
  * When the simulation clock is running, turning help on results
  * in the help items being partially painted.  And help items
  * (or parts of help items) that fall outside the PCanvas are
  * not painted. Other parts of the interface (eg, the Help button
  * in the control panel) are sometimes not properly painted.
+ * <p>
+ * Sam Reid developed the workaround shown herein. Here's his description:
+ * <p>
+ * The problem is most elegantly summarized in a bug report I referred to
+ * earlier:
+ * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503
+ * 
+ * This bug report acknowledges that swing repaint requests go on the
+ * EventQueue with MEDIUM priority while AWT repaint requests go on the queue
+ * with LOW priority.  This means our application sometimes never gets around
+ * to AWT painting.  Swing painting occurs in opaque components, sometimes our
+ * non-opaque paint requests get transferred up to the parent Component.
+ * 
+ * I first tried this workaround, overriding the main repaint method in
+ * PhetFrame:
+ * 
+ * //Don't use this solution, read on...
+ * public void repaint( long tm, int x, int y, int width, int height ) {
+ *         super.repaint( tm, x, y, width, height );
+ *         dispatchEvent( new PaintEvent( this, PaintEvent.UPDATE, new
+ * Rectangle( x, y, width, height ) ) );
+ * }
+ * 
+ * This still calls the super.repaint, in case other things need to happen, and
+ * uses the same mechanism for getting the repaint to happen (by calling
+ * handleEvent() on the ComponentPeer).  This works great on XP but not at all
+ * on mac (as if dispatchEvent does a no-op).  I investigated this, and the
+ * PaintEvent propagates to apple.awt.ComponentModel, but after that I stopped
+ * looking.
+ * 
+ * Here is a less elegant (but more practical) workaround:
+ *
+ * public void repaint( long tm, int x, int y, int width, int height ) {
+ *         super.repaint( tm, x, y, width, height );//just in case other important stuff happens here.
+ *         update( getGraphics() );
+ * }
+ * 
+ * Pros:
+ * 1. This workaround produces the desired behavior on xp and mac.
+ * 2. PhetFrame.paint() is only called a few times in a few sample applications
+ * I tried; BoundStates and TestHelpRepaint.  This solution could be a
+ * debilitating performance problem if it was called every 30 ms.
+ * 3. This solution is only one line of code, and only needs to be done in a
+ * few places (I recommend on a per-application basis).
+ * 
+ * Cons:
+ * 1. This workaround ignores a great deal of AWT paint infrastructure,
+ * including the Toolkit, the EventQueue and the Component.dispatchEvent().
+ * 2. This workaround could be a performance problem, paint requests are not
+ * coalesced.  I recommend putting a debug statement by the call to update() to
+ * make sure it's not being called all the time.
+ * 3. This workaround could draw incorrectly, if something needs to be done to
+ * the Graphics (setting up transforms, etc) before drawing on it.
+ * 4. This workaround would need to be applied to each parent component for
+ * which this problem is exhibited.
+ * 
+ * It would be nice if the AWT exposed the functionality we wanted, say, to
+ * just add a PaintEvent with priority MEDIUM, but it looks closed off to me.
+ * We could develop our own handler that copies the functionality that we lose
+ * there: coalescing events, etc. but this would probably be too complicated
+ * and may not be necessary for our usage.  Alternatively, we could build in a
+ * mechanism to count the rate of calls to update() and make sure it's not too
+ * high (maybe more than 1 per 100 millis on average means we should stop
+ * calling update).  But these kind of heuristics can be sticky business;
+ * better to try without them first.
+ * 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestHelpRepaint2 {
+public class TestPaintPriorityWorkaround {
 
     private static final int CLOCK_RATE = 10000; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
@@ -58,31 +124,25 @@ public class TestHelpRepaint2 {
     public static void main( final String[] args ) throws InterruptedException {
         TestApplication app = new TestApplication( args );
         app.startApplication();
-        PiccoloModule m = (PiccoloModule)app.getModules()[0];
-        m.getModulePanel().setOpaque( false );
-        m.getModulePanel().getSimulationPanel().setOpaque( false );
-        HelpPane h = m.getDefaultHelpPane();
-//                    m.setHelpEnabled( true );
-        System.out.println( "h = " + h );
-        h.paintImmediately( h.getBounds() );
     }
 
     private static class TestApplication extends PiccoloPhetApplication {
 
         public TestApplication( String[] args ) throws InterruptedException {
-            super( args, "TestHelpRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+            super( args, "TestHelpRepaint2", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
             // Clock
-            IClock clock = new SwingClock( 1000 / TestHelpRepaint2.CLOCK_RATE, new TimingStrategy.Constant( TestHelpRepaint2.MODEL_RATE ) );
+            IClock clock = new SwingClock( 1000 / TestPaintPriorityWorkaround.CLOCK_RATE, new TimingStrategy.Constant( TestPaintPriorityWorkaround.MODEL_RATE ) );
 
             // Modules
-            Module moduleOne = new TestHelpRepaint2.TestModule( "One", clock );
+            Module moduleOne = new TestPaintPriorityWorkaround.TestModule( "One", clock );
             addModule( moduleOne );
-            Module moduleTwo = new TestHelpRepaint2.TestModule( "Two", clock );
+            Module moduleTwo = new TestPaintPriorityWorkaround.TestModule( "Two", clock );
             addModule( moduleTwo );
             getPhetFrame().addFileMenuItem( new JMenuItem( "hello" ) );
         }
 
+        // This is the WORKAROUND
         protected PhetFrame createPhetFrame() {
             return new PhetFrame( this ) {
                 public void repaint( long tm, int x, int y, int width, int height ) {
@@ -105,7 +165,7 @@ public class TestHelpRepaint2 {
             // Canvas
             _canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
             setSimulationPanel( _canvas );
-            _canvas.setBackground( TestHelpRepaint2.BACKGROUND );
+            _canvas.setBackground( TestPaintPriorityWorkaround.BACKGROUND );
             _canvas.addComponentListener( new ComponentAdapter() {
 
                 public void componentResized( ComponentEvent event ) {
@@ -129,12 +189,12 @@ public class TestHelpRepaint2 {
 
                 // X axis
                 ValueAxis xAxis = new NumberAxis( "X" );
-                xAxis.setRange( TestHelpRepaint2.MIN_X, TestHelpRepaint2.MAX_X );
+                xAxis.setRange( TestPaintPriorityWorkaround.MIN_X, TestPaintPriorityWorkaround.MAX_X );
                 plot.setDomainAxis( xAxis );
 
                 // Y axis
                 ValueAxis yAxis = new NumberAxis( "Y" );
-                yAxis.setRange( TestHelpRepaint2.MIN_Y, TestHelpRepaint2.MAX_Y );
+                yAxis.setRange( TestPaintPriorityWorkaround.MIN_Y, TestPaintPriorityWorkaround.MAX_Y );
                 plot.setRangeAxis( yAxis );
 
                 // Dataset
@@ -150,7 +210,7 @@ public class TestHelpRepaint2 {
 
                 // Chart
                 JFreeChart chart = new JFreeChart( plot );
-                chart.setBackgroundPaint( TestHelpRepaint2.BACKGROUND );
+                chart.setBackgroundPaint( TestPaintPriorityWorkaround.BACKGROUND );
 
                 _chartNode = new JFreeChartNode( chart );
                 parentNode.addChild( _chartNode );
@@ -176,7 +236,6 @@ public class TestHelpRepaint2 {
 
             // Control panel
             JCheckBox checkBox = new JCheckBox( name );
-            ;
             {
                 ControlPanel controlPanel = new ControlPanel();
                 setControlPanel( controlPanel );
@@ -248,9 +307,9 @@ public class TestHelpRepaint2 {
             // Generate some data for a time-varying function...
             _series.setNotify( false );
             _series.clear();
-            for( double x = TestHelpRepaint2.MIN_X; x <= TestHelpRepaint2.MAX_X + TestHelpRepaint2.DX; x += TestHelpRepaint2.DX )
+            for( double x = TestPaintPriorityWorkaround.MIN_X; x <= TestPaintPriorityWorkaround.MAX_X + TestPaintPriorityWorkaround.DX; x += TestPaintPriorityWorkaround.DX )
             {
-                double y = TestHelpRepaint2.MAX_Y * Math.sin( 3 * x - t );
+                double y = TestPaintPriorityWorkaround.MAX_Y * Math.sin( 3 * x - t );
                 _series.add( x, y );
             }
             _series.setNotify( true );
