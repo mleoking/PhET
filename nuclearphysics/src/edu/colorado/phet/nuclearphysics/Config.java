@@ -13,8 +13,10 @@ public class Config {
 
     public static String version = "1.08";
 
-    //
+    // Calibration factor for alpha decay time
     public static final double ALPHA_DECAY_SIM_TIME_STEP = 5 * 0.516 / 0.471 * 0.615 / 0.372;
+
+    public static final int VESSEL_TEMPERATURE_UPDATE_PERIOD = 400;
 
     //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
     public static double AlphaLocationUncertaintySigmaFactor = 0.4;

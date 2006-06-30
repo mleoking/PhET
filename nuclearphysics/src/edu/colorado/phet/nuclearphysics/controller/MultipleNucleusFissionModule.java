@@ -77,7 +77,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)( 50), 380 );
+        fireButton.setLocation(  (int)( 50), 390 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
@@ -86,15 +86,19 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
-        containmentButton.setLocation( (int)fireButton.getLocation().getX(),
-                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 10 );
+        containmentButton.setLocation( (int)fireButton.getLocation().getX() - ( containmentButton.getWidth() - fireButton.getWidth()) / 2 ,
+                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 20 );
         containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
             public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
                 if( containment == null ) {
                     addContainment();
+                    stop();
+                    start();
                 }
                 else {
                     removeContainment();
+                    stop();
+                    start();
                 }
             }
         } );

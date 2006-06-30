@@ -19,7 +19,6 @@
 -   check boxes aren't visible in 1.4
 -   "About" box is illegible, and mentions fusion
 -   UI colors aren't initialized properly since modules defer their initialization
--   Remove Phet logo from control panel
 
 Alpha Radiation
 - Rewind button is enabled before alph decay
@@ -43,15 +42,20 @@ Controlled Reaction
 
 
 ================
-Done not posted
+1.08.11
 ================
-- Split "Alpha particle energy" to two lines
-?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
-- % U235 fissioned now correct in Chain Reaction panel
+- Reduced update period of vessel temperature updates by 20% for controlled chain reaction ( 0:15)
 
-================
-Sandbox
-================
+- Remove Phet logo from control panel         (0:15)
+- Split "Alpha particle energy" to two lines    (0:15)
+- Instead of a Fire Neutron Button can we have a gun with a button that looks
+like the button on the QWI gun that fires the neutrons. (2:00)
+- percent U235 fissioned readout now correct in Chain Reaction panel (0:15)
+- Chain Reaction panel doesn't function properly after vessel explodes (2:00)
+- Nuclei are cleared from Chain Reaction panel when you show or hide the containment vessel (0:15)
+- Label on rewind button reads "Rewind to decay"
+- Memory leak fixed that bogged down Controlled Reaction panel
+- Buttons for firing neutrons and enabling/disabling containment vessel are in play area
 - Found workaround to deal with change in PhetTabbedPane that broke some code (1:30)
 - changed units on bar charts on controlled chain reaction panel        (0:15)
 - you can lower the control rods below the bottom of the vessel         (0:15)
