@@ -93,4 +93,33 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
             listener.chargeChanged();
         }
     }
+
+//    ArrayList currentHistory = new ArrayList();
+//
+//    public void setCurrent( double current ) {
+//        currentHistory.add( new Double( current ) );
+//        while( currentHistory.size() > 100 ) {
+//            currentHistory.remove( 0 );
+//        }
+//        System.out.println( "currentHistory = " + currentHistory );
+//        if( currentHistory.size() >= 50 && isHistoryBad() ) {
+//            System.out.println( "Bad = "  );
+//            super.setCurrent( 0.0 );
+//            setVoltageDrop( 0.0 );
+//        }
+//        else {
+//            super.setCurrent( current );
+//        }
+//    }
+//
+//    private boolean isHistoryBad() {
+//        double a = ( (Double)currentHistory.get( 0 ) ).doubleValue();
+//        double b = ( (Double)currentHistory.get( 1 ) ).doubleValue();
+//        double c = ( (Double)currentHistory.get( 2 ) ).doubleValue();
+//        double d = ( (Double)currentHistory.get( 3 ) ).doubleValue();
+//        if( MathUtil.isApproxEqual( a, -c, 0.0001 ) && MathUtil.isApproxEqual( b, -d, 0.0001 ) ) {
+//            return true;
+//        }
+//        return false;
+//    }
 }
