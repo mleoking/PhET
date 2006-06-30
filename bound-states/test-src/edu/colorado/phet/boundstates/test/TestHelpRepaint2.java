@@ -4,6 +4,7 @@ package edu.colorado.phet.boundstates.test;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -55,94 +56,16 @@ public class TestHelpRepaint2 {
     private static final double MAX_Y = 100;
 
     public static void main( final String[] args ) throws InterruptedException {
-
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-
-                try {
-                    TestHelpRepaint2.TestApplication app = new TestHelpRepaint2.TestApplication( args );
-                    app.startApplication();
-                    RepaintManager.setCurrentManager( new DebugRepaintManager() );
-                }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-
-//        TestApplication app = new TestApplication( args );
-//        app.startApplication();
-    }
-
-    static class DebugRepaintManager extends RepaintManager {
-        public DebugRepaintManager() {
-            super();
-            setDoubleBufferingEnabled( false );
-        }
-
-        public void paintDirtyRegions() {
-            super.paintDirtyRegions();
-        }
-
-        public void validateInvalidComponents() {
-            super.validateInvalidComponents();
-        }
-
-        public boolean isDoubleBufferingEnabled() {
-            return super.isDoubleBufferingEnabled();
-        }
-
-        public void setDoubleBufferingEnabled( boolean aFlag ) {
-            super.setDoubleBufferingEnabled( aFlag );
-        }
-
-        public Dimension getDoubleBufferMaximumSize() {
-            return super.getDoubleBufferMaximumSize();
-        }
-
-        public void setDoubleBufferMaximumSize( Dimension d ) {
-            super.setDoubleBufferMaximumSize( d );
-        }
-
-        public synchronized String toString() {
-            return super.toString();
-        }
-
-        public synchronized void addInvalidComponent( JComponent invalidComponent ) {
-            super.addInvalidComponent( invalidComponent );
-        }
-
-        public void markCompletelyClean( JComponent aComponent ) {
-            super.markCompletelyClean( aComponent );
-        }
-
-        public void markCompletelyDirty( JComponent aComponent ) {
-            super.markCompletelyDirty( aComponent );
-        }
-
-        public synchronized void removeInvalidComponent( JComponent component ) {
-            super.removeInvalidComponent( component );
-        }
-
-        public boolean isCompletelyDirty( JComponent aComponent ) {
-            return super.isCompletelyDirty( aComponent );
-        }
-
-        public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
-            super.addDirtyRegion( c, x, y, w, h );
-        }
-
-        public Image getOffscreenBuffer( Component c, int proposedWidth, int proposedHeight ) {
-            return super.getOffscreenBuffer( c, proposedWidth, proposedHeight );
-        }
-
-        public Image getVolatileOffscreenBuffer( Component c, int proposedWidth, int proposedHeight ) {
-            return super.getVolatileOffscreenBuffer( c, proposedWidth, proposedHeight );
-        }
-
-        public Rectangle getDirtyRegion( JComponent aComponent ) {
-            return super.getDirtyRegion( aComponent );
-        }
+        TestApplication app = new TestApplication( args );
+        app.startApplication();
+        RepaintManager.setCurrentManager( new DebugRepaintManager() );
+        PiccoloModule m = (PiccoloModule)app.getModules()[0];
+        m.getModulePanel().setOpaque( false );
+        m.getModulePanel().getSimulationPanel().setOpaque( false );
+        HelpPane h = m.getDefaultHelpPane();
+//                    m.setHelpEnabled( true );
+        System.out.println( "h = " + h );
+        h.paintImmediately( h.getBounds() );
     }
 
     private static class TestApplication extends PiccoloPhetApplication {
@@ -158,6 +81,16 @@ public class TestHelpRepaint2 {
             addModule( moduleOne );
             Module moduleTwo = new TestHelpRepaint2.TestModule( "Two", clock );
             addModule( moduleTwo );
+            getPhetFrame().addFileMenuItem( new JMenuItem( "hello" ) );
+        }
+
+        protected PhetFrame createPhetFrame() {
+            return new PhetFrame( this ) {
+                public void repaint( long tm, int x, int y, int width, int height ) {
+                    super.repaint( tm, x, y, width, height );//just in case other important stuff happens here.
+                    update( getGraphics() );
+                }
+            };
         }
     }
 
