@@ -241,11 +241,7 @@ public class CCK3Module extends Module {
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
         setControlPanel( cck3controlPanel.getComponent() );
-//        JScrollPane jsp = new JScrollPane( cck3controlPanel );
-//        setControlPanel( jsp );
-        //        doinit();
-        //        inited = true;
-        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), "text", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
+        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), " ", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 int x = messageGraphic.getBounds().height;
@@ -255,7 +251,6 @@ public class CCK3Module extends Module {
         } );
         getApparatusPanel().addGraphic( messageGraphic, Double.POSITIVE_INFINITY );
         setResistivityEnabled( true );
-
     }
 
     private void relayout() {

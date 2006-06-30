@@ -47,11 +47,8 @@ public class CCKFloatingChart extends FloatingChart {
                     Shape shape = branchGraphic.getCoreShape();//getShape();
                     if( shape.contains( target ) ) {
                         double current = branch.getCurrent();
-//                        System.out.println( "current = " + current );
                         DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
                         String amps = df.format( Math.abs( current ) );
-//                        trt.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
-//                        return;
                         return current;
                     }
                 }
