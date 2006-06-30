@@ -50,6 +50,8 @@ Add a gui component for clearing capacitors & inductors.
 
 Chart button should have icon, be located next to other measurement tools in the control panel.
 
+Capacitor charges don't paint correctly.
+
 ################################################
 #Lower Priority
 #######################
