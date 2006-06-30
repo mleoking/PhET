@@ -18,14 +18,11 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.NuclearPhysicsModule;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
@@ -47,9 +44,13 @@ public class ExplodingContainmentGraphic {
 //    private PhetShapeGraphic backgroundGraphic;
 //    private double blackBacgroundLayer = Double.MAX_VALUE - 2;
     private double tileLayer = Double.MAX_VALUE;
+    private ApparatusPanel apparatusPanel;
 
 
     public ExplodingContainmentGraphic( MultipleNucleusFissionModule module, ContainmentGraphic containmentGraphic ) {
+
+        apparatusPanel = module.getPhysicalPanel();
+
         // Unless the module has an apparatus panel at this time things won't work right
         if( module.getApparatusPanel() == null ) {
             throw new RuntimeException( "Module doesn't have an apparatus panel" );
@@ -90,22 +91,25 @@ public class ExplodingContainmentGraphic {
                 double txX = ( ( x + tile.getWidth() / 2 ) - snapshot.getWidth() / 2 ) * 0.03;
                 double txY = ( ( y + tile.getHeight() / 2 ) - snapshot.getHeight() / 2 ) * 0.03;
                 PhetGraphic graphic = new KaboomGraphic(                         module,
-                                                         tile, new Point( (int)x + snapshot.getWidth() / 2,
-                                                                          (int)y + snapshot.getHeight() / 2 ),
-                                                         zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
-                module.getPhysicalPanel().addGraphic( graphic, tileLayer );
+                                                                                 tile, new Point( (int)x + snapshot.getWidth() / 2,
+                                                                                                  (int)y + snapshot.getHeight() / 2 ),
+                                                                                 zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
+                apparatusPanel.addGraphic( graphic, tileLayer );
                 graphic.setLocation( (int)x, (int)y );
+                // We need to do this because otherwise the mouse never gets through after a reset. This is
+                // obviously due to a bug somewhere else!!!!!
+                graphic.setIgnoreMouse( true);
                 kaboomGraphics.add( graphic );
             }
         }
-
-        module.getApparatusPanel().revalidate();
+        apparatusPanel.revalidate();
     }
 
-    public void clearGraphics( ApparatusPanel apparatusPanel ) {
+    public void clearGraphics() {
         for( int i = 0; i < kaboomGraphics.size(); i++ ) {
-            PhetGraphic graphic = (PhetGraphic)kaboomGraphics.get( i );
+            KaboomGraphic graphic = (KaboomGraphic)kaboomGraphics.get( i );
             apparatusPanel.removeGraphic( graphic );
+            graphic.clear();
         }
         apparatusPanel.revalidate();
         apparatusPanel.repaint();
@@ -124,8 +128,10 @@ public class ExplodingContainmentGraphic {
         private double dy;
         private double spin;
         private double dSpin;
+        private NuclearPhysicsModule module;
         BufferedImage image;
         private double alpha = 1.0;
+        private Stepper stepper;
 
         public KaboomGraphic( NuclearPhysicsModule module,
                               BufferedImage bImg,
@@ -140,6 +146,7 @@ public class ExplodingContainmentGraphic {
                               final double txY ) {
 
             super( module.getApparatusPanel(), bImg );
+            this.module = module;
             this.image = bImg;
             this.zoom = zoom;
             this.dx = txX;
@@ -147,13 +154,8 @@ public class ExplodingContainmentGraphic {
             this.dSpin = spin / 500;
 
             setLocation( location );
-
-            module.getModel().addModelElement( new ModelElement() {
-                public void stepInTime( double dt ) {
-
-                }
-            } );
-            module.getClock().addClockListener( new Stepper() );
+            stepper = new Stepper();
+            module.getClock().addClockListener( stepper );
         }
 
         public void paint( Graphics2D g2 ) {
@@ -165,10 +167,12 @@ public class ExplodingContainmentGraphic {
             gs.restoreGraphics();
         }
 
-        private class Stepper extends ClockAdapter {
 
-            public Stepper( ) {
-            }
+        void clear() {
+            module.getClock().removeClockListener( stepper );
+        }
+
+        private class Stepper extends ClockAdapter {
 
             public void clockTicked( ClockEvent clockEvent ) {
                 spin += dSpin;
