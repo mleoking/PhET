@@ -4,6 +4,8 @@ Added readout for inductors.
 Added component editor for inductors.
 Bugfix: 'Advanced' border title disappears on control panel when expanding the advanced panel.
 Added schematic view for inductors.
+Increased spacing between buttons at the bottom of CCK control panel.
+Add a per-component menu item for clearing capacitors & inductors?
 
 Version 3.01.04 (6-26-2006)
 Added spanish for new components.

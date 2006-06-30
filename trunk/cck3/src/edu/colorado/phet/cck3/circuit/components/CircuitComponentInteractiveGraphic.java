@@ -247,6 +247,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 }
             } );
             menu.add( edit );
+            menu.add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.inductor" ), inductor ) );
             finish();
         }
 
@@ -282,6 +283,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 }
             } );
             menu.add( edit );
+            menu.add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
             finish();
         }
 
