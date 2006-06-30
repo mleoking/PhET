@@ -38,15 +38,11 @@ slate, the problem went away.  Maybe just a performance issue?
 -On that same note, the yellow light rays coming from the bulb in the 
 circuit described above tend to stutter and don't always flash consistently.
 
-Increase spacing between buttons at the bottom of CCK control panel.
-
 Floating graph should have tick mark labels on the vertical scale.
 
 Quantitative graph values.
 
 CCK detectors should readout empty data while off of wires.
-
-Add a gui component for clearing capacitors & inductors.
 
 Chart button should have icon, be located next to other measurement tools in the control panel.
 
