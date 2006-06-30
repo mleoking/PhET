@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2006, Univeriity of Colorado */
 package edu.colorado.phet.boundstates.test;
 
 import edu.colorado.phet.common.application.Module;
