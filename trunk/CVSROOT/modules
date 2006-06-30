@@ -171,7 +171,7 @@ molecular-reactions molecular-reactions &piccolo-phet-dir &piccolo-dir &phetcomm
 motion2d motion2d
 
 # Moving man
-moving-man movingman &phetcommon-module &charts-module
+moving-man movingman &phetcommon-dir &charts-dir &phetgraphics-dir
 
 # MRI
 mri mri &piccolo-phet-module &mechanics &collision-dir &quantum-rjl
