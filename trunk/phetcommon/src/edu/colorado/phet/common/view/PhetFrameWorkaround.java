@@ -15,7 +15,7 @@ import java.awt.HeadlessException;
 
 import edu.colorado.phet.common.application.PhetApplication;
 
-/* 
+/** 
  * PhetFrameWorkaround contains a workaround for Sun bug report 4473503
  * (see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503)
  * <p>
@@ -38,19 +38,18 @@ import edu.colorado.phet.common.application.PhetApplication;
  * <p>
  * Sample usage:
  * <p>
- * <code>
+ * <code><blockquote><pre>
  * public class MyApplication extends PhetApplication {
  *     //....
- *     
  *     protected PhetFrame createPhetFrame() {
-           return new PhetFrameWorkaround( this );
+ *          return new PhetFrameWorkaround( this );
  *     }
  * }
- * >/code>
+ * </pre></blockquote></code>
  * <p>
  * Pros:
  * <ul>
- * <li>This soulution produces the desired behavior on XP and Macintosh
+ * <li>This solution produces the desired behavior on XP and Macintosh
  * <li>PhetFrame.paint() is only called a few times in a few sample 
  * applications tried (eg, BoundStates and TestPaintPriorityWorkaround).  
  * This solution could be a debilitating performance problem if it was 
