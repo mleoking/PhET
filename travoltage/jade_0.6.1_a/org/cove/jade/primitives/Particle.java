@@ -135,6 +135,9 @@ public class Particle {
     protected GVector extents;
 
     protected boolean isVisible;
+    private double ax;
+    private double ay;
+
 
     public Particle( double posX, double posY ) {
 
@@ -156,22 +159,24 @@ public class Particle {
         bounciness = 1.0;
 
         isVisible = true;
-
     }
-
 
     public void setVisible( boolean v ) {
         isVisible = v;
     }
 
+    public void setAcceleration( double ax, double ay ) {
+        this.ax = ax;
+        this.ay = ay;
+    }
 
     public void verlet( DynamicsEngine sysObj ) {
 
         temp.x = curr.x;
         temp.y = curr.y;
 
-        curr.x += sysObj.coeffDamp * ( curr.x - prev.x ) + sysObj.gravity.x * mass;
-        curr.y += sysObj.coeffDamp * ( curr.y - prev.y ) + sysObj.gravity.y * mass;
+        curr.x += sysObj.coeffDamp * ( curr.x - prev.x ) + ( sysObj.gravity.x + ax ) * mass;
+        curr.y += sysObj.coeffDamp * ( curr.y - prev.y ) + ( sysObj.gravity.y + ay ) * mass;
 
         prev.x = temp.x;
         prev.y = temp.y;
@@ -306,8 +311,8 @@ public class Particle {
     }
 
 
-    public void checkCollision( Surface surface, DynamicsEngine sysObj) {
-	}
+    public void checkCollision( Surface surface, DynamicsEngine sysObj ) {
+    }
 
 
 }
