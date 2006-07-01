@@ -33,6 +33,6 @@ public class PickUpElectrons implements LegNode.Listener {
     }
 
     private boolean inRange( double v ) {
-        return v < 1.0 && v > 0.08;
+        return v < 0.8 && v > 0.1;
     }
 }

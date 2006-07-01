@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class LegNode extends LimbNode {
     private ArrayList angleHistory = new ArrayList();
-    private double angle = 0;
+
     private static final int MAX_HISTORY_SIZE = 20;
     private double insetAngle = -1.05;//more negative means more left on his foot.
 
@@ -26,17 +26,12 @@ public class LegNode extends LimbNode {
     }
 
     public void rotateAboutPivot( double dTheta ) {
-        this.angle += dTheta;
-        angleHistory.add( new Double( angle ) );
+        angleHistory.add( new Double( getAngle() ) );
         while( angleHistory.size() > MAX_HISTORY_SIZE ) {
             angleHistory.remove( 0 );
         }
         super.rotateAboutPivot( dTheta );
         notifyListeners();
-    }
-
-    public double getAngle() {
-        return angle;
     }
 
     private ArrayList listeners = new ArrayList();
@@ -51,13 +46,8 @@ public class LegNode extends LimbNode {
 
     public Point2D getGlobalElectronEntryPoint() {
         Point2D globalPivot = localToGlobal( getPivot() );
-        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, angle - insetAngle );
+        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, getAngle() - insetAngle );
         return v.getDestination( globalPivot );
-    }
-
-    public Point2D getGlobalPivot() {
-        Point pivot = super.getPivot();
-        return localToGlobal( pivot );
     }
 
     public static interface Listener {

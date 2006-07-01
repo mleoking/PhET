@@ -89,9 +89,9 @@ public class MoveElectronsJade implements ModelElement {
 //        Point2D loc = new Point2D.Double( circleParticle.getOffset().getX(), circleParticle.getOffset().getY() );
 //        Point2D loc2 = new Point2D.Double( particle.getOffset().getX(), particle.getOffset().getY() );
         AbstractVector2D vec = new Vector2D.Double( circleParticle.getPosition(), particle.getPosition() );
-        double k = 1.0;
-        AbstractVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
-        double max = 1;
+        double k = 2.0;
+        AbstractVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.1 ) );
+        double max = 0.5;
         if( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
@@ -171,19 +171,35 @@ public class MoveElectronsJade implements ModelElement {
             CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
             circleParticleForElectron.update();
         }
-        Rectangle handRect = new Rectangle();
-        handRect.setFrameFromDiagonal( 264.0, 147.0, 198.0, 118.0 );
+
+        remapLocations();
+    }
+
+    public void remapLocations() {
         Rectangle legRect = new Rectangle();
         legRect.setFrameFromDiagonal( 128.0, 237.0, 279.0, 399.0 );
         for( int i = 0; i < circles.size(); i++ ) {
             CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
-            circleParticleForElectron.update();
             if( legRect.contains( circleParticleForElectron.getPosition() ) ) {
                 LegNode legNode = travoltageModule.getLegNode();
-                double angle = legNode.getAngle();
                 Point2D pivot = legNode.getGlobalPivot();
-                AffineTransform tx = AffineTransform.getRotateInstance( angle, pivot.getX(), pivot.getY() );
+                AffineTransform tx = AffineTransform.getRotateInstance( legNode.getAngle(), pivot.getX(), pivot.getY() );
                 Point2D newLoc = tx.transform( circleParticleForElectron.getPosition(), null );
+                circleParticleForElectron.electronNode.setOffset( newLoc );
+            }
+        }
+
+        Rectangle armRect = new Rectangle();
+        armRect.setFrameFromDiagonal( 198.0, 118.0, 330.0, 200.0 );
+        for( int i = 0; i < circles.size(); i++ ) {
+            CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
+            if( armRect.contains( circleParticleForElectron.getPosition() ) ) {
+                ArmNode armNode = travoltageModule.getArmNode();
+                Point2D pivot = armNode.getGlobalPivot();
+                AffineTransform tx = AffineTransform.getRotateInstance( armNode.getAngle(), pivot.getX(), pivot.getY() );
+                Point2D newLoc = tx.transform( circleParticleForElectron.getPosition(), null );
+                newLoc.setLocation( newLoc.getX() - circleParticleForElectron.electronNode.getRadius(),
+                                    newLoc.getY() - circleParticleForElectron.electronNode.getRadius() );
                 circleParticleForElectron.electronNode.setOffset( newLoc );
             }
         }
@@ -209,4 +225,3 @@ public class MoveElectronsJade implements ModelElement {
         }
     }
 }
-;
