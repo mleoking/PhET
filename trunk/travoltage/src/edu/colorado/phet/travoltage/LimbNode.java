@@ -19,13 +19,22 @@ import java.awt.geom.Point2D;
 
 public class LimbNode extends PNode {
     private Point pivot;
+    private PImage imageNode;
 
     public LimbNode( String imageLoc, Point pivot ) {
-        final PImage arm = PImageFactory.create( imageLoc );
-        addChild( arm );
+        imageNode = PImageFactory.create( imageLoc );
+        addChild( imageNode );
         this.pivot = pivot;
         addInputEventListener( new RotationHandler( this ) );
         addInputEventListener( new CursorHandler() );
+    }
+
+    protected PImage getImageNode() {
+        return imageNode;
+    }
+
+    public Point getPivot() {
+        return new Point( pivot );
     }
 
     /**

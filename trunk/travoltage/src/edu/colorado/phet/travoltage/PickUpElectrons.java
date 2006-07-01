@@ -10,7 +10,7 @@ package edu.colorado.phet.travoltage;
 
 public class PickUpElectrons implements LegNode.Listener {
     private TravoltageModule travoltageModule;
-    LegNode legNode;
+    private LegNode legNode;
 
     public PickUpElectrons( TravoltageModule travoltageModule, LegNode legNode ) {
         this.travoltageModule = travoltageModule;
@@ -29,6 +29,7 @@ public class PickUpElectrons implements LegNode.Listener {
 
     private void addElectron() {
         System.out.println( "PickUpElectrons.addElectron" );
+        travoltageModule.pickUpElectron();
     }
 
     private boolean inRange( double v ) {

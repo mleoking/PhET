@@ -30,4 +30,8 @@ public class TravoltageModule extends PiccoloModule {
     private static IClock createClock() {
         return new SwingClock( 30, 1.0 );
     }
+
+    public void pickUpElectron() {
+        travoltagePanel.getTravoltageRootNode().pickUpElectron();
+    }
 }
