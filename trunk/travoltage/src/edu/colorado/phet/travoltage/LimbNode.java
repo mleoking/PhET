@@ -20,6 +20,7 @@ import java.awt.geom.Point2D;
 public class LimbNode extends PNode {
     private Point pivot;
     private PImage imageNode;
+    private double angle = 0;
 
     public LimbNode( String imageLoc, Point pivot ) {
         imageNode = PImageFactory.create( imageLoc );
@@ -50,7 +51,16 @@ public class LimbNode extends PNode {
         return vec.getAngle();
     }
 
-    public void rotateAboutPivot( double angle ) {
-        rotateAboutPoint( angle, pivot );
+    public void rotateAboutPivot( double dTheta ) {
+        this.angle += dTheta;
+        rotateAboutPoint( dTheta, pivot );
+    }
+
+    public Point2D getGlobalPivot() {
+        return localToGlobal( new Point2D.Double( pivot.getX(), pivot.getY() ) );
+    }
+
+    public double getAngle() {
+        return angle;
     }
 }

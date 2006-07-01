@@ -12,11 +12,19 @@ import edu.colorado.phet.common.model.BaseModel;
 
 public class TravoltageModel extends BaseModel {
     private TravoltageModule travoltageModule;
+    private MoveElectronsJade moveElectronsJade;
 
     public TravoltageModel( TravoltageModule travoltageModule ) {
         this.travoltageModule = travoltageModule;
 //        addModelElement( new MoveElectrons( travoltageModule.getElectronSetNode() ) );
-        addModelElement( new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() ) );
+
+//        moveElectronsJade = new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() );
+//        addModelElement( moveElectronsJade );
     }
 
+    public void remapLocations() {
+        if( moveElectronsJade != null ) {
+            moveElectronsJade.remapLocations();
+        }
+    }
 }
