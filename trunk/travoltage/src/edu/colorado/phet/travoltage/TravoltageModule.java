@@ -23,7 +23,7 @@ public class TravoltageModule extends PiccoloModule {
         setModel( new TravoltageModel( this ) );
     }
 
-    private LegNode getLegNode() {
+    public LegNode getLegNode() {
         return travoltagePanel.getTravoltageRootNode().getTravoltageBodyNode().getLegNode();
     }
 
