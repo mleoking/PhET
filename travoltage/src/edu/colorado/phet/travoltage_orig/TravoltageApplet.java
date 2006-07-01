@@ -1,4 +1,4 @@
-package edu.colorado.phet.travoltage;
+package edu.colorado.phet.travoltage_orig;
 
 import edu.colorado.phet.common.PanelAdapter;
 import edu.colorado.phet.common.SwingWiggleMe;
@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phys2d.laws.CoulombsLaw;
 import edu.colorado.phet.common.phys2d.laws.ForceLawPropagator;
 import edu.colorado.phet.common.utils.ResourceLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.travoltage.rotate.Leg;
-import edu.colorado.phet.travoltage.rotate.RotatingImage;
+import edu.colorado.phet.travoltage_orig.rotate.Leg;
+import edu.colorado.phet.travoltage_orig.rotate.RotatingImage;
 
 import javax.swing.*;
 import java.applet.AudioClip;

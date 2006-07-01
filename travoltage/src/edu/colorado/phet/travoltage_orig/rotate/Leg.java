@@ -1,9 +1,9 @@
-package edu.colorado.phet.travoltage.rotate;
+package edu.colorado.phet.travoltage_orig.rotate;
 
 import edu.colorado.phet.common.phys2d.Particle;
 import edu.colorado.phet.common.utils.TruncatedSeries;
-import edu.colorado.phet.travoltage.CompositeParticleContainer;
-import edu.colorado.phet.travoltage.ShockElectronFactory;
+import edu.colorado.phet.travoltage_orig.CompositeParticleContainer;
+import edu.colorado.phet.travoltage_orig.ShockElectronFactory;
 
 import java.util.Vector;
 
