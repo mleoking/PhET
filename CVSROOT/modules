@@ -150,7 +150,7 @@ ideal-gas ideal-gas-v3 &phetcommon-dir &phetgraphics-dir &mechanics-module
 #ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 
 # John Travoltage
-travoltage travoltage
+travoltage travoltage &phetcommon-dir &piccolo-dir &piccolo-phet-dir
 
 # Lasers
 lasers lasers &phetgraphics-module &collision-dir &controls-dir &mechanics-module
