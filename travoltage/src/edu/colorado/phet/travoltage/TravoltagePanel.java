@@ -21,4 +21,8 @@ public class TravoltagePanel extends PhetPCanvas {
     public TravoltageRootNode getTravoltageRootNode() {
         return travoltageRootNode;
     }
+
+    public ElectronSetNode getElectronSetNode() {
+        return travoltageRootNode.getElectronSetNode();
+    }
 }

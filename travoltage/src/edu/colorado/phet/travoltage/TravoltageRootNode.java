@@ -26,6 +26,10 @@ public class TravoltageRootNode extends PNode {
         addChild( electronSetNode );
 
         addChild( new SparkNode() );
+//        addDebugFootLocation();
+    }
+
+    protected void addDebugFootLocation() {
         final PText debugNode = new PText( "Hello" );
         debugNode.setTextPaint( Color.red );
         addChild( debugNode );
@@ -52,5 +56,9 @@ public class TravoltageRootNode extends PNode {
 
     private LegNode getLegNode() {
         return travoltageBodyNode.getLegNode();
+    }
+
+    public ElectronSetNode getElectronSetNode() {
+        return electronSetNode;
     }
 }
