@@ -1,4 +1,4 @@
-package edu.colorado.phet.travoltage;
+package edu.colorado.phet.travoltage_orig;
 
 import edu.colorado.phet.common.phys2d.CompositePropagator;
 import edu.colorado.phet.common.phys2d.DoublePoint;
@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phys2d.laws.ForceLawPropagator;
 import edu.colorado.phet.common.phys2d.propagators.PositionUpdate;
 import edu.colorado.phet.common.phys2d.propagators.ResetAcceleration;
 import edu.colorado.phet.common.phys2d.propagators.VelocityUpdate;
-import edu.colorado.phet.travoltage.rotate.Finger;
-import edu.colorado.phet.travoltage.rotate.RotatingImage;
+import edu.colorado.phet.travoltage_orig.rotate.Finger;
+import edu.colorado.phet.travoltage_orig.rotate.RotatingImage;
 
 import java.awt.*;
 

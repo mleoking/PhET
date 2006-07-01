@@ -1,12 +1,12 @@
-package edu.colorado.phet.travoltage;
+package edu.colorado.phet.travoltage_orig;
 
 import edu.colorado.phet.common.ParticleContainer;
 import edu.colorado.phet.common.gui.Painter;
 import edu.colorado.phet.common.phys2d.DoublePoint;
 import edu.colorado.phet.common.phys2d.Particle;
-import edu.colorado.phet.travoltage.rotate.AngleListener;
-import edu.colorado.phet.travoltage.rotate.Finger;
-import edu.colorado.phet.travoltage.rotate.RotatingImage;
+import edu.colorado.phet.travoltage_orig.rotate.AngleListener;
+import edu.colorado.phet.travoltage_orig.rotate.Finger;
+import edu.colorado.phet.travoltage_orig.rotate.RotatingImage;
 
 import java.applet.AudioClip;
 import java.awt.*;

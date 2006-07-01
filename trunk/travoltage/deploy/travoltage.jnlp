@@ -23,7 +23,7 @@
 
   </resources>
 
-  <application-desc main-class="edu.colorado.phet.travoltage.TravoltageApplet"> 
+  <application-desc main-class="edu.colorado.phet.travoltage_orig.TravoltageApplet"> 
   <!-- uncomment to specify user language
     <argument>user.language=test</argument>
   -->
