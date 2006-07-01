@@ -18,8 +18,8 @@ public class TravoltageModel extends BaseModel {
         this.travoltageModule = travoltageModule;
 //        addModelElement( new MoveElectrons( travoltageModule.getElectronSetNode() ) );
 
-//        moveElectronsJade = new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() );
-//        addModelElement( moveElectronsJade );
+        moveElectronsJade = new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() );
+        addModelElement( moveElectronsJade );
     }
 
     public void remapLocations() {

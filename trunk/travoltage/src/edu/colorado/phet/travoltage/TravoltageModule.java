@@ -14,13 +14,20 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 
 public class TravoltageModule extends PiccoloModule {
     private TravoltagePanel travoltagePanel;
+    private TravoltageModel travoltageModel;
 
     public TravoltageModule() {
         super( "Travoltage", createClock() );
         travoltagePanel = new TravoltagePanel();
         setSimulationPanel( travoltagePanel );
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
-        setModel( new TravoltageModel( this ) );
+        getLegNode().addListener( new LegNode.Listener() {
+            public void legRotated() {
+                travoltageModel.remapLocations();
+            }
+        } );
+        travoltageModel = new TravoltageModel( this );
+        setModel( travoltageModel );
     }
 
     public LegNode getLegNode() {
@@ -37,5 +44,9 @@ public class TravoltageModule extends PiccoloModule {
 
     public ElectronSetNode getElectronSetNode() {
         return travoltagePanel.getElectronSetNode();
+    }
+
+    public ArmNode getArmNode() {
+        return travoltagePanel.getTravoltageRootNode().getTravoltageBodyNode().getArmNode();
     }
 }

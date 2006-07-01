@@ -35,6 +35,10 @@ public class TravoltageRootNode extends PNode {
             }
         } );
 //        addDebugFootLocation();
+//        Rectangle armRect = new Rectangle();
+//        armRect.setFrameFromDiagonal(198.0, 118.0, 330.0, 200.0 );
+//        PPath path=new PPath( armRect);
+//        addChild( path);
     }
 
     protected void addDebugFootLocation() {
