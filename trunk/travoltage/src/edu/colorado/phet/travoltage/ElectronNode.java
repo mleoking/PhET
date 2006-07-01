@@ -18,10 +18,16 @@ public class ElectronNode extends PNode {
 
     public ElectronNode() {
         addChild( PImageFactory.create( "images/Electron3.GIF" ) );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     public void stepInTime( AbstractVector2D vdt, double dt ) {
         this.velocity.add( vdt );
         translate( velocity.getX() * dt, velocity.getY() * dt );
+    }
+
+    public double getRadius() {
+        return 10;
     }
 }
