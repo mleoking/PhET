@@ -13,10 +13,18 @@ import edu.colorado.phet.piccolo.PiccoloModule;
  */
 
 public class TravoltageModule extends PiccoloModule {
+    private TravoltagePanel travoltagePanel;
 
     public TravoltageModule() {
         super( "Travoltage", createClock() );
-        setSimulationPanel( new TravoltagePanel() );
+        travoltagePanel = new TravoltagePanel();
+        setSimulationPanel( travoltagePanel );
+        getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
+        setModel( new TravoltageModel() );
+    }
+
+    private LegNode getLegNode() {
+        return travoltagePanel.getTravoltageRootNode().getTravoltageBodyNode().getLegNode();
     }
 
     private static IClock createClock() {

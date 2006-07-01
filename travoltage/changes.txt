@@ -1,0 +1,1 @@
+Cleaned up arm and foot graphics.
