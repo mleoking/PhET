@@ -16,7 +16,7 @@ public class TravoltageModel extends BaseModel {
     public TravoltageModel( TravoltageModule travoltageModule ) {
         this.travoltageModule = travoltageModule;
 //        addModelElement( new MoveElectrons( travoltageModule.getElectronSetNode() ) );
-        addModelElement( new MoveElectronsJade( travoltageModule.getElectronSetNode() ) );
+        addModelElement( new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() ) );
     }
 
 }

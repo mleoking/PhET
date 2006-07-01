@@ -21,6 +21,7 @@ import java.util.StringTokenizer;
  */
 
 public class MoveElectronsJade implements ModelElement {
+    private TravoltageModule travoltageModule;
     private ElectronSetNode electronSetNode;
 
     // Simulator stuff	
@@ -30,7 +31,8 @@ public class MoveElectronsJade implements ModelElement {
     /**
      * Sets up the simulator and graphics for a basic JADE car simulator.
      */
-    public MoveElectronsJade( ElectronSetNode electronSetNode ) {
+    public MoveElectronsJade( TravoltageModule travoltageModule, ElectronSetNode electronSetNode ) {
+        this.travoltageModule = travoltageModule;
         this.electronSetNode = electronSetNode;
         electronSetNode.addListener( new ElectronSetNode.Listener() {
             public void electronAdded( ElectronNode electronNode ) {
@@ -43,7 +45,8 @@ public class MoveElectronsJade implements ModelElement {
 
         engine.setDamping( 1.0 );
         engine.setGravity( 0.0, 0.0 );
-        engine.setSurfaceBounce( 1.0 );
+//        engine.setSurfaceBounce( 1.0 );
+        engine.setSurfaceBounce( 0.95 );
 
         ArrayList list = new ArrayList();
         StringTokenizer st = new StringTokenizer( str, "\n\t" );
@@ -175,7 +178,10 @@ public class MoveElectronsJade implements ModelElement {
             CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
             circleParticleForElectron.update();
             if( legRect.contains( circleParticleForElectron.getPosition() ) ) {
-                circleParticleForElectron.electronNode.setOffset( 100, 100 );
+//                circleParticleForElectron.electronNode.setOffset( 100, 100 );
+                LegNode legNode = travoltageModule.getLegNode();
+                Point2D newLoc = legNode.getTransformReference( true ).transform( circleParticleForElectron.getPosition(), null );
+                circleParticleForElectron.electronNode.setOffset( newLoc );
             }
             else {
 //                circleParticleForElectron.electronNode.setVisible( true );
