@@ -20,7 +20,7 @@ public class TravoltageModule extends PiccoloModule {
         travoltagePanel = new TravoltagePanel();
         setSimulationPanel( travoltagePanel );
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
-        setModel( new TravoltageModel() );
+        setModel( new TravoltageModel( this ) );
     }
 
     private LegNode getLegNode() {
@@ -33,5 +33,9 @@ public class TravoltageModule extends PiccoloModule {
 
     public void pickUpElectron() {
         travoltagePanel.getTravoltageRootNode().pickUpElectron();
+    }
+
+    public ElectronSetNode getElectronSetNode() {
+        return travoltagePanel.getElectronSetNode();
     }
 }

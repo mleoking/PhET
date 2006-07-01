@@ -11,4 +11,11 @@ import edu.colorado.phet.common.model.BaseModel;
  */
 
 public class TravoltageModel extends BaseModel {
+    private TravoltageModule travoltageModule;
+
+    public TravoltageModel( TravoltageModule travoltageModule ) {
+        this.travoltageModule = travoltageModule;
+        addModelElement( new MoveElectrons( travoltageModule.getElectronSetNode() ) );
+    }
+
 }

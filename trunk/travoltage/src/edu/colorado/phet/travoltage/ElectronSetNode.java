@@ -14,4 +14,12 @@ public class ElectronSetNode extends PNode {
     public void addElectronNode( ElectronNode electronNode ) {
         addChild( electronNode );
     }
+
+    public int getNumElectrons() {
+        return getChildrenCount();
+    }
+
+    public ElectronNode getElectronNode( int i ) {
+        return (ElectronNode)getChild( i );
+    }
 }
