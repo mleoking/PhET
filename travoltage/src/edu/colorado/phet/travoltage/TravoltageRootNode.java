@@ -2,6 +2,8 @@
 package edu.colorado.phet.travoltage;
 
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
@@ -26,6 +28,12 @@ public class TravoltageRootNode extends PNode {
         addChild( electronSetNode );
 
         addChild( new SparkNode() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
+                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
+            }
+        } );
 //        addDebugFootLocation();
     }
 
