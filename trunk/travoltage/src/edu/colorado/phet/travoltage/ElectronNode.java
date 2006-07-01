@@ -28,6 +28,6 @@ public class ElectronNode extends PNode {
     }
 
     public double getRadius() {
-        return 10;
+        return getFullBounds().getWidth() / 2.0;
     }
 }
