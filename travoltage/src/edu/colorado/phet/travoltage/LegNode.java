@@ -19,7 +19,8 @@ public class LegNode extends LimbNode {
     private ArrayList angleHistory = new ArrayList();
 
     private static final int MAX_HISTORY_SIZE = 20;
-    private double insetAngle = -1.05;//more negative means more left on his foot.
+//    private double insetAngle = -1.05;//more negative means more left on his foot.
+    private double insetAngle = -1.2;//more negative means more left on his foot.
 
     public LegNode() {
         super( "images/leg2.gif", new Point( 30, 27 ) );
@@ -46,7 +47,9 @@ public class LegNode extends LimbNode {
 
     public Point2D getGlobalElectronEntryPoint() {
         Point2D globalPivot = localToGlobal( getPivot() );
-        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, getAngle() - insetAngle );
+//        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, getAngle() - insetAngle );
+//        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.7, getAngle() - insetAngle );
+        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.7, getAngle() - insetAngle );
         return v.getDestination( globalPivot );
     }
 
