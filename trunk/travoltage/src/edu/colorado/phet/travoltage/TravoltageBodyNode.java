@@ -18,7 +18,6 @@ public class TravoltageBodyNode extends PNode {
         addChild( armNode );
 
         LegNode legNode = new LegNode();
-//        legNode.setOffset( 131.0, 231.0 );
         legNode.setOffset( 134, 231.0 );
         addChild( legNode );
     }

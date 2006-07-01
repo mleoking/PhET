@@ -2,6 +2,7 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -24,6 +25,7 @@ public class LimbNode extends PNode {
         addChild( arm );
         this.pivot = pivot;
         addInputEventListener( new RotationHandler( this ) );
+        addInputEventListener( new CursorHandler() );
     }
 
     /**
