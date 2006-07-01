@@ -9,6 +9,7 @@ import org.cove.jade.primitives.CircleParticle;
 import org.cove.jade.surfaces.LineSurface;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -36,7 +37,7 @@ public class MoveElectronsJade implements ModelElement {
         this.electronSetNode = electronSetNode;
         electronSetNode.addListener( new ElectronSetNode.Listener() {
             public void electronAdded( ElectronNode electronNode ) {
-                CircleParticleForElectron cp = new CircleParticleForElectron( electronNode, electronNode.getOffset().getX(), electronNode.getOffset().getY(), electronNode.getRadius() );
+                CircleParticleForElectron cp = new CircleParticleForElectron( electronNode );
                 circles.add( cp );
                 engine.addPrimitive( cp );
             }
@@ -178,13 +179,12 @@ public class MoveElectronsJade implements ModelElement {
             CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
             circleParticleForElectron.update();
             if( legRect.contains( circleParticleForElectron.getPosition() ) ) {
-//                circleParticleForElectron.electronNode.setOffset( 100, 100 );
                 LegNode legNode = travoltageModule.getLegNode();
-                Point2D newLoc = legNode.getTransformReference( true ).transform( circleParticleForElectron.getPosition(), null );
+                double angle = legNode.getAngle();
+                Point2D pivot = legNode.getGlobalPivot();
+                AffineTransform tx = AffineTransform.getRotateInstance( angle, pivot.getX(), pivot.getY() );
+                Point2D newLoc = tx.transform( circleParticleForElectron.getPosition(), null );
                 circleParticleForElectron.electronNode.setOffset( newLoc );
-            }
-            else {
-//                circleParticleForElectron.electronNode.setVisible( true );
             }
         }
     }
@@ -195,8 +195,8 @@ public class MoveElectronsJade implements ModelElement {
         /**
          * Instantiates a CircleParticle. (px,py) = center, r = radius in pixels.
          */
-        public CircleParticleForElectron( ElectronNode electronNode, double px, double py, double r ) {
-            super( px, py, r );
+        public CircleParticleForElectron( ElectronNode electronNode ) {
+            super( electronNode.getOffset().getX(), electronNode.getOffset().getY(), electronNode.getRadius() );
             this.electronNode = electronNode;
         }
 

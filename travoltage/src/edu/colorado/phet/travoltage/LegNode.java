@@ -35,6 +35,10 @@ public class LegNode extends LimbNode {
         notifyListeners();
     }
 
+    public double getAngle() {
+        return angle;
+    }
+
     private ArrayList listeners = new ArrayList();
 
     public double[] getAngleHistory() {
@@ -49,6 +53,11 @@ public class LegNode extends LimbNode {
         Point2D globalPivot = localToGlobal( getPivot() );
         AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, angle - insetAngle );
         return v.getDestination( globalPivot );
+    }
+
+    public Point2D getGlobalPivot() {
+        Point pivot = super.getPivot();
+        return localToGlobal( pivot );
     }
 
     public static interface Listener {
