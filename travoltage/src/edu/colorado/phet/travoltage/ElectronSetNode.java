@@ -11,4 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class ElectronSetNode extends PNode {
+    public void addElectronNode( ElectronNode electronNode ) {
+        addChild( electronNode );
+    }
 }
