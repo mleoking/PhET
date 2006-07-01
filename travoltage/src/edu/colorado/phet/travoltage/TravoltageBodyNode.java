@@ -11,4 +11,15 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class TravoltageBodyNode extends PNode {
+    public TravoltageBodyNode() {
+        addChild( new TravoltageBodyBackgroundNode() );
+        ArmNode armNode = new ArmNode();
+        armNode.setOffset( 194, 118 );
+        addChild( armNode );
+
+        LegNode legNode = new LegNode();
+//        legNode.setOffset( 131.0, 231.0 );
+        legNode.setOffset( 134, 231.0 );
+        addChild( legNode );
+    }
 }
