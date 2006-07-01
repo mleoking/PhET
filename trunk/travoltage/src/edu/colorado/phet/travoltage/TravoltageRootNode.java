@@ -11,9 +11,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class TravoltageRootNode extends PNode {
+    private TravoltageBodyNode travoltageBodyNode;
+
     public TravoltageRootNode() {
-        addChild( new TravoltageBodyNode() );
+        travoltageBodyNode = new TravoltageBodyNode();
+        addChild( travoltageBodyNode );
         addChild( new ElectronSetNode() );
         addChild( new SparkNode() );
+    }
+
+    public TravoltageBodyNode getTravoltageBodyNode() {
+        return travoltageBodyNode;
     }
 }
