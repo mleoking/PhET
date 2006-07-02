@@ -17,7 +17,7 @@ public class PickUpElectrons implements LegNode.Listener {
         this.legNode = legNode;
     }
 
-    public void legRotated() {
+    public void limbRotated() {
         double[]history = legNode.getAngleHistory();
         if( history.length >= 1 ) {
             System.out.println( "history[history.length-1] = " + history[history.length - 1] );

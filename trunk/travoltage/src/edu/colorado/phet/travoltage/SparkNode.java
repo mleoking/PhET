@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -8,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.Vector;
 
@@ -20,17 +21,19 @@ import java.util.Vector;
  */
 
 public class SparkNode extends PNode {
-    private Point source;
+    private Point2D source;
     private Point sink;
     private double maxDTheta;
     private Random random;
     private double threshold;
+    private ArmNode armNode;
     private double segLength;
 
-    public SparkNode( Point source, Point sink, double maxDTheta, double threshold, double segLength ) {
+    public SparkNode( ArmNode armNode, Point source, Point dst, double maxDTheta, double threshold, double segLength ) {
+        this.armNode = armNode;
         this.segLength = segLength;
         this.source = source;
-        this.sink = sink;
+        this.sink = dst;
         this.maxDTheta = maxDTheta;
         this.threshold = threshold;
         this.random = new Random();
@@ -41,26 +44,40 @@ public class SparkNode extends PNode {
             }
         } );
         timer.start();
+        armNode.addListener( new LimbNode.Listener() {
+            public void limbRotated() {
+                updateSource();
+            }
+        } );
+        updateSource();
+    }
+
+    private void updateSource() {
+        setSource( armNode.getGlobalFingertipPoint() );
+    }
+
+    private void setSource( Point2D source ) {
+        this.source = source;
     }
 
     private void update() {
         removeAllChildren();
-        Point[]path = newPath( 100 );
-        GeneralPath generalPath = new GeneralPath();
+        Point2D[]path = newPath( 100 );
+        DoubleGeneralPath generalPath = new DoubleGeneralPath();
         for( int i = 0; i < path.length; i++ ) {
             if( i == 0 ) {
-                generalPath.moveTo( path[i].x, path[i].y );
+                generalPath.moveTo( path[i].getX(), path[i].getY() );
             }
             else {
-                generalPath.lineTo( path[i].x, path[i].y );
+                generalPath.lineTo( path[i].getX(), path[i].getY() );
             }
         }
-        PPath p1 = new PPath( generalPath );
+        PPath p1 = new PPath( generalPath.getGeneralPath() );
         p1.setStroke( new BasicStroke( 4 ) );
         p1.setStrokePaint( Color.white );
         addChild( p1 );
 
-        PPath p2 = new PPath( generalPath );
+        PPath p2 = new PPath( generalPath.getGeneralPath() );
         p2.setStroke( new BasicStroke( 1 ) );
         p2.setStrokePaint( Color.blue );
         addChild( p2 );
@@ -70,10 +87,10 @@ public class SparkNode extends PNode {
         this.sink = p;
     }
 
-    public Point[] newPath( int maxPts ) {
+    public Point2D[] newPath( int maxPts ) {
         /**Aim vaguely the direction of the sink, with some leeway.*/
         Vector pts = new Vector();
-        Point prev = source;
+        Point2D prev = source;
         pts.add( source );
         for( int i = 0; i < maxPts; i++ ) {
             if( prev.distance( sink ) < threshold ) {
@@ -81,7 +98,7 @@ public class SparkNode extends PNode {
                 pts.add( sink );
                 break;
             }
-            Point p = nextPoint( prev );
+            Point2D p = nextPoint( prev );
             if( p == null ) {
                 break;
             }
@@ -89,23 +106,22 @@ public class SparkNode extends PNode {
             prev = p;
         }
         //System.out.println("Generated path: "+pts);
-        return (Point[])pts.toArray( new Point[0] );
+        return (Point2D[])pts.toArray( new Point2D[0] );
     }
 
     public double getAngle( double x, double y ) {
         return Math.atan2( y, x );
     }
 
-    public Point nextPoint( Point prev ) {
-        Point diff = new Point( prev.x - sink.x, prev.y - sink.y );
-        double theta = getAngle( diff.x, diff.y );
+    public Point2D nextPoint( Point2D prev ) {
+        Point2D diff = new Point2D.Double( prev.getX() - sink.x, prev.getY() - sink.y );
+        double theta = getAngle( diff.getX(), diff.getY() );
         double dTheta = ( random.nextDouble() - .5 ) * 2 * maxDTheta;
         double thetaNew = theta + dTheta;
         //edu.colorado.phet.common.util.Debug.traceln("Theta="+theta+", NewTheta="+thetaNew);
 
-        Point newPt = new Point( (int)( prev.x - segLength * Math.cos( thetaNew ) ), (int)( prev.y - segLength * Math.sin( thetaNew ) ) );
         //	edu.colorado.phet.common.util.Debug.traceln("New point="+newPt);
-        return newPt;
+        return (Point2D)new Point2D.Double( prev.getX() - segLength * Math.cos( thetaNew ), prev.getY() - segLength * Math.sin( thetaNew ) );
         //angle up or down.
     }
 

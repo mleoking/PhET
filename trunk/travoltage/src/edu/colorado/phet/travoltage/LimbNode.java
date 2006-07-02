@@ -72,7 +72,7 @@ public class LimbNode extends PNode {
     }
 
     public static interface Listener {
-        void legRotated();
+        void limbRotated();
     }
 
     public void addListener( Listener listener ) {
@@ -82,7 +82,7 @@ public class LimbNode extends PNode {
     public void notifyListeners() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.legRotated();
+            listener.limbRotated();
         }
     }
 }

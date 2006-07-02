@@ -38,7 +38,7 @@ public class TravoltageRootNode extends PNode {
 
 
         LimbNode.Listener listener = new LimbNode.Listener() {
-            public void legRotated() {
+            public void limbRotated() {
                 remapLocations();
             }
         };
@@ -46,7 +46,7 @@ public class TravoltageRootNode extends PNode {
         getArmNode().addListener( listener );
         getArmNode().setAngle( -0.5663 );
         getArmNode().addListener( new LimbNode.Listener() {
-            public void legRotated() {
+            public void limbRotated() {
                 System.out.println( "getArmNode().getAngle() = " + getArmNode().getAngle() );
             }
         } );
@@ -80,16 +80,11 @@ public class TravoltageRootNode extends PNode {
             public void mouseReleased( MouseEvent e ) {
             }
         } );
-//        addDebugFootLocation();
-//        Rectangle armRect = new Rectangle();
-//        armRect.setFrameFromDiagonal(198.0, 118.0, 330.0, 200.0 );
-//        PPath path=new PPath( armRect);
-//        addChild( path);
 
         Point doorknobSpot = new Point( 317, 207 ); //doorknob position
-        Point end = new Point( 100, 100 );
+        Point src = new Point( 100, 100 );
         double angle = Math.PI / 3.8;
-        addChild( new SparkNode( doorknobSpot, end, angle, 4, 6 ) );
+        addChild( new SparkNode( getArmNode(), src, doorknobSpot, angle, 4, 6 ) );
     }
 
     protected void addDebugFootLocation() {
@@ -97,7 +92,7 @@ public class TravoltageRootNode extends PNode {
         debugNode.setTextPaint( Color.red );
         addChild( debugNode );
         getLegNode().addListener( new LimbNode.Listener() {
-            public void legRotated() {
+            public void limbRotated() {
                 debugNode.setOffset( getLegNode().getGlobalElectronEntryPoint() );
             }
         } );
