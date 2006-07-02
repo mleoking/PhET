@@ -13,8 +13,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 public class TravoltagePanel extends PhetPCanvas {
     private TravoltageRootNode travoltageRootNode;
 
-    public TravoltagePanel() {
-        travoltageRootNode = new TravoltageRootNode();
+    public TravoltagePanel( TravoltageModule travoltageModule ) {
+        travoltageRootNode = new TravoltageRootNode( travoltageModule );
         addScreenChild( travoltageRootNode );
     }
 

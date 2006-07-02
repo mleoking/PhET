@@ -19,8 +19,10 @@ import java.awt.geom.Point2D;
 public class TravoltageRootNode extends PNode {
     private TravoltageBodyNode travoltageBodyNode;
     private ElectronSetNode electronSetNode;
+    private TravoltageModule travoltageModule;
 
-    public TravoltageRootNode() {
+    public TravoltageRootNode( TravoltageModule travoltageModule ) {
+        this.travoltageModule = travoltageModule;
         travoltageBodyNode = new TravoltageBodyNode();
         addChild( travoltageBodyNode );
 
@@ -34,6 +36,13 @@ public class TravoltageRootNode extends PNode {
                 System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
             }
         } );
+        LimbNode.Listener listener = new LimbNode.Listener() {
+            public void legRotated() {
+                remapLocations();
+            }
+        };
+        getLegNode().addListener( listener );
+        getArmNode().addListener( listener );
 //        addDebugFootLocation();
 //        Rectangle armRect = new Rectangle();
 //        armRect.setFrameFromDiagonal(198.0, 118.0, 330.0, 200.0 );
@@ -45,7 +54,7 @@ public class TravoltageRootNode extends PNode {
         final PText debugNode = new PText( "Hello" );
         debugNode.setTextPaint( Color.red );
         addChild( debugNode );
-        getLegNode().addListener( new LegNode.Listener() {
+        getLegNode().addListener( new LimbNode.Listener() {
             public void legRotated() {
                 debugNode.setOffset( getLegNode().getGlobalElectronEntryPoint() );
             }
@@ -57,9 +66,17 @@ public class TravoltageRootNode extends PNode {
     }
 
     public void pickUpElectron() {
-        ElectronNodeJade electronNode = new ElectronNodeJade( getElectronEntryPoint() );
-//        electronNode.setOffset( getElectronEntryPoint() );
+//        Point2D pt = getElectronEntryPoint();
+        Point2D pt = getElectronEntryPoint();
+        JadeElectron jadeElectron = new JadeElectron( pt.getX(), pt.getY(), JadeElectronNode.getViewRadius() );
+        JadeElectronNode electronNode = new JadeElectronNode( jadeElectron );
+        electronNode.setLocationMap( new LimbLocationMap( getLegNode(), getArmNode(), new DefaultLocationMap( electronNode.getRadius() ) ) );
+        travoltageModule.addElectron( jadeElectron );
         electronSetNode.addElectronNode( electronNode );
+    }
+
+    private ArmNode getArmNode() {
+        return travoltageBodyNode.getArmNode();
     }
 
     private Point2D getElectronEntryPoint() {
@@ -72,5 +89,11 @@ public class TravoltageRootNode extends PNode {
 
     public ElectronSetNode getElectronSetNode() {
         return electronSetNode;
+    }
+
+    private void remapLocations() {
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            electronSetNode.getElectronNode( i ).update();
+        }
     }
 }

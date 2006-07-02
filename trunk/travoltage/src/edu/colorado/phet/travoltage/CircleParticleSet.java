@@ -16,7 +16,7 @@ public class CircleParticleSet {
     public CircleParticleSet() {
     }
 
-    public void addCircleParticle( CircleParticleForElectron circleParticleForElectron ) {
+    public void addCircleParticle( JadeElectron electron ) {
 
     }
 }

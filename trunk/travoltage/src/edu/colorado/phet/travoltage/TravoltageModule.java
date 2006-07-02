@@ -18,14 +18,14 @@ public class TravoltageModule extends PiccoloModule {
 
     public TravoltageModule() {
         super( "Travoltage", createClock() );
-        travoltagePanel = new TravoltagePanel();
+        travoltagePanel = new TravoltagePanel( this );
         setSimulationPanel( travoltagePanel );
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
-        getLegNode().addListener( new LegNode.Listener() {
-            public void legRotated() {
-                travoltageModel.remapLocations();
-            }
-        } );
+//        getLegNode().addListener( new LegNode.Listener() {
+//            public void legRotated() {
+//                travoltagePanel.remapLocations();
+//            }
+//        } );
         travoltageModel = new TravoltageModel( this );
         setModel( travoltageModel );
     }
@@ -48,5 +48,9 @@ public class TravoltageModule extends PiccoloModule {
 
     public ArmNode getArmNode() {
         return travoltagePanel.getTravoltageRootNode().getTravoltageBodyNode().getArmNode();
+    }
+
+    public void addElectron( JadeElectron jadeElectron ) {
+        travoltageModel.addElectron( jadeElectron );
     }
 }
