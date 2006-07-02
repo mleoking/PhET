@@ -6,6 +6,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.geom.Point2D;
+
 /**
  * User: Sam Reid
  * Date: Jul 1, 2006
@@ -13,10 +15,10 @@ import edu.umd.cs.piccolo.PNode;
  * Copyright (c) Jul 1, 2006 by Sam Reid
  */
 
-public class ElectronNode extends PNode {
-    Vector2D.Double velocity = new Vector2D.Double();
+public class ElectronNodeMyPhysics extends PNode {
+    private Vector2D.Double velocity = new Vector2D.Double();
 
-    public ElectronNode() {
+    public ElectronNodeMyPhysics( Point2D location ) {
         addChild( PImageFactory.create( "images/Electron3.GIF" ) );
         setPickable( false );
         setChildrenPickable( false );
@@ -30,4 +32,5 @@ public class ElectronNode extends PNode {
     public double getRadius() {
         return getFullBounds().getWidth() / 2.0;
     }
+
 }
