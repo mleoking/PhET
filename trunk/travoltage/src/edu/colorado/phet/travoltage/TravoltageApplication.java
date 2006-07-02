@@ -21,6 +21,7 @@ public class TravoltageApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        new TravoltageLookAndFeel().initLookAndFeel();
         new TravoltageApplication( args ).startApplication();
     }
 }
