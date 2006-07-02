@@ -63,27 +63,37 @@ public class SparkNode extends PNode {
         update();
     }
 
-    private void update() {
-        removeAllChildren();
-        Point2D[]path = newPath( 100 );
-        DoubleGeneralPath generalPath = new DoubleGeneralPath();
-        for( int i = 0; i < path.length; i++ ) {
-            if( i == 0 ) {
-                generalPath.moveTo( path[i].getX(), path[i].getY() );
-            }
-            else {
-                generalPath.lineTo( path[i].getX(), path[i].getY() );
-            }
+    public void setVisible( boolean isVisible ) {
+        boolean origVisible = getVisible();
+        super.setVisible( isVisible );
+        if( origVisible != isVisible ) {
+            update();
         }
-        PPath p1 = new PPath( generalPath.getGeneralPath() );
-        p1.setStroke( new BasicStroke( 4 ) );
-        p1.setStrokePaint( Color.white );
-        addChild( p1 );
+    }
 
-        PPath p2 = new PPath( generalPath.getGeneralPath() );
-        p2.setStroke( new BasicStroke( 1 ) );
-        p2.setStrokePaint( Color.blue );
-        addChild( p2 );
+    private void update() {
+        if( getVisible() ) {
+            removeAllChildren();
+            Point2D[]path = newPath( 100 );
+            DoubleGeneralPath generalPath = new DoubleGeneralPath();
+            for( int i = 0; i < path.length; i++ ) {
+                if( i == 0 ) {
+                    generalPath.moveTo( path[i].getX(), path[i].getY() );
+                }
+                else {
+                    generalPath.lineTo( path[i].getX(), path[i].getY() );
+                }
+            }
+            PPath p1 = new PPath( generalPath.getGeneralPath() );
+            p1.setStroke( new BasicStroke( 4 ) );
+            p1.setStrokePaint( Color.white );
+            addChild( p1 );
+
+            PPath p2 = new PPath( generalPath.getGeneralPath() );
+            p2.setStroke( new BasicStroke( 1 ) );
+            p2.setStrokePaint( Color.blue );
+            addChild( p2 );
+        }
     }
 
     public void setSink( Point p ) {

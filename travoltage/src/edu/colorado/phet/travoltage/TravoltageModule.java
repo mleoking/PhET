@@ -25,7 +25,7 @@ public class TravoltageModule extends PiccoloModule {
         setSimulationPanel( travoltagePanel );
 
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
-        travoltageModel.addModelElement( new SparkManager( getArmNode(), getDoorknobNode(), travoltageModel.getJadeElectronSet() ) );
+        travoltageModel.addModelElement( new SparkManager( getArmNode(), getDoorknobNode(), travoltageModel.getJadeElectronSet(), this ) );
     }
 
     private DoorknobNode getDoorknobNode() {
@@ -54,5 +54,10 @@ public class TravoltageModule extends PiccoloModule {
 
     public void addElectron( JadeElectron jadeElectron ) {
         travoltageModel.addElectron( jadeElectron );
+    }
+
+    public void fireSpark() {
+        travoltageModel.fireSpark();
+        travoltagePanel.setSparkVisible( true );
     }
 }

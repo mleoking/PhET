@@ -32,4 +32,8 @@ public class TravoltageModel extends BaseModel {
     public JadeElectronSet getJadeElectronSet() {
         return jadeElectronSet;
     }
+
+    public void fireSpark() {
+
+    }
 }

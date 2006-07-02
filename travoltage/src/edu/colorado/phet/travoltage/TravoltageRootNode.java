@@ -23,6 +23,7 @@ public class TravoltageRootNode extends PNode {
     private ElectronSetNode electronSetNode;
     private TravoltageModule travoltageModule;
     private DoorknobNode doorknobNode;
+    private SparkNode sparkNode;
 
     public TravoltageRootNode( TravoltageModule travoltageModule, TravoltagePanel travoltagePanel ) {
         this.travoltageModule = travoltageModule;
@@ -82,10 +83,10 @@ public class TravoltageRootNode extends PNode {
             }
         } );
 
-        Point doorknobSpot = new Point( 317, 207 ); //doorknob position
-        Point src = new Point( 100, 100 );
         double angle = Math.PI / 3.8;
-        addChild( new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6 ) );
+        sparkNode = new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6 );
+        addChild( sparkNode );
+        setSparkVisible( false );
     }
 
     protected void addDebugFootLocation() {
@@ -137,5 +138,9 @@ public class TravoltageRootNode extends PNode {
 
     public DoorknobNode getDoorknobNode() {
         return doorknobNode;
+    }
+
+    public void setSparkVisible( boolean b ) {
+        sparkNode.setVisible( b );
     }
 }

@@ -25,4 +25,8 @@ public class TravoltagePanel extends PhetPCanvas {
     public ElectronSetNode getElectronSetNode() {
         return travoltageRootNode.getElectronSetNode();
     }
+
+    public void setSparkVisible( boolean b ) {
+        travoltageRootNode.setSparkVisible( b );
+    }
 }

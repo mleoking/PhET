@@ -19,16 +19,12 @@ public class PickUpElectrons implements LegNode.Listener {
 
     public void limbRotated() {
         double[]history = legNode.getAngleHistory();
-        if( history.length >= 1 ) {
-            System.out.println( "history[history.length-1] = " + history[history.length - 1] );
-        }
         if( history.length >= 2 && inRange( history[history.length - 1] ) && inRange( history[history.length - 2] ) ) {
             addElectron();
         }
     }
 
     private void addElectron() {
-        System.out.println( "PickUpElectrons.addElectron" );
         travoltageModule.pickUpElectron();
     }
 
