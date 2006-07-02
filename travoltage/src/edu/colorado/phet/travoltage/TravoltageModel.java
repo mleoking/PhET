@@ -14,13 +14,14 @@ public class TravoltageModel extends BaseModel {
     private TravoltageModule travoltageModule;
     private MoveElectronsJade moveElectronsJade;
     private JadeElectronSet jadeElectronSet;
+    private MoveToFinger moveToFinger;
 
     public TravoltageModel( TravoltageModule travoltageModule ) {
         this.travoltageModule = travoltageModule;
         jadeElectronSet = new JadeElectronSet();
         moveElectronsJade = new MoveElectronsJade( jadeElectronSet );
         addModelElement( moveElectronsJade );
-
+        moveToFinger = new MoveToFinger( travoltageModule );
 //        sparkElement = new SparkElement();
 //        addModelElement( sparkElement );
     }
@@ -33,7 +34,17 @@ public class TravoltageModel extends BaseModel {
         return jadeElectronSet;
     }
 
-    public void fireSpark() {
+    public void startSpark() {
+        if( containsModelElement( moveElectronsJade ) ) {
+            removeModelElement( moveElectronsJade );
+            addModelElement( moveToFinger );
+        }
+    }
 
+    public void finishSpark() {
+        if( containsModelElement( moveToFinger ) ) {
+            removeModelElement( moveToFinger );
+            addModelElement( moveElectronsJade );
+        }
     }
 }
