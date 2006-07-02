@@ -5,7 +5,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import org.cove.jade.DynamicsEngine;
-import org.cove.jade.primitives.CircleParticle;
 import org.cove.jade.surfaces.LineSurface;
 
 import java.awt.*;
@@ -27,7 +26,7 @@ public class MoveElectronsJade implements ModelElement {
 
     // Simulator stuff	
     private DynamicsEngine engine;
-    private ArrayList circles = new ArrayList();
+//    private ArrayList circles = new ArrayList();
 
     /**
      * Sets up the simulator and graphics for a basic JADE car simulator.
@@ -36,10 +35,8 @@ public class MoveElectronsJade implements ModelElement {
         this.travoltageModule = travoltageModule;
         this.electronSetNode = electronSetNode;
         electronSetNode.addListener( new ElectronSetNode.Listener() {
-            public void electronAdded( ElectronNode electronNode ) {
-                CircleParticleForElectron cp = new CircleParticleForElectron( electronNode );
-                circles.add( cp );
-                engine.addPrimitive( cp );
+            public void electronAdded( ElectronNodeJade electronNode ) {
+                engine.addPrimitive( electronNode.getCircleParticleForElectron() );
             }
         } );
         engine = new DynamicsEngine();
@@ -66,9 +63,8 @@ public class MoveElectronsJade implements ModelElement {
 
     private Vector2D getForce( CircleParticleForElectron node ) {
         Vector2D sum = new Vector2D.Double();
-
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticleForElectron particle = (CircleParticleForElectron)circles.get( i );
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            CircleParticleForElectron particle = electronSetNode.getElectronNode( i ).getCircleParticleForElectron();
             if( particle != node ) {
                 sum = sum.add( getForce( node, particle ) );
             }
@@ -161,67 +157,47 @@ public class MoveElectronsJade implements ModelElement {
                  "162\t200";
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticleForElectron circleParticle = (CircleParticleForElectron)circles.get( i );
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            CircleParticleForElectron circleParticle = electronSetNode.getElectronNode( i ).getCircleParticleForElectron();
             Vector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            CircleParticleForElectron circleParticleForElectron = electronSetNode.getElectronNode( i ).getCircleParticleForElectron();
             circleParticleForElectron.update();
         }
-
         remapLocations();
     }
 
     public void remapLocations() {
         Rectangle legRect = new Rectangle();
         legRect.setFrameFromDiagonal( 128.0, 237.0, 279.0, 399.0 );
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            CircleParticleForElectron circleParticleForElectron = electronSetNode.getElectronNode( i ).getCircleParticleForElectron();
             if( legRect.contains( circleParticleForElectron.getPosition() ) ) {
                 LegNode legNode = travoltageModule.getLegNode();
                 Point2D pivot = legNode.getGlobalPivot();
                 AffineTransform tx = AffineTransform.getRotateInstance( legNode.getAngle(), pivot.getX(), pivot.getY() );
                 Point2D newLoc = tx.transform( circleParticleForElectron.getPosition(), null );
-                circleParticleForElectron.electronNode.setOffset( newLoc );
+                circleParticleForElectron.getElectronNode().setOffset( newLoc );
             }
         }
 
         Rectangle armRect = new Rectangle();
         armRect.setFrameFromDiagonal( 198.0, 118.0, 330.0, 200.0 );
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticleForElectron circleParticleForElectron = (CircleParticleForElectron)circles.get( i );
+        for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
+            CircleParticleForElectron circleParticleForElectron = electronSetNode.getElectronNode( i ).getCircleParticleForElectron();
             if( armRect.contains( circleParticleForElectron.getPosition() ) ) {
                 ArmNode armNode = travoltageModule.getArmNode();
                 Point2D pivot = armNode.getGlobalPivot();
                 AffineTransform tx = AffineTransform.getRotateInstance( armNode.getAngle(), pivot.getX(), pivot.getY() );
                 Point2D newLoc = tx.transform( circleParticleForElectron.getPosition(), null );
-                newLoc.setLocation( newLoc.getX() - circleParticleForElectron.electronNode.getRadius(),
-                                    newLoc.getY() - circleParticleForElectron.electronNode.getRadius() );
-                circleParticleForElectron.electronNode.setOffset( newLoc );
+                newLoc.setLocation( newLoc.getX() - circleParticleForElectron.getElectronNode().getRadius(),
+                                    newLoc.getY() - circleParticleForElectron.getElectronNode().getRadius() );
+                circleParticleForElectron.getElectronNode().setOffset( newLoc );
             }
         }
     }
 
-    static class CircleParticleForElectron extends CircleParticle {
-        private ElectronNode electronNode;
-
-        /**
-         * Instantiates a CircleParticle. (px,py) = center, r = radius in pixels.
-         */
-        public CircleParticleForElectron( ElectronNode electronNode ) {
-            super( electronNode.getOffset().getX(), electronNode.getOffset().getY(), electronNode.getRadius() );
-            this.electronNode = electronNode;
-        }
-
-        public void update() {
-            electronNode.setOffset( curr.x - electronNode.getFullBounds().getWidth() / 2, curr.y - electronNode.getFullBounds().getHeight() / 2 );
-        }
-
-        public Point2D.Double getPosition() {
-            return new Point2D.Double( curr.x, curr.y );
-        }
-    }
 }

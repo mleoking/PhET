@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.BaseModel;
 public class TravoltageModel extends BaseModel {
     private TravoltageModule travoltageModule;
     private MoveElectronsJade moveElectronsJade;
+    private CircleParticleSet circleParticleSet;
 
     public TravoltageModel( TravoltageModule travoltageModule ) {
         this.travoltageModule = travoltageModule;

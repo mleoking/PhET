@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 public class ElectronSetNode extends PNode {
-    public void addElectronNode( ElectronNode electronNode ) {
+    public void addElectronNode( ElectronNodeJade electronNode ) {
         addChild( electronNode );
         notifyListeners( electronNode );
     }
@@ -22,21 +22,21 @@ public class ElectronSetNode extends PNode {
         return getChildrenCount();
     }
 
-    public ElectronNode getElectronNode( int i ) {
-        return (ElectronNode)getChild( i );
+    public ElectronNodeJade getElectronNode( int i ) {
+        return (ElectronNodeJade)getChild( i );
     }
 
     private ArrayList listeners = new ArrayList();
 
     public static interface Listener {
-        void electronAdded( ElectronNode electronNode );
+        void electronAdded( ElectronNodeJade electronNode );
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void notifyListeners( ElectronNode electronNode ) {
+    public void notifyListeners( ElectronNodeJade electronNode ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.electronAdded( electronNode );

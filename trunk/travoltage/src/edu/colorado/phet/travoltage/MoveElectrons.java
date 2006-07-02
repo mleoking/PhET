@@ -21,15 +21,15 @@ public class MoveElectrons implements ModelElement {
 
     public void stepInTime( double dt ) {
         for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
-            ElectronNode node = electronSetNode.getElectronNode( i );
+            ElectronNodeJade node = electronSetNode.getElectronNode( i );
             stepInTime( node, dt );
         }
     }
 
-    private void stepInTime( ElectronNode mover, double dt ) {
+    private void stepInTime( ElectronNodeJade mover, double dt ) {
         AbstractVector2D acceleration = new Vector2D.Double();
         for( int i = 0; i < electronSetNode.getNumElectrons(); i++ ) {
-            ElectronNode neighbor = electronSetNode.getElectronNode( i );
+            ElectronNodeJade neighbor = electronSetNode.getElectronNode( i );
             if( neighbor != mover ) {
                 acceleration = acceleration.getAddedInstance( getForce( mover, neighbor ) );
             }
@@ -37,7 +37,7 @@ public class MoveElectrons implements ModelElement {
         mover.stepInTime( acceleration, dt );
     }
 
-    private AbstractVector2D getForce( ElectronNode mover, ElectronNode neighbor ) {
+    private AbstractVector2D getForce( ElectronNodeJade mover, ElectronNodeJade neighbor ) {
         AbstractVector2D vec = new Vector2D.Double( mover.getOffset(), neighbor.getOffset() );
         double k = 0.1;
         return vec.getInstanceOfMagnitude( -k / vec.getMagnitude() );

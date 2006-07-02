@@ -57,8 +57,8 @@ public class TravoltageRootNode extends PNode {
     }
 
     public void pickUpElectron() {
-        ElectronNode electronNode = new ElectronNode();
-        electronNode.setOffset( getElectronEntryPoint() );
+        ElectronNodeJade electronNode = new ElectronNodeJade( getElectronEntryPoint() );
+//        electronNode.setOffset( getElectronEntryPoint() );
         electronSetNode.addElectronNode( electronNode );
     }
 
