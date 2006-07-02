@@ -7,6 +7,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 /**
@@ -34,7 +36,6 @@ public class TravoltageRootNode extends PNode {
         electronSetNode = new ElectronSetNode();
         addChild( electronSetNode );
 
-        addChild( new SparkNode() );
 
         LimbNode.Listener listener = new LimbNode.Listener() {
             public void legRotated() {
@@ -62,11 +63,33 @@ public class TravoltageRootNode extends PNode {
 //                doorknobNode.setOffset( e.getX(), e.getY() );
 //            }
 //        } );
+        travoltagePanel.addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+                System.out.println( "e = " + e );
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+        } );
 //        addDebugFootLocation();
 //        Rectangle armRect = new Rectangle();
 //        armRect.setFrameFromDiagonal(198.0, 118.0, 330.0, 200.0 );
 //        PPath path=new PPath( armRect);
 //        addChild( path);
+
+        Point doorknobSpot = new Point( 317, 207 ); //doorknob position
+        Point end = new Point( 100, 100 );
+        double angle = Math.PI / 3.8;
+        addChild( new SparkNode( doorknobSpot, end, angle, 4, 6 ) );
     }
 
     protected void addDebugFootLocation() {
