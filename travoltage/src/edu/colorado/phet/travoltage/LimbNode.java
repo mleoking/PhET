@@ -59,6 +59,10 @@ public class LimbNode extends PNode {
         notifyListeners();
     }
 
+    public void setAngle( double v ) {
+        rotateAboutPivot( v - angle );
+    }
+
     public Point2D getGlobalPivot() {
         return localToGlobal( new Point2D.Double( pivot.getX(), pivot.getY() ) );
     }

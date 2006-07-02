@@ -21,21 +21,21 @@ public class TravoltageRootNode extends PNode {
     private ElectronSetNode electronSetNode;
     private TravoltageModule travoltageModule;
 
-    public TravoltageRootNode( TravoltageModule travoltageModule ) {
+    public TravoltageRootNode( TravoltageModule travoltageModule, TravoltagePanel travoltagePanel ) {
         this.travoltageModule = travoltageModule;
         travoltageBodyNode = new TravoltageBodyNode();
+
+        final DoorknobNode doorknobNode = new DoorknobNode();
+        doorknobNode.setOffset( 286, 172 );
+        addChild( doorknobNode );
+
         addChild( travoltageBodyNode );
 
         electronSetNode = new ElectronSetNode();
         addChild( electronSetNode );
 
         addChild( new SparkNode() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
-                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
-            }
-        } );
+
         LimbNode.Listener listener = new LimbNode.Listener() {
             public void legRotated() {
                 remapLocations();
@@ -43,6 +43,25 @@ public class TravoltageRootNode extends PNode {
         };
         getLegNode().addListener( listener );
         getArmNode().addListener( listener );
+        getArmNode().setAngle( -0.5663 );
+        getArmNode().addListener( new LimbNode.Listener() {
+            public void legRotated() {
+                System.out.println( "getArmNode().getAngle() = " + getArmNode().getAngle() );
+            }
+        } );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
+                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
+//                doorknobNode.setOffset( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
+            }
+        } );
+//        travoltagePanel.addMouseMotionListener( new MouseMotionAdapter() {
+//            public void mouseDragged( MouseEvent e ) {
+//                System.out.println( "e.getX() = " + e.getX() + ", e.y=" + e.getY() );
+//                doorknobNode.setOffset( e.getX(), e.getY() );
+//            }
+//        } );
 //        addDebugFootLocation();
 //        Rectangle armRect = new Rectangle();
 //        armRect.setFrameFromDiagonal(198.0, 118.0, 330.0, 200.0 );

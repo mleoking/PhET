@@ -14,7 +14,7 @@ public class TravoltagePanel extends PhetPCanvas {
     private TravoltageRootNode travoltageRootNode;
 
     public TravoltagePanel( TravoltageModule travoltageModule ) {
-        travoltageRootNode = new TravoltageRootNode( travoltageModule );
+        travoltageRootNode = new TravoltageRootNode( travoltageModule, this );
         addScreenChild( travoltageRootNode );
     }
 
