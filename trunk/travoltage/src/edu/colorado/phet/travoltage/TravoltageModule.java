@@ -36,6 +36,14 @@ public class TravoltageModule extends PiccoloModule {
         return travoltagePanel.getTravoltageRootNode().getTravoltageBodyNode().getLegNode();
     }
 
+    public TravoltagePanel getTravoltagePanel() {
+        return travoltagePanel;
+    }
+
+    public TravoltageModel getTravoltageModel() {
+        return travoltageModel;
+    }
+
     private static IClock createClock() {
         return new SwingClock( 30, 1.0 );
     }
@@ -57,7 +65,7 @@ public class TravoltageModule extends PiccoloModule {
     }
 
     public void fireSpark() {
-        travoltageModel.fireSpark();
+        travoltageModel.startSpark();
         travoltagePanel.setSparkVisible( true );
     }
 }

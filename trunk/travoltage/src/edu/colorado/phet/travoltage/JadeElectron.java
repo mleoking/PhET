@@ -14,11 +14,16 @@ import java.util.ArrayList;
  */
 public class JadeElectron extends CircleParticle {
 
+    private ArrayList listeners = new ArrayList();
+
     public JadeElectron( double x, double y, double radius ) {
         super( x, y, radius );
     }
 
-    private ArrayList listeners = new ArrayList();
+    public void setLocation( double x, double y ) {
+        setPos( x, y );
+        notifyElectronMoved();
+    }
 
     public static interface Listener {
         void electronMoved();
@@ -34,23 +39,9 @@ public class JadeElectron extends CircleParticle {
             listener.electronMoved();
         }
     }
-//    public void update() {
-//        electronNode.setOffset( curr.x - electronNode.getFullBounds().getWidth() / 2, curr.y - electronNode.getFullBounds().getHeight() / 2 );
-//    }
-//
 
     public Point2D.Double getPosition() {
         return new Point2D.Double( curr.x, curr.y );
     }
-
-//
-//    public void setLocation( Point2D location ) {
-//        super.setPos( location.getX(), location.getY() );
-//    }
-//
-//    public ElectronNodeJade getElectronNode() {
-//        return electronNode;
-//    }
-
 
 }
