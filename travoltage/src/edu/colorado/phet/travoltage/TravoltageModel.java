@@ -20,9 +20,16 @@ public class TravoltageModel extends BaseModel {
         jadeElectronSet = new JadeElectronSet();
         moveElectronsJade = new MoveElectronsJade( jadeElectronSet );
         addModelElement( moveElectronsJade );
+
+//        sparkElement = new SparkElement();
+//        addModelElement( sparkElement );
     }
 
     public void addElectron( JadeElectron jadeElectron ) {
         jadeElectronSet.addElectron( jadeElectron );
+    }
+
+    public JadeElectronSet getJadeElectronSet() {
+        return jadeElectronSet;
     }
 }

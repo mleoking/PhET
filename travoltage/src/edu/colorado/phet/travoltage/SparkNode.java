@@ -22,22 +22,23 @@ import java.util.Vector;
 
 public class SparkNode extends PNode {
     private Point2D source;
-    private Point sink;
+    private Point2D sink;
     private double maxDTheta;
     private Random random;
     private double threshold;
     private ArmNode armNode;
+    private DoorknobNode doorknobNode;
     private double segLength;
 
-    public SparkNode( ArmNode armNode, Point source, Point dst, double maxDTheta, double threshold, double segLength ) {
+    public SparkNode( ArmNode armNode, DoorknobNode doorknobNode, double maxDTheta, double threshold, double segLength ) {
         this.armNode = armNode;
+        this.doorknobNode = doorknobNode;
         this.segLength = segLength;
-        this.source = source;
-        this.sink = dst;
         this.maxDTheta = maxDTheta;
         this.threshold = threshold;
         this.random = new Random();
-        update();
+        this.sink = doorknobNode.getGlobalKnobPoint();
+        updateSource();
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();
@@ -50,6 +51,7 @@ public class SparkNode extends PNode {
             }
         } );
         updateSource();
+
     }
 
     private void updateSource() {
@@ -58,6 +60,7 @@ public class SparkNode extends PNode {
 
     private void setSource( Point2D source ) {
         this.source = source;
+        update();
     }
 
     private void update() {
@@ -114,7 +117,7 @@ public class SparkNode extends PNode {
     }
 
     public Point2D nextPoint( Point2D prev ) {
-        Point2D diff = new Point2D.Double( prev.getX() - sink.x, prev.getY() - sink.y );
+        Point2D diff = new Point2D.Double( prev.getX() - sink.getX(), prev.getY() - sink.getY() );
         double theta = getAngle( diff.getX(), diff.getY() );
         double dTheta = ( random.nextDouble() - .5 ) * 2 * maxDTheta;
         double thetaNew = theta + dTheta;
