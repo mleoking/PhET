@@ -1,12 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -32,10 +30,7 @@ public class LegNode extends LimbNode {
             angleHistory.remove( 0 );
         }
         super.rotateAboutPivot( dTheta );
-        notifyListeners();
     }
-
-    private ArrayList listeners = new ArrayList();
 
     public double[] getAngleHistory() {
         double[]d = new double[angleHistory.size()];
@@ -45,26 +40,18 @@ public class LegNode extends LimbNode {
         return d;
     }
 
+    Random random = new Random();
+
     public Point2D getGlobalElectronEntryPoint() {
-        Point2D globalPivot = localToGlobal( getPivot() );
-//        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.75, getAngle() - insetAngle );
+//        Point2D globalPivot = localToGlobal( getPivot() );
 //        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.7, getAngle() - insetAngle );
-        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.7, getAngle() - insetAngle );
-        return v.getDestination( globalPivot );
+//        return v.getDestination( globalPivot );
+
+        Point2D.Double ctr = new Point2D.Double( 218.0, 370.0 );
+        double dx = random.nextDouble() * 2;
+        double dy = random.nextDouble() * 2;
+        return new Point2D.Double( ctr.getX() + dx, ctr.getY() + dy );
     }
 
-    public static interface Listener {
-        void legRotated();
-    }
 
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.legRotated();
-        }
-    }
 }

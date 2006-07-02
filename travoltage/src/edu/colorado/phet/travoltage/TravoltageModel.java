@@ -13,19 +13,16 @@ import edu.colorado.phet.common.model.BaseModel;
 public class TravoltageModel extends BaseModel {
     private TravoltageModule travoltageModule;
     private MoveElectronsJade moveElectronsJade;
-    private CircleParticleSet circleParticleSet;
+    private JadeElectronSet jadeElectronSet;
 
     public TravoltageModel( TravoltageModule travoltageModule ) {
         this.travoltageModule = travoltageModule;
-//        addModelElement( new MoveElectrons( travoltageModule.getElectronSetNode() ) );
-
-        moveElectronsJade = new MoveElectronsJade( travoltageModule, travoltageModule.getElectronSetNode() );
+        jadeElectronSet = new JadeElectronSet();
+        moveElectronsJade = new MoveElectronsJade( jadeElectronSet );
         addModelElement( moveElectronsJade );
     }
 
-    public void remapLocations() {
-        if( moveElectronsJade != null ) {
-            moveElectronsJade.remapLocations();
-        }
+    public void addElectron( JadeElectron jadeElectron ) {
+        jadeElectronSet.addElectron( jadeElectron );
     }
 }

@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -21,6 +22,7 @@ public class LimbNode extends PNode {
     private Point pivot;
     private PImage imageNode;
     private double angle = 0;
+    private ArrayList listeners = new ArrayList();
 
     public LimbNode( String imageLoc, Point pivot ) {
         imageNode = PImageFactory.create( imageLoc );
@@ -54,6 +56,7 @@ public class LimbNode extends PNode {
     public void rotateAboutPivot( double dTheta ) {
         this.angle += dTheta;
         rotateAboutPoint( dTheta, pivot );
+        notifyListeners();
     }
 
     public Point2D getGlobalPivot() {
@@ -62,5 +65,20 @@ public class LimbNode extends PNode {
 
     public double getAngle() {
         return angle;
+    }
+
+    public static interface Listener {
+        void legRotated();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.legRotated();
+        }
     }
 }
