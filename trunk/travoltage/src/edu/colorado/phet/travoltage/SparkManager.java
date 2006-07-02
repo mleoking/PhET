@@ -16,19 +16,20 @@ public class SparkManager implements ModelElement {
     private ArmNode armNode;
     private DoorknobNode doorknobNode;
     JadeElectronSet jadeElectronSet;
+    private TravoltageModule travoltageModule;
 
-    public SparkManager( ArmNode armNode, DoorknobNode doorknobNode, JadeElectronSet jadeElectronSet ) {
+    public SparkManager( ArmNode armNode, DoorknobNode doorknobNode, JadeElectronSet jadeElectronSet, TravoltageModule travoltageModule ) {
         this.armNode = armNode;
         this.doorknobNode = doorknobNode;
         this.jadeElectronSet = jadeElectronSet;
+        this.travoltageModule = travoltageModule;
     }
 
     private boolean shouldFire() {
         //low number of electrons requires really close
         double distToKnob = getFingerKnobDistance();
-//        Point finger = Finger.getFingerLocation( arm );
-//        double distToKnob = new DoublePoint( doorknobX, doorknobY ).distance( new DoublePoint( finger.x, finger.y ) );
         int n = jadeElectronSet.getNumElectrons();
+//        System.out.println( "distToKnob = " + distToKnob + ", n=" + n );
 
         //edu.colorado.phet.common.util.Debug.traceln("Distance to knob="+distToKnob+", edu.colorado.phet.common count="+n);
         for( int i = 0; i < numElectrons.length; i++ ) {
@@ -50,6 +51,7 @@ public class SparkManager implements ModelElement {
     }
 
     private void fireSpark() {
-
+        travoltageModule.fireSpark();
+//        System.out.println( "SparkManager.fireSpark" );
     }
 }
