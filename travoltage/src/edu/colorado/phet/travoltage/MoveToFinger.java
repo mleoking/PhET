@@ -96,6 +96,7 @@ public class MoveToFinger extends MoveElectronsJade {
             double dist = electron.getPosition().distance( getFingerLocation() );
             if( dist < threshold ) {
                 jadeElectronSet.removeElectron( i );
+                module.getTravoltageModel().notifyElectronsExiting();
                 i--;
 //                System.out.println( "Gotcha!" );
             }
@@ -105,7 +106,6 @@ public class MoveToFinger extends MoveElectronsJade {
         }
         if( jadeElectronSet.getNumElectrons() == 0 ) {
             module.getTravoltageModel().finishSpark();
-
         }
     }
 
