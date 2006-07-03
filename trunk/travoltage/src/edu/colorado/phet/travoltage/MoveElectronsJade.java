@@ -53,7 +53,9 @@ public class MoveElectronsJade implements ModelElement {
             java.awt.geom.Point2D.Double prev = (java.awt.geom.Point2D.Double)list.get( i - 1 );
             java.awt.geom.Point2D.Double cur = (java.awt.geom.Point2D.Double)list.get( i );
             LineSurface s = new LineSurface( cur.getX(), cur.getY(), prev.getX(), prev.getY() );
-            s.setCollisionDepth( 20 );
+//            s.setCollisionDepth( 20 );
+            s.setCollisionDepth( 25 );
+//            s.setCollisionDepth( 32 );
             engine.addSurface( s );
         }
     }
