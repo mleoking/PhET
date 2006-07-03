@@ -90,6 +90,9 @@ public class MoveElectronsJade implements ModelElement {
 
     protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
         AbstractVector2D vec = new Vector2D.Double( circleParticle.getPosition(), particle.getPosition() );
+        if( vec.getMagnitude() <= 1 ) {
+            return new Vector2D.Double();
+        }
         AbstractVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;
         if( v.getMagnitude() > max ) {

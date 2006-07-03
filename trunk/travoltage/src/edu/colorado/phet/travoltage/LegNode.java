@@ -47,8 +47,8 @@ public class LegNode extends LimbNode {
 //        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getHeight() * 0.7, getAngle() - insetAngle );
 //        return v.getDestination( globalPivot );
 
-        Point2D.Double ctr = new Point2D.Double( 218.0, 370.0 );
-        double dx = random.nextDouble() * 4;
+        Point2D.Double ctr = new Point2D.Double( 218.0, 375.0 );
+        double dx = random.nextDouble() * 10;
         double dy = random.nextDouble() * 4;
         return new Point2D.Double( ctr.getX() + dx, ctr.getY() + dy );
     }
