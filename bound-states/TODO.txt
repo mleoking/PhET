@@ -10,6 +10,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
+- redraw problem when dragging mag glass in "Many" panel with 1D Coulomb and Help enabled
 
 LOW PRIORITY:
 - wiggle me animation is jerky on some machines
@@ -30,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+(7/3/06) - change white color scheme colors
 0.00.11...
 (6/30/06) - rename potential model classes (eg, BSSquareWells -> BSSquarePotential)
 (6/30/06) - work on making plot antialiasing look better on Windows, no progress

@@ -24,16 +24,20 @@ public class BSWhiteColorScheme extends BSColorScheme {
 
     public BSWhiteColorScheme() {
         super();
+        
         setChartColor( Color.WHITE );
         setTickColor( Color.BLACK );
         setGridlineColor( Color.DARK_GRAY );
-        setEigenstateNormalColor( new Color( 0, 108, 0 ) ); // dark green
-        setEigenstateHiliteColor( Color.LIGHT_GRAY );
-        setEigenstateSelectionColor( Color.GREEN );
+        
         setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
+        setEigenstateNormalColor( new Color( 51, 255, 0 ) ); // bright green
+        setEigenstateHiliteColor( new Color( 102, 102, 102 ) ); // gray
+        setEigenstateSelectionColor( new Color( 0, 102, 51 ) ); // dark green
+
         setRealColor( Color.RED );
         setImaginaryColor( Color.BLUE );
         setMagnitudeColor( Color.BLACK );
+        
         setMagnifyingGlassBezelColor( Color.GRAY );
         setMagnifyingGlassHandleColor( Color.ORANGE );
     }
