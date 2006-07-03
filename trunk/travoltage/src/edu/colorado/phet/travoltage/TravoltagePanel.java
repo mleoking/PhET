@@ -2,7 +2,9 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,12 +19,17 @@ import java.awt.event.MouseListener;
 public class TravoltagePanel extends PhetPCanvas {
     private TravoltageRootNode travoltageRootNode;
     private boolean createTrajectories = false;
+    private MotionHelpBalloon motionHelpBalloon;
 
     public TravoltagePanel( TravoltageModule travoltageModule ) {
         travoltageRootNode = new TravoltageRootNode( travoltageModule, this, travoltageModule.getTravoltageModel() );
         addScreenChild( travoltageRootNode );
 
 //        setCreateTrajectories();
+        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Rub the foot<br>on the carpet.</html> " );
+        motionHelpBalloon.setBalloonVisible( true );
+        motionHelpBalloon.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        getLayer().addChild( motionHelpBalloon );
     }
 
     private void setCreateTrajectories() {
@@ -66,5 +73,9 @@ public class TravoltagePanel extends PhetPCanvas {
 
     public void setSparkVisible( boolean b ) {
         travoltageRootNode.setSparkVisible( b );
+    }
+
+    public void showHelpBalloon() {
+        motionHelpBalloon.animateTo( getTravoltageRootNode().getTravoltageBodyNode().getLegNode() );
     }
 }
