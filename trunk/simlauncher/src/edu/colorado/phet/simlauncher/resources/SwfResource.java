@@ -14,13 +14,13 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * JarResource
+ * SwfResource
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class JarResource extends SimResource {
-    public JarResource( URL url, File localRoot ) {
+public class SwfResource extends SimResource {
+    public SwfResource( URL url, File localRoot ) {
         super( url, localRoot );
     }
 }

@@ -41,11 +41,9 @@ public abstract class Simulation implements SimContainer {
 
     private String name;
     private String description;
-    private URL jnlpUrl;
 
     private SimResource descriptionResource;
     private ThumbnailResource thumbnailResource;
-//    private JarResource[] jarResources;
     private List resources = new ArrayList();
     private File lastLaunchedTimestampFile;
     private File localRoot;
@@ -57,18 +55,17 @@ public abstract class Simulation implements SimContainer {
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public Simulation( String name, String description, ThumbnailResource thumbnail, URL jnlpUrl, File localRoot ) {
+    public Simulation( String name, String description, ThumbnailResource thumbnail, URL launchResourceUrl, File localRoot ) {
         this.name = name;
         this.description = description;
-        this.jnlpUrl = jnlpUrl;
         this.localRoot = localRoot;
 
         thumbnailResource = thumbnail;
         addResource( thumbnailResource );
 
         // Create the file that will store the timestamp of the last time we were launched
-        String subPath = jnlpUrl.getPath().substring( 0, jnlpUrl.getPath().lastIndexOf( '/' ) );
-        String relativePath = jnlpUrl.getHost() + FileUtil.getPathSeparator() + subPath;
+        String subPath = launchResourceUrl.getPath().substring( 0, launchResourceUrl.getPath().lastIndexOf( '/' ) );
+        String relativePath = launchResourceUrl.getHost() + FileUtil.getPathSeparator() + subPath;
         lastLaunchedTimestampFile = new File( localRoot.getAbsolutePath()
                                               + FileUtil.getPathSeparator()
                                               + relativePath
@@ -89,8 +86,8 @@ public abstract class Simulation implements SimContainer {
      * @param name
      * @return the simulation with the specified name
      */
-    public static JavaSimulation getSimulationForName( String name ) {
-        JavaSimulation sim = (JavaSimulation)namesToSims.get( name );
+    public static Simulation getSimulationForName( String name ) {
+        Simulation sim = (Simulation)namesToSims.get( name );
         if( sim == null ) {
             throw new IllegalArgumentException( "name not recognized: " + name );
         }
@@ -244,8 +241,8 @@ public abstract class Simulation implements SimContainer {
             super( source );
         }
 
-        public JavaSimulation getSimulation() {
-            return (JavaSimulation)getSource();
+        public Simulation getSimulation() {
+            return (Simulation)getSource();
         }
     }
 

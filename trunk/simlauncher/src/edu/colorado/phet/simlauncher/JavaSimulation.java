@@ -70,7 +70,6 @@ public class JavaSimulation extends Simulation {
     public void install() throws SimResourceException {
         super.install();
         // Install the JNLP resource
-//        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         jnlpResource.download();
         addResource( jnlpResource );
 
