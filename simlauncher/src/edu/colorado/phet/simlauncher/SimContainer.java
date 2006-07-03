@@ -27,4 +27,6 @@ package edu.colorado.phet.simlauncher;
  */
 public interface SimContainer {
     Simulation getSimulation();
+
+    Simulation[] getSimulations();
 }

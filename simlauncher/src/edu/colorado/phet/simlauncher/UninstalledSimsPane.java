@@ -151,7 +151,8 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             // Create the SimulationTable
             simTable = new SimTable( simListA,
                                      Options.instance().isShowUninstalledThumbnails(),
-                                     simTableSortType );
+                                     simTableSortType,
+                                     ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
             simTable.addMouseListener( new MouseHandler() );
 
             simTableScrollPane = new JScrollPane( simTable );
@@ -182,10 +183,18 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             return simTable.getSimulation();
         }
 
+        public Simulation[] getSimulations() {
+            return simTable.getSimulations();
+        }
+
         //--------------------------------------------------------------------------------------------------
         // Handles mouse clicks on the simulation table
         //--------------------------------------------------------------------------------------------------
 
+        /**
+         * Handles enabling/disabling the intall button, double clicks for installing and right clicks
+         * popping up a context menu
+         */
         private class MouseHandler extends MouseAdapter {
             public void mouseClicked( MouseEvent event ) {
                 // If a double left click, offer to install the simulation
@@ -231,6 +240,10 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
     public Simulation getSimulation() {
         return simulationPanel.getSimulation();
+    }
+
+    public Simulation[] getSimulations() {
+        return simulationPanel.getSimulations();
     }
 
 }

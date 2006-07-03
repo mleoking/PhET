@@ -10,7 +10,6 @@ Bugs
 ========
 Features
 ========
-- Launch Flash sims
 - Catalog
     - Make multiple selections
     - Sort-by headers
@@ -56,6 +55,7 @@ Testing
 ================
 Done, not posted
 ================
+- Launch Flash sims
 
 =======
 0.00.02

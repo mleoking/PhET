@@ -224,10 +224,6 @@ public abstract class Simulation implements SimContainer {
         return thumbnailResource.getImageIcon();
     }
 
-    public Simulation getSimulation() {
-        return this;
-    }
-
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
@@ -244,6 +240,18 @@ public abstract class Simulation implements SimContainer {
         public Simulation getSimulation() {
             return (Simulation)getSource();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of SimContainer 
+    //--------------------------------------------------------------------------------------------------
+
+    public Simulation getSimulation() {
+        return this;
+    }
+
+    public Simulation[] getSimulations() {
+        return new Simulation[]{ this };
     }
 
     //--------------------------------------------------------------------------------------------------
