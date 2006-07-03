@@ -51,7 +51,7 @@ public class JadeElectronNode extends PNode {
         return getFullBounds().getWidth() / 2.0;
     }
 
-    public JadeElectron getCircleParticleForElectron() {
+    public JadeElectron getJadeElectron() {
         return electron;
     }
 

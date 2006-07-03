@@ -26,4 +26,10 @@ public class ArmNode extends LimbNode {
         AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, getAngle() - insetAngle );
         return v.getDestination( globalPivot );
     }
+
+    public Point2D getGlobalFingertipPointWithoutRotation() {
+        Point2D globalPivot = localToGlobal( getPivot() );
+        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( getImageNode().getWidth() * 0.95, 0 - insetAngle );
+        return v.getDestination( globalPivot );
+    }
 }

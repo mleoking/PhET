@@ -13,6 +13,28 @@ import java.util.ArrayList;
  */
 
 public class ElectronSetNode extends PNode {
+    public ElectronSetNode( JadeElectronSet set ) {
+        set.addListener( new JadeElectronSet.Listener() {
+            public void electronAdded( JadeElectron electron ) {
+                //todo handled elsewhere currently
+            }
+
+            public void electronRemoved( JadeElectron electron ) {
+                removeElectronNode( electron );
+            }
+
+        } );
+    }
+
+    private void removeElectronNode( JadeElectron electron ) {
+        for( int i = 0; i < getNumElectrons(); i++ ) {
+            if( getElectronNode( i ).getJadeElectron() == electron ) {
+                removeChild( getElectronNode( i ) );
+                i--;
+            }
+        }
+    }
+
     public void addElectronNode( JadeElectronNode electronNode ) {
         addChild( electronNode );
         notifyListeners( electronNode );
