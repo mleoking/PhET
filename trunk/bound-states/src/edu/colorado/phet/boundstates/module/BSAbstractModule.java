@@ -34,8 +34,7 @@ import edu.colorado.phet.boundstates.control.ZoomControl;
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
-import edu.colorado.phet.boundstates.draghandles.BSSquareHandleManager;
-import edu.colorado.phet.boundstates.draghandles.BSSquareOffsetHandle;
+import edu.colorado.phet.boundstates.draghandles.*;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.help.BSWiggleMe;
@@ -72,6 +71,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    private static final boolean ENABLE_DRAG_HANDLES = true;
     
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
@@ -123,6 +124,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private PSwing _energyZoomControlNode;
     
     // Potential drag handles
+    private BSAsymmetricHandleManager _asymmetricHandleManager;
+    private BSCoulomb1DHandleManager _coulomb1DHandleManager;
+    private BSCoulomb3DHandleManager _coulomb3DHandleManager;
+    private BSHarmonicOscillatorHandleManager _harmonicOscillatorHandleManager;
     private BSSquareHandleManager _squareHandleManager;
     
     // Help
@@ -259,8 +264,18 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _parentNode.addChild( _hilitedEquationNode );
         
         // Potential drag handles
+        _asymmetricHandleManager = new BSAsymmetricHandleManager( _chartNode );
+        _coulomb1DHandleManager = new BSCoulomb1DHandleManager( _chartNode );
+        _coulomb3DHandleManager = new BSCoulomb3DHandleManager( _chartNode );
+        _harmonicOscillatorHandleManager = new BSHarmonicOscillatorHandleManager( _chartNode );
         _squareHandleManager = new BSSquareHandleManager( _chartNode );
-        _parentNode.addChild( _squareHandleManager );
+        if ( ENABLE_DRAG_HANDLES ) {
+            _parentNode.addChild( _asymmetricHandleManager );
+            _parentNode.addChild( _coulomb1DHandleManager );
+            _parentNode.addChild( _coulomb3DHandleManager );
+            _parentNode.addChild( _harmonicOscillatorHandleManager );
+            _parentNode.addChild( _squareHandleManager );
+        }
         
         // Energy zoom control
         _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
@@ -474,6 +489,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         }
         
         // Potential drag handles
+        _asymmetricHandleManager.updateDragBounds();
+        _coulomb1DHandleManager.updateDragBounds();
+        _coulomb3DHandleManager.updateDragBounds();
+        _harmonicOscillatorHandleManager.updateDragBounds();
         _squareHandleManager.updateDragBounds();
     }
     
@@ -649,6 +668,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Potential drag handles
         {
+            _asymmetricHandleManager.setPotential( _asymmetricPotential );
+            _coulomb1DHandleManager.setPotential( _coulomb1DPotential );
+            _coulomb3DHandleManager.setPotential( _coulomb3DPotential );
+            _harmonicOscillatorHandleManager.setPotential( _harmonicOscillatorPotential );
             _squareHandleManager.setPotential( _squarePotential );
         }
         
@@ -862,6 +885,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionStateDialog.setColorScheme( _colorScheme );
         }
         // Potential drag handles
+        _asymmetricHandleManager.setColorScheme( _colorScheme );
+        _coulomb1DHandleManager.setColorScheme( _colorScheme );
+        _coulomb3DHandleManager.setColorScheme( _colorScheme );
+        _harmonicOscillatorHandleManager.setColorScheme( _colorScheme );
         _squareHandleManager.setColorScheme( _colorScheme );
     }
     
@@ -922,23 +949,34 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             configureZoomControls( wellType );
 
+            _asymmetricHandleManager.setVisible( false );
+            _coulomb1DHandleManager.setVisible( false );
+            _coulomb3DHandleManager.setVisible( false );
+            _harmonicOscillatorHandleManager.setVisible( false );
+            _squareHandleManager.setVisible( false );
+            
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
                 potential = _asymmetricPotential;
+                _asymmetricHandleManager.setVisible( true );
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
                 assert ( _coulomb1DPotential != null );
                 potential = _coulomb1DPotential;
+                _coulomb1DHandleManager.setVisible( true );
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
                 assert ( _coulomb3DPotential != null );
                 potential = _coulomb3DPotential;
+                _coulomb3DHandleManager.setVisible( true );
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 potential = _harmonicOscillatorPotential;
+                _harmonicOscillatorHandleManager.setVisible( true );
             }
             else if ( wellType == BSWellType.SQUARE ) {
                 potential = _squarePotential;
+                _squareHandleManager.setVisible( true );
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
