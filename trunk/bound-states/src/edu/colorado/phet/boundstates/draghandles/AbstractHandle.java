@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -31,12 +31,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
- * AbstractDragHandle is the abstract base class for all drag handles.
+ * AbstractHandle is the abstract base class for all drag handles.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractDragHandle extends PPath implements PropertyChangeListener {
+public abstract class AbstractHandle extends PPath implements PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -53,7 +53,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     //----------------------------------------------------------------------------
     
     private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.0" );
-    private static final float HANDLE_ARROW_SCALE = 24f;
+    private static final float ARROW_SCALE = 24f; // change this to make the arrow bigger or smaller
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,7 +64,6 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     private ConstrainedDragHandler _dragHandler;
     
     private PText _valueNode;
-    private Color _valueColor;
     private NumberFormat _valueFormat;
     
     //----------------------------------------------------------------------------
@@ -77,7 +76,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * @param orientation HORIZONTAL or VERTICAL
      * @throws IllegalArgumentException
      */
-    public AbstractDragHandle( int orientation ) {
+    public AbstractHandle( int orientation ) {
         super();
         
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
@@ -85,8 +84,8 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         }
         _orientation = orientation;
         
-        // Visual representation
-        Shape shape = getArrowShape( orientation );
+        // Drag handle representation
+        Shape shape = createShape( orientation );
         setPathTo( shape );
         setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
         setStroke( BSConstants.DRAG_HANDLE_STROKE );
@@ -96,7 +95,21 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         _registrationPoint = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
         translate( -_registrationPoint.getX(), -_registrationPoint.getY() );
         
-        // Cursor
+        // Value display 
+        _valueFormat = DEFAULT_VALUE_FORMAT;
+        _valueNode = new PText();
+        addChild( _valueNode );
+        _valueNode.setVisible( false );
+        _valueNode.setPickable( false );
+        _valueNode.setFont( BSConstants.DRAG_HANDLE_FONT );
+        _valueNode.setTextPaint( BSConstants.DRAG_HANDLE_VALUE_COLOR );
+        _valueNode.setText( "?" );
+        Rectangle2D dragHandleBounds = getBounds();
+        final double x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
+        final double y = dragHandleBounds.getY() - _valueNode.getHeight() + 3;
+        _valueNode.translate( x, y );
+        
+        // Cursor behavior
         addInputEventListener( new CursorHandler() );
 
         // Drag handler
@@ -110,63 +123,11 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         else {
             _dragHandler.setHorizontalLockEnabled( true );
         }
-        
-        // Value display
-        _valueNode = null;
-        _valueColor = Color.BLACK;
-        _valueFormat = DEFAULT_VALUE_FORMAT;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the color used to display values.
-     * 
-     * @param
-     */
-    public void setValueColor( Color color ) {
-        _valueColor = color;
-        if ( _valueNode != null ) {
-            _valueNode.setTextPaint( color );
-        }
-    }
-    
-    /**
-     * Toggles the display of the value that corresponds to the
-     * drag handles position.
-     * 
-     * @param visible true or false 
-     */
-    public void setValueVisible( boolean visible ) {
-        if ( visible && _valueNode == null ) {
-            _valueNode = new PText();
-            addChild( _valueNode );
-            _valueNode.setPickable( false );
-            _valueNode.setFont( BSConstants.DRAG_HANDLE_FONT );
-            _valueNode.setTextPaint( _valueColor );
-            _valueNode.setText( "0.0" );
-            Rectangle2D dragHandleBounds = getBounds();
-            final double x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
-            final double y = dragHandleBounds.getY() - _valueNode.getHeight() + 3;
-            _valueNode.translate( x, y );
-            updateText();
-        }
-        else if ( !visible && _valueNode != null ) {
-            removeChild( _valueNode );
-            _valueNode = null;
-        }
-    }
-    
-    /**
-     * Is the value displayed?
-     * 
-     * @return true or false
-     */
-    public boolean isValueVisible() {
-        return ( _valueNode != null );
-    }
     
     /**
      * Gets the orientation.
@@ -178,12 +139,52 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     }
     
     /**
+     * Sets the displayed value.
+     * This should be called by subclasses in their implementation of updateView.
+     * 
+     * @param value
+     */
+    protected void setValueDisplay( double value ) {
+        String text = _valueFormat.format( value );
+        _valueNode.setText( text );
+    }
+    
+    /**
      * Sets the format of the value display.
+     * 
      * @param format
      */
     public void setValueFormat( String format ) {
         _valueFormat = new DecimalFormat( format );
-        updateText();
+        updateView();
+    }
+    
+    /**
+     * Sets the color used to display values.
+     * 
+     * @param
+     */
+    public void setValueColor( Color color ) {
+        _valueNode.setTextPaint( color );
+    }
+    
+    /**
+     * Toggles the display of the value that corresponds to the
+     * drag handles position.
+     * 
+     * @param visible true or false 
+     */
+    public void setValueVisible( boolean visible ) {
+        _valueNode.setVisible( visible );
+    }
+    
+    /**
+     * Is the value displayed?
+     * 
+     * @return true or false
+     */
+    public boolean isValueVisible() {
+        return _valueNode.getVisible();
     }
     
     /**
@@ -219,40 +220,26 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         return new Point2D.Double( x, y );          
     }
     
-    /*
-     * Gets the value, in model coordinates, that is represented by
-     * the drag handle's current location.
-     * 
-     * @return
-     */
-    protected abstract double getModelValue();
-    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the model to match the drag handle's position.
+     * Updates the model to match the drag handle.
      */
     protected abstract void updateModel();
     
     /*
-     * Updates the value display.
+     * Updates the drag handle to match the model.
      */
-    protected void updateText() {
-        if ( _valueNode != null ) {
-            double value = getModelValue();
-            String text = _valueFormat.format( value );
-            _valueNode.setText( text );
-        }
-    }
+    protected abstract void updateView();
     
     //----------------------------------------------------------------------------
     // PropertChangeListener implementation
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the model and value display whenever the drag handle is moved.
+     * Updates the model whenever the drag handle is moved.
      * 
      * @param event
      */
@@ -260,36 +247,35 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         if ( event.getSource() == this ) {
             if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
                 updateModel();
-                updateText();
             }
         }
     }
     
     //----------------------------------------------------------------------------
-    // Shapes for the drag handle.
+    // Shape for the drag handle.
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the shape for an "arrow" drag handle.
+    /**
+     * Gets the shape for the drag handle.
+     * The default shape is a 2-headed arrow.
+     * Override this method if you want your drag handle to have a different shape.
      * 
      * @param orientation
      * @return
      */
-    private static Shape getArrowShape( int orientation ) {
-        return getArrowShape( orientation, HANDLE_ARROW_SCALE );
+    protected static Shape createShape( int orientation ) {
+        return createArrowShape( orientation, ARROW_SCALE );
     }
     
     /*
-     * Gets the shape for an "arrow" drag handles,
-     * with a specified orientation and scale.
-     * A scale of 1 will provide an arrow who largest
-     * dimension is 1.
+     * Gets the shape for an "arrow" drag handles, with a specified orientation and scale.
+     * A scale of 1 will create an arrow who largest dimension is 1 pixel.
      * 
      * @param orientation
      * @param scale
      * @return
      */
-    private static Shape getArrowShape( int orientation, float scale ) {
+    private static Shape createArrowShape( int orientation, float scale ) {
         
         Shape shape = null;
         
