@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.Simulation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,11 @@ public class UninstallSimAction extends AbstractAction {
     public void actionPerformed( ActionEvent e ) {
         int choice = JOptionPane.showConfirmDialog( component, "Are you sure?", "Confirm", JOptionPane.OK_CANCEL_OPTION );
         if( choice == JOptionPane.OK_OPTION ) {
-            simContainer.getSimulation().uninstall();
+            Simulation[] simulations = simContainer.getSimulations();
+            for( int i = 0; i < simulations.length; i++ ) {
+                Simulation simulation = simulations[i];
+                simulation.uninstall();                
+            }
         }
     }
 }

@@ -35,9 +35,37 @@ public class InstallSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        install( simContainer.getSimulation() );
+        install( simContainer.getSimulations() );
     }
 
+    /**
+     * Puts up a dialog, then kicks off the installation in a separate thread. When the
+     * simulation is installed, the dialog goes away.
+     *
+     * @param simulations
+     */
+    private void install( final Simulation[] simulations ) {
+        Thread installerThread = new Thread( new Runnable() {
+            public void run() {
+                try {
+                    for( int i = 0; i < simulations.length; i++ ) {
+                        Simulation simulation = simulations[i];
+                                                simulation.install();
+                    }
+                }
+                catch( SimResourceException e ) {
+                    RemoteUnavaliableMessagePane.show( null );
+                }
+                hideWaitDialog();
+            }
+        } );
+        installerThread.start();
+        showWaitDialog();
+    }
+
+    /**
+     * Shows a dialog with an indefinite progress bar
+     */
     private void showWaitDialog() {
         JFrame frame = (JFrame)SwingUtilities.getRoot( component );
         waitDlg = new JDialog( frame, "Installing...", true );
@@ -61,29 +89,11 @@ public class InstallSimAction extends AbstractAction {
         waitDlg.setVisible( true );
     }
 
+    /**
+     * Hides the dialog
+     */
     private void hideWaitDialog() {
         waitDlg.setVisible( false );
     }
 
-    /**
-     * Puts up a dialog, then kicks off the installation in a separate thread. When the
-     * simulation is installed, the dialog goes away.
-     *
-     * @param simulation
-     */
-    private void install( final Simulation simulation ) {
-        Thread installerThread = new Thread( new Runnable() {
-            public void run() {
-                try {
-                    simulation.install();
-                }
-                catch( SimResourceException e ) {
-                    RemoteUnavaliableMessagePane.show( null );
-                }
-                hideWaitDialog();
-            }
-        } );
-        installerThread.start();
-        showWaitDialog();
-    }
 }

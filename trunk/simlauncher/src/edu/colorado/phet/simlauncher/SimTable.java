@@ -51,14 +51,14 @@ public class SimTable extends JTable implements SimContainer {
      * @param simList
      * @param showThumbnails
      */
-    public SimTable( List simList, boolean showThumbnails, SimComparator sortType ) {
+    public SimTable( List simList, boolean showThumbnails, SimComparator sortType, int listSelectionModel ) {
         super();
 
         // Set the selection mode to be row only
         setColumnSelectionAllowed( false );
         setRowSelectionAllowed( true );
-        // Allow only single a selection
-        setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+        setSelectionMode( listSelectionModel );
 
         // Create the row data for the table
         sims = simList;
@@ -68,23 +68,25 @@ public class SimTable extends JTable implements SimContainer {
             Simulation sim = (Simulation)sims.get( i );
 
             String isCurrent = "";
+            String isInstalled = "";
             try {
                 isCurrent = sim.isCurrent() ? "up to date" : "update available";
+                isInstalled = sim.isInstalled() ? "yes" : "no";
             }
             catch( SimResourceException e ) {
                 e.printStackTrace();
             }
-            Object[] row = new Object[]{sim.getName(), sim.getThumbnail(), isCurrent };
+            Object[] row = new Object[]{sim.getName(), sim.getThumbnail(), isInstalled, isCurrent};
             rowData[i] = row;
         }
 
         // Create the header
         Object[] header = null;
         if( showThumbnails ) {
-            header = new Object[]{"name", "thumbnail", "is current"};
+            header = new Object[]{"Name", "thumbnail", "Installed?", "Up to date?"};
         }
         else {
-            header = new Object[]{"name"};
+            header = new Object[]{"Name"};
         }
 
         // Create the table model
@@ -92,7 +94,7 @@ public class SimTable extends JTable implements SimContainer {
         this.setModel( tableModel );
 
         // So no header gets displayed
-        this.setTableHeader( null );
+//        this.setTableHeader( null );
 
         // Get max row height
         int hMax = getMaxRowHeight();
@@ -101,7 +103,7 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // Name the columns
-        TableColumn nameCol = getColumn( "name" );
+        TableColumn nameCol = getColumn( "Name" );
 //        nameCol.setMinWidth( 200 );
 //        nameCol.setMaxWidth( 200 );
         nameCol.setWidth( 200 );
@@ -126,6 +128,19 @@ public class SimTable extends JTable implements SimContainer {
             }
         }
         return sim;
+    }
+
+    public Simulation[] getSelections() {
+        ListSelectionModel lsm = getSelectionModel();
+        List selectedSims = new ArrayList();
+        for( int i = lsm.getMinSelectionIndex(); i <= lsm.getMaxSelectionIndex(); i++ ) {
+            if( lsm.isSelectedIndex( i ) ) {
+                String simName = (String)this.getValueAt( i, 0 );
+                Simulation sim = Simulation.getSimulationForName( simName );
+                selectedSims.add( sim );
+            }
+        }
+        return (Simulation[])selectedSims.toArray( new Simulation[selectedSims.size()] );
     }
 
     /**
@@ -287,7 +302,7 @@ public class SimTable extends JTable implements SimContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of SimulationContainer
+    // Implementation of SimContainer
     //--------------------------------------------------------------------------------------------------
 
     /**
@@ -299,6 +314,9 @@ public class SimTable extends JTable implements SimContainer {
         return getSelection();
     }
 
+    public Simulation[] getSimulations() {
+        return getSelections();
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners

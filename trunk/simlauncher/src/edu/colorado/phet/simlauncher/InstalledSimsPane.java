@@ -104,7 +104,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
                                  Options.instance().isShowInstalledThumbnails(),
-                                 simTableSortType );
+                                 simTableSortType,
+                                 ListSelectionModel.SINGLE_SELECTION );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseHandler() );
@@ -136,6 +137,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     public Simulation getSimulation() {
         return simTable.getSimulation();
+    }
+
+    public Simulation[] getSimulations() {
+        return simTable.getSimulations
+                ();
     }
 
     //--------------------------------------------------------------------------------------------------
