@@ -29,6 +29,13 @@ public class TravoltageModule extends PiccoloModule {
 
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
         travoltageModel.addModelElement( new SparkManager( getArmNode(), getDoorknobNode(), travoltageModel.getJadeElectronSet(), this ) );
+
+        //debug
+//        travoltageModel.addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                pickUpElectron();
+//            }
+//        } );
     }
 
     public void activate() {
