@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 MEDIUM PRIORITY:
+- clip drag handles to energy chart
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
 
@@ -31,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+(7/3/06) - hook up drag handle "manager" stubs for all potential types
 (7/3/06) - first attempt at offset and height drag handles for square potential
 (7/3/06) - move zoom controls behind magnifying glass
 (7/3/06) - bugfix: exception when potential height=0 and there are no eigenstates
