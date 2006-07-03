@@ -10,6 +10,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - add "annotations" to color scheme and use for drag handle values
+- make drag handles hilite on mouseEnter
 - clip drag handles to energy chart
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
