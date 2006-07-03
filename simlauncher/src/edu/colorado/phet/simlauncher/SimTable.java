@@ -94,7 +94,8 @@ public class SimTable extends JTable implements SimContainer {
         TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ));
         TableModel tableModel = new SimTableModel( rowData, header );
 //        TableModel tableModel = new SimTableModel( rowData, header );
-        this.setModel( tableModel );
+        this.setModel( sorter );
+//        this.setModel( tableModel );
         sorter.setTableHeader(this.getTableHeader());
 
         // So no header gets displayed
