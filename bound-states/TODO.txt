@@ -11,7 +11,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
-- redraw problem when dragging mag glass in "Many" panel with 1D Coulomb and Help enabled
 
 LOW PRIORITY:
 - wiggle me animation is jerky on some machines
@@ -32,6 +31,8 @@ CLEANUP:
 
 
 DONE:
+(7/3/06) - first attempt at offset and height drag handles for square potential
+(7/3/06) - bugfix: exception when potential height=0 and there are no eigenstates
 (7/3/06) - set colors in color scheme constructors in the same order that they appear in the dialog for configuring colors
 (7/3/06) - change white color scheme colors
 0.00.11...
@@ -416,6 +417,7 @@ DONE:
 
 
 REJECTED:
+(7/3/06) - redraw problem when dragging mag glass in "Many" panel with 1D Coulomb and Help enabled (occurs only on Windows with Java 1.5.0_6)
 (6/28/06) - generate images for clock and zoom buttons, delete image files (not worth the effort, would only save 3K)
 (6/28/06) - wave function cache could be smarter about saving stuff until the potential or particle have changed (too much work, not enough payoff)
 (6/28/06) - used lazy module init to reduce startup time (too much work, no one is complaining about startup time)

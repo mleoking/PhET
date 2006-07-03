@@ -52,7 +52,7 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     // Private class data
     //----------------------------------------------------------------------------
     
-    private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.0" );
+    private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.00" );
     private static final float ARROW_SCALE = 24f; // change this to make the arrow bigger or smaller
     
     //----------------------------------------------------------------------------
@@ -116,6 +116,7 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         _dragHandler = new ConstrainedDragHandler();
         addInputEventListener( _dragHandler );
         _dragHandler.setTreatAsPointEnabled( true );
+        _dragHandler.setUseFullBounds( false );
         _dragHandler.setNodeCenter( _registrationPoint.getX(), _registrationPoint.getY() );
         if ( orientation == HORIZONTAL ) {
             _dragHandler.setVerticalLockEnabled( true );
