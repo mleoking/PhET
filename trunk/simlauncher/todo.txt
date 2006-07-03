@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
+- When a sim is installed, it first shows up with "no" in the Installed? column
 - Clearing the cache doesn't update the installed and available sims lists
 - Options are getting saved too many time when thubmnails are turned off
 - Getting wrong icons in SimSpecs.
@@ -57,6 +59,8 @@ Done, not posted
 - Thumbnails don't display the first time they come down.
 - Multiple selections in catalog
 - Moving Man doesn't launch. SmoothMetal shows up as corrupted.
+- Flash sims don't sort my most-recently-used
+
 
 =======
 0.00.02

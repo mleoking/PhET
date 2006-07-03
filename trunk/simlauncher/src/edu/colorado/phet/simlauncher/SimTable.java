@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.util.TableSorter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -90,8 +91,11 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // Create the table model
+        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ));
         TableModel tableModel = new SimTableModel( rowData, header );
+//        TableModel tableModel = new SimTableModel( rowData, header );
         this.setModel( tableModel );
+        sorter.setTableHeader(this.getTableHeader());
 
         // So no header gets displayed
 //        this.setTableHeader( null );

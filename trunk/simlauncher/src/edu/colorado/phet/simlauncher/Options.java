@@ -32,6 +32,9 @@ public class Options {
     private static Options instance;
 
     public static Options instance() {
+        if( instance == null ) {
+            instance = new Options();
+        }
         return instance;
     }
 
