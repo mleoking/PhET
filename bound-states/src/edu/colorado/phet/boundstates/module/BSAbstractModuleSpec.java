@@ -39,11 +39,11 @@ public abstract class BSAbstractModuleSpec {
     
     private IntegerRange _numberOfWellsRange;
     
-    private BSWellSpec _asymmetricSpec;
-    private BSWellSpec _coulomb1DSpec;
-    private BSWellSpec _coulomb3DSpec;
-    private BSWellSpec _harmonicOscillatorSpec;
-    private BSWellSpec _squareSpec;
+    private BSPotentialSpec _asymmetricSpec;
+    private BSPotentialSpec _coulomb1DSpec;
+    private BSPotentialSpec _coulomb3DSpec;
+    private BSPotentialSpec _harmonicOscillatorSpec;
+    private BSPotentialSpec _squareSpec;
 
     private double _magnification;
     
@@ -137,48 +137,48 @@ public abstract class BSAbstractModuleSpec {
         _magnification = magnification;
     }
     
-    public BSWellSpec getAsymmetricSpec() {
+    public BSPotentialSpec getAsymmetricSpec() {
         return _asymmetricSpec;
     }
     
-    protected void setAsymmetricSpec( BSWellSpec asymmetricRangeSpec ) {
+    protected void setAsymmetricSpec( BSPotentialSpec asymmetricRangeSpec ) {
         _asymmetricSpec = asymmetricRangeSpec;
     }
     
-    public BSWellSpec getCoulomb1DSpec() {
+    public BSPotentialSpec getCoulomb1DSpec() {
         return _coulomb1DSpec;
     }
     
-    protected void setCoulomb1DSpec( BSWellSpec coulomb1DRangeSpec ) {
+    protected void setCoulomb1DSpec( BSPotentialSpec coulomb1DRangeSpec ) {
         _coulomb1DSpec = coulomb1DRangeSpec;
     }
     
-    public BSWellSpec getCoulomb3DSpec() {
+    public BSPotentialSpec getCoulomb3DSpec() {
         return _coulomb3DSpec;
     }
     
-    protected void setCoulomb3DSpec( BSWellSpec coulomb3DRangeSpec ) {
+    protected void setCoulomb3DSpec( BSPotentialSpec coulomb3DRangeSpec ) {
         _coulomb3DSpec = coulomb3DRangeSpec;
     }
     
-    public BSWellSpec getHarmonicOscillatorSpec() {
+    public BSPotentialSpec getHarmonicOscillatorSpec() {
         return _harmonicOscillatorSpec;
     }
     
-    protected void setHarmonicOscillatorSpec( BSWellSpec harmonicOscillatorRangeSpec ) {
+    protected void setHarmonicOscillatorSpec( BSPotentialSpec harmonicOscillatorRangeSpec ) {
         _harmonicOscillatorSpec = harmonicOscillatorRangeSpec;
     }
 
-    public BSWellSpec getSquareSpec() {
+    public BSPotentialSpec getSquareSpec() {
         return _squareSpec;
     }
     
-    protected void setSquareSpec( BSWellSpec squareRangeSpec ) {
+    protected void setSquareSpec( BSPotentialSpec squareRangeSpec ) {
         _squareSpec = squareRangeSpec;
     }
     
-    public BSWellSpec getRangeSpec( BSWellType wellType ) {
-        BSWellSpec rangeSpec = null;
+    public BSPotentialSpec getRangeSpec( BSWellType wellType ) {
+        BSPotentialSpec rangeSpec = null;
         if ( wellType == BSWellType.ASYMMETRIC ) {
             rangeSpec = _asymmetricSpec;
         }

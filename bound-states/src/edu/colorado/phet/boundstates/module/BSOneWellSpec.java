@@ -143,7 +143,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_ENERGY_TICK_SPACING, ASYMMETRIC_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.Asymmetric( zoomSpec, 
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Asymmetric( zoomSpec, 
                     ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE  );
             setAsymmetricSpec( wellSpec );
         }
@@ -152,7 +152,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE  );
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE  );
             setCoulomb1DSpec( wellSpec );
         }
         
@@ -160,7 +160,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( COULOMB_3D_ENERGY_RANGE, COULOMB_3D_ENERGY_TICK_SPACING, COULOMB_3D_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.Coulomb3D( zoomSpec, COULOMB_3D_OFFSET_RANGE );
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Coulomb3D( zoomSpec, COULOMB_3D_OFFSET_RANGE );
             setCoulomb3DSpec( wellSpec );
         }
         
@@ -168,7 +168,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( HARMONIC_OSCILLATOR_ENERGY_RANGE, HARMONIC_OSCILLATOR_ENERGY_TICK_SPACING, HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.HarmonicOscillator( zoomSpec, 
+            BSPotentialSpec wellSpec = new BSPotentialSpec.HarmonicOscillator( zoomSpec, 
                     HARMONIC_OSCILLATOR_OFFSET_RANGE, HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE  );
             setHarmonicOscillatorSpec( wellSpec );
         }
@@ -177,7 +177,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.Square( zoomSpec, 
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
             setSquareSpec( wellSpec );
         }

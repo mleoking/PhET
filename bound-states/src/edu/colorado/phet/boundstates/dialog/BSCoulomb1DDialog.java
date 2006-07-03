@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -51,9 +51,9 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
+    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSCoulomb1DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( wellSpec, offsetControlSupported );
+        JPanel inputPanel = createInputPanel( potentialSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
     }
@@ -63,14 +63,14 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellSpec wellSpec, boolean offsetControlSupported ) {
+    protected JPanel createInputPanel( BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
-            DoubleRange offsetRange = wellSpec.getOffsetRange();
+            DoubleRange offsetRange = potentialSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -88,7 +88,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
 
         // Spacing
         {
-            DoubleRange spacingRange = wellSpec.getSpacingRange();
+            DoubleRange spacingRange = potentialSpec.getSpacingRange();
             double value = spacingRange.getDefault();
             double min = spacingRange.getMin();
             double max = spacingRange.getMax();

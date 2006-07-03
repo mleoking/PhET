@@ -20,7 +20,7 @@ import org.jfree.chart.axis.ValueAxis;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.boundstates.view.BSEnergyPlot;
 
@@ -36,7 +36,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSWellSpec _potentialSpec;
+    private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     private BSSquarePotential _potential;
     
@@ -44,7 +44,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareHeightHandle( BSSquarePotential potential, BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
+    public BSSquareHeightHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -49,9 +49,9 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSWellSpec wellSpec ) {
+    public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSPotentialSpec potentialSpec ) {
         super( parent, SimStrings.get( "BSCoulomb3DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( wellSpec );
+        JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -61,13 +61,13 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Obse
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellSpec wellSpec ) {
+    protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
-            DoubleRange offsetRange = wellSpec.getOffsetRange();
+            DoubleRange offsetRange = potentialSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();

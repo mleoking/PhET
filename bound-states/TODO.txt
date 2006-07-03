@@ -34,6 +34,8 @@ CLEANUP:
 
 
 DONE:
+(7/3/06) - rename BSWellSpec to BSPotentialSpec
+(7/3/06) - use module spec to determine drag handle bounds
 (7/3/06) - hook up drag handle "manager" stubs for all potential types
 (7/3/06) - first attempt at offset and height drag handles for square potential
 (7/3/06) - move zoom controls behind magnifying glass

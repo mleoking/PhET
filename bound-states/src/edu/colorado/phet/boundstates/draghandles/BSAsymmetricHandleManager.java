@@ -13,7 +13,7 @@ package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,14 +30,14 @@ public class BSAsymmetricHandleManager extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSWellSpec _potentialSpec;
+    private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAsymmetricHandleManager( BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
+    public BSAsymmetricHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super();
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

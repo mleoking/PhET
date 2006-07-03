@@ -18,7 +18,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
@@ -36,7 +36,7 @@ public class BSSquareOffsetHandle extends AbstractHandle implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSWellSpec _potentialSpec;
+    private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     private BSSquarePotential _potential;
     
@@ -44,7 +44,7 @@ public class BSSquareOffsetHandle extends AbstractHandle implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareOffsetHandle( BSSquarePotential potential, BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
+    public BSSquareOffsetHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
