@@ -34,6 +34,8 @@ import edu.colorado.phet.boundstates.control.ZoomControl;
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
+import edu.colorado.phet.boundstates.draghandles.BSSquareHandleManager;
+import edu.colorado.phet.boundstates.draghandles.BSSquareOffsetHandle;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.help.BSWiggleMe;
@@ -45,7 +47,6 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -120,6 +121,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSClockControls _clockControls;
     private ZoomControl _energyZoomControl;
     private PSwing _energyZoomControlNode;
+    
+    // Potential drag handles
+    private BSSquareHandleManager _squareHandleManager;
     
     // Help
     private BSWiggleMe _wiggleMe;
@@ -254,6 +258,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _hilitedEquationNode = new BSHilitedEquation();
         _parentNode.addChild( _hilitedEquationNode );
         
+        // Potential drag handles
+        _squareHandleManager = new BSSquareHandleManager( _chartNode );
+        _parentNode.addChild( _squareHandleManager );
+        
+        // Energy zoom control
+        _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
+        _energyZoomControl.addPlot( _chart.getEnergyPlot() );
+        _energyZoomControl.addPlot( _energyPlot );
+        _energyZoomControlNode = new PSwing( _canvas, _energyZoomControl );
+        _parentNode.addChild( _energyZoomControlNode );
+        
         // Magnifying glass
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
             _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
@@ -282,13 +297,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                 }
             } );
         }
-        
-        // Energy zoom control
-        _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
-        _energyZoomControl.addPlot( _chart.getEnergyPlot() );
-        _energyZoomControl.addPlot( _energyPlot );
-        _energyZoomControlNode = new PSwing( _canvas, _energyZoomControl );
-        _parentNode.addChild( _energyZoomControlNode );
         
         //----------------------------------------------------------------------------
         // Help
@@ -464,6 +472,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _magnifyingGlass.setTransform( transform );
             _magnifyingGlass.updateDisplay();
         }
+        
+        // Potential drag handles
+        _squareHandleManager.updateDragBounds();
     }
     
     //----------------------------------------------------------------------------
@@ -634,6 +645,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
             _controlPanel.setParticleMass( _particle.getMass() );
             _controlPanel.setMagnification( _moduleSpec.getMagnification() );
+        }
+        
+        // Potential drag handles
+        {
+            _squareHandleManager.setPotential( _squarePotential );
         }
         
         // Clock
@@ -845,6 +861,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.setColorScheme( _colorScheme );
         }
+        // Potential drag handles
+        _squareHandleManager.setColorScheme( _colorScheme );
     }
     
     //----------------------------------------------------------------------------
