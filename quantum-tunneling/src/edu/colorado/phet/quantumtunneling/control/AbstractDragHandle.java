@@ -148,6 +148,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         _dragHandler = new ConstrainedDragHandler();
         addInputEventListener( _dragHandler );
         _dragHandler.setTreatAsPointEnabled( true );
+        _dragHandler.setUseFullBounds( false );
         _dragHandler.setNodeCenter( _registrationPoint.getX(), _registrationPoint.getY() );
         if ( orientation == HORIZONTAL ) {
             _dragHandler.setVerticalLockEnabled( true );
