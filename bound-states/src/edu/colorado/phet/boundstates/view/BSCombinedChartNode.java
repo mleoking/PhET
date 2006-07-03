@@ -131,15 +131,26 @@ public class BSCombinedChartNode extends JFreeChartNode {
     }
     
     /**
-     * Converts a distance on the energy plot's position axis to 
-     * a distance in the node's local coordinate system.
+     * Converts an energy to a y coordinate in the node's local coordinate system.
      * 
-     * @param distance
+     * @param energy
      * @return
      */
-    public double energyToNode( double distance ) {
-        Point2D origin = energyToNode( new Point2D.Double( 0, 0 ) );
-        Point2D position = energyToNode( new Point2D.Double( distance, 0 ) );
-        return position.getX() - origin.getX();
+    public double energyToNode( double energy ) {
+        Point2D modelPoint = new Point2D.Double( 0, energy );
+        Point2D viewPoint = energyToNode( modelPoint );
+        return viewPoint.getY();
+    }
+    
+    /**
+     * Converts a position to an x coordinate in the node's local coordinate system.
+     * 
+     * @param position, in nm
+     * @return
+     */
+    public double positionToNode( double position ) {
+        Point2D modelPoint = new Point2D.Double( position, 0 );
+        Point2D viewPoint = energyToNode( modelPoint );
+        return viewPoint.getX();
     }
 }

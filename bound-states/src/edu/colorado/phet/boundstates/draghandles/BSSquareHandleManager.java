@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
+import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -29,6 +30,7 @@ public class BSSquareHandleManager extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private BSWellSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
     private BSSquareOffsetHandle _offsetHandle;
@@ -38,8 +40,9 @@ public class BSSquareHandleManager extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareHandleManager( BSCombinedChartNode chartNode ) {
+    public BSSquareHandleManager( BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super();
+        _potentialSpec = potentialSpec;
         _chartNode = chartNode;
     }
     
@@ -51,11 +54,11 @@ public class BSSquareHandleManager extends PNode {
 
         removeAllChildren();
 
-        _offsetHandle = new BSSquareOffsetHandle( potential, _chartNode );
+        _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
         _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
         addChild( _offsetHandle );
 
-        _heightHandle = new BSSquareHeightHandle( potential, _chartNode );
+        _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
         _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
         addChild( _heightHandle );
     }

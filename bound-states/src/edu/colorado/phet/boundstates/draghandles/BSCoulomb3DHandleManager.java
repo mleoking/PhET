@@ -14,6 +14,7 @@ package edu.colorado.phet.boundstates.draghandles;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
+import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,14 +31,16 @@ public class BSCoulomb3DHandleManager extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private BSWellSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSCoulomb3DHandleManager( BSCombinedChartNode chartNode ) {
+    public BSCoulomb3DHandleManager( BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super();
+        _potentialSpec = potentialSpec;
         _chartNode = chartNode;
     }
     

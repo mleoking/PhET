@@ -16,12 +16,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jfree.chart.axis.ValueAxis;
-
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
+import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.boundstates.view.BSEnergyPlot;
 
 /**
  * BSSquareOffsetHandle is the drag handle for the "offset" attribute of a potential
@@ -37,15 +36,17 @@ public class BSSquareOffsetHandle extends AbstractHandle implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSSquarePotential _potential;
+    private BSWellSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
+    private BSSquarePotential _potential;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareOffsetHandle( BSSquarePotential potential, BSCombinedChartNode chartNode ) {
+    public BSSquareOffsetHandle( BSSquarePotential potential, BSWellSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
+        _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
         updateDragBounds();
@@ -77,21 +78,22 @@ public class BSSquareOffsetHandle extends AbstractHandle implements Observer {
      */
     public void updateDragBounds() {
         
-        BSEnergyPlot energyPlot = _chartNode.getCombinedChart().getEnergyPlot();
-        ValueAxis positionAxis = energyPlot.getDomainAxis();
-        ValueAxis energyAxis = energyPlot.getRangeAxis();
-
-        // Determine the drag bounds, in local node coordinates
-        Point2D xMin = _chartNode.energyToNode( new Point2D.Double( positionAxis.getLowerBound(), 0 ) );
-        Point2D xMax = _chartNode.energyToNode( new Point2D.Double( positionAxis.getUpperBound(), 0 ) );
-        // +y is down!
-        Point2D yMax = _chartNode.energyToNode( new Point2D.Double( 0, energyAxis.getLowerBound() ) );
-        Point2D yMin = _chartNode.energyToNode( new Point2D.Double( 0, energyAxis.getUpperBound() ) );
-        double x = xMin.getX();
-        double y = yMin.getY();
-        double w = xMax.getX() - xMin.getX();
-        double h = yMax.getY() - yMin.getY();
-        Rectangle2D dragBounds = new Rectangle2D.Double( x, y, w, h );
+        //  position -> x coordinates
+        final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
+        final double maxPosition = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+        final double minX = _chartNode.positionToNode( minPosition );
+        final double maxX = _chartNode.positionToNode( maxPosition );
+        
+        // energy -> y coordinates (+y is down!)
+        final double minEnergy = _potentialSpec.getOffsetRange().getMin();
+        final double maxEnergy =  _potentialSpec.getOffsetRange().getMax();
+        final double minY = _chartNode.energyToNode( maxEnergy );
+        final double maxY = _chartNode.energyToNode( minEnergy );
+        
+        // bounds, local coordinates
+        final double w = maxX - minX;
+        final double h = maxY - minY;
+        Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
 
         // Convert to global coordinates
         dragBounds = _chartNode.localToGlobal( dragBounds );
