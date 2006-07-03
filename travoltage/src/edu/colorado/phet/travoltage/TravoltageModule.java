@@ -15,6 +15,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 public class TravoltageModule extends PiccoloModule {
     private TravoltagePanel travoltagePanel;
     private TravoltageModel travoltageModel;
+    private TravoltageAudio travoltageAudio;
 
     public TravoltageModule() {
         super( "Travoltage", createClock() );
@@ -23,6 +24,8 @@ public class TravoltageModule extends PiccoloModule {
 
         travoltagePanel = new TravoltagePanel( this );
         setSimulationPanel( travoltagePanel );
+
+        travoltageAudio = new TravoltageAudio( travoltageModel );
 
         getLegNode().addListener( new PickUpElectrons( this, getLegNode() ) );
         travoltageModel.addModelElement( new SparkManager( getArmNode(), getDoorknobNode(), travoltageModel.getJadeElectronSet(), this ) );

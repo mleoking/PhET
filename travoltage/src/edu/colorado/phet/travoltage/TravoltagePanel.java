@@ -6,6 +6,7 @@ import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -30,6 +31,11 @@ public class TravoltagePanel extends PhetPCanvas {
         motionHelpBalloon.setBalloonVisible( true );
         motionHelpBalloon.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         getLayer().addChild( motionHelpBalloon );
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                motionHelpBalloon.setVisible( false );
+            }
+        } );
     }
 
     private void setCreateTrajectories() {

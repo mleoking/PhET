@@ -28,7 +28,7 @@ public class SparkManager implements ModelElement {
     private boolean shouldFire() {
         //low number of electrons requires really close
         double distToKnob = getFingerKnobDistance();
-        int n = jadeElectronSet.getNumElectrons();
+        int n = (int)( jadeElectronSet.getNumElectrons() / 2.0 );
 //        System.out.println( "distToKnob = " + distToKnob + ", n=" + n );
 
         //edu.colorado.phet.common.util.Debug.traceln("Distance to knob="+distToKnob+", edu.colorado.phet.common count="+n);
