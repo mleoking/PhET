@@ -55,7 +55,9 @@ public class SparkNode extends PNode {
     }
 
     private void updateSource() {
-        setSource( armNode.getGlobalFingertipPoint() );
+        Point2D globalFingertipPoint = armNode.getGlobalFingertipPoint();
+        globalFingertipPoint = globalToLocal( globalFingertipPoint );
+        setSource( globalFingertipPoint );
     }
 
     private void setSource( Point2D source ) {

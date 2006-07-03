@@ -98,7 +98,6 @@ public class MoveToFinger extends MoveElectronsJade {
                 jadeElectronSet.removeElectron( i );
                 module.getTravoltageModel().notifyElectronsExiting();
                 i--;
-//                System.out.println( "Gotcha!" );
             }
             else {
 //                System.out.println( "dist = " + dist );
@@ -110,7 +109,9 @@ public class MoveToFinger extends MoveElectronsJade {
     }
 
     private Point2D getFingerLocation() {
-        return module.getTravoltagePanel().getTravoltageRootNode().getTravoltageBodyNode().getArmNode().getGlobalFingertipPointWithoutRotation();
+        Point2D pt = module.getTravoltagePanel().getTravoltageRootNode().getTravoltageBodyNode().getArmNode().getGlobalFingertipPointWithoutRotation();
+        pt = module.getTravoltagePanel().getTravoltageRootNode().getTravoltageBodyNode().globalToLocal( pt );
+        return pt;
     }
 
 }
