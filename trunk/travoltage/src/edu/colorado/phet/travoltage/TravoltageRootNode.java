@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
@@ -30,6 +32,17 @@ public class TravoltageRootNode extends PNode {
         backgroundNode = new TravoltageBackgroundNode();
         backgroundNode.setOffset( -inset.getX(), -inset.getY() );
         addChild( backgroundNode );
+
+        final PImage doorNode = PImageFactory.create( "images/door.gif" );
+        doorNode.scale( 0.75 );
+        addChild( doorNode );
+        doorNode.setOffset( 290, -42 );
+//        doorNode.addInputEventListener( new PDragEventHandler(){
+//            protected void drag( PInputEvent event ) {
+//                super.drag( event );
+//                System.out.println( "doorNode = " + doorNode.getOffset() );
+//            }
+//        } );
 
         doorknobNode = new DoorknobNode();
         doorknobNode.setOffset( 286, 172 );
