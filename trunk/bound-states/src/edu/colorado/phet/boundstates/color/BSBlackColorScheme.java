@@ -24,16 +24,20 @@ public class BSBlackColorScheme extends BSColorScheme {
 
     public BSBlackColorScheme() {
         super();
+        
         setChartColor( Color.BLACK );
         setTickColor( Color.BLACK );
         setGridlineColor( Color.LIGHT_GRAY );
+        
+        setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
         setEigenstateNormalColor( Color.GREEN );
         setEigenstateHiliteColor( Color.YELLOW );
         setEigenstateSelectionColor( Color.RED );
-        setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
+
         setRealColor( new Color( 255, 120, 0 ) ); // pumpkin orange
         setImaginaryColor( new Color( 26, 135, 255 ) ); // bright blue
         setMagnitudeColor( Color.WHITE );
+        
         setMagnifyingGlassBezelColor( Color.GRAY );
         setMagnifyingGlassHandleColor( Color.ORANGE );
     }
