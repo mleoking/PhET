@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(6/29/06) - bugfix: bounds of drag handles is computed differently when value is visible
 (6/29/06) - move Swing/AWT paint workaround to PhetFrameWorkaround
 (6/29/06) - incorporate workaround for Swing/AWT paint priority problem, see QTApplication.createPhetFrame
 1.05.00...
