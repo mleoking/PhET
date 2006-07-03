@@ -71,7 +71,7 @@ public class TravoltageRootNode extends PNode {
         } );
         addChild( sparkNode );
         setSparkVisible( false );
-//        setOffset( inset );
+        setOffset( inset );
     }
 
     protected void addDebugFootLocation() {
@@ -93,7 +93,7 @@ public class TravoltageRootNode extends PNode {
         Point2D pt = getElectronEntryPoint();
         JadeElectron jadeElectron = new JadeElectron( pt.getX(), pt.getY(), JadeElectronNode.getViewRadius() );
         JadeElectronNode electronNode = new JadeElectronNode( getTravoltageBodyNode(), jadeElectron );
-        electronNode.setLocationMap( new LimbLocationMap( getLegNode(), getArmNode(), new DefaultLocationMap( electronNode.getRadius() ) ) );
+        electronNode.setLocationMap( new LimbLocationMap( getLegNode(), getArmNode(), new DefaultLocationMap( electronNode.getRadius() ), getTravoltageBodyNode() ) );
         travoltageModule.addElectron( jadeElectron );
         electronSetNode.addElectronNode( electronNode );
     }

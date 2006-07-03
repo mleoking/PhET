@@ -23,6 +23,8 @@ public class DoorknobNode extends PNode {
     }
 
     public Point2D getGlobalKnobPoint() {
-        return new Point2D.Double( getOffset().getX() + image.getFullBounds().getWidth() / 2.0, getOffset().getY() + image.getFullBounds().getHeight() * 0.35 );
+        Point2D localPt = new Point2D.Double( image.getFullBounds().getWidth() / 2.0, image.getFullBounds().getHeight() * 0.35 );
+        localPt = localToGlobal( localPt );
+        return localPt;
     }
 }

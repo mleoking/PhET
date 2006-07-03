@@ -2,6 +2,9 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.FrameSetup;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -16,8 +19,14 @@ public class TravoltageApplication extends PhetApplication {
     private static final String VERSION = "2.00.00";
 
     public TravoltageApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION );
+        super( args, TITLE, DESCRIPTION, VERSION, new TravoltageFrameSetup() );
         addModule( new TravoltageModule() );
+    }
+
+    public static class TravoltageFrameSetup implements FrameSetup {
+        public void initialize( JFrame frame ) {
+            new FrameSetup.CenteredWithSize( 800, 700 ).initialize( frame );
+        }
     }
 
     public static void main( String[] args ) {
