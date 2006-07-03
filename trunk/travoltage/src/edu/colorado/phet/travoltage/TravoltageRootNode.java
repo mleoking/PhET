@@ -43,45 +43,32 @@ public class TravoltageRootNode extends PNode {
         getLegNode().addListener( listener );
         getArmNode().addListener( listener );
         getArmNode().setAngle( -0.5663 );
-        getArmNode().addListener( new LimbNode.Listener() {
-            public void limbRotated() {
-                System.out.println( "getArmNode().getAngle() = " + getArmNode().getAngle() );
-            }
-        } );
-//        addInputEventListener( new PBasicInputEventHandler() {
-//            public void mousePressed( PInputEvent event ) {
-//                super.mousePressed( event );
-//                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
-////                doorknobNode.setOffset( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
+//        getArmNode().addListener( new LimbNode.Listener() {
+//            public void limbRotated() {
+//                System.out.println( "getArmNode().getAngle() = " + getArmNode().getAngle() );
 //            }
 //        } );
-//        travoltagePanel.addMouseMotionListener( new MouseMotionAdapter() {
-//            public void mouseDragged( MouseEvent e ) {
-//                System.out.println( "e.getX() = " + e.getX() + ", e.y=" + e.getY() );
-//                doorknobNode.setOffset( e.getX(), e.getY() );
-//            }
-//        } );
-//        travoltagePanel.addMouseListener( new MouseListener() {
+//        travoltagePanel.addMouseListener( new MouseAdapter() {
 //            public void mouseClicked( MouseEvent e ) {
 //                System.out.println( "e = " + e );
 //            }
-//
-//            public void mouseEntered( MouseEvent e ) {
-//            }
-//
-//            public void mouseExited( MouseEvent e ) {
-//            }
-//
-//            public void mousePressed( MouseEvent e ) {
-//            }
-//
-//            public void mouseReleased( MouseEvent e ) {
-//            }
 //        } );
-
 
         double angle = Math.PI / 3.8;
         sparkNode = new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6 );
+        travoltageModel.addListener( new TravoltageModel.Listener() {
+            public void sparkStarted() {
+//                sparkNode.setVisible( true );
+            }
+
+            public void sparkFinished() {
+                sparkNode.setVisible( false );
+            }
+
+            public void electronExitedFinger() {
+                sparkNode.setVisible( true );
+            }
+        } );
         addChild( sparkNode );
         setSparkVisible( false );
     }

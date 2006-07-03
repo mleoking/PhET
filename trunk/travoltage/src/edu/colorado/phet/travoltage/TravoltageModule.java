@@ -66,6 +66,7 @@ public class TravoltageModule extends PiccoloModule {
 
     public void fireSpark() {
         travoltageModel.startSpark();
-        travoltagePanel.setSparkVisible( true );
+//        travoltagePanel.setSparkVisible( true );
     }
+
 }

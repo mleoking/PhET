@@ -3,6 +3,8 @@ package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.model.BaseModel;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Jul 1, 2006
@@ -36,14 +38,50 @@ public class TravoltageModel extends BaseModel {
         if( containsModelElement( moveElectronsJade ) ) {
             removeModelElement( moveElectronsJade );
             addModelElement( moveToFinger );
+            notifySparkStarted();
+        }
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void notifyElectronsExiting() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.electronExitedFinger();
+        }
+    }
+
+    public static interface Listener {
+        void sparkStarted();
+
+        void sparkFinished();
+
+        void electronExitedFinger();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifySparkStarted() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.sparkStarted();
+        }
+    }
+
+    public void notifySparkFinished() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.sparkFinished();
         }
     }
 
     public void finishSpark() {
-        System.out.println( "TravoltageModel.finishSpark" );
         if( containsModelElement( moveToFinger ) ) {
             removeModelElement( moveToFinger );
             addModelElement( moveElectronsJade );
+            notifySparkFinished();
         }
     }
 }
