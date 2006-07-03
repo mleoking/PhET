@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 MEDIUM PRIORITY:
+- add "annotations" to color scheme and use for drag handle values
 - clip drag handles to energy chart
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
