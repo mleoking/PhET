@@ -72,6 +72,7 @@ public class TravoltageRootNode extends PNode {
         addChild( sparkNode );
         setSparkVisible( false );
         setOffset( inset );
+
     }
 
     protected void addDebugFootLocation() {

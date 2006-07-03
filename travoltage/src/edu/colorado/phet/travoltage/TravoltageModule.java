@@ -28,6 +28,11 @@ public class TravoltageModule extends PiccoloModule {
         travoltageModel.addModelElement( new SparkManager( getArmNode(), getDoorknobNode(), travoltageModel.getJadeElectronSet(), this ) );
     }
 
+    public void activate() {
+        super.activate();
+        getTravoltagePanel().showHelpBalloon();
+    }
+
     private DoorknobNode getDoorknobNode() {
         return travoltagePanel.getTravoltageRootNode().getDoorknobNode();
     }
