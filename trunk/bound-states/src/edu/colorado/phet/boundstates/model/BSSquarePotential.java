@@ -209,6 +209,39 @@ public class BSSquarePotential extends BSAbstractPotential {
         return energy;
     }
     
+    /**
+     * Gets the position of the center of a specified well.
+     * 
+     * @param wellIndex index of the well, numbered left to right starting at 0
+     * @returns position in nm
+     */
+    public double getCenter( int wellIndex ) {
+        final int n = getNumberOfWells();
+        if ( wellIndex < 0 || wellIndex > n - 1 ) {
+            throw new IndexOutOfBoundsException( "wellIndex out of range: " + wellIndex );
+        }
+        final double w = getWidth();
+        final double s = getSeparation();
+        
+        // Center if the leftmost well's left edge was at 0
+        double position = ( wellIndex * ( w + s ) ) + ( w / 2 );
+        
+        // Adjust for center at 0
+        if ( n % 2 == 0 ) {
+            // even number of wells
+            position -= ( w * ( n / 2 ) ) + ( s * ( ( n / 2 ) - 1 ) ) + ( s / 2 );
+        }
+        else {
+            // odd number of wells
+            position -= ( w * ( n / 2 ) ) + ( s * ( n / 2 ) ) + ( w / 2 );
+        }
+        
+        // Adjust for actual center
+        position += getCenter();
+        
+        return position;
+    }
+    
     /*
      * Calculates the eigenstates.
      * Start at the ground state and continue up to the offset + height.
