@@ -562,7 +562,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionCoefficients = new BSSuperpositionCoefficients();
 
             final int numberOfWells = _moduleSpec.getNumberOfWellsRange().getDefault();
-            BSWellSpec wellSpec = null;
+            BSPotentialSpec wellSpec = null;
             
             wellSpec = _moduleSpec.getAsymmetricSpec();
             if ( wellSpec != null ) {
@@ -1084,7 +1084,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * Configures zoom controls to match the selected well type.
      */
     private void configureZoomControls( BSWellType wellType ) {
-        BSWellSpec wellSpec = _moduleSpec.getRangeSpec( wellType );
+        BSPotentialSpec wellSpec = _moduleSpec.getRangeSpec( wellType );
         ZoomSpec zoomSpec = wellSpec.getEnergyZoomSpec();
         _energyZoomControlNode.setVisible( zoomSpec.getNumberOfZoomLevels() > 1 );
         _energyZoomControl.setZoomSpec( zoomSpec );

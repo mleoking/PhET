@@ -24,37 +24,37 @@ import edu.colorado.phet.boundstates.util.DoubleRange;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSWellSpec {
+public class BSPotentialSpec {
     
     //----------------------------------------------------------------------------
     // Subclasses for each well type
     //----------------------------------------------------------------------------
     
-    public static class Asymmetric extends BSWellSpec {
+    public static class Asymmetric extends BSPotentialSpec {
         public Asymmetric( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange ) {
             super( energyZoomSpec, offsetRange, null, widthRange, heightRange, null, null );
         }
     }
     
-    public static class Coulomb1D extends BSWellSpec {
+    public static class Coulomb1D extends BSPotentialSpec {
         public Coulomb1D( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange spacingRange ) {
             super( energyZoomSpec, offsetRange, spacingRange, null, null, null, null );
         }
     }
     
-    public static class Coulomb3D extends BSWellSpec {
+    public static class Coulomb3D extends BSPotentialSpec {
         public Coulomb3D( ZoomSpec energyZoomSpec, DoubleRange offsetRange ) {
             super( energyZoomSpec, offsetRange, null, null, null, null, null );
         }
     }
     
-    public static class HarmonicOscillator extends BSWellSpec {
+    public static class HarmonicOscillator extends BSPotentialSpec {
         public HarmonicOscillator( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
             super( energyZoomSpec, offsetRange, null, null, null, null, angularFrequencyRange );
         }
     }
     
-    public static class Square extends BSWellSpec {
+    public static class Square extends BSPotentialSpec {
         public Square( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange, DoubleRange separationRange ) {
             super( energyZoomSpec, offsetRange, null, widthRange, heightRange, separationRange, null );
         }
@@ -77,7 +77,7 @@ public class BSWellSpec {
     //----------------------------------------------------------------------------
     
     /* Do not instantiate, use inner classes */
-    private BSWellSpec( 
+    private BSPotentialSpec( 
             ZoomSpec energyZoomSpec,
             DoubleRange offsetRange, DoubleRange spacingRange, 
             DoubleRange widthRange, DoubleRange heightRange,

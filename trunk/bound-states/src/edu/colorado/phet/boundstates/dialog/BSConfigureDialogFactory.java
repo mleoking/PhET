@@ -18,7 +18,7 @@ import javax.swing.JDialog;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 
 

@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
-import edu.colorado.phet.boundstates.module.BSWellSpec;
+import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -51,9 +51,9 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     /**
      * Constructor.
      */
-    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorPotential potential, BSWellSpec wellSpec ) {
+    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec ) {
         super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( wellSpec );
+        JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -67,14 +67,14 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellSpec wellSpec ) {
+    protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
         String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
-            DoubleRange offsetRange = wellSpec.getOffsetRange();
+            DoubleRange offsetRange = potentialSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -92,7 +92,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
 
         // Angular Frequency
         {
-            DoubleRange angularFrequencyRange = wellSpec.getAngularFrequencyRange();
+            DoubleRange angularFrequencyRange = potentialSpec.getAngularFrequencyRange();
             double value = angularFrequencyRange.getDefault();
             double min = angularFrequencyRange.getMin();
             double max = angularFrequencyRange.getMax();

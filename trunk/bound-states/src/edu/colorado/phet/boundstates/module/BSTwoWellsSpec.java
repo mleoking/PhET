@@ -126,7 +126,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
             AxisSpec axisSpec5 = new AxisSpec( COULOMB_1D_ENERGY_RANGE5, COULOMB_1D_ENERGY_TICK_SPACING5, COULOMB_1D_ENERGY_TICK_FORMAT5 );
             AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2, axisSpec3, axisSpec4, axisSpec5 };
             ZoomSpec zoomSpec = new ZoomSpec( axisSpecs );
-            BSWellSpec wellSpec = new BSWellSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
             setCoulomb1DSpec( wellSpec );
         }
         
@@ -134,7 +134,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec = new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellSpec wellSpec = new BSWellSpec.Square( zoomSpec, 
+            BSPotentialSpec wellSpec = new BSPotentialSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
             setSquareSpec( wellSpec );
         }
