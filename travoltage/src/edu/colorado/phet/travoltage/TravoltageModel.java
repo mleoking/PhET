@@ -21,9 +21,7 @@ public class TravoltageModel extends BaseModel {
         jadeElectronSet = new JadeElectronSet();
         moveElectronsJade = new MoveElectronsJade( jadeElectronSet );
         addModelElement( moveElectronsJade );
-        moveToFinger = new MoveToFinger( travoltageModule );
-//        sparkElement = new SparkElement();
-//        addModelElement( sparkElement );
+        moveToFinger = new MoveToFinger( travoltageModule, jadeElectronSet );
     }
 
     public void addElectron( JadeElectron jadeElectron ) {
@@ -42,6 +40,7 @@ public class TravoltageModel extends BaseModel {
     }
 
     public void finishSpark() {
+        System.out.println( "TravoltageModel.finishSpark" );
         if( containsModelElement( moveToFinger ) ) {
             removeModelElement( moveToFinger );
             addModelElement( moveElectronsJade );

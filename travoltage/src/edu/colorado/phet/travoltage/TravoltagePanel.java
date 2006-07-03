@@ -3,6 +3,10 @@ package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 /**
  * User: Sam Reid
  * Date: Jun 30, 2006
@@ -12,10 +16,44 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 
 public class TravoltagePanel extends PhetPCanvas {
     private TravoltageRootNode travoltageRootNode;
+    private boolean createTrajectories = false;
 
     public TravoltagePanel( TravoltageModule travoltageModule ) {
-        travoltageRootNode = new TravoltageRootNode( travoltageModule, this );
+        travoltageRootNode = new TravoltageRootNode( travoltageModule, this, travoltageModule.getTravoltageModel() );
         addScreenChild( travoltageRootNode );
+
+//        setCreateTrajectories();
+    }
+
+    private void setCreateTrajectories() {
+        addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                System.out.print( e.getX() + ", " + e.getY() + ", " );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+                System.out.println( e.getX() + ", " + e.getY() );
+            }
+        } );
+        getTravoltageRootNode().getTravoltageBodyNode().getArmNode().setAngle( 0.0 );
+        getTravoltageRootNode().getTravoltageBodyNode().getLegNode().setAngle( 0.0 );
+        this.createTrajectories = true;
+    }
+
+    protected void sendInputEventToInputManager( InputEvent e, int type ) {
+        if( createTrajectories ) {
+            return;
+        }
+        super.sendInputEventToInputManager( e, type );
     }
 
     public TravoltageRootNode getTravoltageRootNode() {

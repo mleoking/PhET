@@ -2,13 +2,9 @@
 package edu.colorado.phet.travoltage;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 /**
@@ -25,7 +21,7 @@ public class TravoltageRootNode extends PNode {
     private DoorknobNode doorknobNode;
     private SparkNode sparkNode;
 
-    public TravoltageRootNode( TravoltageModule travoltageModule, TravoltagePanel travoltagePanel ) {
+    public TravoltageRootNode( TravoltageModule travoltageModule, TravoltagePanel travoltagePanel, TravoltageModel travoltageModel ) {
         this.travoltageModule = travoltageModule;
         travoltageBodyNode = new TravoltageBodyNode();
 
@@ -35,7 +31,7 @@ public class TravoltageRootNode extends PNode {
 
         addChild( travoltageBodyNode );
 
-        electronSetNode = new ElectronSetNode();
+        electronSetNode = new ElectronSetNode( travoltageModel.getJadeElectronSet() );
         addChild( electronSetNode );
 
 
@@ -52,36 +48,37 @@ public class TravoltageRootNode extends PNode {
                 System.out.println( "getArmNode().getAngle() = " + getArmNode().getAngle() );
             }
         } );
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
-                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
-//                doorknobNode.setOffset( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
-            }
-        } );
+//        addInputEventListener( new PBasicInputEventHandler() {
+//            public void mousePressed( PInputEvent event ) {
+//                super.mousePressed( event );
+//                System.out.println( "event.getCanvasPosition() = " + event.getCanvasPosition().getX() + "\t" + event.getCanvasPosition().getY() );
+////                doorknobNode.setOffset( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
+//            }
+//        } );
 //        travoltagePanel.addMouseMotionListener( new MouseMotionAdapter() {
 //            public void mouseDragged( MouseEvent e ) {
 //                System.out.println( "e.getX() = " + e.getX() + ", e.y=" + e.getY() );
 //                doorknobNode.setOffset( e.getX(), e.getY() );
 //            }
 //        } );
-        travoltagePanel.addMouseListener( new MouseListener() {
-            public void mouseClicked( MouseEvent e ) {
-                System.out.println( "e = " + e );
-            }
+//        travoltagePanel.addMouseListener( new MouseListener() {
+//            public void mouseClicked( MouseEvent e ) {
+//                System.out.println( "e = " + e );
+//            }
+//
+//            public void mouseEntered( MouseEvent e ) {
+//            }
+//
+//            public void mouseExited( MouseEvent e ) {
+//            }
+//
+//            public void mousePressed( MouseEvent e ) {
+//            }
+//
+//            public void mouseReleased( MouseEvent e ) {
+//            }
+//        } );
 
-            public void mouseEntered( MouseEvent e ) {
-            }
-
-            public void mouseExited( MouseEvent e ) {
-            }
-
-            public void mousePressed( MouseEvent e ) {
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-            }
-        } );
 
         double angle = Math.PI / 3.8;
         sparkNode = new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6 );
@@ -105,7 +102,6 @@ public class TravoltageRootNode extends PNode {
     }
 
     public void pickUpElectron() {
-//        Point2D pt = getElectronEntryPoint();
         Point2D pt = getElectronEntryPoint();
         JadeElectron jadeElectron = new JadeElectron( pt.getX(), pt.getY(), JadeElectronNode.getViewRadius() );
         JadeElectronNode electronNode = new JadeElectronNode( jadeElectron );
