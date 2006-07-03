@@ -10,6 +10,11 @@ Bugs
 ========
 Features
 ========
+- Launch Flash sims
+- Catalog
+    - Make multiple selections
+    - Sort-by headers
+    - Customize view
 - Right-click should also select
 - Should be able to force an update.
 - "Print all" utility for teachers. (Trish's request)
