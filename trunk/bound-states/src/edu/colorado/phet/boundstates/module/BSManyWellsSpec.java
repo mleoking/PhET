@@ -88,7 +88,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0" );
     
     // Potential attributes
-    private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
+    private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0 ,0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 0.5, 0.5, 2 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0.05, 0.2, 0.1, 2 );
