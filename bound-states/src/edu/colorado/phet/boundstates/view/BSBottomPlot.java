@@ -448,38 +448,40 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     private void updateTimeDependentDatasets( final double t ) {
         setTimeDependentSeriesNotify( false );
         clearTimeDependentSeries();
-        Complex[] psiSum = computeTimeDependentWaveFunction( t );
-        if ( psiSum != null ) {
-            
-            final double minX = _cache.getMinPosition();
-            final double maxX = _cache.getMaxPosition();
-            Point2D[] points = _cache.getItem( 0 ).getPoints(); // all wave functions should share the same x values
-            assert ( psiSum.length == points.length );
-            
-            for ( int i = 0; i < psiSum.length; i++ ) {
-                final double x = points[i].getX();
-                if ( x >= minX && x <= maxX ) {
-                    Complex y = psiSum[i];
-                    if ( isRealVisible() ) {
-                        _realSeries.add( x, y.getReal() );
-                    }
-                    if ( isImaginaryVisible() ) {
-                        _imaginarySeries.add( x, y.getImaginary() );
-                    }
-                    if ( isMagnitudeVisible() ) {
-                        _magnitudeSeries.add( x, y.getAbs() );
-                    }
-                    if ( isPhaseVisible() ) {
-                        _phaseSeries.add( x, y.getAbs() );
-                        _phaseSeries.add( x, y.getPhase() );
-                    }
-                    if ( isProbabilityDensityVisible() ) {
-                        _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+        if ( _cache.getSize() > 0 ) {
+            Complex[] psiSum = computeTimeDependentWaveFunction( t );
+            if ( psiSum != null ) {
+
+                final double minX = _cache.getMinPosition();
+                final double maxX = _cache.getMaxPosition();
+                Point2D[] points = _cache.getItem( 0 ).getPoints(); // all wave functions should share the same x values
+                assert ( psiSum.length == points.length );
+
+                for ( int i = 0; i < psiSum.length; i++ ) {
+                    final double x = points[i].getX();
+                    if ( x >= minX && x <= maxX ) {
+                        Complex y = psiSum[i];
+                        if ( isRealVisible() ) {
+                            _realSeries.add( x, y.getReal() );
+                        }
+                        if ( isImaginaryVisible() ) {
+                            _imaginarySeries.add( x, y.getImaginary() );
+                        }
+                        if ( isMagnitudeVisible() ) {
+                            _magnitudeSeries.add( x, y.getAbs() );
+                        }
+                        if ( isPhaseVisible() ) {
+                            _phaseSeries.add( x, y.getAbs() );
+                            _phaseSeries.add( x, y.getPhase() );
+                        }
+                        if ( isProbabilityDensityVisible() ) {
+                            _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+                        }
                     }
                 }
             }
+            setTimeDependentSeriesNotify( true );
         }
-        setTimeDependentSeriesNotify( true );
     }
     
     /*
