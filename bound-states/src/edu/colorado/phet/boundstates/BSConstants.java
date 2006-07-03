@@ -122,6 +122,7 @@ public class BSConstants {
     // Drag handles
     public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
+    public static final Color DRAG_HANDLE_VALUE_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Images
