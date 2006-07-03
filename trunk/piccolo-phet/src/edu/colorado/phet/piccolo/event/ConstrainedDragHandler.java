@@ -54,6 +54,8 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     private boolean _treatAsPointEnabled;
     /* should we mark events as handled? */
     private boolean _markAsHandled;
+    /* should we constrain dragging using full bounds? */
+    private boolean _useFullBounds;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -83,6 +85,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         _horizontalLockEnabled = false;
         _treatAsPointEnabled = false;
         _markAsHandled = false;
+        _useFullBounds = true;
     }
     
     //----------------------------------------------------------------------------
@@ -242,6 +245,17 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
      */
     public boolean getMarkAsHandled() {
         return _markAsHandled;
+    }
+    
+    /**
+     * Determines whether we contrain dragging based on the "bounds"
+     * or "full bounds" of the node. Full bounds includes the bounds
+     * of all children, and is the default behavior.
+     * 
+     * @param useFullBounds true or false
+     */
+    public void setUseFullBounds( boolean useFullBounds ) {
+        _useFullBounds = useFullBounds;
     }
     
     //----------------------------------------------------------------------------
@@ -408,6 +422,11 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
      * Use the same bounds everywhere.
      */
     private Rectangle2D getNodeBounds( PNode node ) {
-        return node.getGlobalFullBounds();
+        if ( _useFullBounds ) {
+            return node.getGlobalFullBounds();
+        }
+        else {
+            return node.getGlobalBounds();
+        }
     }
 }
