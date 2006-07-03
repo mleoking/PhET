@@ -28,9 +28,13 @@ public class MoveElectronsJade implements ModelElement {
      */
     public MoveElectronsJade( JadeElectronSet jadeElectronSet ) {
         this.jadeElectronSet = jadeElectronSet;
-        jadeElectronSet.addListener( new JadeElectronSet.Listener() {
+        jadeElectronSet.addListener( new JadeElectronSet.Adapter() {
             public void electronAdded( JadeElectron electron ) {
                 engine.addPrimitive( electron );
+            }
+
+            public void electronRemoved( JadeElectron electron ) {
+                engine.removePrimitive( electron );
             }
         } );
         engine = new DynamicsEngine();
@@ -54,7 +58,11 @@ public class MoveElectronsJade implements ModelElement {
         }
     }
 
-    private Vector2D getForce( JadeElectron node ) {
+    protected DynamicsEngine getEngine() {
+        return engine;
+    }
+
+    protected AbstractVector2D getForce( JadeElectron node ) {
         Vector2D sum = new Vector2D.Double();
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron particle = jadeElectronSet.getJadeElectron( i );
@@ -74,9 +82,12 @@ public class MoveElectronsJade implements ModelElement {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
-    private AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle ) {
+    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle ) {
+        return getForce( circleParticle, particle, 5.0 );
+    }
+
+    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
         AbstractVector2D vec = new Vector2D.Double( circleParticle.getPosition(), particle.getPosition() );
-        double k = 5.0;
         AbstractVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;
         if( v.getMagnitude() > max ) {
@@ -151,7 +162,7 @@ public class MoveElectronsJade implements ModelElement {
     public void stepInTime( double dt ) {
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron circleParticle = jadeElectronSet.getJadeElectron( i );
-            Vector2D force = getForce( circleParticle );
+            AbstractVector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();

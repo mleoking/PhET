@@ -31,8 +31,22 @@ public class JadeElectronSet {
 
     private ArrayList listeners = new ArrayList();
 
+    public void removeElectron( int i ) {
+        JadeElectron electron = (JadeElectron)jadeElectrons.remove( i );
+        notifyElectronRemoved( electron );
+    }
+
+    private void notifyElectronRemoved( JadeElectron electron ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.electronRemoved( electron );
+        }
+    }
+
     public static interface Listener {
         void electronAdded( JadeElectron electron );
+
+        void electronRemoved( JadeElectron electron );
     }
 
     public void addListener( Listener listener ) {
@@ -43,6 +57,14 @@ public class JadeElectronSet {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.electronAdded( jadeElectron );
+        }
+    }
+
+    public static class Adapter implements Listener {
+        public void electronAdded( JadeElectron electron ) {
+        }
+
+        public void electronRemoved( JadeElectron electron ) {
         }
     }
 }

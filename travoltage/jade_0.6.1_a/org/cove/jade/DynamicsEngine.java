@@ -252,6 +252,9 @@ public class DynamicsEngine {
         primitives.add( p );
     }
 
+    public void removePrimitive( Particle p ) {
+        primitives.remove( p );
+    }
 
     /**
      * Add a surface (such as a line) to the world. Something that is stuck to the world.
@@ -371,8 +374,8 @@ public class DynamicsEngine {
             if( s.getActiveState() ) {
                 for( int i = 0; i < primitives.size(); i++ ) {
                     ( (Particle)( primitives.elementAt( i ) ) ).checkCollision( s, this );
-				}
-			}
-		}
-	}	
+                }
+            }
+        }
+    }
 }
