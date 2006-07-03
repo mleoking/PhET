@@ -48,8 +48,8 @@ public class LegNode extends LimbNode {
 //        return v.getDestination( globalPivot );
 
         Point2D.Double ctr = new Point2D.Double( 218.0, 370.0 );
-        double dx = random.nextDouble() * 2;
-        double dy = random.nextDouble() * 2;
+        double dx = random.nextDouble() * 4;
+        double dy = random.nextDouble() * 4;
         return new Point2D.Double( ctr.getX() + dx, ctr.getY() + dy );
     }
 
