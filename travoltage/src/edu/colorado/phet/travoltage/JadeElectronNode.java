@@ -16,6 +16,7 @@ import java.io.IOException;
  */
 
 public class JadeElectronNode extends PNode {
+    private TravoltageBodyNode travoltageBodyNode;
     private JadeElectron electron;
     private LocationMap locationMap = new DefaultLocationMap( getRadius() );
 
@@ -29,7 +30,8 @@ public class JadeElectronNode extends PNode {
         }
     }
 
-    public JadeElectronNode( JadeElectron electron ) {
+    public JadeElectronNode( TravoltageBodyNode travoltageBodyNode, JadeElectron electron ) {
+        this.travoltageBodyNode = travoltageBodyNode;
         this.electron = electron;
         addChild( PImageFactory.create( "images/Electron3.GIF" ) );
         setPickable( false );
@@ -44,7 +46,7 @@ public class JadeElectronNode extends PNode {
 
     public void update() {
         Point2D loc = locationMap.getLocation( electron.getPosition() );
-        setOffset( loc.getX(), loc.getY() );
+        setOffset( loc.getX() + travoltageBodyNode.getOffset().getX(), loc.getY() + travoltageBodyNode.getOffset().getY() );
     }
 
     public double getRadius() {
