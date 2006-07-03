@@ -85,7 +85,7 @@ public class TopLevelPane extends JTabbedPane {
         if( phetSiteConnection.isConnected() ) {
             if( Catalog.instance().isRemoteAvailable() && uninstalledSimsPane == null ) {
                 uninstalledSimsPane = new UninstalledSimsPane();
-                addTab( "Simulations Available for Installation", uninstalledSimsPane );
+                addTab( "Catalog", uninstalledSimsPane );
             }
         }
         else {

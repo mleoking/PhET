@@ -98,8 +98,6 @@ public abstract class Simulation implements SimContainer {
     // Abstract methods
     //--------------------------------------------------------------------------------------------------
 
-    public abstract void launch();
-
     /**
      * Tells if the simulation is installed locally
      *
@@ -145,6 +143,16 @@ public abstract class Simulation implements SimContainer {
         }
 
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+    }
+
+
+    public void launch(){
+        try {
+            recordLastLaunchTime();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     /**

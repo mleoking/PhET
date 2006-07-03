@@ -98,6 +98,10 @@ public class JavaSimulation extends Simulation {
      * todo: put more smarts in here
      */
     public void launch() {
+
+        // Parent behavior
+        super.launch();
+        
         String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
         if( DEBUG ) {
             for( int i = 0; i < commands.length; i++ ) {
@@ -109,7 +113,6 @@ public class JavaSimulation extends Simulation {
             process = Runtime.getRuntime().exec( commands );
             // Get the input stream and read from it
             new Thread( new LauncherUtil.OutputRedirection( process.getInputStream() ) ).start();
-            recordLastLaunchTime();
         }
         catch( IOException e ) {
             e.printStackTrace();

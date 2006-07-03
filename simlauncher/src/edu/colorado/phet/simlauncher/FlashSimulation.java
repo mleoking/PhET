@@ -90,6 +90,10 @@ public class FlashSimulation extends Simulation {
      * todo: put more smarts in here
      */
     public void launch() {
+        
+        // Parent behavior
+        super.launch();
+
         // The preferred method for using the BrowserLauncher2 api is to create an
         // instance of BrowserLauncher (edu.stanford.ejalbert.BrowserLauncher) and
         // invoke the method: public void openURLinBrowser(String urlString).
@@ -117,7 +121,6 @@ public class FlashSimulation extends Simulation {
                 if( list.size() > 1 ) {
                     browserLauncher.openURLinBrowser( list.get( 1 ).toString(), "file://" + swfResource.getLocalFile().getAbsolutePath() );
                 }
-
             }
             catch( BrowserLaunchingInitializingException e ) {
                 e.printStackTrace();
