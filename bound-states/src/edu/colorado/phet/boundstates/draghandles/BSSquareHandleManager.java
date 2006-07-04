@@ -53,14 +53,19 @@ public class BSSquareHandleManager extends PNode {
     public void setPotential( BSSquarePotential potential ) {
 
         removeAllChildren();
+        
+        if ( potential != null ) {
 
-        _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
-        _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
-        addChild( _offsetHandle );
+            _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 
-        _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
-        _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
-        addChild( _heightHandle );
+            _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
+            _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _heightHandle );
+            _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
+        }
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -68,7 +73,11 @@ public class BSSquareHandleManager extends PNode {
     }
        
     public void updateDragBounds() {
-        _offsetHandle.updateDragBounds();
-        _heightHandle.updateDragBounds();
+        if ( _offsetHandle != null ) {
+            _offsetHandle.updateDragBounds();
+        }
+        if ( _heightHandle != null ) {
+            _heightHandle.updateDragBounds();
+        }
     }
 }

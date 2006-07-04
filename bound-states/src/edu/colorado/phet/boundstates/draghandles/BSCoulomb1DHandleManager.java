@@ -33,6 +33,8 @@ public class BSCoulomb1DHandleManager extends PNode {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSCoulomb1DOffsetHandle _offsetHandle;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -50,6 +52,13 @@ public class BSCoulomb1DHandleManager extends PNode {
     public void setPotential( BSCoulomb1DPotential potential ) {
 
         removeAllChildren();
+        
+        if ( potential != null ) {
+            _offsetHandle = new BSCoulomb1DOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+        }
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -57,5 +66,8 @@ public class BSCoulomb1DHandleManager extends PNode {
     }
        
     public void updateDragBounds() {
+        if ( _offsetHandle != null ) {
+            _offsetHandle.updateDragBounds();
+        }
     }
 }

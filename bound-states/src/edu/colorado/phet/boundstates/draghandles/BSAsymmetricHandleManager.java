@@ -33,6 +33,10 @@ public class BSAsymmetricHandleManager extends PNode {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSAsymmetricOffsetHandle _offsetHandle;
+    private BSAsymmetricHeightHandle _heightHandle;
+    private BSAsymmetricWidthHandle _widthHandle;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -50,6 +54,24 @@ public class BSAsymmetricHandleManager extends PNode {
     public void setPotential( BSAsymmetricPotential potential ) {
 
         removeAllChildren();
+        
+        if ( potential != null ) {
+            
+            _offsetHandle = new BSAsymmetricOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+
+            _heightHandle = new BSAsymmetricHeightHandle( potential, _potentialSpec, _chartNode );
+            _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _heightHandle );
+            _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
+
+            _widthHandle = new BSAsymmetricWidthHandle( potential, _potentialSpec, _chartNode );
+            _widthHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _widthHandle );
+            _widthHandle.setVisible( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
+        }
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -57,5 +79,14 @@ public class BSAsymmetricHandleManager extends PNode {
     }
        
     public void updateDragBounds() {
+        if ( _offsetHandle != null ) {
+            _offsetHandle.updateDragBounds();
+        }
+        if ( _heightHandle != null ) {
+            _heightHandle.updateDragBounds();
+        }
+        if ( _widthHandle != null ) {
+            _widthHandle.updateDragBounds();
+        }
     }
 }

@@ -603,26 +603,34 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                     wellSpec.getSeparationRange().getDefault() );
             }
             
+            _asymmetricHandleManager.setVisible( false );
+            _coulomb1DHandleManager.setVisible( false );
+            _coulomb3DHandleManager.setVisible( false );
+            _harmonicOscillatorHandleManager.setVisible( false );
+            _squareHandleManager.setVisible( false );
+            
             // Select the default...
             BSAbstractPotential defaultPotential = null;
             BSWellType defaultWellType = _moduleSpec.getDefaultWellType();
             if ( defaultWellType == BSWellType.ASYMMETRIC ) {
                 defaultPotential = _asymmetricPotential;
+                _asymmetricHandleManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.COULOMB_1D ) {
                 defaultPotential = _coulomb1DPotential;
-            }
-            else if ( defaultWellType == BSWellType.COULOMB_1D ) {
-                defaultPotential = _coulomb1DPotential;
+                _coulomb1DHandleManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.COULOMB_3D ) {
                 defaultPotential = _coulomb3DPotential;
+                _coulomb3DHandleManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 defaultPotential = _harmonicOscillatorPotential;
+                _harmonicOscillatorHandleManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.SQUARE ) {
                 defaultPotential = _squarePotential;
+                _squareHandleManager.setVisible( true );
             }
             else {
                 throw new UnsupportedOperationException( "unsupported well type: " + defaultWellType );
