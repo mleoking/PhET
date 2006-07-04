@@ -46,6 +46,7 @@ CLEANUP:
 
 DONE:
 (7/3/06) - add handles for many of the potential attributes
+(7/3/06) - properly initialize drag handles in module.reset
 (7/3/06) - rename BSWellSpec to BSPotentialSpec
 (7/3/06) - use module spec to determine drag handle bounds
 (7/3/06) - hook up drag handle "manager" stubs for all potential types
