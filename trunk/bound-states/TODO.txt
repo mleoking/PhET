@@ -3,15 +3,26 @@
 ===============================================================================
 
 IN PROGRESS:
+- width handle for harmonic oscillator
+- width handle for square
+- spacing handle for square
+- spacing handle for Coulomb
+- use same precison for drag handle values and config dialog sliders
+- bug: HO offset drag handle doesn't move the first few attempts to drag it
+- bug: 1D & 3D coulomb potential behave as if y-axis range is -5,15
+- bug: square height handle needs to be further to right
+- show drag handle label and value while dragging and mouseOver (eg "width=5.13")
+- bug: square offset can be dragged below min
+- add "annotations" to color scheme and use for drag handle values
+- make offset drag handles looks "different"
+- make drag handles hilite on mouseEnter
+- clip drag handles to energy chart
 
 HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 MEDIUM PRIORITY:
-- add "annotations" to color scheme and use for drag handle values
-- make drag handles hilite on mouseEnter
-- clip drag handles to energy chart
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
 
@@ -34,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(7/3/06) - add handles for many of the potential attributes
 (7/3/06) - rename BSWellSpec to BSPotentialSpec
 (7/3/06) - use module spec to determine drag handle bounds
 (7/3/06) - hook up drag handle "manager" stubs for all potential types

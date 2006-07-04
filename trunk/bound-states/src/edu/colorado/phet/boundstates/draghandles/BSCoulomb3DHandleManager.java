@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
@@ -34,6 +33,8 @@ public class BSCoulomb3DHandleManager extends PNode {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSCoulomb3DOffsetHandle _offsetHandle;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -51,6 +52,14 @@ public class BSCoulomb3DHandleManager extends PNode {
     public void setPotential( BSCoulomb3DPotential potential ) {
 
         removeAllChildren();
+        
+        if ( potential != null ) {
+            _offsetHandle = new BSCoulomb3DOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+
+        }
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -58,5 +67,8 @@ public class BSCoulomb3DHandleManager extends PNode {
     }
        
     public void updateDragBounds() {
+        if ( _offsetHandle != null ) {
+            _offsetHandle.updateDragBounds();
+        }
     }
 }

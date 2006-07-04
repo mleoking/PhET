@@ -16,21 +16,18 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jfree.chart.axis.ValueAxis;
-
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.model.BSSquarePotential;
+import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.boundstates.view.BSEnergyPlot;
 
 /**
- * BSSquareHeightHandle
+ * BSAsymmetricWidthHandle
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareHeightHandle extends AbstractHandle implements Observer {
+public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,14 +35,14 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
-    private BSSquarePotential _potential;
+    private BSAsymmetricPotential _potential;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareHeightHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.VERTICAL );
+    public BSAsymmetricWidthHandle( BSAsymmetricPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
+        super( AbstractHandle.HORIZONTAL );
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
@@ -56,7 +53,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPotential( BSSquarePotential potential ) {
+    public void setPotential( BSAsymmetricPotential potential ) {
         if ( _potential != null ) {
             _potential.deleteObserver( this );
         }
@@ -65,7 +62,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
         updateView();
     }
     
-    public BSSquarePotential getPotential() {
+    public BSAsymmetricPotential getPotential() {
         return _potential;
     }
     
@@ -107,34 +104,36 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     //----------------------------------------------------------------------------
     
     protected void updateModel() {
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
         _potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
-            final double height = modelPoint.getY() - _potential.getOffset();
-//            System.out.println( "BSSquareHeightHandle.updateModel globalNodePoint=" + globalNodePoint + " height=" + height );//XXX
-            _potential.setHeight( height );
-            setValueDisplay( height );
+            final double width = Math.abs( 2 * modelPoint.getX() );
+            System.out.println( "BSAsymmetricWidthHandle.updateModel globalNodePoint=" + globalNodePoint + " width=" + width );//XXX
+            _potential.setWidth( width );
+            setValueDisplay( width );
         }
         _potential.addObserver( this );
     }
 
     protected void updateView() {
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
         removePropertyChangeListener( this );
         {
-            final int n = _potential.getNumberOfWells();
             final double width = _potential.getWidth();
-            double separation = _potential.getSeparation();
-            final double position = _potential.getCenter( n - 1 ) + ( width / 2 ) + .1;
+            final double position = -( width / 2 );
             final double height = _potential.getHeight();
             final double offset = _potential.getOffset();
-            Point2D modelPoint = new Point2D.Double( position, offset + height );
+            Point2D modelPoint = new Point2D.Double( position, offset + ( height / 2 ) );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSSquareHeightHandle.updateView position=" + position + " height=" + height + " globalNodePoint=" + globalNodePoint );//XXX
+            System.out.println( "BSAsymmetricWidthHandle.updateView position=" + position + " width=" + width + " globalNodePoint=" + globalNodePoint );//XXX
             setGlobalPosition( globalNodePoint );
-            setValueDisplay( height );
+            setValueDisplay( width );
         }
         addPropertyChangeListener( this );
     }

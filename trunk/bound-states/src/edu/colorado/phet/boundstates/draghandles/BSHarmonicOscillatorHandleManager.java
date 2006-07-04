@@ -34,6 +34,9 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSHarmonicOscillatorOffsetHandle _offsetHandle;
+//    private BSHarmonicOscillatorWidthHandle _widthHandle;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -51,6 +54,18 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
     public void setPotential( BSHarmonicOscillatorPotential potential ) {
 
         removeAllChildren();
+        
+        if ( potential != null ) {
+            _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+
+//            _widthHandle = new BSHarmonicOscillatorWidthHandle( potential, _potentialSpec, _chartNode );
+//            _widthHandle.setValueVisible( DEBUG_SHOW_VALUES );
+//            addChild( _widthHandle );
+//            _widthHandle( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
+        }
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -58,5 +73,11 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
     }
        
     public void updateDragBounds() {
+        if ( _offsetHandle != null ) {
+            _offsetHandle.updateDragBounds();
+        }
+//        if ( _widthHandle != null ) {
+//            _widthHandle.updateDragBounds();
+//        }
     }
 }
