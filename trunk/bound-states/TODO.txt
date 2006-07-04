@@ -12,7 +12,7 @@ IN PROGRESS:
 - bug: 1D & 3D coulomb potential behave as if y-axis range is -5,15
 - bug: square height handle needs to be further to right
 - show drag handle label and value while dragging and mouseOver (eg "width=5.13")
-- bug: square offset can be dragged below min
+- bug: square offset (and others?) can be dragged past min (and max?)
 - add "annotations" to color scheme and use for drag handle values
 - make offset drag handles looks "different"
 - make drag handles hilite on mouseEnter
