@@ -65,7 +65,7 @@ public class TopLevelPane extends JTabbedPane {
         } );
         enableDisableOnlineCatalog( PhetSiteConnection.instance() );
 
-
+        // Set the size of things when we first appear
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth() ),
@@ -77,13 +77,16 @@ public class TopLevelPane extends JTabbedPane {
 
     /**
      * Manages the presence of the tabbed pane for the online catalog based on whether
-     * we have a connection to the Phet site
+     * we have a connection to the Phet site.
+     *
+     * Because this asks
      *
      * @param phetSiteConnection
      */
-    private void enableDisableOnlineCatalog( PhetSiteConnection phetSiteConnection ) {
+    private synchronized void enableDisableOnlineCatalog( PhetSiteConnection phetSiteConnection ) {
         if( phetSiteConnection.isConnected() ) {
             if( Catalog.instance().isRemoteAvailable() && uninstalledSimsPane == null ) {
+                System.out.println( "TopLevelPane.enableDisableOnlineCatalog" );
                 uninstalledSimsPane = new UninstalledSimsPane();
                 addTab( "Catalog", uninstalledSimsPane );
             }

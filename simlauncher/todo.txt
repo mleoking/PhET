@@ -34,7 +34,7 @@ Deployment
 - Installer w/ Launch Anywhere?
 
 - Make the Configuration a resource
-- Add option to "show all" or "show sims not installed" for uninstalled simulations.
+- Add option to "show all" or "show sims not installed" for catalog simulations.
 - Add "Go online" menu item
 - check for updates to installer itself
 - CatalogResource should be stored above the cache
@@ -60,6 +60,8 @@ Done, not posted
 - Multiple selections in catalog
 - Moving Man doesn't launch. SmoothMetal shows up as corrupted.
 - Flash sims don't sort my most-recently-used
+- Changed name of "Unistalled Sims" pane to "Catalog", and include all simulations in it
+- Simulation tables are sortable by their headers
 
 
 =======

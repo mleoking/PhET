@@ -146,7 +146,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             else {
                 simListA = new ArrayList( category.getSimulations() );
             }
-            simListA.removeAll( Catalog.instance().getInstalledSimulations() );
+
+            // Filter out installed sims            
+//            simListA.removeAll( Catalog.instance().getInstalledSimulations() );
 
             // Create the SimulationTable
             simTable = new SimTable( simListA,
