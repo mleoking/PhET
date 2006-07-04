@@ -1,1 +1,10 @@
-Cleaned up arm and foot graphics.
+1.00.01 (7-4-2006)
+Rewrote using piccolo and Jade.
+Improved arm and foot graphics.
+Added improved carpet image.
+Added background & door image.
+Added phet logo.
+Added pause/play/step.
+Rewrote physics to ensure particles stay in the body.
+Spark only appears when electrons start departing.
+Particles move to the finger through the body using a force model (no shortcuts).
