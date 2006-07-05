@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.boundstates.BSApplication;
+import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -58,7 +58,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     //----------------------------------------------------------------------------
     
     private Frame _parent;
-    private BSApplication _app;
+    private BSAbstractApplication _app;
     private BSColorScheme _scheme;
     private BSColorScheme _restoreScheme;
     private JLabel _currentChip;
@@ -74,7 +74,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      * 
      * @param app the application
      */
-    public BSColorSchemeDialog( BSApplication app, BSColorScheme scheme ) {
+    public BSColorSchemeDialog( BSAbstractApplication app, BSColorScheme scheme ) {
         super( PhetApplication.instance().getPhetFrame() );
         super.setTitle( SimStrings.get( "title.colorScheme" ) );
         super.setModal( false );
