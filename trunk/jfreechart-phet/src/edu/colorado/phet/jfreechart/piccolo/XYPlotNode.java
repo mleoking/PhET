@@ -13,7 +13,6 @@ package edu.colorado.phet.jfreechart.piccolo;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.event.PlotChangeEvent;
