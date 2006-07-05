@@ -40,6 +40,7 @@ public class BSGlobalConfig implements BSSerializable {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private String _applicationClassName;
     private String _versionNumber;
     private String _cvsTag;
     private String _colorSchemeName;
@@ -58,6 +59,14 @@ public class BSGlobalConfig implements BSSerializable {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public String getApplicationClassName() {
+        return _applicationClassName;    
+    }
+    
+    public void setApplicationClassName( String applicationClassName ) {
+        _applicationClassName = applicationClassName;
+    }
     
     public String getVersionNumber() {
         return _versionNumber;

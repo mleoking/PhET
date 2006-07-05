@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import edu.colorado.phet.boundstates.BSApplication;
+import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
@@ -43,7 +43,7 @@ public class BSColorsMenu extends JMenu {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSApplication _app;
+    private BSAbstractApplication _app;
     private BSColorScheme _presetColorScheme;
     private BSColorScheme _customColorScheme;
     private JDialog _customDialog;
@@ -53,7 +53,7 @@ public class BSColorsMenu extends JMenu {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSColorsMenu( BSApplication app ) {
+    public BSColorsMenu( BSAbstractApplication app ) {
         super( SimStrings.get( "menu.colors" ) );
         setMnemonic( SimStrings.get( "menu.colors.mnemonic" ).charAt( 0 ) );
         

@@ -22,7 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.boundstates.BSApplication;
+import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -40,7 +40,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class BSPersistenceManager {
 
-    private BSApplication _app; // the application whose configuration we are managing
+    private BSAbstractApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
     private boolean _useJNLP; // whether to use JNLP services
     
@@ -49,7 +49,7 @@ public class BSPersistenceManager {
      * 
      * @param app
      */
-    public BSPersistenceManager( BSApplication app ) {
+    public BSPersistenceManager( BSAbstractApplication app ) {
         _app = app;
         _useJNLP = wasWebStarted();
     }

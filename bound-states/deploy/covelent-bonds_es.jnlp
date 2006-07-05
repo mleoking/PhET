@@ -14,13 +14,13 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- Spanish (es) JNLP File for PhET "Quantum Bound States" simulation --> 
+<!-- Spanish (es) JNLP File for PhET "Double Wells and Covalent Bonds" simulation --> 
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/bound-states/"
-  href="bound-states_es.jnlp"> 
+  href="covalent-bonds_es.jnlp"> 
   <information> 
-    <title>Estados Encuadernados De Quantum</title> 
+    <title>Pozos Dobles y Enlaces Covalentes</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
     <icon href="icons/PhET.gif"/> 
@@ -31,7 +31,7 @@ information.
     <j2se version="1.4+"/> 
     <jar href="boundstates.jar"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.boundstates.BSBoundStatesApplication">
+  <application-desc main-class="edu.colorado.phet.boundstates.BSCovalentBondsApplication">
     <argument>user.language=es</argument>
   </application-desc> 
 </jnlp> 

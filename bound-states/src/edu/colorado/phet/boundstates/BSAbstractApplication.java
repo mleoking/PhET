@@ -42,21 +42,16 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 
 /**
- * BSApplication is the main application.
+ * BSAbstractApplication is base class for all application in this "family".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSApplication extends PiccoloPhetApplication {
+public abstract class BSAbstractApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-       
-    // Command line args for choosing modules...
-    private static final String ARG_ONE = "-one";
-    private static final String ARG_TWO = "-two";
-    private static final String ARG_MANY = "-many";
     
     // Save/Load feature enable
     private static final boolean SAVE_LOAD_ENABLED = true;
@@ -87,7 +82,7 @@ public class BSApplication extends PiccoloPhetApplication {
      * @param version
      * @param frameSetup
      */
-    public BSApplication( String[] args, 
+    public BSAbstractApplication( String[] args, 
             String title, String description, String version, FrameSetup frameSetup )
     {
         super( args, title, description, version, frameSetup );
@@ -106,32 +101,7 @@ public class BSApplication extends PiccoloPhetApplication {
      * 
      * @param clock
      */
-    private void initModules( String[] args ) {
-        
-        final boolean hasOneWellModule = ArgUtils.contains( args, ARG_ONE );
-        final boolean hasTwoWellsModule = ArgUtils.contains( args, ARG_TWO );
-        final boolean hasManyWellsModule = ArgUtils.contains( args, ARG_MANY );
-        final boolean hasAll = !( hasOneWellModule || hasTwoWellsModule || hasManyWellsModule );
-        
-        if ( hasOneWellModule || hasAll ) {
-            _oneWellModule = new BSOneWellModule();
-            addModule( _oneWellModule );
-        }
-        
-        if ( hasTwoWellsModule || hasAll ) {
-            _twoWellsModule = new BSTwoWellsModule();
-            addModule( _twoWellsModule );
-        }
-
-        if ( hasManyWellsModule || hasAll ) {
-            _manyWellsModule = new BSManyWellsModule();
-            addModule( _manyWellsModule );
-        }
-        
-        //  The first module has a wiggle me
-        BSAbstractModule firstModule = (BSAbstractModule) getModules()[0];
-        firstModule.setHasWiggleMe( true );
-    }
+    protected abstract void initModules( String[] args );
     
     /*
      * Initializes the menubar.
@@ -207,12 +177,27 @@ public class BSApplication extends PiccoloPhetApplication {
         }
     }
     
+    protected void addOneWellModule() {
+        _oneWellModule = new BSOneWellModule();
+        addModule( _oneWellModule );
+    }
+    
     public BSAbstractModule getOneWellModule() {
         return _oneWellModule;
     }
     
+    protected void addTwoWellsModule() {
+        _twoWellsModule = new BSTwoWellsModule();
+        addModule( _twoWellsModule );
+    }
+    
     public BSAbstractModule getTwoWellsModule() {
         return _twoWellsModule;
+    }
+    
+    protected void addManyWellsModule() {
+        _manyWellsModule = new BSManyWellsModule();
+        addModule( _manyWellsModule );
     }
     
     public BSAbstractModule getManyWellsModule() {
@@ -247,6 +232,9 @@ public class BSApplication extends PiccoloPhetApplication {
      */
     public void save( BSGlobalConfig config ) {
         
+        // Application class name
+        config.setApplicationClassName( this.getClass().getName() );
+        
         // Version and build information
         config.setVersionNumber( BSVersion.NUMBER );
         config.setCvsTag( BSVersion.CVS_TAG );
@@ -269,6 +257,11 @@ public class BSApplication extends PiccoloPhetApplication {
      */
     public void load( BSGlobalConfig config ) {
 
+        String applicationClassName = config.getApplicationClassName();
+        if ( ! this.getClass().getName().equals( applicationClassName ) ) {
+            throw new IllegalStateException( "configuration file does not match this application" );
+        }
+        
         // Color scheme
         String colorSchemeName = config.getColorSchemeName();
         BSColorScheme colorScheme = config.getColorScheme().toBSColorScheme();
@@ -285,56 +278,5 @@ public class BSApplication extends PiccoloPhetApplication {
                 break;
             }
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // main
-    //----------------------------------------------------------------------------
-
-    /**
-     * Main entry point.
-     * 
-     * @param args command line arguments
-     * @throws InvocationTargetException 
-     * @throws InterruptedException 
-     */
-    public static void main( final String[] args ) {
-
-        /* 
-         * Wrap the body of main in invokeLater, so that all initialization occurs 
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the 
-         * event dispatch thread. Since we don't have an easy way to separate Swing and 
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-
-                // Initialize localization.
-                SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
-
-                // Title, etc.
-                String title = SimStrings.get( "BSApplication.title" );
-                String description = SimStrings.get( "BSApplication.description" );
-                String version = BSVersion.NUMBER;
-
-                // Frame setup
-                int width = BSConstants.APP_FRAME_WIDTH;
-                int height = BSConstants.APP_FRAME_HEIGHT;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
-                // Create the application.
-                BSApplication app = new BSApplication( args, title, description, version, frameSetup );
-
-                // Start the application.
-                app.startApplication();
-            }
-        } );
     }
 }
