@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage.test;
 
 import edu.colorado.phet.common.application.PhetApplication;
@@ -18,13 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Jul 4, 2006
- * Time: 8:22:42 PM
- * Copyright (c) Jul 4, 2006 by Sam Reid
- */
 
 public class AboutPanel extends JPanel {
 
