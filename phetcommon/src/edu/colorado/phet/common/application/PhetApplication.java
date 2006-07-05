@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -420,5 +421,11 @@ public class PhetApplication {
      */
     public Module[] getModules() {
         return moduleManager.getModules();
+    }
+
+    public void showAboutDialog() {
+        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
+        final String msg = getTitle() + "\n\n" + getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + getVersion() + "\n\n" + javaVersion + "\n";
+        JOptionPane.showMessageDialog( getPhetFrame(), msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + getTitle(), JOptionPane.INFORMATION_MESSAGE );
     }
 }

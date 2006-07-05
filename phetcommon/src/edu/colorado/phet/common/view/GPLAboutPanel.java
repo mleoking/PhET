@@ -1,4 +1,4 @@
-package edu.colorado.phet.travoltage.test;
+package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
@@ -18,9 +18,18 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class AboutPanel extends JPanel {
+/**
+ * This JPanel shows information about the application, with links to information about Licensing.
+ * It needs to be cleaned up, generalized, parameterized and made extensible.
+ *
+ * @author Sam Reid
+ */
+public class GPLAboutPanel extends JPanel {
+    private JDialog licenseDialog;
+    private PhetApplication phetApplication;
 
-    public AboutPanel( final PhetApplication phetApplication ) {
+    public GPLAboutPanel( final PhetApplication phetApplication ) {
+        this.phetApplication = phetApplication;
         setLayout( new BorderLayout() );
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
@@ -32,7 +41,7 @@ public class AboutPanel extends JPanel {
             }
         };
         info.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
-        info.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+        info.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         info.setText( msg );
         info.setEditable( false );
         add( info, BorderLayout.CENTER );
@@ -48,14 +57,20 @@ public class AboutPanel extends JPanel {
         JButton button = new JButton( "License" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dialog = new JDialog( phetApplication.getPhetFrame() );
-                dialog.setContentPane( createLicensePanel() );
-                dialog.pack();
-                SwingUtils.centerWindowOnScreen( dialog );
-                dialog.show();
+                showLicenseDialog();
             }
         } );
         add( button, BorderLayout.SOUTH );
+    }
+
+    private void showLicenseDialog() {
+        if( licenseDialog == null ) {
+            licenseDialog = new JDialog( phetApplication.getPhetFrame() );
+            licenseDialog.setContentPane( createLicensePanel() );
+            licenseDialog.pack();
+            SwingUtils.centerWindowOnScreen( licenseDialog );
+        }
+        licenseDialog.show();
     }
 
     private static String[] read( String resourceFileName ) throws IOException {
@@ -104,11 +119,16 @@ public class AboutPanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Simple tester for the GPLAboutPanel.
+     *
+     * @param args
+     */
     public static void main( String[] args ) {
         PhetApplication ap = new PhetApplication( args, "The Moving Man", "Motion in Action", "1.00.01" );
         ap.addModule( new PiccoloModule( "module1", new SwingClock( 30, 1 ) ) );
         JDialog dialog = new JDialog();
-        dialog.setContentPane( new AboutPanel( ap ) );
+        dialog.setContentPane( new GPLAboutPanel( ap ) );
         dialog.show();
         dialog.pack();
         SwingUtils.centerWindowOnScreen( dialog );
