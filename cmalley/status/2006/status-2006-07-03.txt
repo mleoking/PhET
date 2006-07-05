@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: June 27 - July 3, 2006 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - help items
+  - Save/Load feature
+  - additional zoom levels for 1D Coulomb
+  - memory and performance optimizations
+  - incorporate workaround for Swing/AWT paint priority problem
+  - miscellaneous minor bug fixes
+  - published 0.00.11
+  - started on potential drag handles
+
+  Quantum Tunneling
+  - published 1.05 to PhET web site
+  - incorporate workaround for Swing/AWT paint priority problem
+  - fix a bug with drag handles
+
+  Common Code:
+  - work on Swing/AWT paint priority problem with Sam Reid
+  
+WHAT'S NEXT:
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - July 10-11, 17-26
+  - August 14-24
+  
+--
