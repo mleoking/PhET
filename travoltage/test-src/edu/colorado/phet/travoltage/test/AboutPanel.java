@@ -96,10 +96,20 @@ public class AboutPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        JPanel panel = new JPanel();
+        panel.setLayout( new BorderLayout() );
 
         JScrollPane jScrollPane = new JScrollPane( new JTextArea( sb.toString() ) );
         jScrollPane.setPreferredSize( new Dimension( 600, 400 ) );
-        return jScrollPane;
+        panel.add( jScrollPane, BorderLayout.SOUTH );
+
+        String text = "This program and all its components are licensed under the GNU GPL.\nThe source code is available via anonymous CVS from Sourceforge.\nPlease see http://sourceforge.net/projects/phet/";
+        JTextArea north = new JTextArea( text );
+        north.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
+        north.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
+        panel.add( north, BorderLayout.NORTH );
+        north.setEditable( false );
+        return panel;
     }
 
     public static void main( String[] args ) {
