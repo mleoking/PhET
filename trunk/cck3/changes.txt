@@ -1,4 +1,4 @@
-3.01.05
+3.01.05 (7-5-2006)
 Bugfix: When you charge a capacitor and completely disconnect if, the capacitor loses all its charge.
 Added readout for inductors.
 Added component editor for inductors.
