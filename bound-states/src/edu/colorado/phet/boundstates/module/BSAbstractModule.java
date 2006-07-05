@@ -72,7 +72,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean ENABLE_DRAG_HANDLES = true;
+    private static final boolean ENABLE_DRAG_HANDLES = false;
     
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
