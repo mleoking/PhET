@@ -46,6 +46,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     private double radius;
     private Rectangle2D aperture;
     private Area interiorArea;
+    private double apertureHeight = 60;
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
@@ -90,7 +91,6 @@ public class Containment extends SimpleObservable implements ModelElement {
                         containmentShape.getHeight() );
 
         interiorArea = new Area( inner );
-        double apertureHeight = 40;
         aperture = new Rectangle2D.Double( center.getX() - radius - getWallThickness(),
                                                        center.getY() - apertureHeight / 2,
                                                        getWallThickness(),

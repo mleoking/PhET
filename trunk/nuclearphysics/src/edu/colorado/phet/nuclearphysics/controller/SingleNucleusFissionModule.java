@@ -36,7 +36,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private Uranium235 nucleus;
     private Neutron neutron;
     private ArrayList transientModelElements = new ArrayList();
-    private Point gunMuzzelLocation = new Point( -250, 0);
+    private Point gunMuzzelLocation = new Point( -240, 0);
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
@@ -109,9 +109,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         // Ray gun
         PhetImageGraphic gunGraphic;
-        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
-        gunGraphic.setTransform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
+//        gunGraphic.setTransform( AffineTransform.getScaleInstance( 0.8, 0.8 ) );
+        gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
+                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY) );
+        gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
+                                                          RenderingHints.VALUE_ANTIALIAS_ON) );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
 
@@ -119,7 +123,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)( 60), 230 );
+        fireButton.setLocation(  (int)( 37), 152 );
+//        fireButton.setTransform( AffineTransform.getScaleInstance( 0.85, 0.85));
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();

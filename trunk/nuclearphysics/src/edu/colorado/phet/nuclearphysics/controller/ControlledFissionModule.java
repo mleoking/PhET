@@ -480,7 +480,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             Integer chamberIdx = null;
             do {
                 computeNeutronLaunchParams();
-                chamberIdx = new Integer( vessel.getChamberIdx( neutronLaunchPoint.getX() ) );
+                chamberIdx = new Integer( vessel.getChamberIdx( getNeutronLaunchPoint().getX() ) );
             } while( vessel.getNumControlRodChannels() > numNeutronsFired &&
                      chambersUsed.contains( chamberIdx ) );
             chambersUsed.add( chamberIdx );
@@ -511,8 +511,6 @@ public class ControlledFissionModule extends ChainReactionModule {
         NeutronLauncher neutronLauncher = new NeutronLauncher( getModel(), products );
         neutronLaunchers.add( neutronLauncher );
         getModel().addModelElement( neutronLauncher );
-
-//        super.fission( products );
     }
 
     //----------------------------------------------------------------
@@ -529,28 +527,28 @@ public class ControlledFissionModule extends ChainReactionModule {
         do {
             double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
             double y = vessel.getBounds().getMinY() + random.nextDouble() * vessel.getBounds().getHeight();
-            neutronLaunchPoint = new Point2D.Double( x, y );
-        } while( vessel.isInChannel( neutronLaunchPoint ) );
+            setNeutronLaunchPoint( new Point2D.Double( x, y ));
+        } while( vessel.isInChannel( getNeutronLaunchPoint() ) );
 
         // Fire the neutron toward the center of the vessel
         Point2D vesselCenter = new Point2D.Double( vessel.getX() + vessel.getWidth() / 2,
                                                    vessel.getY() + vessel.getHeight() / 2 );
-        neutronLaunchAngle = Math.atan2( vesselCenter.getY() - neutronLaunchPoint.getY(),
-                                         vesselCenter.getX() - neutronLaunchPoint.getX() );
-        neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+        neutronLaunchAngle = Math.atan2( vesselCenter.getY() - getNeutronLaunchPoint().getY(),
+                                         vesselCenter.getX() - getNeutronLaunchPoint().getX() );
+        neutronPath = new Line2D.Double( getNeutronLaunchPoint(), new Point2D.Double( 0, 0 ) );
 
         // Figure out which area the launch point is in, so we can fire toward the center of that area
         int numChannels = vessel.getNumControlRodChannels();
         int numAreas = numChannels + 1;
         double channelWidth = vessel.getChannels()[0].getWidth();
         double areaWidth = ( vessel.getWidth() - ( numChannels * channelWidth ) ) / numAreas;
-        double dx = neutronLaunchPoint.x - vessel.getX();
+        double dx = getNeutronLaunchPoint().getX() - vessel.getX();
         int areaIdx = (int)( dx / ( areaWidth + channelWidth ) );
         double x0 = vessel.getX() + areaIdx * ( areaWidth + channelWidth );
         double xMid = x0 + areaWidth / 2;
         double yMid = vessel.getY() + vessel.getHeight() / 2;
-        neutronLaunchAngle = Math.atan2( yMid - neutronLaunchPoint.y, xMid - neutronLaunchPoint.x );
-        neutronPath = new Line2D.Double( neutronLaunchPoint.x, neutronLaunchPoint.y, xMid, yMid );
+        neutronLaunchAngle = Math.atan2( yMid - getNeutronLaunchPoint().getY(), xMid - getNeutronLaunchPoint().getX() );
+        neutronPath = new Line2D.Double( getNeutronLaunchPoint().getX(), getNeutronLaunchPoint().getY(), xMid, yMid );
     }
 
     /**
@@ -723,7 +721,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                 double xMid = vessel.getX() + areaWidth / 2;
                 double yMid = vessel.getY() + vessel.getHeight() / 2;
                 neutronLaunchAngle = Math.atan2( yMid - y, xMid - x );
-                neutronLaunchPoint = new Point2D.Double( x, y );
+                setNeutronLaunchPoint( new Point2D.Double( x, y ) );
                 neutronPath = new Line2D.Double( x, y, xMid, yMid );
                 ControlledFissionModule.super.fireNeutron();
             }

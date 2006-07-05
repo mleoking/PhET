@@ -33,7 +33,7 @@ import java.util.Random;
  */
 public abstract class ChainReactionModule extends NuclearPhysicsModule implements NeutronGun, FissionListener {
     protected static Random random = new Random();
-    protected static int s_maxPlacementAttempts = 100;
+    protected static int s_maxPlacementAttempts = 5000;
     protected Neutron neutronToAdd;
     private ArrayList nuclei = new ArrayList();
     private ArrayList u235Nuclei = new ArrayList();
@@ -41,7 +41,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     private ArrayList u239Nuclei = new ArrayList();
     private ArrayList neutrons = new ArrayList();
     protected double neutronLaunchAngle;
-    protected Point2D.Double neutronLaunchPoint;
+    private Point2D neutronLaunchPoint;
 
     // todo: push this down to the MultipleNucleusFissionModule
     protected Line2D.Double neutronPath;
@@ -95,6 +95,14 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     protected Line2D.Double getNeutronPath() {
         return neutronPath;
+    }
+
+   protected Point2D getNeutronLaunchPoint() {
+        return neutronLaunchPoint;
+    }
+
+    protected void setNeutronLaunchPoint( Point2D neutronLaunchPoint ) {
+        this.neutronLaunchPoint = neutronLaunchPoint;
     }
 
     public ArrayList getNeutrons() {

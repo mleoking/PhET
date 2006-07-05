@@ -28,12 +28,13 @@ import java.util.List;
  */
 public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener {
 
-    private double containmentGraphicLayer = 10;
+    private double containmentGraphicLayer = .9;
     private double gunGraphicLayer = containmentGraphicLayer + 1000;
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
-    private Point gunMuzzelLocation = new Point( -550, 0);
+    private Point gunMuzzelLocation = new Point( -40, 0);
+    private Point2D neutronLaunchPt = new Point2D.Double( -550, 0);
     private ExplodingContainmentGraphic explodingContainmentGraphic;
     private List explodingGraphics;
 
@@ -67,7 +68,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getModel().addModelElement( new FissionDetector() );
 
         // Ray gun
-        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8.png");
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
+        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ));
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
@@ -76,7 +78,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)( 50), 390 );
+        fireButton.setLocation(  (int)( 40), 302 );
+//        fireButton.setLocation(  (int)( 50), 390 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
@@ -85,8 +88,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
-        containmentButton.setLocation( (int)fireButton.getLocation().getX() - ( containmentButton.getWidth() - fireButton.getWidth()) / 2 ,
-                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 20 );
+        containmentButton.setLocation( 600, 100 );
+//        containmentButton.setLocation( (int)fireButton.getLocation().getX() - ( containmentButton.getWidth() - fireButton.getWidth()) / 2 ,
+//                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 20 );
         containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
             public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
                 if( containment == null ) {
@@ -146,8 +150,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     protected void computeNeutronLaunchParams() {
             neutronLaunchAngle = 0;
-            neutronLaunchPoint = new Point2D.Double( gunMuzzelLocation.getX(), gunMuzzelLocation.getY());
-            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+//            setNeutronLaunchPoint( new Point2D.Double( gunMuzzelLocation.getX() / getPhysicalPanel().getScale(),
+//                                                       gunMuzzelLocation.getY() / getPhysicalPanel().getScale()));
+        setNeutronLaunchPoint( neutronLaunchPt );
+            neutronPath = new Line2D.Double( getNeutronLaunchPoint(), new Point2D.Double( 0, 0 ) );
     }
 
     public void fission( FissionProducts products ) {
