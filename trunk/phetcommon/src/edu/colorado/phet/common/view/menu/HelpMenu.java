@@ -29,7 +29,6 @@ import java.io.IOException;
  * @version $Revision$
  */
 public class HelpMenu extends JMenu implements ModuleObserver {
-    private ImageIcon icon;
     private JMenuItem onscreenHelp;
 
     public HelpMenu( final PhetApplication phetApplication ) {
@@ -85,13 +84,10 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
-
-        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle(), JOptionPane.INFORMATION_MESSAGE, icon );
+                phetApplication.showAboutDialog();
             }
         } );
         add( about );

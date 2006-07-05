@@ -69,6 +69,7 @@
             <fileset dir="data">
                 <exclude name="**/*Thumbs.db"/>
             </fileset>
+            <fileset file="gpl.txt"/>
             <fileset dir="phetcommon-dir/data"/>
             <fileset dir="piccolo-phet-dir/data"/>
             <manifest>
