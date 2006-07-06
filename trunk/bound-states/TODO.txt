@@ -47,6 +47,7 @@ CLEANUP:
 
 DONE:
 1.00.00...
+(7/6/06) - publish 1.00 in time for AAPT
 (7/6/06) - temporarily disable drag handles
 (7/6/06) - add simulation descriptions (English and Spanish)
 (7/6/06) - add angular freq handle to harmonic oscillator potential (broken)
