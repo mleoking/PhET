@@ -133,7 +133,7 @@ public class BSCombinedChartNode extends JFreeChartNode {
     
     /**
      * Converts an X coordinate in the node's local coordinate system
-     * to a position value in the chart's coordinate system.
+     * to a position value in the energy chart's coordinate system.
      * 
      * @param yCoordinate
      * @return
