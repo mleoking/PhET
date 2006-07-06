@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- width handle for harmonic oscillator
 - width handle for square
 - spacing handle for square
 - spacing handle for Coulomb
@@ -46,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(7/6/06) - fix angular freq handle on harmonic oscillator potential
 1.00.00...
 (7/6/06) - publish 1.00 in time for AAPT
 (7/6/06) - temporarily disable drag handles
