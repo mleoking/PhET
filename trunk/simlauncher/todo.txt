@@ -10,11 +10,10 @@ Bugs
 ========
 Features
 ========
-- Change "Uninstalled sims" to "Catalog"
-    - Add menu option for specifying what gets shown in the catalog, a la Explorer
+- Icons for "Update Available?"
+- Check boxes next to each row in catalog
+- Add menu option for specifying what gets shown in the catalog, a la Explorer
 - Catalog
-    - Make multiple selections
-    - Sort-by headers
     - Customize view
 - Right-click should also select
 - Should be able to force an update.
@@ -53,8 +52,17 @@ Testing
 - Do extensive offline testing
 
 ================
-Done, not posted
+Done not posted
 ================
+- Icons in "Is Installed?" column
+
+================
+0.00.03
+================
+- Catalog
+    - Make multiple selections
+    - Sort-by headers
+- Change "Uninstalled sims" to "Catalog"
 - Launch Flash sims
 - Thumbnails don't display the first time they come down.
 - Multiple selections in catalog
