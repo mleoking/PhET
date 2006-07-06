@@ -5,11 +5,8 @@ the elements on that panel will not be sized correctly.
 of nuclei in the play area after things have fissioned and before you hit the reset button.
 - Now that the neutrons don't have tails when they are flying around, you can't see them in the
 Controlled Reaction panel.
-- Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
-find the place to put them, and it doesn't tell you why.
 - Get rid of metal L&F
 - replace spinners with sliders and text fields(?)
-
 
 
 - profiles should not be created for all nuclei
@@ -39,19 +36,24 @@ Fission:
 -   Obsolete Interface exception when running under 1.4.
 
 Chain Reaction panel
-- % text field doesn't update
--   U238 spinner doesn't respond properly to the first mouse click
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
--   Replace spinner with a slider(?) and text box
 - Bug ExplodingContainmentGraphic!!!! If I don't setIgnoreMouse(true), all mouse events continue to get eaten after
 a reset.!!!!!
 
 
 Controlled Reaction
-- Something seems to be running in the background even when nothing is really going on
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
-?	Need a wiggle me for the handle on the containment vessel unless we can make it more obvious Let’s label the green handle as “Control Rod Adjuster”
 
+
+
+================
+Done not posted
+================
+Chain Reaction panel
+- % text field doesn't update
+- Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
+find the place to put them, and it doesn't tell you why.
+- Replace spinners with a sliders and text boxes
 
 ================
 1.08.11
