@@ -57,15 +57,15 @@ public class BSSquareHandleManager extends PNode implements IHandleManager {
         
         if ( potential != null ) {
 
-//            _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
-//            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
-//            addChild( _offsetHandle );
-//            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
-//
-//            _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
-//            _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
-//            addChild( _heightHandle );
-//            _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
+            _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
+            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _offsetHandle );
+            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+
+            _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
+            _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _heightHandle );
+            _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
             
             _widthHandle = new BSSquareWidthHandle( potential, _potentialSpec, _chartNode );
             _widthHandle.setValueVisible( DEBUG_SHOW_VALUES );

@@ -109,32 +109,39 @@ public class BSSquareWidthHandle extends AbstractHandle implements Observer {
     //----------------------------------------------------------------------------
     // AbstractDragHandle implementation
     //----------------------------------------------------------------------------
-    
+
     protected void updateModel() {
+        assert ( _potential.getCenter() == 0 );
+
         _potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            final double currentX = localNodePoint.getX();
-            
+            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            final double d = modelPoint.getX();
+
             final int n = _potential.getNumberOfWells();
-            final double previousCenter = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
-            final double previousWidth = _potential.getWidth(); 
-            final double previousX = _chartNode.positionToNode( previousCenter + ( previousWidth / 2 ) );
+            final double s = _potential.getSeparation();
+            double width = 0;
             
-            final double originX = _chartNode.positionToNode( 0 );
-            
-            final double deltaWidth = 2 * ( _chartNode.nodeToPosition( originX + ( currentX - previousX ) ) );
-            
-            final double width = previousWidth + deltaWidth;
-            
-//            System.out.println( "BSSquareWidthHandle.updateModel x=" + currentX + " width=" + width );//XXX
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                width = ( 2.0 / n ) * ( d - ( ( ( n / 2.0 ) - 1 ) * s ) - ( 0.5 * s ) );
+            }
+            else {
+                // odd number of wells
+                final int m = n - 1;
+                width = ( 2.0 / ( m + 1 ) ) * ( d - ( ( m / 2.0 ) * s ) );
+            }
+
+//            System.out.println( "BSSquareWidthHandle.updateModel x=" + globalNodePoint.getX() + " d=" + d + " width=" + width );//XXX
             _potential.setWidth( width );
             setValueDisplay( width );
         }
         _potential.addObserver( this );
+        updateDragBounds();
     }
-
+    
     protected void updateView() {
         removePropertyChangeListener( this );
         {
