@@ -113,7 +113,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
             final double height = modelPoint.getY() - _potential.getOffset();
-//            System.out.println( "BSSquareHeightHandle.updateModel globalNodePoint=" + globalNodePoint + " height=" + height );//XXX
+//            System.out.println( "BSSquareHeightHandle.updateModel y=" + globalNodePoint.getY() + " height=" + height );//XXX
             _potential.setHeight( height );
             setValueDisplay( height );
         }
@@ -132,7 +132,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
             Point2D modelPoint = new Point2D.Double( position, offset + height );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSSquareHeightHandle.updateView position=" + position + " height=" + height + " globalNodePoint=" + globalNodePoint );//XXX
+//            System.out.println( "BSSquareHeightHandle.updateView height=" + height + " y=" + globalNodePoint.getY() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( height );
         }
