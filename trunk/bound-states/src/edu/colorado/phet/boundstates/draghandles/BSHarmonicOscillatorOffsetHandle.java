@@ -76,6 +76,8 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
      * Updates the drag bounds.
      */
     public void updateDragBounds() {
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
         
         //  position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
@@ -106,6 +108,9 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
     //----------------------------------------------------------------------------
     
     protected void updateModel() {
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
+        
         _potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
@@ -120,6 +125,9 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
     }
 
     protected void updateView() {
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
+        
         removePropertyChangeListener( this );
         {
             final double position = _potential.getCenter();
