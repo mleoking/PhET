@@ -112,7 +112,7 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
             final double offset = modelPoint.getY();
-//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateModel globalNodePoint=" + globalNodePoint + " offset=" + offset );//XXX
+//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
             _potential.setOffset( offset );
             setValueDisplay( offset );
         }
@@ -127,7 +127,7 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
             Point2D modelPoint = new Point2D.Double( position, offset );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateView position=" + position + " offset=" + offset + " globalNodePoint=" + globalNodePoint );//XXX
+//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( offset );
         }
