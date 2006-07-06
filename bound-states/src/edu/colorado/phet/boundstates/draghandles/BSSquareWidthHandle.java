@@ -97,7 +97,7 @@ public class BSSquareWidthHandle extends AbstractHandle implements Observer {
         final double w = maxX - minX;
         final double h = maxY - minY;
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
-        System.out.println( "BSSquareWidthHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
+//        System.out.println( "BSSquareWidthHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
 
         // Convert to global coordinates
         dragBounds = _chartNode.localToGlobal( dragBounds );
@@ -128,7 +128,7 @@ public class BSSquareWidthHandle extends AbstractHandle implements Observer {
             
             final double width = previousWidth + deltaWidth;
             
-            System.out.println( "BSSquareWidthHandle.updateModel x=" + currentX + " width=" + width );//XXX
+//            System.out.println( "BSSquareWidthHandle.updateModel x=" + currentX + " width=" + width );//XXX
             _potential.setWidth( width );
             setValueDisplay( width );
         }
@@ -149,7 +149,7 @@ public class BSSquareWidthHandle extends AbstractHandle implements Observer {
             Point2D modelPoint = new Point2D.Double( position, energy );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-            System.out.println( "BSSquareWidthHandle.updateView width=" + width + " x=" + globalNodePoint.getX() );//XXX
+//            System.out.println( "BSSquareWidthHandle.updateView width=" + width + " x=" + globalNodePoint.getX() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( width );
         }
