@@ -175,8 +175,8 @@ public class Particle {
         temp.x = curr.x;
         temp.y = curr.y;
 
-        curr.x += sysObj.coeffDamp * ( curr.x - prev.x ) + ( sysObj.gravity.x + ax ) * mass;
-        curr.y += sysObj.coeffDamp * ( curr.y - prev.y ) + ( sysObj.gravity.y + ay ) * mass;
+        curr.x += ( sysObj.coeffDamp * ( curr.x - prev.x ) + ( sysObj.gravity.x + ax ) * mass );
+        curr.y += ( sysObj.coeffDamp * ( curr.y - prev.y ) + ( sysObj.gravity.y + ay ) * mass );
 
         prev.x = temp.x;
         prev.y = temp.y;
