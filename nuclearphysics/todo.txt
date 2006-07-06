@@ -5,8 +5,6 @@ the elements on that panel will not be sized correctly.
 of nuclei in the play area after things have fissioned and before you hit the reset button.
 - Now that the neutrons don't have tails when they are flying around, you can't see them in the
 Controlled Reaction panel.
-- Get rid of metal L&F
-- replace spinners with sliders and text fields(?)
 
 
 - profiles should not be created for all nuclei
@@ -19,9 +17,7 @@ Controlled Reaction panel.
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
 
-?	Need a color selection option for control panel.
 ?	anti Alias the text (if it is already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
-?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
 -   add standard CVS and PhET headers
 -   Move some behavior from modules into the model
 -   Area behind tabs is the wrong color in 1.5
@@ -50,15 +46,18 @@ Controlled Reaction
 Done not posted
 ================
 Chain Reaction panel
-- % text field doesn't update
 - Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
 find the place to put them, and it doesn't tell you why.
 - Replace spinners with a sliders and text boxes
+- Get rid of metal L&F
+- Need a color selection option for control panel.
 
 ================
 1.08.11
 ================
+- % text field updates
 - Reduced update period of vessel temperature updates by 20% for controlled chain reaction ( 0:15)
+?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
 
 - Remove Phet logo from control panel         (0:15)
 - Split "Alpha particle energy" to two lines    (0:15)

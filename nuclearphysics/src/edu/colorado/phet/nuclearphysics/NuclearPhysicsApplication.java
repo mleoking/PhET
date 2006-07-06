@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.AWTSplashWindow;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
@@ -26,6 +27,8 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,6 +39,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
+    private static PhetLookAndFeel phetLookAndFeel;
 
     /**
      *
@@ -62,6 +66,8 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
                 controlledReactionModule
         };
         setModules( modules );
+
+        getPhetFrame().addMenu( new OptionsMenu() );
     }
 
     /**
@@ -70,6 +76,10 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
      */
     public static void main( final String[] args ) {
         SimStrings.init( args, localizedStringsPath );
+
+        // Initialize the look and feel
+        phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.initLookAndFeel();
 
         AWTSplashWindow.setDefaultBackground( Color.lightGray );
         SwingUtilities.invokeLater( new Runnable() {
@@ -81,134 +91,36 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
 
     //--------------------------------------------------------------------------------------------------
-    // Look and Feel
+    // Inner classes
     //--------------------------------------------------------------------------------------------------
+    private class OptionsMenu extends JMenu {
 
-//    private static class NuclearAppLookAndFeel extends LandF {
-//        static Color backgroundColor = new Color( 60, 80, 60 );
-//        static Color buttonBackgroundColor = new Color( 100, 120, 60 );
-//        static Color controlTextColor = new Color( 240, 240, 240 );
-//
-//        private static Color buttonTextColor = controlTextColor;
-//
-//        static {
-//            // Set the look and feel if we're on Windows and Java 1.4
-//            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
-//                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-//                try {
-//                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
-//                }
-//                catch( UnsupportedLookAndFeelException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        static Font font = new Font( "Lucida sans", Font.BOLD, 16 );
-////        static Font font = new Font( "SansSerif", Font.BOLD, 16 );
-//
-//        // Set the font smaller if the screen is has less resolution
-//        static {
-//            // Get the size of the default screen
-//            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//            if( dim.getHeight() < 800 ) {
-//                font = new Font( "Lucida sans", Font.BOLD, 14 );
-////                font = new Font( "SansSerif", Font.BOLD, 14 );
-//            }
-//
-//            if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
-//                UIManager.put("Button.foreground", Color.black );
-//            }
-//            // Set the look and feel if we're on Windows and Java 1.4
-//            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
-//                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-//                try {
-//                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
-//                }
-//                catch( UnsupportedLookAndFeelException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            // Set the look and feel if we're on Windows and Java 1.4
-//            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
-//                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-//                try {
-//                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
-//                }
-//                catch( UnsupportedLookAndFeelException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        }
+        public OptionsMenu() {
+            super( "Options");
+            JMenuItem backgroundColorMI = new JMenuItem( "Background color" );
+            add( backgroundColorMI );
+            backgroundColorMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                               "Background Color",
+                                                               phetLookAndFeel.getBackgroundColor() );
+                    phetLookAndFeel.setBackgroundColor( newColor );
+                    phetLookAndFeel.initLookAndFeel();
+                }
+            } );
 
-//        public NuclearAppLookAndFeel() {
-//            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
-//            UIManager.put( "TabbedPane.font", new FontUIResource( "Lucida sans", Font.BOLD, 18 ));
-//        }
-//    }
+            JMenuItem foregroundColorMI = new JMenuItem( "Foreground color" );
+            add( foregroundColorMI );
+            foregroundColorMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                               "Foreground Color",
+                                                               phetLookAndFeel.getForegroundColor());
+                    phetLookAndFeel.setForegroundColor( newColor );
+                    phetLookAndFeel.initLookAndFeel();
+                }
+            } );
+        }
+    }
 
-//    static private class LandF extends MetalLookAndFeel {
-//        Color backgroundColor = new Color( 60, 80, 60 );
-//        Color buttonBackgroundColor = new Color( 60, 60, 100 );
-//        Color controlTextColor = new Color( 230, 230, 230 );
-//        Font controlFont = new Font( "Lucida sans", Font.BOLD, 22 );
-//        static String[] controlTypes = new String[]{
-//                "Menu",
-//                "MenuItem",
-//                "RadioButton",
-//                "Button",
-//                "CheckBox",
-//                "Label"
-//        };
-//
-//        public LandF( Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont ) {
-//
-//            this.backgroundColor = backgroundColor;
-//            this.buttonBackgroundColor = buttonBackgroundColor;
-//            this.controlTextColor = controlTextColor;
-//            this.controlFont = controlFont;
-//        }
-//
-//        protected void initComponentDefaults( UIDefaults table ) {
-//            super.initComponentDefaults( table );
-//            ArrayList def = new ArrayList();
-//            ColorUIResource textColor = new ColorUIResource( controlTextColor );
-//            FontUIResource fuir = new FontUIResource( controlFont );
-//            for( int i = 0; i < controlTypes.length; i++ ) {
-//                String controlType = controlTypes[i];
-//                def.add( controlType + ".foreground" );
-//                def.add( textColor );
-//                def.add( controlType + ".font" );
-//                def.add( fuir );
-//            }
-//            ColorUIResource background = new ColorUIResource( backgroundColor );
-//            ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
-//
-//            Object[] defaults = {
-//                    "Panel.background", background
-//                    , "Menu.background", background
-//                    , "MenuItem.background", background
-//                    , "MenuBar.background", background
-//                    , "Slider.background", background
-//                    , "RadioButton.background", background
-//                    , "CheckBox.background", background
-//                    , "CheckBox.focus", background
-//                    , "Button.background", buttonBackground
-//            };
-//            def.addAll( Arrays.asList( defaults ) );
-//            table.putDefaults( def.toArray() );
-//
-//            Font font = (Font)table.get( "Label.font" );
-//            Color color = (Color)table.get( "Label.foreground" );
-//            Object[] moreDefaults = {
-//                    "TextField.font", font
-//                    , "Spinner.font", font
-//                    , "FormattedTextField.font", font
-//                    , "TitledBorder.font", font
-//                    , "TitledBorder.titleColor", color
-//            };
-//            table.putDefaults( moreDefaults );
-//        }
-//    }
 }
