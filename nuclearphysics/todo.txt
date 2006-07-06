@@ -1,5 +1,6 @@
 - Location coords of ray gun and button are screwy.
 - Add new standard About box
+- "% Fissioned" isn't meaningful until you hit the Fire button.
 
 - The ray gun image temporarily disappears during some fission events.
 - If you resize the window before displaying the Single Nucleus Fision panel for the first time,
@@ -53,6 +54,8 @@ find the place to put them, and it doesn't tell you why.
 - Replace spinners with a sliders and text boxes
 - Using standardized L&F
 - Need a color selection option for control panel.
+- Energy graphs are update more frequently, and the rate graph is scaled so it makes more sense.
+- Color of rate graph is more visible
 
 ================
 1.08.11
