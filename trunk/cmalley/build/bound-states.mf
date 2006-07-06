@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 
-Main-Class: edu.colorado.phet.boundstates.BSApplication
+Main-Class: edu.colorado.phet.boundstates.BSBoundStatesApplication
 
-CVS-Tag: boundstates-0-00-11-2006-06-30
+CVS-Tag: boundstates-1-00-00-2006-07-06
 
 
 
