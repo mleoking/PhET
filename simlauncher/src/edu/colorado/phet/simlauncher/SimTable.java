@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.TableSorter;
 
@@ -20,8 +21,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * SimulationTable
@@ -39,6 +42,19 @@ public class SimTable extends JTable implements SimContainer {
 
     public static SimComparator NAME_SORT = new NameComparator();
     public static SimComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
+
+    public static class Column {
+        private String name;
+        private Column( String name ) {
+            this.name = name;
+        }
+    }
+
+    public static Column NAME = new Column( "Name");
+    public static Column THUMBNAIL = new Column( "Thumbnail" );
+    public static Column IS_INSTALLED = new Column( "Installed?");
+    public static Column IS_UP_TO_DATE = new Column( "Update Available?" );
+
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -68,11 +84,24 @@ public class SimTable extends JTable implements SimContainer {
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
 
-            String isCurrent = "";
-            String isInstalled = "";
+            Object isCurrent = "";
+            Object isInstalled = "";
+            BufferedImage checkMarkImg = null;
+            BufferedImage exclamationMarkImg = null;
             try {
-                isCurrent = sim.isCurrent() ? "up to date" : "update available";
-                isInstalled = sim.isInstalled() ? "yes" : "no";
+                checkMarkImg = ImageLoader.loadBufferedImage( "images/check-mark-3.png" );
+                exclamationMarkImg = ImageLoader.loadBufferedImage( "images/exclamation-mark-1.png" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            ImageIcon isInstalledIcon = new ImageIcon( checkMarkImg );
+            ImageIcon updateAvailableIcon = new ImageIcon( exclamationMarkImg );
+            try {
+                isCurrent = sim.isCurrent() ? "" : updateAvailableIcon;
+//                isCurrent = sim.isCurrent() ? "up to date" : "update available";
+                isInstalled = sim.isInstalled() ? isInstalledIcon : "";
+//                isInstalled = sim.isInstalled() ? "yes" : "no";
             }
             catch( SimResourceException e ) {
                 e.printStackTrace();
@@ -84,7 +113,7 @@ public class SimTable extends JTable implements SimContainer {
         // Create the header
         Object[] header = null;
         if( showThumbnails ) {
-            header = new Object[]{"Name", "thumbnail", "Installed?", "Up to date?"};
+            header = new Object[]{"Name", "thumbnail", "Installed?", "Update Available?"};
         }
         else {
             header = new Object[]{"Name"};
@@ -247,7 +276,11 @@ public class SimTable extends JTable implements SimContainer {
                 return ImageIcon.class;
             }
             if( columnIndex == 2 ) {
-                return MyTableCellRenderer.class;
+                return ImageIcon.class;
+//                return MyTableCellRenderer.class;
+            }
+            if( columnIndex == 3 ) {
+                return ImageIcon.class;
             }
             else {
                 return super.getColumnClass( columnIndex );
@@ -265,6 +298,10 @@ public class SimTable extends JTable implements SimContainer {
             return false;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Custom CellRenderers
+    //--------------------------------------------------------------------------------------------------
 
     public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
         // This method is called each time a cell in a column
