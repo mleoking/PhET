@@ -1,4 +1,5 @@
 -injars ant_output\jars\travoltage.jar
+-injars lib\jcommon-1.0.5.jar
 -outjars ant_output\jars\travoltage-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
@@ -15,6 +16,10 @@
 #}
 #-keep class smooth.**{}
 #-keep class smoothmetal.**{}
+
+# Keep - Applications. Keep all application classes that have a main method.
+-keepclasseswithmembers public class org.jfree.ui.about.resources.AboutResources{
+}
 
 # Keep - Applications. Keep all application classes that have a main method.
 -keepclasseswithmembers public class edu.colorado.phet.travoltage.TravoltageApplication{
