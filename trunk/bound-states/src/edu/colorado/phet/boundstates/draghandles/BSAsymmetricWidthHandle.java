@@ -74,16 +74,18 @@ public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer 
      * Updates the drag bounds.
      */
     public void updateDragBounds() {
-
+        assert( _potential.getNumberOfWells() == 1 ); // single well only!
+        assert( _potential.getCenter() == 0 ); // center at zero
+        
         // position -> x coordinates
-        final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
-        final double maxPosition = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+        final double minPosition = -( _potentialSpec.getWidthRange().getMax() / 2 );
+        final double maxPosition = -( _potentialSpec.getWidthRange().getMin() / 2 );
         final double minX = _chartNode.positionToNode( minPosition );
         final double maxX = _chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        final double minEnergy = _potential.getOffset() + _potentialSpec.getHeightRange().getMin();
-        final double maxEnergy = _potential.getOffset() + _potentialSpec.getHeightRange().getMax();
+        final double minEnergy = _potential.getOffset();
+        final double maxEnergy = _potential.getOffset() + _potential.getHeight();
         final double minY = _chartNode.energyToNode( maxEnergy );
         final double maxY = _chartNode.energyToNode( minEnergy );
         
@@ -112,7 +114,7 @@ public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer 
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
             final double width = Math.abs( 2 * modelPoint.getX() );
-            System.out.println( "BSAsymmetricWidthHandle.updateModel globalNodePoint=" + globalNodePoint + " width=" + width );//XXX
+//            System.out.println( "BSAsymmetricWidthHandle.updateModel x=" + globalNodePoint.getX() + " width=" + width );//XXX
             _potential.setWidth( width );
             setValueDisplay( width );
         }
@@ -125,13 +127,13 @@ public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer 
         removePropertyChangeListener( this );
         {
             final double width = _potential.getWidth();
-            final double position = -( width / 2 );
+            final double position = -( width / 2 ); // handle on left edge of well
             final double height = _potential.getHeight();
             final double offset = _potential.getOffset();
-            Point2D modelPoint = new Point2D.Double( position, offset + ( height / 2 ) );
+            Point2D modelPoint = new Point2D.Double( position, offset + ( height / 2 ) ); // handle half way up edge of well
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-            System.out.println( "BSAsymmetricWidthHandle.updateView position=" + position + " width=" + width + " globalNodePoint=" + globalNodePoint );//XXX
+//            System.out.println( "BSAsymmetricWidthHandle.updateView width=" + width + " x=" + globalNodePoint.getX() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( width );
         }
