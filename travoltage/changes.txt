@@ -3,6 +3,7 @@ Increased speed for electrons when discharging.
 Added improved about dialog, including license info.
 Removed mirror from background image.
 Moved doorknob up (away from foot)
+Bugfix: detect and remove some paricles that escape the foot.
 
 1.00.01 (7-4-2006)
 Rewrote using piccolo and Jade.

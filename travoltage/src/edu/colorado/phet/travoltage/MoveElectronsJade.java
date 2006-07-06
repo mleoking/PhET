@@ -4,10 +4,12 @@ package edu.colorado.phet.travoltage;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import org.cove.jade.DynamicsEngine;
 import org.cove.jade.surfaces.LineSurface;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -22,6 +24,9 @@ import java.util.StringTokenizer;
 public class MoveElectronsJade implements ModelElement {
     private JadeElectronSet jadeElectronSet;
     private DynamicsEngine engine;
+    private DoubleGeneralPath path;
+    private Area area;
+    private boolean debug = true;
 
     /**
      * Sets up the simulator and graphics for a basic JADE car simulator.
@@ -39,7 +44,6 @@ public class MoveElectronsJade implements ModelElement {
         } );
         engine = new DynamicsEngine();
 
-//        engine.setDamping( 1.0 );
         engine.setDamping( 0.95 );
         engine.setGravity( 0.0, 0.0 );
         engine.setSurfaceBounce( 0.9 );
@@ -50,14 +54,25 @@ public class MoveElectronsJade implements ModelElement {
             list.add( new Point2D.Double( Double.parseDouble( st.nextToken() ), Double.parseDouble( st.nextToken() ) ) );
         }
         for( int i = 1; i < list.size(); i++ ) {
-            java.awt.geom.Point2D.Double prev = (java.awt.geom.Point2D.Double)list.get( i - 1 );
-            java.awt.geom.Point2D.Double cur = (java.awt.geom.Point2D.Double)list.get( i );
+            Point2D.Double prev = (Point2D.Double)list.get( i - 1 );
+            Point2D.Double cur = (Point2D.Double)list.get( i );
             LineSurface s = new LineSurface( cur.getX(), cur.getY(), prev.getX(), prev.getY() );
-//            s.setCollisionDepth( 20 );
             s.setCollisionDepth( 25 );
-//            s.setCollisionDepth( 32 );
             engine.addSurface( s );
         }
+
+        path = new DoubleGeneralPath();
+        for( int i = 0; i < list.size(); i++ ) {
+            Point2D.Double cur = (Point2D.Double)list.get( i );
+            if( i == 0 ) {
+                path.moveTo( cur.getX(), cur.getY() );
+            }
+            else {
+                path.lineTo( cur.getX(), cur.getY() );
+            }
+        }
+        path.closePath();
+        area = new Area( path.getGeneralPath() );
     }
 
     protected DynamicsEngine getEngine() {
@@ -174,7 +189,46 @@ public class MoveElectronsJade implements ModelElement {
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             jadeElectronSet.getJadeElectron( i ).notifyElectronMoved();
         }
+//        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+//            System.out.println( "jes: " + jadeElectronSet.getJadeElectron( i ).getPosition() );
+//        }
+        testRemove();
+        count++;
 //        remapLocations();
+    }
+
+    private void testRemove() {
+        int problemCount = 0;
+        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+            if( isProblematic( jadeElectronSet.getJadeElectron( i ) ) ) {
+                problemCount++;
+//                System.out.println( "jadeElectronSet.getJadeElectron( i).getPosition() = " + jadeElectronSet.getJadeElectron( i ).getPosition() );
+                if( !contains( jadeElectronSet.getJadeElectron( i ) ) ) {
+                    if( debug ) {
+                        System.out.println( "Removed bogus electron." );
+                    }
+                    remove( i );
+                    i--;
+                }
+            }
+        }
+        if( debug && problemCount > 0 ) {
+            System.out.println( "problemCount total= " + problemCount );
+        }
+    }
+
+    private boolean isProblematic( JadeElectron jadeElectron ) {
+        return jadeElectron.getPosition().getX() > 266 && jadeElectron.getPosition().getY() > 300;
+    }
+
+    int count = 0;
+
+    private void remove( int i ) {
+        jadeElectronSet.removeElectron( i );
+    }
+
+    private boolean contains( JadeElectron jadeElectron ) {
+        return area.contains( jadeElectron.getPosition() );
     }
 
 }
