@@ -227,6 +227,7 @@ public class DynamicsEngine {
      * Vector of constraints - things that limit how primitives move (apart from collisions)
      */
     public Vector constraints;
+    private double dt = 1.0;
 
     /**
      * Constructs a DynamicsEngine - nothing too interesting here as far as documentation goes!
@@ -377,5 +378,13 @@ public class DynamicsEngine {
                 }
             }
         }
+    }
+
+    public double getDt() {
+        return dt;
+    }
+
+    public void setDt( double dt ) {
+        this.dt = dt;
     }
 }

@@ -29,6 +29,7 @@ public class MoveToFinger extends MoveElectronsJade {
         this.segments = getSegments();
         getEngine().setDamping( 0.93 );
         getEngine().setSurfaceBounce( 0.6 );
+//        getEngine().setDt( 5.0);
     }
 
     private Line2D.Double[] getSegments() {
@@ -89,6 +90,8 @@ public class MoveToFinger extends MoveElectronsJade {
     }
 
     public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        super.stepInTime( dt );
         super.stepInTime( dt );
         for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron electron = jadeElectronSet.getJadeElectron( i );
