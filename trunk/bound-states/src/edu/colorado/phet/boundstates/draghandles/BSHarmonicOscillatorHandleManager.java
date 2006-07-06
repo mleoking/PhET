@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.draghandles;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
@@ -35,7 +34,7 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
     private BSCombinedChartNode _chartNode;
     
     private BSHarmonicOscillatorOffsetHandle _offsetHandle;
-//    private BSHarmonicOscillatorWidthHandle _widthHandle;
+    private BSHarmonicOscillatorAngularFrequencyHandle _angularFrequencyHandle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,10 +60,10 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
             addChild( _offsetHandle );
             _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 
-//            _widthHandle = new BSHarmonicOscillatorWidthHandle( potential, _potentialSpec, _chartNode );
-//            _widthHandle.setValueVisible( DEBUG_SHOW_VALUES );
-//            addChild( _widthHandle );
-//            _widthHandle( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
+            _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, _potentialSpec, _chartNode );
+            _angularFrequencyHandle.setValueVisible( DEBUG_SHOW_VALUES );
+            addChild( _angularFrequencyHandle );
+            _angularFrequencyHandle.setVisible( _potentialSpec.getAngularFrequencyRange().getMin() != _potentialSpec.getAngularFrequencyRange().getMax() );
         }
     }
     
@@ -76,8 +75,8 @@ public class BSHarmonicOscillatorHandleManager extends PNode {
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }
-//        if ( _widthHandle != null ) {
-//            _widthHandle.updateDragBounds();
-//        }
+        if ( _angularFrequencyHandle != null ) {
+            _angularFrequencyHandle.updateDragBounds();
+        }
     }
 }
