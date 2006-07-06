@@ -136,7 +136,7 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends AbstractHandle i
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
             
-            final double width = modelPoint.getX();
+            final double width = 2 * Math.abs( modelPoint.getX() );
             final double angularFrequency = widthToAngularFrequency( width );
             
 //            System.out.println( "BSHarmonicOscillatorWidthHandle.updateModel x=" + globalNodePoint.getX() + " width=" + width + " angularFrequency=" + angularFrequency );//XXX
