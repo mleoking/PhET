@@ -1,4 +1,4 @@
-1.00.04
+1.00.04 (7-6-2006)
 Increased speed for electrons when discharging.
 Added improved about dialog, including license info.
 Removed mirror from background image.
