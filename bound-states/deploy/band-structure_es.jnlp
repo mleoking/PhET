@@ -20,7 +20,7 @@ information.
   codebase="http://www.colorado.edu/physics/phet/simulations/bound-states/"
   href="band-structure_es.jnlp"> 
   <information> 
-    <title>Estructura De la Venda</title>
+    <title>Estructura de Bandas</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
     <icon href="icons/PhET.gif"/> 
