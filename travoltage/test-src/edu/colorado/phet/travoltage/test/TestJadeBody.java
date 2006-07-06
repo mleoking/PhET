@@ -3,6 +3,7 @@ package edu.colorado.phet.travoltage.test;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.travoltage.MoveElectronsJade;
 import org.cove.jade.DynamicsEngine;
 import org.cove.jade.primitives.CircleParticle;
 import org.cove.jade.surfaces.LineSurface;
@@ -185,58 +186,59 @@ public class TestJadeBody extends Component implements ActionListener {
         return new Dimension( 640, 480 );
     }
 
-    String str = "163\t200\n" +
-                 "165\t224\n" +
-                 "186\t252\n" +
-                 "187\t269\n" +
-                 "208\t335\n" +
-                 "223\t351\n" +
-                 "242\t350\n" +
-                 "262\t338\n" +
-                 "276\t345\n" +
-                 "218\t402\n" +
-                 "192\t377\n" +
-                 "181\t371\n" +
-                 "147\t293\n" +
-                 "129\t273\n" +
-                 "86\t366\n" +
-                 "95\t381\n" +
-                 "123\t390\n" +
-                 "128\t401\n" +
-                 "91\t404\n" +
-                 "46\t402\n" +
-                 "44\t360\n" +
-                 "83\t274\n" +
-                 "46\t234\n" +
-                 "4\t218\n" +
-                 "4\t198\n" +
-                 "24\t140\n" +
-                 "77\t65\n" +
-                 "111\t48\n" +
-                 "133\t48\n" +
-                 "137\t40\n" +
-                 "145\t40\n" +
-                 "164\t10\n" +
-                 "186\t7\n" +
-                 "212\t19\n" +
-                 "211\t28\n" +
-                 "206\t32\n" +
-                 "200\t50\n" +
-                 "202\t61\n" +
-                 "191\t77\n" +
-                 "173\t74\n" +
-                 "167\t79\n" +
-                 "174\t94\n" +
-                 "181\t107\n" +
-                 "183\t123\n" +
-                 "190\t136\n" +
-                 "207\t145\n" +
-                 "286\t120\n" +
-                 "298\t135\n" +
-                 "296\t144\n" +
-                 "275\t150\n" +
-                 "270\t169\n" +
-                 "200\t183\n" +
-                 "172\t172\n" +
-                 "162\t200";
+    String str = MoveElectronsJade.str;
+//            "163\t200\n" +
+//                 "165\t224\n" +
+//                 "186\t252\n" +
+//                 "187\t269\n" +
+//                 "208\t335\n" +
+//                 "223\t351\n" +
+//                 "232\t343\n" +
+//                 "262\t328\n" +//topright of foot
+//                 "276\t345\n" +
+//                 "218\t402\n" +
+//                 "192\t377\n" +
+//                 "181\t371\n" +
+//                 "147\t293\n" +
+//                 "129\t273\n" +
+//                 "86\t366\n" +
+//                 "95\t381\n" +
+//                 "123\t390\n" +
+//                 "128\t401\n" +
+//                 "91\t404\n" +
+//                 "46\t402\n" +
+//                 "44\t360\n" +
+//                 "83\t274\n" +
+//                 "46\t234\n" +
+//                 "4\t218\n" +
+//                 "4\t198\n" +
+//                 "24\t140\n" +
+//                 "77\t65\n" +
+//                 "111\t48\n" +
+//                 "133\t48\n" +
+//                 "137\t40\n" +
+//                 "145\t40\n" +
+//                 "164\t10\n" +
+//                 "186\t7\n" +
+//                 "212\t19\n" +
+//                 "211\t28\n" +
+//                 "206\t32\n" +
+//                 "200\t50\n" +
+//                 "202\t61\n" +
+//                 "191\t77\n" +
+//                 "173\t74\n" +
+//                 "167\t79\n" +
+//                 "174\t94\n" +
+//                 "181\t107\n" +
+//                 "183\t123\n" +
+//                 "190\t136\n" +
+//                 "207\t145\n" +
+//                 "286\t120\n" +
+//                 "298\t135\n" +
+//                 "296\t144\n" +
+//                 "275\t150\n" +
+//                 "270\t169\n" +
+//                 "200\t183\n" +
+//                 "172\t172\n" +
+//                 "162\t200";
 }
