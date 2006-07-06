@@ -73,7 +73,9 @@ public class VersionUtils {
             vall.add( rootInfo );
         }
         URL resourceList = cl.getResource( name + ".resources" );
-
+        if( resourceList == null ) {
+            return new VersionInfo[0];
+        }
         BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
         String line = br.readLine();
         if( line != null ) {
@@ -100,7 +102,8 @@ public class VersionUtils {
         String buildnumberName = name + ".build.number";
         URL buildNumberURL = cl.getResource( buildnumberName );
         if( buildNumberURL == null ) {
-            throw new IOException( "No resource found: " + buildnumberName );
+            return new VersionInfo( name, 0, "" );
+//            throw new IOException( "No resource found: " + buildnumberName );
         }
         System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
         int buildNum = -1;
