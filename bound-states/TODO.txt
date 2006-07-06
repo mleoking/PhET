@@ -46,6 +46,8 @@ CLEANUP:
 
 
 DONE:
+1.00.00...
+(7/5/06) - add simulation descriptions (English and Spanish)
 (7/5/06) - add angular freq handle to harmonic oscillator potential (broken)
 (7/5/06) - add width handle to square potential (broken)
 (7/5/06) - temporarily disable drag handles
