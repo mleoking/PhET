@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(7/6/06) - add getHelpNode to drag handle manager classes, create IHandleManager interface
 (7/6/06) - fix angular freq handle on harmonic oscillator potential
 1.00.00...
 (7/6/06) - change Spanish titles, roll into 1.00.00
