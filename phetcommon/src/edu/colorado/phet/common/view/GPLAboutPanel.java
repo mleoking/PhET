@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.piccolo.PiccoloModule;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -117,21 +116,5 @@ public class GPLAboutPanel extends JPanel {
         panel.add( north, BorderLayout.NORTH );
         north.setEditable( false );
         return panel;
-    }
-
-    /**
-     * Simple tester for the GPLAboutPanel.
-     *
-     * @param args
-     */
-    public static void main( String[] args ) {
-        PhetApplication ap = new PhetApplication( args, "The Moving Man", "Motion in Action", "1.00.01" );
-        ap.addModule( new PiccoloModule( "module1", new SwingClock( 30, 1 ) ) );
-        JDialog dialog = new JDialog();
-        dialog.setContentPane( new GPLAboutPanel( ap ) );
-        dialog.show();
-        dialog.pack();
-        SwingUtils.centerWindowOnScreen( dialog );
-        dialog.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 }
