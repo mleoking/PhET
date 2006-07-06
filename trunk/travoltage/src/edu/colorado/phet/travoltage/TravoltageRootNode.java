@@ -45,7 +45,8 @@ public class TravoltageRootNode extends PNode {
 //        } );
 
         doorknobNode = new DoorknobNode();
-        doorknobNode.setOffset( 286, 172 );
+//        doorknobNode.setOffset( 286, 172 );
+        doorknobNode.setOffset( 286 + 14, 172 - 60 );
         addChild( doorknobNode );
 
         addChild( travoltageBodyNode );
