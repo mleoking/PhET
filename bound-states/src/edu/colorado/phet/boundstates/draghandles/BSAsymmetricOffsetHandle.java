@@ -112,7 +112,7 @@ public class BSAsymmetricOffsetHandle extends AbstractHandle implements Observer
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
             final double offset = modelPoint.getY();
-//            System.out.println( "BSSquareOffsetHandle.updateModel globalNodePoint=" + globalNodePoint + " offset=" + offset );//XXX
+//            System.out.println( "BSSquareOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
             _potential.setOffset( offset );
             setValueDisplay( offset );
         }
@@ -129,7 +129,7 @@ public class BSAsymmetricOffsetHandle extends AbstractHandle implements Observer
             Point2D modelPoint = new Point2D.Double( position, offset );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSSquareOffsetHandle.updateView position=" + position + " offset=" + offset + " globalNodePoint=" + globalNodePoint );//XXX
+//            System.out.println( "BSSquareOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( offset );
         }
