@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -70,6 +69,21 @@ public class GPLAboutPanel extends JPanel {
             SwingUtils.centerWindowOnScreen( licenseDialog );
         }
         licenseDialog.show();
+    }
+
+    public static String getGPLText() {
+        StringBuffer sb = new StringBuffer();
+        try {
+            String[]doc = read( "gpl.txt" );
+            for( int i = 0; i < doc.length; i++ ) {
+                String s = doc[i];
+                sb.append( s ).append( System.getProperty( "line.separator" ) );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 
     private static String[] read( String resourceFileName ) throws IOException {
