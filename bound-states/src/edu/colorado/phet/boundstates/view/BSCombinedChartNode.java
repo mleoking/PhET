@@ -120,6 +120,30 @@ public class BSCombinedChartNode extends JFreeChartNode {
     }
     
     /**
+     * Converts a Y coordinate in the node's local coordinate system
+     * to an energy value in the energy chart's coordinate system.
+     * 
+     * @param yCoordinate
+     * @return
+     */
+    public double nodeToEnergy( double yCoordinate ) {
+        Point2D p = nodeToEnergy( new Point2D.Double( 0, yCoordinate ) );
+        return p.getY();
+    }
+    
+    /**
+     * Converts an X coordinate in the node's local coordinate system
+     * to a position value in the chart's coordinate system.
+     * 
+     * @param yCoordinate
+     * @return
+     */
+    public double nodeToPosition( double xCoordinate ) {
+        Point2D p = nodeToEnergy( new Point2D.Double( xCoordinate, 0 ) );
+        return p.getX();
+    }
+    
+    /**
      * Converts a point in the energy chart's coordinate system
      * to a point in the node's local coordinate system.
      * 
