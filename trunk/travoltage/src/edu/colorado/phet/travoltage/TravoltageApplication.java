@@ -2,7 +2,6 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.GPLAboutPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
@@ -18,7 +17,7 @@ import javax.swing.*;
 public class TravoltageApplication extends PhetApplication {
     private static final String TITLE = "Travoltage";
     private static final String DESCRIPTION = "The John Travoltage Simulation";
-    private static final String VERSION = "1.00.02";
+    private static final String VERSION = "1.00.03";
     private JDialog dialog;
 
     public TravoltageApplication( String[] args ) {
@@ -28,11 +27,11 @@ public class TravoltageApplication extends PhetApplication {
 
     public void showAboutDialog() {
         if( dialog == null ) {
-            dialog = new JDialog( getPhetFrame() );
-            dialog.setContentPane( new GPLAboutPanel( this ) );
+            dialog = new TravoltageAboutDialog( this );
+//            dialog.setContentPane( new TravoltageAboutPanel( this ) );
 
-            dialog.pack();
-            dialog.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
+//            dialog.pack();
+//            dialog.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
             SwingUtils.centerWindowOnScreen( dialog );
         }
         dialog.show();
