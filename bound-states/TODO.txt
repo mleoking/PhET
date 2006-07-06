@@ -23,6 +23,7 @@ HIGH PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 MEDIUM PRIORITY:
+- separate JPEG image for each of the 3 applications
 - bug: wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - attach a help item to one of the potential drag handles
 
@@ -45,6 +46,8 @@ CLEANUP:
 
 
 DONE:
+(7/5/06) - add angular freq handle to harmonic oscillator potential (broken)
+(7/5/06) - add width handle to square potential (broken)
 (7/5/06) - temporarily disable drag handles
 (7/5/06) - jnlp files for each simulation
 (7/5/06) - add "application class name" to persistence, and check it when loading a file
