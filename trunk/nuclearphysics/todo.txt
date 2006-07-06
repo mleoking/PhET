@@ -1,3 +1,6 @@
+- Location coords of ray gun and button are screwy.
+- Add new standard About box
+
 - The ray gun image temporarily disappears during some fission events.
 - If you resize the window before displaying the Single Nucleus Fision panel for the first time,
 the elements on that panel will not be sized correctly.
@@ -21,7 +24,6 @@ Controlled Reaction panel.
 -   add standard CVS and PhET headers
 -   Move some behavior from modules into the model
 -   Area behind tabs is the wrong color in 1.5
--   check boxes aren't visible in 1.4
 -   "About" box is illegible, and mentions fusion
 -   UI colors aren't initialized properly since modules defer their initialization
 
@@ -49,7 +51,7 @@ Chain Reaction panel
 - Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
 find the place to put them, and it doesn't tell you why.
 - Replace spinners with a sliders and text boxes
-- Get rid of metal L&F
+- Using standardized L&F
 - Need a color selection option for control panel.
 
 ================
