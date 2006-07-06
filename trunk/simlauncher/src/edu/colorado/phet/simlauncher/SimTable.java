@@ -43,17 +43,42 @@ public class SimTable extends JTable implements SimContainer {
     public static SimComparator NAME_SORT = new NameComparator();
     public static SimComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
 
+    /**
+     * An enumeration class that is used to specify which columns are to be displayed in the table
+     */
     public static class Column {
         private String name;
+
         private Column( String name ) {
             this.name = name;
         }
-    }
 
-    public static Column NAME = new Column( "Name");
+        String getName() {
+            return name;
+        }
+    }
+    public static Column NAME = new Column( "Name" );
     public static Column THUMBNAIL = new Column( "Thumbnail" );
-    public static Column IS_INSTALLED = new Column( "Installed?");
+    public static Column IS_INSTALLED = new Column( "Installed?" );
     public static Column IS_UP_TO_DATE = new Column( "Update Available?" );
+
+
+    // Icons for table entries
+    private static ImageIcon isInstalledIcon;
+    private static ImageIcon updateAvailableIcon;
+    static {
+        BufferedImage checkMarkImg = null;
+        BufferedImage exclamationMarkImg = null;
+        try {
+            checkMarkImg = ImageLoader.loadBufferedImage( "images/check-mark-3.png" );
+            exclamationMarkImg = ImageLoader.loadBufferedImage( "images/exclamation-mark-1.png" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        isInstalledIcon = new ImageIcon( checkMarkImg );
+        updateAvailableIcon = new ImageIcon( exclamationMarkImg );
+    }
 
 
     //--------------------------------------------------------------------------------------------------
@@ -62,6 +87,73 @@ public class SimTable extends JTable implements SimContainer {
 
     private List sims;
 
+    public SimTable( List simList, boolean showThumbnails, SimComparator sortType, int listSelectionModel, List columns ) {
+
+        // Set the selection mode to be row only
+        setColumnSelectionAllowed( false );
+        setRowSelectionAllowed( true );
+        setSelectionMode( listSelectionModel );
+
+        // Create the row data for the table
+        sims = simList;
+        Collections.sort( sims, sortType );
+        Object[][] rowData = new Object[sims.size()][3];
+        for( int i = 0; i < sims.size(); i++ ) {
+            Simulation sim = (Simulation)sims.get( i );
+            Object[] row = new Object[ columns.size()];
+            for( int j = 0; j < row.length; j++ ) {
+                if( columns.get( j ) == NAME ) {
+                    row[j] = sim.getName();
+                }
+                else if( columns.get( j ) == THUMBNAIL ) {
+                    row[j] = sim.getThumbnail();
+                }
+                else if( columns.get( j ) == IS_INSTALLED ) {
+                    row[j] = sim.isInstalled() ? isInstalledIcon : "";
+                    ;
+                }
+                else if( columns.get( j ) == IS_UP_TO_DATE ) {
+                    try {
+                        row[j] = sim.isCurrent() ? "" : updateAvailableIcon;
+                    }
+                    catch( SimResourceException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            rowData[i] = row;
+        }
+
+        // Create the header
+        Object[] header = new Object[columns.size()];
+        for( int i = 0; i < columns.size(); i++ ) {
+            Column column = (Column)columns.get( i );
+            header[i] = column.getName();
+        }
+
+        // Create the table model
+        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ) );
+        TableModel tableModel = new SimTableModel( rowData, header );
+        this.setModel( sorter );
+        sorter.setTableHeader( this.getTableHeader() );
+
+        // Get max row height
+        int hMax = getMaxRowHeight();
+        if( hMax >= 1 ) {
+            setRowHeight( hMax );
+        }
+
+        // Name the columns
+        TableColumn nameCol = getColumn( "Name" );
+//        nameCol.setMinWidth( 200 );
+//        nameCol.setMaxWidth( 200 );
+        nameCol.setWidth( 200 );
+        if( showThumbnails ) {
+            TableColumn thumbnailCol = getColumn( "Thumbnail" );
+            thumbnailCol.setMinWidth( 150 );
+        }
+    }
+
     /**
      * Constructor
      *
@@ -69,7 +161,6 @@ public class SimTable extends JTable implements SimContainer {
      * @param showThumbnails
      */
     public SimTable( List simList, boolean showThumbnails, SimComparator sortType, int listSelectionModel ) {
-        super();
 
         // Set the selection mode to be row only
         setColumnSelectionAllowed( false );
@@ -120,12 +211,12 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // Create the table model
-        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ));
+        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ) );
         TableModel tableModel = new SimTableModel( rowData, header );
 //        TableModel tableModel = new SimTableModel( rowData, header );
         this.setModel( sorter );
 //        this.setModel( tableModel );
-        sorter.setTableHeader(this.getTableHeader());
+        sorter.setTableHeader( this.getTableHeader() );
 
         // So no header gets displayed
 //        this.setTableHeader( null );
