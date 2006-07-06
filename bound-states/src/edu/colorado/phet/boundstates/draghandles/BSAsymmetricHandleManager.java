@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class BSAsymmetricHandleManager extends PNode {
+public class BSAsymmetricHandleManager extends PNode implements IHandleManager {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -74,10 +74,10 @@ public class BSAsymmetricHandleManager extends PNode {
         }
     }
     
-    public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
-    }
-       
+    //----------------------------------------------------------------------------
+    // IHandleManager implementation
+    //----------------------------------------------------------------------------
+    
     public void updateDragBounds() {
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
@@ -89,4 +89,13 @@ public class BSAsymmetricHandleManager extends PNode {
             _widthHandle.updateDragBounds();
         }
     }
+    
+    public PNode getHelpNode() {
+        return _offsetHandle;
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        //XXX
+    }
+       
 }

@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class BSCoulomb3DHandleManager extends PNode {
+public class BSCoulomb3DHandleManager extends PNode implements IHandleManager {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -62,13 +62,21 @@ public class BSCoulomb3DHandleManager extends PNode {
         }
     }
     
-    public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
-    }
-       
+    //----------------------------------------------------------------------------
+    // IHandleManager implementation
+    //----------------------------------------------------------------------------
+    
     public void updateDragBounds() {
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }
+    }
+    
+    public PNode getHelpNode() {
+        return _offsetHandle;
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        //XXX
     }
 }
