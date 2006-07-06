@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * InstalledSimsPane
@@ -102,10 +103,15 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             remove( simTableScrollPane );
         }
 
+        ArrayList columns = new ArrayList( );
+        columns.add( SimTable.NAME );
+        columns.add( SimTable.THUMBNAIL );
+        columns.add( SimTable.IS_UP_TO_DATE );
         simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
                                  Options.instance().isShowInstalledThumbnails(),
                                  simTableSortType,
-                                 ListSelectionModel.SINGLE_SELECTION );
+                                 ListSelectionModel.SINGLE_SELECTION,
+                                 columns );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseHandler() );
