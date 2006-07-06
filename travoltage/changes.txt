@@ -1,3 +1,7 @@
+1.00.04
+Increased speed for electrons when discharging.
+Added improved about dialog, including license info.
+
 1.00.01 (7-4-2006)
 Rewrote using piccolo and Jade.
 Improved arm and foot graphics.
