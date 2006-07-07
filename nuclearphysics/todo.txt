@@ -46,7 +46,7 @@ Controlled Reaction
 
 
 ================
-Done not posted
+1.08.12
 ================
 Chain Reaction panel
 - Chain Reaction panel doesn't put all the nuclei you specify in the spiner into the container if it can't
