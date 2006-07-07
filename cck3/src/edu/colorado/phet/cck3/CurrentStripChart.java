@@ -12,7 +12,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -47,14 +46,11 @@ public class CurrentStripChart extends SingleTerminalFloatingChart {
                     BranchGraphic branchGraphic = ibg.getBranchGraphic();
                     Shape shape = branchGraphic.getCoreShape();//getShape();
                     if( shape.contains( target ) ) {
-                        double current = branch.getCurrent();
-                        DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
-                        String amps = df.format( Math.abs( current ) );
-                        return current;
+                        return branch.getCurrent();
                     }
                 }
             }
-            return 0.0;
+            return Double.NaN;
         }
     }
 }
