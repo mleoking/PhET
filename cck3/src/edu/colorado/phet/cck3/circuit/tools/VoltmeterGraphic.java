@@ -2,9 +2,10 @@
 package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
+import edu.colorado.phet.cck3.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
-import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
@@ -150,76 +150,80 @@ public class VoltmeterGraphic extends CompositeGraphic {
             graphics2D.setStroke( origStroke );
         }
 
-        private Branch detectBranch( CircuitGraphic circuitGraphic ) {
-            Graphic[] g = circuitGraphic.getBranchGraphics();
-            Shape tipShape = getTipShape();
-            overlap = null;
-            for( int i = g.length - 1; i >= 0; i-- ) {
-                Graphic graphic = g[i];
-                if( graphic instanceof InteractiveBranchGraphic ) {
-                    InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)graphic;
-                    Shape shape = ibg.getBranchGraphic().getCoreShape();//getShape();
-                    Area intersection = new Area( tipShape );
-                    intersection.intersect( new Area( shape ) );
-                    if( !intersection.isEmpty() ) {
-                        this.overlap = ibg;
-                        break;
-                    }
-                }
-            }
-//            System.out.println( "overlap = " + overlap );
-            if( overlap == null ) {
-                return null;
-            }
-            else {
-                return overlap.getBranch();
-            }
-        }
-
-        public VoltageCalculation.Connection detectConnection( CircuitGraphic circuitGraphic ) {
-            Branch branch = detectBranch( circuitGraphic );
-            Junction junction = detectJunction( circuitGraphic );
-            VoltageCalculation.Connection result = null;
-            if( junction != null ) {
-                result = new VoltageCalculation.JunctionConnection( junction );
-            }
-            else if( branch != null ) {
-                //could choose the closest junction
-                //but we want a potentiometer.
-                result = new VoltageCalculation.JunctionConnection( branch.getStartJunction() );
-                Rectangle tipRect = getTipShape().getBounds();
-                Point2D tipCenter = RectangleUtils.getCenter( tipRect );
-                Point2D tipCenterModel = circuitGraphic.getTransform().viewToModel( new Point( (int)tipCenter.getX(), (int)tipCenter.getY() ) );
-                Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
-//                Point2D branchStartModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
-                Vector2D vec = new Vector2D.Double( branchStartModel, tipCenterModel );
-                double dist = vec.getMagnitude();
-                result = new VoltageCalculation.BranchConnection( branch, dist );
-            }
-            return result;
-        }
-
-        private Junction detectJunction( CircuitGraphic circuitGraphic ) {
-            Graphic[] j = circuitGraphic.getJunctionGraphics();
-            Shape tipShape = getTipShape();
-            Junction junction = null;
-            for( int i = 0; i < j.length; i++ ) {
-                Graphic graphic = j[i];
-                HasJunctionGraphic hj = (HasJunctionGraphic)graphic;
-                JunctionGraphic jg = hj.getJunctionGraphic();
-                Area area = new Area( jg.getShape() );
-                area.intersect( new Area( tipShape ) );
-                if( !area.isEmpty() ) {
-                    junction = jg.getJunction();
-                    break;
-                }
-            }
-            return junction;
-        }
+//        private Branch detectBranch( CircuitGraphic circuitGraphic ) {
+//            Graphic[] g = circuitGraphic.getBranchGraphics();
+//            Shape tipShape = getTipShape();
+//            overlap = null;
+//            for( int i = g.length - 1; i >= 0; i-- ) {
+//                Graphic graphic = g[i];
+//                if( graphic instanceof InteractiveBranchGraphic ) {
+//                    InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)graphic;
+//                    Shape shape = ibg.getBranchGraphic().getCoreShape();//getShape();
+//                    Area intersection = new Area( tipShape );
+//                    intersection.intersect( new Area( shape ) );
+//                    if( !intersection.isEmpty() ) {
+//                        this.overlap = ibg;
+//                        break;
+//                    }
+//                }
+//            }
+////            System.out.println( "overlap = " + overlap );
+//            if( overlap == null ) {
+//                return null;
+//            }
+//            else {
+//                return overlap.getBranch();
+//            }
+//        }
+//
+//        public VoltageCalculation.Connection detectConnection( CircuitGraphic circuitGraphic ) {
+//            Branch branch = detectBranch( circuitGraphic );
+//            Junction junction = detectJunction( circuitGraphic );
+//            VoltageCalculation.Connection result = null;
+//            if( junction != null ) {
+//                result = new VoltageCalculation.JunctionConnection( junction );
+//            }
+//            else if( branch != null ) {
+//                //could choose the closest junction
+//                //but we want a potentiometer.
+//                result = new VoltageCalculation.JunctionConnection( branch.getStartJunction() );
+//                Rectangle tipRect = getTipShape().getBounds();
+//                Point2D tipCenter = RectangleUtils.getCenter( tipRect );
+//                Point2D tipCenterModel = circuitGraphic.getTransform().viewToModel( new Point( (int)tipCenter.getX(), (int)tipCenter.getY() ) );
+//                Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
+////                Point2D branchStartModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
+//                Vector2D vec = new Vector2D.Double( branchStartModel, tipCenterModel );
+//                double dist = vec.getMagnitude();
+//                result = new VoltageCalculation.BranchConnection( branch, dist );
+//            }
+//            return result;
+//        }
+//
+//        private Junction detectJunction( CircuitGraphic circuitGraphic ) {
+//            Graphic[] j = circuitGraphic.getJunctionGraphics();
+//            Shape tipShape = getTipShape();
+//            Junction junction = null;
+//            for( int i = 0; i < j.length; i++ ) {
+//                Graphic graphic = j[i];
+//                HasJunctionGraphic hj = (HasJunctionGraphic)graphic;
+//                JunctionGraphic jg = hj.getJunctionGraphic();
+//                Area area = new Area( jg.getShape() );
+//                area.intersect( new Area( tipShape ) );
+//                if( !area.isEmpty() ) {
+//                    junction = jg.getJunction();
+//                    break;
+//                }
+//            }
+//            return junction;
+//        }
 
         public void setAngle( double angle ) {
             this.angle = angle;
             changed();
+        }
+
+        public VoltageCalculation.Connection getConnection( CircuitGraphic circuitGraphic ) {
+            return new VoltageCalculation( circuitGraphic.getCircuit() ).detectConnection( circuitGraphic, getTipShape() );
         }
     }
 
@@ -230,29 +234,12 @@ public class VoltmeterGraphic extends CompositeGraphic {
         if( redLeadGraphic == null || blackLeadGraphic == null ) {
             return;
         }
-
-        Area tipIntersection = new Area( redLeadGraphic.getTipShape() );
-        tipIntersection.intersect( new Area( blackLeadGraphic.getTipShape() ) );
-        if( !tipIntersection.isEmpty() ) {
-            unitGraphic.setVoltage( 0 );
+        double voltageResult = new VoltageCalculation( module.getCircuit() ).getVoltage( module.getCircuitGraphic(), redLeadGraphic.getTipShape(), blackLeadGraphic.getTipShape() );
+        if( Double.isNaN( voltageResult ) ) {
+            unitGraphic.setUnknownVoltage();
         }
         else {
-//            double voltageResult=new VoltageCalculation(module.getCircuit( )).getVoltage();
-            VoltageCalculation.Connection red = redLeadGraphic.detectConnection( module.getCircuitGraphic() );
-            VoltageCalculation.Connection black = blackLeadGraphic.detectConnection( module.getCircuitGraphic() );
-            if( red == null || black == null ) {
-                unitGraphic.setUnknownVoltage();
-            }
-            else {
-                //dfs from one branch to the other, counting the voltage drop.
-                double volts = module.getCircuit().getVoltage( red, black );
-                if( Double.isInfinite( volts ) ) {
-                    unitGraphic.setUnknownVoltage();
-                }
-                else {
-                    unitGraphic.setVoltage( volts );
-                }
-            }
+            unitGraphic.setVoltage( voltageResult );
         }
     }
 
@@ -328,14 +315,19 @@ public class VoltmeterGraphic extends CompositeGraphic {
         }
 
         public void setVoltage( double volts ) {
-            voltageString = voltFormatter.format( volts );
-            if( Double.parseDouble( voltageString ) == 0 ) {
-                voltageString = voltFormatter.format( 0 );
+            if( Double.isNaN( volts ) || Double.isInfinite( volts ) ) {
+                setUnknownVoltage();
             }
-            textGraphic.setText( voltageString + " " + SimStrings.get( "VoltmeterGraphic.VoltAbrev" ) );
+            else {
+                voltageString = voltFormatter.format( volts );
+                if( Double.parseDouble( voltageString ) == 0 ) {
+                    voltageString = voltFormatter.format( 0 );
+                }
+                textGraphic.setText( voltageString + " " + SimStrings.get( "VoltmeterGraphic.VoltAbrev" ) );
+            }
         }
 
-        public void setUnknownVoltage() {
+        private void setUnknownVoltage() {
             textGraphic.setText( UNKNOWN_VOLTS );
         }
     }
