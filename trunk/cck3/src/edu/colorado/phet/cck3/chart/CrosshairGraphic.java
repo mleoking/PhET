@@ -25,7 +25,7 @@ public class CrosshairGraphic extends PComposite {
     private BasicStroke CROSSHAIR_STROKE = new BasicStroke( 2 );
     private CrosshairDragHandler listener;
     private AbstractFloatingChart intensityReader;
-    private boolean attached = true;
+    private boolean attached = false;
     private Vector2D originalDisplacement;
 
     public CrosshairGraphic( AbstractFloatingChart intensityReader, int innerRadius, int outerRadius ) {

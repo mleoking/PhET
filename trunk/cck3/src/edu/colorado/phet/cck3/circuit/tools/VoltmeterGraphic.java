@@ -237,6 +237,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
             unitGraphic.setVoltage( 0 );
         }
         else {
+//            double voltageResult=new VoltageCalculation(module.getCircuit( )).getVoltage();
             VoltageCalculation.Connection red = redLeadGraphic.detectConnection( module.getCircuitGraphic() );
             VoltageCalculation.Connection black = blackLeadGraphic.detectConnection( module.getCircuitGraphic() );
             if( red == null || black == null ) {

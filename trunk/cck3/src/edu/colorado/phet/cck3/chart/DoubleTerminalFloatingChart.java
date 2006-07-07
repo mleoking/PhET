@@ -36,8 +36,8 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - leftCrosshairGraphic.getFullBounds().getWidth() / 2.0,
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
         double crosshairOffsetDX = leftCrosshairGraphic.getFullBounds().getWidth() * 1.25;
-        leftCrosshairGraphic.translate( crosshairOffsetDX, 0 );
-//        rightCrosshairConnection.translate( crosshairOffsetDX, 30 );
+        leftCrosshairGraphic.translate( crosshairOffsetDX, -30 );
+        rightCrosshairGraphic.translate( crosshairOffsetDX, 30 );
         stripChartJFCNode.addInputEventListener( new DoubleTerminalFloatingChart.PairDragHandler() );
     }
 
