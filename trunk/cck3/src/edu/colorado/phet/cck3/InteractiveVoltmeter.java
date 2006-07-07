@@ -46,8 +46,8 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 //if the leads are on the circuit, only the DVM goes.
 //                Branch a = voltmeterGraphic.getRedLeadGraphic().detectBranch( module.getCircuitGraphic() );
 //                Branch b = voltmeterGraphic.getBlackLeadGraphic().detectBranch( module.getCircuitGraphic() );
-                VoltageCalculation.Connection a = voltmeterGraphic.getRedLeadGraphic().detectConnection( module.getCircuitGraphic() );
-                VoltageCalculation.Connection b = voltmeterGraphic.getBlackLeadGraphic().detectConnection( module.getCircuitGraphic() );
+                VoltageCalculation.Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
+                VoltageCalculation.Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
                 if( a == null && b == null ) {
                     dragAll = true;
                 }
