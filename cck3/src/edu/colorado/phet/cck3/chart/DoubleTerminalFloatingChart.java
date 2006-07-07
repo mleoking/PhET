@@ -57,6 +57,7 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
 
             double value = valueReader.getValue( left, right );
             CCKTime cckTime = new CCKTime();
+//            System.out.println( "getClock().getSimulationTime() = " + getClock().getSimulationTime() );
             double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
@@ -75,8 +76,7 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         double w = 2.0;
         double h = 2.0;
-        Rectangle2D.Double r = new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
-        return r;
+        return new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
     }
 
     public void setValueReader( TwoTerminalValueReader valueReader ) {

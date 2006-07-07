@@ -216,6 +216,8 @@ public class CCK3Module extends Module {
 
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
+//                System.out.println( "dt = " + dt );
+                dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
                 if( circuit.isDynamic() ) {
                     circuit.stepInTime( dt );
                     circuitSolver.apply( circuit );
