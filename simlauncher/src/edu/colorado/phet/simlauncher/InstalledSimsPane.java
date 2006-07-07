@@ -47,7 +47,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                                                          new Insets( 10, 0, 0, 0 ), 0, 0 );
 
     /**
-     *
+     * Constructor
      */
     public InstalledSimsPane() {
         super( new GridBagLayout() );
@@ -70,6 +70,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn.setEnabled( false );
         add( launchBtn, launchButtonGbc );
 
+        // Creates the SimTable
         updateSimTable();
 
         // Listen for changes in Options
@@ -97,6 +98,9 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         changeEventChannel.removeListener( listener );
     }
 
+    /**
+     * Creates the SimTable
+     */
     private void updateSimTable() {
         if( simTable != null ) {
             simTableScrollPane.remove( simTable );
@@ -146,8 +150,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     }
 
     public Simulation[] getSimulations() {
-        return simTable.getSimulations
-                ();
+        return simTable.getSimulations();
     }
 
     //--------------------------------------------------------------------------------------------------

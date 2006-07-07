@@ -149,6 +149,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // Create the SimulationTable
             ArrayList columns = new ArrayList( );
+            columns.add( SimTable.SELECTION_CHECKBOX );
             columns.add( SimTable.NAME );
             columns.add( SimTable.THUMBNAIL );
             columns.add( SimTable.IS_INSTALLED );

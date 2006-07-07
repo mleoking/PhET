@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.TableSorter;
@@ -19,12 +18,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.io.IOException;
 
 /**
  * SimulationTable
@@ -48,24 +46,39 @@ public class SimTable extends JTable implements SimContainer {
      */
     public static class Column {
         private String name;
+        private int width;
+        private Class columnClass;
 
-        private Column( String name ) {
+        private Column( String name, Class columnClass, int width ) {
+            this.columnClass = columnClass;
             this.name = name;
+            this.width = width;
         }
 
         String getName() {
             return name;
         }
+
+        int getWidth() {
+            return width;
+        }
+
+        public Class getColumnClass() {
+            return columnClass;
+        }
     }
-    public static Column NAME = new Column( "Name" );
-    public static Column THUMBNAIL = new Column( "Thumbnail" );
-    public static Column IS_INSTALLED = new Column( "Installed?" );
-    public static Column IS_UP_TO_DATE = new Column( "Update Available?" );
+
+    public static Column NAME = new Column( "Name", String.class, 150 );
+    public static Column THUMBNAIL = new Column( "Thumbnail", ImageIcon.class, 150 );
+    public static Column IS_INSTALLED = new Column( "Installed?", ImageIcon.class, 100 );
+    public static Column IS_UP_TO_DATE = new Column( "Update Available?", ImageIcon.class, 100 );
+    public static Column SELECTION_CHECKBOX = new Column( "Select", Boolean.class, 30 );
 
 
     // Icons for table entries
     private static ImageIcon isInstalledIcon;
     private static ImageIcon updateAvailableIcon;
+
     static {
         BufferedImage checkMarkImg = null;
         BufferedImage exclamationMarkImg = null;
@@ -80,14 +93,17 @@ public class SimTable extends JTable implements SimContainer {
         updateAvailableIcon = new ImageIcon( exclamationMarkImg );
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private List sims;
+    List columns;
+    boolean[] simSelections;
 
-    public SimTable( List simList, boolean showThumbnails, SimComparator sortType, int listSelectionModel, List columns ) {
+    public SimTable( List sims, boolean showThumbnails, SimComparator sortType, int listSelectionModel, List columns ) {
+
+        this.columns = columns;
+        simSelections = new boolean[sims.size()];
 
         // Set the selection mode to be row only
         setColumnSelectionAllowed( false );
@@ -95,13 +111,65 @@ public class SimTable extends JTable implements SimContainer {
         setSelectionMode( listSelectionModel );
 
         // Create the row data for the table
-        sims = simList;
+        Object[][] rowData = createRowData( sims, sortType, columns );
+
+        // Create the header
+        Object[] header = new Object[columns.size()];
+        for( int i = 0; i < columns.size(); i++ ) {
+            Column column = (Column)columns.get( i );
+            header[i] = column.getName();
+        }
+
+        // Create the table model
+        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header, columns ) );
+//        this.setModel( new SimTableModel( rowData, header, columns ));
+        this.setModel( sorter );
+        sorter.setTableHeader( this.getTableHeader() );
+
+        // Set the check box renderers and editors on the selection column
+        for( int i = 0; i < columns.size(); i++ ) {
+            Column column = (Column)columns.get( i );
+            if( column == SELECTION_CHECKBOX ) {
+                this.getColumnModel().getColumn( i ).setCellRenderer( new CheckBoxRenderer() );
+                this.getColumnModel().getColumn( i ).setCellEditor( new CheckBoxEditor() );
+            }
+        }
+
+        // Get max row height
+        int hMax = getMaxRowHeight();
+        if( hMax >= 1 ) {
+            setRowHeight( hMax );
+        }
+
+        // set column widths
+        TableColumn nameCol = getColumn( NAME.getName() );
+        nameCol.setMinWidth( 200 );
+        nameCol.setMaxWidth( 200 );
+        nameCol.setWidth( 200 );
+        for( int i = 0; i < columns.size(); i++ ) {
+            Column column = (Column)columns.get( i );
+            getColumn( column.getName() ).setMinWidth( column.getWidth() );
+        }
+    }
+
+    /**
+     * Creates the array of data that populates the table model
+     *
+     * @param sims
+     * @param sortType
+     * @param columns
+     * @return the array of data that populates the table model
+     */
+    private Object[][] createRowData( List sims, SimComparator sortType, List columns ) {
         Collections.sort( sims, sortType );
-        Object[][] rowData = new Object[sims.size()][3];
+        Object[][] rowData = new Object[sims.size()][columns.size()];
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
             Object[] row = new Object[ columns.size()];
             for( int j = 0; j < row.length; j++ ) {
+                if( columns.get( j ) == SELECTION_CHECKBOX ) {
+                    row[j] = new Boolean( false );
+                }
                 if( columns.get( j ) == NAME ) {
                     row[j] = sim.getName();
                 }
@@ -123,119 +191,7 @@ public class SimTable extends JTable implements SimContainer {
             }
             rowData[i] = row;
         }
-
-        // Create the header
-        Object[] header = new Object[columns.size()];
-        for( int i = 0; i < columns.size(); i++ ) {
-            Column column = (Column)columns.get( i );
-            header[i] = column.getName();
-        }
-
-        // Create the table model
-        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ) );
-        TableModel tableModel = new SimTableModel( rowData, header );
-        this.setModel( sorter );
-        sorter.setTableHeader( this.getTableHeader() );
-
-        // Get max row height
-        int hMax = getMaxRowHeight();
-        if( hMax >= 1 ) {
-            setRowHeight( hMax );
-        }
-
-        // Name the columns
-        TableColumn nameCol = getColumn( "Name" );
-//        nameCol.setMinWidth( 200 );
-//        nameCol.setMaxWidth( 200 );
-        nameCol.setWidth( 200 );
-        if( showThumbnails ) {
-            TableColumn thumbnailCol = getColumn( "Thumbnail" );
-            thumbnailCol.setMinWidth( 150 );
-        }
-    }
-
-    /**
-     * Constructor
-     *
-     * @param simList
-     * @param showThumbnails
-     */
-    public SimTable( List simList, boolean showThumbnails, SimComparator sortType, int listSelectionModel ) {
-
-        // Set the selection mode to be row only
-        setColumnSelectionAllowed( false );
-        setRowSelectionAllowed( true );
-
-        setSelectionMode( listSelectionModel );
-
-        // Create the row data for the table
-        sims = simList;
-        Collections.sort( sims, sortType );
-        Object[][] rowData = new Object[sims.size()][3];
-        for( int i = 0; i < sims.size(); i++ ) {
-            Simulation sim = (Simulation)sims.get( i );
-
-            Object isCurrent = "";
-            Object isInstalled = "";
-            BufferedImage checkMarkImg = null;
-            BufferedImage exclamationMarkImg = null;
-            try {
-                checkMarkImg = ImageLoader.loadBufferedImage( "images/check-mark-3.png" );
-                exclamationMarkImg = ImageLoader.loadBufferedImage( "images/exclamation-mark-1.png" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            ImageIcon isInstalledIcon = new ImageIcon( checkMarkImg );
-            ImageIcon updateAvailableIcon = new ImageIcon( exclamationMarkImg );
-            try {
-                isCurrent = sim.isCurrent() ? "" : updateAvailableIcon;
-//                isCurrent = sim.isCurrent() ? "up to date" : "update available";
-                isInstalled = sim.isInstalled() ? isInstalledIcon : "";
-//                isInstalled = sim.isInstalled() ? "yes" : "no";
-            }
-            catch( SimResourceException e ) {
-                e.printStackTrace();
-            }
-            Object[] row = new Object[]{sim.getName(), sim.getThumbnail(), isInstalled, isCurrent};
-            rowData[i] = row;
-        }
-
-        // Create the header
-        Object[] header = null;
-        if( showThumbnails ) {
-            header = new Object[]{"Name", "thumbnail", "Installed?", "Update Available?"};
-        }
-        else {
-            header = new Object[]{"Name"};
-        }
-
-        // Create the table model
-        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header ) );
-        TableModel tableModel = new SimTableModel( rowData, header );
-//        TableModel tableModel = new SimTableModel( rowData, header );
-        this.setModel( sorter );
-//        this.setModel( tableModel );
-        sorter.setTableHeader( this.getTableHeader() );
-
-        // So no header gets displayed
-//        this.setTableHeader( null );
-
-        // Get max row height
-        int hMax = getMaxRowHeight();
-        if( hMax >= 1 ) {
-            setRowHeight( hMax );
-        }
-
-        // Name the columns
-        TableColumn nameCol = getColumn( "Name" );
-//        nameCol.setMinWidth( 200 );
-//        nameCol.setMaxWidth( 200 );
-        nameCol.setWidth( 200 );
-        if( showThumbnails ) {
-            TableColumn thumbnailCol = getColumn( "thumbnail" );
-            thumbnailCol.setMinWidth( 150 );
-        }
+        return rowData;
     }
 
     /**
@@ -248,21 +204,63 @@ public class SimTable extends JTable implements SimContainer {
         if( isVisible() ) {
             int idx = getSelectedRow();
             if( idx >= 0 ) {
-                String simName = (String)this.getValueAt( idx, 0 );
+                String simName = (String)this.getValueAt( idx, getNameColumnIndex() );
                 sim = Simulation.getSimulationForName( simName );
             }
         }
         return sim;
     }
 
+    private int getNameColumnIndex() {
+        // Get the index of the column that has the name
+        int nameColumnIndex = -1;
+        for( int i = 0; i < columns.size(); i++ ) {
+            if( (Column)columns.get( i ) == NAME ) {
+                nameColumnIndex = i;
+            }
+        }
+        return nameColumnIndex;
+    }
+
+
+    /**
+     * Returns the currently selected simulations.
+     *
+     * @return the currently selected simulations
+     */
     public Simulation[] getSelections() {
-        ListSelectionModel lsm = getSelectionModel();
         List selectedSims = new ArrayList();
-        for( int i = lsm.getMinSelectionIndex(); i <= lsm.getMaxSelectionIndex(); i++ ) {
-            if( lsm.isSelectedIndex( i ) ) {
-                String simName = (String)this.getValueAt( i, 0 );
-                Simulation sim = Simulation.getSimulationForName( simName );
-                selectedSims.add( sim );
+        int nameColumIndex = getNameColumnIndex();
+
+        // Get the column that has the check boxes
+        int checkBoxColumnIndex = -1;
+        for( int i = 0; i < columns.size(); i++ ) {
+            Column column = (Column)columns.get( i );
+            if( column == SELECTION_CHECKBOX ) {
+                checkBoxColumnIndex = i;
+            }
+        }
+
+        // We build the list of selected simulations differently depending on whether there is a
+        // column of checkboxes or not
+        if( checkBoxColumnIndex > -1 ) {
+            for( int row = 0; row < getRowCount(); row++ ) {
+                Boolean isSelected = (Boolean)getModel().getValueAt( row, checkBoxColumnIndex );
+                if( isSelected ) {
+                    String simName = (String)this.getValueAt( row, nameColumIndex );
+                    Simulation sim = Simulation.getSimulationForName( simName );
+                    selectedSims.add( sim );
+                }
+            }
+        }
+        else {
+            ListSelectionModel lsm = getSelectionModel();
+            for( int i = lsm.getMinSelectionIndex(); i <= lsm.getMaxSelectionIndex(); i++ ) {
+                if( lsm.isSelectedIndex( i ) ) {
+                    String simName = (String)this.getValueAt( i, nameColumIndex );
+                    Simulation sim = Simulation.getSimulationForName( simName );
+                    selectedSims.add( sim );
+                }
             }
         }
         return (Simulation[])selectedSims.toArray( new Simulation[selectedSims.size()] );
@@ -358,79 +356,54 @@ public class SimTable extends JTable implements SimContainer {
     //--------------------------------------------------------------------------------------------------
 
     private static class SimTableModel extends DefaultTableModel {
-        public SimTableModel( Object[][] data, Object[] columnNames ) {
+        private List columns;
+
+        public SimTableModel( Object[][] data, Object[] columnNames, List columns ) {
             super( data, columnNames );
+            this.columns = columns;
         }
 
         public Class getColumnClass( int columnIndex ) {
-            if( columnIndex == 1 ) {
-                return ImageIcon.class;
-            }
-            if( columnIndex == 2 ) {
-                return ImageIcon.class;
-//                return MyTableCellRenderer.class;
-            }
-            if( columnIndex == 3 ) {
-                return ImageIcon.class;
-            }
-            else {
-                return super.getColumnClass( columnIndex );
-            }
+            return ( (Column)columns.get( columnIndex ) ).getColumnClass();
         }
 
         /**
-         * No cells are editable
+         * The only editable column is the one with the checkbox
          *
          * @param row
          * @param column
          * @return always returns false
          */
         public boolean isCellEditable( int row, int column ) {
-            return false;
+            return ( columns.get( column ) == SELECTION_CHECKBOX );
         }
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Custom CellRenderers
+    // CellRenderer and CellEditor for the check boxes
     //--------------------------------------------------------------------------------------------------
 
-    public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
-        // This method is called each time a cell in a column
-        // using this renderer needs to be rendered.
-        public Component getTableCellRendererComponent( JTable table, Object value,
-                                                        boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex ) {
-            // 'value' is value contained in the cell located at
-            // (rowIndex, vColIndex)
+    class CheckBoxEditor extends DefaultCellEditor {
+        public CheckBoxEditor() {
+            super( new JCheckBox() );
+        }
 
-            if( isSelected ) {
-                // cell (and perhaps other cells) are selected
+        public boolean isCellEditable( EventObject anEvent ) {
+            return true;
+        }
+
+    }
+
+    class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
+        public CheckBoxRenderer() {
+        }
+
+        public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+            if( value instanceof Boolean ) {
+                Boolean b = (Boolean)value;
+                setSelected( b.booleanValue() );
             }
-
-            if( hasFocus ) {
-                // this cell is the anchor and the table has the focus
-            }
-
-            // Configure the component with the specified value
-            setText( value.toString() );
-
-            // Set tool tip if desired
-            setToolTipText( (String)value );
-
-            // Since the renderer is a component, return itself
             return this;
-        }
-
-        // The following methods override the defaults for performance reasons
-        public void validate() {
-        }
-
-        public void revalidate() {
-        }
-
-        protected void firePropertyChange( String propertyName, Object oldValue, Object newValue ) {
-        }
-
-        public void firePropertyChange( String propertyName, boolean oldValue, boolean newValue ) {
         }
     }
 
@@ -451,31 +424,4 @@ public class SimTable extends JTable implements SimContainer {
         return getSelections();
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Events and listeners
-    //--------------------------------------------------------------------------------------------------
-    public static class ChangeEvent extends EventObject {
-        public ChangeEvent( SimTable source ) {
-            super( source );
-        }
-
-        public SimTable getOptions() {
-            return (SimTable)getSource();
-        }
-    }
-
-    public interface ChangeListener extends EventListener {
-        void simulationTableChanged( ChangeEvent event );
-    }
-
-    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
-
-    public void addListener( ChangeListener listener ) {
-        changeEventChannel.addListener( listener );
-    }
-
-    public void removeListener( ChangeListener listener ) {
-        changeEventChannel.removeListener( listener );
-    }
 }
