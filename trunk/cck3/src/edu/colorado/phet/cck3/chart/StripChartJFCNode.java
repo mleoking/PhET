@@ -88,10 +88,10 @@ public class StripChartJFCNode extends PNode {
     }
 
     public void addValue( double x, double y ) {
-        if( Double.isNaN( y ) || Double.isInfinite( y ) ) {
-            y = 0;
+        if( Double.isNaN( y ) ) {
+            y = Double.NaN;
         }
-        if( enabled && !Double.isNaN( y ) && !Double.isInfinite( y ) ) {
+        if( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
             series.add( x, y );
             Range r = jFreeChart.getXYPlot().getDomainAxis().getRange();
