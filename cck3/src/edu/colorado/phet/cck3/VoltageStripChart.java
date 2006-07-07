@@ -29,6 +29,8 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart {
         super.setValueReader( new VoltageReader( circuitGraphic ) );
         getStripChartJFCNode().setVerticalRange( -20, 20 );
         getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( "Voltage (V)" );
+        getLeftCrosshairGraphic().setColor( Color.red );
+        getRightCrosshairGraphic().setColor( Color.black );
     }
 
     public class VoltageReader implements TwoTerminalValueReader {
