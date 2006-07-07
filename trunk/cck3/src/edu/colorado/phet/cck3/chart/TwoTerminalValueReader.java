@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck3.chart;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Jul 6, 2006
@@ -7,5 +9,5 @@ package edu.colorado.phet.cck3.chart;
  * Copyright (c) Jul 6, 2006 by Sam Reid
  */
 public interface TwoTerminalValueReader {
-    double getValue( double x, double y, double x1, double y1 );
+    double getValue( Shape a, Shape b );
 }

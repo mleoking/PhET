@@ -5,7 +5,9 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -45,17 +47,36 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         super.update();
         if( leftCrosshairGraphic != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
-            Point2D location = leftCrosshairGraphic.getGlobalTranslation();
-            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+            Shape left = getLeftShape();
+            Shape right = getRightShape();
+//            Point2D location = leftCrosshairGraphic.getGlobalTranslation();
+//            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+//
+//            Point2D locRight = rightCrosshairGraphic.getGlobalTranslation();
+//            locRight.setLocation( locRight.getX() + 1, locRight.getY() + 1 );
 
-            Point2D locRight = rightCrosshairGraphic.getGlobalTranslation();
-            locRight.setLocation( locRight.getX() + 1, locRight.getY() + 1 );
-
-            double value = valueReader.getValue( location.getX(), location.getY(), locRight.getX(), locRight.getY() );
+            double value = valueReader.getValue( left, right );
             CCKTime cckTime = new CCKTime();
             double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
+    }
+
+    private Shape getRightShape() {
+        return getShape( rightCrosshairGraphic );
+    }
+
+    private Shape getLeftShape() {
+        return getShape( leftCrosshairGraphic );
+    }
+
+    private Shape getShape( CrosshairGraphic leftCrosshairGraphic ) {
+        Point2D location = leftCrosshairGraphic.getGlobalTranslation();
+        location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+        double w = 2.0;
+        double h = 2.0;
+        Rectangle2D.Double r = new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
+        return r;
     }
 
     public void setValueReader( TwoTerminalValueReader valueReader ) {
