@@ -69,8 +69,6 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-//    private static final String VERSION = "3.01.06";
-
     private SetupParameters parameters;
     private Circuit circuit;
     private CircuitGraphic circuitGraphic;
@@ -123,13 +121,9 @@ public class CCK3Module extends Module {
     public static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
-//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
-    //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
-//    public static final double MIN_RESISTANCE = 0.0001;
-//    public static final double MIN_RESISTANCE = 1E-3;
     public static final double MIN_RESISTANCE = 1E-8;
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
@@ -163,7 +157,6 @@ public class CCK3Module extends Module {
             }
         } );
         getApparatusPanel().setFocusable( true );
-//        getApparatusPanel().setBackground( apparatusPanelColor );
         getApparatusPanel().setBackground( new Color( 0, 0, 0, 0 ) );
         DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
@@ -184,7 +177,6 @@ public class CCK3Module extends Module {
         getApparatusPanel().addGraphicsSetup( setup );
 
         setModel( new BaseModel() {
-            //Not allowed to mess with the way we call our abstract method.
             public void stepInTime( double dt ) {
                 //                long time = System.currentTimeMillis();
                 super.stepInTime( dt );
@@ -195,9 +187,6 @@ public class CCK3Module extends Module {
                 //                }
             }
         } );
-        //        kirkhoffSolver = new KirkhoffSolver();
-//        circuitSolver = new ModifiedNodalAnalysis_Orig();
-//        circuitSolver = new MNASolver();
         circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
@@ -395,20 +384,6 @@ public class CCK3Module extends Module {
             }
         } );
         help = new CCKHelp( this );
-        //a debugging element.
-        //        ModelElement me = new ModelElement() {
-        //            public void stepInTime( double dt ) {
-        //                int numJunctions = circuit.numJunctions();
-        //                int numBranches = circuit.numBranches();
-        //                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
-        //                if( !debugText.equals( text ) ) {
-        //                    debugText = text;
-        //                    int ival = (int)( Math.random() * 10 );
-        //                    System.out.println( ival + ": " + text );
-        //                }
-        //            }
-        //        };
-        //        getModel().addModelElement( me );
         setSeriesAmmeterVisible( false );
         setInternalResistanceOn( true );
     }
@@ -499,10 +474,6 @@ public class CCK3Module extends Module {
     public CircuitGraphic getCircuitGraphic() {
         return circuitGraphic;
     }
-
-    //    public void solve() {
-    //
-    //    }
 
     public ParticleSetGraphic getParticleSetGraphic() {
         return circuitGraphic.getParticleSetGraphic();
@@ -928,9 +899,10 @@ public class CCK3Module extends Module {
         }
     }
 
+    //todo: resistivity is now always on by default.
     public void setAdvancedEnabled( boolean advanced ) {
 //        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
-//        setResistivityEnabled( advanced );//now this is always on by default.
+//        setResistivityEnabled( advanced );
     }
 
     public void debugListeners() {
@@ -942,18 +914,6 @@ public class CCK3Module extends Module {
         System.out.println( "circuit.getCircuitListeners() = " + Arrays.asList( circuit.getCircuitListeners() ) );
         int jg = JunctionGraphic.getInstanceCount();
         System.out.println( "jg = " + jg );
-        //        SimpleObservableDebug[] sod = SimpleObservableDebug.instances();
-        //        for( int i = 0; i < sod.length; i++ ) {
-        //            SimpleObservableDebug observable = sod[i];
-        //            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
-        //        }
-
-        //        for( int i = 0; i < sod.length; i++ ) {
-        //            SimpleObservableDebug observable = sod[i];
-        //            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
-        //            SimpleObserver[] so = observable.getObservers();
-        //            System.out.println( "Arrays.asList( so ) = " + Arrays.asList( so ) );
-        //        }
     }
 
     static class MagicalRepaintPanel extends ApparatusPanel {
@@ -1016,120 +976,6 @@ public class CCK3Module extends Module {
                 }
                 return union;
             }
-        }
-    }
-
-    public static class SetupParameters {
-        String[] args;
-        private boolean virtualLab = false;
-        private boolean grabBag = true;
-        private boolean allowPlainResistors = true;
-        private boolean hugeBatteries = true;
-        private boolean allowShowReadouts = true;
-        private boolean allowSchematicMode = true;
-        private boolean useAdvancedControlPanel = true;
-        private boolean useNonContactAmmeter = true;
-        private boolean hideAllElectrons = false;
-        private boolean grabBagMode = false;
-        private boolean useVisualControlPanel = true;
-        private boolean dynamics = false;
-
-        public SetupParameters( CCK3Module module, String[] args ) {
-            this.args = args;
-            if( containsArg( "-dynamics" ) ) {
-                dynamics = true;
-            }
-            if( containsArg( "-virtuallab" ) ) {
-                virtualLab = true;
-            }
-            if( containsArg( "-grabbag" ) ) {
-                grabBagMode = true;
-            }
-            if( containsArg( "-noElectrons" ) ) {
-                module.setElectronsVisible( false );
-                hideAllElectrons = true;
-            }
-            if( containsArg( "-exp1" ) ) {
-                module.setElectronsVisible( true );
-                hideAllElectrons = false;
-                allowSchematicMode = false;
-                useNonContactAmmeter = false;
-                grabBag = true;
-                hugeBatteries = false;
-                allowPlainResistors = true;
-                useAdvancedControlPanel = false;
-                useVisualControlPanel = false;
-            }
-            else if( containsArg( "-exp2" ) ) {
-                module.setElectronsVisible( false );
-                hideAllElectrons = true;
-                allowSchematicMode = false;
-                useNonContactAmmeter = false;
-                grabBag = true;
-                hugeBatteries = false;
-                allowPlainResistors = true;
-                useAdvancedControlPanel = false;
-                useVisualControlPanel = false;
-            }
-            if( virtualLab ) {
-                allowShowReadouts = false;
-                allowSchematicMode = false;
-                useNonContactAmmeter = false;
-            }
-            if( grabBagMode ) {
-                grabBag = true;
-                hugeBatteries = true;
-                allowPlainResistors = false;
-                allowShowReadouts = true;
-                allowSchematicMode = false;
-                useAdvancedControlPanel = false;
-                useNonContactAmmeter = true;
-                hideAllElectrons = false;
-            }
-        }
-
-        public boolean isUseVisualControlPanel() {
-            return useVisualControlPanel;
-        }
-
-        private boolean containsArg( String s ) {
-            return Arrays.asList( args ).contains( s );
-        }
-
-        public boolean hideAllElectrons() {
-            return hideAllElectrons;
-        }
-
-        public boolean useNonContactAmmeter() {
-            return useNonContactAmmeter;
-        }
-
-        public boolean showGrabBag() {
-            return grabBag;
-        }
-
-        public boolean allowSchematicMode() {
-            return allowSchematicMode;
-        }
-
-        public boolean allowShowReadouts() {
-            return allowShowReadouts;
-        }
-
-        public boolean hugeRangeOnBatteries() {
-            return hugeBatteries;
-        }
-
-        public boolean allowPlainResistors() {
-            return allowPlainResistors;
-        }
-
-        public boolean getUseAdvancedControlPanel() {
-            return useAdvancedControlPanel;
-        }
-
-        public boolean getAllowDynamics() {
-            return dynamics;
         }
     }
 
