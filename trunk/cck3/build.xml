@@ -49,7 +49,7 @@
                 />
     </target>
 
-    <target name="Generate Build Info">
+    <target name="Generate_Build_Info">
         <buildnumber file="${build.number.txt}"/>
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
@@ -58,12 +58,12 @@
         <echo file="data/cck.version" message="${dev-version}"></echo>
     </target>
 
-    <target name="Generate Jar" depends="Compile"
+    <target name="Generate_Jar" depends="Compile"
             description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${ant.jars}"/>
         <mkdir dir="${ant.jars}"/>
-        <antcall target="Generate Build Info"/>
+        <antcall target="Generate_Build_Info"/>
         <property file="${build.number.txt}"/>
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
@@ -78,7 +78,7 @@
         </jar>
     </target>
 
-    <target name="ProGuard" depends="Generate Jar">
+    <target name="ProGuard" depends="Generate_Jar">
         <proguard configuration="${proguard-file}"/>
     </target>
 

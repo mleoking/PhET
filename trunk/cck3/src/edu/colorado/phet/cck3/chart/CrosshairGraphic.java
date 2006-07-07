@@ -34,8 +34,8 @@ public class CrosshairGraphic extends PComposite {
         this.intensityReader = intensityReader;
         Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
         innerCircle = new PPath( aShape );
-        innerCircle.setStrokePaint( Color.red );
-        innerCircle.setStroke( new BasicStroke( 2 ) );
+        innerCircle.setStrokePaint( Color.darkGray );
+        innerCircle.setStroke( new BasicStroke( 1 ) );
 
         PPath vertical = new PPath( new Line2D.Double( 0, -outerRadius, 0, outerRadius ) );
         vertical.setStroke( CROSSHAIR_STROKE );
