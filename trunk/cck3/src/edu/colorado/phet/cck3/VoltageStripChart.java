@@ -1,7 +1,8 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
+import edu.colorado.phet.cck3.chart.DoubleTerminalFloatingChart;
+import edu.colorado.phet.cck3.chart.TwoTerminalValueReader;
+import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -12,49 +13,21 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-public class VoltageStripChart extends AbstractFloatingChart {
-//    private CircuitGraphic circuitGraphic;
-//
-//    public VoltageStripChart( PSwingCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
-//        super( pSwingCanvas, title, new ValueReader() {
-//            public double getValue( double x, double y ) {
-//                return 0;
-//            }
-//        }, clock );
-//        this.circuitGraphic = circuitGraphic;
-//        super.setValueReader( new VoltageStripChart.VoltageReader() );
-//    }
-//
-//    public void recomputeVoltage() {
-//        if( !getVisible() ) {
-//            return;
-//        }
-//        Area tipIntersection = new Area( getRedTipShape() );
-//        tipIntersection.intersect( new Area( blackLeadGraphic.getTipShape() ) );
-//        if( !tipIntersection.isEmpty() ) {
-//            unitGraphic.setVoltage( 0 );
-//        }
-//        else {
-//            VoltmeterGraphic.Connection red = redLeadGraphic.detectConnection( module.getCircuitGraphic() );
-//            VoltmeterGraphic.Connection black = blackLeadGraphic.detectConnection( module.getCircuitGraphic() );
-//            if( red == null || black == null ) {
-//                unitGraphic.setUnknownVoltage();
-//            }
-//            else {
-//                //dfs from one branch to the other, counting the voltage drop.
-//                double volts = module.getCircuit().getVoltage( red, black );
-//                if( Double.isInfinite( volts ) ) {
-//                    unitGraphic.setUnknownVoltage();
-//                }
-//                else {
-//                    unitGraphic.setVoltage( volts );
-//                }
-//            }
-//        }
-//    }
-//
-//    public class VoltageReader implements ValueReader2Terminal {
-//        public double getValue( Point2D p1, Point2D p2 ) {
+public class VoltageStripChart extends DoubleTerminalFloatingChart {
+    private CircuitGraphic circuitGraphic;
+
+    public VoltageStripChart( PSwingCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
+        super( pSwingCanvas, title, new TwoTerminalValueReader() {
+            public double getValue( double x, double y, double x1, double y1 ) {
+                return 0;
+            }
+        }, clock );
+        this.circuitGraphic = circuitGraphic;
+        super.setValueReader( new VoltageReader() );
+    }
+
+    public class VoltageReader implements TwoTerminalValueReader {
+//        public double getValue( double x, double y ) {
 //            Point2D target = new Point2D.Double( x, y );
 //            //check for intersect with circuit.
 //            Graphic[] g = circuitGraphic.getBranchGraphics();
@@ -75,9 +48,9 @@ public class VoltageStripChart extends AbstractFloatingChart {
 //            }
 //            return 0.0;
 //        }
-//    }
 
-    public VoltageStripChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
-        super( pSwingCanvas, title, clock );
+        public double getValue( double x, double y, double x1, double y1 ) {
+            return 0;
+        }
     }
 }

@@ -37,7 +37,7 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
         double crosshairOffsetDX = leftCrosshairGraphic.getFullBounds().getWidth() * 1.25;
         leftCrosshairGraphic.translate( crosshairOffsetDX, 0 );
-        rightCrosshairConnection.translate( crosshairOffsetDX, 30 );
+//        rightCrosshairConnection.translate( crosshairOffsetDX, 30 );
         stripChartJFCNode.addInputEventListener( new DoubleTerminalFloatingChart.PairDragHandler() );
     }
 
@@ -56,6 +56,11 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
             double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
+    }
+
+    public void setValueReader( TwoTerminalValueReader valueReader ) {
+        this.valueReader = valueReader;
+        update();
     }
 
     class PairDragHandler extends PDragEventHandler {

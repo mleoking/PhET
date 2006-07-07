@@ -926,10 +926,22 @@ public class CCK3Module extends Module {
 
     SwingClock clock = new SwingClock( 30, 1 );
 
-    public void addFloatingChart() {
+    public void addCurrentChart() {
         clock.start();
         final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current", clock, getCircuitGraphic() );
         chart.setOffset( 200, 200 );
+        getApparatusPanel().addScreenChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
+            public void chartClosing() {
+                getApparatusPanel().removeScreenChild( chart );
+            }
+        } );
+    }
+
+    public void addVoltageChart() {
+        clock.start();
+        final VoltageStripChart chart = new VoltageStripChart( getApparatusPanel(), "Current", clock, getCircuitGraphic() );
+        chart.setOffset( 250, 400 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {
             public void chartClosing() {

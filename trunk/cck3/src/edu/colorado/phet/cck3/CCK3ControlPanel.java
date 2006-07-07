@@ -286,15 +286,25 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().getAllowDynamics() ) {
             ImageIcon chartIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
-            JButton floatingChartButton = new JButton( CCKStrings.getString( "add.chart" ) );
+            JButton floatingChartButton = new JButton( CCKStrings.getString( "add.current.chart" ) );
             floatingChartButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "CCK3ControlPanel.actionPerformed" );
-                    module.addFloatingChart();
+                    module.addCurrentChart();
                 }
             } );
             toolPanel.add( floatingChartButton, rhs );
-            lhs.gridy = 0;
+            rhs.gridy++;
+            lhs.gridy++;
+
+            ImageIcon voltageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
+            toolPanel.add( new JLabel( chartIcon ), lhs );
+            JButton voltageChartButton = new JButton( CCKStrings.getString( "add.voltage" ) );
+            voltageChartButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.addVoltageChart();
+                }
+            } );
+            toolPanel.add( voltageChartButton, rhs );
         }
 
         return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
