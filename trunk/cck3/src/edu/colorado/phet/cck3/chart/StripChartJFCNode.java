@@ -68,7 +68,7 @@ public class StripChartJFCNode extends PNode {
         XYPlot plot = (XYPlot)chart.getPlot();
 //        plot.getRangeAxis().setTickLabelsVisible( true );
         plot.getRangeAxis().setAutoRange( false );
-        plot.getRangeAxis().setRange( -20, 20 );
+        plot.getRangeAxis().setRange( -3, 3 );
         plot.getDomainAxis().setRange( 0, 100 );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( true, false );
         renderer.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ) );
@@ -77,7 +77,7 @@ public class StripChartJFCNode extends PNode {
         return chart;
     }
 
-    public void setRangeRange( double minY, double maxY ) {
+    public void setVerticalRange( double minY, double maxY ) {
         jFreeChart.getXYPlot().getRangeAxis().setRange( minY, maxY );
     }
 
@@ -97,5 +97,9 @@ public class StripChartJFCNode extends PNode {
                 series.remove( 0 );
             }
         }
+    }
+
+    public XYPlot getXYPlot() {
+        return jFreeChart.getXYPlot();
     }
 }
