@@ -68,7 +68,7 @@ public class StripChartJFCNode extends PNode {
         XYPlot plot = (XYPlot)chart.getPlot();
 //        plot.getRangeAxis().setTickLabelsVisible( true );
         plot.getRangeAxis().setAutoRange( false );
-        plot.getRangeAxis().setRange( -3, 3 );
+        plot.getRangeAxis().setRange( -20, 20 );
         plot.getDomainAxis().setRange( 0, 100 );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( true, false );
         renderer.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ) );
@@ -86,7 +86,7 @@ public class StripChartJFCNode extends PNode {
     }
 
     public void addValue( double x, double y ) {
-        if( enabled ) {
+        if( enabled && !Double.isNaN( y ) && !Double.isInfinite( y ) ) {
             //todo can we temporarily disable render, do both steps as batch?
             series.add( x, y );
             if( ( x > 5 || series.getItemCount() > maxItemCount ) && !jFreeChart.getXYPlot().getDomainAxis().isAutoRange() )
