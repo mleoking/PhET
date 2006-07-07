@@ -68,6 +68,9 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         setModules( modules );
 
         getPhetFrame().addMenu( new OptionsMenu() );
+
+        // Make the frame non-resizable for now
+        getPhetFrame().setResizable( false );
     }
 
     /**
@@ -79,6 +82,8 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
         // Initialize the look and feel
         phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.setBackgroundColor( new Color( 236, 239, 254) );
+//        phetLookAndFeel.setBackgroundColor( new Color( 203, 224, 249) );
         phetLookAndFeel.initLookAndFeel();
 
         AWTSplashWindow.setDefaultBackground( Color.lightGray );

@@ -16,6 +16,8 @@ import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
@@ -38,11 +40,23 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     /**
      * Constructor
+     *
      * @param clock
      */
     public AlphaDecayPhysicalPanel( IClock clock, NuclearPhysicsModel model ) {
         super( clock, model );
         this.setBackground( backgroundColor );
+
+        addComponentListener( new ComponentAdapter() {
+            private boolean init;
+
+            public void componentResized( ComponentEvent e ) {
+                if( !init ) {
+                    init = true;
+
+                }
+            }
+        } );
     }
 
     protected void paintComponent( Graphics graphics ) {
@@ -68,5 +82,5 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
                 alphaParticle.removeListener( this );
             }
         } );
-    }
+    }    
 }

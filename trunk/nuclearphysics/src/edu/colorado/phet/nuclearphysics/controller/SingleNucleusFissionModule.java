@@ -108,6 +108,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         } );
 
         // Ray gun
+//        RayGunGraphic gunGraphic = new RayGunGraphic( getPhysicalPanel(), this );
+//        gunGraphic.setLocation( gunMuzzelLocation );
+//        getPhysicalPanel().addGraphic( gunGraphic );
         PhetImageGraphic gunGraphic;
         gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
@@ -167,19 +170,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     /**
-     * Produces a neutron that comes into the PhysicalPanel at a randomly
-     * generated angle, and passes through the center of the panel. The
+     * Produces a neutron that comes into the PhysicalPanel from the muzzle of the ray gun
      */
     public void fireNeutron() {
-        double gamma = random.nextDouble() * Math.PI * 2;
-        double w = getPhysicalPanel().getWidth();
-        double h = getPhysicalPanel().getHeight();
-        double x = Math.min( w / 2, ( h / 2 ) / Math.abs( Math.tan( gamma ) ) );
-        double y = Math.min( h / 2, ( w / 2 ) * Math.abs( Math.tan( gamma ) ) );
-        x *= MathUtil.getSign( Math.cos( gamma ) );
-        y *= MathUtil.getSign( Math.sin( gamma ) );
         neutron = new Neutron( gunMuzzelLocation, 0 );
-//        neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
         super.addNeutron( neutron );
     }
 

@@ -33,8 +33,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
-    private Point gunMuzzelLocation = new Point( -40, 0);
-    private Point2D neutronLaunchPt = new Point2D.Double( -550, 0);
+    private Point gunMuzzelLocation = new Point( -40, 0 );
+    private Point2D neutronLaunchPt = new Point2D.Double( -550, 0 );
     private ExplodingContainmentGraphic explodingContainmentGraphic;
     private List explodingGraphics;
 
@@ -68,30 +68,26 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getModel().addModelElement( new FissionDetector() );
 
         // Ray gun
-        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
-        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ));
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png" );
+        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ) );
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
 
-
-        // Add a fire button to the play area
-        FireButton fireButton = new FireButton( getPhysicalPanel());
+        // Add a fire button to the play area, on top of the gun
+        FireButton fireButton = new FireButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)( 40), 285 );
-//        fireButton.setLocation(  (int)( 40), 302 );
-//        fireButton.setLocation(  (int)( 50), 390 );
+        fireButton.setLocation( (int)( 40 ), 285 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
             }
         } );
 
+        // Add a button to enable/disable the containment vessel
         ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
         containmentButton.setLocation( 600, 100 );
-//        containmentButton.setLocation( (int)fireButton.getLocation().getX() - ( containmentButton.getWidth() - fireButton.getWidth()) / 2 ,
-//                                 (int)fireButton.getLocation().getY() + fireButton.getHeight() + 20 );
         containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
             public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
                 if( containment == null ) {
@@ -128,9 +124,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
             graphic.clearGraphics();
         }
-//        if( explodingContainmentGraphic != null ) {
-//            explodingContainmentGraphic.clearGraphics();
-//        }
     }
 
     public void start() {
@@ -150,11 +143,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     }
 
     protected void computeNeutronLaunchParams() {
-            neutronLaunchAngle = 0;
-//            setNeutronLaunchPoint( new Point2D.Double( gunMuzzelLocation.getX() / getPhysicalPanel().getScale(),
-//                                                       gunMuzzelLocation.getY() / getPhysicalPanel().getScale()));
+        neutronLaunchAngle = 0;
         setNeutronLaunchPoint( neutronLaunchPt );
-            neutronPath = new Line2D.Double( getNeutronLaunchPoint(), new Point2D.Double( 0, 0 ) );
+        neutronPath = new Line2D.Double( getNeutronLaunchPoint(), new Point2D.Double( 0, 0 ) );
     }
 
     public void fission( FissionProducts products ) {
@@ -177,8 +168,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         containment.addChangeListener( new Containment.ChangeListener() {
             public void containmentExploded( Containment.ChangeEvent event ) {
                 // The following constructor Creates a graphic AND ADDS IT TO THE APPARATUS PANEL
-                explodingGraphics = new ArrayList( );
-                explodingGraphics.add( new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic ));
+                explodingGraphics = new ArrayList();
+                explodingGraphics.add( new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic ) );
                 getPhysicalPanel().removeGraphic( containmentGraphic );
             }
         } );
@@ -203,6 +194,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         computeNeutronLaunchParams();
     }
 
+    /**
+     * Finds a place to put a new nucleus. If it can't find one, returns null
+     * @return the location where a nucleus can be put, or null if one can't be found
+     */
     protected Point2D.Double findLocationForNewNucleus() {
 
         // Determine the model bounds represented by the current size of the apparatus panel
@@ -222,8 +217,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         Shape bounds = null;
         if( containment != null ) {
             bounds = containment.getInteriorArea();
-//            bounds = containment.getArea();
-//            bounds = containment.getShape();
         }
         else {
             bounds = modelBounds;
@@ -274,7 +267,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     public void containementResized( Containment containment ) {
         Shape bounds = containment.getArea();
-//        Shape bounds = containment.getShape();
 
         // Recompute the spot from which neutrons are fired
         computeNeutronLaunchParams();
@@ -313,7 +305,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             List u235Nuclei = getU235Nuclei();
             List u238Nuclei = getU238Nuclei();
             for( int i = neutrons.size() - 1; i >= 0; i-- ) {
-//            for( int i = 0; i < neutrons.size(); i++ ) {
                 Neutron neutron = (Neutron)neutrons.get( i );
                 utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
                 // Check U235 nuclei
