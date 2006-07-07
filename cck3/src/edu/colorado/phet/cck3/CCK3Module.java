@@ -66,7 +66,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +81,7 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-    private static final String VERSION = "3.01.05";
+//    private static final String VERSION = "3.01.06";
 
     private SetupParameters parameters;
     private Circuit circuit;
@@ -722,7 +725,8 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
-        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + " (" + VERSION + ")",
+        String version = readVersion();
+        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + " (" + version + ")",
                                                        SimStrings.get( "CCK3Application.description" ),
                                                        SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
         model.setName( "cck" );
@@ -874,6 +878,19 @@ public class CCK3Module extends Module {
                 clock.setPaused( false );
             }
         } );
+    }
+
+    private static String readVersion() {
+        URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
+        try {
+            BufferedReader br = new BufferedReader( new InputStreamReader( url.openStream() ) );
+            String line = br.readLine();
+            return line;
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return "Version Not Found";
+        }
     }
 
     private void resetDynamics() {
