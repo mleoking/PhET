@@ -9,6 +9,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -28,7 +29,8 @@ public class StripChartJFCNode extends PNode {
     private JFreeChart jFreeChart;
     private JFreeChartNode jFreeChartNode;
     private boolean enabled = true;//debugging
-    private int maxItemCount = 100;
+    private double timeRange = 5.0;
+//    private int maxItemCount = 100;
 
     public StripChartJFCNode( int width, int height, String xAxis, String yAxis ) {
         XYSeriesCollection xyDataset = new XYSeriesCollection();
@@ -86,17 +88,33 @@ public class StripChartJFCNode extends PNode {
     }
 
     public void addValue( double x, double y ) {
+        if( Double.isNaN( y ) || Double.isInfinite( y ) ) {
+            y = 0;
+        }
         if( enabled && !Double.isNaN( y ) && !Double.isInfinite( y ) ) {
             //todo can we temporarily disable render, do both steps as batch?
             series.add( x, y );
-            if( ( x > 5 || series.getItemCount() > maxItemCount ) && !jFreeChart.getXYPlot().getDomainAxis().isAutoRange() )
-            {
-                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
+            Range r = jFreeChart.getXYPlot().getDomainAxis().getRange();
+            Range desiredRange = new Range( getHighestTime() - timeRange, getHighestTime() );
+            if( !r.equals( desiredRange ) ) {
+                jFreeChart.getXYPlot().getDomainAxis().setRange( desiredRange );
             }
-            if( series.getItemCount() > maxItemCount ) {
+            while( shouldRemove1stPoint() ) {
                 series.remove( 0 );
             }
         }
+    }
+
+    private boolean shouldRemove1stPoint() {
+        return ( getHighestTime() - getLowestTime() ) > timeRange;
+    }
+
+    private double getHighestTime() {
+        return series.getX( series.getItemCount() - 1 ).doubleValue();
+    }
+
+    private double getLowestTime() {
+        return series.getX( 0 ).doubleValue();
     }
 
     public XYPlot getXYPlot() {
