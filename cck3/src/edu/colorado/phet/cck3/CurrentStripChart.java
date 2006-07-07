@@ -1,13 +1,14 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.chart.FloatingChart;
+import edu.colorado.phet.cck3.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.BranchGraphic;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -20,20 +21,20 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-public class CCKFloatingChart extends FloatingChart {
+public class CurrentStripChart extends SingleTerminalFloatingChart {
     private CircuitGraphic circuitGraphic;
 
-    public CCKFloatingChart( String title, IClock clock, CircuitGraphic circuitGraphic ) {
-        super( title, new ValueReader() {
+    public CurrentStripChart( PSwingCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
+        super( pSwingCanvas, title, new ValueReader() {
             public double getValue( double x, double y ) {
                 return 0;
             }
         }, clock );
         this.circuitGraphic = circuitGraphic;
-        super.setValueReader( new CCKValueReader() );
+        super.setValueReader( new CurrentReader() );
     }
 
-    public class CCKValueReader implements ValueReader {
+    public class CurrentReader implements ValueReader {
         public double getValue( double x, double y ) {
             Point2D target = new Point2D.Double( x, y );
             //check for intersect with circuit.

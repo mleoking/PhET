@@ -11,7 +11,6 @@ area is a function of capacitance.
 floating graph needs units
 quantitative CCK can wait until after AAPT
 editing an inductor or capacitor should take effect immediately
-red 'x' for charts
 floatable timer
 Faraday's AC Source
 in meeting, time-series charts looked non-smooth for simple AC RC circuit
@@ -64,6 +63,8 @@ Chart button should have icon, be located next to other measurement tools in the
 Capacitor charges don't paint correctly.
 
 o Quantitative numerical tests for RC, RLC Circuits, etc.
+
+Chart range is incorrect for first part of data.
 
 ################################################
 #Lower Priority

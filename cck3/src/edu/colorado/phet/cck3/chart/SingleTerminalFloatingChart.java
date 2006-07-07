@@ -3,73 +3,47 @@ package edu.colorado.phet.cck3.chart;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.*;
 
 /**
  * User: Sam Reid
- * Date: Dec 18, 2005
- * Time: 11:28:29 PM
- * Copyright (c) Dec 18, 2005 by Sam Reid
+ * Date: Jul 6, 2006
+ * Time: 7:50:47 PM
+ * Copyright (c) Jul 6, 2006 by Sam Reid
  */
 
-public class FloatingChart extends PhetPNode {
+public class SingleTerminalFloatingChart extends AbstractFloatingChart {
     private ValueReader valueReader;
-    private IClock clock;
     private CrosshairGraphic crosshairGraphic;
-    private TextReadout textReadout;
-    private StripChartJFCNode stripChartJFCNode;
     private boolean detached = false;
     private Vector2D originalDisplacement;
 
-    public static interface ValueReader {
-        double getValue( double x, double y );
-    }
-
-    public FloatingChart( String title, ValueReader valueReader, IClock clock ) {
+    public SingleTerminalFloatingChart( PSwingCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
+        super( pSwingCanvas, title, clock );
         this.valueReader = valueReader;
-        this.clock = clock;
-        textReadout = new TextReadout();
+
+
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-//        stripChartJFCNode = new StripChartJFCNode( 175, 120, "time.s", title );
-        stripChartJFCNode = new StripChartJFCNode( 200, 150, "time.s", title );
-        stripChartJFCNode.setDomainRange( 0, 5 );
         CrosshairConnection crosshairConnection = new CrosshairConnection( this );
-        addChild( textReadout );
         addChild( crosshairConnection );
-        addChild( stripChartJFCNode );
+
         addChild( crosshairGraphic );
-
-        stripChartJFCNode.addInputEventListener( new PairDragHandler() );
-        CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
-        addInputEventListener( cursorHandler );
-
+        StripChartJFCNode stripChartJFCNode = super.getStripChartJFCNode();
         stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairGraphic.getFullBounds().getWidth() / 2.0,
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
-        textReadout.setOffset( 0, crosshairGraphic.getFullBounds().getHeight() );
-        textReadout.setVisible( false );
-
         double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
         crosshairGraphic.translate( crosshairOffsetDX, 0 );
+        stripChartJFCNode.addInputEventListener( new PairDragHandler() );
         originalDisplacement = getDisplacement();
-        update();
-        clock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                update();
-            }
-        } );
+
     }
 
     public void setValueReader( ValueReader valueReader ) {
@@ -77,7 +51,20 @@ public class FloatingChart extends PhetPNode {
     }
 
     private Vector2D getDisplacement() {
-        return new Vector2D.Double( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
+        return new Vector2D.Double( getStripChartJFCNode().getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
+    }
+
+    public void update() {
+        super.update();
+        if( crosshairGraphic != null && valueReader != null ) {
+            //get the coordinate in the wavefunctiongraphic.
+            Point2D location = crosshairGraphic.getGlobalTranslation();
+            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+            double value = valueReader.getValue( location.getX(), location.getY() );
+            CCKTime cckTime = new CCKTime();
+            double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
+            getStripChartJFCNode().addValue( t, value );
+        }
     }
 
     class PairDragHandler extends PDragEventHandler {
@@ -89,67 +76,35 @@ public class FloatingChart extends PhetPNode {
         }
     }
 
-    public StripChartJFCNode getStripChartJFCNode() {
-        return stripChartJFCNode;
-    }
-
     public CrosshairGraphic getCrosshairGraphic() {
         return crosshairGraphic;
     }
 
-    public void update() {
-        //get the coordinate in the wavefunctiongraphic.
-        Point2D location = crosshairGraphic.getGlobalTranslation();
-        location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
-        double value = valueReader.getValue( location.getX(), location.getY() );
-        CCKTime cckTime = new CCKTime();
-        double t = cckTime.getDisplayTime( clock.getSimulationTime() );
-        stripChartJFCNode.addValue( t, value );
-        updateTextBackground();
-    }
-
-    private void updateTextBackground() {
-        textReadout.updateBackground();
-    }
-
-    public void setReadoutVisible( boolean selected ) {
-        textReadout.setVisible( selected );
-    }
-
-    public boolean isReadoutVisible() {
-        return textReadout.getVisible();
-    }
-
-    static class TextReadout extends PhetPNode {
-        private PText readout;
-        private PPath textBackground;
-
-        public TextReadout() {
-            textBackground = new PPath();
-            textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
-            addChild( textBackground );
-            readout = new PText( ( "value" ) );
-            readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-            readout.setTextPaint( Color.blue );
-            addChild( readout );
+    private void crosshairDropped() {
+        double threshold = 30;
+        if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
+            && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
+            attachCrosshair();
         }
+    }
 
-        public void setText( String s ) {
-            readout.setText( s );
-        }
+    private void attachCrosshair() {
+        detached = false;
+        crosshairGraphic.setOffset( getStripChartJFCNode().getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
+                                    getStripChartJFCNode().getFullBounds().getCenterY() + originalDisplacement.getY() );
+    }
 
-        public void updateBackground() {
-            textBackground.setPathTo( RectangleUtils.expand( readout.getFullBounds(), 10, 10 ) );
-        }
+    private void detachCrosshair() {
+        detached = true;
     }
 
     static class CrosshairGraphic extends PComposite {
         private static final Paint CROSSHAIR_COLOR = Color.white;
         private BasicStroke CROSSHAIR_STROKE = new BasicStroke( 2 );
         private CrosshairDragHandler listener;
-        private FloatingChart intensityReader;
+        private SingleTerminalFloatingChart intensityReader;
 
-        public CrosshairGraphic( FloatingChart intensityReader, int innerRadius, int outerRadius ) {
+        public CrosshairGraphic( SingleTerminalFloatingChart intensityReader, int innerRadius, int outerRadius ) {
             this.intensityReader = intensityReader;
             Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
             PPath circle = new PPath( aShape );
@@ -204,23 +159,5 @@ public class FloatingChart extends PhetPNode {
         public void drag( PInputEvent event ) {
             listener.superdrag( event );
         }
-    }
-
-    private void crosshairDropped() {
-        double threshold = 30;
-        if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
-            && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
-            attachCrosshair();
-        }
-    }
-
-    private void attachCrosshair() {
-        detached = false;
-        crosshairGraphic.setOffset( stripChartJFCNode.getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
-                                    stripChartJFCNode.getFullBounds().getCenterY() + originalDisplacement.getY() );
-    }
-
-    private void detachCrosshair() {
-        detached = true;
     }
 }

@@ -8,7 +8,8 @@ package edu.colorado.phet.cck3.tests;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-import edu.colorado.phet.cck3.chart.FloatingChart;
+import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
+import edu.colorado.phet.cck3.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -24,7 +25,7 @@ public class TestFloatingChart {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PSwingCanvas contentPane = new PSwingCanvas();
         clock = new SwingClock( 30, 1 );
-        FloatingChart floatingChart = new FloatingChart( "floating chart test", new FloatingChart.ValueReader() {
+        AbstractFloatingChart floatingChart = new SingleTerminalFloatingChart( contentPane, "floating chart test", new AbstractFloatingChart.ValueReader() {
             public double getValue( double x, double y ) {
                 double v = y;
 //                System.out.println( "v = " + v );

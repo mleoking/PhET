@@ -3,7 +3,6 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.*;
-import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
@@ -388,7 +387,7 @@ public class Circuit {
         return junctions.contains( junction );
     }
 
-    public double getVoltage( VoltmeterGraphic.Connection a, VoltmeterGraphic.Connection b ) {
+    public double getVoltage( VoltageCalculation.Connection a, VoltageCalculation.Connection b ) {
         VoltageCalculation vc = new VoltageCalculation( this );
         return vc.getVoltage( a, b );
     }
