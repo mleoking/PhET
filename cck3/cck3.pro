@@ -18,7 +18,7 @@
 -dontobfuscate
 -verbose
 
--keepclasseswithmembers public class edu.colorado.phet.cck3.CCK3Module {
+-keepclasseswithmembers public class edu.colorado.phet.cck3.CCKApplication {
     public static void main(java.lang.String[]);
 }
 
