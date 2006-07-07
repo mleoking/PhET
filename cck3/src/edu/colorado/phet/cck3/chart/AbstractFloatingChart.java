@@ -33,45 +33,28 @@ import java.util.ArrayList;
 public abstract class AbstractFloatingChart extends PhetPNode {
 
     private IClock clock;
-
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
-
-
     private PSwing closeButtonPSwing;
     private JButton closeButton;
     private ClockAdapter clockListener;
-
-    public IClock getClock() {
-        return clock;
-    }
-
-    public static interface ValueReader {
-        double getValue( double x, double y );
-    }
 
     public AbstractFloatingChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
 
         this.clock = clock;
         textReadout = new TextReadout();
-        textReadout.setVisible( false );
-//        stripChartJFCNode = new StripChartJFCNode( 175, 120, "time.s", title );
         stripChartJFCNode = new StripChartJFCNode( 200, 150, "time.s", title );
         stripChartJFCNode.setDomainRange( 0, 5 );
 
         addChild( textReadout );
-
         addChild( stripChartJFCNode );
 
 
         CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
         addInputEventListener( cursorHandler );
 
-//        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairGraphic.getFullBounds().getWidth() / 2.0,
-//                                     -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
-//        textReadout.setOffset( 0, crosshairGraphic.getFullBounds().getHeight() );
-//        textReadout.setVisible( false );
-
+        textReadout.setOffset( 0, 0 );
+        textReadout.setVisible( false );
 
         update();
         clockListener = new ClockAdapter() {
@@ -101,6 +84,14 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    public IClock getClock() {
+        return clock;
+    }
+
+    public static interface ValueReader {
+        double getValue( double x, double y );
     }
 
     private void close() {

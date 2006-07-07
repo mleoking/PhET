@@ -23,13 +23,11 @@ import java.awt.geom.*;
 public class SingleTerminalFloatingChart extends AbstractFloatingChart {
     private ValueReader valueReader;
     private CrosshairGraphic crosshairGraphic;
-    private boolean detached = false;
-    private Vector2D originalDisplacement;
+
 
     public SingleTerminalFloatingChart( PSwingCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
         super( pSwingCanvas, title, clock );
         this.valueReader = valueReader;
-
 
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
         CrosshairConnection crosshairConnection = new CrosshairConnection( this );
@@ -42,16 +40,11 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
         double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
         crosshairGraphic.translate( crosshairOffsetDX, 0 );
         stripChartJFCNode.addInputEventListener( new PairDragHandler() );
-        originalDisplacement = getDisplacement();
 
     }
 
     public void setValueReader( ValueReader valueReader ) {
         this.valueReader = valueReader;
-    }
-
-    private Vector2D getDisplacement() {
-        return new Vector2D.Double( getStripChartJFCNode().getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
     }
 
     public void update() {
@@ -70,7 +63,7 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( !detached ) {
+            if( crosshairGraphic.attached ) {
                 crosshairGraphic.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }
@@ -80,31 +73,15 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
         return crosshairGraphic;
     }
 
-    private void crosshairDropped() {
-        double threshold = 30;
-        if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
-            && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
-            attachCrosshair();
-        }
-    }
-
-    private void attachCrosshair() {
-        detached = false;
-        crosshairGraphic.setOffset( getStripChartJFCNode().getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
-                                    getStripChartJFCNode().getFullBounds().getCenterY() + originalDisplacement.getY() );
-    }
-
-    private void detachCrosshair() {
-        detached = true;
-    }
-
     static class CrosshairGraphic extends PComposite {
         private static final Paint CROSSHAIR_COLOR = Color.white;
         private BasicStroke CROSSHAIR_STROKE = new BasicStroke( 2 );
         private CrosshairDragHandler listener;
-        private SingleTerminalFloatingChart intensityReader;
+        private AbstractFloatingChart intensityReader;
+        private boolean attached = true;
+        private Vector2D originalDisplacement;
 
-        public CrosshairGraphic( SingleTerminalFloatingChart intensityReader, int innerRadius, int outerRadius ) {
+        public CrosshairGraphic( AbstractFloatingChart intensityReader, int innerRadius, int outerRadius ) {
             this.intensityReader = intensityReader;
             Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
             PPath circle = new PPath( aShape );
@@ -137,12 +114,40 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
             addChild( overlay );
             listener = new CrosshairDragHandler();
             addInputEventListener( listener );
+
+            originalDisplacement = getDisplacement();
+        }
+
+        public StripChartJFCNode getStripChartJFCNode() {
+            return intensityReader.getStripChartJFCNode();
+        }
+
+        private void attachCrosshair() {
+            attached = true;
+            setOffset( getStripChartJFCNode().getFullBounds().getCenterX() + originalDisplacement.getX() - getFullBounds().getWidth() / 2,
+                       getStripChartJFCNode().getFullBounds().getCenterY() + originalDisplacement.getY() );
+        }
+
+        private Vector2D getDisplacement() {
+            return new Vector2D.Double( getStripChartJFCNode().getFullBounds().getCenter2D(), getFullBounds().getCenter2D() );
+        }
+
+        private void crosshairDropped() {
+            double threshold = 30;
+            if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
+                && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
+                attachCrosshair();
+            }
+        }
+
+        private void detachCrosshair() {
+            attached = false;
         }
 
         class CrosshairDragHandler extends PDragEventHandler {
             protected void drag( PInputEvent event ) {
                 super.drag( event );
-                intensityReader.detachCrosshair();
+                detachCrosshair();
                 event.setHandled( true );
             }
 
@@ -152,7 +157,7 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
 
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                intensityReader.crosshairDropped();
+                crosshairDropped();
             }
         }
 
