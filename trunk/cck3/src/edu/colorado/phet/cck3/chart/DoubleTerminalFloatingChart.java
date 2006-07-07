@@ -43,6 +43,14 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         stripChartJFCNode.addInputEventListener( new DoubleTerminalFloatingChart.PairDragHandler() );
     }
 
+    public CrosshairGraphic getLeftCrosshairGraphic() {
+        return leftCrosshairGraphic;
+    }
+
+    public CrosshairGraphic getRightCrosshairGraphic() {
+        return rightCrosshairGraphic;
+    }
+
     public void update() {
         super.update();
         if( leftCrosshairGraphic != null && valueReader != null ) {

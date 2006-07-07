@@ -27,13 +27,15 @@ public class CrosshairGraphic extends PComposite {
     private AbstractFloatingChart intensityReader;
     private boolean attached = false;
     private Vector2D originalDisplacement;
+    private PPath background;
+    private PPath innerCircle;
 
     public CrosshairGraphic( AbstractFloatingChart intensityReader, int innerRadius, int outerRadius ) {
         this.intensityReader = intensityReader;
         Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
-        PPath circle = new PPath( aShape );
-        circle.setStrokePaint( Color.red );
-        circle.setStroke( new BasicStroke( 2 ) );
+        innerCircle = new PPath( aShape );
+        innerCircle.setStrokePaint( Color.red );
+        innerCircle.setStroke( new BasicStroke( 2 ) );
 
         PPath vertical = new PPath( new Line2D.Double( 0, -outerRadius, 0, outerRadius ) );
         vertical.setStroke( CROSSHAIR_STROKE );
@@ -46,12 +48,12 @@ public class CrosshairGraphic extends PComposite {
         Area backgroundShape = new Area();
         backgroundShape.add( new Area( new Rectangle2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2 ) ) );
         backgroundShape.subtract( new Area( aShape ) );
-        PPath background = new PPath( backgroundShape );
+        background = new PPath( backgroundShape );
         background.setPaint( Color.lightGray );
         background.setStrokePaint( Color.gray );
 
         addChild( background );
-        addChild( circle );
+        addChild( innerCircle );
         addChild( vertical );
         addChild( horizontalLine );
         //to ensure the entire object is grabbable
@@ -67,6 +69,10 @@ public class CrosshairGraphic extends PComposite {
 
     public StripChartJFCNode getStripChartJFCNode() {
         return intensityReader.getStripChartJFCNode();
+    }
+
+    public PPath getBackground() {
+        return background;
     }
 
     private void attachCrosshair() {
@@ -93,6 +99,11 @@ public class CrosshairGraphic extends PComposite {
 
     public boolean isAttached() {
         return attached;
+    }
+
+    public void setColor( Color red ) {
+        background.setPaint( red );
+        innerCircle.setStrokePaint( Color.gray );
     }
 
     class CrosshairDragHandler extends PDragEventHandler {
