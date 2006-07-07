@@ -2,25 +2,21 @@
 #Remaining Work
 #######################
 CCK (notes from 7-5-2006)
-Add the Voltage chart: a 2-terminal version of the current meter.
+Capacitors:
 2-d capacitor for CCK
-inductors should auto-discharge when not in a loop.
 capacitor charges should be blue for negative, red for +
 square plates in 3d
 area is a function of capacitance.
+
+inductors should auto-discharge when not in a loop.
 floating graph needs units
-quantitative CCK can wait until after AAPT
+
 editing an inductor or capacitor should take effect immediately
-floatable timer
-Faraday's AC Source
-in meeting, time-series charts looked non-smooth for simple AC RC circuit
 See faraday's AC source graphics
 
 o Get the time units to work out correctly.
-o Add Delete button for charts.
-o Add a timer.
 o Is the ac current (in a circuit with capacitor) symmetric?
-o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex graph theory computation).
+o If not, is the asymmetry correct?
 
 o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
 http://techlib.com/craig/switching.htm
@@ -66,6 +62,8 @@ o Quantitative numerical tests for RC, RLC Circuits, etc.
 
 Chart range is incorrect for first part of data.
 
+Quantitative CCK can wait until after AAPT
+
 ################################################
 #Lower Priority
 #######################
@@ -88,3 +86,5 @@ element with an absence of blue balls because they all flow out.  This may
 be due to the fact that the wire has to redraw the number of blue balls 
 because wiggling an element or node changes the number of blue balls 
 (according to its length).
+
+o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex and error-prone graph theory computation).

@@ -1,7 +1,11 @@
 3.01.06
-Charts can now be removed (red 'x').
+Charts can now be removed.
 Bugfix: Charts don't show any data, when first data points are out of range.
-We can no longer have simulation time dynamic because it destroys smoothness of the plots; converted to static.
+Bugfix: Time-series charts looked non-smooth for simple AC RC circuit
+>>We can no longer have simulation time dynamic because it destroys smoothness of the plots; converted to static.
+Added x and y axis labels for the stripcharts.
+Added the Voltage chart: a 2-terminal version of the current meter.
+Added a timer.
 
 3.01.05 (7-5-2006)
 Bugfix: When you charge a capacitor and completely disconnect if, the capacitor loses all its charge.

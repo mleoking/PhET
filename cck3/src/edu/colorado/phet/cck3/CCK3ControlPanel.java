@@ -284,6 +284,23 @@ public class CCK3ControlPanel extends ControlPanel {
         }
 
         if( module.getParameters().getAllowDynamics() ) {
+            try {
+                ImageIcon timerIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/stopwatch-thumb.png" ) );
+                final JCheckBox timerButton = new JCheckBox( "Stopwatch", module.isStopwatchVisible() );
+                timerButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        module.setStopwatchVisible( timerButton.isSelected() );
+                    }
+                } );
+                toolPanel.add( new JLabel( timerIcon ), lhs );
+                toolPanel.add( timerButton, rhs );
+                lhs.gridy++;
+                rhs.gridy++;
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+
             ImageIcon chartIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
             JButton floatingChartButton = new JButton( CCKStrings.getString( "add.current.chart" ) );
