@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
+import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
@@ -51,6 +52,11 @@ import edu.colorado.phet.common_cck.view.plaf.PlafUtil;
 import edu.colorado.phet.common_cck.view.util.FrameSetup;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -145,7 +151,7 @@ public class CCK3Module extends Module {
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
     private Area electronClip = new Area();
-
+    private PNode stopwatch;
 
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
@@ -153,19 +159,13 @@ public class CCK3Module extends Module {
 
         magicPanel = new MagicalRepaintPanel();
         setApparatusPanel( magicPanel );
-        //
-        //        setApparatusPanel( new ApparatusPanel() );
-        //        setApparatusPanel( new ApparatusPanel() {
-        //            protected void paintComponent( Graphics graphics ) {
-        ////                long time = System.currentTimeMillis();
-        //                super.paintComponent( graphics );
-        ////                long now = System.currentTimeMillis();
-        ////                long dx = now - time;
-        ////                if( dx != 0 ) {
-        ////                    System.out.println( "Paint Time= " + dx );
-        ////                }
-        //            }
-        //        } );
+        clock.start();
+        stopwatch = new PhetPNode( new PSwing( getApparatusPanel(), new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
+        stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        stopwatch.addInputEventListener( new PDragEventHandler() );
+        getApparatusPanel().addScreenChild( stopwatch );
+        stopwatch.setOffset( 150, 150 );
+        stopwatch.setVisible( false );
         getApparatusPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
@@ -950,6 +950,14 @@ public class CCK3Module extends Module {
                 getApparatusPanel().removeScreenChild( chart );
             }
         } );
+    }
+
+    public boolean isStopwatchVisible() {
+        return stopwatch.getVisible();
+    }
+
+    public void setStopwatchVisible( boolean visible ) {
+        stopwatch.setVisible( visible );
     }
 
     public static class SimpleKeyEvent implements KeyListener {
