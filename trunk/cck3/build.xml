@@ -55,6 +55,7 @@
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
         </tstamp>
         <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
+        <echo file="data/cck.version" message="${dev-version}"></echo>
     </target>
 
     <target name="Generate Jar" depends="Compile"

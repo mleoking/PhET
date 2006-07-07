@@ -1,4 +1,4 @@
-3.01.06
+3.01.06 (7-7-2006)
 Charts can now be removed.
 Bugfix: Charts don't show any data, when first data points are out of range.
 Bugfix: Time-series charts looked non-smooth for simple AC RC circuit
