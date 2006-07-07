@@ -3,10 +3,10 @@ package edu.colorado.phet.cck3.tests.junit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
-import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
@@ -60,8 +60,8 @@ public class TestCurrent extends TestCase {
         //This doesn't account for battery internal resistance.
 
         assertEquals( "Wrong current for r=" + r + ", v=" + v, -v / r, currentThroughResistor, .1 );
-        assertEquals( "Wrong voltage drop for r=" + r + ", v=" + v, v, module.getCircuit().getVoltage( new VoltmeterGraphic.JunctionConnection( resistor.getStartJunction() ),
-                                                                                                       new VoltmeterGraphic.JunctionConnection( resistor.getEndJunction() ) ),
+        assertEquals( "Wrong voltage drop for r=" + r + ", v=" + v, v, module.getCircuit().getVoltage( new VoltageCalculation.JunctionConnection( resistor.getStartJunction() ),
+                                                                                                       new VoltageCalculation.JunctionConnection( resistor.getEndJunction() ) ),
                       .1 );
     }
 

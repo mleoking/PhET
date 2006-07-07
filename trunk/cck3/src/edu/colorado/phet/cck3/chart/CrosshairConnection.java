@@ -21,10 +21,10 @@ import java.beans.PropertyChangeListener;
  */
 
 public class CrosshairConnection extends PhetPNode {
-    private FloatingChart FloatingChart;
+    private SingleTerminalFloatingChart FloatingChart;
     private PPath line;
 
-    public CrosshairConnection( FloatingChart FloatingChart ) {
+    public CrosshairConnection( SingleTerminalFloatingChart FloatingChart ) {
         this.FloatingChart = FloatingChart;
         line = new PPath();
         line.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );

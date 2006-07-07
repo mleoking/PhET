@@ -89,7 +89,8 @@ public class StripChartJFCNode extends PNode {
         if( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
             series.add( x, y );
-            if( series.getItemCount() > maxItemCount && !jFreeChart.getXYPlot().getDomainAxis().isAutoRange() ) {
+            if( ( x > 5 || series.getItemCount() > maxItemCount ) && !jFreeChart.getXYPlot().getDomainAxis().isAutoRange() )
+            {
                 jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
             }
             if( series.getItemCount() > maxItemCount ) {

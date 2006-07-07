@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
@@ -927,9 +928,14 @@ public class CCK3Module extends Module {
 
     public void addFloatingChart() {
         clock.start();
-        CCKFloatingChart chart = new CCKFloatingChart( "Current", clock, getCircuitGraphic() );
+        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current", clock, getCircuitGraphic() );
         chart.setOffset( 200, 200 );
         getApparatusPanel().addScreenChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
+            public void chartClosing() {
+                getApparatusPanel().removeScreenChild( chart );
+            }
+        } );
     }
 
     public static class SimpleKeyEvent implements KeyListener {
