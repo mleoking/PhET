@@ -26,6 +26,11 @@ import java.util.Random;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+/**
+ * The only way I could get the sliders to work properly with the code that limits the number of nuclei that can
+ * be added was to remove the sliders and replace them with new ones whenever the slider is asking for more than
+ * can be added.
+ */
 public class MultipleNucleusFissionControlPanel extends JPanel {
 
     //--------------------------------------------------------------------------------------------------
@@ -78,7 +83,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 if( startNumU235 != 0 ) {
                     percent = ( (double)( startNumU235 - modelNum ) ) / startNumU235;
                 }
-                percentDecayTF.setText( percentFormat.format( percent ) );
+                    percentDecayTF.setText( percentFormat.format( percent ) );
 
                 modelNum = module.getU238Nuclei().size();
                 viewNum = (int)numU238Slider.getValue();
@@ -159,16 +164,16 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Slider.setPreferredSliderWidth( 150 );
         numU235Slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                    int numU235 = (int)numU235Slider.getValue();
-                    setNumU235Nuclei( numU235 );
-                }
+                int numU235 = (int)numU235Slider.getValue();
+                setNumU235Nuclei( numU235 );
+            }
         } );
         numU238Slider = new MyModelSlider( "U238", "", 0, 100, 0, sliderFormat );
         numU238Slider.setPreferredSliderWidth( 150 );
         numU238Slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                    int numU238 = (int)numU238Slider.getValue();
-                    setNumU238Nuclei( numU238 );
+                int numU238 = (int)numU238Slider.getValue();
+                setNumU238Nuclei( numU238 );
             }
         } );
     }
@@ -184,23 +189,23 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     }
 
     private void setNumU235Nuclei( final int num ) {
-            int delta = num - module.getU235Nuclei().size();
-            for( int i = 0; i < delta; i++ ) {
-                module.addU235Nucleus();
-            }
-            for( int i = 0; i < -delta; i++ ) {
-                int numNuclei = module.getU235Nuclei().size();
-                Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
-                module.removeU235Nucleus( nucleus );
-            }
+        int delta = num - module.getU235Nuclei().size();
+        for( int i = 0; i < delta; i++ ) {
+            module.addU235Nucleus();
+        }
+        for( int i = 0; i < -delta; i++ ) {
+            int numNuclei = module.getU235Nuclei().size();
+            Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
+            module.removeU235Nucleus( nucleus );
+        }
 
-            if( num != module.getU235Nuclei().size() ) {
-                makeNewNucleusSliders();
-                addNucleusSliders();
-                numU235Slider.setValue( module.getU235Nuclei().size() );
-                JOptionPane.showMessageDialog( MultipleNucleusFissionControlPanel.this,
-                                               SimStrings.get( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
-            }
+        if( num != module.getU235Nuclei().size() ) {
+            makeNewNucleusSliders();
+            addNucleusSliders();
+            numU235Slider.setValue( module.getU235Nuclei().size() );
+            JOptionPane.showMessageDialog( MultipleNucleusFissionControlPanel.this,
+                                           SimStrings.get( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
+        }
     }
 
     private void setNumU238Nuclei( final int num ) {
