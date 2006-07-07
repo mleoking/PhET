@@ -31,7 +31,6 @@ import java.util.ArrayList;
  */
 
 public abstract class AbstractFloatingChart extends PhetPNode {
-
     private IClock clock;
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
@@ -40,7 +39,6 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private ClockAdapter clockListener;
 
     public AbstractFloatingChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
-
         this.clock = clock;
         textReadout = new TextReadout();
         stripChartJFCNode = new StripChartJFCNode( 200, 150, "time.s", title );

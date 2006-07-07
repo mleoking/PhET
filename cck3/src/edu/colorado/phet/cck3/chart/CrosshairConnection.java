@@ -21,11 +21,13 @@ import java.beans.PropertyChangeListener;
  */
 
 public class CrosshairConnection extends PhetPNode {
-    private SingleTerminalFloatingChart FloatingChart;
+    private AbstractFloatingChart FloatingChart;
+    private PNode destination;
     private PPath line;
 
-    public CrosshairConnection( SingleTerminalFloatingChart FloatingChart ) {
+    public CrosshairConnection( AbstractFloatingChart FloatingChart, PNode destination ) {
         this.FloatingChart = FloatingChart;
+        this.destination = destination;
         line = new PPath();
         line.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         addChild( line );
@@ -43,7 +45,8 @@ public class CrosshairConnection extends PhetPNode {
     }
 
     private PNode getDestination() {
-        return (PNode)FloatingChart.getCrosshairGraphic();
+//        return (PNode)FloatingChart.getCrosshairGraphic();
+        return destination;
     }
 
     private PNode getSource() {

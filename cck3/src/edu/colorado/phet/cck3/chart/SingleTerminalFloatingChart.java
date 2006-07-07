@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.chart;
 
 import edu.colorado.phet.common.model.clock.IClock;
@@ -24,7 +23,7 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
         this.valueReader = valueReader;
 
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        CrosshairConnection crosshairConnection = new CrosshairConnection( this );
+        CrosshairConnection crosshairConnection = new CrosshairConnection( this, crosshairGraphic );
         addChild( crosshairConnection );
 
         addChild( crosshairGraphic );
@@ -34,7 +33,6 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
         double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
         crosshairGraphic.translate( crosshairOffsetDX, 0 );
         stripChartJFCNode.addInputEventListener( new PairDragHandler() );
-
     }
 
     public void setValueReader( ValueReader valueReader ) {
