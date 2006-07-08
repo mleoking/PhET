@@ -8,7 +8,6 @@ IN PROGRESS:
 - use same precison for drag handle values and config dialog sliders
 - bug: HO offset drag handle doesn't move the first few attempts to drag it
 - bug: drag handles for 1D & 3D coulomb potential behave as if y-axis range is -5,15
-- bug: square height handle needs to be further to right
 - show drag handle label and value while dragging and mouseOver (eg "width=5.13")
 - bug: square offset (and others?) can be dragged past min (and max?)
 - add "annotations" to color scheme and use for drag handle values
@@ -44,6 +43,7 @@ CLEANUP:
 
 
 DONE:
+(7/8/06) - update the chart's rendering info whenever the Energy plot's Y axis changes
 (7/6/06) - fix width handle on square potential
 (7/6/06) - add getHelpNode to drag handle manager classes, create IHandleManager interface
 (7/6/06) - fix angular freq handle on harmonic oscillator potential
