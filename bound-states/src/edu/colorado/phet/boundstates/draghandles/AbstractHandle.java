@@ -127,6 +127,17 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     }
     
     //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+    
+    public void setVisible( boolean visible ) {
+        if ( visible ) {
+            updateDragBounds();
+        }
+        super.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
@@ -234,6 +245,11 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
      * Updates the drag handle to match the model.
      */
     protected abstract void updateView();
+    
+    /**
+     * Updates the drag bounds.
+     */
+    protected abstract void updateDragBounds();
     
     //----------------------------------------------------------------------------
     // PropertChangeListener implementation
