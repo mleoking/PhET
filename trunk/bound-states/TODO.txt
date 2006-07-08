@@ -9,7 +9,7 @@ IN PROGRESS:
 - use same precison for drag handle values and config dialog sliders
 - bug: HO offset drag handle doesn't move the first few attempts to drag it
 - bug: square offset (and others?) can be dragged past min (and max?)
-- add "annotations" to color scheme and use for drag handle values
+- add stuff related to drag handles to color schemes
 - make offset drag handles looks "different"
 - clip drag handles to energy chart
 - drag handles are sluggish, improve responsiveness
