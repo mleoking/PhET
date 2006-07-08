@@ -21,12 +21,6 @@ import edu.umd.cs.piccolo.PNode;
 public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG_SHOW_VALUES = true;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -55,7 +49,6 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
         
         if ( potential != null ) {
             _offsetHandle = new BSCoulomb3DOffsetHandle( potential, _potentialSpec, _chartNode );
-            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _offsetHandle );
             _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 

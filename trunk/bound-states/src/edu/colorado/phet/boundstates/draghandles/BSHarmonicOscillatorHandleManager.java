@@ -21,12 +21,6 @@ import edu.umd.cs.piccolo.PNode;
 public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG_SHOW_VALUES = true;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -56,12 +50,10 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
         
         if ( potential != null ) {
             _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, _potentialSpec, _chartNode );
-            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _offsetHandle );
             _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 
             _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, _potentialSpec, _chartNode );
-            _angularFrequencyHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _angularFrequencyHandle );
             _angularFrequencyHandle.setVisible( _potentialSpec.getAngularFrequencyRange().getMin() != _potentialSpec.getAngularFrequencyRange().getMax() );
         }

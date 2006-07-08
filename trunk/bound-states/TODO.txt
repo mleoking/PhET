@@ -42,6 +42,7 @@ CLEANUP:
 
 
 DONE:
+(7/8/06) - show value while dragging handle or while mouse is over handle
 (7/8/06) - update drag handle bounds when made visible
 (7/8/06) - update the chart's rendering info whenever the Energy plot's Y axis changes
 (7/6/06) - fix width handle on square potential
