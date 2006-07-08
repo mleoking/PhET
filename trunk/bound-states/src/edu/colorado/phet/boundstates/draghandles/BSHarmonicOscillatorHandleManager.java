@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class BSHarmonicOscillatorHandleManager extends PNode implements IHandleManager {
+public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
     // Class data

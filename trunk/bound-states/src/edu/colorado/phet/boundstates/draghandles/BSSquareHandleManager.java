@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class BSSquareHandleManager extends PNode implements IHandleManager {
+public class BSSquareHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
     // Class data

@@ -127,17 +127,6 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     }
     
     //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-    
-    public void setVisible( boolean visible ) {
-        if ( visible ) {
-            updateDragBounds();
-        }
-        super.setVisible( visible );
-    }
-    
-    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
