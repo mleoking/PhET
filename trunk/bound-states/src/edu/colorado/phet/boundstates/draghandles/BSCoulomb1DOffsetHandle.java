@@ -85,7 +85,6 @@ public class BSCoulomb1DOffsetHandle extends AbstractHandle implements Observer 
         // energy -> y coordinates (+y is down!)
         final double minEnergy = _potentialSpec.getOffsetRange().getMin();
         final double maxEnergy =  _potentialSpec.getOffsetRange().getMax();
-        System.out.println( "BSCoulomb1DOffsetHandle.updateDragBounds minE=" + minEnergy + " maxE=" + maxEnergy );//XXX
         final double minY = _chartNode.energyToNode( maxEnergy );
         final double maxY = _chartNode.energyToNode( minEnergy );
         
