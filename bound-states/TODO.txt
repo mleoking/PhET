@@ -3,11 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
+- add a label to the drag handle value, eg "width=0.5nm"
 - spacing drag handle for square
 - spacing drag handle for Coulomb
 - use same precison for drag handle values and config dialog sliders
 - bug: HO offset drag handle doesn't move the first few attempts to drag it
-- show drag handle label and value while dragging and mouseOver (eg "width=5.13")
 - bug: square offset (and others?) can be dragged past min (and max?)
 - add "annotations" to color scheme and use for drag handle values
 - make offset drag handles looks "different"
