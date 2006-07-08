@@ -18,7 +18,7 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class BSCoulomb3DHandleManager extends PNode implements IHandleManager {
+public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
     // Class data
