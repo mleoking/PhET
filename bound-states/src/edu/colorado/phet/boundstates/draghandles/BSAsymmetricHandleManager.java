@@ -21,12 +21,6 @@ import edu.umd.cs.piccolo.PNode;
 public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG_SHOW_VALUES = true;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -58,17 +52,14 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
         if ( potential != null ) {
             
             _offsetHandle = new BSAsymmetricOffsetHandle( potential, _potentialSpec, _chartNode );
-            _offsetHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _offsetHandle );
             _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 
             _heightHandle = new BSAsymmetricHeightHandle( potential, _potentialSpec, _chartNode );
-            _heightHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _heightHandle );
             _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
 
             _widthHandle = new BSAsymmetricWidthHandle( potential, _potentialSpec, _chartNode );
-            _widthHandle.setValueVisible( DEBUG_SHOW_VALUES );
             addChild( _widthHandle );
             _widthHandle.setVisible( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
         }

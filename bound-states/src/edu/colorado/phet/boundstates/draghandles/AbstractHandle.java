@@ -26,6 +26,8 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -124,6 +126,33 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         else {
             _dragHandler.setHorizontalLockEnabled( true );
         }
+        
+        // Show value while dragging or while mouse is over handle.
+        addInputEventListener( new PBasicInputEventHandler() {
+
+            private boolean _mouseIsPressed;
+            private boolean _mouseIsInside;
+
+            public void mousePressed( PInputEvent event ) {
+                _mouseIsPressed = true;
+                setValueVisible( true );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                _mouseIsPressed = false;
+                setValueVisible( false || _mouseIsInside );
+            }
+
+            public void mouseEntered( PInputEvent event ) {
+                _mouseIsInside = true;
+                setValueVisible( true );
+            }
+
+            public void mouseExited( PInputEvent event ) {
+                _mouseIsInside = false;
+                setValueVisible( false || _mouseIsPressed );
+            }
+        } );
     }
     
     //----------------------------------------------------------------------------
