@@ -204,17 +204,8 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
      * 
      * @param visible true or false 
      */
-    public void setValueVisible( boolean visible ) {
+    private void setValueVisible( boolean visible ) {
         _valueNode.setVisible( visible );
-    }
-    
-    /**
-     * Is the value displayed?
-     * 
-     * @return true or false
-     */
-    public boolean isValueVisible() {
-        return _valueNode.getVisible();
     }
     
     /**
