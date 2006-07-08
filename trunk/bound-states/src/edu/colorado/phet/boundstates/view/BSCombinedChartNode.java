@@ -15,6 +15,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.event.AxisChangeEvent;
+import org.jfree.chart.event.AxisChangeListener;
 import org.jfree.chart.plot.PlotRenderingInfo;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
@@ -26,7 +28,7 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCombinedChartNode extends JFreeChartNode {
+public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeListener {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,6 +44,9 @@ public class BSCombinedChartNode extends JFreeChartNode {
         super( chart, buffered );
         setPickable( false );
         setChildrenPickable( false );
+        
+        // Update the chart's rendering info whenever the Energy plot's Y-axis changes.
+        chart.getEnergyPlot().getRangeAxis().addChangeListener( this );
     }
     
     /**
@@ -51,6 +56,17 @@ public class BSCombinedChartNode extends JFreeChartNode {
      */
     public BSCombinedChartNode( BSCombinedChart chart ) {
         this( chart, false /* buffered */ );
+    }
+    
+    //----------------------------------------------------------------------------
+    // AxisChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handle changes to an axis by updaing the chart's rendering info.
+     */
+    public void axisChanged( AxisChangeEvent event ) {
+        updateChartRenderingInfo();
     }
     
     //----------------------------------------------------------------------------
