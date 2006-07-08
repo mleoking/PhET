@@ -11,7 +11,6 @@ IN PROGRESS:
 - bug: square offset (and others?) can be dragged past min (and max?)
 - add "annotations" to color scheme and use for drag handle values
 - make offset drag handles looks "different"
-- make drag handles hilite on mouseEnter
 - clip drag handles to energy chart
 - drag handles are sluggish, improve responsiveness
 
@@ -42,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+(7/8/06) - hilite drag handle while dragging it or mouse is over it
 (7/8/06) - show value while dragging handle or while mouse is over handle
 (7/8/06) - update drag handle bounds when made visible
 (7/8/06) - update the chart's rendering info whenever the Energy plot's Y axis changes
