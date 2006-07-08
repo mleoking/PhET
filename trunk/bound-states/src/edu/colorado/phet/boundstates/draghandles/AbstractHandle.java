@@ -128,31 +128,10 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         }
         
         // Show value while dragging or while mouse is over handle.
-        addInputEventListener( new PBasicInputEventHandler() {
-
-            private boolean _mouseIsPressed;
-            private boolean _mouseIsInside;
-
-            public void mousePressed( PInputEvent event ) {
-                _mouseIsPressed = true;
-                setValueVisible( true );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                _mouseIsPressed = false;
-                setValueVisible( false || _mouseIsInside );
-            }
-
-            public void mouseEntered( PInputEvent event ) {
-                _mouseIsInside = true;
-                setValueVisible( true );
-            }
-
-            public void mouseExited( PInputEvent event ) {
-                _mouseIsInside = false;
-                setValueVisible( false || _mouseIsPressed );
-            }
-        } );
+        addInputEventListener( new ShowValueHandler() );
+        
+        // Make drag handle hilite when the mouse is over it or it's being dragged.
+        addInputEventListener( new HiliteHandler() );
     }
     
     //----------------------------------------------------------------------------
@@ -329,5 +308,81 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         }
         
         return shape;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Shows the value while dragging the handle, 
+     * or while the mouse is inside the handle.
+     */
+    private class ShowValueHandler extends PBasicInputEventHandler {
+        
+        private boolean _mouseIsPressed;
+        private boolean _mouseIsInside;
+
+        public ShowValueHandler() {
+            super();
+        }
+        
+        public void mousePressed( PInputEvent event ) {
+            _mouseIsPressed = true;
+            setValueVisible( true );
+        }
+
+        public void mouseReleased( PInputEvent event ) {
+            _mouseIsPressed = false;
+            setValueVisible( false || _mouseIsInside );
+        }
+
+        public void mouseEntered( PInputEvent event ) {
+            _mouseIsInside = true;
+            setValueVisible( true );
+        }
+
+        public void mouseExited( PInputEvent event ) {
+            _mouseIsInside = false;
+            setValueVisible( false || _mouseIsPressed );
+        }
+    }
+    
+    /*
+     * Hilites the handle while dragging the handle, 
+     * or while the mouse is inside the handle.
+     */
+    private class HiliteHandler extends PBasicInputEventHandler {
+        
+        private boolean _mouseIsPressed;
+        private boolean _mouseIsInside;
+
+        public HiliteHandler() {
+            super();
+        }
+        
+        public void mousePressed( PInputEvent event ) {
+            _mouseIsPressed = true;
+            setPaint( BSConstants.DRAG_HANDLE_HILITE_COLOR );
+        }
+
+        public void mouseReleased( PInputEvent event ) {
+            _mouseIsPressed = false;
+            if ( !_mouseIsInside ) {
+                setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
+            }
+        }
+
+        public void mouseEntered( PInputEvent event ) {
+            _mouseIsInside = true;
+            setPaint( BSConstants.DRAG_HANDLE_HILITE_COLOR );
+        }
+
+        public void mouseExited( PInputEvent event ) {
+            _mouseIsInside = false;
+            if ( !_mouseIsPressed ) {
+                setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
+            }
+        }
     }
 }
