@@ -48,6 +48,7 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        setValueNumberFormat( "0.00" );
         setValuePattern( SimStrings.get( "drag.separation" ) );
         updateDragBounds();
     }
@@ -81,13 +82,14 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
         final int n = _potential.getNumberOfWells();
         final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
         final double width = _potential.getWidth();
-        final double leftEdge = center - ( width / 2 );
+        final double separation = _potential.getSeparation();
+        final double centerOfSeparation = center - ( width / 2 ) - ( separation / 2 );
         final double minSeparation = _potentialSpec.getSeparationRange().getMin();
         final double maxSeparation = _potentialSpec.getSeparationRange().getMax();
         
         // position -> x coordinates
-        final double minPosition = leftEdge - ( maxSeparation / 2 );
-        final double maxPosition = leftEdge - ( minSeparation / 2 );
+        final double minPosition = centerOfSeparation + ( minSeparation / 2 );
+        final double maxPosition = centerOfSeparation + ( maxSeparation / 2 );
         final double minX = _chartNode.positionToNode( minPosition );
         final double maxX = _chartNode.positionToNode( maxPosition );
         
@@ -119,30 +121,31 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
 
         _potential.deleteObserver( this );
         {
-//            Point2D globalNodePoint = getGlobalPosition();
-//            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-//            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
-//            final double d = modelPoint.getX();
-//
-//            final int n = _potential.getNumberOfWells();
-//            final double s = _potential.getSeparation();
-//            double width = 0;
-//            
-//            if ( n % 2 == 0 ) {
-//                // even number of wells
-//                width = ( 2.0 / n ) * ( d - ( ( ( n / 2.0 ) - 1 ) * s ) - ( 0.5 * s ) );
-//            }
-//            else {
-//                // odd number of wells
-//                final int m = n - 1;
-//                width = ( 2.0 / ( m + 1 ) ) * ( d - ( ( m / 2.0 ) * s ) );
-//            }
-//
-//            _potential.setWidth( width );
-//            setValueDisplay( width );
+            Point2D globalNodePoint = getGlobalPosition();
+            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            final double d = modelPoint.getX();
+
+            final int n = _potential.getNumberOfWells();
+            final double w = _potential.getWidth();
+            double separation = 0;
+            
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                final int m = ( n / 2 ) - 1;
+                separation = ( 1 / ( m + 0.5 ) ) * ( d - ( m * w ) );
+            }
+            else {
+                // odd number of wells
+                final int m = ( n - 1 ) / 2;
+                separation = ( 1 / m ) * ( d - ( ( m - 1 ) * w ) - ( w / 2 ) );
+            }
+
+            _potential.setSeparation( separation );
+            setValueDisplay( separation );
         }
         _potential.addObserver( this );
-        updateDragBounds();
+//        updateDragBounds();
     }
     
     protected void updateView() {
