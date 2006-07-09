@@ -29,7 +29,6 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private Capacitor capacitor;
     private CompositePhetGraphic plate1ChargeGraphic;
     private CompositePhetGraphic plate2ChargeGraphic;
-    private Color plusMinusColor = Color.black;
     private Capacitor3DShapeSet capacitor3DShapeSet;
     private ModelViewTransform2D transform;
     private double fracDistToPlate = 0.325;
