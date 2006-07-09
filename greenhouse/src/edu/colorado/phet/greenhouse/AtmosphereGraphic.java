@@ -39,7 +39,8 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
         this.atmosphere = atmosphere;
         atmosphere.addObserver( this );
         BufferedImage atmosphereBI = new ImageLoader().loadBufferedImage( "images/pollution.gif" );
-        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
+//        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         addGraphic( atmosphereImageGraphic, 1 );
         update();
 
@@ -56,7 +57,8 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
                 AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
                 bi = atxOp.filter( bi, null );
                     removeGraphic( atmosphereImageGraphic );
-                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
+//                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
                     addGraphic( atmosphereImageGraphic, 1 );
                 }
             }

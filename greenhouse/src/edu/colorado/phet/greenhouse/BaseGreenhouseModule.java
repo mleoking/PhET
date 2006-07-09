@@ -93,6 +93,7 @@ public abstract class BaseGreenhouseModule extends Module {
         earth.addPhotonEmitterListener( earthPhotonEmitterListener );
         earth.addPhotonAbsorberListener( new PhotonAbsorberListener() );
         earth.getPhotonSource().addListener( model );
+        // EarthGraphic adds itself to the apparatus panel. Manages its own transform, too
         earthGraphic = new EarthGraphic( getApparatusPanel(), earth, initialModelBounds );
         earth.setReflectivityAssessor( earthGraphic );
 
