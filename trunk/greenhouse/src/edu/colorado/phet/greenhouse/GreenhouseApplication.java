@@ -75,8 +75,8 @@ public class GreenhouseApplication extends PhetApplication {
                 }
 
 
-                Module greenhouseModule = new GreenhouseModule();
-                Module greenhouseModule2 = new GlassPaneModule();
+                BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
+                BaseGreenhouseModule greenhouseModule2 = new GlassPaneModule();
                 Module[] modules = new Module[]{
                         greenhouseModule,
                         greenhouseModule2
@@ -86,9 +86,16 @@ public class GreenhouseApplication extends PhetApplication {
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
                         SimStrings.get( "GreenHouseApplication.version" ),
                         1024, 768 );
+                SwingTimerClock dummyClock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 s_application = new PhetApplication( appDescriptor, modules,
-                                                     new SwingTimerClock( new StaticClockModel( 10, 20 ) ) );
+                                                     dummyClock );
 
+                dummyClock.removeClockTickListener( greenhouseModule.getModel() );
+                dummyClock.removeClockTickListener( greenhouseModule2.getModel() );
+                IClock clock1 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+                greenhouseModule2.addClock( clock1 );
+                IClock clock2 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+                greenhouseModule2.addClock( clock1 );
 
                 Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
                 Color foreground = Color.black;

@@ -9,6 +9,7 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
@@ -50,6 +51,7 @@ public abstract class BaseGreenhouseModule extends Module {
     private static boolean s_zoomed;
     private Rectangle2D.Double finalModelBounds;
     private AtmosphereGraphic atmosphereGraphic;
+    private IClock clock;
 
     protected BaseGreenhouseModule( String s ) {
         super( s );
@@ -159,6 +161,12 @@ public abstract class BaseGreenhouseModule extends Module {
             ( (TestApparatusPanel)getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
+    }
+
+
+    public void addClock( IClock clock ) {
+        this.clock = clock;
+        clock.addClockTickListener( getModel() );
     }
 
 

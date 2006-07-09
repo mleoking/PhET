@@ -9,6 +9,7 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.IClock;
 
 import javax.swing.*;
 import java.awt.geom.Ellipse2D;
