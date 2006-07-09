@@ -86,7 +86,6 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     static boolean init;
     static Rectangle2D origBounds;
 
-
     //----------------------------------------------------------------
     // Instance fields and methods
     //----------------------------------------------------------------
@@ -109,20 +108,20 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 //            resizeHandler = new ResizeHandler();
 //            component.addComponentListener( resizeHandler );
 //        }
-        component.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                if( !init ) {
-                    init = true;
-                    origBounds = e.getComponent().getBounds();
+            component.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    if( !init ) {
+                        init = true;
+                        origBounds = e.getComponent().getBounds();
+                    }
+                    Component component = e.getComponent();
+                    Rectangle2D newBounds = component.getBounds();
+                    scale = newBounds.getWidth() / origBounds.getWidth();
+                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
+                    scaleChanged = true;
+                    update();
                 }
-                Component component = e.getComponent();
-                Rectangle2D newBounds = component.getBounds();
-                scale = newBounds.getWidth() / origBounds.getWidth();
-                scaleTx = AffineTransform.getScaleInstance( scale, scale );
-                scaleChanged = true;
-                update();
-            }
-        } );
+            } );
         }
         this.update();
 
@@ -137,6 +136,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     }
 
     public void update() {
+
         double theta = Math.atan2( -photon.getVelocity().getY(), photon.getVelocity().getX() );
         if( theta != directionOfTravel || scaleChanged ) {
             scaleChanged = false;
@@ -165,9 +165,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         }
         double ratio = 0.03;
         position.setLocation( photon.getLocation().getX() - photonImage.getBufferedImage().getWidth() * ratio * 0.5,
-                       photon.getLocation().getY() - sy * photonImage.getBufferedImage().getHeight() * ratio );
+                              photon.getLocation().getY() - sy * photonImage.getBufferedImage().getHeight() * ratio );
 
-        if( EarthGraphic.snowPoints.contains(  position )) {
+        if( EarthGraphic.snowPoints.contains( position ) ) {
             System.out.println( "PhotonGraphic.update" );
         }
 //        System.out.println( "position = " + position );

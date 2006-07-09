@@ -49,12 +49,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         getEarth().setJimmyArray( null );
     }
 
-//    public void activate( PhetApplication phetApplication ) {
-//    }
-//
-//    public void deactivate( PhetApplication phetApplication ) {
-//    }
-
     public void reset() {
         super.reset();
         setToday();
