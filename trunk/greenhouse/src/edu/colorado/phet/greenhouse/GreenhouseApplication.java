@@ -22,6 +22,14 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
+/**
+ * General comments, issues:
+ * I wrote this using real model coordinates and units. The origin is at the center of the earth, and the positive
+ * y direction is up. Unfortunately, this has turned out to cause a host of issues.
+ *
+ * The snow in the ice age reflects photons, but is not really in the model. Instead I do a rough estimate of where
+ * it is in the background image (in the view) and use that.
+ */
 public class GreenhouseApplication extends PhetApplication {
     // Localization
     public static final String localizedStringsPath = "localization/GreenhouseStrings";
@@ -48,59 +56,61 @@ public class GreenhouseApplication extends PhetApplication {
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
-        JFrame window = new JFrame();
-        SplashWindow splashWindow = new SplashWindow( window, "Starting up..." );
-        splashWindow.setVisible( true );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
 
-        // Set the look and feel if we're on Windows and Java 1.4
-        if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
-            && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-            try {
-                UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+                JFrame window = new JFrame();
+                SplashWindow splashWindow = new SplashWindow( window, "Starting up..." );
+                splashWindow.setVisible( true );
+
+                // Set the look and feel if we're on Windows and Java 1.4
+                if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
+                    && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
+                    try {
+                        UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+                    }
+                    catch( UnsupportedLookAndFeelException e ) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                Module greenhouseModule = new GreenhouseModule();
+                Module greenhouseModule2 = new GlassPaneModule();
+                Module[] modules = new Module[]{
+                        greenhouseModule,
+                        greenhouseModule2
+                };
+                ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
+                        SimStrings.get( "GreenHouseApplication.title" ),
+                        MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
+                        SimStrings.get( "GreenHouseApplication.version" ),
+                        1024, 768 );
+                s_application = new PhetApplication( appDescriptor, modules,
+                                                     new SwingTimerClock( new StaticClockModel( 10, 20 ) ) );
+
+
+                Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
+                Color foreground = Color.black;
+                UIManager.put( "Panel.background", background );
+                UIManager.put( "MenuBar.background", background );
+                UIManager.put( "TabbedPane.background", background );
+                UIManager.put( "Menu.background", background );
+                UIManager.put( "Slider.background", background );
+                UIManager.put( "RadioButton.background", background );
+                UIManager.put( "RadioButton.foreground", foreground );
+                UIManager.put( "CheckBox.background", background );
+                UIManager.put( "CheckBox.foreground", foreground );
+                UIManager.put( "Label.foreground", foreground );
+                UIManager.put( "TitledBorder.titleColor", foreground );
+                UIManager.put( "TabbedPane.font", new FontUIResource( "Lucidasans", Font.BOLD, 18 ) );
+
+                SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
+
+                splashWindow.setVisible( false );
+                s_application.startApplication( greenhouseModule );
+
             }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();
-            }
-        }
-
-
-        Module greenhouseModule = new GreenhouseModule();
-        Module greenhouseModule2 = new GlassPaneModule();
-        Module[] modules = new Module[]{
-                greenhouseModule,
-                greenhouseModule2
-        };
-        ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                SimStrings.get( "GreenHouseApplication.title" ),
-                MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
-                SimStrings.get( "GreenHouseApplication.version" ),
-                1024, 768 );
-        s_application = new PhetApplication( appDescriptor, modules,
-                                             new SwingTimerClock( new StaticClockModel( 10, 20 ) ) );
-
-
-        Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
-        Color foreground = Color.black;
-        UIManager.put( "Panel.background", background );
-        UIManager.put( "MenuBar.background", background );
-        UIManager.put( "TabbedPane.background", background );
-        UIManager.put( "Menu.background", background );
-        UIManager.put( "Slider.background", background );
-        UIManager.put( "RadioButton.background", background );
-        UIManager.put( "RadioButton.foreground", foreground );
-        UIManager.put( "CheckBox.background", background );
-        UIManager.put( "CheckBox.foreground", foreground );
-        UIManager.put( "Label.foreground", foreground );
-        UIManager.put( "TitledBorder.titleColor", foreground );
-
-        UIManager.put( "TabbedPane.font", new FontUIResource(  "Lucidasans", Font.BOLD, 18 ));
-
-
-        SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
-
-
-        splashWindow.setVisible( false );
-        s_application.startApplication( greenhouseModule );
-
+        } );
     }
 }

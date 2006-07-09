@@ -26,7 +26,12 @@ import java.awt.image.ColorModel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.ArrayList;
 
+/**
+ * Quirks:
+ * Adds itself to the apparatusPanel
+ */
 public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphicType {
 
     private ApparatusPanel apparatusPanel;
@@ -46,7 +51,8 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     private BufferedImage backgroundToday = ImageLoader.fetchBufferedImage( "images/today-2.gif" );
     private BufferedImage background1750 = ImageLoader.fetchBufferedImage( "images/1750-2.gif" );
     private BufferedImage backgroundIceAge = ImageLoader.fetchBufferedImage( "images/ice-age-2.gif" );
-    private Map scaledBackgroundImages = new HashMap( );
+    private Map scaledBackgroundImages = new HashMap();
+    Point2D.Double pUtil = new Point2D.Double();
 
     /**
      * @param apparatusPanel
@@ -76,9 +82,9 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
         // Make two copies of all the background images. One for originals, and one for scaled
         // versions when the frame is resized.
-        scaledBackgroundImages.put(  backgroundToday, backgroundToday );
-        scaledBackgroundImages.put(  background1750, background1750 );
-        scaledBackgroundImages.put(  backgroundIceAge, backgroundIceAge );
+        scaledBackgroundImages.put( backgroundToday, backgroundToday );
+        scaledBackgroundImages.put( background1750, background1750 );
+        scaledBackgroundImages.put( backgroundIceAge, backgroundIceAge );
 
         // If the apparatus panel is resized, resize the backdrop graphic
         apparatusPanel.addComponentListener( new ComponentAdapter() {
@@ -87,7 +93,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 Rectangle2D newBounds = component.getBounds();
                 // Create a scaled version of each original backdrop image
                 for( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
-                    BufferedImage origImage =  (BufferedImage)iterator.next();
+                    BufferedImage origImage = (BufferedImage)iterator.next();
                     double scale = newBounds.getWidth() / origImage.getWidth();
                     AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
                     AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
@@ -135,6 +141,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         if( earthAnimation != null ) {
             g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
         }
+        g2.setColor( Color.gray );
     }
 
     public void update() {
@@ -182,10 +189,23 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         setBackDropImage( null, new Point2D.Double( 0, .5 ) );
     }
 
+    public static ArrayList snowPoints = new ArrayList();
+
     public void setIceAge() {
         isIceAge = true;
         setBackDropImage( backgroundIceAge, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 149, 134, 78 ) );
+
+        for( int i = 0; i < backdropGraphic.getBufferedImage().getWidth(); i++ ) {
+            for( int j = 0; j < backdropGraphic.getBufferedImage().getHeight(); j++ ) {
+                int result = backdropGraphic.getBufferedImage().getRGB( i, j );
+                if( result == 0xFFFFFFFF ) {
+                    Point2D.Double p = new Point2D.Double( i, j);
+//                    earthTx.transform( pUtil,null );
+                    snowPoints.add( earthTx.transform( p,null ));
+                }
+            }
+        }
     }
 
     private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {
@@ -216,7 +236,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 && backdropGraphic.contains( photon.getLocation() )
                 && photon.getVelocity().getY() < 0
                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
-                int pixel = backdropGraphic.getRGB( photon.getLocation() );
+
+                // The 1 in the following line is a hack number that is needed to make the locations work out
+                pUtil.setLocation( photon.getLocation().getX(), photon.getLocation().getY() + 1);
+                int pixel = backdropGraphic.getRGB( pUtil );
                 ColorModel colorModel = backdropGraphic.getBufferedImage().getColorModel();
                 int red = colorModel.getRed( pixel );
                 int blue = colorModel.getBlue( pixel );
