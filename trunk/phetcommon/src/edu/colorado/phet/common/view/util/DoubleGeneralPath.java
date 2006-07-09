@@ -58,6 +58,19 @@ public class DoubleGeneralPath {
         moveTo( vec.getX(), vec.getY() );
     }
 
+    public void moveToRelative( AbstractVector2D delta ) {
+        moveToRelative( delta.getX(), delta.getY() );
+    }
+
+    public void moveToRelative( Point2D delta ) {
+        moveToRelative( delta.getX(), delta.getY() );
+    }
+
+    public void moveToRelative( double dx, double dy ) {
+        Point2D cur = path.getCurrentPoint();
+        moveTo( cur.getX() + dx, cur.getY() + dy );
+    }
+
     public void quadTo( double x1, double y1, double x2, double y2 ) {
         path.quadTo( (float)x1, (float)y1, (float)x2, (float)y2 );
     }
