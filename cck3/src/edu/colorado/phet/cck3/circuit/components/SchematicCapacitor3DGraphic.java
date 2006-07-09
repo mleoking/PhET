@@ -173,18 +173,28 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
 
         double w = capacitor3DShapeSet.getWidth();
         double L = capacitor3DShapeSet.getLength();
-        double insetW = 0.05 * w;
-        double insetL = 0.05 * L;
+//        double insetW = 0.05 * w;
+//        double insetL = 0.05 * L;
         double alpha = Math.sqrt( numToShow / w / L );
         int numAcross = (int)( w * alpha );
         int numDown = (int)( L * alpha );
-//        System.out.println( "numAcross = " + numAcross + ", numdown=" + numDown );
         double dw = w / numAcross;
         double dL = L / numDown;
+//        double widthSpan = dw * numAcross;
+//        double lengthSpan = dL * numDown;
+
+//        double widthSpanInset = ( w - widthSpan ) / 2.0;
+        //        double lengthSpanInset = ( L - lengthSpan ) / 2.0;
+
+        double widthSpanInset = ( dw ) / 2.0;
+//        System.out.println( "numAcross="+numAcross+", w="+w+", widthSpan="+widthSpan+", widthSpanInset = " + widthSpanInset );
+
+        double lengthSpanInset = ( dL ) / 2.0;
+//        System.out.println( "numDown=" + numDown + ", L=" + L + ", lengthSpan=" + lengthSpan + ", lengthSpanInset= " + lengthSpanInset );
         for( int i = 0; i < numAcross; i++ ) {
             for( int j = 0; j < numDown; j++ ) {
-                double u = -w / 2.0 + i * dw + insetW;
-                double v = -L / 2.0 + j * dL + insetL;
+                double u = -w / 2.0 + i * dw + widthSpanInset;
+                double v = -L / 2.0 + j * dL + lengthSpanInset;
                 Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
                 Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
                 plate1ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
