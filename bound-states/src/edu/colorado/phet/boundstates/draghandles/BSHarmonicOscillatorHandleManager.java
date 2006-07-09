@@ -77,6 +77,11 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
+        if ( _offsetHandle != null ) {
+            _offsetHandle.setColorScheme( colorScheme );
+        }
+        if ( _angularFrequencyHandle != null ) {
+            _angularFrequencyHandle.setColorScheme( colorScheme );
+        }
     }
 }

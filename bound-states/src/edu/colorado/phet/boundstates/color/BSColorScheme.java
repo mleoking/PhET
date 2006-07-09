@@ -38,6 +38,10 @@ public class BSColorScheme {
     private Color _magnifyingGlassBezelColor;
     private Color _magnifyingGlassHandleColor;
     
+    private Color _dragHandleColor;
+    private Color _dragHandleHiliteColor;
+    private Color _dragHandleValueColor;
+    
     public BSColorScheme( BSColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
@@ -54,6 +58,10 @@ public class BSColorScheme {
         
         _magnifyingGlassBezelColor = colorScheme.getMagnifyingGlassBezelColor();
         _magnifyingGlassHandleColor = colorScheme.getMagnifyingGlassHandleColor();
+        
+        _dragHandleColor = colorScheme.getDragHandleColor();
+        _dragHandleHiliteColor = colorScheme.getDragHandleHiliteColor();
+        _dragHandleValueColor = colorScheme.getDragHandleValueColor();
     }
     
     protected BSColorScheme() {
@@ -158,5 +166,29 @@ public class BSColorScheme {
     
     public void setMagnifyingGlassHandleColor( Color magnifyingGlassHandleColor ) {
         _magnifyingGlassHandleColor = magnifyingGlassHandleColor;
+    }
+   
+    public Color getDragHandleColor() {
+        return _dragHandleColor;
+    }
+    
+    public void setDragHandleColor( Color dragHandleColor ) {
+        _dragHandleColor = dragHandleColor;
+    }
+   
+    public Color getDragHandleHiliteColor() {
+        return _dragHandleHiliteColor;
+    }
+    
+    public void setDragHandleHiliteColor( Color dragHandleHiliteColor ) {
+        _dragHandleHiliteColor = dragHandleHiliteColor;
+    }
+    
+    public Color getDragHandleValueColor() {
+        return _dragHandleValueColor;
+    }
+
+    public void setDragHandleValueColor( Color dragHandleValueColor ) {
+        _dragHandleValueColor = dragHandleValueColor;
     }
 }

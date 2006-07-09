@@ -66,6 +66,8 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     private JLabel _eigenstateNormalChip, _eigenstateHiliteChip, _eigenstateSelectionChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip;
     private JLabel _magnifyingGlassBezelChip, _magnifyingGlassHandleChip;
+    private JLabel _dragHandleChip, _dragHandleHiliteChip, _dragHandleValueChip;
+    
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
     
@@ -270,6 +272,43 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
+        // Vertical space
+        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        row++;
+        
+        // Drag handle "normal" color
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.dragHandle" ) );
+            _dragHandleChip = new JLabel();
+            setColor( _dragHandleChip, _scheme.getDragHandleColor() );
+            _dragHandleChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _dragHandleChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
+        // Drag handle "hilite" color
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.dragHandleHilite" ) );
+            _dragHandleHiliteChip = new JLabel();
+            setColor( _dragHandleHiliteChip, _scheme.getDragHandleHiliteColor() );
+            _dragHandleHiliteChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _dragHandleHiliteChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
+        // Drag handle "value" color
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.dragHandleValue" ) );
+            _dragHandleValueChip = new JLabel();
+            setColor( _dragHandleValueChip, _scheme.getDragHandleValueColor() );
+            _dragHandleValueChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _dragHandleValueChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
         return inputPanel;
     }
     
@@ -376,6 +415,18 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         else if ( _currentChip == _magnifyingGlassHandleChip ) {
             titlePrefix = SimStrings.get( "label.color.magnifyingGlassHandle" );
             initialColor = _scheme.getMagnifyingGlassHandleColor();
+        }
+        else if ( _currentChip == _dragHandleChip ) {
+            titlePrefix = SimStrings.get( "label.color.dragHandle" );
+            initialColor = _scheme.getDragHandleColor(); 
+        }
+        else if ( _currentChip == _dragHandleHiliteChip ) {
+            titlePrefix = SimStrings.get( "label.color.dragHandleHilite" );
+            initialColor = _scheme.getDragHandleHiliteColor(); 
+        }
+        else if ( _currentChip == _dragHandleValueChip ) {
+            titlePrefix = SimStrings.get( "label.color.dragHandleValue" );
+            initialColor = _scheme.getDragHandleValueColor(); 
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
@@ -506,6 +557,15 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         }
         else if ( _currentChip == _magnifyingGlassHandleChip ) {
             _scheme.setMagnifyingGlassHandleColor( color );
+        }
+        else if ( _currentChip == _dragHandleChip ) {
+            _scheme.setDragHandleColor( color );
+        }
+        else if ( _currentChip == _dragHandleHiliteChip ) {
+            _scheme.setDragHandleHiliteColor( color );
+        }
+        else if ( _currentChip == _dragHandleValueChip ) {
+            _scheme.setDragHandleValueColor( color );
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );

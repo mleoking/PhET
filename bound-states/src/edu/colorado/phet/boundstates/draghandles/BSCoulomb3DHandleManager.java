@@ -70,6 +70,8 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
+        if ( _offsetHandle != null ) {
+            _offsetHandle.setColorScheme( colorScheme );
+        }
     }
 }
