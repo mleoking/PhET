@@ -159,6 +159,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         super( title, new BSClock(), true /* startsPaused */ );
         
         _moduleSpec = moduleSpec;
+        _colorScheme = BSConstants.COLOR_SCHEME;
         
         // hide the PhET logo
         setLogoPanel( null );
@@ -677,10 +678,19 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Potential drag handles
         {
             _asymmetricHandleManager.setPotential( _asymmetricPotential );
+            _asymmetricHandleManager.setColorScheme( _colorScheme );
+            
             _coulomb1DHandleManager.setPotential( _coulomb1DPotential );
+            _coulomb1DHandleManager.setColorScheme( _colorScheme );
+            
             _coulomb3DHandleManager.setPotential( _coulomb3DPotential );
+            _coulomb3DHandleManager.setColorScheme( _colorScheme );
+            
             _harmonicOscillatorHandleManager.setPotential( _harmonicOscillatorPotential );
+            _harmonicOscillatorHandleManager.setColorScheme( _colorScheme );
+            
             _squareHandleManager.setPotential( _squarePotential );
+            _squareHandleManager.setColorScheme( _colorScheme );
         }
         
         // Clock
