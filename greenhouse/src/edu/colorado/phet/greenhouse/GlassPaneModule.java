@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 
 import java.awt.*;
@@ -69,23 +70,23 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         drawingCanvas.addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1 );
 
         // If the apparatus panelis resized, resize the backdrop graphic
-        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Component component = e.getComponent();
-                Rectangle2D newBounds = component.getBounds();
-                if( backgroundGraphic != null ) {
-                    BufferedImage bi = new ImageLoader().loadBufferedImage( "images/glass-pane-background.gif" );
-                    double scale = newBounds.getWidth() / bi.getWidth();
-                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
-                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-                    bi = atxOp.filter( bi, null );
-                    Rectangle2D modelBounds = ( (GreenhouseModel)getModel() ).getBounds();
-                    getApparatusPanel().removeGraphic( backgroundGraphic );
-                    backgroundGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-                    getApparatusPanel().addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1 );
-                }
-            }
-        } );
+//        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                Component component = e.getComponent();
+//                Rectangle2D newBounds = component.getBounds();
+//                if( backgroundGraphic != null ) {
+//                    BufferedImage bi = new ImageLoader().loadBufferedImage( "images/glass-pane-background.gif" );
+//                    double scale = newBounds.getWidth() / bi.getWidth();
+//                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+//                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+//                    bi = atxOp.filter( bi, null );
+//                    Rectangle2D modelBounds = ( (GreenhouseModel)getModel() ).getBounds();
+//                    getApparatusPanel().removeGraphic( backgroundGraphic );
+//                    backgroundGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+//                    getApparatusPanel().addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1 );
+//                }
+//            }
+//        } );
 
         // Set up the controls
         setControlPanel( new GlassPaneControlPanel( this ) );
@@ -102,11 +103,11 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         super.reset();
     }
 
-//    public void activate( PhetApplication phetApplication ) {
-//    }
-//
-//    public void deactivate( PhetApplication phetApplication ) {
-//    }
+    public void activate( PhetApplication phetApplication ) {
+    }
+
+    public void deactivate( PhetApplication phetApplication ) {
+    }
 
     public void setGlassPaneEnabled( boolean isEnabled ) {
         if( isEnabled && !glassPaneEnabled ) {
