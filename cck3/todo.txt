@@ -1,15 +1,19 @@
 ################################################
 #Remaining Work
 #######################
-CCK (notes from 7-5-2006)
 Capacitors:
 2-d capacitor for CCK
 capacitor charges should be blue for negative, red for +
 square plates in 3d
 area is a function of capacitance.
+Capacitor charges don't paint correctly.
+
+Quantitative CCK can wait until after AAPT
+Quantitative graph values.
+floating graph needs units
+Quantitative numerical tests for RC, RLC Circuits, etc.
 
 inductors should auto-discharge when not in a loop.
-floating graph needs units
 
 editing an inductor or capacitor should take effect immediately
 See faraday's AC source graphics
@@ -23,46 +27,6 @@ http://techlib.com/craig/switching.htm
 >>At the bottom: there is a description of a real world (nonideal) inductor.  Maybe we should model something like this.
 http://www.play-hookey.com/dc_theory/rl_circuits.html
 >>has a believable explanation, might be good to model.
-
-o Visualization for charge flow across capacitor
-o Visualization for charge buildup on capacitor.
-One issue that I see with the way charge is represented is that the 
-capacitor looks like it gets fully charged (ie, plus and minus signs stop 
-appearing on the cap plates), and current still flows through the capacitor. 
-This only happens under certain settings (eg, high voltage).  Another issue 
-is that the capacitor will appear fully charged at a low capacitance 
-(maximum number of plus and minus signs appear), and then when you increase 
-the capacitance, the capacitor still fully changes with the same number of 
-maximum plus and minus signs.  It appears at first that the amount of charge 
-on the fully charged capacitor is the same in both cases (low and high 
-capacitance).  These issues could be a little confusing for students.
-
--When you have an AC voltage source (10 volts) connected to a light bulb, 
-things don't quite look right at frequencies above, say, 5 Hz.  At 10 Hz, 
-you get this weird effect where current vs. time chart is modulated--you 
-expect to see a smooth sine wave, but you instead get something else (see 
-attached).  It seems that this problem may be due to all the other circuits 
-on the screen at the same time.  When I created this same circuit on a blank 
-slate, the problem went away.  Maybe just a performance issue?
-
--On that same note, the yellow light rays coming from the bulb in the 
-circuit described above tend to stutter and don't always flash consistently.
-
-Floating graph should have tick mark labels on the vertical scale.
-
-Quantitative graph values.
-
-CCK detectors should readout empty data while off of wires.
-
-Chart button should have icon, be located next to other measurement tools in the control panel.
-
-Capacitor charges don't paint correctly.
-
-o Quantitative numerical tests for RC, RLC Circuits, etc.
-
-Chart range is incorrect for first part of data.
-
-Quantitative CCK can wait until after AAPT
 
 ################################################
 #Lower Priority
