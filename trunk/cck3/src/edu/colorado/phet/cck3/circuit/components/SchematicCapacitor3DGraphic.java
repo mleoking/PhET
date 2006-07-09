@@ -40,6 +40,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private SimpleObserver componentObserver;
     private Capacitor.Listener componentListener;
     private ArrayList listeners = new ArrayList();
+    private double scale = 1.0 / 0.138;
 
     public SchematicCapacitor3DGraphic( Component parent, Capacitor component,
                                         ModelViewTransform2D transform, double wireThickness ) {
@@ -132,12 +133,21 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
 
-        capacitor3DShapeSet = new Capacitor3DShapeSet( tiltAngle, width, height, src, dst, distBetweenPlates );
+        capacitor3DShapeSet = new Capacitor3DShapeSet( tiltAngle, getCapacitorWidth(), getCapacitorHeight(), src, dst, distBetweenPlates );
 
         updateChargeDisplay();
         setBoundsDirty();
         repaint();
         notifyCapacitorBoundsChanged();
+    }
+
+    private double getCapacitorHeight() {
+//        System.out.println( "capacitor.getCapacitance() = " + capacitor.getCapacitance() );
+        return height * Math.sqrt( capacitor.getCapacitance() ) * scale;
+    }
+
+    private double getCapacitorWidth() {
+        return width * Math.sqrt( capacitor.getCapacitance() ) * scale;
     }
 
     private void updateChargeDisplay() {
