@@ -214,7 +214,7 @@ public class Toolbox extends CompositeGraphic {
 //        BufferedImage im = module.getImageSuite().getCapacitorImage();
         double initialHeight = CCK3Module.CAP_DIM.getHeightForLength( componentWidth );
         Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
-        SchematicCapacitorGraphic schematicGraphic = new SchematicCapacitorGraphic( parent, resistor, transform, schematicWireThickness );
+        SchematicCapacitor3DGraphic schematicGraphic = new SchematicCapacitor3DGraphic( parent, resistor, transform, schematicWireThickness );
         capacitorSource = new BranchSource.CapacitorSource( schematicGraphic, schematicGraphic, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.CAP_DIM, module );
         addSource( capacitorSource );
         y += dy;

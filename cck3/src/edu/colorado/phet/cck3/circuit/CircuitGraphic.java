@@ -364,6 +364,14 @@ public class CircuitGraphic extends CompositeGraphic {
                 }
             } );
         }
+        else if( ccbg instanceof SchematicCapacitor3DGraphic ) {
+            SchematicCapacitor3DGraphic scg = (SchematicCapacitor3DGraphic)ccbg;
+            scg.addListener( new SchematicPlatedGraphic.Listener() {
+                public void areaChanged() {
+                    module.recomputeElectronClip();
+                }
+            } );
+        }
         TotalComponentGraphic tcg = new TotalComponentGraphic( this, component, apparatusPanel, transform,
                                                                ccbg, JUNCTION_RADIUS, module );
         branches.addGraphic( tcg.getInteractiveBranchGraphic(), 1 );
@@ -887,7 +895,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addCapacitorGraphic( Capacitor b ) {
-            SchematicCapacitorGraphic schematicCapacitorGraphic = new SchematicCapacitorGraphic( apparatusPanel, b, getTransform(), new Schematic().wireThickness );
+            SchematicCapacitor3DGraphic schematicCapacitorGraphic = new SchematicCapacitor3DGraphic( apparatusPanel, b, getTransform(), new Schematic().wireThickness );
             CircuitGraphic.this.addGraphic( b, schematicCapacitorGraphic );
         }
 
@@ -1028,7 +1036,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addCapatitorGraphic( Capacitor capactior ) {
-            SchematicCapacitorGraphic schematicCapacitorGraphic = new SchematicCapacitorGraphic( apparatusPanel, capactior, getTransform(), wireThickness );
+            SchematicCapacitor3DGraphic schematicCapacitorGraphic = new SchematicCapacitor3DGraphic( apparatusPanel, capactior, getTransform(), wireThickness );
             CircuitGraphic.this.addGraphic( capactior, schematicCapacitorGraphic );
         }
 
