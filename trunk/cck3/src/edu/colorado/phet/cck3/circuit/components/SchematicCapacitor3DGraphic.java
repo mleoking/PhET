@@ -32,6 +32,13 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private Capacitor3DShapeSet capacitor3DShapeSet;
     private ModelViewTransform2D transform;
     private double fracDistToPlate = 0.325;
+    private static final Color tan = new Color( 255, 220, 130 );
+    private Color plate1Color = tan;
+    private Color plate2Color = tan;
+    private double tiltAngle = Math.PI / 4;
+    private int width = 50;
+    private int height = 100;
+    private int distBetweenPlates = 20;
 
     public SchematicCapacitor3DGraphic( Component parent, Capacitor component,
                                         ModelViewTransform2D transform, double wireThickness ) {
@@ -57,18 +64,33 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         update();
     }
 
+    public void setWidth( int width ) {
+        this.width = width;
+        update();
+    }
+
+    public void setHeight( int height ) {
+        this.height = height;
+        update();
+    }
+
+    public void setDistBetweenPlates( int distBetweenPlates ) {
+        this.distBetweenPlates = distBetweenPlates;
+        update();
+    }
+
     public void paint( Graphics2D g ) {
         g.setColor( Color.black );
         g.setStroke( new BasicStroke( 15, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL ) );
         g.draw( capacitor3DShapeSet.getPlate2Wire() );
         g.setStroke( new BasicStroke() );
 
-        g.setColor( Color.yellow );
+        g.setColor( plate1Color );
         g.fill( capacitor3DShapeSet.getPlate2Shape() );
         g.setColor( Color.black );
         g.draw( capacitor3DShapeSet.getPlate2Shape() );
 
-        g.setColor( Color.yellow );
+        g.setColor( plate2Color );
         g.fill( capacitor3DShapeSet.getPlate1Shape() );
         g.setColor( Color.black );
         g.draw( capacitor3DShapeSet.getPlate1Shape() );
@@ -96,7 +118,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         Point2D ano = vector.getScaledInstance( 1 - getFracDistToPlate() ).getDestination( src );
         AbstractVector2D east = vector.getInstanceOfMagnitude( 1 );
         AbstractVector2D north = east.getNormalVector();
-        capacitor3DShapeSet = new Capacitor3DShapeSet( Math.PI / 4, 50, 100, src, dst, 20 );
+        capacitor3DShapeSet = new Capacitor3DShapeSet( tiltAngle, width, height, src, dst, distBetweenPlates );
 
         double maxCharge = 0.2;
         double MAX_NUM_TO_SHOW = 12;
