@@ -173,24 +173,22 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
 
         double w = capacitor3DShapeSet.getWidth();
         double L = capacitor3DShapeSet.getLength();
-        double insetW = w * 0.03;
-        double insetL = L * 0.03;
-        double u = -w / 2.0 + insetW;
-        double v = -L / 2.0 + insetL;
-        double dw = w / Math.sqrt( numToShow );
-        double dL = L / Math.sqrt( numToShow );
-        for( int i = 0; i < numToShow * 1000; i++ ) {
-            Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
-            Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
-            plate1ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
-            plate2ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate2Graphic.createGraphic( loc2 ), plate2ChargeColor ) );
-            u += dw;
-            if( u >= w / 2 - insetW ) {
-                u -= w;
-                v += dL;
-                if( i >= numToShow || v >= L - insetL ) {
-                    break;
-                }
+        double insetW = 0.05 * w;
+        double insetL = 0.05 * L;
+        double alpha = Math.sqrt( numToShow / w / L );
+        int numAcross = (int)( w * alpha );
+        int numDown = (int)( L * alpha );
+//        System.out.println( "numAcross = " + numAcross + ", numdown=" + numDown );
+        double dw = w / numAcross;
+        double dL = L / numDown;
+        for( int i = 0; i < numAcross; i++ ) {
+            for( int j = 0; j < numDown; j++ ) {
+                double u = -w / 2.0 + i * dw + insetW;
+                double v = -L / 2.0 + j * dL + insetL;
+                Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
+                Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
+                plate1ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
+                plate2ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate2Graphic.createGraphic( loc2 ), plate2ChargeColor ) );
             }
         }
     }
