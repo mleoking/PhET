@@ -21,6 +21,7 @@ import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSHarmonicOscillatorOffsetHandle
@@ -48,6 +49,7 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        setValuePattern( SimStrings.get( "drag.offset" ) );
         updateDragBounds();
     }
 

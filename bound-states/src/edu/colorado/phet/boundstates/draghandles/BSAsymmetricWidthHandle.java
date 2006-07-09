@@ -20,6 +20,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSAsymmetricWidthHandle
@@ -46,6 +47,7 @@ public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer 
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        setValuePattern( SimStrings.get( "drag.width" ) );
         updateDragBounds();
     }
 

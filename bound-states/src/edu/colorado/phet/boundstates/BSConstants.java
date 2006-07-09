@@ -78,7 +78,7 @@ public class BSConstants {
     public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
     public static final Font TIME_DISPLAY_FONT = new Font( BSConstants.FONT_NAME, Font.BOLD, 22 );
     public static final Font TIME_UNITS_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
-    public static final Font DRAG_HANDLE_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 12 );
+    public static final Font DRAG_HANDLE_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
     
     //----------------------------------------------------------------------------
     // Special characters
