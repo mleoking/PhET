@@ -27,9 +27,11 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSSquareSeparationMarkers _separationMarkers;
     private BSSquareOffsetHandle _offsetHandle;
     private BSSquareHeightHandle _heightHandle;
     private BSSquareWidthHandle _widthHandle;
+    private BSSquareSeparationHandle _separationHandle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,7 +52,11 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
         removeAllChildren();
         
         if ( potential != null ) {
-
+            
+            _separationMarkers = new BSSquareSeparationMarkers( potential, _chartNode );
+            addChild( _separationMarkers );
+            _separationMarkers.setVisible( _potentialSpec.getSeparationRange().getMin() != _potentialSpec.getSeparationRange().getMax() );
+            
             _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
             addChild( _offsetHandle );
             _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
@@ -62,6 +68,10 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
             _widthHandle = new BSSquareWidthHandle( potential, _potentialSpec, _chartNode );
             addChild( _widthHandle );
             _widthHandle.setVisible( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
+            
+            _separationHandle = new BSSquareSeparationHandle( potential, _potentialSpec, _chartNode );
+            addChild( _separationHandle );
+            _separationHandle.setVisible( _potentialSpec.getSeparationRange().getMin() != _potentialSpec.getSeparationRange().getMax() );
         }
     }
     
@@ -70,6 +80,9 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
        
     public void updateDragBounds() {
+        if ( _separationMarkers != null ) {
+            _separationMarkers.updateView();
+        }
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }
@@ -79,6 +92,9 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
         if ( _widthHandle != null ) {
             _widthHandle.updateDragBounds();
         }
+        if ( _separationHandle != null ) {
+            _separationHandle.updateDragBounds();
+        }
     }
 
     public PNode getHelpNode() {
@@ -86,6 +102,9 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
+        if ( _separationMarkers != null ) {
+            _separationMarkers.setColorScheme( colorScheme );
+        }
         if ( _offsetHandle != null ) {
             _offsetHandle.setColorScheme( colorScheme );
         }
@@ -94,6 +113,9 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
         }
         if ( _widthHandle != null ) {
             _widthHandle.setColorScheme( colorScheme );
+        }
+        if ( _separationHandle != null ) {
+            _separationHandle.setColorScheme( colorScheme );
         }
     }
 }
