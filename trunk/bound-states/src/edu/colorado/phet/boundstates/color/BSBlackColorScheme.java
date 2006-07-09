@@ -40,5 +40,9 @@ public class BSBlackColorScheme extends BSColorScheme {
         
         setMagnifyingGlassBezelColor( Color.GRAY );
         setMagnifyingGlassHandleColor( Color.ORANGE );
+        
+        setDragHandleColor( Color.LIGHT_GRAY );
+        setDragHandleHiliteColor( Color.WHITE );
+        setDragHandleValueColor( Color.WHITE );
     }
 }

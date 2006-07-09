@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -57,6 +58,11 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.00" );
     private static final float ARROW_SCALE = 24f; // change this to make the arrow bigger or smaller
     
+    private static final Color DEFAULT_NORMAL_COLOR = Color.WHITE;
+    private static final Color DEFAULT_HILITE_COLOR = Color.YELLOW;
+    private static final Color DEFAULT_VALUE_COLOR = Color.BLACK;
+    private static final Color DEFAULT_STROKE_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -67,6 +73,9 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     
     private PText _valueNode;
     private NumberFormat _valueFormat;
+    
+    private Color _normalColor;
+    private Color _hiliteColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,6 +90,9 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     public AbstractHandle( int orientation ) {
         super();
         
+        _normalColor = DEFAULT_NORMAL_COLOR;
+        _hiliteColor = DEFAULT_HILITE_COLOR;
+
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
             throw new IllegalArgumentException( "invalid orientation: " + orientation );
         }
@@ -89,9 +101,9 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         // Drag handle representation
         Shape shape = createShape( orientation );
         setPathTo( shape );
-        setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
+        setPaint( DEFAULT_NORMAL_COLOR );
         setStroke( BSConstants.DRAG_HANDLE_STROKE );
-        setStrokePaint( BSConstants.DRAG_HANDLE_STROKE_COLOR );
+        setStrokePaint( DEFAULT_STROKE_COLOR );
         
         // registration point @ center
         _registrationPoint = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
@@ -104,7 +116,7 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         _valueNode.setVisible( false );
         _valueNode.setPickable( false );
         _valueNode.setFont( BSConstants.DRAG_HANDLE_FONT );
-        _valueNode.setTextPaint( BSConstants.DRAG_HANDLE_VALUE_COLOR );
+        _valueNode.setTextPaint( DEFAULT_VALUE_COLOR );
         _valueNode.setText( "?" );
         Rectangle2D dragHandleBounds = getBounds();
         final double x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
@@ -218,6 +230,21 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         double x = bounds.getX() + _registrationPoint.getX();
         double y = bounds.getY() + _registrationPoint.getY();
         return new Point2D.Double( x, y );          
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        setNormalColor( colorScheme.getDragHandleColor() );
+        setHiliteColor( colorScheme.getDragHandleHiliteColor() );
+        setValueColor( colorScheme.getDragHandleValueColor() );
+    }
+    
+    public void setNormalColor( Color color ) {
+        _normalColor = color;
+        setPaint( _normalColor );
+    }
+    
+    public void setHiliteColor( Color color ) { 
+        _hiliteColor = color;
     }
     
     //----------------------------------------------------------------------------
@@ -363,25 +390,25 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         
         public void mousePressed( PInputEvent event ) {
             _mouseIsPressed = true;
-            setPaint( BSConstants.DRAG_HANDLE_HILITE_COLOR );
+            setPaint( _hiliteColor );
         }
 
         public void mouseReleased( PInputEvent event ) {
             _mouseIsPressed = false;
             if ( !_mouseIsInside ) {
-                setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
+                setPaint( _normalColor );
             }
         }
 
         public void mouseEntered( PInputEvent event ) {
             _mouseIsInside = true;
-            setPaint( BSConstants.DRAG_HANDLE_HILITE_COLOR );
+            setPaint( _hiliteColor );
         }
 
         public void mouseExited( PInputEvent event ) {
             _mouseIsInside = false;
             if ( !_mouseIsPressed ) {
-                setPaint( BSConstants.DRAG_HANDLE_FILL_COLOR );
+                setPaint( _normalColor );
             }
         }
     }

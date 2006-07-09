@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class BSAbstractHandleManager extends PNode {
 
+    public BSAbstractHandleManager() {};
+    
     public abstract void updateDragBounds();
     
     public abstract PNode getHelpNode();

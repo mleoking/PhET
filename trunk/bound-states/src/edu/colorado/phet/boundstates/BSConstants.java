@@ -119,12 +119,6 @@ public class BSConstants {
     // Transparency (alpha) of the background for the hilited eigenstate's value
     public static final int HILITE_VALUE_BACKGROUND_ALPHA = 175;
     
-    // Drag handles
-    public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
-    public static final Color DRAG_HANDLE_HILITE_COLOR = Color.YELLOW;
-    public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
-    public static final Color DRAG_HANDLE_VALUE_COLOR = Color.WHITE;
-    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

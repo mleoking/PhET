@@ -69,6 +69,8 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
+        if ( _offsetHandle != null ) {
+            _offsetHandle.setColorScheme( colorScheme );
+        }
     }
 }

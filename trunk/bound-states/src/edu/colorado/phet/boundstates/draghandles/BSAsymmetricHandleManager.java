@@ -86,7 +86,15 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
+        if ( _offsetHandle != null ) {
+            _offsetHandle.setColorScheme( colorScheme );
+        }
+        if ( _heightHandle != null ) {
+            _heightHandle.setColorScheme( colorScheme );
+        }
+        if ( _widthHandle != null ) {
+            _widthHandle.setColorScheme( colorScheme );
+        }
     }
        
 }
