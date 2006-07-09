@@ -20,12 +20,14 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -55,7 +57,9 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     // Private class data
     //----------------------------------------------------------------------------
     
-    private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.00" );
+    private static final NumberFormat DEFAULT_VALUE_NUMBER_FORMAT = new DecimalFormat( "0.0" );
+    private static final String DEFAULT_VALUE_PATTERN = "{0}";
+    
     private static final float ARROW_SCALE = 24f; // change this to make the arrow bigger or smaller
     
     private static final Color DEFAULT_NORMAL_COLOR = Color.WHITE;
@@ -71,8 +75,9 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
     
-    private PText _valueNode;
-    private NumberFormat _valueFormat;
+    private HTMLNode _valueNode;
+    private NumberFormat _valueNumberFormat;
+    private String _valuePattern;
     
     private Color _normalColor;
     private Color _hiliteColor;
@@ -110,14 +115,15 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
         translate( -_registrationPoint.getX(), -_registrationPoint.getY() );
         
         // Value display 
-        _valueFormat = DEFAULT_VALUE_FORMAT;
-        _valueNode = new PText();
+        _valueNumberFormat = DEFAULT_VALUE_NUMBER_FORMAT;
+        _valuePattern = DEFAULT_VALUE_PATTERN;
+        _valueNode = new HTMLNode();
         addChild( _valueNode );
         _valueNode.setVisible( false );
         _valueNode.setPickable( false );
         _valueNode.setFont( BSConstants.DRAG_HANDLE_FONT );
-        _valueNode.setTextPaint( DEFAULT_VALUE_COLOR );
-        _valueNode.setText( "?" );
+        _valueNode.setHTMLColor( DEFAULT_VALUE_COLOR );
+        _valueNode.setHTML( "?" );
         Rectangle2D dragHandleBounds = getBounds();
         final double x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
         final double y = dragHandleBounds.getY() - _valueNode.getHeight() + 3;
@@ -166,17 +172,32 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
      * @param value
      */
     protected void setValueDisplay( double value ) {
-        String text = _valueFormat.format( value );
-        _valueNode.setText( text );
+        String valueText = _valueNumberFormat.format( value );
+        Object[] args = { valueText };
+        String displayText = MessageFormat.format( _valuePattern, args );
+        _valueNode.setHTML( displayText );
     }
     
     /**
-     * Sets the format of the value display.
+     * Sets the format of the numberic value displayed.
+     * This is used to set the number of digits.
+     * See NumberFormat or DecimalFormat for a description of the format's syntax.
      * 
      * @param format
      */
-    public void setValueFormat( String format ) {
-        _valueFormat = new DecimalFormat( format );
+    public void setValueNumberFormat( String format ) {
+        _valueNumberFormat = new DecimalFormat( format );
+        updateView();
+    }
+    
+    /**
+     * Sets the pattern used to display the value.
+     * See MessageFormat for a description of the pattern syntax.
+     * 
+     * @param pattern
+     */
+    public void setValuePattern( String pattern ) {
+        _valuePattern = pattern;
         updateView();
     }
     
@@ -186,7 +207,7 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
      * @param
      */
     public void setValueColor( Color color ) {
-        _valueNode.setTextPaint( color );
+        _valueNode.setHTMLColor( color );
     }
     
     /**

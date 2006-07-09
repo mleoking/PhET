@@ -20,6 +20,7 @@ import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSHarmonicOscillatorAngularFrequencyHandle
@@ -52,6 +53,7 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends AbstractHandle i
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        setValuePattern( SimStrings.get( "drag.angularFrequency" ) );
         updateDragBounds();
     }
 

@@ -3,11 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- add a label to the drag handle value, eg "width=0.5nm"
 - spacing drag handle for square
 - spacing drag handle for Coulomb
 - use same precison for drag handle values and config dialog sliders
-- bug: HO offset drag handle doesn't move the first few attempts to drag it
+- bug: HO offset drag handle doesn't initially get any mouse events
 - bug: square offset (and others?) can be dragged past min (and max?)
 - make offset drag handles looks "different"
 - clip drag handles to energy chart
@@ -40,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+(7/9/06) - add a formatted label to drag handle values, eg "width: 0.5 nm"
 (7/9/06) - add stuff related to drag handles to color schemes
 (7/8/06) - hilite drag handle while dragging it or mouse is over it
 (7/8/06) - show value while dragging handle or while mouse is over handle
