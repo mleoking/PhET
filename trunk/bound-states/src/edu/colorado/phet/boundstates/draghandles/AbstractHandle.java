@@ -359,6 +359,18 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
     }
     
     //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    protected static String createNumberFormat( int significantDecimalPlaces ) {
+        String numberFormat = "0.";
+        for ( int i = 0; i < significantDecimalPlaces; i++ ) {
+            numberFormat += "0";
+        }
+        return numberFormat;
+    }
+    
+    //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     

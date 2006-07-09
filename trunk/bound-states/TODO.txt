@@ -6,7 +6,6 @@ IN PROGRESS:
 - fix BSSquareSeparationHandle.updateDragBound and updateModel
 - color scheme for BSSquareSeparationMarkers
 - spacing drag handle for Coulomb
-- use same precison for drag handle values and config dialog sliders
 - bug: HO offset drag handle doesn't initially get any mouse events
 - bug: square offset (and others?) can be dragged past min (and max?)
 - make offset drag handles looks "different"
@@ -39,6 +38,7 @@ CLEANUP:
 
 
 DONE:
+(7/9/06) - use moduleSpec to set precision of values shown for drag handles
 (7/9/06) - properly initialize color scheme in module ctor, reset for drag handles in reset method
 (7/9/06) - first attempt at square separation drag handle, very buggy
 (7/9/06) - add vertical markers for square separation

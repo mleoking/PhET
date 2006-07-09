@@ -44,10 +44,16 @@ public class BSAsymmetricWidthHandle extends AbstractHandle implements Observer 
     
     public BSAsymmetricWidthHandle( BSAsymmetricPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.HORIZONTAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        
+        int significantDecimalPlaces = potentialSpec.getWidthRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.width" ) );
+        
         updateDragBounds();
     }
 
