@@ -11,10 +11,6 @@ ice way above the ground.  The problem is worse when the sim is
 enlarged to full screen
 
 Glass layers:
-- On glass panes layer, hide the IR photons behind the glass so it
-looks like they are being absorbed and emitted by the surface. (But
-keep the glass looking hazy).
-- On glass panes, put PhET logo?
 - On glass panes, in full screen there is a drawing bug when you flip
 between glass panes and greenhouse effect? Also a bug that is always
 there ... photons from top and bottom but none in middle. This panel
@@ -24,6 +20,10 @@ it should pick up where you left off.
 
 Done not posted
 ===============
+- On glass panes, put PhET logo?
+- On glass panes layer, hide the IR photons behind the glass so it
+looks like they are being absorbed and emitted by the surface. (But
+keep the glass looking hazy).
 - The haze layer doesn't go all the way to the top of the drawing
 - Photons are reflecting off the snow, until you resize the frame
 - flashes are in the right place, at least until you resize the frame
