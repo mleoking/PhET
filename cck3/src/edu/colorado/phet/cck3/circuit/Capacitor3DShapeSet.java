@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
@@ -82,12 +83,12 @@ public class Capacitor3DShapeSet {
         path.lineToRelative( x );
     }
 
-    private Point2D getPlate2Point() {
+    public Point2D getPlate2Point() {
         Vector2D.Double vector = new Vector2D.Double( outPt, inPt );
         return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( outPt );
     }
 
-    private Point2D getPlate1Point() {
+    public Point2D getPlate1Point() {
         Vector2D.Double vector = new Vector2D.Double( inPt, outPt );
         return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( inPt );
     }
@@ -117,7 +118,7 @@ public class Capacitor3DShapeSet {
         return totalArea.getBounds();
     }
 
-    private Area getArea() {
+    public Area getArea() {
         Area a = new Area();
         a.add( new Area( getPlate1Shape() ) );
         a.add( new Area( getPlate2Shape() ) );
@@ -125,5 +126,14 @@ public class Capacitor3DShapeSet {
         a.add( new Area( stroke.createStrokedShape( getPlate1Wire() ) ) );
         a.add( new Area( stroke.createStrokedShape( getPlate2Wire() ) ) );
         return a;
+    }
+
+    public Point2D getPlate2EdgePoint() {
+        AbstractVector2D vector = new Vector2D.Double( inPt, outPt );
+//        double totalDist = vector.getMagnitude();
+        double a = width * Math.cos( tiltAngle );
+        double initDist = new Vector2D.Double( inPt, getPlate2Point() ).getMagnitude();
+        vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );
+        return vector.getDestination( inPt );
     }
 }

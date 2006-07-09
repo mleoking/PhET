@@ -80,8 +80,15 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     }
 
     public void paint( Graphics2D g ) {
+        if( capacitor.isSelected() ) {
+            g.setColor( Color.yellow );
+            g.setStroke( getHighlightStroke() );
+            g.draw( capacitor3DShapeSet.getArea() );
+            g.draw( getWireStroke().createStrokedShape( capacitor3DShapeSet.getPlate1Wire() ) );
+            g.draw( getWireStroke().createStrokedShape( capacitor3DShapeSet.getPlate2Wire() ) );
+        }
         g.setColor( Color.black );
-        g.setStroke( new BasicStroke( 15, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL ) );
+        g.setStroke( getWireStroke() );
         g.draw( capacitor3DShapeSet.getPlate2Wire() );
         g.setStroke( new BasicStroke() );
 
@@ -96,9 +103,17 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         g.draw( capacitor3DShapeSet.getPlate1Shape() );
 
         g.setColor( Color.black );
-        g.setStroke( new BasicStroke( 15, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL ) );
+        g.setStroke( getWireStroke() );
         g.draw( capacitor3DShapeSet.getPlate1Wire() );
         g.setStroke( new BasicStroke() );
+    }
+
+    private BasicStroke getHighlightStroke() {
+        return new BasicStroke( 8, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND );
+    }
+
+    private BasicStroke getWireStroke() {
+        return new BasicStroke( 15, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     }
 
     protected void update() {
@@ -147,6 +162,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         } );
         setBoundsDirty();
         repaint();
+        notifyCapacitorBoundsChanged();
     }
 
     private double getFracDistToPlate() {
@@ -165,19 +181,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     }
 
     public Shape getCapacitorClip() {
-//        double charge = capacitor.getCharge();
-//        System.out.println( "charge = " + charge );
-        ModelViewTransform2D transform = getModelViewTransform2D();
-        Capacitor component = capacitor;
-        Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
-//        double viewThickness = transform.modelToViewDifferentialY( getWireThickness() );
-
-        ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
-        Point2D cat = vector.getScaledInstance( getFracDistToPlate() ).getDestination( src );
-        Point2D ano = vector.getScaledInstance( 1 - getFracDistToPlate() ).getDestination( src );
-
-        Line2D.Double line = new Line2D.Double( cat, ano );
+        Line2D.Double line = new Line2D.Double( capacitor3DShapeSet.getPlate1Point(), capacitor3DShapeSet.getPlate2EdgePoint() );
         Stroke str = new BasicStroke( 30, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
         return str.createStrokedShape( line );
     }
@@ -188,7 +192,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
 
     private ArrayList listeners = new ArrayList();
 
-    public void notifyListeners() {
+    public void notifyCapacitorBoundsChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             SchematicPlatedGraphic.Listener listener = (SchematicPlatedGraphic.Listener)listeners.get( i );
             listener.areaChanged();
@@ -227,7 +231,16 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     }
 
     protected Rectangle determineBounds() {
-        return capacitor3DShapeSet.getBounds();
+        if( capacitor.isSelected() ) {
+            Area a = new Area( getHighlightStroke().createStrokedShape( capacitor3DShapeSet.getArea() ) );
+            a.add( new Area( getWireStroke().createStrokedShape( capacitor3DShapeSet.getPlate1Wire() ) ) );
+            a.add( new Area( getWireStroke().createStrokedShape( capacitor3DShapeSet.getPlate2Wire() ) ) );
+//            g.draw( getWireStroke().createStrokedShape( capacitor3DShapeSet.getPlate2Wire() ) );
+            return a.getBounds();
+        }
+        else {
+            return capacitor3DShapeSet.getBounds();
+        }
     }
 
     private Shape createPlusGraphic( Point2D loc ) {
