@@ -46,21 +46,21 @@ public class SchematicPlatedGraphic extends PhetShapeGraphic implements ICompone
         this.wireThickness = wireThickness;
         simpleObserver = new SimpleObserver() {
             public void update() {
-                changed();
+                update();
             }
         };
         component.addObserver( simpleObserver );
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
-                changed();
+                update();
             }
         };
         transform.addTransformListener( transformListener );
-        changed();
+        update();
         setVisible( true );
     }
 
-    private void changed() {
+    protected void update() {
         Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double viewThickness = transform.modelToViewDifferentialY( wireThickness );
