@@ -27,7 +27,8 @@ import java.util.ArrayList;
  */
 public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapacitorClip, IComponentGraphic {
     private Capacitor capacitor;
-    private CompositePhetGraphic text;
+    private CompositePhetGraphic plate1ChargeGraphic;
+    private CompositePhetGraphic plate2ChargeGraphic;
     private Color plusMinusColor = Color.black;
     private Capacitor3DShapeSet capacitor3DShapeSet;
     private ModelViewTransform2D transform;
@@ -39,28 +40,35 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private int width = 50;
     private int height = 100;
     private int distBetweenPlates = 20;
+    private TransformListener transformListener;
+    private SimpleObserver componentObserver;
+    private Capacitor.Listener componentListener;
 
     public SchematicCapacitor3DGraphic( Component parent, Capacitor component,
                                         ModelViewTransform2D transform, double wireThickness ) {
         super( parent );
         this.transform = transform;
-        component.addListener( new Capacitor.Listener() {
+        componentListener = new Capacitor.Listener() {
             public void chargeChanged() {
                 update();
             }
-        } );
-        component.addObserver( new SimpleObserver() {
+        };
+        component.addListener( componentListener );
+        componentObserver = new SimpleObserver() {
             public void update() {
                 SchematicCapacitor3DGraphic.this.update();
             }
-        } );
+        };
+        component.addObserver( componentObserver );
         this.capacitor = component;
-        text = new CompositePhetGraphic( parent );
-        transform.addTransformListener( new TransformListener() {
+        plate1ChargeGraphic = new CompositePhetGraphic( parent );
+        plate2ChargeGraphic = new CompositePhetGraphic( parent );
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 update();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         update();
     }
 
@@ -96,11 +104,13 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         g.fill( capacitor3DShapeSet.getPlate2Shape() );
         g.setColor( Color.black );
         g.draw( capacitor3DShapeSet.getPlate2Shape() );
+        plate2ChargeGraphic.paint( g );
 
         g.setColor( plate2Color );
         g.fill( capacitor3DShapeSet.getPlate1Shape() );
         g.setColor( Color.black );
         g.draw( capacitor3DShapeSet.getPlate1Shape() );
+        plate1ChargeGraphic.paint( g );
 
         g.setColor( Color.black );
         g.setStroke( getWireStroke() );
@@ -135,34 +145,55 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         AbstractVector2D north = east.getNormalVector();
         capacitor3DShapeSet = new Capacitor3DShapeSet( tiltAngle, width, height, src, dst, distBetweenPlates );
 
-        double maxCharge = 0.2;
-        double MAX_NUM_TO_SHOW = 12;
-        int numToShow = (int)Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
-                                       MAX_NUM_TO_SHOW );
-        text.clear();
-        addCathodeCharges( east.getInstanceOfMagnitude( 8 ).getDestination( cat ), numToShow, north, new SchematicCapacitor3DGraphic.ChargeGraphic() {
-            public Shape createGraphic( Point2D center ) {
-                if( capacitor.getCharge() <= 0 ) {
-                    return createPlusGraphic( center );
-                }
-                else {
-                    return createMinusGraphic( center );
-                }
-            }
-        } );
-        addAnodeCharges( east.getInstanceOfMagnitude( -8 ).getDestination( ano ), numToShow, north, new SchematicCapacitor3DGraphic.ChargeGraphic() {
-            public Shape createGraphic( Point2D center ) {
-                if( capacitor.getCharge() > 0 ) {
-                    return createPlusGraphic( center );
-                }
-                else {
-                    return createMinusGraphic( center );
-                }
-            }
-        } );
+        updateChargeDisplay();
         setBoundsDirty();
         repaint();
         notifyCapacitorBoundsChanged();
+    }
+
+    private void updateChargeDisplay() {
+        double maxCharge = 1;
+        double MAX_NUM_TO_SHOW = 100;
+        int numToShow = (int)Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
+                                       MAX_NUM_TO_SHOW );
+        plate1ChargeGraphic.clear();
+        plate2ChargeGraphic.clear();
+        ChargeGraphic plate1Graphic = new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                return !( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+            }
+        };
+        ChargeGraphic plate2Graphic = new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                return ( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+            }
+        };
+
+        Color plate1ChargeColor = !( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+        Color plate2ChargeColor = ( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+
+        double w = capacitor3DShapeSet.getWidth();
+        double L = capacitor3DShapeSet.getLength();
+        double insetW = w * 0.03;
+        double insetL = L * 0.03;
+        double u = -w / 2.0 + insetW;
+        double v = -L / 2.0 + insetL;
+        double dw = w / Math.sqrt( numToShow );
+        double dL = L / Math.sqrt( numToShow );
+        for( int i = 0; i < numToShow * 1000; i++ ) {
+            Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
+            Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
+            plate1ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
+            plate2ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate2Graphic.createGraphic( loc2 ), plate2ChargeColor ) );
+            u += dw;
+            if( u >= w / 2 - insetW ) {
+                u -= w;
+                v += dL;
+                if( i >= numToShow || v >= L - insetL ) {
+                    break;
+                }
+            }
+        }
     }
 
     private double getFracDistToPlate() {
@@ -178,6 +209,9 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     }
 
     public void delete() {
+        transform.removeTransformListener( transformListener );
+        capacitor.removeObserver( componentObserver );
+        capacitor.removeListener( componentListener );
     }
 
     public Shape getCapacitorClip() {
@@ -201,33 +235,6 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
 
     private interface ChargeGraphic {
         Shape createGraphic( Point2D plus );
-    }
-
-    private void addCathodeCharges( Point2D root, int numToShow, AbstractVector2D north, SchematicCapacitor3DGraphic.ChargeGraphic cg ) {
-        for( int i = 0; i < numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( i * 7 ).getDestination( root );
-            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
-            text.addGraphic( graphic );
-        }
-        for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
-            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
-            text.addGraphic( graphic );
-        }
-    }
-
-    private void addAnodeCharges( Point2D root, int numToShow, AbstractVector2D north, SchematicCapacitor3DGraphic.ChargeGraphic cg ) {
-        for( int i = 0; i < numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( i * 7 ).getDestination( root );
-            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
-            text.addGraphic( graphic );
-        }
-        for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
-
-            PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
-            text.addGraphic( graphic );
-        }
     }
 
     protected Rectangle determineBounds() {

@@ -74,6 +74,16 @@ public class Capacitor3DShapeSet {
         return vector;
     }
 
+    public Point2D getPlate1Location( double u, double v ) {
+        Vector2D.Double vec = getVector( u, v );
+        return vec.getDestination( getPlate1Point() );
+    }
+
+    public Point2D getPlate2Location( double u, double v ) {
+        Vector2D.Double vec = getVector( u, v );
+        return vec.getDestination( getPlate2Point() );
+    }
+
     private double getSegmentAngle() {
         return new Vector2D.Double( inPt, outPt ).getAngle();
     }
@@ -136,4 +146,13 @@ public class Capacitor3DShapeSet {
         vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );
         return vector.getDestination( inPt );
     }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
 }
