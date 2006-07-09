@@ -44,10 +44,16 @@ public class BSAsymmetricHeightHandle extends AbstractHandle implements Observer
     
     public BSAsymmetricHeightHandle( BSAsymmetricPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        
+        int significantDecimalPlaces = potentialSpec.getHeightRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.height" ) );
+        
         updateDragBounds();
     }
 

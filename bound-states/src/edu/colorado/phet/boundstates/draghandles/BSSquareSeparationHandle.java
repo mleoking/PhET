@@ -45,11 +45,16 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
     
     public BSSquareSeparationHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.HORIZONTAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
-        setValueNumberFormat( "0.00" );
+        
+        int significantDecimalPlaces = potentialSpec.getSeparationRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.separation" ) );
+        
         updateDragBounds();
     }
 

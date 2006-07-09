@@ -46,10 +46,16 @@ public class BSHarmonicOscillatorOffsetHandle extends AbstractHandle implements 
     public BSHarmonicOscillatorOffsetHandle( BSHarmonicOscillatorPotential potential, 
             BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        
+        int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.offset" ) );
+        
         updateDragBounds();
     }
 

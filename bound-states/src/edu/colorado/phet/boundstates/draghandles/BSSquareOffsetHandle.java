@@ -47,10 +47,16 @@ public class BSSquareOffsetHandle extends AbstractHandle implements Observer {
     
     public BSSquareOffsetHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.VERTICAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        
+        int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.offset" ) );
+        
         updateDragBounds();
     }
 

@@ -50,10 +50,16 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends AbstractHandle i
     
     public BSHarmonicOscillatorAngularFrequencyHandle( BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( AbstractHandle.HORIZONTAL );
+        
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
         setPotential( potential );
+        
+        int significantDecimalPlaces = potentialSpec.getAngularFrequencyRange().getSignificantDecimalPlaces();
+        String numberFormat = createNumberFormat( significantDecimalPlaces );
+        setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.angularFrequency" ) );
+        
         updateDragBounds();
     }
 
