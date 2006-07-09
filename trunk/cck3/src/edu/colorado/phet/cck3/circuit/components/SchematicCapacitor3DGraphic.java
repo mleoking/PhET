@@ -3,8 +3,6 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.HasCapacitorClip;
 import edu.colorado.phet.cck3.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -31,7 +29,6 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private CompositePhetGraphic plate2ChargeGraphic;
     private Capacitor3DShapeSet capacitor3DShapeSet;
     private ModelViewTransform2D transform;
-    private double fracDistToPlate = 0.325;
     private static final Color tan = new Color( 255, 220, 130 );
     private Color plate1Color = tan;
     private Color plate2Color = tan;
@@ -42,6 +39,7 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     private TransformListener transformListener;
     private SimpleObserver componentObserver;
     private Capacitor.Listener componentListener;
+    private ArrayList listeners = new ArrayList();
 
     public SchematicCapacitor3DGraphic( Component parent, Capacitor component,
                                         ModelViewTransform2D transform, double wireThickness ) {
@@ -129,19 +127,11 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         if( capacitor == null ) {
             return;
         }
-//        double charge = capacitor.getCharge();
-//        System.out.println( "charge = " + charge );
         ModelViewTransform2D transform = getModelViewTransform2D();
         Capacitor component = capacitor;
         Point2D src = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dst = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
-//        double viewThickness = transform.modelToViewDifferentialY( getWireThickness() );
 
-        ImmutableVector2D vector = new ImmutableVector2D.Double( src, dst );
-        Point2D cat = vector.getScaledInstance( getFracDistToPlate() ).getDestination( src );
-        Point2D ano = vector.getScaledInstance( 1 - getFracDistToPlate() ).getDestination( src );
-        AbstractVector2D east = vector.getInstanceOfMagnitude( 1 );
-        AbstractVector2D north = east.getNormalVector();
         capacitor3DShapeSet = new Capacitor3DShapeSet( tiltAngle, width, height, src, dst, distBetweenPlates );
 
         updateChargeDisplay();
@@ -195,10 +185,6 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         }
     }
 
-    private double getFracDistToPlate() {
-        return fracDistToPlate;
-    }
-
     public ModelViewTransform2D getModelViewTransform2D() {
         return transform;
     }
@@ -222,8 +208,6 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
     public void addListener( SchematicPlatedGraphic.Listener listener ) {
         listeners.add( listener );
     }
-
-    private ArrayList listeners = new ArrayList();
 
     public void notifyCapacitorBoundsChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -260,5 +244,9 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         double w = 2;
 //        area.add( new Area( new Rectangle2D.Double( loc.getX(), loc.getY() - w, 1, w * 2 + 1 ) ) );
         return new Area( new Rectangle2D.Double( loc.getX() - w, loc.getY(), w * 2 + 1, 1 ) );
+    }
+
+    public boolean contains( int x, int y ) {
+        return capacitor3DShapeSet.getArea().contains( x, y );
     }
 }
