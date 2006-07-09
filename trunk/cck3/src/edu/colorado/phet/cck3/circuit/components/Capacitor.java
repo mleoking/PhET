@@ -88,6 +88,10 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         listeners.add( listener );
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public void notifyChargeChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
