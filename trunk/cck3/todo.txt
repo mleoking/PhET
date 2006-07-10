@@ -1,17 +1,10 @@
 ################################################
 #Remaining Work
 #######################
-Capacitors:
-2-d capacitor for CCK
-capacitor charges should be blue for negative, red for +
-square plates in 3d
-area is a function of capacitance.
-Capacitor charges don't paint correctly.
-
 Quantitative CCK can wait until after AAPT
+
 Quantitative graph values.
 floating graph needs units
-Quantitative numerical tests for RC, RLC Circuits, etc.
 
 inductors should auto-discharge when not in a loop.
 
@@ -19,14 +12,11 @@ editing an inductor or capacitor should take effect immediately
 See faraday's AC source graphics
 
 o Get the time units to work out correctly.
-o Is the ac current (in a circuit with capacitor) symmetric?
-o If not, is the asymmetry correct?
 
-o When a non-battery branch is removed from the RL circuit, inductor still oscillates internally (is that maybe physical?)
-http://techlib.com/craig/switching.htm
->>At the bottom: there is a description of a real world (nonideal) inductor.  Maybe we should model something like this.
-http://www.play-hookey.com/dc_theory/rl_circuits.html
->>has a believable explanation, might be good to model.
+o Is the ac current (in a circuit with capacitor) symmetric?
+    o If not, is the asymmetry correct?
+
+Quantitative numerical tests for RC, RLC Circuits, etc.
 
 ################################################
 #Lower Priority
