@@ -1,17 +1,9 @@
 ################################################
 #Remaining Work
 #######################
-Quantitative graph values.
-
-Floating graph needs units.
-
-What should happen to the charge stored on a capacitor while the user is editing the capacitance?
-
 See faraday's AC source graphics
 
-o Get the time units to work out correctly.
-
-Quantitative CCK can wait until after AAPT
+Get the time units to work out correctly.
 
 o Is the ac current (in a circuit with capacitor) symmetric?
     o If not, is the asymmetry correct?
@@ -29,6 +21,7 @@ components in the play area, things got bogged down.
 -When I have 2 caps in series with a bulb and battery and turned the voltage 
 up rather high, only one of the caps catches on fire (the one near the 
 battery).  See cck_fire.gif.
+>>Couldn't reproduce this yet.
 
 -When you have 2 caps in the play area and you turn one of them 180 degrees 
 around, it looks a little strange next to the other one that has not been 
@@ -57,6 +50,7 @@ to build anything... is there any hope of improving this (ever)???
 - is there any way to make the current graph smoother?  Right now it 
 shows features that aren't really there?
 
+What should happen to the charge stored on a capacitor while the user is editing the capacitance?
 - Changing capacitance still doesn't show the right thing ... it 
 doesn't show the electrons flowing again to fill up the plate with 
 more or less charge.
@@ -75,6 +69,8 @@ collapsed to one line, as shown and totally changed the components in
 the circuit (?). Do you have a short cut of keys that I may have pushed?
 
 For future:
+Quantitative graph values.
+Quantitative CCK can wait until after AAPT
 - graphs ... would be nice to add dashed grid in background so easier 
 to read where you are, also would be nice to have a cursor which 
 could move around and scroll along graph, this would require a play, 
