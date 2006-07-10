@@ -3,6 +3,10 @@ Improved graphics for the voltage strip chart.
 Strip charts start reading from the right.
 Strip charts maintain the correct time-range.
 Strip charts show a gap in the data when not taking data.
+Capacitors
+    Capacitor charges are be blue for negative, red for positive.
+    Square plates are 3d
+    Area is a function of capacitance.
 
 3.01.06 (7-7-2006)
 Charts can now be removed.
