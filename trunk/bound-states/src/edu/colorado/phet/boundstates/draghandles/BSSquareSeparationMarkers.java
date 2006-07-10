@@ -107,6 +107,7 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     //----------------------------------------------------------------------------
     
     public void updateView() {
+        assert( _potential.getCenter() == 0 );
 
         _leftPath.reset();
         _rightPath.reset();
@@ -114,11 +115,20 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
         final int n = _potential.getNumberOfWells();
         if ( n > 1 ) {
 
-            final double center = _potential.getCenter( n - 1 );
-            final double width = _potential.getWidth();
             final double separation = _potential.getSeparation();
-            final double positionLeft = center - ( width / 2 ) - separation;
-            final double positionRight = center - ( width / 2 );
+            double positionLeft = 0;
+            double positionRight = 0;
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                positionLeft = -( separation / 2 );
+                positionRight = +( separation / 2 );
+            }
+            else {
+                // odd number of wells
+                final double width = _potential.getWidth();
+                positionLeft = ( width / 2 );
+                positionRight = ( width / 2 ) + separation;
+            }
 
             ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
             final double minEnergy = yAxis.getLowerBound();
