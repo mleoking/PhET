@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- move square drag handles to well that is closest to position=0
 - fix BSSquareSeparationHandle.updateDragBound and updateModel
 - spacing drag handle for Coulomb
 - bug: harmonic oscillator offset drag handle sometimes doesn't get any mouse events
