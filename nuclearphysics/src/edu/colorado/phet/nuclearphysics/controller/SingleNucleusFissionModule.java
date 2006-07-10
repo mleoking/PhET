@@ -126,8 +126,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         // Add a fire button to the play area
         FireButton fireButton = new FireButton( getPhysicalPanel());
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)gunMuzzelLocation.getX() + 282,
-                                 (int)gunMuzzelLocation.getY() + 135 );
+        fireButton.setLocation(  (int)gunMuzzelLocation.getX() + 285,
+                                 (int)gunMuzzelLocation.getY() + 137 );
 //        fireButton.setLocation(  (int)( 37), 152 );
 //        fireButton.setTransform( AffineTransform.getScaleInstance( 0.85, 0.85));
         fireButton.addActionListener( new FireButton.ActionListener() {
