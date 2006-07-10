@@ -108,50 +108,59 @@ public class BSCoulomb1DSpacingMarkers extends PComposite implements Observer {
     //----------------------------------------------------------------------------
     
     public void updateView() {
-
+        assert( _potential.getCenter() == 0 );
+        
         _leftPath.reset();
         _rightPath.reset();
 
         final int n = _potential.getNumberOfWells();
         if ( n > 1 ) {
-//
-//            final double center = _potential.getCenter( n - 1 );
-//            final double width = _potential.getWidth();
-//            final double separation = _potential.getSeparation();
-//            final double positionLeft = center - ( width / 2 ) - separation;
-//            final double positionRight = center - ( width / 2 );
-//
-//            ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
-//            final double minEnergy = yAxis.getLowerBound();
-//            final double maxEnergy = yAxis.getUpperBound();
-//
-//            // Left marker path
-//            {
-//                Point2D modelPoint1 = new Point2D.Double( positionLeft, minEnergy );
-//                Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
-//                Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
-//
-//                Point2D modelPoint2 = new Point2D.Double( positionLeft, maxEnergy );
-//                Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
-//                Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
-//
-//                _leftPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
-//                _leftPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
-//            }
-//
-//            // Right marker path
-//            {
-//                Point2D modelPoint1 = new Point2D.Double( positionRight, minEnergy );
-//                Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
-//                Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
-//
-//                Point2D modelPoint2 = new Point2D.Double( positionRight, maxEnergy );
-//                Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
-//                Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
-//
-//                _rightPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
-//                _rightPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
-//            }
+
+            double positionLeft = 0;
+            double positionRight = 0;
+            final double spacing = _potential.getSpacing();
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                positionLeft = -( spacing / 2 );
+                positionRight = +( spacing / 2 );
+            }
+            else {
+                // odd number of wells
+                positionLeft = 0;
+                positionRight = spacing;
+            }
+
+            ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+            final double minEnergy = yAxis.getLowerBound();
+            final double maxEnergy = yAxis.getUpperBound();
+
+            // Left marker path
+            {
+                Point2D modelPoint1 = new Point2D.Double( positionLeft, minEnergy );
+                Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
+                Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
+
+                Point2D modelPoint2 = new Point2D.Double( positionLeft, maxEnergy );
+                Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
+                Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
+
+                _leftPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
+                _leftPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
+            }
+
+            // Right marker path
+            {
+                Point2D modelPoint1 = new Point2D.Double( positionRight, minEnergy );
+                Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
+                Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
+
+                Point2D modelPoint2 = new Point2D.Double( positionRight, maxEnergy );
+                Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
+                Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
+
+                _rightPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
+                _rightPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
+            }
         }
 
         _leftNode.setPathTo( _leftPath );
