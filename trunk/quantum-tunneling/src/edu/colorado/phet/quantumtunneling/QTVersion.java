@@ -20,11 +20,11 @@ package edu.colorado.phet.quantumtunneling;
  */
 public class QTVersion {
   
-    public static final String NUMBER = "sandbox";
-    public static final String CVS_TAG = "quantumtunneling-sandbox";
+//    public static final String NUMBER = "sandbox";
+//    public static final String CVS_TAG = "quantumtunneling-sandbox";
     
-//    public static final String NUMBER = "1.05";
-//    public static final String CVS_TAG = "quantumtunneling-1-05-00-2006-06-27";
+    public static final String NUMBER = "1.06";
+    public static final String CVS_TAG = "quantumtunneling-1-06-00-2006-07-10";
     
     /* This class is not intended for instantiation. */
     private QTVersion() {}
