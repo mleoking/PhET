@@ -16,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.boundstates.BSConstants;
+import org.jfree.chart.axis.ValueAxis;
+
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -96,8 +96,9 @@ public class BSSquareWidthHandle extends AbstractHandle implements Observer {
         final double maxX = _chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        final double minEnergy = _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().getRange().getLowerBound();
-        final double maxEnergy =  _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().getRange().getUpperBound();
+        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        final double minEnergy = yAxis.getLowerBound();
+        final double maxEnergy = yAxis.getUpperBound();
         final double minY = _chartNode.energyToNode( maxEnergy );
         final double maxY = _chartNode.energyToNode( minEnergy );
         
