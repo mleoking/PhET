@@ -16,11 +16,6 @@ o Is the ac current (in a circuit with capacitor) symmetric?
 
 Quantitative CCK can wait until after AAPT
 
--However, when there were two circuits running in the play area, there was 
-definitely a decrease in performance and things ran a bit slower.  If you 
-grab a wire, say, from the tool bar and drag it around in the play area, 
-there is a noticeable lag between the cursor and the wire moving with it.
-
 -When you have an AC voltage source and a light bulb in series and turn the 
 frequency to 10 Hz, it looks like the current drifts slightly (counter 
 clockwise) as it oscillates back and forth.  I put the mouse cursor next to 
@@ -28,7 +23,6 @@ one of the blue dots and watched how one particular blue dot moves over
 time.  Every 10 secs or so, the current stutters ever so slightly and shifts 
 the current over.  This seems like a very small/minor problem, but I'm not 
 sure if it's effects can be easily seen with a more complicated circuit.
-
 
 ################################################
 #Lower Priority
@@ -56,3 +50,8 @@ because wiggling an element or node changes the number of blue balls
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex and error-prone graph theory computation).
 
 Quantitative numerical tests for RC, RLC Circuits, etc.
+
+-When there were two circuits running in the play area, there was 
+definitely a decrease in performance and things ran a bit slower.  If you 
+grab a wire, say, from the tool bar and drag it around in the play area, 
+there is a noticeable lag between the cursor and the wire moving with it.

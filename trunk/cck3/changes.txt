@@ -1,7 +1,4 @@
-3.01.07 (7-7-2006)
-Improved graphics for the voltage strip chart.
-Strip charts start reading from the right.
-Strip charts maintain the correct time-range.
+3.01.08 (7-9-2006)
 Strip charts show a gap in the data when not taking data.
 Inductors auto-discharge when not in a loop.
 Capacitors
@@ -9,6 +6,11 @@ Capacitors
     Square plates are 3d
     Area is a function of capacitance.
 Bugfix: In-circuit ammeter fails to move off the toolbar correctly.
+
+3.01.07 (7-7-2006)
+Improved graphics for the voltage strip chart.
+Strip charts start reading from the right.
+Strip charts maintain the correct time-range.
 
 3.01.06 (7-7-2006)
 Charts can now be removed.
