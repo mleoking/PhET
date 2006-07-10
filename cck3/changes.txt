@@ -8,6 +8,7 @@ Capacitors
     Capacitor charges are be blue for negative, red for positive.
     Square plates are 3d
     Area is a function of capacitance.
+Bugfix: In-circuit ammeter fails to move off the toolbar correctly.
 
 3.01.06 (7-7-2006)
 Charts can now be removed.
