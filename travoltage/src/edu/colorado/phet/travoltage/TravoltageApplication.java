@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 
 public class TravoltageApplication extends PhetApplication {
-    private static final String VERSION = "1.00.06";
+    private static final String VERSION = "1.01";
     private static final String TITLE = "Travoltage";
     private static final String DESCRIPTION = "The John Travoltage Simulation";
     private JDialog dialog;
