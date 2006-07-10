@@ -39,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+(7/10/06) - fix drag handle managers so that they create only handles for attributes that have a non-zero range
 (7/9/06) - use moduleSpec to set precision of values shown for drag handles
 (7/9/06) - properly initialize color scheme in module ctor, reset for drag handles in reset method
 (7/9/06) - first attempt at square separation drag handle, very buggy

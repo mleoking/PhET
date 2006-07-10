@@ -17,7 +17,12 @@ import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * BSAsymmetricHandleManager
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
@@ -46,23 +51,31 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
 
     public void setPotential( BSAsymmetricPotential potential ) {
-
-        removeAllChildren();
-        
+        clear();
         if ( potential != null ) {
             
-            _offsetHandle = new BSAsymmetricOffsetHandle( potential, _potentialSpec, _chartNode );
-            addChild( _offsetHandle );
-            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+            if ( !_potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSAsymmetricOffsetHandle( potential, _potentialSpec, _chartNode );
+                addChild( _offsetHandle );
+            }
 
-            _heightHandle = new BSAsymmetricHeightHandle( potential, _potentialSpec, _chartNode );
-            addChild( _heightHandle );
-            _heightHandle.setVisible( _potentialSpec.getHeightRange().getMin() != _potentialSpec.getHeightRange().getMax() );
+            if ( !_potentialSpec.getHeightRange().isZero() ) {
+                _heightHandle = new BSAsymmetricHeightHandle( potential, _potentialSpec, _chartNode );
+                addChild( _heightHandle );
+            }
 
-            _widthHandle = new BSAsymmetricWidthHandle( potential, _potentialSpec, _chartNode );
-            addChild( _widthHandle );
-            _widthHandle.setVisible( _potentialSpec.getWidthRange().getMin() != _potentialSpec.getWidthRange().getMax() );
+            if ( !_potentialSpec.getWidthRange().isZero() ) {
+                _widthHandle = new BSAsymmetricWidthHandle( potential, _potentialSpec, _chartNode );
+                addChild( _widthHandle );
+            }
         }
+    }
+    
+    private void clear() {
+        removeAllChildren();
+        _offsetHandle = null;
+        _heightHandle = null;
+        _widthHandle = null;
     }
     
     //----------------------------------------------------------------------------

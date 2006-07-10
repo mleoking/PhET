@@ -17,7 +17,12 @@ import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * BSCoulomb1DHandleManager
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
@@ -44,14 +49,18 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public void setPotential( BSCoulomb1DPotential potential ) {
-
-        removeAllChildren();
-        
+        clear();
         if ( potential != null ) {
-            _offsetHandle = new BSCoulomb1DOffsetHandle( potential, _potentialSpec, _chartNode );
-            addChild( _offsetHandle );
-            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
+            if ( !_potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSCoulomb1DOffsetHandle( potential, _potentialSpec, _chartNode );
+                addChild( _offsetHandle );
+            }
         }
+    }
+    
+    private void clear() {
+        removeAllChildren();
+        _offsetHandle = null;
     }
     
     //----------------------------------------------------------------------------
