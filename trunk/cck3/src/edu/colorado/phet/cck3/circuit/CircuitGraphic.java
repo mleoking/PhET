@@ -149,8 +149,8 @@ public class CircuitGraphic extends CompositeGraphic {
             public void graphicAdded( Branch branch, InteractiveGraphic graphic ) {
                 if( branch instanceof CircuitComponent ) {
                     ReadoutGraphic rg = createReadoutGraphic( (CircuitComponent)branch, module );
-                    rg.setVisible( readoutGraphicsVisible );
                     if( rg != null ) {
+                        rg.setVisible( readoutGraphicsVisible );
                         readoutMap.put( branch, rg );
                         readouts.addGraphic( rg );
                     }
