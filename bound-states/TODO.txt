@@ -4,11 +4,10 @@
 
 IN PROGRESS:
 - fix BSSquareSeparationHandle.updateDragBound and updateModel
-- color scheme for BSSquareSeparationMarkers
 - spacing drag handle for Coulomb
-- bug: HO offset drag handle doesn't initially get any mouse events
-- bug: square offset (and others?) can be dragged past min (and max?)
-- bug: 1D and 3D Coulomb offset drag handle value always falls off right edge of chart
+- bug: harmonic oscillator offset drag handle sometimes doesn't get any mouse events
+- bug: some drag handles (eg, square offset) can be dragged past min/max
+- bug: some drag handle values ( eg, 1D and 3D Coulomb offset) fall off right edge of chart
 - make offset drag handles looks "different"
 - clip drag handles to energy chart
 - drag handles are sluggish, improve responsiveness
@@ -39,6 +38,7 @@ CLEANUP:
 
 
 DONE:
+(7/10/06) - add drag handle markers to color scheme
 (7/10/06) - fix drag handle managers so that they create only handles for attributes that have a non-zero range
 (7/9/06) - use moduleSpec to set precision of values shown for drag handles
 (7/9/06) - properly initialize color scheme in module ctor, reset for drag handles in reset method
