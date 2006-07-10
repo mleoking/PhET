@@ -1,3 +1,7 @@
+1.00.06 (7-10-2006)
+Arm/Leg move to front when dragged.
+Changed the initial help text.
+
 1.00.05 (7-10-2006)
 Added highlights for draggable limbs.
 

@@ -32,7 +32,8 @@ public class TravoltagePanel extends PhetPCanvas {
         addScreenChild( travoltageRootNode );
 
 //        setCreateTrajectories();
-        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Rub the foot<br>on the carpet.</html> " );
+//        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Rub the foot<br>on the carpet.</html> " );
+        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Move the leg<br>and arm.</html>" );
         motionHelpBalloon.setBalloonVisible( true );
         motionHelpBalloon.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         getLayer().addChild( motionHelpBalloon );
