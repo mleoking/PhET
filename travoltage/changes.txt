@@ -1,3 +1,6 @@
+1.00.05 (7-10-2006)
+Added highlights for draggable limbs.
+
 1.00.04 (7-6-2006)
 Increased speed for electrons when discharging.
 Added improved about dialog, including license info.

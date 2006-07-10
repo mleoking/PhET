@@ -13,7 +13,8 @@ import java.awt.*;
 
 public class HighlightNode extends PPath {
     public HighlightNode( Image image ) {
-        setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5, new float[]{15, 5}, 0 ) );
+        setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5, new float[]{15, 5}, 0 ) );
+//        setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5, new float[]{10,30}, 0 ) );
 //        setPaint( Color.yellow );
         setStrokePaint( Color.yellow );
         setPathToRectangle( 0, 0, image.getWidth( null ), image.getHeight( null ) );

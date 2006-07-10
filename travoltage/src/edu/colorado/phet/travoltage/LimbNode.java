@@ -5,6 +5,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
@@ -23,10 +25,22 @@ public class LimbNode extends PNode {
     private PImage imageNode;
     private double angle = 0;
     private ArrayList listeners = new ArrayList();
+    private HighlightNode highlight;
 
     public LimbNode( String imageLoc, Point pivot ) {
         imageNode = PImageFactory.create( imageLoc );
         addChild( imageNode );
+        highlight = new HighlightNode( imageNode.getImage() );
+        addChild( highlight );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
+                if( highlight.getVisible() ) {
+                    highlight.setVisible( false );
+                    removeChild( highlight );
+                }
+            }
+        } );
         this.pivot = pivot;
         addInputEventListener( new RotationHandler( this ) );
         addInputEventListener( new CursorHandler() );

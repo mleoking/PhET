@@ -3,6 +3,7 @@ package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -23,6 +24,10 @@ public class TravoltagePanel extends PhetPCanvas {
     private MotionHelpBalloon motionHelpBalloon;
 
     public TravoltagePanel( TravoltageModule travoltageModule ) {
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+
         travoltageRootNode = new TravoltageRootNode( travoltageModule, this, travoltageModule.getTravoltageModel() );
         addScreenChild( travoltageRootNode );
 
