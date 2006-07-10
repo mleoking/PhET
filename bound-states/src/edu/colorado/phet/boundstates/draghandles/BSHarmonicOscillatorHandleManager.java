@@ -17,7 +17,12 @@ import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * BSHarmonicOscillatorHandleManager
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     
     //----------------------------------------------------------------------------
@@ -45,18 +50,25 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public void setPotential( BSHarmonicOscillatorPotential potential ) {
-
-        removeAllChildren();
-        
+        clear();
         if ( potential != null ) {
-            _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, _potentialSpec, _chartNode );
-            addChild( _offsetHandle );
-            _offsetHandle.setVisible( _potentialSpec.getOffsetRange().getMin() != _potentialSpec.getOffsetRange().getMax() );
 
-            _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, _potentialSpec, _chartNode );
-            addChild( _angularFrequencyHandle );
-            _angularFrequencyHandle.setVisible( _potentialSpec.getAngularFrequencyRange().getMin() != _potentialSpec.getAngularFrequencyRange().getMax() );
+            if ( !_potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, _potentialSpec, _chartNode );
+                addChild( _offsetHandle );
+            }
+
+            if ( !_potentialSpec.getAngularFrequencyRange().isZero() ) {
+                _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, _potentialSpec, _chartNode );
+                addChild( _angularFrequencyHandle );
+            }
         }
+    }
+    
+    private void clear() {
+        removeAllChildren();
+        _offsetHandle = null;
+        _angularFrequencyHandle = null;
     }
     
     //----------------------------------------------------------------------------
