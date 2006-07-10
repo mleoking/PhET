@@ -129,7 +129,7 @@ public class BSCoulomb1DOffsetHandle extends AbstractHandle implements Observer 
     protected void updateView() {
         removePropertyChangeListener( this );
         {
-            final double position = BSConstants.POSITION_VIEW_RANGE.getUpperBound() - 0.5;
+            final double position = BSConstants.POSITION_VIEW_RANGE.getUpperBound() - 1.25;
             final double offset = _potential.getOffset();
             Point2D modelPoint = new Point2D.Double( position, offset );
             Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
