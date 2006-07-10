@@ -41,6 +41,7 @@ public class BSColorScheme {
     private Color _dragHandleColor;
     private Color _dragHandleHiliteColor;
     private Color _dragHandleValueColor;
+    private Color _dragHandleMarkersColor;
     
     public BSColorScheme( BSColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
@@ -62,6 +63,7 @@ public class BSColorScheme {
         _dragHandleColor = colorScheme.getDragHandleColor();
         _dragHandleHiliteColor = colorScheme.getDragHandleHiliteColor();
         _dragHandleValueColor = colorScheme.getDragHandleValueColor();
+        _dragHandleMarkersColor = colorScheme.getDragHandleMarkersColor();
     }
     
     protected BSColorScheme() {
@@ -71,26 +73,21 @@ public class BSColorScheme {
         return _eigenstateHiliteColor;
     }
 
-    
     public void setEigenstateHiliteColor( Color eigenstateHiliteColor ) {
         _eigenstateHiliteColor = eigenstateHiliteColor;
     }
 
-    
     public Color getEigenstateNormalColor() {
         return _eigenstateNormalColor;
     }
-
     
     public void setEigenstateNormalColor( Color eigenstateNormalColor ) {
         _eigenstateNormalColor = eigenstateNormalColor;
     }
-
     
     public Color getEigenstateSelectionColor() {
         return _eigenstateSelectionColor;
     }
-
     
     public void setEigenstateSelectionColor( Color eigenstateSelectionColor ) {
         _eigenstateSelectionColor = eigenstateSelectionColor;
@@ -190,5 +187,13 @@ public class BSColorScheme {
 
     public void setDragHandleValueColor( Color dragHandleValueColor ) {
         _dragHandleValueColor = dragHandleValueColor;
+    }
+    
+    public Color getDragHandleMarkersColor() {
+        return _dragHandleMarkersColor;
+    }
+    
+    public void setDragHandleMarkersColor( Color dragHandleRegionMarkersColor ) {
+        _dragHandleMarkersColor = dragHandleRegionMarkersColor;
     }
 }

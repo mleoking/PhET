@@ -41,7 +41,7 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     
     private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final Stroke DEFAULT_STROKE = 
-        new BasicStroke( 0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -60,7 +60,7 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     
     public BSSquareSeparationMarkers( BSSquarePotential potential, BSCombinedChartNode chartNode) {
         super();
-        
+ 
         _chartNode = chartNode;
         
         _leftPath = new GeneralPath();
@@ -92,7 +92,8 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        //XXX
+        _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
+        _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
     }
     
     //----------------------------------------------------------------------------

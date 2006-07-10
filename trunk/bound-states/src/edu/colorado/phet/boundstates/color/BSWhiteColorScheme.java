@@ -44,5 +44,6 @@ public class BSWhiteColorScheme extends BSColorScheme {
         setDragHandleColor( Color.LIGHT_GRAY );
         setDragHandleHiliteColor( Color.WHITE );
         setDragHandleValueColor( Color.BLACK );
+        setDragHandleMarkersColor( Color.BLACK );
     }
 }

@@ -61,12 +61,13 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     private BSAbstractApplication _app;
     private BSColorScheme _scheme;
     private BSColorScheme _restoreScheme;
+    
     private JLabel _currentChip;
     private JLabel _chartChip, _ticksChip, _gridlinesChip;
     private JLabel _eigenstateNormalChip, _eigenstateHiliteChip, _eigenstateSelectionChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip;
     private JLabel _magnifyingGlassBezelChip, _magnifyingGlassHandleChip;
-    private JLabel _dragHandleChip, _dragHandleHiliteChip, _dragHandleValueChip;
+    private JLabel _dragHandleChip, _dragHandleHiliteChip, _dragHandleValueChip, _dragHandleMarkersChip;
     
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
@@ -309,6 +310,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
+        // Drag handle "markers" color
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.dragHandleMarkers" ) );
+            _dragHandleMarkersChip = new JLabel();
+            setColor( _dragHandleMarkersChip, _scheme.getDragHandleMarkersColor() );
+            _dragHandleMarkersChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _dragHandleMarkersChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
         return inputPanel;
     }
     
@@ -427,6 +439,10 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         else if ( _currentChip == _dragHandleValueChip ) {
             titlePrefix = SimStrings.get( "label.color.dragHandleValue" );
             initialColor = _scheme.getDragHandleValueColor(); 
+        }
+        else if ( _currentChip == _dragHandleMarkersChip ) {
+            titlePrefix = SimStrings.get( "label.color.dragHandleMarkers" );
+            initialColor = _scheme.getDragHandleMarkersColor(); 
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
@@ -566,6 +582,9 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         }
         else if ( _currentChip == _dragHandleValueChip ) {
             _scheme.setDragHandleValueColor( color );
+        }
+        else if ( _currentChip == _dragHandleMarkersChip ) {
+            _scheme.setDragHandleMarkersColor( color );
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
