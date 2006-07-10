@@ -61,7 +61,8 @@ public class TravoltageRootNode extends PNode {
         };
         getLegNode().addListener( listener );
         getArmNode().addListener( listener );
-        getArmNode().setAngle( -0.5663 );
+//        getArmNode().setAngle( -0.5663 );
+        getArmNode().setAngle( -0.95 );
 //        travoltagePanel.addMouseListener( new MouseAdapter() {
 //            public void mouseClicked( MouseEvent e ) {
 //                System.out.println( "e = " + e );

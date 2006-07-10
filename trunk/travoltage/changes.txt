@@ -1,3 +1,7 @@
+1.01.01 (7-10-2006)
+Changed the initial help text.
+Changed the default arm angle.
+
 1.00.06 (7-10-2006)
 Arm/Leg move to front when dragged.
 Changed the initial help text.
