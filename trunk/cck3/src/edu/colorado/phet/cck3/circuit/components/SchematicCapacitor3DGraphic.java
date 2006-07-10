@@ -193,10 +193,17 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
 
         double lengthSpanInset = ( dL ) / 2.0;
 //        System.out.println( "numDown=" + numDown + ", L=" + L + ", lengthSpan=" + lengthSpan + ", lengthSpanInset= " + lengthSpanInset );
+//        System.out.println( "dw = " + dw +" lengthSpanInset="+lengthSpanInset);
+        double offsetFromCenterW = 0;
+        double offsetFromCenterL = 0;
+        if( numAcross == 1 ) {
+            offsetFromCenterW = 5;
+            offsetFromCenterL = 0;
+        }
         for( int i = 0; i < numAcross; i++ ) {
             for( int j = 0; j < numDown; j++ ) {
-                double u = -w / 2.0 + i * dw + widthSpanInset;
-                double v = -L / 2.0 + j * dL + lengthSpanInset;
+                double u = -w / 2.0 + i * dw + widthSpanInset + offsetFromCenterW;
+                double v = -L / 2.0 + j * dL + lengthSpanInset + offsetFromCenterL;
                 Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
                 Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
                 plate1ChargeGraphic.addGraphic( new PhetShapeGraphic( getComponent(), plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
