@@ -32,6 +32,8 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     private BSPotentialSpec _potentialSpec;
     private BSCombinedChartNode _chartNode;
     
+    private BSCoulomb1DSpacingMarkers _spacingMarkers;
+    private BSCoulomb1DSpacingHandle _spacingHandle;
     private BSCoulomb1DOffsetHandle _offsetHandle;
     
     //----------------------------------------------------------------------------
@@ -51,6 +53,16 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     public void setPotential( BSCoulomb1DPotential potential ) {
         clear();
         if ( potential != null ) {
+            
+            if ( !_potentialSpec.getSpacingRange().isZero() ) {
+                
+                _spacingMarkers = new BSCoulomb1DSpacingMarkers( potential, _chartNode );
+                addChild( _spacingMarkers );
+                
+                _spacingHandle = new BSCoulomb1DSpacingHandle( potential, _potentialSpec, _chartNode );
+                addChild( _spacingHandle );
+            }
+            
             if ( !_potentialSpec.getOffsetRange().isZero() ) {
                 _offsetHandle = new BSCoulomb1DOffsetHandle( potential, _potentialSpec, _chartNode );
                 addChild( _offsetHandle );
@@ -68,16 +80,35 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
    
     public void updateDragBounds() {
+        if ( _spacingMarkers != null ) {
+            _spacingMarkers.updateView();
+        }
+        if ( _spacingHandle != null ) {
+            _spacingHandle.updateDragBounds();
+        }
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }
     }
     
     public PNode getHelpNode() {
-        return _offsetHandle; //XXX this doesn't exist for "Two" and "Many" modules!
+        PNode node = null;
+        if ( _offsetHandle != null ) {
+            node = _offsetHandle;
+        }
+        else {
+            node = _spacingHandle;
+        }
+        return node;
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
+        if ( _spacingMarkers != null ) {
+            _spacingMarkers.setColorScheme( colorScheme );
+        }
+        if ( _spacingHandle != null ) {
+            _spacingHandle.setColorScheme( colorScheme );
+        }
         if ( _offsetHandle != null ) {
             _offsetHandle.setColorScheme( colorScheme );
         }
