@@ -84,6 +84,7 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
      * Updates the drag bounds.
      */
     public void updateDragBounds() {
+        assert( _potential.getCenter() == 0 );
         
 //        final int n = _potential.getNumberOfWells();
 //        final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
@@ -115,7 +116,7 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
 //        dragBounds = _chartNode.localToGlobal( dragBounds );
 //
 //        setDragBounds( dragBounds );
-//        updateView();
+        updateView();
     }
     
     //----------------------------------------------------------------------------
@@ -155,21 +156,28 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
     }
     
     protected void updateView() {
+        assert( _potential.getCenter() == 0 );
+        
         removePropertyChangeListener( this );
         {
-//            final int n = _potential.getNumberOfWells();
-//            final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
-//            final double width = _potential.getWidth();
-//            final double offset = _potential.getOffset();
-//            final double height = _potential.getHeight();
-// 
-//            final double position = center - ( width / 2 ); // left edge of the well
-//            final double energy = offset + height + 1;
-//            Point2D modelPoint = new Point2D.Double( position, energy );
-//            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-//            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
-//            setGlobalPosition( globalNodePoint );
-//            setValueDisplay( width );
+            final double spacing = _potential.getSpacing();
+            final int n = _potential.getNumberOfWells();
+            double position = 0;
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                position = spacing / 2;
+            }
+            else {
+                // odd number of wells
+                position = spacing;
+            }
+            
+            final double energy = _potential.getOffset() - 5;
+            Point2D modelPoint = new Point2D.Double( position, energy );
+            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            setGlobalPosition( globalNodePoint );
+            setValueDisplay( spacing );
         }
         addPropertyChangeListener( this );
     }
