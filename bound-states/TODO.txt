@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- move square drag handles to well that is closest to position=0
 - fix BSSquareSeparationHandle.updateDragBound and updateModel
 - bug: harmonic oscillator offset drag handle sometimes doesn't get any mouse events
 - bug: some drag handles (eg, square offset) can be dragged past min/max
@@ -38,6 +37,7 @@ CLEANUP:
 
 
 DONE:
+(7/10/06) - move square separation drag handle and markers to well that is closest to position=0
 (7/10/06) - update 1D Coulomb drag handles when zoom button is pressed
 (7/10/06) - move 1D & 3D Coulomb offset drag handles in from the right edge so value doesn't fall off chart
 (7/10/06) - implement BSCoulomb1DSpacingHandle.updateView
