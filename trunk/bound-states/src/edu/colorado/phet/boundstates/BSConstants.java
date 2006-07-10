@@ -102,7 +102,9 @@ public class BSConstants {
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
     public static final Stroke HILITE_STROKE = new BasicStroke( 1f );
     public static final Stroke DRAG_HANDLE_STROKE = new BasicStroke( 1f );
-    
+    public static final Stroke DRAG_HANDLE_MARKERS_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
+
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
