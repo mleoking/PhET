@@ -83,7 +83,7 @@ public class IntegerRange {
     }
     
     //----------------------------------------------------------------------------
-    // Utilities
+    // Convenience methods
     //----------------------------------------------------------------------------
     
     /**
@@ -92,9 +92,6 @@ public class IntegerRange {
      * @param value
      * @return true or false
      */
-    public boolean contains( double value ) {
-        return( value >= _min && value <= _max );
-    }
     public boolean contains( int value ) {
         return( value >= _min && value <= _max );
     }
