@@ -1,3 +1,8 @@
+- Reset should remove containment vessel
+- Disabling containment vessel should not reset.
+- Set tabs to be same as background.
+- Controlled Reaction module chews a lot of CPU.
+
 - Location coords of ray gun and button are screwy.
 - Add new standard About box
 - "% Fissioned" isn't meaningful until you hit the Fire button.

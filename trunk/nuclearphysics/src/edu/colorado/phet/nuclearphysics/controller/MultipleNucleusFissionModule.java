@@ -94,13 +94,9 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
                 if( containment == null ) {
                     addContainment();
-                    stop();
-                    start();
                 }
                 else {
                     removeContainment();
-                    stop();
-                    start();
                 }
             }
         } );
@@ -137,10 +133,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         // If the containment is enabled, recreate it, so it will be fully
         // displayed
-        if( containment != null ) {
+//        if( containment != null ) {
             setContainmentEnabled( false );
-            setContainmentEnabled( true );
-        }
+//            setContainmentEnabled( true );
+//        }
         computeNeutronLaunchParams();
     }
 

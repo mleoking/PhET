@@ -21,6 +21,7 @@ import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.util.ClockFactory;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.piccolo.PhetTabbedPane;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -40,6 +41,8 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
     private static PhetLookAndFeel phetLookAndFeel;
+    private PhetTabbedPane phetTabbedPane;
+    private static Color backgroundColor;
 
     /**
      *
@@ -74,6 +77,17 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     }
 
     /**
+     * An override so we can set the color of the selected tab
+     * @param modules
+     * @return a JComponent that's the PhetTabbedPane for the app
+     */
+    public JComponent createTabbedPane( Module[] modules ) {
+        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane( modules );
+        phetTabbedPane.setSelectedTabColor( backgroundColor );
+        return phetTabbedPane;
+    }
+
+    /**
      *
      * @param args
      */
@@ -83,7 +97,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         // Initialize the look and feel
         phetLookAndFeel = new PhetLookAndFeel();
 //        phetLookAndFeel.setBackgroundColor( new Color( 236, 239, 254) );
-        Color backgroundColor = new Color( 227, 211, 175 );
+        backgroundColor = new Color( 227, 211, 175 );
         phetLookAndFeel.setBackgroundColor( backgroundColor );
 //        phetLookAndFeel.setBackgroundColor( new Color( 203, 224, 249) );
         phetLookAndFeel.initLookAndFeel();
