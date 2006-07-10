@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Observable;
@@ -21,6 +19,7 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
@@ -39,9 +38,7 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color DEFAULT_COLOR = Color.WHITE;
-    private static final Stroke DEFAULT_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
+    private static final Color DEFAULT_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,13 +62,13 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
         
         _leftPath = new GeneralPath();
         _leftNode = new PPath();
-        _leftNode.setStroke( DEFAULT_STROKE );
+        _leftNode.setStroke( BSConstants.DRAG_HANDLE_MARKERS_STROKE );
         _leftNode.setStrokePaint( DEFAULT_COLOR );
         addChild( _leftNode );
         
         _rightPath = new GeneralPath();
         _rightNode = new PPath();
-        _rightNode.setStroke( DEFAULT_STROKE );
+        _rightNode.setStroke( BSConstants.DRAG_HANDLE_MARKERS_STROKE );
         _rightNode.setStrokePaint( DEFAULT_COLOR );
         addChild( _rightNode );
         
@@ -110,24 +107,25 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     //----------------------------------------------------------------------------
     
     public void updateView() {
-        
-        if ( getVisible() ) {
-            
-            _leftPath.reset();
-            _rightPath.reset();
 
-            final int n = _potential.getNumberOfWells();
-            if ( n > 1 ) {
-                final double center = _potential.getCenter( n - 1 );
-                final double width = _potential.getWidth();
-                final double separation = _potential.getSeparation();
-                final double positionLeft = center - ( width / 2 ) - separation;
-                final double positionRight = center - ( width / 2 );
+        _leftPath.reset();
+        _rightPath.reset();
 
-                ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
-                final double minEnergy = yAxis.getLowerBound();
-                final double maxEnergy = yAxis.getUpperBound();
+        final int n = _potential.getNumberOfWells();
+        if ( n > 1 ) {
 
+            final double center = _potential.getCenter( n - 1 );
+            final double width = _potential.getWidth();
+            final double separation = _potential.getSeparation();
+            final double positionLeft = center - ( width / 2 ) - separation;
+            final double positionRight = center - ( width / 2 );
+
+            ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+            final double minEnergy = yAxis.getLowerBound();
+            final double maxEnergy = yAxis.getUpperBound();
+
+            // Left marker path
+            {
                 Point2D modelPoint1 = new Point2D.Double( positionLeft, minEnergy );
                 Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
                 Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
@@ -136,30 +134,33 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
                 Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
                 Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
 
-                Point2D modelPoint3 = new Point2D.Double( positionRight, minEnergy );
-                Point2D nodePoint3 = _chartNode.energyToNode( modelPoint3 );
-                Point2D globalPoint3 = _chartNode.localToGlobal( nodePoint3 );
-
-                Point2D modelPoint4 = new Point2D.Double( positionRight, maxEnergy );
-                Point2D nodePoint4 = _chartNode.energyToNode( modelPoint4 );
-                Point2D globalPoint4 = _chartNode.localToGlobal( nodePoint4 );
-
                 _leftPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
                 _leftPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
-
-                _rightPath.moveTo( (float) globalPoint3.getX(), (float) globalPoint3.getY() );
-                _rightPath.lineTo( (float) globalPoint4.getX(), (float) globalPoint4.getY() );
             }
 
-            _leftNode.setPathTo( _leftPath );
-            _rightNode.setPathTo( _rightPath );
+            // Right marker path
+            {
+                Point2D modelPoint1 = new Point2D.Double( positionRight, minEnergy );
+                Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
+                Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
+
+                Point2D modelPoint2 = new Point2D.Double( positionRight, maxEnergy );
+                Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
+                Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
+
+                _rightPath.moveTo( (float) globalPoint1.getX(), (float) globalPoint1.getY() );
+                _rightPath.lineTo( (float) globalPoint2.getX(), (float) globalPoint2.getY() );
+            }
         }
+
+        _leftNode.setPathTo( _leftPath );
+        _rightNode.setPathTo( _rightPath );
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Updates the view when the model changes.
      * @param o
