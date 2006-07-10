@@ -1,5 +1,6 @@
 3.01.09 (7-10-1006)
 Improved graphics for lower resolution.
+Bugfix: Text for stopwatch is broken.
 
 3.01.08 (7-9-2006)
 Strip charts show a gap in the data when not taking data.
