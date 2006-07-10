@@ -436,6 +436,16 @@ public class KirkhoffSolver extends CircuitSolver {
             }
         }
 
+        public boolean isLoopElementIncludingSwitches( Branch br ) {
+            for( int i = 0; i < loops.length; i++ ) {
+                Path p = loops[i];
+                if( p.containsBranch( br ) && !p.containsOpenSwitch() ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public boolean isLoopElement( Branch br ) {
             for( int i = 0; i < loops.length; i++ ) {
                 Path p = loops[i];

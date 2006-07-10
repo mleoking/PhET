@@ -79,6 +79,10 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         return inductance;
     }
 
+    public void discharge() {
+        resetDynamics();
+    }
+
     public static interface Listener {
         public void chargeChanged();
     }
