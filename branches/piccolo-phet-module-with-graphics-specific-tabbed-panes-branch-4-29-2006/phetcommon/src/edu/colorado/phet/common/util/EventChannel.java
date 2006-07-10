@@ -70,7 +70,7 @@ public class EventChannel implements InvocationHandler {
     /**
      * Creates a proxy for a list of objects that implement a specified interface
      *
-     * @param interf    The interface for which the channel provides a proxy
+     * @param interf The interface for which the channel provides a proxy
      */
     public EventChannel( Class interf ) {
         if( !EventListener.class.isAssignableFrom( interf ) ) {
@@ -171,7 +171,9 @@ public class EventChannel implements InvocationHandler {
     public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
         Object target = null;
         try {
-            for( int i = 0; i < targets.size(); i++ ) {
+            // Iterate the list backward, so if a listener removes itself from the channel
+            // in its handler, we won't have a problem
+            for( int i = targets.size() - 1; i >= 0; i-- ) {
                 target = targets.get( i );
                 invokeMethod( method, target, args );
             }
