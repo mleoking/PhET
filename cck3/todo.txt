@@ -34,11 +34,6 @@ battery).  See cck_fire.gif.
 around, it looks a little strange next to the other one that has not been 
 turned around--sort of an MC Escher effect.  See cck_escher.gif.
 
--I noticed the plus and minus signs on the caps are sometimes near other 
-objects (when there are only 3 charges present) and it makes it hard to see 
-them.  Possibly the charges could be moved a few pixels away from other 
-objects? (see cck_charge_signs.gif)
-
 -There's a slight issues with the capacitors.  I charged up two identical 
 capacitor at different voltages (100 V and 10 V) so that there are different 
 amounts of charges on them.  Then, I removed the charged caps from their 
@@ -48,6 +43,7 @@ these two connected plates redistribute themselves, but nothing happened.
 (see cck_caps_together.gif).  When you connect the outside plates of this 2 
 cap combo with some wires, the charges on the plates then properly 
 distribute themselves.
+>>Yes, this is a real problem I'm not sure is addressed by my circuit analysis.  I'm not sure whether my circuit analysis should be giving the right behavior here, or if we'll have to detect it and handle it separately.
 
 -On that same note, when I had 2 independent charged capacitors (not 
 attached to anything else) it was sometimes hard to grab them with the 
@@ -64,9 +60,13 @@ shows features that aren't really there?
 - Changing capacitance still doesn't show the right thing ... it 
 doesn't show the electrons flowing again to fill up the plate with 
 more or less charge.
-
-- If its trivial, please add a play pause step button ... if it's 
-not, then add that to the list for the future.
+>>Yes, I thought it would be awkward to keep the charge constant 
+across the capacitor while editing the capicatance 
+(which would be implemented by manipulating the potential drop to 
+account for the difference).  
+The potential drop is constantly changing, 
+based on other elements in the circuit, and I'm not sure of a good way to 
+account for both of these issues.
 
 - I ran across a wierd bug, (see attached). I had a nice looking 
 circuit and when I was trying to add a bulb to it, it was sort of 
