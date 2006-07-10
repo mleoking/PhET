@@ -63,7 +63,7 @@ public class CCKApplication {
 
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( cck.getApparatusPanel(), clock );
 
-        FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 75, 100 ) );
         if( debugMode ) {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
@@ -72,9 +72,9 @@ public class CCKApplication {
                                                        SimStrings.get( "CCK3Application.description" ),
                                                        SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
         model.setName( "cck" );
-        model.setUseClockControlPanel( false );
-        final PhetApplication app = new PhetApplication( model );
+        model.setUseClockControlPanel( true );
 
+        final PhetApplication app = new PhetApplication( model );
 
         JMenu laf = new JMenu( SimStrings.get( "ViewMenu.Title" ) );
         laf.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt( 0 ) );

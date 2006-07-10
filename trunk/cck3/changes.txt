@@ -1,5 +1,6 @@
-3.01.10
+3.01.10 
 Added 'Amps' units to current readout.
+Added a Pause/Play/Step control panel.
 
 3.01.09 (7-10-1006)
 Improved graphics for lower resolution.
