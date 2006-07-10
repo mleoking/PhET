@@ -16,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.boundstates.BSConstants;
+import org.jfree.chart.axis.ValueAxis;
+
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -99,8 +99,9 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
         final double maxX = _chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        final double minEnergy = _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().getRange().getLowerBound();
-        final double maxEnergy =  _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().getRange().getUpperBound();
+        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        final double minEnergy = yAxis.getLowerBound();
+        final double maxEnergy =  yAxis.getUpperBound();
         final double minY = _chartNode.energyToNode( maxEnergy );
         final double maxY = _chartNode.energyToNode( minEnergy );
         
@@ -108,7 +109,7 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
         final double w = maxX - minX;
         final double h = maxY - minY;
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
-        System.out.println( "BSSquareSeparationHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
+//        System.out.println( "BSSquareSeparationHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
 
         // Convert to global coordinates
         dragBounds = _chartNode.localToGlobal( dragBounds );
@@ -138,12 +139,12 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
             if ( n % 2 == 0 ) {
                 // even number of wells
                 final int m = ( n / 2 ) - 1;
-                separation = ( 1 / ( m + 0.5 ) ) * ( d - ( m * w ) );
+                separation = ( 1.0 / ( m + 0.5 ) ) * ( d - ( m * w ) );
             }
             else {
                 // odd number of wells
                 final int m = ( n - 1 ) / 2;
-                separation = ( 1 / m ) * ( d - ( ( m - 1 ) * w ) - ( w / 2 ) );
+                separation = ( 1.0 / m ) * ( d - ( ( m - 1 ) * w ) - ( w / 2.0 ) );
             }
 
             _potential.setSeparation( separation );
