@@ -53,9 +53,12 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
     private static String xAxisLabel = SimStrings.get( "PotentialProfilePanel.XAxisLabel" );
-    private static String[] yAxisLabels = new String[]{
+    private static String[] totalEnergyyAxisLabels = new String[]{
             SimStrings.get( "PotentialProfilePanel.YAxisLabel1" ),
             SimStrings.get( "PotentialProfilePanel.YAxisLabel2" )};
+    private static String[] potentialEnergyyAxisLabels = new String[]{
+            SimStrings.get( "PotentialProfilePanel.YAxisLabel3" ),
+            SimStrings.get( "PotentialProfilePanel.YAxisLabel4" )};
     private static String originLabel = "0";
     private static Font axisLabelFont;
     private static Font legendFont;
@@ -121,6 +124,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private int yAxisXLoc = -325;
     // Insets of the ends of the axes from the boundary of the graphic
     private Insets axisInsets = new Insets( 35, 35, 35, 35 );
+    private String[] yAxisLabels;
 
     /**
      * Sole constructor
@@ -130,6 +134,15 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     public EnergyProfilePanelGraphic( Component component, EnergyProfileGraphic.ProfileType profileType ) {
         super( component );
         this.profileType = profileType;
+        if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
+        this.yAxisLabels = totalEnergyyAxisLabels;
+        }
+        else if( profileType == EnergyProfileGraphic.POTENTIAL_ENERGY ) {
+            this.yAxisLabels = potentialEnergyyAxisLabels;
+        }
+        else {
+            throw new IllegalArgumentException( "bad profile type");
+        }
 
         RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 50, 50 );
         backgroundGraphic = new PhetShapeGraphic( component,
@@ -331,7 +344,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             // y axis
             AffineTransform strTx = EnergyProfilePanelGraphic.rotateInPlace( -Math.PI / 2, 0, 0 );
             g2.transform( strTx );
-            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( EnergyProfilePanelGraphic.yAxisLabels[0], g2 );
+            Rectangle2D yAxisLabelBounds = GraphicsUtil.getStringBounds( yAxisLabels[0], g2 );
             double dy = 0;
             if( profileTx.getTranslateY() > getHeight() / 2 ) {
                 dy = 30;
@@ -339,8 +352,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             else {
                 dy = -( yAxisLabelBounds.getWidth() + 25 );
             }
-            g2.drawString( EnergyProfilePanelGraphic.yAxisLabels[0], (int)( dy ), -10 + yAxisXLoc );
-            g2.drawString( EnergyProfilePanelGraphic.yAxisLabels[1], (int)( dy ), -10 + yAxisXLoc + 25);
+            g2.drawString( yAxisLabels[0], (int)( dy ), -10 + yAxisXLoc );
+            g2.drawString( yAxisLabels[1], (int)( dy ), -10 + yAxisXLoc + 25);
             g2.setTransform( orgTx );
 
             // x axis

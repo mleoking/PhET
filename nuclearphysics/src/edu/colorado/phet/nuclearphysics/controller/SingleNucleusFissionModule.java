@@ -183,9 +183,12 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         Nucleus daughter1 = products.getDaughter1();
         double v1 = daughter1.getVelocity().getMagnitude();
         daughter1.setVelocity( (float)( v1 * Math.cos( theta ) ), (float)( v1 * Math.sin( theta ) ) );
+//        double a = 10;
+//        daughter1.setAcceleration( a * Math.cos( theta ), a * Math.sin( theta ));
         Nucleus daughter2 = products.getDaughter2();
         double v2 = daughter2.getVelocity().getMagnitude();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
+//        daughter2.setAcceleration( a * Math.cos( theta + Math.PI ), a * Math.sin( theta + Math.PI ));
 
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
@@ -237,7 +240,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         public FissionProductsStepper( FissionProducts products ) {
             this.products = products;
-            forceScale = 0.1;
+            forceScale = 0.2;
+//            forceScale = 0.1;
         }
 
         public void stepInTime( double dt ) {

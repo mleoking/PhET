@@ -160,7 +160,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         }
 
         DecimalFormat sliderFormat = new DecimalFormat( "#0" );
-        numU235Slider = new MyModelSlider( "U235", "", 0, 100, 0, sliderFormat );
+        numU235Slider = new MyModelSlider( "U-235", "", 0, 100, 0, sliderFormat );
         numU235Slider.setPreferredSliderWidth( 150 );
         numU235Slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -168,7 +168,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 setNumU235Nuclei( numU235 );
             }
         } );
-        numU238Slider = new MyModelSlider( "U238", "", 0, 100, 0, sliderFormat );
+        numU238Slider = new MyModelSlider( "U-238", "", 0, 100, 0, sliderFormat );
         numU238Slider.setPreferredSliderWidth( 150 );
         numU238Slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
