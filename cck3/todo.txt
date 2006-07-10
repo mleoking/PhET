@@ -23,6 +23,63 @@ time.  Every 10 secs or so, the current stutters ever so slightly and shifts
 the current over.  This seems like a very small/minor problem, but I'm not 
 sure if it's effects can be easily seen with a more complicated circuit.
 
+-I noticed the same performance issues as Kathy.  As soon as there were many 
+components in the play area, things got bogged down.
+
+-When I have 2 caps in series with a bulb and battery and turned the voltage 
+up rather high, only one of the caps catches on fire (the one near the 
+battery).  See cck_fire.gif.
+
+-When you have 2 caps in the play area and you turn one of them 180 degrees 
+around, it looks a little strange next to the other one that has not been 
+turned around--sort of an MC Escher effect.  See cck_escher.gif.
+
+-I noticed the plus and minus signs on the caps are sometimes near other 
+objects (when there are only 3 charges present) and it makes it hard to see 
+them.  Possibly the charges could be moved a few pixels away from other 
+objects? (see cck_charge_signs.gif)
+
+-There's a slight issues with the capacitors.  I charged up two identical 
+capacitor at different voltages (100 V and 10 V) so that there are different 
+amounts of charges on them.  Then, I removed the charged caps from their 
+circuits (see cck_caps_separate.gif).  I connected the positive side of one 
+cap to the negative side of the other cap.  I expected to see the charges on 
+these two connected plates redistribute themselves, but nothing happened. 
+(see cck_caps_together.gif).  When you connect the outside plates of this 2 
+cap combo with some wires, the charges on the plates then properly 
+distribute themselves.
+
+-On that same note, when I had 2 independent charged capacitors (not 
+attached to anything else) it was sometimes hard to grab them with the 
+cursor and move them.  When you click on them, they would not be highlighted 
+in yellow like usual.
+
+- Unfortunately performance is an issue ... it's pretty easy to get 
+to the point where the mouse isn't working well and it is frustrating 
+to build anything... is there any hope of improving this (ever)???
+
+- is there any way to make the current graph smoother?  Right now it 
+shows features that aren't really there?
+
+- Changing capacitance still doesn't show the right thing ... it 
+doesn't show the electrons flowing again to fill up the plate with 
+more or less charge.
+
+- If its trivial, please add a play pause step button ... if it's 
+not, then add that to the list for the future.
+
+- I ran across a wierd bug, (see attached). I had a nice looking 
+circuit and when I was trying to add a bulb to it, it was sort of 
+bogging down as I was dragging the bulb, and then all of a sudden it 
+collapsed to one line, as shown and totally changed the components in 
+the circuit (?). Do you have a short cut of keys that I may have pushed?
+
+For future:
+- graphs ... would be nice to add dashed grid in background so easier 
+to read where you are, also would be nice to have a cursor which 
+could move around and scroll along graph, this would require a play, 
+pause, step  button to be added in bottom of sim.
+
 ################################################
 #Lower Priority
 #######################
