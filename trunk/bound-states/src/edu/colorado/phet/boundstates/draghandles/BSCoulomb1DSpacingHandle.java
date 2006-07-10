@@ -17,9 +17,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.AxisChangeEvent;
+import org.jfree.chart.event.AxisChangeListener;
 
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
-import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -30,7 +31,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer {
+public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer, AxisChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -55,6 +56,9 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.spacing" ) );
+        
+        // 1D Coulomb has a zoom control
+        chartNode.getEnergyPlot().getRangeAxis().addChangeListener( this );
         
         updateDragBounds();
     }
@@ -86,36 +90,42 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
     public void updateDragBounds() {
         assert( _potential.getCenter() == 0 );
         
-//        final int n = _potential.getNumberOfWells();
-//        final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
-//        final double width = _potential.getWidth();
-//        final double separation = _potential.getSeparation();
-//        final double centerOfSeparation = center - ( width / 2 ) - ( separation / 2 );
-//        final double minSeparation = _potentialSpec.getSeparationRange().getMin();
-//        final double maxSeparation = _potentialSpec.getSeparationRange().getMax();
-//        
-//        // position -> x coordinates
-//        final double minPosition = centerOfSeparation + ( minSeparation / 2 );
-//        final double maxPosition = centerOfSeparation + ( maxSeparation / 2 );
-//        final double minX = _chartNode.positionToNode( minPosition );
-//        final double maxX = _chartNode.positionToNode( maxPosition );
-//        
-//        // energy -> y coordinates (+y is down!)
-//        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
-//        final double minEnergy = yAxis.getLowerBound();
-//        final double maxEnergy =  yAxis.getUpperBound();
-//        final double minY = _chartNode.energyToNode( maxEnergy );
-//        final double maxY = _chartNode.energyToNode( minEnergy );
-//        
-//        // bounds, local coordinates
-//        final double w = maxX - minX;
-//        final double h = maxY - minY;
-//        Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
-//
-//        // Convert to global coordinates
-//        dragBounds = _chartNode.localToGlobal( dragBounds );
-//
-//        setDragBounds( dragBounds );
+        final int n = _potential.getNumberOfWells();
+        double minSpacing = _potentialSpec.getSpacingRange().getMin();
+        double maxSpacing = _potentialSpec.getSpacingRange().getMax();
+        double minPosition = 0;
+        double maxPosition = 0;
+        if ( n % 2 == 0 ) {
+            // even number of wells
+            minPosition = minSpacing / 2;
+            maxPosition = maxSpacing / 2;
+        }
+        else {
+            // odd number of wells
+            minPosition = minSpacing;
+            maxPosition = maxSpacing;
+        }
+        
+        // position -> x coordinates
+        final double minX = _chartNode.positionToNode( minPosition );
+        final double maxX = _chartNode.positionToNode( maxPosition );
+        
+        // energy -> y coordinates (+y is down!)
+        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        final double minEnergy = yAxis.getLowerBound();
+        final double maxEnergy =  yAxis.getUpperBound();
+        final double minY = _chartNode.energyToNode( maxEnergy );
+        final double maxY = _chartNode.energyToNode( minEnergy );
+        
+        // bounds, local coordinates
+        final double w = maxX - minX;
+        final double h = maxY - minY;
+        Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
+
+        // Convert to global coordinates
+        dragBounds = _chartNode.localToGlobal( dragBounds );
+
+        setDragBounds( dragBounds );
         updateView();
     }
     
@@ -128,28 +138,24 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
 
         _potential.deleteObserver( this );
         {
-//            Point2D globalNodePoint = getGlobalPosition();
-//            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-//            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
-//            final double d = modelPoint.getX();
-//
-//            final int n = _potential.getNumberOfWells();
-//            final double w = _potential.getWidth();
-//            double separation = 0;
-//            
-//            if ( n % 2 == 0 ) {
-//                // even number of wells
-//                final int m = ( n / 2 ) - 1;
-//                separation = ( 1.0 / ( m + 0.5 ) ) * ( d - ( m * w ) );
-//            }
-//            else {
-//                // odd number of wells
-//                final int m = ( n - 1 ) / 2;
-//                separation = ( 1.0 / m ) * ( d - ( ( m - 1 ) * w ) - ( w / 2.0 ) );
-//            }
-//
-//            _potential.setSeparation( separation );
-//            setValueDisplay( separation );
+            Point2D globalNodePoint = getGlobalPosition();
+            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            final double d = modelPoint.getX();
+
+            double spacing = 0;
+            final int n = _potential.getNumberOfWells();
+            if ( n % 2 == 0 ) {
+                // even number of wells
+                spacing = 2 * d;
+            }
+            else { 
+                // odd number of wells
+                spacing = d;
+            }
+            
+            _potential.setSpacing( spacing );
+            setValueDisplay( spacing );
         }
         _potential.addObserver( this );
         updateDragBounds();
@@ -195,5 +201,13 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
         assert( o == _potential );
         updateDragBounds();
         updateView();
+    }
+    
+    //----------------------------------------------------------------------------
+    // AxisChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void axisChanged( AxisChangeEvent event ) {
+        updateDragBounds();
     }
 }
