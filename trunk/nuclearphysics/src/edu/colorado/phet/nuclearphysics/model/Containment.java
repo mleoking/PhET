@@ -91,9 +91,13 @@ public class Containment extends SimpleObservable implements ModelElement {
                         containmentShape.getHeight() );
 
         interiorArea = new Area( inner );
+        // This is needed because we model the apperture as a rectangle, but it's really a
+        // segment of a ring. If we don't use it, we get little "hangnails" on the inside
+        // edge of the aperture
+        double appertureFudge = 4;
         aperture = new Rectangle2D.Double( center.getX() - radius - getWallThickness(),
                                                        center.getY() - apertureHeight / 2,
-                                                       getWallThickness(),
+                                                       getWallThickness() + appertureFudge,
                                                        apertureHeight );
         area = new Area( outer );
         area.subtract( new Area( inner ));
@@ -121,13 +125,8 @@ public class Containment extends SimpleObservable implements ModelElement {
         resizeListeners.remove( listener );
     }
 
-//    public Shape getShape() {
-//        return shape;
-//    }
-
     public Rectangle2D getBounds2D() {
         return area.getBounds2D();
-//        return shape.getBounds2D();
     }
 
     public Area getArea() {
@@ -137,11 +136,6 @@ public class Containment extends SimpleObservable implements ModelElement {
     public Rectangle2D getAperture() {
         return aperture;
     }
-
-//    public Point2D.Double getNeutronLaunchPoint() {
-//        return new Point2D.Double( shape.getBounds2D().getMinX(),
-//                                   shape.getBounds2D().getMinY() + shape.getBounds2D().getHeight() / 2 );
-//    }
 
     public void dissolve() {
         double decr = 0.05;
@@ -231,7 +225,8 @@ public class Containment extends SimpleObservable implements ModelElement {
         private Random random = new Random();
 
         private NuclearPhysicsModel model;
-        private double absorptionProbability = 0.5;
+        private double absorptionProbability = Config.CONTAINMENT_NEUTRON_ABSORPTION_PROBABILITY;
+//        private double absorptionProbability = 0.5;
         private double reflectionSpreadAngle = Math.toRadians( 30 );
 
         public MyCollisionDetector( NuclearPhysicsModel model ) {

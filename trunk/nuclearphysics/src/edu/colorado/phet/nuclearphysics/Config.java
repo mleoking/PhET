@@ -47,5 +47,7 @@ public class Config {
 
     // Fonts
     public static final Font PROFILE_PANEL_TITLE_FONT = new Font( "Lucida sans", Font.BOLD, 14 );
-    public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 100;
+    public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 400;
+//    public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 100;
+    public static final double CONTAINMENT_NEUTRON_ABSORPTION_PROBABILITY = 0.9;
 }

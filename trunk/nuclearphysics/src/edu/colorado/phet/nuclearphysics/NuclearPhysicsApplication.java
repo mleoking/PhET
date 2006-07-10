@@ -82,7 +82,9 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
         // Initialize the look and feel
         phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setBackgroundColor( new Color( 236, 239, 254) );
+//        phetLookAndFeel.setBackgroundColor( new Color( 236, 239, 254) );
+        Color backgroundColor = new Color( 227, 211, 175 );
+        phetLookAndFeel.setBackgroundColor( backgroundColor );
 //        phetLookAndFeel.setBackgroundColor( new Color( 203, 224, 249) );
         phetLookAndFeel.initLookAndFeel();
 
