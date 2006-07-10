@@ -120,4 +120,12 @@ public class DoubleRange {
     public double getLength() {
         return _max - _min;
     }
+    
+    /**
+     * Is the length of the range zero?
+     * @return true or false
+     */
+    public boolean isZero() {
+        return ( _max - _min == 0 );
+    }
 }
