@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
+import edu.colorado.phet.nuclearphysics.model.Neutron;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -199,6 +200,15 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             public void stateChanged( ChangeEvent e ) {
                 int numU235 = (int)numU235Slider.getValue();
                 setNumU235Nuclei( numU235 );
+
+                NuclearPhysicsModel model = (NuclearPhysicsModel)module.getModel();
+                java.util.List l = model.getNuclearModelElements();
+//                for( int i = 0; i < l.size(); i++ ) {
+//                    Object o = l.get( i );
+//                    if( o instanceof Neutron ) {
+//                        System.out.println( "MultipleNucleusFissionControlPanel.stateChanged" );
+//                    }
+//                }
             }
         } );
         numU235Slider.addMouseListener( new PercentFissionedTFDisabler() );

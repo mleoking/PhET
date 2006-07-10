@@ -101,6 +101,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             }
         } );
 
+        // Add a listener that will detect when the containment vessel has blown up
+
         // Start it up
         start();
     }
@@ -169,6 +171,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 explodingGraphics = new ArrayList();
                 explodingGraphics.add( new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic ) );
                 getPhysicalPanel().removeGraphic( containmentGraphic );
+                setContainmentEnabled( false );
             }
         } );
     }
@@ -179,8 +182,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getPhysicalPanel().removeGraphic( containmentGraphic );
     }
 
-    public void setContainmentEnabled( boolean selected ) {
-        if( selected ) {
+    public void setContainmentEnabled( boolean enabled ) {
+        if( enabled ) {
             addContainment();
             // This call will cause any nuclei that are outside the containment
             // to be removed

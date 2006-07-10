@@ -26,9 +26,10 @@ import java.util.List;
  * A vessel that is supposed to emulate the containment vessel of a nuclear bomb.
  * <p/>
  * This class implements Modelelement, so it can detect when nuclei and neutrons hit it.
+ * <p>
+ * The vessel is represented as an Area to make it easy to do collision detection.
  */
 public class Containment extends SimpleObservable implements ModelElement {
-//    private Ellipse2D shape;
     private double wallThickness = 80;
     double opacity = 1;
     private ArrayList resizeListeners = new ArrayList();
@@ -47,6 +48,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     private Rectangle2D aperture;
     private Area interiorArea;
     private double apertureHeight = 60;
+    private boolean collisionDetectionEnabled = true;
 
 
     public Containment( Point2D center, double radius, NuclearPhysicsModel model ) {
@@ -82,13 +84,13 @@ public class Containment extends SimpleObservable implements ModelElement {
                                    radius * 2, radius * 2 );
 
         Ellipse2D outer = new Ellipse2D.Double( containmentShape.getMinX() - getWallThickness(),
-                        containmentShape.getMinY() - getWallThickness(),
-                        containmentShape.getWidth() + getWallThickness() * 2,
-                        containmentShape.getHeight() + getWallThickness() * 2 );
+                                                containmentShape.getMinY() - getWallThickness(),
+                                                containmentShape.getWidth() + getWallThickness() * 2,
+                                                containmentShape.getHeight() + getWallThickness() * 2 );
         Ellipse2D inner = new Ellipse2D.Double( containmentShape.getMinX(),
-                        containmentShape.getMinY(),
-                        containmentShape.getWidth(),
-                        containmentShape.getHeight() );
+                                                containmentShape.getMinY(),
+                                                containmentShape.getWidth(),
+                                                containmentShape.getHeight() );
 
         interiorArea = new Area( inner );
         // This is needed because we model the apperture as a rectangle, but it's really a
@@ -96,12 +98,12 @@ public class Containment extends SimpleObservable implements ModelElement {
         // edge of the aperture
         double appertureFudge = 4;
         aperture = new Rectangle2D.Double( center.getX() - radius - getWallThickness(),
-                                                       center.getY() - apertureHeight / 2,
-                                                       getWallThickness() + appertureFudge,
-                                                       apertureHeight );
+                                           center.getY() - apertureHeight / 2,
+                                           getWallThickness() + appertureFudge,
+                                           apertureHeight );
         area = new Area( outer );
-        area.subtract( new Area( inner ));
-        area.subtract( new Area( aperture ));
+        area.subtract( new Area( inner ) );
+        area.subtract( new Area( aperture ) );
         notifyResizeListeners();
     }
 
@@ -126,6 +128,7 @@ public class Containment extends SimpleObservable implements ModelElement {
     }
 
     public Rectangle2D getBounds2D() {
+
         return area.getBounds2D();
     }
 
@@ -161,19 +164,14 @@ public class Containment extends SimpleObservable implements ModelElement {
         totalImpact += impact;
         if( totalImpact > explosionThreshold ) {
 
-            // Defer blowing up the containment until the end of the time step, so that all nuclei that hit
-            // the vessel during this time step get removed from the model
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    model.removeModelElement( Containment.this );
-                    while( embeddedNuclearModelElements.size() > 0 ) {
-                        NuclearModelElement nuclearModelElement = (NuclearModelElement)embeddedNuclearModelElements.get( 0 );
-                        model.removeModelElement( nuclearModelElement );
-                        embeddedNuclearModelElements.remove( 0 );
-                    }
-                    changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
-                }
-            } );
+            for( int i = 0; i < embeddedNuclearModelElements.size(); i++ ) {
+                ModelElement modelElement = (ModelElement)embeddedNuclearModelElements.get( i );
+                model.removeModelElement( modelElement );
+            }
+            embeddedNuclearModelElements.clear();
+            model.removeModelElement( Containment.this );
+            collisionDetectionEnabled = false;
+            changeListenerProxy.containmentExploded( new ChangeEvent( this ) );
         }
     }
 
@@ -247,23 +245,25 @@ public class Containment extends SimpleObservable implements ModelElement {
         }
 
         private void detectAndDoCollision( Nucleus nucleus ) {
-            double distSq = nucleus.getPosition().distanceSq( area.getBounds2D().getCenterX(),
-                                                              area.getBounds2D().getCenterY() );
-            double embeddedDist = 30;
-            if( area.contains( nucleus.getPosition()) && nucleus.getVelocity().getMagnitudeSq() > 0 ) {
-                nucleus.setVelocity( 0, 0 );
-                double dx = ( nucleus.getPosition().getX() - area.getBounds2D().getCenterX() ) / Math.sqrt( distSq )
-                            * ( area.getBounds2D().getWidth() / 2 - embeddedDist );
-                double dy = ( nucleus.getPosition().getY() - area.getBounds2D().getCenterY() ) / Math.sqrt( distSq )
-                            * ( area.getBounds2D().getHeight() / 2 - embeddedDist );
-                nucleus.setPosition( area.getBounds2D().getCenterX() + dx, area.getBounds2D().getCenterY() + dy );
-                recordImpact( nucleusImpact );
-                embeddedNuclearModelElements.add( nucleus );
+            if( collisionDetectionEnabled ) {
+                double distSq = nucleus.getPosition().distanceSq( area.getBounds2D().getCenterX(),
+                                                                  area.getBounds2D().getCenterY() );
+                double embeddedDist = 30;
+                if( area.contains( nucleus.getPosition() ) && nucleus.getVelocity().getMagnitudeSq() > 0 ) {
+                    nucleus.setVelocity( 0, 0 );
+                    double dx = ( nucleus.getPosition().getX() - area.getBounds2D().getCenterX() ) / Math.sqrt( distSq )
+                                * ( area.getBounds2D().getWidth() / 2 - embeddedDist );
+                    double dy = ( nucleus.getPosition().getY() - area.getBounds2D().getCenterY() ) / Math.sqrt( distSq )
+                                * ( area.getBounds2D().getHeight() / 2 - embeddedDist );
+                    nucleus.setPosition( area.getBounds2D().getCenterX() + dx, area.getBounds2D().getCenterY() + dy );
+                    recordImpact( nucleusImpact );
+                    embeddedNuclearModelElements.add( nucleus );
+                }
             }
         }
 
         private void detectAndDoCollision( Neutron neutron ) {
-            if( area.contains( neutron.getPosition()) && neutron.getVelocity().getMagnitudeSq() > 0 ) {
+            if( area.contains( neutron.getPosition() ) && neutron.getVelocity().getMagnitudeSq() > 0 ) {
                 handleCollision( neutron );
                 recordImpact( neutronImpact );
                 embeddedNuclearModelElements.add( neutron );
