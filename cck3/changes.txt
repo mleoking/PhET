@@ -1,9 +1,10 @@
-3.01.10 
+3.01.10 (7-10-2006) 
 Added 'Amps' units to current readout.
 Added a Pause/Play/Step control panel.
 Moved the charges from the centerline of a capacitor, when there is only 1 column of charges.
+Bugfix: Stopwatch was intercepting mouse events (even when disabled). 
 
-3.01.09 (7-10-1006)
+3.01.09 (7-10-2006)
 Improved graphics for lower resolution.
 Bugfix: Text for stopwatch is broken.
 

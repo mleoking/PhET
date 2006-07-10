@@ -42,7 +42,6 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -144,7 +143,7 @@ public class CCK3Module extends Module {
         magicPanel = new MagicalRepaintPanel();
         setApparatusPanel( magicPanel );
         clock.start();
-        stopwatch = new PhetPNode( new PSwing( getApparatusPanel(), new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
+        stopwatch = new MyPhetPNode( magicPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
         stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatch.addInputEventListener( new PDragEventHandler() );
         getApparatusPanel().addScreenChild( stopwatch );
