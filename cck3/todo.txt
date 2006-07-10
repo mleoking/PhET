@@ -5,17 +5,16 @@ Quantitative graph values.
 
 Floating graph needs units.
 
-Editing an inductor or capacitor should take effect immediately.
+What should happen to the charge stored on a capacitor while the user is editing the capacitance?
 
 See faraday's AC source graphics
 
 o Get the time units to work out correctly.
 
-o Is the ac current (in a circuit with capacitor) symmetric?
-    o If not, is the asymmetry correct?
-
 Quantitative CCK can wait until after AAPT
 
+o Is the ac current (in a circuit with capacitor) symmetric?
+    o If not, is the asymmetry correct?
 -When you have an AC voltage source and a light bulb in series and turn the 
 frequency to 10 Hz, it looks like the current drifts slightly (counter 
 clockwise) as it oscillates back and forth.  I put the mouse cursor next to 

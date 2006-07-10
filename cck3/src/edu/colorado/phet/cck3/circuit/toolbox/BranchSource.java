@@ -307,7 +307,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                          ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
             super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.AC" ), module );
             this.finalDim = finalDim;
-            super.textOffsetY = 7;
+            super.textOffsetY = 0;
         }
 
         public Branch createBranch() {
