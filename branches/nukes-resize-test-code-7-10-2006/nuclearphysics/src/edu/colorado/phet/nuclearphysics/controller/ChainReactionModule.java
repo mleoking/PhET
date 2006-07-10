@@ -20,7 +20,8 @@ import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +43,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     private ArrayList neutrons = new ArrayList();
     protected double neutronLaunchAngle;
     private Point2D neutronLaunchPoint;
+    private boolean init;
 
     // todo: push this down to the MultipleNucleusFissionModule
     protected Line2D.Double neutronPath;
@@ -50,30 +52,33 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     private int startingNumU235;
 
     /**
-     *
      * @param name
      * @param clock
      */
     public ChainReactionModule( String name, IClock clock ) {
         super( name, clock );
-    }
 
-    protected void init() {
         // Have to do this to make sure resize events get reported properly with PhetTabbedPane
         getApparatusPanel().remove( getPhysicalPanel() );
-        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel());
+        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel() );
         setPhysicalPanel( physicalPanel );
         getApparatusPanel().add( physicalPanel );
 
-
-
-        getPhysicalPanel().foo();
-
-        
+        // Sets the origin of the physical panel to it's center
+        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                if( !init ) {
+//                    init = true;
+                    PhysicalPanel physicalPanel = getPhysicalPanel();
+                    physicalPanel.setOrigin( new Point2D.Double( physicalPanel.getWidth() / 2, physicalPanel.getHeight() / 2 ) );
+                }
+            }
+        } );
+//        getPhysicalPanel().foo();
 
         // Add a listener to the model that will remove nuclei from our internal lists when they leave
         // the model.
-        ((NuclearPhysicsModel)getModel()).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+        ( (NuclearPhysicsModel)getModel() ).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 // noop
             }
@@ -89,6 +94,37 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         } );
     }
 
+    protected void init() {
+//        // Have to do this to make sure resize events get reported properly with PhetTabbedPane
+//        getApparatusPanel().remove( getPhysicalPanel() );
+//        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel());
+//        setPhysicalPanel( physicalPanel );
+//        getApparatusPanel().add( physicalPanel );
+//
+//
+//
+//        getPhysicalPanel().foo();
+//
+//
+//
+//        // Add a listener to the model that will remove nuclei from our internal lists when they leave
+//        // the model.
+//        ((NuclearPhysicsModel)getModel()).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+//            public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
+//                // noop
+//            }
+//
+//            public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
+//                if( event.getNucleus() instanceof Uranium238 ) {
+//                    u238Nuclei.remove( event.getNucleus() );
+//                }
+//                if( event.getNucleus() instanceof Uranium235 ) {
+//                    u235Nuclei.remove( event.getNucleus() );
+//                }
+//            }
+//        } );
+    }
+
     public int getStartingNumU235() {
         return startingNumU235;
     }
@@ -97,7 +133,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         return neutronPath;
     }
 
-   protected Point2D getNeutronLaunchPoint() {
+    protected Point2D getNeutronLaunchPoint() {
         return neutronLaunchPoint;
     }
 
@@ -234,7 +270,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // The class should be re-written so that everything is taken care
         // of by the nuclei list, and the others don't need to be iterated
         // here
-        for( int i = nuclei.size() - 1; i >= 0;  i-- ) {
+        for( int i = nuclei.size() - 1; i >= 0; i-- ) {
             removeNucleus( (Nucleus)nuclei.get( i ) );
         }
         for( int i = 0; i < u235Nuclei.size(); i++ ) {

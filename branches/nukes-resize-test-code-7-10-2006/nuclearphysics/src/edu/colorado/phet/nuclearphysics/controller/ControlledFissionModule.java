@@ -118,6 +118,15 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public ControlledFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
+
+        super.init();
+        energyGraphDialog = new EnergyGraphDialog( PhetUtilities.getPhetFrame(), getU235Nuclei().size() );
+        Container container = PhetUtilities.getPhetFrame();
+        int x = container.getX() + 30;
+        int y = container.getY() + container.getHeight() - energyGraphDialog.getHeight() - 30;
+        energyGraphDialog.setLocation( x, y );
+        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
+        init( getClock() );
     }
 
 
@@ -130,14 +139,14 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     protected void init() {
-        super.init();
-        energyGraphDialog = new EnergyGraphDialog( PhetUtilities.getPhetFrame(), getU235Nuclei().size() );
-        Container container = PhetUtilities.getPhetFrame();
-        int x = container.getX() + 30;
-        int y = container.getY() + container.getHeight() - energyGraphDialog.getHeight() - 30;
-        energyGraphDialog.setLocation( x, y );
-        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
-        init( getClock() );
+//        super.init();
+//        energyGraphDialog = new EnergyGraphDialog( PhetUtilities.getPhetFrame(), getU235Nuclei().size() );
+//        Container container = PhetUtilities.getPhetFrame();
+//        int x = container.getX() + 30;
+//        int y = container.getY() + container.getHeight() - energyGraphDialog.getHeight() - 30;
+//        energyGraphDialog.setLocation( x, y );
+//        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
+//        init( getClock() );
     }
 
     /**

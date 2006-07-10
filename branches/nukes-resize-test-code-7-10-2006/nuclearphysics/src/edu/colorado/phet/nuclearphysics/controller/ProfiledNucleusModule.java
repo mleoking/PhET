@@ -40,24 +40,26 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
     public ProfiledNucleusModule( String name, IClock clock, EnergyProfileGraphic.ProfileType profileType ) {
         super( name, clock );
         this.profileType = profileType;
+        getApparatusPanel().setLayout( new GridBagLayout() );
+        physicalPanelGBC = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                   GridBagConstraints.CENTER,
+                                                   GridBagConstraints.BOTH,
+                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
+        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
+        energyProfilePanel.setVisible( true );
     }
 
     /**
      *
      */
     protected void init() {
-        getApparatusPanel().setLayout( new GridBagLayout() );
-        physicalPanelGBC = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                   GridBagConstraints.CENTER,
-                                                   GridBagConstraints.BOTH,
-                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints profilePanelGBC = new GridBagConstraints( 0, 1, 1, 1, 1, .75,
-                                                                     GridBagConstraints.CENTER,
-                                                                     GridBagConstraints.BOTH,
-                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-
-        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
-        energyProfilePanel.setVisible( true );
+//        getApparatusPanel().setLayout( new GridBagLayout() );
+//        physicalPanelGBC = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+//                                                   GridBagConstraints.CENTER,
+//                                                   GridBagConstraints.BOTH,
+//                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
+//        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
+//        energyProfilePanel.setVisible( true );
     }
 
     /**

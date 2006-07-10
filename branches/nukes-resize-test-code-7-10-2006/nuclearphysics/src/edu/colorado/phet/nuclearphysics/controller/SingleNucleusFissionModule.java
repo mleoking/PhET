@@ -40,6 +40,12 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
+
+        MyPhysicalPanel physicalPanel = new MyPhysicalPanel();
+        setPhysicalPanel( physicalPanel );
+        addPhysicalPanel( physicalPanel );
+
+        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
     }
 
     protected void init() {
@@ -60,11 +66,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     protected void init( IClock clock ) {
         super.init();
-        MyPhysicalPanel physicalPanel = new MyPhysicalPanel();
-        setPhysicalPanel( physicalPanel );
-        addPhysicalPanel( physicalPanel );
-
-        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
+//        MyPhysicalPanel physicalPanel = new MyPhysicalPanel();
+//        setPhysicalPanel( physicalPanel );
+//        addPhysicalPanel( physicalPanel );
+//
+//        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
         
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {

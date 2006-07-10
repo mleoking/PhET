@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -45,10 +46,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
      */
     public MultipleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
-    }
-
-    protected void init() {
-        super.init();
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
@@ -73,6 +70,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
+
+//        TxGraphic txGunGraphic = new TxGraphic( gunGraphic, );
 
         // Add a fire button to the play area, on top of the gun
         FireButton fireButton = new FireButton( getPhysicalPanel() );
@@ -107,6 +106,66 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         start();
     }
 
+    protected void init() {
+//        super.init();
+
+//        // set the SCALE of the physical panel so we can fit more nuclei in it
+//        getPhysicalPanel().setPhysicalScale( 0.5 );
+//        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
+
+//        getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
+//                    MultipleNucleusFissionModule.this.addNeutron( neutronToAdd );
+//                    MultipleNucleusFissionModule.this.neutronToAdd = null;
+//                }
+//            }
+//        } );
+//
+//        // Add a model element that watches for collisions between neutrons and
+//        // nuclei
+//        getModel().addModelElement( new FissionDetector() );
+//
+//        // Ray gun
+//        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png" );
+//        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ) );
+//        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
+//        gunGraphic.setLocation( gunMuzzelLocation );
+//        getPhysicalPanel().addGraphic( gunGraphic );
+//
+//        // Add a fire button to the play area, on top of the gun
+//        FireButton fireButton = new FireButton( getPhysicalPanel() );
+//        getPhysicalPanel().addGraphic( fireButton, 1E6 );
+//        fireButton.setLocation( (int)( 40 ), 285 );
+//        fireButton.addActionListener( new FireButton.ActionListener() {
+//            public void actionPerformed( FireButton.ActionEvent event ) {
+//                fireNeutron();
+//            }
+//        } );
+//
+//        // Add a button to enable/disable the containment vessel
+//        ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
+//        getPhysicalPanel().addGraphic( containmentButton, 1E6 );
+//        containmentButton.setLocation( 600, 100 );
+//        containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
+//            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
+//                if( containment == null ) {
+//                    addContainment();
+//                    stop();
+//                    start();
+//                }
+//                else {
+//                    removeContainment();
+//                    stop();
+//                    start();
+//                }
+//            }
+//        } );
+
+//        // Start it up
+//        start();
+    }
+
     protected List getLegendClasses() {
         LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
                 LegendPanel.NEUTRON,
@@ -129,8 +188,11 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     public void start() {
         // Add a bunch of nuclei, including one in the middle that we can fire a neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), (NuclearPhysicsModel)getModel() );
+        // Shouldn't need this line, but without it the neutron fired at the nucleus doesn't always cause
+        // a fission event.
         getModel().addModelElement( centralNucleus );
         getU235Nuclei().add( centralNucleus );
+        // The following also adds it to the model
         addNucleus( centralNucleus );
 
         // If the containment is enabled, recreate it, so it will be fully

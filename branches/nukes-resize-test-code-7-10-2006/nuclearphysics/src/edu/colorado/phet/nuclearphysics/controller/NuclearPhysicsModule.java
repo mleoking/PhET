@@ -58,8 +58,15 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
 
         physicalPanel = new PhysicalPanel( clock, model );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
+//        apparatusPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                   GridBagConstraints.CENTER,
+                                                   GridBagConstraints.BOTH,
+                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
+
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
+//        apparatusPanel.add( physicalPanel, gbc );
 
         ControlPanel controlPanel = new ControlPanel();
         setControlPanel( controlPanel );
