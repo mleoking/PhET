@@ -38,6 +38,7 @@ CLEANUP:
 
 
 DONE:
+(7/10/06) - finish drag marker for 1D Coulomb
 (7/10/06) - added stubs for 1D Coulomb spacing drag handle and markers
 (7/10/06) - add drag handle markers to color scheme
 (7/10/06) - fix drag handle managers so that they create only handles for attributes that have a non-zero range
