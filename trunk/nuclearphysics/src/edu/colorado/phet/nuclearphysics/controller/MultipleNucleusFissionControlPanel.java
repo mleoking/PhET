@@ -4,6 +4,12 @@
  * Author: Another Guy
  * Date: Mar 17, 2004
  */
+/**
+ * Class: MultipleNucleusFissionControlPanel
+ * Package: edu.colorado.phet.nuclearphysics.controller
+ * Author: Another Guy
+ * Date: Mar 17, 2004
+ */
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
@@ -11,6 +17,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -18,10 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.Random;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -46,7 +50,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private MultipleNucleusFissionModule module;
     private MyModelSlider numU235Slider;
     private MyModelSlider numU238Slider;
-    private JTextField percentDecayTF;
+    private JTextField percentFissionedTF;
+    private boolean percentFissionedTFEnabled;
     private JButton resetBtn;
 
     /**
@@ -76,20 +81,39 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                     numU235Slider.setValue( module.getU235Nuclei().size() );
                 }
 
+                modelNum = module.getU238Nuclei().size();
+                viewNum = (int)numU238Slider.getValue();
+                if( modelNum != viewNum ) {
+                    numU238Slider.setValue( module.getU238Nuclei().size() );
+                }
+            }
+        } );
+
+        // Add a listener to the model that will adjust the percentage fissioned text field when the numbers
+        // of nuclei change.
+        ( (NuclearPhysicsModel)module.getModel() ).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+            public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
+                if( percentFissionedTFEnabled ) {
+                    setPercentFissionedTF();
+                }
+            }
+
+            public void nucleusRemoved( NuclearPhysicsModel.ChangeEvent event ) {
+                if( percentFissionedTFEnabled ) {
+                    setPercentFissionedTF();
+                }
+            }
+
+            void setPercentFissionedTF() {
                 // Compute and display the number of U235 nuclei that have fissioned
+                int modelNum = module.getU235Nuclei().size();
                 DecimalFormat percentFormat = new DecimalFormat( "#%" );
                 double percent = 0;
                 int startNumU235 = module.getStartingNumU235();
                 if( startNumU235 != 0 ) {
                     percent = ( (double)( startNumU235 - modelNum ) ) / startNumU235;
                 }
-                    percentDecayTF.setText( percentFormat.format( percent ) );
-
-                modelNum = module.getU238Nuclei().size();
-                viewNum = (int)numU238Slider.getValue();
-                if( modelNum != viewNum ) {
-                    numU238Slider.setValue( module.getU238Nuclei().size() );
-                }
+                percentFissionedTF.setText( percentFormat.format( percent ) );
             }
         } );
 
@@ -108,7 +132,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
-                percentDecayTF.setText( "0" );
+                percentFissionedTF.setText( "0%" );
                 numU235Slider.setValue( 1 );
                 numU238Slider.setValue( 0 );
             }
@@ -119,13 +143,22 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         // Other controls
         //--------------------------------------------------------------------------------------------------
 
-        percentDecayTF = new JTextField( 4 );
-        percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
-        percentDecayTF.setText( "0" );
-        percentDecayTF.setEditable( false );
-        percentDecayTF.setBackground( Color.white );
+        percentFissionedTF = new JTextField( 4 );
+        percentFissionedTF.setHorizontalAlignment( JTextField.RIGHT );
+        percentFissionedTF.setText( "0%" );
+        percentFissionedTF.setEditable( false );
+        percentFissionedTF.setBackground( Color.white );
 
+        module.addNeutronFiredListener( new ChainReactionModule.NeutronFiredListener() {
+            public void neutronFired( ChainReactionModule.NeutronFiredEvent event ) {
+                percentFissionedTFEnabled = true;
+            }
+        } );
+
+        //--------------------------------------------------------------------------------------------------
         // Layout the panel
+        //--------------------------------------------------------------------------------------------------
+
         setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
                                                          GridBagConstraints.NONE,
@@ -140,7 +173,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ), JLabel.RIGHT ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( percentDecayTF, gbc );
+        add( percentFissionedTF, gbc );
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
@@ -168,6 +201,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 setNumU235Nuclei( numU235 );
             }
         } );
+        numU235Slider.addMouseListener( new PercentFissionedTFDisabler() );
+
+
         numU238Slider = new MyModelSlider( "U-238", "", 0, 100, 0, sliderFormat );
         numU238Slider.setPreferredSliderWidth( 150 );
         numU238Slider.addChangeListener( new ChangeListener() {
@@ -176,6 +212,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 setNumU238Nuclei( numU238 );
             }
         } );
+        numU238Slider.getSlider().addMouseListener( new PercentFissionedTFDisabler() );
+        numU238Slider.getTextField().addMouseListener( new PercentFissionedTFDisabler() );
     }
 
     private void addNucleusSliders() {
@@ -244,5 +282,20 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             super( title, units, min, max, initialValue, textFieldFormat, sliderLabelFormat );
         }
 
+        public synchronized void addMouseListener( MouseListener l ) {
+            super.getTextField().addMouseListener( l );
+            super.getSlider().addMouseListener( l );
+        }
+
+    }
+
+    /**
+     * Disables the percentFissionedTF and sets it to 0
+     */
+    private class PercentFissionedTFDisabler extends MouseAdapter {
+        public void mousePressed( MouseEvent e ) {
+            percentFissionedTF.setText( "0%" );
+            percentFissionedTFEnabled = false;
+        }
     }
 }

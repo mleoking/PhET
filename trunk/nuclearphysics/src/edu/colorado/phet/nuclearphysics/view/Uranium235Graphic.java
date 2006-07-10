@@ -26,7 +26,8 @@ public class Uranium235Graphic extends NucleusGraphic {
 
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
-    private static Color color = Color.yellow;
+    private static Color color = Color.green;
+//    private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
     private static Stroke fontOutlineStroke = new BasicStroke( 1f );
     private static Random random = new Random();
