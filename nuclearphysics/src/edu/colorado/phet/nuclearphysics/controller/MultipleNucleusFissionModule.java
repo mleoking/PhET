@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -37,6 +38,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private Point2D neutronLaunchPt = new Point2D.Double( -550, 0 );
     private ExplodingContainmentGraphic explodingContainmentGraphic;
     private List explodingGraphics;
+    private FireButton fireButton;
 
     /**
      * Constructor
@@ -75,7 +77,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         getPhysicalPanel().addGraphic( gunGraphic );
 
         // Add a fire button to the play area, on top of the gun
-        FireButton fireButton = new FireButton( getPhysicalPanel() );
+        fireButton = new FireButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
         fireButton.setLocation( (int)( 40 ), 285 );
         fireButton.addActionListener( new FireButton.ActionListener() {
@@ -288,6 +290,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             getU238Nuclei().remove( nucleus );
             getU239Nuclei().remove( nucleus );
         }
+    }
+
+    public FireButton getFireNeutronButton() {
+        return fireButton;
     }
 
     //--------------------------------------------------------------------------------------------------

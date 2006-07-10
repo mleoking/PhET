@@ -28,7 +28,7 @@ public class Uranium238Graphic extends NucleusGraphic {
     //    private static Font isotopeFont = new Font( "Serif", Font.BOLD, 12 );
     //    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Font font = new Font( "Serif", Font.BOLD, 18 );
-    private static Color color = Color.cyan;
+    private static Color color = Color.yellow;
     //    private static Color color = Color.green;
     private static AffineTransform nucleusTx = new AffineTransform();
 

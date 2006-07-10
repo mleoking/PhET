@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -21,9 +22,8 @@ import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 /**
  * ChainReactionModule
@@ -50,7 +50,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     private int startingNumU235;
 
     /**
-     *
      * @param name
      * @param clock
      */
@@ -61,19 +60,16 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected void init() {
         // Have to do this to make sure resize events get reported properly with PhetTabbedPane
         getApparatusPanel().remove( getPhysicalPanel() );
-        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel());
+        PhysicalPanel physicalPanel = new PhysicalPanel( getClock(), (NuclearPhysicsModel)getModel() );
         setPhysicalPanel( physicalPanel );
         getApparatusPanel().add( physicalPanel );
 
 
-
         getPhysicalPanel().foo();
-
-        
 
         // Add a listener to the model that will remove nuclei from our internal lists when they leave
         // the model.
-        ((NuclearPhysicsModel)getModel()).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
+        ( (NuclearPhysicsModel)getModel() ).addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
                 // noop
             }
@@ -97,7 +93,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         return neutronPath;
     }
 
-   protected Point2D getNeutronLaunchPoint() {
+    protected Point2D getNeutronLaunchPoint() {
         return neutronLaunchPoint;
     }
 
@@ -178,6 +174,8 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         startingNumU235 = u235Nuclei.size();
         neutrons.add( neutron );
         addNeutron( neutron );
+
+        neutronFiredListenerProxy.neutronFired( new NeutronFiredEvent( this ) );
     }
 
     public void fission( FissionProducts products ) {
@@ -234,7 +232,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // The class should be re-written so that everything is taken care
         // of by the nuclei list, and the others don't need to be iterated
         // here
-        for( int i = nuclei.size() - 1; i >= 0;  i-- ) {
+        for( int i = nuclei.size() - 1; i >= 0; i-- ) {
             removeNucleus( (Nucleus)nuclei.get( i ) );
         }
         for( int i = 0; i < u235Nuclei.size(); i++ ) {
@@ -281,4 +279,34 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
             getPhysicalPanel().removeGraphic( graphic );
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // ChangeListener definition
+    //--------------------------------------------------------------------------------------------------
+
+    public interface NeutronFiredListener extends EventListener {
+        void neutronFired( NeutronFiredEvent event );
+    }
+
+    EventChannel changeEventChannel = new EventChannel( NeutronFiredListener.class );
+    NeutronFiredListener neutronFiredListenerProxy = (NeutronFiredListener)changeEventChannel.getListenerProxy();
+
+    public void addNeutronFiredListener( NeutronFiredListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeNeutronFiredListener( NeutronFiredListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class NeutronFiredEvent extends EventObject {
+        public NeutronFiredEvent( ChainReactionModule source ) {
+            super( source );
+        }
+
+        public ChainReactionModule get() {
+            return (ChainReactionModule)getSource();
+        }
+    }
+
 }
