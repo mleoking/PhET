@@ -1,3 +1,6 @@
+3.01.10
+Added 'Amps' units to current readout.
+
 3.01.09 (7-10-1006)
 Improved graphics for lower resolution.
 Bugfix: Text for stopwatch is broken.

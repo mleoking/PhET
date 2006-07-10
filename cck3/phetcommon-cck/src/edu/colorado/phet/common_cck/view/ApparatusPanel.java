@@ -12,6 +12,7 @@ import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -60,6 +61,9 @@ public class ApparatusPanel extends PhetPCanvas {
         super();
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
 
         //        Border border = BorderFactory.createLineBorder( Color.black );

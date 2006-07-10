@@ -702,7 +702,7 @@ public class CCK3Module extends Module {
 
     public void addCurrentChart() {
         clock.start();
-        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current", clock, getCircuitGraphic() );
+        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current (Amps)", clock, getCircuitGraphic() );
         chart.setOffset( 200, 200 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {
