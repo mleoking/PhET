@@ -5,7 +5,7 @@
 IN PROGRESS:
 - bug: harmonic oscillator offset drag handle sometimes doesn't get any mouse events
 - bug: some drag handles (eg, square offset) can be dragged past min/max
-- bug: some drag handle values ( eg, 1D and 3D Coulomb offset) fall off right edge of chart
+- bug: some drag handle values (eg, 1D and 3D Coulomb offset) fall off right edge of chart
 - make offset drag handles looks "different"
 - clip drag handles to energy chart
 - drag handles are sluggish, improve responsiveness
