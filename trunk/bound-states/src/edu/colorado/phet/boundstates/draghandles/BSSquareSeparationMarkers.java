@@ -41,7 +41,7 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     
     private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final Stroke DEFAULT_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
+        new BasicStroke( 0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -123,23 +123,23 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
                 final double positionLeft = center - ( width / 2 ) - separation;
                 final double positionRight = center - ( width / 2 );
 
-                ValueAxis yAxis = _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis();
-                final double minE = yAxis.getLowerBound();
-                final double maxE = yAxis.getUpperBound();
+                ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+                final double minEnergy = yAxis.getLowerBound();
+                final double maxEnergy = yAxis.getUpperBound();
 
-                Point2D modelPoint1 = new Point2D.Double( positionLeft, minE );
+                Point2D modelPoint1 = new Point2D.Double( positionLeft, minEnergy );
                 Point2D nodePoint1 = _chartNode.energyToNode( modelPoint1 );
                 Point2D globalPoint1 = _chartNode.localToGlobal( nodePoint1 );
 
-                Point2D modelPoint2 = new Point2D.Double( positionLeft, maxE );
+                Point2D modelPoint2 = new Point2D.Double( positionLeft, maxEnergy );
                 Point2D nodePoint2 = _chartNode.energyToNode( modelPoint2 );
                 Point2D globalPoint2 = _chartNode.localToGlobal( nodePoint2 );
 
-                Point2D modelPoint3 = new Point2D.Double( positionRight, minE );
+                Point2D modelPoint3 = new Point2D.Double( positionRight, minEnergy );
                 Point2D nodePoint3 = _chartNode.energyToNode( modelPoint3 );
                 Point2D globalPoint3 = _chartNode.localToGlobal( nodePoint3 );
 
-                Point2D modelPoint4 = new Point2D.Double( positionRight, maxE );
+                Point2D modelPoint4 = new Point2D.Double( positionRight, maxEnergy );
                 Point2D nodePoint4 = _chartNode.energyToNode( modelPoint4 );
                 Point2D globalPoint4 = _chartNode.localToGlobal( nodePoint4 );
 
