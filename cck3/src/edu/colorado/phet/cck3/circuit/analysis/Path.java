@@ -5,6 +5,8 @@ import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.cck3.circuit.components.Switch;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,6 +87,26 @@ public class Path {
             PathEntry pathEntry = (PathEntry)entries.get( i );
             if( pathEntry.getBranch() == out ) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsOpenSwitch() {
+        for( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry)entries.get( i );
+            if( pathEntry.getBranch() instanceof Switch ) {
+                Switch switchy = (Switch)pathEntry.getBranch();
+                if( !switchy.isClosed() ) {
+                    return true;
+                }
+            }
+            if( pathEntry.getBranch() instanceof Resistor )
+            {//todo workaround since Switch is getting mapped into Resistor somewhere
+                Resistor resistor = (Resistor)pathEntry.getBranch();
+                if( resistor.getResistance() == Switch.OPEN_RESISTANCE ) {
+                    return true;
+                }
             }
         }
         return false;

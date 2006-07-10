@@ -703,6 +703,17 @@ public class Circuit {
         return sum;
     }
 
+    public Inductor getInductor( int index ) {
+        ArrayList inductors = new ArrayList();
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch instanceof Inductor ) {
+                inductors.add( branch );
+            }
+        }
+        return (Inductor)inductors.get( index );
+    }
+
     public int getCapacitorCount() {
         int sum = 0;
         for( int i = 0; i < numBranches(); i++ ) {

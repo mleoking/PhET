@@ -180,8 +180,8 @@ public class SchematicCapacitor3DGraphic extends PhetGraphic implements HasCapac
         int numDown = (int)( L * alpha );
         double dw = w / numAcross;
         double dL = L / numDown;
-        int numShown = numAcross * numDown;
-        System.out.println( "q=" + capacitor.getCharge() + ", numShown = " + numShown );
+//        int numShown = numAcross * numDown;
+//        System.out.println( "q=" + capacitor.getCharge() + ", numShown = " + numShown );
 //        double widthSpan = dw * numAcross;
 //        double lengthSpan = dL * numDown;
 

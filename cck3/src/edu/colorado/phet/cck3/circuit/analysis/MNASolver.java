@@ -24,6 +24,7 @@ public class MNASolver extends CircuitSolver {
 //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
 //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
     private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
+    private KirkhoffSolver.MatrixTable matrixTable;
 
     public void apply( Circuit circuit ) {
 //        if( circuit.numBranches() < 2 ) {
@@ -102,8 +103,23 @@ public class MNASolver extends CircuitSolver {
             batteryAt( circuit, i ).setCurrent( -solution.getCurrent( i ) );//todo there is a minus sign here
             batteryAt( circuit, i ).setKirkhoffEnabled( true );
         }
+        dischargeBogusInductors( circuit );
         fireCircuitSolved();
+    }
 
+    private void dischargeBogusInductors( Circuit circuit ) {
+        matrixTable = new KirkhoffSolver.MatrixTable( circuit );
+        //Discharge all inductors not in a loop.
+        for( int i = 0; i < circuit.getInductorCount(); i++ ) {
+            Inductor inductor = circuit.getInductor( i );
+            if( !isInLoop( circuit, inductor ) ) {
+                inductor.discharge();
+            }
+        }
+    }
+
+    private boolean isInLoop( Circuit circuit, Inductor inductor ) {
+        return matrixTable.isLoopElementIncludingSwitches( inductor );
     }
 
     private Branch batteryAt( Circuit circuit, int i ) {

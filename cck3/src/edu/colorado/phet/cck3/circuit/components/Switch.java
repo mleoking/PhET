@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  */
 public class Switch extends CircuitComponent {
     boolean closed;
-    double OPEN_RESISTANCE = Double.parseDouble( "10E10" );
+    public static final double OPEN_RESISTANCE = Double.parseDouble( "10E10" );
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );

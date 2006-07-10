@@ -1,14 +1,12 @@
 ################################################
 #Remaining Work
 #######################
-Quantitative CCK can wait until after AAPT
-
 Quantitative graph values.
-floating graph needs units
 
-inductors should auto-discharge when not in a loop.
+Floating graph needs units.
 
-editing an inductor or capacitor should take effect immediately
+Editing an inductor or capacitor should take effect immediately.
+
 See faraday's AC source graphics
 
 o Get the time units to work out correctly.
@@ -16,7 +14,7 @@ o Get the time units to work out correctly.
 o Is the ac current (in a circuit with capacitor) symmetric?
     o If not, is the asymmetry correct?
 
-Quantitative numerical tests for RC, RLC Circuits, etc.
+Quantitative CCK can wait until after AAPT
 
 ################################################
 #Lower Priority
@@ -42,3 +40,5 @@ because wiggling an element or node changes the number of blue balls
 (according to its length).
 
 o Set node voltages from the MNA, then use that to compute voltmeter readouts (instead of complex and error-prone graph theory computation).
+
+Quantitative numerical tests for RC, RLC Circuits, etc.

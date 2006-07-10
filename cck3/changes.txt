@@ -3,6 +3,7 @@ Improved graphics for the voltage strip chart.
 Strip charts start reading from the right.
 Strip charts maintain the correct time-range.
 Strip charts show a gap in the data when not taking data.
+Inductors auto-discharge when not in a loop.
 Capacitors
     Capacitor charges are be blue for negative, red for positive.
     Square plates are 3d
