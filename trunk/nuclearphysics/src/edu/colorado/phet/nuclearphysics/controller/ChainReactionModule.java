@@ -173,6 +173,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchAngle );
         startingNumU235 = u235Nuclei.size();
         neutrons.add( neutron );
+        neutron.addListener( new NeutronRemover() );
         addNeutron( neutron );
 
         neutronFiredListenerProxy.neutronFired( new NeutronFiredEvent( this ) );
@@ -200,11 +201,13 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             neutrons.add( neutronProducts[i] );
-            neutronProducts[i].addListener( new NuclearModelElement.Listener() {
-                public void leavingSystem( NuclearModelElement nme ) {
-                    getPhysicalPanel().removeGraphic( npg );
-                }
-            } );
+            neutronProducts[i].addListener( new NeutronRemover( npg ));
+//            neutronProducts[i].addListener( new NuclearModelElement.Listener() {
+//                public void leavingSystem( NuclearModelElement nme ) {
+//                    getPhysicalPanel().removeGraphic( npg );
+//                }
+//            } );
+//            neutronProducts[i].addListener( new NeutronRemover( npg ) );
         }
 
         // Add some pizzazz
@@ -280,6 +283,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         }
     }
 
+
     //--------------------------------------------------------------------------------------------------
     // ChangeListener definition
     //--------------------------------------------------------------------------------------------------
@@ -309,4 +313,21 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         }
     }
 
+    private class NeutronRemover implements NuclearModelElement.Listener {
+        private NeutronGraphic ng;
+
+        public NeutronRemover() {
+        }
+
+        public NeutronRemover( NeutronGraphic ng ) {
+            this.ng = ng;
+        }
+
+        public void leavingSystem( NuclearModelElement nme ) {
+            neutrons.remove( nme );
+            if( ng != null ) {
+                getPhysicalPanel().removeGraphic( ng );
+            }
+        }
+    }
 }

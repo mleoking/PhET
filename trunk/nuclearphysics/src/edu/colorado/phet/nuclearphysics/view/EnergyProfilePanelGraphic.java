@@ -135,28 +135,27 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         super( component );
         this.profileType = profileType;
         if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
-        this.yAxisLabels = totalEnergyyAxisLabels;
+            this.yAxisLabels = totalEnergyyAxisLabels;
         }
         else if( profileType == EnergyProfileGraphic.POTENTIAL_ENERGY ) {
             this.yAxisLabels = potentialEnergyyAxisLabels;
         }
         else {
-            throw new IllegalArgumentException( "bad profile type");
+            throw new IllegalArgumentException( "bad profile type" );
         }
 
         RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 50, 50 );
         backgroundGraphic = new PhetShapeGraphic( component,
                                                   border,
-                                                  EnergyProfilePanelGraphic.backgroundColor
-//                                                               new BasicStroke( 10 ),
-//                                                               Color.gray );
-        );
+                                                  EnergyProfilePanelGraphic.backgroundColor,
+                                                  new BasicStroke( 10 ),
+                                                  Color.gray );
         addGraphic( backgroundGraphic, 0 );
 
-        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
-        addGraphic( bezel, 1E9 );
+//        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
+//        addGraphic( bezel, 1E9 );
 
-        setClip( bezel.getBounds() );
+//        setClip( bezel.getBounds() );
 //        setClip( border );
     }
 
@@ -353,7 +352,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
                 dy = -( yAxisLabelBounds.getWidth() + 25 );
             }
             g2.drawString( yAxisLabels[0], (int)( dy ), -10 + yAxisXLoc );
-            g2.drawString( yAxisLabels[1], (int)( dy ), -10 + yAxisXLoc + 25);
+            g2.drawString( yAxisLabels[1], (int)( dy ), -10 + yAxisXLoc + 25 );
             g2.setTransform( orgTx );
 
             // x axis

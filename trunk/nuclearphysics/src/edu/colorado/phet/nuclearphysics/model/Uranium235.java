@@ -121,40 +121,6 @@ public class Uranium235 extends ProfileableNucleus {
      */
     public void stepInTime( double dt ) {
 
-        // See if any of the alpha particles has escaped, and initiate alpha decay if it has
-//        for( int j = 0; j < alphaParticles.length; j++ ) {
-//            AlphaParticle alphaParticle = alphaParticles[j];
-//            if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
-//                > getEnergyProfile().getAlphaDecayX() * getEnergyProfile().getAlphaDecayX() ) {
-//
-//                if( !preDecayStep ) {
-//                    for( int i = 0; i < preDecayListeners.size(); i++ ) {
-//                        PreDecayListener decayListener = (PreDecayListener)preDecayListeners.get( i );
-//                        decayListener.alphaDecayOnNextTimeStep();
-//                    }
-//                    preDecayStep = true;
-//                    return;
-//                }
-//
-//                // set the alpha particle directly on the profile
-////                double d = alphaParticle.getPosition().distance( this.getPosition() );
-////                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
-////                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
-////                dx *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
-////                dy *= this.getEnergyProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
-////                alphaParticle.setPotential( getEnergyProfile().getHillY( getEnergyProfile().getAlphaDecayX() ) );
-////                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
-////                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
-//
-//                AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
-//                for( int i = 0; i < decayListeners.size(); i++ ) {
-//                    DecayListener decayListener = (DecayListener)decayListeners.get( i );
-//                    decayListener.alphaDecay( decayProducts, new AlphaDecaySnapshot( model ) );
-//                }
-//                return;
-//            }
-//        }
-
         super.stepInTime( dt );
 
         // Handle fission morphing
