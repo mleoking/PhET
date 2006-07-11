@@ -28,7 +28,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BSCoulomb1DSpacingMarker
+ * BSCoulomb1DSpacingMarker is used to indicate the spacing between two
+ * 1D Coulomb wells. 2 vertical dashed lines are drawn through the centers
+ * of the 2 wells that are closest to the origin.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -56,6 +58,12 @@ public class BSCoulomb1DSpacingMarker extends BSAbstractMarker implements Observ
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param chartNode
+     */
     public BSCoulomb1DSpacingMarker( BSCoulomb1DPotential potential, BSCombinedChartNode chartNode) {
         super();
  
@@ -83,6 +91,9 @@ public class BSCoulomb1DSpacingMarker extends BSAbstractMarker implements Observ
     // BSAbstractMarker implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the marker to match the model.
+     */
     public void updateView() {
         assert( _potential.getCenter() == 0 );
         
@@ -143,6 +154,11 @@ public class BSCoulomb1DSpacingMarker extends BSAbstractMarker implements Observ
         _rightNode.setPathTo( _rightPath );
     }
     
+    /**
+     * Sets the color scheme.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
         _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
         _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );

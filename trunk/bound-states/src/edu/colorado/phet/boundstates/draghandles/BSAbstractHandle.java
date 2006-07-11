@@ -294,6 +294,11 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
     //----------------------------------------------------------------------------
     
     /*
+     * Updates the drag bounds.
+     */
+    protected abstract void updateDragBounds();
+    
+    /*
      * Updates the model to match the drag handle.
      */
     protected abstract void updateModel();
@@ -302,11 +307,6 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
      * Updates the drag handle to match the model.
      */
     protected abstract void updateView();
-    
-    /*
-     * Updates the drag bounds.
-     */
-    protected abstract void updateDragBounds();
     
     //----------------------------------------------------------------------------
     // PropertChangeListener implementation

@@ -24,37 +24,37 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * BSHarmonicOscillatorAngularFrequencyHandle
+ * BSHarmonicOscillatorAngularFrequencyHandle is the drag handle used to 
+ * control the angular frequency attribute of a potential composed of a 
+ * single harmonic oscillator well.
+ * <p>
+ * The handle is placed at a height V0 up the left side of the well.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorAngularFrequencyHandle extends BSAbstractHandle implements Observer {
+public class BSHarmonicOscillatorAngularFrequencyHandle extends BSPotentialHandle {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double V0 = 4;
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    private BSHarmonicOscillatorPotential _potential;
+    // Handle is placed at this height up the left edge of the well.
+    private static final double V0 = 4; // eV
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSHarmonicOscillatorAngularFrequencyHandle( BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( BSAbstractHandle.HORIZONTAL );
-        
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
-        setPotential( potential );
+        super( potential, potentialSpec, chartNode, BSAbstractHandle.HORIZONTAL );
         
         int significantDecimalPlaces = potentialSpec.getAngularFrequencyRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
@@ -63,61 +63,38 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends BSAbstractHandle
         
         updateDragBounds();
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSHarmonicOscillatorPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public BSHarmonicOscillatorPotential getPotential() {
-        return _potential;
-    }
-    
-    private double angularFrequencyToWidth( double af ) {
-        final double m = _potential.getParticle().getMass();
-        final double xd = Math.sqrt( ( 2 * V0 ) / ( m * af * af ) );
-        return 2 * xd;
-    }
-    
-    private double widthToAngularFrequency( double width ) {
-        final double m = _potential.getParticle().getMass();
-        final double xd = width / 2;
-        return Math.sqrt( ( 2 * V0 ) / ( m * xd * xd ) );
-    }
     
     //----------------------------------------------------------------------------
-    // Bounds
+    // AbstractDragHandle implementation
     //----------------------------------------------------------------------------
     
     /**
      * Updates the drag bounds.
      */
     public void updateDragBounds() {
-        assert( _potential.getNumberOfWells() == 1 ); // single well only!
-        assert( _potential.getCenter() == 0 ); // center at zero
+        
+        BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        assert( potential.getNumberOfWells() == 1 ); // single well only!
+        assert( potential.getCenter() == 0 ); // center at zero
         
         // position -> x coordinates
-        final double minAngularFrequency = _potentialSpec.getAngularFrequencyRange().getMin();
-        final double maxAngularFrequency = _potentialSpec.getAngularFrequencyRange().getMax();
-        final double minPosition = -( angularFrequencyToWidth( minAngularFrequency ) / 2 );
-        final double maxPosition = -( angularFrequencyToWidth( maxAngularFrequency ) / 2 );
-        final double minX = _chartNode.positionToNode( minPosition );
-        final double maxX = _chartNode.positionToNode( maxPosition );
+        final double minAngularFrequency = spec.getAngularFrequencyRange().getMin();
+        final double maxAngularFrequency = spec.getAngularFrequencyRange().getMax();
+        final double mass = potential.getParticle().getMass();
+        final double minPosition = -( angularFrequencyToWidth( minAngularFrequency, mass ) / 2 );
+        final double maxPosition = -( angularFrequencyToWidth( maxAngularFrequency, mass ) / 2 );
+        final double minX = chartNode.positionToNode( minPosition );
+        final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        ValueAxis yAxis = chartNode.getEnergyPlot().getRangeAxis();
         final double minEnergy = yAxis.getLowerBound();
         final double maxEnergy =  yAxis.getUpperBound();
-        final double minY = _chartNode.energyToNode( maxEnergy );
-        final double maxY = _chartNode.energyToNode( minEnergy );
+        final double minY = chartNode.energyToNode( maxEnergy );
+        final double maxY = chartNode.energyToNode( minEnergy );
         
         // bounds, local coordinates
         final double w = maxX - minX;
@@ -126,50 +103,56 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends BSAbstractHandle
 //        System.out.println( "BSHarmonicOscillatorWidthHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
 
         // Convert to global coordinates
-        dragBounds = _chartNode.localToGlobal( dragBounds );
+        dragBounds = chartNode.localToGlobal( dragBounds );
 
         setDragBounds( dragBounds );
         updateView();
     }
     
-    //----------------------------------------------------------------------------
-    // AbstractDragHandle implementation
-    //----------------------------------------------------------------------------
-    
+    /**
+     * Updates the model to match the drag handle.
+     */
     protected void updateModel() {
-        assert( _potential.getNumberOfWells() == 1 ); // single well only!
-        assert( _potential.getCenter() == 0 ); // center at zero
+
+        BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
         
-        _potential.deleteObserver( this );
+        potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
             
             final double width = 2 * Math.abs( modelPoint.getX() );
-            final double angularFrequency = widthToAngularFrequency( width );
+            final double mass = potential.getParticle().getMass();
+            final double angularFrequency = widthToAngularFrequency( width, mass );
             
 //            System.out.println( "BSHarmonicOscillatorWidthHandle.updateModel x=" + globalNodePoint.getX() + " width=" + width + " angularFrequency=" + angularFrequency );//XXX
-            _potential.setAngularFrequency( angularFrequency );
+            potential.setAngularFrequency( angularFrequency );
             setValueDisplay( angularFrequency );
         }
-        _potential.addObserver( this );
+        potential.addObserver( this );
     }
 
+    /**
+     * Updates the drag handle to match the model.
+     */
     protected void updateView() {
-        assert( _potential.getNumberOfWells() == 1 ); // single well only!
-        assert( _potential.getCenter() == 0 ); // center at zero
+
+        BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
-            final double angularFrequency = _potential.getAngularFrequency();
-            final double width = angularFrequencyToWidth( angularFrequency );
+            final double angularFrequency = potential.getAngularFrequency();
+            final double mass = potential.getParticle().getMass();
+            final double width = angularFrequencyToWidth( angularFrequency, mass );
  
             final double position = -( width / 2 ); // right edge of the well
-            final double offset = _potential.getOffset();
+            final double offset = potential.getOffset();
             Point2D modelPoint = new Point2D.Double( position, offset + V0 );
-            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
 //            System.out.println( "BSHarmonicOscillatorWidthHandle.updateView angularFrequency=" + angularFrequency + " width=" + width + " x=" + globalNodePoint.getX() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( angularFrequency );
@@ -178,17 +161,28 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends BSAbstractHandle
     }
 
     //----------------------------------------------------------------------------
-    // Observer implementation
+    // Conversion utilities
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the view when the model changes.
-     * @param o
-     * @param arg
+    /*
+     * Converts angular frequency to width.
+     * 
+     * @param af
+     * @return
      */
-    public void update( Observable o, Object arg ) {
-        assert( o == _potential );
-        updateDragBounds();
-        updateView();
+    private static double angularFrequencyToWidth( double af, double mass ) {
+        final double xd = Math.sqrt( ( 2 * V0 ) / ( mass * af * af ) );
+        return 2 * xd;
+    }
+    
+    /*
+     * Converts width to angular frequency.
+     * 
+     * @param width
+     * @return
+     */
+    private static double widthToAngularFrequency( double width, double mass ) {
+        final double xd = width / 2;
+        return Math.sqrt( ( 2 * V0 ) / ( mass * xd * xd ) );
     }
 }

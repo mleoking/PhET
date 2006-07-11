@@ -26,73 +26,60 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * BSCoulomb1DSpacingHandle
+ * BSCoulomb1DSpacingHandle is the drag handle used to control the 
+ * spacing attribute of a potential composed of 1D Coulomb wells.
+ * <p>
+ * A vertical marker (instantiated by this handles drag manager)
+ * places 2 vertical dashed lines through the centers of the 
+ * 2 wells that are closest to the origin.
+ * The handle is attached on the rightmost of these vertical lines,
+ * just below the offset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observer, AxisChangeListener {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    private BSCoulomb1DPotential _potential;
+public class BSCoulomb1DSpacingHandle extends BSPotentialHandle {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSCoulomb1DSpacingHandle( BSCoulomb1DPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( BSAbstractHandle.HORIZONTAL );
-        
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
-        setPotential( potential );
+        super( potential, potentialSpec, chartNode, BSAbstractHandle.HORIZONTAL );
         
         int significantDecimalPlaces = potentialSpec.getSpacingRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
         setValuePattern( SimStrings.get( "drag.spacing" ) );
         
-        // 1D Coulomb has a zoom control
-        chartNode.getEnergyPlot().getRangeAxis().addChangeListener( this );
-        
         updateDragBounds();
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractDragHandle implementation
+    //----------------------------------------------------------------------------
 
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSCoulomb1DPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public BSCoulomb1DPotential getPotential() {
-        return _potential;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Bounds
-    //----------------------------------------------------------------------------
-    
     /**
      * Updates the drag bounds.
      */
     public void updateDragBounds() {
-        assert( _potential.getCenter() == 0 );
         
-        final int n = _potential.getNumberOfWells();
-        double minSpacing = _potentialSpec.getSpacingRange().getMin();
-        double maxSpacing = _potentialSpec.getSpacingRange().getMax();
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        assert( potential.getCenter() == 0 );
+        
+        final int n = potential.getNumberOfWells();
+        double minSpacing = spec.getSpacingRange().getMin();
+        double maxSpacing = spec.getSpacingRange().getMax();
         double minPosition = 0;
         double maxPosition = 0;
         if ( n % 2 == 0 ) {
@@ -107,15 +94,15 @@ public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observ
         }
         
         // position -> x coordinates
-        final double minX = _chartNode.positionToNode( minPosition );
-        final double maxX = _chartNode.positionToNode( maxPosition );
+        final double minX = chartNode.positionToNode( minPosition );
+        final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        ValueAxis yAxis = chartNode.getEnergyPlot().getRangeAxis();
         final double minEnergy = yAxis.getLowerBound();
         final double maxEnergy =  yAxis.getUpperBound();
-        final double minY = _chartNode.energyToNode( maxEnergy );
-        final double maxY = _chartNode.energyToNode( minEnergy );
+        final double minY = chartNode.energyToNode( maxEnergy );
+        final double maxY = chartNode.energyToNode( minEnergy );
         
         // bounds, local coordinates
         final double w = maxX - minX;
@@ -123,28 +110,29 @@ public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observ
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
 
         // Convert to global coordinates
-        dragBounds = _chartNode.localToGlobal( dragBounds );
+        dragBounds = chartNode.localToGlobal( dragBounds );
 
         setDragBounds( dragBounds );
         updateView();
     }
-    
-    //----------------------------------------------------------------------------
-    // AbstractDragHandle implementation
-    //----------------------------------------------------------------------------
 
+    /**
+     * Updates the model to match the drag handle.
+     */
     protected void updateModel() {
-        assert ( _potential.getCenter() == 0 );
+       
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
 
-        _potential.deleteObserver( this );
+        potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
             final double d = modelPoint.getX();
 
             double spacing = 0;
-            final int n = _potential.getNumberOfWells();
+            final int n = potential.getNumberOfWells();
             if ( n % 2 == 0 ) {
                 // even number of wells
                 spacing = 2 * d;
@@ -154,20 +142,25 @@ public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observ
                 spacing = d;
             }
             
-            _potential.setSpacing( spacing );
+            potential.setSpacing( spacing );
             setValueDisplay( spacing );
         }
-        _potential.addObserver( this );
+        potential.addObserver( this );
         updateDragBounds();
     }
     
+    /**
+     * Updates the drag handle to match the model.
+     */
     protected void updateView() {
-        assert( _potential.getCenter() == 0 );
+
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
-            final double spacing = _potential.getSpacing();
-            final int n = _potential.getNumberOfWells();
+            final double spacing = potential.getSpacing();
+            final int n = potential.getNumberOfWells();
             double position = 0;
             if ( n % 2 == 0 ) {
                 // even number of wells
@@ -178,36 +171,13 @@ public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observ
                 position = spacing;
             }
             
-            final double energy = _potential.getOffset() - 5;
+            final double energy = potential.getOffset() - 5;
             Point2D modelPoint = new Point2D.Double( position, energy );
-            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
             setGlobalPosition( globalNodePoint );
             setValueDisplay( spacing );
         }
         addPropertyChangeListener( this );
-    }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the view when the model changes.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        assert( o == _potential );
-        updateDragBounds();
-        updateView();
-    }
-    
-    //----------------------------------------------------------------------------
-    // AxisChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    public void axisChanged( AxisChangeEvent event ) {
-        updateDragBounds();
     }
 }

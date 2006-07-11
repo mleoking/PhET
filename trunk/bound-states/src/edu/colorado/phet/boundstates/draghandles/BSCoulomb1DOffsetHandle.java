@@ -17,38 +17,38 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * BSCoulomb1DOffsetHandle
+ * BSCoulomb1DOffsetHandle is the drag handle used to control the 
+ * offset attribute of a potential composed of 1D Coulomb wells.
+ * <p>
+ * The handle is attached at the offset energy, towards the right
+ * edge of the plot.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DOffsetHandle extends BSAbstractHandle implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    private BSCoulomb1DPotential _potential;
+public class BSCoulomb1DOffsetHandle extends BSPotentialHandle {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSCoulomb1DOffsetHandle( BSCoulomb1DPotential potential, 
             BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( BSAbstractHandle.VERTICAL );
-        
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
-        setPotential( potential );
+        super( potential, potentialSpec, chartNode, BSAbstractHandle.VERTICAL );
         
         int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
@@ -57,26 +57,9 @@ public class BSCoulomb1DOffsetHandle extends BSAbstractHandle implements Observe
         
         updateDragBounds();
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSCoulomb1DPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public BSCoulomb1DPotential getPotential() {
-        return _potential;
-    }
     
     //----------------------------------------------------------------------------
-    // Bounds
+    // AbstractDragHandle implementation
     //----------------------------------------------------------------------------
     
     /**
@@ -84,17 +67,23 @@ public class BSCoulomb1DOffsetHandle extends BSAbstractHandle implements Observe
      */
     public void updateDragBounds() {
         
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        assert( potential.getCenter() == 0 );
+        
         //  position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
         final double maxPosition = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
-        final double minX = _chartNode.positionToNode( minPosition );
-        final double maxX = _chartNode.positionToNode( maxPosition );
+        final double minX = chartNode.positionToNode( minPosition );
+        final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        final double minEnergy = _potentialSpec.getOffsetRange().getMin();
-        final double maxEnergy =  _potentialSpec.getOffsetRange().getMax();
-        final double minY = _chartNode.energyToNode( maxEnergy );
-        final double maxY = _chartNode.energyToNode( minEnergy );
+        final double minEnergy = spec.getOffsetRange().getMin();
+        final double maxEnergy =  spec.getOffsetRange().getMax();
+        final double minY = chartNode.energyToNode( maxEnergy );
+        final double maxY = chartNode.energyToNode( minEnergy );
         
         // bounds, local coordinates
         final double w = maxX - minX;
@@ -102,56 +91,52 @@ public class BSCoulomb1DOffsetHandle extends BSAbstractHandle implements Observe
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
 
         // Convert to global coordinates
-        dragBounds = _chartNode.localToGlobal( dragBounds );
+        dragBounds = chartNode.localToGlobal( dragBounds );
 
         setDragBounds( dragBounds );
         updateView();
     }
     
-    //----------------------------------------------------------------------------
-    // AbstractDragHandle implementation
-    //----------------------------------------------------------------------------
-    
+    /**
+     * Updates the model to match the drag handle.
+     */
     protected void updateModel() {
-        _potential.deleteObserver( this );
+        
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
             final double offset = modelPoint.getY();
 //            System.out.println( "BSCoulomb1DOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
-            _potential.setOffset( offset );
+            potential.setOffset( offset );
             setValueDisplay( offset );
         }
-        _potential.addObserver( this );
+        potential.addObserver( this );
     }
 
+    /**
+     * Updates the drag handle to match the model.
+     */
     protected void updateView() {
+        
+        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+        
         removePropertyChangeListener( this );
         {
             final double position = BSConstants.POSITION_VIEW_RANGE.getUpperBound() - 1.25;
-            final double offset = _potential.getOffset();
+            final double offset = potential.getOffset();
             Point2D modelPoint = new Point2D.Double( position, offset );
-            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
 //            System.out.println( "BSCoulomb1DOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( offset );
         }
         addPropertyChangeListener( this );
-    }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the view when the model changes.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        assert( o == _potential );
-        updateView();
     }
 }

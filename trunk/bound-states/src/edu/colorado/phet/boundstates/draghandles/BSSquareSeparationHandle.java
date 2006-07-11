@@ -24,31 +24,33 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * BSSquareSeparationHandle
+ * BSSquareSeparationHandle is the drag handle used to control the 
+ * separation attribute of a potential composed of square wells.  
+ * <p>
+ * A vertical marker (instantiated by this handles drag manager)
+ * places 2 vertical dashed lines through the right and left edges
+ * of two adjacent wells.  The wells closest to the origin are used.
+ * The handle is attached on the rightmost of these vertical lines,
+ * just above the offset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareSeparationHandle extends BSAbstractHandle implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    private BSSquarePotential _potential;
+public class BSSquareSeparationHandle extends BSPotentialHandle {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSSquareSeparationHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( BSAbstractHandle.HORIZONTAL );
-        
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
-        setPotential( potential );
+        super( potential, potentialSpec, chartNode, BSAbstractHandle.HORIZONTAL );
         
         int significantDecimalPlaces = potentialSpec.getSeparationRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
@@ -57,26 +59,9 @@ public class BSSquareSeparationHandle extends BSAbstractHandle implements Observ
         
         updateDragBounds();
     }
-
+     
     //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSSquarePotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public BSSquarePotential getPotential() {
-        return _potential;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Bounds
+    // AbstractDragHandle implementation
     //----------------------------------------------------------------------------
     
     /**
@@ -84,12 +69,18 @@ public class BSSquareSeparationHandle extends BSAbstractHandle implements Observ
      */
     public void updateDragBounds() {
         
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        assert ( potential.getCenter() == 0 );
+        
         // position -> x coordinates
-        final double minSeparation = _potentialSpec.getSeparationRange().getMin();
-        final double maxSeparation = _potentialSpec.getSeparationRange().getMax();
+        final double minSeparation = spec.getSeparationRange().getMin();
+        final double maxSeparation = spec.getSeparationRange().getMax();
         double minPosition = 0;
         double maxPosition = 0;
-        final int n = _potential.getNumberOfWells();
+        final int n = potential.getNumberOfWells();
         if ( n % 2 == 0 ) {
             // even number of wells
             minPosition = minSeparation / 2;
@@ -97,19 +88,19 @@ public class BSSquareSeparationHandle extends BSAbstractHandle implements Observ
         }
         else {
             // odd number of wells
-            final double width = _potential.getWidth();
+            final double width = potential.getWidth();
             minPosition = ( width / 2 ) + minSeparation;
             maxPosition = ( width / 2 ) + maxSeparation;
         } 
-        final double minX = _chartNode.positionToNode( minPosition );
-        final double maxX = _chartNode.positionToNode( maxPosition );
+        final double minX = chartNode.positionToNode( minPosition );
+        final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        ValueAxis yAxis = chartNode.getEnergyPlot().getRangeAxis();
         final double minEnergy = yAxis.getLowerBound();
         final double maxEnergy =  yAxis.getUpperBound();
-        final double minY = _chartNode.energyToNode( maxEnergy );
-        final double maxY = _chartNode.energyToNode( minEnergy );
+        final double minY = chartNode.energyToNode( maxEnergy );
+        final double maxY = chartNode.energyToNode( minEnergy );
         
         // bounds, local coordinates
         final double w = maxX - minX;
@@ -117,27 +108,28 @@ public class BSSquareSeparationHandle extends BSAbstractHandle implements Observ
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
 
         // Convert to global coordinates
-        dragBounds = _chartNode.localToGlobal( dragBounds );
+        dragBounds = chartNode.localToGlobal( dragBounds );
 
         setDragBounds( dragBounds );
         updateView();
     }
-    
-    //----------------------------------------------------------------------------
-    // AbstractDragHandle implementation
-    //----------------------------------------------------------------------------
 
+    /**
+     * Updates the model to match the drag handle.
+     */
     protected void updateModel() {
-        assert ( _potential.getCenter() == 0 );
-
-        _potential.deleteObserver( this );
+        
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
             final double handlePosition = modelPoint.getX();
 
-            final int n = _potential.getNumberOfWells();
+            final int n = potential.getNumberOfWells();
             double separation = 0;
             if ( n % 2 == 0 ) {
                 // even number of wells
@@ -145,56 +137,48 @@ public class BSSquareSeparationHandle extends BSAbstractHandle implements Observ
             }
             else {
                 // odd number of wells
-                final double width = _potential.getWidth();
+                final double width = potential.getWidth();
                 separation = handlePosition - ( width / 2 );
             }
 
-            _potential.setSeparation( separation );
+            potential.setSeparation( separation );
             setValueDisplay( separation );
         }
-        _potential.addObserver( this );
+        potential.addObserver( this );
     }
     
+    /**
+     * Updates the drag handle to match the model.
+     */
     protected void updateView() {
+        
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+        
         removePropertyChangeListener( this );
         {
             double handlePosition = 0;
-            final double separation = _potential.getSeparation();
-            final int n = _potential.getNumberOfWells();
+            final double separation = potential.getSeparation();
+            final int n = potential.getNumberOfWells();
             if ( n % 2 == 0 ) {
                 // even number of wells
                 handlePosition = separation / 2;
             }
             else {
                 // odd number of wells
-                final double width = _potential.getWidth();
+                final double width = potential.getWidth();
                 handlePosition = ( width / 2 )  + separation;
             }
             
-            final double offset = _potential.getOffset();
-            final double height = _potential.getHeight();
+            final double offset = potential.getOffset();
+            final double height = potential.getHeight();
             final double handleEnergy = offset + height + 1;
             Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
-            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
             setGlobalPosition( globalNodePoint );
             setValueDisplay( separation );
         }
         addPropertyChangeListener( this );
-    }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the view when the model changes.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        assert( o == _potential );
-        updateDragBounds();
-        updateView();
     }
 }
