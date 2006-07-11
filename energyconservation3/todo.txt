@@ -4,6 +4,12 @@ Remaining Work
 
 Bug: Wiggle me appears when K.P moves the slider.
 
+I found a bug with the wiggle me for the jet pack. 
+When I go to space or set gravity to zero, if I don't use the arrows before I hit RESET, 
+they don't work. For example, if you go to space and then hit Reset, the arrows work the far right slider.
+
+Jet pack isn't visible after reset.
+
 #################################################################
 Low Priority
 #######################################
