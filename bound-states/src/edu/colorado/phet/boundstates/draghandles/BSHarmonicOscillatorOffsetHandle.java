@@ -73,7 +73,7 @@ public class BSHarmonicOscillatorOffsetHandle extends BSPotentialHandle {
         BSCombinedChartNode chartNode = getChartNode();
         
         if ( potential.getCenter() != 0 || potential.getNumberOfWells() != 1 ) {
-            throw new UnsupportedOperationException( "this code only supports 1 well centered at 0" );
+            throw new UnsupportedOperationException( "this implementation only supports 1 well centered at 0" );
         }
         
         //  position -> x coordinates
