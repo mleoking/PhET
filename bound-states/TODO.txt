@@ -3,25 +3,24 @@
 ===============================================================================
 
 IN PROGRESS:
+
+HIGH PRIORITY:
 - bug: harmonic oscillator offset drag handle sometimes doesn't get mouse events
 - bug: some drag handles can be dragged past min/max
 - wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - drag handles are sluggish, improve responsiveness
 - pause the clock while dragging handles
 
-HIGH PRIORITY:
-- at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
-
 MEDIUM PRIORITY:
 - attach a help item to one of the potential drag handles
+- at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 LOW PRIORITY:
-- wiggle me animation is jerky on some machines
-- bug: plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases
+- wiggle me animation is jerky on some slower machines
 - make plots in bottom chart look smoother on Windows
 - refactor classes that have gotten too big (eg, BSAbstractModule)
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
-- incorrect hand cursor: move mouse from Energy chart to control panel to bottom chart
+- incorrect hand cursor: to reproduce, move mouse from Energy chart to control panel to bottom chart
 
 CLEANUP:
 - javadoc all code
@@ -464,6 +463,7 @@ DONE:
 
 
 REJECTED:
+(7/11/06) - plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases (no one has ever noticed this, hard to fix)
 (7/11/06) - make offset drag handles looks "different" (not necessary)
 (7/11/06) - some drag handle values get clipped by the chart (OK as is)
 (7/3/06) - redraw problem when dragging mag glass in "Many" panel with 1D Coulomb and Help enabled (occurs only on Windows with Java 1.5.0_6)
