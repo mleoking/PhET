@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(7/10/06) - change square separation markers so that they only draw above the potential
 (7/10/06) - change drag handle "normal" color to light purple
 (7/10/06) - change BSAbstractHandleManager.updateDragBounds to updateLayout
 (7/10/06) - use PClip node to clip drag handles to energy chart
