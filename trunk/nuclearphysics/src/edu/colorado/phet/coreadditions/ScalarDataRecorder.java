@@ -11,26 +11,25 @@
 package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.EventListener;
+import javax.swing.Timer;
+import java.util.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
  * ScalarDataRecorder
- * <p>
+ * <p/>
  * Records events in which a scalar datum is recorded at specific time intervals.
- * <p>
+ * <p/>
  * Data are collected over a sliding window of time whose width is settable. The default
  * width is 5 msec (simulation clock time).
- * <p>
+ * <p/>
  * The recorder computes the average of the recorded scalars on a periodic basis. The
  * default period is .5 sec (wall time).
- * <p>
+ * <p/>
  * Objects can subscribe for UpdateEvents from instances of this class by adding themselves
  * as implementers of ScalarDataRecorder.UpdateListener
  *
@@ -46,15 +45,12 @@ public class ScalarDataRecorder {
     private double timeSpanOfEntries;
     private IClock clock;
 
-    public ScalarDataRecorder( IClock clock ) {
-        this.clock = clock;
-    }
-
     /**
+     * Constructor
      *
      * @param clock
-     * @param updatePeriod  The interval, in msec (wall time), between updates to the statistics
-     * reported by the ScalarDataRecorder
+     * @param updatePeriod The interval, in msec (wall time), between updates to the statistics
+     *                     reported by the ScalarDataRecorder
      */
     public ScalarDataRecorder( IClock clock, double timeWindow, int updatePeriod ) {
         this.clock = clock;
@@ -159,9 +155,8 @@ public class ScalarDataRecorder {
         IClock clock;
 
         /**
-         *
          * @param updatePeriod The number of msec between times that the
-         * data statistics are computed
+         *                     data statistics are computed
          */
         public PeriodicDataComputer( int updatePeriod ) {
             this.timer = new Timer( updatePeriod, new ActionListener() {
@@ -205,4 +200,45 @@ public class ScalarDataRecorder {
     public void removeUpdateListener( UpdateListener listener ) {
         updateEventChannel.removeListener( listener );
     }
+
+    /**
+     * Test driver
+     */
+    public static void main( String[] args ) {
+        IClock clock = new SwingClock( 40, 1 );
+        final ScalarDataRecorder sdr = new ScalarDataRecorder( clock, 10, 1000 );
+
+        // Attach a listener that will print out the recorder's statistics
+        sdr.addUpdateListener( new UpdateListener() {
+            public void update( UpdateEvent event ) {
+                double total = sdr.getDataTotal();
+                double ave = sdr.getDataAverage();
+                double num = sdr.getNumEntries();
+                double span = sdr.getTimeSpanOfEntries();
+
+                System.out.println( "total = " + total + "\tave = " + ave + "\tnum = " + num + "\tspan = " + span );
+
+            }
+        } );
+
+        // A thread to create data
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                Random random = new Random( );
+                while( true ) {
+                    try {
+                        Thread.sleep( 3 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    sdr.addDataRecordEntry( random.nextGaussian() );
+                }
+            }
+        } );
+        t.start();
+
+        clock.start();
+    }
+
 }

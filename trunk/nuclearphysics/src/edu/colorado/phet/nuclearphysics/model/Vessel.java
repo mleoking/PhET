@@ -58,7 +58,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     public Vessel( double x, double y, double width, double height, int numChannels,
                    NuclearPhysicsModel model, IClock clock ) {
         this.model = model;
-        this.temperatureRecorder = new ScalarDataRecorder( clock, 50, Config.VESSEL_TEMPERATURE_UPDATE_PERIOD  );
+        this.temperatureRecorder = new ScalarDataRecorder( clock, 100, Config.VESSEL_TEMPERATURE_UPDATE_PERIOD  );
         temperatureRecorder.addUpdateListener( this );
         this.rodChannels = new Rectangle2D[numChannels];
         this.boundary = new Rectangle2D.Double( x, y, width, height );

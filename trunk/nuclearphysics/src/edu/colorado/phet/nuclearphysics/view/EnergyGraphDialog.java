@@ -90,7 +90,7 @@ public class EnergyGraphDialog extends JDialog {
     //----------------------------------------------------------------
 
     private class EnergyRatePanel extends JPanel implements Vessel.ChangeListener {
-        private double scale = 0.4;
+        private double scale = 2;
 
         public EnergyRatePanel() {
             super( null );
