@@ -73,6 +73,21 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         
         int dataSetIndex = 0;
         
+        // Potential series
+        _potentialSeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
+        {
+            _potentialIndex = dataSetIndex++;
+            // Dataset
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _potentialSeries );
+            setDataset( _potentialIndex, dataset );
+            // Renderer
+            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
+            renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
+            setRenderer( _potentialIndex, renderer );
+        }
+        
         // "Hilited" eigenstates series
         _hilitedEigenstateSeries = new XYSeries( "hilited eigenstates", false /* autoSort */ );
         {
@@ -116,21 +131,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
             renderer.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
             setRenderer( _normalEigenstateIndex, renderer );
-        }
-        
-        // Potential series
-        _potentialSeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
-        {
-            _potentialIndex = dataSetIndex++;
-            // Dataset
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _potentialSeries );
-            setDataset( _potentialIndex, dataset );
-            // Renderer
-            XYItemRenderer renderer = BSRendererFactory.createCurveRenderer();
-            renderer.setPaint( BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
-            renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
-            setRenderer( _potentialIndex, renderer );
         }
 
         // X axis 
