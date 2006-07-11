@@ -26,7 +26,8 @@ Controlled Reaction panel.
 - AlphaDecay class specifically specifies the type of the daughter. This isn't good.
 - Every nucleus is getting a Profile instance. They don't all need one!!!
 
-?	anti Alias the text (if it is already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
+?	anti Alias the text (if it i
+s already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
 -   add standard CVS and PhET headers
 -   Move some behavior from modules into the model
 -   Area behind tabs is the wrong color in 1.5
