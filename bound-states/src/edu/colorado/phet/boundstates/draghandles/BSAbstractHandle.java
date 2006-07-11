@@ -37,6 +37,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * AbstractHandle is the abstract base class for all drag handles.
+ * A handle looks looks like an arrow with a head on both ends.
+ * It has either a horizontal or vertical orientation.
+ * When you roll the mouse over a handle, or while you're dragging
+ * a handle, it highlights and shows the value of the parameter that
+ * the handle is controlling.  The value is positioned above and to
+ * the right of the handle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -253,17 +259,32 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
         return new Point2D.Double( x, y );          
     }
     
+    /**
+     * Sets the color scheme.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
         setNormalColor( colorScheme.getDragHandleColor() );
         setHiliteColor( colorScheme.getDragHandleHiliteColor() );
         setValueColor( colorScheme.getDragHandleValueColor() );
     }
     
+    /**
+     * Sets the color used for the "normal" (unhighlighted) handle.
+     * 
+     * @param color
+     */
     public void setNormalColor( Color color ) {
         _normalColor = color;
         setPaint( _normalColor );
     }
     
+    /**
+     * Sets the color used for the highlighted handle.
+     * 
+     * @param color
+     */
     public void setHiliteColor( Color color ) { 
         _hiliteColor = color;
     }
@@ -282,7 +303,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
      */
     protected abstract void updateView();
     
-    /**
+    /*
      * Updates the drag bounds.
      */
     protected abstract void updateDragBounds();
@@ -362,6 +383,14 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
     // Utilities
     //----------------------------------------------------------------------------
     
+    /*
+     * Creates a number format string with the specified number 
+     * of decimal places.  For example, if significantDecimalPlaces=2,
+     * then the string returned is "0.00".
+     * 
+     * @param significantDecimalPlaces
+     * @return String, see NumberFormat for syntax
+     */
     protected static String createNumberFormat( int significantDecimalPlaces ) {
         String numberFormat = "0.";
         for ( int i = 0; i < significantDecimalPlaces; i++ ) {
