@@ -16,7 +16,8 @@ import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 
 /**
- * BSHarmonicOscillatorDragManager
+ * BSHarmonicOscillatorDragManager manages drag handles for 
+ * a potential composed of Harmonic Oscillator wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -27,6 +28,12 @@ public class BSHarmonicOscillatorDragManager extends BSAbstractDragManager {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potentialSpec describes ranges for potential's attributes
+     * @param chartNode the chart that the drag handles and markers pertain to
+     */
     public BSHarmonicOscillatorDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( potentialSpec, chartNode );
     }
@@ -35,6 +42,12 @@ public class BSHarmonicOscillatorDragManager extends BSAbstractDragManager {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Attaches drag handles to the specified potential.
+     * Any existing handles are deleted.
+     * 
+     * @param potential
+     */
     public void setPotential( BSHarmonicOscillatorPotential potential ) {
         removeAllHandlesAndMarkers();
         if ( potential != null ) {

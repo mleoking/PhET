@@ -21,7 +21,8 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * BSSquareDragManager
+ * BSSquareDragManager manages drag handles and markers for 
+ * a potential composed of Square wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -32,6 +33,12 @@ public class BSSquareDragManager extends BSAbstractDragManager {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potentialSpec describes ranges for potential's attributes
+     * @param chartNode the chart that the drag handles and markers pertain to
+     */
     public BSSquareDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( potentialSpec, chartNode );
     }
@@ -40,6 +47,12 @@ public class BSSquareDragManager extends BSAbstractDragManager {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Attaches drag handles and markers to the specified potential.
+     * Any existing handles and markers are deleted.
+     * 
+     * @param potential
+     */
     public void setPotential( BSSquarePotential potential ) {
         removeAllHandlesAndMarkers();      
         if ( potential != null ) {
