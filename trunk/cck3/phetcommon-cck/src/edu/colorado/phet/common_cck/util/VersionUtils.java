@@ -105,7 +105,7 @@ public class VersionUtils {
             return new VersionInfo( name, 0, "" );
 //            throw new IOException( "No resource found: " + buildnumberName );
         }
-        System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
+//        System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
         int buildNum = -1;
         BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
         String line = br.readLine();
@@ -122,7 +122,7 @@ public class VersionUtils {
         buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
 
         VersionInfo vi = new VersionInfo( name, buildNum, buildTimeStr );
-        System.out.println( "resource info loaded: " + vi );
+//        System.out.println( "resource info loaded: " + vi );
         return vi;
     }
 }

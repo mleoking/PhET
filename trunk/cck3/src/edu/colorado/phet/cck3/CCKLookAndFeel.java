@@ -35,17 +35,17 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        System.out.println( "d = " + d );
+//        System.out.println( "d = " + d );
         if( d.width > 1024 ) {
             uifont = font1280;
-            System.out.println( "Chose font for width> 1280" );
+//            System.out.println( "Chose font for width> 1280" );
         }
         else if( d.width <= 800 ) {
             uifont = font800;
-            System.out.println( "Chose font for <=800" );
+//            System.out.println( "Chose font for <=800" );
         }
         else {
-            System.out.println( "Chose font for width between 1024" );
+//            System.out.println( "Chose font for width between 1024" );
         }
         font = uifont;
 

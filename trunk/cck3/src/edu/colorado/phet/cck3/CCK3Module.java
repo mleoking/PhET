@@ -50,7 +50,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -135,9 +138,11 @@ public class CCK3Module extends Module {
 
     private Area electronClip = new Area();
     private PNode stopwatch;
+    private boolean changed = false;
 
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
+        module = this;
         this.parameters = new SetupParameters( this, args );
 
         magicPanel = new MagicalRepaintPanel();
@@ -188,15 +193,21 @@ public class CCK3Module extends Module {
         circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
-                circuitSolver.apply( circuit );
+                if( isRunning() ) {
+                    changed = true;
+                }
+                else {
+                    circuitSolver.apply( circuit );
+                }
             }
+
         };
 
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
 //                System.out.println( "dt = " + dt );
                 dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
-                if( circuit.isDynamic() ) {
+                if( circuit.isDynamic() || changed ) {
                     circuit.stepInTime( dt );
                     circuitSolver.apply( circuit );
                 }
@@ -232,6 +243,10 @@ public class CCK3Module extends Module {
         } );
         getApparatusPanel().addGraphic( messageGraphic, Double.POSITIVE_INFINITY );
         setResistivityEnabled( true );
+    }
+
+    private boolean isRunning() {
+        return true;
     }
 
     private void relayout() {
@@ -400,8 +415,8 @@ public class CCK3Module extends Module {
         double toolBoxInsetYFrac = 0.015;
         Rectangle2D modelBounds = transform.getModelBounds();
         double y = modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac;
-        System.out.println( "modelBounds.getY() = " + modelBounds.getY() + ", modelBounds.geth=" + modelBounds.getHeight() + ", tbiyf=" + toolBoxInsetYFrac );
-        System.out.println( "y = " + y );
+//        System.out.println( "modelBounds.getY() = " + modelBounds.getY() + ", modelBounds.geth=" + modelBounds.getHeight() + ", tbiyf=" + toolBoxInsetYFrac );
+//        System.out.println( "y = " + y );
         double x = modelBounds.getX() + modelBounds.getWidth() * toolBoxInsetXFrac;
         double h = modelBounds.getHeight() * toolBoxHeightFrac;
         return new Rectangle2D.Double( x, y,
@@ -841,7 +856,7 @@ public class CCK3Module extends Module {
     }
 
     public void setResistivityEnabled( boolean selected ) {
-        System.out.println( "Set resistivity enabled= " + selected );
+//        System.out.println( "Set resistivity enabled= " + selected );
         if( selected == resistivityManager.isEnabled() ) {
             return;
         }
@@ -918,17 +933,17 @@ public class CCK3Module extends Module {
         private ArrayList rectangles = new ArrayList();
 
         public MagicalRepaintPanel() {
-            addMouseMotionListener( new MouseMotionAdapter() {
-                public void mouseDragged( MouseEvent e ) {
-                    synchronizeImmediately();
-                    try {
-                        Thread.sleep( 25 );//todo what is this for?
-                    }
-                    catch( InterruptedException e1 ) {
-                        e1.printStackTrace();
-                    }
-                }
-            } );
+//            addMouseMotionListener( new MouseMotionAdapter() {
+//                public void mouseDragged( MouseEvent e ) {
+//                    synchronizeImmediately();
+//                    try {
+//                        Thread.sleep( 25 );//todo what is this for?
+//                    }
+//                    catch( InterruptedException e1 ) {
+//                        e1.printStackTrace();
+//                    }
+//                }
+//            } );
         }
 
         public void repaint( long tm, int x, int y, int width, int height ) {
