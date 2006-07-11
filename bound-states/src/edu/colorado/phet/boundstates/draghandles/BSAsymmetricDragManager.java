@@ -18,7 +18,8 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * BSAsymmetricDragManager
+ * BSAsymmetricDragManager manages drag handles for 
+ * a potential composed of Asymmetric wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -29,6 +30,12 @@ public class BSAsymmetricDragManager extends BSAbstractDragManager {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potentialSpec describes ranges for potential's attributes
+     * @param chartNode the chart that the drag handles and markers pertain to
+     */
     public BSAsymmetricDragManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( potentialSpec, chartNode );
     }
@@ -37,6 +44,12 @@ public class BSAsymmetricDragManager extends BSAbstractDragManager {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Attaches drag handles to the specified potential.
+     * Any existing handles are deleted.
+     * 
+     * @param potential
+     */
     public void setPotential( BSAsymmetricPotential potential ) {
         removeAllHandlesAndMarkers();
         if ( potential != null ) {
