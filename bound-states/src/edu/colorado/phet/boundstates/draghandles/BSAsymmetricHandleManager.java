@@ -29,9 +29,6 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    
     private BSAsymmetricOffsetHandle _offsetHandle;
     private BSAsymmetricHeightHandle _heightHandle;
     private BSAsymmetricWidthHandle _widthHandle;
@@ -41,9 +38,7 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public BSAsymmetricHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super();
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
+        super( potentialSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -54,18 +49,21 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
         clear();
         if ( potential != null ) {
             
-            if ( !_potentialSpec.getOffsetRange().isZero() ) {
-                _offsetHandle = new BSAsymmetricOffsetHandle( potential, _potentialSpec, _chartNode );
+            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSCombinedChartNode chartNode = getChartNode();
+            
+            if ( !potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSAsymmetricOffsetHandle( potential, potentialSpec, chartNode );
                 addChild( _offsetHandle );
             }
 
-            if ( !_potentialSpec.getHeightRange().isZero() ) {
-                _heightHandle = new BSAsymmetricHeightHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getHeightRange().isZero() ) {
+                _heightHandle = new BSAsymmetricHeightHandle( potential, potentialSpec, chartNode );
                 addChild( _heightHandle );
             }
 
-            if ( !_potentialSpec.getWidthRange().isZero() ) {
-                _widthHandle = new BSAsymmetricWidthHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getWidthRange().isZero() ) {
+                _widthHandle = new BSAsymmetricWidthHandle( potential, potentialSpec, chartNode );
                 addChild( _widthHandle );
             }
         }
@@ -82,7 +80,8 @@ public class BSAsymmetricHandleManager extends BSAbstractHandleManager {
     // IHandleManager implementation
     //----------------------------------------------------------------------------
     
-    public void updateDragBounds() {
+    public void updateLayout() {
+        updateClip();
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }

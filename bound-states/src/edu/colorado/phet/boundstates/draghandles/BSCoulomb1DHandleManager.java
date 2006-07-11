@@ -29,9 +29,6 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    
     private BSCoulomb1DSpacingMarkers _spacingMarkers;
     private BSCoulomb1DSpacingHandle _spacingHandle;
     private BSCoulomb1DOffsetHandle _offsetHandle;
@@ -41,9 +38,7 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public BSCoulomb1DHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super();
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
+        super( potentialSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -54,17 +49,20 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
         clear();
         if ( potential != null ) {
             
-            if ( !_potentialSpec.getSpacingRange().isZero() ) {
+            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSCombinedChartNode chartNode = getChartNode();
+            
+            if ( !potentialSpec.getSpacingRange().isZero() ) {
                 
-                _spacingMarkers = new BSCoulomb1DSpacingMarkers( potential, _chartNode );
+                _spacingMarkers = new BSCoulomb1DSpacingMarkers( potential, chartNode );
                 addChild( _spacingMarkers );
                 
-                _spacingHandle = new BSCoulomb1DSpacingHandle( potential, _potentialSpec, _chartNode );
+                _spacingHandle = new BSCoulomb1DSpacingHandle( potential, potentialSpec, chartNode );
                 addChild( _spacingHandle );
             }
             
-            if ( !_potentialSpec.getOffsetRange().isZero() ) {
-                _offsetHandle = new BSCoulomb1DOffsetHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSCoulomb1DOffsetHandle( potential, potentialSpec, chartNode );
                 addChild( _offsetHandle );
             }
         }
@@ -79,7 +77,8 @@ public class BSCoulomb1DHandleManager extends BSAbstractHandleManager {
     // IHandleManager implementation
     //----------------------------------------------------------------------------
    
-    public void updateDragBounds() {
+    public void updateLayout() {
+        updateClip();
         if ( _spacingMarkers != null ) {
             _spacingMarkers.updateView();
         }

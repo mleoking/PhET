@@ -29,9 +29,6 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    
     private BSHarmonicOscillatorOffsetHandle _offsetHandle;
     private BSHarmonicOscillatorAngularFrequencyHandle _angularFrequencyHandle;
     
@@ -40,9 +37,7 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public BSHarmonicOscillatorHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super();
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
+        super( potentialSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -53,13 +48,16 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
         clear();
         if ( potential != null ) {
 
-            if ( !_potentialSpec.getOffsetRange().isZero() ) {
-                _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, _potentialSpec, _chartNode );
+            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSCombinedChartNode chartNode = getChartNode();
+            
+            if ( !potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSHarmonicOscillatorOffsetHandle( potential, potentialSpec, chartNode );
                 addChild( _offsetHandle );
             }
 
-            if ( !_potentialSpec.getAngularFrequencyRange().isZero() ) {
-                _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getAngularFrequencyRange().isZero() ) {
+                _angularFrequencyHandle = new BSHarmonicOscillatorAngularFrequencyHandle( potential, potentialSpec, chartNode );
                 addChild( _angularFrequencyHandle );
             }
         }
@@ -75,7 +73,8 @@ public class BSHarmonicOscillatorHandleManager extends BSAbstractHandleManager {
     // IHandleManager implementation
     //----------------------------------------------------------------------------
     
-    public void updateDragBounds() {
+    public void updateLayout() {
+        updateClip();
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }

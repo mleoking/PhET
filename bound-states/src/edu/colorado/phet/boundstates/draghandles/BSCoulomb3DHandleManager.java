@@ -28,10 +28,7 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    
+
     private BSCoulomb3DOffsetHandle _offsetHandle;
     
     //----------------------------------------------------------------------------
@@ -39,9 +36,7 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public BSCoulomb3DHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super();
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
+        super( potentialSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -51,8 +46,12 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     public void setPotential( BSCoulomb3DPotential potential ) {
         clear();
         if ( potential != null ) {
-            if ( !_potentialSpec.getOffsetRange().isZero() ) {
-                _offsetHandle = new BSCoulomb3DOffsetHandle( potential, _potentialSpec, _chartNode );
+            
+            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSCombinedChartNode chartNode = getChartNode();
+            
+            if ( !potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSCoulomb3DOffsetHandle( potential, potentialSpec, chartNode );
                 addChild( _offsetHandle );
             }
         }
@@ -67,7 +66,8 @@ public class BSCoulomb3DHandleManager extends BSAbstractHandleManager {
     // IHandleManager implementation
     //----------------------------------------------------------------------------
     
-    public void updateDragBounds() {
+    public void updateLayout() {
+        updateClip();
         if ( _offsetHandle != null ) {
             _offsetHandle.updateDragBounds();
         }
