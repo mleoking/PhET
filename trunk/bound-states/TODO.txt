@@ -34,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+(7/11/06) - replace assertions in draghandles package with UnsupportedOperationException
 (7/11/06) - javadoc all code in draghandles package
 (7/11/06) - refactor potential-related drag handle functionality into base class BSPotentialHandle
 (7/11/06) - refactor drag handle classes, move common stuff BSAbstractHandle
