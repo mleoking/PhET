@@ -31,7 +31,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer, AxisChangeListener {
+public class BSCoulomb1DSpacingHandle extends BSAbstractHandle implements Observer, AxisChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class BSCoulomb1DSpacingHandle extends AbstractHandle implements Observer
     //----------------------------------------------------------------------------
     
     public BSCoulomb1DSpacingHandle( BSCoulomb1DPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.HORIZONTAL );
+        super( BSAbstractHandle.HORIZONTAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAsymmetricOffsetHandle extends AbstractHandle implements Observer {
+public class BSAsymmetricOffsetHandle extends BSAbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -45,7 +45,7 @@ public class BSAsymmetricOffsetHandle extends AbstractHandle implements Observer
     
     public BSAsymmetricOffsetHandle( BSAsymmetricPotential potential, 
             BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.VERTICAL );
+        super( BSAbstractHandle.VERTICAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

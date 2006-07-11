@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorAngularFrequencyHandle extends AbstractHandle implements Observer {
+public class BSHarmonicOscillatorAngularFrequencyHandle extends BSAbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -50,7 +50,7 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends AbstractHandle i
     //----------------------------------------------------------------------------
     
     public BSHarmonicOscillatorAngularFrequencyHandle( BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.HORIZONTAL );
+        super( BSAbstractHandle.HORIZONTAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;
