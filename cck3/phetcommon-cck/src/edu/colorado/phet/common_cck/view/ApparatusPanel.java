@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.common_cck.view;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -49,6 +49,7 @@ public class ApparatusPanel extends PhetPCanvas {
     CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic, this );
 
     ArrayList graphicsSetups = new ArrayList();
+    private Color myBackground;
 
 //    protected ApparatusPanel( Object dummy ) {
 //        super( null );
@@ -98,7 +99,7 @@ public class ApparatusPanel extends PhetPCanvas {
         Graphics2D g2 = (Graphics2D)graphics;
 
         GraphicsState state = new GraphicsState( g2 );
-        g2.setPaint( CCK3Module.apparatusPanelColor );
+        g2.setPaint( myBackground );
         g2.fillRect( 0, 0, getWidth(), getHeight() );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
@@ -158,5 +159,17 @@ public class ApparatusPanel extends PhetPCanvas {
             }
         }
         return false;
+    }
+
+    public void setMyBackground( Color color ) {
+        this.myBackground = color;
+        if( this instanceof CCKApparatusPanel ) {
+            CCKApparatusPanel cckApparatusPanel = (CCKApparatusPanel)this;
+            cckApparatusPanel.superRepaint();
+        }
+    }
+
+    public Color getMyBackground() {
+        return myBackground;
     }
 }
