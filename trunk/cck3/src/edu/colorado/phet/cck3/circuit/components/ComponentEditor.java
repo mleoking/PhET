@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.common_cck.math.MathUtil;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
 public abstract class ComponentEditor extends JDialog {
-    private CCK3Module module;
+    private CCKModule module;
     protected CircuitComponent element;
     private Component parent;
     private Circuit circuit;
@@ -33,7 +33,7 @@ public abstract class ComponentEditor extends JDialog {
     protected JPanel contentPane;
     private CircuitListener circuitListener;
 
-    public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
+    public ComponentEditor( final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if( startvalue > max ) {
@@ -184,7 +184,7 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BatteryEditor extends ComponentEditor {
-        public BatteryEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
+        public BatteryEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
             super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
@@ -231,15 +231,15 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class ResistorEditor extends ComponentEditor {
-        public ResistorEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
+        public ResistorEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.ResistorResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.ResistorResistanceName" ),
                    SimStrings.get( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
-            if( value < CCK3Module.MIN_RESISTANCE ) {
-                value = CCK3Module.MIN_RESISTANCE;
+            if( value < CCKModule.MIN_RESISTANCE ) {
+                value = CCKModule.MIN_RESISTANCE;
             }
             super.element.setResistance( value );
         }
@@ -247,15 +247,15 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BulbResistanceEditor extends ComponentEditor {
-        public BulbResistanceEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
+        public BulbResistanceEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BulbResistanceName" ),
                    SimStrings.get( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
-            if( value < CCK3Module.MIN_RESISTANCE ) {
-                value = CCK3Module.MIN_RESISTANCE;
+            if( value < CCKModule.MIN_RESISTANCE ) {
+                value = CCKModule.MIN_RESISTANCE;
             }
             super.element.setResistance( value );
         }
@@ -265,7 +265,7 @@ public abstract class ComponentEditor extends JDialog {
     public static class BatteryResistanceEditor extends ComponentEditor {
         private Battery battery;
 
-        public BatteryResistanceEditor( CCK3Module module, Battery element, Component parent, Circuit circuit ) {
+        public BatteryResistanceEditor( CCKModule module, Battery element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BatteryResistanceName" ),
                    SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
@@ -273,8 +273,8 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCK3Module.MIN_RESISTANCE ) {
-                value = CCK3Module.MIN_RESISTANCE;
+            if( value < CCKModule.MIN_RESISTANCE ) {
+                value = CCKModule.MIN_RESISTANCE;
             }
 //            super.element.setResistance( value );
 //            System.out.println( "set battery internal resistance= " + value );
@@ -291,7 +291,7 @@ public abstract class ComponentEditor extends JDialog {
     public static class ACVoltageSourceEditor extends ComponentEditor {
         private ACVoltageSource branch;
 
-        public ACVoltageSourceEditor( CCK3Module module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
+        public ACVoltageSourceEditor( CCKModule module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
             super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
             this.branch = branch;
         }

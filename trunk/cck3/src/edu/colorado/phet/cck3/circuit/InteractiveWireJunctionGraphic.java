@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
@@ -28,7 +28,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
     private MouseInputAdapter input;
 
     public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic junctionGraphic,
-                                           final ModelViewTransform2D transform, CCK3Module module ) {
+                                           final ModelViewTransform2D transform, CCKModule module ) {
         super( junctionGraphic );
         final Circuit circuit = circuitGraphic.getCircuit();
         this.circuitGraphic = circuitGraphic;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
@@ -34,7 +34,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     public CircuitComponentInteractiveGraphic( final IComponentGraphic circuitComponentGraphic, final CircuitGraphic cg ) {
         super( circuitComponentGraphic );
-        CCK3Module module = cg.getModule();
+        CCKModule module = cg.getModule();
         this.cg = cg;
         this.transform = circuitComponentGraphic.getModelViewTransform2D();
         this.circuitComponentGraphic = circuitComponentGraphic;
@@ -99,11 +99,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     static abstract class ComponentMenu implements CCKMenu {
         protected RepaintyMenu menu;
-        private CCK3Module module;
+        private CCKModule module;
         Branch branch;
         private JCheckBoxMenuItem setVisibleItem;
 
-        public ComponentMenu( Branch branch, CCK3Module module ) {
+        public ComponentMenu( Branch branch, CCKModule module ) {
             this.branch = branch;
             this.module = module;
             menu = new RepaintyMenu( module.getApparatusPanel() );
@@ -116,7 +116,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             return setVisibleItem.isSelected();
         }
 
-        public static JCheckBoxMenuItem finish( final CCK3Module module, final Branch branch, RepaintyMenu menu ) {
+        public static JCheckBoxMenuItem finish( final CCKModule module, final Branch branch, RepaintyMenu menu ) {
             final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
             menu.addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -152,7 +152,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             return showValue;
         }
 
-        static void addRemoveButton( RepaintyMenu menu, final CCK3Module module, final Branch branch ) {
+        static void addRemoveButton( RepaintyMenu menu, final CCKModule module, final Branch branch ) {
             JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
             remove.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -192,7 +192,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         Resistor res;
         private ComponentEditor.ResistorEditor editor;
 
-        public ResistorMenu( Resistor res, CCK3Module module ) {
+        public ResistorMenu( Resistor res, CCKModule module ) {
             super( res, module );
             this.res = res;
             if( res instanceof GrabBagResistor ) {
@@ -228,7 +228,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         private Inductor inductor;
         private ComponentEditor editor;
 
-        public InductorMenu( final Inductor inductor, CCK3Module module ) {
+        public InductorMenu( final Inductor inductor, CCKModule module ) {
             super( inductor, module );
             this.inductor = inductor;
             double min = 0;
@@ -268,7 +268,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         private Capacitor capacitor;
         private ComponentEditor editor;
 
-        public CapacitorMenu( final Capacitor capacitor, CCK3Module module ) {
+        public CapacitorMenu( final Capacitor capacitor, CCKModule module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
             editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
@@ -304,7 +304,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         CircuitComponent bulb;
         private ComponentEditor.BulbResistanceEditor editor;
 
-        public BulbMenu( final Bulb bulb, final CCK3Module module ) {
+        public BulbMenu( final Bulb bulb, final CCKModule module ) {
             super( bulb, module );
             this.bulb = bulb;
             editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getApparatusPanel(), module.getCircuit() );
@@ -360,7 +360,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     static class SwitchMenu extends ComponentMenu {
         Switch res;
 
-        public SwitchMenu( Switch res, CCK3Module module ) {
+        public SwitchMenu( Switch res, CCKModule module ) {
             super( res, module );
             this.res = res;
             menu = new RepaintyMenu( module.getApparatusPanel() );
@@ -375,7 +375,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     static class SeriesAmmeterMenu extends ComponentMenu {
         SeriesAmmeter res;
 
-        public SeriesAmmeterMenu( SeriesAmmeter res, CCK3Module module ) {
+        public SeriesAmmeterMenu( SeriesAmmeter res, CCKModule module ) {
             super( res, module );
             this.res = res;
             menu = new RepaintyMenu( module.getApparatusPanel() );
@@ -389,7 +389,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     public static class BatteryJMenu extends RepaintyMenu implements CCKMenu {
         private Battery battery;
-        private CCK3Module module;
+        private CCKModule module;
         private JMenuItem editInternal;
 
         public static final ArrayList instances = new ArrayList();
@@ -397,7 +397,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         private ComponentEditor editor;
         private JCheckBoxMenuItem setVisibleItem;
 
-        public BatteryJMenu( final Battery branch, CCK3Module module ) {
+        public BatteryJMenu( final Battery branch, CCKModule module ) {
             super( module.getApparatusPanel() );
             this.battery = branch;
             this.module = module;
@@ -440,7 +440,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         protected void addOptionalItemsAfterEditor() {
         }
 
-        public CCK3Module getModule() {
+        public CCKModule getModule() {
             return module;
         }
 

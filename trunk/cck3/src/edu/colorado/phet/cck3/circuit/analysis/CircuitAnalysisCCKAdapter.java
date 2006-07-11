@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit.analysis;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Capacitor;
@@ -145,7 +145,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
                 Battery batt = (Battery)branch;
                 Battery idealBattery = new Battery( batt.getVoltageDrop(), 0 );
                 equivalentCircuit.branchMap.put( branch, idealBattery );
-                double internalResistance = CCK3Module.MIN_RESISTANCE;
+                double internalResistance = CCKModule.MIN_RESISTANCE;
                 if( batt.isInternalResistanceOn() ) {
                     internalResistance = batt.getInteralResistance();
                 }

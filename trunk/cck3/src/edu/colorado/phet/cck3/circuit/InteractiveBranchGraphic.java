@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -26,9 +26,9 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
     private Junction startTarget;
     private Junction endTarget;
     private BranchGraphic branchGraphic;
-    private CCK3Module module;
+    private CCKModule module;
 
-    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform, CCK3Module module ) {
+    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform, CCKModule module ) {
         super( branchGraphic );
         this.branchGraphic = branchGraphic;
         this.module = module;
@@ -56,7 +56,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
         private Circuit circuit;
         private Branch branch;
 
-        public BranchPopupMenu( final Circuit circuit, final Branch branch, final CCK3Module module ) {
+        public BranchPopupMenu( final Circuit circuit, final Branch branch, final CCKModule module ) {
             super( module.getApparatusPanel() );
             this.circuit = circuit;
             this.branch = branch;

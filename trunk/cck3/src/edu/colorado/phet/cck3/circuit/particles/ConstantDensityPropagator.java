@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
@@ -19,7 +19,7 @@ import java.util.*;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityPropagator implements ModelElement {
-    private CCK3Module module;
+    private CCKModule module;
     private ParticleSet particleSet;
     private Circuit circuit;
     private double speedScale = .01;
@@ -29,7 +29,7 @@ public class ConstantDensityPropagator implements ModelElement {
     //    private double MAX_STEP = .182;
     //    private double MAX_STEP = .1;
     //    private double MAX_STEP = CCK3Module.ELECTRON_DX * .4;// * .48;
-    private double MAX_STEP = CCK3Module.ELECTRON_DX * .43;// * .48;
+    private double MAX_STEP = CCKModule.ELECTRON_DX * .43;// * .48;
     //    private double MAX_STEP = .35;
     //    private double MAX_STEP = .1 / 10;
     private int numEqualize = 2;
@@ -82,7 +82,7 @@ public class ConstantDensityPropagator implements ModelElement {
         }
     }
 
-    public ConstantDensityPropagator( CCK3Module module, ParticleSet particleSet, Circuit circuit ) {
+    public ConstantDensityPropagator( CCKModule module, ParticleSet particleSet, Circuit circuit ) {
         this.module = module;
         this.particleSet = particleSet;
         this.circuit = circuit;

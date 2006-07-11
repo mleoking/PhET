@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.tools;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 
 import java.awt.geom.Rectangle2D;
@@ -16,9 +16,9 @@ public class Voltmeter {
     private VoltmeterUnit unit;
     private Lead blackLead;
     private Lead redLead;
-    private CCK3Module module;
+    private CCKModule module;
 
-    public Voltmeter( double x, double y, double dx, CCK3Module module ) {
+    public Voltmeter( double x, double y, double dx, CCKModule module ) {
         this.module = module;
         this.unit = new VoltmeterUnit( x, y );
         this.blackLead = new Lead( x + dx, y );

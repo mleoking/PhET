@@ -16,15 +16,18 @@ import java.awt.event.KeyListener;
  * Copyright (c) Jun 30, 2004 by Sam Reid
  */
 public class CCKKeyListener implements KeyListener {
-    CCK3Module cck;
+    CCKModule cck;
     private RepaintDebugGraphic colorG;
 
-    public CCKKeyListener( CCK3Module cck, RepaintDebugGraphic colorG ) {
+    public CCKKeyListener( CCKModule cck, RepaintDebugGraphic colorG ) {
         this.cck = cck;
         this.colorG = colorG;
     }
 
     public void keyPressed( KeyEvent e ) {
+        if( e.getKeyCode() == KeyEvent.VK_C ) {
+            cck.resetDynamics();
+        }
     }
 
     public void keyReleased( KeyEvent e ) {

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.toolbox;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
@@ -40,7 +40,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     protected CircuitGraphic circuitGraphic;
     protected Branch branch;
     protected CircuitChangeListener circuitChangeListener;
-    protected CCK3Module module;
+    protected CCKModule module;
     private PhetGraphic lifelike;
     protected PhetTextGraphic textGraphic;
     private PhetShapeGraphic shapeGraphic;//for debugging.
@@ -50,7 +50,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     protected BranchSource( final PhetGraphic lifelike,
                             final PhetGraphic schematic,
                             final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
-                            final Branch branch, CircuitChangeListener kl, String name, final CCK3Module module ) {
+                            final Branch branch, CircuitChangeListener kl, String name, final CCKModule module ) {
         super( lifelike );
         this.lifelike = lifelike;
         this.schematic = schematic;
@@ -145,7 +145,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class WireSource extends BranchSource {
         private double finalLength;
 
-        public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, CircuitChangeListener kl, double finalLength, CCK3Module module ) {
+        public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, CircuitChangeListener kl, double finalLength, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Wire" ), module );
             this.finalLength = finalLength;
         }
@@ -163,7 +163,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class BatterySource extends BranchSource {
         private ComponentDimension finalDim;
 
-        public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
+        public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, CircuitChangeListener kl, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Battery" ), module );
             this.finalDim = finalDim;
         }
@@ -185,7 +185,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public BulbSource( PhetGraphic boundedGraphic, CircuitGraphic circuitGraphic,
                            ApparatusPanel panel, Bulb branch, PhetGraphic schematic, ComponentDimension finalDim, CircuitChangeListener kl,
-                           double distBetweenJunctions, CCK3Module module ) {
+                           double distBetweenJunctions, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.LightBulb" ), module );
             this.finalDim = finalDim;
             this.distBetweenJunctions = distBetweenJunctions;
@@ -215,7 +215,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
 
         public ResistorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
-                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Resistor" ), module );
             this.cd = cd;
         }
@@ -231,7 +231,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
         Switch myswitch;
 
-        public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+        public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, CircuitChangeListener kl, ComponentDimension cd, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Switch" ), module );
             this.cd = cd;
             this.myswitch = branch;
@@ -250,7 +250,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double height;
 
         public AmmeterSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, CircuitChangeListener kl,
-                              AbstractVector2D dir, double length, double height, CCK3Module module ) {
+                              AbstractVector2D dir, double length, double height, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Ammeter" ), module );
             this.dir = dir;
             this.length = length;
@@ -272,7 +272,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
 
         public CapacitorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
-                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+                                ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKModule module ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Capacitor" ), module );
             this.cd = cd;
         }
@@ -288,7 +288,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
 
         public InductorSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic,
-                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCK3Module module ) {
+                               ApparatusPanel panel, Branch branch, CircuitChangeListener kl, ComponentDimension cd, CCKModule module ) {
             super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Inductor" ), module );
             this.cd = cd;
         }
@@ -304,7 +304,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension finalDim;
 
         public ACSource( PhetGraphic lifelike, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch,
-                         ComponentDimension finalDim, CircuitChangeListener kl, CCK3Module module ) {
+                         ComponentDimension finalDim, CircuitChangeListener kl, CCKModule module ) {
             super( lifelike, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.AC" ), module );
             this.finalDim = finalDim;
             super.textOffsetY = 0;

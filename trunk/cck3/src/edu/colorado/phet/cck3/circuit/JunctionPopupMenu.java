@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class JunctionPopupMenu extends RepaintyMenu {
     private JunctionSplitter splitter;
     private JMenuItem splitItem;
 
-    public JunctionPopupMenu( Junction junction, CircuitGraphic circuitGraphic, CCK3Module module ) {
+    public JunctionPopupMenu( Junction junction, CircuitGraphic circuitGraphic, CCKModule module ) {
         super( module.getApparatusPanel() );
         this.junction = junction;
         this.circuitGraphic = circuitGraphic;

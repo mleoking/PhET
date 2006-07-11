@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private SeriesAmmeter component;
     private ModelViewTransform2D transform;
-    private CCK3Module module;
+    private CCKModule module;
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
@@ -50,12 +50,12 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private PhetTransformGraphic textTX;
     private PhetTextGraphic textGraphic;
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module, String fixedMessage ) {
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCKModule module, String fixedMessage ) {
         this( parent, component, transform, module );
         this.fixedMessage = fixedMessage;
     }
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCK3Module module ) {
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCKModule module ) {
         super( parent );
         highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;

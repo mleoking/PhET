@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.common_cck.model.ModelElement;
@@ -76,7 +76,7 @@ public class ParticleSet implements ModelElement {
         }
     }
 
-    public ParticleSet( CCK3Module module, Circuit circuit ) {
+    public ParticleSet( CCKModule module, Circuit circuit ) {
         propagator = new ConstantDensityPropagator( module, this, circuit );
         this.circuit = circuit;
     }

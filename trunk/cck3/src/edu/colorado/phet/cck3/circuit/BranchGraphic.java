@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -54,7 +54,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
         };
         transform.addTransformListener( transformListener );
 //<<<<<<< BranchGraphic.java
-        if( CCK3Module.GRAPHICAL_DEBUG ) {
+        if( CCKModule.GRAPHICAL_DEBUG ) {
             debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
         }
 ////=======
@@ -92,8 +92,8 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
             String text = "r=" + branch.getResistance();
-            if( CCK3Module.getModule().getParticleSet() != null ) {
-                text += ", n=" + CCK3Module.getModule().getParticleSet().getParticles( branch ).length;
+            if( CCKModule.getModule().getParticleSet() != null ) {
+                text += ", n=" + CCKModule.getModule().getParticleSet().getParticles( branch ).length;
             }
             if( debugText != null ) {
                 debugText.setText( text );

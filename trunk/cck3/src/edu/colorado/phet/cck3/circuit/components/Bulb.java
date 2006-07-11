@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -132,7 +132,7 @@ public class Bulb extends CircuitComponent {
     }
 
     private Vector2D collaspeToLifelike( Bulb bulb, Circuit circuit ) {
-        double distBetweenJ = CCK3Module.BULB_DIMENSION.getDistBetweenJunctions();
+        double distBetweenJ = CCKModule.BULB_DIMENSION.getDistBetweenJunctions();
         AbstractVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
         Point2D dst = vector.getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
@@ -150,7 +150,7 @@ public class Bulb extends CircuitComponent {
 
     private static void expandToSchematic( Bulb bulb, Circuit circuit ) {
         Vector2D vec = new Vector2D.Double( bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition() );
-        Point2D dst = vec.getInstanceOfMagnitude( CCK3Module.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
+        Point2D dst = vec.getInstanceOfMagnitude( CCKModule.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
         if( circuit != null ) {
             Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );
@@ -176,7 +176,7 @@ public class Bulb extends CircuitComponent {
         filament.setConnectAtRight( connectAtRight );
     }
 
-    public void flip( CCK3Module module ) {
+    public void flip( CCKModule module ) {
         Circuit circuit = module.getCircuit();
         connectAtRight = !connectAtRight;
         filament.setConnectAtRight( connectAtRight );

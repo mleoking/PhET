@@ -49,7 +49,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         }
         font = uifont;
 
-        backgroundColor = CCK3Module.backgroundColor;
+        backgroundColor = CCKModule.backgroundColor;
         foregroundColor = Color.black;
     }
 

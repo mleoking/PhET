@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.tools;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -22,14 +22,14 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     private TargetReadoutTool trt;
     private Component panel;
     private CircuitGraphic circuitGraphic;
-    private CCK3Module module;
+    private CCKModule module;
     private Circuit circuit;
 
-    public VirtualAmmeter( CircuitGraphic circuitGraphic, Component panel, CCK3Module module ) {
+    public VirtualAmmeter( CircuitGraphic circuitGraphic, Component panel, CCKModule module ) {
         this( new TargetReadoutTool( panel ), panel, circuitGraphic, module );
     }
 
-    public VirtualAmmeter( TargetReadoutTool targetReadoutTool, final Component panel, final CircuitGraphic circuitGraphic, final CCK3Module module ) {
+    public VirtualAmmeter( TargetReadoutTool targetReadoutTool, final Component panel, final CircuitGraphic circuitGraphic, final CCKModule module ) {
         super( targetReadoutTool );
         this.trt = targetReadoutTool;
         this.panel = panel;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
@@ -32,7 +32,7 @@ import java.util.*;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CircuitGraphic extends CompositeGraphic {
-    private static double JUNCTION_RADIUS = CCK3Module.JUNCTION_RADIUS;
+    private static double JUNCTION_RADIUS = CCKModule.JUNCTION_RADIUS;
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
     public static final Color SILVER = Color.gray;
     private CompositeGraphic filamentLayer = new CompositeGraphic();
@@ -48,8 +48,8 @@ public class CircuitGraphic extends CompositeGraphic {
     private Circuit circuit;
     private ModelViewTransform2D transform;
     private ApparatusPanel apparatusPanel;
-    private double STICKY_THRESHOLD = CCK3Module.STICKY_THRESHOLD;
-    private CCK3Module module;
+    private double STICKY_THRESHOLD = CCKModule.STICKY_THRESHOLD;
+    private CCKModule module;
     private ArrayList listeners = new ArrayList();
     private Hashtable readoutMap = new Hashtable();
     private boolean lifelike = true;
@@ -57,7 +57,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private boolean readoutGraphicsVisible = false;
     private CachingImageLoader hashedImageLoader = new CachingImageLoader();
 
-    public CircuitGraphic( final CCK3Module module ) throws IOException {
+    public CircuitGraphic( final CCKModule module ) throws IOException {
         graphicSource = new Lifelike();
         lifelike = true;
         this.module = module;
@@ -167,7 +167,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
     }
 
-    private ReadoutGraphic createReadoutGraphic( CircuitComponent branch, CCK3Module module ) {
+    private ReadoutGraphic createReadoutGraphic( CircuitComponent branch, CCKModule module ) {
         if( branch instanceof ACVoltageSource ) {
             return new ACReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
         }
@@ -615,7 +615,7 @@ public class CircuitGraphic extends CompositeGraphic {
         return null;
     }
 
-    public CCK3Module getModule() {
+    public CCKModule getModule() {
         return module;
     }
 
@@ -921,7 +921,7 @@ public class CircuitGraphic extends CompositeGraphic {
                                                                                            aSwitch, getTransform() );
             CircuitGraphic.this.addGraphic( aSwitch, switchGraphic );
             BufferedImage lever = module.getImageSuite().getKnifeHandleImage();
-            ComponentDimension leverDimension = CCK3Module.LEVER_DIMENSION;
+            ComponentDimension leverDimension = CCKModule.LEVER_DIMENSION;
             LeverGraphic leverGraphic = new LeverGraphic( switchGraphic, lever, apparatusPanel, getTransform(), leverDimension.getLength(), leverDimension.getHeight() );
             InteractiveLever interactiveLever = new InteractiveLever( transform, apparatusPanel, leverGraphic );
             leverLayer.addGraphic( interactiveLever );

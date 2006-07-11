@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.grabbag;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
@@ -23,10 +23,10 @@ import java.awt.image.BufferedImage;
  */
 public class GrabBagButton extends JButton {
     private GrabBag bag;
-    private CCK3Module module;
+    private CCKModule module;
     private JFrame dialog;
 
-    public GrabBagButton( CCK3Module module ) {
+    public GrabBagButton( CCKModule module ) {
         super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
         this.module = module;
         addActionListener( new ActionListener() {

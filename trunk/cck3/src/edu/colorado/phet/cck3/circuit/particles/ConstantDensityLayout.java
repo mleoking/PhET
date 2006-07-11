@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.BranchSet;
 import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
@@ -16,10 +16,11 @@ import java.util.Arrays;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
-    private CCK3Module module;
+    private CCKModule module;
     boolean dolayout = true;
 //    boolean dolayout=false;
-    public ConstantDensityLayout( CCK3Module module ) {
+
+    public ConstantDensityLayout( CCKModule module ) {
         this.module = module;
     }
 
@@ -39,7 +40,6 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
 
     public void branchesMovedOrig( Branch[] branches ) {
 //        ArrayList relay=new ArrayList( );
-
 
 
         ArrayList moved = new ArrayList( Arrays.asList( branches ) );
@@ -80,12 +80,12 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
 //            System.out.println( "Didn't remove all particles." );
 //        }
         if( module.isElectronsVisible() ) {
-            double offset = CCK3Module.ELECTRON_DX / 2;
+            double offset = CCKModule.ELECTRON_DX / 2;
             double startingPoint = offset;
             double endingPoint = branch.getLength() - offset;
             //compress or expand, but fix a particle at startingPoint and endingPoint.
             double L = endingPoint - startingPoint;
-            double desiredDensity = 1 / CCK3Module.ELECTRON_DX;
+            double desiredDensity = 1 / CCKModule.ELECTRON_DX;
             double N = L * desiredDensity;
             int integralNumberParticles = (int)Math.ceil( N );
             double mydensity = ( integralNumberParticles - 1 ) / L;

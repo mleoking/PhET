@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -26,7 +26,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private ModelViewTransform2D transform;
     private double radius;
     private Circuit circuit;
-    private double strokeWidthModelCoords = CCK3Module.JUNCTION_GRAPHIC_STROKE_WIDTH;
+    private double strokeWidthModelCoords = CCKModule.JUNCTION_GRAPHIC_STROKE_WIDTH;
     private SimpleObserver observer;
     private TransformListener transformListener;
     private PhetShapeGraphic highlightGraphic;
@@ -35,7 +35,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private PhetTextGraphic debugGraphic;
 //    private boolean showLabel = false;
 //<<<<<<< JunctionGraphic.java
-    private boolean showLabel = CCK3Module.GRAPHICAL_DEBUG;
+    private boolean showLabel = CCKModule.GRAPHICAL_DEBUG;
 //=======
 //    private boolean showLabel = false;
 //>>>>>>> 1.13
