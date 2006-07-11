@@ -19,7 +19,7 @@ import java.util.Arrays;
  */
 
 public class WaveInterferenceApplication extends PiccoloPhetApplication {
-    private static String VERSION = "0.00.22";
+    private static String VERSION = "1.00";
     private static final String LOCALIZATION_BUNDLE_BASENAME = "localization/wi";
 
     public WaveInterferenceApplication( String[] args ) {
