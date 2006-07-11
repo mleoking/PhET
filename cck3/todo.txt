@@ -17,9 +17,6 @@ time.  Every 10 secs or so, the current stutters ever so slightly and shifts
 the current over.  This seems like a very small/minor problem, but I'm not 
 sure if it's effects can be easily seen with a more complicated circuit.
 
--I noticed the same performance issues as Kathy.  As soon as there were many 
-components in the play area, things got bogged down.
-
 -When I have 2 caps in series with a bulb and battery and turned the voltage 
 up rather high, only one of the caps catches on fire (the one near the 
 battery).  See cck_fire.gif.
@@ -48,6 +45,8 @@ in yellow like usual.
 - Unfortunately performance is an issue ... it's pretty easy to get 
 to the point where the mouse isn't working well and it is frustrating 
 to build anything... is there any hope of improving this (ever)???
+-I noticed the same performance issues as Kathy.  As soon as there were many 
+components in the play area, things got bogged down.
 
 - is there any way to make the current graph smoother?  Right now it 
 shows features that aren't really there?
