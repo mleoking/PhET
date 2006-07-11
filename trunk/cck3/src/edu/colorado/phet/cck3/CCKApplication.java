@@ -1,20 +1,20 @@
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.common.ColorDialog;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
-import edu.colorado.phet.common_cck.view.PhetFrame;
 import edu.colorado.phet.common_cck.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_cck.view.plaf.PlafUtil;
 import edu.colorado.phet.common_cck.view.util.FrameSetup;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,7 +35,6 @@ public class CCKApplication {
     private CCK3Module cck;
 
     public CCKApplication( String[]args ) throws IOException {
-
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
         boolean debugMode = false;
@@ -71,50 +70,10 @@ public class CCKApplication {
 
         JMenu dev = new JMenu( SimStrings.get( "OptionsMenu.Title" ) );
         dev.setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
-        JMenuItem changeBackgroundColor = new JMenuItem( SimStrings.get( "OptionsMenu.BackgroundColorMenuItem" ) );
-        changeBackgroundColor.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                ColorDialog.Listener listy = new ColorDialog.Listener() {
-                    public void colorChanged( Color color ) {
-                        cck.getApparatusPanel().setBackground( color );
-                    }
 
-                    public void cancelled( Color orig ) {
-                        cck.getApparatusPanel().setBackground( orig );
-                    }
-
-                    public void ok( Color color ) {
-                        cck.getApparatusPanel().setBackground( color );
-                    }
-                };
-                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.BackgroundColorDialogTitle" ),
-                                        application.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
-            }
-        } );
         cck.setFrame( application.getApplicationView().getPhetFrame() );
-        JMenuItem toolboxColor = new JMenuItem( SimStrings.get( "OptionsMenu.ToolboxcolorMenuItem" ) );
-        toolboxColor.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                ColorDialog.Listener listy = new ColorDialog.Listener() {
-                    public void colorChanged( Color color ) {
-                        cck.getToolbox().setBackgroundColor( color );
-                    }
-
-                    public void cancelled( Color orig ) {
-                        cck.getToolbox().setBackgroundColor( orig );
-                    }
-
-                    public void ok( Color color ) {
-                        cck.getToolbox().setBackgroundColor( color );
-                    }
-                };
-                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.ToolboxColorDialogTitle" ),
-                                        application.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
-            }
-        } );
-
-        dev.add( changeBackgroundColor );
-        dev.add( toolboxColor );
+        dev.add( new BackgroundColorMenuItem( application, cck ) );
+        dev.add( new ToolboxColorMenuItem( application, cck ) );
         application.getApplicationView().getPhetFrame().addMenu( dev );
 
         this.cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
@@ -140,7 +99,6 @@ public class CCKApplication {
         if( debugMode ) {
             application.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
-//        addRepainterFunctions();
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
                 cck.clockTickFinished();
@@ -153,51 +111,6 @@ public class CCKApplication {
 
             public void windowDeiconified( WindowEvent e ) {
                 clock.setPaused( false );
-            }
-        } );
-    }
-
-    private void addRepainterFunctions() {
-        final PhetFrame frame = application.getApplicationView().getPhetFrame();
-        final Runnable repainter = new Runnable() {
-            public void run() {
-                Component c = frame.getContentPane();
-                c.invalidate();
-                c.validate();
-                c.repaint();
-            }
-        };
-        frame.addWindowFocusListener( new WindowFocusListener() {
-            public void windowGainedFocus( WindowEvent e ) {
-                repainter.run();
-            }
-
-            public void windowLostFocus( WindowEvent e ) {
-            }
-        } );
-        frame.addWindowListener( new WindowAdapter() {
-            public void windowActivated( WindowEvent e ) {
-            }
-
-            public void windowStateChanged( WindowEvent e ) {
-                repainter.run();
-            }
-
-            public void windowGainedFocus( WindowEvent e ) {
-                repainter.run();
-            }
-        } );
-        frame.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                repainter.run();
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                repainter.run();
-            }
-
-            public void componentMoved( ComponentEvent e ) {
-                repainter.run();
             }
         } );
     }
@@ -226,42 +139,4 @@ public class CCKApplication {
         }
     }
 
-//    public static void updateFrames() {
-//        Frame[] frames = JFrame.getFrames();
-//        ArrayList alreadyChecked = new ArrayList();
-//        for( int i = 0; i < frames.length; i++ ) {
-//            Frame frame = frames[i];
-//            testUpdate( frame );
-//            if( !alreadyChecked.contains( frame ) ) {
-//                Window[] owned = frames[i].getOwnedWindows();
-//                for( int j = 0; j < owned.length; j++ ) {
-//                    Window window = owned[j];
-//                    testUpdate( window );
-//                }
-//            }
-//            alreadyChecked.add( frames[i] );
-//        }
-//    }
-//
-//    public static void testUpdate( Window window ) {
-//        String title = window.getName();
-//        if( window instanceof Frame ) {
-//            Frame f = (Frame)window;
-//            title = f.getTitle();
-//            if( title == null ) {
-//                title = "";
-//            }
-//            title = title.trim().toLowerCase();
-//            if( title.indexOf( "Java Web Start Console".toLowerCase() ) >= 0 ) {
-//                //ignore
-//            }
-//            else if( title.indexOf( "Java Console".toLowerCase() ) >= 0 ) {
-//                //ignore.
-//            }
-//            else {
-//                SwingUtilities.updateComponentTreeUI( window );
-//            }
-//        }
-//
-//    }
 }

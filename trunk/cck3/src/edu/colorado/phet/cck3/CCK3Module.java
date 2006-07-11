@@ -29,7 +29,6 @@ import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.model.BaseModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
-import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_cck.view.PhetFrame;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
@@ -119,7 +118,7 @@ public class CCK3Module extends Module {
     private CCK3ControlPanel cck3controlPanel;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
 //    public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
-    public static final Color apparatusPanelColor = new Color( 100, 160, 255 );
+    private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
@@ -129,7 +128,7 @@ public class CCK3Module extends Module {
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
 
-    private MagicalRepaintPanel magicPanel;
+    private CCKApparatusPanel magicPanel;
     static CCK3Module module;
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
@@ -145,7 +144,8 @@ public class CCK3Module extends Module {
         module = this;
         this.parameters = new SetupParameters( this, args );
 
-        magicPanel = new MagicalRepaintPanel();
+        magicPanel = new CCKApparatusPanel();
+        magicPanel.setMyBackground( apparatusPanelColor );
         setApparatusPanel( magicPanel );
         clock.start();
         stopwatch = new MyPhetPNode( magicPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
@@ -282,7 +282,7 @@ public class CCK3Module extends Module {
         }
     }
 
-    public MagicalRepaintPanel getMagicPanel() {
+    public CCKApparatusPanel getMagicPanel() {
         return magicPanel;
     }
 
@@ -927,69 +927,6 @@ public class CCK3Module extends Module {
         System.out.println( "circuit.getCircuitListeners() = " + Arrays.asList( circuit.getCircuitListeners() ) );
         int jg = JunctionGraphic.getInstanceCount();
         System.out.println( "jg = " + jg );
-    }
-
-    static class MagicalRepaintPanel extends ApparatusPanel {
-        private ArrayList rectangles = new ArrayList();
-
-        public MagicalRepaintPanel() {
-//            addMouseMotionListener( new MouseMotionAdapter() {
-//                public void mouseDragged( MouseEvent e ) {
-//                    synchronizeImmediately();
-//                    try {
-//                        Thread.sleep( 25 );//todo what is this for?
-//                    }
-//                    catch( InterruptedException e1 ) {
-//                        e1.printStackTrace();
-//                    }
-//                }
-//            } );
-        }
-
-        public void repaint( long tm, int x, int y, int width, int height ) {
-            repaint( x, y, width, height );
-        }
-
-        public void repaint( Rectangle r ) {
-            repaint( r.x, r.y, r.width, r.height );
-        }
-
-        public void repaint() {
-            repaint( 0, 0, getWidth(), getHeight() );
-        }
-
-        public void repaint( int x, int y, int width, int height ) {
-            if( rectangles != null ) {
-                Rectangle r = new Rectangle( x, y, width, height );
-                rectangles.add( r );
-            }
-        }
-
-        public void repaint( long tm ) {
-            repaint();
-        }
-
-        public void synchronizeImmediately() {
-            Rectangle rect = union();
-            if( rect != null ) {
-                paintImmediately( rect );
-            }
-            rectangles.clear();
-        }
-
-        private Rectangle union() {
-            if( rectangles.size() == 0 ) {
-                return new Rectangle();
-            }
-            else {
-                Rectangle union = (Rectangle)rectangles.get( 0 );
-                for( int i = 1; i < rectangles.size(); i++ ) {
-                    Rectangle rectangle = (Rectangle)rectangles.get( i );
-                    union = union.union( rectangle );
-                }
-                return union;
-            }
-        }
     }
 
     public SetupParameters getParameters() {
