@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- refactor drag handle classes, move common stuff to base class
+- refactor drag handle manager classes, move common stuff to base class
 - bug: harmonic oscillator offset drag handle sometimes doesn't get mouse events
 - bug: some drag handles can be dragged past min/max
 - wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
@@ -12,6 +14,7 @@ HIGH PRIORITY:
 - pause the clock while dragging handles
 
 MEDIUM PRIORITY:
+- make sliders in Configure Energy dialog update continuously
 - attach a help item to one of the potential drag handles
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
