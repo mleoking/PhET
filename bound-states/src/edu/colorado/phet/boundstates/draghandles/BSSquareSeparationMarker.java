@@ -27,7 +27,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BSSquareSeparationMarker
+ * BSSquareSeparationMarker is used to indicate the separation between two
+ * Square wells. 2 vertical dashed lines are drawn through adjacent edges
+ * of the two wells that are closest to the origin.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -53,6 +55,12 @@ public class BSSquareSeparationMarker extends BSAbstractMarker implements Observ
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param chartNode
+     */
     public BSSquareSeparationMarker( BSSquarePotential potential, BSCombinedChartNode chartNode) {
         super();
 
@@ -80,6 +88,9 @@ public class BSSquareSeparationMarker extends BSAbstractMarker implements Observ
     // BSAbstractMarker implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the marker to match the model.
+     */
     public void updateView() {
         assert( _potential.getCenter() == 0 );
 
@@ -143,6 +154,11 @@ public class BSSquareSeparationMarker extends BSAbstractMarker implements Observ
         _rightNode.setPathTo( _rightPath );
     }
     
+    /**
+     * Sets the color scheme.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
         _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
         _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );

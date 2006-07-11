@@ -18,38 +18,37 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
 
+import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * BSSquareWidthHandle
+ * BSSquareWidthHandle is the drag handle used to control the width attribute
+ * of a potential composed of square wells.  
+ * <p>
+ * The handle is placed half way up the right edge of the rightmost well.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareWidthHandle extends BSAbstractHandle implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    private BSSquarePotential _potential;
+public class BSSquareWidthHandle extends BSPotentialHandle {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSSquareWidthHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( BSAbstractHandle.HORIZONTAL );
-        
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
-        setPotential( potential );
-        
+        super( potential, potentialSpec, chartNode, BSAbstractHandle.HORIZONTAL );
+
         int significantDecimalPlaces = potentialSpec.getWidthRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
@@ -57,26 +56,9 @@ public class BSSquareWidthHandle extends BSAbstractHandle implements Observer {
         
         updateDragBounds();
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSSquarePotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public BSSquarePotential getPotential() {
-        return _potential;
-    }
     
     //----------------------------------------------------------------------------
-    // Bounds
+    // AbstractDragHandle implementation
     //----------------------------------------------------------------------------
     
     /**
@@ -84,23 +66,29 @@ public class BSSquareWidthHandle extends BSAbstractHandle implements Observer {
      */
     public void updateDragBounds() {
         
-        final int n = _potential.getNumberOfWells();
-        final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
-        final double minWidth = _potentialSpec.getWidthRange().getMin();
-        final double maxWidth = _potentialSpec.getWidthRange().getMax();
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
+        BSCombinedChartNode chartNode = getChartNode();
+        
+        assert ( potential.getCenter() == 0 );
+        
+        final int n = potential.getNumberOfWells();
+        final double center = potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
+        final double minWidth = spec.getWidthRange().getMin();
+        final double maxWidth = spec.getWidthRange().getMax();
         
         // position -> x coordinates
         final double minPosition = center + ( minWidth / 2 );
         final double maxPosition = center + ( maxWidth / 2 );
-        final double minX = _chartNode.positionToNode( minPosition );
-        final double maxX = _chartNode.positionToNode( maxPosition );
+        final double minX = chartNode.positionToNode( minPosition );
+        final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
+        ValueAxis yAxis = chartNode.getEnergyPlot().getRangeAxis();
         final double minEnergy = yAxis.getLowerBound();
         final double maxEnergy = yAxis.getUpperBound();
-        final double minY = _chartNode.energyToNode( maxEnergy );
-        final double maxY = _chartNode.energyToNode( minEnergy );
+        final double minY = chartNode.energyToNode( maxEnergy );
+        final double maxY = chartNode.energyToNode( minEnergy );
         
         // bounds, local coordinates
         final double w = maxX - minX;
@@ -109,28 +97,29 @@ public class BSSquareWidthHandle extends BSAbstractHandle implements Observer {
 //        System.out.println( "BSSquareWidthHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
 
         // Convert to global coordinates
-        dragBounds = _chartNode.localToGlobal( dragBounds );
+        dragBounds = chartNode.localToGlobal( dragBounds );
 
         setDragBounds( dragBounds );
         updateView();
     }
-    
-    //----------------------------------------------------------------------------
-    // AbstractDragHandle implementation
-    //----------------------------------------------------------------------------
 
+    /**
+     * Updates the model to match the drag handle.
+     */
     protected void updateModel() {
-        assert ( _potential.getCenter() == 0 );
 
-        _potential.deleteObserver( this );
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+
+        potential.deleteObserver( this );
         {
             Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
+            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
             final double d = modelPoint.getX();
 
-            final int n = _potential.getNumberOfWells();
-            final double s = _potential.getSeparation();
+            final int n = potential.getNumberOfWells();
+            final double s = potential.getSeparation();
             double width = 0;
             
             if ( n % 2 == 0 ) {
@@ -144,46 +133,38 @@ public class BSSquareWidthHandle extends BSAbstractHandle implements Observer {
             }
 
 //            System.out.println( "BSSquareWidthHandle.updateModel x=" + globalNodePoint.getX() + " d=" + d + " width=" + width );//XXX
-            _potential.setWidth( width );
+            potential.setWidth( width );
             setValueDisplay( width );
         }
-        _potential.addObserver( this );
+        potential.addObserver( this );
         updateDragBounds();
     }
     
+    /**
+     * Updates the drag handle to match the model.
+     */
     protected void updateView() {
+        
+        BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSCombinedChartNode chartNode = getChartNode();
+        
         removePropertyChangeListener( this );
         {
-            final int n = _potential.getNumberOfWells();
-            final double center = _potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
-            final double width = _potential.getWidth();
-            final double height = _potential.getHeight();
-            final double offset = _potential.getOffset();
+            final int n = potential.getNumberOfWells();
+            final double center = potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
+            final double width = potential.getWidth();
+            final double height = potential.getHeight();
+            final double offset = potential.getOffset();
  
             final double position = center + ( width / 2 ); // right edge of the well
             final double energy = offset + ( height / 2 ); // half way up the side of the well
             Point2D modelPoint = new Point2D.Double( position, energy );
-            Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
+            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
 //            System.out.println( "BSSquareWidthHandle.updateView width=" + width + " x=" + globalNodePoint.getX() );//XXX
             setGlobalPosition( globalNodePoint );
             setValueDisplay( width );
         }
         addPropertyChangeListener( this );
-    }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the view when the model changes.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        assert( o == _potential );
-        updateDragBounds();
-        updateView();
     }
 }

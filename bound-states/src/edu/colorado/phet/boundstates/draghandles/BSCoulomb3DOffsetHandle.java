@@ -43,6 +43,13 @@ public class BSCoulomb3DOffsetHandle extends BSAbstractHandle implements Observe
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param potential
+     * @param potentialSpec used to get the range of the attribute controlled
+     * @param chartNode
+     */
     public BSCoulomb3DOffsetHandle( BSCoulomb3DPotential potential, 
             BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
         super( BSAbstractHandle.VERTICAL );
