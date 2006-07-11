@@ -42,13 +42,13 @@ import java.util.Random;
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
 public class CCK3ControlPanel extends ControlPanel {
-    private CCK3Module module;
+    private CCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private GrabBagButton grabBagButton;
     private JPanel advancedPanel;
 
-    public CCK3ControlPanel( final CCK3Module module ) {
+    public CCK3ControlPanel( final CCKModule module ) {
         super( module );
         setTitleVisible( false );
         advancedControlPanel = new AdvancedControlPanel( module );
@@ -110,7 +110,7 @@ public class CCK3ControlPanel extends ControlPanel {
                     double x1 = rand.nextDouble() * 10;
                     double y1 = rand.nextDouble() * 10;
                     Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
-                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0, false );
+                                                CCKModule.BATTERY_DIMENSION.getLength(), CCKModule.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0, false );
                     module.getCircuit().addBranch( batt );
                     module.getCircuitGraphic().addGraphic( batt );
                     System.out.println( "i = " + i );
@@ -449,7 +449,7 @@ public class CCK3ControlPanel extends ControlPanel {
         module.setZoom( scale );
     }
 
-    private static void printEm( CCK3Module module ) {
+    private static void printEm( CCKModule module ) {
         KirkhoffSolver ks = new KirkhoffSolver();
         Circuit circuit = module.getCircuit();
         KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
@@ -556,12 +556,12 @@ public class CCK3ControlPanel extends ControlPanel {
     }
 
     static class AdvancedControlPanel extends AdvancedPanel {
-        private CCK3Module module;
+        private CCKModule module;
         private JDialog dialog;
         private PhetSlider resistivitySlider;
         private JCheckBox hideElectrons;
 
-        public AdvancedControlPanel( final CCK3Module module ) {
+        public AdvancedControlPanel( final CCKModule module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
 
             addListener( new Listener() {
@@ -579,7 +579,7 @@ public class CCK3ControlPanel extends ControlPanel {
 //            setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
-                                                CCK3Module.ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
+                                                CCKModule.ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
                                                 new DecimalFormat( "0.0000000" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );

@@ -15,9 +15,9 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/cck/v21"
-    href="cck3.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/projects/cck/v21"
+        href="cck3.jnlp">
     <information>
         <title>Circuit Construction Kit</title>
         <vendor>PhET(tm)</vendor>
@@ -41,6 +41,6 @@ information.
         <jar href="../sharedlib/cck-help.jar" download="lazy"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.cck3.CCK3Module">
+    <application-desc main-class="edu.colorado.phet.cck3.CCKModule">
     </application-desc>
 </jnlp>

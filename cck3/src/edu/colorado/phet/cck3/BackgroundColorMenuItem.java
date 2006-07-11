@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  */
 
 public class BackgroundColorMenuItem extends JMenuItem {
-    public BackgroundColorMenuItem( final PhetApplication application, final CCK3Module cck ) {
+    public BackgroundColorMenuItem( final PhetApplication application, final CCKModule cck ) {
         super( SimStrings.get( "OptionsMenu.BackgroundColorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
