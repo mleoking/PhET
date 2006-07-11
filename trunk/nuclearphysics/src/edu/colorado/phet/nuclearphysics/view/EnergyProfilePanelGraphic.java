@@ -144,12 +144,14 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             throw new IllegalArgumentException( "bad profile type" );
         }
 
-        RoundRectangle2D border = new RoundRectangle2D.Double( 10, 10, width, height, 50, 50 );
+        double strokeWidth = 10;
+        RoundRectangle2D border = new RoundRectangle2D.Double( strokeWidth, strokeWidth, width, height, 50, 50 );
         backgroundGraphic = new PhetShapeGraphic( component,
                                                   border,
                                                   EnergyProfilePanelGraphic.backgroundColor,
-                                                  new BasicStroke( 10 ),
+                                                  new BasicStroke( (float)strokeWidth ),
                                                   Color.gray );
+        backgroundGraphic.setLocation( -(int)(strokeWidth / 2), 0 );
         addGraphic( backgroundGraphic, 0 );
 
 //        PhetImageGraphic bezel = new PhetImageGraphic( component, "images/energy-panel-bezel.png" );
@@ -211,11 +213,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             drawLegend( g2 );
         }
 
-//        g2.setColor( Color.red );
-//        g2.drawArc( -3, -3, 6,6, 0, 360 );
-//        g2.setColor( Color.green );
-//        g2.drawArc( (int)origin.getX() - 3, (int)origin.getY() -3, 6,6, 0, 360 );
-
         // Draw nuclei
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
         boolean lineDrawn = false;
@@ -265,7 +262,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getParentNucleusTotalEnergy();
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
-//            g2.setTransform( orgTx );
         }
         g2.setTransform( orgTx );
 
@@ -397,7 +393,6 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), g2 );
             g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
         }
-
 
         gs.restoreGraphics();
     }

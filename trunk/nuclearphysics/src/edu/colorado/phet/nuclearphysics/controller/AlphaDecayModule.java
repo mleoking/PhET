@@ -75,7 +75,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
         model.addNucleusListener( new NuclearPhysicsModel.NucleusListener() {
             public void nucleusAdded( NuclearPhysicsModel.ChangeEvent event ) {
-                Nucleus nucleus = event.getNucleus();
                 if( event.getNucleus() instanceof ProfileableNucleus ) {
                     getEnergyProfilePanel().addEnergyProfile( (ProfileableNucleus)event.getNucleus(), EnergyProfileGraphic.TOTAL_ENERGY );
                 }
@@ -155,7 +154,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 if( alphaRing != null ) {
                     GraphicsUtil.setAntiAliasingOn( g );
                     GraphicsUtil.setAlpha( g, 0.4 );
-                    g.setColor( Color.blue );
+                    g.setColor( EnergyProfileGraphic.potentialProfileColor );
+//                    g.setColor( Color.blue );
                     g.setStroke( ringStroke );
                     g.draw( alphaRing );
                     GraphicsUtil.setAlpha( g, 1 );
@@ -191,7 +191,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 return leaderLine1.getBounds().union( leaderLine2.getBounds() );
             }
         };
-        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
+//        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
         this.getEnergyProfilePanel().addOriginCenteredGraphic( leaderLines );
     }
 
@@ -245,8 +245,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             } );
             rewindToDecayBtn.setEnabled( false );
-
-//            JPanel clockControlPanel = new JPanel( );
             add( new ClockControlPanel( getClock() ) );
             add( rewindToDecayBtn );
         }
