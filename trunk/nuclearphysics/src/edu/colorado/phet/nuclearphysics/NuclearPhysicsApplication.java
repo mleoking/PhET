@@ -70,7 +70,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         };
         setModules( modules );
 
-        getPhetFrame().addMenu( new OptionsMenu() );
+//        getPhetFrame().addMenu( new OptionsMenu() );
 
         // Make the frame non-resizable for now
         getPhetFrame().setResizable( false );
