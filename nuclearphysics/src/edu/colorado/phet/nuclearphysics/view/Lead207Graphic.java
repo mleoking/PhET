@@ -29,8 +29,6 @@ public class Lead207Graphic extends NucleusGraphic {
 
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
-    private static Color color = Color.black;
-//    private static Color color = Color.magenta;
     private static AffineTransform nucleusTx = new AffineTransform();
     private static Stroke fontOutlineStroke = new BasicStroke( 1f );
     private static Random random = new Random();
@@ -68,13 +66,12 @@ public class Lead207Graphic extends NucleusGraphic {
 
             GraphicsUtil.setAntiAliasingOn( g );
 
-            g.setColor( Lead207Graphic.color );
+            g.setColor( NucleusLabelColors.getColor( this.getClass() ));
             g.setFont( Lead207Graphic.isotopeFont );
             FontMetrics fm = g.getFontMetrics();
             g.drawString( SimStrings.get( "Lead206Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Lead206Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
-            g.setColor( Lead207Graphic.color );
             g.setFont( Lead207Graphic.elementFont );
             g.drawString( SimStrings.get( "Lead206Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );

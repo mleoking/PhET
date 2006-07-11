@@ -26,7 +26,6 @@ public class Uranium239Graphic extends NucleusGraphic {
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 12 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 30 );
     private static Font font = new Font( "Serif", Font.BOLD, 18 );
-    private static Color color = Color.white;
     private static AffineTransform nucleusTx = new AffineTransform();
 
     private static Random random = new Random();
@@ -55,7 +54,7 @@ public class Uranium239Graphic extends NucleusGraphic {
         AffineTransform orgTx = g.getTransform();
         g.transform( nucleusTx );
 
-        g.setColor( color );
+        g.setColor( NucleusLabelColors.getColor( this.getClass() ));
         g.setFont( isotopeFont );
         FontMetrics fm = g.getFontMetrics();
         g.drawString( SimStrings.get( "Uranium239Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Uranium239Graphic.Number" ) ), 0 );

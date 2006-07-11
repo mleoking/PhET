@@ -26,8 +26,6 @@ public class Uranium235Graphic extends NucleusGraphic {
 
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
-    private static Color color = Color.green;
-//    private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
     private static Stroke fontOutlineStroke = new BasicStroke( 1f );
     private static Random random = new Random();
@@ -65,13 +63,12 @@ public class Uranium235Graphic extends NucleusGraphic {
 
             GraphicsUtil.setAntiAliasingOn( g );
 
-            g.setColor( color );
+            g.setColor( NucleusLabelColors.getColor( this.getClass() ));
             g.setFont( isotopeFont );
             FontMetrics fm = g.getFontMetrics();
             g.drawString( SimStrings.get( "Uranium235Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Uranium235Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
-            g.setColor( color );
             g.setFont( elementFont );
             g.drawString( SimStrings.get( "Uranium235Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
