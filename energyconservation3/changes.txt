@@ -1,3 +1,9 @@
+1.02 (7-10-2006)
+Made the grid overlay x-axis match the Energy-Position plot's x-axis.
+
+1.01 (7-10-2006)
+Posted on main site.
+
 0.00.28 (6-8-2006)
 Updated gravity controls.
 Bugfix: Performance degrades when showing history points.

@@ -261,6 +261,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     int count = 0;
 
     private void update() {
+//        updateGraphics();
         count++;
         if( !isActive() ) {
             return;
@@ -346,13 +347,15 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     public Point2D toImageLocation( double x, double y ) {
+        x--;//todo: this accounts for an offset in the main chart
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
+//            return new Point2D.Double( );
         }
-
-        double transX1 = chart.getXYPlot().getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, chart.getXYPlot().getDomainAxisEdge() );
-        double transY1 = chart.getXYPlot().getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, chart.getXYPlot().getRangeAxisEdge() );
-        return new Point2D.Double( transX1, transY1 );
+        dataArea = new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
+        double x1 = chart.getXYPlot().getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, chart.getXYPlot().getDomainAxisEdge() );
+        double y1 = chart.getXYPlot().getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, chart.getXYPlot().getRangeAxisEdge() );
+        return new Point2D.Double( x1, y1 );
     }
 }
