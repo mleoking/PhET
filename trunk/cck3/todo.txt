@@ -1,6 +1,8 @@
 ################################################
 #Remaining Work
 #######################
+Add "(DC & AC)" to the title.
+
 See faraday's AC source graphics
 
 Get the time units to work out correctly.
