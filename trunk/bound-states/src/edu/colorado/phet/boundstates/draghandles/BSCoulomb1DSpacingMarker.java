@@ -95,7 +95,10 @@ public class BSCoulomb1DSpacingMarker extends BSAbstractMarker implements Observ
      * Updates the marker to match the model.
      */
     public void updateView() {
-        assert( _potential.getCenter() == 0 );
+
+        if ( _potential.getCenter() != 0 ) {
+            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
+        }
         
         _leftPath.reset();
         _rightPath.reset();

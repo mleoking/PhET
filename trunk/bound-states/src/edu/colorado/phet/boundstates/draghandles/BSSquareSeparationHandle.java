@@ -73,7 +73,9 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
-        assert ( potential.getCenter() == 0 );
+        if ( potential.getCenter() != 0 ) {
+            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
+        }
         
         // position -> x coordinates
         final double minSeparation = spec.getSeparationRange().getMin();

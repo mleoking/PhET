@@ -75,7 +75,9 @@ public class BSCoulomb1DSpacingHandle extends BSPotentialHandle {
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
-        assert( potential.getCenter() == 0 );
+        if ( potential.getCenter() != 0 ) {
+            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
+        }
         
         final int n = potential.getNumberOfWells();
         double minSpacing = spec.getSpacingRange().getMin();
