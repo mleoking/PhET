@@ -10,10 +10,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 /**
- * User: Sam Reid
- * Date: Jun 7, 2006
- * Time: 11:14:21 PM
- * Copyright (c) Jun 7, 2006 by Sam Reid
+ * Todo: see EnergyPositionPlotCanvas for an error in the offset.
  */
 
 public class GridNode extends PhetPNode {

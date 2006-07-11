@@ -160,7 +160,7 @@ public class EC3Module extends PiccoloModule {
     }
 
     private void init() {
-        Body body = new Body( Body.createDefaultBodyRect() );
+        final Body body = new Body( Body.createDefaultBodyRect() );
         body.setPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
@@ -173,6 +173,13 @@ public class EC3Module extends PiccoloModule {
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
+
+//        getClock().addClockListener( new ClockAdapter() {
+//            public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                super.simulationTimeChanged( clockEvent );
+//                System.out.println( "body.getPosition() = " + body.getPosition() );
+//            }
+//        } );
     }
 
     private Point2D getDefaultBodyPosition() {
