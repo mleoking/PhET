@@ -160,6 +160,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         containment = new Containment( new Point2D.Double( 0, 0 ), 400, (NuclearPhysicsModel)getModel() );
         getModel().addModelElement( containment );
         containment.addResizeListener( this );
+        // To remove any nuclei that are outside the containment
+        containementResized( containment );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, containmentGraphicLayer );
 
@@ -273,9 +275,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         computeNeutronLaunchParams();
 
         ArrayList removeList = new ArrayList();
+        double nucleusRadius = 120;
         for( int i = 0; i < getNuclei().size(); i++ ) {
             Nucleus nucleus = (Nucleus)getNuclei().get( i );
-            if( nucleus.getPosition().distance( 0, 0 ) + 50 > bounds.getBounds2D().getWidth() / 2 ) {
+            if( nucleus.getPosition().distance( 0, 0 ) + nucleusRadius > bounds.getBounds2D().getWidth() / 2 ) {
                 removeList.add( nucleus );
             }
         }

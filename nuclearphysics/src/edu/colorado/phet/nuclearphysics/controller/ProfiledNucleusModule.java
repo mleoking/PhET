@@ -51,11 +51,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                    GridBagConstraints.CENTER,
                                                    GridBagConstraints.BOTH,
                                                    new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints profilePanelGBC = new GridBagConstraints( 0, 1, 1, 1, 1, .75,
-                                                                     GridBagConstraints.CENTER,
-                                                                     GridBagConstraints.BOTH,
-                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-
         energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
         energyProfilePanel.setVisible( true );
     }
@@ -69,7 +64,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
 
         // Add the energy profile panel
         AffineTransform atx = new AffineTransform( getPhysicalPanel().getNucleonTx() );
-        atx.translate( -energyProfilePanel.getWidth() / 2 , 130 );
+        atx.translate( -energyProfilePanel.getWidth() / 2, 130 );
         TxGraphic txg = new TxGraphic( energyProfilePanel, atx ) ;
         getPhysicalPanel().addOriginCenteredGraphic( txg, 1E12 );
         getApparatusPanel().add( component, physicalPanelGBC );
