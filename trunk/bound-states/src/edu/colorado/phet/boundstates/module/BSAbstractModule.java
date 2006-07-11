@@ -490,11 +490,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         }
         
         // Potential drag handles
-        _asymmetricHandleManager.updateDragBounds();
-        _coulomb1DHandleManager.updateDragBounds();
-        _coulomb3DHandleManager.updateDragBounds();
-        _harmonicOscillatorHandleManager.updateDragBounds();
-        _squareHandleManager.updateDragBounds();
+        _asymmetricHandleManager.updateLayout();
+        _coulomb1DHandleManager.updateLayout();
+        _coulomb3DHandleManager.updateLayout();
+        _harmonicOscillatorHandleManager.updateLayout();
+        _squareHandleManager.updateLayout();
     }
     
     //----------------------------------------------------------------------------

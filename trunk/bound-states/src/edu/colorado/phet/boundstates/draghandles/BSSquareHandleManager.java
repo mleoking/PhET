@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
@@ -29,9 +32,6 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSPotentialSpec _potentialSpec;
-    private BSCombinedChartNode _chartNode;
-    
     private BSSquareSeparationMarkers _separationMarkers;
     private BSSquareSeparationHandle _separationHandle;
     private BSSquareOffsetHandle _offsetHandle;
@@ -43,9 +43,7 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     //----------------------------------------------------------------------------
     
     public BSSquareHandleManager( BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super();
-        _potentialSpec = potentialSpec;
-        _chartNode = chartNode;
+        super( potentialSpec, chartNode );
     }
     
     //----------------------------------------------------------------------------
@@ -56,26 +54,29 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
         clear();      
         if ( potential != null ) {
             
-            if ( !_potentialSpec.getSeparationRange().isZero() ) {
-                _separationMarkers = new BSSquareSeparationMarkers( potential, _chartNode );
+            BSPotentialSpec potentialSpec = getPotentialSpec();
+            BSCombinedChartNode chartNode = getChartNode();
+            
+            if ( !potentialSpec.getSeparationRange().isZero() ) {
+                _separationMarkers = new BSSquareSeparationMarkers( potential, chartNode );
                 addChild( _separationMarkers );
 
-                _separationHandle = new BSSquareSeparationHandle( potential, _potentialSpec, _chartNode );
+                _separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
                 addChild( _separationHandle );
             }
 
-            if ( !_potentialSpec.getOffsetRange().isZero() ) {
-                _offsetHandle = new BSSquareOffsetHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getOffsetRange().isZero() ) {
+                _offsetHandle = new BSSquareOffsetHandle( potential, potentialSpec, chartNode );
                 addChild( _offsetHandle );
             }
 
-            if ( !_potentialSpec.getHeightRange().isZero() ) {
-                _heightHandle = new BSSquareHeightHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getHeightRange().isZero() ) {
+                _heightHandle = new BSSquareHeightHandle( potential, potentialSpec, chartNode );
                 addChild( _heightHandle );
             }
 
-            if ( !_potentialSpec.getWidthRange().isZero() ) {
-                _widthHandle = new BSSquareWidthHandle( potential, _potentialSpec, _chartNode );
+            if ( !potentialSpec.getWidthRange().isZero() ) {
+                _widthHandle = new BSSquareWidthHandle( potential, potentialSpec, chartNode );
                 addChild( _widthHandle );
             }
         }
@@ -94,7 +95,8 @@ public class BSSquareHandleManager extends BSAbstractHandleManager {
     // IHandleManager implementation
     //----------------------------------------------------------------------------
        
-    public void updateDragBounds() {
+    public void updateLayout() {
+        updateClip();
         if ( _separationMarkers != null ) {
             _separationMarkers.updateView();
         }
