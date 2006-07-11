@@ -32,7 +32,7 @@ public class BodyGraphic extends PNode {
     private Body body;
     private EC3Module ec3Module;
     private PPath boundsDebugPPath;
-    private PImage skater;
+    private PImage pImage;
     private PPath centerDebugger;
 //    private JetPackGraphic jetPackGraphic;
 //    private boolean debugCenter = true;
@@ -48,8 +48,8 @@ public class BodyGraphic extends PNode {
 //        addChild( jetPackGraphic );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/skater3.png" );
-            skater = new PImage( image );
-            addChild( skater );
+            pImage = new PImage( image );
+            addChild( pImage );
 
             centerDebugger = new PPath();
             centerDebugger.setStroke( null );
@@ -112,7 +112,7 @@ public class BodyGraphic extends PNode {
     }
 
     protected void setImage( Image image ) {
-        skater.setImage( image );
+        pImage.setImage( image );
         update();
     }
 
@@ -129,15 +129,16 @@ public class BodyGraphic extends PNode {
         this.body = body;
     }
 
-    public PImage getSkater() {
-        return skater;
+    public PImage getpImage() {
+        return pImage;
     }
 
     public void update() {
         boundsDebugPPath.setPathTo( body.getLocatedShape() );
 
-        skater.setTransform( createSkaterTransform() );
+        pImage.setTransform( createSkaterTransform() );
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
+//        invalidateFullBounds();
     }
 
     public static AffineTransform createTransform( Body body, AffineTransform bodyTransform, double objWidth, double objHeight, int imageWidth, int imageHeight ) {
@@ -165,8 +166,8 @@ public class BodyGraphic extends PNode {
     public AffineTransform createSkaterTransform() {
         return createTransform( body, body.getTransform(), getBodyModelWidth(),
                                 getBodyModelHeight(),
-                                skater.getImage().getWidth( null ),
-                                skater.getImage().getHeight( null ) );
+                                pImage.getImage().getWidth( null ),
+                                pImage.getImage().getHeight( null ) );
     }
 
     public double getBodyModelHeight() {
