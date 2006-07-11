@@ -71,7 +71,9 @@ public class BSCoulomb1DOffsetHandle extends BSPotentialHandle {
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
-        assert( potential.getCenter() == 0 );
+        if ( potential.getCenter() != 0 ) {
+            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
+        }
         
         //  position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();

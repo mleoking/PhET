@@ -70,7 +70,9 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
-        assert ( potential.getCenter() == 0 );
+        if ( potential.getCenter() != 0 ) {
+            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
+        }
         
         final int n = potential.getNumberOfWells();
         final double center = potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to

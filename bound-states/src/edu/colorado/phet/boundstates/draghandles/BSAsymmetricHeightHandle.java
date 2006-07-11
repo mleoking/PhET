@@ -68,8 +68,9 @@ public class BSAsymmetricHeightHandle extends BSPotentialHandle {
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
-        assert( potential.getNumberOfWells() == 1 ); // single well only!
-        assert( potential.getCenter() == 0 ); // center at zero
+        if ( potential.getCenter() != 0 || potential.getNumberOfWells() != 1 ) {
+            throw new UnsupportedOperationException( "this implementation only supports 1 well centered at 0" );
+        }
         
         // position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
