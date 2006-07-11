@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.PathBranch;
 import edu.colorado.phet.cck3.circuit.components.Bulb;
@@ -30,11 +30,11 @@ import java.awt.image.BufferedImage;
 public class ElectronGraphic extends PhetImageGraphic {
     private Electron electron;
     private ModelViewTransform2D transform;
-    private CCK3Module module;
+    private CCKModule module;
     private TransformListener transformListener;
     private SimpleObserver electronObserver;
 
-    public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCK3Module module ) {
+    public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCKModule module ) {
         super( parent, image, createTransformStatic( electron, transform, image ) );
         this.electron = electron;
         this.transform = transform;

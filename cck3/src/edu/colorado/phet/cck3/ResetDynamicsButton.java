@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
  */
 
 public class ResetDynamicsButton extends JButton {
-    private CCK3Module module;
+    private CCKModule module;
 
-    public ResetDynamicsButton( final CCK3Module module ) {
+    public ResetDynamicsButton( final CCKModule module ) {
         super( CCKStrings.getString( "reset.dynamics" ) );
         this.module = module;
         addActionListener( new ActionListener() {

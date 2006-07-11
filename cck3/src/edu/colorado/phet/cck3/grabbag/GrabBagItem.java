@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.grabbag;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.view.util.ImageLoader;
@@ -68,7 +68,7 @@ public class GrabBagItem {
 
     private static final Random random = new Random();
 
-    public Resistor createBranch( CCK3Module module ) {
+    public Resistor createBranch( CCKModule module ) {
         Rectangle2D mb = module.getTransform().getModelBounds();
 
         double x = random.nextDouble() * mb.getWidth() * 0.9 + mb.getX();

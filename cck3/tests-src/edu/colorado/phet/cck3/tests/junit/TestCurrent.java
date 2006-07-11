@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests.junit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
@@ -20,7 +20,7 @@ import junit.framework.TestCase;/*Test CVS Commit on mac*/
  * Copyright (c) Jul 8, 2004 by Sam Reid
  */
 public class TestCurrent extends TestCase {
-    private CCK3Module module;
+    private CCKModule module;
     private SwingTimerClock clock;
     private PhetApplication app;
 
@@ -30,7 +30,7 @@ public class TestCurrent extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        module = new CCK3Module( new String[0] );
+        module = new CCKModule( new String[0] );
         clock = new SwingTimerClock( 1, 30 );
         app = new PhetApplication( new ApplicationModel( "Title", "x", "x",
                                                          new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) ), module, clock ) );
@@ -44,7 +44,7 @@ public class TestCurrent extends TestCase {
     }
 
     private void testSimpleCircuit( double r, double v ) {
-        double battResistance = CCK3Module.MIN_RESISTANCE;
+        double battResistance = CCKModule.MIN_RESISTANCE;
         Resistor resistor = new Resistor( module.getKirkhoffListener(), new Junction( 5, 5 ),
                                           new Junction( 5, 6 ), 1, 1 );
         resistor.setResistance( r - battResistance );
@@ -70,7 +70,7 @@ public class TestCurrent extends TestCase {
         double numVolt = 4;
         double minVolt = -100;
         double maxVolt = 100;
-        double minRes = CCK3Module.MIN_RESISTANCE * 2;
+        double minRes = CCKModule.MIN_RESISTANCE * 2;
         double maxRes = 100;
 
         double dVolt = ( maxVolt - minVolt ) / numVolt;

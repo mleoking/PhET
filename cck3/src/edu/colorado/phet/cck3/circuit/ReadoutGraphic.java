@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.Switch;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  */
 public class ReadoutGraphic implements Graphic {
     PhetMultiLineTextGraphic textGraphic;
-    private CCK3Module module;
+    private CCKModule module;
     Branch branch;
     private ModelViewTransform2D transform;
     private ApparatusPanel panel;
@@ -37,7 +37,7 @@ public class ReadoutGraphic implements Graphic {
     private SimpleObserver observer;
     private TransformListener transformListener;
 
-    public ReadoutGraphic( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
+    public ReadoutGraphic( CCKModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
         this.module = module;
         this.branch = branch;
         this.transform = transform;
@@ -89,12 +89,12 @@ public class ReadoutGraphic implements Graphic {
         boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
         boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;
         if( up || down ) {
-            pt = new Point2D.Double( pt.getX() + CCK3Module.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
+            pt = new Point2D.Double( pt.getX() + CCKModule.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
         }
         else {
-            pt = new Point2D.Double( pt.getX(), pt.getY() + CCK3Module.BATTERY_DIMENSION.getHeight() * .3 );
+            pt = new Point2D.Double( pt.getX(), pt.getY() + CCKModule.BATTERY_DIMENSION.getHeight() * .3 );
         }
-        pt = new Point2D.Double( pt.getX() + CCK3Module.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
+        pt = new Point2D.Double( pt.getX() + CCKModule.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
         Point out = transform.modelToView( pt );
         Color foregroundColor = Color.black;
         Color backgroundColor = Color.yellow;
@@ -166,7 +166,7 @@ public class ReadoutGraphic implements Graphic {
 
     public static class BatteryReadout extends ReadoutGraphic {
 
-        public BatteryReadout( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
+        public BatteryReadout( CCKModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
             super( module, branch, transform, panel, decimalFormatter );
         }
 

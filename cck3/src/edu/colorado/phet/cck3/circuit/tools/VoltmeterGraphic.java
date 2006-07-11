@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.tools;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.circuit.VoltageCalculation;
@@ -39,7 +39,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
     private LeadGraphic blackLeadGraphic;
     private CableGraphic redCableGraphic;
     private CableGraphic blackCableGraphic;
-    private CCK3Module module;
+    private CCKModule module;
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
@@ -50,7 +50,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         unitGraphic.setVisible( visible );
     }
 
-    public VoltmeterGraphic( Voltmeter voltmeter, Component parent, CCK3Module module ) throws IOException {
+    public VoltmeterGraphic( Voltmeter voltmeter, Component parent, CCKModule module ) throws IOException {
         this.transform = module.getTransform();
         this.voltmeter = voltmeter;
         this.module = module;

@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  */
 
 public class ToolboxColorMenuItem extends JMenuItem {
-    public ToolboxColorMenuItem( final PhetApplication application, final CCK3Module cck ) {
+    public ToolboxColorMenuItem( final PhetApplication application, final CCKModule cck ) {
         super( SimStrings.get( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

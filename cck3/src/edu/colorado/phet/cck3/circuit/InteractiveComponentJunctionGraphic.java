@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
@@ -23,7 +23,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
     private CircuitGraphic circuitGraphic;
     private Branch branch;
 
-    public InteractiveComponentJunctionGraphic( final CircuitGraphic cg, final JunctionGraphic junctionGraphic, final CircuitComponent branch, CCK3Module module ) {
+    public InteractiveComponentJunctionGraphic( final CircuitGraphic cg, final JunctionGraphic junctionGraphic, final CircuitComponent branch, CCKModule module ) {
         super( junctionGraphic );
         this.circuitGraphic = cg;
         this.branch = branch;

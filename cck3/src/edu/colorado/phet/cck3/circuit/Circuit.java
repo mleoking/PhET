@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
@@ -195,7 +195,7 @@ public class Circuit {
             Junction opposite = branch.opposite( junction );
             AbstractVector2D vec = new Vector2D.Double( opposite.getPosition(), junction.getPosition() );
             double curLength = vec.getMagnitude();
-            double newLength = Math.abs( curLength - CCK3Module.JUNCTION_RADIUS * 1.5 );
+            double newLength = Math.abs( curLength - CCKModule.JUNCTION_RADIUS * 1.5 );
             vec = vec.getInstanceOfMagnitude( newLength );
             Point2D desiredDst = vec.getDestination( opposite.getPosition() );
             Point2D dst = desiredDst;
@@ -393,7 +393,7 @@ public class Circuit {
     }
 
 
-    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, CCK3Module module ) {
+    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, CCKModule module ) {
         Circuit cir = new Circuit( kl );
         for( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
@@ -418,7 +418,7 @@ public class Circuit {
         return cir;
     }
 
-    public static Branch toBranch( CCK3Module module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
+    public static Branch toBranch( CCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if( type.equals( Branch.class.getName() ) ) {
             Branch branch = new Branch( kl, startJunction, endJunction );
@@ -438,7 +438,7 @@ public class Circuit {
             double amplitude = Double.parseDouble( xml.getAttribute( "amplitude", Double.NaN + "" ) );
             double freq = Double.parseDouble( xml.getAttribute( "frequency", Double.NaN + "" ) );
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
-            ACVoltageSource voltageSource = new ACVoltageSource( kl, startJunction, endJunction, length, height, CCK3Module.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            ACVoltageSource voltageSource = new ACVoltageSource( kl, startJunction, endJunction, length, height, CCKModule.MIN_RESISTANCE, module.isInternalResistanceOn() );
             voltageSource.setInternalResistance( internalResistance );
             voltageSource.setAmplitude( amplitude );
             voltageSource.setFrequency( freq );
@@ -458,7 +458,7 @@ public class Circuit {
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
             //            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
             //            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
-            Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCK3Module.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCKModule.MIN_RESISTANCE, module.isInternalResistanceOn() );
             batt.setInternalResistance( internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
             double val = Double.parseDouble( voltVal );

@@ -29,14 +29,14 @@ public class CCKHelp {
     private PositionedHelpItem junctionHelpItem;
     private PositionedHelpItem componentHelpItem;
     private PositionedHelpItem myToolboxHelpItem;
-    private CCK3Module module;
+    private CCKModule module;
     private ModelViewTransform2D transform;
     private Circuit circuit;
     private CircuitGraphic circuitGraphic;
     private Toolbox toolbox;
     private SimpleObserver observer;
 
-    public CCKHelp( CCK3Module module ) {
+    public CCKHelp( CCKModule module ) {
         this.module = module;
         this.transform = module.getTransform();
         this.circuit = module.getCircuit();

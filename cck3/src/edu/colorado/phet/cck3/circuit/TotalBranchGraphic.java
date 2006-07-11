@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 
@@ -19,7 +19,7 @@ public class TotalBranchGraphic {
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic1;
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic2;
 
-    public TotalBranchGraphic( CircuitGraphic circuitGraphic, final Branch branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, Color color, double junctionRadius, CCK3Module module, double wireThickness ) {
+    public TotalBranchGraphic( CircuitGraphic circuitGraphic, final Branch branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, Color color, double junctionRadius, CCKModule module, double wireThickness ) {
         BranchGraphic bg = new BranchGraphic( branch, apparatusPanel, wireThickness, transform, color );
         interactiveBranchGraphic = new InteractiveBranchGraphic( circuitGraphic, bg, transform, module );
 

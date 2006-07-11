@@ -52,8 +52,7 @@ public class CCKApplication {
         application.getApplicationView().getPhetFrame().addMenu( new LookAndFeelMenu() );
         application.getApplicationView().getPhetFrame().addMenu( new OptionsMenu( application, cckModule ) );
 
-        RepaintDebugGraphic colorG = new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock );
-        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, colorG ) );
+        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
         cckModule.getApparatusPanel().addKeyListener( new SimpleKeyEvent( KeyEvent.VK_D ) {
             public void invoke() {
                 cckModule.debugListeners();
@@ -67,6 +66,7 @@ public class CCKApplication {
                 cckModule.clockTickFinished();
             }
         } );
+        //todo this is buggy with user-set pause & play
         application.getApplicationView().getPhetFrame().addWindowListener( new WindowAdapter() {
             public void windowIconified( WindowEvent e ) {
                 clock.setPaused( true );

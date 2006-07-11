@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.common.CCKPhetGraphic;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGraphic {
     private Bulb component;
     private ModelViewTransform2D transform;
-    private CCK3Module module;
+    private CCKModule module;
     private Component parent;
     private static final double WIDTH = 100;
     private static final double HEIGHT = 100;
@@ -43,7 +43,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
     private Stroke highlightStroke = new BasicStroke( 5 );
     private double tilt;
 
-    public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
+    public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCKModule module ) {
         super( parent );
         highlightGraphic = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.parent = parent;

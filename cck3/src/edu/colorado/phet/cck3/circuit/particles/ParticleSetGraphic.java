@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 
 import java.awt.image.BufferedImage;
@@ -16,11 +16,11 @@ import java.util.Hashtable;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ParticleSetGraphic extends CompositeGraphic {
-    private CCK3Module module;
+    private CCKModule module;
     private BufferedImage image;
     private Hashtable table = new Hashtable();
 
-    public ParticleSetGraphic( CCK3Module module ) throws IOException {
+    public ParticleSetGraphic( CCKModule module ) throws IOException {
         this.module = module;
         this.image = module.getImageSuite().getParticleImage();
     }

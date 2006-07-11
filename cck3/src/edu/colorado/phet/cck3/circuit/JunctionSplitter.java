@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
@@ -19,9 +19,9 @@ public class JunctionSplitter {
     Junction junction;
     //deletes the unified junction, then splits the others, and creates new junctions.
     CircuitGraphic circuitGraphic;
-    private CCK3Module module;
+    private CCKModule module;
 
-    public JunctionSplitter( Junction junction, CircuitGraphic circuitGraphic, CCK3Module module ) {
+    public JunctionSplitter( Junction junction, CircuitGraphic circuitGraphic, CCKModule module ) {
         this.junction = junction;
         this.circuitGraphic = circuitGraphic;
         this.module = module;
