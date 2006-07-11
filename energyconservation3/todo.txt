@@ -2,8 +2,8 @@
 Remaining Work
 #######################################
 
-Bug: Wiggle me appears when Kathy moves the slider.
- 
+Bug: Wiggle me appears when K.P moves the slider.
+
 #################################################################
 Low Priority
 #######################################
