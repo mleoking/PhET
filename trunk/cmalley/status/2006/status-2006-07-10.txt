@@ -1,0 +1,35 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 4 - July 10, 2006 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - created 3 separate sims that share the same JAR file
+  - changed Spanish titles
+  - published 1.00 for AAPT
+  - lots of progress on drag handles
+
+  Quantum Tunneling
+  - changed Spanish translation of abstract and Help>About description
+  - published 1.06 to PhET web site
+
+  Common Code:
+  - discuss new Help>About dialog
+  
+WHAT'S NEXT:
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - July 17-26
+  - August 14-24
+  
+--
