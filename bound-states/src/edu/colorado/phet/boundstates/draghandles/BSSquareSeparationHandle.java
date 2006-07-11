@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareSeparationHandle extends AbstractHandle implements Observer {
+public class BSSquareSeparationHandle extends BSAbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -44,7 +44,7 @@ public class BSSquareSeparationHandle extends AbstractHandle implements Observer
     //----------------------------------------------------------------------------
     
     public BSSquareSeparationHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.HORIZONTAL );
+        super( BSAbstractHandle.HORIZONTAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

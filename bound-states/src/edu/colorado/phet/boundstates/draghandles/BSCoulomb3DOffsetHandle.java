@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb3DOffsetHandle extends AbstractHandle implements Observer {
+public class BSCoulomb3DOffsetHandle extends BSAbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -45,7 +45,7 @@ public class BSCoulomb3DOffsetHandle extends AbstractHandle implements Observer 
     
     public BSCoulomb3DOffsetHandle( BSCoulomb3DPotential potential, 
             BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.VERTICAL );
+        super( BSAbstractHandle.VERTICAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

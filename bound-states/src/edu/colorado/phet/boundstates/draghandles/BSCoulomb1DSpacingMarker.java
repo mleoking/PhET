@@ -28,12 +28,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BSCoulomb1DSpacingMarkers
+ * BSCoulomb1DSpacingMarker
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DSpacingMarkers extends PComposite implements Observer {
+public class BSCoulomb1DSpacingMarker extends BSAbstractMarker implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -56,9 +56,12 @@ public class BSCoulomb1DSpacingMarkers extends PComposite implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSCoulomb1DSpacingMarkers( BSCoulomb1DPotential potential, BSCombinedChartNode chartNode) {
+    public BSCoulomb1DSpacingMarker( BSCoulomb1DPotential potential, BSCombinedChartNode chartNode) {
         super();
  
+        _potential = potential;
+        _potential.addObserver( this );
+        
         _chartNode = chartNode;
         
         _leftPath = new GeneralPath();
@@ -73,38 +76,11 @@ public class BSCoulomb1DSpacingMarkers extends PComposite implements Observer {
         _rightNode.setStrokePaint( DEFAULT_COLOR );
         addChild( _rightNode );
         
-        setPotential( potential );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSCoulomb1DPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public void setColorScheme( BSColorScheme colorScheme ) {
-        _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
-        _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-    
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
         updateView();
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // BSAbstractMarker implementation
     //----------------------------------------------------------------------------
     
     public void updateView() {
@@ -166,7 +142,12 @@ public class BSCoulomb1DSpacingMarkers extends PComposite implements Observer {
         _leftNode.setPathTo( _leftPath );
         _rightNode.setPathTo( _rightPath );
     }
-
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
+        _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

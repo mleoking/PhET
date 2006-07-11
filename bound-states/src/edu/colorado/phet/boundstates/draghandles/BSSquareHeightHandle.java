@@ -31,7 +31,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareHeightHandle extends AbstractHandle implements Observer {
+public class BSSquareHeightHandle extends BSAbstractHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class BSSquareHeightHandle extends AbstractHandle implements Observer {
     //----------------------------------------------------------------------------
     
     public BSSquareHeightHandle( BSSquarePotential potential, BSPotentialSpec potentialSpec, BSCombinedChartNode chartNode ) {
-        super( AbstractHandle.VERTICAL );
+        super( BSAbstractHandle.VERTICAL );
         
         _potentialSpec = potentialSpec;
         _chartNode = chartNode;

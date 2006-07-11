@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractHandle extends PPath implements PropertyChangeListener {
+public abstract class BSAbstractHandle extends PPath implements PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -92,7 +92,7 @@ public abstract class AbstractHandle extends PPath implements PropertyChangeList
      * @param orientation HORIZONTAL or VERTICAL
      * @throws IllegalArgumentException
      */
-    public AbstractHandle( int orientation ) {
+    public BSAbstractHandle( int orientation ) {
         super();
         
         _normalColor = DEFAULT_NORMAL_COLOR;

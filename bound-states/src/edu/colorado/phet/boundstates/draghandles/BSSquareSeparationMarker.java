@@ -27,12 +27,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BSSquareSeparationMarkers
+ * BSSquareSeparationMarker
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareSeparationMarkers extends PComposite implements Observer {
+public class BSSquareSeparationMarker extends BSAbstractMarker implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -53,9 +53,12 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareSeparationMarkers( BSSquarePotential potential, BSCombinedChartNode chartNode) {
+    public BSSquareSeparationMarker( BSSquarePotential potential, BSCombinedChartNode chartNode) {
         super();
- 
+
+        _potential = potential;
+        _potential.addObserver( this );
+        
         _chartNode = chartNode;
         
         _leftPath = new GeneralPath();
@@ -70,38 +73,11 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
         _rightNode.setStrokePaint( DEFAULT_COLOR );
         addChild( _rightNode );
         
-        setPotential( potential );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setPotential( BSSquarePotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateView();
-    }
-    
-    public void setColorScheme( BSColorScheme colorScheme ) {
-        _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
-        _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-    
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
         updateView();
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // BSAbstractMarker implementation
     //----------------------------------------------------------------------------
     
     public void updateView() {
@@ -129,7 +105,6 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
             }
 
             ValueAxis yAxis = _chartNode.getEnergyPlot().getRangeAxis();
-            final double minEnergy = yAxis.getLowerBound();
             final double maxEnergy = yAxis.getUpperBound();
           
             final double offset = _potential.getOffset();
@@ -167,7 +142,12 @@ public class BSSquareSeparationMarkers extends PComposite implements Observer {
         _leftNode.setPathTo( _leftPath );
         _rightNode.setPathTo( _rightPath );
     }
-
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        _leftNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
+        _rightNode.setStrokePaint( colorScheme.getDragHandleMarkersColor() );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

@@ -124,11 +124,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private PSwing _energyZoomControlNode;
     
     // Potential drag handles
-    private BSAsymmetricHandleManager _asymmetricHandleManager;
-    private BSCoulomb1DHandleManager _coulomb1DHandleManager;
-    private BSCoulomb3DHandleManager _coulomb3DHandleManager;
-    private BSHarmonicOscillatorHandleManager _harmonicOscillatorHandleManager;
-    private BSSquareHandleManager _squareHandleManager;
+    private BSAsymmetricDragManager _asymmetricDragManager;
+    private BSCoulomb1DDragManager _coulomb1DDragManager;
+    private BSCoulomb3DDragManager _coulomb3DDragManager;
+    private BSHarmonicOscillatorDragManager _harmonicOscillatorDragManager;
+    private BSSquareDragManager _squareDragManager;
     
     // Help
     private BSWiggleMe _wiggleMe;
@@ -265,17 +265,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _parentNode.addChild( _hilitedEquationNode );
         
         // Potential drag handles
-        _asymmetricHandleManager = new BSAsymmetricHandleManager( _moduleSpec.getAsymmetricSpec(), _chartNode );
-        _coulomb1DHandleManager = new BSCoulomb1DHandleManager( _moduleSpec.getCoulomb1DSpec(), _chartNode );
-        _coulomb3DHandleManager = new BSCoulomb3DHandleManager( _moduleSpec.getCoulomb3DSpec(), _chartNode );
-        _harmonicOscillatorHandleManager = new BSHarmonicOscillatorHandleManager( _moduleSpec.getHarmonicOscillatorSpec(), _chartNode );
-        _squareHandleManager = new BSSquareHandleManager( _moduleSpec.getSquareSpec(), _chartNode );
+        _asymmetricDragManager = new BSAsymmetricDragManager( _moduleSpec.getAsymmetricSpec(), _chartNode );
+        _coulomb1DDragManager = new BSCoulomb1DDragManager( _moduleSpec.getCoulomb1DSpec(), _chartNode );
+        _coulomb3DDragManager = new BSCoulomb3DDragManager( _moduleSpec.getCoulomb3DSpec(), _chartNode );
+        _harmonicOscillatorDragManager = new BSHarmonicOscillatorDragManager( _moduleSpec.getHarmonicOscillatorSpec(), _chartNode );
+        _squareDragManager = new BSSquareDragManager( _moduleSpec.getSquareSpec(), _chartNode );
         if ( ENABLE_DRAG_HANDLES ) {
-            _parentNode.addChild( _asymmetricHandleManager );
-            _parentNode.addChild( _coulomb1DHandleManager );
-            _parentNode.addChild( _coulomb3DHandleManager );
-            _parentNode.addChild( _harmonicOscillatorHandleManager );
-            _parentNode.addChild( _squareHandleManager );
+            _parentNode.addChild( _asymmetricDragManager );
+            _parentNode.addChild( _coulomb1DDragManager );
+            _parentNode.addChild( _coulomb3DDragManager );
+            _parentNode.addChild( _harmonicOscillatorDragManager );
+            _parentNode.addChild( _squareDragManager );
         }
         
         // Energy zoom control
@@ -490,11 +490,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         }
         
         // Potential drag handles
-        _asymmetricHandleManager.updateLayout();
-        _coulomb1DHandleManager.updateLayout();
-        _coulomb3DHandleManager.updateLayout();
-        _harmonicOscillatorHandleManager.updateLayout();
-        _squareHandleManager.updateLayout();
+        _asymmetricDragManager.updateLayout();
+        _coulomb1DDragManager.updateLayout();
+        _coulomb3DDragManager.updateLayout();
+        _harmonicOscillatorDragManager.updateLayout();
+        _squareDragManager.updateLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -604,34 +604,34 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                     wellSpec.getSeparationRange().getDefault() );
             }
             
-            _asymmetricHandleManager.setVisible( false );
-            _coulomb1DHandleManager.setVisible( false );
-            _coulomb3DHandleManager.setVisible( false );
-            _harmonicOscillatorHandleManager.setVisible( false );
-            _squareHandleManager.setVisible( false );
+            _asymmetricDragManager.setVisible( false );
+            _coulomb1DDragManager.setVisible( false );
+            _coulomb3DDragManager.setVisible( false );
+            _harmonicOscillatorDragManager.setVisible( false );
+            _squareDragManager.setVisible( false );
             
             // Select the default...
             BSAbstractPotential defaultPotential = null;
             BSWellType defaultWellType = _moduleSpec.getDefaultWellType();
             if ( defaultWellType == BSWellType.ASYMMETRIC ) {
                 defaultPotential = _asymmetricPotential;
-                _asymmetricHandleManager.setVisible( true );
+                _asymmetricDragManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.COULOMB_1D ) {
                 defaultPotential = _coulomb1DPotential;
-                _coulomb1DHandleManager.setVisible( true );
+                _coulomb1DDragManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.COULOMB_3D ) {
                 defaultPotential = _coulomb3DPotential;
-                _coulomb3DHandleManager.setVisible( true );
+                _coulomb3DDragManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 defaultPotential = _harmonicOscillatorPotential;
-                _harmonicOscillatorHandleManager.setVisible( true );
+                _harmonicOscillatorDragManager.setVisible( true );
             }
             else if ( defaultWellType == BSWellType.SQUARE ) {
                 defaultPotential = _squarePotential;
-                _squareHandleManager.setVisible( true );
+                _squareDragManager.setVisible( true );
             }
             else {
                 throw new UnsupportedOperationException( "unsupported well type: " + defaultWellType );
@@ -677,20 +677,20 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         // Potential drag handles
         {
-            _asymmetricHandleManager.setPotential( _asymmetricPotential );
-            _asymmetricHandleManager.setColorScheme( _colorScheme );
+            _asymmetricDragManager.setPotential( _asymmetricPotential );
+            _asymmetricDragManager.setColorScheme( _colorScheme );
             
-            _coulomb1DHandleManager.setPotential( _coulomb1DPotential );
-            _coulomb1DHandleManager.setColorScheme( _colorScheme );
+            _coulomb1DDragManager.setPotential( _coulomb1DPotential );
+            _coulomb1DDragManager.setColorScheme( _colorScheme );
             
-            _coulomb3DHandleManager.setPotential( _coulomb3DPotential );
-            _coulomb3DHandleManager.setColorScheme( _colorScheme );
+            _coulomb3DDragManager.setPotential( _coulomb3DPotential );
+            _coulomb3DDragManager.setColorScheme( _colorScheme );
             
-            _harmonicOscillatorHandleManager.setPotential( _harmonicOscillatorPotential );
-            _harmonicOscillatorHandleManager.setColorScheme( _colorScheme );
+            _harmonicOscillatorDragManager.setPotential( _harmonicOscillatorPotential );
+            _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
             
-            _squareHandleManager.setPotential( _squarePotential );
-            _squareHandleManager.setColorScheme( _colorScheme );
+            _squareDragManager.setPotential( _squarePotential );
+            _squareDragManager.setColorScheme( _colorScheme );
         }
         
         // Clock
@@ -903,11 +903,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionStateDialog.setColorScheme( _colorScheme );
         }
         // Potential drag handles
-        _asymmetricHandleManager.setColorScheme( _colorScheme );
-        _coulomb1DHandleManager.setColorScheme( _colorScheme );
-        _coulomb3DHandleManager.setColorScheme( _colorScheme );
-        _harmonicOscillatorHandleManager.setColorScheme( _colorScheme );
-        _squareHandleManager.setColorScheme( _colorScheme );
+        _asymmetricDragManager.setColorScheme( _colorScheme );
+        _coulomb1DDragManager.setColorScheme( _colorScheme );
+        _coulomb3DDragManager.setColorScheme( _colorScheme );
+        _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
+        _squareDragManager.setColorScheme( _colorScheme );
     }
     
     //----------------------------------------------------------------------------
@@ -967,34 +967,34 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             configureZoomControls( wellType );
 
-            _asymmetricHandleManager.setVisible( false );
-            _coulomb1DHandleManager.setVisible( false );
-            _coulomb3DHandleManager.setVisible( false );
-            _harmonicOscillatorHandleManager.setVisible( false );
-            _squareHandleManager.setVisible( false );
+            _asymmetricDragManager.setVisible( false );
+            _coulomb1DDragManager.setVisible( false );
+            _coulomb3DDragManager.setVisible( false );
+            _harmonicOscillatorDragManager.setVisible( false );
+            _squareDragManager.setVisible( false );
             
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
                 potential = _asymmetricPotential;
-                _asymmetricHandleManager.setVisible( true );
+                _asymmetricDragManager.setVisible( true );
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
                 assert ( _coulomb1DPotential != null );
                 potential = _coulomb1DPotential;
-                _coulomb1DHandleManager.setVisible( true );
+                _coulomb1DDragManager.setVisible( true );
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
                 assert ( _coulomb3DPotential != null );
                 potential = _coulomb3DPotential;
-                _coulomb3DHandleManager.setVisible( true );
+                _coulomb3DDragManager.setVisible( true );
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 potential = _harmonicOscillatorPotential;
-                _harmonicOscillatorHandleManager.setVisible( true );
+                _harmonicOscillatorDragManager.setVisible( true );
             }
             else if ( wellType == BSWellType.SQUARE ) {
                 potential = _squarePotential;
-                _squareHandleManager.setVisible( true );
+                _squareDragManager.setVisible( true );
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
