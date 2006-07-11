@@ -15,17 +15,17 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/simulations"
-    href="cck/cck_sp.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/simulations"
+        href="cck/cck_sp.jnlp">
     <information>
         <title>Circuit Construction Kit</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
         <description>The Circuit Construction Kit</description>
         <description kind="short">The Circuit Construction Kit.</description>
-        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
-        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
     <security>
@@ -37,14 +37,14 @@ information.
         <jar href="cck/lib/Jama-1.0.1.jar"/>
         <jar href="cck/lib/jnlp.jar"/>
         <jar href="cck/lib/localJNLP.jar"/>
-	<jar href="cck/lib/nanoxml-2.2.1.jar"/>
-	<jar href="cck/lib/smoothmetal.jar"/>
+        <jar href="cck/lib/nanoxml-2.2.1.jar"/>
+        <jar href="cck/lib/smoothmetal.jar"/>
         <jar href="cck/grabbag.jar"/>
         <jar href="cck/CCKStrings_sp.jar"/>
-	<jar href="cck/cck-help.jar" download="lazy"/>
+        <jar href="cck/cck-help.jar" download="lazy"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.cck3.CCK3Module">
-        <argument>user.language=sp</argument>	
+    <application-desc main-class="edu.colorado.phet.cck3.CCKModule">
+        <argument>user.language=sp</argument>
     </application-desc>
 </jnlp>
