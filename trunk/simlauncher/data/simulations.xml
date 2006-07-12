@@ -1,4 +1,57 @@
 <simulations>
+<!-- Begining new sims -->
+    <simulation name="Baloons &amp; Buoyancy"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/faraday.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/gasses-buoyancy/buoyancy.png"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/gasses-buoyancy/buoyancy.jnlp"/>
+    <simulation name="Gas Properties"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/faraday.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/gasses-buoyancy/idealgas.png"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/gasses-buoyancy/idealgas.jnlp"/>
+    <simulation name="Faraday's Electromagnetic Lab"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/faraday.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/faraday/faraday.jpg"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/faraday/faraday.jnlp"/>
+    <simulation name="Energy Skate Park"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/energyconservation.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/energy-conservation.gif"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/energyconservation/energyconservation.jnlp"/>
+    <simulation name="Discharge Lamps"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/dischargelamps.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/discharge-lamps.png"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/dischargelamps/dischargelamps.jnlp"/>
+    <simulation name="John Travoltage"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/travoltage.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/ScuffCarpet.gif"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/travoltage/webstart.jnlp"/>
+    <simulation name="Circuit Construction Kit (DC+AC)"
+                type="Java"
+                description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/cck.htm"
+                thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/CircuitConstructionKit.jpg"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck-ac-lab.jnlp"/>
+    <simulation name="Band Structures"
+                type="Java"
+                description=""
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/bound-states/band-structure.jpg"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/bound-states/band-structure.jnlp"/>
+    <simulation name="Double Wells &amp; Covalent Bonds"
+                type="Java"
+                description=""
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/bound-states/covalent-bonds.jpg"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/bound-states/covalent-bonds.jnlp"/>
+    <simulation name="Quantum Bound States"
+                type="Java"
+                description=""
+                thumbnail="http://www.colorado.edu/physics/phet/simulations/bound-states/bound-states.jpg"
+                jnlp="http://www.colorado.edu/physics/phet/simulations/bound-states/bound-states.jnlp"/>
+
+    <!-- End new sims -->
     <simulation name="Masses &amp; Springs"
                 type="Flash"
                 description=""
@@ -45,7 +98,12 @@
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/fourier.jpg"
                 jnlp="http://www.colorado.edu/physics/phet/simulations/fourier/fourier.jnlp"/>
 
+<!--
+    Categories
+-->
+
     <categories>
+<!--
         <category name="Top Simulations">
             <simulation name="Circuit Construction Kit"/>
             <simulation name="Waves on a String"/>
@@ -54,16 +112,28 @@
         <category name="Electricity &amp; Circuits">
             <simulation name="Circuit Construction Kit"/>
             <simulation name="Radio Waves"/>
+            <simulation name="John Travoltage"/>
+            <simulation name="Faraday's Electromagnetic Lab"/>
         </category>
         <category name="Chemistry">
             <simulation name="Salts &amp; Solubility"/>
         </category>
         <category name="Work &amp; Energy">
             <simulation name="The Ramp"/>
+            <simulation name="Energy Skate Park"/>
+        </category>
+        <category name="Heat &amp; Thermo">
+            <simulation name="Gas Properties"/>
+            <simulation name="Baloons &amp; Buoyancy"/>
         </category>
         <category name="Quantum Phenomena">
             <simulation name="Fourier: Making Waves"/>
             <simulation name="Lasers"/>
+            <simulation name="Discharge Lamps"/>
+            <simulation name="Quantum Bound States"/>
+            <simulation name="Band Structures"/>
+            <simulation name="Double Wells &amp; Covalent Bonds"/>
         </category>
+-->
     </categories>
 </simulations>

@@ -137,9 +137,16 @@ public class SimFactory {
                     throw new XmlCatalogException( "Simulation has no thumbnail URL. name = " + name );
                 }
                 String thumbnailUrl = thumbnailAttrib.getValue();
-                ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
-                if( !thumbnailResource.getLocalFile().exists() ) {
-                    thumbnailResource.download();
+
+                ThumbnailResource thumbnailResource = null;
+                try {
+                    thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
+                    if( !thumbnailResource.getLocalFile().exists() ) {
+                        thumbnailResource.download();
+                    }
+                }
+                catch( Exception e ) {
+                    System.out.println( "Bad thumbnail: " + thumbnailUrl );
                 }
 
                 // Get the simulation type
