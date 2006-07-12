@@ -43,7 +43,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     
     protected static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
     
-    protected static final boolean NOTIFY_WHILE_DRAGGING = false;
+    protected static final boolean NOTIFY_WHILE_DRAGGING = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -74,15 +74,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         _potential = potential;
         _potential.addObserver( this );
     }
-    
-    /*
-     * Gets the potential that this dialog will configure.
-     * For use by subclasses.
-     */
-    protected BSAbstractPotential getPotential() {
-        return _potential;
-    }
-    
+
     //----------------------------------------------------------------------------
     // UI initializers
     //----------------------------------------------------------------------------
@@ -130,6 +122,36 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         actionPanel.add( buttonPanel );
 
         return actionPanel;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the potential that this dialog will configure.
+     * For use by subclasses.
+     */
+    protected BSAbstractPotential getPotential() {
+        return _potential;
+    }
+    
+    /*
+     * Determines whether we receive not we receive notification
+     * of changes to the potential.  By default, notification is
+     * enabled. Subclasses will want to turn off notification
+     * when changing the potential as the result of the user
+     * manipulating a Swing control.
+     * 
+     * @param enabled
+     */
+    protected void setObservePotential( boolean enabled ) {
+        if ( enabled ) {
+            _potential.addObserver( this );
+        }
+        else {
+            _potential.deleteObserver( this );
+        }
     }
     
     //----------------------------------------------------------------------------
