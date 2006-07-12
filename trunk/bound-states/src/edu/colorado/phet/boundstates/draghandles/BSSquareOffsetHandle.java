@@ -101,6 +101,7 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
     protected void updateModel() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
         potential.deleteObserver( this );
@@ -108,8 +109,10 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
             Point2D globalNodePoint = getGlobalPosition();
             Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
             Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
-            final double offset = modelPoint.getY();
-//            System.out.println( "BSSquareOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
+            
+            final int numberOfSignicantDecimalPlaces = spec.getOffsetRange().getSignificantDecimalPlaces();
+            final double offset = round( modelPoint.getY(), numberOfSignicantDecimalPlaces );
+            
             potential.setOffset( offset );
             setValueDisplay( offset );
         }
@@ -129,10 +132,11 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
             final int n = potential.getNumberOfWells();
             final double position = potential.getCenter( n - 1 );
             final double offset = potential.getOffset();
+            
             Point2D modelPoint = new Point2D.Double( position, offset );
             Point2D localNodePoint = chartNode.energyToNode( modelPoint );
             Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSSquareOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
+            
             setGlobalPosition( globalNodePoint );
             setValueDisplay( offset );
         }

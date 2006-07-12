@@ -122,4 +122,25 @@ public abstract class BSPotentialHandle extends BSAbstractHandle implements Obse
         assert( o == _potential );
         updateDragBounds();
     }
+    
+    //----------------------------------------------------------------------------
+    // Utility methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Rounds a double value to a specified number of decimal places.
+     * 
+     * @param value
+     * @param numberOfSignificantDecimalPlaces
+     * @return
+     */
+    public static double round( double value, double numberOfSignificantDecimalPlaces ) {
+        final double multiplier = Math.pow( 10, numberOfSignificantDecimalPlaces );
+        double adder = 0.49 / multiplier;
+        if ( value < 0 ) {
+            adder *= -1;
+        }
+        int intValue = (int)( ( value + adder ) * multiplier );
+        return ( intValue / multiplier );
+    }
 }
