@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(7/12/06) - round drag handle values to specified number of significant decimal places to prevent range problems
 (7/12/06) - change codebase tag in JNLP files to work with PhET installer
 (7/11/06) - setPickable(false) on when drag handles are not visible
 (7/11/06) - replace assertions in draghandles package with UnsupportedOperationException

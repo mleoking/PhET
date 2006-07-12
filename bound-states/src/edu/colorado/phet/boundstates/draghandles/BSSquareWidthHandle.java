@@ -96,7 +96,6 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         final double w = maxX - minX;
         final double h = maxY - minY;
         Rectangle2D dragBounds = new Rectangle2D.Double( minX, minY, w, h );
-//        System.out.println( "BSSquareWidthHandle.updateDragBounds dragBounds=" + dragBounds );//XXX
 
         // Convert to global coordinates
         dragBounds = chartNode.localToGlobal( dragBounds );
@@ -111,6 +110,7 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
     protected void updateModel() {
 
         BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
 
         potential.deleteObserver( this );
@@ -133,8 +133,9 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
                 final int m = n - 1;
                 width = ( 2.0 / ( m + 1 ) ) * ( d - ( ( m / 2.0 ) * s ) );
             }
+            final int numberOfSignicantDecimalPlaces = spec.getWidthRange().getSignificantDecimalPlaces();
+            width = round( width, numberOfSignicantDecimalPlaces );
 
-//            System.out.println( "BSSquareWidthHandle.updateModel x=" + globalNodePoint.getX() + " d=" + d + " width=" + width );//XXX
             potential.setWidth( width );
             setValueDisplay( width );
         }

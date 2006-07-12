@@ -122,6 +122,7 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
     protected void updateModel() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
+        BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
         
         potential.deleteObserver( this );
@@ -142,6 +143,8 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
                 final double width = potential.getWidth();
                 separation = handlePosition - ( width / 2 );
             }
+            final int numberOfSignicantDecimalPlaces = spec.getSeparationRange().getSignificantDecimalPlaces();
+            separation = round( separation, numberOfSignicantDecimalPlaces );
 
             potential.setSeparation( separation );
             setValueDisplay( separation );
