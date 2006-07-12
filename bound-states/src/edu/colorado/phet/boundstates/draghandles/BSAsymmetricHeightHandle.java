@@ -109,10 +109,10 @@ public class BSAsymmetricHeightHandle extends BSPotentialHandle {
             // Convert the drag handle's location to model coordinates
             Point2D viewPoint = getGlobalPosition();
             Point2D modelPoint = viewToModel( viewPoint );
-            final double handlePosition = modelPoint.getY();
+            final double handleEnergy = modelPoint.getY();
             
             // Calculate the height
-            double height = handlePosition - potential.getOffset();
+            double height = handleEnergy - potential.getOffset();
             final int numberOfSignicantDecimalPlaces = spec.getHeightRange().getSignificantDecimalPlaces();
             height = round( height, numberOfSignicantDecimalPlaces );
             
