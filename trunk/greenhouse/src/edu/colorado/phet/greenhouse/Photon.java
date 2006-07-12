@@ -27,6 +27,10 @@ public class Photon extends Disk {
         this.energy = h * C / wavelength;
     }
 
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
+
     public void setDirection( double theta ) {
         super.setVelocity( (float)( speedOfLight * Math.cos( theta ) ),
                            (float)( speedOfLight * Math.sin( theta )));
@@ -50,5 +54,9 @@ public class Photon extends Disk {
 
     public PhotonEmitter getSource() {
         return source;
+    }
+
+    public void leaveSystem() {
+        deleteObservers();
     }
 }
