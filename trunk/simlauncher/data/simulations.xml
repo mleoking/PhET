@@ -1,6 +1,6 @@
 <simulations>
 <!-- Begining new sims -->
-    <simulation name="Baloons &amp; Buoyancy"
+    <simulation name="Balloons &amp; Buoyancy"
                 type="Java"
                 description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/faraday.htm"
                 thumbnail="http://www.colorado.edu/physics/phet/simulations/gasses-buoyancy/buoyancy.png"
@@ -123,7 +123,7 @@
         </category>
         <category name="Heat &amp; Thermo">
             <simulation name="Gas Properties"/>
-            <simulation name="Baloons &amp; Buoyancy"/>
+            <simulation name="Balloons &amp; Buoyancy"/>
         </category>
         <category name="Quantum Phenomena">
             <simulation name="Fourier: Making Waves"/>

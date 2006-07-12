@@ -191,7 +191,7 @@ public class SimTable extends JTable implements SimContainer {
                 }
                 else if( columns.get( j ) == IS_UP_TO_DATE ) {
                     try {
-                        row[j] = sim.isCurrent() ? "" : updateAvailableIcon;
+                        row[j] = ( sim. isInstalled() && !sim.isCurrent() )? updateAvailableIcon : "";
                     }
                     catch( SimResourceException e ) {
                         e.printStackTrace();
