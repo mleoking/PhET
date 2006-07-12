@@ -17,6 +17,7 @@ import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -109,14 +110,14 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
-        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                       GridBagConstraints.CENTER,
+                                                                       GridBagConstraints.NONE,
+                                                                       new Insets( 10, 0, 20, 0 ), 0, 0 );
+        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
                                                                       GridBagConstraints.VERTICAL,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
-        private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                              GridBagConstraints.CENTER,
-                                                                              GridBagConstraints.NONE,
-                                                                              new Insets( 10, 0, 20, 0 ), 0, 0 );
 
         /**
          * Constructor
@@ -130,8 +131,20 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             installBtn = new JButton( "Install" );
             installBtn.addActionListener( new InstallSimAction( this, this ) );
             installBtn.setEnabled( false );
-            add( installBtn, installButtonGbc );
+            add( installBtn, headerGbc );
 
+            // "Show Thumbnails" checkbox
+            final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
+            showThumbnailsCB.addActionListener( new AbstractAction() {
+                public void actionPerformed( ActionEvent e ) {
+                    Options.instance().setShowUninstalledThumbnails( showThumbnailsCB.isSelected() );
+                }
+            } );
+            showThumbnailsCB.setSelected( Options.instance().isShowUninstalledThumbnails() );
+            headerGbc.gridx++;
+            add( showThumbnailsCB, headerGbc );
+
+            // Add a listener to the catalog that will update the sim table if the catalog changes
             Catalog.instance().addChangeListener( this );
             Options.instance().addListener( new Options.ChangeListener() {
                 public void optionsChanged( Options.ChangeEvent event ) {
@@ -162,14 +175,15 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             }
 
             // Create the SimulationTable
-            ArrayList columns = new ArrayList( );
+            ArrayList columns = new ArrayList();
             columns.add( SimTable.SELECTION_CHECKBOX );
             columns.add( SimTable.NAME );
-            columns.add( SimTable.THUMBNAIL );
+            if( Options.instance().isShowUninstalledThumbnails() ) {
+                columns.add( SimTable.THUMBNAIL );
+            }
             columns.add( SimTable.IS_INSTALLED );
             columns.add( SimTable.IS_UP_TO_DATE );
             simTable = new SimTable( simListA,
-                                     Options.instance().isShowUninstalledThumbnails(),
                                      simTableSortType,
                                      ListSelectionModel.MULTIPLE_INTERVAL_SELECTION,
                                      columns );
@@ -183,7 +197,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             // This is required to get rid of screen turds if the old table had a scrollbar and the
             // new one doesn't
-            repaint();
+            revalidate();
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -100,7 +100,7 @@ public class SimTable extends JTable implements SimContainer {
     List columns;
     boolean[] simSelections;
 
-    public SimTable( List sims, boolean showThumbnails, SimComparator sortType, int listSelectionModel, List columns ) {
+    public SimTable( List sims, SimComparator sortType, int listSelectionModel, List columns ) {
 
         this.columns = columns;
         simSelections = new boolean[sims.size()];

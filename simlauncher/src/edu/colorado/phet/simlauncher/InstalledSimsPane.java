@@ -37,14 +37,14 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
-    private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+    private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
                                                                   GridBagConstraints.CENTER,
                                                                   GridBagConstraints.VERTICAL,
                                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints launchButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                         GridBagConstraints.CENTER,
-                                                                         GridBagConstraints.NONE,
-                                                                         new Insets( 10, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                   GridBagConstraints.CENTER,
+                                                                   GridBagConstraints.NONE,
+                                                                   new Insets( 10, 0, 0, 0 ), 0, 0 );
 
     /**
      * Constructor
@@ -68,7 +68,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
         } );
         launchBtn.setEnabled( false );
-        add( launchBtn, launchButtonGbc );
+        add( launchBtn, headerGbc );
 
         // Creates the SimTable
         updateSimTable();
@@ -82,6 +82,18 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                 updateSimTable();
             }
         } );
+
+        // "Show Thumbnails" checkbox
+        final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
+        showThumbnailsCB.addActionListener( new AbstractAction() {
+            public void actionPerformed( ActionEvent e ) {
+                Options.instance().setShowInstalledThumbnails( showThumbnailsCB.isSelected() );
+            }
+        } );
+        showThumbnailsCB.setSelected( Options.instance().isShowInstalledThumbnails() );
+        headerGbc.gridx++;
+        add( showThumbnailsCB, headerGbc );
+
     }
 
     /**
@@ -107,12 +119,13 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             remove( simTableScrollPane );
         }
 
-        ArrayList columns = new ArrayList( );
+        ArrayList columns = new ArrayList();
         columns.add( SimTable.NAME );
-        columns.add( SimTable.THUMBNAIL );
+        if( Options.instance().isShowInstalledThumbnails() ) {
+            columns.add( SimTable.THUMBNAIL );
+        }
         columns.add( SimTable.IS_UP_TO_DATE );
         simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
-                                 Options.instance().isShowInstalledThumbnails(),
                                  simTableSortType,
                                  ListSelectionModel.SINGLE_SELECTION,
                                  columns );
