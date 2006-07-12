@@ -106,15 +106,20 @@ public class BSHarmonicOscillatorOffsetHandle extends BSPotentialHandle {
     protected void updateModel() {
 
         BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
+        BSPotentialSpec spec = getPotentialSpec();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
-            final double offset = modelPoint.getY();
-//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
+            final double handleEnergy = modelPoint.getY();
+            
+            // Calculate the offset
+            double offset = handleEnergy;
+            final int numberOfSignicantDecimalPlaces = spec.getOffsetRange().getSignificantDecimalPlaces();
+            offset = round( offset, numberOfSignicantDecimalPlaces );
+            
             potential.setOffset( offset );
             setValueDisplay( offset );
         }
@@ -127,17 +132,22 @@ public class BSHarmonicOscillatorOffsetHandle extends BSPotentialHandle {
     protected void updateView() {
 
         BSHarmonicOscillatorPotential potential = (BSHarmonicOscillatorPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
-            final double position = potential.getCenter();
+            // Some potential attributes that we need...
             final double offset = potential.getOffset();
-            Point2D modelPoint = new Point2D.Double( position, offset );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSHarmonicOscillatorOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
-            setGlobalPosition( globalNodePoint );
+            final double center = potential.getCenter();
+            
+            // Calculate the handle's model coordinates
+            final double handlePosition = center;
+            final double handleEnergy = offset;
+            
+            // Convert to view coordinates
+            Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( offset );
         }
         addPropertyChangeListener( this );
