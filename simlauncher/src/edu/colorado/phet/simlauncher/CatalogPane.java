@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.actions.InstallSimAction;
+import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
@@ -23,22 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * UninstalledSimsPane
+ * CatalogPane
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public class UninstalledSimsPane extends JPanel implements SimContainer {
-public class UninstalledSimsPane extends JSplitPane implements SimContainer {
+public class CatalogPane extends JSplitPane implements SimContainer {
 
     private CategoryPanel categoryPanel;
-    private UninstalledSimsPane.SimPanel simulationPanel;
+    private CatalogPane.SimPanel simulationPanel;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
 
     /**
      * Constructor
      */
-    public UninstalledSimsPane() {
+    public CatalogPane() {
         super( JSplitPane.HORIZONTAL_SPLIT, true );
 //        super( JSplitPane.HORIZONTAL_SPLIT, null, null );
 
@@ -109,7 +108,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
-        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, .001,
                                                                        GridBagConstraints.CENTER,
                                                                        GridBagConstraints.NONE,
                                                                        new Insets( 10, 0, 20, 0 ), 0, 0 );
@@ -126,10 +125,12 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
+            JPanel headerPanel = new JPanel( new BorderLayout());
             // Install button
             installBtn = new JButton( "Install / Update" );
-            installBtn.addActionListener( new InstallSimAction( this, this ) );
+            installBtn.addActionListener( new InstallOrUpdateSimAction( this, this ) );
             installBtn.setEnabled( false );
+            headerGbc.weightx = 1;
             add( installBtn, headerGbc );
 
             // "Show Thumbnails" checkbox
@@ -141,6 +142,8 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             } );
             showThumbnailsCB.setSelected( Options.instance().isShowUninstalledThumbnails() );
             headerGbc.gridx++;
+            headerPanel.add( showThumbnailsCB, BorderLayout.EAST );
+            headerGbc.weightx = .01;
             add( showThumbnailsCB, headerGbc );
 
             // Add a listener to the catalog that will update the sim table if the catalog changes
@@ -150,7 +153,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                     updateSimTable();
                 }
             } );
-
             updateSimTable();
         }
 
@@ -252,7 +254,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                 installBtn.setEnabled(simTable.getSelections().length > 0);
 
                 // Notify change listeners
-                changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
+                changeEventChannel.notifyChangeListeners( CatalogPane.this );
             }
 
             // Required to get e.isPopupTrigger() to return true on right-click
@@ -265,7 +267,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
                 }
 
                 // Notify change listeners
-                changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
+                changeEventChannel.notifyChangeListeners( CatalogPane.this );
             }
         }
     }

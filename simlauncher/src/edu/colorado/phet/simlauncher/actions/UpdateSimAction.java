@@ -26,10 +26,10 @@ import java.awt.event.ActionEvent;
  */
 public class UpdateSimAction extends AbstractAction {
     private SimContainer simContainer;
-    private Container parent;
+    private Component parent;
     private JDialog waitDlg;
 
-    public UpdateSimAction( SimContainer simContainer, Container parent ) {
+    public UpdateSimAction( SimContainer simContainer, Component parent ) {
         this.simContainer = simContainer;
         this.parent = parent;
     }
