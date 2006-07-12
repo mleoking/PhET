@@ -67,13 +67,8 @@ public class BSCoulomb1DOffsetHandle extends BSPotentialHandle {
      */
     public void updateDragBounds() {
         
-        BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
         BSPotentialSpec spec = getPotentialSpec();
         BSCombinedChartNode chartNode = getChartNode();
-        
-        if ( potential.getCenter() != 0 ) {
-            throw new UnsupportedOperationException( "this implementation only supports potentials centered at 0" );
-        }
         
         //  position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
@@ -105,15 +100,20 @@ public class BSCoulomb1DOffsetHandle extends BSPotentialHandle {
     protected void updateModel() {
         
         BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
+        BSPotentialSpec spec = getPotentialSpec();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
-            final double offset = modelPoint.getY();
-//            System.out.println( "BSCoulomb1DOffsetHandle.updateModel y=" + globalNodePoint.getY() + " offset=" + offset );//XXX
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
+            final double handleEnergy = modelPoint.getY();
+            
+            // Calculate the offset
+            double offset = handleEnergy;
+            final int numberOfSignicantDecimalPlaces = spec.getOffsetRange().getSignificantDecimalPlaces();
+            offset = round( offset, numberOfSignicantDecimalPlaces );
+            
             potential.setOffset( offset );
             setValueDisplay( offset );
         }
@@ -126,17 +126,21 @@ public class BSCoulomb1DOffsetHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSCoulomb1DPotential potential = (BSCoulomb1DPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
-            final double position = BSConstants.POSITION_VIEW_RANGE.getUpperBound() - 1.25;
+            // Some potential attributes that we need...
             final double offset = potential.getOffset();
-            Point2D modelPoint = new Point2D.Double( position, offset );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSCoulomb1DOffsetHandle.updateView offset=" + offset + " y=" + globalNodePoint.getY() );//XXX
-            setGlobalPosition( globalNodePoint );
+            
+            // Calculate the handle's model coordinates
+            final double handlePosition = BSConstants.POSITION_VIEW_RANGE.getUpperBound() - 1.25; // at right edge of plot
+            final double handleEnergy = offset;
+
+            // Convert to view coordinates
+            Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( offset );
         }
         addPropertyChangeListener( this );
