@@ -8,8 +8,8 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.IClock;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
@@ -24,8 +24,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
+
 public abstract class BaseGreenhouseModule extends Module {
-    HashMap photonToGraphicsMap = new HashMap();
+    private HashMap photonToGraphicsMap = new HashMap();
     protected CompositeGraphic drawingCanvas;
     private ThermometerGraphic thermometerGraphic;
     protected EarthGraphic earthGraphic;
@@ -55,7 +56,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
     protected BaseGreenhouseModule( String s ) {
         super( s );
-
         init();
     }
 
@@ -163,6 +163,9 @@ public abstract class BaseGreenhouseModule extends Module {
         }
     }
 
+    protected HashMap getPhotonToGraphicsMap() {
+        return photonToGraphicsMap;
+    }
 
     public void addClock( IClock clock ) {
         this.clock = clock;
@@ -322,7 +325,9 @@ public abstract class BaseGreenhouseModule extends Module {
         public void photonAbsorbed( Photon photon ) {
             PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
             getApparatusPanel().removeGraphic( photonView );
+            drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
+            photonView.leaveSystem();
         }
     }
 

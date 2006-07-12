@@ -6,22 +6,14 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -158,7 +150,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
 
     public class ModuleScatterEventListener implements Atmosphere.ScatterEventListener {
         public void photonScatered( Photon photon ) {
-            if( photonToGraphicsMap.get( photon ) != null ) {
+            if( getPhotonToGraphicsMap().get( photon ) != null ) {
                 ScatterEvent se = new ScatterEvent( photon, GlassPaneModule.this );
                 ScatterEventGraphic seg = new ScatterEventGraphic( se );
                 getModel().addModelElement( se );

@@ -7,7 +7,6 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.BufferedImageUtils;
 import edu.colorado.phet.coreadditions.graphics.DuotoneImageOp;
@@ -15,18 +14,17 @@ import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
 import java.awt.*;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ArrayList;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
@@ -39,8 +37,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     private static final String IMAGE_PATH = "images/photon-comet.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
-    private double xOffset;
-    private double yOffset;
+    private DuotoneImageOp duotoneImageOp;
+    private AffineTransformOp scaleAtxOp;
+    private BufferedImage bi;
 
     // get the base image
     static {
@@ -81,10 +80,12 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         }
     }
 
+    // A cache for phton graphic
+
     private static ResizeHandler resizeHandler;
-    static AffineTransform scaleTx = new AffineTransform();
-    static boolean init;
-    static Rectangle2D origBounds;
+    private static AffineTransform scaleTx = new AffineTransform();
+    private static boolean init;
+    private static Rectangle2D origBounds;
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -100,29 +101,36 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     public PhotonGraphic( Component component, Photon photon ) {
         instances.add( this );
+
+        this.duotoneImageOp = new DuotoneImageOp( genColor( photon.getWavelength() ) );
+        bi = duotoneImageOp.filter( baseImage, null );
         this.photon = photon;
         photon.addObserver( this );
         isVisible = true;
 
-        if( resizeHandler == null && component instanceof ApparatusPanel ) {
-//            resizeHandler = new ResizeHandler();
-//            component.addComponentListener( resizeHandler );
+//        if( resizeHandler == null && component instanceof ApparatusPanel ) {
+////            resizeHandler = new ResizeHandler();
+////            component.addComponentListener( resizeHandler );
+////        }
+//            component.addComponentListener( new ComponentAdapter() {
+//                public void componentResized( ComponentEvent e ) {
+//                    if( !init ) {
+//                        init = true;
+//                        origBounds = e.getComponent().getBounds();
+//                    }
+//                    Component component = e.getComponent();
+//                    Rectangle2D newBounds = component.getBounds();
+//                    scale = newBounds.getWidth() / origBounds.getWidth();
+//                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
+//                    scaleChanged = true;
+//                    scaleAtxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
+//                                                                                     RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
+//                    update();
+//                }
+//            } );
 //        }
-            component.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    if( !init ) {
-                        init = true;
-                        origBounds = e.getComponent().getBounds();
-                    }
-                    Component component = e.getComponent();
-                    Rectangle2D newBounds = component.getBounds();
-                    scale = newBounds.getWidth() / origBounds.getWidth();
-                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
-                    scaleChanged = true;
-                    update();
-                }
-            } );
-        }
+        scaleAtxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
+                                                                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
         this.update();
 
         // TEST
@@ -130,8 +138,11 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     }
 
-    protected void finalize() throws Throwable {
+    public void leaveSystem() {
         instances.remove( this );
+    }
+
+    protected void finalize() throws Throwable {
         super.finalize();
     }
 
@@ -141,14 +152,10 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         if( theta != directionOfTravel || scaleChanged ) {
             scaleChanged = false;
             directionOfTravel = theta;
-            DuotoneImageOp dio = new DuotoneImageOp( genColor( photon.getWavelength() ) );
-            BufferedImage bi = dio.filter( baseImage, null );
-            AffineTransformOp atxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-                                                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
-            BufferedImage bi1A = atxOp.filter( bi, null );
+            // Scale the image
+            BufferedImage bi1A = scaleAtxOp.filter( bi, null );
             // Rotate the image
             BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi1A, directionOfTravel );
-            // Scale the image
 
             if( photonImage != null ) {
                 removeGraphic( photonImage );
@@ -166,11 +173,6 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         double ratio = 0.03;
         position.setLocation( photon.getLocation().getX() - photonImage.getBufferedImage().getWidth() * ratio * 0.5,
                               photon.getLocation().getY() - sy * photonImage.getBufferedImage().getHeight() * ratio );
-
-        if( EarthGraphic.snowPoints.contains( position ) ) {
-            System.out.println( "PhotonGraphic.update" );
-        }
-//        System.out.println( "position = " + position );
     }
 
     public void update( Observable o, Object arg ) {

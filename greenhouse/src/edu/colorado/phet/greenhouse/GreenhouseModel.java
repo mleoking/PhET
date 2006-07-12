@@ -90,6 +90,7 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
     public void photonAbsorbed( Photon photon ) {
         super.removeModelElement( photon );
         this.photons.remove( photon );
+        photon.leaveSystem();
     }
 
     public void setSunPhotonProductionRate( double rate ) {

@@ -116,7 +116,6 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void absorbPhoton( Photon photon ) {
         photonAbsorber.absorbPhoton( photon );
         netEnergy += photon.getEnergy();
-//        System.out.println( "netEnergy = " + netEnergy );
     }
 
     public CircularPhotonEmitter getPhotonSource() {

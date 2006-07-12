@@ -26,7 +26,6 @@ import java.awt.image.ColorModel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * Quirks:
@@ -189,23 +188,23 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         setBackDropImage( null, new Point2D.Double( 0, .5 ) );
     }
 
-    public static ArrayList snowPoints = new ArrayList();
+//    public static ArrayList snowPoints = new ArrayList();
 
     public void setIceAge() {
         isIceAge = true;
         setBackDropImage( backgroundIceAge, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 149, 134, 78 ) );
 
-        for( int i = 0; i < backdropGraphic.getBufferedImage().getWidth(); i++ ) {
-            for( int j = 0; j < backdropGraphic.getBufferedImage().getHeight(); j++ ) {
-                int result = backdropGraphic.getBufferedImage().getRGB( i, j );
-                if( result == 0xFFFFFFFF ) {
-                    Point2D.Double p = new Point2D.Double( i, j);
-//                    earthTx.transform( pUtil,null );
-                    snowPoints.add( earthTx.transform( p,null ));
-                }
-            }
-        }
+//        for( int i = 0; i < backdropGraphic.getBufferedImage().getWidth(); i++ ) {
+//            for( int j = 0; j < backdropGraphic.getBufferedImage().getHeight(); j++ ) {
+//                int result = backdropGraphic.getBufferedImage().getRGB( i, j );
+//                if( result == 0xFFFFFFFF ) {
+//                    Point2D.Double p = new Point2D.Double( i, j);
+                    earthTx.transform( pUtil,null );
+//                    snowPoints.add( earthTx.transform( p,null ));
+//                }
+//            }
+//        }
     }
 
     private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {
