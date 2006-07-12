@@ -83,7 +83,6 @@ public class TopLevelPane extends JTabbedPane {
     private synchronized void enableDisableOnlineCatalog( PhetSiteConnection phetSiteConnection ) {
         if( phetSiteConnection.isConnected() ) {
             if( Catalog.instance().isRemoteAvailable() && catalogPane == null ) {
-                System.out.println( "TopLevelPane.enableDisableOnlineCatalog" );
                 catalogPane = new CatalogPane();
                 addTab( "Catalog", catalogPane );
             }

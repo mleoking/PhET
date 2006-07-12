@@ -88,6 +88,7 @@ public class SimResource {
         }
 
         if( metaData == null ) {
+            System.out.println( "SimResource.isCurrent : metadate == null" );
             return false;
         }
 
@@ -131,8 +132,14 @@ public class SimResource {
     }
 
     private void saveMetaData() throws IOException {
-        this.metaData = new MetaData( url );
+        int cnt = 0;
+        while( metaData == null ) {
+            this.metaData = new MetaData( url );
+            cnt++;
+        }
+        System.out.println( "cnt = " + cnt );
         metaData.saveForFile( localFile );
+//        System.out.println( "cnt = " + cnt );
     }
 
     public void update() throws SimResourceException {

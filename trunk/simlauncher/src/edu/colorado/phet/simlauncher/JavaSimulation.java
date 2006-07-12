@@ -78,13 +78,15 @@ public class JavaSimulation extends Simulation {
             JarResource[] jarResources = jnlpResource.getJarResources();
             for( int i = 0; i < jarResources.length; i++ ) {
                 JarResource jarResource = jarResources[i];
-                addResource( jarResource );
                 jarResource.download();
+                addResource( jarResource );
             }
         }
 
         // This shouldn't happen until all the components are downloaded
         super.install();
+
+        System.out.println( "JavaSimulation.install" );
     }
 
     /**
