@@ -17,8 +17,8 @@ information.
 <!-- JNLP File for PhET "Quantum Tunneling" simulation --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/simulations/quantum-tunneling/"
-  href="quantum-tunneling.jnlp"> 
+  codebase="http://www.colorado.edu/physics/phet/simulations/"
+  href="quantum-tunneling/quantum-tunneling.jnlp"> 
   <information> 
     <title>Quantum Tunneling</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
@@ -29,7 +29,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="quantumtunneling.jar"/> 
+    <jar href="quantum-tunneling/quantumtunneling.jar"/> 
   </resources> 
   <application-desc main-class="edu.colorado.phet.quantumtunneling.QTApplication"/>
 </jnlp> 
