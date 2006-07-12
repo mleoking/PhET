@@ -17,10 +17,10 @@ information.
 <!-- JNLP File for PhET "Quantum Tunneling" simulation --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/simulations/quantum-tunneling/"
-  href="quantum-tunneling_es.jnlp"> 
+  codebase="http://www.colorado.edu/physics/phet/simulations/"
+  href="quantum-tunneling/quantum-tunneling_es.jnlp"> 
   <information> 
-    <title>Tœnel del Qu‡ntum</title> 
+    <title>Penetraci—n Mec‡nico-Cu‡ntica</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
     <icon href="icons/PhET.gif"/> 
@@ -29,7 +29,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="quantumtunneling.jar"/>
+    <jar href="quantum-tunneling/quantumtunneling.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.quantumtunneling.QTApplication">
     <argument>user.language=es</argument>
