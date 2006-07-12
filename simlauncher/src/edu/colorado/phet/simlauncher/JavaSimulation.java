@@ -68,7 +68,7 @@ public class JavaSimulation extends Simulation {
      * @throws SimResourceException
      */
     public void install() throws SimResourceException {
-        super.install();
+
         // Install the JNLP resource
         jnlpResource.download();
         addResource( jnlpResource );
@@ -82,6 +82,9 @@ public class JavaSimulation extends Simulation {
                 jarResource.download();
             }
         }
+
+        // This shouldn't happen until all the components are downloaded
+        super.install();
     }
 
     /**
@@ -118,13 +121,4 @@ public class JavaSimulation extends Simulation {
             e.printStackTrace();
         }
     }
-
-    //--------------------------------------------------------------------------------------------------
-    // Setters and getters
-    //--------------------------------------------------------------------------------------------------
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimContainer
-    //--------------------------------------------------------------------------------------------------
-
 }

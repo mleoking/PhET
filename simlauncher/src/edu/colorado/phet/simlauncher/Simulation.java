@@ -117,8 +117,9 @@ public abstract class Simulation implements SimContainer {
     }
 
     /**
-     * Downloads all the resources for the simulation. Must be extended by
-     * subclasses
+     * Downloads all the resources for the simulation. Notifies listeners that the installation
+     * has happened, so it should be done a the end of any extensions to this method done by
+     * subclasses.
      */
     public void install() throws SimResourceException {
 
@@ -135,7 +136,7 @@ public abstract class Simulation implements SimContainer {
      */
     public void uninstall() {
         // Delete the resources other than the thumbnail, which is needed for display purposes
-        for( int i = 0; i < resources.size(); i++ ) {
+        for( int i = resources.size()-1; i >= 0; i-- ) {
             SimResource simResource = (SimResource)resources.get( i );
             if( !( simResource instanceof ThumbnailResource ) ) {
                 simResource.uninstall();
@@ -198,7 +199,8 @@ public abstract class Simulation implements SimContainer {
      */
     public boolean isCurrent() throws SimResourceException {
         boolean isCurrent = true;
-        if( getName().equals("Discharge Lamps")) {
+
+        if( name.startsWith( "Ball")) {
             System.out.println( "Simulation.isCurrent" );
         }
         for( int i = 0; i < resources.size(); i++ ) {

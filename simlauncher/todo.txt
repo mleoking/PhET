@@ -1,8 +1,7 @@
 ====
 Bugs
 ====
-- Installed sims show up as out of date when they're not 
-- "Installed" column doesn't update correctly all the time after you install sims
+- put timeout on install
 - Column widths need adjustment
 - Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
 - Update catalog after uninstall or update actions taken on the installed table
