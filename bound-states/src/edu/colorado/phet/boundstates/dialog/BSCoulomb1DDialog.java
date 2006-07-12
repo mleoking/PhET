@@ -173,15 +173,19 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
      * Dispatches a ChangeEvent to the proper handler method.
      */
     public void stateChanged( ChangeEvent e ) {
-        if ( e.getSource() == _offsetSlider ) {
-            handleOffsetChange();
+        setObservePotential( false );
+        {
+            if ( e.getSource() == _offsetSlider ) {
+                handleOffsetChange();
+            }
+            else if ( e.getSource() == _spacingSlider ) {
+                handleSpacingChange();
+            }
+            else {
+                System.err.println( "WARNING: BSCoulomb3DDialog - unsupported event source: " + e.getSource() );
+            }
         }
-        else if ( e.getSource() == _spacingSlider ) {
-            handleSpacingChange();
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
-        }
+        setObservePotential( true );
     }
     
     //----------------------------------------------------------------------------
