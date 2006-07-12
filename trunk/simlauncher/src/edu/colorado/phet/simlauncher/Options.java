@@ -13,8 +13,9 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -69,7 +70,7 @@ public class Options {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
     private boolean showInstalledThumbnails = true;
-    private boolean showUninstalledThumbnails = true;
+    private boolean showUninstalledThumbnails = false;
     private boolean optionsChanged;
     private SimTable.SimComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
 
@@ -80,17 +81,18 @@ public class Options {
     }
 
     public void save() {
-        try {
-            // Serialize object into XML
-            XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream(
-                    new FileOutputStream( Configuration.instance().getOptionsFile() ) ) );
-            encoder.writeObject( this );
-            encoder.close();
-        }
-        catch( FileNotFoundException e ) {
-        }
-        catch( Exception e ) {
-        }
+//        try {
+//            // Serialize object into XML
+//            XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream(
+//                    new FileOutputStream( Configuration.instance().getOptionsFile() ) ) );
+//            encoder.writeObject( this );
+//            encoder.close();
+//        }
+//        catch( FileNotFoundException e ) {
+//        }
+//        catch( Exception e ) {
+//            System.out.println( "Options.save" );
+//        }
     }
 
     public boolean isShowInstalledThumbnails() {

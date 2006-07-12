@@ -103,7 +103,6 @@
 -->
 
     <categories>
-<!--
         <category name="Top Simulations">
             <simulation name="Circuit Construction Kit"/>
             <simulation name="Waves on a String"/>
@@ -134,6 +133,5 @@
             <simulation name="Band Structures"/>
             <simulation name="Double Wells &amp; Covalent Bonds"/>
         </category>
--->
     </categories>
 </simulations>
