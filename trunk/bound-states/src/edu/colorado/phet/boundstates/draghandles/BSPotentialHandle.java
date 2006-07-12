@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -107,6 +108,34 @@ public abstract class BSPotentialHandle extends BSAbstractHandle implements Obse
      */
     protected BSCombinedChartNode getChartNode() {
         return _chartNode;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Coordinate system translators
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Converts a point in model coordinates to a point in view (global) coordinates.
+     * 
+     * @param modelPoint
+     * @return
+     */
+    protected Point2D modelToView( Point2D modelPoint ) {
+        Point2D localNodePoint = _chartNode.energyToNode( modelPoint );
+        Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );
+        return globalNodePoint;
+    }
+    
+    /*
+     * Converts a point in view (global) coordinates to a point in model coordinates.
+     * 
+     * @param viewPoint
+     * @return
+     */
+    protected Point2D viewToModel( Point2D viewPoint ) {
+        Point2D localNodePoint = _chartNode.globalToLocal( viewPoint );
+        Point2D modelPoint = _chartNode.nodeToEnergy( localNodePoint );
+        return modelPoint;
     }
     
     //----------------------------------------------------------------------------
