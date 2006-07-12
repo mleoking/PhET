@@ -12,6 +12,7 @@ Bugs
 ========
 Features
 ========
+- Descriptions
 - Uninstall and update only from the Catalog?
 - About dialog
 - Help
@@ -105,4 +106,3 @@ Done not posted
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
 - Popup menus aren't always displayed in the right place
-
