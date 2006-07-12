@@ -17,8 +17,8 @@ information.
 <!-- JNLP File for PhET "Optical Pulse Shaper" simulation --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/simulations/shaper/"
-  href="shaper_es.jnlp"> 
+  codebase="http://www.colorado.edu/physics/phet/simulations/"
+  href="shaper/shaper_es.jnlp"> 
   <information> 
     <title>Control îptico De Quantum</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
@@ -29,7 +29,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="shaper.jar"/>
+    <jar href="shaper/shaper.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.shaper.ShaperApplication">
     <argument>user.language=es</argument>
