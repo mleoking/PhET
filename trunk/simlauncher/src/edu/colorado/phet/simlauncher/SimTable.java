@@ -154,6 +154,11 @@ public class SimTable extends JTable implements SimContainer {
             getColumn( column.getName() ).setMaxWidth( column.getWidth() );
 //            getColumn( column.getName() ).setWidth( column.getWidth() );
         }
+
+        // If we've got check boxes, that should be the only selection mechanism
+        if( columns.contains( SELECTION_CHECKBOX)) {
+            setCellSelectionEnabled(false);
+        }
     }
 
     /**

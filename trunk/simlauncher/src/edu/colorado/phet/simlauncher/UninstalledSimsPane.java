@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
@@ -128,7 +127,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
             // Install button
-            installBtn = new JButton( "Install" );
+            installBtn = new JButton( "Install / Update" );
             installBtn.addActionListener( new InstallSimAction( this, this ) );
             installBtn.setEnabled( false );
             add( installBtn, headerGbc );
@@ -232,22 +231,26 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private class MouseHandler extends MouseAdapter {
             public void mouseClicked( MouseEvent event ) {
                 // If a double left click, offer to install the simulation
-                Simulation sim = simTable.getSelection();
-                installBtn.setEnabled( sim != null );
-                if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-                    int choice = JOptionPane.showConfirmDialog( UninstalledSimsPane.this,
-                                                                "Do you want to install the simulation?",
-                                                                "Confirm",
-                                                                JOptionPane.OK_CANCEL_OPTION );
-                    if( choice == JOptionPane.OK_OPTION ) {
-                        try {
-                            sim.install();
-                        }
-                        catch( SimResourceException e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+//                Simulation sim = simTable.getSelection();
+//                installBtn.setEnabled( sim != null );
+//                if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
+//                    int choice = JOptionPane.showConfirmDialog( UninstalledSimsPane.this,
+//                                                                "Do you want to install the simulation?",
+//                                                                "Confirm",
+//                                                                JOptionPane.OK_CANCEL_OPTION );
+//                    if( choice == JOptionPane.OK_OPTION ) {
+//                        try {
+//                            sim.install();
+//                        }
+//                        catch( SimResourceException e ) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+
+                // The Install button should be enabled if any check boxes are checked
+                installBtn.setEnabled(simTable.getSelections().length > 0);
+
                 // Notify change listeners
                 changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
             }
@@ -255,7 +258,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
             // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent event ) {
                 Simulation sim = simTable.getSelection();
-                installBtn.setEnabled( sim != null );
 
                 // If right click, pop up context menu
                 if( event.isPopupTrigger() && sim != null ) {
