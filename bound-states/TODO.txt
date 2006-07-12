@@ -3,9 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
+- wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 
 HIGH PRIORITY:
-- wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - drag handles are sluggish, improve responsiveness
 - pause the clock while dragging handles
 
