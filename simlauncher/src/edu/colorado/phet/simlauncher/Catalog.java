@@ -178,6 +178,8 @@ public class Catalog implements Simulation.ChangeListener {
 
     public interface ChangeListener extends EventListener {
         void catalogChanged( ChangeEvent event );
+
+//        void installedSimsChanged( ChangeEvent event );
     }
 
 }

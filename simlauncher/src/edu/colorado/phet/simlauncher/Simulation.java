@@ -141,7 +141,6 @@ public abstract class Simulation implements SimContainer {
                 simResource.uninstall();
             }
         }
-
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
@@ -199,6 +198,9 @@ public abstract class Simulation implements SimContainer {
      */
     public boolean isCurrent() throws SimResourceException {
         boolean isCurrent = true;
+        if( getName().equals("Discharge Lamps")) {
+            System.out.println( "Simulation.isCurrent" );
+        }
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
             isCurrent &= simResource.isCurrent();
