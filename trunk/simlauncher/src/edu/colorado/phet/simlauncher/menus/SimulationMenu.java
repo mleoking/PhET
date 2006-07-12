@@ -92,7 +92,7 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
     private void enableMenuItems() {
         InstalledSimsPane isp = TopLevelPane.getInstance().getInstalledSimsPane();
         boolean installedItemsEnabled = isp.getSimulation() != null;
-        UninstalledSimsPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();
+        CatalogPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();
         boolean uninstalledItemsEnabled = usp != null && usp.getSimulation() != null;
 
         JTabbedPane jtp = TopLevelPane.getInstance();

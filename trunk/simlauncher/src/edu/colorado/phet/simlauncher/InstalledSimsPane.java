@@ -68,7 +68,21 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
         } );
         launchBtn.setEnabled( false );
+        headerGbc.weightx = 1;
         add( launchBtn, headerGbc );
+
+        // "Show Thumbnails" checkbox
+        final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
+        showThumbnailsCB.addActionListener( new AbstractAction() {
+            public void actionPerformed( ActionEvent e ) {
+                Options.instance().setShowInstalledThumbnails( showThumbnailsCB.isSelected() );
+            }
+        } );
+        showThumbnailsCB.setSelected( Options.instance().isShowInstalledThumbnails() );
+        headerGbc.gridx++;
+        headerGbc.weightx = 0.01;
+        add( showThumbnailsCB, headerGbc );
+
 
         // Creates the SimTable
         updateSimTable();
@@ -82,18 +96,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                 updateSimTable();
             }
         } );
-
-        // "Show Thumbnails" checkbox
-        final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
-        showThumbnailsCB.addActionListener( new AbstractAction() {
-            public void actionPerformed( ActionEvent e ) {
-                Options.instance().setShowInstalledThumbnails( showThumbnailsCB.isSelected() );
-            }
-        } );
-        showThumbnailsCB.setSelected( Options.instance().isShowInstalledThumbnails() );
-        headerGbc.gridx++;
-        add( showThumbnailsCB, headerGbc );
-
     }
 
     /**

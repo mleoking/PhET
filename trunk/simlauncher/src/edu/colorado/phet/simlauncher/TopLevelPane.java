@@ -11,9 +11,6 @@
 package edu.colorado.phet.simlauncher;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * TopLevelPane
@@ -50,7 +47,7 @@ public class TopLevelPane extends JTabbedPane {
     //--------------------------------------------------------------------------------------------------
 
     private InstalledSimsPane installedSimsPane;
-    private UninstalledSimsPane uninstalledSimsPane;
+    private CatalogPane catalogPane;
 
     private TopLevelPane() {
         installedSimsPane = new InstalledSimsPane();
@@ -66,15 +63,13 @@ public class TopLevelPane extends JTabbedPane {
         enableDisableOnlineCatalog( PhetSiteConnection.instance() );
 
         // Set the size of things when we first appear
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-//                setPreferredSize( new Dimension( Math.max( 600, (int)getSize().getWidth() ),
+//        addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth() ),
 //                                                 Math.max( 300, (int)getSize().getHeight() ) ) );
 //                ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
-            }
-        } );
-
-//        setPreferredSize( new Dimension( 800, 500 ) );
+//            }
+//        } );
     }
 
     /**
@@ -87,16 +82,16 @@ public class TopLevelPane extends JTabbedPane {
      */
     private synchronized void enableDisableOnlineCatalog( PhetSiteConnection phetSiteConnection ) {
         if( phetSiteConnection.isConnected() ) {
-            if( Catalog.instance().isRemoteAvailable() && uninstalledSimsPane == null ) {
+            if( Catalog.instance().isRemoteAvailable() && catalogPane == null ) {
                 System.out.println( "TopLevelPane.enableDisableOnlineCatalog" );
-                uninstalledSimsPane = new UninstalledSimsPane();
-                addTab( "Catalog", uninstalledSimsPane );
+                catalogPane = new CatalogPane();
+                addTab( "Catalog", catalogPane );
             }
         }
         else {
-            if( uninstalledSimsPane != null ) {
-                remove( uninstalledSimsPane );
-                uninstalledSimsPane = null;
+            if( catalogPane != null ) {
+                remove( catalogPane );
+                catalogPane = null;
             }
         }
     }
@@ -110,7 +105,7 @@ public class TopLevelPane extends JTabbedPane {
             index = this.indexOfComponent( installedSimsPane );
         }
         if( paneID == ONLINE_SIMS_PANE ) {
-            index = this.indexOfComponent( uninstalledSimsPane );
+            index = this.indexOfComponent( catalogPane );
         }
         super.setSelectedIndex( index );
     }
@@ -120,7 +115,7 @@ public class TopLevelPane extends JTabbedPane {
         return installedSimsPane;
     }
 
-    public UninstalledSimsPane getUninstalledSimsPane() {
-        return uninstalledSimsPane;
+    public CatalogPane getUninstalledSimsPane() {
+        return catalogPane;
     }
 }

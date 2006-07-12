@@ -71,7 +71,7 @@ public class SimTable extends JTable implements SimContainer {
     public static Column NAME = new Column( "Name", String.class, 150 );
     public static Column THUMBNAIL = new Column( "Thumbnail", ImageIcon.class, 150 );
     public static Column IS_INSTALLED = new Column( "Installed?", ImageIcon.class, 100 );
-    public static Column IS_UP_TO_DATE = new Column( "Update Available?", ImageIcon.class, 100 );
+    public static Column IS_UP_TO_DATE = new Column( "Update Available?", ImageIcon.class, 120 );
     public static Column SELECTION_CHECKBOX = new Column( "Select", Boolean.class, 60 );
 
 
