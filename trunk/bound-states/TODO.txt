@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+(7/12/06) - remove "implements Observer" from BSAbstractConfigureDialog subclasses
 (7/12/06) - verify that drag handles cannot be dragged past min/max range values
 (7/12/06) - move model-view mapping code into base class for drag handles
 (7/12/06) - round drag handle values to specified number of significant decimal places to prevent range problems
