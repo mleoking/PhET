@@ -90,6 +90,7 @@ public abstract class BSAbstractDragManager extends PClip {
             updateLayout();
         }
         super.setVisible( visible );
+        setChildrenPickable( visible );
     }
     
     /*
