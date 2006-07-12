@@ -123,15 +123,15 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
         BSPotentialSpec spec = getPotentialSpec();
-        BSCombinedChartNode chartNode = getChartNode();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
             final double handlePosition = modelPoint.getX();
 
+            // Calculate the separation
             final int n = potential.getNumberOfWells();
             double separation = 0;
             if ( n % 2 == 0 ) {
@@ -158,30 +158,33 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
-            double handlePosition = 0;
-            final double separation = potential.getSeparation();
+            // Some potential attributes that we need...
             final int n = potential.getNumberOfWells();
+            final double separation = potential.getSeparation();
+            final double offset = potential.getOffset();
+            final double height = potential.getHeight();
+            final double width = potential.getWidth();
+            
+            // Calculate the handle's model coordinates
+            final double handleEnergy = offset + height + 1;
+            double handlePosition = 0;
             if ( n % 2 == 0 ) {
                 // even number of wells
                 handlePosition = separation / 2;
             }
             else {
                 // odd number of wells
-                final double width = potential.getWidth();
                 handlePosition = ( width / 2 )  + separation;
             }
             
-            final double offset = potential.getOffset();
-            final double height = potential.getHeight();
-            final double handleEnergy = offset + height + 1;
+            // Convert to view coordinates
             Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-            setGlobalPosition( globalNodePoint );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( separation );
         }
         addPropertyChangeListener( this );

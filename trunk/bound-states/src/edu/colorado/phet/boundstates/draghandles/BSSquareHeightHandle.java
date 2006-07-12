@@ -104,16 +104,18 @@ public class BSSquareHeightHandle extends BSPotentialHandle {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
         BSPotentialSpec spec = getPotentialSpec();
-        BSCombinedChartNode chartNode = getChartNode();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
+            final double handleEnergy = modelPoint.getY();
             
+            // Calculate the height
+            double height = handleEnergy - potential.getOffset();
             final int numberOfSignicantDecimalPlaces = spec.getHeightRange().getSignificantDecimalPlaces();
-            final double height = round( modelPoint.getY() - potential.getOffset(), numberOfSignicantDecimalPlaces );
+            height = round( height, numberOfSignicantDecimalPlaces );
             
             potential.setHeight( height );
             setValueDisplay( height );
@@ -127,21 +129,25 @@ public class BSSquareHeightHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
+            // Some potential attributes that we need...
             final int n = potential.getNumberOfWells();
+            final double center = potential.getCenter( n - 1 ); // center of the right-most well
             final double width = potential.getWidth();
-            final double position = potential.getCenter( n - 1 ) + ( width / 2 ) + 0.1;
             final double height = potential.getHeight();
             final double offset = potential.getOffset();
             
-            Point2D modelPoint = new Point2D.Double( position, offset + height );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
+            // Calculate the handle's model coordinates
+            final double handlePosition = center + ( width / 2 ) + 0.1;
+            final double handleEnergy = offset + height;
             
-            setGlobalPosition( globalNodePoint );
+            // Convert to view coordinates
+            Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( height );
         }
         addPropertyChangeListener( this );

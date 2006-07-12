@@ -111,27 +111,26 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
 
         BSSquarePotential potential = (BSSquarePotential)getPotential();
         BSPotentialSpec spec = getPotentialSpec();
-        BSCombinedChartNode chartNode = getChartNode();
 
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
-            final double d = modelPoint.getX();
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
+            final double handlePosition = modelPoint.getX();
 
+            // Calculate the width
             final int n = potential.getNumberOfWells();
             final double s = potential.getSeparation();
             double width = 0;
-            
             if ( n % 2 == 0 ) {
                 // even number of wells
-                width = ( 2.0 / n ) * ( d - ( ( ( n / 2.0 ) - 1 ) * s ) - ( 0.5 * s ) );
+                width = ( 2.0 / n ) * ( handlePosition - ( ( ( n / 2.0 ) - 1 ) * s ) - ( 0.5 * s ) );
             }
             else {
                 // odd number of wells
                 final int m = n - 1;
-                width = ( 2.0 / ( m + 1 ) ) * ( d - ( ( m / 2.0 ) * s ) );
+                width = ( 2.0 / ( m + 1 ) ) * ( handlePosition - ( ( m / 2.0 ) * s ) );
             }
             final int numberOfSignicantDecimalPlaces = spec.getWidthRange().getSignificantDecimalPlaces();
             width = round( width, numberOfSignicantDecimalPlaces );
@@ -149,23 +148,25 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
+            // Some potential attributes that we need...
             final int n = potential.getNumberOfWells();
-            final double center = potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
+            final double center = potential.getCenter( n - 1 ); // center of the right-most well
             final double width = potential.getWidth();
             final double height = potential.getHeight();
             final double offset = potential.getOffset();
  
-            final double position = center + ( width / 2 ); // right edge of the well
-            final double energy = offset + ( height / 2 ); // half way up the side of the well
-            Point2D modelPoint = new Point2D.Double( position, energy );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-//            System.out.println( "BSSquareWidthHandle.updateView width=" + width + " x=" + globalNodePoint.getX() );//XXX
-            setGlobalPosition( globalNodePoint );
+            // Calculate the handle's model coordinates
+            final double handlePosition = center + ( width / 2 ); // right edge of the well
+            final double handleEnergy = offset + ( height / 2 ); // half way up the side of the well
+            
+            // Convert to view coordinates
+            Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( width );
         }
         addPropertyChangeListener( this );

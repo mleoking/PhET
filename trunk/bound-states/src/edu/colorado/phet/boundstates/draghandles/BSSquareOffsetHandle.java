@@ -71,7 +71,7 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
         
         assert ( potential.getCenter() == 0 );
         
-        //  position -> x coordinates
+        // position -> x coordinates
         final double minPosition = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
         final double maxPosition = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
         final double minX = chartNode.positionToNode( minPosition );
@@ -102,16 +102,18 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
         BSPotentialSpec spec = getPotentialSpec();
-        BSCombinedChartNode chartNode = getChartNode();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
+            final double handleEnergy = modelPoint.getY();
             
+            // Calculate the offset
+            double offset = handleEnergy;
             final int numberOfSignicantDecimalPlaces = spec.getOffsetRange().getSignificantDecimalPlaces();
-            final double offset = round( modelPoint.getY(), numberOfSignicantDecimalPlaces );
+            offset = round( offset, numberOfSignicantDecimalPlaces );
             
             potential.setOffset( offset );
             setValueDisplay( offset );
@@ -125,20 +127,24 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSSquarePotential potential = (BSSquarePotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
+            // Some potential attributes that we need...
             final int n = potential.getNumberOfWells();
-            final double position = potential.getCenter( n - 1 );
+            final double center = potential.getCenter( n - 1 ); // center of the right-most well
             final double offset = potential.getOffset();
             
-            Point2D modelPoint = new Point2D.Double( position, offset );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
+            // Calculate the handle's model coordinates
+            final double handlePosition = center;
+            final double handleEnergy = offset;
             
-            setGlobalPosition( globalNodePoint );
-            setValueDisplay( offset );
+            // Convert to view coordinates
+            Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
+            setValueDisplay( handleEnergy );
         }
         addPropertyChangeListener( this );
     }
