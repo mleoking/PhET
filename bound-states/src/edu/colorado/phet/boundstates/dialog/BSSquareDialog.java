@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -34,7 +33,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareDialog extends BSAbstractConfigureDialog implements Observer, ChangeListener {
+public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -185,6 +184,8 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     //----------------------------------------------------------------------------
 
     protected void updateControls() {
+        
+        System.out.println( "BSSquareDialog.updateControls" );//XXX
 
         BSSquarePotential potential = (BSSquarePotential) getPotential();
 
@@ -260,6 +261,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     private void handleWidthChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double width = _widthSlider.getValue();
+        System.out.println( "BSSquareDialog.handleWidthChange " + width );//XXX
         potential.setWidth( width );
     }
     

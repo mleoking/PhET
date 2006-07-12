@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -35,7 +34,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implements Observer, ChangeListener {
+public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implements ChangeListener {
     
     //----------------------------------------------------------------------------
     // Instance data
