@@ -14,11 +14,11 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET "Band Structure" simulation --> 
+<!-- Spanish (es) JNLP File for PhET "Band Structure" simulation --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/simulations/bound-states/"
-  href="band-structure_es.jnlp"> 
+  codebase="http://www.colorado.edu/physics/phet/simulations/"
+  href="bound-states/band-structure_es.jnlp"> 
   <information> 
     <title>Estructura de Bandas</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
@@ -29,7 +29,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="boundstates.jar"/> 
+    <jar href="bound-states/boundstates.jar"/> 
   </resources> 
   <application-desc main-class="edu.colorado.phet.boundstates.BSBandStructureApplication">
       <argument>user.language=es</argument>
