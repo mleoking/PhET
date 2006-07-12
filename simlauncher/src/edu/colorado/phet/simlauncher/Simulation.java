@@ -127,6 +127,7 @@ public abstract class Simulation implements SimContainer {
         thumbnailResource.download();
 //        descriptionResource.download();
 
+        System.out.println( "Simulation.install" );
         changeListenerProxy.installed( new ChangeEvent( this ) );
     }
 
@@ -200,11 +201,14 @@ public abstract class Simulation implements SimContainer {
     public boolean isCurrent() throws SimResourceException {
         boolean isCurrent = true;
 
-        if( name.startsWith( "Ball")) {
-            System.out.println( "Simulation.isCurrent" );
-        }
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
+
+            if( name.startsWith( "John") && !simResource.isCurrent() ) {
+                System.out.println( "Simulation.isCurrent: " + simResource );
+                simResource.isCurrent();
+            }
+
             isCurrent &= simResource.isCurrent();
         }
         return isCurrent;

@@ -76,7 +76,7 @@ public class UpdateSimAction extends AbstractAction {
 
     private void showWaitDialog() {
         JFrame frame = (JFrame)SwingUtilities.getRoot( parent );
-        waitDlg = new JDialog( frame, "Installing...", true );
+        waitDlg = new JDialog( frame, "Updating...", true );
         JLabel message = new JLabel( "Please wait while the simulation is being updated..." );
         JPanel contentPane = (JPanel)waitDlg.getContentPane();
         contentPane.setLayout( new GridBagLayout() );

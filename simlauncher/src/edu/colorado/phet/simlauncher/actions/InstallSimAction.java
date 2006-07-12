@@ -28,6 +28,7 @@ public class InstallSimAction extends AbstractAction {
     private SimContainer simContainer;
     private Component component;
     private JDialog waitDlg;
+    private boolean cancelInstallation;
 
     public InstallSimAction( SimContainer simContainer, Component component ) {
         this.component = component;
@@ -56,6 +57,8 @@ public class InstallSimAction extends AbstractAction {
                 catch( SimResourceException e ) {
                     RemoteUnavaliableMessagePane.show( null );
                 }
+
+                System.out.println( "InstallSimAction.run" );
                 hideWaitDialog();
             }
         } );
@@ -83,9 +86,16 @@ public class InstallSimAction extends AbstractAction {
         progressBar.setIndeterminate( true );
         contentPane.add( progressBar, gbc );
 
+//        JButton cancelButton = new JButton( "Cancel");
+//        cancelButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                hideWaitDialog();
+//            }
+//        } );
+//        contentPane.add( cancelButton, gbc );
+
         waitDlg.pack();
         waitDlg.setLocationRelativeTo( frame );
-        waitDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
         waitDlg.setVisible( true );
     }
 
