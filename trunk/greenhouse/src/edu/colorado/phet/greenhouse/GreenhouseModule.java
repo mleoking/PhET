@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.IClock;
+import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import java.awt.geom.Ellipse2D;
@@ -49,6 +50,13 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         // Tell the Earth not to jimmy the temperature
         getEarth().setJimmyArray( null );
     }
+
+    public void activate( PhetApplication phetApplication ) {
+    }
+
+    public void deactivate( PhetApplication phetApplication ) {
+    }
+
 
     public void reset() {
         super.reset();

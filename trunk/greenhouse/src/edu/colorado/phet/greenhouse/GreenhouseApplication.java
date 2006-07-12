@@ -86,16 +86,15 @@ public class GreenhouseApplication extends PhetApplication {
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
                         SimStrings.get( "GreenHouseApplication.version" ),
                         1024, 768 );
-                SwingTimerClock dummyClock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-                s_application = new PhetApplication( appDescriptor, modules,
-                                                     dummyClock );
+                SwingTimerClock clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+                s_application = new PhetApplication( appDescriptor, modules, clock );
 
-                dummyClock.removeClockTickListener( greenhouseModule.getModel() );
-                dummyClock.removeClockTickListener( greenhouseModule2.getModel() );
-                IClock clock1 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-                greenhouseModule2.addClock( clock1 );
-                IClock clock2 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
-                greenhouseModule2.addClock( clock1 );
+//                clock.removeClockTickListener( greenhouseModule.getModel() );
+//                clock.removeClockTickListener( greenhouseModule2.getModel() );
+//                IClock clock1 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+//                greenhouseModule.addClock( clock1 );
+//                IClock clock2 = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+//                greenhouseModule2.addClock( clock2 );
 
                 Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
                 Color foreground = Color.black;
@@ -115,6 +114,8 @@ public class GreenhouseApplication extends PhetApplication {
                 SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
 
                 splashWindow.setVisible( false );
+
+                s_application.getApplicationView().getPhetFrame().setResizable( false );
                 s_application.startApplication( greenhouseModule );
 
             }

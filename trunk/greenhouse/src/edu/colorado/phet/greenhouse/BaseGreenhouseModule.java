@@ -250,24 +250,6 @@ public abstract class BaseGreenhouseModule extends Module {
         scatterToGraphicMap.remove( event );
     }
 
-    /**
-     * Hook up the model to the clock
-     * @param phetApplication
-     */
-    public void activate( PhetApplication phetApplication ) {
-        // Remove the model from the clock first, so we don't ever end up with it getting two ticks
-        phetApplication.getApplicationModel().getClock().removeClockTickListener( getModel() );
-        phetApplication.getApplicationModel().getClock().addClockTickListener( getModel() );
-    }
-
-    /**
-     * Unhook the model from the clock
-     * @param phetApplication
-     */
-    public void deactivate( PhetApplication phetApplication ) {
-        phetApplication.getApplicationModel().getClock().removeClockTickListener( getModel() );
-    }
-
     public void setVirginEarth() {
         earthGraphic.setVirginEarth();
     }
