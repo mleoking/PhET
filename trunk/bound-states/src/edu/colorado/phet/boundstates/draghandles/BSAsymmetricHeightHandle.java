@@ -102,15 +102,20 @@ public class BSAsymmetricHeightHandle extends BSPotentialHandle {
     protected void updateModel() {
         
         BSAsymmetricPotential potential = (BSAsymmetricPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
+        BSPotentialSpec spec = getPotentialSpec();
         
         potential.deleteObserver( this );
         {
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = chartNode.globalToLocal( globalNodePoint );
-            Point2D modelPoint = chartNode.nodeToEnergy( localNodePoint );
+            // Convert the drag handle's location to model coordinates
+            Point2D viewPoint = getGlobalPosition();
+            Point2D modelPoint = viewToModel( viewPoint );
             final double handlePosition = modelPoint.getY();
-            final double height = handlePosition - potential.getOffset();
+            
+            // Calculate the height
+            double height = handlePosition - potential.getOffset();
+            final int numberOfSignicantDecimalPlaces = spec.getHeightRange().getSignificantDecimalPlaces();
+            height = round( height, numberOfSignicantDecimalPlaces );
+            
             potential.setHeight( height );
             setValueDisplay( height );
         }
@@ -123,19 +128,23 @@ public class BSAsymmetricHeightHandle extends BSPotentialHandle {
     protected void updateView() {
         
         BSAsymmetricPotential potential = (BSAsymmetricPotential)getPotential();
-        BSCombinedChartNode chartNode = getChartNode();
         
         removePropertyChangeListener( this );
         {
+            // Some potential attributes that we need...
             final double width = potential.getWidth();
-            final double handlePosition = ( width / 2 ) + 0.2; // handle to the right of well
             final double height = potential.getHeight();
             final double offset = potential.getOffset();
+            
+            // Calculate the handle's model coordinates
+            final double handlePosition = ( width / 2 ) + 0.2; // handle to the right of well
             final double handleEnergy = offset + height; // handle at top of well
+            
+            // Convert to view coordinates
             Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
-            Point2D localNodePoint = chartNode.energyToNode( modelPoint );
-            Point2D globalNodePoint = chartNode.localToGlobal( localNodePoint );
-            setGlobalPosition( globalNodePoint );
+            Point2D viewPoint = modelToView( modelPoint );
+            
+            setGlobalPosition( viewPoint );
             setValueDisplay( height );
         }
         addPropertyChangeListener( this );
