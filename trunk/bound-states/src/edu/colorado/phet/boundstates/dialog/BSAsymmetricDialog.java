@@ -187,18 +187,22 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
      * Dispatches a ChangeEvent to the proper handler method.
      */
     public void stateChanged( ChangeEvent e ) {
-        if ( e.getSource() == _offsetSlider ) {
-            handleOffsetChange();
+        setObservePotential( false );
+        {
+            if ( e.getSource() == _offsetSlider ) {
+                handleOffsetChange();
+            }
+            else if ( e.getSource() == _heightSlider ) {
+                handleHeightChange();
+            }
+            else if ( e.getSource() == _widthSlider ) {
+                handleWidthChange();
+            }
+            else {
+                System.err.println( "WARNING: BSAsymmetricDialog - unsupported event source: " + e.getSource() );
+            }
         }
-        else if ( e.getSource() == _heightSlider ) {
-            handleHeightChange();
-        }
-        else if ( e.getSource() == _widthSlider ) {
-            handleWidthChange();
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
-        }
+        setObservePotential( true );
     }
 
     //----------------------------------------------------------------------------

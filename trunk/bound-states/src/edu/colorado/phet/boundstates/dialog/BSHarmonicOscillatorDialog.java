@@ -165,15 +165,19 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * Dispatches a ChangeEvent to the proper handler method.
      */
     public void stateChanged( ChangeEvent e ) {
-        if ( e.getSource() == _offsetSlider ) {
-            handleOffsetChange();
+        setObservePotential( false );
+        {
+            if ( e.getSource() == _offsetSlider ) {
+                handleOffsetChange();
+            }
+            else if ( e.getSource() == _angularFrequencySlider ) {
+                handleAngularFrequencyChange();
+            }
+            else {
+                System.err.println( "WARNING: BSHarmonicOscillatorDialog - unsupported event source: " + e.getSource() );
+            }
         }
-        else if ( e.getSource() == _angularFrequencySlider ) {
-            handleAngularFrequencyChange();
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
-        }
+        setObservePotential( true );
     }
     
     //----------------------------------------------------------------------------

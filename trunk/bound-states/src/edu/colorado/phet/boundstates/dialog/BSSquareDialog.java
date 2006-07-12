@@ -185,8 +185,6 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
 
     protected void updateControls() {
         
-        System.out.println( "BSSquareDialog.updateControls" );//XXX
-
         BSSquarePotential potential = (BSSquarePotential) getPotential();
 
         // Sync values
@@ -226,21 +224,25 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      * Dispatches a ChangeEvent to the proper handler method.
      */
     public void stateChanged( ChangeEvent e ) {
-        if ( e.getSource() == _offsetSlider ) {
-            handleOffsetChange();
+        setObservePotential( false );
+        {
+            if ( e.getSource() == _offsetSlider ) {
+                handleOffsetChange();
+            }
+            else if ( e.getSource() == _heightSlider ) {
+                handleHeightChange();
+            }
+            else if ( e.getSource() == _widthSlider ) {
+                handleWidthChange();
+            }
+            else if ( e.getSource() == _separationSlider ) {
+                handleSeparationChange();
+            }
+            else {
+                System.err.println( "WARNING: BSSquareDialog - unsupported event source: " + e.getSource() );
+            }
         }
-        else if ( e.getSource() == _heightSlider ) {
-            handleHeightChange();
-        }
-        else if ( e.getSource() == _widthSlider ) {
-            handleWidthChange();
-        }
-        else if ( e.getSource() == _separationSlider ) {
-            handleSeparationChange();
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
-        }
+        setObservePotential( true );
     }
     
     //----------------------------------------------------------------------------
@@ -249,13 +251,16 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
    
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        getPotential().setOffset( offset );
+        System.out.println( "BSSquareDialog.handleOffsetChange " + offset );//XXX 
+        getPotential().setOffset( offset ); 
     }
     
     private void handleHeightChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double height = _heightSlider.getValue();
+        System.out.println( "BSSquareDialog.handleHeightChange " + height );//XXX  
         potential.setHeight( height );
+        setObservePotential( true );
     }
     
     private void handleWidthChange() {
