@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- if exception occurs in drag handle's updateModel method, need to addObserver
-- if exception occurs in drag handle's updateView method, need to addPropertyChangeListener
 - wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 - drag handles are sluggish, improve responsiveness
 - pause the clock while dragging handles
@@ -475,6 +473,8 @@ DONE:
 
 
 REJECTED:
+(7/12/06) - if exception occurs in drag handle's updateModel method, need to addObserver (not necessary, exception was a bug that was fixed)
+(7/12/06) - if exception occurs in drag handle's updateView method, need to addPropertyChangeListener (not necessary, exception was a bug that was fixed)
 (7/11/06) - plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases (no one has ever noticed this, hard to fix)
 (7/11/06) - make offset drag handles looks "different" (not necessary)
 (7/11/06) - some drag handle values get clipped by the chart (OK as is)
