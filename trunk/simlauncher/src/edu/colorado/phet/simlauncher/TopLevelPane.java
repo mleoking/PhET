@@ -68,11 +68,13 @@ public class TopLevelPane extends JTabbedPane {
         // Set the size of things when we first appear
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth() ),
-                                                 Math.max( 300, (int)getSize().getHeight() ) ) );
-                ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
+//                setPreferredSize( new Dimension( Math.max( 600, (int)getSize().getWidth() ),
+//                                                 Math.max( 300, (int)getSize().getHeight() ) ) );
+//                ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
             }
         } );
+
+//        setPreferredSize( new Dimension( 800, 500 ) );
     }
 
     /**

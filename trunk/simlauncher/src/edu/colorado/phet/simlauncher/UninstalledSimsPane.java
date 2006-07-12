@@ -28,6 +28,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
+//public class UninstalledSimsPane extends JPanel implements SimContainer {
 public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
     private CategoryPanel categoryPanel;
@@ -38,13 +39,26 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
      * Constructor
      */
     public UninstalledSimsPane() {
-        super( JSplitPane.HORIZONTAL_SPLIT, null, null );
+        super( JSplitPane.HORIZONTAL_SPLIT, true );
+//        super( JSplitPane.HORIZONTAL_SPLIT, null, null );
 
         categoryPanel = new CategoryPanel();
         simulationPanel = new SimPanel();
 
         setLeftComponent( categoryPanel );
+        JPanel rightPanel = new JPanel();
+        rightPanel.add( simulationPanel );
         setRightComponent( simulationPanel );
+
+//        setLayout( new GridBagLayout() );
+//        GridBagConstraints gbc = new  GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1,1,1,1,
+//                                                          GridBagConstraints.NORTH,
+//                                                          GridBagConstraints.NONE,
+//                                                          new Insets(0,0,0,0),0,0);
+//        add( categoryPanel, gbc );
+//        gbc.fill = GridBagConstraints.BOTH;
+//        add( simulationPanel, gbc );
+
     }
 
     public void addChangeListener( ChangeEventChannel.ChangeListener listener ) {
