@@ -51,8 +51,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     
     // View
     private XYSeries _potentialSeries;
-    private XYSeries _normalEigenstateSeries;
-    private XYSeries _selectedEigenstateSeries;
+    private XYSeries _normalEigenstatesSeries;
+    private XYSeries _selectedEigenstatesSeries;
     private XYSeries _hilitedEigenstateSeries;
     private int _potentialIndex;
     private int _normalEigenstateIndex;
@@ -104,12 +104,12 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         }
         
         // "Selected" eigenstates series
-        _selectedEigenstateSeries = new XYSeries( "selected eigenstates", false /* autoSort */ );
+        _selectedEigenstatesSeries = new XYSeries( "selected eigenstates", false /* autoSort */ );
         {
             _selectedEigenstateIndex = dataSetIndex++;
             // Dataset
             XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _selectedEigenstateSeries );
+            dataset.addSeries( _selectedEigenstatesSeries );
             setDataset( _selectedEigenstateIndex, dataset );
             // Renderer
             XYItemRenderer renderer = BSRendererFactory.createEigenstatesRenderer();
@@ -119,12 +119,12 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         }
         
         // "Normal" eigenstates series
-        _normalEigenstateSeries = new XYSeries( "normal eigenstates", false /* autoSort */ );
+        _normalEigenstatesSeries = new XYSeries( "normal eigenstates", false /* autoSort */ );
         {
             _normalEigenstateIndex = dataSetIndex++;
             // Dataset
             XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _normalEigenstateSeries );
+            dataset.addSeries( _normalEigenstatesSeries );
             setDataset( _normalEigenstateIndex, dataset );
             // Renderer
             XYItemRenderer renderer = BSRendererFactory.createEigenstatesRenderer();
@@ -186,7 +186,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             }
             _model = model;
             _model.addObserver( this );
-            updateDatasets();
+            updateAllSeries();
         }
     }
     
@@ -221,7 +221,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     public void setDx( double dx ) {
         if ( dx != _dx ) {
             _dx = dx;
-            updateDatasets();
+            updateAllSeries();
         }
     }
     
@@ -238,19 +238,17 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     public void update( Observable observable, Object arg ) {
         if ( observable == _model ) {
             if ( arg == BSModel.PROPERTY_POTENTIAL ) {
-                updateDatasets();
+                updateAllSeries();
             }
             else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
-                updateSelectionEigenstatesDataset();
+                updateSelectedEigenstatesSeries();
             }
             else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-                updateHiliteEigenstatesDataset();
+                updateHilitedEigenstateSeries();
             }
             else if ( arg == null ) {
                 // Multiple things may have changed, so update everything.
-                updateDatasets();
-                updateSelectionEigenstatesDataset();
-                updateHiliteEigenstatesDataset();
+                updateAllSeries();
             }
         }
     }
@@ -260,19 +258,19 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates all datasets.
+     * Updates all data series.
      */
-    private void updateDatasets() {
-        updatePotentialDataset();
-        updateNormalEigenstatesDataset();
-        updateSelectionEigenstatesDataset();
-        updateHiliteEigenstatesDataset();
+    private void updateAllSeries() {
+        updatePotentialSeries();
+        updateNormalEigenstatesSeries();
+        updateSelectedEigenstatesSeries();
+        updateHilitedEigenstateSeries();
     }
     
     /*
-     * Updates the potential dataset to match the model.
+     * Updates the potential series to match the model.
      */
-    private void updatePotentialDataset() {
+    private void updatePotentialSeries() {
         _potentialSeries.setNotify( false );
         _potentialSeries.clear();
         final double minX = getDomainAxis().getLowerBound();
@@ -306,42 +304,42 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     }
     
     /*
-     * Updates the "normal" eigenstates dataset to match the model.
-     * All eigenstate energies are added to the dataset.
+     * Updates the "normal" eigenstates series to match the model.
+     * All eigenstate energies are added to the series.
      */
-    private void updateNormalEigenstatesDataset() {
-        _normalEigenstateSeries.setNotify( false );
-        _normalEigenstateSeries.clear();
+    private void updateNormalEigenstatesSeries() {
+        _normalEigenstatesSeries.setNotify( false );
+        _normalEigenstatesSeries.clear();
         BSEigenstate[] eigenstates = _model.getEigenstates();
         for ( int i = 0; i < eigenstates.length; i++ ) {
-            _normalEigenstateSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
+            _normalEigenstatesSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
         }
-        _normalEigenstateSeries.setNotify( true );
+        _normalEigenstatesSeries.setNotify( true );
     }
     
     /*
-     * Updates the "selected" eigenstates dataset to match the model.
+     * Updates the "selected" eigenstates series to match the model.
      * Those eigenstates energies with non-zero superposition coefficients
-     * are added to the dataset.
+     * are added to the series.
      */
-    private void updateSelectionEigenstatesDataset() {
-        _selectedEigenstateSeries.setNotify( false );
-        _selectedEigenstateSeries.clear();
+    private void updateSelectedEigenstatesSeries() {
+        _selectedEigenstatesSeries.setNotify( false );
+        _selectedEigenstatesSeries.clear();
         BSEigenstate[] eigenstates = _model.getEigenstates();
         BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
         for ( int i = 0; i < eigenstates.length; i++ ) {
             if ( superpositionCoefficients.getCoefficient( i ) != 0 ) {
-                _selectedEigenstateSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
+                _selectedEigenstatesSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
             }
         }
-        _selectedEigenstateSeries.setNotify( true );
+        _selectedEigenstatesSeries.setNotify( true );
     }
     
     /*
-     * Updates the "hilite" eigenstates dataset to match the model.
+     * Updates the "hilited" eigenstates series to match the model.
      * Our model supports only one hilited eigenstate.
      */
-    private void updateHiliteEigenstatesDataset() {
+    private void updateHilitedEigenstateSeries() {
         _hilitedEigenstateSeries.setNotify( false );
         _hilitedEigenstateSeries.clear();
         final int hiliteIndex = _model.getHilitedEigenstateIndex();
