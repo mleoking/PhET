@@ -165,7 +165,7 @@ public abstract class BSAbstractDragManager extends PClip {
      * @param colorScheme
      */
     public void setColorScheme( BSColorScheme colorScheme ) {
-        
+
         Iterator h = _handles.iterator();
         while ( h.hasNext() ) {
             BSAbstractHandle handle = (BSAbstractHandle)h.next();
@@ -191,5 +191,21 @@ public abstract class BSAbstractDragManager extends PClip {
             node = (PNode)_handles.get( 0 );
         }
         return node;
-    }    
+    }  
+    
+    /**
+     * Gets the number of handles.
+     * @return
+     */
+    public int getHandleCount() {
+        return _handles.size();
+    }
+    
+    /**
+     * Gets the number of markers.
+     * @return
+     */
+    public int getMarkerCount() {
+        return _markers.size();
+    }
 }
