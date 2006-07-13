@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.simlauncher.resources.DescriptionResource;
 import edu.colorado.phet.simlauncher.resources.SimResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
@@ -40,9 +41,9 @@ public abstract class Simulation implements SimContainer {
     //--------------------------------------------------------------------------------------------------
 
     private String name;
-    private String description;
+//    private String description;
 
-    private SimResource descriptionResource;
+    private DescriptionResource descriptionResource;
     private ThumbnailResource thumbnailResource;
     private List resources = new ArrayList();
     private File lastLaunchedTimestampFile;
@@ -55,10 +56,12 @@ public abstract class Simulation implements SimContainer {
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public Simulation( String name, String description, ThumbnailResource thumbnail, URL launchResourceUrl, File localRoot ) {
+    public Simulation( String name, DescriptionResource descriptionResource, ThumbnailResource thumbnail, URL launchResourceUrl, File localRoot ) {
         this.name = name;
-        this.description = description;
         this.localRoot = localRoot;
+
+//        this.descriptionResource = descriptionResource;
+//        addResource( descriptionResource );
 
         thumbnailResource = thumbnail;
         addResource( thumbnailResource );
@@ -66,11 +69,13 @@ public abstract class Simulation implements SimContainer {
         // Create the file that will store the timestamp of the last time we were launched
         String subPath = launchResourceUrl.getPath().substring( 0, launchResourceUrl.getPath().lastIndexOf( '/' ) );
         String relativePath = launchResourceUrl.getHost() + FileUtil.getPathSeparator() + subPath;
-        lastLaunchedTimestampFile = new File( localRoot.getAbsolutePath()
-                                              + FileUtil.getPathSeparator()
-                                              + relativePath
-                                              + FileUtil.getPathSeparator()
-                                              + "lastLaunchTimeStamp.txt" );
+        lastLaunchedTimestampFile = new
+
+                File( localRoot.getAbsolutePath()
+                      + FileUtil.getPathSeparator()
+                      + relativePath
+                      + FileUtil.getPathSeparator()
+                      + "lastLaunchTimeStamp.txt" );
 
         // Register ourselves with the class
         namesToSims.put( name, this );
@@ -94,9 +99,9 @@ public abstract class Simulation implements SimContainer {
         return sim;
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Abstract methods
-    //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+// Abstract methods
+//--------------------------------------------------------------------------------------------------
 
     /**
      * Tells if the simulation is installed locally
@@ -104,7 +109,6 @@ public abstract class Simulation implements SimContainer {
      * @return true if the simulation is installed
      */
     public abstract boolean isInstalled();
-
 
 
     protected void finalize() throws Throwable {
@@ -137,7 +141,7 @@ public abstract class Simulation implements SimContainer {
      */
     public void uninstall() {
         // Delete the resources other than the thumbnail, which is needed for display purposes
-        for( int i = resources.size()-1; i >= 0; i-- ) {
+        for( int i = resources.size() - 1; i >= 0; i-- ) {
             SimResource simResource = (SimResource)resources.get( i );
             if( !( simResource instanceof ThumbnailResource ) ) {
                 simResource.uninstall();
@@ -147,7 +151,7 @@ public abstract class Simulation implements SimContainer {
     }
 
 
-    public void launch(){
+    public void launch() {
         try {
             recordLastLaunchTime();
         }
@@ -204,10 +208,10 @@ public abstract class Simulation implements SimContainer {
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
 
-            if( name.startsWith( "John") && !simResource.isCurrent() ) {
-                System.out.println( "Simulation.isCurrent: " + simResource );
-                simResource.isCurrent();
-            }
+//            if( name.startsWith( "John") && !simResource.isCurrent() ) {
+//                System.out.println( "Simulation.isCurrent: " + simResource );
+//                simResource.isCurrent();
+//            }
 
             isCurrent &= simResource.isCurrent();
         }
@@ -232,8 +236,12 @@ public abstract class Simulation implements SimContainer {
         return name;
     }
 
+    public DescriptionResource getDescriptionResource() {
+        return descriptionResource;
+    }
+
     public String getDescription() {
-        return description;
+        return descriptionResource.getDescription();
     }
 
     public ImageIcon getThumbnail() {
@@ -258,21 +266,21 @@ public abstract class Simulation implements SimContainer {
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimContainer 
-    //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+// Implementation of SimContainer
+//--------------------------------------------------------------------------------------------------
 
     public Simulation getSimulation() {
         return this;
     }
 
     public Simulation[] getSimulations() {
-        return new Simulation[]{ this };
+        return new Simulation[]{this};
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // ChangeListener interface
-    //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+// ChangeListener interface
+//--------------------------------------------------------------------------------------------------
 
     public interface ChangeListener extends EventListener {
         void installed( ChangeEvent event );

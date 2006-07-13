@@ -52,7 +52,7 @@ public class SimListingOptionsAction extends AbstractAction {
                 Options.instance().setShowUninstalledThumbnailsNoUpdate( iconOptionCB_B.isSelected() );
             }
         } );
-        iconOptionCB_B.setSelected( Options.instance().isShowUninstalledThumbnails() );
+        iconOptionCB_B.setSelected( Options.instance().isShowCatalogThumbnails() );
 
         JCheckBoxMenuItem abstractCB_B = new JCheckBoxMenuItem( "Show description" );
 

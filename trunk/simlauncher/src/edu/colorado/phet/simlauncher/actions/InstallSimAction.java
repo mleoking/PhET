@@ -103,7 +103,11 @@ public class InstallSimAction extends AbstractAction {
      * Hides the dialog
      */
     private void hideWaitDialog() {
-        waitDlg.setVisible( false );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                waitDlg.setVisible( false );
+            }
+        } );
     }
 
 }

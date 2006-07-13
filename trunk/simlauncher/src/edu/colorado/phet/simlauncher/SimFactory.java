@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.resources.DescriptionResource;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -88,10 +89,10 @@ public class SimFactory {
             catch( MalformedURLException e ) {
                 e.printStackTrace();
             }
-            JavaSimulation simulation = new JavaSimulation( name, description, thumbnailResource, jnlpUrl,
-                                                            Configuration.instance().getLocalRoot()
-            );
-            sims.add( simulation );
+//            JavaSimulation simulation = new JavaSimulation( name, description, thumbnailResource, jnlpUrl,
+//                                                            Configuration.instance().getLocalRoot()
+//            );
+//            sims.add( simulation );
         }
         return sims;
     }
@@ -129,24 +130,34 @@ public class SimFactory {
                     throw new XmlCatalogException( "Simulation has no description URL. name = " + name );
                 }
                 String descAddr = descAttrib.getValue();
-                String str = getDescription( descAddr );
+//                URL descUrl = null;
+                DescriptionResource descResource = null;
+//                try {
+//                    descResource = new DescriptionResource( new URL( descAddr ), localRoot );
+//                    if( !(descResource.getLocalFile().exists() )) {
+//                        descResource.download();
+//                    }
+//                }
+//                catch( java.net.MalformedURLException mue) {
+//                    // let the descUrl stay null
+//                }
 
                 // If the thumbnail isn't local, download it so we'll have a copy to display
                 Attribute thumbnailAttrib = element.getAttribute( simThumbnailAttib );
                 if( thumbnailAttrib == null ) {
                     throw new XmlCatalogException( "Simulation has no thumbnail URL. name = " + name );
                 }
-                String thumbnailUrl = thumbnailAttrib.getValue();
+                String thumbnailAddr = thumbnailAttrib.getValue();
 
                 ThumbnailResource thumbnailResource = null;
                 try {
-                    thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
+                    thumbnailResource = new ThumbnailResource( new URL( thumbnailAddr ), localRoot );
                     if( !thumbnailResource.getLocalFile().exists() ) {
                         thumbnailResource.download();
                     }
                 }
                 catch( Exception e ) {
-                    System.out.println( "Bad thumbnail: " + thumbnailUrl );
+                    System.out.println( "Bad thumbnail: " + thumbnailAddr );
                 }
 
                 // Get the simulation type
@@ -161,7 +172,8 @@ public class SimFactory {
                     }
                     String jnlpStr = jnlpAttrib.getValue();
                     URL jnlpURL = new URL( jnlpStr );
-                    JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
+                    JavaSimulation sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
+//                    JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
                     simList.add( sim );
                 }
 
@@ -173,7 +185,8 @@ public class SimFactory {
                     }
                     String swfStr = swfAttrib.getValue();
                     URL swfURL = new URL( swfStr );
-                    Simulation sim = new FlashSimulation( name, str, thumbnailResource, swfURL, localRoot );
+                    Simulation sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
+//                    Simulation sim = new FlashSimulation( name, str, thumbnailResource, swfURL, localRoot );
                     simList.add( sim );
                 }
                 else {

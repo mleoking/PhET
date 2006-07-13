@@ -1,14 +1,13 @@
 ====
 Bugs
 ====
+- If connected to net, the app always checks for updates on startup
 - figure out why metadata for jar == null for Band Structures, and check is needed. See Simulation.uninstall()
 - put timeout on install
 - Column widths need adjustment
 - Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
-- Update catalog after uninstall or update actions taken on the installed table
 - Clearing the cache doesn't update the installed and available sims lists
 
-- Make exclamation point smaller
 - three state sorting of columns is not a good thing
 
 - Make SetThumbnailsEnabled action
@@ -19,10 +18,16 @@ Bugs
 Features
 ========
 - Descriptions
+- add and remove rows from SimTable, rather than recreating
+- Categories for installed sims, and an associate option
+- build for java 1.4
+- "Check all for updates"
+- Update check daemon
+
+- SimTable: include column header in determining width of column
 - Uninstall and update only from the Catalog?
 - About dialog
 - Help
-- Clean up menus
 - Add menu option for specifying what gets shown in the catalog, a la Explorer
 - Catalog
     - Customize view

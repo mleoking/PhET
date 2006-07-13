@@ -60,6 +60,12 @@ public class PhetSiteConnection {
      */
     public boolean isConnected() {
         boolean connected;
+
+        // Debugging
+        if( DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE ) {
+            return false;
+        }
+
         try {
             URLConnection urlConnection = url.openConnection();
             urlConnection.connect();

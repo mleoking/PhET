@@ -10,7 +10,14 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.common.util.EventChannel;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * TopLevelPane
@@ -25,10 +32,13 @@ public class TopLevelPane extends JTabbedPane {
     //--------------------------------------------------------------------------------------------------
 
     private static TopLevelPane instance;
+    private SimContainer activeSimContainer;
 
     public static TopLevelPane getInstance() {
         if( instance == null ) {
             instance = new TopLevelPane();
+            // The default pane is the one showing installed sims
+            instance.setActivePane( TopLevelPane.INSTALLED_SIMS_PANE );
         }
         return instance;
     }
@@ -62,20 +72,35 @@ public class TopLevelPane extends JTabbedPane {
         } );
         enableDisableOnlineCatalog( PhetSiteConnection.instance() );
 
-        // Set the size of things when we first appear
-//        addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth() ),
-//                                                 Math.max( 300, (int)getSize().getHeight() ) ) );
-//                ( (JFrame)SwingUtilities.getRoot( TopLevelPane.this ) ).pack();
-//            }
-//        } );
+
+        addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setActiveSimContainer( (SimContainer)getSelectedComponent() );
+                System.out.println( "getActiveSimContainer() = " + getActiveSimContainer() );
+                activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( TopLevelPane.this ) );
+            }
+        } );
+    }
+
+    public void setSelectedComponent( Component c ) {
+        super.setSelectedComponent( c );
+                if( getSelectedComponent() == installedSimsPane ) {
+                    setActivePane( INSTALLED_SIMS_PANE );
+                    System.out.print( "TopLevelPane.setSelectedComponent AAAA" );
+                }
+                else if( getSelectedComponent()== catalogPane ) {
+                    setActivePane( ONLINE_SIMS_PANE );
+                    System.out.print( "TopLevelPane.setSelectedComponent AAAA" );
+                }
+                else {
+                    System.out.println( "TopLevelPane.stateChanged" );
+                }
     }
 
     /**
      * Manages the presence of the tabbed pane for the online catalog based on whether
      * we have a connection to the Phet site.
-     *
+     * <p/>
      * Because this asks
      *
      * @param phetSiteConnection
@@ -102,13 +127,20 @@ public class TopLevelPane extends JTabbedPane {
         int index = 0;
         if( paneID == INSTALLED_SIMS_PANE ) {
             index = this.indexOfComponent( installedSimsPane );
+            setActiveSimContainer( installedSimsPane );
         }
         if( paneID == ONLINE_SIMS_PANE ) {
             index = this.indexOfComponent( catalogPane );
+            setActiveSimContainer( catalogPane );
         }
         super.setSelectedIndex( index );
+
+        activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( this) );
     }
 
+    private void setActiveSimContainer( SimContainer simContainer ) {
+        activeSimContainer = simContainer;
+    }
 
     public InstalledSimsPane getInstalledSimsPane() {
         return installedSimsPane;
@@ -117,4 +149,40 @@ public class TopLevelPane extends JTabbedPane {
     public CatalogPane getUninstalledSimsPane() {
         return catalogPane;
     }
+
+    public SimContainer getActiveSimContainer() {
+        return activeSimContainer;
+    }
+
+
+
+    //--------------------------------------------------------------------------------------------------
+    // ChangeListener definition
+    //--------------------------------------------------------------------------------------------------
+
+    public interface ActivePaneListener extends EventListener {
+        void activePaneChanged( PaneChangeEvent event );
+    }
+
+    EventChannel changeEventChannel = new EventChannel( ActivePaneListener.class );
+    ActivePaneListener activePaneListenerProxy = (ActivePaneListener)changeEventChannel.getListenerProxy();
+
+    public void addActivePaneListener( ActivePaneListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeActivePaneListener( ActivePaneListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class PaneChangeEvent extends EventObject {
+        public PaneChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public TopLevelPane get() {
+            return (TopLevelPane)getSource();
+        }
+    }
+
 }

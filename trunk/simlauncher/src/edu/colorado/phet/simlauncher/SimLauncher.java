@@ -95,6 +95,15 @@ public class SimLauncher {
         }
     }
 
+    private static void parseArgs( String[] args ) {
+        for( int i = 0; i < args.length; i++ ) {
+            String arg = args[i];
+            if( arg.startsWith( "-no_web")) {
+                DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE = true;
+            }
+        }
+    }
+
     private static void centerFrame( JFrame frame ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
@@ -104,6 +113,7 @@ public class SimLauncher {
     }
 
     public static void main( String[] args ) {
+        parseArgs( args );
         new SimLauncher();
     }
 }
