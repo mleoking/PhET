@@ -37,6 +37,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * <li>createInputPanel
  * <li>editColor
  * <li>handleColorChange
+ * <li>restoreColors
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -129,9 +130,25 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         inputPanel.setLayout( inputPanelLayout );
         int row = 0;
         
-        // Chart
+        // Font used for titles
+        Font titleFont = null;
         {
-            JLabel label = new JLabel( SimStrings.get( "label.color.chart" ) );
+            JLabel label = new JLabel();
+            Font defaultFont = label.getFont();
+            titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );   
+        }
+        
+        // Chart section
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.chartSection" ) );
+            label.setFont( titleFont );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
+            row++;
+        }
+        
+        // Chart background
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.chartBackground" ) );
             _chartChip = new JLabel();
             setColor( _chartChip, _scheme.getChartColor() );
             _chartChip.addMouseListener( listener );
@@ -162,9 +179,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
-        // Vertical space
-        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        // Horizontal separator
+        inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
+        
+        // Energy Plots section
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.energySection" ) );
+            label.setFont( titleFont );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
+            row++;
+        }
         
         // Potential Energy
         {
@@ -210,9 +235,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
-        // Vertical space
-        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        // Horizontal separator
+        inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
+        
+        // Wave Function Plots section
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.waveFunctionSection" ) );
+            label.setFont( titleFont );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
+            row++;
+        }
         
         // Real
         {
@@ -247,9 +280,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
-        // Vertical space
-        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        // Horizontal separator
+        inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
+        
+        // Magnifying Glass section
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.magnifyingGlassSection" ) );
+            label.setFont( titleFont );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
+            row++;
+        }
         
         // Magnifying Glass bezel
         {
@@ -273,9 +314,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
-        // Vertical space
-        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        // Horizontal separator
+        inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
+        
+        // Drag Handles section
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.dragHandleSection" ) );
+            label.setFont( titleFont );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
+            row++;
+        }
         
         // Drag handle "normal" color
         {
@@ -355,18 +404,6 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
 
         return actionPanel;
     }
-
-    /*
-     * Creates a vertical strut that is a JComponent.
-     * 
-     * @param height
-     * @return
-     */
-    private JComponent createVerticalStrut( int height ) {
-        JPanel panel = new JPanel();
-        panel.add( Box.createVerticalStrut( height ) );
-        return panel;
-    }
     
     /*
      * Edits one of the colors.
@@ -381,7 +418,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         Color initialColor = null;
         
         if ( _currentChip == _chartChip ) {
-            titlePrefix = SimStrings.get( "label.color.chart" );
+            titlePrefix = SimStrings.get( "label.color.chartBackground" );
             initialColor = _scheme.getChartColor();
         }
         else if ( _currentChip == _ticksChip ) {
@@ -460,7 +497,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      */
     private void restoreColors() {
         _app.setColorScheme( _restoreScheme );
-        _scheme = new BSColorScheme( _restoreScheme );
+        _scheme.copy( _restoreScheme );
     }
     
     /*
