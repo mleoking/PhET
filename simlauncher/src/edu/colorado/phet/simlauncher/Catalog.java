@@ -57,6 +57,9 @@ public class Catalog implements Simulation.ChangeListener {
      * Private constructor
      */
     private Catalog() {
+        installedSimulations = new ArrayList();
+//        simulations = new ArrayList();
+//        categories = new ArrayList( );
 
         // If the catalog isn't installed yet, go get it
         try {
@@ -65,12 +68,12 @@ public class Catalog implements Simulation.ChangeListener {
             }
         }
         catch( SimResourceException e ) {
+//            return;
         }
 //        simulations = new SimFactory().getSimulations( new PhetWebPage( "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm" ) );
         simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
-        installedSimulations = new ArrayList();
         for( int i = 0; i < simulations.size(); i++ ) {
             Simulation simulation = (Simulation)simulations.get( i );
             simulation.addChangeListener( this );

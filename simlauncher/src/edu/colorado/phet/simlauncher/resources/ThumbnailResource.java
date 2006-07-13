@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.simlauncher.resources;
 
+import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.util.ImageLoader;
 
 import javax.swing.*;
@@ -30,12 +31,25 @@ public class ThumbnailResource extends SimResource {
 
     public ThumbnailResource( URL url, File localRoot ) {
         super( url, localRoot );
+
+        // If we're online and the local copy isn't current, go get 
         try {
-            BufferedImage bImg = ImageLoader.loadBufferedImage( url );
-            imageIcon = new ImageIcon( bImg );
+            if( PhetSiteConnection.instance().isConnected() && !isCurrent() ) {
+                BufferedImage bImg = ImageLoader.loadBufferedImage( url );
+                imageIcon = new ImageIcon( bImg );
+            }
+            else if( getLocalFile() != null && getLocalFile().exists() ) {
+                imageIcon = new ImageIcon( getLocalFile().getAbsolutePath()  );
+            }
+            else {
+                imageIcon = new ImageIcon( new NoImageImage() );
+            }
         }
         catch( IOException e ) {
             imageIcon = new ImageIcon( new NoImageImage() );
+        }
+        catch( SimResourceException e ) {
+            e.printStackTrace();
         }
     }
 

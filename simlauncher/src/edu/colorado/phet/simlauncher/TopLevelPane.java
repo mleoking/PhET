@@ -110,6 +110,8 @@ public class TopLevelPane extends JTabbedPane {
             if( Catalog.instance().isRemoteAvailable() && catalogPane == null ) {
                 catalogPane = new CatalogPane();
                 addTab( "Catalog", catalogPane );
+                Catalog.instance().removeChangeListener( installedSimsPane );
+                Catalog.instance().addChangeListener( installedSimsPane );
             }
         }
         else {

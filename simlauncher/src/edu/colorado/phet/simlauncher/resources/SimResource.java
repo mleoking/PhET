@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.MetaData;
+import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
@@ -65,7 +66,12 @@ public class SimResource {
      * @return true if the remote component is accessible, false otherwise
      */
     public boolean isRemoteAvailable() {
-        return LauncherUtil.instance().isRemoteAvailable( url );
+        if( !PhetSiteConnection.instance().isConnected() ) {
+            return false;
+        }
+        else {
+            return LauncherUtil.instance().isRemoteAvailable( url );
+        }
     }
 
     /**

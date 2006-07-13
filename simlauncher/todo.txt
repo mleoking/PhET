@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
+
 - If connected to net, the app always checks for updates on startup
 - figure out why metadata for jar == null for Band Structures, and check is needed. See Simulation.uninstall()
 - put timeout on install

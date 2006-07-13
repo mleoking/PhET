@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.common.application.AWTSplashWindow;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
@@ -26,12 +27,23 @@ import java.awt.event.ComponentEvent;
  */
 public class SimLauncher {
 
+    AWTSplashWindow splashWindow;
+    Frame splashWindowOwner;
+
     /**
      * Private constructor. The only instance created is created by main()
      */
     private SimLauncher() {
 
         JFrame frame = new JFrame( "PhET Simulation Launcher" );
+
+        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
+            JOptionPane.showMessageDialog( frame,
+                                           "<html>You are working offline." +
+                                           "<br><br>You will be able to run simulations you've installed, but " +
+                                           "<br>will not be able to browse the online catalog of simulations. " );
+        }
+
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -44,6 +56,8 @@ public class SimLauncher {
         frame.pack();
         frame.setVisible( true );
 
+//        showSplashWindow( "PhET Simulation Launcher" );
+
         // Display any startup notices the user should see
         startupNotices( frame );
 
@@ -51,6 +65,31 @@ public class SimLauncher {
         // to the PhET site changes
         new PhetSiteConnectionStatusNotifier( frame, PhetSiteConnection.instance() );
     }
+
+
+    private void showSplashWindow( String title ) {
+        if( splashWindow == null ) {
+            // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
+            splashWindowOwner = new Frame();
+            splashWindow = new AWTSplashWindow( splashWindowOwner, title );
+            splashWindow.show();
+        }
+    }
+
+    public AWTSplashWindow getSplashWindow() {
+        return splashWindow;
+    }
+
+    private void disposeSplashWindow() {
+        if( splashWindow != null ) {
+            splashWindow.dispose();
+            splashWindow = null;
+            // Clean up the window's owner that we created in showSplashWindow.
+            splashWindowOwner.dispose();
+            splashWindowOwner = null;
+        }
+    }
+
 
     /**
      * Notifies the user if there is no connection to the PhET site. If there is a connectin and there are no
@@ -61,6 +100,8 @@ public class SimLauncher {
      */
     private void startupNotices( Component parent ) {
         boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl() );
+
+//        disposeSplashWindow();
 
         // No internet connection and no installed simulations
         if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() == null ) {
