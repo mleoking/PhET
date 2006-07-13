@@ -3,18 +3,19 @@
 ===============================================================================
 
 IN PROGRESS:
+- get rid of BSModel
 - wave function cache gets updated multiple times when a change is made to potential, may affect drag handle performance
 
 HIGH PRIORITY:
 - drag handles are sluggish, improve responsiveness
-- pause the clock while dragging handles
 
 MEDIUM PRIORITY:
-- make sliders in Configure Energy dialog update continuously
-- attach a help item to one of the potential drag handles
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
+- pause the clock while dragging sliders in Config dialogs
+- pause the clock while dragging Particle Mass slider in control panel
 
 LOW PRIORITY:
+- provide user with feedback when they attempt to drag a handle past its min/max
 - wiggle me animation is jerky on some slower machines
 - make plots in bottom chart look smoother on Windows
 - refactor classes that have gotten too big (eg, BSAbstractModule)
@@ -32,6 +33,15 @@ CLEANUP:
 
 
 DONE:
+(7/13/06) - bugfix: BSBottomPlot.update should only call updateAllSeries when arg==null
+(7/13/06) - replace vertical spacers with JSeparators in Color dialog, add section titles to shorten labels
+(7/13/06) - bugfix: cancel button in Color dialog didn't restore the color scheme that was pass in the constructor
+(7/13/06) - attach a help item to one of the potential drag handles, dynamically update based on selected potential
+(7/13/06) - decrease value of SchmidtLeeSolver.MAX_TRIES to improve performance
+(7/13/06) - change things named "dataset" to "series" in BSEnergyPlot and BSBottomPlot, since they deal with series
+(7/13/06) - pause the clock while dragging handles
+(7/13/06) - switch to analytic solution for harmonic oscillator eigenstates to improve drag handle responsiveness
+(7/13/06) - add BSLauncher so that user can choose which application to start from double-clickable JAR file
 (7/12/06) - do continous updates while dragging sliders in Config dialogs
 (7/12/06) - don't observe potential while user is moving a slider in Config dialogs
 (7/12/06) - remove "implements Observer" from BSAbstractConfigureDialog subclasses
@@ -476,6 +486,7 @@ DONE:
 
 
 REJECTED:
+(7/13/06) - 2 columns for color scheme dialog (1 skinny column is easier to move out of the way)
 (7/12/06) - if exception occurs in drag handle's updateModel method, need to addObserver (not necessary, exception was a bug that was fixed)
 (7/12/06) - if exception occurs in drag handle's updateView method, need to addPropertyChangeListener (not necessary, exception was a bug that was fixed)
 (7/11/06) - plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases (no one has ever noticed this, hard to fix)

@@ -16,7 +16,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.boundstates.BSBoundStatesApplication, edu.colorado.phet.boundstates.BSCovalentBondsApplication, edu.colorado.phet.boundstates.BSBandStructureApplication {
+-keepclasseswithmembers public class edu.colorado.phet.boundstates.BSLauncher,edu.colorado.phet.boundstates.BSBoundStatesApplication,edu.colorado.phet.boundstates.BSCovalentBondsApplication,edu.colorado.phet.boundstates.BSBandStructureApplication {
     public static void main(java.lang.String[]);
 }
 
