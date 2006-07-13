@@ -68,7 +68,7 @@ public class SimTable extends JTable implements SimContainer {
         }
     }
 
-    public static Column NAME = new Column( "Name", String.class, 150 );
+    public static Column NAME = new Column( "Name", String.class, 170 );
     public static Column THUMBNAIL = new Column( "Thumbnail", ImageIcon.class, 150 );
     public static Column IS_INSTALLED = new Column( "Installed?", ImageIcon.class, 100 );
     public static Column IS_UP_TO_DATE = new Column( "Update Available?", ImageIcon.class, 120 );
@@ -147,12 +147,7 @@ public class SimTable extends JTable implements SimContainer {
             setRowHeight( hMax );
         }
 
-        // set column widths
-//        TableColumn nameCol = getColumn( NAME.getName() );
-//        nameCol.setMinWidth( 200 );
-//        nameCol.setMaxWidth( 200 );
-//        nameCol.setWidth( 200 );
-
+        // Set the column widths
         this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
@@ -423,6 +418,7 @@ public class SimTable extends JTable implements SimContainer {
 
     class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
         public CheckBoxRenderer() {
+            setHorizontalAlignment( JCheckBox.CENTER );
         }
 
         public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
