@@ -246,7 +246,7 @@ public class Wavefunction {
      */
     private double[] calpsi() {
         int i, nmat;
-        double dx, alogd, h12, u1, u2, u3, v1, v2, v3, u1f, u2f, hbi, usave, uabs;
+        double dx, h12, u1, u2, u3, v1, v2, v3, u1f, u2f, hbi, usave, uabs;
         double[] psi = new double[n];
         hbi = 1.0 / hb;
         nmat = (int)( n * 0.53 ); // pick match point -- do better later
