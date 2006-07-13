@@ -108,7 +108,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
-        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, .001,
+        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
                                                                        GridBagConstraints.CENTER,
                                                                        GridBagConstraints.NONE,
                                                                        new Insets( 10, 0, 20, 0 ), 0, 0 );
