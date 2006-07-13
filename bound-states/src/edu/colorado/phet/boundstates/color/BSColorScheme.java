@@ -44,6 +44,10 @@ public class BSColorScheme {
     private Color _dragHandleMarkersColor;
     
     public BSColorScheme( BSColorScheme colorScheme ) {
+        copy( colorScheme );
+    }
+    
+    public void copy( BSColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
         _gridlineColor = colorScheme.getGridlineColor();
