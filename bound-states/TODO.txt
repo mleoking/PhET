@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+1.00.01...
 (7/13/06) - bugfix: BSBottomPlot.update should only call updateAllSeries when arg==null
 (7/13/06) - replace vertical spacers with JSeparators in Color dialog, add section titles to shorten labels
 (7/13/06) - bugfix: cancel button in Color dialog didn't restore the color scheme that was pass in the constructor
