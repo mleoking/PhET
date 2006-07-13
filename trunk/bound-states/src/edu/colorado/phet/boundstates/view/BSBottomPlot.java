@@ -219,7 +219,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             _model = model;
             _model.addObserver( this );
             updateCache();
-            updateDatasets();
+            updateAllSeries();
         }
     }
     
@@ -265,12 +265,12 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         else {
             throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
-        updateDatasets();
+        updateAllSeries();
     }
     
     public void setRealVisible( boolean visible ) {
         getRenderer( _realIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateDatasets();
+        updateAllSeries();
     }
     
     protected boolean isRealVisible() {
@@ -279,7 +279,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setImaginaryVisible( boolean visible ) {
         getRenderer( _imaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateDatasets();
+        updateAllSeries();
     }
     
     protected boolean isImaginaryVisible() {
@@ -288,7 +288,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setMagnitudeVisible( boolean visible ) {
         getRenderer( _magnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateDatasets();
+        updateAllSeries();
     }
     
     protected boolean isMagnitudeVisible() {
@@ -297,7 +297,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setPhaseVisible( boolean visible ) {
         getRenderer( _phaseIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateDatasets();
+        updateAllSeries();
     }
     
     protected boolean isPhaseVisible() {
@@ -306,7 +306,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setProbabilityDensityVisible( boolean visible ) {
         getRenderer( _probabilityDensityIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateDatasets();
+        updateAllSeries();
     }
     
     protected boolean isProbabilityDensityVisible() {
@@ -351,11 +351,11 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     public void update( Observable o, Object arg ) {
         if ( o == _model ) {
             if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-                updateHiliteDataset();
+                updateHiliteSeries();
             }
             else {
                 updateCache();
-                updateTimeDependentDatasets( _t );
+                updateTimeDependentSeries( _t );
             }
         }
     }
@@ -365,17 +365,17 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates all datasets.
+     * Updates all data series.
      */
-    private void updateDatasets() {
+    private void updateAllSeries() {
         if ( _model != null ) {
-            updateTimeDependentDatasets( _t );
-            updateHiliteDataset();
+            updateTimeDependentSeries( _t );
+            updateHiliteSeries();
         }
     }
     
     /*
-     * Updates the dataset for the hilited eigenstate,
+     * Updates the series for the hilited eigenstate,
      * which is a time-independent wave function solution.
      * <p>
      * How we display the hilited eigenstate's wave function is dependent
@@ -386,7 +386,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * magnitude.  If none of the other views is visible, we display
      * nothing.
      */
-    private void updateHiliteDataset() {
+    private void updateHiliteSeries() {
         _hiliteSeries.setNotify( false );
         _hiliteSeries.clear();
         
@@ -442,10 +442,10 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     }
     
     /*
-     * Updates the datasets that display the time-dependent superposition state.
+     * Updates the series that display the time-dependent superposition state.
      * This is the sum of all wave functions for eigenstates.
      */
-    private void updateTimeDependentDatasets( final double t ) {
+    private void updateTimeDependentSeries( final double t ) {
         setTimeDependentSeriesNotify( false );
         clearTimeDependentSeries();
         if ( _cache.getSize() > 0 ) {
@@ -601,7 +601,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         _t = clockEvent.getSimulationTime();
-        updateTimeDependentDatasets( _t );
+        updateTimeDependentSeries( _t );
     }
 
     public void simulationTimeReset( ClockEvent clockEvent ) {}
