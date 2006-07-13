@@ -134,10 +134,4 @@ public class TestBenfold {
         new TestBenfold( new Quadratic( 0.25 ) ).start();
 //        new TestBenFold( new SamWell() ).start();
     }
-
-    private static class SamWell implements Function {
-        public double evaluate( double x ) {
-            return Math.abs( x ) > 2 ? 0 : -5;
-        }
-    }
 }
