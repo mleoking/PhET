@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
-import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
+import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
@@ -114,7 +114,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                                                                        new Insets( 10, 0, 20, 0 ), 0, 0 );
         private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
-                                                                      GridBagConstraints.VERTICAL,
+                                                                      GridBagConstraints.BOTH,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         /**
@@ -137,10 +137,10 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
             showThumbnailsCB.addActionListener( new AbstractAction() {
                 public void actionPerformed( ActionEvent e ) {
-                    Options.instance().setShowUninstalledThumbnails( showThumbnailsCB.isSelected() );
+                    Options.instance().setShowCatalogThumbnails( showThumbnailsCB.isSelected() );
                 }
             } );
-            showThumbnailsCB.setSelected( Options.instance().isShowUninstalledThumbnails() );
+            showThumbnailsCB.setSelected( Options.instance().isShowCatalogThumbnails() );
             headerGbc.gridx++;
             headerPanel.add( showThumbnailsCB, BorderLayout.EAST );
             headerGbc.weightx = .01;
@@ -179,7 +179,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             ArrayList columns = new ArrayList();
             columns.add( SimTable.SELECTION_CHECKBOX );
             columns.add( SimTable.NAME );
-            if( Options.instance().isShowUninstalledThumbnails() ) {
+            if( Options.instance().isShowCatalogThumbnails() ) {
                 columns.add( SimTable.THUMBNAIL );
             }
             columns.add( SimTable.IS_INSTALLED );
@@ -263,7 +263,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
                 // If right click, pop up context menu
                 if( event.isPopupTrigger() && sim != null ) {
-                    new UninstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
+                    new CatalogPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
                 }
 
                 // Notify change listeners

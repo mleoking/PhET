@@ -70,7 +70,17 @@ public class Options {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
     private boolean showInstalledThumbnails = true;
-    private boolean showUninstalledThumbnails = false;
+    private boolean showCatalogThumbnails = false;
+
+    public boolean isCheckForUpdatesOnStartup() {
+        return checkForUpdatesOnStartup;
+    }
+
+    public void setCheckForUpdatesOnStartup( boolean checkForUpdatesOnStartup ) {
+        this.checkForUpdatesOnStartup = checkForUpdatesOnStartup;
+    }
+
+    private boolean checkForUpdatesOnStartup = true;
     private boolean optionsChanged;
     private SimTable.SimComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
 
@@ -111,17 +121,17 @@ public class Options {
         optionsChanged = true;
     }
 
-    public boolean isShowUninstalledThumbnails() {
-        return showUninstalledThumbnails;
+    public boolean isShowCatalogThumbnails() {
+        return showCatalogThumbnails;
     }
 
-    public void setShowUninstalledThumbnails( boolean showUninstalledThumbnails ) {
-        setShowUninstalledThumbnailsNoUpdate( showUninstalledThumbnails );
+    public void setShowCatalogThumbnails( boolean showCatalogThumbnails ) {
+        setShowUninstalledThumbnailsNoUpdate( showCatalogThumbnails );
         notifyListeners();
     }
 
     public void setShowUninstalledThumbnailsNoUpdate( boolean showUninstalledThumbnails ) {
-        this.showUninstalledThumbnails = showUninstalledThumbnails;
+        this.showCatalogThumbnails = showUninstalledThumbnails;
         optionsChanged = true;
     }
 

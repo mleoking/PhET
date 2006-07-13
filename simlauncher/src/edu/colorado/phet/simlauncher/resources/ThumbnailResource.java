@@ -40,7 +40,12 @@ public class ThumbnailResource extends SimResource {
     }
 
     public ImageIcon getImageIcon() {
-        return imageIcon;
+        if( imageIcon == null ) {
+            return new ImageIcon( new NoImageImage() );
+        }
+        else {
+            return imageIcon;
+        }
     }
 
     private class NoImageImage extends BufferedImage {
@@ -49,9 +54,9 @@ public class ThumbnailResource extends SimResource {
             super( 100, 30, BufferedImage.TYPE_INT_RGB );
             Graphics2D g2 = this.createGraphics();
             g2.setColor( Color.white );
-            g2.fillRect( 0,0,getWidth(), getHeight( ));
+            g2.fillRect( 0, 0, getWidth(), getHeight() );
             g2.setColor( Color.black );
-            g2.drawString( "No thumbnail", 10, 10 );
+            g2.drawString( "Thumbnail not available", 10, 10 );
             g2.dispose();
         }
     }

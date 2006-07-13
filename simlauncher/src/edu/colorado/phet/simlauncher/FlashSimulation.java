@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.simlauncher.resources.DescriptionResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.resources.SwfResource;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
@@ -54,12 +55,12 @@ public class FlashSimulation extends Simulation {
      * Constructor
      *
      * @param name
-     * @param description
+     * @param descriptionResource
      * @param thumbnail
      * @param swfUrl
      */
-    public FlashSimulation( String name, String description, ThumbnailResource thumbnail, URL swfUrl, File localRoot ) {
-        super( name, description, thumbnail, swfUrl, localRoot );
+    public FlashSimulation( String name, DescriptionResource descriptionResource, ThumbnailResource thumbnail, URL swfUrl, File localRoot ) {
+        super( name, descriptionResource, thumbnail, swfUrl, localRoot );
         swfResource = new SwfResource( swfUrl, localRoot );
     }
 
@@ -90,7 +91,7 @@ public class FlashSimulation extends Simulation {
      * todo: put more smarts in here
      */
     public void launch() {
-        
+
         // Parent behavior
         super.launch();
 

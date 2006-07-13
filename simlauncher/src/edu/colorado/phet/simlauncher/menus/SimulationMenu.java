@@ -10,14 +10,17 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.*;
+import edu.colorado.phet.simlauncher.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.TopLevelPane;
 import edu.colorado.phet.simlauncher.menus.menuitems.*;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * SimulationMenu
@@ -40,28 +43,11 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
     public SimulationMenu() {
         super( "Simulation" );
 
-        SimContainer simContainer = TopLevelPane.getInstance().getInstalledSimsPane();
-
-        // Menu items for installed simulations
-        launchMI = new SimLaunchMenuItem( simContainer );
-        add( launchMI );
-        updateCheckMI = new SimUpdateCheckMenuItem( simContainer, PhetSiteConnection.instance() );
-        add( updateCheckMI );
-        updateMI = new SimUpdateMenuItem( simContainer, PhetSiteConnection.instance() );
-        add( updateMI );
-        uninstallMI = new SimUninstallMenuItem( simContainer );
-        add( uninstallMI );
-
-        //Menu items for uninstalled simulations
-        add( new JPopupMenu.Separator() );
-        installMI = new SimInstallMenuItem( simContainer, PhetSiteConnection.instance() );
-        add( installMI );
-
         // Set up listeners that will cause the proper menu items to be enabled and disabled when
         // certain things happen in the UI
         TopLevelPane.getInstance().getInstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
             public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
-                enableMenuItems();
+                populateMenu();
             }
         } );
 
@@ -69,19 +55,25 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
         if( TopLevelPane.getInstance().getUninstalledSimsPane() != null ) {
             TopLevelPane.getInstance().getUninstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
                 public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
-                    enableMenuItems();
+                    populateMenu();
                 }
             } );
         }
 
         TopLevelPane.getInstance().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                enableMenuItems();
+                populateMenu();
             }
         } );
 
-        // Enable/disable the appropriate menu items
-        enableMenuItems();
+        TopLevelPane.getInstance().addActivePaneListener( new TopLevelPane.ActivePaneListener() {
+            public void activePaneChanged( TopLevelPane.PaneChangeEvent event ) {
+                populateMenu();
+            }
+        } );
+
+        // Add the menu items for the current active panel
+        populateMenu();
     }
 
     /**
@@ -89,28 +81,58 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
      * installed simulation is selected, the Launch menu item in the Simulation menu should
      * be enabled.
      */
-    private void enableMenuItems() {
-        InstalledSimsPane isp = TopLevelPane.getInstance().getInstalledSimsPane();
-        boolean installedItemsEnabled = isp.getSimulation() != null;
-        CatalogPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();
-        boolean uninstalledItemsEnabled = usp != null && usp.getSimulation() != null;
+    private void populateMenu() {
+        SimContainer simContainer = TopLevelPane.getInstance().getActiveSimContainer();
+        if( simContainer != null ) {
 
-        JTabbedPane jtp = TopLevelPane.getInstance();
-        Component component = jtp.getSelectedComponent();
-        boolean installedPaneSelected = component == TopLevelPane.getInstance().getInstalledSimsPane();
-        boolean uninstalledPaneSelected = component == TopLevelPane.getInstance().getUninstalledSimsPane();
+            // Remove all the existing menu items, in case the active panel has changed
+            this.removeAll();
 
-        installedItemsEnabled &= installedPaneSelected;
-        uninstalledItemsEnabled &= uninstalledPaneSelected;
+            // Create the menu items for the active panel
+            launchMI = new SimLaunchMenuItem( simContainer );
+            add( launchMI );
+            updateCheckMI = new SimUpdateCheckMenuItem( simContainer, PhetSiteConnection.instance() );
+            add( updateCheckMI );
+            updateMI = new SimUpdateMenuItem( simContainer, PhetSiteConnection.instance() );
+            add( updateMI );
+            uninstallMI = new SimUninstallMenuItem( simContainer );
+            add( uninstallMI );
 
-        // Menu items for installed simulations
-        launchMI.setEnabled( installedItemsEnabled );
-        uninstallMI.setEnabled( installedItemsEnabled );
-        updateCheckMI.setEnabled( installedItemsEnabled );
-        updateMI.setEnabled( installedItemsEnabled );
+            //Menu items for uninstalled simulations
+            add( new JPopupMenu.Separator() );
+            installMI = new SimInstallMenuItem( simContainer, PhetSiteConnection.instance() );
+            add( installMI );
 
-        // Menu items for uninstalled simulations
-        installMI.setEnabled( uninstalledItemsEnabled );
+            launchMI.setEnabled( false );
+            uninstallMI.setEnabled( false );
+            installMI.setEnabled( false );
+            updateCheckMI.setEnabled( false );
+            updateMI.setEnabled( false );
+
+            Simulation[] sims = simContainer.getSimulations();
+
+            for( int i = 0; i < sims.length; i++ ) {
+                Simulation sim = sims[i];
+                if( sim.isInstalled() ) {
+                    launchMI.setEnabled( true );
+                    uninstallMI.setEnabled( true );
+                    updateCheckMI.setEnabled( true );
+                }
+
+                try {
+                    if( sim.isInstalled() && !sim.isCurrent() ) {
+                        updateMI.setEnabled( true );
+                    }
+                }
+                catch( SimResourceException e ) {
+                    // if we can't connect to check for an update, don't enable the menu item
+                }
+
+                if( !sim.isInstalled() ) {
+                    installMI.setEnabled( true );
+                }
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -118,6 +140,7 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
     //--------------------------------------------------------------------------------------------------
 
     public void connectionChanged( PhetSiteConnection.ChangeEvent event ) {
-        enableMenuItems();
+        populateMenu();
     }
+
 }

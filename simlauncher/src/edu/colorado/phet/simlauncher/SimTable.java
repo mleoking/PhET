@@ -100,6 +100,12 @@ public class SimTable extends JTable implements SimContainer {
     List columns;
     boolean[] simSelections;
 
+    /**
+     * @param sims
+     * @param sortType
+     * @param listSelectionModel
+     * @param columns
+     */
     public SimTable( List sims, SimComparator sortType, int listSelectionModel, List columns ) {
 
         this.columns = columns;
@@ -146,6 +152,7 @@ public class SimTable extends JTable implements SimContainer {
 //        nameCol.setMinWidth( 200 );
 //        nameCol.setMaxWidth( 200 );
 //        nameCol.setWidth( 200 );
+
         this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
@@ -156,9 +163,19 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // If we've got check boxes, that should be the only selection mechanism
-        if( columns.contains( SELECTION_CHECKBOX)) {
-            setCellSelectionEnabled(false);
+        if( columns.contains( SELECTION_CHECKBOX ) ) {
+            setCellSelectionEnabled( false );
         }
+    }
+
+    /**
+     * Override this method so that it returns the preferred
+     * size of the JTable instead of the default fixed size
+     *
+     * @return the preferred size
+     */
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
     }
 
     /**
@@ -187,11 +204,12 @@ public class SimTable extends JTable implements SimContainer {
                 }
                 else if( columns.get( j ) == IS_INSTALLED ) {
                     row[j] = sim.isInstalled() ? isInstalledIcon : "";
-                    ;
                 }
                 else if( columns.get( j ) == IS_UP_TO_DATE ) {
                     try {
-                        row[j] = ( sim. isInstalled() && !sim.isCurrent() )? updateAvailableIcon : "";
+                        if( PhetSiteConnection.instance().isConnected() ) {
+                            row[j] = ( sim. isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : "";
+                        }
                     }
                     catch( SimResourceException e ) {
                         e.printStackTrace();

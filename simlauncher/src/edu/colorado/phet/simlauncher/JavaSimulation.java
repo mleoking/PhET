@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.resources.JarResource;
-import edu.colorado.phet.simlauncher.resources.JnlpResource;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
-import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
+import edu.colorado.phet.simlauncher.resources.*;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import java.io.File;
@@ -46,12 +43,12 @@ public class JavaSimulation extends Simulation {
      * Constructor
      *
      * @param name
-     * @param description
+     * @param descriptionResource
      * @param thumbnail
      * @param jnlpUrl
      */
-    public JavaSimulation( String name, String description, ThumbnailResource thumbnail, URL jnlpUrl, File localRoot ) {
-        super( name, description, thumbnail, jnlpUrl, localRoot );
+    public JavaSimulation( String name, DescriptionResource descriptionResource, ThumbnailResource thumbnail, URL jnlpUrl, File localRoot ) {
+        super( name, descriptionResource, thumbnail, jnlpUrl, localRoot );
         this.jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         // If the simulation is installed, create its resource objects
         if( isInstalled() ) {
