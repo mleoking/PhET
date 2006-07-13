@@ -20,6 +20,7 @@ package edu.colorado.phet.boundstates.model;
  * <li>added more verbose warning messages when eigenstate solver fails
  * <li>added comment blocks
  * <li>reordered methods so that there is clear division between eigenstate solve and wave function solver
+ * <li>decrease MAX_TRIES value to improve responsiveness of UI components
  * </ul>
  * <p>
  * Here is the original copyright notice:
@@ -51,7 +52,7 @@ public class SchmidtLeeSolver {
     
     private static final boolean REPORT_WARNINGS = false;
     
-    private static final int MAX_TRIES = 100;
+    private static final int MAX_TRIES = 15; // orignal value was 100. larger values -> improved accuracy, poorer performance
     private static final double SMALL = 1.E-10; // used in interpolator
     
     //----------------------------------------------------------------------------
