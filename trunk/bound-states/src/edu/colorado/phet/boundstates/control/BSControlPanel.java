@@ -59,7 +59,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Class data (private)
     //----------------------------------------------------------------------------
     
-    private static final boolean NOTIFY_WHILE_DRAGGING = false; // behavior of sliders
+    private static final boolean NOTIFY_WHILE_DRAGGING = true; // behavior of sliders
     
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
