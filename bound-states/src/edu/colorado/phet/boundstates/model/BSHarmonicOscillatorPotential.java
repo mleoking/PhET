@@ -38,6 +38,9 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Determines whether to use analytic or Schmit-Lee solver for eigenstates
+    private static final boolean USE_ANALYTIC_EIGENSTATE_SOLVER = true;
+    
     // How far above the offset we'll look for eigenstates
     private static final double EIGENSTATE_ENERGY_RANGE = 20; // eV
     
@@ -145,9 +148,13 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
      * w = angular frequency
      */
     protected BSEigenstate[] calculateEigenstates() {
-        assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-        return calculateEigenstatesAnalytic();
-//        return calculateEigenstatesSchmidtLee();
+        assert ( getNumberOfWells() == 1 ); // this solution works only for single wells
+        if ( USE_ANALYTIC_EIGENSTATE_SOLVER ) {
+            return calculateEigenstatesAnalytic();
+        }
+        else {
+            return calculateEigenstatesSchmidtLee();
+        }
     }
     
     /*
