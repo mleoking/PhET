@@ -146,8 +146,8 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
      */
     protected BSEigenstate[] calculateEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-//        return calculateEigenstatesAnalytic();
-        return calculateEigenstatesSchmidtLee();
+        return calculateEigenstatesAnalytic();
+//        return calculateEigenstatesSchmidtLee();
     }
     
     /*
