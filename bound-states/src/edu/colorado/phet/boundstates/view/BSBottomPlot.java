@@ -353,7 +353,12 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
                 updateHiliteSeries();
             }
-            else {
+            else if ( arg == BSModel.PROPERTY_PARTICLE ) {
+                // ignore, we'll be notified that the potential changed
+            }
+            else if ( arg == null ||
+                      arg == BSModel.PROPERTY_POTENTIAL ||
+                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) { 
                 updateCache();
                 updateTimeDependentSeries( _t );
             }
