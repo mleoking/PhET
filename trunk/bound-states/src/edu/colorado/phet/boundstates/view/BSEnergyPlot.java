@@ -246,7 +246,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             else if ( arg == BSModel.PROPERTY_PARTICLE ) {
                 // ignore, we'll be notified that the potential changed
             }
-            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES || arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES ) {
+            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES ) {
                 updateSelectedEigenstatesSeries();
             }
             else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT ) {

@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+(7/13/06) - remove PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES, if values change it implies the count may have changed
 (7/13/06) - prevent needless cache updates by having more notification properties to describe the type of change to the superposition coefficients
 (7/13/06) - ignore particle changes in BSEnergyPlot, BSBottomPlot, BSMagnifyingGlass, will be notified of potential change
 (7/13/06) - bugfix: setPickable(false) when zoom control is not visible
