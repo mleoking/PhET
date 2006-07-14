@@ -32,8 +32,10 @@ public class BSModel extends BSObservable implements Observer {
     
     public static final String PROPERTY_PARTICLE = "particle";
     public static final String PROPERTY_POTENTIAL = "potential";
-    public static final String PROPERTY_SUPERPOSITION_COEFFICIENTS = "superpositionCoefficients";
     public static final String PROPERTY_HILITED_EIGENSTATE_INDEX = "hilitedEnergy";
+    public static final String PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT = "superpositionCoefficientsCount";
+    public static final String PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES = "superpositionCoefficientsValues";
+    public static final String PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES = "superpositionCoefficientsCountAndValues";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -103,7 +105,7 @@ public class BSModel extends BSObservable implements Observer {
             _superpositionCoefficients = superpositionCoefficients;
             _superpositionCoefficients.addObserver( this );
             syncWithPotential();
-            notifyObservers( PROPERTY_SUPERPOSITION_COEFFICIENTS );
+            notifyObservers( PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES );
         }
     }
     
@@ -193,7 +195,7 @@ public class BSModel extends BSObservable implements Observer {
             notifyObservers( PROPERTY_POTENTIAL );
         }
         else if ( o == _superpositionCoefficients ) {
-            notifyObservers( PROPERTY_SUPERPOSITION_COEFFICIENTS );
+            notifyObservers( arg );
         }
     }
     
