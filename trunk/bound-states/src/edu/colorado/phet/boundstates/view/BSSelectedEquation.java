@@ -72,7 +72,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
      * Subclasses should call this from their update method.
      */
     protected void updateDisplay() {
-        System.out.println( "BSSelectedEquation.updateDisplay" );//XXX
+
         BSModel model = getModel();
         
         if ( model != null ) {

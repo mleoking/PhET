@@ -251,14 +251,12 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
    
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        System.out.println( "BSSquareDialog.handleOffsetChange " + offset );//XXX 
         getPotential().setOffset( offset ); 
     }
     
     private void handleHeightChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double height = _heightSlider.getValue();
-        System.out.println( "BSSquareDialog.handleHeightChange " + height );//XXX  
         potential.setHeight( height );
         setObservePotential( true );
     }
@@ -266,7 +264,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
     private void handleWidthChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double width = _widthSlider.getValue();
-        System.out.println( "BSSquareDialog.handleWidthChange " + width );//XXX
+//        System.out.println( "BSSquareDialog.handleWidthChange " + width );//XXX
         potential.setWidth( width );
     }
     
