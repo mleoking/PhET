@@ -175,7 +175,7 @@ public class BSWaveFunctionCache {
      */
     public void update( BSModel model, final double minPosition, final double maxPosition ) {
         
-        System.out.println( "BSWaveFunctionCache.update minPosition=" + minPosition + " maxPosition=" + maxPosition );//XXX
+//        System.out.println( "BSWaveFunctionCache.update minPosition=" + minPosition + " maxPosition=" + maxPosition );//XXX
         
         // Flush the cache.
         _items.clear();
