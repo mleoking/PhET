@@ -82,7 +82,6 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         // position -> x coordinates
         final double minPosition = center + ( minWidth / 2 );
         final double maxPosition = center + ( maxWidth / 2 );
-        System.out.println( "square.setDragBounds center=" + center + " minPosition=" + minPosition + " maxPosition=" + maxPosition );//XXX
         final double minX = chartNode.positionToNode( minPosition );
         final double maxX = chartNode.positionToNode( maxPosition );
         
