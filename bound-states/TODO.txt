@@ -3,11 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- get rid of BSModel
 
 HIGH PRIORITY:
-- drag handles are sluggish, improve responsiveness
-- bug: width drag handle for multiple square wells can't be dragged to max
+- bug: width drag handle for 2 square wells can't be dragged to max, 
+- bug: width drag handle for 5 square wells can't be dragged to min or max
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
@@ -495,6 +494,7 @@ DONE:
 
 
 REJECTED:
+(7/13/06) - get rid of BSModel (impossible at this point, complicated and hugely destabilizing)
 (7/13/06) - 2 columns for color scheme dialog (1 skinny column is easier to move out of the way)
 (7/12/06) - if exception occurs in drag handle's updateModel method, need to addObserver (not necessary, exception was a bug that was fixed)
 (7/12/06) - if exception occurs in drag handle's updateView method, need to addPropertyChangeListener (not necessary, exception was a bug that was fixed)
