@@ -7,6 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - drag handles are sluggish, improve responsiveness
+- bug: width drag handle for multiple square wells can't be dragged to max
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
