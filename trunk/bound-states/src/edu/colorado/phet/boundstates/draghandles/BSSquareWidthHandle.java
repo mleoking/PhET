@@ -75,13 +75,14 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         }
         
         final int n = potential.getNumberOfWells();
-        final double center = potential.getCenter( n - 1 ); // center of the well that we're attaching the handle to
+        final double center = potential.getCenter( n - 1 ); // center of the right-most well
         final double minWidth = spec.getWidthRange().getMin();
         final double maxWidth = spec.getWidthRange().getMax();
         
         // position -> x coordinates
         final double minPosition = center + ( minWidth / 2 );
         final double maxPosition = center + ( maxWidth / 2 );
+        System.out.println( "square.setDragBounds center=" + center + " minPosition=" + minPosition + " maxPosition=" + maxPosition );//XXX
         final double minX = chartNode.positionToNode( minPosition );
         final double maxX = chartNode.positionToNode( maxPosition );
         
@@ -119,19 +120,11 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
             Point2D modelPoint = viewToModel( viewPoint );
             final double handlePosition = modelPoint.getX();
 
-            // Calculate the width
+            // Calculate the width.
+            // handlePosition = ( n*width + (n-1)*separation ) / 2
             final int n = potential.getNumberOfWells();
-            final double s = potential.getSeparation();
-            double width = 0;
-            if ( n % 2 == 0 ) {
-                // even number of wells
-                width = ( 2.0 / n ) * ( handlePosition - ( ( ( n / 2.0 ) - 1 ) * s ) - ( 0.5 * s ) );
-            }
-            else {
-                // odd number of wells
-                final int m = n - 1;
-                width = ( 2.0 / ( m + 1 ) ) * ( handlePosition - ( ( m / 2.0 ) * s ) );
-            }
+            final double separation = potential.getSeparation();
+            double width = ( ( 2 * handlePosition ) - ( ( n - 1 ) * separation ) ) / n;
             final int numberOfSignicantDecimalPlaces = spec.getWidthRange().getSignificantDecimalPlaces();
             width = round( width, numberOfSignicantDecimalPlaces );
 
