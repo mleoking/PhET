@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+1.00.02...
 (7/13/06) - simplify nasty width calculation in BSSquareWidthHandle.updateModel
 (7/13/06) - document observer/observable relationships (see observer.txt)
 (7/13/06) - remove PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES, if values change it implies the count may have changed
