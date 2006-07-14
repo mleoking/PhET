@@ -310,7 +310,13 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
         _energyZoomControl.addPlot( _chart.getEnergyPlot() );
         _energyZoomControl.addPlot( _energyPlot );
-        _energyZoomControlNode = new PSwing( _canvas, _energyZoomControl );
+        _energyZoomControlNode = new PSwing( _canvas, _energyZoomControl ) {
+            public void setVisible( boolean visible ) {
+                super.setVisible( visible );
+                setPickable( visible );
+                setChildrenPickable( visible );
+            }
+        };
         _parentNode.addChild( _energyZoomControlNode );
         
         // Magnifying glass

@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+(7/13/06) - bugfix: setPickable(false) when zoom control is not visible
 (7/13/06) - reduce updates to BSSelectedEquation, watch for changes to superposition coefficients
 (7/13/06) - reduce updates to BSHilitedEquation, watch for changes to hilited eigenstate
 (7/13/06) - use a boolean constant to switch between analytic and Schmidt-Lee eigenstate solvers for HO
