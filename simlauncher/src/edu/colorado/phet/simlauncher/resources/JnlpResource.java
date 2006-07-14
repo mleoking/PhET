@@ -53,7 +53,7 @@ public class JnlpResource extends SimResource {
         }
         remoteCodebase = jnlpFile.getCodebase();
         String localPath = getLocalFileName();
-        if( System.getProperty( "os.name" ).toLowerCase().contains( "windows" ) && localPath.contains( ":" ) ) {
+        if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0 && localPath.indexOf( ":" ) >= 0 ) {
             localPath = localPath.substring( localPath.indexOf( ':' ) + 1 );
         }
 
