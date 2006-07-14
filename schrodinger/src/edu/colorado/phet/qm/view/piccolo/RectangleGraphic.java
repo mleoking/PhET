@@ -76,6 +76,18 @@ public class RectangleGraphic extends PNode {
         } );
     }
 
+    protected void disableResizeCorner() {
+        resizeCorner.setVisible( false );
+        resizeCorner.setPickable( false );
+        resizeCorner.setChildrenPickable( false );
+    }
+
+    protected void disableBodyGraphic() {
+        areaGraphic.setVisible( false );
+        areaGraphic.setPickable( false );
+        areaGraphic.setChildrenPickable( false );
+    }
+
     public void setResizeComponentVisible( boolean visible ) {
         this.resizeCorner.setVisible( visible );
     }

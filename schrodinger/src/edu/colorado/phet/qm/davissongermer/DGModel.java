@@ -89,8 +89,7 @@ public class DGModel {
 
     private void updatePotential() {
         QWIModel.removePotential( concreteAtomLattice );
-        concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice(
-                QWIModel.getGridWidth(), QWIModel.getGridHeight() );
+        concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice( QWIModel.getGridWidth(), QWIModel.getGridHeight() );
         QWIModel.addPotential( concreteAtomLattice );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );

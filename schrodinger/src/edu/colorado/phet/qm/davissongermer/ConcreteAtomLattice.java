@@ -5,6 +5,8 @@ import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.PrecomputedPotential;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Feb 4, 2006
@@ -32,4 +34,11 @@ public class ConcreteAtomLattice implements Potential {
         potential.setPotential( compositePotential );
     }
 
+    public AtomPotential[] getPotentials() {
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
+            list.add( compositePotential.potentialAt( i ) );
+        }
+        return (AtomPotential[])list.toArray( new AtomPotential[0] );
+    }
 }

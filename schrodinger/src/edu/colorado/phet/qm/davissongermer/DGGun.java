@@ -53,7 +53,7 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         if( fireOne == null ) {
             fireOne = new FireButton( this );
         }
-        GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
+        GunControlPanel gunControlPanel = new DGGunControlPanel( getSchrodingerPanel() );
         gunControlPanel.setFillNone();
         gunControlPanel.add( fireOne );
         gunControlPanel.setFillHorizontal();

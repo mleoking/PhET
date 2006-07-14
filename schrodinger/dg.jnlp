@@ -19,11 +19,13 @@ information.
         codebase="http://www.colorado.edu/physics/phet/dev/"
         href="dg/@VERSION@/dg.jnlp">
     <information>
-        <title>Davisson-Germer Experiment</title>
+        <title>Davisson Germer: Electron Diffraction</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
-        <description>Davisson-Germer Experiment</description>
-        <description kind="short">Davisson-Germer Experiment</description>
+        <description>Simulate the original experiment that proved that electrons can behave as waves. Watch electrons
+            diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of
+            probability.</description>
+        <description kind="short">Davisson Germer: Electron Diffraction</description>
         <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
