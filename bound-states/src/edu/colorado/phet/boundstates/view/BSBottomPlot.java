@@ -361,8 +361,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             }
             else if ( arg == null ||
                       arg == BSModel.PROPERTY_POTENTIAL ||
-                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES ||
-                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES ) { 
+                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES  ) { 
                 updateCache();
                 updateTimeDependentSeries( _t );
             }

@@ -167,14 +167,12 @@ public class BSSuperpositionCoefficients extends BSObservable {
             }
             
             Object arg = null;
-            if ( countChanged && valuesChanged ) {
-                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES;
+            if ( valuesChanged ) {
+                // value change takes precedence over count change
+                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES;
             }
             else if ( countChanged ) {
                 arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT;
-            }
-            else if ( valuesChanged ) {
-                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES;
             }
             notifyObservers( arg );
         }

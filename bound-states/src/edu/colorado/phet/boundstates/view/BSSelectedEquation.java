@@ -113,8 +113,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     public void update( Observable o, Object arg ) {
         if ( o == getModel() ) {
             if ( arg == null || 
-                 arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES ||
-                 arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES ) {
+                 arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES  ) {
                 updateDisplay();
             }
         }
