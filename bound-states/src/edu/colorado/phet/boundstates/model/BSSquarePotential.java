@@ -224,16 +224,16 @@ public class BSSquarePotential extends BSAbstractPotential {
         final double s = getSeparation();
         
         // Center if the leftmost well's left edge was at 0
-        double position = ( wellIndex * ( w + s ) ) + ( w / 2 );
+        double position = ( wellIndex * ( w + s ) ) + ( w / 2.0 );
         
         // Adjust for center at 0
         if ( n % 2 == 0 ) {
             // even number of wells
-            position -= ( w * ( n / 2 ) ) + ( s * ( ( n / 2 ) - 1 ) ) + ( s / 2 );
+            position -= ( w * ( n / 2.0 ) ) + ( s * ( ( n / 2.0 ) - 1 ) ) + ( s / 2.0 );
         }
         else {
             // odd number of wells
-            position -= ( w * ( n / 2 ) ) + ( s * ( n / 2 ) ) + ( w / 2 );
+            position -= ( w * ( ( n - 1 ) / 2.0 ) ) + ( s * ( ( n - 1 ) / 2.0 ) ) + ( w / 2.0 );
         }
         
         // Adjust for actual center
