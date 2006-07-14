@@ -356,9 +356,13 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             else if ( arg == BSModel.PROPERTY_PARTICLE ) {
                 // ignore, we'll be notified that the potential changed
             }
+            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT ) {
+                // ignore, the cache doesn't need to change
+            }
             else if ( arg == null ||
                       arg == BSModel.PROPERTY_POTENTIAL ||
-                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) { 
+                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES ||
+                      arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES ) { 
                 updateCache();
                 updateTimeDependentSeries( _t );
             }

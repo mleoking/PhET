@@ -240,14 +240,17 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             if ( arg == BSModel.PROPERTY_POTENTIAL ) {
                 updateAllSeries();
             }
-            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
-                updateSelectedEigenstatesSeries();
-            }
             else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
                 updateHilitedEigenstateSeries();
             }
             else if ( arg == BSModel.PROPERTY_PARTICLE ) {
                 // ignore, we'll be notified that the potential changed
+            }
+            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES || arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES ) {
+                updateSelectedEigenstatesSeries();
+            }
+            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT ) {
+                // ignore, the wave function hasn't changed
             }
             else if ( arg == null ) {
                 // Multiple things may have changed, so update everything.

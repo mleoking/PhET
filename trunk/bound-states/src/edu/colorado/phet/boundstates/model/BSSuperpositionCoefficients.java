@@ -106,6 +106,8 @@ public class BSSuperpositionCoefficients extends BSObservable {
         }
         
         final int currentNumberOfCoefficients = getNumberOfCoefficients();
+        boolean countChanged = false;
+        boolean valuesChanged = false;
         
         if ( numberOfCoefficients == currentNumberOfCoefficients ) {
             // no change, do nothing
@@ -113,6 +115,8 @@ public class BSSuperpositionCoefficients extends BSObservable {
         else {
             if ( numberOfCoefficients == 0 ) {
                 _coefficients.clear();
+                countChanged = true;
+                valuesChanged = true;
             }
             else if ( currentNumberOfCoefficients == 0 ) {
                 // If we have no coefficients yet, then set the first coefficient to 1 and all the others to 0.
@@ -121,12 +125,16 @@ public class BSSuperpositionCoefficients extends BSObservable {
                 for ( int i = 1; i < numberOfCoefficients; i++ ) {
                     _coefficients.add( new Double( 0 ) );
                 }
+                countChanged = true;
+                valuesChanged = true;
             }
             else if ( numberOfCoefficients > currentNumberOfCoefficients ) {
                 // If the number of eigenstates is increasing, add new ones with zero values.
                 for ( int i = getNumberOfCoefficients(); i < numberOfCoefficients; i++ ) {
                     _coefficients.add( new Double( 0 ) );
                 }
+                countChanged = true;
+                valuesChanged = false;
             }
             else  { 
                 /* 
@@ -153,9 +161,22 @@ public class BSSuperpositionCoefficients extends BSObservable {
                         normalize();
                     }
                 }
+                
+                countChanged = true;
+                valuesChanged = needToNormalize;
             }
             
-            notifyObservers();
+            Object arg = null;
+            if ( countChanged && valuesChanged ) {
+                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT_AND_VALUES;
+            }
+            else if ( countChanged ) {
+                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT;
+            }
+            else if ( valuesChanged ) {
+                arg = BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES;
+            }
+            notifyObservers( arg );
         }
     }
     
@@ -215,7 +236,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
             throw new IllegalArgumentException( "value must be between 0 and 1: " + value );
         }
         _coefficients.set( index, new Double( value ) );
-        notifyObservers();
+        notifyObservers( BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES );
     }
     
     /**
@@ -233,7 +254,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
         setAllZero();
         setCoefficient( index, 1 );
         setNotifyEnabled( notifyEnabled );
-        notifyObservers();
+        notifyObservers( BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES );
     }
     
     /**
@@ -254,7 +275,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
                 setCoefficient( i, normalizedValue );
             }
             setNotifyEnabled( notifyEnabled );
-            notifyObservers();
+            notifyObservers( BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES );
         }
     }
    
@@ -335,6 +356,6 @@ public class BSSuperpositionCoefficients extends BSObservable {
             setCoefficient( i, 0 );
         }
         setNotifyEnabled( notifyEnabled );
-        notifyObservers();
+        notifyObservers( BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES );
     }
 }
