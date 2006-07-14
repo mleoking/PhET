@@ -7,21 +7,22 @@ in the Bound States simulation.
 BSModel observes BSParticle, BSAbstractPotential, BSSuperpositionCoefficients
 if BSParticle -> forward notification with property PARTICLE
 if BSAbstractPotential -> forward notification with property POTENTIAL
-if BSSuperpositionCoefficients -> forward notification with property SUPERPOSITION_COEFFICIENTS
+if BSSuperpositionCoefficients -> forward notification with property provided by BSSuperPositionCoefficents
 
 BSAbstractPotential observes BSParticle
 
 BSEnergyPlot observes BSModel
-if property=POTENTIAL -> update all series
+if property=null || POTENTIAL -> update all series
 if property=HILITED_EIGENSTATE -> update hilited eigenstate series
-if property=SUPERPOSITION_COEFFICIENTS -> update selected eigentates series
+if property=SUPERPOSITION_COEFFICIENTS_VALUES -> update selected eigentates series
+if property=SUPERPOSITION_COEFFICIENTS_COUNT -> ignore
 if property=PARTICLE -> ignore
-if property=null -> update all series
 
 BSBottomPlot observes BSModel
 if property=HILITED_EIGENSTATE -> update hilited eigenstate series
 if property=PARTICLE -> ignore
-if property=null || POTENTIAL || SUPERPOSITION_COEFFICIENTS -> update wave function cache, update time-dependent series
+if property=SUPERPOSITION_COEFFICIENTS_COUNT -> ignore
+if property=null || POTENTIAL || SUPERPOSITION_COEFFICIENTS_VALUES -> update wave function cache, update time-dependent series
 
 BSAbstractModule observes BSModel
 if property=!HILITED_EIGENSTATE -> reset the clock
@@ -37,7 +38,8 @@ BSHiliteEquation observes BSModel
 if property=HILITE_EIGENSTATE -> update display
 
 BSSelectedEquation observes BSModel
-if property=SUPERPOSITION_COEFFICIENTS -> update display
+if property=null || SUPERPOSITION_COEFFICIENTS_VALUES -> update display
+if property=SUPERPOSITION_COEFFICIENTS_COUNT -> ignore
 
 BSSuperpositionStateDialog observes BSSuperpositionCoefficients
 
