@@ -8,7 +8,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - drag handles are sluggish, improve responsiveness
 - changing potential results in 2 cache updates if #eigenstates changes
-- changing particle mass always results in 2 cache updates, 3 if #eigenstates changes
+- changing particle mass results in 2 cache updates if #eigenstates changes
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
