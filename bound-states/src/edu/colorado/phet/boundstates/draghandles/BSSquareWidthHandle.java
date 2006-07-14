@@ -75,13 +75,13 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         }
         
         final int n = potential.getNumberOfWells();
-        final double center = potential.getCenter( n - 1 ); // center of the right-most well
+        final double separation = potential.getSeparation();
         final double minWidth = spec.getWidthRange().getMin();
         final double maxWidth = spec.getWidthRange().getMax();
         
         // position -> x coordinates
-        final double minPosition = center + ( minWidth / 2 );
-        final double maxPosition = center + ( maxWidth / 2 );
+        final double minPosition = ( ( n * minWidth ) + ( ( n - 1 ) * separation ) ) / 2;
+        final double maxPosition = ( ( n * maxWidth ) + ( ( n - 1 ) * separation ) ) / 2;
         final double minX = chartNode.positionToNode( minPosition );
         final double maxX = chartNode.positionToNode( maxPosition );
         
