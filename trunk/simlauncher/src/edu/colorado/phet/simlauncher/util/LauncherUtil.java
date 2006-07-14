@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.simlauncher.util;
 
-import edu.colorado.phet.simlauncher.Configuration;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -42,24 +40,21 @@ public class LauncherUtil {
     //--------------------------------------------------------------------------------------------------
 
     private Boolean online = null;
-    private URL url;
 
     /**
      * Private constructor to insure singleton
      */
     private LauncherUtil() {
-        url = Configuration.instance().getPhetUrl();
     }
 
     public boolean isRemoteAvailable( URL url ) {
-        this.url = url;
         if( online == null ) {
-            online = new Boolean( refreshOnline() );
+            online = new Boolean( refreshOnline( url ) );
         }
         return online.booleanValue();
     }
 
-    private boolean refreshOnline() {
+    private boolean refreshOnline( URL url ) {
         try {
             URLConnection urlConnection = url.openConnection();
             urlConnection.connect();

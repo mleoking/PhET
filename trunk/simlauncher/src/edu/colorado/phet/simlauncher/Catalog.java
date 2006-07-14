@@ -58,19 +58,17 @@ public class Catalog implements Simulation.ChangeListener {
      */
     private Catalog() {
         installedSimulations = new ArrayList();
-//        simulations = new ArrayList();
-//        categories = new ArrayList( );
 
-        // If the catalog isn't installed yet, go get it
+        // If the catalog isn't installed yet, go get it. If we're not connected to the Phet site, we'll get
+        // a SimResourceException, which means we can't get the catalog
         try {
             if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
                 catalogResource.download();
             }
         }
         catch( SimResourceException e ) {
-//            return;
+            return;
         }
-//        simulations = new SimFactory().getSimulations( new PhetWebPage( "http://www.colorado.edu/physics/phet/web-pages/simulation-pages/top-simulations.htm" ) );
         simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
@@ -181,8 +179,6 @@ public class Catalog implements Simulation.ChangeListener {
 
     public interface ChangeListener extends EventListener {
         void catalogChanged( ChangeEvent event );
-
-//        void installedSimsChanged( ChangeEvent event );
     }
 
 }

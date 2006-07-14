@@ -1,0 +1,6 @@
+Connectivity
+============
+Run Test no-web
+Change URL to be bogus, and test
+
+Test connection monitor
