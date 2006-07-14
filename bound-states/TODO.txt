@@ -30,6 +30,8 @@ CLEANUP:
 
 
 DONE:
+1.01.00...
+(7/14/06) - change minor version # for publishing to PhET website
 1.00.02...
 (7/14/06) - restore value of SchmidtLeeSolver.MAX_TRIES to 100, changing this caused big problems (roll into 1.00.02)
 (7/14/06) - bugfix: width drag handle for >1 square wells can't be dragged to min/max (roll into 1.00.02)
