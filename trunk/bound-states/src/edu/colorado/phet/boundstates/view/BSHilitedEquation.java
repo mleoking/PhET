@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
+import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
@@ -27,7 +28,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHilitedEquation extends BSAbstractWaveFunctionEquation implements Observer {
+public class BSHilitedEquation extends BSAbstractWaveFunctionEquation {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -68,7 +69,7 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation implements
      * Subclasses should call this from their update method.
      */
     protected void updateDisplay() {
-        
+        System.out.println( "BSHilitedEquation.updateDisplay" );//XXX
         if ( getModel() != null ) {
             
             // Determine which eigenstate...
@@ -100,6 +101,23 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation implements
             _xform.translate( getLocation().getX(), getLocation().getY() );
             _xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
             setTransform( _xform );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the hilite eigenstate changes.
+     * @param o
+     * @param arg
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == getModel() ) {
+            if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+                updateDisplay();
+            }
         }
     }
     

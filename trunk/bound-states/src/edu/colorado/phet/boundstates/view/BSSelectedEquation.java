@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
+import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
@@ -71,7 +72,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
      * Subclasses should call this from their update method.
      */
     protected void updateDisplay() {
-        
+        System.out.println( "BSSelectedEquation.updateDisplay" );//XXX
         BSModel model = getModel();
         
         if ( model != null ) {
@@ -97,6 +98,23 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
             _xform.translate( getLocation().getX(), getLocation().getY() );
             _xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
             setTransform( _xform );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the superposition coefficients change.
+     * @param o
+     * @param arg
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == getModel() ) {
+            if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
+                updateDisplay();
+            }
         }
     }
     
