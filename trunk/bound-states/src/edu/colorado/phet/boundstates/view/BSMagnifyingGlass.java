@@ -387,7 +387,12 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        updateDisplay();
+        if ( arg == BSModel.PROPERTY_PARTICLE ) {
+            // ignore, we'll be notified that the potential changed
+        }
+        else {
+            updateDisplay();
+        }
     }
     
     //----------------------------------------------------------------------------

@@ -15,11 +15,13 @@ BSEnergyPlot observes BSModel
 if property=POTENTIAL -> update all series
 if property=HILITED_EIGENSTATE -> update hilited eigenstate series
 if property=SUPERPOSITION_COEFFICIENTS -> update selected eigentates series
+if property=PARTICLE -> ignore
 if property=null -> update all series
 
 BSBottomPlot observes BSModel
 if property=HILITED_EIGENSTATE -> update hilited eigenstate series
-if property=!HILITED_EIGENSTATE -> update wave function cache, update time-dependent series
+if property=PARTICLE -> ignore
+if property=null || POTENTIAL || SUPERPOSITION_COEFFICIENTS -> update wave function cache, update time-dependent series
 
 BSAbstractModule observes BSModel
 if property=!HILITED_EIGENSTATE -> reset the clock
@@ -28,10 +30,14 @@ BSEigenstatesNode observes BSModel
 if property=HILITED_EIGENSTATE -> update the hilited eigenstate value display
 
 BSMagnifyingGlass observes BSModel
-if property=anything -> update display
+if property=PARTICLE -> ignore
+if property=!PARTICLE -> update display
 
-BSAbstractWaveFunctionEquation observes BSModel
-if property=anything -> update display
+BSHiliteEquation observes BSModel
+if property=HILITE_EIGENSTATE -> update display
+
+BSSelectedEquation observes BSModel
+if property=SUPERPOSITION_COEFFICIENTS -> update display
 
 BSSuperpositionStateDialog observes BSSuperpositionCoefficients
 

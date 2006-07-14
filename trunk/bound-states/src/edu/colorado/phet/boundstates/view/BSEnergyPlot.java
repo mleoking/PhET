@@ -246,6 +246,9 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
                 updateHilitedEigenstateSeries();
             }
+            else if ( arg == BSModel.PROPERTY_PARTICLE ) {
+                // ignore, we'll be notified that the potential changed
+            }
             else if ( arg == null ) {
                 // Multiple things may have changed, so update everything.
                 updateAllSeries();
