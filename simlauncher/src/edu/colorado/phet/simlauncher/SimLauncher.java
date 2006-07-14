@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.application.AWTSplashWindow;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
-import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,13 +36,6 @@ public class SimLauncher {
 
         JFrame frame = new JFrame( "PhET Simulation Launcher" );
 
-        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
-            JOptionPane.showMessageDialog( frame,
-                                           "<html>You are working offline." +
-                                           "<br><br>You will be able to run simulations you've installed, but " +
-                                           "<br>will not be able to browse the online catalog of simulations. " );
-        }
-
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -55,8 +47,6 @@ public class SimLauncher {
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
         frame.setVisible( true );
-
-//        showSplashWindow( "PhET Simulation Launcher" );
 
         // Display any startup notices the user should see
         startupNotices( frame );
@@ -99,9 +89,6 @@ public class SimLauncher {
      * @param parent
      */
     private void startupNotices( Component parent ) {
-        boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl() );
-
-//        disposeSplashWindow();
 
         // No internet connection and no installed simulations
         if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() == null ) {
@@ -126,7 +113,7 @@ public class SimLauncher {
                  || Catalog.instance().getInstalledSimulations().size() == 0 ) {
             int choice = JOptionPane.showConfirmDialog( parent, "<html><center>You have no simulations installed.<br>Would you like to visit the online simulation catalog?</html>", "Startup..", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
-                if( !remoteAvailable ) {
+                if( !PhetSiteConnection.instance().isConnected() ) {
                     JOptionPane.showMessageDialog( parent, "The online simulation catolg is not available.\nEither you do not have access to the internet, or the PhET web site is not available." );
                 }
                 else {

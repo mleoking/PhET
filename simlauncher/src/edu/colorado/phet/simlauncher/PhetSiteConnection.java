@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -47,6 +48,7 @@ public class PhetSiteConnection {
     private PhetSiteConnection() {
         url = Configuration.instance().getPhetUrl();
 
+//        System.out.println( "PhetSiteConnection.PhetSiteConnection:  monitor is turned off" );
         ConnectionMonitor connectionMonitor = new ConnectionMonitor();
         connectionMonitor.start();
     }
@@ -67,8 +69,18 @@ public class PhetSiteConnection {
         }
 
         try {
+            // Try to open a connection.
             URLConnection urlConnection = url.openConnection();
             urlConnection.connect();
+
+            // Try to read a byte from the url. It seems that simply tying to connect a URLConnetcion doesn't
+            // always throw an exception if the URL points to a non-existing directory or file
+            DataInputStream dis;
+            dis = new DataInputStream(url.openStream());
+            dis.read();
+            dis.close();
+
+            // If the two things above succeeded, we're connected
             connected = true;
         }
         catch( IOException e ) {

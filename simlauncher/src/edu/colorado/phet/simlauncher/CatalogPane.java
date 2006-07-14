@@ -101,7 +101,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
     }
 
     /**
-     *
+     * The panel that contains the SimTable
      */
     private class SimPanel extends JPanel implements Catalog.ChangeListener, SimContainer {
         private SimTable simTable;
@@ -125,7 +125,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
-            JPanel headerPanel = new JPanel( new BorderLayout());
+            JPanel headerPanel = new JPanel( new BorderLayout() );
             // Install button
             installBtn = new JButton( "Install / Update" );
             installBtn.addActionListener( new InstallOrUpdateSimAction( this, this ) );
@@ -251,7 +251,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 //                }
 
                 // The Install button should be enabled if any check boxes are checked
-                installBtn.setEnabled(simTable.getSelections().length > 0);
+                installBtn.setEnabled( simTable.getSelections().length > 0 );
 
                 // Notify change listeners
                 changeEventChannel.notifyChangeListeners( CatalogPane.this );

@@ -44,15 +44,15 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         return instance;
     }
 
-
     private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
     private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH );
-    private static String DEFAULT_PHET_URL_STRING = "http://www.colorado.edu/physics/phet";
+//    private static String DEFAULT_PHET_ROOT_DIR_URL_STRING = "http://www.colorado.edu/physics/phet-asdf";
+    private static String DEFAULT_PHET_ROOT_DIR_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
 
     static {
         try {
-            DEFAULT_PHET_URL = new URL( DEFAULT_PHET_URL_STRING );
+            DEFAULT_PHET_URL = new URL( DEFAULT_PHET_ROOT_DIR_URL_STRING );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     static {
         try {
-            DEFAULT_SIMULATIONS_URL = new URL( DEFAULT_PHET_URL_STRING + SIMUALATIONS_PATH );
+            DEFAULT_SIMULATIONS_URL = new URL( DEFAULT_PHET_ROOT_DIR_URL_STRING + SIMUALATIONS_PATH );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     static {
         try {
-            DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_URL_STRING + CATALOG_PATH );
+            DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_ROOT_DIR_URL_STRING + CATALOG_PATH );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -148,6 +148,8 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     public URL getPhetUrl() {
         if( phetUrl == null ) {
+//            phetUrl = DEFAULT_CATALOG_URL;
+//            phetUrl = DEFAULT_PHET_ROOT_DIR_URL_STRING;
             phetUrl = DEFAULT_PHET_URL;
         }
         return phetUrl;

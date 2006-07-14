@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.resources;
 
+import edu.colorado.phet.simlauncher.PhetSiteConnection;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +28,17 @@ public class DescriptionResource extends SimResource {
 
     public DescriptionResource( URL url, File localRoot ) {
         super( url, localRoot );
+
+
+        // If we're online and the local copy isn't current, go get
+        try {
+            if( PhetSiteConnection.instance().isConnected() && !isCurrent() ) {
+                download();
+            }
+        }
+        catch( SimResourceException e ) {
+            e.printStackTrace();
+        }
     }
 
     public String getDescription() {
