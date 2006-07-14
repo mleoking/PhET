@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- BSMagnifyingGlass should handle layer ordering of eigenstate nodes the same as BSEigenstatesNode
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 - parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
