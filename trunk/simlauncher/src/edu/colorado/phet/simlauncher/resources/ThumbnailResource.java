@@ -36,6 +36,13 @@ public class ThumbnailResource extends SimResource {
         try {
             if( PhetSiteConnection.instance().isConnected() && !isCurrent() ) {
                 BufferedImage bImg = ImageLoader.loadBufferedImage( url );
+//                double maxThumbnailHeight = 100;
+//                if( bImg.getHeight() > 100 ) {
+//                    AffineTransform sTx = AffineTransform.getScaleInstance( maxThumbnailHeight / bImg.getHeight( ),
+//                                                                            maxThumbnailHeight / bImg.getHeight( ));
+//                    AffineTransformOp atxOp = new AffineTransformOp( sTx, AffineTransformOp.TYPE_BICUBIC );
+//                    bImg = atxOp.filter( bImg, null);
+//                }
                 imageIcon = new ImageIcon( bImg );
             }
             else if( getLocalFile() != null && getLocalFile().exists() ) {

@@ -77,6 +77,7 @@ public class SimTable extends JTable implements SimContainer {
 
     // Icons for table entries
     private static ImageIcon isInstalledIcon;
+//    private
     private static ImageIcon updateAvailableIcon;
 
     static {
@@ -90,6 +91,7 @@ public class SimTable extends JTable implements SimContainer {
             e.printStackTrace();
         }
         isInstalledIcon = new ImageIcon( checkMarkImg );
+//        ImageIcon emptyIcon = new ImageIcon()
         updateAvailableIcon = new ImageIcon( exclamationMarkImg );
     }
 
@@ -198,12 +200,12 @@ public class SimTable extends JTable implements SimContainer {
                     row[j] = sim.getThumbnail();
                 }
                 else if( columns.get( j ) == IS_INSTALLED ) {
-                    row[j] = sim.isInstalled() ? isInstalledIcon : "";
+                    row[j] = sim.isInstalled() ? isInstalledIcon : null;
                 }
                 else if( columns.get( j ) == IS_UP_TO_DATE ) {
                     try {
                         if( PhetSiteConnection.instance().isConnected() ) {
-                            row[j] = ( sim. isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : "";
+                            row[j] = ( sim. isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
                         }
                     }
                     catch( SimResourceException e ) {
@@ -268,7 +270,7 @@ public class SimTable extends JTable implements SimContainer {
         if( checkBoxColumnIndex > -1 ) {
             for( int row = 0; row < getRowCount(); row++ ) {
                 Boolean isSelected = (Boolean)getModel().getValueAt( row, checkBoxColumnIndex );
-                if( isSelected ) {
+                if( isSelected.booleanValue() ) {
                     String simName = (String)this.getValueAt( row, nameColumIndex );
                     Simulation sim = Simulation.getSimulationForName( simName );
                     selectedSims.add( sim );

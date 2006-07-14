@@ -19,10 +19,10 @@ Bugs
 ========
 Features
 ========
+- restrict height of thumbnails
 - Descriptions
 - add and remove rows from SimTable, rather than recreating
 - Categories for installed sims, and an associate option
-- build for java 1.4
 - "Check all for updates"
 - Update check daemon
 
@@ -72,6 +72,7 @@ Testing
 ================
 Done not posted
 ================
+- build for java 1.4
 - Icons in "Is Installed?" and "Udate Available?" columns
 - Check boxes next to each row in catalog
 
