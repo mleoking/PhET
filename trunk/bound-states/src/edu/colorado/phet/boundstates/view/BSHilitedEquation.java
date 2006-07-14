@@ -69,7 +69,7 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation {
      * Subclasses should call this from their update method.
      */
     protected void updateDisplay() {
-        System.out.println( "BSHilitedEquation.updateDisplay" );//XXX
+
         if ( getModel() != null ) {
             
             // Determine which eigenstate...
