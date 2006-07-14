@@ -5,13 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: width drag handle for 2 square wells can't be dragged to max, 
-- bug: width drag handle for 5 square wells can't be dragged to min or max
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
-- pause the clock while dragging sliders in Config dialogs
-- pause the clock while dragging Particle Mass slider in control panel
+- pause the clock while dragging JSliders in control panel and Config dialogs
 
 LOW PRIORITY:
 - provide user with feedback when they attempt to drag a handle past its min/max
