@@ -8,6 +8,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
+- parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
 LOW PRIORITY:
 - pause the clock while dragging JSliders in control panel and Config dialogs
