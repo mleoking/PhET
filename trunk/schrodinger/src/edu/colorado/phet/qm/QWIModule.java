@@ -180,8 +180,12 @@ public class QWIModule extends PiccoloModule {
         RectangularPotential rectangularPotential = new RectangularPotential( getQWIModel(), x, y, w, w );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         qwiModel.addPotential( rectangularPotential );//todo should be a composite.
-        RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
+        RectangularPotentialGraphic rectangularPotentialGraphic = createPotentialGraphic( rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
+    }
+
+    protected RectangularPotentialGraphic createPotentialGraphic( RectangularPotential rectangularPotential ) {
+        return new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
     }
 
     public IntensityManager getIntensityDisplay() {

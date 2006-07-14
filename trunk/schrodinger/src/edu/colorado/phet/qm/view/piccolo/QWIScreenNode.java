@@ -86,7 +86,7 @@ public class QWIScreenNode extends PNode {
     public QWIScreenNode( final QWIModule module, final QWIPanel QWIPanel ) {
         this.module = module;
         this.QWIPanel = QWIPanel;
-        wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getQWIModel().getWavefunction() );
+        wavefunctionGraphic = createWavefunctionGraphic();
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void finishedTimeStep( QWIModel model ) {
                 if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 || module.getClock().isPaused() ) {
@@ -175,6 +175,10 @@ public class QWIScreenNode extends PNode {
         } );
     }
 
+    protected WavefunctionGraphic createWavefunctionGraphic() {
+        return new WavefunctionGraphic( getDiscreteModel(), module.getQWIModel().getWavefunction() );
+    }
+
 //    private void updateWavefunctionGraphic() {
 //        wavefunctionGraphic.update();
 //    }
@@ -183,7 +187,7 @@ public class QWIScreenNode extends PNode {
         return wavefunctionGraphic;
     }
 
-    private QWIModel getDiscreteModel() {
+    protected QWIModel getDiscreteModel() {
         return getSchrodingerModule().getQWIModel();
     }
 
@@ -642,5 +646,9 @@ resolution, and a quarter as many times for high resolution.*/
 
     public void removeSavedScreenGraphic( SavedScreenGraphic savedScreenGraphic ) {
         detectorScreenGraphics.removeChild( savedScreenGraphic );
+    }
+
+    public QWIModel getQWIModel() {
+        return getDiscreteModel();
     }
 }

@@ -93,10 +93,15 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
             else {
                 return delegate.getColor( i, k );
             }
+//            return delegate.getColor( i,k);
         }
     }
 
     public void setColorMap( ColorMap colorMap ) {
         super.setColorMap( new ColorMapWithPotential( colorMap, QWIModel.getPotential() ) );
+    }
+
+    protected void setColorMapIgnorePotential( ColorMap colorMap ) {
+        super.setColorMap( colorMap );
     }
 }

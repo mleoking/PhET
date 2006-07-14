@@ -4,9 +4,12 @@ package edu.colorado.phet.qm.davissongermer;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.model.QWIModel;
+import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.view.gun.AbstractGunNode;
+import edu.colorado.phet.qm.view.piccolo.ImagePotentialGraphic;
+import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 
 import java.awt.event.ComponentAdapter;
@@ -30,6 +33,12 @@ public class DGModule extends IntensityModule {
     public DGModule( PhetApplication schrodingerApplication, IClock clock ) {
         super( "Davisson-Germer Experiment", schrodingerApplication, clock );
         dgPlotFrame = new DGPlotFrame( getPhetFrame(), this );
+        dgModel.addListener( new DGModel.Listener() {
+            public void potentialChanged() {
+                updatePotentialGraphics();
+            }
+
+        } );
         DGControlPanel intensityControlPanel = new DGControlPanel( this );
         setControlPanel( intensityControlPanel );
 
@@ -61,6 +70,7 @@ public class DGModule extends IntensityModule {
             }
         } );
         getQWIModel().setBarrierAbsorptive( false );
+        updatePotentialGraphics();
     }
 
     private void updateProtractor() {
@@ -81,6 +91,27 @@ public class DGModule extends IntensityModule {
         else {
             return null;
         }
+    }
+
+    private void updatePotentialGraphics() {
+        getSchrodingerPanel().clearPotential();
+        AtomPotential[]atomPotentials = dgModel.getConcreteAtomLattice().getPotentials();
+        for( int i = 0; i < atomPotentials.length; i++ ) {
+            AtomPotential atomPotential = atomPotentials[i];
+            addAtomPotentialGraphic( atomPotential );
+        }
+    }
+
+    public void addAtomPotentialGraphic( AtomPotential atomPotential ) {
+        RectangularPotential rectangularPotential = new RectangularPotential( getQWIModel(), (int)( atomPotential.getCenter().getX() - atomPotential.getRadius() ), (int)( atomPotential.getCenter().getY() - atomPotential.getRadius() ),
+                                                                              (int)atomPotential.getRadius() * 2, (int)atomPotential.getRadius() * 2 );
+        rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
+        RectangularPotentialGraphic rectangularPotentialGraphic = createPotentialGraphic( rectangularPotential );
+        getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
+    }
+
+    protected RectangularPotentialGraphic createPotentialGraphic( RectangularPotential rectangularPotential ) {
+        return new ImagePotentialGraphic( getSchrodingerPanel(), rectangularPotential );
     }
 
     protected IntensityBeamPanel createIntensityPanel() {
@@ -151,4 +182,5 @@ public class DGModule extends IntensityModule {
     public DGSchrodingerPanel getDGSchrodingerPanel() {
         return (DGSchrodingerPanel)getSchrodingerPanel();
     }
+
 }

@@ -21,22 +21,27 @@ public class GunControlPanel extends VerticalLayoutPanel {
     private JComponent gunControl;
     private ShinyPanel shinyPanel;
     private PSwing gunControlPSwing;
+    private JLabel titleLabel;
 
     public GunControlPanel( QWIPanel QWIPanel ) {
         setOpaque( false );
         shinyPanel = new ShinyGunControlPanel( this );
         gunControlPSwing = new PSwing( QWIPanel, shinyPanel );
-        JLabel label = new JLabel( "Gun Controls" ) {
+        titleLabel = new JLabel( "Gun Controls" ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
         };
-        label.setForeground( Color.white );
-        label.setOpaque( false );
-        label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        add( label );
+        titleLabel.setForeground( Color.white );
+        titleLabel.setOpaque( false );
+        titleLabel.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        add( titleLabel );
+    }
+
+    protected JLabel getTitleLabel() {
+        return titleLabel;
     }
 
     static class ShinyGunControlPanel extends ShinyPanel {
