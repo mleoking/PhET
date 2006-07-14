@@ -30,6 +30,7 @@ CLEANUP:
 
 DONE:
 1.00.02...
+(7/14/06) - restore value of SchmidtLeeSolver.MAX_TRIES to 100, changing this caused big problems (roll into 1.00.02)
 (7/14/06) - bugfix: width drag handle for >1 square wells can't be dragged to min/max (roll into 1.00.02)
 (7/13/06) - simplify nasty width calculation in BSSquareWidthHandle.updateModel
 (7/13/06) - document observer/observable relationships (see observer.txt)
