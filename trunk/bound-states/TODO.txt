@@ -8,9 +8,9 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
-- pause the clock while dragging JSliders in control panel and Config dialogs
 
 LOW PRIORITY:
+- pause the clock while dragging JSliders in control panel and Config dialogs
 - provide user with feedback when they attempt to drag a handle past its min/max
 - wiggle me animation is jerky on some slower machines
 - make plots in bottom chart look smoother on Windows
