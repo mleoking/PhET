@@ -320,11 +320,12 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     /*
-     * Converts a plot point to a node point.
+     * Converts a node point to a plot point.
      * 
      * @param nodePoint
      * @param plot
      * @param dataArea
+     * @return plot point, in model coordinates
      */
     private Point2D nodeToPlot( Point2D nodePoint, XYPlot plot, Rectangle2D dataArea ) {
         final double plotX = plot.getDomainAxis().java2DToValue( nodePoint.getX(), dataArea, plot.getDomainAxisEdge() );
@@ -333,11 +334,12 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     /*
-     * Converts a node point to a plot point.
+     * Converts a plot point to a node point.
      * 
-     * @param nodePoint
+     * @param plotPoint
      * @param plot
      * @param dataArea
+     * @return node point, in local coordinates
      */
     private Point2D plotToNode( Point2D plotPoint, XYPlot plot, Rectangle2D dataArea ) {
         final double nodeX = plot.getDomainAxis().valueToJava2D( plotPoint.getX(), dataArea, plot.getDomainAxisEdge() );
