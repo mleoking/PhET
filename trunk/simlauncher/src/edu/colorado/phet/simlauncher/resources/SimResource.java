@@ -28,6 +28,27 @@ import java.net.URL;
  * @version $Revision$
  */
 public class SimResource {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    // Global flag that tells whether SimResources should check to see if they're current when they are
+    // asked
+    private static boolean UPDATE_ENABLED = true;
+
+    public static boolean isUpdateEnabled() {
+        return UPDATE_ENABLED;
+    }
+
+    public static void setUpdateEnabled( boolean UPDATE_ENABLED ) {
+        SimResource.UPDATE_ENABLED = UPDATE_ENABLED;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     URL url;
     private MetaData metaData;
     private File localFile;
@@ -50,6 +71,16 @@ public class SimResource {
             }
         }
     }
+
+    protected boolean isUpdatable() {
+        try {
+            return  UPDATE_ENABLED && isInstalled() && !isCurrent();
+        }
+        catch( SimResourceException e ) {
+            return false;
+        }
+    }
+
 
     /**
      * Tells if the resource is installed locally
@@ -80,7 +111,8 @@ public class SimResource {
      * @return true if the local version of the resource is current
      */
     public boolean isCurrent() throws SimResourceException {
-        if( !isRemoteAvailable() ) {
+        if( !PhetSiteConnection.instance().isConnected() ) {
+//        if( !isRemoteAvailable() ) {
             throw new SimResourceException( "Not online" );
         }
 
@@ -138,18 +170,15 @@ public class SimResource {
     }
 
     private void saveMetaData() throws IOException {
-        int cnt = 0;
+        metaData = null;
         while( metaData == null ) {
             this.metaData = new MetaData( url );
-            cnt++;
         }
-        System.out.println( "cnt = " + cnt );
         metaData.saveForFile( localFile );
-//        System.out.println( "cnt = " + cnt );
     }
 
     public void update() throws SimResourceException {
-        if( !isCurrent() ) {
+        if( isUpdatable() ) {
             download();
         }
     }

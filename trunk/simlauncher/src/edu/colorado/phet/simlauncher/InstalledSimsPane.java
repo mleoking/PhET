@@ -39,7 +39,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private JButton launchBtn;
     private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
                                                                   GridBagConstraints.CENTER,
-                                                                  GridBagConstraints.VERTICAL,
+                                                                  GridBagConstraints.BOTH,
                                                                   new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
                                                                    GridBagConstraints.CENTER,

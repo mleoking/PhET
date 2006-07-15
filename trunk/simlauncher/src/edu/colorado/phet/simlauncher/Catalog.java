@@ -63,6 +63,8 @@ public class Catalog implements Simulation.ChangeListener {
         // a SimResourceException, which means we can't get the catalog
         try {
             if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
+                System.out.println( "Catalog.Catalog" );
+                System.out.println( "catalogResource.isCurrent() = " + catalogResource.isCurrent() );
                 catalogResource.download();
             }
         }

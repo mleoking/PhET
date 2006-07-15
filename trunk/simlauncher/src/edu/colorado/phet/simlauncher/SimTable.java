@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.simlauncher.resources.SimResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.TableSorter;
 
@@ -189,6 +190,7 @@ public class SimTable extends JTable implements SimContainer {
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
             Object[] row = new Object[ columns.size()];
+            boolean connected = PhetSiteConnection.instance().isConnected();
             for( int j = 0; j < row.length; j++ ) {
                 if( columns.get( j ) == SELECTION_CHECKBOX ) {
                     row[j] = new Boolean( false );
@@ -204,8 +206,8 @@ public class SimTable extends JTable implements SimContainer {
                 }
                 else if( columns.get( j ) == IS_UP_TO_DATE ) {
                     try {
-                        if( PhetSiteConnection.instance().isConnected() ) {
-                            row[j] = ( sim. isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
+                        if( connected ) {
+                            row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
                         }
                     }
                     catch( SimResourceException e ) {

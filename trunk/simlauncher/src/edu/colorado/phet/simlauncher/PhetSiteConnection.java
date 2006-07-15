@@ -47,6 +47,7 @@ public class PhetSiteConnection {
 
     private PhetSiteConnection() {
         url = Configuration.instance().getPhetUrl();
+        updateAvailability();
 
 //        System.out.println( "PhetSiteConnection.PhetSiteConnection:  monitor is turned off" );
         ConnectionMonitor connectionMonitor = new ConnectionMonitor();
@@ -61,13 +62,42 @@ public class PhetSiteConnection {
      * @return true if there is a connection to the PhET web site
      */
     public boolean isConnected() {
-        boolean connected;
+        return this.isAvailable;
+//        boolean connected;
+//
+//        // Debugging
+//        if( DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE ) {
+//            return false;
+//        }
+//
+//        try {
+//            // Try to open a connection.
+//            URLConnection urlConnection = url.openConnection();
+//            urlConnection.connect();
+//
+//            // Try to read a byte from the url. It seems that simply tying to connect a URLConnetcion doesn't
+//            // always throw an exception if the URL points to a non-existing directory or file
+//            DataInputStream dis;
+//            dis = new DataInputStream( url.openStream() );
+//            dis.read();
+//            dis.close();
+//
+//            // If the two things above succeeded, we're connected
+//            connected = true;
+//        }
+//        catch( IOException e ) {
+//            connected = false;
+//        }
+//        return connected;
+    }
 
+    private boolean checkConnection() {
         // Debugging
         if( DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE ) {
             return false;
         }
 
+        boolean connected;
         try {
             // Try to open a connection.
             URLConnection urlConnection = url.openConnection();
@@ -76,7 +106,7 @@ public class PhetSiteConnection {
             // Try to read a byte from the url. It seems that simply tying to connect a URLConnetcion doesn't
             // always throw an exception if the URL points to a non-existing directory or file
             DataInputStream dis;
-            dis = new DataInputStream(url.openStream());
+            dis = new DataInputStream( url.openStream() );
             dis.read();
             dis.close();
 
@@ -90,7 +120,7 @@ public class PhetSiteConnection {
     }
 
     public synchronized void updateAvailability() {
-        boolean connected = isConnected();
+        boolean connected = checkConnection();
         if( connected != isAvailable ) {
             isAvailable = connected;
             changeListenerProxy.connectionChanged( new ChangeEvent( this ) );
@@ -107,13 +137,14 @@ public class PhetSiteConnection {
         public void run() {
 
             while( !stop ) {
+                updateAvailability();
                 try {
-                    Thread.sleep( 1000 );
+                    Thread.sleep( 5000 );
                 }
                 catch( InterruptedException e ) {
                     setStop();
                 }
-                updateAvailability();
+
             }
         }
 
