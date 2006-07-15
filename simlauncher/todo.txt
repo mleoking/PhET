@@ -20,9 +20,13 @@ Bugs
 ========
 Features
 ========
-- Categories for installed sims, and an associate option
-- "Check all for updates"
+- Make Simulation and SimResource instances of Updatable.
+
+- "Check all for updates", don't check for updates by default
+    - override update for SimResource subclasses
+
 - Update check daemon
+- Categories for installed sims, and an associate option
 - Update check for program itself
 - Descriptions
 - deployment
