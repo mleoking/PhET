@@ -52,6 +52,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     public InstalledSimsPane() {
         super( new GridBagLayout() );
 
+        setPreferredSize( new Dimension( 600, 600) );
+
         // Listen for new simulations, and for changes in the installed and uninstalled simulations lists
 //        Catalog.instance().addChangeListener( this );
 
