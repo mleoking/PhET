@@ -90,6 +90,26 @@ Done not posted
 - Icons in "Is Installed?" and "Udate Available?" columns
 - Check boxes next to each row in catalog
 
+
+
+=======
+0.00.06
+=======
+- Improved startup time
+- Reworked/simplified menus
+
+=======
+0.00.05
+=======
+- Added better handling of being online and offline.
+- Fixed some layout problems
+
+=======
+0.00.04
+=======
+- Added checkbox to catalog table for selecting simulations on which to take action. Turned off multiple interval selection mode.
+- Replace text with icons for "Installed?" and "Update Available?" columns.
+
 ================
 0.00.03
 ================
