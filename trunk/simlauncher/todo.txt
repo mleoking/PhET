@@ -2,12 +2,13 @@
 Bugs
 ====
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
-
 - If connected to net, the app always checks for updates on startup
+
 - figure out why metadata for jar == null for Band Structures, and check is needed. See Simulation.uninstall()
 - put timeout on install
-- Column widths need adjustment
+
 - Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
+
 - Clearing the cache doesn't update the installed and available sims lists
 
 - three state sorting of columns is not a good thing
@@ -19,17 +20,29 @@ Bugs
 ========
 Features
 ========
-- restrict height of thumbnails
-- Descriptions
-- add and remove rows from SimTable, rather than recreating
 - Categories for installed sims, and an associate option
 - "Check all for updates"
 - Update check daemon
+- Update check for program itself
+- Descriptions
+- deployment
 
-- SimTable: include column header in determining width of column
-- Uninstall and update only from the Catalog?
 - About dialog
 - Help
+
+- persistent options
+- version number in catalog, and version check
+
+- bold heading for sorted column
+
+- "Downloading catalog" dialog
+- restrict height of thumbnails
+- add and remove rows from SimTable, rather than recreating
+
+
+- SimTable: include column header in determining width of column
+
+- Uninstall and update only from the Catalog?
 - Add menu option for specifying what gets shown in the catalog, a la Explorer
 - Catalog
     - Customize view
@@ -41,7 +54,6 @@ would only work with an XML file.
 - In PhetWebPage, handle things like "img =" and "img="
 - In PhetWebPage, be more careful about using the <a> tag with the JNLP that also has the thumbnail and abstract
 - Make CategoryFactory use a PhetWebPage
-- Categorize installed simulations
 
 - Main page is installed sims, catalog is auxilliary window, or slide-out panel with list in it
 
@@ -50,10 +62,8 @@ Deployment
 ------------
 - Installer w/ Launch Anywhere?
 
-- Make the Configuration a resource
 - Add option to "show all" or "show sims not installed" for catalog simulations.
 - Add "Go online" menu item
-- check for updates to installer itself
 - CatalogResource should be stored above the cache
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
 - Display abstracts - installing description needs to be debugged
