@@ -32,6 +32,11 @@ public class Options {
     //--------------------------------------------------------------------------------------------------
     private static Options instance;
 
+    // Keys for the properties file
+    private static String KEY_SHOW_INSTALLED_THUMBNAILS = "showInstalledThumbnails";
+    private static String KEY_SHOW_CATALOG_THUMBNAILS = "showCatalogThumbnails";
+    private static String KEY_CHECK_FOR_UPDATES_ON_STARTUP = "checkForUpdatesOnStartup";
+
     public static Options instance() {
         if( instance == null ) {
             instance = new Options();
@@ -53,12 +58,7 @@ public class Options {
         }
     }
 
-    // Keys for the properties file
-    private static String KEY_SHOW_INSTALLED_THUMBNAILS = "showInstalledThumbnails";
-    private static String KEY_SHOW_CATALOG_THUMBNAILS = "showCatalogThumbnails";
-    private static String KEY_CHECK_FOR_UPDATES_ON_STARTUP = "checkForUpdatesOnStartup";
 
-        
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
