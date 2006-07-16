@@ -24,10 +24,6 @@ public class DGApplication extends PiccoloPhetApplication {
     public static String TITLE = "Davisson Germer: Electron Diffraction";
     public static String DESCRIPTION = "Simulate the original experiment that proved that electrons can behave as waves.  Watch electrons diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of probability.";
 
-    static {
-        PhetLookAndFeel.setLookAndFeel();
-    }
-
     public DGApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         addModule( new DGModule( this, createClock() ) );
@@ -41,16 +37,6 @@ public class DGApplication extends PiccoloPhetApplication {
         return new PhetFrame( phetApplication );
     }
 
-//    class QWIFrame extends PhetFrame {
-//        public QWIFrame( PhetApplication phetApplication ) {
-//            super( phetApplication );
-//        }
-//
-//        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-//            return new MyTabbedModulePane( application, modules );
-//        }
-//    }
-
     class MyTabbedModulePane extends TabbedModulePane {
 
         public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
@@ -63,10 +49,11 @@ public class DGApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
+        PhetLookAndFeel.setLookAndFeel();
         new PhetLookAndFeel().apply();
         DGApplication schrodingerApplication = new DGApplication( args );
         schrodingerApplication.startApplication();
-        System.out.println( "SchrodingerApplication.main" );
+//        System.out.println( "SchrodingerApplication.main" );
     }
 
 }

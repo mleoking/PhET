@@ -216,8 +216,8 @@ public class Protractor extends PhetPNode {
         }
 
         public void update() {
-            System.out.println( "leftLeg.getAngle() = " + leftLeg.getAngle() );
-            System.out.println( "right.getAngle() = " + rightLeg.getAngle() );
+//            System.out.println( "leftLeg.getAngle() = " + leftLeg.getAngle() );
+//            System.out.println( "right.getAngle() = " + rightLeg.getAngle() );
             double arcDist = 30;
             Arc2D.Double arc = new Arc2D.Double( -arcDist, -arcDist, arcDist * 2, arcDist * 2, toDegrees( 0 ), toDegrees( 0 ), Arc2D.Double.OPEN );
 

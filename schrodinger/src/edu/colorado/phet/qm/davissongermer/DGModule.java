@@ -38,7 +38,6 @@ public class DGModule extends IntensityModule {
             public void potentialChanged() {
                 updatePotentialGraphics();
             }
-
         } );
         DGControlPanel intensityControlPanel = new DGControlPanel( this );
         setControlPanel( intensityControlPanel );
@@ -125,7 +124,7 @@ public class DGModule extends IntensityModule {
         protractor.setReadoutGraphicPickable( false );
         protractor.addListener( new Protractor.Listener() {
             public void angleChanged( Protractor protractor ) {
-                getPlotPanel().setIndicatorAngle( protractor.getDegreesSigned() );//todo watch out.
+                getPlotPanel().setIndicatorAngle( protractor.getDegreesUnsigned() );//todo is sign correct?
             }
 
             public void visibilityChanged( Protractor protractor ) {

@@ -7,6 +7,9 @@ Removed all controls on control panel below “Radius.”
 Changed the default value for “vertical position” to 0.35 units.
 Removed “show expectation value” options from options menu.
 Got rid of digits after decimal point on angle on protractor.
+Moved atom graphics to background.
+Changed protractor angle to read 0-180 on both sides.
+Made angle indicator appear on graph when opened, if the protractor is out.
 
 0.00.13 (6-28-2006)
 Increased the max particle velocity by a factor of 4.

@@ -35,6 +35,11 @@ public class DGPlotFrame extends JDialog {
         pack();
     }
 
+    public void setVisible( boolean b ) {
+        dgPlotPanel.visibilityChanged( b );
+        super.setVisible( b );
+    }
+
     static class DGPlotControlPanel extends HorizontalLayoutPanel {
         private SaveDGPanel saveDGPanel = new SaveDGPanel();
 
