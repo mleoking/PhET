@@ -33,7 +33,6 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
 
     private CategoryPanel categoryPanel;
     private InstalledSimsPane simulationPanel;
-//    private InstalledSimsPaneNew.SimPanel simulationPanel;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
 
     /**
@@ -41,7 +40,6 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
      */
     public InstalledSimsPaneNew() {
         super( JSplitPane.HORIZONTAL_SPLIT, true );
-//        super( JSplitPane.HORIZONTAL_SPLIT, null, null );
 
         categoryPanel = new CategoryPanel();
         simulationPanel = new InstalledSimsPane();
@@ -50,15 +48,6 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
         JPanel rightPanel = new JPanel();
         rightPanel.add( simulationPanel );
         setRightComponent( simulationPanel );
-
-//        setLayout( new GridBagLayout() );
-//        GridBagConstraints gbc = new  GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1,1,1,1,
-//                                                          GridBagConstraints.NORTH,
-//                                                          GridBagConstraints.NONE,
-//                                                          new Insets(0,0,0,0),0,0);
-//        add( categoryPanel, gbc );
-//        gbc.fill = GridBagConstraints.BOTH;
-//        add( simulationPanel, gbc );
 
     }
 

@@ -202,7 +202,8 @@ public abstract class Simulation implements SimContainer {
      *
      * @return true if the local version is current
      */
-    public boolean isCurrent() throws SimResourceException {
+    public boolean isCurrent() {
+//    public boolean isCurrent() throws SimResourceException {
         boolean isCurrent = true;
 
         for( int i = 0; i < resources.size(); i++ ) {

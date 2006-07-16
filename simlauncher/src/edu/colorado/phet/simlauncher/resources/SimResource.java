@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.MetaData;
+import edu.colorado.phet.simlauncher.Options;
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
@@ -23,6 +24,9 @@ import java.net.URL;
 
 /**
  * SimResource
+ * <p>
+ * A SimResource is *updatable* if there is a connection to the Phet site, the resource is not current,
+ * and the global UPDATE_ENABLED flag is true.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -35,7 +39,8 @@ public class SimResource {
 
     // Global flag that tells whether SimResources should check to see if they're current when they are
     // asked
-    private static boolean UPDATE_ENABLED = false;
+    private static boolean UPDATE_ENABLED = Options.instance().isCheckForUpdatesOnStartup();
+//    private static boolean UPDATE_ENABLED = false;
 
     public static boolean isUpdateEnabled() {
         return UPDATE_ENABLED;
@@ -73,12 +78,12 @@ public class SimResource {
     }
 
     protected boolean isUpdatable() {
-        try {
+//        try {
             return  UPDATE_ENABLED && isInstalled() && !isCurrent();
-        }
-        catch( SimResourceException e ) {
-            return false;
-        }
+//        }
+//        catch( SimResourceException e ) {
+//            return false;
+//        }
     }
 
 
@@ -110,10 +115,12 @@ public class SimResource {
      *
      * @return true if the local version of the resource is current
      */
-    public boolean isCurrent() throws SimResourceException {
+    public boolean isCurrent() /*throws SimResourceException*/ {
         if( !PhetSiteConnection.instance().isConnected() ) {
 //        if( !isRemoteAvailable() ) {
-            throw new SimResourceException( "Not online" );
+//            throw new SimResourceException( "Not online" );
+
+            return true;
         }
 
         // Get timestamp for remote

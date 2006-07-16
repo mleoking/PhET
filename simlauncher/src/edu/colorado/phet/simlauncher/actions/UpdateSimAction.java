@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.resources.SimResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ public class UpdateSimAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         Simulation sim = simContainer.getSimulation();
-        try {
+//        try {
             if( sim.isInstalled() ) {
                 if( !sim.isCurrent() ) {
                     update( sim );
@@ -46,10 +47,10 @@ public class UpdateSimAction extends AbstractAction {
                                                    "The simulation is already up to date.");
                 }
             }
-        }
-        catch( SimResourceException e1 ) {
-            e1.printStackTrace();
-        }
+//        }
+//        catch( SimResourceException e1 ) {
+//            e1.printStackTrace();
+//        }
     }
 
     /**
@@ -59,6 +60,8 @@ public class UpdateSimAction extends AbstractAction {
      * @param simulation
      */
     private void update( final Simulation simulation ) {
+        final boolean orgFlag = SimResource.isUpdateEnabled();
+        SimResource.setUpdateEnabled( true );
         Thread installerThread = new Thread( new Runnable() {
             public void run() {
                 try {
@@ -67,6 +70,7 @@ public class UpdateSimAction extends AbstractAction {
                 catch( SimResourceException e ) {
                     RemoteUnavaliableMessagePane.show( null );
                 }
+                SimResource.setUpdateEnabled( orgFlag );
                 hideWaitDialog();
             }
         } );

@@ -15,7 +15,6 @@ import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.TopLevelPane;
 import edu.colorado.phet.simlauncher.menus.menuitems.*;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
@@ -119,14 +118,14 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
                     updateCheckMI.setEnabled( true );
                 }
 
-                try {
+//                try {
                     if( sim.isInstalled() && !sim.isCurrent() ) {
                         updateMI.setEnabled( true );
                     }
-                }
-                catch( SimResourceException e ) {
-                    // if we can't connect to check for an update, don't enable the menu item
-                }
+//                }
+//                catch( SimResourceException e ) {
+//                    // if we can't connect to check for an update, don't enable the menu item
+//                }
 
                 if( !sim.isInstalled() ) {
                     installMI.setEnabled( true );
