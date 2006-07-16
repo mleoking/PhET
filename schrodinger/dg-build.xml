@@ -114,7 +114,7 @@
             <sftp action="mkdir"
                   remotedir="${dev-parent}"/>
             <sftp action="put" remotedir="${dev-parent}" verbose="true">
-                <fileset file="todo.txt"/>
+                <fileset file="dg-todo.txt"/>
                 <fileset file="dg-changes.txt"/>
             </sftp>
         </maverick-ssh>

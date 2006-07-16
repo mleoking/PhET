@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-//import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
 /**
  * User: Sam Reid
