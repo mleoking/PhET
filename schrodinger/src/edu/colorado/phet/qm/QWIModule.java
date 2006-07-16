@@ -80,12 +80,16 @@ public class QWIModule extends PiccoloModule {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        optionsMenu = new QWIOptionsMenu( this );
+        optionsMenu = createOptionsMenu();
         getQWIModel().getDoubleSlitPotential().addListener( new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {
                 getSchrodingerPanel().updateWaveGraphic();
             }
         } );
+    }
+
+    protected QWIOptionsMenu createOptionsMenu() {
+        return new QWIOptionsMenu( this );
     }
 
     public void activate() {

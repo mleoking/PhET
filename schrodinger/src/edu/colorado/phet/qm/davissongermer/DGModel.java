@@ -19,7 +19,7 @@ public class DGModel {
     private FractionalAtomLattice fractionalAtomLattice;
     private ConcreteAtomLattice concreteAtomLattice;
     private ArrayList listeners = new ArrayList();
-    private double defaultLatticeY0 = 0.25;
+    private double defaultLatticeY0 = 0.35;
 
     public DGModel( QWIModel QWIModel ) {
         this.QWIModel = QWIModel;

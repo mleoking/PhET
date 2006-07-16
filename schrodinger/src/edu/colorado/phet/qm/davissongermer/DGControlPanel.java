@@ -24,6 +24,7 @@ import java.io.IOException;
 
 public class DGControlPanel extends ControlPanel {
     private DGModule dgModule;
+    private boolean addExtraControls = false;
 
     public DGControlPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
@@ -38,7 +39,12 @@ public class DGControlPanel extends ControlPanel {
         } );
         addControl( plotCheckBox );
         addControlFullWidth( new AtomLatticeControlPanel( dgModule.getDGModel() ) );
+        if( addExtraControls ) {
+            addExtraControls( dgModule );
+        }
+    }
 
+    private void addExtraControls( DGModule dgModule ) {
         AbstractGunNode gun = dgModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
         if( gun instanceof DGGun ) {
             DGGun dgGun = (DGGun)gun;

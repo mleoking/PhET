@@ -2,6 +2,11 @@
 Got rid of “Gun Type” pull-down menu.
 Changed “Gun Controls” label to “Electron Gun Controls”
 Atoms have been replaced with graphics of spheres.
+Reduced range for velocity slider to 700km/s - 1840km/s.
+Removed all controls on control panel below “Radius.”
+Changed the default value for “vertical position” to 0.35 units.
+Removed “show expectation value” options from options menu.
+Got rid of digits after decimal point on angle on protractor.
 
 0.00.13 (6-28-2006)
 Increased the max particle velocity by a factor of 4.

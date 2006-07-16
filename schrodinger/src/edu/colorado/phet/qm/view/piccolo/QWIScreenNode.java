@@ -82,6 +82,7 @@ public class QWIScreenNode extends PNode {
     private String zoomoutText = "Zooming Out";
     private String zoominText = "Zooming In";
     private PNode detectorScreenGraphics;
+    private PNode potentialNode = new PNode();
 
     public QWIScreenNode( final QWIModule module, final QWIPanel QWIPanel ) {
         this.module = module;
@@ -123,6 +124,7 @@ public class QWIScreenNode extends PNode {
         addChild( detectorSheetPNode );
         addChild( wavefunctionGraphic );
         detectorScreenGraphics = new PNode();
+        addChild( potentialNode );
         addChild( detectorScreenGraphics );
         addChild( rulerGraphic );
         QWIPanel.addComponentListener( new ComponentAdapter() {
@@ -232,7 +234,7 @@ public class QWIScreenNode extends PNode {
 
     public void addRectangularPotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
         rectanglePotentialGraphics.add( rectangularPotentialGraphic );
-        addChild( rectangularPotentialGraphic );
+        potentialNode.addChild( rectangularPotentialGraphic );
     }
 
     public void clearPotential() {
@@ -381,7 +383,7 @@ public class QWIScreenNode extends PNode {
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        removeChild( rectangularPotentialGraphic );
+        potentialNode.removeChild( rectangularPotentialGraphic );
         rectanglePotentialGraphics.remove( rectangularPotentialGraphic );
     }
 
