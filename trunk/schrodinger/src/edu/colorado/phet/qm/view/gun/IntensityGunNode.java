@@ -83,6 +83,10 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         updateSliderColor();
     }
 
+    protected JComponent getGunControls() {
+        return gunControlPanel.getGunControls();
+    }
+
     protected void setOnOffTextVisible( boolean vis ) {
         onOffTextNode.setVisible( vis );
     }
@@ -212,5 +216,15 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
 
 //    public boolean isPhoton() {
 //        return currentBeam instanceof PhotonBeam;
+//    }
+
+//    public double getVelocityRealUnits() {
+//        if( getGunControls() instanceof SRRWavelengthSliderComponent ) {
+//            SRRWavelengthSliderComponent srrwsc = (SRRWavelengthSliderComponent)getGunControls();
+//            return srrwsc.getVelocityRealUnits();
+//        }
+//        else {
+//            throw new RuntimeException( "No velocity");
+//        }
 //    }
 }

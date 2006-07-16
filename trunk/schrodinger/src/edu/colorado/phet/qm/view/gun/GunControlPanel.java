@@ -44,6 +44,10 @@ public class GunControlPanel extends VerticalLayoutPanel {
         return titleLabel;
     }
 
+    public JComponent getGunControls() {
+        return gunControl;
+    }
+
     static class ShinyGunControlPanel extends ShinyPanel {
 
         public ShinyGunControlPanel( JComponent component ) {

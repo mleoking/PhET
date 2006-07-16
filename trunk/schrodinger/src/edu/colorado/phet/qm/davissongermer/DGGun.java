@@ -19,6 +19,7 @@ import java.awt.event.ItemListener;
 public class DGGun extends IntensityGunNode implements FireParticle {
     private DGParticle dgParticle;
     private FireButton fireOne;
+    private DGGunControlPanel dgGunControlPanel;
 
     public DGGun( QWIPanel QWIPanel ) {
         super( QWIPanel );
@@ -53,13 +54,13 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         if( fireOne == null ) {
             fireOne = new FireButton( this );
         }
-        GunControlPanel gunControlPanel = new DGGunControlPanel( getSchrodingerPanel() );
-        gunControlPanel.setFillNone();
-        gunControlPanel.add( fireOne );
-        gunControlPanel.setFillHorizontal();
-        gunControlPanel.add( getIntensitySlider() );//todo unprotect data
-        gunControlPanel.add( getAlwaysOnCheckBox() );//todo unprotect data
-        return gunControlPanel;
+        dgGunControlPanel = new DGGunControlPanel( getSchrodingerPanel() );
+        dgGunControlPanel.setFillNone();
+        dgGunControlPanel.add( fireOne );
+        dgGunControlPanel.setFillHorizontal();
+        dgGunControlPanel.add( getIntensitySlider() );//todo unprotect data
+        dgGunControlPanel.add( getAlwaysOnCheckBox() );//todo unprotect data
+        return dgGunControlPanel;
     }
 
     public void fireParticle() {
@@ -69,4 +70,9 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         dgParticle.setIntensityScale( intensityScale );
         notifyFireListeners();
     }
+
+//    public double getVelocityRealUnits() {
+//        return dgGunControlPanel.getVelocityRealUnits();
+//    }
+
 }

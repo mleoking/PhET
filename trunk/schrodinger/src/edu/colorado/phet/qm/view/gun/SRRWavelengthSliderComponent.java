@@ -50,4 +50,5 @@ public class SRRWavelengthSliderComponent extends PCanvas {
         super.setOpaque( isOpaque );
         wavelengthSliderGraphic.setOpaque( isOpaque );
     }
+
 }

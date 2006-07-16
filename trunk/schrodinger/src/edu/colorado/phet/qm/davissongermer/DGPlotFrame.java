@@ -48,9 +48,13 @@ public class DGPlotFrame extends JDialog {
             saveButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     double sliderFraction = dgPlotFrame.dgModule.getDGSchrodingerPanel().getDGGunGraphic().getDgParticle().getSliderFraction();
-                    double val = sliderFraction * 2.0 / 3.0 + 2.0 / 3.0;
+                    double scale = 2.0 / 3.0;
+//                    double val = sliderFraction * scale+ scale;
+                    double val = ( sliderFraction + 1 ) * scale;
                     DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
-                    String text = decimalFormat.format( val ) + "*v";
+//                    String text = decimalFormat.format( val ) + "*v";
+                    double velocity = dgPlotFrame.dgModule.getVelocityRealUnits();//
+                    String text = "v=" + new DecimalFormat( "0" ).format( velocity );
                     saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame(), text );
                 }
             } );
