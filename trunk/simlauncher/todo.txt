@@ -17,6 +17,7 @@ Bugs
 ========
 Features
 ========
+- finish populating the catalog
 - Set up so the program itself checks for its own updates.
 - Include catalog in distribution, to reduce first-time startup on slow connections.
 - Make update checks more configurable so that performance isn't impaired on slow connections. Make
