@@ -20,19 +20,18 @@ Bugs
 ========
 Features
 ========
-- add categories to Installed Simulations pane
 - Set up so the program itself checks for its own updates.
 - Include catalog in distribution, to reduce first-time startup on slow connections.
 - Make update checks more configurable so that performance isn't impaired on slow connections. Make
 	options persistent.
 
-
+- Rename InstalledSimsPane.new
+- Consolidate InstalledSimsPane and CatalogPane.SimPane
 - Make Simulation and SimResource instances of Updatable.
 - "Check all for updates", don't check for updates by default
     - override update for SimResource subclasses
 
 - Update check daemon
-- Categories for installed sims, and an associate option
 - Update check for program itself
 - Descriptions
 - deployment
@@ -79,7 +78,6 @@ Deployment
 - Display abstracts - installing description needs to be debugged
 
 - Add a way to get activities from the database for a simulation
-- Categories for installed simulations
 - Don't want to sort by update date. This would require too much network overhead every time you start the app.
 - Putting up a table that can be sorted by different columns would look odd when a simulation belongs to several different categories
 
@@ -88,11 +86,13 @@ Testing
 =======
 - Test update check for all SimResource types
 - Do extensive offline testing
-
+- add categories to Installed Simulations pane
 
 =======
 0.00.07
 =======
+- Installed Simulations pane has a category list
+- Put "All Simulations" at the top of the category lists
 - Add startup message that tells the user what's going on when the catalog is first being set up, as
 	this can take some time if you're not on a pretty fast connection.
 - make clicking on an item in the catalog select/deselect check box.
