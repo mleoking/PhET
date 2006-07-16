@@ -27,6 +27,9 @@ import java.net.URL;
  * <p>
  * A SimResource is *updatable* if there is a connection to the Phet site, the resource is not current,
  * and the global UPDATE_ENABLED flag is true.
+ * <p>
+ * The SimResource will report that it is current if there is no connection to the Phet site or UPDATE_ENABLED
+ * is false.
  *
  * @author Ron LeMaster
  * @version $Revision$

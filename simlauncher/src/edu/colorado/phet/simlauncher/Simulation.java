@@ -257,6 +257,17 @@ public abstract class Simulation implements SimContainer {
         changeEventChannel.removeListener( listener );
     }
 
+    /**
+     * Enables the UPDATE_ENABLED flag, and notifies listeners that the simulation has an update available.
+     * The flag is set so that the SimTable will show an icon. This is only a stopgap way of doing it.
+     */
+    public void setUpdateAvailable() {
+        boolean orgFlag = SimResource.isUpdateEnabled();
+        SimResource.setUpdateEnabled( true );
+        this.changeListenerProxy.updateAvailable( new ChangeEvent( this ) );
+        SimResource.setUpdateEnabled( orgFlag );
+    }
+
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Simulation source ) {
             super( source );
@@ -289,5 +300,7 @@ public abstract class Simulation implements SimContainer {
         void uninstalled( ChangeEvent event );
 
         void updated( ChangeEvent event );
+
+        void updateAvailable( ChangeEvent event );
     }
 }
