@@ -43,7 +43,6 @@ public class SimLauncher {
                 centerFrame( (JFrame)e.getComponent() );
             }
         } );
-
         frame.setContentPane( TopLevelPane.getInstance() );
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();

@@ -24,7 +24,7 @@ public class SimLauncherMenuBar extends JMenuBar {
         add( new FileMenu() );
         add( new SimulationMenu() );
 //        add( new SimulationsViewMenu() );
-//        add( new OptionsMenu() );
+        add( new OptionsMenu() );
         add( new HelpMenu() );
     }
 }
