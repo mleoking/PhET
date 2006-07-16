@@ -7,12 +7,20 @@ Put on main page:
 
 •	 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  (note that at low resolution, 1 grid point = 0.1nm)
 •	 “Atom radius.”  Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
-•	The protractor looks a lot like the commercial protractor.
-    >>This doesn’t look problematic to me; also I’m not sure what I would change.
+
+FYI, you probably already know this, but in case you don't, to convert 
+the units you are currently using for radius and separation to nm, all 
+you need to do is multiply them by 45.
 
 •	When you save a snapshot on the graph, the legend should be labeled with both the velocity and the spacing in real units.
 
 Needs Spanish.
+
+The protractor being off center is more problematic, and I don't 
+understand why this can't be fixed easily.
+
+•	The protractor looks a lot like the commercial protractor.
+    >>This doesn’t look problematic to me; also I’m not sure what I would change.
 
 ############################################
 # Low Priority

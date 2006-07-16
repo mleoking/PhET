@@ -181,7 +181,8 @@ public class Protractor extends PhetPNode {
         }
 
         public void update() {
-            String string = numberFormat.format( getDegreesSigned() );
+//            String string = numberFormat.format( getDegreesSigned() );
+            String string = numberFormat.format( getDegreesUnsigned() );
             text.setText( string + getDegreeString() );
         }
 

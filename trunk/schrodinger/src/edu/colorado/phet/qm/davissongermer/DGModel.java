@@ -20,6 +20,9 @@ public class DGModel {
     private ConcreteAtomLattice concreteAtomLattice;
     private ArrayList listeners = new ArrayList();
     private double defaultLatticeY0 = 0.35;
+//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS = 0.15 * ( 0.6 / 6.75 );
+//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.6/45.0;
+    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.15;
 
     public DGModel( QWIModel QWIModel ) {
         this.QWIModel = QWIModel;
@@ -39,8 +42,8 @@ public class DGModel {
     }
 
     private FractionalAtomLattice createAtomLattice( boolean circular ) {
-        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
-               new SquareAtomLattice( 0.05, 0.15, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
+               new SquareAtomLattice( 0.05, DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     public Wavefunction getWavefunction() {
