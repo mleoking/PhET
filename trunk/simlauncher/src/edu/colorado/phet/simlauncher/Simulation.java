@@ -48,6 +48,7 @@ public abstract class Simulation implements SimContainer {
     private List resources = new ArrayList();
     private File lastLaunchedTimestampFile;
     private File localRoot;
+    private boolean updateAvailable;
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
@@ -131,7 +132,7 @@ public abstract class Simulation implements SimContainer {
         thumbnailResource.download();
 //        descriptionResource.download();
 
-        System.out.println( "Simulation.install" );
+        setUpdateAvailable( false );
         changeListenerProxy.installed( new ChangeEvent( this ) );
     }
 
@@ -230,6 +231,7 @@ public abstract class Simulation implements SimContainer {
             resource.uninstall();
             resource.download();
         }
+        setUpdateAvailable( false );
         changeListenerProxy.updated( new ChangeEvent( this ) );
     }
 
@@ -261,11 +263,16 @@ public abstract class Simulation implements SimContainer {
      * Enables the UPDATE_ENABLED flag, and notifies listeners that the simulation has an update available.
      * The flag is set so that the SimTable will show an icon. This is only a stopgap way of doing it.
      */
-    public void setUpdateAvailable() {
+    public void setUpdateAvailable( boolean isAvailable ) {
+        updateAvailable = isAvailable;
         boolean orgFlag = SimResource.isUpdateEnabled();
         SimResource.setUpdateEnabled( true );
         this.changeListenerProxy.updateAvailable( new ChangeEvent( this ) );
         SimResource.setUpdateEnabled( orgFlag );
+    }
+
+    public boolean isUpdateAvailable() {
+        return updateAvailable;
     }
 
     public class ChangeEvent extends EventObject {

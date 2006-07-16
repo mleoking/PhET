@@ -19,8 +19,8 @@ Bugs
 ========
 Features
 ========
+- When you select on an up-to-date sim, the menus will show an enabled Update option 
 - When multiple sims are installed, exceptions are thrown
-- When a sim checks for an available update, flag should appear in table if there is one available.
 - When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
     row with the data for the simulation should get updated.
 - check where UPDATE_ENABLED is checked. It isn't named properly
@@ -96,11 +96,15 @@ Testing
 =======
 0.00.07
 =======
+- Added catagory list to the istalled sims panel
+- Added "Update Options" menu so users can tell the launcher whether to check for updates on startup or not, and
+    the user can ask to have all installed sims checked for updates.
+- Options are persistent
 - Installed Simulations pane has a category list
 - Put "All Simulations" at the top of the category lists
 - Add startup message that tells the user what's going on when the catalog is first being set up, as
 	this can take some time if you're not on a pretty fast connection.
-- make clicking on an item in the catalog select/deselect check box.
+- Made clicking on an item in the catalog select/deselect check box.
 
 
 =======
