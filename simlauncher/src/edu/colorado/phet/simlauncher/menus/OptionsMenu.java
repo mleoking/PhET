@@ -32,6 +32,6 @@ class OptionsMenu extends JMenu {
 
         JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
         add(checkAllForUpdates );
-        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction());
+        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));
     }
 }

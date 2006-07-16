@@ -53,7 +53,7 @@ public class CheckForUpdateSimAction extends AbstractAction {
             else if( !sim.isCurrent() ) {
                 result = UPDATE_AVAILABLE;
                 showResult( "An update is available" );
-                sim.setUpdateAvailable();
+                sim.setUpdateAvailable( true);
             }
             else {
                 result = NO_UPDATE_AVAILABLE;
