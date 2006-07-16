@@ -1,0 +1,20 @@
+############################################
+# Remaining Work
+########################
+Put on main page:
+•	Title “Davisson-Germer: Electron Diffraction.”
+•	Blurb for web page: “Simulate the original experiment that proved that electrons can behave as waves.  Watch electrons diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of probability.”
+
+•	 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  (note that at low resolution, 1 grid point = 0.1nm)
+•	 “Atom radius.”  Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
+•	The protractor looks a lot like the commercial protractor.
+    >>This doesn’t look problematic to me; also I’m not sure what I would change.
+
+•	When you save a snapshot on the graph, the legend should be labeled with both the velocity and the spacing in real units.
+
+Needs Spanish.
+
+############################################
+# Low Priority
+########################
+Protractor no longer looks centered on lead atom (off by 1 grid cell or so).  I couldn’t fix this easily.
