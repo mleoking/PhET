@@ -186,8 +186,10 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             columns.add( SimTable.IS_UP_TO_DATE );
             simTable = new SimTable( simListA,
                                      simTableSortType,
-                                     ListSelectionModel.MULTIPLE_INTERVAL_SELECTION,
+                                     ListSelectionModel.SINGLE_SELECTION,
                                      columns );
+
+            // Add a mouse handler to the table
             simTable.addMouseListener( new MouseHandler() );
 
             simTableScrollPane = new JScrollPane( simTable );
@@ -227,7 +229,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         //--------------------------------------------------------------------------------------------------
 
         /**
-         * Handles enabling/disabling the intall button, double clicks for installing and right clicks
+         * Handles enabling/disabling the intall button, checking and unchecking the check box, and right clicks
          * popping up a context menu
          */
         private class MouseHandler extends MouseAdapter {
@@ -268,6 +270,15 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
                 // Notify change listeners
                 changeEventChannel.notifyChangeListeners( CatalogPane.this );
+            }
+        }
+
+        private class SelectionFlipper extends MouseAdapter {
+            public void mouseClicked( MouseEvent e ) {
+                simTable.getSelection();
+                int selectedRow = simTable.getSelectedRow();
+                boolean oldValue = ( (Boolean)simTable.getValueAt( selectedRow, 0 ) ).booleanValue();
+                simTable.setValueAt( new Boolean( !oldValue ), selectedRow, 0 );
             }
         }
     }

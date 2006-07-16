@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
@@ -28,7 +30,9 @@ import java.util.List;
 /**
  * SimulationTable
  * <p/>
- * A JTable for displaying simulations
+ * A JTable for displaying simulations.
+ * <p>
+ * The table can have a check box in one of the columns that acts as the selector, from the user's point of view.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -78,7 +82,6 @@ public class SimTable extends JTable implements SimContainer {
 
     // Icons for table entries
     private static ImageIcon isInstalledIcon;
-//    private
     private static ImageIcon updateAvailableIcon;
 
     static {
@@ -92,7 +95,6 @@ public class SimTable extends JTable implements SimContainer {
             e.printStackTrace();
         }
         isInstalledIcon = new ImageIcon( checkMarkImg );
-//        ImageIcon emptyIcon = new ImageIcon()
         updateAvailableIcon = new ImageIcon( exclamationMarkImg );
     }
 
@@ -100,8 +102,10 @@ public class SimTable extends JTable implements SimContainer {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    List columns;
-    boolean[] simSelections;
+    private List columns;
+//    private boolean[] simSelections;
+    private int checkBoxColumnIndex = -1;
+    private int nameColumnIndex = -1;
 
     /**
      * @param sims
@@ -112,7 +116,7 @@ public class SimTable extends JTable implements SimContainer {
     public SimTable( List sims, SimComparator sortType, int listSelectionModel, List columns ) {
 
         this.columns = columns;
-        simSelections = new boolean[sims.size()];
+//        simSelections = new boolean[sims.size()];
 
         // Set the selection mode to be row only
         setColumnSelectionAllowed( false );
@@ -139,8 +143,16 @@ public class SimTable extends JTable implements SimContainer {
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
             if( column == SELECTION_CHECKBOX ) {
+                this.checkBoxColumnIndex = i;
                 this.getColumnModel().getColumn( i ).setCellRenderer( new CheckBoxRenderer() );
                 this.getColumnModel().getColumn( i ).setCellEditor( new CheckBoxEditor() );
+
+                // Add a mouse listener that will flip the checkbox when a row is clicked on
+                addMouseListener( new CheckBoxSelectionFlipper() );
+            }
+
+            if( column == NAME ) {
+                nameColumnIndex = i;
             }
         }
 
@@ -230,24 +242,12 @@ public class SimTable extends JTable implements SimContainer {
         if( isVisible() ) {
             int idx = getSelectedRow();
             if( idx >= 0 ) {
-                String simName = (String)this.getValueAt( idx, getNameColumnIndex() );
+                String simName = (String)this.getValueAt( idx, nameColumnIndex );
                 sim = Simulation.getSimulationForName( simName );
             }
         }
         return sim;
     }
-
-    private int getNameColumnIndex() {
-        // Get the index of the column that has the name
-        int nameColumnIndex = -1;
-        for( int i = 0; i < columns.size(); i++ ) {
-            if( (Column)columns.get( i ) == NAME ) {
-                nameColumnIndex = i;
-            }
-        }
-        return nameColumnIndex;
-    }
-
 
     /**
      * Returns the currently selected simulations.
@@ -256,16 +256,7 @@ public class SimTable extends JTable implements SimContainer {
      */
     public Simulation[] getSelections() {
         List selectedSims = new ArrayList();
-        int nameColumIndex = getNameColumnIndex();
-
-        // Get the column that has the check boxes
-        int checkBoxColumnIndex = -1;
-        for( int i = 0; i < columns.size(); i++ ) {
-            Column column = (Column)columns.get( i );
-            if( column == SELECTION_CHECKBOX ) {
-                checkBoxColumnIndex = i;
-            }
-        }
+        int nameColumIndex = nameColumnIndex;
 
         // We build the list of selected simulations differently depending on whether there is a
         // column of checkboxes or not
@@ -451,4 +442,13 @@ public class SimTable extends JTable implements SimContainer {
         return getSelections();
     }
 
+    private class CheckBoxSelectionFlipper extends MouseAdapter {
+        public void mouseClicked( MouseEvent e ) {
+            if( getSelectedColumn() != checkBoxColumnIndex ) {
+                int selectedRow = getSelectedRow();
+                boolean oldValue = ( (Boolean)getValueAt( selectedRow, checkBoxColumnIndex ) ).booleanValue();
+                setValueAt( new Boolean( !oldValue ), selectedRow, checkBoxColumnIndex );
+            }
+        }
+    }
 }

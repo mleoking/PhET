@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.common.application.AWTSplashWindow;
+import edu.colorado.phet.common.application.SplashWindow;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
 
 import javax.swing.*;
@@ -26,13 +26,14 @@ import java.awt.event.ComponentEvent;
  */
 public class SimLauncher {
 
-    AWTSplashWindow splashWindow;
+    SplashWindow splashWindow;
     Frame splashWindowOwner;
 
     /**
      * Private constructor. The only instance created is created by main()
      */
     private SimLauncher() {
+        showSplashWindow( "PhET Simulation Launcher" );
 
         JFrame frame = new JFrame( "PhET Simulation Launcher" );
 
@@ -48,6 +49,8 @@ public class SimLauncher {
         frame.pack();
         frame.setVisible( true );
 
+        disposeSplashWindow();
+
         // Display any startup notices the user should see
         startupNotices( frame );
 
@@ -61,12 +64,12 @@ public class SimLauncher {
         if( splashWindow == null ) {
             // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
             splashWindowOwner = new Frame();
-            splashWindow = new AWTSplashWindow( splashWindowOwner, title );
+            splashWindow = new SplashWindow( splashWindowOwner, title );
             splashWindow.show();
         }
     }
 
-    public AWTSplashWindow getSplashWindow() {
+    public SplashWindow getSplashWindow() {
         return splashWindow;
     }
 
