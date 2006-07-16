@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * User: Sam Reid
@@ -18,5 +19,8 @@ public class DGScreenNode extends QWIScreenNode {
 
     protected WavefunctionGraphic createWavefunctionGraphic() {
         return new DGWavefunctionGraphic( getDiscreteModel(), super.getQWIModel().getWavefunction() );
+    }
+
+    protected void showZoom( final PImage child, String text ) {
     }
 }

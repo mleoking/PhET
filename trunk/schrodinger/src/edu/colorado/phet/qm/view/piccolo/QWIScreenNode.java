@@ -458,12 +458,12 @@ resolution, and a quarter as many times for high resolution.*/
         }
     }
 
-    private void showZoomOut() {
+    protected void showZoomOut() {
         final PImage child = PImageFactory.create( "images/glassMinus.gif" );
         showZoom( child, zoomoutText );
     }
 
-    private void showZoom( final PImage child, String text ) {
+    protected void showZoom( final PImage child, String text ) {
         final Timer timer = new Timer( 0, null );
         timer.setInitialDelay( 3000 );
         ActionListener listener = new ActionListener() {

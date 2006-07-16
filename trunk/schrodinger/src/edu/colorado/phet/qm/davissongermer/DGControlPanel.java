@@ -13,6 +13,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /**
@@ -42,6 +44,11 @@ public class DGControlPanel extends ControlPanel {
         if( addExtraControls ) {
             addExtraControls( dgModule );
         }
+        dgModule.getPlotFrame().addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                plotCheckBox.setSelected( false );
+            }
+        } );
     }
 
     private void addExtraControls( DGModule dgModule ) {
