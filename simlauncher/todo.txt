@@ -20,8 +20,14 @@ Bugs
 ========
 Features
 ========
-- Make Simulation and SimResource instances of Updatable.
+- add categories to Installed Simulations pane
+- Set up so the program itself checks for its own updates.
+- Include catalog in distribution, to reduce first-time startup on slow connections.
+- Make update checks more configurable so that performance isn't impaired on slow connections. Make
+	options persistent.
 
+
+- Make Simulation and SimResource instances of Updatable.
 - "Check all for updates", don't check for updates by default
     - override update for SimResource subclasses
 
@@ -83,13 +89,13 @@ Testing
 - Test update check for all SimResource types
 - Do extensive offline testing
 
-================
-Done not posted
-================
-- build for java 1.4
-- Icons in "Is Installed?" and "Udate Available?" columns
-- Check boxes next to each row in catalog
 
+=======
+0.00.07
+=======
+- Add startup message that tells the user what's going on when the catalog is first being set up, as
+	this can take some time if you're not on a pretty fast connection.
+- make clicking on an item in the catalog select/deselect check box.
 
 
 =======

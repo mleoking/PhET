@@ -35,7 +35,7 @@ public class SimResource {
 
     // Global flag that tells whether SimResources should check to see if they're current when they are
     // asked
-    private static boolean UPDATE_ENABLED = true;
+    private static boolean UPDATE_ENABLED = false;
 
     public static boolean isUpdateEnabled() {
         return UPDATE_ENABLED;
