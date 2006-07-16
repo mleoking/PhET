@@ -19,6 +19,7 @@ Bugs
 ========
 Features
 ========
+- When multiple sims are installed, exceptions are thrown
 - When a sim checks for an available update, flag should appear in table if there is one available.
 - When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
     row with the data for the simulation should get updated.

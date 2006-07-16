@@ -29,7 +29,8 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Catalog.ChangeListener {
+public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
+                                                                Catalog.ChangeListener {
 
     private CategoryPanel categoryPanel;
     private InstalledSimsPane simulationPanel;
@@ -43,6 +44,11 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
 
         categoryPanel = new CategoryPanel();
         simulationPanel = new InstalledSimsPane();
+        simulationPanel.addChangeListener( new InstalledSimsPane.ChangeListener() {
+            public void stateChanged( InstalledSimsPane.ChangeEvent event ) {
+                changeEventChannel.notifyChangeListeners( simulationPanel );
+            }
+        } );
 
         setLeftComponent( categoryPanel );
         JPanel rightPanel = new JPanel();
@@ -80,9 +86,9 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
             Category allSims = new Category( "All simulations", Catalog.instance().getAllSimulations() );
-            ArrayList categories = new ArrayList( );
+            ArrayList categories = new ArrayList();
             categories.add( allSims );
-            categories.addAll( Catalog.instance().getCategories());
+            categories.addAll( Catalog.instance().getCategories() );
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
             categoryJList.setSelectedValue( allSims, true );
             add( categoryJList, BorderLayout.CENTER );
@@ -99,9 +105,9 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer, Ca
                         simListA = new ArrayList( category.getSimulations() );
                     }
                     java.util.List installedSims = Catalog.instance().getInstalledSimulations();
-                    for( int i =simListA.size()-1; i >= 0; i-- ) {
+                    for( int i = simListA.size() - 1; i >= 0; i-- ) {
                         Object o = simListA.get( i );
-                        if( !installedSims.contains( o )) {
+                        if( !installedSims.contains( o ) ) {
                             simListA.remove( o );
                         }
                     }

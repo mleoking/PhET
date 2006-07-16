@@ -57,8 +57,6 @@ public class InstallSimAction extends AbstractAction {
                 catch( SimResourceException e ) {
                     RemoteUnavaliableMessagePane.show( null );
                 }
-
-                System.out.println( "InstallSimAction.run" );
                 hideWaitDialog();
             }
         } );
