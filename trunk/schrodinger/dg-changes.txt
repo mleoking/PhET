@@ -1,4 +1,4 @@
-0.00.14
+0.00.14 (7-16-2006)
 Got rid of “Gun Type” pull-down menu.
 Changed “Gun Controls” label to “Electron Gun Controls”
 Atoms have been replaced with graphics of spheres.

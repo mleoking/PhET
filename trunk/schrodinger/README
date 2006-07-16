@@ -8,7 +8,7 @@
 <body>
 <br>
 Click to launch the simulation:
-<p><a href="schrodinger.jnlp"><img alt="Screenshot" src="screenshot.gif" style="border: 2px solid ;"></a>
+<p><a href="dg.jnlp"><img alt="Screenshot" src="dg-thumb.gif" style="border: 2px solid ;"></a>
 </p>
 <a href="dg-changes.txt">List of Changes</a><br>
 <a href="dg-todo.txt">Remaining Work</a><br>

@@ -100,8 +100,6 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="${ant.jars}/dg-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
-                <fileset file="screenshot.gif"/>
-                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -116,6 +114,8 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="dg-todo.txt"/>
                 <fileset file="dg-changes.txt"/>
+                <fileset file="dg-thumb.gif"/>
+                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>
