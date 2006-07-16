@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
 import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
-import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * InstalledSimsPane
@@ -35,7 +37,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private SimTable simTable;
     private SimTable.SimComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
     private JScrollPane simTableScrollPane;
-    private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
     private JButton launchBtn;
     private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
                                                                   GridBagConstraints.CENTER,
@@ -103,14 +106,14 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     /**
      *
      */
-    public void addChangeListener( ChangeEventChannel.ChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
     /**
      *
      */
-    public void removeChangeListener( ChangeEventChannel.ChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 
@@ -187,10 +190,23 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     //--------------------------------------------------------------------------------------------------
     // Implementation of Catalog.ChangeListener
     //--------------------------------------------------------------------------------------------------
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public InstalledSimsPane getInstalledSimsPane() {
+            return (InstalledSimsPane)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged( ChangeEvent event );
+    }
 
     public void catalogChanged( Catalog.ChangeEvent event ) {
         updateSimTable();
-        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+        changeListenerProxy.stateChanged( new ChangeEvent( this ));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -220,7 +236,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
 
             // Notify change listeners
-            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ));
         }
 
         // Required to get e.isPopupTrigger() to return true on right-click
@@ -234,7 +250,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
 
             // Notify change listeners
-            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ));
         }
     }
 }
