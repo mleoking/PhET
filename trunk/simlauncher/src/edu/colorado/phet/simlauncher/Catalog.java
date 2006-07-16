@@ -23,7 +23,7 @@ import java.util.List;
  * Catalog
  * <p/>
  * A catalog of all the available simulations. It also keeps lists of the simulations that are
- * installed and not installed. 
+ * installed. 
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -62,9 +62,8 @@ public class Catalog implements Simulation.ChangeListener {
         // If the catalog isn't installed yet, go get it. If we're not connected to the Phet site, we'll get
         // a SimResourceException, which means we can't get the catalog
         try {
-            if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
+            if( !catalogResource.isInstalled() || (Options.instance().isCheckForUpdatesOnStartup() && !catalogResource.isCurrent() )) {
                 System.out.println( "Catalog.Catalog" );
-                System.out.println( "catalogResource.isCurrent() = " + catalogResource.isCurrent() );
                 catalogResource.download();
             }
         }

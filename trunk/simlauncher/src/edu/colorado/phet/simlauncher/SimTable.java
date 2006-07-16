@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.resources.SimResource;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.util.TableSorter;
 
 import javax.swing.*;
@@ -217,14 +216,14 @@ public class SimTable extends JTable implements SimContainer {
                     row[j] = sim.isInstalled() ? isInstalledIcon : null;
                 }
                 else if( columns.get( j ) == IS_UP_TO_DATE ) {
-                    try {
-                        if( connected ) {
+//                    try {
+                        if( SimResource.isUpdateEnabled() && connected ) {
                             row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
                         }
-                    }
-                    catch( SimResourceException e ) {
-                        e.printStackTrace();
-                    }
+//                    }
+//                    catch( SimResourceException e ) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
             rowData[i] = row;

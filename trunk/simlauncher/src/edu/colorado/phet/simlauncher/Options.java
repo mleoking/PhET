@@ -145,6 +145,8 @@ public class Options {
 
     public void setCheckForUpdatesOnStartup( boolean checkForUpdatesOnStartup ) {
         this.checkForUpdatesOnStartup = checkForUpdatesOnStartup;
+        optionsChanged = true;
+        notifyListeners();
     }
 
     public void notifyListeners() {

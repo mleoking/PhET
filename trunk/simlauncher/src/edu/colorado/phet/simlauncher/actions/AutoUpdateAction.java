@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
+import edu.colorado.phet.simlauncher.Options;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,9 +31,6 @@ public class AutoUpdateAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         JCheckBoxMenuItem jcbmi = (JCheckBoxMenuItem)e.getSource();
-        if( jcbmi.isSelected() ) {
-            JOptionPane.showMessageDialog( parent, "Updates for all simulations will be checked for\n"
-                                                   + "each time the launcher is started" );
-        }
+        Options.instance().setCheckForUpdatesOnStartup( jcbmi.isSelected() );
     }
 }

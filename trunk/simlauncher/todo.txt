@@ -1,6 +1,7 @@
 ====
 Bugs
 ====
+- Figure out why John Travoltage bug occured
 - screen turds behind tabs
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
 - If connected to net, the app always checks for updates on startup
