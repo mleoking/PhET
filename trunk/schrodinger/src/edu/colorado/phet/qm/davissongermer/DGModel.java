@@ -22,7 +22,8 @@ public class DGModel {
     private double defaultLatticeY0 = 0.35;
 //    private static final double DEFAULT_SPACING_BETWEEN_ATOMS = 0.15 * ( 0.6 / 6.75 );
 //    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.6/45.0;
-    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.15;
+//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.15*0.6/0.675;
+    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 2.0 / 15.0;
 
     public DGModel( QWIModel QWIModel ) {
         this.QWIModel = QWIModel;
