@@ -50,6 +50,7 @@ public class DGPlotPanel extends PSwingCanvas {
         chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity", dataset, PlotOrientation.VERTICAL, true, false, false );
         chart.getXYPlot().getDomainAxis().setRange( 0, 90 );
         chart.getXYPlot().getRangeAxis().setRange( 0, 0.1 );
+        chart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChartNode = new JFreeChartNode( chart );
         jFreeChartNode.setBounds( 0, 0, width, height );
         setPreferredSize( new Dimension( width, height ) );
