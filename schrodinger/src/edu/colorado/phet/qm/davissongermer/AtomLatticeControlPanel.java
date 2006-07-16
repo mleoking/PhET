@@ -22,7 +22,7 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
 
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
-        spacing = new ModelSlider( "Spacing", "units", 0, 1, dgModel.getFractionalSpacing() );
+        spacing = new ModelSlider( "Atom Separation", "nm", 0, 1, dgModel.getFractionalSpacing() );
         spacing.setModelTicks( new double[]{0, 0.5, 1.0} );
         spacing.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -30,7 +30,7 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        radius = new ModelSlider( "Radius", "units", 0, 0.1, dgModel.getFractionalRadius() );
+        radius = new ModelSlider( "Atom Radius", "nm", 0, 0.1, dgModel.getFractionalRadius() );
         radius.setModelTicks( new double[]{0, 0.05, 0.1} );
         radius.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
