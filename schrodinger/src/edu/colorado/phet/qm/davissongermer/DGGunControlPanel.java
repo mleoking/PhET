@@ -15,4 +15,8 @@ public class DGGunControlPanel extends GunControlPanel {
         super( schrodingerPanel );
         getTitleLabel().setText( "Electron Gun Controls" );
     }
+
+//    public double getVelocityRealUnits() {
+//        return getGr;
+//    }
 }

@@ -186,4 +186,12 @@ public class DGModule extends IntensityModule {
     protected QWIOptionsMenu createOptionsMenu() {
         return new DGOptionsMenu( this );
     }
+
+//    public double getVelocityRealUnits() {
+//        return getDGGun().getVelocityRealUnits();
+//    }
+
+    private DGGun getDGGun() {
+        return getDGSchrodingerPanel().getDGGunGraphic();
+    }
 }
