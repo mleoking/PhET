@@ -148,8 +148,6 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     public URL getPhetUrl() {
         if( phetUrl == null ) {
-//            phetUrl = DEFAULT_CATALOG_URL;
-//            phetUrl = DEFAULT_PHET_ROOT_DIR_URL_STRING;
             phetUrl = DEFAULT_PHET_URL;
         }
         return phetUrl;

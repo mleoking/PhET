@@ -77,7 +77,6 @@ public class TopLevelPane extends JTabbedPane {
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setActiveSimContainer( (SimContainer)getSelectedComponent() );
-                System.out.println( "getActiveSimContainer() = " + getActiveSimContainer() );
                 activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( TopLevelPane.this ) );
             }
         } );

@@ -1,16 +1,13 @@
 ====
 Bugs
 ====
+- screen turds behind tabs
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
 - If connected to net, the app always checks for updates on startup
-
 - figure out why metadata for jar == null for Band Structures, and check is needed. See Simulation.uninstall()
 - put timeout on install
-
 - Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
-
 - Clearing the cache doesn't update the installed and available sims lists
-
 - three state sorting of columns is not a good thing
 
 - Make SetThumbnailsEnabled action
@@ -86,7 +83,6 @@ Testing
 =======
 - Test update check for all SimResource types
 - Do extensive offline testing
-- add categories to Installed Simulations pane
 
 =======
 0.00.07
