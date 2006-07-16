@@ -12,6 +12,14 @@ FYI, you probably already know this, but in case you don't, to convert
 the units you are currently using for radius and separation to nm, all 
 you need to do is multiply them by 45.
 
+The present units are fractional; so for atom separation:
+Current range 0-1
+proposed range: 0.4nm to 1.2nm
+divide by 45:
+0.008 to 0.026
+maybe you meant divide by 4.5?
+
+
 •	When you save a snapshot on the graph, the legend should be labeled with both the velocity and the spacing in real units.
 
 Needs Spanish.

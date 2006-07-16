@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -20,13 +21,19 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
     private ModelSlider y0;
     private DGModel dgModel;
 
+    /*
+        •	 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  
+        (note that at low resolution, 1 grid point = 0.1nm)
+        •	 “Atom radius.”  Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
+     */
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
-        spacing = new ModelSlider( "Atom Separation", "nm", 0, 1, dgModel.getFractionalSpacing() );
-        spacing.setModelTicks( new double[]{0, 0.5, 1.0} );
+        final double scale = dgModel.getWavefunction().getWidth() / 10.0;
+        spacing = new ModelSlider( "Atom Separation", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
+        spacing.setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
         spacing.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalSpacing( spacing.getValue() );
+                dgModel.setFractionalSpacing( spacing.getValue() / scale );
             }
         } );
 
