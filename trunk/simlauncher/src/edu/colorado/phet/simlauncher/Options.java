@@ -12,12 +12,12 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.beans.XMLDecoder;
-import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Properties;
 
 /**
  * Options
@@ -48,37 +48,24 @@ public class Options {
         // If there is a stored set of options, create the singleton from it. Otherwise, just
         // create a new instance
         if( Configuration.instance().getOptionsFile().exists() ) {
-            try {
-                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream(
-                        new FileInputStream( Configuration.instance().getOptionsFile() ) ) );
-
-                // MyClass is declared in e7 Serializing a Bean to XML
-                instance = (Options)decoder.readObject();
-                decoder.close();
-            }
-            catch( FileNotFoundException e ) {
-            }
-            catch( Exception e ) {
-            }
-        }
-        else {
             instance = new Options();
+            instance.load();
         }
     }
 
+    // Keys for the properties file
+    private static String KEY_SHOW_INSTALLED_THUMBNAILS = "showInstalledThumbnails";
+    private static String KEY_SHOW_CATALOG_THUMBNAILS = "showCatalogThumbnails";
+    private static String KEY_CHECK_FOR_UPDATES_ON_STARTUP = "checkForUpdatesOnStartup";
+
+        
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
+
+
     private boolean showInstalledThumbnails = true;
     private boolean showCatalogThumbnails = false;
-
-    public boolean isCheckForUpdatesOnStartup() {
-        return checkForUpdatesOnStartup;
-    }
-
-    public void setCheckForUpdatesOnStartup( boolean checkForUpdatesOnStartup ) {
-        this.checkForUpdatesOnStartup = checkForUpdatesOnStartup;
-    }
 
     private boolean checkForUpdatesOnStartup = true;
     private boolean optionsChanged;
@@ -91,18 +78,27 @@ public class Options {
     }
 
     public void save() {
-//        try {
-//            // Serialize object into XML
-//            XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream(
-//                    new FileOutputStream( Configuration.instance().getOptionsFile() ) ) );
-//            encoder.writeObject( this );
-//            encoder.close();
-//        }
-//        catch( FileNotFoundException e ) {
-//        }
-//        catch( Exception e ) {
-//            System.out.println( "Options.save" );
-//        }
+        Properties properties = new Properties();
+        properties.setProperty( KEY_SHOW_INSTALLED_THUMBNAILS, Boolean.toString( showInstalledThumbnails ) );
+        properties.setProperty( KEY_SHOW_CATALOG_THUMBNAILS, Boolean.toString( showCatalogThumbnails ) );
+        properties.setProperty( KEY_CHECK_FOR_UPDATES_ON_STARTUP, Boolean.toString( checkForUpdatesOnStartup ) );
+        try {
+            properties.store( new FileOutputStream( Configuration.instance().getOptionsFile() ), null );
+        }
+        catch( IOException e ) {
+        }
+    }
+
+    public void load() {
+        Properties properties = new Properties();
+        try {
+            properties.load( new FileInputStream( Configuration.instance().getOptionsFile() ) );
+        }
+        catch( IOException e ) {
+        }
+        showInstalledThumbnails = new Boolean((String)properties.get( KEY_SHOW_INSTALLED_THUMBNAILS )).booleanValue();
+        showCatalogThumbnails  = new Boolean((String)properties.get( KEY_SHOW_CATALOG_THUMBNAILS )).booleanValue();
+        checkForUpdatesOnStartup  = new Boolean((String)properties.get( KEY_CHECK_FOR_UPDATES_ON_STARTUP )).booleanValue();
     }
 
     public boolean isShowInstalledThumbnails() {
@@ -112,8 +108,6 @@ public class Options {
     public void setShowInstalledThumbnails( boolean showInstalledThumbnails ) {
         setShowInstalledThumbnailsNoUpdate( showInstalledThumbnails );
         notifyListeners();
-
-        // todo: ?Options changed?
     }
 
     public void setShowInstalledThumbnailsNoUpdate( boolean showInstalledThumbnails ) {
@@ -145,6 +139,14 @@ public class Options {
         notifyListeners();
     }
 
+    public boolean isCheckForUpdatesOnStartup() {
+        return checkForUpdatesOnStartup;
+    }
+
+    public void setCheckForUpdatesOnStartup( boolean checkForUpdatesOnStartup ) {
+        this.checkForUpdatesOnStartup = checkForUpdatesOnStartup;
+    }
+
     public void notifyListeners() {
         if( optionsChanged ) {
             save();
@@ -152,6 +154,7 @@ public class Options {
             optionsChanged = false;
         }
     }
+
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
