@@ -101,7 +101,7 @@
                 <fileset file="${ant.jars}/dg-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <fileset file="screenshot.gif"/>
-                <fileset file="build/dg/README"/>
+                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -113,7 +113,7 @@
                       version="2">
             <sftp action="mkdir"
                   remotedir="${dev-parent}"/>
-            <sftp action="put" remotedir="${dev-parent}" verbose="true">
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="dg-todo.txt"/>
                 <fileset file="dg-changes.txt"/>
             </sftp>
