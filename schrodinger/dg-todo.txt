@@ -5,30 +5,11 @@ Put on main page:
 •	Title “Davisson-Germer: Electron Diffraction.”
 •	Blurb for web page: “Simulate the original experiment that proved that electrons can behave as waves.  Watch electrons diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of probability.”
 
-•	 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  (note that at low resolution, 1 grid point = 0.1nm)
-•	 “Atom radius.”  Range should be from 0.05nm to 0.25nm, in increments of 0.05nm.  Default value should be 0.1nm.
-
-FYI, you probably already know this, but in case you don't, to convert 
-the units you are currently using for radius and separation to nm, all 
-you need to do is multiply them by 45.
-
-The present units are fractional; so for atom separation:
-Current range 0-1
-proposed range: 0.4nm to 1.2nm
-divide by 45:
-0.008 to 0.026
-maybe you meant divide by 4.5?
-
-
 •	When you save a snapshot on the graph, the legend should be labeled with both the velocity and the spacing in real units.
 
 Needs Spanish.
 
-The protractor being off center is more problematic, and I don't 
-understand why this can't be fixed easily.
-
-•	The protractor looks a lot like the commercial protractor.
-    >>This doesn’t look problematic to me; also I’m not sure what I would change.
+The protractor being off center is more problematic, and I don't understand why this can't be fixed easily.
 
 ############################################
 # Low Priority

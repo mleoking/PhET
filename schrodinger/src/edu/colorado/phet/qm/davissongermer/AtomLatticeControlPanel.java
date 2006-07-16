@@ -37,11 +37,11 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        radius = new ModelSlider( "Atom Radius", "nm", 0, 0.1, dgModel.getFractionalRadius() );
-        radius.setModelTicks( new double[]{0, 0.05, 0.1} );
+        radius = new ModelSlider( "Atom Radius", "nm", 0.05, 0.25, dgModel.getFractionalRadius() * scale );
+        radius.setModelTicks( new double[]{0.05, ( 0.5 + 0.25 ) / 2.0, 0.25} );
         radius.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalRadius( radius.getValue() );
+                dgModel.setFractionalRadius( radius.getValue() / scale );
             }
         } );
 
