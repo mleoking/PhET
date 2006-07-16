@@ -53,11 +53,13 @@ public class CheckForUpdateSimAction extends AbstractAction {
             else if( !sim.isCurrent() ) {
                 result = UPDATE_AVAILABLE;
                 showResult( "An update is available" );
+                sim.setUpdateAvailable();
             }
             else {
                 result = NO_UPDATE_AVAILABLE;
                 showResult( "The installed simulation is current" );
             }
+
 //        }
 //        catch( SimResourceException e1 ) {
 //            e1.printStackTrace();

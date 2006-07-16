@@ -1,6 +1,7 @@
 ====
 Bugs
 ====
+- MetaData must update its properties when appropriate
 - Figure out why John Travoltage bug occured
 - screen turds behind tabs
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
@@ -18,6 +19,11 @@ Bugs
 ========
 Features
 ========
+- When a sim checks for an available update, flag should appear in table if there is one available.
+- When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
+    row with the data for the simulation should get updated.
+- check where UPDATE_ENABLED is checked. It isn't named properly
+
 - finish populating the catalog
 - Set up so the program itself checks for its own updates.
 - Include catalog in distribution, to reduce first-time startup on slow connections.

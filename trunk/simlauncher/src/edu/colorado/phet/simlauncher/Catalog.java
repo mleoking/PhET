@@ -23,7 +23,7 @@ import java.util.List;
  * Catalog
  * <p/>
  * A catalog of all the available simulations. It also keeps lists of the simulations that are
- * installed. 
+ * installed.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -151,6 +151,10 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     public void updated( Simulation.ChangeEvent event ) {
+        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
+    }
+
+    public void updateAvailable( Simulation.ChangeEvent event ) {
         changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
