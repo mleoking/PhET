@@ -30,7 +30,7 @@ class OptionsMenu extends JMenu {
         autoUpdateOption.addActionListener( new AutoUpdateAction( this ) );
         autoUpdateOption.setSelected( Options.instance().isCheckForUpdatesOnStartup() );
 
-        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates");
+        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
         add(checkAllForUpdates );
         checkAllForUpdates.addActionListener( new CheckAllForUpdateAction());
     }
