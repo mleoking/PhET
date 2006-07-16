@@ -60,8 +60,7 @@ public abstract class FractionalAtomLattice {
     }
 
     private int getConcreteY0( int latticeHeight ) {
-        int concreteY0 = (int)( y0 * latticeHeight );
-        return concreteY0;
+        return (int)( y0 * latticeHeight );
     }
 
     public Point getCenterAtomConcretePoint( int latticeWidth, int latticeHeight ) {

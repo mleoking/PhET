@@ -16,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -36,6 +38,7 @@ public class DGPlotPanel extends PSwingCanvas {
     private IndicatorGraphic indicatorGraphic;
     private JFreeChart chart;
     private DGIntensityReader intensityReader;
+    private double indicatorAngle;
 
     public DGPlotPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
@@ -60,6 +63,34 @@ public class DGPlotPanel extends PSwingCanvas {
         } ).start();
         indicatorGraphic = new IndicatorGraphic();
         getLayer().addChild( indicatorGraphic );
+        addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                updateIndicator();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                updateIndicator();
+            }
+        } );
+    }
+
+    protected void updateIndicator() {
+        Point2D top = jFreeChartNode.plotToNode( new Point2D.Double( indicatorAngle, chart.getXYPlot().getRangeAxis().getUpperBound() ) );
+        Point2D bottom = jFreeChartNode.plotToNode( new Point2D.Double( indicatorAngle, chart.getXYPlot().getRangeAxis().getLowerBound() ) );
+        double height = top.getY() - bottom.getY();
+        if( !indicatorGraphic.getOffset().equals( bottom ) || indicatorGraphic.getIndicatorHeight() != height ) {
+            indicatorGraphic.setOffset( bottom );
+            indicatorGraphic.setIndicatorHeight( height );
+//        jFreeChartNode.setVisible( false );
+            paintImmediately( 0, 0, getWidth(), getHeight() );
+            repaint( 0, 0, getWidth(), getHeight() );
+        }
     }
 
     public void setEdgeIntensityReader() {
@@ -74,18 +105,12 @@ public class DGPlotPanel extends PSwingCanvas {
 
     public void setIndicatorVisible( boolean visible ) {
         indicatorGraphic.setVisible( visible );
+        updateIndicator();
     }
 
     public void setIndicatorAngle( double angle ) {
-        Point2D pt = jFreeChartNode.plotToNode( new Point2D.Double( angle, chart.getXYPlot().getRangeAxis().getUpperBound() ) );
-        Point2D bottom = jFreeChartNode.plotToNode( new Point2D.Double( angle, chart.getXYPlot().getRangeAxis().getLowerBound() ) );
-        indicatorGraphic.setOffset( bottom );
-        indicatorGraphic.setIndicatorHeight( pt.getY() - bottom.getY() );
-//        jFreeChartNode.setVisible( false );
-        paintImmediately( 0, 0, getWidth(), getHeight() );
-        repaint( 0, 0, getWidth(), getHeight() );
-//        repaint();
-//        indicatorGraphic.repaint();
+        this.indicatorAngle = angle;
+        updateIndicator();
     }
 
     public boolean isIntensityReaderEdge() {
@@ -118,8 +143,13 @@ public class DGPlotPanel extends PSwingCanvas {
         dataset.addSeries( series );
     }
 
+    public void visibilityChanged( boolean b ) {
+        updateIndicator();
+    }
+
     class IndicatorGraphic extends PhetPNode {
         private PPath path;
+        private double height;
 
         public IndicatorGraphic() {
             path = new PPath();
@@ -128,11 +158,17 @@ public class DGPlotPanel extends PSwingCanvas {
         }
 
         public void setIndicatorHeight( double height ) {
+            this.height = height;
             path.setPathTo( new Line2D.Double( 0, 0, 0, height ) );
+        }
+
+        public double getIndicatorHeight() {
+            return height;
         }
     }
 
     public void replotAll() {
+        updateIndicator();
         series.clear();
         double dAngle = 1;
         for( double angle = 0; angle <= 90; angle += dAngle ) {
