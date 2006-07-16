@@ -56,11 +56,12 @@ public class TopLevelPane extends JTabbedPane {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private InstalledSimsPane installedSimsPane;
+    private InstalledSimsPaneNew installedSimsPane;
+//    private InstalledSimsPane installedSimsPane;
     private CatalogPane catalogPane;
 
     private TopLevelPane() {
-        installedSimsPane = new InstalledSimsPane();
+        installedSimsPane = new InstalledSimsPaneNew();
         addTab( "Installed Simulations", installedSimsPane );
 
         // Listen for changes in the connection to the PhET site, to know whether the online
@@ -144,10 +145,14 @@ public class TopLevelPane extends JTabbedPane {
         activeSimContainer = simContainer;
     }
 
-    public InstalledSimsPane getInstalledSimsPane() {
+    public InstalledSimsPaneNew getInstalledSimsPane() {
         return installedSimsPane;
     }
 
+//    public InstalledSimsPane getInstalledSimsPane() {
+//        return installedSimsPane;
+//    }
+//
     public CatalogPane getUninstalledSimsPane() {
         return catalogPane;
     }

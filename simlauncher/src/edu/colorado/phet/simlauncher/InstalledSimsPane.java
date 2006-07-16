@@ -117,7 +117,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     /**
      * Creates the SimTable
      */
-    private void updateSimTable() {
+    public void updateSimTable( java.util.List simList ) {
         if( simTable != null ) {
             simTableScrollPane.remove( simTable );
             remove( simTableScrollPane );
@@ -129,7 +129,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             columns.add( SimTable.THUMBNAIL );
         }
         columns.add( SimTable.IS_UP_TO_DATE );
-        simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
+        simTable = new SimTable( simList,
                                  simTableSortType,
                                  ListSelectionModel.SINGLE_SELECTION,
                                  columns );
@@ -147,6 +147,41 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // new one doesn't
         revalidate();
         repaint();
+    }
+
+    public void updateSimTable() {
+        updateSimTable( Catalog.instance().getInstalledSimulations() );
+
+//    private void updateSimTable() {
+//        if( simTable != null ) {
+//            simTableScrollPane.remove( simTable );
+//            remove( simTableScrollPane );
+//        }
+//
+//        ArrayList columns = new ArrayList();
+//        columns.add( SimTable.NAME );
+//        if( Options.instance().isShowInstalledThumbnails() ) {
+//            columns.add( SimTable.THUMBNAIL );
+//        }
+//        columns.add( SimTable.IS_UP_TO_DATE );
+//        simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
+//                                 simTableSortType,
+//                                 ListSelectionModel.SINGLE_SELECTION,
+//                                 columns );
+//
+//        // Add mouse handler
+//        simTable.addMouseListener( new MouseHandler() );
+//
+//        simTableScrollPane = new JScrollPane( simTable );
+//        add( simTableScrollPane, tableGbc );
+//
+//        // Disable the lauch button. Since the table is new, there can't be any simulation selected
+//        launchBtn.setEnabled( false );
+//
+//        // This is required to get rid of screen turds if the old table had a scrollbar and the
+//        // new one doesn't
+//        revalidate();
+//        repaint();
     }
 
     //--------------------------------------------------------------------------------------------------

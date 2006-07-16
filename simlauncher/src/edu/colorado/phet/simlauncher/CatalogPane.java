@@ -80,9 +80,10 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
-            List categories = Catalog.instance().getCategories();
             Category allSims = new Category( "All simulations", Catalog.instance().getAllSimulations() );
+            ArrayList categories = new ArrayList( );
             categories.add( allSims );
+            categories.addAll( Catalog.instance().getCategories());
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
             categoryJList.setSelectedValue( allSims, true );
             add( categoryJList, BorderLayout.CENTER );
