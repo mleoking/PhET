@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.qm.QWIOptionsMenu;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
@@ -124,7 +125,7 @@ public class DGModule extends IntensityModule {
         protractor.setReadoutGraphicPickable( false );
         protractor.addListener( new Protractor.Listener() {
             public void angleChanged( Protractor protractor ) {
-                getPlotPanel().setIndicatorAngle( protractor.getDegrees() );
+                getPlotPanel().setIndicatorAngle( protractor.getDegreesSigned() );//todo watch out.
             }
 
             public void visibilityChanged( Protractor protractor ) {
@@ -183,4 +184,7 @@ public class DGModule extends IntensityModule {
         return (DGSchrodingerPanel)getSchrodingerPanel();
     }
 
+    protected QWIOptionsMenu createOptionsMenu() {
+        return new DGOptionsMenu( this );
+    }
 }

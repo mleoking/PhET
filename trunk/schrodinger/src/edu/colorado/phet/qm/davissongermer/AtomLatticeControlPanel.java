@@ -47,6 +47,6 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( spacing );
         addFullWidth( radius );
-        addFullWidth( y0 );
+//        addFullWidth( y0 );
     }
 }

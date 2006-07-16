@@ -156,7 +156,8 @@ public class Protractor extends PhetPNode {
 
     class ReadoutGraphic extends PNode {
 
-        private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0.00" );
+//        private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0.00" );
+        private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0" );
         private PText text;
 
         public ReadoutGraphic() {
@@ -180,18 +181,28 @@ public class Protractor extends PhetPNode {
         }
 
         public void update() {
-            String string = numberFormat.format( getDegrees() );
+            String string = numberFormat.format( getDegreesSigned() );
             text.setText( string + getDegreeString() );
         }
 
         private String getDegreeString() {
             return "\u00B0";
         }
-
     }
 
-    public double getDegrees() {
-        return 360 / Math.PI / 2.0 * Protractor.this.getAngle();
+    public double getDegreesUnsigned() {
+        return Math.abs( getDegreesSigned() );
+    }
+
+    public double getDegreesSigned() {
+        double degreeValue = 360 / Math.PI / 2.0 * getAngle();
+        if( degreeValue >= 180 && degreeValue <= 270 ) {
+            degreeValue = -( 360 - degreeValue );
+        }
+        else if( degreeValue < 0 ) {
+//            degreeValue = Math.abs( degreeValue );
+        }
+        return degreeValue;
     }
 
     class ArcGraphic extends PNode {
@@ -209,8 +220,15 @@ public class Protractor extends PhetPNode {
             System.out.println( "right.getAngle() = " + rightLeg.getAngle() );
             double arcDist = 30;
             Arc2D.Double arc = new Arc2D.Double( -arcDist, -arcDist, arcDist * 2, arcDist * 2, toDegrees( 0 ), toDegrees( 0 ), Arc2D.Double.OPEN );
-            arc.setAngles( Vector2D.Double.parseAngleAndMagnitude( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() ),
-                           Vector2D.Double.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() ) );
+
+            Point2D p1 = Vector2D.Double.parseAngleAndMagnitude( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p2 = Vector2D.Double.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
+            if( getDegreesSigned() >= 0 ) {
+                arc.setAngles( p1, p2 );
+            }
+            else {
+                arc.setAngles( p2, p1 );
+            }
             path.setPathTo( arc );
         }
     }

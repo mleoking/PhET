@@ -26,6 +26,8 @@ public class QWIOptionsMenu extends JMenu {
     private JDialog dialog;
     private JDialog propagatorControlFrame;
     private boolean debug = false;
+    private JCheckBoxMenuItem expectationValueXItem;
+    private JCheckBoxMenuItem expectationValueYItem;
 
     public QWIOptionsMenu( final QWIModule qwiModule ) {
         super( "Options" );
@@ -33,21 +35,21 @@ public class QWIOptionsMenu extends JMenu {
         this.qwiModule = qwiModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 
-        final JCheckBoxMenuItem x = new JCheckBoxMenuItem( "Show Expectation Value <X>" );
-        x.addActionListener( new ActionListener() {
+        expectationValueXItem = new JCheckBoxMenuItem( "Show Expectation Value <X>" );
+        expectationValueXItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
+                getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( expectationValueXItem.isSelected() );
             }
         } );
-        add( x );
+        add( expectationValueXItem );
 
-        final JCheckBoxMenuItem y = new JCheckBoxMenuItem( "Show Expectation Value <Y>" );
-        y.addActionListener( new ActionListener() {
+        expectationValueYItem = new JCheckBoxMenuItem( "Show Expectation Value <Y>" );
+        expectationValueYItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );
+                getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( expectationValueYItem.isSelected() );
             }
         } );
-        add( y );
+        add( expectationValueYItem );
 
         JMenuItem item = new JMenuItem( "Resolution" );
         final ResolutionControl resolutionControl = new ResolutionControl( qwiModule );
@@ -135,6 +137,11 @@ public class QWIOptionsMenu extends JMenu {
             }
         }
         return text;
+    }
+
+    public void removeExpectationValueItems() {
+        remove( expectationValueXItem );
+        remove( expectationValueYItem );
     }
 
     private QWIPanel getSchrodingerPanel() {
