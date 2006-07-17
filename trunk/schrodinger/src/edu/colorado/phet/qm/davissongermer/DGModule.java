@@ -194,4 +194,12 @@ public class DGModule extends IntensityModule {
     private DGGun getDGGun() {
         return getDGSchrodingerPanel().getDGGunGraphic();
     }
+
+    public double getVelocityRealUnits() {
+        return getDGParticle().getVelocity() * 100;
+    }
+
+    public double getSpacing() {
+        return dgModel.getFractionalSpacing() * dgModel.getWavefunction().getWidth() / 10.0;
+    }
 }

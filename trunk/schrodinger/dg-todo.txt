@@ -5,8 +5,6 @@ Put on main page:
 •	Title “Davisson-Germer: Electron Diffraction.”
 •	Blurb for web page: “Simulate the original experiment that proved that electrons can behave as waves.  Watch electrons diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of probability.”
 
-•	When you save a snapshot on the graph, the legend should be labeled with both the velocity and the spacing in real units.
-
 Needs Spanish.
 
 The protractor being off center is more problematic, and I don't understand why this can't be fixed easily.

@@ -53,8 +53,9 @@ public class DGPlotFrame extends JDialog {
                     double val = ( sliderFraction + 1 ) * scale;
                     DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 //                    String text = decimalFormat.format( val ) + "*v";
-                    double velocity = dgPlotFrame.dgModule.getVelocityRealUnits();//
-                    String text = "v=" + new DecimalFormat( "0" ).format( velocity );
+                    double velocity = dgPlotFrame.dgModule.getVelocityRealUnits();
+                    System.out.println( "velocity = " + velocity );
+                    String text = "speed: " + new DecimalFormat( "0" ).format( velocity ) + " km/s, spacing: " + new DecimalFormat( "0.00" ).format( dgPlotFrame.dgModule.getSpacing() ) + " nm";
                     saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame(), text );
                 }
             } );

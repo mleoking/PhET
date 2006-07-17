@@ -111,7 +111,7 @@ public class DefaultGunParticle extends GunParticle {
         return -getVelocity() * getParticleMass() * 45.0 / getDiscreteModel().getGridHeight();
     }
 
-    private double getVelocity() {
+    public double getVelocity() {
         return new Function.LinearFunction( 0, 1000, getMinVelocity(), getMaxVelocity() ).evaluate( velocitySlider.getValue() );
     }
 
