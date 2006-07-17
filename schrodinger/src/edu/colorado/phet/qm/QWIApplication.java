@@ -6,7 +6,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.TabbedModulePane;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
@@ -38,7 +37,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     private IntensityModule intensityModule;
 
     public QWIApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
+        super( args, TITLE, DESCRIPTION, VERSION, new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
@@ -88,25 +87,6 @@ public class QWIApplication extends PiccoloPhetApplication {
         public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
             super( application, modules );
         }
-    }
-
-    private static FrameSetup createFrameSetup() {
-//        return new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
-//        return new FrameSetup.CenteredWithSize( 900, 680 );
-        return new FrameSetup() {
-            public void initialize( JFrame frame ) {
-//                int width = 900;
-                int width = 912;
-//                int height = 704;
-                int height = 732;
-                Toolkit tk = Toolkit.getDefaultToolkit();
-                Dimension d = tk.getScreenSize();
-                int x = ( d.width - width ) / 2;
-                int y = 0;
-                frame.setLocation( x, y );
-                frame.setSize( width, height );
-            }
-        };
     }
 
     public static void main( final String[] args ) {

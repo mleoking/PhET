@@ -27,12 +27,6 @@ from "Atom Separation" to "Atom Separation (D)."  This will also help
 students connect what they're seeing on the sim to the equations in
 their book.
 
-The gray in the control panel is too boring.  Can you change it to the
-same color you're using for the control panel in the latest version of QWI?
-
-If it's easy, it would also be nice to make the simulation a little 
-smaller, the way it is in QWI, to get rid of all the empty space.
-
 This is a very minor point, but when I open Help->About, the entire
 blurb is on one line, so the dialog box is very wide.  If this is easy
 to fix, fix it.  If not, leave it.
