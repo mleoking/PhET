@@ -28,6 +28,14 @@ import java.awt.event.ComponentEvent;
  */
 public class SimLauncher {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+    private final static String VERSION = "0.00";
+    public static String getVersion() {
+        return VERSION;
+    }
+
     SplashWindow splashWindow;
     Frame splashWindowOwner;
 
@@ -35,7 +43,6 @@ public class SimLauncher {
      * Private constructor. The only instance created is created by main()
      */
     private SimLauncher() {
-
         showSplashWindow( "PhET Simulation Launcher" );
 
         JFrame frame = new JFrame( "PhET Simulation Launcher" );

@@ -36,7 +36,12 @@ public class InstalledSimPopupMenu extends JPopupMenu {
         add( new SimLaunchMenuItem( simulation ) );
 //        add( new SimDescriptionMenuItem( simulation ) );
         add( new SimUpdateCheckMenuItem( simulation, PhetSiteConnection.instance() ) );
-        add( new SimUpdateMenuItem( simulation, PhetSiteConnection.instance() ) );
+        SimUpdateMenuItem simUpdateMI = new SimUpdateMenuItem( simulation, PhetSiteConnection.instance() );
+        add( simUpdateMI );
         add( new SimUninstallMenuItem( simulation ) );
+
+        simUpdateMI.setEnabled( simulation.isInstalled() && simulation.isUpdateAvailable() );
+
+
     }
 }
