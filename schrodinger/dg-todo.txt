@@ -7,8 +7,6 @@ Put on main page:
 
 Needs Spanish.
 
-The protractor being off center is more problematic, and I don't understand why this can't be fixed easily.
-
 ############################################
 # Low Priority
 ########################
