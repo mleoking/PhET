@@ -29,7 +29,7 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
         final double scale = dgModel.getWavefunction().getWidth() / 10.0;
-        spacing = new ModelSlider( "Atom Separation", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
+        spacing = new ModelSlider( "Atom Separation (D)", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
         spacing.setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
         spacing.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
