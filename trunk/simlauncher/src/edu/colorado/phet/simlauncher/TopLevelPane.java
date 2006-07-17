@@ -80,6 +80,8 @@ public class TopLevelPane extends JTabbedPane {
                 activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( TopLevelPane.this ) );
             }
         } );
+        //without setOpaque(true), bits of junk show through the back buffer. -SRR
+        setOpaque( true );
     }
 
     public void setSelectedComponent( Component c ) {

@@ -11,6 +11,8 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.application.SplashWindow;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
 
 import javax.swing.*;
@@ -33,6 +35,7 @@ public class SimLauncher {
      * Private constructor. The only instance created is created by main()
      */
     private SimLauncher() {
+
         showSplashWindow( "PhET Simulation Launcher" );
 
         JFrame frame = new JFrame( "PhET Simulation Launcher" );
@@ -46,6 +49,7 @@ public class SimLauncher {
         frame.setContentPane( TopLevelPane.getInstance() );
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
+        new FrameSetup.CenteredWithSize( 800, 600 ).initialize( frame );
         frame.setVisible( true );
 
         disposeSplashWindow();
@@ -144,6 +148,13 @@ public class SimLauncher {
 
     public static void main( String[] args ) {
         parseArgs( args );
+
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        Font font = phetLookAndFeel.getTabFont();
+        Font newFont = new Font( font.getName(), font.getStyle(),  font.getSize() - 4);
+        phetLookAndFeel.setTabFont( newFont );
+        phetLookAndFeel.initLookAndFeel();
+
         new SimLauncher();
     }
 }
