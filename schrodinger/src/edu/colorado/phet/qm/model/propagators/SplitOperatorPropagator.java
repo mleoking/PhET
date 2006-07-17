@@ -58,7 +58,7 @@ public class SplitOperatorPropagator extends Propagator {
         JFrame controls = new JFrame( "SOM controls" );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, scale, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, scale, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScale( modelSlider.getValue() );
