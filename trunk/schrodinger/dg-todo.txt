@@ -7,6 +7,46 @@ Put on main page:
 
 Needs Spanish.
 
+One thing that is problematic is that right now the spacing and
+separation sliders can be set to a very fine grain of resolution, but
+this fine grain doesn't actually appear in the play area, which is very
+confusing.  The slider for radius can be increased in increments of
+0.01, but the actual radius increases only in units of 0.1.  And there
+are basically only two settings for radius - 0.1 and 0.2.  Is there a
+reason that the diameter of the atoms has to be an even number of grid
+points?  If you could make it an odd number instead (as it is for
+circular atoms in the old version), then you could have three settings
+for radius, 0.05, 0.15, and 0.25, and you could make the layout
+symmetric about the center, which it isn't right now.  In any case, both
+the spacing and the separation should snap to the values that are
+actually allowed by the grid, and not be able to be set to any
+intermediate values.
+
+Also, the labels on the graph are better, but they take up too much
+space.  Can you put the labels on two lines, as in the following:
+v=1270km/s
+D=0.6nm
+To make it clear what D is, change the label for the separation slider
+from "Atom Separation" to "Atom Separation (D)."  This will also help
+students connect what they're seeing on the sim to the equations in
+their book.
+
+The gray in the control panel is too boring.  Can you change it to the
+same color you're using for the control panel in the latest version of QWI?
+
+If it's easy, it would also be nice to make the simulation a little 
+smaller, the way it is in QWI, to get rid of all the empty space.
+
+This is a very minor point, but when I open Help->About, the entire
+blurb is on one line, so the dialog box is very wide.  If this is easy
+to fix, fix it.  If not, leave it.
+
+Finally, I still have a lot of problems with the text in the control
+area disappearing because the sim is working so hard.  I thought I
+remembered Chris saying you guys had figured out a way to solve this
+problem.  If this is easy to fix, please do so.  If not, just make a
+note of it and don't worry about it.
+
 ############################################
 # Low Priority
 ########################
