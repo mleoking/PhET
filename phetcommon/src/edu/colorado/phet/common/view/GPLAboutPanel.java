@@ -123,7 +123,8 @@ public class GPLAboutPanel extends JPanel {
         jScrollPane.setPreferredSize( new Dimension( 600, 400 ) );
         panel.add( jScrollPane, BorderLayout.SOUTH );
 
-        String text = "This program and all its components are licensed under the GNU GPL.\nThe source code is available via anonymous CVS from Sourceforge.\nPlease see http://sourceforge.net/projects/phet/";
+        String text = "This program and all its components are licensed under the GNU GPL.\n" +
+                      "The source code is available at http://sourceforge.net/projects/phet/";
         JTextArea north = new JTextArea( text );
         north.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         north.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
