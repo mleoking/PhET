@@ -79,7 +79,7 @@ public abstract class FractionalAtomLattice {
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
         int spacing = (int)( spacingBetweenAtoms * latticeWidth );
-        return Math.max( 2 * getConcreteAtomDiameter( latticeWidth, latticeHeight ), spacing );
+        return Math.max( getConcreteAtomDiameter( latticeWidth, latticeHeight ), spacing );
     }
 
     private int getConcreteAtomDiameter( int latticeWidth, int latticeHeight ) {

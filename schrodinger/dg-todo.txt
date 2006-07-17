@@ -18,15 +18,6 @@ the spacing and the separation should snap to the values that are
 actually allowed by the grid, and not be able to be set to any
 intermediate values.
 
-Also, the labels on the graph are better, but they take up too much
-space.  Can you put the labels on two lines, as in the following:
-v=1270km/s
-D=0.6nm
-To make it clear what D is, change the label for the separation slider
-from "Atom Separation" to "Atom Separation (D)."  This will also help
-students connect what they're seeing on the sim to the equations in
-their book.
-
 ############################################
 # Low Priority
 ########################
@@ -34,3 +25,5 @@ Protractor no longer looks centered on lead atom (off by 1 grid cell or so).  I 
 
 Sliders in control panel should move in correct increments, especially for atom size: readout is continuous, but there are only 3 or so discrete sizes.
     Difficult, maybe not worth it right now.
+    
+Multiline legend labels?
