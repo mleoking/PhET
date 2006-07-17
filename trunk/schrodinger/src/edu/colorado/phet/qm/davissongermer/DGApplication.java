@@ -6,6 +6,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.qm.QWIFrameSetup;
@@ -35,11 +36,10 @@ public class DGApplication extends PiccoloPhetApplication {
     }
 
     protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
-        return new PhetFrame( phetApplication );
+        return new PhetFrameWorkaround( phetApplication );
     }
 
     class MyTabbedModulePane extends TabbedModulePane {
-
         public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
             super( application, modules );
         }

@@ -27,16 +27,6 @@ from "Atom Separation" to "Atom Separation (D)."  This will also help
 students connect what they're seeing on the sim to the equations in
 their book.
 
-This is a very minor point, but when I open Help->About, the entire
-blurb is on one line, so the dialog box is very wide.  If this is easy
-to fix, fix it.  If not, leave it.
-
-Finally, I still have a lot of problems with the text in the control
-area disappearing because the sim is working so hard.  I thought I
-remembered Chris saying you guys had figured out a way to solve this
-problem.  If this is easy to fix, please do so.  If not, just make a
-note of it and don't worry about it.
-
 ############################################
 # Low Priority
 ########################
