@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,7 +31,7 @@ import java.util.List;
  * SimulationTable
  * <p/>
  * A JTable for displaying simulations.
- * <p>
+ * <p/>
  * The table can have a check box in one of the columns that acts as the selector, from the user's point of view.
  *
  * @author Ron LeMaster
@@ -44,6 +45,9 @@ public class SimTable extends JTable implements SimContainer {
 
     public static SimComparator NAME_SORT = new NameComparator();
     public static SimComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
+    private SimTableModel simTableModel;
+    // The comparator for the default sort type
+    private SimComparator sortType;
 
     /**
      * An enumeration class that is used to specify which columns are to be displayed in the table
@@ -105,6 +109,9 @@ public class SimTable extends JTable implements SimContainer {
 //    private boolean[] simSelections;
     private int checkBoxColumnIndex = -1;
     private int nameColumnIndex = -1;
+    private int simUpToDateColumnIndex = -1;
+    private int simIsInstalledColumnIndex = -1;
+    private Simulation.ChangeListener simListener = new SimListener();
 
     /**
      * @param sims
@@ -115,6 +122,7 @@ public class SimTable extends JTable implements SimContainer {
     public SimTable( List sims, SimComparator sortType, int listSelectionModel, List columns ) {
 
         this.columns = columns;
+        this.sortType = sortType;
 //        simSelections = new boolean[sims.size()];
 
         // Set the selection mode to be row only
@@ -123,7 +131,7 @@ public class SimTable extends JTable implements SimContainer {
         setSelectionMode( listSelectionModel );
 
         // Create the row data for the table
-        Object[][] rowData = createRowData( sims, sortType, columns );
+        Object[][] rowData = createRowData( sims, sortType );
 
         // Create the header
         Object[] header = new Object[columns.size()];
@@ -133,7 +141,8 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // Create the table model
-        TableSorter sorter = new TableSorter( new SimTableModel( rowData, header, columns ) );
+        simTableModel = new SimTableModel( rowData, header, columns );
+        TableSorter sorter = new TableSorter( simTableModel );
 //        this.setModel( new SimTableModel( rowData, header, columns ));
         this.setModel( sorter );
         sorter.setTableHeader( this.getTableHeader() );
@@ -152,6 +161,12 @@ public class SimTable extends JTable implements SimContainer {
 
             if( column == NAME ) {
                 nameColumnIndex = i;
+            }
+            if( column == IS_UP_TO_DATE ) {
+                simUpToDateColumnIndex = i;
+            }
+            if( column == IS_INSTALLED ) {
+                simIsInstalledColumnIndex = i;
             }
         }
 
@@ -175,6 +190,10 @@ public class SimTable extends JTable implements SimContainer {
         if( columns.contains( SELECTION_CHECKBOX ) ) {
             setCellSelectionEnabled( false );
         }
+
+        if( simIsInstalledColumnIndex == -1 ) {
+            System.out.println( "SimTable.SimTable" );
+        }
     }
 
     /**
@@ -192,44 +211,61 @@ public class SimTable extends JTable implements SimContainer {
      *
      * @param sims
      * @param sortType
-     * @param columns
      * @return the array of data that populates the table model
      */
-    private Object[][] createRowData( List sims, SimComparator sortType, List columns ) {
+    private Object[][] createRowData( List sims, SimComparator sortType ) {
         Collections.sort( sims, sortType );
         Object[][] rowData = new Object[sims.size()][columns.size()];
+        boolean connected = PhetSiteConnection.instance().isConnected();
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
-            Object[] row = new Object[ columns.size()];
-            boolean connected = PhetSiteConnection.instance().isConnected();
-            for( int j = 0; j < row.length; j++ ) {
-                if( columns.get( j ) == SELECTION_CHECKBOX ) {
-                    row[j] = new Boolean( false );
-                }
-                if( columns.get( j ) == NAME ) {
-                    row[j] = sim.getName();
-                }
-                else if( columns.get( j ) == THUMBNAIL ) {
-                    row[j] = sim.getThumbnail();
-                }
-                else if( columns.get( j ) == IS_INSTALLED ) {
-                    row[j] = sim.isInstalled() ? isInstalledIcon : null;
-                }
-                else if( columns.get( j ) == IS_UP_TO_DATE ) {
-//                    try {
-                        if( connected ) {
-//                        if( SimResource.isUpdateEnabled() && connected ) {
-                            row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
-                        }
-//                    }
-//                    catch( SimResourceException e ) {
-//                        e.printStackTrace();
-//                    }
-                }
-            }
+
+            // Add a listener to the simulation that will track its state
+            sim.addChangeListener( simListener );
+
+            // Create a row and populate it
+            Object[] row = createRow( sim, connected );
             rowData[i] = row;
         }
         return rowData;
+    }
+
+
+    /**
+     * Creates a row for the table model
+     *
+     * @param sim
+     * @param connected
+     * @return Object[]
+     */
+    private Object[] createRow( Simulation sim, boolean connected ) {
+        Object[] row = new Object[ columns.size()];
+        for( int j = 0; j < row.length; j++ ) {
+            if( columns.get( j ) == SELECTION_CHECKBOX ) {
+                row[j] = new Boolean( false );
+            }
+            if( columns.get( j ) == NAME ) {
+                row[j] = sim.getName();
+            }
+            else if( columns.get( j ) == THUMBNAIL ) {
+                row[j] = sim.getThumbnail();
+            }
+            else if( columns.get( j ) == IS_INSTALLED ) {
+                row[j] = sim.isInstalled() ? isInstalledIcon : null;
+            }
+            else if( columns.get( j ) == IS_UP_TO_DATE ) {
+                //                    try {
+                if( connected ) {
+                    //                        if( SimResource.isUpdateEnabled() && connected ) {
+                    row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
+                }
+                //                    }
+                //                    catch( SimResourceException e ) {
+                //                        e.printStackTrace();
+                //                    }
+            }
+        }
+        return row;
     }
 
     /**
@@ -422,6 +458,62 @@ public class SimTable extends JTable implements SimContainer {
                 setSelected( b.booleanValue() );
             }
             return this;
+        }
+    }
+
+
+    private class SimListener implements Simulation.ChangeListener {
+        public void installed( Simulation.ChangeEvent event ) {
+            String simName = event.getSimulation().getName();
+            TableModel tableModel = SimTable.this.getModel();
+
+            if( simIsInstalledColumnIndex != -1 ) {
+                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                        if( simIsInstalledColumnIndex == -1 ) {
+                            System.out.println( "SimTable$SimListener.installed" );
+                        }
+                        tableModel.setValueAt( isInstalledIcon, i, simIsInstalledColumnIndex );
+                        tableModel.setValueAt( null, i, simUpToDateColumnIndex );
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void uninstalled( Simulation.ChangeEvent event ) {
+            String simName = event.getSimulation().getName();
+            TableModel tableModel = SimTable.this.getModel();
+            if( simIsInstalledColumnIndex != -1 ) {
+                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                        tableModel.setValueAt( null, i, simIsInstalledColumnIndex );
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void updated( Simulation.ChangeEvent event ) {
+            String simName = event.getSimulation().getName();
+            TableModel tableModel = SimTable.this.getModel();
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( null, i, simUpToDateColumnIndex );
+                    break;
+                }
+            }
+        }
+
+        public void updateAvailable( Simulation.ChangeEvent event ) {
+            String simName = event.getSimulation().getName();
+            TableModel tableModel = SimTable.this.getModel();
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( updateAvailableIcon, i, simUpToDateColumnIndex );
+                    break;
+                }
+            }
         }
     }
 

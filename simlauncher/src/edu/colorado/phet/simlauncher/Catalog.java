@@ -151,11 +151,11 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     public void updated( Simulation.ChangeEvent event ) {
-        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
+//        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
     public void updateAvailable( Simulation.ChangeEvent event ) {
-        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
+//        changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
