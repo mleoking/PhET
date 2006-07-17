@@ -1,4 +1,4 @@
-0.00.16
+0.00.16 (7-17-2006)
 Made atom size more continuous (user sets integer diameter, not radius).
 Updated the look and feel to match QWI.
 Made the simulation a little smaller, as in QWI.

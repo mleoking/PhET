@@ -7,17 +7,6 @@ Put on main page:
 
 Needs Spanish.
 
-One thing that is problematic is that right now the spacing and
-separation sliders can be set to a very fine grain of resolution, but
-this fine grain doesn't actually appear in the play area, which is very
-confusing.  The slider for radius can be increased in increments of
-0.01, but the actual radius increases only in units of 0.1.  And there
-are basically only two settings for radius - 0.1 and 0.2.
-  In any case, both
-the spacing and the separation should snap to the values that are
-actually allowed by the grid, and not be able to be set to any
-intermediate values.
-
 ############################################
 # Low Priority
 ########################
