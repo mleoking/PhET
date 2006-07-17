@@ -13,4 +13,4 @@ Needs Spanish.
 Protractor no longer looks centered on lead atom (off by 1 grid cell or so).  I couldn’t fix this easily.
 
 Sliders in control panel should move in correct increments, especially for atom size: readout is continuous, but there are only 3 or so discrete sizes.
-    Difficult.
+    Difficult, maybe not worth it right now.
