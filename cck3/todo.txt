@@ -1,9 +1,7 @@
 ################################################
 #Remaining Work
 #######################
-Add "(DC & AC)" to the title.
-
-See faraday's AC source graphics
+See faraday's AC source graphics?
 
 Get the time units to work out correctly.
 
@@ -68,6 +66,7 @@ circuit and when I was trying to add a bulb to it, it was sort of
 bogging down as I was dragging the bulb, and then all of a sudden it 
 collapsed to one line, as shown and totally changed the components in 
 the circuit (?). Do you have a short cut of keys that I may have pushed?
+>>I hope this problem will disappear when CCK is moved to piccolo.
 
 For future:
 Quantitative graph values.
