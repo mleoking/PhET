@@ -19,7 +19,7 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
  */
 
 public class DGApplication extends PiccoloPhetApplication {
-    public static String VERSION = "0.00.14";
+    public static String VERSION = "0.00.15";
     public static String TITLE = "Davisson-Germer: Electron Diffraction";
     public static String DESCRIPTION = "Simulate the original experiment that proved that electrons can behave as waves.  Watch electrons diffract off a crystal of atoms, interfering with themselves to create peaks and troughs of probability.";
 

@@ -1,4 +1,4 @@
-0.00.15
+0.00.15 (7-17-2006)
 Made protractor read positive on both sides.
 Removed values from y-axis on plot.
 “Atom separation.”  Range should be from 0.4nm to 1.2nm, in increments of 0.1nm.  Default value should be 0.6nm  (note that at low resolution, 1 grid point = 0.1nm)
