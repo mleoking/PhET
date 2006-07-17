@@ -18,9 +18,16 @@ public class RectanglePotential extends AtomPotential {
     }
 
     protected boolean inRange( Point testPoint ) {
-        double width = getRadius() * 2;
-        Rectangle2D rect = new Rectangle2D.Double( getCenter().getX() - width / 2, getCenter().getY() - width / 2, width, width );
+        Rectangle2D rect = getRect();
         return rect.contains( testPoint );
     }
 
+    private Rectangle2D getRect() {
+        double width = getRadius() * 2;
+        return (Rectangle2D)new Rectangle2D.Double( getCenter().getX() - width / 2, getCenter().getY() - width / 2, width, width );
+    }
+
+    public String toString() {
+        return super.toString() + ", " + getRect();
+    }
 }
