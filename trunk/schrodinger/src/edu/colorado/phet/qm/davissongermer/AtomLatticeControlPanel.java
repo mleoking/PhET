@@ -29,7 +29,10 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
         final double scale = dgModel.getWavefunction().getWidth() / 10.0;
+//        int numValues = (int)( (1.2 - 0.4)  * 10);
+//        System.out.println( "numValues = " + numValues );
         spacing = new ModelSlider( "Atom Separation (D)", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
+        spacing.getSlider().setSnapToTicks( true );
         spacing.setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
         spacing.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -37,7 +40,8 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        radius = new ModelSlider( "Atom Radius", "nm", 0.05, 0.25, dgModel.getFractionalRadius() * scale );
+        radius = new ModelSlider( "Atom Radius", "nm", 0.05, 0.25, dgModel.getFractionalRadius() * scale, new DecimalFormat( "0.00" ) );
+        radius.getSlider().setSnapToTicks( true );
         radius.setModelTicks( new double[]{0.05, ( 0.5 + 0.25 ) / 2.0, 0.25} );
         radius.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

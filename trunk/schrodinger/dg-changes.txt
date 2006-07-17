@@ -4,6 +4,7 @@ Updated the look and feel to match QWI.
 Made the simulation a little smaller, as in QWI.
 Made the description (about dialog) take up 3 lines instead of one.
 Bugfix: Text in the control panel disappears because the sim is working too hard (workaround).
+Made sliders snap-to-ticks.
 
 0.00.15 (7-17-2006)
 Made protractor read positive on both sides.
