@@ -6,10 +6,10 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.qm.QWIFrameSetup;
+import edu.colorado.phet.qm.QWIPhetLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -21,12 +21,12 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 public class DGApplication extends PiccoloPhetApplication {
     public static String VERSION = "0.00.15";
     public static String TITLE = "Davisson-Germer: Electron Diffraction";
-    public static String DESCRIPTION = "Simulate the original experiment that proved that electrons can behave as waves.  " +
-                                       "Watch electrons diffract off a crystal of atoms, interfering with themselves " +
+    public static String DESCRIPTION = "Simulate the original experiment that proved that electrons can behave as waves.  \n" +
+                                       "Watch electrons diffract off a crystal of atoms, interfering with themselves \n" +
                                        "to create peaks and troughs of probability.";
 
     public DGApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
+        super( args, TITLE, DESCRIPTION, VERSION, new QWIFrameSetup() );
         addModule( new DGModule( this, createClock() ) );
     }
 
@@ -45,13 +45,10 @@ public class DGApplication extends PiccoloPhetApplication {
         }
     }
 
-    private static FrameSetup createFrameSetup() {
-        return new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
-    }
-
     public static void main( String[] args ) {
-        PhetLookAndFeel.setLookAndFeel();
-        new PhetLookAndFeel().apply();
+//        PhetLookAndFeel.setLookAndFeel();
+//        new PhetLookAndFeel().apply();
+        new QWIPhetLookAndFeel() .initLookAndFeel();
         DGApplication schrodingerApplication = new DGApplication( args );
         schrodingerApplication.startApplication();
 //        System.out.println( "SchrodingerApplication.main" );
