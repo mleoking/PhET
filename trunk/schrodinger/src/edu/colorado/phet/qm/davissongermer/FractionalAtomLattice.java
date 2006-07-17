@@ -40,6 +40,7 @@ public abstract class FractionalAtomLattice {
     }
 
     public ConcreteAtomLattice toConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
+//        System.out.println( "FractionalAtomLattice.toConcreteAtomLattice, latticeWidth="+latticeWidth );
         int concreteAtomRadius = getConcreteAtomRadius( latticeWidth, latticeHeight );
         int concreteSpacing = getConcreteSpacing( latticeWidth, latticeHeight );
         ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice( latticeWidth, latticeHeight );
@@ -47,6 +48,7 @@ public abstract class FractionalAtomLattice {
 
         for( int xCenter = latticeWidth / 2; xCenter <= latticeWidth; xCenter += concreteSpacing ) {
             for( int yCenter = concreteY0; yCenter >= 0; yCenter -= concreteSpacing ) {
+//            int yCenter=concreteY0;
                 addAtom( xCenter, yCenter, concreteAtomRadius, concreteAtomLattice );
             }
         }

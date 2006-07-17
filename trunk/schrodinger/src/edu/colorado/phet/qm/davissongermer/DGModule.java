@@ -12,9 +12,12 @@ import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.piccolo.ImagePotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -69,17 +72,30 @@ public class DGModule extends IntensityModule {
                 updateProtractor();
             }
         } );
+        getSchrodingerPanel().getWavefunctionGraphic().addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateProtractor();
+            }
+        } );
         getQWIModel().setBarrierAbsorptive( false );
         updatePotentialGraphics();
     }
 
+//    PPath node = null;
+
     private void updateProtractor() {
         WavefunctionGraphic wavefunctionGraphic = getSchrodingerPanel().getWavefunctionGraphic();
         double y0 = dgModel.getFractionalAtomLattice().getY0();
-
-        protractor.setOffset( wavefunctionGraphic.getFullBounds().getCenterX(),
-                              y0 * wavefunctionGraphic.getFullBounds().getHeight() + wavefunctionGraphic.getFullBounds().getY() );
-//        wavefunctionGraphic.getFullBounds().getCenterY() );
+//        if( node == null ) {
+//            node = new PPath( wavefunctionGraphic.getFullBounds() );
+//            node.setStrokePaint( Color.green );
+//            getSchrodingerPanel().addScreenChild( node );
+//        }
+//        else {
+//            node.setPathTo( wavefunctionGraphic.getFullBounds() );
+//        }
+        protractor.setOffset( wavefunctionGraphic.getFullBounds().getX() + wavefunctionGraphic.getColorGrid().getCellWidth() * wavefunctionGraphic.getWavefunction().getWidth() / 2 - wavefunctionGraphic.getColorGrid().getCellWidth() * 0.5,
+                              y0 * wavefunctionGraphic.getFullBounds().getHeight() + wavefunctionGraphic.getFullBounds().getY() - wavefunctionGraphic.getColorGrid().getCellHeight() * 0.5 );
     }
 
     private DGParticle getDGParticle() {

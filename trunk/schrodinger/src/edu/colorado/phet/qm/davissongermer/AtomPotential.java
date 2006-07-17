@@ -47,4 +47,8 @@ public abstract class AtomPotential implements Potential {
     public double getRadius() {
         return radius;
     }
+
+    public String toString() {
+        return getClass().getName() + ", center=" + center + ", radius=" + radius;
+    }
 }
