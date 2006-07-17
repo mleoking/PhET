@@ -15,7 +15,7 @@ public class CircularAtomLattice extends FractionalAtomLattice {
         super( atomRadius, spacingBetweenAtoms, y0, potential );
     }
 
-    protected AtomPotential createPotential( Point center, int concreteAtomRadius, double potential ) {
-        return new CircularPotential( center, concreteAtomRadius, potential );
+    protected AtomPotential createPotential( Point center, int conceteDiameter, double potential ) {
+        return new CircularPotential( center, conceteDiameter, potential );
     }
 }

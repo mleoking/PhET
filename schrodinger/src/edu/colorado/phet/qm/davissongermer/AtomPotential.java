@@ -15,12 +15,12 @@ import java.awt.geom.Point2D;
 
 public abstract class AtomPotential implements Potential {
     private Point center;
-    private int radius;
     private double potentialValue;
+    private int diameter;
 
-    public AtomPotential( Point center, int radius, double potentialValue ) {
+    public AtomPotential( Point center, int diameter, double potentialValue ) {
         this.center = center;
-        this.radius = radius;
+        this.diameter = diameter;
         this.potentialValue = potentialValue;
     }
 
@@ -44,11 +44,11 @@ public abstract class AtomPotential implements Potential {
         return center;
     }
 
-    public double getRadius() {
-        return radius;
+    public int getDiameter() {
+        return diameter;
     }
 
     public String toString() {
-        return getClass().getName() + ", center=" + center + ", radius=" + radius;
+        return getClass().getName() + ", center=" + center + ", diameter=" + diameter;
     }
 }

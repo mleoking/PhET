@@ -15,7 +15,7 @@ public class SquareAtomLattice extends FractionalAtomLattice {
         super( atomRadius, spacingBetweenAtoms, y0, potential );
     }
 
-    protected AtomPotential createPotential( Point center, int concreteAtomRadius, double potential ) {
-        return new RectanglePotential( center, concreteAtomRadius, potential );
+    protected AtomPotential createPotential( Point center, int concreteDiameter, double potential ) {
+        return new RectanglePotential( center, concreteDiameter, potential );
     }
 }
