@@ -13,8 +13,8 @@ import java.awt.geom.Rectangle2D;
 
 public class RectanglePotential extends AtomPotential {
 
-    public RectanglePotential( Point center, int radius, double potentialValue ) {
-        super( center, radius, potentialValue );
+    public RectanglePotential( Point center, int diameter, double potentialValue ) {
+        super( center, diameter, potentialValue );
     }
 
     protected boolean inRange( Point testPoint ) {
@@ -23,8 +23,8 @@ public class RectanglePotential extends AtomPotential {
     }
 
     private Rectangle2D getRect() {
-        double width = getRadius() * 2;
-        return (Rectangle2D)new Rectangle2D.Double( getCenter().getX() - width / 2, getCenter().getY() - width / 2, width, width );
+        int width = getDiameter();
+        return new Rectangle2D.Double( getCenter().getX() - width / 2, getCenter().getY() - width / 2, width, width );
     }
 
     public String toString() {

@@ -12,12 +12,8 @@ separation sliders can be set to a very fine grain of resolution, but
 this fine grain doesn't actually appear in the play area, which is very
 confusing.  The slider for radius can be increased in increments of
 0.01, but the actual radius increases only in units of 0.1.  And there
-are basically only two settings for radius - 0.1 and 0.2.  Is there a
-reason that the diameter of the atoms has to be an even number of grid
-points?  If you could make it an odd number instead (as it is for
-circular atoms in the old version), then you could have three settings
-for radius, 0.05, 0.15, and 0.25, and you could make the layout
-symmetric about the center, which it isn't right now.  In any case, both
+are basically only two settings for radius - 0.1 and 0.2.
+  In any case, both
 the spacing and the separation should snap to the values that are
 actually allowed by the grid, and not be able to be set to any
 intermediate values.

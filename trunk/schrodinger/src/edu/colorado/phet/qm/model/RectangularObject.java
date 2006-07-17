@@ -21,24 +21,6 @@ public class RectangularObject extends SimpleObservable {
 
     private FractionalSize fractionalSize = new FractionalSize();
 
-    static class FractionalSize {
-        double x;
-        double y;
-        double width;
-        double height;
-
-        public void update( Rectangle bounds, int width, int height ) {
-            this.x = ( (double)bounds.x ) / width;
-            this.y = ( (double)bounds.y ) / height;
-            this.width = ( (double)bounds.width ) / width;
-            this.height = ( (double)bounds.height ) / height;
-        }
-
-        public Rectangle getBounds( int latticeWidth, int latticeHeight ) {
-            return new Rectangle( (int)( x * latticeWidth ), (int)( y * latticeHeight ), (int)( width * latticeWidth ), (int)( height * latticeHeight ) );
-        }
-    }
-
     public RectangularObject( final QWIModel QWIModel, int x, int y, int width, int height ) {
         this.QWIModel = QWIModel;
         this.x = x;
@@ -122,5 +104,24 @@ public class RectangularObject extends SimpleObservable {
 
     public int getY() {
         return y;
+    }
+
+
+    static class FractionalSize {
+        double x;
+        double y;
+        double width;
+        double height;
+
+        public void update( Rectangle bounds, int width, int height ) {
+            this.x = ( (double)bounds.x ) / width;
+            this.y = ( (double)bounds.y ) / height;
+            this.width = ( (double)bounds.width ) / width;
+            this.height = ( (double)bounds.height ) / height;
+        }
+
+        public Rectangle getBounds( int latticeWidth, int latticeHeight ) {
+            return new Rectangle( (int)( x * latticeWidth ), (int)( y * latticeHeight ), (int)( width * latticeWidth ), (int)( height * latticeHeight ) );
+        }
     }
 }

@@ -14,6 +14,7 @@ import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
@@ -85,7 +86,7 @@ public class DGModule extends IntensityModule {
 
     private void updateProtractor() {
         WavefunctionGraphic wavefunctionGraphic = getSchrodingerPanel().getWavefunctionGraphic();
-        double y0 = dgModel.getFractionalAtomLattice().getY0();
+//        double y0 = dgModel.getFractionalAtomLattice().getY0();
 //        if( node == null ) {
 //            node = new PPath( wavefunctionGraphic.getFullBounds() );
 //            node.setStrokePaint( Color.green );
@@ -94,8 +95,19 @@ public class DGModule extends IntensityModule {
 //        else {
 //            node.setPathTo( wavefunctionGraphic.getFullBounds() );
 //        }
-        protractor.setOffset( wavefunctionGraphic.getFullBounds().getX() + wavefunctionGraphic.getColorGrid().getCellWidth() * wavefunctionGraphic.getWavefunction().getWidth() / 2 - wavefunctionGraphic.getColorGrid().getCellWidth() * 0.5,
-                              y0 * wavefunctionGraphic.getFullBounds().getHeight() + wavefunctionGraphic.getFullBounds().getY() - wavefunctionGraphic.getColorGrid().getCellHeight() * 0.5 );
+        Point center = dgModel.getCenterAtomPoint();
+
+//        protractor.setOffset( wavefunctionGraphic.getFullBounds().getX() + wavefunctionGraphic.getColorGrid().getCellWidth() * wavefunctionGraphic.getWavefunction().getWidth() / 2 - wavefunctionGraphic.getColorGrid().getCellWidth() * 0.5,
+//                              y0 * wavefunctionGraphic.getFullBounds().getHeight() + wavefunctionGraphic.getFullBounds().getY() - wavefunctionGraphic.getColorGrid().getCellHeight() * 0.5 );
+        double protractorOffsetX = 0;
+        double protractorOffsetY = 0;
+        if( dgModel.getConcreteAtomLattice().getPotentials().length > 0 ) {
+            protractorOffsetX = dgModel.getConcreteAtomLattice().getPotentials()[0].getDiameter() % 2 == 1 ? 0.5 : 0;
+            protractorOffsetY = dgModel.getConcreteAtomLattice().getPotentials()[0].getDiameter() % 2 == 1 ? 0.5 : 0;
+        }
+//        System.out.println( "protractorOffsetX = " + protractorOffsetX );
+        protractor.setOffset( wavefunctionGraphic.getFullBounds().getX() + wavefunctionGraphic.getColorGrid().getCellWidth() * ( center.x + protractorOffsetX ),
+                              wavefunctionGraphic.getFullBounds().getY() + wavefunctionGraphic.getColorGrid().getCellHeight() * ( center.y + protractorOffsetY ) );
     }
 
     private DGParticle getDGParticle() {
@@ -119,8 +131,16 @@ public class DGModule extends IntensityModule {
     }
 
     public void addAtomPotentialGraphic( AtomPotential atomPotential ) {
-        RectangularPotential rectangularPotential = new RectangularPotential( getQWIModel(), (int)( atomPotential.getCenter().getX() - atomPotential.getRadius() ), (int)( atomPotential.getCenter().getY() - atomPotential.getRadius() ),
-                                                                              (int)atomPotential.getRadius() * 2, (int)atomPotential.getRadius() * 2 );
+        int offsetX = 0;
+        int offsetY = 0;
+        if( atomPotential.getDiameter() % 2 == 1 ) {//todo discover the cause of this off-by-one-half-the-time error.
+            offsetX = 1;
+            offsetY = 1;
+        }
+        RectangularPotential rectangularPotential = new RectangularPotential( getQWIModel(),
+                                                                              (int)( atomPotential.getCenter().getX() - atomPotential.getDiameter() / 2.0 ) + offsetX,
+                                                                              (int)( atomPotential.getCenter().getY() - atomPotential.getDiameter() / 2.0 ) + offsetY,
+                                                                              atomPotential.getDiameter(), atomPotential.getDiameter() );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         RectangularPotentialGraphic rectangularPotentialGraphic = createPotentialGraphic( rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
@@ -135,6 +155,7 @@ public class DGModule extends IntensityModule {
     }
 
     private void setupProtractor() {
+
         protractor = new Protractor();
         protractor.setLeftLegPickable( false );
         protractor.setReadoutGraphicPickable( false );
@@ -149,6 +170,18 @@ public class DGModule extends IntensityModule {
         } );
         getSchrodingerPanel().getSchrodingerScreenNode().addChild( protractor );
         setProtractorVisible( false );
+
+        dgModel.addListener( new DGModel.Listener() {
+            public void potentialChanged() {
+                updateProtractorCenter();
+            }
+        } );
+        updateProtractorCenter();
+    }
+
+    private void updateProtractorCenter() {
+        updateProtractor();
+//        protractor.setCenterGridPoint( dgModel.getCenterAtomPoint() );
     }
 
     public boolean isProtractorVisible() {

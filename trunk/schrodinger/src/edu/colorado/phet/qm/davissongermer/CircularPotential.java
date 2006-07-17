@@ -18,7 +18,7 @@ public class CircularPotential extends AtomPotential {
 
     protected boolean inRange( Point testPoint ) {
         double dist = testPoint.distance( super.getCenter() );
-        return dist <= super.getRadius();
+        return dist <= ( getDiameter() ) / 2.0;
     }
 
 }

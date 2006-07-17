@@ -5,6 +5,7 @@ import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.PrecomputedPotential;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class ConcreteAtomLattice implements Potential {
     private CompositePotential compositePotential = new CompositePotential();
     private PrecomputedPotential potential;
+    private Point headAtom;
 
     public ConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
         potential = new PrecomputedPotential( compositePotential, latticeWidth, latticeHeight );
@@ -40,5 +42,13 @@ public class ConcreteAtomLattice implements Potential {
             list.add( compositePotential.potentialAt( i ) );
         }
         return (AtomPotential[])list.toArray( new AtomPotential[0] );
+    }
+
+    public void setHeadAtom( int x, int y ) {
+        this.headAtom = new Point( x, y );
+    }
+
+    public Point getHeadAtom() {
+        return new Point( headAtom );
     }
 }

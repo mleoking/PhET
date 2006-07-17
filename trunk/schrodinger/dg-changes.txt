@@ -1,3 +1,6 @@
+0.00.16
+Made atom size more continuous (user sets integer diameter, not radius).
+
 0.00.15 (7-17-2006)
 Made protractor read positive on both sides.
 Removed values from y-axis on plot.

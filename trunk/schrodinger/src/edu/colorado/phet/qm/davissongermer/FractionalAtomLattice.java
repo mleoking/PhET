@@ -41,22 +41,22 @@ public abstract class FractionalAtomLattice {
 
     public ConcreteAtomLattice toConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
 //        System.out.println( "FractionalAtomLattice.toConcreteAtomLattice, latticeWidth="+latticeWidth );
-        int concreteAtomRadius = getConcreteAtomRadius( latticeWidth, latticeHeight );
+        int concreteDiameter = getConcreteAtomDiameter( latticeWidth, latticeHeight );
         int concreteSpacing = getConcreteSpacing( latticeWidth, latticeHeight );
         ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice( latticeWidth, latticeHeight );
         int concreteY0 = getConcreteY0( latticeHeight );
-
         for( int xCenter = latticeWidth / 2; xCenter <= latticeWidth; xCenter += concreteSpacing ) {
             for( int yCenter = concreteY0; yCenter >= 0; yCenter -= concreteSpacing ) {
 //            int yCenter=concreteY0;
-                addAtom( xCenter, yCenter, concreteAtomRadius, concreteAtomLattice );
+                addAtom( xCenter, yCenter, concreteDiameter, concreteAtomLattice );
             }
         }
         for( int xCenter = latticeWidth / 2 - concreteSpacing; xCenter >= 0; xCenter -= concreteSpacing ) {
             for( int yCenter = concreteY0; yCenter >= 0; yCenter -= concreteSpacing ) {
-                addAtom( xCenter, yCenter, concreteAtomRadius, concreteAtomLattice );
+                addAtom( xCenter, yCenter, concreteDiameter, concreteAtomLattice );
             }
         }
+        concreteAtomLattice.setHeadAtom( latticeWidth / 2, concreteY0 );
         concreteAtomLattice.updateAll();
         return concreteAtomLattice;
     }
@@ -69,21 +69,21 @@ public abstract class FractionalAtomLattice {
         return new Point( latticeWidth / 2, getConcreteY0( latticeHeight ) );
     }
 
-    private void addAtom( int xCenter, int yCenter, int concreteAtomRadius, ConcreteAtomLattice concreteAtomLattice ) {
+    private void addAtom( int xCenter, int yCenter, int diameter, ConcreteAtomLattice concreteAtomLattice ) {
         Point center = new Point( xCenter, yCenter );
-        AtomPotential atomPotential = createPotential( center, concreteAtomRadius, potential );
+        AtomPotential atomPotential = createPotential( center, diameter, potential );
         concreteAtomLattice.addAtomPotentialNoUpdate( atomPotential );
     }
 
-    protected abstract AtomPotential createPotential( Point center, int concreteAtomRadius, double potential );
+    protected abstract AtomPotential createPotential( Point center, int diameter, double potential );
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
         int spacing = (int)( spacingBetweenAtoms * latticeWidth );
-        return Math.max( 2 * getConcreteAtomRadius( latticeWidth, latticeHeight ), spacing );
+        return Math.max( 2 * getConcreteAtomDiameter( latticeWidth, latticeHeight ), spacing );
     }
 
-    private int getConcreteAtomRadius( int latticeWidth, int latticeHeight ) {
-        return (int)( atomRadius * latticeWidth );
+    private int getConcreteAtomDiameter( int latticeWidth, int latticeHeight ) {
+        return (int)( atomRadius * latticeWidth * 2.0 );
     }
 
     public double getY0() {
