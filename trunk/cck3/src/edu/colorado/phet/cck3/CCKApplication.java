@@ -41,9 +41,9 @@ public class CCKApplication {
         }
 
         cckModule = new CCKModule( args );
-
+        String subTitle = Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
         FrameSetup frameSetup = debugMode ? new FrameSetup.CenteredWithInsets( 0, 200 ) : (FrameSetup)new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 75, 100 ) );
-        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + " (" + readVersion() + ")",
+        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + subTitle + " (" + readVersion() + ")",
                                                        SimStrings.get( "CCK3Application.description" ),
                                                        SimStrings.get( "CCK3Application.version" ), frameSetup, cckModule, clock );
         model.setName( "cck" );

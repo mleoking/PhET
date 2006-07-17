@@ -1,3 +1,6 @@
+3.01.12
+Added "(DC & AC)" to the title.
+
 3.01.11 (7-10-2006)
 Added a Pause/Play/Step control panel.
 Moved the charges from the centerline of a capacitor, when there is only 1 column of charges.
