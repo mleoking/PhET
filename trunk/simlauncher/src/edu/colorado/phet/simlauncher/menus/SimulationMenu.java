@@ -119,7 +119,8 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
                 }
 
 //                try {
-                    if( sim.isInstalled() && !sim.isCurrent() ) {
+                    if( sim.isInstalled() && sim.isUpdateAvailable() ) {
+//                    if( sim.isInstalled() && !sim.isCurrent() ) {
                         updateMI.setEnabled( true );
                     }
 //                }
