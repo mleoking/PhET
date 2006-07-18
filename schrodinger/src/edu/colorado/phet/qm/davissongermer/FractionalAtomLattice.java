@@ -51,11 +51,11 @@ public abstract class FractionalAtomLattice {
                 addAtom( xCenter, yCenter, concreteDiameter, concreteAtomLattice );
             }
         }
-        System.out.println( "FractionalAtomLattice.toConcreteAtomLattice" );
+//        System.out.println( "FractionalAtomLattice.toConcreteAtomLattice" );
         for( int xCenter = latticeWidth / 2 - concreteSpacing; xCenter >= 0; xCenter -= concreteSpacing ) {
             for( int yCenter = concreteY0; yCenter >= 0; yCenter -= concreteSpacing ) {
 //                System.out.println( "xCenter = " + xCenter );
-                System.out.println( "yCenter = " + yCenter );
+//                System.out.println( "yCenter = " + yCenter );
                 addAtom( xCenter, yCenter, concreteDiameter, concreteAtomLattice );
             }
         }
