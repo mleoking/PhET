@@ -7,6 +7,24 @@ Put on main page:
 
 Needs Spanish.
 
+> However, I can still set the radius to 0.23 and various other strange 
+> values.  I know Chris was able to set the ticks to only be at specific 
+> places for the spacing between Fourier components on the Discrete to 
+> Continuous panel on Fourier, so it must be possible.
+> 
+> Also, I'm realizing that it's kind of silly to allow the user to be able 
+> to type values into a textbox when there are so few values allowed.  Can 
+> you set up the sliders to be more like the sliders in Fourier or Quantum 
+> Tunneling where they tell you the value but don't allow you to type it 
+> in?  (Same for velocity slider, if possible.)
+> 
+> Finally, if I set the separation to 0.4 and the radius to 0.2, the atoms 
+> are touching, as they should be, but if I then set the radius to 0.25, 
+> they should be overlapping.  Instead, they get farther apart, even 
+> thought the separation slider still says 0.4.  If it's easy to make them 
+> overlap, do it.  Otherwise, just increase the minimum separation to 0.5 
+> so we don't have this problem.
+
 ############################################
 # Low Priority
 ########################

@@ -57,7 +57,7 @@ public class DGPlotFrame extends JDialog {
 //                    System.out.println( "velocity = " + velocity );
 //                    String text = "v=" + new DecimalFormat( "0" ).format( velocity ) + "km/s, D=" + new DecimalFormat( "0.00" ).format( dgPlotFrame.dgModule.getSpacing() ) + "nm";
 //                    String text="<html>hello!<br>Line2</html>";
-                    String text = "v=" + new DecimalFormat( "0" ).format( velocity ) + " km/s, D=" + new DecimalFormat( "0.00" ).format( dgPlotFrame.dgModule.getSpacing() ) + " nm";
+                    String text = "v=" + new DecimalFormat( "0" ).format( velocity ) + " km/s, D=" + new DecimalFormat( "0.0" ).format( dgPlotFrame.dgModule.getSpacing() ) + " nm";
                     saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame(), text );
                 }
             } );
