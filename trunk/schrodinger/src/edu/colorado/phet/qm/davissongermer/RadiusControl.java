@@ -17,11 +17,12 @@ public class RadiusControl extends ConstrainedSliderControl {
     }
 
     public void setModelValue( double modelValue ) {
+        System.out.println( "modelValue = " + modelValue );
         dgModel.setFractionalRadius( modelValue );
     }
 
     private static int getNumSliderValues( CoordinateFrame viewFrame ) {
-        double viewIncrement = 0.05;
+        double viewIncrement = 0.1;
         return (int)( Math.round( ( viewFrame.getRange() ) / viewIncrement ) + 1 );
     }
 

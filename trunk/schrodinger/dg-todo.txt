@@ -7,30 +7,11 @@ Put on main page:
 
 Needs Spanish.
 
-> However, I can still set the radius to 0.23 and various other strange 
-> values.  I know Chris was able to set the ticks to only be at specific 
-> places for the spacing between Fourier components on the Discrete to 
-> Continuous panel on Fourier, so it must be possible.
-> 
-> Also, I'm realizing that it's kind of silly to allow the user to be able 
-> to type values into a textbox when there are so few values allowed.  Can 
-> you set up the sliders to be more like the sliders in Fourier or Quantum 
-> Tunneling where they tell you the value but don't allow you to type it 
-> in?  (Same for velocity slider, if possible.)
-> 
-> Finally, if I set the separation to 0.4 and the radius to 0.2, the atoms 
-> are touching, as they should be, but if I then set the radius to 0.25, 
-> they should be overlapping.  Instead, they get farther apart, even 
-> thought the separation slider still says 0.4.  If it's easy to make them 
-> overlap, do it.  Otherwise, just increase the minimum separation to 0.5 
-> so we don't have this problem.
-
 ############################################
 # Low Priority
 ########################
-Protractor no longer looks centered on lead atom (off by 1 grid cell or so).  I couldn’t fix this easily.
-
-Sliders in control panel should move in correct increments, especially for atom size: readout is continuous, but there are only 3 or so discrete sizes.
-    Difficult, maybe not worth it right now.
-    
+  
 Multiline legend labels?
+
+Sometimes the atom graphics are off by 1 lattice cell in x and/or y.  The model is correct, just the images are in the wrong spot.  
+It's a bit distracting if you look for it, but doesn't look like a simple or systematic fix, maybe we should leave it. 
