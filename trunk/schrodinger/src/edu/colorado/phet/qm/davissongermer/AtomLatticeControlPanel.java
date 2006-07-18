@@ -1,12 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.text.DecimalFormat;
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -16,9 +13,8 @@ import java.text.DecimalFormat;
  */
 
 public class AtomLatticeControlPanel extends VerticalLayoutPanel {
-    private ModelSlider spacing;
-    private ModelSlider radius;
-    private ModelSlider y0;
+    private JComponent spacing;
+    private JComponent radius;
     private DGModel dgModel;
 
     /*
@@ -29,33 +25,17 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
     public AtomLatticeControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
         final double scale = dgModel.getWavefunction().getWidth() / 10.0;
-//        int numValues = (int)( (1.2 - 0.4)  * 10);
-//        System.out.println( "numValues = " + numValues );
-        spacing = new ModelSlider( "Atom Separation (D)", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
-        spacing.getSlider().setSnapToTicks( true );
-        spacing.setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
-        spacing.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalSpacing( spacing.getValue() / scale );
-            }
-        } );
 
-        radius = new ModelSlider( "Atom Radius", "nm", 0.05, 0.25, dgModel.getFractionalRadius() * scale, new DecimalFormat( "0.00" ) );
-        radius.getSlider().setSnapToTicks( true );
-        radius.setModelTicks( new double[]{0.05, ( 0.5 + 0.25 ) / 2.0, 0.25} );
-        radius.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalRadius( radius.getValue() / scale );
-            }
-        } );
+        spacing = new SpacingControl( dgModel, scale );
+        radius = new RadiusModelSlider( dgModel, scale );
 
-        y0 = new ModelSlider( "Vertical Position", "units", 0, 1.0, dgModel.getFractionalY0() );
-        y0.setModelTicks( new double[]{0, 0.5, 1.0} );
-        y0.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalY0( y0.getValue() );
-            }
-        } );
+//        y0 = new ModelSlider( "Vertical Position", "units", 0, 1.0, dgModel.getFractionalY0() );
+//        y0.setModelTicks( new double[]{0, 0.5, 1.0} );
+//        y0.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                dgModel.setFractionalY0( y0.getValue() );
+//            }
+//        } );
         addFullWidth( spacing );
         addFullWidth( radius );
 //        addFullWidth( y0 );
