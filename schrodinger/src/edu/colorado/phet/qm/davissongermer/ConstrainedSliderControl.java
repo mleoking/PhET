@@ -18,18 +18,22 @@ import java.util.Hashtable;
  * Copyright (c) Jul 18, 2006 by Sam Reid
  */
 
-public class ConstrainedSliderControl extends VerticalLayoutPanel {
+public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
     private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-    private DGModel dgModel;
     private JSlider slider;
     private ConstrainedSliderControl.TextReadout textReadout;
 
     private ConstrainedSliderControl.CoordinateFrame modelFrame;
     private ConstrainedSliderControl.CoordinateFrame viewFrame;
     private ConstrainedSliderControl.CoordinateFrame sliderFrame;
+    private DecimalFormat format;
 
-    public ConstrainedSliderControl( String title, CoordinateFrame modelFrame, CoordinateFrame viewFrame, CoordinateFrame sliderFrame ) {
-        JLabel titleLabel = new JLabel( "Atom Separation (D)" ) {
+    public void init( String title, DecimalFormat format, CoordinateFrame modelFrame, CoordinateFrame viewFrame, CoordinateFrame sliderFrame ) {
+        this.modelFrame = modelFrame;
+        this.viewFrame = viewFrame;
+        this.sliderFrame = sliderFrame;
+        this.format = format;
+        JLabel titleLabel = new JLabel( title ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -40,7 +44,7 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
         setAnchor( GridBagConstraints.CENTER );
         setFillNone();
         add( titleLabel );
-        slider = new JSlider( 0, getNumSliderValues(), (int)transform( dgModel.getFractionalSpacing(), modelFrame, sliderFrame ) );
+        slider = new JSlider( 0, getNumSliderValues(), (int)transform( getModelValue(), modelFrame, sliderFrame ) );
         slider.setPaintLabels( true );
         slider.setPaintTrack( true );
         slider.setPaintTicks( true );
@@ -50,7 +54,7 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
         Hashtable labels = new Hashtable();
         System.out.println( "getNumSliderValues() = " + getNumSliderValues() );
         for( int i = 0; i <= getNumSliderValues(); i ++ ) {
-            labels.put( new Integer( i ), new JLabel( new DecimalFormat( "0.0" ).format( transform( i, sliderFrame, viewFrame ) ) ) );
+            labels.put( new Integer( i ), new JLabel( format.format( transform( i, sliderFrame, viewFrame ) ) ) );
         }
         slider.setLabelTable( labels );
         addFullWidth( slider );
@@ -63,11 +67,6 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
                 changeValue();
             }
         } );
-        dgModel.addListener( new DGModel.Listener() {
-            public void potentialChanged() {
-                update();
-            }
-        } );
         update();
         /*
         several coordinate frames here
@@ -77,9 +76,16 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
         */
     }
 
+    protected double determineModelValue() {
+        return transform( getSlider().getValue(), getSliderFrame(), getModelFrame() );
+    }
+
     private int getNumSliderValues() {
-        double viewIncrement = 0.1;
-        return (int)( Math.round( viewFrame.getRange() / viewIncrement ) + 1 );
+        return (int)Math.round( sliderFrame.getRange() );
+    }
+
+    public JSlider getSlider() {
+        return slider;
     }
 
     public static class CoordinateFrame {
@@ -102,21 +108,36 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
         public double getRange() {
             return max - min;
         }
+
+        public boolean contains( double value ) {
+            return value >= min && value <= max;
+        }
+
+        public String toString() {
+            return "min=" + min + ", max=" + max;
+        }
     }
+
+    protected double transform( double value, ConstrainedSliderControl.CoordinateFrame sourceFrame, ConstrainedSliderControl.CoordinateFrame dstFrame ) {
+        if( sourceFrame.contains( value ) ) {
+            return new Function.LinearFunction( sourceFrame.getMin(), sourceFrame.getMax(), dstFrame.getMin(), dstFrame.getMax() ).evaluate( value );
+        }
+        else {
+            throw new RuntimeException( "Model frame doesn't contain value: " + value + ", sourceFrame=" + sourceFrame );
+        }
+    }
+
+    public abstract double getModelValue();
+
+    public abstract void setModelValue( double modelValue );
 
     private void changeValue() {
-        double spacing = transform( slider.getValue(), sliderFrame, modelFrame );
-//        System.out.println( "spacing = " + spacing );
-        dgModel.setFractionalSpacing( spacing );
-    }
-
-    private double transform( double value, ConstrainedSliderControl.CoordinateFrame sourceFrame, ConstrainedSliderControl.CoordinateFrame dstFrame ) {
-        return new Function.LinearFunction( sourceFrame.getMin(), sourceFrame.getMax(), dstFrame.getMin(), dstFrame.getMax() ).evaluate( value );
+        setModelValue( determineModelValue() );
     }
 
     public void update() {
-        slider.setValue( (int)Math.round( transform( dgModel.getFractionalSpacing(), modelFrame, sliderFrame ) ) );
-        textReadout.setText( "" + new DecimalFormat( "0.0" ).format( transform( dgModel.getFractionalSpacing(), modelFrame, viewFrame ) ) + " nm" );
+        slider.setValue( (int)Math.round( transform( getModelValue(), modelFrame, sliderFrame ) ) );
+        textReadout.setText( "" + format.format( transform( getModelValue(), modelFrame, viewFrame ) ) + " nm" );
     }
 
     private static class TextReadout extends HorizontalLayoutPanel {
@@ -134,4 +155,15 @@ public class ConstrainedSliderControl extends VerticalLayoutPanel {
         }
     }
 
+    public CoordinateFrame getModelFrame() {
+        return modelFrame;
+    }
+
+    public CoordinateFrame getViewFrame() {
+        return viewFrame;
+    }
+
+    public CoordinateFrame getSliderFrame() {
+        return sliderFrame;
+    }
 }
