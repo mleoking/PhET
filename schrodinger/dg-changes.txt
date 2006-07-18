@@ -1,4 +1,4 @@
-0.00.17
+0.00.17 (7-18-2006)
 Removed one decimal place from separation readout in saved plot.
 Constrained the control panel sliders to meaningful values.
 
