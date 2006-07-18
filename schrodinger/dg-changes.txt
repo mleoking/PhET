@@ -1,5 +1,6 @@
 0.00.17
 Removed one decimal place from separation readout in saved plot.
+Constrained the control panel sliders to meaningful values.
 
 0.00.16 (7-17-2006)
 Made atom size more continuous (user sets integer diameter, not radius).
