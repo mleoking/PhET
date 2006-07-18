@@ -26,9 +26,10 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
         this.dgModel = dgModel;
         final double scale = dgModel.getWavefunction().getWidth() / 10.0;
 
-        spacing = new SpacingControl( dgModel, scale );
-//        spacing = new SpacingModelSlider( dgModel, scale );
-        radius = new RadiusModelSlider( dgModel, scale );
+        //        spacing = new SpacingModelSlider( dgModel, scale );
+        spacing = new SpacingControl( dgModel );
+//        radius = new RadiusModelSlider( dgModel, scale );
+        radius = new RadiusControl( dgModel );
 
 //        y0 = new ModelSlider( "Vertical Position", "units", 0, 1.0, dgModel.getFractionalY0() );
 //        y0.setModelTicks( new double[]{0, 0.5, 1.0} );
