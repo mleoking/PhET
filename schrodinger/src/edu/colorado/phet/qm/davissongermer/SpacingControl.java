@@ -19,16 +19,28 @@ import java.util.Hashtable;
  */
 
 public class SpacingControl extends VerticalLayoutPanel {
-    private Function.LinearFunction modelViewTransform;
     private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
     private DGModel dgModel;
-    private double scale;
     private JSlider slider;
     private TextReadout textReadout;
 
+    private double viewMin = 0.4;
+    private double viewMax = 1.2;
+//    private double modelMin = 0.04;
+//    private double modelMax = 0.12;
+
+    double scaleTx = 10.0 * 1.0 / 45;
+    private CoordinateFrame modelFrame = new CoordinateFrame( viewMin * scaleTx, viewMax * scaleTx );
+    private CoordinateFrame viewFrame = new CoordinateFrame( viewMin, viewMax );
+    private CoordinateFrame sliderFrame = new CoordinateFrame( 0, getNumSliderValues() );
+
+    private int getNumSliderValues() {
+        double viewIncrement = 0.1;
+        return (int)( Math.round( viewFrame.getRange() / viewIncrement ) + 1 );
+    }
+
     public SpacingControl( DGModel dgModel, double scale ) {
         this.dgModel = dgModel;
-        this.scale = scale;
         JLabel title = new JLabel( "Atom Separation (D)" ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -40,9 +52,7 @@ public class SpacingControl extends VerticalLayoutPanel {
         setAnchor( GridBagConstraints.CENTER );
         setFillNone();
         add( title );
-        int numValues = getNumValues();
-        modelViewTransform = new Function.LinearFunction( getModelMin(), getModelMax(), 0, numValues );
-        slider = new JSlider( 0, numValues, 5 );
+        slider = new JSlider( 0, getNumSliderValues(), (int)transform( dgModel.getFractionalSpacing(), modelFrame, sliderFrame ) );
         slider.setPaintLabels( true );
         slider.setPaintTrack( true );
         slider.setPaintTicks( true );
@@ -50,8 +60,9 @@ public class SpacingControl extends VerticalLayoutPanel {
         slider.setMinorTickSpacing( 1 );
         slider.setSnapToTicks( true );
         Hashtable labels = new Hashtable();
-        for( int i = 0; i <= numValues; i++ ) {
-            labels.put( new Integer( i ), new JLabel( new DecimalFormat( "0.0" ).format( sliderValueToModel( i ) ) ) );
+        System.out.println( "getNumSliderValues() = " + getNumSliderValues() );
+        for( int i = 0; i <= getNumSliderValues(); i ++ ) {
+            labels.put( new Integer( i ), new JLabel( new DecimalFormat( "0.0" ).format( transform( i, sliderFrame, viewFrame ) ) ) );
         }
         slider.setLabelTable( labels );
         addFullWidth( slider );
@@ -78,22 +89,41 @@ public class SpacingControl extends VerticalLayoutPanel {
         */
     }
 
+    public static class CoordinateFrame {
+        double min;
+        double max;
+
+        public CoordinateFrame( double min, double max ) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public double getRange() {
+            return max - min;
+        }
+    }
+
     private void changeValue() {
-        dgModel.setFractionalSpacing( sliderValueToModel( slider.getValue() ) / scale );
+        double spacing = transform( slider.getValue(), sliderFrame, modelFrame );
+//        System.out.println( "spacing = " + spacing );
+        dgModel.setFractionalSpacing( spacing );
     }
 
-    public double fractionalToModelValue( double fractional ) {
-        return fractional * dgModel.getWavefunction().getWidth() * scale;
-    }
-
-    public double modelToFractionalValue( double model ) {
-        return model / dgModel.getWavefunction().getWidth() / scale;
+    private double transform( double value, CoordinateFrame sourceFrame, CoordinateFrame dstFrame ) {
+        return new Function.LinearFunction( sourceFrame.getMin(), sourceFrame.getMax(), dstFrame.getMin(), dstFrame.getMax() ).evaluate( value );
     }
 
     public void update() {
-        double value = dgModel.getFractionalSpacing() * dgModel.getWavefunction().getWidth() / scale;
-        slider.setValue( modelToSliderValue( value ) );
-        textReadout.setText( "" + new DecimalFormat( "0.0" ).format( value ) + " nm" );
+        slider.setValue( (int)Math.round( transform( dgModel.getFractionalSpacing(), modelFrame, sliderFrame ) ) );
+        textReadout.setText( "" + new DecimalFormat( "0.0" ).format( transform( dgModel.getFractionalSpacing(), modelFrame, viewFrame ) ) + " nm" );
     }
 
     private static class TextReadout extends HorizontalLayoutPanel {
@@ -111,28 +141,4 @@ public class SpacingControl extends VerticalLayoutPanel {
         }
     }
 
-    private int getNumValues() {
-        double increment = 0.1;
-        return (int)( ( getModelRange() ) / increment );
-    }
-
-    private double getModelRange() {
-        return getModelMax() - getModelMin();
-    }
-
-    private double getModelMax() {
-        return 1.2;
-    }
-
-    private double getModelMin() {
-        return 0.4;
-    }
-
-    public double sliderValueToModel( int view ) {
-        return modelViewTransform.createInverse().evaluate( view );
-    }
-
-    public int modelToSliderValue( double model ) {
-        return (int)modelViewTransform.evaluate( model );
-    }
 }
