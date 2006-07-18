@@ -16,14 +16,29 @@ public class RadiusControl extends ConstrainedSliderControl {
         return dgModel.getFractionalRadius();
     }
 
+//    double[] modelValues = new double[]{
+//            0.011111111111111112,
+//            0.02592592592592592,
+//            0.03580246913580246,
+//            0.0499,
+//            0.05555555555555555};
+//
+//    protected double determineModelValue() {
+//        int sliderValue = getSlider().getValue();
+//        return modelValues[sliderValue];
+//    }
+
     public void setModelValue( double modelValue ) {
-        System.out.println( "modelValue = " + modelValue );
         dgModel.setFractionalRadius( modelValue );
     }
 
+//    private boolean closeEnough( double a, double b ) {
+//        double epsilon = 0.001;
+//        return Math.abs( a - b ) <= epsilon;
+//    }
+
     private static int getNumSliderValues( CoordinateFrame viewFrame ) {
-        double viewIncrement = 0.1;
-        return (int)( Math.round( ( viewFrame.getRange() ) / viewIncrement ) + 1 );
+        return 5;
     }
 
     public RadiusControl( DGModel dgModel ) {
@@ -38,7 +53,6 @@ public class RadiusControl extends ConstrainedSliderControl {
             }
         } );
         update();
-
     }
 
 
