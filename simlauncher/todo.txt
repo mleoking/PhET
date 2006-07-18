@@ -87,14 +87,12 @@ Testing
 - Test update check for all SimResource types
 - Do extensive offline testing
 
-=======
-0.00.08
-=======
-- About dialog
 
 =======
 0.00.07
 =======
+- About dialog
+- Improved performance when checking for updates.
 - Added catagory list to the istalled sims panel
 - Added "Update Options" menu so users can tell the launcher whether to check for updates on startup or not, and
     the user can ask to have all installed sims checked for updates.

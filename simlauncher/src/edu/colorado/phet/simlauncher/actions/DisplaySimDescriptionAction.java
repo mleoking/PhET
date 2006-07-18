@@ -43,17 +43,21 @@ public class DisplaySimDescriptionAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent event ) {
-        JTextArea textArea = new JTextArea( simContainer.getSimulation().getDescription() );
-        JEditorPane jep = new JEditorPane( "text",
-                                           simContainer.getSimulation().getDescription() );
-//        JOptionPane.showMessageDialog( parent,
-//                                       jep,
-//                                       "Simulation description",
-//                                       JOptionPane.PLAIN_MESSAGE );
+        JTextArea textArea = new JTextArea( simContainer.getSimulation().getDescription(), 10, 50 );
+        textArea.setPreferredSize( new Dimension( 200, 100 ));
+        textArea.setLineWrap( true );
+//        JEditorPane jep = new JEditorPane( "text",
+//                                           simContainer.getSimulation().getDescription() );
+        JOptionPane.showMessageDialog( parent,
+                                       textArea,
+                                       "Simulation description",
+                                       JOptionPane.PLAIN_MESSAGE );
 //        JOptionPane.showMessageDialog( parent,
 //                                       "Not yet implemented",
 //                                       "Simulation description",
 //                                       JOptionPane.PLAIN_MESSAGE );
+
+        if( true) return;
 
         // The preferred method for using the BrowserLauncher2 api is to create an
         // instance of BrowserLauncher (edu.stanford.ejalbert.BrowserLauncher) and

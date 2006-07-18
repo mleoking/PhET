@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * CheckAllForUpdateAction
@@ -38,24 +39,22 @@ public class CheckAllForUpdateAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
+        showWaitDialog();
         List installedSims = Catalog.instance().getInstalledSimulations();
         Simulation simulation = null;
-//        showWaitDialog();
-
         for( int i = 0; i < installedSims.size(); i++ ) {
             simulation = (Simulation)installedSims.get( i );
             if( !simulation.isCurrent() ) {
                 simulation.setUpdateAvailable( true );
             }
         }
-
-//        hideWaitDialog();
+        hideWaitDialog();
     }
 
 
     private void showWaitDialog() {
         JFrame frame = (JFrame)SwingUtilities.getRoot( component );
-        waitDlg = new JDialog( frame, "Checking for updates...", true );
+        waitDlg = new JDialog( frame, "Checking for updates...", false );
         JLabel message = new JLabel( "Please wait while the installed simulations are checked for available updates." );
         JPanel contentPane = (JPanel)waitDlg.getContentPane();
         contentPane.setLayout( new GridBagLayout() );
