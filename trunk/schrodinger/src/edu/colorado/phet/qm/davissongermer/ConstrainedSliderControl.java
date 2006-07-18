@@ -1,6 +1,5 @@
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
 import javax.swing.*;
@@ -20,19 +19,22 @@ import java.util.Hashtable;
 public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
     private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
     private JSlider slider;
-    private ConstrainedSliderControl.TextReadout textReadout;
+//    private ConstrainedSliderControl.TextReadout textReadout;
 
     private CoordinateFrame modelFrame;
     private CoordinateFrame viewFrame;
     private CoordinateFrame sliderFrame;
     private DecimalFormat format;
+    private JLabel titleLabel;
+    private String title;
 
     public void init( String title, DecimalFormat format, CoordinateFrame modelFrame, CoordinateFrame viewFrame, CoordinateFrame sliderFrame ) {
+        this.title = title;
         this.modelFrame = modelFrame;
         this.viewFrame = viewFrame;
         this.sliderFrame = sliderFrame;
         this.format = format;
-        JLabel titleLabel = new JLabel( title ) {
+        titleLabel = new JLabel( title ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -40,7 +42,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
             }
         };
         titleLabel.setFont( titleFont );
-        setAnchor( GridBagConstraints.CENTER );
+        setAnchor( GridBagConstraints.WEST );
         setFillNone();
         add( titleLabel );
         slider = new JSlider( 0, getNumSliderValues() - 1, (int)transform( getModelValue(), modelFrame, sliderFrame ) );
@@ -59,8 +61,8 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         addFullWidth( slider );
         setBorder( BorderFactory.createEtchedBorder() );
         setFillNone();
-        textReadout = new ConstrainedSliderControl.TextReadout();
-        add( textReadout );
+//        textReadout = new ConstrainedSliderControl.TextReadout();
+//        add( textReadout );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 changeValue();
@@ -101,23 +103,26 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
 
     public void update() {
         slider.setValue( (int)Math.round( transform( getModelValue(), modelFrame, sliderFrame ) ) );
-        textReadout.setText( "" + format.format( transform( getModelValue(), modelFrame, viewFrame ) ) + " nm" );
+        String text = "" + format.format( transform( getModelValue(), modelFrame, viewFrame ) );
+//        textReadout.setText( text + " nm" );
+        titleLabel.setText( title + ": " + text + " nm" );
     }
 
-    private static class TextReadout extends HorizontalLayoutPanel {
-        private JTextField textField;
-
-        public TextReadout() {
-            textField = new JTextField( 10 );
-            add( textField );
-            textField.setEditable( false );
-            textField.setBorder( null );
-        }
-
-        public void setText( String s ) {
-            textField.setText( s );
-        }
-    }
+//    private static class TextReadout extends HorizontalLayoutPanel {
+//        private JTextField textField;
+//
+//        public TextReadout() {
+//            textField = new JTextField( 10 );
+//            add( textField );
+//            textField.setEditable( false );
+//            textField.setBorder( null );
+//        }
+//
+//        public void setText( String s ) {
+//            textField.setText( s );
+//        }
+//    }
+//
 
     public CoordinateFrame getModelFrame() {
         return modelFrame;
