@@ -4,3 +4,10 @@ Run Test no-web
 Change URL to be bogus, and test
 
 Test connection monitor
+
+Start with "Check for updates on startup" on and off.
+
+Install multiple sims at one time.
+Uninstall multiple sims at one time.
+Install and uninstall sims at one time.
+Update several at one time.

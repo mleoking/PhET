@@ -129,7 +129,9 @@ public abstract class Simulation implements SimContainer {
     public void install() throws SimResourceException {
 
         // Install the thumbnail resource
+        // Don't think we need this.
         thumbnailResource.download();
+
 //        descriptionResource.download();
 
         setUpdateAvailable( false );
