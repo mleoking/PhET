@@ -21,18 +21,13 @@ public class DGModel {
     private ArrayList listeners = new ArrayList();
     private double defaultLatticeY0 = 0.35;
 
-    private static double viewMin = 0.05;
-    private static double viewMax = 0.25;
     private static double scaleTx = 10 / 45.0;
-    private CoordinateFrame radiusModelFrame = new CoordinateFrame( viewMin * scaleTx, viewMax * scaleTx );
-    private CoordinateFrame radiusViewFrame = new CoordinateFrame( viewMin, viewMax );
-
+    private CoordinateFrame radiusViewFrame = new CoordinateFrame( 0.05, 0.25 );
+    private CoordinateFrame radiusModelFrame = new CoordinateFrame( radiusViewFrame.getMin() * scaleTx, radiusViewFrame.getMax() * scaleTx );
     private double DEFAULT_RADIUS = radiusViewFrame.transform( 0.15, radiusModelFrame );
 
-    private static double spacingViewMin = 0.4;
-    private static double spacingViewMax = 1.2;
-    private CoordinateFrame spacingModelFrame = new CoordinateFrame( spacingViewMin * scaleTx, spacingViewMax * scaleTx );
-    private CoordinateFrame spacingViewFrame = new CoordinateFrame( spacingViewMin, spacingViewMax );
+    private CoordinateFrame spacingViewFrame = new CoordinateFrame( 0.4, 1.2 );
+    private CoordinateFrame spacingModelFrame = new CoordinateFrame( spacingViewFrame.getMin() * scaleTx, spacingViewFrame.getMax() * scaleTx );
     private double DEFAULT_SPACING = spacingViewFrame.transform( 0.6, spacingModelFrame );
 
     public DGModel( QWIModel QWIModel ) {
