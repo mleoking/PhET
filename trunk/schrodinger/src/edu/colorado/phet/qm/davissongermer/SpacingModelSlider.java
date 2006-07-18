@@ -20,7 +20,9 @@ public class SpacingModelSlider extends ModelSlider {
         setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                dgModel.setFractionalSpacing( getValue() / scale );
+                double spacing = getValue() / scale;
+                System.out.println( "spacing = " + spacing );
+                dgModel.setFractionalSpacing( spacing );
             }
         } );
     }

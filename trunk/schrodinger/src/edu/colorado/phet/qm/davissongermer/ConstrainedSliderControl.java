@@ -2,6 +2,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,40 +18,28 @@ import java.util.Hashtable;
  * Copyright (c) Jul 18, 2006 by Sam Reid
  */
 
-public class SpacingControl extends ConstrainedSliderControl {
+public class ConstrainedSliderControl extends VerticalLayoutPanel {
     private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
     private DGModel dgModel;
     private JSlider slider;
-    private TextReadout textReadout;
+    private ConstrainedSliderControl.TextReadout textReadout;
 
-    private double viewMin = 0.4;
-    private double viewMax = 1.2;
-//    private double modelMin = 0.04;
-//    private double modelMax = 0.12;
+    private ConstrainedSliderControl.CoordinateFrame modelFrame;
+    private ConstrainedSliderControl.CoordinateFrame viewFrame;
+    private ConstrainedSliderControl.CoordinateFrame sliderFrame;
 
-    double scaleTx = 10.0 * 1.0 / 45;
-    private CoordinateFrame modelFrame = new CoordinateFrame( viewMin * scaleTx, viewMax * scaleTx );
-    private CoordinateFrame viewFrame = new CoordinateFrame( viewMin, viewMax );
-    private CoordinateFrame sliderFrame = new CoordinateFrame( 0, getNumSliderValues() );
-
-    private int getNumSliderValues() {
-        double viewIncrement = 0.1;
-        return (int)( Math.round( viewFrame.getRange() / viewIncrement ) + 1 );
-    }
-
-    public SpacingControl( DGModel dgModel ) {
-        this.dgModel = dgModel;
-        JLabel title = new JLabel( "Atom Separation (D)" ) {
+    public ConstrainedSliderControl( String title, CoordinateFrame modelFrame, CoordinateFrame viewFrame, CoordinateFrame sliderFrame ) {
+        JLabel titleLabel = new JLabel( "Atom Separation (D)" ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
         };
-        title.setFont( titleFont );
+        titleLabel.setFont( titleFont );
         setAnchor( GridBagConstraints.CENTER );
         setFillNone();
-        add( title );
+        add( titleLabel );
         slider = new JSlider( 0, getNumSliderValues(), (int)transform( dgModel.getFractionalSpacing(), modelFrame, sliderFrame ) );
         slider.setPaintLabels( true );
         slider.setPaintTrack( true );
@@ -67,7 +56,7 @@ public class SpacingControl extends ConstrainedSliderControl {
         addFullWidth( slider );
         setBorder( BorderFactory.createEtchedBorder() );
         setFillNone();
-        textReadout = new TextReadout();
+        textReadout = new ConstrainedSliderControl.TextReadout();
         add( textReadout );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -86,6 +75,11 @@ public class SpacingControl extends ConstrainedSliderControl {
          2. view (display): what the user sees.
          3. model (code): what value is used for computation. 
         */
+    }
+
+    private int getNumSliderValues() {
+        double viewIncrement = 0.1;
+        return (int)( Math.round( viewFrame.getRange() / viewIncrement ) + 1 );
     }
 
     public static class CoordinateFrame {
@@ -116,7 +110,7 @@ public class SpacingControl extends ConstrainedSliderControl {
         dgModel.setFractionalSpacing( spacing );
     }
 
-    private double transform( double value, CoordinateFrame sourceFrame, CoordinateFrame dstFrame ) {
+    private double transform( double value, ConstrainedSliderControl.CoordinateFrame sourceFrame, ConstrainedSliderControl.CoordinateFrame dstFrame ) {
         return new Function.LinearFunction( sourceFrame.getMin(), sourceFrame.getMax(), dstFrame.getMin(), dstFrame.getMax() ).evaluate( value );
     }
 
