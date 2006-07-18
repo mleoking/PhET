@@ -1,3 +1,6 @@
+0.00.17
+Removed one decimal place from separation readout in saved plot.
+
 0.00.16 (7-17-2006)
 Made atom size more continuous (user sets integer diameter, not radius).
 Updated the look and feel to match QWI.
