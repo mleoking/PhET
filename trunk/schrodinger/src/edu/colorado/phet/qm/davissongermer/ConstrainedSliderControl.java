@@ -1,6 +1,5 @@
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
@@ -23,9 +22,9 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
     private JSlider slider;
     private ConstrainedSliderControl.TextReadout textReadout;
 
-    private ConstrainedSliderControl.CoordinateFrame modelFrame;
-    private ConstrainedSliderControl.CoordinateFrame viewFrame;
-    private ConstrainedSliderControl.CoordinateFrame sliderFrame;
+    private CoordinateFrame modelFrame;
+    private CoordinateFrame viewFrame;
+    private CoordinateFrame sliderFrame;
     private DecimalFormat format;
 
     public void init( String title, DecimalFormat format, CoordinateFrame modelFrame, CoordinateFrame viewFrame, CoordinateFrame sliderFrame ) {
@@ -44,7 +43,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         setAnchor( GridBagConstraints.CENTER );
         setFillNone();
         add( titleLabel );
-        slider = new JSlider( 0, getNumSliderValues(), (int)transform( getModelValue(), modelFrame, sliderFrame ) );
+        slider = new JSlider( 0, getNumSliderValues() - 1, (int)transform( getModelValue(), modelFrame, sliderFrame ) );
         slider.setPaintLabels( true );
         slider.setPaintTrack( true );
         slider.setPaintTicks( true );
@@ -53,7 +52,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         slider.setSnapToTicks( true );
         Hashtable labels = new Hashtable();
         System.out.println( "getNumSliderValues() = " + getNumSliderValues() );
-        for( int i = 0; i <= getNumSliderValues(); i ++ ) {
+        for( int i = 0; i <= getNumSliderValues() - 1; i ++ ) {
             labels.put( new Integer( i ), new JLabel( format.format( transform( i, sliderFrame, viewFrame ) ) ) );
         }
         slider.setLabelTable( labels );
@@ -81,50 +80,15 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
     }
 
     private int getNumSliderValues() {
-        return (int)Math.round( sliderFrame.getRange() );
+        return (int)Math.round( sliderFrame.getRange() ) + 1;
     }
 
     public JSlider getSlider() {
         return slider;
     }
 
-    public static class CoordinateFrame {
-        double min;
-        double max;
-
-        public CoordinateFrame( double min, double max ) {
-            this.min = min;
-            this.max = max;
-        }
-
-        public double getMin() {
-            return min;
-        }
-
-        public double getMax() {
-            return max;
-        }
-
-        public double getRange() {
-            return max - min;
-        }
-
-        public boolean contains( double value ) {
-            return value >= min && value <= max;
-        }
-
-        public String toString() {
-            return "min=" + min + ", max=" + max;
-        }
-    }
-
-    protected double transform( double value, ConstrainedSliderControl.CoordinateFrame sourceFrame, ConstrainedSliderControl.CoordinateFrame dstFrame ) {
-        if( sourceFrame.contains( value ) ) {
-            return new Function.LinearFunction( sourceFrame.getMin(), sourceFrame.getMax(), dstFrame.getMin(), dstFrame.getMax() ).evaluate( value );
-        }
-        else {
-            throw new RuntimeException( "Model frame doesn't contain value: " + value + ", sourceFrame=" + sourceFrame );
-        }
+    protected double transform( double value, CoordinateFrame sourceFrame, CoordinateFrame dstFrame ) {
+        return sourceFrame.transform( value, dstFrame );
     }
 
     public abstract double getModelValue();

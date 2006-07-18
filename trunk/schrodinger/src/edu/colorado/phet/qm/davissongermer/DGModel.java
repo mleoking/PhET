@@ -20,11 +20,20 @@ public class DGModel {
     private ConcreteAtomLattice concreteAtomLattice;
     private ArrayList listeners = new ArrayList();
     private double defaultLatticeY0 = 0.35;
-//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS = 0.15 * ( 0.6 / 6.75 );
-//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.6/45.0;
-//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.15*0.6/0.675;
-//    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 2.0 / 15.0;
-    private static final double DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL = 0.12;
+
+    private static double viewMin = 0.05;
+    private static double viewMax = 0.25;
+    private static double scaleTx = 10 / 45.0;
+    private CoordinateFrame radiusModelFrame = new CoordinateFrame( viewMin * scaleTx, viewMax * scaleTx );
+    private CoordinateFrame radiusViewFrame = new CoordinateFrame( viewMin, viewMax );
+
+    private double DEFAULT_RADIUS = radiusViewFrame.transform( 0.15, radiusModelFrame );
+
+    private static double spacingViewMin = 0.4;
+    private static double spacingViewMax = 1.2;
+    private CoordinateFrame spacingModelFrame = new CoordinateFrame( spacingViewMin * scaleTx, spacingViewMax * scaleTx );
+    private CoordinateFrame spacingViewFrame = new CoordinateFrame( spacingViewMin, spacingViewMax );
+    private double DEFAULT_SPACING = spacingViewFrame.transform( 0.6, spacingModelFrame );
 
     public DGModel( QWIModel QWIModel ) {
         this.QWIModel = QWIModel;
@@ -44,8 +53,8 @@ public class DGModel {
     }
 
     private FractionalAtomLattice createAtomLattice( boolean circular ) {
-        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
-               new SquareAtomLattice( 0.05, DEFAULT_SPACING_BETWEEN_ATOMS_FRACTIONAL, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( DEFAULT_RADIUS, DEFAULT_SPACING, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
+               new SquareAtomLattice( DEFAULT_RADIUS, DEFAULT_SPACING, defaultLatticeY0, QWIModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     public Wavefunction getWavefunction() {
@@ -72,6 +81,14 @@ public class DGModel {
 
     public Point getCenterAtomPoint() {
         return fractionalAtomLattice.getCenterAtomConcretePoint( QWIModel.getGridWidth(), QWIModel.getGridHeight() );
+    }
+
+    public CoordinateFrame getRadiusModelFrame() {
+        return radiusModelFrame;
+    }
+
+    public CoordinateFrame getRadiusViewFrame() {
+        return radiusViewFrame;
     }
 
     static interface Listener {
@@ -130,4 +147,11 @@ public class DGModel {
         return concreteAtomLattice;
     }
 
+    public CoordinateFrame getSpacingModelFrame() {
+        return spacingModelFrame;
+    }
+
+    public CoordinateFrame getSpacingViewFrame() {
+        return spacingViewFrame;
+    }
 }
