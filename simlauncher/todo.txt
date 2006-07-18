@@ -1,6 +1,9 @@
 ====
 Bugs
 ====
+- Does Simulation.install() need to download the thumbnail?
+- Install both Flash sims, then uninstall them from the Installed Sims pane, and one of them still has
+    a check mark in the catalog.
 - MetaData must update its properties when appropriate
 - Figure out why John Travoltage bug occured
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
@@ -17,6 +20,7 @@ Bugs
 ========
 Features
 ========
+- Does SimTable need to do isCurrent() check on sim, or can it just ask sim.IsUpdateAvailable()?
 - When multiple sims are installed, exceptions are thrown
 - When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
     row with the data for the simulation should get updated.

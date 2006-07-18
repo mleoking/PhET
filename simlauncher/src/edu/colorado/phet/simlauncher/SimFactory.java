@@ -132,15 +132,15 @@ public class SimFactory {
                 String descAddr = descAttrib.getValue();
 //                URL descUrl = null;
                 DescriptionResource descResource = null;
-                try {
-                    descResource = new DescriptionResource( new URL( descAddr ), localRoot );
-                    if( !(descResource.getLocalFile().exists() )) {
-                        descResource.download();
-                    }
-                }
-                catch( java.net.MalformedURLException mue) {
-                    // let the descUrl stay null
-                }
+//                try {
+//                    descResource = new DescriptionResource( new URL( descAddr ), localRoot );
+//                    if( !(descResource.getLocalFile().exists() )) {
+//                        descResource.download();
+//                    }
+//                }
+//                catch( java.net.MalformedURLException mue) {
+////                     let the descUrl stay null
+//                }
 
                 // If the thumbnail isn't local, download it so we'll have a copy to display
                 Attribute thumbnailAttrib = element.getAttribute( simThumbnailAttib );
@@ -165,6 +165,8 @@ public class SimFactory {
                 if( typeAttrib == null ) {
                     throw new XmlCatalogException( "Simulation has no type attribute. name = " + name );
                 }
+
+                Simulation sim = null;
                 if( typeAttrib.getValue().toLowerCase().equals( JAVA_TYPE_STRING ) ) {
                     Attribute jnlpAttrib = element.getAttribute( simJnlpAttrib );
                     if( jnlpAttrib == null ) {
@@ -172,9 +174,8 @@ public class SimFactory {
                     }
                     String jnlpStr = jnlpAttrib.getValue();
                     URL jnlpURL = new URL( jnlpStr );
-                    JavaSimulation sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
+                    sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
 //                    JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
-                    simList.add( sim );
                 }
 
                 else if( typeAttrib.getValue().toLowerCase().equals( FLASH_TYPE_STRING ) ) {
@@ -185,13 +186,19 @@ public class SimFactory {
                     }
                     String swfStr = swfAttrib.getValue();
                     URL swfURL = new URL( swfStr );
-                    Simulation sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
+                    sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
 //                    Simulation sim = new FlashSimulation( name, str, thumbnailResource, swfURL, localRoot );
-                    simList.add( sim );
                 }
                 else {
                     throw new XmlCatalogException( "Simulation type unrecognized. name = " + name );
                 }
+
+                // Check for update and add to the sim list
+                if( Options.instance().isCheckForUpdatesOnStartup()
+                        && sim.isInstalled() && !sim.isCurrent() ){
+                    sim.setUpdateAvailable( true );
+                }
+                simList.add( sim );
             }
         }
         catch( Exception e ) {

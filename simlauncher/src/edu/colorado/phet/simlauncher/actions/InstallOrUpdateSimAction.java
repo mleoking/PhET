@@ -36,15 +36,15 @@ public class InstallOrUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        AbstractAction updateAction = new UpdateSimAction( simContainer, component);
-        AbstractAction installAction = new InstallSimAction( simContainer, component);
         Simulation[] sims = simContainer.getSimulations();
         for( int i = 0; i < sims.length; i++ ) {
             Simulation sim = sims[i];
             if( sim.isInstalled() ) {
+                AbstractAction updateAction = new UpdateSimAction( sim, component);
                 updateAction.actionPerformed( e );
             }
             else {
+                AbstractAction installAction = new InstallSimAction( sim, component);
                 installAction.actionPerformed( e );
             }
         }
