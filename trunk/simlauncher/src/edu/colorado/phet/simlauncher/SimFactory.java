@@ -132,15 +132,15 @@ public class SimFactory {
                 String descAddr = descAttrib.getValue();
 //                URL descUrl = null;
                 DescriptionResource descResource = null;
-//                try {
-//                    descResource = new DescriptionResource( new URL( descAddr ), localRoot );
-//                    if( !(descResource.getLocalFile().exists() )) {
-//                        descResource.download();
-//                    }
-//                }
-//                catch( java.net.MalformedURLException mue) {
-//                    // let the descUrl stay null
-//                }
+                try {
+                    descResource = new DescriptionResource( new URL( descAddr ), localRoot );
+                    if( !(descResource.getLocalFile().exists() )) {
+                        descResource.download();
+                    }
+                }
+                catch( java.net.MalformedURLException mue) {
+                    // let the descUrl stay null
+                }
 
                 // If the thumbnail isn't local, download it so we'll have a copy to display
                 Attribute thumbnailAttrib = element.getAttribute( simThumbnailAttib );

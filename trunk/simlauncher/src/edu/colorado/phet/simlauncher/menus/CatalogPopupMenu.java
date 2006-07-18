@@ -12,10 +12,7 @@ package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.menus.menuitems.SimDescriptionMenuItem;
-import edu.colorado.phet.simlauncher.menus.menuitems.SimUninstallMenuItem;
-import edu.colorado.phet.simlauncher.menus.menuitems.SimUpdateCheckMenuItem;
-import edu.colorado.phet.simlauncher.menus.menuitems.SimUpdateMenuItem;
+import edu.colorado.phet.simlauncher.menus.menuitems.*;
 
 import javax.swing.*;
 
@@ -36,15 +33,18 @@ public class CatalogPopupMenu extends JPopupMenu {
         JMenuItem updateMI = new SimUpdateMenuItem( simulation, PhetSiteConnection.instance() );
         JMenuItem descriptionMI = new SimDescriptionMenuItem( simulation );
         JMenuItem uninstallMI = new SimUninstallMenuItem( simulation );
+        JMenuItem installMI = new SimInstallMenuItem( simulation, PhetSiteConnection.instance() );
 
 //        add( descriptionMI );
         add( checkUpdateMI );
         add( updateMI );
         add( uninstallMI );
+        add( installMI );
 
         // Enable/disable menu items that are dependent on whether the simulation is installed
         checkUpdateMI.setEnabled( simulation.isInstalled() );
         updateMI.setEnabled( simulation.isInstalled() );
         uninstallMI.setEnabled( simulation.isInstalled() );
+        installMI.setEnabled( !simulation.isInstalled() );
     }
 }

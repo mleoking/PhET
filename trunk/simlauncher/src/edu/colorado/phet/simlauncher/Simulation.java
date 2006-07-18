@@ -41,7 +41,7 @@ public abstract class Simulation implements SimContainer {
     //--------------------------------------------------------------------------------------------------
 
     private String name;
-//    private String description;
+    private String description;
 
     private DescriptionResource descriptionResource;
     private ThumbnailResource thumbnailResource;
