@@ -11,10 +11,12 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.CheckForUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -81,9 +83,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
             Category allSims = new Category( "All simulations", Catalog.instance().getAllSimulations() );
-            ArrayList categories = new ArrayList( );
+            ArrayList categories = new ArrayList();
             categories.add( allSims );
-            categories.addAll( Catalog.instance().getCategories());
+            categories.addAll( Catalog.instance().getCategories() );
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
             categoryJList.setSelectedValue( allSims, true );
             add( categoryJList, BorderLayout.CENTER );
@@ -109,14 +111,12 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
-        private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
-                                                                       GridBagConstraints.CENTER,
-                                                                       GridBagConstraints.NONE,
-                                                                       new Insets( 10, 0, 20, 0 ), 0, 0 );
-        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
+        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
                                                                       GridBagConstraints.BOTH,
-                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                      new Insets( 0, 10, 0, 10 ), 0, 0 );
+        private ArrayList columns;
+        private JButton checkForUpdateBtn;
 
         /**
          * Constructor
@@ -126,13 +126,96 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
-            JPanel headerPanel = new JPanel( new BorderLayout() );
+
+            GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
+                                                                   GridBagConstraints.CENTER,
+                                                                   GridBagConstraints.HORIZONTAL,
+                                                                   new Insets( 10, 0, 20, 0 ), 0, 0 );
+            add( createHeaderPanel(), headerGbc );
+
+            // Add a listener to the catalog that will update the sim table if the catalog changes
+            Catalog.instance().addChangeListener( this );
+            Options.instance().addListener( new Options.ChangeListener() {
+                public void optionsChanged( Options.ChangeEvent event ) {
+                    updateSimTable();
+                }
+            } );
+            updateSimTable();
+        }
+
+        /**
+         * Creates the panel that goes at the top of the pane
+         *
+         * @return a JPanel
+         */
+        private JPanel createHeaderPanel() {
+            JPanel header = new JPanel( new GridBagLayout() );
+            GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                   GridBagConstraints.CENTER,
+                                                                   GridBagConstraints.NONE,
+                                                                   new Insets( 0, 10, 0, 10 ), 0, 0 );
+
+            // Select All and Clear All buttons
+            // todo: make checkBoxColumn programattically determined
+            int checkBoxColumn = 0;
+            if( checkBoxColumn >= 0 ) {
+                JButton selectAllBtn = new JButton( "Select All" );
+                selectAllBtn.addActionListener( new AbstractAction() {
+                    public void actionPerformed( ActionEvent e ) {
+                        selectAll( true);
+                    }
+                } );
+
+                JButton clearAllBtn = new JButton( "Clear All" );
+                clearAllBtn.addActionListener( new AbstractAction() {
+                    public void actionPerformed( ActionEvent e ) {
+                        selectAll( false);
+                    }
+                } );
+
+                JPanel btnPanel = new JPanel( new GridBagLayout() );
+                GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                    1, 1, 1, 1,
+                                                                    GridBagConstraints.CENTER,
+                                                                    GridBagConstraints.NONE,
+                                                                    new Insets( 5, 0, 5, 0 ), 0, 0 );
+                btnPanel.add( selectAllBtn, sbpGbc );
+                btnPanel.add( clearAllBtn, sbpGbc );
+                headerGbc.anchor = GridBagConstraints.WEST;
+                header.add( btnPanel, headerGbc );
+            }
+
             // Install button
-            installBtn = new JButton( "Install / Update" );
-            installBtn.addActionListener( new InstallOrUpdateSimAction( this, this ) );
-            installBtn.setEnabled( false );
-            headerGbc.weightx = 1;
-            add( installBtn, headerGbc );
+            {
+                installBtn = new JButton( "Install / Update" );
+                installBtn.addActionListener( new InstallOrUpdateSimAction( this, this ) );
+                installBtn.setEnabled( false );
+
+                // Check for Update button
+                checkForUpdateBtn = new JButton( "Check for Updates" );
+                checkForUpdateBtn.addActionListener( new AbstractAction( ){
+                    public void actionPerformed( ActionEvent e ) {
+                        new CheckForUpdateSimAction( simTable, CatalogPane.this ).actionPerformed( e );
+                    }
+                });
+
+//                checkForUpdateBtn.addActionListener( new CheckForUpdateSimAction( simTable, this ) );
+
+
+                JPanel btnPanel = new JPanel( new GridBagLayout() );
+                GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                    1, 1, 1, 1,
+                                                                    GridBagConstraints.CENTER,
+                                                                    GridBagConstraints.NONE,
+                                                                    new Insets( 5, 0, 5, 0 ), 0, 0 );
+                btnPanel.add( installBtn, sbpGbc );
+                btnPanel.add( checkForUpdateBtn, sbpGbc );
+
+                headerGbc.gridx++;
+                headerGbc.anchor = GridBagConstraints.CENTER;
+//                header.add( installBtn, headerGbc );
+                header.add( btnPanel, headerGbc );
+            }
 
             // "Show Thumbnails" checkbox
             final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
@@ -143,18 +226,37 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             } );
             showThumbnailsCB.setSelected( Options.instance().isShowCatalogThumbnails() );
             headerGbc.gridx++;
-            headerPanel.add( showThumbnailsCB, BorderLayout.EAST );
-            headerGbc.weightx = .01;
-            add( showThumbnailsCB, headerGbc );
+            headerGbc.anchor = GridBagConstraints.EAST;
+            header.add( showThumbnailsCB, headerGbc );
 
-            // Add a listener to the catalog that will update the sim table if the catalog changes
-            Catalog.instance().addChangeListener( this );
-            Options.instance().addListener( new Options.ChangeListener() {
-                public void optionsChanged( Options.ChangeEvent event ) {
-                    updateSimTable();
-                }
-            } );
-            updateSimTable();
+            return header;
+        }
+
+        /**
+         * Selects or de-selects all the simulations
+         * @param areSelected
+         */
+        private void selectAll( boolean areSelected ) {
+            TableModel tableModel = simTable.getModel();
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                tableModel.setValueAt( new Boolean( areSelected ), i, 0 );
+            }
+            enableDisableButtons();
+        }
+
+        /**
+         * Enables/disables the buttons in the header depending on the state of things
+         */
+        private void enableDisableButtons() {
+            // The Install button should be enabled if any check boxes are checked
+            installBtn.setEnabled( simTable.getSelections().length > 0 );
+            Simulation[] selections = simTable.getSelections();
+            boolean installedSimIsSelected = false;
+            for( int i = 0; i < selections.length && !installedSimIsSelected; i++ ) {
+                Simulation selection = selections[i];
+                installedSimIsSelected = selection.isInstalled();
+            }
+            checkForUpdateBtn.setEnabled( installedSimIsSelected );
         }
 
         /**
@@ -177,7 +279,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             }
 
             // Create the SimulationTable
-            ArrayList columns = new ArrayList();
+            columns = new ArrayList();
             columns.add( SimTable.SELECTION_CHECKBOX );
             columns.add( SimTable.NAME );
             if( Options.instance().isShowCatalogThumbnails() ) {
@@ -193,11 +295,21 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             // Add a mouse handler to the table
             simTable.addMouseListener( new MouseHandler() );
 
+            //  Put the SimTable in a JPanel, then put the JPanel in the ScrollPane. This will make
+            //  ScrollPane a size that is no bigger than neccesary to contain the SimTable
+            JPanel jp = new JPanel( new GridBagLayout() );
+            jp.add( simTable, new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                      GridBagConstraints.CENTER,
+                                                      GridBagConstraints.VERTICAL,
+                                                      new Insets( 0, 0, 0, 0 ), 0, 0
+            ) );
+//            simTableScrollPane = new JScrollPane( jp );
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
 
             // Disable the install button, since there is no selected simulation anymore
             installBtn.setEnabled( false );
+            checkForUpdateBtn.setEnabled( false );
 
             // This is required to get rid of screen turds if the old table had a scrollbar and the
             // new one doesn't
@@ -253,8 +365,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 //                    }
 //                }
 
-                // The Install button should be enabled if any check boxes are checked
-                installBtn.setEnabled( simTable.getSelections().length > 0 );
+                enableDisableButtons();
 
                 // Notify change listeners
                 changeEventChannel.notifyChangeListeners( CatalogPane.this );

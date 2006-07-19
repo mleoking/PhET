@@ -131,7 +131,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         if( Options.instance().isShowInstalledThumbnails() ) {
             columns.add( SimTable.THUMBNAIL );
         }
-        columns.add( SimTable.IS_UP_TO_DATE );
+//        columns.add( SimTable.IS_UP_TO_DATE );
         simTable = new SimTable( simList,
                                  simTableSortType,
                                  ListSelectionModel.SINGLE_SELECTION,
@@ -140,6 +140,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // Add mouse handler
         simTable.addMouseListener( new MouseHandler() );
 
+        //  Put the SimTable in a JPanel, then put the JPanel in the ScrollPane. This will make
+        //  ScrollPane a size that is no bigger than neccesary to contain the SimTable
+        JPanel jp = new JPanel( );
+        jp.add( simTable );
+//        simTableScrollPane = new JScrollPane( jp );
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
 
