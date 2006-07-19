@@ -53,7 +53,25 @@ public class RadiusControl extends ConstrainedSliderControl {
             }
         } );
         update();
+        CoordinateFrame sliderCoordinateFrame = getSliderFrame();
+        System.out.println( "Converting slider values:" );
+        for( double i = sliderCoordinateFrame.getMin(); i <= sliderCoordinateFrame.getMax(); i++ ) {
+            double v = transform( i, sliderCoordinateFrame, getViewFrame() );
+            double m = transform( i, sliderCoordinateFrame, getModelFrame() );
+            System.out.println( "slider value = " + i + ", view=" + v + ", fraction of lattice=" + m + ", cells on lattice=" + modelFractionToNumCells( m ) + " chopped=" + (int)modelFractionToNumCells( m ) );
+        }
+
+        System.out.println( "Converting view values:" );
+        for( double i = getViewFrame().getMin(); i <= getViewFrame().getMax(); i += 0.05 ) {
+            double m = transform( i, getViewFrame(), getModelFrame() );
+            double s = transform( i, getViewFrame(), getSliderFrame() );
+            System.out.println( "view value = " + i + ", slider value=" + s + ", fraction of lattice=" + m + ", cells on lattice=" + modelFractionToNumCells( m ) + ", chopped=" + (int)modelFractionToNumCells( m ) );
+        }
     }
 
+    public static double modelFractionToNumCells( double modelFraction ) {
+//        return (int)( modelFraction * 45 );
+        return ( modelFraction * 45.0 );
+    }
 
 }
