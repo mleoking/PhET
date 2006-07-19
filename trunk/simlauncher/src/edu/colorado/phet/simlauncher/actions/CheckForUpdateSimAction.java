@@ -44,7 +44,11 @@ public class CheckForUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        Simulation sim = simContainer.getSimulation();
+//        Simulation sim = simContainer.getSimulation();
+        Simulation[] sims = simContainer.getSimulations();
+        for( int i = 0; i < sims.length; i++ ) {
+            Simulation sim = sims[i];
+
 //        try {
             if( !sim.isInstalled() ) {
                 result = SIM_NOT_INSTALLED;
@@ -53,12 +57,13 @@ public class CheckForUpdateSimAction extends AbstractAction {
             else if( !sim.isCurrent() ) {
                 result = UPDATE_AVAILABLE;
                 showResult( "An update is available" );
-                sim.setUpdateAvailable( true);
+                sim.setUpdateAvailable( true );
             }
             else {
                 result = NO_UPDATE_AVAILABLE;
                 showResult( "The installed simulation is current" );
             }
+        }
 
 //        }
 //        catch( SimResourceException e1 ) {

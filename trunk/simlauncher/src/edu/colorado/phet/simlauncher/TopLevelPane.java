@@ -62,7 +62,7 @@ public class TopLevelPane extends JTabbedPane {
 
     private TopLevelPane() {
         installedSimsPane = new InstalledSimsPaneNew();
-        addTab( "Installed Simulations", installedSimsPane );
+        addTab( "My Simulations", installedSimsPane );
 
         // Listen for changes in the connection to the PhET site, to know whether the online
         // catalog should be displayed
@@ -111,7 +111,7 @@ public class TopLevelPane extends JTabbedPane {
         if( phetSiteConnection.isConnected() ) {
             if( Catalog.instance().isRemoteAvailable() && catalogPane == null ) {
                 catalogPane = new CatalogPane();
-                addTab( "Catalog", catalogPane );
+                addTab( "Add/Remove", catalogPane );
                 Catalog.instance().removeChangeListener( installedSimsPane );
                 Catalog.instance().addChangeListener( installedSimsPane );
             }
