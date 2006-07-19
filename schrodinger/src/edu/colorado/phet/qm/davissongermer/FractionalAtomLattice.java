@@ -81,13 +81,22 @@ public abstract class FractionalAtomLattice {
     protected abstract AtomPotential createPotential( Point center, int diameter, double potential );
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
-        int spacing = (int)( spacingBetweenAtoms * latticeWidth );
-        return spacing;//could overlap
+        return round( spacingBetweenAtoms * latticeWidth );//could overlap
 //        return Math.max( getConcreteAtomDiameter( latticeWidth, latticeHeight ), spacing );
     }
 
     private int getConcreteAtomDiameter( int latticeWidth, int latticeHeight ) {
-        return (int)( atomRadius * latticeWidth * 2.0 );
+//        return (int)( atomRadius * latticeWidth * 2.0 );
+//        return round( atomRadius * latticeWidth * 2.0 );
+        return round2( atomRadius * latticeWidth * 2.0 );
+    }
+
+    private int round2( double v ) {
+        return (int)Math.round( v );
+    }
+
+    private int round( double v ) {
+        return (int)v;
     }
 
     public double getY0() {

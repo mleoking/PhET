@@ -1,5 +1,6 @@
-0.00.18
-Moved value readouts north.
+0.00.18 (7-19-2006)
+Moved value readouts north for control panel sliders.
+Added more choices for atom size.
 
 0.00.17 (7-18-2006)
 Removed one decimal place from separation readout in saved plot.
