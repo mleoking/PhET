@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
 import edu.colorado.phet.simlauncher.actions.CheckForUpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -150,6 +151,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
          */
         private JPanel createHeaderPanel() {
             JPanel header = new JPanel( new GridBagLayout() );
+            Border border = BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.black ),
+                                                              "Actions" );
+            header.setBorder( border);
             GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                    GridBagConstraints.CENTER,
                                                                    GridBagConstraints.NONE,
@@ -177,7 +181,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                                     1, 1, 1, 1,
                                                                     GridBagConstraints.CENTER,
-                                                                    GridBagConstraints.NONE,
+                                                                    GridBagConstraints.HORIZONTAL,
                                                                     new Insets( 5, 0, 5, 0 ), 0, 0 );
                 btnPanel.add( selectAllBtn, sbpGbc );
                 btnPanel.add( clearAllBtn, sbpGbc );
@@ -206,7 +210,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                                     1, 1, 1, 1,
                                                                     GridBagConstraints.CENTER,
-                                                                    GridBagConstraints.NONE,
+                                                                    GridBagConstraints.HORIZONTAL,
                                                                     new Insets( 5, 0, 5, 0 ), 0, 0 );
                 btnPanel.add( installBtn, sbpGbc );
                 btnPanel.add( checkForUpdateBtn, sbpGbc );

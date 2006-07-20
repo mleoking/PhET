@@ -111,7 +111,7 @@ public class TopLevelPane extends JTabbedPane {
         if( phetSiteConnection.isConnected() ) {
             if( Catalog.instance().isRemoteAvailable() && catalogPane == null ) {
                 catalogPane = new CatalogPane();
-                addTab( "Add/Remove", catalogPane );
+                addTab( "Add/Remove/Update", catalogPane );
                 Catalog.instance().removeChangeListener( installedSimsPane );
                 Catalog.instance().addChangeListener( installedSimsPane );
             }
