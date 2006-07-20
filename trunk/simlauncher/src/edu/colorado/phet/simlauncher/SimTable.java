@@ -110,7 +110,7 @@ public class SimTable extends JTable implements SimContainer {
     private int nameColumnIndex = -1;
     private int simUpToDateColumnIndex = -1;
     private int simIsInstalledColumnIndex = -1;
-    private Simulation.ChangeListener simListener = new SimListener();
+    private Simulation.ChangeListener simListener = new SimUpdateListener();
 
     /**
      * @param sims
@@ -189,9 +189,6 @@ public class SimTable extends JTable implements SimContainer {
             setCellSelectionEnabled( false );
         }
 
-        if( simIsInstalledColumnIndex == -1 ) {
-            System.out.println( "SimTable.SimTable" );
-        }
     }
 
     /**
@@ -454,7 +451,7 @@ public class SimTable extends JTable implements SimContainer {
     }
 
 
-    private class SimListener implements Simulation.ChangeListener {
+    private class SimUpdateListener implements Simulation.ChangeListener {
         public void installed( Simulation.ChangeEvent event ) {
             String simName = event.getSimulation().getName();
             TableModel tableModel = SimTable.this.getModel();
@@ -474,9 +471,9 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         public void uninstalled( Simulation.ChangeEvent event ) {
-            String simName = event.getSimulation().getName();
-            TableModel tableModel = SimTable.this.getModel();
-            if( simIsInstalledColumnIndex != -1 ) {
+            if( columns.contains( SimTable.IS_INSTALLED )) {
+                String simName = event.getSimulation().getName();
+                TableModel tableModel = SimTable.this.getModel();
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
                     if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
                         tableModel.setValueAt( null, i, simIsInstalledColumnIndex );
@@ -487,23 +484,36 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         public void updated( Simulation.ChangeEvent event ) {
-            String simName = event.getSimulation().getName();
-            TableModel tableModel = SimTable.this.getModel();
-            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                    tableModel.setValueAt( null, i, simUpToDateColumnIndex );
-                    break;
+            if( columns.contains( SimTable.IS_UP_TO_DATE )) {
+                String simName = event.getSimulation().getName();
+                TableModel tableModel = SimTable.this.getModel();
+                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                        tableModel.setValueAt( null, i, simUpToDateColumnIndex );
+                        break;
+                    }
                 }
             }
         }
 
         public void updateAvailable( Simulation.ChangeEvent event ) {
-            String simName = event.getSimulation().getName();
-            TableModel tableModel = SimTable.this.getModel();
-            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                    tableModel.setValueAt( updateAvailableIcon, i, simUpToDateColumnIndex );
-                    break;
+            if( columns.contains( SimTable.IS_UP_TO_DATE )) {
+                Simulation sim = event.getSimulation();
+                String simName = sim.getName();
+                TableModel tableModel = SimTable.this.getModel();
+
+                Object value = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() )
+                               ? updateAvailableIcon
+                               : null;
+
+                if( value != null ){
+                    System.out.println( "SimTable$SimUpdateListener.updateAvailable" );
+                }
+                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                        tableModel.setValueAt( value, i, simUpToDateColumnIndex );
+                        break;
+                    }
                 }
             }
         }
@@ -528,8 +538,11 @@ public class SimTable extends JTable implements SimContainer {
 
     private class CheckBoxSelectionFlipper extends MouseAdapter {
         public void mouseClicked( MouseEvent e ) {
-            if( getSelectedColumn() != checkBoxColumnIndex ) {
+            if( columns.contains( SELECTION_CHECKBOX ) && getSelectedColumn() != checkBoxColumnIndex  ) {
                 int selectedRow = getSelectedRow();
+                if( selectedRow == -1 ) {
+                    System.out.println( "SimTable$CheckBoxSelectionFlipper.mouseClicked" );
+                }
                 boolean oldValue = ( (Boolean)getValueAt( selectedRow, checkBoxColumnIndex ) ).booleanValue();
                 setValueAt( new Boolean( !oldValue ), selectedRow, checkBoxColumnIndex );
             }

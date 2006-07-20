@@ -1,9 +1,8 @@
 ====
 Bugs
 ====
+- Catalog: Select All, then right click throws exception
 - Does Simulation.install() need to download the thumbnail?
-- Install both Flash sims, then uninstall them from the Installed Sims pane, and one of them still has
-    a check mark in the catalog.
 - MetaData must update its properties when appropriate
 - Figure out why John Travoltage bug occured
 - If site not available but connection is, the app hangs. Need a timeout on the connection attempt.
@@ -20,16 +19,16 @@ Bugs
 ========
 Features
 ========
+- Include catalog in distribution, to reduce first-time startup on slow connections.
+- When you check for updates on multiple simulations, only put up one dialog for everything
+- shorten cache path to "codebase"
+- Context menu on Catalog pane should apply to all selected simulations
 - Does SimTable need to do isCurrent() check on sim, or can it just ask sim.IsUpdateAvailable()?
-- When multiple sims are installed, exceptions are thrown
-- When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
-    row with the data for the simulation should get updated.
 - check where UPDATE_ENABLED is checked. It isn't named properly
 
 - combine the popup menu classes
 - finish populating the catalog
 - Set up so the program itself checks for its own updates.
-- Include catalog in distribution, to reduce first-time startup on slow connections.
 - Make update checks more configurable so that performance isn't impaired on slow connections. Make
 	options persistent.
 
@@ -91,6 +90,13 @@ Testing
 - Test update check for all SimResource types
 - Do extensive offline testing
 
+
+=======
+0.00.08
+=======
+- Remove all items from InstalledSimsPopupMenu except for Launch
+- When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
+    row with the data for the simulation should get updated.
 
 =======
 0.00.07
@@ -170,3 +176,11 @@ Testing
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
 - Popup menus aren't always displayed in the right place
+
+
+==========
+Bugs fixed
+==========
+7/20-06 - Install both Flash sims, then uninstall them from the Installed Sims pane, and one of them still has
+    a check mark in the catalog.
+7/20-06 - When multiple sims are installed, exceptions are thrown
