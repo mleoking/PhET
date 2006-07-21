@@ -1,7 +1,7 @@
 ====
 Bugs
 ====
-- Catalog: Select All, then right click throws exception
+- Not all thumbnails are coming down the first time, if Show Thumbnails isn't selected.
 - Does Simulation.install() need to download the thumbnail?
 - MetaData must update its properties when appropriate
 - Figure out why John Travoltage bug occured
@@ -184,3 +184,4 @@ Bugs fixed
 7/20-06 - Install both Flash sims, then uninstall them from the Installed Sims pane, and one of them still has
     a check mark in the catalog.
 7/20-06 - When multiple sims are installed, exceptions are thrown
+7/20-06 - Catalog: Select All, then right click throws exception

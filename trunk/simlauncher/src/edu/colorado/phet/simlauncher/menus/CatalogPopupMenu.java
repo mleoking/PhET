@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.menus.menuitems.*;
 
@@ -25,15 +26,15 @@ import javax.swing.*;
 public class CatalogPopupMenu extends JPopupMenu {
 
     /**
-     * @param simulation
+     * @param simContainer
      */
-    public CatalogPopupMenu( Simulation simulation ) {
+    public CatalogPopupMenu( SimContainer simContainer ) {
 
-        JMenuItem checkUpdateMI = new SimUpdateCheckMenuItem( simulation, PhetSiteConnection.instance() );
-        JMenuItem updateMI = new SimUpdateMenuItem( simulation, PhetSiteConnection.instance() );
-        JMenuItem descriptionMI = new SimDescriptionMenuItem( simulation );
-        JMenuItem uninstallMI = new SimUninstallMenuItem( simulation );
-        JMenuItem installMI = new SimInstallMenuItem( simulation, PhetSiteConnection.instance() );
+        JMenuItem checkUpdateMI = new SimUpdateCheckMenuItem( simContainer, PhetSiteConnection.instance() );
+        JMenuItem updateMI = new SimUpdateMenuItem( simContainer, PhetSiteConnection.instance() );
+        JMenuItem descriptionMI = new SimDescriptionMenuItem( simContainer );
+        JMenuItem uninstallMI = new SimUninstallMenuItem( simContainer );
+        JMenuItem installMI = new SimInstallMenuItem( simContainer, PhetSiteConnection.instance() );
 
 //        add( descriptionMI );
         add( checkUpdateMI );
@@ -41,10 +42,25 @@ public class CatalogPopupMenu extends JPopupMenu {
         add( uninstallMI );
         add( installMI );
 
-        // Enable/disable menu items that are dependent on whether the simulation is installed
-        checkUpdateMI.setEnabled( simulation.isInstalled() );
-        updateMI.setEnabled( simulation.isInstalled() );
-        uninstallMI.setEnabled( simulation.isInstalled() );
-        installMI.setEnabled( !simulation.isInstalled() );
+        // Enable/disable menu items that are dependent on whether the simContainer is installed
+        checkUpdateMI.setEnabled( false  );
+        updateMI.setEnabled( false );
+        uninstallMI.setEnabled( false );
+        installMI.setEnabled( !false );
+        Simulation[] sims = simContainer.getSimulations();
+        boolean aSimIsInstalled = false;
+        boolean aSimIsNotInstalled = false;
+        for( int i = 0; i < sims.length; i++ ) {
+            aSimIsInstalled |= sims[i].isInstalled();
+            aSimIsNotInstalled |= !sims[i].isInstalled();
+        }
+//        checkUpdateMI.setEnabled( simContainer.isInstalled() );
+//        updateMI.setEnabled( simContainer.isInstalled() );
+//        uninstallMI.setEnabled( simContainer.isInstalled() );
+//        installMI.setEnabled( !simContainer.isInstalled() );
+        checkUpdateMI.setEnabled( aSimIsInstalled );
+        updateMI.setEnabled( aSimIsInstalled );
+        uninstallMI.setEnabled( aSimIsInstalled );
+        installMI.setEnabled( aSimIsNotInstalled );
     }
 }
