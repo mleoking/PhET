@@ -13,7 +13,6 @@ package edu.colorado.phet.simlauncher.actions;
 import edu.colorado.phet.simlauncher.Catalog;
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.resources.SimResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,10 +55,7 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
                                            "Would you like to download it?",
                                            "Confirm", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
-                boolean orgFlag = SimResource.isUpdateEnabled();
-//                SimResource.setUpdateEnabled( true );
-//                Catalog.instance().update();
-//                SimResource.setUpdateEnabled( orgFlag );
+                Catalog.instance().update();
             }
         }
         else if( !notifyOnlyIfUpdateAvailable ) {
