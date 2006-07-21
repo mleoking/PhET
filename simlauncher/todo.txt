@@ -98,11 +98,19 @@ Testing
 =======
 0.00.08
 =======
+- Build installer
+- "Check for Updates" button on Add/Remove/Update panel
+- Names of panels are "My Sims" and "Add/Remove/Update Sims"
+- "Select All" and "Clear All" buttons on "Add/Remove/Update Sims" panel
+- Catalog is checked for updates when sims are checked, or when user explicitly asks for check.
 - Context menu on Catalog pane should apply to all selected simulations
 - finish populating the catalog
+- Remove all items from "My Simulations" panel except the name and thumbnail
 - Remove all items from InstalledSimsPopupMenu except for Launch
 - When a single simulation sees it has an update available, the whole sim table gets rebuilt. Only the
     row with the data for the simulation should get updated.
+- Cache is under the directory in which the program is installed. This will make transporting it easier
+- Several bugs fixed
 
 =======
 0.00.07

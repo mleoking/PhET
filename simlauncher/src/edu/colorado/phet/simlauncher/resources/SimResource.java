@@ -133,7 +133,7 @@ public class SimResource {
         }
 
         if( metaData == null ) {
-            System.out.println( "SimResource.isCurrent: metadata == null" );
+//            System.out.println( "SimResource.isCurrent: metadata == null" );
             return false;
         }
 
