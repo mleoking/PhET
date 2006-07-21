@@ -12,9 +12,12 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
+import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.CheckForUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -40,54 +43,26 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
     private JButton launchBtn;
-    private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
-                                                                  GridBagConstraints.CENTER,
+    private GridBagConstraints tableGbc = new GridBagConstraints( 0, 0, 2, 1, 1, 1,
+                                                                  GridBagConstraints.NORTH,
                                                                   GridBagConstraints.BOTH,
-                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
-                                                                   GridBagConstraints.CENTER,
-                                                                   GridBagConstraints.NONE,
-                                                                   new Insets( 10, 0, 0, 0 ), 0, 0 );
-
+                                                                  new Insets( 0, 10, 0, 10 ), 0, 0 );
+    private GridBagConstraints headerGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 0.001,
+                                                                   GridBagConstraints.NORTH,
+                                                                   GridBagConstraints.HORIZONTAL,
+                                                                   new Insets( 0, 10, 0, 10 ), 0, 0 );
     /**
      * Constructor
      */
     public InstalledSimsPane() {
         super( new GridBagLayout() );
 
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
+
         setPreferredSize( new Dimension( 800, 400) );
 
-        // Listen for new simulations, and for changes in the installed and uninstalled simulations lists
-//        Catalog.instance().addChangeListener( this );
-
-        // Launch button
-        launchBtn = new JButton( "Launch" );
-        // Add an extension to the Launch action that resorts the table if the sort order is
-        // most-recently-used
-        launchBtn.addActionListener( new LaunchSimAction( this ) {
-            public void actionPerformed( ActionEvent e ) {
-                super.actionPerformed( e );
-                if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) ) {
-                    updateSimTable();
-                }
-            }
-        } );
-        launchBtn.setEnabled( false );
-        headerGbc.weightx = 1;
-        add( launchBtn, headerGbc );
-
-        // "Show Thumbnails" checkbox
-        final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
-        showThumbnailsCB.addActionListener( new AbstractAction() {
-            public void actionPerformed( ActionEvent e ) {
-                Options.instance().setShowInstalledThumbnails( showThumbnailsCB.isSelected() );
-            }
-        } );
-        showThumbnailsCB.setSelected( Options.instance().isShowInstalledThumbnails() );
-        headerGbc.gridx++;
-        headerGbc.weightx = 0.01;
-        add( showThumbnailsCB, headerGbc );
-
+        // Add the button panel
+        add( createHeaderPanel(), headerGbc );
 
         // Creates the SimTable
         updateSimTable();
@@ -102,6 +77,69 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
         } );
     }
+
+
+    /**
+     * Creates the panel that goes at the top of the pane
+     *
+     * @return a JPanel
+     */
+    private JPanel createHeaderPanel() {
+        JPanel header = new JPanel( new GridBagLayout() );
+        Border border = BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.black ),
+                                                          "Actions" );
+        header.setBorder( border);
+        GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                               GridBagConstraints.CENTER,
+                                                               GridBagConstraints.NONE,
+                                                               new Insets( 0, 10, 0, 10 ), 0, 0 );
+
+        // Launch button
+        {
+            // Launch button
+            launchBtn = new JButton( "Launch" );
+            // Add an extension to the Launch action that resorts the table if the sort order is
+            // most-recently-used
+            launchBtn.addActionListener( new LaunchSimAction( this ) {
+                public void actionPerformed( ActionEvent e ) {
+                    super.actionPerformed( e );
+                    if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) ) {
+                        updateSimTable();
+                    }
+                }
+            } );
+            launchBtn.setEnabled( false );
+            headerGbc.weightx = 1;
+            add( launchBtn, headerGbc );
+
+            JPanel btnPanel = new JPanel( new GridBagLayout() );
+            GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                1, 1, 1, 1,
+                                                                GridBagConstraints.CENTER,
+                                                                GridBagConstraints.HORIZONTAL,
+                                                                new Insets( 5, 0, 5, 0 ), 0, 0 );
+            btnPanel.add( launchBtn, sbpGbc );
+
+            headerGbc.gridx++;
+            headerGbc.anchor = GridBagConstraints.CENTER;
+            header.add( btnPanel, headerGbc );
+        }
+
+        // "Show Thumbnails" checkbox
+        final JCheckBox showThumbnailsCB = new JCheckBox( "Show thumbnails" );
+        showThumbnailsCB.addActionListener( new AbstractAction() {
+            public void actionPerformed( ActionEvent e ) {
+                Options.instance().setShowInstalledThumbnails( showThumbnailsCB.isSelected() );
+            }
+        } );
+        showThumbnailsCB.setSelected( Options.instance().isShowInstalledThumbnails() );
+        headerGbc.gridx++;
+        headerGbc.anchor = GridBagConstraints.EAST;
+        header.add( showThumbnailsCB, headerGbc );
+
+        return header;
+    }
+
 
     /**
      *
@@ -142,10 +180,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         //  Put the SimTable in a JPanel, then put the JPanel in the ScrollPane. This will make
         //  ScrollPane a size that is no bigger than neccesary to contain the SimTable
-        JPanel jp = new JPanel( );
-        jp.add( simTable );
+//        jp.add( simTable );
 //        simTableScrollPane = new JScrollPane( jp );
         simTableScrollPane = new JScrollPane( simTable );
+//        jp.add( simTableScrollPane );
+//        add( jp, tableGbc );
         add( simTableScrollPane, tableGbc );
 
         // Disable the lauch button. Since the table is new, there can't be any simulation selected
@@ -159,37 +198,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     public void updateSimTable() {
         updateSimTable( Catalog.instance().getInstalledSimulations() );
-
-//    private void updateSimTable() {
-//        if( simTable != null ) {
-//            simTableScrollPane.remove( simTable );
-//            remove( simTableScrollPane );
-//        }
-//
-//        ArrayList columns = new ArrayList();
-//        columns.add( SimTable.NAME );
-//        if( Options.instance().isShowInstalledThumbnails() ) {
-//            columns.add( SimTable.THUMBNAIL );
-//        }
-//        columns.add( SimTable.IS_UP_TO_DATE );
-//        simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
-//                                 simTableSortType,
-//                                 ListSelectionModel.SINGLE_SELECTION,
-//                                 columns );
-//
-//        // Add mouse handler
-//        simTable.addMouseListener( new MouseHandler() );
-//
-//        simTableScrollPane = new JScrollPane( simTable );
-//        add( simTableScrollPane, tableGbc );
-//
-//        // Disable the lauch button. Since the table is new, there can't be any simulation selected
-//        launchBtn.setEnabled( false );
-//
-//        // This is required to get rid of screen turds if the old table had a scrollbar and the
-//        // new one doesn't
-//        revalidate();
-//        repaint();
     }
 
     //--------------------------------------------------------------------------------------------------

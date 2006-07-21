@@ -24,14 +24,14 @@ import javax.swing.*;
  */
 class OptionsMenu extends JMenu {
     public OptionsMenu() {
-        super( "Update Options" );
+        super( "Options" );
         JCheckBoxMenuItem autoUpdateOption = new JCheckBoxMenuItem( "Automatically check for updates on startup" );
         add( autoUpdateOption );
         autoUpdateOption.addActionListener( new AutoUpdateAction( this ) );
         autoUpdateOption.setSelected( Options.instance().isCheckForUpdatesOnStartup() );
 
-        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
-        add(checkAllForUpdates );
-        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));
+//        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
+//        add(checkAllForUpdates );
+//        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));
     }
 }
