@@ -44,6 +44,9 @@ public class CheckForUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
+
+        Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
+        SwingUtilities.getRoot( parent ).setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ));
         Simulation[] sims = simContainer.getSimulations();
 
         if( sims.length == 1 ) {
@@ -86,8 +89,9 @@ public class CheckForUpdateSimAction extends AbstractAction {
             else {
                 showResult( "Updates are available for some installed simulations" );
             }
-
         }
+        
+        SwingUtilities.getRoot( parent ).setCursor( orgCursor );
     }
 
     private void setFlagOnSimulation( Simulation sim ) {

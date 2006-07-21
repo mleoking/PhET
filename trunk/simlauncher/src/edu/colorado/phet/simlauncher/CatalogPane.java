@@ -112,8 +112,8 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
-        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                                                      GridBagConstraints.CENTER,
+        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                      GridBagConstraints.NORTH,
                                                                       GridBagConstraints.BOTH,
                                                                       new Insets( 0, 10, 0, 10 ), 0, 0 );
         private ArrayList columns;
@@ -127,11 +127,10 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
-
-            GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 0.1,
-                                                                   GridBagConstraints.CENTER,
+            GridBagConstraints headerGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 0.001,
+                                                                   GridBagConstraints.NORTH,
                                                                    GridBagConstraints.HORIZONTAL,
-                                                                   new Insets( 10, 0, 20, 0 ), 0, 0 );
+                                                                   new Insets( 0, 10, 0, 10 ), 0, 0 );
             add( createHeaderPanel(), headerGbc );
 
             // Add a listener to the catalog that will update the sim table if the catalog changes
@@ -268,6 +267,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
          */
         private void updateSimTable() {
             if( simTable != null ) {
+                System.out.println( "CatalogPane$SimPanel.updateSimTable" );
                 remove( simTableScrollPane );
                 simTableScrollPane.remove( simTable );
             }
@@ -299,15 +299,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             // Add a mouse handler to the table
             simTable.addMouseListener( new MouseHandler() );
 
-            //  Put the SimTable in a JPanel, then put the JPanel in the ScrollPane. This will make
-            //  ScrollPane a size that is no bigger than neccesary to contain the SimTable
-            JPanel jp = new JPanel( new GridBagLayout() );
-            jp.add( simTable, new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                      GridBagConstraints.CENTER,
-                                                      GridBagConstraints.VERTICAL,
-                                                      new Insets( 0, 0, 0, 0 ), 0, 0
-            ) );
-//            simTableScrollPane = new JScrollPane( jp );
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
 
@@ -315,8 +306,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             installBtn.setEnabled( false );
             checkForUpdateBtn.setEnabled( false );
 
-            // This is required to get rid of screen turds if the old table had a scrollbar and the
-            // new one doesn't
+            // This is required to get rid of screen turds
             revalidate();
         }
 
