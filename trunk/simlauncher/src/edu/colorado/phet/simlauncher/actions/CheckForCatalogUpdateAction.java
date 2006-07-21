@@ -28,22 +28,25 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class CheckForCatalogUpdateAction extends AbstractAction {
-    public static class Result {
-        private Result() {
-        }
-    }
 
-//    private SimContainer simContainer;
     private Component parent;
+    private boolean notifyOnlyIfUpdateAvailable;
 
-    public CheckForCatalogUpdateAction( Component parent ) {
-//        this.simContainer = simContainer;
-        this.parent = parent;
+    /**
+     *
+     * @param parent
+     * @param notifyOnlyIfUpdateAvailable   If true, a dialog will be presented to the user only
+     * if an update is available. If false, the user will be alerted if the catalog is up to date,
+     * also
+     */
+    public CheckForCatalogUpdateAction( Component parent, boolean notifyOnlyIfUpdateAvailable ) {
+//        this.parent = parent;
+        this.notifyOnlyIfUpdateAvailable = notifyOnlyIfUpdateAvailable;
+        this.parent = SwingUtilities.getRoot( parent );
     }
 
     public void actionPerformed( ActionEvent e ) {
-
-        if( !PhetSiteConnection.instance().isConnected() ) {
+        if( !PhetSiteConnection.instance().isConnected() && !notifyOnlyIfUpdateAvailable ) {
             JOptionPane.showMessageDialog( parent, "<html>Connetction to PhET site is not available." +
                                                      "<br>Please check later</html");
         }
@@ -54,19 +57,14 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
                                            "Confirm", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
                 boolean orgFlag = SimResource.isUpdateEnabled();
-                SimResource.setUpdateEnabled( true );
-                Catalog.instance().update();
-                SimResource.setUpdateEnabled( orgFlag );
+//                SimResource.setUpdateEnabled( true );
+//                Catalog.instance().update();
+//                SimResource.setUpdateEnabled( orgFlag );
             }
         }
-        else {
+        else if( !notifyOnlyIfUpdateAvailable ) {
             JOptionPane.showMessageDialog( parent, "<html>The catalog is up to date.</html");
         }
-
-        Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
-        SwingUtilities.getRoot( parent ).setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ));
-
-        SwingUtilities.getRoot( parent ).setCursor( orgCursor );
     }
 
     private void setFlagOnSimulation( Simulation sim ) {
