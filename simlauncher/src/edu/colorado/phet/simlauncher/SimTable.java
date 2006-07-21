@@ -537,9 +537,13 @@ public class SimTable extends JTable implements SimContainer {
     }
 
     private class CheckBoxSelectionFlipper extends MouseAdapter {
+
         public void mouseClicked( MouseEvent e ) {
-            if( columns.contains( SELECTION_CHECKBOX ) && getSelectedColumn() != checkBoxColumnIndex  ) {
                 int selectedRow = getSelectedRow();
+            if( selectedRow != -1
+                && columns.contains( SELECTION_CHECKBOX )
+                && getSelectedColumn() != checkBoxColumnIndex  ) {
+
                 if( selectedRow == -1 ) {
                     System.out.println( "SimTable$CheckBoxSelectionFlipper.mouseClicked" );
                 }

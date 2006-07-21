@@ -377,11 +377,13 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
             // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent event ) {
-                Simulation sim = simTable.getSelection();
 
-                // If right click, pop up context menu
-                if( event.isPopupTrigger() && sim != null ) {
-                    new CatalogPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
+                // If right click, pop up context menu. Use the first line below to set up menu for all
+                // selected sims. Use the second if you only want the one that the JTable thinks selected
+                SimContainer simContainer = simTable;
+//                SimContainer simContainer = simTable.getSelection();
+                if( event.isPopupTrigger() && simContainer != null ) {
+                    new CatalogPopupMenu( simContainer ).show( event.getComponent(), event.getX(), event.getY() );
                 }
 
                 // Notify change listeners

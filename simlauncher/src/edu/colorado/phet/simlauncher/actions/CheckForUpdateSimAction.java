@@ -44,41 +44,66 @@ public class CheckForUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-//        Simulation sim = simContainer.getSimulation();
         Simulation[] sims = simContainer.getSimulations();
-        for( int i = 0; i < sims.length; i++ ) {
-            Simulation sim = sims[i];
 
-//        try {
+        if( sims.length == 1 ) {
+            Simulation sim = sims[0];
+
+            // Tell the sim if it's up to date or not
+            setFlagOnSimulation( sim );
+
             if( !sim.isInstalled() ) {
-                result = SIM_NOT_INSTALLED;
                 showResult( "The simulation is not installed" );
             }
             else if( !sim.isCurrent() ) {
-                result = UPDATE_AVAILABLE;
                 showResult( "An update is available" );
-                sim.setUpdateAvailable( true );
+//                sim.setUpdateAvailable( true );
             }
             else {
-                result = NO_UPDATE_AVAILABLE;
                 showResult( "The installed simulation is current" );
             }
         }
+        else {
+            boolean aSimIsUpToDate = false;
+            boolean aSimIsNotUpToDate = false;
 
-//        }
-//        catch( SimResourceException e1 ) {
-//            e1.printStackTrace();
-//        }
+            for( int i = 0; i < sims.length; i++ ) {
+                Simulation sim = sims[i];
+
+                // Tell the sim if it's up to date or not
+                setFlagOnSimulation( sim );
+
+                aSimIsUpToDate |= sim.isInstalled() && sim.isCurrent();
+                aSimIsNotUpToDate |= sim.isInstalled() && !sim.isCurrent();
+            }
+
+            if( aSimIsUpToDate && !aSimIsNotUpToDate ) {
+                showResult( "All installed simulations are up to date" );
+            }
+            else if( !aSimIsUpToDate && aSimIsNotUpToDate ) {
+                showResult( "Updates are available for all installed simulations" );
+            }
+            else {
+                showResult( "Updates are available for some installed simulations" );
+            }
+
+        }
+    }
+
+    private void setFlagOnSimulation( Simulation sim ) {
+        // Set the flag on the simulation
+        if( sim.isInstalled() && !sim.isCurrent() ) {
+            sim.setUpdateAvailable( true );
+        }
+        else {
+            sim.setUpdateAvailable( false );
+        }
     }
 
     private void showResult( String message ) {
         JOptionPane.showMessageDialog( parent,
                                        message,
-                                       "Check for update",
+                                       "Check for updates",
                                        JOptionPane.INFORMATION_MESSAGE );
-    }
-
-    public Result getResult() {
-        return result;
     }
 }
