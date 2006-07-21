@@ -154,6 +154,7 @@ public class SimLauncher {
     }
 
     public static void main( String[] args ) {
+
         parseArgs( args );
 
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
