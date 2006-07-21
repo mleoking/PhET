@@ -45,8 +45,12 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     }
 
     private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
-    private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH );
-//    private static String DEFAULT_PHET_ROOT_DIR_URL_STRING = "http://www.colorado.edu/physics/phet-asdf";
+    private static File DEFAULT_CACHE;
+    static {
+        String localRootPath = System.getProperty( "user.dir" );
+        DEFAULT_CACHE = new File( localRootPath + System.getProperty("file.separator") + "localRoot");
+    }
+
     private static String DEFAULT_PHET_ROOT_DIR_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
 
@@ -134,6 +138,18 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     public File getLocalRoot() {
         if( localRoot == null ) {
             localRoot = DEFAULT_CACHE;
+
+            // Print out the current directory
+//            JFrame f = new JFrame( );
+//            Properties props = System.getProperties();
+//            String propValue = (String)props.get( "user.dir" );
+//            f.getContentPane().add(new JLabel( propValue ));
+//            f.pack();
+//            f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+//            f.show();
+//            System.out.println( "propValue = " + propValue );
+
+
         }
         return localRoot;
     }
