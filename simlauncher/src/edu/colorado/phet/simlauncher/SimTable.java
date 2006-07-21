@@ -471,7 +471,7 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         public void uninstalled( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_INSTALLED )) {
+            if( columns.contains( SimTable.IS_INSTALLED ) ) {
                 String simName = event.getSimulation().getName();
                 TableModel tableModel = SimTable.this.getModel();
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
@@ -484,7 +484,7 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         public void updated( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_UP_TO_DATE )) {
+            if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
                 String simName = event.getSimulation().getName();
                 TableModel tableModel = SimTable.this.getModel();
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
@@ -497,7 +497,7 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         public void updateAvailable( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_UP_TO_DATE )) {
+            if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
                 Simulation sim = event.getSimulation();
                 String simName = sim.getName();
                 TableModel tableModel = SimTable.this.getModel();
@@ -506,7 +506,7 @@ public class SimTable extends JTable implements SimContainer {
                                ? updateAvailableIcon
                                : null;
 
-                if( value != null ){
+                if( value != null ) {
                     System.out.println( "SimTable$SimUpdateListener.updateAvailable" );
                 }
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
@@ -539,10 +539,10 @@ public class SimTable extends JTable implements SimContainer {
     private class CheckBoxSelectionFlipper extends MouseAdapter {
 
         public void mouseClicked( MouseEvent e ) {
-                int selectedRow = getSelectedRow();
+            int selectedRow = getSelectedRow();
             if( selectedRow != -1
                 && columns.contains( SELECTION_CHECKBOX )
-                && getSelectedColumn() != checkBoxColumnIndex  ) {
+                && getSelectedColumn() != checkBoxColumnIndex ) {
 
                 if( selectedRow == -1 ) {
                     System.out.println( "SimTable$CheckBoxSelectionFlipper.mouseClicked" );
