@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- When you Select All and Remove, things still show up with checks in the Installed? column.
+- Balloons and Static Electricity has trouble with SmoothMetal
 - Fix "Wait while updating" dialog
 - Does Simulation.install() need to download the thumbnail?
 - MetaData must update its properties when appropriate
@@ -15,10 +17,11 @@ Bugs
 ========
 Features
 ========
-- Dialogs should come up relative to the Frame
-- Make sure categories get updated when the catalog updates during a session
+- Table columns should be resizable
+- When the catalog table gets rebuilt, the sort should stay the same
+- After sims are installed and the catalog panel updates, keep the same category selected. Right
+    now, things go to the All Simulations category
 - Better check in SimResource.isCurrent() for local resource is newer than remote one.
-- put chache under the install directory
 - add Export to Removable Media option
 - Check for catalog updates
 - Include catalog in distribution, to reduce first-time startup on slow connections.
@@ -111,6 +114,8 @@ Testing
     row with the data for the simulation should get updated.
 - Cache is under the directory in which the program is installed. This will make transporting it easier
 - Several bugs fixed
+- Dialogs come up relative to the Frame
+- Make sure categories get updated when the catalog updates during a session
 
 =======
 0.00.07

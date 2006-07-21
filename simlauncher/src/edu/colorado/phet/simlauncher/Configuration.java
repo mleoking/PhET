@@ -45,11 +45,11 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     }
 
     private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
-    private static File DEFAULT_CACHE;
-    static {
-        String localRootPath = System.getProperty( "user.dir" );
-        DEFAULT_CACHE = new File( localRootPath + System.getProperty("file.separator") + "localRoot");
-    }
+    private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH);
+//    static {
+//        String localRootPath = System.getProperty( "user.dir" );
+//        DEFAULT_CACHE = new File( localRootPath + System.getProperty("file.separator") + "localRoot");
+//    }
 
     private static String DEFAULT_PHET_ROOT_DIR_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
