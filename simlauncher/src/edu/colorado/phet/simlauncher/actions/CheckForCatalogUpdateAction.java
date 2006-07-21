@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.Catalog;
 import edu.colorado.phet.simlauncher.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.resources.SimResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,18 +33,18 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
         }
     }
 
-    private SimContainer simContainer;
+//    private SimContainer simContainer;
     private Component parent;
 
-    public CheckForCatalogUpdateAction( SimContainer simContainer, Component parent ) {
-        this.simContainer = simContainer;
+    public CheckForCatalogUpdateAction( Component parent ) {
+//        this.simContainer = simContainer;
         this.parent = parent;
     }
 
     public void actionPerformed( ActionEvent e ) {
 
         if( !PhetSiteConnection.instance().isConnected() ) {
-            JOptionPane.showMessageDialog( parent, "<html>Connetction to PhET site is note available." +
+            JOptionPane.showMessageDialog( parent, "<html>Connetction to PhET site is not available." +
                                                      "<br>Please check later</html");
         }
         else if( !Catalog.instance().isCurrent() ) {
@@ -53,8 +53,14 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
                                            "Would you like to download it?",
                                            "Confirm", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
+                boolean orgFlag = SimResource.isUpdateEnabled();
+                SimResource.setUpdateEnabled( true );
                 Catalog.instance().update();
+                SimResource.setUpdateEnabled( orgFlag );
             }
+        }
+        else {
+            JOptionPane.showMessageDialog( parent, "<html>The catalog is up to date.</html");
         }
 
         Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
