@@ -24,7 +24,7 @@ import javax.swing.*;
 public class SimUninstallMenuItem extends JMenuItem {
 
     public SimUninstallMenuItem( SimContainer simContainer ) {
-        super( "Uninstall" );
+        super( "Remove" );
         addActionListener( new UninstallSimAction( simContainer, this ) );
     }
 }
