@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 /**
  * Catalog
@@ -58,18 +63,7 @@ public class Catalog implements Simulation.ChangeListener {
      */
     private Catalog() {
         installedSimulations = new ArrayList();
-
-        // If the catalog isn't installed yet, go get it. If we're not connected to the Phet site, we'll get
-        // a SimResourceException, which means we can't get the catalog
-        try {
-            if( !catalogResource.isInstalled() || (Options.instance().isCheckForUpdatesOnStartup() && !catalogResource.isCurrent() )) {
-                catalogResource.download();
-            }
-        }
-        catch( SimResourceException e ) {
-            return;
-        }
-        simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
+        createSimulationList();
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
         for( int i = 0; i < simulations.size(); i++ ) {
@@ -81,11 +75,105 @@ public class Catalog implements Simulation.ChangeListener {
         }
     }
 
+
+    private void createSimulationList() {
+        // Make a backup of the current catalog file, in case there is a problem
+        File catalogFileBackup = new File( catalogResource.getLocalFile().getName() + "-bak" );
+
+        // Create channel on the source
+        try {
+            if( catalogResource.getLocalFile().exists() ) {
+                FileChannel srcChannel = new FileInputStream( catalogResource.getLocalFile() ).getChannel();
+
+                // Create channel on the destination
+                FileChannel dstChannel = new FileOutputStream( catalogFileBackup ).getChannel();
+
+                // Copy file contents from source to destination
+                dstChannel.transferFrom( srcChannel, 0, srcChannel.size() );
+
+                // Close the channels
+                srcChannel.close();
+                dstChannel.close();
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return;
+        }
+
+        // If the catalog isn't installed yet, go get it. If we're not connected to the Phet site, we'll get
+        // a SimResourceException, which means we can't get the catalog
+        try {
+            if( ( Options.instance().isCheckForUpdatesOnStartup() && !isCurrent() ) ) {
+                catalogResource.download();
+            }
+        }
+        catch( SimResourceException e ) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Make the simulations in the catalog. If there is a problem, restore the backup and do it again
+        try {
+            simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
+        }
+        catch( SimFactory.XmlCatalogException xce ) {
+            // Create channel on the source
+            try {
+                System.out.println( "Error parsing the new catalog. The pprevious catalog is being restored." );
+                FileChannel srcChannel = new FileInputStream( catalogFileBackup ).getChannel();
+
+                // Create channel on the destination
+                FileChannel dstChannel = new FileOutputStream( catalogResource.getLocalFile() ).getChannel();
+
+                // Copy file contents from source to destination
+                dstChannel.transferFrom( srcChannel, 0, srcChannel.size() );
+
+                // Close the channels
+                srcChannel.close();
+                dstChannel.close();
+
+                try {
+                    simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
+                }
+                catch( SimFactory.XmlCatalogException e ) {
+                    System.out.println( "Problem restoring from backup copy of catalog file" );
+                    e.printStackTrace();
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
+    }
+
+    /**
+     * Updates the catalog
+     */
+    public void update() {
+        try {
+            catalogResource.update();
+        }
+        catch( SimResourceException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @return true if the catalog is up to date
+     */
+    public boolean isCurrent() {
+        return catalogResource.isInstalled() && catalogResource.isCurrent();
+    }
+
     /**
      * Refreshes the lists of installed and uninstalled simulations, and notifies listeners
      */
     public void refreshInstalledUninstalledLists() {
-        simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
+        createSimulationList();
+//        simulations = new SimFactory().getSimulations( catalogResource.getLocalFile() );
         categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
 
         installedSimulations = new ArrayList();

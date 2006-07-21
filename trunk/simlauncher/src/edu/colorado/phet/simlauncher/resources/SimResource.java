@@ -118,11 +118,8 @@ public class SimResource {
      *
      * @return true if the local version of the resource is current
      */
-    public boolean isCurrent() /*throws SimResourceException*/ {
+    public boolean isCurrent() throws SimResourceException /*throws SimResourceException*/ {
         if( !PhetSiteConnection.instance().isConnected() ) {
-//        if( !isRemoteAvailable() ) {
-//            throw new SimResourceException( "Not online" );
-
             return true;
         }
 
@@ -136,7 +133,7 @@ public class SimResource {
         }
 
         if( metaData == null ) {
-            System.out.println( "SimResource.isCurrent : metadate == null" );
+            System.out.println( "SimResource.isCurrent: metadata == null" );
             return false;
         }
 
@@ -145,7 +142,7 @@ public class SimResource {
 
         // compare and return result
         if( localTimestamp > remoteTimestamp ) {
-            throw new RuntimeException( "local timestamp newer than remote timestamp" );
+            throw new SimResourceException( "local timestamp newer than remote timestamp" );
         }
         return localTimestamp == remoteTimestamp;
     }
@@ -213,8 +210,8 @@ public class SimResource {
         String pathSeparator = FileUtil.getPathSeparator();
         path = path.replace( '/', pathSeparator.charAt( 0 ) );
         path = path.replace( '\\', pathSeparator.charAt( 0 ) );
-//        return new File( localRoot, url.getHost() + pathSeparator + path );
-        return new File( localRoot, path );
+        return new File( localRoot, url.getHost() + pathSeparator + path );
+//        return new File( localRoot, path );
     }
 
     /**

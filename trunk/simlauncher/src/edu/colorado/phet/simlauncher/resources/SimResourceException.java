@@ -16,7 +16,7 @@ package edu.colorado.phet.simlauncher.resources;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimResourceException extends Exception {
+public class SimResourceException extends RuntimeException {
 
     public SimResourceException() {
         super();
