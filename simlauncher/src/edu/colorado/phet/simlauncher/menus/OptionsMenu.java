@@ -32,7 +32,7 @@ class OptionsMenu extends JMenu {
 
         JMenuItem checkForCatalogUpdate = new JMenuItem( "Check for catalog update");
         add( checkForCatalogUpdate);
-        checkForCatalogUpdate.addActionListener( new CheckForCatalogUpdateAction( this ) );
+        checkForCatalogUpdate.addActionListener( new CheckForCatalogUpdateAction( this, false ) );
 //        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
 //        add(checkAllForUpdates );
 //        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));

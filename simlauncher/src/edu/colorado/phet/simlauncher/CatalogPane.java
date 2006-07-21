@@ -206,7 +206,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 checkForUpdateBtn = new JButton( "Check for Updates" );
                 checkForUpdateBtn.addActionListener( new AbstractAction( ){
                     public void actionPerformed( ActionEvent e ) {
-                        new CheckForCatalogUpdateAction( CatalogPane.this).actionPerformed( e );
+                        new CheckForCatalogUpdateAction( CatalogPane.this, true ).actionPerformed( e );
                         new CheckForSimUpdateAction( simTable, CatalogPane.this ).actionPerformed( e );                        
                     }
                 });
