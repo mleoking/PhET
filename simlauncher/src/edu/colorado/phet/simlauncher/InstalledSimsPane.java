@@ -12,8 +12,6 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
-import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
-import edu.colorado.phet.simlauncher.actions.CheckForUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
 
 import javax.swing.*;

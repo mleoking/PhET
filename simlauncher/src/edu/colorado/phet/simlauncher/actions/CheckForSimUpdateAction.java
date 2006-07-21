@@ -18,12 +18,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * UpdateSimAction
+ * CheckForUpdateSimAction
+ * <p>
+ * Checks to see if any of the simulations in a SimContainer have updates available
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CheckForUpdateSimAction extends AbstractAction {
+public class CheckForSimUpdateAction extends AbstractAction {
     public static class Result {
         private Result() {
         }
@@ -38,7 +40,7 @@ public class CheckForUpdateSimAction extends AbstractAction {
     private Component parent;
     private Result result = CHECK_NOT_PERFORMED;
 
-    public CheckForUpdateSimAction( SimContainer simContainer, Component parent ) {
+    public CheckForSimUpdateAction( SimContainer simContainer, Component parent ) {
         this.simContainer = simContainer;
         this.parent = parent;
     }
@@ -60,7 +62,6 @@ public class CheckForUpdateSimAction extends AbstractAction {
             }
             else if( !sim.isCurrent() ) {
                 showResult( "An update is available" );
-//                sim.setUpdateAvailable( true );
             }
             else {
                 showResult( "The installed simulation is current" );

@@ -2,6 +2,7 @@
 Bugs
 ====
 - Not all thumbnails are coming down the first time, if Show Thumbnails isn't selected.
+- Fix "Wait while updating" dialog
 - Does Simulation.install() need to download the thumbnail?
 - MetaData must update its properties when appropriate
 - Figure out why John Travoltage bug occured
@@ -13,12 +14,15 @@ Bugs
 - three state sorting of columns is not a good thing
 
 - Make SetThumbnailsEnabled action
-- Fix Options persistence
-- Options are getting saved too many time when thubmnails are turned off
 
 ========
 Features
 ========
+- Handle error in catalog XML file better. Save to a temp file before sending to SimFactory
+- Better check in SimResource.isCurrent() for local resource is newer than remote one.
+- put chache under the install directory
+- add Export to Removable Media option
+- Check for catalog updates
 - Include catalog in distribution, to reduce first-time startup on slow connections.
 - When you check for updates on multiple simulations, only put up one dialog for everything
 - shorten cache path to "codebase"

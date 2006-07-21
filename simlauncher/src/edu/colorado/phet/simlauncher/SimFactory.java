@@ -97,7 +97,7 @@ public class SimFactory {
         return sims;
     }
 
-    public List getSimulations( File xmlFile ) {
+    public List getSimulations( File xmlFile ) throws XmlCatalogException {
         File localRoot = Configuration.instance().getLocalRoot();
         List simList = new ArrayList();
         try {
@@ -195,14 +195,14 @@ public class SimFactory {
 
                 // Check for update and add to the sim list
                 if( Options.instance().isCheckForUpdatesOnStartup()
-                        && sim.isInstalled() && !sim.isCurrent() ){
+                    && sim.isInstalled() && !sim.isCurrent() ){
                     sim.setUpdateAvailable( true );
                 }
                 simList.add( sim );
             }
         }
         catch( Exception e ) {
-            e.printStackTrace();
+            throw new XmlCatalogException( e.getMessage() );
         }
         return simList;
     }
