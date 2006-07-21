@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.actions.CheckForCatalogUpdateAction;
 import edu.colorado.phet.simlauncher.actions.CheckForSimUpdateAction;
 import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
-import edu.colorado.phet.simlauncher.actions.CheckForCatalogUpdateAction;
 import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
@@ -61,6 +61,13 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 //        add( categoryPanel, gbc );
 //        gbc.fill = GridBagConstraints.BOTH;
 //        add( simulationPanel, gbc );
+
+        Catalog.instance().addChangeListener( new Catalog.ChangeListener() {
+            public void catalogChanged( Catalog.ChangeEvent event ) {
+                categoryPanel = new CategoryPanel();
+                setLeftComponent( categoryPanel );
+            }
+        } );
 
     }
 
@@ -199,7 +206,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 checkForUpdateBtn = new JButton( "Check for Updates" );
                 checkForUpdateBtn.addActionListener( new AbstractAction( ){
                     public void actionPerformed( ActionEvent e ) {
-                        new CheckForCatalogUpdateAction( simTable, CatalogPane.this).actionPerformed( e );
+                        new CheckForCatalogUpdateAction( CatalogPane.this).actionPerformed( e );
                         new CheckForSimUpdateAction( simTable, CatalogPane.this ).actionPerformed( e );                        
                     }
                 });

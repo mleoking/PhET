@@ -14,15 +14,15 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.resources.CatalogResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
 /**
  * Catalog
@@ -155,6 +155,8 @@ public class Catalog implements Simulation.ChangeListener {
     public void update() {
         try {
             catalogResource.update();
+            categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
+            changeListenerProxy.catalogChanged( new ChangeEvent( this ) );
         }
         catch( SimResourceException e ) {
             e.printStackTrace();

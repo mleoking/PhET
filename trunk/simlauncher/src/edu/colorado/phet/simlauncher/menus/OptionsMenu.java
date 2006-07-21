@@ -12,7 +12,7 @@ package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Options;
 import edu.colorado.phet.simlauncher.actions.AutoUpdateAction;
-import edu.colorado.phet.simlauncher.actions.CheckAllForUpdateAction;
+import edu.colorado.phet.simlauncher.actions.CheckForCatalogUpdateAction;
 
 import javax.swing.*;
 
@@ -30,6 +30,9 @@ class OptionsMenu extends JMenu {
         autoUpdateOption.addActionListener( new AutoUpdateAction( this ) );
         autoUpdateOption.setSelected( Options.instance().isCheckForUpdatesOnStartup() );
 
+        JMenuItem checkForCatalogUpdate = new JMenuItem( "Check for catalog update");
+        add( checkForCatalogUpdate);
+        checkForCatalogUpdate.addActionListener( new CheckForCatalogUpdateAction( this ) );
 //        JMenuItem checkAllForUpdates = new JMenuItem( "Check all installed simulations for updates now");
 //        add(checkAllForUpdates );
 //        checkAllForUpdates.addActionListener( new CheckAllForUpdateAction( this ));
