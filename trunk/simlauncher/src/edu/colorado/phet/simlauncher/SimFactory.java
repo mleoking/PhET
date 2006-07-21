@@ -175,7 +175,6 @@ public class SimFactory {
                     String jnlpStr = jnlpAttrib.getValue();
                     URL jnlpURL = new URL( jnlpStr );
                     sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
-//                    JavaSimulation sim = new JavaSimulation( name, str, thumbnailResource, jnlpURL, localRoot );
                 }
 
                 else if( typeAttrib.getValue().toLowerCase().equals( FLASH_TYPE_STRING ) ) {
@@ -187,7 +186,6 @@ public class SimFactory {
                     String swfStr = swfAttrib.getValue();
                     URL swfURL = new URL( swfStr );
                     sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
-//                    Simulation sim = new FlashSimulation( name, str, thumbnailResource, swfURL, localRoot );
                 }
                 else {
                     throw new XmlCatalogException( "Simulation type unrecognized. name = " + name );
@@ -195,7 +193,7 @@ public class SimFactory {
 
                 // Check for update and add to the sim list
                 if( Options.instance().isCheckForUpdatesOnStartup()
-                    && sim.isInstalled() && !sim.isCurrent() ){
+                    && sim.isInstalled() && !sim.isCurrent() ) {
                     sim.setUpdateAvailable( true );
                 }
                 simList.add( sim );
