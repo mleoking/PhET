@@ -278,13 +278,6 @@ public abstract class Simulation implements SimContainer {
             for( int i = 0; i < resources.size(); i++ ) {
                 SimResource simResource = (SimResource)resources.get( i );
                 simResource.checkForUpdate();
-//            if( isCurrent() ) {
-//                changeListenerProxy.updated( new ChangeEvent( this ) );
-//            }
-//            else {
-//                changeListenerProxy.updateAvailable( new ChangeEvent( this ) );
-//            }
-//
             }
             setUpdateAvailable( isCurrent() );
         }
