@@ -42,11 +42,11 @@ public class CheckAllForUpdateAction extends AbstractAction {
         showWaitDialog();
         List installedSims = Catalog.instance().getInstalledSimulations();
         Simulation simulation = null;
+
+        // Tell every sim to check to see if it's current
         for( int i = 0; i < installedSims.size(); i++ ) {
             simulation = (Simulation)installedSims.get( i );
-            if( !simulation.isCurrent() ) {
-                simulation.setUpdateAvailable( true );
-            }
+            simulation.checkForUpdate();
         }
         hideWaitDialog();
     }

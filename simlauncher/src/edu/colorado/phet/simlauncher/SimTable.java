@@ -252,15 +252,13 @@ public class SimTable extends JTable implements SimContainer {
                 row[j] = sim.getThumbnail();
             }
             else if( columns.get( j ) == IS_INSTALLED ) {
-                if( sim.isInstalled()  ) {
-                    System.out.println( "SimTable.createRow" );
-                }
                 row[j] = sim.isInstalled() ? isInstalledIcon : null;
             }
             else if( columns.get( j ) == IS_UP_TO_DATE ) {
-                if( connected ) {
-                    row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
-                }
+//                if( connected ) {
+                    row[j] = sim.isInstalled() && !sim.isCurrent() ? updateAvailableIcon : null;
+//                    row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
+//                }
             }
         }
         return row;
@@ -511,7 +509,7 @@ public class SimTable extends JTable implements SimContainer {
                 String simName = sim.getName();
                 TableModel tableModel = SimTable.this.getModel();
 
-                Object value = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() )
+                Object value = ( sim.isInstalled() && !sim.isCurrent() )
                                ? updateAvailableIcon
                                : null;
 

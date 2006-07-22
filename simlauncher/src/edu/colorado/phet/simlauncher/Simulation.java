@@ -153,8 +153,8 @@ public abstract class Simulation implements SimContainer {
 
         // Delete the rest of the contents of the directory for the simulation, and
         // the directory itself.
-        FileUtil.deleteDir( new File( localPath ));
-        
+        FileUtil.deleteDir( new File( localPath ) );
+
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
@@ -227,8 +227,7 @@ public abstract class Simulation implements SimContainer {
         // Note that calling uninstall() and then install() doesn't work!!!!
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource resource = (SimResource)resources.get( i );
-            resource.uninstall();
-            resource.download();
+            resource.update();
         }
         setUpdateAvailable( false );
         changeListenerProxy.updated( new ChangeEvent( this ) );
@@ -262,7 +261,7 @@ public abstract class Simulation implements SimContainer {
      * Enables the UPDATE_ENABLED flag, and notifies listeners that the simulation has an update available.
      * The flag is set so that the SimTable will show an icon. This is only a stopgap way of doing it.
      */
-    public void setUpdateAvailable( boolean isAvailable ) {
+    private void setUpdateAvailable( boolean isAvailable ) {
         updateAvailable = isAvailable;
         boolean orgFlag = SimResource.isUpdateEnabled();
         SimResource.setUpdateEnabled( true );
@@ -272,6 +271,23 @@ public abstract class Simulation implements SimContainer {
 
     public boolean isUpdateAvailable() {
         return updateAvailable;
+    }
+
+    public void checkForUpdate() {
+        if( isInstalled() ) {
+            for( int i = 0; i < resources.size(); i++ ) {
+                SimResource simResource = (SimResource)resources.get( i );
+                simResource.checkForUpdate();
+//            if( isCurrent() ) {
+//                changeListenerProxy.updated( new ChangeEvent( this ) );
+//            }
+//            else {
+//                changeListenerProxy.updateAvailable( new ChangeEvent( this ) );
+//            }
+//
+            }
+            setUpdateAvailable( isCurrent() );
+        }
     }
 
     public class ChangeEvent extends EventObject {

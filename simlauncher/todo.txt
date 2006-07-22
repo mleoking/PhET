@@ -110,6 +110,8 @@ Testing
 - Launch everything in the catalog
 - Uninstall multiple sims
 - Select All in All Sims category and then Install
+- Test updating on a simulation that's in several categories.
+- Test update check for each type of SimResource
 
 
 =======

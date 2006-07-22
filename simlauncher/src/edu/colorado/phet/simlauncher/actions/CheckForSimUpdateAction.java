@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * CheckForUpdateSimAction
- * <p>
+ * <p/>
  * Checks to see if any of the simulations in a SimContainer have updates available
  *
  * @author Ron LeMaster
@@ -47,15 +47,16 @@ public class CheckForSimUpdateAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
 
-        Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
-        SwingUtilities.getRoot( parent ).setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ));
+//        Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
+//        SwingUtilities.getRoot( parent ).setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+
         Simulation[] sims = simContainer.getSimulations();
 
         if( sims.length == 1 ) {
             Simulation sim = sims[0];
 
-            // Tell the sim if it's up to date or not
-            setFlagOnSimulation( sim );
+            // Ask the sim to check if it's current
+            sim.checkForUpdate();
 
             if( !sim.isInstalled() ) {
                 showResult( "The simulation is not installed" );
@@ -74,8 +75,8 @@ public class CheckForSimUpdateAction extends AbstractAction {
             for( int i = 0; i < sims.length; i++ ) {
                 Simulation sim = sims[i];
 
-                // Tell the sim if it's up to date or not
-                setFlagOnSimulation( sim );
+                // Ask the sim to check if it's current
+                sim.checkForUpdate();
 
                 aSimIsUpToDate |= sim.isInstalled() && sim.isCurrent();
                 aSimIsNotUpToDate |= sim.isInstalled() && !sim.isCurrent();
@@ -91,18 +92,8 @@ public class CheckForSimUpdateAction extends AbstractAction {
                 showResult( "Updates are available for some installed simulations" );
             }
         }
-        
-        SwingUtilities.getRoot( parent ).setCursor( orgCursor );
-    }
 
-    private void setFlagOnSimulation( Simulation sim ) {
-        // Set the flag on the simulation
-        if( sim.isInstalled() && !sim.isCurrent() ) {
-            sim.setUpdateAvailable( true );
-        }
-        else {
-            sim.setUpdateAvailable( false );
-        }
+//        SwingUtilities.getRoot( parent ).setCursor( orgCursor );
     }
 
     private void showResult( String message ) {
