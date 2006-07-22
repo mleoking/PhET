@@ -80,15 +80,13 @@ public class SimResource {
         }
     }
 
+    /**
+     * Says if the resource can be considered for updating
+     * @return
+     */
     protected boolean isUpdatable() {
-//        try {
             return  UPDATE_ENABLED && isInstalled() && !isCurrent();
-//        }
-//        catch( SimResourceException e ) {
-//            return false;
-//        }
     }
-
 
     /**
      * Tells if the resource is installed locally

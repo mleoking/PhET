@@ -9,9 +9,9 @@
  * Date modified : $Date$
  */
 
+import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.resources.CatalogResource;
 import edu.colorado.phet.simlauncher.resources.SimResourceException;
-import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
 /**

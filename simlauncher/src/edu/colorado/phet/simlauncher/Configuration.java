@@ -44,7 +44,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         return instance;
     }
 
-    private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
+    private static String DEFAULT_CACHE_PATH = "/phet/simlauncher/";
     private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH);
 //    static {
 //        String localRootPath = System.getProperty( "user.dir" );

@@ -70,13 +70,11 @@ public abstract class Simulation implements SimContainer {
         // Create the file that will store the timestamp of the last time we were launched
         String subPath = launchResourceUrl.getPath().substring( 0, launchResourceUrl.getPath().lastIndexOf( '/' ) );
         String relativePath = launchResourceUrl.getHost() + FileUtil.getPathSeparator() + subPath;
-        lastLaunchedTimestampFile = new
-
-                File( localRoot.getAbsolutePath()
-                      + FileUtil.getPathSeparator()
-                      + relativePath
-                      + FileUtil.getPathSeparator()
-                      + "lastLaunchTimeStamp.txt" );
+        lastLaunchedTimestampFile = new File( localRoot.getAbsolutePath()
+                                              + FileUtil.getPathSeparator()
+                                              + relativePath
+                                              + FileUtil.getPathSeparator()
+                                              + "lastLaunchTimeStamp.txt" );
 
         // Register ourselves with the class
         namesToSims.put( name, this );

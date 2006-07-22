@@ -1,7 +1,9 @@
 ====
 Bugs
 ====
-- When you Select All and Remove, things still show up with checks in the Installed? column.
+- If you install some Flash sims, then Select All and go to the Simulation menu, the Remove option isn't enabled
+- Flash sims don't uninstall (can't reproduce)
+- When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
 - Balloons and Static Electricity has trouble with SmoothMetal
 - Fix "Wait while updating" dialog
 - Does Simulation.install() need to download the thumbnail?
@@ -17,7 +19,8 @@ Bugs
 ========
 Features
 ========
-- Table columns should be resizable
+- Avoid updateSimTable in the Catalog when status of sims changes.
+- Need to be able to cancel installation
 - When the catalog table gets rebuilt, the sort should stay the same
 - After sims are installed and the catalog panel updates, keep the same category selected. Right
     now, things go to the All Simulations category
@@ -53,7 +56,6 @@ Features
 - version number in catalog, and version check
 
 - bold heading for sorted column
-
 - "Downloading catalog" dialog
 - restrict height of thumbnails
 - add and remove rows from SimTable, rather than recreating
@@ -70,18 +72,11 @@ Features
 - "Print all" utility for teachers. (Trish's request)
 - Write utility to generate the catalog XML file, rather than parsing it on the fly in SimLauncher. Then SimFactory
 would only work with an XML file.
-- In PhetWebPage, handle things like "img =" and "img="
-- In PhetWebPage, be more careful about using the <a> tag with the JNLP that also has the thumbnail and abstract
-- Make CategoryFactory use a PhetWebPage
-
-- Main page is installed sims, catalog is auxilliary window, or slide-out panel with list in it
+- Add/Remove/Update as slide-out panel with list in it
 
 ------------
 Deployment
 ------------
-- Installer w/ Launch Anywhere?
-
-- Add option to "show all" or "show sims not installed" for catalog simulations.
 - Add "Go online" menu item
 - CatalogResource should be stored above the cache
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
@@ -97,6 +92,13 @@ Testing
 - Test update check for all SimResource types
 - Do extensive offline testing
 - Launch everything in the catalog
+- Uninstall multiple sims
+
+
+=======
+0.00.09
+=======
+- Table columns should be resizable
 
 =======
 0.00.08
