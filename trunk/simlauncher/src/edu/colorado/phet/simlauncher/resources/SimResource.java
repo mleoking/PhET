@@ -24,10 +24,10 @@ import java.net.URL;
 
 /**
  * SimResource
- * <p>
+ * <p/>
  * A SimResource is *updatable* if there is a connection to the Phet site, the resource is not current,
  * and the global UPDATE_ENABLED flag is true.
- * <p>
+ * <p/>
  * The SimResource will report that it is current if there is no connection to the Phet site or UPDATE_ENABLED
  * is false.
  *
@@ -43,7 +43,7 @@ public class SimResource {
     // Global flag that tells whether SimResources should check to see if they're current when they are
     // asked
     private static boolean UPDATE_ENABLED = Options.instance().isCheckForUpdatesOnStartup();
-//    private static boolean UPDATE_ENABLED = false;
+    private boolean isCurrent = true;
 
     public static boolean isUpdateEnabled() {
         return UPDATE_ENABLED;
@@ -90,10 +90,11 @@ public class SimResource {
 
     /**
      * Says if the resource can be considered for updating
-     * @return
+     *
+     * @return true if the resouce can be considered for updating
      */
     protected boolean isUpdatable() {
-            return  UPDATE_ENABLED && isInstalled() && !isCurrent();
+        return UPDATE_ENABLED && isInstalled() && !isCurrent();
     }
 
     /**
@@ -120,65 +121,74 @@ public class SimResource {
     }
 
     /**
-     * Tells if the local version of the resource is current with the remote version
-     *
-     * @return true if the local version of the resource is current
+     * The SimResource checks to see if its local copy is current with the remote
+     * resource.
      */
-    public boolean isCurrent() throws SimResourceException /*throws SimResourceException*/ {
-        if( !PhetSiteConnection.instance().isConnected() ) {
-            return true;
-        }
-
-        // Get timestamp for remote
-        long remoteTimestamp = 0;
-        try {
-            remoteTimestamp = url.openConnection().getLastModified();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        if( metaData == null ) {
-//            System.out.println( "SimResource.isCurrent: metadata == null" );
-            return false;
-        }
-
-        // get timestamp of metadata
-        long localTimestamp = metaData.getLastModified();
-
-        // compare and return result
-        if( localTimestamp > remoteTimestamp ) {
-            throw new SimResourceException( "local timestamp newer than remote timestamp" );
-        }
-        return localTimestamp == remoteTimestamp;
-    }
-
-    public void download() throws SimResourceException {
-        if( !isCurrent() ) {
+    public void checkForUpdate() {
+        if( PhetSiteConnection.instance().isConnected() ) {
+            // Get timestamp for remote
+            long remoteTimestamp = 0;
             try {
-                if( !localFile.getParentFile().exists() ) {
-                    localFile.getParentFile().mkdirs();
-                }
-                if( !localFile.exists() ) {
-                    localFile.createNewFile();
-                }
-                InputStream in = url.openStream();
-                FileOutputStream out = new FileOutputStream( localFile );
-
-                // Transfer bytes from in to out, from almanac
-                byte[] buf = new byte[1024];
-                int len;
-                while( ( len = in.read( buf ) ) > 0 ) {
-                    out.write( buf, 0, len );
-                }
-                out.flush();
-                in.close();
-                out.close();
-                saveMetaData();
+                remoteTimestamp = url.openConnection().getLastModified();
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
+
+            if( metaData == null ) {
+                isCurrent = false;
+            }
+            else {
+                // get timestamp of metadata
+                long localTimestamp = metaData.getLastModified();
+
+                // compare and return result
+                if( localTimestamp > remoteTimestamp ) {
+                    throw new SimResourceException( "local timestamp newer than remote timestamp" );
+                }
+                isCurrent = localTimestamp == remoteTimestamp;
+            }
+        }
+    }
+
+    /**
+     * Tells if the local version of the resource is current with the remote version
+     *
+     * @return true if the local version of the resource is current
+     */
+    public boolean isCurrent() {
+        return isCurrent;
+    }
+
+    /**
+     * Downloands the resource to a local file
+     *
+     * @throws SimResourceException
+     */
+    public void download() throws SimResourceException {
+        try {
+            if( !localFile.getParentFile().exists() ) {
+                localFile.getParentFile().mkdirs();
+            }
+            if( !localFile.exists() ) {
+                localFile.createNewFile();
+            }
+            InputStream in = url.openStream();
+            FileOutputStream out = new FileOutputStream( localFile );
+
+            // Transfer bytes from in to out, from almanac
+            byte[] buf = new byte[1024];
+            int len;
+            while( ( len = in.read( buf ) ) > 0 ) {
+                out.write( buf, 0, len );
+            }
+            out.flush();
+            in.close();
+            out.close();
+            saveMetaData();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -190,17 +200,27 @@ public class SimResource {
         metaData.saveForFile( localFile );
     }
 
+    /**
+     * Removes the resource's local file, downloads a new copy, and sets the isCurrent flag
+     * to true
+     *
+     * @throws SimResourceException
+     */
     public void update() throws SimResourceException {
         if( isUpdatable() ) {
+            uninstall();
             download();
+            isCurrent = true;
         }
     }
 
-    protected File getLocalRoot() {
+    protected File getLocalRoot
+            () {
         return localRoot;
     }
 
-    public File getLocalFile() {
+    public File getLocalFile
+            () {
         return localFile;
     }
 
@@ -210,7 +230,9 @@ public class SimResource {
      * @param localRoot
      * @return the local file
      */
-    private File getLocalFile( File localRoot ) {
+    private File getLocalFile
+            ( File
+                    localRoot ) {
         // Parse the URL to get path relative to URL root
         String path = url.getPath();
         String pathSeparator = FileUtil.getPathSeparator();

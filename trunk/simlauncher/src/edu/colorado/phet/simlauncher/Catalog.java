@@ -104,8 +104,11 @@ public class Catalog implements Simulation.ChangeListener {
         // If the catalog isn't installed yet, go get it. If we're not connected to the Phet site, we'll get
         // a SimResourceException, which means we can't get the catalog
         try {
-            if( ( Options.instance().isCheckForUpdatesOnStartup() && !isCurrent() ) ) {
-                catalogResource.download();
+            if( Options.instance().isCheckForUpdatesOnStartup() ) {
+                catalogResource.checkForUpdate();
+                if( !isCurrent() ) {
+                    catalogResource.download();
+                }
             }
         }
         catch( SimResourceException e ) {

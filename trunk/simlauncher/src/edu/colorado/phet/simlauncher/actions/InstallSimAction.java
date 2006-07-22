@@ -51,7 +51,7 @@ public class InstallSimAction extends AbstractAction {
                 try {
                     for( int i = 0; i < simulations.length; i++ ) {
                         Simulation simulation = simulations[i];
-                                                simulation.install();
+                        simulation.install();
                     }
                 }
                 catch( SimResourceException e ) {

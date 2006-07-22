@@ -25,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * CatalogPane
@@ -103,20 +104,18 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             categoryJList.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
                     currentCategory = (Category)categoryJList.getSelectedValue();
-                    simulationPanel.updateSimTable();
+                    simulationPanel.setCategory( currentCategory );
+//                    simulationPanel.updateSimTable();
                 }
             } );
 
             // Set the initially selected category
             Category selectedCategory = ( currentCategory != null ) ? currentCategory : allSims;
             categoryJList.setSelectedValue( selectedCategory, true );
-
         }
 
         public Category getSelectedCategory() {
             return currentCategory;
-//            Category category = (Category)categoryJList.getSelectedValue();
-//            return category;
         }
     }
 
@@ -124,6 +123,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
      * The panel that contains the SimTable
      */
     private class SimPanel extends JPanel implements Catalog.ChangeListener, SimContainer {
+        private HashMap categoryToSimTable = new HashMap();
         private SimTable simTable;
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
@@ -157,6 +157,35 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 }
             } );
             updateSimTable();
+        }
+
+        /**
+         * Displays a SimTable for the current category. If one doesn't exist, it is created and added
+         * to the cache that maps categories to their corresponding SimTables
+         * @param category
+         */
+        private void setCategory( Category category ) {
+            if( categoryToSimTable.get( category) == null ) {
+                updateSimTable();
+                categoryToSimTable.put( category, simTable );
+            }
+            else {
+                if( simTable != null ) {
+                    System.out.println( "CatalogPane$SimPanel.setCategory" );
+                    remove( simTableScrollPane );
+                    simTableScrollPane.remove( simTable );
+                }
+                simTable = (SimTable)categoryToSimTable.get( category);
+                simTableScrollPane = new JScrollPane( simTable );
+                add( simTableScrollPane, tableGbc );
+
+                // Disable the install button, since there is no selected simulation anymore
+                installBtn.setEnabled( false );
+                checkForUpdateBtn.setEnabled( false );
+
+                // This is required to get rid of screen turds
+                revalidate();
+            }
         }
 
         /**
@@ -312,6 +341,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                                      simTableSortType,
                                      ListSelectionModel.SINGLE_SELECTION,
                                      columns );
+            
+            // Put the SimTable in the cache
+            categoryToSimTable.put( currentCategory, simTable );
 
             // Add a mouse handler to the table
             simTable.addMouseListener( new MouseHandler() );

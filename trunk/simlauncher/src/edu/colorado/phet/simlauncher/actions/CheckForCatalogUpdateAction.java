@@ -63,16 +63,6 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
         }
     }
 
-    private void setFlagOnSimulation( Simulation sim ) {
-        // Set the flag on the simulation
-        if( sim.isInstalled() && !sim.isCurrent() ) {
-            sim.setUpdateAvailable( true );
-        }
-        else {
-            sim.setUpdateAvailable( false );
-        }
-    }
-
     private void showResult( String message ) {
         JOptionPane.showMessageDialog( parent,
                                        message,

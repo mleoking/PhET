@@ -185,7 +185,7 @@ public class SimFactory {
                     }
                     String swfStr = swfAttrib.getValue();
                     URL swfURL = new URL( swfStr );
-                    if( name.startsWith( "Lunar")) {
+                    if( name.startsWith( "Lunar" ) ) {
                         System.out.println( "SimFactory.getSimulations" );
                     }
                     sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
@@ -195,9 +195,8 @@ public class SimFactory {
                 }
 
                 // Check for update and add to the sim list
-                if( Options.instance().isCheckForUpdatesOnStartup()
-                    && sim.isInstalled() && !sim.isCurrent() ) {
-                    sim.setUpdateAvailable( true );
+                if( Options.instance().isCheckForUpdatesOnStartup() && sim.isInstalled() ) {
+                    sim.checkForUpdate();
                 }
                 simList.add( sim );
             }
