@@ -53,6 +53,14 @@ public class SimResource {
         SimResource.UPDATE_ENABLED = UPDATE_ENABLED;
     }
 
+    static {
+        Options.instance().addListener( new Options.ChangeListener() {
+            public void optionsChanged( Options.ChangeEvent event ) {
+                setUpdateEnabled( event.getOptions().isCheckForUpdatesOnStartup() );
+            }
+        } );
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------

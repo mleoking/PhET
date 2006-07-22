@@ -56,6 +56,7 @@ public abstract class Simulation implements SimContainer {
 
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private String localPath;
 
     public Simulation( String name, DescriptionResource descriptionResource, ThumbnailResource thumbnail, URL launchResourceUrl, File localRoot ) {
         this.name = name;
@@ -70,9 +71,10 @@ public abstract class Simulation implements SimContainer {
         // Create the file that will store the timestamp of the last time we were launched
         String subPath = launchResourceUrl.getPath().substring( 0, launchResourceUrl.getPath().lastIndexOf( '/' ) );
         String relativePath = launchResourceUrl.getHost() + FileUtil.getPathSeparator() + subPath;
-        lastLaunchedTimestampFile = new File( localRoot.getAbsolutePath()
-                                              + FileUtil.getPathSeparator()
-                                              + relativePath
+        localPath = localRoot.getAbsolutePath()
+                    + FileUtil.getPathSeparator()
+                    + relativePath;
+        lastLaunchedTimestampFile = new File( localPath
                                               + FileUtil.getPathSeparator()
                                               + "lastLaunchTimeStamp.txt" );
 
@@ -148,6 +150,11 @@ public abstract class Simulation implements SimContainer {
                 simResource.uninstall();
             }
         }
+
+        // Delete the rest of the contents of the directory for the simulation, and
+        // the directory itself.
+        FileUtil.deleteDir( new File( localPath ));
+        
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 

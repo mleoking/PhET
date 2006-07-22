@@ -274,6 +274,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 installedSimIsSelected = selection.isInstalled();
             }
             checkForUpdateBtn.setEnabled( installedSimIsSelected );
+
+            // Notify listeners that things have changed
+            changeEventChannel.notifyChangeListeners( CatalogPane.this );
         }
 
         /**
