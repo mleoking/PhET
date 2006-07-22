@@ -62,6 +62,7 @@ public class FlashSimulation extends Simulation {
     public FlashSimulation( String name, DescriptionResource descriptionResource, ThumbnailResource thumbnail, URL swfUrl, File localRoot ) {
         super( name, descriptionResource, thumbnail, swfUrl, localRoot );
         swfResource = new SwfResource( swfUrl, localRoot );
+        addResource( swfResource );
     }
 
     public void uninstall() {
@@ -78,7 +79,6 @@ public class FlashSimulation extends Simulation {
         super.install();
         // Install the JNLP resource
         swfResource.download();
-        addResource( swfResource );
     }
 
     /**

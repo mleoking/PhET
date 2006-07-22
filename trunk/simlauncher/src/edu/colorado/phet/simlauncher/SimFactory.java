@@ -185,6 +185,9 @@ public class SimFactory {
                     }
                     String swfStr = swfAttrib.getValue();
                     URL swfURL = new URL( swfStr );
+                    if( name.startsWith( "Lunar")) {
+                        System.out.println( "SimFactory.getSimulations" );
+                    }
                     sim = new FlashSimulation( name, descResource, thumbnailResource, swfURL, localRoot );
                 }
                 else {

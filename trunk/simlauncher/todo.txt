@@ -1,6 +1,11 @@
 ====
 Bugs
 ====
+- Hung on Check for Updates when all Flash sims in Motion were installed and selected
+- Switching between categories when there are a lot of installed sims is very slow when Automatic Updates is enabled.
+- Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
+- When installing a list of sims, "Sim already up to date" shows up. Happens when you install all "Top Simulations",
+    followed by all "New Simulations"
 - If you install some Flash sims, then Select All and go to the Simulation menu, the Remove option isn't enabled
 - Flash sims don't uninstall (can't reproduce)
 - When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
@@ -16,9 +21,21 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - three state sorting of columns is not a good thing
 
+- New Simulations doesn't have CCK AC / virtual lab
+- Electricity sims doesn't have either virtual lab version
+
 ========
 Features
 ========
+- Add Remove button to Actions panel
+- Give user option to specify different catalogs
+- Set minimum size on panes to be button panels' minimum size
+- when a sim is asked isCurrent() it does an expensive check. Is there a way for sims to cache that info?
+- If you uninstall a sim, does the jws cache still launch it?
+- Cache a table for each category on each panel
+- lanching Flash sims puts lots of output to the console
+- Don't check for updates every time the category changes if Auto-updates is enabled
+- When the catalog is first installing, show a message saying what's going on
 - Avoid updateSimTable in the Catalog when status of sims changes.
 - Need to be able to cancel installation
 - When the catalog table gets rebuilt, the sort should stay the same
@@ -93,6 +110,7 @@ Testing
 - Do extensive offline testing
 - Launch everything in the catalog
 - Uninstall multiple sims
+- Select All in All Sims category and then Install
 
 
 =======
@@ -199,6 +217,12 @@ Testing
 - Popup menus aren't always displayed in the right place
 
 
+=================
+Internal Features
+=================
+7/22/06 - When uninstalling a sim, delete everything in its directory, and the directory
+
+
 ==========
 Bugs fixed
 ==========
@@ -207,3 +231,5 @@ Bugs fixed
 7/20-06 - When multiple sims are installed, exceptions are thrown
 7/20-06 - Catalog: Select All, then right click throws exception
 7/21/06 - Not all thumbnails are coming down the first time, if Show Thumbnails isn't selected.
+7/22/06 - If you Select All in the catalog, the Simulation menu doesn't enable/disable
+7/22/06 - Install all Motion Sims, then Select All of them and Remove. Flash sims still have installed icon
