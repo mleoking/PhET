@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- New Simulations doesn't have CCK AC / virtual lab
+- Electricity sims doesn't have either virtual lab version
 - Hung on Check for Updates when all Flash sims in Motion were installed and selected
 - Switching between categories when there are a lot of installed sims is very slow when Automatic Updates is enabled.
 - Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
@@ -20,9 +22,6 @@ Bugs
 - Sim list doesn't resort if most-recently-used is sort type, and a sim is launched
 - Clearing the cache doesn't update the installed and available sims lists
 - three state sorting of columns is not a good thing
-
-- New Simulations doesn't have CCK AC / virtual lab
-- Electricity sims doesn't have either virtual lab version
 
 ========
 Features
