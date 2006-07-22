@@ -60,6 +60,7 @@ public class JnlpResource extends SimResource {
         // Set the codebase to the local location and write the local jnlp file
         try {
             String relativeCodebase = null;
+//            URL tempURL = new URL( Configuration.instance().);
             URL tempURL = new URL( remoteCodebase );
             relativeCodebase = tempURL.getHost() + tempURL.getPath();
             String lastChar = relativeCodebase.endsWith( "/" ) || relativeCodebase.endsWith( "\\" ) ? "" : FILE_SEPARATOR;

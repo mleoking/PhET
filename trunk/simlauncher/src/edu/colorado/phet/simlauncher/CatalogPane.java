@@ -37,6 +37,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
     private CategoryPanel categoryPanel;
     private CatalogPane.SimPanel simulationPanel;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
+    private Category currentCategory;
 
     /**
      * Constructor
@@ -95,20 +96,27 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             ArrayList categories = new ArrayList();
             categories.add( allSims );
             categories.addAll( Catalog.instance().getCategories() );
-            categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
-            categoryJList.setSelectedValue( allSims, true );
-            add( categoryJList, BorderLayout.CENTER );
 
+            // Set up the list of categories
+            categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
+            add( categoryJList, BorderLayout.CENTER );
             categoryJList.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
+                    currentCategory = (Category)categoryJList.getSelectedValue();
                     simulationPanel.updateSimTable();
                 }
             } );
+
+            // Set the initially selected category
+            Category selectedCategory = ( currentCategory != null ) ? currentCategory : allSims;
+            categoryJList.setSelectedValue( selectedCategory, true );
+
         }
 
         public Category getSelectedCategory() {
-            Category category = (Category)categoryJList.getSelectedValue();
-            return category;
+            return currentCategory;
+//            Category category = (Category)categoryJList.getSelectedValue();
+//            return category;
         }
     }
 
@@ -160,7 +168,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             JPanel header = new JPanel( new GridBagLayout() );
             Border border = BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.black ),
                                                               "Actions" );
-            header.setBorder( border);
+            header.setBorder( border );
             GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                    GridBagConstraints.CENTER,
                                                                    GridBagConstraints.NONE,
@@ -173,14 +181,14 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 JButton selectAllBtn = new JButton( "Select All" );
                 selectAllBtn.addActionListener( new AbstractAction() {
                     public void actionPerformed( ActionEvent e ) {
-                        selectAll( true);
+                        selectAll( true );
                     }
                 } );
 
                 JButton clearAllBtn = new JButton( "Clear All" );
                 clearAllBtn.addActionListener( new AbstractAction() {
                     public void actionPerformed( ActionEvent e ) {
-                        selectAll( false);
+                        selectAll( false );
                     }
                 } );
 
@@ -204,15 +212,12 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
                 // Check for Update button
                 checkForUpdateBtn = new JButton( "Check for Updates" );
-                checkForUpdateBtn.addActionListener( new AbstractAction( ){
+                checkForUpdateBtn.addActionListener( new AbstractAction() {
                     public void actionPerformed( ActionEvent e ) {
                         new CheckForCatalogUpdateAction( CatalogPane.this, true ).actionPerformed( e );
-                        new CheckForSimUpdateAction( simTable, CatalogPane.this ).actionPerformed( e );                        
+                        new CheckForSimUpdateAction( simTable, CatalogPane.this ).actionPerformed( e );
                     }
-                });
-
-//                checkForUpdateBtn.addActionListener( new CheckForUpdateSimAction( simTable, this ) );
-
+                } );
 
                 JPanel btnPanel = new JPanel( new GridBagLayout() );
                 GridBagConstraints sbpGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -225,7 +230,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
                 headerGbc.gridx++;
                 headerGbc.anchor = GridBagConstraints.CENTER;
-//                header.add( installBtn, headerGbc );
                 header.add( btnPanel, headerGbc );
             }
 
@@ -246,6 +250,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
         /**
          * Selects or de-selects all the simulations
+         *
          * @param areSelected
          */
         private void selectAll( boolean areSelected ) {

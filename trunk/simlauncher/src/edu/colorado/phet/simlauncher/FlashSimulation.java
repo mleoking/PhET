@@ -64,6 +64,10 @@ public class FlashSimulation extends Simulation {
         swfResource = new SwfResource( swfUrl, localRoot );
     }
 
+    public void uninstall() {
+        super.uninstall();
+    }
+
     /**
      * Extends parent behavior by installing resources specific to FlashSimulations
      *

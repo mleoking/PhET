@@ -15,10 +15,7 @@ import edu.colorado.phet.simlauncher.resources.SimResource;
 import edu.colorado.phet.simlauncher.util.TableSorter;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -143,6 +140,12 @@ public class SimTable extends JTable implements SimContainer {
         TableSorter sorter = new TableSorter( simTableModel );
 //        this.setModel( new SimTableModel( rowData, header, columns ));
         this.setModel( sorter );
+
+        // Set the font for the header
+        JTableHeader tableHeader = this.getTableHeader();
+        Font defaultHeaderFont = tableHeader.getFont();
+        Font headerFont = new Font( defaultHeaderFont.getName(), Font.BOLD, defaultHeaderFont.getSize() );
+        tableHeader.setFont( headerFont );
         sorter.setTableHeader( this.getTableHeader() );
 
         // Set the check box renderers and editors on the selection column
@@ -175,12 +178,15 @@ public class SimTable extends JTable implements SimContainer {
         }
 
         // Set the column widths
-        this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+//        this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        // When the user resizes a column, the columns to the right change size to fit the pane
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
             getColumn( column.getName() ).setPreferredWidth( column.getWidth() );
-            getColumn( column.getName() ).setMinWidth( column.getWidth() );
-            getColumn( column.getName() ).setMaxWidth( column.getWidth() );
+//            getColumn( column.getName() ).setMinWidth( column.getWidth() );
+
+//            getColumn( column.getName() ).setMaxWidth( column.getWidth() );
 //            getColumn( column.getName() ).setWidth( column.getWidth() );
         }
 
@@ -246,6 +252,9 @@ public class SimTable extends JTable implements SimContainer {
                 row[j] = sim.getThumbnail();
             }
             else if( columns.get( j ) == IS_INSTALLED ) {
+                if( sim.isInstalled()  ) {
+                    System.out.println( "SimTable.createRow" );
+                }
                 row[j] = sim.isInstalled() ? isInstalledIcon : null;
             }
             else if( columns.get( j ) == IS_UP_TO_DATE ) {
