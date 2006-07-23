@@ -313,7 +313,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
          */
         private void updateSimTable() {
             if( simTable != null ) {
-                System.out.println( "CatalogPane$SimPanel.updateSimTable" );
                 remove( simTableScrollPane );
                 simTableScrollPane.remove( simTable );
             }

@@ -14,12 +14,13 @@ import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
 import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 /**
  * InstalledSimsPane
@@ -70,7 +71,33 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
     //--------------------------------------------------------------------------------------------------
 
     public void catalogChanged( Catalog.ChangeEvent event ) {
-        simulationPanel.catalogChanged( event );
+        List simList = getInstalledSimsInCurrentCategory();
+        simulationPanel.updateSimTable( simList );
+    }
+
+    /**
+     * Returns a list of the simulations in the currently selected category that are
+     * installed
+     * @return  a list of the simulations in the currently selected category that are
+     * installed
+     */
+    private List getInstalledSimsInCurrentCategory() {
+        List simList = null;
+        Category category = categoryPanel.getSelectedCategory();
+        if( category == null ) {
+            simList = new ArrayList( Catalog.instance().getAllSimulations() );
+        }
+        else {
+            simList = new ArrayList( category.getSimulations() );
+        }
+        List installedSims = Catalog.instance().getInstalledSimulations();
+        for( int i = simList.size() - 1; i >= 0; i-- ) {
+            Object o = simList.get( i );
+            if( !installedSims.contains( o ) ) {
+                simList.remove( o );
+            }
+        }
+        return simList;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -82,7 +109,6 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
      */
     private class CategoryPanel extends JPanel {
         private JList categoryJList;
-        private Category currentCategory;
 
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
@@ -97,23 +123,8 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
             categoryJList.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
                     // Get the simulations in the selected category
-                    currentCategory = (Category)categoryJList.getSelectedValue();
-//                    Category category = categoryPanel.getSelectedCategory();
-                    java.util.List simListA = null;
-                    if( currentCategory == null ) {
-                        simListA = new ArrayList( Catalog.instance().getAllSimulations() );
-                    }
-                    else {
-                        simListA = new ArrayList( currentCategory.getSimulations() );
-                    }
-                    java.util.List installedSims = Catalog.instance().getInstalledSimulations();
-                    for( int i = simListA.size() - 1; i >= 0; i-- ) {
-                        Object o = simListA.get( i );
-                        if( !installedSims.contains( o ) ) {
-                            simListA.remove( o );
-                        }
-                    }
-                    simulationPanel.updateSimTable( simListA );
+                    List simList = getInstalledSimsInCurrentCategory();
+                    simulationPanel.updateSimTable( simList );
                 }
             } );
         }
@@ -191,7 +202,7 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
 
             // Get the simulations in the selected category
             Category category = categoryPanel.getSelectedCategory();
-            java.util.List simListA = null;
+            List simListA = null;
             if( category == null ) {
                 simListA = new ArrayList( Catalog.instance().getAllSimulations() );
             }
