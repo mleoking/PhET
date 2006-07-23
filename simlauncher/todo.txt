@@ -31,6 +31,7 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- If URL for site is bad, stop elegantly 
 - Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
     so it can be used for both tabbed panes.
 - Cache a table for each category on installed sims
