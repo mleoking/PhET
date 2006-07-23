@@ -28,11 +28,31 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - three state sorting of columns is not a good thing
 
+======================
+Internal Design Issues
+======================
+- Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
+    so it can be used for both tabbed panes.
+- Cache a table for each category on installed sims
+- lanching Flash sims puts lots of output to the console
+- Avoid updateSimTable in the Catalog when status of sims changes.
+- Better check in SimResource.isCurrent() for local resource is newer than remote one.
+- shorten cache path to "codebase"
+- Does SimTable need to do isCurrent() check on sim, or can it just ask sim.IsUpdateAvailable()?
+- check where UPDATE_ENABLED is checked. It isn't named properly
+- Handle error in catalog XML file better. Save to a temp file before sending to SimFactory
+- combine the popup menu classes
+- Make SetThumbnailsEnabled action
+- Rename InstalledSimsPane.new
+- Consolidate InstalledSimsPane and CatalogPane.SimPane
+- Make Simulation and SimResource instances of Updatable.
+- Update check daemon
+- version number in catalog, and version check
+- add and remove rows from SimTable, rather than recreating
+
 ========
 Features
 ========
-- Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
-    so it can be used for both tabbed panes.
 - Use 16x16 icon for running program icon
 - Add dialogs telling the user what's happening during all long operations.
 - Add to web site
@@ -43,50 +63,24 @@ Features
 - Give user option to specify different catalogs
 - Set minimum size on panes to be button panels' minimum size
 - If you uninstall a sim, does the jws cache still launch it?
-- Cache a table for each category on installed sims
-- lanching Flash sims puts lots of output to the console
 - Don't check for updates every time the category changes if Auto-updates is enabled
 - When the catalog is first installing, show a message saying what's going on
-- Avoid updateSimTable in the Catalog when status of sims changes.
 - Need to be able to cancel installation
 - When the catalog table gets rebuilt, the sort should stay the same
 - After sims are installed and the catalog panel updates, keep the same category selected. Right
     now, things go to the All Simulations category
-- Better check in SimResource.isCurrent() for local resource is newer than remote one.
 - add Export to Removable Media option
-- Check for catalog updates
 - Include catalog in distribution, to reduce first-time startup on slow connections.
-- When you check for updates on multiple simulations, only put up one dialog for everything
-- shorten cache path to "codebase"
-
-- Does SimTable need to do isCurrent() check on sim, or can it just ask sim.IsUpdateAvailable()?
-
-- check where UPDATE_ENABLED is checked. It isn't named properly
-- Handle error in catalog XML file better. Save to a temp file before sending to SimFactory
-- combine the popup menu classes
 - Set up so the program itself checks for its own updates.
-- Make update checks more configurable so that performance isn't impaired on slow connections. Make
-	options persistent.
+- Make update checks more configurable so that performance isn't impaired on slow connections.
 
-
-- Make SetThumbnailsEnabled action
-- Rename InstalledSimsPane.new
-- Consolidate InstalledSimsPane and CatalogPane.SimPane
-- Make Simulation and SimResource instances of Updatable.
-
-- Update check daemon
 - Update check for program itself
 - Descriptions
 - deployment
-
 - Help
-
-- version number in catalog, and version check
-
 - bold heading for sorted column
 - "Downloading catalog" dialog
 - restrict height of thumbnails
-- add and remove rows from SimTable, rather than recreating
 
 
 - SimTable: include column header in determining width of column
@@ -140,6 +134,8 @@ Testing
 - Switching between categories when there are a lot of installed sims is very slow when Automatic Updates is enabled.
 - Items in Simulation menu enable/disable properly when items are selected/deselected.
 - Catalog update check and update action provided. Catalog is checked on startup when Auto-update is set on.
+- Check for catalog updates
+- When you check for updates on multiple simulations, only put up one dialog for everything
 
 =======
 0.00.08
