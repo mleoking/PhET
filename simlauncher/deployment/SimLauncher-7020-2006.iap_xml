@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using Zero G's InstallAnywhere 6.1 Standard, Build 2325
-     STATUS: Fully Functional LICENSED Edition
-     DATE:   Fri Jul 21 19:06:05 MDT 2006 -->
+     STATUS: Fully-Functional UNLICENSED Trial Edition
+     DATE:   Sat Jul 22 14:32:31 MDT 2006 -->
 <InstallAnywhere_Deployment_Project increments="1284">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="6" minor="1" revision="-1"/>
 		<editionID>54,46,49,32,83,116,97,110,100,97,114,100,32,66,117,105,108,100,32,50,51,50,53</editionID>
-		<scriptID>12,42,11,90,89,52,49,48,54,70,81,57,71,78,89,67</scriptID>
+		<scriptID>12,42,11,85,78,76,73,67,69,78,83,69,68</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,51,46,49,95,48,56,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,83,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,0,-109,-49,-128,-112,80,112,116,103,88,98,113,97,113,81,67,49,74,65,70,70,85,71,64,69,66,69,48,79,87,5,2,3,7,4,115,12,1,0,0</authorizationID>
+		<authorizationID>1,0,0,0,-109,-1,96,48,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,4,14,0,119,12,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="71">
 		<object class="com.zerog.ia.installer.Installer" objectID="a0983c92b5fd">
@@ -166,7 +166,7 @@ it will search for ones in this list]]></string>
 								</object>
 							</method>
 							<method name="addElement">
-								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="a745a006b637">
+								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="ab6d6f3c841c">
 									<property name="propertyValue">
 										<string><![CDATA[edu.colorado.phet.simlauncher.SimLauncher]]></string>
 									</property>
@@ -244,7 +244,7 @@ and any path to a file to read from that file]]></string>
 								<string><![CDATA[simlauncher.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>507881</long>
+								<long>527780</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -683,7 +683,7 @@ Press "Done" to quit the installer.]]></string>
 				<object class="java.util.Properties">
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[July 21, 2006 7:06:05 PM MDT]]></string>
+						<string><![CDATA[July 22, 2006 2:32:31 PM MDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.merge]]></string>
@@ -739,7 +739,7 @@ Press "Done" to quit the installer.]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[July 21, 2006 7:06:05 PM MDT]]></string>
+						<string><![CDATA[July 22, 2006 2:28:11 PM MDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.installer.options.heap.size.initial]]></string>

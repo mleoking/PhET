@@ -49,6 +49,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                                                    GridBagConstraints.NORTH,
                                                                    GridBagConstraints.HORIZONTAL,
                                                                    new Insets( 0, 10, 0, 10 ), 0, 0 );
+    private java.util.List currentSims;
+
     /**
      * Constructor
      */
@@ -63,7 +65,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         add( createHeaderPanel(), headerGbc );
 
         // Creates the SimTable
-        updateSimTable();
+        updateSimTable( Catalog.instance().getInstalledSimulations() );
 
         // Listen for changes in Options
         Options.instance().addListener( new Options.ChangeListener() {
@@ -71,7 +73,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                 if( simTableSortType != event.getOptions().getInstalledSimulationsSortType() ) {
                     simTableSortType = event.getOptions().getInstalledSimulationsSortType();
                 }
-                updateSimTable();
+                updateSimTable( currentSims );
             }
         } );
     }
@@ -102,7 +104,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                 public void actionPerformed( ActionEvent e ) {
                     super.actionPerformed( e );
                     if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) ) {
-                        updateSimTable();
+                        updateSimTable( currentSims );
                     }
                 }
             } );
@@ -157,6 +159,9 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
      * Creates the SimTable
      */
     public void updateSimTable( java.util.List simList ) {
+
+        currentSims = simList;
+
         if( simTable != null ) {
             simTableScrollPane.remove( simTable );
             remove( simTableScrollPane );
@@ -216,7 +221,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     }
 
     public void catalogChanged( Catalog.ChangeEvent event ) {
-        updateSimTable();
+        updateSimTable( Catalog.instance().getInstalledSimulations() );
         changeListenerProxy.stateChanged( new ChangeEvent( this ));
     }
 
