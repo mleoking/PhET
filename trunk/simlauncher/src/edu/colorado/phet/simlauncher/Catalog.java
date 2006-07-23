@@ -78,7 +78,7 @@ public class Catalog implements Simulation.ChangeListener {
 
     private void createSimulationList() {
         // Make a backup of the current catalog file, in case there is a problem
-        File catalogFileBackup = new File( catalogResource.getLocalFile().getName() + "-bak" );
+        File catalogFileBackup = new File( catalogResource.getLocalFile().getAbsolutePath() + "-bak" );
 
         // Create channel on the source
         try {

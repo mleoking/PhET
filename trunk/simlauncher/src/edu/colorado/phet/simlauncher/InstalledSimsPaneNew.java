@@ -82,6 +82,7 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
      */
     private class CategoryPanel extends JPanel {
         private JList categoryJList;
+        private Category currentCategory;
 
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
@@ -96,13 +97,14 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
             categoryJList.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
                     // Get the simulations in the selected category
-                    Category category = categoryPanel.getSelectedCategory();
+                    currentCategory = (Category)categoryJList.getSelectedValue();
+//                    Category category = categoryPanel.getSelectedCategory();
                     java.util.List simListA = null;
-                    if( category == null ) {
+                    if( currentCategory == null ) {
                         simListA = new ArrayList( Catalog.instance().getAllSimulations() );
                     }
                     else {
-                        simListA = new ArrayList( category.getSimulations() );
+                        simListA = new ArrayList( currentCategory.getSimulations() );
                     }
                     java.util.List installedSims = Catalog.instance().getInstalledSimulations();
                     for( int i = simListA.size() - 1; i >= 0; i-- ) {

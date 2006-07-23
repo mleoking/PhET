@@ -1,17 +1,22 @@
 ====
 Bugs
 ====
-- New Simulations doesn't have CCK AC / virtual lab
-- Electricity sims doesn't have either virtual lab version
+- If you remove a sim that is in the category currently selected in the My Sims pane, then go to the My Sims pane,
+    the selected category in the My Sims pane will be All Simulations, even though the previously selected
+    category is showing in Simulations side of the pane.
+- My Sims needs to track the current category.
+- Moving Man, older versin needs to be added to the Motion category
+- Connect to Phet site drops and reconnects as times (user is alerted).
+- New Simulations category doesn't have CCK AC / virtual lab
+- If you install a number of simulations at one time, some can then show up as not current
+- When started with auot update on and there's a new catalog, the catalog is downloaded, but the
+    "check for catalog update" still shows there's an update available. When you do update, the
+    subsequent check is correct (catalog is current).
+- When Auto Update is on, only the "All sims" category comes up (not repeatable)
 - Hung on Check for Updates when all Flash sims in Motion were installed and selected
-- Switching between categories when there are a lot of installed sims is very slow when Automatic Updates is enabled.
 - Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
 - When installing a list of sims, "Sim already up to date" shows up. Happens when you install all "Top Simulations",
     followed by all "New Simulations"
-- If you install some Flash sims, then Select All and go to the Simulation menu, the Remove option isn't enabled
-- Flash sims don't uninstall (can't reproduce)
-- When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
-- Balloons and Static Electricity has trouble with SmoothMetal
 - Fix "Wait while updating" dialog
 - Does Simulation.install() need to download the thumbnail?
 - MetaData must update its properties when appropriate
@@ -26,12 +31,19 @@ Bugs
 ========
 Features
 ========
+- Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
+    so it can be used for both tabbed panes.
+- Use 16x16 icon for running program icon
+- Add dialogs telling the user what's happening during all long operations.
+- Add to web site
+- If last startup was unsuccessful, don't backup the catalog
+- Include Catalog in installer
+- Default value for auto updates should be false?, but the first time simlauncher runs, it should check?
 - Add Remove button to Actions panel
 - Give user option to specify different catalogs
 - Set minimum size on panes to be button panels' minimum size
-- when a sim is asked isCurrent() it does an expensive check. Is there a way for sims to cache that info?
 - If you uninstall a sim, does the jws cache still launch it?
-- Cache a table for each category on each panel
+- Cache a table for each category on installed sims
 - lanching Flash sims puts lots of output to the console
 - Don't check for updates every time the category changes if Auto-updates is enabled
 - When the catalog is first installing, show a message saying what's going on
@@ -112,12 +124,22 @@ Testing
 - Select All in All Sims category and then Install
 - Test updating on a simulation that's in several categories.
 - Test update check for each type of SimResource
+- Test for updated catalog
 
 
 =======
 0.00.09
 =======
+- Update availability is accurate for simulations that are in multiple categories, and is updated
+    properly in all categories.
+- Flash sims uninstall properly
+- Performance improved when a lot of simulations are installed
+- Catalog is complete and verified
+- backup of catalog file made on startup
 - Table columns should be resizable
+- Switching between categories when there are a lot of installed sims is very slow when Automatic Updates is enabled.
+- Items in Simulation menu enable/disable properly when items are selected/deselected.
+- Catalog update check and update action provided. Catalog is checked on startup when Auto-update is set on.
 
 =======
 0.00.08
@@ -222,6 +244,8 @@ Testing
 Internal Features
 =================
 7/22/06 - When uninstalling a sim, delete everything in its directory, and the directory
+7/22/06 - when a sim is asked isCurrent() it does an expensive check. Is there a way for sims to cache that info?
+7/22/06 - Cache a table for each category on catalog panel
 
 
 ==========
@@ -232,5 +256,10 @@ Bugs fixed
 7/20-06 - When multiple sims are installed, exceptions are thrown
 7/20-06 - Catalog: Select All, then right click throws exception
 7/21/06 - Not all thumbnails are coming down the first time, if Show Thumbnails isn't selected.
+7/21/06 - Balloons and Static Electricity has trouble with SmoothMetal
 7/22/06 - If you Select All in the catalog, the Simulation menu doesn't enable/disable
 7/22/06 - Install all Motion Sims, then Select All of them and Remove. Flash sims still have installed icon
+7/22/06 - If you install some Flash sims, then Select All and go to the Simulation menu, the Remove option isn't enabled
+7/22/06 - Flash sims don't uninstall (can't reproduce)
+7/22/06 - When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
+7/22/06 - Electricity sims doesn't have either virtual lab version

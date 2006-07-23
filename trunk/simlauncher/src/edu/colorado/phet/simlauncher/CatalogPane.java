@@ -341,9 +341,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                                      simTableSortType,
                                      ListSelectionModel.SINGLE_SELECTION,
                                      columns );
-            
+
             // Put the SimTable in the cache
-            categoryToSimTable.put( currentCategory, simTable );
+            categoryToSimTable.put( category, simTable );
 
             // Add a mouse handler to the table
             simTable.addMouseListener( new MouseHandler() );
