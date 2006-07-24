@@ -13,6 +13,8 @@ package edu.colorado.phet.simlauncher.actions;
 import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.SimLauncher;
+import edu.colorado.phet.simlauncher.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,14 +33,46 @@ public class LaunchSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
+        Simulation sim = simContainer.getSimulation();
         try {
-            simContainer.getSimulation().launch();
+            sim.getSimulation().launch();
         }
         catch( Simulation.LaunchException le ) {
-            JOptionPane.showMessageDialog( SimLauncher.instance().getFrame(),
-                                           "<html>A component of the simulation is either<br>" +
-                                           "missing or corrupted. Please remove and<br>" +
-                                           "re-install the simulation");
+            if( PhetSiteConnection.instance().isConnected() ) {
+                int choice = JOptionPane.showConfirmDialog( SimLauncher.instance().getFrame(),
+                                                            "<html>A component of the simulation is either<br>" +
+                                                            "missing or corrupted.<br><br>" +
+                                                            "Would you like to attempt to repair it?",
+                                                            "Problem launching simulation",
+                                                            JOptionPane.YES_NO_OPTION );
+                if( choice == JOptionPane.YES_OPTION ) {
+                    sim.uninstall();
+                    try {
+                        sim.install();
+                    }
+                    catch( SimResourceException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog( SimLauncher.instance().getFrame(),
+                                                   "<html>Please remove and re-install the simulation<br><br>" +
+                                                   "If this does not solve the problem, try " +
+                                                   "clearing the cache (File>Clear cache)" );
+                }
+            }
+            // If not online
+            else {
+                JOptionPane.showMessageDialog( SimLauncher.instance().getFrame(),
+                                               "<html>A component of the simulation is either<br>" +
+                                               "missing or corrupted.<br><br>" +
+                                               "<html>Please connect the computer to the Internet.<br>" +
+                                               "Then remove and re-install the simulation<br><br>" +
+                                               "If this does not solve the problem, try clearing the cache (File>Clear cache)",
+                                               "Problem launching simulation",
+                                               JOptionPane.OK_OPTION );
+
+            }
         }
     }
 }
