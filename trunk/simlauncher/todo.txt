@@ -55,6 +55,7 @@ Internal Design Issues
 - Update check daemon
 - version number in catalog, and version check
 - add and remove rows from SimTable, rather than recreating
+- If you uninstall a sim, does the jws cache still launch it?
 
 ========
 Features
@@ -62,20 +63,15 @@ Features
 - New "Checking for updates..." dialog
 - Use 16x16 icon for running program icon
 - Add dialogs telling the user what's happening during all long operations.
-- Add to web site
 - If last startup was unsuccessful, don't backup the catalog
 - Include Catalog in installer
 - Default value for auto updates should be false?, but the first time simlauncher runs, it should check?
 - Add Remove button to Actions panel
 - Give user option to specify different catalogs
 - Set minimum size on panes to be button panels' minimum size
-- If you uninstall a sim, does the jws cache still launch it?
 - Don't check for updates every time the category changes if Auto-updates is enabled
 - When the catalog is first installing, show a message saying what's going on
-- Need to be able to cancel installation
 - When the catalog table gets rebuilt, the sort should stay the same
-- After sims are installed and the catalog panel updates, keep the same category selected. Right
-    now, things go to the All Simulations category
 - add Export to Removable Media option
 - Include catalog in distribution, to reduce first-time startup on slow connections.
 - Set up so the program itself checks for its own updates.
@@ -83,16 +79,11 @@ Features
 
 - Update check for program itself
 - Descriptions
-- deployment
 - Help
 - bold heading for sorted column
 - "Downloading catalog" dialog
 - restrict height of thumbnails
-
-
 - SimTable: include column header in determining width of column
-
-- Uninstall and update only from the Catalog?
 - Add menu option for specifying what gets shown in the catalog, a la Explorer
 - Catalog
     - Customize view
@@ -129,13 +120,24 @@ Testing
 
 
 =======
+0.00.11
+=======
+- Added checks for corrupt sim resources that can occur if program is killed while installing a sim. There is code
+    to repair things and to instruct the user what to do.
+- Better user interaction when Install/Update is clicked on a number of simulations that need to be installed and
+    to be updated.        
+
+=======
 0.00.10
 =======
+- Add to web site
 - Installs can be cancelled while in progress.
 - "Installing..." dialog now displays the name of the simulation being installed.
 - Connectivity check tries 5 times before it concludes that there is no connection to the PhET web site. This should
     reduce spurious reports to the user that the connection has been lost.
 - When installing, the message dialog tells the user which simulation is being installed at the moment.
+- After sims are installed and the catalog panel updates, keep the same category selected. Right
+    now, things go to the All Simulations category
 
 =======
 0.00.09

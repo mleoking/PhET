@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * InstallOrUpdateSimAction
- * <p>
+ * <p/>
  * Installs a simulation if it's not installed. If it is installed, updates the simulation.
  *
  * @author Ron LeMaster
@@ -40,19 +40,23 @@ public class InstallOrUpdateSimAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         Simulation[] sims = simContainer.getSimulations();
-        final List simsToCheckForUpdate = new ArrayList( );
+        final List simsToUpdate = new ArrayList();
         for( int i = 0; i < sims.length; i++ ) {
             Simulation sim = sims[i];
-            if( sim.isInstalled() ) {
-                simsToCheckForUpdate.add( sim );
+            if( sim.isInstalled() && !sim.isCurrent() ) {
+                simsToUpdate.add( sim );
             }
-            else {
-                AbstractAction installAction = new InstallSimAction( sim, component);
+            else if( !sim.isInstalled() ){
+                AbstractAction installAction = new InstallSimAction( sim, component );
                 installAction.actionPerformed( e );
             }
         }
-        SimContainer simsForUpdateCheckContainter = new SimListContainer( simsToCheckForUpdate );
-        AbstractAction updateAction = new CheckForSimUpdateAction( simsForUpdateCheckContainter, component);
-        updateAction.actionPerformed( e );
+
+        // If any sims need to be updated, do it now
+        if( simsToUpdate.size() > 0 ) {
+            SimContainer simsForUpdateContainer = new SimListContainer( simsToUpdate );
+            AbstractAction updateAction = new UpdateSimAction( simsForUpdateContainer, component );
+            updateAction.actionPerformed( e );
+        }
     }
 }
