@@ -99,7 +99,7 @@ public class FlashSimulation extends Simulation {
      * Launches the simulation
      * todo: put more smarts in here
      */
-    public void launch() {
+    public void launch() throws LaunchException {
 
         // Parent behavior
         super.launch();

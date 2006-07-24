@@ -10,13 +10,15 @@
  */
 package edu.colorado.phet.simlauncher.resources;
 
-import edu.colorado.phet.simlauncher.util.ImageLoader;
+//import edu.colorado.phet.simlauncher.util.ImageLoader;
+
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 /**
@@ -42,11 +44,12 @@ public class ThumbnailResource extends SimResource {
      * Creates the ImageIcon for the resource
      */
     private void createImageIcon() {
+//        if( true ) {               imageIcon = new ImageIcon( new NoImageImage() ); return; }
+
         // If we're online and the local copy isn't current, go get
         try {
             if( isUpdatable() ) {
                 BufferedImage bImg = ImageLoader.loadBufferedImage( url );
-
                 //Make sure it isn't bigger than a maximum height
 //                double maxThumbnailHeight = 50;
 //                if( bImg.getHeight() > 100 ) {
@@ -59,16 +62,27 @@ public class ThumbnailResource extends SimResource {
                 imageIcon = new ImageIcon( bImg );
             }
             else if( getLocalFile() != null && getLocalFile().exists() ) {
-                imageIcon = new ImageIcon( getLocalFile().getAbsolutePath()  );
+
+                // Try to load the image from a file. This is to see if it's corrupted
+                Image image = null;
+                try {
+                    // Read from a file
+                    File file = new File( getLocalFile().getAbsolutePath() );
+                    image = ImageIO.read( file );
+                }
+                catch( IOException e ) {
+                    imageIcon = new ImageIcon( new NoImageImage() );
+                    return;
+                }
+                imageIcon = new ImageIcon( getLocalFile().getAbsolutePath() );
             }
             else {
-                imageIcon = null;
-//                imageIcon = new ImageIcon( new NoImageImage() );
+//                imageIcon = null;
+                imageIcon = new ImageIcon( new NoImageImage() );
             }
         }
         catch( IOException e ) {
-            imageIcon = null;
-//            imageIcon = new ImageIcon( new NoImageImage() );
+            imageIcon = new ImageIcon( new NoImageImage() );
         }
     }
 
@@ -92,7 +106,8 @@ public class ThumbnailResource extends SimResource {
             g2.setColor( Color.white );
             g2.fillRect( 0, 0, getWidth(), getHeight() );
             g2.setColor( Color.black );
-            g2.drawString( "Thumbnail not available", 10, 10 );
+            g2.drawString( "Thumbnail not", 10, 10 );
+            g2.drawString( "available", 10, 20 );
             g2.dispose();
         }
     }

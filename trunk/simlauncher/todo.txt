@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- If you select several installed sims and hit the Install/Update button, every simulation gives you an Up to DAte
+    dialog
 - If you remove one of the CCK versions, they all go away. When you install them all at once, you get a "Already up to
     date" message for one of them
 - Moving Man, older versin needs to be added to the Motion category
@@ -29,6 +31,7 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- Clean up the StopDownload mechanism
 - Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
 - If URL for site is bad, stop elegantly
 - Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class

@@ -100,6 +100,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
             // Set up the list of categories
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
+            categoryJList.setSelectionMode( DefaultListSelectionModel.SINGLE_SELECTION );
             add( categoryJList, BorderLayout.CENTER );
             categoryJList.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
@@ -141,7 +142,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         public SimPanel() {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulations" ) );
 
             GridBagConstraints headerGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 0.001,
                                                                    GridBagConstraints.NORTH,
