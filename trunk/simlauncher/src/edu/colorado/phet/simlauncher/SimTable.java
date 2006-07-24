@@ -466,9 +466,6 @@ public class SimTable extends JTable implements SimContainer {
             if( simIsInstalledColumnIndex != -1 ) {
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
                     if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                        if( simIsInstalledColumnIndex == -1 ) {
-                            System.out.println( "SimTable$SimListener.installed" );
-                        }
                         tableModel.setValueAt( isInstalledIcon, i, simIsInstalledColumnIndex );
                         tableModel.setValueAt( null, i, simUpToDateColumnIndex );
                         break;
@@ -513,9 +510,6 @@ public class SimTable extends JTable implements SimContainer {
                                ? updateAvailableIcon
                                : null;
 
-                if( value != null ) {
-                    System.out.println( "SimTable$SimUpdateListener.updateAvailable" );
-                }
                 for( int i = 0; i < tableModel.getRowCount(); i++ ) {
                     if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
                         tableModel.setValueAt( value, i, simUpToDateColumnIndex );

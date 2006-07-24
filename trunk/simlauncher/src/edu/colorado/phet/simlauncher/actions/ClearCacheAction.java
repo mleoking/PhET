@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Configuration;
+import edu.colorado.phet.simlauncher.SimLauncher;
 import edu.colorado.phet.simlauncher.util.FileUtil;
 
 import javax.swing.*;
@@ -37,7 +38,10 @@ public class ClearCacheAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        int choice = JOptionPane.showConfirmDialog( parent, message, "Confirm", JOptionPane.OK_CANCEL_OPTION );
+        int choice = JOptionPane.showConfirmDialog( parent,
+                                                    message,
+                                                    "Confirm",
+                                                    JOptionPane.OK_CANCEL_OPTION );
         if( choice == JOptionPane.OK_OPTION ) {
             File cache = Configuration.instance().getLocalRoot();
             FileUtil.deleteDir( cache );
