@@ -87,6 +87,12 @@ public class SimResource {
             catch( IOException e ) {
                 e.printStackTrace();
             }
+            // Signlas a problem with the resource metafile. Delete the resource local file so that the
+            // resource will need to be reinstalled
+            catch( SimResourceException e ) {
+                localFile.delete();
+                uninstall();
+            }
         }
     }
 
@@ -146,7 +152,7 @@ public class SimResource {
 
                 // compare and return result
                 if( localTimestamp > remoteTimestamp ) {
-                    throw new SimResourceException( "local timestamp newer than remote timestamp" );
+                    throw new RuntimeException( "local timestamp newer than remote timestamp" );
                 }
                 isCurrent = localTimestamp == remoteTimestamp;
             }
@@ -192,7 +198,6 @@ public class SimResource {
             // If the download was stopped in the middle, delete what we stored
             // otherwise, save the metadata for the resource.
             if( getStopDownload() ) {
-                System.out.println( "SimResource.download: download stopped" );
                 localFile.delete();
             }
             else {
@@ -208,7 +213,6 @@ public class SimResource {
      * @param stopDownload
      */
     public synchronized void setStopDownload( boolean stopDownload ) {
-        System.out.println( "SimResource.setStopDownload: " + this );
         this.stopDownload = stopDownload;
     }
 

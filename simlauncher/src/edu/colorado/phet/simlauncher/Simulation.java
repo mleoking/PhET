@@ -154,7 +154,7 @@ public abstract class Simulation implements SimContainer {
 
         // Install the thumbnail resource
         // Don't think we need this.
-//        thumbnailResource.download();
+        thumbnailResource.download();
 
 //        descriptionResource.download();
 
@@ -184,7 +184,16 @@ public abstract class Simulation implements SimContainer {
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
-    public void launch() {
+    public void launch() throws LaunchException {
+        // Check to see that all the resources are available
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            if( !simResource.getLocalFile().exists() ) {
+                throw new LaunchException( "Local resource file not found: " + simResource.getLocalFile().getAbsolutePath() );
+            }
+        }
+
+        // Record the time the simulation is launched
         try {
             recordLastLaunchTime();
         }
@@ -343,4 +352,27 @@ public abstract class Simulation implements SimContainer {
 
         void updateAvailable( ChangeEvent event );
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner Classes
+    //--------------------------------------------------------------------------------------------------
+
+    public class LaunchException extends Exception {
+        public LaunchException() {
+            super();
+        }
+
+        public LaunchException( String message ) {
+            super( message );
+        }
+
+        public LaunchException( Throwable cause ) {
+            super( cause );
+        }
+
+        public LaunchException( String message, Throwable cause ) {
+            super( message, cause );
+        }
+    }
+
 }

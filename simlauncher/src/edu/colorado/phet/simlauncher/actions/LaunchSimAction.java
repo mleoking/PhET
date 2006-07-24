@@ -11,6 +11,8 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.SimLauncher;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,14 @@ public class LaunchSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        simContainer.getSimulation().launch();
+        try {
+            simContainer.getSimulation().launch();
+        }
+        catch( Simulation.LaunchException le ) {
+            JOptionPane.showMessageDialog( SimLauncher.instance().getFrame(),
+                                           "<html>A component of the simulation is either<br>" +
+                                           "missing or corrupted. Please remove and<br>" +
+                                           "re-install the simulation");
+        }
     }
 }

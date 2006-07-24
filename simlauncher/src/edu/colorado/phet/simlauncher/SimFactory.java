@@ -12,16 +12,15 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.resources.DescriptionResource;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,6 +48,14 @@ public class SimFactory {
 
         public XmlCatalogException( String message ) {
             super( message );
+        }
+
+        public XmlCatalogException( Throwable cause ) {
+            super( cause );
+        }
+
+        public XmlCatalogException( String message, Throwable cause ) {
+            super( message, cause );
         }
     }
 
@@ -100,6 +107,8 @@ public class SimFactory {
     public List getSimulations( File xmlFile ) throws XmlCatalogException {
         File localRoot = Configuration.instance().getLocalRoot();
         List simList = new ArrayList();
+
+        // If a problem comes up creating the simulations, report an XMLCatalogException
         try {
             // Build the document with SAX and Xerces, no validation
             SAXBuilder builder = new SAXBuilder();
@@ -156,7 +165,7 @@ public class SimFactory {
                         thumbnailResource.download();
                     }
                 }
-                catch( Exception e ) {
+                catch( SimResourceException e ) {
                     System.out.println( "Bad thumbnail: " + thumbnailAddr );
                 }
 
@@ -174,7 +183,14 @@ public class SimFactory {
                     }
                     String jnlpStr = jnlpAttrib.getValue();
                     URL jnlpURL = new URL( jnlpStr );
-                    sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
+
+                    // In case the cache is corrupted, check for exceptions
+                    try {
+                        sim = new JavaSimulation( name, descResource, thumbnailResource, jnlpURL, localRoot );
+                    }
+                    catch( Throwable e ) {
+                        System.out.println( "SimFactory.getSimulations" );
+                    }
                 }
 
                 else if( typeAttrib.getValue().toLowerCase().equals( FLASH_TYPE_STRING ) ) {
@@ -198,8 +214,14 @@ public class SimFactory {
                 simList.add( sim );
             }
         }
-        catch( Exception e ) {
-            throw new XmlCatalogException( e.getMessage() );
+        catch( JDOMException e ) {
+            throw new XmlCatalogException( e );
+        }
+        catch( MalformedURLException e ) {
+            throw new XmlCatalogException( e );
+        }
+        catch( IOException e ) {
+            throw new XmlCatalogException( e );
         }
         return simList;
     }

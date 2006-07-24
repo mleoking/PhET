@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -61,7 +63,11 @@ public class MetaData extends Properties {
         setProperty( REMOTE_PATH, url.getPath() );
     }
 
-    public MetaData( File localResourceFile ) throws IOException {
+    public MetaData( File localResourceFile ) throws IOException, SimResourceException {
+        File  metaFile = toMetaFile( localResourceFile );
+        if( !metaFile.exists() ) {
+            throw new SimResourceException( "metafile missing for local resource = " + localResourceFile.getName() );
+        }
         load( new FileInputStream( toMetaFile( localResourceFile ) ) );
     }
 

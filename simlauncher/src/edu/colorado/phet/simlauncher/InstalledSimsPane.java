@@ -248,7 +248,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
             // If a double left click, launch the simulation
             if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-                sim.launch();
+                new LaunchSimAction( sim ).actionPerformed( new ActionEvent( event.getSource(), 1, "") );
+//                sim.launch();
             }
 
             // Notify change listeners

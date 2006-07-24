@@ -32,20 +32,28 @@ public class SimLauncher {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     private final static String VERSION = "0.00";
+    private JFrame frame;
+
     public static String getVersion() {
         return VERSION;
     }
 
-    SplashWindow splashWindow;
-    Frame splashWindowOwner;
+    private static SimLauncher instance;
+    public static SimLauncher instance() {
+        return instance;
+    }
+
+    private SplashWindow splashWindow;
+    private Frame splashWindowOwner;
 
     /**
      * Private constructor. The only instance created is created by main()
      */
     private SimLauncher() {
+        instance = this;
         showSplashWindow( "PhET Simulation Launcher" );
 
-        JFrame frame = new JFrame( "PhET Simulation Launcher" );
+        frame = new JFrame( "PhET Simulation Launcher" );
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.addComponentListener( new ComponentAdapter() {
@@ -69,6 +77,9 @@ public class SimLauncher {
         new PhetSiteConnectionStatusNotifier( frame, PhetSiteConnection.instance() );
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
 
     private void showSplashWindow( String title ) {
         if( splashWindow == null ) {

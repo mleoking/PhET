@@ -66,7 +66,6 @@ public class Options {
 
     private boolean showInstalledThumbnails = true;
     private boolean showCatalogThumbnails = false;
-
     private boolean checkForUpdatesOnStartup = true;
     private boolean optionsChanged;
     private SimTable.SimComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
