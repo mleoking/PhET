@@ -1,12 +1,9 @@
 ====
 Bugs
 ====
+- "Check for update to catalog" doesn't seem to work when Auto updates is off
 - Attempt to download from the PhET site happens before the startupNotices are checked. This means that if the URL
     is wrong, the program hangs
-- If you select several installed sims and hit the Install/Update button, every simulation gives you an Up to DAte
-    dialog
-- If you remove one of the CCK versions, they all go away. When you install them all at once, you get a "Already up to
-    date" message for one of them
 - Moving Man, older versin needs to be added to the Motion category
 - Connect to Phet site drops and reconnects as times (user is alerted).
 - New Simulations category doesn't have CCK AC / virtual lab
@@ -14,7 +11,6 @@ Bugs
 - When started with auot update on and there's a new catalog, the catalog is downloaded, but the
     "check for catalog update" still shows there's an update available. When you do update, the
     subsequent check is correct (catalog is current).
-- When Auto Update is on, only the "All sims" category comes up (not repeatable)
 - Hung on Check for Updates when all Flash sims in Motion were installed and selected
 - Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
 - When installing a list of sims, "Sim already up to date" shows up. Happens when you install all "Top Simulations",
@@ -266,7 +262,11 @@ Bugs fixed
 7/22/06 - Flash sims don't uninstall (can't reproduce)
 7/22/06 - When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
 7/22/06 - Electricity sims doesn't have either virtual lab version
+7/22/06 - If you remove one of the CCK versions, they all go away. When you install them all at once, you get a "Already up to
+    date" message for one of them
 7/23/06 - If you remove a sim that is in the category currently selected in the My Sims pane, then go to the My Sims pane,
     the selected category in the My Sims pane will be All Simulations, even though the previously selected
     category is showing in Simulations side of the pane.
 7/23/06 - My Sims needs to track the current category.
+7/23/06 - If you select several installed sims and hit the Install/Update button, every simulation gives you an Up to DAte
+    dialog
