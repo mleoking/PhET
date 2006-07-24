@@ -39,17 +39,26 @@ public class InstallOrUpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
+
+        // Figure out which simulations need to be installed and which updated
         Simulation[] sims = simContainer.getSimulations();
-        final List simsToUpdate = new ArrayList();
+        List simsToUpdate = new ArrayList();
+        List simsToInstall = new ArrayList();
         for( int i = 0; i < sims.length; i++ ) {
             Simulation sim = sims[i];
             if( sim.isInstalled() && !sim.isCurrent() ) {
                 simsToUpdate.add( sim );
             }
             else if( !sim.isInstalled() ){
-                AbstractAction installAction = new InstallSimAction( sim, component );
-                installAction.actionPerformed( e );
+                simsToInstall.add( sim );
             }
+        }
+
+        // If any sims are to be installed, do it now
+        if( simsToInstall.size() > 0 ) {
+            SimContainer simsToInstallContainer = new SimListContainer( simsToInstall );
+            InstallSimAction installAction = new InstallSimAction( simsToInstallContainer, component );
+            installAction.actionPerformed( e );
         }
 
         // If any sims need to be updated, do it now
