@@ -62,28 +62,42 @@ public class JavaSimulation extends Simulation {
 
     /**
      * Extends parent behavior by installing resources specific to JavaSimulations
+     *
      * @throws SimResourceException
      */
     public void install() throws SimResourceException {
+        installationStopped = false;
 
         // Install the JNLP resource
+        resourceCurrentlyDowloading = jnlpResource;
         jnlpResource.download();
         addResource( jnlpResource );
 
         // Install all the jar resoureces mentioned in the JNLP
-        if( jnlpResource.isRemoteAvailable() ) {
+        if( !installationStopped && jnlpResource.isRemoteAvailable() ) {
             JarResource[] jarResources = jnlpResource.getJarResources();
-            for( int i = 0; i < jarResources.length; i++ ) {
+            for( int i = 0; !installationStopped && i < jarResources.length; i++ ) {
                 JarResource jarResource = jarResources[i];
-                jarResource.download();
+                resourceCurrentlyDowloading = jarResource;
+                if( !jarResource.getLocalFile().exists() || !jarResource.isCurrent() ) {
+                    jarResource.download();
+                }
+                else {
+                    System.out.println( "JavaSimulation.install:  jar resource already in place" );
+                }
                 addResource( jarResource );
             }
         }
 
         // This shouldn't happen until all the components are downloaded
-        super.install();
+        if( !installationStopped ) {
+            super.install();
+        }
+    }
 
-        System.out.println( "JavaSimulation.install" );
+    public void uninstall() {
+        jnlpResource.uninstall();
+        super.uninstall();
     }
 
     /**
@@ -103,7 +117,7 @@ public class JavaSimulation extends Simulation {
 
         // Parent behavior
         super.launch();
-        
+
         String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
         if( DEBUG ) {
             for( int i = 0; i < commands.length; i++ ) {

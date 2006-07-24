@@ -100,9 +100,9 @@ public abstract class Simulation implements SimContainer {
         return sim;
     }
 
-//--------------------------------------------------------------------------------------------------
-// Abstract methods
-//--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
 
     /**
      * Tells if the simulation is installed locally
@@ -111,6 +111,29 @@ public abstract class Simulation implements SimContainer {
      */
     public abstract boolean isInstalled();
 
+    /**
+     * Subclasses must override this method to handle stopping the download of their resources
+     */
+    protected SimResource resourceCurrentlyDowloading;
+    protected boolean installationStopped;
+
+    public void stopInstallation() {
+        installationStopped = true;
+        System.out.println( "Simulation.stopInstallation" );
+        if( resourceCurrentlyDowloading != null ) {
+            resourceCurrentlyDowloading.setStopDownload( true );
+        }
+
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            simResource.setStopDownload( true );
+        }
+        uninstall();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Concrete methods
+    //--------------------------------------------------------------------------------------------------
 
     protected void finalize() throws Throwable {
         namesToSims.remove( getName() );
@@ -122,15 +145,16 @@ public abstract class Simulation implements SimContainer {
     }
 
     /**
-     * Downloads all the resources for the simulation. Notifies listeners that the installation
-     * has happened, so it should be done a the end of any extensions to this method done by
-     * subclasses.
+     * Sets the update-available flag to false and notifies listeners of a change event.
+     * <p/>
+     * Subclasses should override this method, and downloading their specific resources
+     * in those override BEFORE they call super.install().
      */
     public void install() throws SimResourceException {
 
         // Install the thumbnail resource
         // Don't think we need this.
-        thumbnailResource.download();
+//        thumbnailResource.download();
 
 //        descriptionResource.download();
 
@@ -139,25 +163,26 @@ public abstract class Simulation implements SimContainer {
     }
 
     /**
-     * Uninstalls all of the simulation's resources except for the thumbnail, which is needed
-     * for display purposes
+     * Notifies listeners that the simulation has been uninstalled.
+     * <p/>
+     * Subclasses should override this method, and remove whatever resources are appropriate
+     * BEFORE calling super.uninstall()
      */
     public void uninstall() {
         // Delete the resources other than the thumbnail, which is needed for display purposes
-        for( int i = resources.size() - 1; i >= 0; i-- ) {
-            SimResource simResource = (SimResource)resources.get( i );
-            if( !( simResource instanceof ThumbnailResource ) ) {
-                simResource.uninstall();
-            }
-        }
+//        for( int i = resources.size() - 1; i >= 0; i-- ) {
+//            SimResource simResource = (SimResource)resources.get( i );
+//            if( !( simResource instanceof ThumbnailResource ) ) {
+//                simResource.uninstall();
+//            }
+//        }
 
         // Delete the rest of the contents of the directory for the simulation, and
         // the directory itself.
-        FileUtil.deleteDir( new File( localPath ) );
+//        FileUtil.deleteDir( new File( localPath ) );
 
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
-
 
     public void launch() {
         try {

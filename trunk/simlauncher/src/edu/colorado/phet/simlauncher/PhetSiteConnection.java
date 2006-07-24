@@ -48,8 +48,6 @@ public class PhetSiteConnection {
     private PhetSiteConnection() {
         url = Configuration.instance().getPhetUrl();
         updateAvailability();
-
-//        System.out.println( "PhetSiteConnection.PhetSiteConnection:  monitor is turned off" );
         ConnectionMonitor connectionMonitor = new ConnectionMonitor();
         connectionMonitor.start();
     }
@@ -63,34 +61,12 @@ public class PhetSiteConnection {
      */
     public boolean isConnected() {
         return this.isAvailable;
-//        boolean connected;
-//
-//        // Debugging
-//        if( DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE ) {
-//            return false;
-//        }
-//
-//        try {
-//            // Try to open a connection.
-//            URLConnection urlConnection = url.openConnection();
-//            urlConnection.connect();
-//
-//            // Try to read a byte from the url. It seems that simply tying to connect a URLConnetcion doesn't
-//            // always throw an exception if the URL points to a non-existing directory or file
-//            DataInputStream dis;
-//            dis = new DataInputStream( url.openStream() );
-//            dis.read();
-//            dis.close();
-//
-//            // If the two things above succeeded, we're connected
-//            connected = true;
-//        }
-//        catch( IOException e ) {
-//            connected = false;
-//        }
-//        return connected;
     }
 
+    /**
+     * Reports if there is a connection to the Phet web site.
+     * @return true if there is a connection, false if not
+     */
     private boolean checkConnection() {
         // Debugging
         if( DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE ) {
@@ -119,8 +95,15 @@ public class PhetSiteConnection {
         return connected;
     }
 
-    public synchronized void updateAvailability() {
-        boolean connected = checkConnection();
+    /**
+     * Tries up to nTries times to get a connection
+     */
+    private synchronized void updateAvailability() {
+        int nTries = 5;
+        boolean connected = false;
+        for( int i = 0; !connected && i < nTries; i++ ) {
+            connected = checkConnection();
+        }
         if( connected != isAvailable ) {
             isAvailable = connected;
             changeListenerProxy.connectionChanged( new ChangeEvent( this ) );

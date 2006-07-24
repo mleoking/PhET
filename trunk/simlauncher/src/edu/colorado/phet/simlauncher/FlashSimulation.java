@@ -66,6 +66,7 @@ public class FlashSimulation extends Simulation {
     }
 
     public void uninstall() {
+        swfResource.uninstall();
         super.uninstall();
     }
 
@@ -76,9 +77,13 @@ public class FlashSimulation extends Simulation {
      *
      */
     public void install() throws SimResourceException {
-        super.install();
-        // Install the JNLP resource
+        installationStopped = false;
+//        resourceCurrentlyDowloading = swfResource;
+        resourceCurrentlyDowloading = null;
         swfResource.download();
+        if( !installationStopped ) {
+            super.install();
+        }
     }
 
     /**

@@ -16,6 +16,7 @@ import edu.colorado.phet.simlauncher.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class SimResource {
     private MetaData metaData;
     private File localFile;
     private File localRoot;
+    private boolean stopDownload;
 
     /**
      * @param url
@@ -167,6 +169,7 @@ public class SimResource {
      */
     public void download() throws SimResourceException {
         try {
+            stopDownload = false;
             if( !localFile.getParentFile().exists() ) {
                 localFile.getParentFile().mkdirs();
             }
@@ -179,17 +182,38 @@ public class SimResource {
             // Transfer bytes from in to out, from almanac
             byte[] buf = new byte[1024];
             int len;
-            while( ( len = in.read( buf ) ) > 0 ) {
+            while( !getStopDownload() && ( len = in.read( buf ) ) > 0 ) {
                 out.write( buf, 0, len );
             }
             out.flush();
             in.close();
             out.close();
-            saveMetaData();
+
+            // If the download was stopped in the middle, delete what we stored
+            // otherwise, save the metadata for the resource.
+            if( getStopDownload() ) {
+                System.out.println( "SimResource.download: download stopped" );
+                localFile.delete();
+            }
+            else {
+                saveMetaData();
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @param stopDownload
+     */
+    public synchronized void setStopDownload( boolean stopDownload ) {
+        System.out.println( "SimResource.setStopDownload: " + this );
+        this.stopDownload = stopDownload;
+    }
+
+    private synchronized boolean getStopDownload() {
+        return stopDownload;
     }
 
     private void saveMetaData() throws IOException {
@@ -214,13 +238,11 @@ public class SimResource {
         }
     }
 
-    protected File getLocalRoot
-            () {
+    protected File getLocalRoot() {
         return localRoot;
     }
 
-    public File getLocalFile
-            () {
+    public File getLocalFile() {
         return localFile;
     }
 
@@ -230,9 +252,7 @@ public class SimResource {
      * @param localRoot
      * @return the local file
      */
-    private File getLocalFile
-            ( File
-                    localRoot ) {
+    private File getLocalFile( File localRoot ) {
         // Parse the URL to get path relative to URL root
         String path = url.getPath();
         String pathSeparator = FileUtil.getPathSeparator();
@@ -248,6 +268,7 @@ public class SimResource {
     public void uninstall() {
         localFile.delete();
         if( metaData != null ) {
+            System.out.println( "SimResource.uninstall: metadata != null : " + this );
             metaData.deleteForFile( localFile );
         }
         else {

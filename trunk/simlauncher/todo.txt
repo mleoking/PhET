@@ -1,10 +1,8 @@
 ====
 Bugs
 ====
-- If you remove a sim that is in the category currently selected in the My Sims pane, then go to the My Sims pane,
-    the selected category in the My Sims pane will be All Simulations, even though the previously selected
-    category is showing in Simulations side of the pane.
-- My Sims needs to track the current category.
+- If you remove one of the CCK versions, they all go away. When you install them all at once, you get a "Already up to
+    date" message for one of them
 - Moving Man, older versin needs to be added to the Motion category
 - Connect to Phet site drops and reconnects as times (user is alerted).
 - New Simulations category doesn't have CCK AC / virtual lab
@@ -31,7 +29,8 @@ Bugs
 ======================
 Internal Design Issues
 ======================
-- If URL for site is bad, stop elegantly 
+- Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
+- If URL for site is bad, stop elegantly
 - Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
     so it can be used for both tabbed panes.
 - Cache a table for each category on installed sims
@@ -121,6 +120,15 @@ Testing
 - Test update check for each type of SimResource
 - Test for updated catalog
 
+
+=======
+0.00.10
+=======
+- Installs can be cancelled while in progress.
+- "Installing..." dialog now displays the name of the simulation being installed.
+- Connectivity check tries 5 times before it concludes that there is no connection to the PhET web site. This should
+    reduce spurious reports to the user that the connection has been lost.
+- When installing, the message dialog tells the user which simulation is being installed at the moment.
 
 =======
 0.00.09
@@ -260,3 +268,7 @@ Bugs fixed
 7/22/06 - Flash sims don't uninstall (can't reproduce)
 7/22/06 - When you Select All and Remove, things still show up with checks in the Installed? column.  (can't reproduce)
 7/22/06 - Electricity sims doesn't have either virtual lab version
+7/23/06 - If you remove a sim that is in the category currently selected in the My Sims pane, then go to the My Sims pane,
+    the selected category in the My Sims pane will be All Simulations, even though the previously selected
+    category is showing in Simulations side of the pane.
+7/23/06 - My Sims needs to track the current category.

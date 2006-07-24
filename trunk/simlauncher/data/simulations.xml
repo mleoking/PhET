@@ -54,7 +54,7 @@
                 type="Java"
                 description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/cck.htm"
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/CircuitConstructionKit.jpg"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck-lab.jnlp"/>
     <simulation name="Circuit Construction Kit (DC + AC)"
                 type="Java"
                 description="http://www.colorado.edu/physics/phet/web-pages/simulation-pages/abstracts/cck.htm"
@@ -370,9 +370,11 @@
         </category>
         <category name="Electricity, Magnets &amp; Circuits">
             <simulation name="Circuit Construction Kit (DC only)"/>
+		<simulation name="Circuit Construction Kit (DC only), virtual lab version"/>
             <simulation name="Radio Waves &amp; Electromagnetic Fields"/>
             <simulation name="Faraday's Electromagnetic Lab"/>
             <simulation name="Circuit Construction Kit (DC + AC)"/>
+		<simulation name="Circuit Construction Kit (DC + AC), virtual lab version"/>
             <simulation name="Balloons and Static Electricity"/>
             <simulation name="John Travoltage"/>
             <simulation name="Battery-Resistor Circuit"/>
