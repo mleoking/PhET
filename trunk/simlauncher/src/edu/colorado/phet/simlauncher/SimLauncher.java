@@ -124,8 +124,7 @@ public class SimLauncher {
         }
 
         // Installed simulations, but no internet connection
-        else
-        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
+        else if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
             JOptionPane.showMessageDialog( parent,
                                            "<html>You are working offline." +
                                            "<br><br>You will be able to run simulations you've installed, but " +
@@ -135,10 +134,17 @@ public class SimLauncher {
         // If there aren't any simulations installed, ask the user if he'd like to go to the catalog
         else if( Catalog.instance().getInstalledSimulations() == null
                  || Catalog.instance().getInstalledSimulations().size() == 0 ) {
-            int choice = JOptionPane.showConfirmDialog( parent, "<html><center>You have no simulations installed.<br>Would you like to visit the online simulation catalog?</html>", "Startup..", JOptionPane.YES_NO_OPTION );
+            int choice = JOptionPane.showConfirmDialog( parent,
+                                                        "<html>You have no simulations installed.<br>" +
+                                                        "Would you like to visit the online simulation catalog?</html>",
+                                                        "Startup..",
+                                                        JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
                 if( !PhetSiteConnection.instance().isConnected() ) {
-                    JOptionPane.showMessageDialog( parent, "The online simulation catolg is not available.\nEither you do not have access to the internet, or the PhET web site is not available." );
+                    JOptionPane.showMessageDialog( parent,
+                                                   "<html>The online simulation catolg is not available.<br><br>" +
+                                                   "Either you do not have access to the internet,<br>" +
+                                                   "or the PhET web site is not available." );
                 }
                 else {
                     TopLevelPane.getInstance().setActivePane( TopLevelPane.ONLINE_SIMS_PANE );

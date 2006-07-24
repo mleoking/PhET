@@ -13,6 +13,7 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.simlauncher.actions.CheckForCatalogUpdateAction;
 import edu.colorado.phet.simlauncher.actions.CheckForSimUpdateAction;
 import edu.colorado.phet.simlauncher.actions.InstallOrUpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 import edu.colorado.phet.simlauncher.menus.CatalogPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 

@@ -1,6 +1,8 @@
 ====
 Bugs
 ====
+- Attempt to download from the PhET site happens before the startupNotices are checked. This means that if the URL
+    is wrong, the program hangs
 - If you select several installed sims and hit the Install/Update button, every simulation gives you an Up to DAte
     dialog
 - If you remove one of the CCK versions, they all go away. When you install them all at once, you get a "Already up to
@@ -56,6 +58,7 @@ Internal Design Issues
 ========
 Features
 ========
+- New "Checking for updates..." dialog
 - Use 16x16 icon for running program icon
 - Add dialogs telling the user what's happening during all long operations.
 - Add to web site

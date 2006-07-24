@@ -27,7 +27,7 @@ import java.io.File;
  */
 public class ClearCacheAction extends AbstractAction {
     private Component parent;
-    private String message = "<html><center>This action will delete all locally installed simulations<br>" +
+    private String message = "<html>This action will delete all locally installed simulations<br>" +
                              "as well as all configuration information and saved options" +
                              "<br><br>You will have to restart the application before you can do any more work" +
                              "<br><br>Would you like to proceed?</html>";
@@ -45,6 +45,9 @@ public class ClearCacheAction extends AbstractAction {
         if( choice == JOptionPane.OK_OPTION ) {
             File cache = Configuration.instance().getLocalRoot();
             FileUtil.deleteDir( cache );
+
+            JOptionPane.showMessageDialog( parent,
+                                           "Please close and restart PhET SimLauncher");
         }
     }
 }
