@@ -36,21 +36,15 @@ public class UpdateSimAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        Simulation sim = simContainer.getSimulation();
-//        try {
+        Simulation[] sims = simContainer.getSimulations();
+        for( int i = 0; i < sims.length; i++ ) {
+            Simulation sim = sims[i];
             if( sim.isInstalled() ) {
                 if( !sim.isCurrent() ) {
                     update( sim );
                 }
-                else {
-                    JOptionPane.showMessageDialog( parent,
-                                                   "The simulation is already up to date.");
-                }
-            }
-//        }
-//        catch( SimResourceException e1 ) {
-//            e1.printStackTrace();
-//        }
+            }            
+        }
     }
 
     /**

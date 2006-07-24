@@ -106,17 +106,6 @@ Deployment
 - Don't want to sort by update date. This would require too much network overhead every time you start the app.
 - Putting up a table that can be sorted by different columns would look odd when a simulation belongs to several different categories
 
-=======
-Testing
-=======
-- Test update check for all SimResource types
-- Do extensive offline testing
-- Launch everything in the catalog
-- Uninstall multiple sims
-- Select All in All Sims category and then Install
-- Test updating on a simulation that's in several categories.
-- Test update check for each type of SimResource
-- Test for updated catalog
 
 
 =======
@@ -125,7 +114,7 @@ Testing
 - Added checks for corrupt sim resources that can occur if program is killed while installing a sim. There is code
     to repair things and to instruct the user what to do.
 - Better user interaction when Install/Update is clicked on a number of simulations that need to be installed and
-    to be updated.        
+    to be updated.
 
 =======
 0.00.10
