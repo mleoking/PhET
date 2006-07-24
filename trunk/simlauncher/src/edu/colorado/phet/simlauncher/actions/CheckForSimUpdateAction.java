@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.SimLauncher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,8 +48,9 @@ public class CheckForSimUpdateAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
 
-//        Cursor orgCursor = SwingUtilities.getRoot( parent ).getCursor();
-//        SwingUtilities.getRoot( parent ).setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+        JFrame frame = SimLauncher.instance().getFrame();
+        Cursor orgCursor = frame.getCursor();
+        frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
         Simulation[] sims = simContainer.getSimulations();
 
@@ -93,7 +95,7 @@ public class CheckForSimUpdateAction extends AbstractAction {
             }
         }
 
-//        SwingUtilities.getRoot( parent ).setCursor( orgCursor );
+        frame.setCursor( orgCursor );
     }
 
     private void showResult( String message ) {
