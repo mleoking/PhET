@@ -160,8 +160,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
      */
     public void updateSimTable( java.util.List simList ) {
 
-        System.out.println( "InstalledSimsPane.updateSimTable" );
-
         currentSims = simList;
 
         if( simTable != null ) {

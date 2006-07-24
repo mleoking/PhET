@@ -16,7 +16,7 @@ import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 /**
  * InstallSimAction
@@ -29,6 +29,8 @@ public class InstallSimAction extends AbstractAction {
     private Component component;
     private JDialog waitDlg;
     private boolean cancelInstallation;
+    private Simulation simBeingInstalled;
+    private boolean stopInstallation;
 
     public InstallSimAction( SimContainer simContainer, Component component ) {
         this.component = component;
@@ -46,59 +48,66 @@ public class InstallSimAction extends AbstractAction {
      * @param simulations
      */
     private void install( final Simulation[] simulations ) {
-        Thread installerThread = new Thread( new Runnable() {
-            public void run() {
-                try {
-                    for( int i = 0; i < simulations.length; i++ ) {
-                        Simulation simulation = simulations[i];
-                        simulation.install();
-                    }
-                }
-                catch( SimResourceException e ) {
-                    RemoteUnavaliableMessagePane.show( null );
-                }
-                hideWaitDialog();
-            }
-        } );
-        installerThread.start();
-        showWaitDialog();
+        stopInstallation = false;
+        for( int i = 0; !stopInstallation && i < simulations.length; i++ ) {
+            simBeingInstalled = simulations[i];
+            Thread installerThread = new InstallerThread( simBeingInstalled );
+            installerThread.start();
+            showWaitDialog( simBeingInstalled );
+        }
     }
 
     /**
      * Shows a dialog with an indefinite progress bar
      */
-    private void showWaitDialog() {
+    private void showWaitDialog( Simulation simulation ) {
         JFrame frame = (JFrame)SwingUtilities.getRoot( component );
         waitDlg = new JDialog( frame, "Installing...", true );
-        JLabel message = new JLabel( "Please wait while the simulation is being installed..." );
-        JPanel contentPane = (JPanel)waitDlg.getContentPane();
-        contentPane.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 10, 20, 10, 20 ),
-                                                         0, 0 );
-        contentPane.add( message, gbc );
-        JProgressBar progressBar = new JProgressBar();
-        progressBar.setIndeterminate( true );
-        contentPane.add( progressBar, gbc );
+        if( simulation != null ) {
+            JLabel message = new JLabel( simulation.getName() + " is being installed..." );
+            JPanel contentPane = (JPanel)waitDlg.getContentPane();
+            contentPane.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                             1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 10, 20, 10, 20 ),
+                                                             0, 0 );
+            contentPane.add( message, gbc );
+            JProgressBar progressBar = new JProgressBar();
+            progressBar.setIndeterminate( true );
+            contentPane.add( progressBar, gbc );
 
-//        JButton cancelButton = new JButton( "Cancel");
-//        cancelButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                hideWaitDialog();
-//            }
-//        } );
-//        contentPane.add( cancelButton, gbc );
+            JButton cancelButton = new JButton( "Cancel" );
+            cancelButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    stopInstallation();
+                }
+            } );
+            contentPane.add( cancelButton, gbc );
 
-        waitDlg.pack();
-        waitDlg.setLocationRelativeTo( frame );
-        waitDlg.setVisible( true );
+            waitDlg.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent e ) {
+                    stopInstallation();
+                }
+            } );
+            waitDlg.pack();
+            waitDlg.setLocationRelativeTo( frame );
+            waitDlg.setVisible( true );
+        }
     }
 
     /**
-     * Hides the dialog
+     *
+     */
+    private void stopInstallation() {
+        simBeingInstalled.stopInstallation();
+        stopInstallation = true;
+        hideWaitDialog();
+    }
+
+    /**
+     * Hides the wait dialog
      */
     private void hideWaitDialog() {
         SwingUtilities.invokeLater( new Runnable() {
@@ -108,4 +117,29 @@ public class InstallSimAction extends AbstractAction {
         } );
     }
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    /**
+     * A Thread that installs a specified simulation
+     */
+    private class InstallerThread extends Thread {
+        Simulation simulation;
+
+        public InstallerThread( Simulation simulation ) {
+            this.simulation = simulation;
+        }
+
+        public void run() {
+            try {
+                simulation.install();
+            }
+            catch( SimResourceException e ) {
+                RemoteUnavaliableMessagePane.show( null );
+            }
+            hideWaitDialog();
+        }
+    }
 }
