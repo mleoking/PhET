@@ -33,6 +33,7 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- delete CheckAllForUpdateAction and CatalogPaneNew
 - Clean up the StopDownload mechanism
 - Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
 - If URL for site is bad, stop elegantly
