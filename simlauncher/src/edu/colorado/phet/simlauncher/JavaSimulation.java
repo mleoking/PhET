@@ -83,7 +83,7 @@ public class JavaSimulation extends Simulation {
                     jarResource.download();
                 }
                 else {
-                    System.out.println( "JavaSimulation.install:  jar resource already in place" );
+//                    System.out.println( "JavaSimulation.install:  jar resource already in place" );
                 }
                 addResource( jarResource );
             }
