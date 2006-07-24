@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.SimListContainer;
 
 import java.util.*;
 import java.util.List;
@@ -39,16 +40,19 @@ public class InstallOrUpdateSimAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         Simulation[] sims = simContainer.getSimulations();
+        final List simsToCheckForUpdate = new ArrayList( );
         for( int i = 0; i < sims.length; i++ ) {
             Simulation sim = sims[i];
             if( sim.isInstalled() ) {
-                AbstractAction updateAction = new UpdateSimAction( sim, component);
-                updateAction.actionPerformed( e );
+                simsToCheckForUpdate.add( sim );
             }
             else {
                 AbstractAction installAction = new InstallSimAction( sim, component);
                 installAction.actionPerformed( e );
             }
         }
+        SimContainer simsForUpdateCheckContainter = new SimListContainer( simsToCheckForUpdate );
+        AbstractAction updateAction = new CheckForSimUpdateAction( simsForUpdateCheckContainter, component);
+        updateAction.actionPerformed( e );
     }
 }

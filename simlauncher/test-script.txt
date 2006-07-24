@@ -13,7 +13,7 @@ Test persistence of options:
 Install multiple sims at one time.
 Uninstall multiple sims at one time.
 Install and uninstall sims at one time.
-Update several at one time.
+Update several sims at one time.
 
 Update testing
     resource for update
@@ -21,4 +21,14 @@ Update testing
         thumbnail resource
         swf resource
         jar resource
-    catalog update        
+    catalog update
+
+- Test update check for all SimResource types
+- Do extensive offline testing
+- Launch everything in the catalog
+- Uninstall multiple sims
+- Select All in All Sims category and then Install
+- Test updating on a simulation that's in several categories.
+- Test update check for each type of SimResource
+- Test for updated catalog
+
