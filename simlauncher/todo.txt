@@ -1,20 +1,15 @@
 ====
 Bugs
 ====
-- "Check for update to catalog" doesn't seem to work when Auto updates is off
+- When catalog updates, the current list in the sim table of the Catalog pane doesn't update
 - Attempt to download from the PhET site happens before the startupNotices are checked. This means that if the URL
     is wrong, the program hangs
 - Moving Man, older versin needs to be added to the Motion category
 - Connect to Phet site drops and reconnects as times (user is alerted).
 - New Simulations category doesn't have CCK AC / virtual lab
 - If you install a number of simulations at one time, some can then show up as not current
-- When started with auot update on and there's a new catalog, the catalog is downloaded, but the
-    "check for catalog update" still shows there's an update available. When you do update, the
-    subsequent check is correct (catalog is current).
 - Hung on Check for Updates when all Flash sims in Motion were installed and selected
 - Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
-- When installing a list of sims, "Sim already up to date" shows up. Happens when you install all "Top Simulations",
-    followed by all "New Simulations"
 - Fix "Wait while updating" dialog
 - Does Simulation.install() need to download the thumbnail?
 - MetaData must update its properties when appropriate
@@ -104,6 +99,10 @@ would only work with an XML file.
 - Add dialog telling the user what's happening while updates are being check
 - Use 16x16 icon for running program icon
 - delete CheckAllForUpdateAction and CatalogPaneNew
+- "Check for update to catalog" doesn't seem to work when Auto updates is off
+- When started with auto update on and there's a new catalog, the catalog is downloaded, but the
+    "check for catalog update" still shows there's an update available. When you do update, the
+    subsequent check is correct (catalog is current).
 
 =======
 0.00.11

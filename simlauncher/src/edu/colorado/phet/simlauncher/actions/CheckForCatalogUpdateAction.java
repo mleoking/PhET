@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.model.Catalog;
 import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.model.resources.SimResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,7 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
+        Catalog.instance().checkForUpdate();
         if( !PhetSiteConnection.instance().isConnected() && !notifyOnlyIfUpdateAvailable ) {
             JOptionPane.showMessageDialog( parent, "<html>Connetction to PhET site is not available." +
                                                      "<br>Please check later</html");
@@ -54,7 +56,10 @@ public class CheckForCatalogUpdateAction extends AbstractAction {
                                            "Would you like to download it?",
                                            "Confirm", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION ) {
+                boolean orgFlag = SimResource.isUpdateEnabled();
+                SimResource.setUpdateEnabled( true );
                 Catalog.instance().update();
+                SimResource.setUpdateEnabled( orgFlag );
             }
         }
         else if( !notifyOnlyIfUpdateAvailable ) {

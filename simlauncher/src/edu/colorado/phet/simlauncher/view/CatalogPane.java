@@ -50,27 +50,16 @@ public class CatalogPane extends JSplitPane implements SimContainer {
      */
     public CatalogPane() {
         super( JSplitPane.HORIZONTAL_SPLIT, true );
-//        super( JSplitPane.HORIZONTAL_SPLIT, null, null );
 
         categoryPanel = new CategoryPanel();
         simulationPanel = new SimPanel();
 
         setLeftComponent( categoryPanel );
-        JPanel rightPanel = new JPanel();
-        rightPanel.add( simulationPanel );
         setRightComponent( simulationPanel );
-
-//        setLayout( new GridBagLayout() );
-//        GridBagConstraints gbc = new  GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1,1,1,1,
-//                                                          GridBagConstraints.NORTH,
-//                                                          GridBagConstraints.NONE,
-//                                                          new Insets(0,0,0,0),0,0);
-//        add( categoryPanel, gbc );
-//        gbc.fill = GridBagConstraints.BOTH;
-//        add( simulationPanel, gbc );
 
         Catalog.instance().addChangeListener( new Catalog.ChangeListener() {
             public void catalogChanged( Catalog.ChangeEvent event ) {
+                remove( categoryPanel);
                 categoryPanel = new CategoryPanel();
                 setLeftComponent( categoryPanel );
             }
@@ -111,7 +100,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 public void mouseClicked( MouseEvent e ) {
                     currentCategory = (Category)categoryJList.getSelectedValue();
                     simulationPanel.setCategory( currentCategory );
-//                    simulationPanel.updateSimTable();
                 }
             } );
 
@@ -156,7 +144,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             add( createHeaderPanel(), headerGbc );
 
             // Add a listener to the catalog that will update the sim table if the catalog changes
-            Catalog.instance().addChangeListener( this );
+//            Catalog.instance().addChangeListener( this );
             Options.instance().addListener( new Options.ChangeListener() {
                 public void optionsChanged( Options.ChangeEvent event ) {
                     updateSimTable();

@@ -175,6 +175,13 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     /**
+     * Checks to see if the local resource is current
+     */
+    public void checkForUpdate() {
+        catalogResource.checkForUpdate();
+    }
+
+    /**
      * @return true if the catalog is up to date
      */
     public boolean isCurrent() {

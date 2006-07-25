@@ -24,6 +24,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * SimLauncher
@@ -69,7 +71,6 @@ public class SimLauncher {
             e.printStackTrace();
         }
         frame.setIconImage( icon );
-
         frame.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 centerFrame( (JFrame)e.getComponent() );
@@ -79,6 +80,7 @@ public class SimLauncher {
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
         new FrameSetup.CenteredWithSize( 800, 600 ).initialize( frame );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
 
         disposeSplashWindow();
@@ -173,6 +175,17 @@ public class SimLauncher {
             String arg = args[i];
             if( arg.startsWith( "-no_web" ) ) {
                 DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE = true;
+            }
+            if( arg.startsWith( "-catalog=")) {
+                String catalogURL = arg.substring( arg.indexOf("=") + 1);
+                try {
+                    Configuration.instance().setCatalogUrl( new URL( catalogURL ) );
+                }
+                catch( MalformedURLException e ) {
+                    System.out.println( "Invalid catalog URL" );
+                    e.printStackTrace();
+                    System.exit(0);
+                }
             }
         }
     }
