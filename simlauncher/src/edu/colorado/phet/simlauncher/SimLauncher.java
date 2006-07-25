@@ -59,9 +59,9 @@ public class SimLauncher {
      */
     private SimLauncher() {
         instance = this;
-        showSplashWindow( "PhET Simulation Launcher" );
+        showSplashWindow( Configuration.instance().getProgramName() );
 
-        frame = new JFrame( "PhET Simulation Launcher" );
+        frame = new JFrame( Configuration.instance().getProgramName() );
         // Set icon
         Image icon = null;
         try {

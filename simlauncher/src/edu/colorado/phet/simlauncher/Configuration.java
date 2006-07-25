@@ -44,6 +44,13 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         return instance;
     }
 
+    // App name
+    private static final String PROGRAM_NAME = "PhET SimLauncher";
+    public String getProgramName() {
+        return PROGRAM_NAME;
+    }
+
+    // Location of local files
     private static String DEFAULT_CACHE_PATH = "/phet/sl-local-root/";
     private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH);
 //    static {

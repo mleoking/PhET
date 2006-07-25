@@ -50,6 +50,7 @@ Internal Design Issues
 ========
 Features
 ========
+- Make font on borders around splitPane components bigger
 - Add "Go online" menu item
 - Add dialogs telling the user what's happening during all long operations.
 - If last startup was unsuccessful, don't backup the catalog
