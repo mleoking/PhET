@@ -29,6 +29,12 @@ import java.util.List;
  * <p/>
  * A catalog of all the available simulations. It also keeps lists of the simulations that are
  * installed.
+ * <p>
+ * The Catalog is a singleton, and keeps a list of all the available simulations and categories. These lists are
+ * built by SimFactory from an xml file that is downloaded from the server and cached locally. When Catalog is
+ * instantiated, it checks for a new version of the xml file on the server. Before it downloads a new version
+ * and has it parsed, however, Catalog makes a backup copy of the currently cached catalog so it can be restored
+ * should there be a error in the downloaded new version, and SimFactory have a problem parsing it. 
  *
  * @author Ron LeMaster
  * @version $Revision$
