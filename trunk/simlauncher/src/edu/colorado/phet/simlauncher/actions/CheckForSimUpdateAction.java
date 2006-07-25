@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class CheckForSimUpdateAction extends AbstractAction {
+    private JDialog waitDlg;
+
     public static class Result {
         private Result() {
         }
@@ -47,30 +49,61 @@ public class CheckForSimUpdateAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-
-        JFrame frame = SimLauncher.instance().getFrame();
-        Cursor orgCursor = frame.getCursor();
-        frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-
         Simulation[] sims = simContainer.getSimulations();
+        Thread workerThread = new WorkerThread( sims );
+        workerThread.start();
+        showWaitDialog();
+    }
 
-        if( sims.length == 1 ) {
-            Simulation sim = sims[0];
+    private void showResult( final String message ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JOptionPane.showMessageDialog( parent,
+                                               message,
+                                               "Check for updates",
+                                               JOptionPane.INFORMATION_MESSAGE );
+            }
+        } );
+    }
 
-            // Ask the sim to check if it's current
-            sim.checkForUpdate();
+    private void showWaitDialog() {
+        JFrame frame = (JFrame)SwingUtilities.getRoot( parent );
+        waitDlg = new JDialog( frame, "Checking for updates...", false );
+        JLabel message = new JLabel( "Please wait while the selected simulations are checked for available updates." );
+        JPanel contentPane = (JPanel)waitDlg.getContentPane();
+        contentPane.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 10, 20, 10, 20 ),
+                                                         0, 0 );
+        contentPane.add( message, gbc );
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate( true );
+        contentPane.add( progressBar, gbc );
 
-            if( !sim.isInstalled() ) {
-                showResult( "The simulation is not installed" );
-            }
-            else if( !sim.isCurrent() ) {
-                showResult( "An update is available" );
-            }
-            else {
-                showResult( "The installed simulation is current" );
-            }
+        waitDlg.pack();
+        waitDlg.setLocationRelativeTo( frame );
+        waitDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
+        waitDlg.setVisible( true );
+    }
+
+    private void hideWaitDialog() {
+        waitDlg.setVisible( false );
+    }
+
+    /**
+     * Thread to perform update check
+     */
+    private class WorkerThread extends Thread {
+        private Simulation[] sims;
+
+        public WorkerThread( Simulation[] sims ) {
+            this.sims = sims;
         }
-        else {
+
+        public void run() {
             boolean aSimIsUpToDate = false;
             boolean aSimIsNotUpToDate = false;
 
@@ -83,25 +116,32 @@ public class CheckForSimUpdateAction extends AbstractAction {
                 aSimIsUpToDate |= sim.isInstalled() && sim.isCurrent();
                 aSimIsNotUpToDate |= sim.isInstalled() && !sim.isCurrent();
             }
+            hideWaitDialog();
 
             if( aSimIsUpToDate && !aSimIsNotUpToDate ) {
-                showResult( "All installed simulations are up to date" );
+                if( sims.length == 1 ) {
+                    showResult( "The simulation is up to date" );
+                }
+                else {
+                    showResult( "All selected simulations are up to date" );
+                }
             }
             else if( !aSimIsUpToDate && aSimIsNotUpToDate ) {
-                showResult( "Updates are available for all installed simulations" );
+                if( sims.length == 1 ) {
+                    showResult( "An updates is available for the simulation" );
+                }
+                else {
+                    showResult( "Updates are available for all selected simulations" );
+                }
             }
             else {
-                showResult( "Updates are available for some installed simulations" );
+                if( sims.length == 1 ) {
+                    showResult( "Updates are available for the selected simulation" );
+                }
+                else {
+                    showResult( "Updates are available for some of the selected simulations" );
+                }
             }
         }
-
-        frame.setCursor( orgCursor );
-    }
-
-    private void showResult( String message ) {
-        JOptionPane.showMessageDialog( parent,
-                                       message,
-                                       "Check for updates",
-                                       JOptionPane.INFORMATION_MESSAGE );
     }
 }
