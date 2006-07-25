@@ -23,7 +23,7 @@ import edu.colorado.phet.simlauncher.model.SimContainer;
 public class SimUpdateCheckMenuItem extends PhetSiteConnectionDependentMenuItem {
 
     public SimUpdateCheckMenuItem( SimContainer simContainer, PhetSiteConnection phetSiteConnection ) {
-        super( "Check for update", phetSiteConnection );
+        super( "Check for updates", phetSiteConnection );
         addActionListener( new CheckForSimUpdateAction( simContainer, this ) );
     }
 }

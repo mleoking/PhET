@@ -1,11 +1,14 @@
 Connectivity
 ============
 Run Test no-web
+    test with auto update on and off
 Change URL to be bogus, and test
 
 Test connection monitor
+    With network connected, then disconnected
 
 Start with "Check for updates on startup" on and off.
+
 Test persistence of options:
     auto-update
     thumbnails

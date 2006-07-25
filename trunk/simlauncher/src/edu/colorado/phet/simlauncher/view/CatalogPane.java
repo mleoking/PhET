@@ -26,6 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CatalogPane extends JSplitPane implements SimContainer {
+public class CatalogPane extends JSplitPane implements SelectedSimsContainer {
 
     private CategoryPanel categoryPanel;
     private CatalogPane.SimPanel simulationPanel;
@@ -59,9 +60,10 @@ public class CatalogPane extends JSplitPane implements SimContainer {
 
         Catalog.instance().addChangeListener( new Catalog.ChangeListener() {
             public void catalogChanged( Catalog.ChangeEvent event ) {
-                remove( categoryPanel);
+                remove( categoryPanel );
                 categoryPanel = new CategoryPanel();
                 setLeftComponent( categoryPanel );
+                simulationPanel.enableDisableButtons();
             }
         } );
 
@@ -100,6 +102,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 public void mouseClicked( MouseEvent e ) {
                     currentCategory = (Category)categoryJList.getSelectedValue();
                     simulationPanel.setCategory( currentCategory );
+                    CatalogPane.this.changeEventChannel.notifyChangeListeners( this );
                 }
             } );
 
@@ -116,7 +119,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
     /**
      * The panel that contains the SimTable
      */
-    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimContainer {
+    private class SimPanel extends JPanel implements Catalog.ChangeListener, SelectedSimsContainer {
         private HashMap categoryToSimTable = new HashMap();
         private SimTable simTable;
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
@@ -128,6 +131,8 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                                                                       new Insets( 0, 10, 0, 10 ), 0, 0 );
         private ArrayList columns;
         private JButton checkForUpdateBtn;
+        private JButton selectAllBtn;
+        private JButton clearAllBtn;
 
         /**
          * Constructor
@@ -144,7 +149,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             add( createHeaderPanel(), headerGbc );
 
             // Add a listener to the catalog that will update the sim table if the catalog changes
-//            Catalog.instance().addChangeListener( this );
             Options.instance().addListener( new Options.ChangeListener() {
                 public void optionsChanged( Options.ChangeEvent event ) {
                     updateSimTable();
@@ -156,10 +160,11 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         /**
          * Displays a SimTable for the current category. If one doesn't exist, it is created and added
          * to the cache that maps categories to their corresponding SimTables
+         *
          * @param category
          */
         private void setCategory( Category category ) {
-            if( categoryToSimTable.get( category) == null ) {
+            if( categoryToSimTable.get( category ) == null ) {
                 updateSimTable();
                 categoryToSimTable.put( category, simTable );
             }
@@ -169,13 +174,12 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                     remove( simTableScrollPane );
                     simTableScrollPane.remove( simTable );
                 }
-                simTable = (SimTable)categoryToSimTable.get( category);
+                simTable = (SimTable)categoryToSimTable.get( category );
                 simTableScrollPane = new JScrollPane( simTable );
                 add( simTableScrollPane, tableGbc );
 
-                // Disable the install button, since there is no selected simulation anymore
-                installBtn.setEnabled( false );
-                checkForUpdateBtn.setEnabled( false );
+                // Enable and disable the buttons as appropriate
+                enableDisableButtons();
 
                 // This is required to get rid of screen turds
                 revalidate();
@@ -201,14 +205,14 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             // todo: make checkBoxColumn programattically determined
             int checkBoxColumn = 0;
             if( checkBoxColumn >= 0 ) {
-                JButton selectAllBtn = new JButton( "Select All" );
+                selectAllBtn = new JButton( "Select All" );
                 selectAllBtn.addActionListener( new AbstractAction() {
                     public void actionPerformed( ActionEvent e ) {
                         selectAll( true );
                     }
                 } );
 
-                JButton clearAllBtn = new JButton( "Clear All" );
+                clearAllBtn = new JButton( "Clear All" );
                 clearAllBtn.addActionListener( new AbstractAction() {
                     public void actionPerformed( ActionEvent e ) {
                         selectAll( false );
@@ -230,7 +234,9 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             // Install button
             {
                 installBtn = new JButton( "Install / Update" );
-                installBtn.addActionListener( new InstallOrUpdateSimAction( this, this ) );
+                ActionListener installBtnActionListener = new InstallOrUpdateSimAction( this,
+                                                                                        this );
+                installBtn.addActionListener( installBtnActionListener );
                 installBtn.setEnabled( false );
 
                 // Check for Update button
@@ -288,15 +294,19 @@ public class CatalogPane extends JSplitPane implements SimContainer {
          * Enables/disables the buttons in the header depending on the state of things
          */
         private void enableDisableButtons() {
-            // The Install button should be enabled if any check boxes are checked
-            installBtn.setEnabled( simTable.getSelections().length > 0 );
-            Simulation[] selections = simTable.getSelections();
+            Simulation[] selections = simTable.getSelectedSimulations();
             boolean installedSimIsSelected = false;
+            boolean aSimIsInstalled = false;
+            boolean aSimIsNotInstalled = false;
+            boolean aSimIsNotCurrent = false;
             for( int i = 0; i < selections.length && !installedSimIsSelected; i++ ) {
-                Simulation selection = selections[i];
-                installedSimIsSelected = selection.isInstalled();
+                Simulation sim = selections[i];
+                aSimIsInstalled |= sim.isInstalled();
+                aSimIsNotInstalled |= !sim.isInstalled();
+                aSimIsNotCurrent |= !sim.isCurrent();
             }
-            checkForUpdateBtn.setEnabled( installedSimIsSelected );
+            checkForUpdateBtn.setEnabled( aSimIsInstalled );
+            installBtn.setEnabled( aSimIsNotInstalled || aSimIsNotCurrent );
 
             // Notify listeners that things have changed
             changeEventChannel.notifyChangeListeners( CatalogPane.this );
@@ -344,9 +354,8 @@ public class CatalogPane extends JSplitPane implements SimContainer {
             simTableScrollPane = new JScrollPane( simTable );
             add( simTableScrollPane, tableGbc );
 
-            // Disable the install button, since there is no selected simulation anymore
-            installBtn.setEnabled( false );
-            checkForUpdateBtn.setEnabled( false );
+            // Enable/disable buttons
+            enableDisableButtons();
 
             // This is required to get rid of screen turds
             revalidate();
@@ -370,7 +379,12 @@ public class CatalogPane extends JSplitPane implements SimContainer {
         }
 
         public Simulation[] getSimulations() {
+            System.out.println( "CatalogPane$SimPanel.getSimulations" );
             return simTable.getSimulations();
+        }
+
+        public Simulation[] getSelectedSimulations() {
+            return simTable.getSelectedSimulations();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -413,7 +427,6 @@ public class CatalogPane extends JSplitPane implements SimContainer {
                 // If right click, pop up context menu. Use the first line below to set up menu for all
                 // selected sims. Use the second if you only want the one that the JTable thinks selected
                 SimContainer simContainer = simTable;
-//                SimContainer simContainer = simTable.getSelection();
                 if( event.isPopupTrigger() && simContainer != null ) {
                     new CatalogPopupMenu( simContainer ).show( event.getComponent(), event.getX(), event.getY() );
                 }
@@ -434,7 +447,7 @@ public class CatalogPane extends JSplitPane implements SimContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of SimulationContainer
+    // Implementation of SelectedSimsContainer
     //--------------------------------------------------------------------------------------------------
 
     public Simulation getSimulation() {
@@ -442,7 +455,11 @@ public class CatalogPane extends JSplitPane implements SimContainer {
     }
 
     public Simulation[] getSimulations() {
+        System.out.println( "CatalogPane.getSimulations" );
         return simulationPanel.getSimulations();
     }
 
+    public Simulation[] getSelectedSimulations() {
+        return simulationPanel.getSelectedSimulations();
+    }
 }

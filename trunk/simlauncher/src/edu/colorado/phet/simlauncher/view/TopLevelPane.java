@@ -13,7 +13,6 @@ package edu.colorado.phet.simlauncher.view;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.simlauncher.model.Catalog;
 import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.model.SimContainer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -35,7 +34,7 @@ public class TopLevelPane extends JTabbedPane {
     //--------------------------------------------------------------------------------------------------
 
     private static TopLevelPane instance;
-    private SimContainer activeSimContainer;
+    private SelectedSimsContainer activeSimContainer;
 
     public static TopLevelPane getInstance() {
         if( instance == null ) {
@@ -79,7 +78,7 @@ public class TopLevelPane extends JTabbedPane {
 
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setActiveSimContainer( (SimContainer)getSelectedComponent() );
+                setActiveSimContainer( (SelectedSimsContainer)getSelectedComponent() );
                 activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( TopLevelPane.this ) );
             }
         } );
@@ -145,7 +144,7 @@ public class TopLevelPane extends JTabbedPane {
         activePaneListenerProxy.activePaneChanged( new PaneChangeEvent( this) );
     }
 
-    private void setActiveSimContainer( SimContainer simContainer ) {
+    private void setActiveSimContainer( SelectedSimsContainer simContainer ) {
         activeSimContainer = simContainer;
     }
 
@@ -161,7 +160,7 @@ public class TopLevelPane extends JTabbedPane {
         return catalogPane;
     }
 
-    public SimContainer getActiveSimContainer() {
+    public SelectedSimsContainer getActiveSelectedSimsContainer() {
         return activeSimContainer;
     }
 
