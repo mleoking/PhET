@@ -13,12 +13,14 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.common.application.SplashWindow;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 
 /**
  * SimLauncher
@@ -39,6 +41,7 @@ public class SimLauncher {
     }
 
     private static SimLauncher instance;
+
     public static SimLauncher instance() {
         return instance;
     }
@@ -54,8 +57,16 @@ public class SimLauncher {
         showSplashWindow( "PhET Simulation Launcher" );
 
         frame = new JFrame( "PhET Simulation Launcher" );
+        // Set icon
+        Image icon = null;
+        try {
+            icon = ImageLoader.loadBufferedImage( "images/Phet-logo-32x32.gif" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        frame.setIconImage( icon );
 
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 centerFrame( (JFrame)e.getComponent() );
@@ -124,7 +135,8 @@ public class SimLauncher {
         }
 
         // Installed simulations, but no internet connection
-        else if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
+        else
+        if( !PhetSiteConnection.instance().isConnected() && Catalog.instance().getInstalledSimulations() != null ) {
             JOptionPane.showMessageDialog( parent,
                                            "<html>You are working offline." +
                                            "<br><br>You will be able to run simulations you've installed, but " +
@@ -156,7 +168,7 @@ public class SimLauncher {
     private static void parseArgs( String[] args ) {
         for( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.startsWith( "-no_web")) {
+            if( arg.startsWith( "-no_web" ) ) {
                 DebugFlags.NO_PHET_SITE_CONNECTION_AVAILABLE = true;
             }
         }
@@ -176,7 +188,7 @@ public class SimLauncher {
 
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         Font font = phetLookAndFeel.getTabFont();
-        Font newFont = new Font( font.getName(), font.getStyle(),  font.getSize() - 4);
+        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() - 4 );
         phetLookAndFeel.setTabFont( newFont );
         phetLookAndFeel.initLookAndFeel();
 
