@@ -181,18 +181,28 @@ public class SimResource {
             if( !localFile.exists() ) {
                 localFile.createNewFile();
             }
-            InputStream in = url.openStream();
-            FileOutputStream out = new FileOutputStream( localFile );
 
-            // Transfer bytes from in to out, from almanac
-            byte[] buf = new byte[1024];
-            int len;
-            while( !getStopDownload() && ( len = in.read( buf ) ) > 0 ) {
-                out.write( buf, 0, len );
+            // download the bytes
+            try {
+                InputStream in = url.openStream();
+                FileOutputStream out = new FileOutputStream( localFile );
+
+                // Transfer bytes from in to out, from almanac
+                byte[] buf = new byte[1024];
+                int len;
+                while( !getStopDownload() && ( len = in.read( buf ) ) > 0 ) {
+                    out.write( buf, 0, len );
+                }
+                out.flush();
+                in.close();
+                out.close();
             }
-            out.flush();
-            in.close();
-            out.close();
+            catch( java.net.UnknownHostException uhe ) {
+                System.getProperty( "user.dir");
+                System.out.println( "System.getProperty( \"user.dir\") = " + System.getProperty( "user.dir") );
+                throw new SimResourceException( "Bad URL for resource: "
+                                                + url.getHost() + url.getPath() );
+            }
 
             // If the download was stopped in the middle, delete what we stored
             // otherwise, save the metadata for the resource.
