@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.resources.SimResource;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.model.SimContainer;
+import edu.colorado.phet.simlauncher.model.Simulation;
+import edu.colorado.phet.simlauncher.model.resources.SimResource;
+import edu.colorado.phet.simlauncher.model.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;

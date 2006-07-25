@@ -10,13 +10,16 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.model.SimContainer;
+import edu.colorado.phet.simlauncher.model.Simulation;
+import edu.colorado.phet.simlauncher.model.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * InstallSimAction

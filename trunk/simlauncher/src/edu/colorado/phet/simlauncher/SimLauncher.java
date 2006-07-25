@@ -15,6 +15,9 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
+import edu.colorado.phet.simlauncher.model.Catalog;
+import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.view.TopLevelPane;
 
 import javax.swing.*;
 import java.awt.*;

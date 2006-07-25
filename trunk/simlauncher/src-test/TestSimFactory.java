@@ -10,9 +10,9 @@
  */
 
 import edu.colorado.phet.simlauncher.PhetWebPage;
-import edu.colorado.phet.simlauncher.SimFactory;
-import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.model.SimFactory;
+import edu.colorado.phet.simlauncher.model.Simulation;
+import edu.colorado.phet.simlauncher.model.resources.SimResourceException;
 
 import java.io.IOException;
 import java.util.List;

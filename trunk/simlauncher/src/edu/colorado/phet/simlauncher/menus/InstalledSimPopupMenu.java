@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.Simulation;
 import edu.colorado.phet.simlauncher.menus.menuitems.SimLaunchMenuItem;
+import edu.colorado.phet.simlauncher.model.Simulation;
 
 import javax.swing.*;
 

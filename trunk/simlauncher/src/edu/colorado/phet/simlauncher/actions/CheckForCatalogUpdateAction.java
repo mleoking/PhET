@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.simlauncher.actions;
 
-import edu.colorado.phet.simlauncher.Catalog;
-import edu.colorado.phet.simlauncher.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.model.Catalog;
+import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
 
 import javax.swing.*;
 import java.awt.*;

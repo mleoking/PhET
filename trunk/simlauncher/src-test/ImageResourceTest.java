@@ -9,15 +9,15 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.Configuration;
+import edu.colorado.phet.simlauncher.model.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.model.resources.ThumbnailResource;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * ImageResourceTest

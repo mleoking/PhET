@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.simlauncher.view.SimTable;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

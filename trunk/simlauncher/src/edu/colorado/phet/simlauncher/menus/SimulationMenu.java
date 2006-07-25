@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.SimContainer;
-import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.TopLevelPane;
 import edu.colorado.phet.simlauncher.menus.menuitems.*;
+import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.model.SimContainer;
+import edu.colorado.phet.simlauncher.model.Simulation;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.view.TopLevelPane;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

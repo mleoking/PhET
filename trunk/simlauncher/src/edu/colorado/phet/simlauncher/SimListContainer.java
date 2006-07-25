@@ -10,6 +10,9 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.model.SimContainer;
+import edu.colorado.phet.simlauncher.model.Simulation;
+
 import java.util.List;
 
 /**
