@@ -29,7 +29,6 @@ Bugs
 ======================
 Internal Design Issues
 ======================
-- delete CheckAllForUpdateAction and CatalogPaneNew
 - Clean up the StopDownload mechanism
 - Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
 - If URL for site is bad, stop elegantly
@@ -56,8 +55,7 @@ Internal Design Issues
 ========
 Features
 ========
-- New "Checking for updates..." dialog
-- Use 16x16 icon for running program icon
+- Add "Go online" menu item
 - Add dialogs telling the user what's happening during all long operations.
 - If last startup was unsuccessful, don't backup the catalog
 - Include Catalog in installer
@@ -90,10 +88,6 @@ Features
 would only work with an XML file.
 - Add/Remove/Update as slide-out panel with list in it
 
-------------
-Deployment
-------------
-- Add "Go online" menu item
 - CatalogResource should be stored above the cache
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
 - Display abstracts - installing description needs to be debugged
@@ -108,6 +102,8 @@ Deployment
 0.00.12
 =======
 - Add dialog telling the user what's happening while updates are being check
+- Use 16x16 icon for running program icon
+- delete CheckAllForUpdateAction and CatalogPaneNew
 
 =======
 0.00.11
