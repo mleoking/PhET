@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.simlauncher.menus.menuitems;
 
-import edu.colorado.phet.simlauncher.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
 
 import javax.swing.*;
 

@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.simlauncher.SimContainer;
+import edu.colorado.phet.simlauncher.model.SimContainer;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 import edu.stanford.ejalbert.BrowserLauncher;
 import edu.stanford.ejalbert.exception.BrowserLaunchingExecutionException;

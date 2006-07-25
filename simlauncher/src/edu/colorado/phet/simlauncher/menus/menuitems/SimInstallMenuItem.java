@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher.menus.menuitems;
 
-import edu.colorado.phet.simlauncher.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.SimContainer;
 import edu.colorado.phet.simlauncher.actions.InstallSimAction;
+import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
+import edu.colorado.phet.simlauncher.model.SimContainer;
 
 /**
  * SimUpdateCheckMenuItem

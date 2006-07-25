@@ -9,9 +9,9 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.Catalog;
-import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.resources.SimResourceException;
+import edu.colorado.phet.simlauncher.model.Catalog;
+import edu.colorado.phet.simlauncher.model.Simulation;
+import edu.colorado.phet.simlauncher.model.resources.SimResourceException;
 
 import java.util.List;
 

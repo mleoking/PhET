@@ -11,8 +11,8 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Options;
-import edu.colorado.phet.simlauncher.SimTable;
 import edu.colorado.phet.simlauncher.actions.SetInstalledSimSortAction;
+import edu.colorado.phet.simlauncher.view.SimTable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
