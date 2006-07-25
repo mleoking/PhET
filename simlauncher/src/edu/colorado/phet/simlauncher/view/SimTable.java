@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
-import edu.colorado.phet.simlauncher.model.SimContainer;
 import edu.colorado.phet.simlauncher.model.Simulation;
 import edu.colorado.phet.simlauncher.util.TableSorter;
 
@@ -36,7 +35,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimTable extends JTable implements SimContainer {
+public class SimTable extends JTable implements SelectedSimsContainer {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -523,7 +522,7 @@ public class SimTable extends JTable implements SimContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of SimContainer
+    // Implementation of SelectedSimsContainer
     //--------------------------------------------------------------------------------------------------
 
     /**
@@ -539,6 +538,13 @@ public class SimTable extends JTable implements SimContainer {
         return getSelections();
     }
 
+    public Simulation[] getSelectedSimulations() {
+        return getSelections();
+    }
+
+    /**
+     *
+     */
     private class CheckBoxSelectionFlipper extends MouseAdapter {
 
         public void mouseClicked( MouseEvent e ) {

@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher.view;
 
 import edu.colorado.phet.simlauncher.model.Catalog;
 import edu.colorado.phet.simlauncher.model.Category;
-import edu.colorado.phet.simlauncher.model.SimContainer;
 import edu.colorado.phet.simlauncher.model.Simulation;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
@@ -31,7 +30,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
+public class InstalledSimsPaneNew extends JSplitPane implements SelectedSimsContainer,
                                                                 Catalog.ChangeListener {
 
     private CategoryPanel categoryPanel;
@@ -149,4 +148,7 @@ public class InstalledSimsPaneNew extends JSplitPane implements SimContainer,
         return simulationPanel.getSimulations();
     }
 
+    public Simulation[] getSelectedSimulations() {
+        return simulationPanel.getSelectedSimulations();
+    }
 }

@@ -50,16 +50,14 @@ public class CatalogPopupMenu extends JPopupMenu {
         Simulation[] sims = simContainer.getSimulations();
         boolean aSimIsInstalled = false;
         boolean aSimIsNotInstalled = false;
+        boolean aSimIsNotCurrent = false;
         for( int i = 0; i < sims.length; i++ ) {
             aSimIsInstalled |= sims[i].isInstalled();
             aSimIsNotInstalled |= !sims[i].isInstalled();
+            aSimIsNotCurrent |= !sims[i].isCurrent();
         }
-//        checkUpdateMI.setEnabled( simContainer.isInstalled() );
-//        updateMI.setEnabled( simContainer.isInstalled() );
-//        uninstallMI.setEnabled( simContainer.isInstalled() );
-//        installMI.setEnabled( !simContainer.isInstalled() );
         checkUpdateMI.setEnabled( aSimIsInstalled );
-        updateMI.setEnabled( aSimIsInstalled );
+        updateMI.setEnabled( aSimIsNotCurrent );
         uninstallMI.setEnabled( aSimIsInstalled );
         installMI.setEnabled( aSimIsNotInstalled );
     }

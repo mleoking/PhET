@@ -15,7 +15,6 @@ import edu.colorado.phet.simlauncher.Options;
 import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
 import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.model.Catalog;
-import edu.colorado.phet.simlauncher.model.SimContainer;
 import edu.colorado.phet.simlauncher.model.Simulation;
 
 import javax.swing.*;
@@ -37,7 +36,7 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
-                                                         SimContainer {
+                                                         SelectedSimsContainer {
 
     private SimTable simTable;
     private SimTable.SimComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
@@ -63,7 +62,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
-        setPreferredSize( new Dimension( 800, 400) );
+        setPreferredSize( new Dimension( 800, 400 ) );
 
         // Add the button panel
         add( createHeaderPanel(), headerGbc );
@@ -92,7 +91,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         JPanel header = new JPanel( new GridBagLayout() );
         Border border = BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.black ),
                                                           "Actions" );
-        header.setBorder( border);
+        header.setBorder( border );
         GridBagConstraints headerGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                GridBagConstraints.CENTER,
                                                                GridBagConstraints.NONE,
@@ -107,7 +106,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             launchBtn.addActionListener( new LaunchSimAction( this ) {
                 public void actionPerformed( ActionEvent e ) {
                     super.actionPerformed( e );
-                    if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) ) {
+                    if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT ) )
+                    {
                         updateSimTable( currentSims );
                     }
                 }
@@ -226,11 +226,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     public void catalogChanged( Catalog.ChangeEvent event ) {
         updateSimTable( Catalog.instance().getInstalledSimulations() );
-        changeListenerProxy.stateChanged( new ChangeEvent( this ));
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of SimulationContainer
+    // Implementation of SelectedSimsContainer
     //--------------------------------------------------------------------------------------------------
 
     public Simulation getSimulation() {
@@ -238,6 +238,10 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     }
 
     public Simulation[] getSimulations() {
+        return simTable.getSimulations();
+    }
+
+    public Simulation[] getSelectedSimulations() {
         return simTable.getSimulations();
     }
 
@@ -252,12 +256,12 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
             // If a double left click, launch the simulation
             if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-                new LaunchSimAction( sim ).actionPerformed( new ActionEvent( event.getSource(), 1, "") );
+                new LaunchSimAction( sim ).actionPerformed( new ActionEvent( event.getSource(), 1, "" ) );
 //                sim.launch();
             }
 
             // Notify change listeners
-            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ));
+            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ) );
         }
 
         // Required to get e.isPopupTrigger() to return true on right-click
@@ -271,7 +275,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
 
             // Notify change listeners
-            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ));
+            changeListenerProxy.stateChanged( new ChangeEvent( InstalledSimsPane.this ) );
         }
     }
 }

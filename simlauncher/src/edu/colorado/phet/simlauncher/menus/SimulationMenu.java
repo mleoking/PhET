@@ -81,7 +81,7 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
      * be enabled.
      */
     private void populateMenu() {
-        SimContainer simContainer = TopLevelPane.getInstance().getActiveSimContainer();
+        SimContainer simContainer = TopLevelPane.getInstance().getActiveSelectedSimsContainer();
         if( simContainer != null ) {
 
             // Remove all the existing menu items, in case the active panel has changed
