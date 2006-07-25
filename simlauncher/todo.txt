@@ -105,6 +105,11 @@ Deployment
 
 
 =======
+0.00.12
+=======
+- Add dialog telling the user what's happening while updates are being check
+
+=======
 0.00.11
 =======
 - Added checks for corrupt sim resources that can occur if program is killed while installing a sim. There is code
