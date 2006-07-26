@@ -3,16 +3,9 @@ Bugs
 ====
 - No Launch option for Simulation menu from Catalog pane
 - PhET and data directories are getting made under sl-local-root
-- The Simulation menu isn't enabling/disabling when items in the catalog pane are checked/unchecked
-- When nothing is installed on a particular catalog pane, then you install some things, the Check For Updates
-    button should become enabled, but it doesn't
-- When catalog updates, the current list in the sim table of the Catalog pane doesn't update
 - Attempt to download from the PhET site happens before the startupNotices are checked. This means that if the URL
     is wrong, the program hangs
-- Moving Man, older versin needs to be added to the Motion category
 - Connect to Phet site drops and reconnects as times (user is alerted).
-- New Simulations category doesn't have CCK AC / virtual lab
-- If you install a number of simulations at one time, some can then show up as not current
 - Hung on Check for Updates when all Flash sims in Motion were installed and selected
 - Installing all New Simulations, program appeared to hang. Got "local timestamp newer than remote timestamp"
 - Fix "Wait while updating" dialog
@@ -59,7 +52,7 @@ Internal Design Issues
 ========
 Features
 ========
-- Make Installing... dialog a fixed width
+- Installer: figure out how to recommend no VM if one exists on target machine
 - make Select column fixed width. Center the header title
 - If a local resource is newer, ask the user if he would like to overwrite it anyway.
 - Make font on borders around splitPane components bigger
@@ -109,13 +102,19 @@ would only work with an XML file.
 =======
 0.00.12
 =======
-- Add dialog telling the user what's happening while updates are being check
+- Add dialog telling the user what's happening while updates are being checked for
 - Use 16x16 icon for running program icon
-- delete CheckAllForUpdateAction and CatalogPaneNew
-- "Check for update to catalog" doesn't seem to work when Auto updates is off
-- When started with auto update on and there's a new catalog, the catalog is downloaded, but the
+- (fixed) "Check for update to catalog" doesn't seem to work when Auto updates is off
+- (fixed) When started with auto update on and there's a new catalog, the catalog is downloaded, but the
     "check for catalog update" still shows there's an update available. When you do update, the
     subsequent check is correct (catalog is current).
+- (fixed) Make Installing... dialog a fixed width
+- (fixed) The Simulation menu isn't enabling/disabling when items in the catalog pane are checked/unchecked
+- (fixed) When nothing is installed on a particular catalog pane, then you install some things, the Check For Updates
+    button should become enabled, but it doesn't
+- (fixed) When catalog updates, the current list in the sim table of the Catalog pane doesn't update
+- (fixed) Moving Man, older versin needs to be added to the Motion category
+- (fixed) New Simulations category doesn't have CCK AC / virtual lab
 
 =======
 0.00.11
@@ -284,3 +283,14 @@ Bugs fixed
 7/23/06 - If you select several installed sims and hit the Install/Update button, every simulation gives you an Up to DAte
     dialog
 7/25/06 - Update Simulation in the popup menu is enabled when everything is current
+7/25/06 - "Check for update to catalog" doesn't seem to work when Auto updates is off
+7/25/06 - When started with auto update on and there's a new catalog, the catalog is downloaded, but the
+    "check for catalog update" still shows there's an update available. When you do update, the
+    subsequent check is correct (catalog is current).
+7/25/06 - Make Installing... dialog a fixed width
+7/25/06 - The Simulation menu isn't enabling/disabling when items in the catalog pane are checked/unchecked
+7/25/06 - When nothing is installed on a particular catalog pane, then you install some things, the Check For Updates
+    button should become enabled, but it doesn't
+7/25/06 - When catalog updates, the current list in the sim table of the Catalog pane doesn't update
+7/25/06 - Moving Man, older versin needs to be added to the Motion category
+7/25/06 - New Simulations category doesn't have CCK AC / virtual lab
