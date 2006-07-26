@@ -38,7 +38,7 @@ public class SimLauncher {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
-    private final static String VERSION = "0.00";
+    private final static String VERSION = "0.01";
     private JFrame frame;
 
     public static String getVersion() {
