@@ -29,6 +29,9 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- Auto-update shouldn't be true by default, but if there is no catalog, an update must be done
+- put text labels in the actions themselves
+- make singleton Actions and use them to enable/disable controls
 - SimTable probably doesn't need for getSelection() and getSelections() to be public
 - Clean up the StopDownload mechanism
 - Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
@@ -56,6 +59,8 @@ Internal Design Issues
 ========
 Features
 ========
+- Make Installing... dialog a fixed width
+- make Select column fixed width. Center the header title
 - If a local resource is newer, ask the user if he would like to overwrite it anyway.
 - Make font on borders around splitPane components bigger
 - Add "Go online" menu item
