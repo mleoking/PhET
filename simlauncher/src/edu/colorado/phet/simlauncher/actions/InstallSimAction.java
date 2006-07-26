@@ -95,6 +95,7 @@ public class InstallSimAction extends AbstractAction {
                 }
             } );
             waitDlg.pack();
+            waitDlg.setSize( new Dimension( 300, (int)waitDlg.getPreferredSize().getHeight() ) );
             waitDlg.setLocationRelativeTo( frame );
             waitDlg.setVisible( true );
         }

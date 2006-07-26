@@ -440,7 +440,7 @@
             <simulation name="Lasers"/>
             <simulation name="Optical Quantum Control"/>
             <simulation name="Self Driven Particle Model (from DSWeb)"/>
-            <simulation name="Arithmetic"/>
+            <!--<simulation name="Arithmetic"/>-->
         </category>
     </categories>
 </simulations>

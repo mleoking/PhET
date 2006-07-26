@@ -127,7 +127,7 @@ public class CheckForSimUpdateAction extends AbstractAction {
             }
             else if( !aSimIsUpToDate && aSimIsNotUpToDate ) {
                 if( sims.length == 1 ) {
-                    showResult( "An updates is available for the simulation" );
+                    showResult( "An update is available for the simulation" );
                 }
                 else {
                     showResult( "Updates are available for all selected simulations" );

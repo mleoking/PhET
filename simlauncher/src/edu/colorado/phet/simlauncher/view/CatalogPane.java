@@ -170,7 +170,6 @@ public class CatalogPane extends JSplitPane implements SelectedSimsContainer {
             }
             else {
                 if( simTable != null ) {
-                    System.out.println( "CatalogPane$SimPanel.setCategory" );
                     remove( simTableScrollPane );
                     simTableScrollPane.remove( simTable );
                 }
@@ -379,7 +378,6 @@ public class CatalogPane extends JSplitPane implements SelectedSimsContainer {
         }
 
         public Simulation[] getSimulations() {
-            System.out.println( "CatalogPane$SimPanel.getSimulations" );
             return simTable.getSimulations();
         }
 
@@ -455,7 +453,6 @@ public class CatalogPane extends JSplitPane implements SelectedSimsContainer {
     }
 
     public Simulation[] getSimulations() {
-        System.out.println( "CatalogPane.getSimulations" );
         return simulationPanel.getSimulations();
     }
 
