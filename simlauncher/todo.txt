@@ -22,6 +22,7 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- Move simlauncher on spot out from the simulations directory
 - Auto-update shouldn't be true by default, but if there is no catalog, an update must be done
 - put text labels in the actions themselves
 - make singleton Actions and use them to enable/disable controls
