@@ -68,7 +68,7 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
      * we look ahead at the next pair (M2,P2).  M1 and M2 are used to
      * construct a 4-sided polygon, which is filled using a color
      * based on P1.  (P2 is ignored.)  The color is created by performing
-     * and HSV-to-RGB conversion using P1 as the hue component.
+     * an HSV-to-RGB conversion using P1 as the hue component.
      */
     public void drawItem( 
             Graphics2D g2, 
