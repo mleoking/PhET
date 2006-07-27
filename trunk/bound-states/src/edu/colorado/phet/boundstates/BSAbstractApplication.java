@@ -13,11 +13,8 @@ package edu.colorado.phet.boundstates;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.text.MessageFormat;
 
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -26,15 +23,11 @@ import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSManyWellsModule;
 import edu.colorado.phet.boundstates.module.BSOneWellModule;
 import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
-import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
-import edu.colorado.phet.boundstates.util.ArgUtils;
-import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;

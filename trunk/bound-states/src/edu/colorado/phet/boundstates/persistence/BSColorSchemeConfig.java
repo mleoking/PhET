@@ -13,8 +13,8 @@ package edu.colorado.phet.boundstates.persistence;
 
 import java.awt.Color;
 
-import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 
 
 /**

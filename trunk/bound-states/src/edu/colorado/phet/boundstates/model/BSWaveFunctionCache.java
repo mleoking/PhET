@@ -14,8 +14,6 @@ package edu.colorado.phet.boundstates.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.jfree.data.Range;
-
 /**
  * BSWaveFunctionCache is a cache of wave function solutions for all 
  * eigenstates that have non-zero superposition coefficients.

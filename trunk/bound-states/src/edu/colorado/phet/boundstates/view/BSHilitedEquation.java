@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
 import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;

@@ -11,14 +11,9 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
-import java.awt.Color;
-import java.awt.geom.Rectangle2D;
-
-import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * BSSquareDragManager manages drag handles and markers for 

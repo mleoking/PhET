@@ -12,10 +12,6 @@
 package edu.colorado.phet.boundstates.persistence;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.module.BSAbstractModule;
-import edu.colorado.phet.boundstates.module.BSManyWellsModule;
-import edu.colorado.phet.boundstates.module.BSOneWellModule;
-import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
 
 
 

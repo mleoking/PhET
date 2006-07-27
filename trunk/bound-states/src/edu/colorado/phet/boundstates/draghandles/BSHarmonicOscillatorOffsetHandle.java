@@ -13,17 +13,12 @@ package edu.colorado.phet.boundstates.draghandles;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
-import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * BSHarmonicOscillatorOffsetHandle is the drag handle used to control the 

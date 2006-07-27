@@ -12,13 +12,11 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;

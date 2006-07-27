@@ -12,15 +12,12 @@
 package edu.colorado.phet.boundstates.control;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.*;
-import javax.swing.JSpinner.NumberEditor;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 
 /**

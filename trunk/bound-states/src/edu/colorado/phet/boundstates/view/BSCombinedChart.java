@@ -17,7 +17,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 
 
 

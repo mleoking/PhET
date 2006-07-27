@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
-import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 
 /**

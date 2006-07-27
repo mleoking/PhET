@@ -13,12 +13,8 @@ package edu.colorado.phet.boundstates.draghandles;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.event.AxisChangeEvent;
-import org.jfree.chart.event.AxisChangeListener;
 
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;

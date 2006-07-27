@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.boundstates.model;
 
-import edu.colorado.phet.boundstates.BSConstants;
 
 /**
  * BSCoulomb3DSolver is the eigenstate solver and wave function solver 
