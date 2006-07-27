@@ -22,8 +22,19 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  */
 public class BSParticleConfig implements BSSerializable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _mass;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSParticleConfig() {
         _mass = BSConstants.ELECTRON_MASS;
     }
@@ -32,6 +43,10 @@ public class BSParticleConfig implements BSSerializable {
         _mass = particle.getMass();
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public double getMass() {
         return _mass;
     }
@@ -39,6 +54,10 @@ public class BSParticleConfig implements BSSerializable {
     public void setMass( double mass ) {
         _mass = mass;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSParticle toParticle() {
         return new BSParticle( _mass );

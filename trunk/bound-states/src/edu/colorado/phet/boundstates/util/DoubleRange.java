@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.util;
 
 /**
- * BSDoubleRange is used to describe the range of a double precision quantity.
+ * DoubleRange is used to describe the range of a double precision quantity.
  * This class is immutable.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)

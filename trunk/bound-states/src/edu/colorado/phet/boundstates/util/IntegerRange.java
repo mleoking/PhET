@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.util;
 
 /**
- * BSIntegerRange is used to describe the range of an integer quantity.
+ * IntegerRange is used to describe the range of an integer quantity.
  * This class is immutable.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)

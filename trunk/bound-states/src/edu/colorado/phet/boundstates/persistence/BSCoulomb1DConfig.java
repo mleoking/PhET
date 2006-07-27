@@ -23,10 +23,21 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  */
 public class BSCoulomb1DConfig implements BSSerializable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private int _numberOfWells;
     private double _offset;
     private double _spacing;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSCoulomb1DConfig() {}
 
     public BSCoulomb1DConfig( BSCoulomb1DPotential potential ) {
@@ -35,6 +46,10 @@ public class BSCoulomb1DConfig implements BSSerializable {
         _spacing = potential.getSpacing();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public int getNumberOfWells() {
         return _numberOfWells;
     }
@@ -58,6 +73,10 @@ public class BSCoulomb1DConfig implements BSSerializable {
     public void setSpacing( double spacing ) {
         _spacing = spacing;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSCoulomb1DPotential toPotential( BSParticle particle ) {
         return new BSCoulomb1DPotential( particle, _numberOfWells, _offset, _spacing );

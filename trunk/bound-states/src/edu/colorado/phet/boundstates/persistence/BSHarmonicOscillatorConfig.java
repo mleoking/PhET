@@ -23,15 +23,30 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  */
 public class BSHarmonicOscillatorConfig implements BSSerializable {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _offset;
     private double _angularFrequency;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSHarmonicOscillatorConfig() {}
     
     public BSHarmonicOscillatorConfig( BSHarmonicOscillatorPotential potential ) {
         _offset = potential.getOffset();
         _angularFrequency = potential.getAngularFrequency();
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public double getAngularFrequency() {
         return _angularFrequency;
@@ -48,6 +63,10 @@ public class BSHarmonicOscillatorConfig implements BSSerializable {
     public void setOffset( double offset ) {
         _offset = offset;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSHarmonicOscillatorPotential toPotential( BSParticle particle ) {
         return new BSHarmonicOscillatorPotential( particle, _offset, _angularFrequency );

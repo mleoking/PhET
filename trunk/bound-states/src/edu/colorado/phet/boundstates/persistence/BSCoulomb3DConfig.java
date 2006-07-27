@@ -23,14 +23,29 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  */
 public class BSCoulomb3DConfig implements BSSerializable {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _offset;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSCoulomb3DConfig() {}
     
     public BSCoulomb3DConfig( BSCoulomb3DPotential potential ) {
         _offset = potential.getOffset();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public double getOffset() {
         return _offset;
     }
@@ -38,6 +53,10 @@ public class BSCoulomb3DConfig implements BSSerializable {
     public void setOffset( double offset ) {
         _offset = offset;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSCoulomb3DPotential toPotential( BSParticle particle ) {
         return new BSCoulomb3DPotential( particle, _offset );

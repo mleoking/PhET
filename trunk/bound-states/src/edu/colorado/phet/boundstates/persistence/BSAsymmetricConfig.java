@@ -23,10 +23,21 @@ import edu.colorado.phet.boundstates.model.BSParticle;
  */
 public class BSAsymmetricConfig implements BSSerializable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _offset;
     private double _height;
     private double _width;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSAsymmetricConfig() {}
     
     public BSAsymmetricConfig( BSAsymmetricPotential potential ) {
@@ -35,6 +46,10 @@ public class BSAsymmetricConfig implements BSSerializable {
         _width = potential.getWidth();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public double getHeight() {
         return _height;
     }
@@ -58,6 +73,10 @@ public class BSAsymmetricConfig implements BSSerializable {
     public void setWidth( double width ) {
         _width = width;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSAsymmetricPotential toPotential( BSParticle particle ) {
         return new BSAsymmetricPotential( particle, _offset, _height, _width );

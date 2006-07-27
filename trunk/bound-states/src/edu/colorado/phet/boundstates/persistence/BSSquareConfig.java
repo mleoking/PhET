@@ -23,12 +23,23 @@ import edu.colorado.phet.boundstates.model.BSSquarePotential;
  */
 public class BSSquareConfig implements BSSerializable {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private int _numberOfWells;
     private double _offset;
     private double _height;
     private double _width;
     private double _separation;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero-argument constructor for Java Bean compliance.
+     */
     public BSSquareConfig() {}
     
     public BSSquareConfig( BSSquarePotential potential ) {
@@ -39,6 +50,10 @@ public class BSSquareConfig implements BSSerializable {
         _separation = potential.getSeparation();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public double getHeight() {
         return _height;
     }
@@ -78,6 +93,10 @@ public class BSSquareConfig implements BSSerializable {
     public void setWidth( double width ) {
         _width = width;
     }
+    
+    //----------------------------------------------------------------------------
+    // Conversions
+    //----------------------------------------------------------------------------
     
     public BSSquarePotential toPotential( BSParticle particle ) {
         return new BSSquarePotential( particle, _numberOfWells, _offset, _height, _width, _separation );
