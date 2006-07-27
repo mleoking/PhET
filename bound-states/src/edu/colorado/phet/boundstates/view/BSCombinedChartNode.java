@@ -23,7 +23,9 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 
 
 /**
- * BSCombinedChartNode
+ * BSCombinedChartNode is the Piccolo node used to display a BSCombinedChart.
+ * It provides a set of convenience functions for accesses things related to
+ * the chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

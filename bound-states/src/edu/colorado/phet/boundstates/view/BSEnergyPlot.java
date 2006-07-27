@@ -34,8 +34,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSEnergyPlot is the plot that displays potential energy.
- * (Total energy is drawn as an overlay by BSEigenstatesNode.)
+ * BSEnergyPlot is the plot that displays potential energy and eigenstates.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
