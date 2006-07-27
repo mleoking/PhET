@@ -8,7 +8,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
-- parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
 LOW PRIORITY:
 - pause the clock while dragging JSliders in control panel and Config dialogs
@@ -18,7 +17,8 @@ LOW PRIORITY:
 - refactor classes that have gotten too big (eg, BSAbstractModule)
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 - incorrect hand cursor: to reproduce, move mouse from Energy chart to control panel to bottom chart
-- selecting "phase" view causes a big slow down
+- selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
+- parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
 CLEANUP:
 - fix all javadoc warnings and errors
