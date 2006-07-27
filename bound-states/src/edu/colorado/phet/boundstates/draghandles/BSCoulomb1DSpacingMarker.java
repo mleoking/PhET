@@ -22,10 +22,8 @@ import org.jfree.chart.axis.ValueAxis;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
-import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * BSCoulomb1DSpacingMarker is used to indicate the spacing between two

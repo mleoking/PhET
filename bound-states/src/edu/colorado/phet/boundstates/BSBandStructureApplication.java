@@ -15,11 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.boundstates.module.BSAbstractModule;
-import edu.colorado.phet.boundstates.module.BSManyWellsModule;
-import edu.colorado.phet.boundstates.module.BSOneWellModule;
-import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
-import edu.colorado.phet.boundstates.util.ArgUtils;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;

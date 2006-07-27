@@ -13,8 +13,6 @@ package edu.colorado.phet.boundstates.draghandles;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;

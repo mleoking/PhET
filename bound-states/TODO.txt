@@ -21,12 +21,12 @@ LOW PRIORITY:
 - selecting "phase" view causes a big slow down
 
 CLEANUP:
-- organize imports
 - remove unused images and assets
 - fix all javadoc warnings and errors
 
 
 DONE:
+(7/27/06) - organize imports for all source files
 (7/27/06) - ensure that hilited eigenstate is always in foreground in magnifying glass
 (7/27/06) - clear the hilited eigenstate when the mouse leaves the magnifying glass
 (7/27/06) - javadoc all source files

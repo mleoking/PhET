@@ -14,8 +14,6 @@ package edu.colorado.phet.boundstates.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.boundstates.BSConstants;
-
 /**
  * BSSuperpositionCoefficients is a collection of superposition coefficients.
  *

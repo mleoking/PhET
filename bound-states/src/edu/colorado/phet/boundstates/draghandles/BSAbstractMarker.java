@@ -11,12 +11,7 @@
 
 package edu.colorado.phet.boundstates.draghandles;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
