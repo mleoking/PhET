@@ -25,7 +25,17 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
-
+/**
+ * BSLauncher allows you to choose which simulation to run 
+ * in the Bound States "family". Since all of the sims share
+ * the same JAR file, you should put this line in your JAR manifest:
+ * <code>
+ * Main-Class: edu.colorado.phet.boundstates.BSLauncher
+ * </code> 
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BSLauncher extends JFrame {
     
     public static void main( String args[] ) {
@@ -35,11 +45,24 @@ public class BSLauncher extends JFrame {
         launcher.show();
     }
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private String[] _args;
     private JRadioButton _boundStatesRadioButton;
     private JRadioButton _covalentBoundsRadioButton;
     private JRadioButton _bandStructureRadioButton;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param args command line arguments
+     */
     public BSLauncher( String[] args ) {
         super();
         _args = args;
@@ -47,6 +70,10 @@ public class BSLauncher extends JFrame {
         setResizable( false );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
+    
+    //----------------------------------------------------------------------------
+    // User interface construction
+    //----------------------------------------------------------------------------
     
     /*
      * Creates the user interface for the dialog.
@@ -72,6 +99,11 @@ public class BSLauncher extends JFrame {
         pack();
     }
     
+    /*
+     * Creates dialog's input panel, which contains user controls.
+     * 
+     * @return the input panel
+     */
     private JPanel createInputPanel() {
         
         JLabel instructions = new JLabel( SimStrings.get( "BSLauncher.instructions") );
@@ -108,14 +140,14 @@ public class BSLauncher extends JFrame {
         JButton startButton = new JButton( SimStrings.get( "button.start" ) );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                run();
+                handleStart();
             }
         });
         
         JButton cancelButton = new JButton( SimStrings.get( "button.cancel" ) );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                cancel();
+                handleCancel();
             }
         });
 
@@ -133,12 +165,24 @@ public class BSLauncher extends JFrame {
         return actionPanel;
     }
     
-    private void cancel() {
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Handles the "Cancel" button.
+     * Closes the dialog and exits.
+     */
+    private void handleCancel() {
         dispose();
         System.exit( 0 );
     }
     
-    private void run() {
+    /*
+     * Handles the "Start" button.
+     * Runs the selected simulation.
+     */
+    private void handleStart() {
         if ( _boundStatesRadioButton.isSelected() ) {
             BSBoundStatesApplication.main( _args );
         }

@@ -22,7 +22,6 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 
 /**
  * BSConstants is a collection of constants.
- * Modify these at your peril.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
