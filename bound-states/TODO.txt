@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- BSMagnifyingGlass should handle layer ordering of eigenstate nodes the same as BSEigenstatesNode
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 - parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
@@ -21,13 +20,15 @@ LOW PRIORITY:
 - incorrect hand cursor: to reproduce, move mouse from Energy chart to control panel to bottom chart
 
 CLEANUP:
-- javadoc all code
 - organize imports
 - remove unused images and assets
 - fix all javadoc warnings and errors
 
 
 DONE:
+(7/27/06) - ensure that hilited eigenstate is always in foreground in magnifying glass
+(7/27/06) - clear the hilited eigenstate when the mouse leaves the magnifying glass
+(7/27/06) - javadoc all source files
 1.01.00...
 (7/14/06) - change minor version # for publishing to PhET website
 1.00.02...
