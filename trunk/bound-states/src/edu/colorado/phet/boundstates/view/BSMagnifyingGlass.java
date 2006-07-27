@@ -458,20 +458,29 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
                 path.moveTo( (float)-LENS_RADIUS, (float)y );
                 path.lineTo( (float)+LENS_RADIUS, (float)y );
                 line.setPathTo( path );
-                Stroke lineStroke = BSConstants.EIGENSTATE_NORMAL_STROKE;
-                Color lineColor = _colorScheme.getEigenstateNormalColor();
+                _eigenstatesParentNode.addChild( line );
+                
+                Stroke lineStroke = null;
+                Color lineColor = null;
                 if ( i == _model.getHilitedEigenstateIndex() ) {
+                    // eigenstate is hilited
                     lineStroke = BSConstants.EIGENSTATE_HILITE_STROKE;
                     lineColor = _colorScheme.getEigenstateHiliteColor();
+                    line.moveToFront();
                 }
                 else if ( superpositionCoefficients.getCoefficient( i ) != 0 ) {
+                    // eigenstate is selected
                     lineStroke = BSConstants.EIGENSTATE_SELECTION_STROKE;
                     lineColor = _colorScheme.getEigenstateSelectionColor();
+                    line.moveToBack();
+                }
+                else {
+                    lineStroke = BSConstants.EIGENSTATE_NORMAL_STROKE;
+                    lineColor = _colorScheme.getEigenstateNormalColor();
+                    line.moveToBack();
                 }
                 line.setStroke( lineStroke );
                 line.setStrokePaint( lineColor );
-                
-                _eigenstatesParentNode.addChild( line );
             }
         }
         
@@ -677,6 +686,13 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
             updateDisplay();
             _viewNode.setOffset( _partsNode.getOffset() );
             setFullBoundsInvalid( true );
+        }
+        
+        /**
+         * When the mouse leaves the magnifying glass, clear the hilited eigenstate.
+         */
+        public void mouseExited( PInputEvent e ) {
+            _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
         }
     }
     
