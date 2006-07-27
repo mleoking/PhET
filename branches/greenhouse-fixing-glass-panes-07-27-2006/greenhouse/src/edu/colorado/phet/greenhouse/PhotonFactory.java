@@ -53,6 +53,7 @@ public class PhotonFactory implements PhotonEmitter, PhotonAbsorber {
     }
 
     public void absorbPhoton( Photon photon ) {
+        int i = 0;
         for( Iterator iterator = absorberListeners.iterator(); iterator.hasNext(); ) {
             PhotonAbsorber.Listener listener = (PhotonAbsorber.Listener)iterator.next();
             listener.photonAbsorbed( photon );
