@@ -34,8 +34,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * QTClockControls is a custom clock control panel.
- * In addition to a couple of new buttons, it has a time display.
+ * BSClockControls is a custom clock control panel.
+ * It has control buttons (Restart, Play, Pause, Step) and a time display.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -73,6 +73,10 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
      * Sole constructor.
      * 
@@ -90,6 +94,10 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         createUI();
         setLocationRelativeTo( _parent );
     }
+   
+    //----------------------------------------------------------------------------
+    // User interface construction
+    //----------------------------------------------------------------------------
     
     /*
      * Creates the user interface for the dialog.
@@ -404,6 +412,10 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
 
         return actionPanel;
     }
+    
+    //----------------------------------------------------------------------------
+    // Color editing
+    //----------------------------------------------------------------------------
     
     /*
      * Edits one of the colors.

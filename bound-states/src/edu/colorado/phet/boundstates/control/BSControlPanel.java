@@ -50,14 +50,10 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSControlPanel extends BSAbstractControlPanel {
 
     //----------------------------------------------------------------------------
-    // Class data (public)
+    // Class data
     //----------------------------------------------------------------------------
     
     private static final int INDENTATION = 10; // pixels
-    
-    //----------------------------------------------------------------------------
-    // Class data (private)
-    //----------------------------------------------------------------------------
     
     private static final boolean NOTIFY_WHILE_DRAGGING = true; // behavior of sliders
     
@@ -353,11 +349,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sets the color scheme.
-     * 
-     * @param scheme
-     */
     public void setColorScheme( BSColorScheme scheme ) {
         
         // Rebuild the "Well Type" combo box...
@@ -428,8 +419,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     public void setRealSelected( boolean selected ) {
         _realCheckBox.setSelected( selected );
         handleRealSelection();
-    }
-    
+    }   
     
     public boolean isRealSelected() {
         return _realCheckBox.isSelected();
