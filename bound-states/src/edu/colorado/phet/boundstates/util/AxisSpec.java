@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import org.jfree.data.Range;
 
 /**
- * BSAxisSpec describes the attributes of a chart's axis.
+ * AxisSpec describes the attributes of a chart's axis.
  * Objects of this type are immutable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
