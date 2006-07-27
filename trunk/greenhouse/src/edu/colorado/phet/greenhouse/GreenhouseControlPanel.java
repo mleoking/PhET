@@ -45,10 +45,10 @@ public class GreenhouseControlPanel extends JPanel {
 
 
     private ModelSlider greenhouseGasConcentrationControl;
-    String[] iceAgeConcentrations = new String[]{"",
+    String[] iceAgeConcentrations = new String[]{" ?",
             "200 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "",
-            ""};
+            " ?",
+            " ?"};
 
     String[] preIndRevConcentrations = new String[]{
             "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
