@@ -35,6 +35,11 @@ public class GreenhouseApplication extends PhetApplication {
     public static final String localizedStringsPath = "localization/GreenhouseStrings";
 
     private static PhetApplication s_application;
+    private static SwingTimerClock clock;
+
+    public static SwingTimerClock getClock() {
+        return clock;
+    }
 
     public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, Module module, IClock iClock ) {
         super( applicationDescriptor, module, iClock );
@@ -86,7 +91,7 @@ public class GreenhouseApplication extends PhetApplication {
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
                         SimStrings.get( "GreenHouseApplication.version" ),
                         1024, 768 );
-                SwingTimerClock clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
+                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
 
 //                clock.removeClockTickListener( greenhouseModule.getModel() );

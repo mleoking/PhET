@@ -14,6 +14,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.filter.BandpassFilter;
+import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
 
@@ -279,6 +281,9 @@ public abstract class BaseGreenhouseModule extends Module {
     //----------------------------------------------------------------
 
     protected class PhotonEmitterListener implements PhotonEmitter.Listener {
+        // Used to tell if a photon is IR
+        private Filter1D irFilter = new BandpassFilter( 800E-9, 1500E-9 );
+
         private int n = 0;
 
         public void setInvisiblePhotonCnt( int cnt ) {
@@ -292,7 +297,11 @@ public abstract class BaseGreenhouseModule extends Module {
             photonView.setVisible( false );
             if( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
-                drawingCanvas.addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
+                double layer = irFilter.passes( photon.getWavelength() )
+                        ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
+                        : GreenhouseConfig.PHOTON_GRAPHIC_LAYER;
+                drawingCanvas.addGraphic( photonView, layer );
+//                drawingCanvas.addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
 
                 // reset counter
                 n = 0;

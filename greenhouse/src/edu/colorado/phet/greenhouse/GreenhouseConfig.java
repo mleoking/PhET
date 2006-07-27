@@ -57,6 +57,7 @@ public class GreenhouseConfig {
 
     public static double EARTH_BASE_LAYER = ApparatusPanel.LAYER_DEFAULT;
     public static double PHOTON_GRAPHIC_LAYER = EARTH_BASE_LAYER - 1;
+    public static double IR_PHOTON_GRAPHIC_LAYER = PHOTON_GRAPHIC_LAYER - 0.000000001;
     public static double ATMOSPHERE_GRAPHIC_LAYER = PHOTON_GRAPHIC_LAYER - 3;
     public static double EARTH_BACKDROP_LAYER = PHOTON_GRAPHIC_LAYER - 2;
     public static final Color PANEL_BACKGROUND_COLOR = new Color( 206,206,206 );

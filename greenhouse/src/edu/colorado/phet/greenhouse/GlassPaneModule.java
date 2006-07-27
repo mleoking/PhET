@@ -40,12 +40,19 @@ public class GlassPaneModule extends BaseGreenhouseModule {
     public GlassPaneModule() {
         super( SimStrings.get( "ModuleTitle.GlassLayerModule" ) );
 
+        // Make the background graphic first. It will be needed by teh glass pane graphics
+        backgroundGraphic = new ImageGraphic( "images/glass-pane-background.gif",
+                                              new Point2D.Double(
+                                                      ( (GreenhouseModel)getModel() ).getBounds().getX(),
+                                                      ( (GreenhouseModel)getModel() ).getBounds().getY() ) );
+        drawingCanvas.addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1.5 );
+
         // Create glass panes
         for( int i = 0; i < numGlassPanes; i++ ) {
             glassPane = new GlassPane( getFinalModelBounds().getMinX(),
                                        getFinalModelBounds().getWidth(),
                                        5 + i * 2 );
-            glassPaneGraphic = new GlassPaneGraphic( glassPane );
+            glassPaneGraphic = new GlassPaneGraphic( glassPane, backgroundGraphic, getFinalModelBounds() );
             glassPane.addListener( new BaseGreenhouseModule.PhotonEmitterListener() );
             glassPane.addListener( (PhotonEmitter.Listener)getModel() );
             glassPane.addListener( new BaseGreenhouseModule.PhotonAbsorberListener() );
@@ -54,12 +61,6 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             glassPanes.add( glassPane );
         }
         glassPaneEnabled = false;
-
-        backgroundGraphic = new ImageGraphic( "images/glass-pane-background.gif",
-                                              new Point2D.Double(
-                                                      ( (GreenhouseModel)getModel() ).getBounds().getX(),
-                                                      ( (GreenhouseModel)getModel() ).getBounds().getY() ) );
-        drawingCanvas.addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1 );
 
         // If the apparatus panelis resized, resize the backdrop graphic
 //        getApparatusPanel().addComponentListener( new ComponentAdapter() {
@@ -101,19 +102,6 @@ public class GlassPaneModule extends BaseGreenhouseModule {
     public void deactivate( PhetApplication phetApplication ) {
     }
 
-    public void setGlassPaneEnabled( boolean isEnabled ) {
-        if( isEnabled && !glassPaneEnabled ) {
-            getGreenhouseModel().addGlassPane( glassPane );
-            drawingCanvas.addGraphic( glassPaneGraphic, ApparatusPanel.LAYER_DEFAULT );
-            glassPaneEnabled = true;
-        }
-        else {
-            getGreenhouseModel().removeGlassPane( glassPane );
-            drawingCanvas.removeGraphic( glassPaneGraphic );
-            glassPaneEnabled = false;
-        }
-    }
-
     public void numGlassPanesEnabled( int numClouds ) {
         for( Iterator iterator = glassPanes.iterator(); iterator.hasNext(); ) {
             GlassPane glassPane = (GlassPane)iterator.next();
@@ -124,7 +112,10 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         for( int i = 0; i < numClouds; i++ ) {
             GlassPane glassPane = (GlassPane)glassPanes.get( i );
             getGreenhouseModel().addGlassPane( glassPane );
-            getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), ApparatusPanel.LAYER_DEFAULT );
+            // Put the glass pane on a layer between the sunlight and IR photons
+            double layer = (GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER + GreenhouseConfig.PHOTON_GRAPHIC_LAYER )/2;
+            getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), layer );
+//            getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), ApparatusPanel.LAYER_DEFAULT );
         }
     }
 
