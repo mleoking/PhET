@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(7/27/06) - remove special chars from Spanish JNLP file, causes JDOM SAX parser to throw exception
 (7/12/06) - change codebase tag in JNLP files to work with PhET installer
 1.06.00...
 (7/8/06) - change Spanish translation of description in Help>About

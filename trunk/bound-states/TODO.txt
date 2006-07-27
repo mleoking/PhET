@@ -24,9 +24,6 @@ CLEANUP:
 - javadoc all code
 - organize imports
 - remove unused images and assets
-- remove unused localization strings
-- resize any scaled images
-- save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
 
