@@ -16,7 +16,7 @@ import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 
 /**
- * BSWellSpec is the specification of ranges and zoom levels for a well type.
+ * BSPotentialSpec is the specification of ranges and zoom levels for a potential type.
  * It contains the union of all well attributes; irrelevant attributes are set to null.
  * Use the inner subclasses to create a specification for a specific well type.
  * Instances are immutable.

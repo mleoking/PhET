@@ -24,6 +24,10 @@ import edu.colorado.phet.boundstates.util.IntegerRange;
  */
 public abstract class BSAbstractModuleSpec {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private String _id;
     
     private BSWellType[] _wellTypes;
@@ -47,7 +51,15 @@ public abstract class BSAbstractModuleSpec {
 
     private double _magnification;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public BSAbstractModuleSpec() {}
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public String getId() {
         return _id;
