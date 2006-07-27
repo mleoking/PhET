@@ -21,7 +21,6 @@ LOW PRIORITY:
 - selecting "phase" view causes a big slow down
 
 CLEANUP:
-- remove unused images and assets
 - fix all javadoc warnings and errors
 
 
