@@ -35,7 +35,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimTable extends JTable implements SelectedSimsContainer {
+public class SimTable extends JTable implements SelectedSimsContainer, Simulation.ChangeListener {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -48,7 +48,7 @@ public class SimTable extends JTable implements SelectedSimsContainer {
     private SimComparator sortType;
 
     /**
-     * An enumeration class that is used to specify which columns are to be displayed in the table
+     * An class that is used to specify which columns are to be displayed in the table
      */
     public static class Column {
         private String name;
@@ -99,6 +99,7 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         updateAvailableIcon = new ImageIcon( exclamationMarkImg );
     }
 
+
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -108,7 +109,6 @@ public class SimTable extends JTable implements SelectedSimsContainer {
     private int nameColumnIndex = -1;
     private int simUpToDateColumnIndex = -1;
     private int simIsInstalledColumnIndex = -1;
-    private Simulation.ChangeListener simListener = new SimUpdateListener();
 
     /**
      * @param sims
@@ -137,9 +137,9 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         }
 
         // Create the table model
+//        this.setModel( new SimTableModel( rowData, header, columns ));
         simTableModel = new SimTableModel( rowData, header, columns );
         TableSorter sorter = new TableSorter( simTableModel );
-//        this.setModel( new SimTableModel( rowData, header, columns ));
         this.setModel( sorter );
 
         // Set the font for the header
@@ -149,9 +149,11 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         tableHeader.setFont( headerFont );
         sorter.setTableHeader( this.getTableHeader() );
 
-        // Set the check box renderers and editors on the selection column
+        // Handle special columns, and get the indexes of ones we need to get at later
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
+
+            // Set the check box renderers and editors on the selection column
             if( column == SELECTION_CHECKBOX ) {
                 this.checkBoxColumnIndex = i;
                 this.getColumnModel().getColumn( i ).setCellRenderer( new CheckBoxRenderer() );
@@ -160,7 +162,6 @@ public class SimTable extends JTable implements SelectedSimsContainer {
                 // Add a mouse listener that will flip the checkbox when a row is clicked on
                 addMouseListener( new CheckBoxSelectionFlipper() );
             }
-
             if( column == NAME ) {
                 nameColumnIndex = i;
             }
@@ -181,14 +182,16 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         // Set the column widths
 //        this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         // When the user resizes a column, the columns to the right change size to fit the pane
-        this.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        this.setAutoResizeMode( JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS );
         for( int i = 0; i < columns.size(); i++ ) {
             Column column = (Column)columns.get( i );
             getColumn( column.getName() ).setPreferredWidth( column.getWidth() );
-//            getColumn( column.getName() ).setMinWidth( column.getWidth() );
-
-//            getColumn( column.getName() ).setMaxWidth( column.getWidth() );
-//            getColumn( column.getName() ).setWidth( column.getWidth() );
+            // If this is the check box, make its size fixed
+            if( column == SELECTION_CHECKBOX ) {
+                getColumn( column.getName() ).setMinWidth( column.getWidth() );
+                getColumn( column.getName() ).setMaxWidth( column.getWidth() );
+                getColumn( column.getName() ).setWidth( column.getWidth() );
+            }
         }
 
         // If we've got check boxes, that should be the only selection mechanism
@@ -223,7 +226,7 @@ public class SimTable extends JTable implements SelectedSimsContainer {
             Simulation sim = (Simulation)sims.get( i );
 
             // Add a listener to the simulation that will track its state
-            sim.addChangeListener( simListener );
+            sim.addChangeListener( this );
 
             // Create a row and populate it
             Object[] row = createRow( sim, connected );
@@ -257,7 +260,7 @@ public class SimTable extends JTable implements SelectedSimsContainer {
             }
             else if( columns.get( j ) == IS_UP_TO_DATE ) {
 //                if( connected ) {
-                    row[j] = sim.isInstalled() && !sim.isCurrent() ? updateAvailableIcon : null;
+                row[j] = sim.isInstalled() && !sim.isCurrent() ? updateAvailableIcon : null;
 //                    row[j] = ( SimResource.isUpdateEnabled() && sim.isInstalled() && !sim.isCurrent() ) ? updateAvailableIcon : null;
 //                }
             }
@@ -418,14 +421,14 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         }
 
         /**
-         * The only editable column is the one with the checkbox
+         * None of the columns are editable.
          *
          * @param row
          * @param column
          * @return always returns false
          */
         public boolean isCellEditable( int row, int column ) {
-            return ( columns.get( column ) == SELECTION_CHECKBOX );
+            return false;
         }
     }
 
@@ -441,7 +444,6 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         public boolean isCellEditable( EventObject anEvent ) {
             return true;
         }
-
     }
 
     class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
@@ -458,64 +460,67 @@ public class SimTable extends JTable implements SelectedSimsContainer {
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of Simulation.ChangeListener
+    //
+    // Updates the values in the table when the state of a simulation changes
+    //--------------------------------------------------------------------------------------------------
 
-    private class SimUpdateListener implements Simulation.ChangeListener {
-        public void installed( Simulation.ChangeEvent event ) {
+    public void installed( Simulation.ChangeEvent event ) {
+        String simName = event.getSimulation().getName();
+        TableModel tableModel = SimTable.this.getModel();
+
+        if( simIsInstalledColumnIndex != -1 ) {
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( isInstalledIcon, i, simIsInstalledColumnIndex );
+                    tableModel.setValueAt( null, i, simUpToDateColumnIndex );
+                    break;
+                }
+            }
+        }
+    }
+
+    public void uninstalled( Simulation.ChangeEvent event ) {
+        if( columns.contains( SimTable.IS_INSTALLED ) ) {
             String simName = event.getSimulation().getName();
             TableModel tableModel = SimTable.this.getModel();
-
-            if( simIsInstalledColumnIndex != -1 ) {
-                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                        tableModel.setValueAt( isInstalledIcon, i, simIsInstalledColumnIndex );
-                        tableModel.setValueAt( null, i, simUpToDateColumnIndex );
-                        break;
-                    }
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( null, i, simIsInstalledColumnIndex );
+                    break;
                 }
             }
         }
+    }
 
-        public void uninstalled( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_INSTALLED ) ) {
-                String simName = event.getSimulation().getName();
-                TableModel tableModel = SimTable.this.getModel();
-                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                        tableModel.setValueAt( null, i, simIsInstalledColumnIndex );
-                        break;
-                    }
+    public void updated( Simulation.ChangeEvent event ) {
+        if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
+            String simName = event.getSimulation().getName();
+            TableModel tableModel = SimTable.this.getModel();
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( null, i, simUpToDateColumnIndex );
+                    break;
                 }
             }
         }
+    }
 
-        public void updated( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
-                String simName = event.getSimulation().getName();
-                TableModel tableModel = SimTable.this.getModel();
-                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                        tableModel.setValueAt( null, i, simUpToDateColumnIndex );
-                        break;
-                    }
-                }
-            }
-        }
+    public void updateAvailable( Simulation.ChangeEvent event ) {
+        if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
+            Simulation sim = event.getSimulation();
+            String simName = sim.getName();
+            TableModel tableModel = SimTable.this.getModel();
 
-        public void updateAvailable( Simulation.ChangeEvent event ) {
-            if( columns.contains( SimTable.IS_UP_TO_DATE ) ) {
-                Simulation sim = event.getSimulation();
-                String simName = sim.getName();
-                TableModel tableModel = SimTable.this.getModel();
+            Object value = ( sim.isInstalled() && !sim.isCurrent() )
+                           ? updateAvailableIcon
+                           : null;
 
-                Object value = ( sim.isInstalled() && !sim.isCurrent() )
-                               ? updateAvailableIcon
-                               : null;
-
-                for( int i = 0; i < tableModel.getRowCount(); i++ ) {
-                    if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
-                        tableModel.setValueAt( value, i, simUpToDateColumnIndex );
-                        break;
-                    }
+            for( int i = 0; i < tableModel.getRowCount(); i++ ) {
+                if( tableModel.getValueAt( i, nameColumnIndex ).equals( simName ) ) {
+                    tableModel.setValueAt( value, i, simUpToDateColumnIndex );
+                    break;
                 }
             }
         }
@@ -543,19 +548,14 @@ public class SimTable extends JTable implements SelectedSimsContainer {
     }
 
     /**
-     *
+     * Flips the state of the check box column when the user clicks on a different cell in the row
      */
     private class CheckBoxSelectionFlipper extends MouseAdapter {
 
         public void mouseClicked( MouseEvent e ) {
             int selectedRow = getSelectedRow();
             if( selectedRow != -1
-                && columns.contains( SELECTION_CHECKBOX )
-                && getSelectedColumn() != checkBoxColumnIndex ) {
-
-                if( selectedRow == -1 ) {
-                    System.out.println( "SimTable$CheckBoxSelectionFlipper.mouseClicked" );
-                }
+                && columns.contains( SELECTION_CHECKBOX )) {
                 boolean oldValue = ( (Boolean)getValueAt( selectedRow, checkBoxColumnIndex ) ).booleanValue();
                 setValueAt( new Boolean( !oldValue ), selectedRow, checkBoxColumnIndex );
             }
