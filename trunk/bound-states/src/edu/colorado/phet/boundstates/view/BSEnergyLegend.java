@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- * EnergyLegend is the legend for the Energy chart.
+ * BSEnergyLegend is the legend for the Energy chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

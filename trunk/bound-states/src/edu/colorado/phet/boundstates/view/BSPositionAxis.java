@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * PositionAxis is the common x-axis for position.
+ * BSPositionAxis is the common x-axis for position.
  * This axis displays integer tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
