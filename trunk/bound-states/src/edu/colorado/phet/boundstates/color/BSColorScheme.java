@@ -22,6 +22,10 @@ import java.awt.Color;
  */
 public class BSColorScheme {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Color _chartColor;
     private Color _tickColor;
     private Color _gridlineColor;
@@ -43,10 +47,33 @@ public class BSColorScheme {
     private Color _dragHandleValueColor;
     private Color _dragHandleMarkersColor;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructs a color scheme that is initialized using some existing
+     * color scheme.
+     * 
+     * @param colorScheme
+     */
     public BSColorScheme( BSColorScheme colorScheme ) {
         copy( colorScheme );
     }
     
+    /*
+     * Color schemes can only be created by using one of the pre-defined
+     * subclasses as a starting point.  This constructor is provided 
+     * for use by subclasses, who must fully initialize themselves.
+     */
+    protected BSColorScheme() {
+    }
+    
+    /*
+     * Copies a color scheme.
+     * 
+     * @param colorScheme
+     */
     public void copy( BSColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
@@ -70,8 +97,9 @@ public class BSColorScheme {
         _dragHandleMarkersColor = colorScheme.getDragHandleMarkersColor();
     }
     
-    protected BSColorScheme() {
-    }
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public Color getEigenstateHiliteColor() {
         return _eigenstateHiliteColor;

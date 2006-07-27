@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSColorsMenu is the "Color" menu that appears in the menu bar.
+ * BSColorsMenu is the "Colors" menu that appears in the menu bar.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
