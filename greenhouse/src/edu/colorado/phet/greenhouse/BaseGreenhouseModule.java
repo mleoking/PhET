@@ -314,8 +314,12 @@ public abstract class BaseGreenhouseModule extends Module {
      */
     protected class PhotonAbsorberListener implements PhotonAbsorber.Listener {
         public void photonAbsorbed( Photon photon ) {
+            Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
+            if( irPassFilter.passes( photon.getWavelength() ) ) {
+                System.out.println( "BaseGreenhouseModule$PhotonAbsorberListener.photonAbsorbed" );
+            }
             PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
-            getApparatusPanel().removeGraphic( photonView );
+//            getApparatusPanel().removeGraphic( photonView );
             drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
             photonView.leaveSystem();
