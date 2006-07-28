@@ -4,6 +4,8 @@ Test "Fly me in"
 Test "Beam me down"
 Test on JRE 1.4 and 1.5
 
+Let it run for a looooooong time
+
 Greenhouse Effect Panel
 =======================
 Move slider

@@ -9,8 +9,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.filter.BandpassFilter;
-import edu.colorado.phet.filter.Filter1D;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -71,12 +69,6 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
     ArrayList pl = new ArrayList( );
 
     public void removeModelElement( ModelElement m ) {
-        Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
-
-        if( m instanceof Photon && irPassFilter.passes( ((Photon)m).getWavelength() )
-                && ((Photon)m).getLocation().getY() > 4 ) {
-//            pl.add( m );
-       }
         pl.add( m );
 
         super.removeModelElement( m );

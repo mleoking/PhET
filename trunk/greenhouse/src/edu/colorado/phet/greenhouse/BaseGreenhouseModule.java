@@ -278,8 +278,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     protected class PhotonEmitterListener implements PhotonEmitter.Listener {
         // Used to tell if a photon is IR
-        private Filter1D irFilter = new BandpassFilter( 800E-9, 1500E-9 );
-
+        private Filter1D irFilter = new IrFilter();
         private int n = 0;
 
         public void setInvisiblePhotonCnt( int cnt ) {
@@ -293,7 +292,7 @@ public abstract class BaseGreenhouseModule extends Module {
             photonView.setVisible( false );
             if( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
-                double layer = irFilter.passes( photon.getWavelength() )
+                double layer = irFilter.absorbs( photon.getWavelength() )
                         ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
                         : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
                 drawingCanvas.addGraphic( photonView, layer );
@@ -310,9 +309,6 @@ public abstract class BaseGreenhouseModule extends Module {
     protected class PhotonAbsorberListener implements PhotonAbsorber.Listener {
         public void photonAbsorbed( Photon photon ) {
             Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
-            if( irPassFilter.passes( photon.getWavelength() ) ) {
-                System.out.println( "BaseGreenhouseModule$PhotonAbsorberListener.photonAbsorbed" );
-            }
             PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
 //            getApparatusPanel().removeGraphic( photonView );
             drawingCanvas.removeGraphic( photonView );
