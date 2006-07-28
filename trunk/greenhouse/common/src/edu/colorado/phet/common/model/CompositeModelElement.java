@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,5 +38,9 @@ public class CompositeModelElement extends ModelElement {
 
     public void removeAllModelElements() {
         modelElements.clear();
+    }
+
+    protected List getModelElements() {
+        return modelElements;
     }
 }
