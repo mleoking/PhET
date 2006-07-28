@@ -40,7 +40,15 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
         return earth;
     }
 
+
     public void clockTicked( IClock iClock, double dt ) {
+
+        for( int i = 0; i < pl.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)pl.get( i );
+            if( getModelElements().contains( modelElement )) {
+                System.out.println( "GreenhouseModel.clockTicked" );
+            }
+        }
 
         super.clockTicked( iClock, dt );
 
@@ -64,14 +72,21 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
     }
 
     public void addModelElement( ModelElement aps ) {
+        super.addModelElement( aps );
+    }
+
+    ArrayList pl = new ArrayList( );
+
+    public void removeModelElement( ModelElement m ) {
         Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
 
-        super.addModelElement( aps );
+        if( m instanceof Photon && irPassFilter.passes( ((Photon)m).getWavelength() )
+                && ((Photon)m).getLocation().getY() > 4 ) {
+//            pl.add( m );
+       }
+        pl.add( m );
 
-        if( aps instanceof Photon && irPassFilter.passes( ((Photon)aps).getWavelength() )
-                && ((Photon)aps).getLocation().getY() > 4 ) {
-            System.out.println( "GreenhouseModel.addModelElement" );
-        }
+        super.removeModelElement( m );
     }
 
     public void setSun( Star sun ) {

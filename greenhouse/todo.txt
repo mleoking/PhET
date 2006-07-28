@@ -1,5 +1,9 @@
 To Do List for Greenhouse Effect
 ================================
+- put IR filter in GlassPane
+- Filter.pass may be wrong
+-try making PhotonGlassPaneCollisionModel non-static 
+
 - When switching between modules, there is a long delay
 
 -When you make the frame small, the control panel gets cut off
