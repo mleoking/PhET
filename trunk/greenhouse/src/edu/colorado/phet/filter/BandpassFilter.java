@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.filter;
 
-public class BandpassFilter implements Filter1D {
+public class BandpassFilter extends Filter1D {
     private double low;
     private double high;
 
@@ -17,6 +17,6 @@ public class BandpassFilter implements Filter1D {
     }
 
     public boolean passes( double value ) {
-        return value <= high && value >= low;
+        return value >= low && value <= high;
     }
 }
