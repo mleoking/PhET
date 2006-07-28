@@ -40,10 +40,6 @@ public class Photon extends Disk {
         return 1;
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-    }
-
     public double getEnergy() {
         return energy;
     }

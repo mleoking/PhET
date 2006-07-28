@@ -136,7 +136,7 @@ public class PhotonCloudCollisionModel {
     static int passed;
     static int reflected;
 
-    private static class PhotonPassFilter implements Filter1D {
+    private static class PhotonPassFilter extends Filter1D {
 
         private ProbablisticPassFilter visibleLightFilter = new ProbablisticPassFilter( .4 );
 
