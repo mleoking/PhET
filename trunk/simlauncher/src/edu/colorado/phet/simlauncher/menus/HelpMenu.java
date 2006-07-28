@@ -13,6 +13,7 @@ package edu.colorado.phet.simlauncher.menus;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.SimLauncher;
+import edu.colorado.phet.simlauncher.actions.SimLauncherHelpAction;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,10 @@ class HelpMenu extends JMenu {
     public HelpMenu() {
         super( "Help" );
 
+        JMenuItem simLauncherHelp = new JMenuItem( "SimLauncher help");
+        simLauncherHelp.addActionListener( new SimLauncherHelpAction() );
+        add( simLauncherHelp );
+
         JMenuItem aboutMI = new JMenuItem( "About" );
         aboutMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -35,9 +40,7 @@ class HelpMenu extends JMenu {
             }
         } );
         add( aboutMI);
-
     }
-
 
     public void showAboutDialog() {
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
