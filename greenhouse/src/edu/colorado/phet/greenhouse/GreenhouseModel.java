@@ -43,13 +43,6 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
 
     public void clockTicked( IClock iClock, double dt ) {
 
-        for( int i = 0; i < pl.size(); i++ ) {
-            ModelElement modelElement = (ModelElement)pl.get( i );
-            if( getModelElements().contains( modelElement )) {
-                System.out.println( "GreenhouseModel.clockTicked" );
-            }
-        }
-
         super.clockTicked( iClock, dt );
 
         // Check for interactions between photons and other elements
