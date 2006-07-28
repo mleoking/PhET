@@ -26,7 +26,7 @@ public class PhotonCloudCollisionModel {
     private static Vector2D result = new Vector2D();
     private static Filter1D filter = new PhotonPassFilter();
     private static Filter1D visibleLightFilter = new BandpassFilter( 300E-9, 700E-9 );
-    private static Filter1D irFilter = new BandpassFilter( 800E-9, 1500E-9 );
+    private static Filter1D irFilter = new IrFilter();
 
     public static void handle( Photon photon, Cloud cloud ) {
 
@@ -38,7 +38,7 @@ public class PhotonCloudCollisionModel {
                 doCollision( photon, cloud, loa,
                              photon.getLocation() );
             }
-            if( irFilter.passes( photon.getWavelength() ) ) {
+            if( irFilter.absorbs( photon.getWavelength() ) ) {
                 doScatter( photon );
             }
         }
