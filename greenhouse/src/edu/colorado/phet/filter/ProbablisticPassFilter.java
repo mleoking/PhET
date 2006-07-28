@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.filter;
 
-public class ProbablisticPassFilter implements Filter1D {
+public class ProbablisticPassFilter extends Filter1D {
     private double probability;
 
     public ProbablisticPassFilter( double probability ) {

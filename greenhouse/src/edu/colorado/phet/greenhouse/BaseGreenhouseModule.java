@@ -54,7 +54,6 @@ public abstract class BaseGreenhouseModule extends Module {
     private static boolean s_zoomed;
     private Rectangle2D.Double finalModelBounds;
     private AtmosphereGraphic atmosphereGraphic;
-    private IClock clock;
 
     protected BaseGreenhouseModule( String s ) {
         super( s );
@@ -170,10 +169,8 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     public void addClock( IClock clock ) {
-        this.clock = clock;
         clock.addClockTickListener( getModel() );
     }
-
 
     public void reset() {
         earth.getPhotonSource().setProductionRate( 1E-2 );
@@ -198,7 +195,6 @@ public abstract class BaseGreenhouseModule extends Module {
         }
         photonToGraphicsMap.clear();
     }
-
 
     public GreenhouseModel getGreenhouseModel() {
         return (GreenhouseModel)getModel();
@@ -231,7 +227,7 @@ public abstract class BaseGreenhouseModule extends Module {
             drawingCanvas.removeGraphic( graphic );
             graphic.setVisible( false );
             if( cnt >= 1 ) {
-                drawingCanvas.addGraphic( graphic, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
+                drawingCanvas.addGraphic( graphic, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER );
                 graphic.setVisible( true );
                 cnt = 0;
             }
@@ -299,9 +295,8 @@ public abstract class BaseGreenhouseModule extends Module {
                 photonView.setVisible( true );
                 double layer = irFilter.passes( photon.getWavelength() )
                         ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
-                        : GreenhouseConfig.PHOTON_GRAPHIC_LAYER;
+                        : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
                 drawingCanvas.addGraphic( photonView, layer );
-//                drawingCanvas.addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
 
                 // reset counter
                 n = 0;
@@ -333,7 +328,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 getModel().addModelElement( se );
                 if( ( (PhotonGraphic)photonToGraphicsMap.get( photon ) ).isVisible() ) {
                     ScatterEventGraphic seg = new ScatterEventGraphic( se );
-                    getApparatusPanel().addGraphic( seg, GreenhouseConfig.PHOTON_GRAPHIC_LAYER - 1 );
+                    getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
                     scatterToGraphicMap.put( se, seg );
                 }
             }

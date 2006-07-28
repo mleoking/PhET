@@ -9,8 +9,8 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.filter.BandpassFilter;
+import edu.colorado.phet.filter.Filter1D;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
 
         // Check for interactions between photons and other elements
         // in the model
-        for( int i = 0; i < photons.size(); i++ ) {
+        for( int i = photons.size() - 1; i >= 0; i-- ) {
             Photon photon = (Photon)photons.get( i );
             PhotonEarthCollisionModel.handle( photon, earth );
 
@@ -119,7 +119,6 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
     public void photonAbsorbed( Photon photon ) {
         super.removeModelElement( photon );
         this.photons.remove( photon );
-        photon.leaveSystem();
     }
 
     public void setSunPhotonProductionRate( double rate ) {

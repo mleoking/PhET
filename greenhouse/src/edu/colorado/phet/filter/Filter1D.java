@@ -7,6 +7,11 @@
  */
 package edu.colorado.phet.filter;
 
-public interface Filter1D {
-    boolean passes( double value );
+public abstract class Filter1D {
+    
+    public abstract boolean  passes( double value );
+
+    public boolean absorbs( double value ) {
+        return !passes( value);
+    }
 }

@@ -21,7 +21,6 @@ import java.util.Iterator;
 public class GlassPaneModule extends BaseGreenhouseModule {
     private GlassPane glassPane;
     private GlassPaneGraphic glassPaneGraphic;
-    private boolean glassPaneEnabled;
     private HashMap glassPanesToGraphicMap = new HashMap();
     private int numGlassPanes = 3;
     private ArrayList glassPanes = new ArrayList();
@@ -60,7 +59,6 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             glassPanesToGraphicMap.put( glassPane, glassPaneGraphic );
             glassPanes.add( glassPane );
         }
-        glassPaneEnabled = false;
 
         // If the apparatus panelis resized, resize the backdrop graphic
 //        getApparatusPanel().addComponentListener( new ComponentAdapter() {
@@ -113,12 +111,10 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             GlassPane glassPane = (GlassPane)glassPanes.get( i );
             getGreenhouseModel().addGlassPane( glassPane );
             // Put the glass pane on a layer between the sunlight and IR photons
-            double layer = (GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER + GreenhouseConfig.PHOTON_GRAPHIC_LAYER )/2;
+            double layer = (GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER + GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER )/2;
             getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), layer );
-//            getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), ApparatusPanel.LAYER_DEFAULT );
         }
     }
-
 
     public int getMaxGlassPanes() {
         return numGlassPanes;
@@ -145,7 +141,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
                 ScatterEvent se = new ScatterEvent( photon, GlassPaneModule.this );
                 ScatterEventGraphic seg = new ScatterEventGraphic( se );
                 getModel().addModelElement( se );
-                getApparatusPanel().addGraphic( seg, GreenhouseConfig.PHOTON_GRAPHIC_LAYER - 1 );
+                getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
                 scatterToGraphicMap.put( se, seg );
             }
         }
