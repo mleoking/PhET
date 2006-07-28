@@ -22,18 +22,17 @@ Bugs
 ======================
 Internal Design Issues
 ======================
-- Move simlauncher on spot out from the simulations directory
 - Auto-update shouldn't be true by default, but if there is no catalog, an update must be done
 - put text labels in the actions themselves
 - make singleton Actions and use them to enable/disable controls
-- SimTable probably doesn't need for getSelection() and getSelections() to be public
+- SimTable probably doesn't need to getSelection() and getSelections() to be public
 - Clean up the StopDownload mechanism
 - Figure out way to put reference count on JarResources so that we can know when to delete them on an uninstall
 - If URL for site is bad, stop elegantly
 - Consolidate the CategoryPane classes between MySims and the CatalogPane. Break it out as a separate class
     so it can be used for both tabbed panes.
 - Cache a table for each category on installed sims
-- lanching Flash sims puts lots of output to the console
+- Launching Flash sims puts lots of output to the console
 - Avoid updateSimTable in the Catalog when status of sims changes.
 - Better check in SimResource.isCurrent() for local resource is newer than remote one.
 - shorten cache path to "codebase"
@@ -295,3 +294,4 @@ Bugs fixed
 7/25/06 - When catalog updates, the current list in the sim table of the Catalog pane doesn't update
 7/25/06 - Moving Man, older versin needs to be added to the Motion category
 7/25/06 - New Simulations category doesn't have CCK AC / virtual lab
+7/26/06 - Move simlauncher on spot out from the simulations directory

@@ -20,6 +20,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
@@ -99,7 +100,6 @@ public class SimTable extends JTable implements SelectedSimsContainer, Simulatio
         updateAvailableIcon = new ImageIcon( exclamationMarkImg );
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -142,6 +142,10 @@ public class SimTable extends JTable implements SelectedSimsContainer, Simulatio
         TableSorter sorter = new TableSorter( simTableModel );
         this.setModel( sorter );
 
+        //--------------------------------------------------------------------------------------------------
+        // Set up the header
+        //--------------------------------------------------------------------------------------------------
+
         // Set the font for the header
         JTableHeader tableHeader = this.getTableHeader();
         Font defaultHeaderFont = tableHeader.getFont();
@@ -172,6 +176,31 @@ public class SimTable extends JTable implements SelectedSimsContainer, Simulatio
                 simIsInstalledColumnIndex = i;
             }
         }
+
+        ColumnHeaderToolTips tips = new ColumnHeaderToolTips();
+
+        // Assign a tooltip for each of the columns
+        for( int c = 0; c < getColumnCount(); c++ ) {
+            TableColumn col = getColumnModel().getColumn( c );
+            String tip = "";
+            boolean setTip = false;
+            if( c == nameColumnIndex ) {
+                tip = "<html>Click here to<br>sort by name</html>";
+                setTip = true;
+            }
+            if( c == simIsInstalledColumnIndex ) {
+                tip = "<html>Click here to sort<br>by whether the sim<br>is installed</html>";
+                setTip = true;
+            }
+            if( c == simUpToDateColumnIndex ) {
+                tip = "<html>Click here to sort<br>by whether the sim<br>is up to date</html>";
+                setTip = true;
+            }
+            if( setTip ) {
+                tips.setToolTip( col, tip + c );
+            }
+        }
+        tableHeader.addMouseMotionListener( tips );
 
         // Get max row height
         int hMax = getMaxRowHeight();
@@ -527,6 +556,62 @@ public class SimTable extends JTable implements SelectedSimsContainer, Simulatio
     }
 
     //--------------------------------------------------------------------------------------------------
+    // Column header tool tips
+    //--------------------------------------------------------------------------------------------------
+
+    public class ColumnHeaderToolTips extends MouseMotionAdapter {
+        // Current column whose tooltip is being displayed.
+        // This variable is used to minimize the calls to setToolTipText().
+        TableColumn curCol;
+
+        // Maps TableColumn objects to tooltips
+        Map tips = new HashMap();
+
+        // If tooltip is null, removes any tooltip text.
+        public void setToolTip( TableColumn col, String tooltip ) {
+            if( tooltip == null ) {
+                tips.remove( col );
+            }
+            else {
+                tips.put( col, tooltip );
+            }
+        }
+
+        public void mouseMoved( MouseEvent evt ) {
+            TableColumn col = null;
+            JTableHeader header = (JTableHeader)evt.getSource();
+            JTable table = header.getTable();
+            TableColumnModel colModel = table.getColumnModel();
+            int vColIndex = colModel.getColumnIndexAtX( evt.getX() );
+
+            // Return if not clicked on any column header
+            if( vColIndex >= 0 ) {
+                col = colModel.getColumn( vColIndex );
+            }
+
+            if( col != curCol ) {
+                header.setToolTipText( (String)tips.get( col ) );
+                curCol = col;
+            }
+        }
+    }
+
+    /**
+     * Flips the state of the check box column when the user clicks on a different cell in the row
+     */
+    private class CheckBoxSelectionFlipper extends MouseAdapter {
+
+        public void mouseClicked( MouseEvent e ) {
+            int selectedRow = getSelectedRow();
+            if( selectedRow != -1
+                && columns.contains( SELECTION_CHECKBOX ) ) {
+                boolean oldValue = ( (Boolean)getValueAt( selectedRow, checkBoxColumnIndex ) ).booleanValue();
+                setValueAt( new Boolean( !oldValue ), selectedRow, checkBoxColumnIndex );
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
     // Implementation of SelectedSimsContainer
     //--------------------------------------------------------------------------------------------------
 
@@ -545,20 +630,5 @@ public class SimTable extends JTable implements SelectedSimsContainer, Simulatio
 
     public Simulation[] getSelectedSimulations() {
         return getSelections();
-    }
-
-    /**
-     * Flips the state of the check box column when the user clicks on a different cell in the row
-     */
-    private class CheckBoxSelectionFlipper extends MouseAdapter {
-
-        public void mouseClicked( MouseEvent e ) {
-            int selectedRow = getSelectedRow();
-            if( selectedRow != -1
-                && columns.contains( SELECTION_CHECKBOX )) {
-                boolean oldValue = ( (Boolean)getValueAt( selectedRow, checkBoxColumnIndex ) ).booleanValue();
-                setValueAt( new Boolean( !oldValue ), selectedRow, checkBoxColumnIndex );
-            }
-        }
     }
 }
