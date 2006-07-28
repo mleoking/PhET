@@ -8,6 +8,9 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.IClock;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.filter.Filter1D;
+import edu.colorado.phet.filter.BandpassFilter;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -57,6 +60,17 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
                 PhotonGlassPaneCollisionModel.handle( photon, glassPane );
             }
             atmosphere.interactWithPhoton( photon );
+        }
+    }
+
+    public void addModelElement( ModelElement aps ) {
+        Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
+
+        super.addModelElement( aps );
+
+        if( aps instanceof Photon && irPassFilter.passes( ((Photon)aps).getWavelength() )
+                && ((Photon)aps).getLocation().getY() > 4 ) {
+            System.out.println( "GreenhouseModel.addModelElement" );
         }
     }
 
