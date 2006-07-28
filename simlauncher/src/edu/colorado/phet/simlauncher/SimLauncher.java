@@ -79,7 +79,7 @@ public class SimLauncher {
         frame.setContentPane( TopLevelPane.getInstance() );
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
-        new FrameSetup.CenteredWithSize( 800, 600 ).initialize( frame );
+        new FrameSetup.CenteredWithSize( 700, 600 ).initialize( frame );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
 
