@@ -62,6 +62,7 @@ public class SliderControl extends JPanel {
     private DecimalFormat _valueNumberFormat;
     private EventListenerList _listenerList; // notification of slider changes
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
+    private boolean _isDragging; // is the slider currently being dragged?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -121,6 +122,7 @@ public class SliderControl extends JPanel {
         _valueNumberFormat = createFormat( valueDecimalPlaces );
 
         _notifyWhileDragging = true;
+        _isDragging = false;
         
         _listenerList = new EventListenerList();
         
@@ -225,20 +227,17 @@ public class SliderControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value != _value || !_notifyWhileDragging ) {
-            if ( isValid( value ) ) {
-                _value = value;
-                updateView();
-                if ( notify ) {
-                    fireChangeEvent( new ChangeEvent( this ) );
-                }
+        if ( isValid( value ) ) {
+            _value = value;
+            updateView();
+            if ( notify ) {
+                fireChangeEvent( new ChangeEvent( this ) );
             }
-            else {
-                warnUser();
-                System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " 
-                        + "range is " + _min + " to " + _max + ", tried to set " + value );
-                updateView(); // revert
-            }
+        }
+        else {
+            warnUser();
+            System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
+            updateView(); // revert
         }
     }
     
@@ -328,14 +327,13 @@ public class SliderControl extends JPanel {
     }
     
     /**
-     * Determines whether the slider value is being adjusted.
-     * The result is true if the user is dragging the slider
-     * but has not yet released it.
+     * Determines whether the slider value is being dragged.
+     * Use this instead of getSlider().getValueIsAdjusting().
      * 
      * @return true or false
      */
-    public boolean isAdjusting() {
-        return _slider.getValueIsAdjusting();
+    public boolean isDragging() {
+        return _isDragging;
     }
     
     /**
@@ -389,6 +387,16 @@ public class SliderControl extends JPanel {
      */
     public void setNotifyWhileDragging( boolean b ) {
         _notifyWhileDragging = b;
+    }
+    
+    /**
+     * Determines whether the slider fires ChangeEvents while it is 
+     * being dragged.
+     * 
+     * @return true or false
+     */
+    public boolean getNotifyWhileDragging() {
+        return _notifyWhileDragging;
     }
     
     /*
@@ -566,7 +574,8 @@ public class SliderControl extends JPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
-                boolean notify = ( _notifyWhileDragging || !_slider.getValueIsAdjusting() );
+                _isDragging = _slider.getValueIsAdjusting();
+                boolean notify = ( _notifyWhileDragging || !_isDragging );
                 setValue( getSliderValue(), notify );
             }
         }
