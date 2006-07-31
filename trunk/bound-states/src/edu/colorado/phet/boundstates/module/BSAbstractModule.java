@@ -806,7 +806,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     /**
      * Saves the module's configuration by writing it to a provided configuration object.
      * 
-     * @param appConfig
+     * @param config
      */
     public void save( BSModuleConfig config ) {
         
@@ -1174,7 +1174,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * Gets the unique identifier that identifies this module,
      * used by the Save/Load feature to restore module selection.
      * 
-     * @return
+     * @return String
      */
     public String getId() {
         return _moduleSpec.getId();

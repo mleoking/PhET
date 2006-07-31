@@ -175,7 +175,7 @@ public class ZoomControl extends JPanel {
     /**
      * Gets the current zoom index.
      * The zoom index is an index into the constructor's specs argument.
-     * @return
+     * @return int
      */
     public int getZoomIndex() {
         return _zoomIndex;

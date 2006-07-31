@@ -92,7 +92,7 @@ public class DoubleRange {
      * Gets the number of significant decimal places.
      * Integer.MAX_VALUE should be interpretted to mean that all decimal places are significant.
      * 
-     * @return
+     * @return int
      */
     public int getSignificantDecimalPlaces() {
         return _significantDecimalPlaces;

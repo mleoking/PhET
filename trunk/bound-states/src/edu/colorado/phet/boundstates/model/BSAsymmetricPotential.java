@@ -130,7 +130,7 @@ public class BSAsymmetricPotential extends BSAbstractPotential {
     
     /**
      * Multiple wells are not supported.
-     * @returns false
+     * @return false
      */
     public boolean supportsMultipleWells() {
         return false;
@@ -138,7 +138,7 @@ public class BSAsymmetricPotential extends BSAbstractPotential {
     
     /**
      * The ground state is E1.
-     * @returns 1
+     * @return 1
      */
     public int getGroundStateSubscript() {
         return 1;

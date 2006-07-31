@@ -183,7 +183,7 @@ public abstract class BSAbstractDragManager extends PClip {
      * Gets a handle, for the purposes of attaching a help item.
      * The first handle that was added via addHandle is returned.
      * 
-     * @return
+     * @return PNode
      */
     public PNode getHelpNode() {
         PNode node = null;
@@ -195,7 +195,7 @@ public abstract class BSAbstractDragManager extends PClip {
     
     /**
      * Gets the number of handles.
-     * @return
+     * @return the number of handles, possibly zero
      */
     public int getHandleCount() {
         return _handles.size();
@@ -203,7 +203,7 @@ public abstract class BSAbstractDragManager extends PClip {
     
     /**
      * Gets the number of markers.
-     * @return
+     * @return the number of markers, possibly zero
      */
     public int getMarkerCount() {
         return _markers.size();

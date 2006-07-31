@@ -78,7 +78,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
     /**
      * Gets the combined chart that this node manages.
      * 
-     * @return
+     * @return BSCombinedChart
      */
     public BSCombinedChart getCombinedChart() {
         return (BSCombinedChart) getChart();
@@ -88,7 +88,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * Gets the bounds of the "Energy" plot's drawing area.
      * The bounds are in the node's local coordinates.
      * 
-     * @return
+     * @return Rectangle2D
      */
     public Rectangle2D getEnergyPlotBounds() {
         return getPlotBounds( BSCombinedChart.ENERGY_PLOT_INDEX );
@@ -98,7 +98,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * Gets the bounds of the bottom plot's drawing area.
      * The bounds are in the node's local coordinates.
      * 
-     * @return
+     * @return Rectangle2D
      */
     public Rectangle2D getBottomPlotBounds() {
         return getPlotBounds( BSCombinedChart.BOTTOM_PLOT_INDEX );
@@ -109,7 +109,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * The bounds are in the node's local coordinates.
      * 
      * @param subplotIndex
-     * @return
+     * @return Rectangle2D
      */
     private Rectangle2D getPlotBounds( int subplotIndex ) {
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
@@ -124,7 +124,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
     
     /**
      * Gets a reference to the Energy plot.
-     * @return reference to the Energy plot
+     * @return BSEnergyPlot
      */
     public BSEnergyPlot getEnergyPlot() {
         return getCombinedChart().getEnergyPlot();
@@ -139,7 +139,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * to a point in the energy chart's coordinate system.
      * 
      * @param screenPoint
-     * @return
+     * @return Point2D
      */
     public Point2D nodeToEnergy( Point2D screenPoint ) {
         return nodeToSubplot( screenPoint, BSCombinedChart.ENERGY_PLOT_INDEX );
@@ -150,7 +150,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * to an energy value in the energy chart's coordinate system.
      * 
      * @param yCoordinate
-     * @return
+     * @return double
      */
     public double nodeToEnergy( double yCoordinate ) {
         Point2D p = nodeToEnergy( new Point2D.Double( 0, yCoordinate ) );
@@ -161,8 +161,8 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * Converts an X coordinate in the node's local coordinate system
      * to a position value in the energy chart's coordinate system.
      * 
-     * @param yCoordinate
-     * @return
+     * @param xCoordinate
+     * @return double
      */
     public double nodeToPosition( double xCoordinate ) {
         Point2D p = nodeToEnergy( new Point2D.Double( xCoordinate, 0 ) );
@@ -173,8 +173,8 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * Converts a point in the energy chart's coordinate system
      * to a point in the node's local coordinate system.
      * 
-     * @param screenPoint
-     * @return
+     * @param energyPoint
+     * @return Point2D
      */
     public Point2D energyToNode( Point2D energyPoint ) {
         return subplotToNode( energyPoint, BSCombinedChart.ENERGY_PLOT_INDEX );
@@ -184,7 +184,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
      * Converts an energy to a y coordinate in the node's local coordinate system.
      * 
      * @param energy
-     * @return
+     * @return double
      */
     public double energyToNode( double energy ) {
         Point2D modelPoint = new Point2D.Double( 0, energy );
@@ -195,8 +195,8 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
     /**
      * Converts a position to an x coordinate in the node's local coordinate system.
      * 
-     * @param position, in nm
-     * @return
+     * @param position position in nm
+     * @return double
      */
     public double positionToNode( double position ) {
         Point2D modelPoint = new Point2D.Double( position, 0 );

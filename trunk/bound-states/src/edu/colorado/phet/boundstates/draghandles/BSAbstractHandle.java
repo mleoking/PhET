@@ -209,7 +209,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
     /**
      * Sets the color used to display values.
      * 
-     * @param
+     * @param color
      */
     public void setValueColor( Color color ) {
         _valueNode.setHTMLColor( color );
@@ -249,7 +249,7 @@ public abstract class BSAbstractHandle extends PPath implements PropertyChangeLi
     /**
      * Gets the position of the node, in the global coordinate system.
      * 
-     * @return
+     * @return Point2D
      */
     public Point2D getGlobalPosition() {
         Rectangle2D bounds = getGlobalBounds();

@@ -108,7 +108,7 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
 
     /**
      * Multiple wells are not supported.
-     * @returns false
+     * @return false
      */
     public boolean supportsMultipleWells() {
         return false;
@@ -116,7 +116,7 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
     
     /**
      * The ground state is E0.
-     * @returns 0
+     * @return 0
      */
     public int getGroundStateSubscript() {
         return 0;

@@ -173,7 +173,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * @param minX
      * @param maxX
      * @param dx
-     * @return
+     * @return array of points that approximate the potential
      */
     public Point2D[] getPotentialPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
@@ -241,7 +241,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * 
      * @param points
      * @param eigenstateIndex 0,...n
-     * @return
+     * @return double
      */
     public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
         // Assume that dx is the same between all points.

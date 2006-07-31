@@ -84,7 +84,7 @@ public abstract class BSAbstractCoulombSolver {
      * 
      * @param n eigenstate subscript, n=1,2,3,...
      * @throws IllegalArgumentException if n < 1
-     * @return
+     * @return energy value
      */
     public double getEnergy( final int n ) {
         if ( n < 1 ) {
@@ -105,7 +105,7 @@ public abstract class BSAbstractCoulombSolver {
      * @param maxX
      * @param numberOfPoints
      * @throws IllegalArgumentException if n < 1
-     * @return
+     * @return array of points
      */
     public Point2D[] getWaveFunction( final int n, final double minX, final double maxX, final int numberOfPoints ) {
         if ( n < 1 ) {

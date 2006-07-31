@@ -211,7 +211,8 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     /**
      * Gets the "Restart" component, used for attaching help items.
-     * @return
+     * 
+     * @return JComponent
      */
     public JComponent getRestartComponent() {
         return _restartButton;
@@ -219,7 +220,8 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     /**
      * Gets the "Pause" component, used for attaching help items.
-     * @return
+     * 
+     * @return JComponent
      */
     public JComponent getPauseComponent() {
         return _pauseButton;
@@ -227,7 +229,8 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     /**
      * Gets the clock index (speed) component, used for attaching help items.
-     * @return
+     * 
+     * @return JComponent
      */
     public JComponent getClockIndexComponent() {
         return _clockIndexSlider;
@@ -244,7 +247,8 @@ public class BSClockControls extends JPanel implements ClockListener {
 
     /**
      * Gets the clock index.
-     * @return
+     * 
+     * @return clock index
      */
     public int getClockIndex() {
         return _clockIndexSlider.getValue();
@@ -252,6 +256,7 @@ public class BSClockControls extends JPanel implements ClockListener {
     
     /**
      * Sets the clock index.
+     * 
      * @param index
      */
     public void setClockIndex( int index ) {

@@ -345,7 +345,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     /**
      * Updates the view to match the model.
      * 
-     * @param observable
+     * @param o
      * @param arg
      */
     public void update( Observable o, Object arg ) {

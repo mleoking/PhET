@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * BSCoulomb1DSpacingMarker is used to indicate the spacing between two
- * 1D Coulomb wells. 2 vertical dashed lines are drawn through the centers
+ * 1D Coulomb wells. Two vertical dashed lines are drawn through the centers
  * of the 2 wells that are closest to the origin.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

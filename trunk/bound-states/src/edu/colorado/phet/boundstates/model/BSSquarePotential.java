@@ -110,7 +110,7 @@ public class BSSquarePotential extends BSAbstractPotential {
      * Sets the height.
      * Height is the same for all wells.
      * 
-     * @param heigth the height, >= 0, in eV
+     * @param height the height, >= 0, in eV
      */
     public void setHeight( double height ) {
         if ( height < 0 ) {
@@ -168,7 +168,7 @@ public class BSSquarePotential extends BSAbstractPotential {
     
     /**
      * Multiple wells are supported.
-     * @returns true
+     * @return true
      */
     public boolean supportsMultipleWells() {
         return true;
@@ -176,7 +176,7 @@ public class BSSquarePotential extends BSAbstractPotential {
     
     /**
      * The ground state is E1.
-     * @returns 1
+     * @return 1
      */
     public int getGroundStateSubscript() {
         return 1;
@@ -213,7 +213,7 @@ public class BSSquarePotential extends BSAbstractPotential {
      * Gets the position of the center of a specified well.
      * 
      * @param wellIndex index of the well, numbered left to right starting at 0
-     * @returns position in nm
+     * @return position in nm
      */
     public double getCenter( int wellIndex ) {
         final int n = getNumberOfWells();
