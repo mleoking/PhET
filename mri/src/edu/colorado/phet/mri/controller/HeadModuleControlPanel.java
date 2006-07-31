@@ -46,7 +46,7 @@ public class HeadModuleControlPanel extends ControlPanel {
 //        addControl( new BFieldGraphicPanel( model ) );
 //        addControl( new TumorSelector( module.getHead(), model ) );
         addControlFullWidth( new HeadControl( module ) );
-        addControlFullWidth( new EmRepSelector( module ) );
+//        addControlFullWidth( new EmRepSelector( module ) );
 //        addControl( new DetectorControl( module ));
 
         addComponentListener( new ComponentAdapter() {

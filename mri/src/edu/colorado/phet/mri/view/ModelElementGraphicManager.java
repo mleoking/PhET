@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.Photon;
@@ -32,6 +33,7 @@ import java.util.List;
  */
 public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
 
+    private AbstractMriModule module;
     private PhetPCanvas phetPCanvas;
     // The PNode on which all dipole graphics are placed
     private PNode canvas;
@@ -55,7 +57,8 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
      * @param phetPCanvas
      * @param canvas
      */
-    public ModelElementGraphicManager( PhetPCanvas phetPCanvas, PNode canvas ) {
+    public ModelElementGraphicManager( AbstractMriModule module, PhetPCanvas phetPCanvas, PNode canvas ) {
+        this.module = module;
         this.phetPCanvas = phetPCanvas;
         this.canvas = canvas;
 
@@ -100,7 +103,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         }
         else if( modelElement instanceof RadiowaveSource
                  && !( modelElement instanceof PlaneWaveCycle ) ) {
-            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
+            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas, module );
             layer = controlLayer;
         }
         else if( modelElement instanceof Photon ) {
