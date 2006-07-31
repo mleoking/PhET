@@ -45,6 +45,8 @@ public class MriConfig {
     // Images
     public static final String IMAGE_PATH = "images/";
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole-4.gif";
+    public static final String DIPOLE_ARROW_IMAGE = IMAGE_PATH + "dipole-5-arrow.gif";
+    public static final String DIPOLE_DONUT_IMAGE = IMAGE_PATH + "dipole-5-donut.gif";
 //    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
     public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -32,6 +33,40 @@ import java.io.IOException;
  */
 public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
 
+    private static BufferedImage getDipoleImage( SampleMaterial sampleMaterial ) {
+        BufferedImage bImg = null;
+        String imageName = null;
+        if( sampleMaterial == SampleMaterial.HYDROGEN ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-hydrogen.gif";
+        }
+        if( sampleMaterial == SampleMaterial.NITROGEN ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-nitrogen.gif";
+        }
+        if( sampleMaterial == SampleMaterial.SODIUM ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-sodium.gif";
+        }
+        if( sampleMaterial == SampleMaterial.CARBON_13 ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-carbon.gif";
+        }
+        if( sampleMaterial == SampleMaterial.OXYGEN ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-oxygen.gif";
+        }
+        if( sampleMaterial == SampleMaterial.SULFUR ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-sulfur.gif";
+        }
+        if( sampleMaterial == SampleMaterial.UNKNOWN ) {
+            imageName = MriConfig.IMAGE_PATH + "dipole-5-unknown.gif";
+        }
+        try {
+            bImg = ImageLoader.loadBufferedImage( imageName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return bImg;
+    }
+
+
     private PImage baseDipoleGraphic;
     private Dipole dipole;
     private BufferedImage baseImage;
@@ -39,21 +74,15 @@ public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
     /**
      * Constructor
      */
-    public DipoleGraphic( Dipole dipole ) {
+    public DipoleGraphic( Dipole dipole, SampleMaterial sampleMaterial ) {
         this.dipole = dipole;
         dipole.addObserver( this );
-        try {
-            baseImage = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
-            double scale = 1;
-//            double scale = MriConfig.SCALE_FOR_ORG;
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
-            AffineTransformOp atxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-                                                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
-            baseImage = atxOp.filter( baseImage, null );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        baseImage = getDipoleImage( sampleMaterial );
+        double scale = 1;
+        AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
+        AffineTransformOp atxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
+                                                                                      RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
+        baseImage = atxOp.filter( baseImage, null );
         baseDipoleGraphic = new PImage( baseImage );
         addChild( baseDipoleGraphic );
         update();

@@ -50,6 +50,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
     private PNode magnetCoilLayer = new PNode();
     private PNode controlLayer = new PNode();
     private PNode headLayer = new PNode();
+    private MriModel model;
 
     /**
      * Constructor
@@ -62,6 +63,13 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         this.phetPCanvas = phetPCanvas;
         this.canvas = canvas;
 
+        model = (MriModel)module.getModel();
+        model.addListener( new MriModel.ChangeAdapter() {
+            public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
+                updateDipoleGraphics();
+            }
+        } );
+
         // Add composite nodes in the layer order we want to maintain
         canvas.addChild( magnetCoilLayer );
         canvas.addChild( headLayer );
@@ -70,7 +78,6 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         canvas.addChild( rfLayer );
 //        canvas.addChild( headLayer );
         canvas.addChild( controlLayer );
-
     }
 
     public void scanModel( MriModel model ) {
@@ -86,7 +93,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         PNode layer = canvas;
 
         if( modelElement instanceof Dipole ) {
-            graphic = new DipoleGraphic( (Dipole)modelElement );
+            graphic = new DipoleGraphic( (Dipole)modelElement, model.getSampleMaterial() );
             layer = dipolesLayer;
         }
         else if( modelElement instanceof SampleChamber ) {
@@ -200,6 +207,23 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
 
     public PNode getHeadLayer() {
         return headLayer;
+    }
+
+    private void updateDipoleGraphics() {
+        Iterator it = modelElementToGraphicMap.keySet().iterator();
+        ArrayList dipoles = new ArrayList();
+        while( it.hasNext() ) {
+            Object obj = it.next();
+            if( obj instanceof Dipole ) {
+                dipoles.add( obj );
+            }
+        }
+        for( int i = 0; i < dipoles.size(); i++ ) {
+            Dipole dipole = (Dipole)dipoles.get( i );
+            modelElementRemoved( dipole );
+            modelElementAdded( dipole );
+        }
+        dipoles.clear();
     }
 
     //--------------------------------------------------------------------------------------------------
