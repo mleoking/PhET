@@ -37,7 +37,8 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     private Detector detector;
     private Rectangle2D bounds;
-    private SimpleMagnet upperMagnet, lowerMagnet;
+    private SimpleMagnet upperMagnet;
+    private SimpleMagnet lowerMagnet;
     private GradientElectromagnet horizontalGradientMagnet, verticalGradientMagnet;
     private ArrayList magnets = new ArrayList();
     ArrayList photons = new ArrayList();
@@ -128,8 +129,10 @@ new Vector2D.Double( 0, -1 ) );
     }
 
     private void setInitialConditions() {
-        upperMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
-        lowerMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
+        upperMagnet.setFieldStrength( MriConfig.InitialConditions.FADING_MAGNET_FIELD );
+        lowerMagnet.setFieldStrength( MriConfig.InitialConditions.FADING_MAGNET_FIELD );
+//        upperMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
+//        lowerMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
     }
 
     public void addModelElement( ModelElement modelElement ) {

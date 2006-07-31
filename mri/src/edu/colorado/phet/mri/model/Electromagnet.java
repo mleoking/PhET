@@ -17,7 +17,6 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.mri.MriConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -45,7 +44,7 @@ public class Electromagnet extends Particle {
     private double current;
     private double fieldStrength;
     private Rectangle2D bounds;
-    private FieldChangerA fieldChanger;
+//    private FieldChangerA fieldChanger;
 
     /**
      * @param position
@@ -59,14 +58,14 @@ public class Electromagnet extends Particle {
                                               position.getY() - height / 2,
                                               width,
                                               height );
-        fieldChanger = new FieldChangerA( clock, MriConfig.MAGNET_FIELD_DB, MriConfig.MAGNET_FIELD_DB );
+//        fieldChanger = new FieldChangerA( clock, MriConfig.MAGNET_FIELD_DB, MriConfig.MAGNET_FIELD_DB );
     }
 
     public double getCurrent() {
         return current;
     }
 
-    private void setFieldStrength( double fieldStrength ) {
+    public void setFieldStrength( double fieldStrength ) {
         this.fieldStrength = fieldStrength;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
@@ -79,11 +78,11 @@ public class Electromagnet extends Particle {
         return bounds;
     }
 
-    public void setCurrent( double current ) {
-        this.current = current;
-        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-        fieldChanger.setTarget( current * MriConfig.CURRENT_TO_FIELD_FACTOR );
-    }
+//    public void setCurrent( double current ) {
+//        this.current = current;
+//        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+////        fieldChanger.setTarget( current * MriConfig.CURRENT_TO_FIELD_FACTOR );
+//    }
 
     //----------------------------------------------------------------
     // Inner classes

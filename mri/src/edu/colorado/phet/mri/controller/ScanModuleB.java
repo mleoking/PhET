@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.mri.controller;
 
+import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
@@ -40,9 +41,11 @@ public class ScanModuleB extends HeadModule {
         RadiowaveSource radioSource = model.getRadiowaveSource();
         radioSource.setFrequency( 42E6 );
         Electromagnet magnet = model.getLowerMagnet();
-        magnet.setCurrent( 33 );
+        magnet.setFieldStrength( 33 / MriConfig.CURRENT_TO_FIELD_FACTOR );
+//        magnet.setCurrent( 33 );
         magnet = model.getUpperMagnet();
-        magnet.setCurrent( 33 );
+        magnet.setFieldStrength( 33 / MriConfig.CURRENT_TO_FIELD_FACTOR );
+//        magnet.setCurrent( 33 );
 
         double dwellTime = 1000;
         double stepSize = 20;

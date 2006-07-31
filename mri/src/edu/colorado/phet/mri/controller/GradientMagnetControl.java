@@ -29,12 +29,15 @@ public class GradientMagnetControl extends ModelSlider {
     public final static double VIEW_TO_MODEL_FACTOR = 10;
 
     public GradientMagnetControl( final GradientElectromagnet horizontalMagnet, String title ) {
-        super( title, "", 0, MriConfig.MAX_GRADIENT_COIL_CURRENT, 0 );
+        super( title, "", 0, MriConfig.MAX_GRADIENT_COIL_FIELD, 0 );
+//        super( title, "", 0, MriConfig.MAX_GRADIENT_COIL_CURRENT, 0 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                horizontalMagnet.setCurrent( getValue() * VIEW_TO_MODEL_FACTOR );
+                horizontalMagnet.setFieldStrength( getValue() * VIEW_TO_MODEL_FACTOR );
+//                horizontalMagnet.setCurrent( getValue() * VIEW_TO_MODEL_FACTOR );
             }
         } );
-        horizontalMagnet.setCurrent( 0 );
+        horizontalMagnet.setFieldStrength( 0 );
+//        horizontalMagnet.setCurrent( 0 );
     }
 }
