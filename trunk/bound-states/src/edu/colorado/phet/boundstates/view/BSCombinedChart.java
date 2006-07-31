@@ -97,7 +97,7 @@ public class BSCombinedChart extends JFreeChart {
     /**
      * Gets a reference to the Energy plot.
      *
-     * @return
+     * @return reference to the Energy plot
      */
     public BSEnergyPlot getEnergyPlot() {
         return _energyPlot;
@@ -106,7 +106,7 @@ public class BSCombinedChart extends JFreeChart {
     /**
      * Gets a reference to the bottom plot.
      *
-     * @return
+     * @return reference to the bottom plot
      */
     public BSBottomPlot getBottomPlot() {
         return _bottomPlot;
@@ -114,7 +114,8 @@ public class BSCombinedChart extends JFreeChart {
     
     /**
      * Gets the position range shared by all plots in this combined chart.
-     * @return
+     * 
+     * @return range of the position axis
      */
     public Range getPositionRange() {
         return ( (CombinedDomainXYPlot) getPlot() ).getDomainAxis().getRange();

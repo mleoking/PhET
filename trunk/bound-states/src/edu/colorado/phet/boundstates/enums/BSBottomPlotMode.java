@@ -33,7 +33,7 @@ public class BSBottomPlotMode extends AbstractEnum {
      * This is used primarily in XML encoding.
      * 
      * @param name
-     * @return
+     * @return the mode that corresponds to name, possibly null
      */
     public static BSBottomPlotMode getByName( String name ) {
         BSBottomPlotMode mode = null;

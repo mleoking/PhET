@@ -39,7 +39,7 @@ public class BSConfigureDialogFactory {
      * @param owner
      * @param potential
      * @param moduleSpec
-     * @return
+     * @return a JDialog
      */
     public static JDialog createDialog( Frame owner, BSAbstractPotential potential, BSAbstractModuleSpec moduleSpec ) {
         
