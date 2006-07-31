@@ -10,15 +10,15 @@ MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 LOW PRIORITY:
-- pause the clock while dragging JSliders in Config dialogs
 - provide user with feedback when they attempt to drag a handle past its min/max
-- DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
-- selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
 - parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
+- selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
+- DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
 DONE:
-(7/31/06) - pause the clock when dragging the mass slider
+(7/31/06) - pause the clock while dragging sliders in Config dialogs
+(7/31/06) - pause the clock while dragging the mass slider
 (7/31/06) - bugfix: set default cursor when mouse exits the energy chart
 (7/31/06) - fix all javadoc warnings and errors
 (7/31/06) - add package-level javadoc
