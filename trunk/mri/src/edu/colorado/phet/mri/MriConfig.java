@@ -57,7 +57,8 @@ public class MriConfig {
 //    public static final double MAX_FEQUENCY = 80E6;
     public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field
-    public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
+//    public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
+    public static final double MAX_GRADIENT_COIL_FIELD = 0.08;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
     public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT / 2;
@@ -101,7 +102,8 @@ public class MriConfig {
 
     // Initial conditions
     public static class InitialConditions {
-        public static double FADING_MAGNET_CURRENT = 0;
+        public static double FADING_MAGNET_FIELD = 0;
+//        public static double FADING_MAGNET_CURRENT = 0;
         public static final double DIPOLE_PRECESSION = Math.toRadians( 0 );
         public static final DipoleOrientationAgent.SpinDeterminationPolicy SPIN_DETERMINATION_POLICY = new DipoleOrientationAgent.DeterministicPolicy();
         public static final MonitorPanel.DipoleRepresentationPolicy MONITOR_PANEL_REP_POLICY_DIPOLE = new MonitorPanel.DiscretePolicy();

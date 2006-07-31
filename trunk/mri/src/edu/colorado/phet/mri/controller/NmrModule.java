@@ -67,29 +67,6 @@ public class NmrModule extends AbstractMriModule {
 
         // Set the initial view
         setEmRep( NmrModule.WAVE_VIEW );
-
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-//
-//                Magnifier magnifierB = new Magnifier( getSimulationPanel(),
-//                                                      getClock(),
-//                                                      new Dimension( 150, 150 ),
-//                                                      2.0 );
-//                getControlPanel().addControl( new MagnifierPanel( magnifierB ));
-//            }
-//        } );
-
-//        JFrame magFrame = new JFrame( "Magnifier");
-//        Magnifier2 mag2 = new Magnifier2( ( MySimPanel)getSimulationPanel(), new Dimension( 200, 200), 2 );
-//        magFrame.getContentPane().add( mag2 );
-//        magFrame.pack();
-//        magFrame.setVisible( true );
-//
-//        MagnifierPNode mpn = new MagnifierPNode( ( MySimPanel)getSimulationPanel(), new Dimension( 200, 200), 2 );
-//        mpn.setOffset( 400, 400 );
-//        mpn.update();
-//        (( MySimPanel)getSimulationPanel()).addScreenChild( mpn );
-
     }
 
     class MagnifierPanel extends JPanel {

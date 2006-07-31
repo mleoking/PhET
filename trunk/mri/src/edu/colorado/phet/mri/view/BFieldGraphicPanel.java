@@ -27,13 +27,8 @@ import javax.swing.*;
 public class BFieldGraphicPanel extends JPanel {
 
     public BFieldGraphicPanel( MriModel model ) {
-        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model,
-//        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( (GradientElectromagnet)model.getLowerMagnet(),
-//                                                                        (GradientElectromagnet)model.getUpperMagnet(),
-0 );
+        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model, 0 );
         setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.FieldArrowTitle" ) ) );
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), SimStrings.get("ControlPanel.FieldArrowTitle" ) ));
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), "Magnetic Field at Center" ) );
         add( fieldGraphic );
     }
 }

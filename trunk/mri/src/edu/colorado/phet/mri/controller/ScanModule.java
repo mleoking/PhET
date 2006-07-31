@@ -45,9 +45,11 @@ public class ScanModule extends HeadModule {
         RadiowaveSource radioSource = model.getRadiowaveSource();
         radioSource.setFrequency( 42E6 );
         Electromagnet magnet = model.getLowerMagnet();
-        magnet.setCurrent( 33 );
+        magnet.setFieldStrength( 2200 );
+//        magnet.setCurrent( 33 );
         magnet = model.getUpperMagnet();
-        magnet.setCurrent( 33 );
+        magnet.setFieldStrength( 2200 );
+//        magnet.setCurrent( 33 );
 
 
         SampleTarget sampleTarget = new SampleTarget();
