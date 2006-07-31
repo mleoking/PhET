@@ -134,7 +134,7 @@ public class BSModel extends BSObservable implements Observer {
      * 
      * @param energy
      * @param threshold
-     * @return
+     * @return eigenstate index, possibly BSEigenstate.INDEX_UNDEFINED
      */
     public int getClosestEigenstateIndex( final double energy, final double threshold ) {
         int index = BSEigenstate.INDEX_UNDEFINED;

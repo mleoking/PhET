@@ -221,7 +221,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
     /**
      * Saves global state.
      * 
-     * @param appConfig
+     * @param config
      */
     public void save( BSGlobalConfig config ) {
         
@@ -246,7 +246,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
     /**
      * Loads global state.
      * 
-     * @param appConfig
+     * @param config
      */
     public void load( BSGlobalConfig config ) {
 

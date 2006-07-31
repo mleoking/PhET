@@ -127,7 +127,7 @@ public class BSWellComboBox extends JComboBox {
     /**
      * Sets the current selection.
      * 
-     * @param wellType
+     * @param potentialType
      * @throws IllegalStateException if potentialType is not one of the choices
      */
     public void setSelectedWellType( BSWellType potentialType ) {

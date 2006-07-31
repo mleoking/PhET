@@ -120,7 +120,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
      * 
      * @param points
      * @param eigenstateIndex 0,...n
-     * @return
+     * @return double
      */
     public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
         final int eigenstateSubscript = eigenstateIndex + 1; // Coulomb subscripts start with 1
@@ -143,7 +143,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
     
     /**
      * Multiple wells are supported.
-     * @returns true
+     * @return true
      */
     public boolean supportsMultipleWells() {
         return true;
@@ -151,7 +151,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
     
     /**
      * The ground state is E1.
-     * @returns 1
+     * @return 1
      */
     public int getGroundStateSubscript() {
         return 1;

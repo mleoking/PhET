@@ -3,8 +3,8 @@ package edu.colorado.phet.boundstates.model;
 
 /**
  * SchmidtLeeSolver calculates eigenstates and 1D Schrodinger wave functions
- * for a potential function
- * <p>.
+ * for a potential function.
+ * <p>
  * This is a modified version of code written by Schmidt & Lee.
  * CHANGES:
  * <ul>  

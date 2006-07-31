@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * BSSquareSeparationMarker is used to indicate the separation between two
- * Square wells. 2 vertical dashed lines are drawn through adjacent edges
+ * Square wells. Two vertical dashed lines are drawn through adjacent edges
  * of the two wells that are closest to the origin.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

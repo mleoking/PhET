@@ -71,7 +71,7 @@ public class BSCoulomb3DPotential extends BSCoulomb1DPotential {
     
     /**
      * Multiple wells are not supported.
-     * @returns false
+     * @return false
      */
     public boolean supportsMultipleWells() {
         return false;
@@ -81,6 +81,11 @@ public class BSCoulomb3DPotential extends BSCoulomb1DPotential {
      * Gets the wave function approximation.
      * For the single-well, use an analytic solver.
      * For multiple-wells, use the Schmidt-Lee solver.
+     * 
+     * @param eigenstate
+     * @param minX
+     * @param maxX
+     * @return points that approximate the wave function
      */
     public Point2D[] getWaveFunctionPoints( BSEigenstate eigenstate, final double minX, final double maxX ) {
         if ( getNumberOfWells() != 1 ) {
@@ -99,7 +104,7 @@ public class BSCoulomb3DPotential extends BSCoulomb1DPotential {
      * 
      * @param points
      * @param eigenstateIndex 0,...n
-     * @return
+     * @return double
      */
     public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
         final double mass = getParticle().getMass();

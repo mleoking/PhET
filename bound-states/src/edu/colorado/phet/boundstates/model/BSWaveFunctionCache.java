@@ -102,7 +102,7 @@ public class BSWaveFunctionCache {
     /**
      * Gets lower bound of the position range that was used to compute the cache contents.
      * 
-     * @return
+     * @return double
      */
     public double getMinPosition() {
         return _minPosition;
@@ -111,7 +111,7 @@ public class BSWaveFunctionCache {
     /**
      * Gets upper bound of the position range that was used to compute the cache contents.
      * 
-     * @return
+     * @return double
      */
     public double getMaxPosition() {
         return _maxPosition;
@@ -119,7 +119,7 @@ public class BSWaveFunctionCache {
     
     /**
      * Gets the coefficient used to scale the summed wave functions.
-     * @return
+     * @return double
      */
     public double getSumScalingCoefficient() {
         return _sumScalingCoefficient;
@@ -128,7 +128,7 @@ public class BSWaveFunctionCache {
     /**
      * Gets the number of items in the cache.
      * 
-     * @return
+     * @return int
      */
     public int getSize() {
         return _items.size();

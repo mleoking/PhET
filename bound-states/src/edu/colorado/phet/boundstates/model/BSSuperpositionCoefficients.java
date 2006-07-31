@@ -59,7 +59,8 @@ public class BSSuperpositionCoefficients extends BSObservable {
     
     /**
      * Gets the coefficients values.
-     * @return
+     * 
+     * @return array of coefficient values
      */
     public double[] getCoefficients() {
         double[] values = new double[ getNumberOfCoefficients() ];
@@ -71,6 +72,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
     
     /**
      * Sets the coefficient values.
+     * 
      * @param values
      */
     public void setCoefficients( double[] values ) {
@@ -179,7 +181,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
     /**
      * Gets the number of coefficients (possibly zero).
      * 
-     * @return
+     * @return int
      */
     public int getNumberOfCoefficients() {
         return _coefficients.size();
@@ -188,7 +190,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
     /**
      * Gets the number of non-zero coefficients.
      * 
-     * @return
+     * @return int
      */
     public int getNumberOfNonZeroCoefficients() {
         int count = 0;
@@ -254,9 +256,9 @@ public class BSSuperpositionCoefficients extends BSObservable {
     }
     
     /**
-     * Normalizes the coefficients, such that
-     * c1^2 + c2^2 + ... + cn^2 = 1
-     * 
+     * Normalizes the coefficients.
+     * <p>
+     * Normalized means that c1^2 + c2^2 + ... + cn^2 = 1.
      * If normalization was required, observers are notified.
      */
     public void normalize() {
@@ -276,8 +278,8 @@ public class BSSuperpositionCoefficients extends BSObservable {
     }
    
     /**
-     * Are the coefficients normalized?
-     * Does c1^2 + c2^2 + ... + cn^2 = 1 ?
+     * Determines whether the coefficients are normalized.
+     * See the normalize method for the definition of normalized.
      * 
      * @return true or false
      */
@@ -304,7 +306,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
     /**
      * Gets the sum of all the coefficients.
      * 
-     * @return
+     * @return double
      */
     public double getSum() {
         double total = 0;

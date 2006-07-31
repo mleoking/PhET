@@ -50,7 +50,7 @@ public class BSCoulomb3DSolver extends BSAbstractCoulombSolver {
      * Gets the scaling coefficient used for a specified eigenstate index.
      * @param n eigenstate subscript, n=1,2,3,...
      * @param mass particle mass
-     * @return
+     * @return double
      */
     public static double getScalingCoefficient( int n, double mass ) {
         if ( n < 1 ) {

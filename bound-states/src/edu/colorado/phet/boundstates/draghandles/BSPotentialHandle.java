@@ -160,7 +160,7 @@ public abstract class BSPotentialHandle extends BSAbstractHandle implements Obse
      * 
      * @param value
      * @param numberOfSignificantDecimalPlaces
-     * @return
+     * @return double
      */
     public static double round( double value, double numberOfSignificantDecimalPlaces ) {
         final double multiplier = Math.pow( 10, numberOfSignificantDecimalPlaces );

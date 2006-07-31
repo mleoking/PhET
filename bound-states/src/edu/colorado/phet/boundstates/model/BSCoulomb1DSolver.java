@@ -64,7 +64,7 @@ public class BSCoulomb1DSolver extends BSAbstractCoulombSolver {
     /**
      * Gets the scaling coefficient used for a specified eigenstate index.
      * @param n eigenstate subscript, n=1,2,3,...
-     * @return
+     * @return double
      */
     public static double getScalingCoefficient( final int n ) {
         if ( n < 1 || n > SCALING_COEFFICIENTS.length ) {

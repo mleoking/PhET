@@ -30,7 +30,7 @@ public class BSRendererFactory {
      * Creates a renderer that will approximate a curve by 
      * connecting a series of points with line segments.
      * 
-     * @return
+     * @return XYItemRenderer
      */
     public static XYItemRenderer createCurveRenderer() {
         StandardXYItemRenderer renderer = new StandardXYItemRenderer();
@@ -42,7 +42,7 @@ public class BSRendererFactory {
      * Creates a renderer that will treat a series of points 
      * as eigenstates, to be rendered as a set of horizontal lines.
      * 
-     * @return
+     * @return XYItemRenderer
      */
     public static XYItemRenderer createEigenstatesRenderer() {
         return new EigenstatesRenderer();
@@ -52,7 +52,7 @@ public class BSRendererFactory {
      * Creates a renderer that will treat a series of points
      * as wave function phase data.
      * 
-     * @return
+     * @return XYItemRenderer
      */
     public static XYItemRenderer createPhaseRenderer() {
         return new PhaseRenderer();

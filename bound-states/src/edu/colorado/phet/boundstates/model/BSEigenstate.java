@@ -55,7 +55,7 @@ public class BSEigenstate {
     /**
      * Gets the subscript n, used to label En.
      * 
-     * @param the subscript
+     * @return the subscript
      */
     public int getSubscript() {
         return _subscript;

@@ -254,8 +254,12 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
      * Sets the magnification.
      * 
      * @param magnification
+     * @throws IllegalArgumentException if magnification is < 1
      */
     public void setMagnification( double magnification ) {
+        if ( magnification < 1 ) {
+            throw new IllegalArgumentException( "magnification must be >= 1" );
+        }
         _magnification = magnification;
         updateDisplay();
     }
@@ -263,7 +267,7 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
     /**
      * Gets the magnification.
      * 
-     * @return
+     * @return magnification power
      */
     public double getMagnification() {
         return _magnification;
@@ -325,7 +329,7 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
      * Gets a reference to the "parts" node, for attaching a help item.
      * Clients should NOT change this node.
      * 
-     * @return
+     * @return PNode
      */
     public PNode getPartsNode() {
         return _partsNode;

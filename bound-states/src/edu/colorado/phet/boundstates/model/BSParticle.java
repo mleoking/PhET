@@ -44,8 +44,8 @@ public class BSParticle extends BSObservable implements BSSerializable {
     }
     
     /**
-     * Gets the mass
-     * @return
+     * Gets the mass.
+     * @return mass
      */
     public double getMass() {
         return _mass;
