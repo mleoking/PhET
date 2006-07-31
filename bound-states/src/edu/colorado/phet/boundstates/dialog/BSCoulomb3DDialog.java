@@ -140,6 +140,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
         {
             if ( e.getSource() == _offsetSlider ) {
                 handleOffsetChange();
+                adjustClockState( _offsetSlider );
             }
             else {
                 System.err.println( "WARNING: BSCoulomb3DDialog - unsupported event source: " + e.getSource() );

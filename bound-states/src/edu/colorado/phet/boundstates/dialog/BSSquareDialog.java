@@ -228,15 +228,19 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
         {
             if ( e.getSource() == _offsetSlider ) {
                 handleOffsetChange();
+                adjustClockState( _offsetSlider );
             }
             else if ( e.getSource() == _heightSlider ) {
                 handleHeightChange();
+                adjustClockState( _heightSlider );
             }
             else if ( e.getSource() == _widthSlider ) {
                 handleWidthChange();
+                adjustClockState( _widthSlider );
             }
             else if ( e.getSource() == _separationSlider ) {
                 handleSeparationChange();
+                adjustClockState( _separationSlider );
             }
             else {
                 System.err.println( "WARNING: BSSquareDialog - unsupported event source: " + e.getSource() );
@@ -264,7 +268,6 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
     private void handleWidthChange() {
         BSSquarePotential potential = (BSSquarePotential) getPotential();
         final double width = _widthSlider.getValue();
-//        System.out.println( "BSSquareDialog.handleWidthChange " + width );//XXX
         potential.setWidth( width );
     }
     

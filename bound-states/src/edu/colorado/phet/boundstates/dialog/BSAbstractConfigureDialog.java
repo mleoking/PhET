@@ -25,7 +25,10 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
@@ -51,6 +54,10 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     
     private BSAbstractPotential _potential;
     
+    private IClock _clock;
+    private boolean _clockWasRunning;    
+    private boolean _isSliderDragging;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -73,6 +80,10 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         } );
         _potential = potential;
         _potential.addObserver( this );
+        
+        _clock = PhetApplication.instance().getActiveModule().getClock();
+        _clockWasRunning = false;
+        _isSliderDragging = false;
     }
 
     //----------------------------------------------------------------------------
@@ -151,6 +162,32 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         }
         else {
             _potential.deleteObserver( this );
+        }
+    }
+    
+    /*
+     * Controls the clock while dragging a slider.
+     * The clock is paused while the slider is dragged,
+     * and the clock state is restore when the slider is released.
+     */
+    protected void adjustClockState( SliderControl slider ) {
+        if ( slider.getNotifyWhileDragging() == true ) {
+            if ( !slider.isDragging() ) {
+                // Pause the clock while dragging the slider.
+                _isSliderDragging = false;
+                if ( _clockWasRunning ) {
+                    _clock.start();
+                    _clockWasRunning = false;
+                }
+            }
+            else if ( !_isSliderDragging ) {
+                // Restore the clock when the slider is released.
+                _isSliderDragging = true;
+                _clockWasRunning = _clock.isRunning();
+                if ( _clockWasRunning ) {
+                    _clock.pause();
+                }
+            }
         }
     }
     

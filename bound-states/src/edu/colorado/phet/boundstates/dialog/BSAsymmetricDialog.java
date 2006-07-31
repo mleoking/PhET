@@ -191,12 +191,15 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
         {
             if ( e.getSource() == _offsetSlider ) {
                 handleOffsetChange();
+                adjustClockState( _offsetSlider );
             }
             else if ( e.getSource() == _heightSlider ) {
                 handleHeightChange();
+                adjustClockState( _heightSlider );
             }
             else if ( e.getSource() == _widthSlider ) {
                 handleWidthChange();
+                adjustClockState( _widthSlider );
             }
             else {
                 System.err.println( "WARNING: BSAsymmetricDialog - unsupported event source: " + e.getSource() );

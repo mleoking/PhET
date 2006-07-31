@@ -169,9 +169,11 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
         {
             if ( e.getSource() == _offsetSlider ) {
                 handleOffsetChange();
+                adjustClockState( _offsetSlider );
             }
             else if ( e.getSource() == _angularFrequencySlider ) {
                 handleAngularFrequencyChange();
+                adjustClockState( _angularFrequencySlider );
             }
             else {
                 System.err.println( "WARNING: BSHarmonicOscillatorDialog - unsupported event source: " + e.getSource() );
