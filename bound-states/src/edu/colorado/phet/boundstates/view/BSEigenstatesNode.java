@@ -109,6 +109,7 @@ public class BSEigenstatesNode extends PComposite implements Observer {
             }
             public void mouseExited( PInputEvent event ) {
                 _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+                setCursor( BSEigenstate.INDEX_UNDEFINED );
             }
             public void mousePressed( PInputEvent event ) {
                 handleSelection();

@@ -12,15 +12,13 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - pause the clock while dragging JSliders in control panel and Config dialogs
 - provide user with feedback when they attempt to drag a handle past its min/max
-- wiggle me animation is jerky on some slower machines
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
-- incorrect hand cursor: to reproduce, move mouse from Energy chart to control panel to bottom chart
 - selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
 - parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
 
 
-
 DONE:
+(7/31/06) - bugfix: set default cursor when mouse exits the energy chart
 (7/31/06) - fix all javadoc warnings and errors
 (7/31/06) - add package-level javadoc
 (7/27/06) - organize imports for all source files
@@ -496,6 +494,7 @@ DONE:
 
 
 REJECTED:
+(7/31/06) - wiggle me animation is jerky on some slower machines (seems to be OK now)
 (7/31/06) - make plots in bottom chart look smoother on Windows (already as good as it gets)
 (7/14/06) - drag handles that use the Schmidt-Lee eigenstate solver are less responsive than analytic solver (nothing I can do about this)
 (7/13/06) - get rid of BSModel (impossible at this point, complicated and hugely destabilizing)
