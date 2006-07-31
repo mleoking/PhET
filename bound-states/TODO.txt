@@ -10,8 +10,8 @@ MEDIUM PRIORITY:
 - at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 LOW PRIORITY:
-- provide user with feedback when they attempt to drag a handle past its min/max
 - parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
+- provide user with feedback when they attempt to drag a handle past its min/max
 - selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
