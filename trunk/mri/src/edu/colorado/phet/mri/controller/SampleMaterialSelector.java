@@ -10,8 +10,10 @@
  */
 package edu.colorado.phet.mri.controller;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.SampleMaterial;
+import edu.colorado.phet.mri.util.ControlBorderFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +31,8 @@ public class SampleMaterialSelector extends JPanel {
     public SampleMaterialSelector( final MriModel model ) {
         super( new GridBagLayout() );
 
-        JLabel label = new JLabel( "Sample material:" );
+        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.SampleMaterial" ) ) );
+//        JLabel label = new JLabel( "Sample material:" );
         final JComboBox selector = new JComboBox( SampleMaterial.INSTANCES );
         selector.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
@@ -42,8 +45,8 @@ public class SampleMaterialSelector extends JPanel {
                                                          GridBagConstraints.EAST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 10, 5, 10, 5 ), 0, 0 );
-        add( label, gbc );
-        gbc.anchor = GridBagConstraints.WEST;
+//        add( label, gbc );
+        gbc.anchor = GridBagConstraints.CENTER;
         add( selector, gbc );
 
     }
