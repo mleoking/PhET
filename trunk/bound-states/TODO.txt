@@ -25,6 +25,7 @@ CLEANUP:
 
 
 DONE:
+(7/31/06) - add package-level javadoc
 (7/27/06) - organize imports for all source files
 (7/27/06) - ensure that hilited eigenstate is always in foreground in magnifying glass
 (7/27/06) - clear the hilited eigenstate when the mouse leaves the magnifying glass
