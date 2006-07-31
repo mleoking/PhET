@@ -53,8 +53,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private static final int INDENTATION = 10; // pixels
     
-    private static final boolean NOTIFY_WHILE_DRAGGING = true; // behavior of sliders
-    
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
@@ -128,7 +126,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                     numberOfWellsRange.getMax(),
                     1, 0, 0, SimStrings.get( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
             _numberOfWellsSlider.setTextEditable( true );
-            _numberOfWellsSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            _numberOfWellsSlider.setNotifyWhileDragging( false );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Configure button
@@ -299,7 +297,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _massMultiplierSlider = new BSMassMultiplierSlider( value, min, max,
                     tickSpacing, decimalPlaces, decimalPlaces,
                     massLabel, massUnits, columns, SLIDER_INSETS );
-            _massMultiplierSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            _massMultiplierSlider.setNotifyWhileDragging( true );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -492,7 +490,13 @@ public class BSControlPanel extends BSAbstractControlPanel {
      */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
 
-        public EventListener() {}
+        private boolean _isSliderDragging; // is the slider dragging?
+        private boolean _clockWasRunning; // was the clock running when we started dragging the slider?
+        
+        public EventListener() {
+            _isSliderDragging = false;
+            _clockWasRunning = false;
+        }
 
         public void actionPerformed( ActionEvent event ) {
 
@@ -527,13 +531,15 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
-
+        
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _numberOfWellsSlider ) {
                 handleNumberOfWells();
+                adjustClockState( _numberOfWellsSlider );
             }
             else if ( event.getSource() == _massMultiplierSlider ) {
                 handleMassSlider();
+                adjustClockState( _massMultiplierSlider );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -547,6 +553,32 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 }
                 else {
                     throw new IllegalArgumentException( "unexpected event: " + event );
+                }
+            }
+        }
+        
+        /*
+         * Controls the clock while dragging a slider.
+         * The clock is paused while the slider is dragged,
+         * and the clock state is restore when the slider is released.
+         */
+        private void adjustClockState( SliderControl slider ) {
+            if ( slider.getNotifyWhileDragging() == true ) {
+                if ( !slider.isDragging() ) {
+                    // Pause the clock while dragging the slider.
+                    _isSliderDragging = false;
+                    if ( _clockWasRunning ) {
+                        _module.getClock().start();
+                        _clockWasRunning = false;
+                    }
+                }
+                else if ( !_isSliderDragging ) {
+                    // Restore the clock when the slider is released.
+                    _isSliderDragging = true;
+                    _clockWasRunning = _module.getClock().isRunning();
+                    if ( _clockWasRunning ) {
+                        _module.getClock().pause();
+                    }
                 }
             }
         }
