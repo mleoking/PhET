@@ -13,6 +13,8 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.controller.AbstractMriModule;
+import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
@@ -38,10 +40,11 @@ public class RadiowaveSourceGraphic extends PNode {
     private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
     private double panelDepth = 90;
 
-    public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
+    public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas, AbstractMriModule module ) {
 
         // todo: this line and variable is just for debugging
-        double length = 600;
+        double length = 700;
+//        double length = 600;
 
         double w = 0;
         double h = 0;
@@ -67,6 +70,7 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( boxGraphic );
 
         // Frequency control
+        Insets controlInsets = new Insets( 5, 5, 5, 5 );
         final ModelSlider freqCtrl = new ModelSlider( "Frequency",
                                                       "MHz",
                                                       MriConfig.MIN_FEQUENCY,
@@ -81,7 +85,8 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
-        freqPSwing.setOffset( length * 0.2 - freqPSwing.getBounds().getWidth() / 2, 5 );
+        freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
+                              controlInsets.top );
         addChild( freqPSwing );
 
         // Power control
@@ -98,8 +103,15 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         powerCtrl.setValue( powerCtrl.getValue() );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
-        powerPSwing.setOffset( length * 0.8 - powerPSwing.getBounds().getWidth() / 2, 5 );
+        powerPSwing.setOffset( controlInsets.left, controlInsets.top );
         addChild( powerPSwing );
+
+        // Controls for the photon/wave view choice
+        EmRepSelector emRepSelector = new EmRepSelector( module );
+        PSwing emRepPSwing = new PSwing( canvas, emRepSelector );
+        emRepPSwing.setOffset( ( length - emRepPSwing.getBounds().getWidth() ) / 2,
+                               panelDepth - controlInsets.bottom - emRepPSwing.getBounds().getHeight() );
+        addChild( emRepPSwing );
 
         // Label
         PText title = new PText( "Radiowave\nSource" );
@@ -121,7 +133,5 @@ public class RadiowaveSourceGraphic extends PNode {
                 freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( event.getPhotonSource().getWavelength() ) );
             }
         } );
-
-
     }
 }

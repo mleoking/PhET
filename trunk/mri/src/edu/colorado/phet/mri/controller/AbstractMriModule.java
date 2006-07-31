@@ -64,7 +64,7 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         simPanel.addScreenChild( worldNode );
 //        simPanel.addWorldChild( worldNode );
 
-        graphicsManager = new ModelElementGraphicManager( simPanel, worldNode );
+        graphicsManager = new ModelElementGraphicManager( this, simPanel, worldNode );
         graphicsManager.scanModel( model );
         model.addListener( graphicsManager );
 

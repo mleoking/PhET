@@ -38,7 +38,7 @@ public class NmrControlPanel extends ControlPanel {
         addControlFullWidth( monitorPanel );
         addControlFullWidth( new FadingMagnetControl( model ) );
 //        addControlFullWidth( new BFieldGraphicPanel( model ) );
-        addControlFullWidth( new EmRepSelector( module ) );
+//        addControlFullWidth( new EmRepSelector( module ) );
         addControlFullWidth( new SampleMaterialSelector( model ) );
 
 //        addControl( new PrecessionControl( model ) );
