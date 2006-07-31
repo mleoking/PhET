@@ -124,7 +124,7 @@ public class BSCombinedChartNode extends JFreeChartNode implements AxisChangeLis
     
     /**
      * Gets a reference to the Energy plot.
-     * @return
+     * @return reference to the Energy plot
      */
     public BSEnergyPlot getEnergyPlot() {
         return getCombinedChart().getEnergyPlot();

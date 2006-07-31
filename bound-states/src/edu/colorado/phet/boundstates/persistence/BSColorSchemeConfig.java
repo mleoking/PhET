@@ -209,7 +209,7 @@ public class BSColorSchemeConfig implements BSSerializable {
     /**
      * Converts to a BSColorScheme object.
      * 
-     * @return
+     * @return a BSColorScheme
      */
     public BSColorScheme toBSColorScheme() {
         

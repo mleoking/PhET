@@ -37,7 +37,7 @@ public class BSWellType extends AbstractEnum {
      * This is used primarily in XML encoding.
      * 
      * @param name
-     * @return
+     * @return the well type that corresponds to name, possibly null
      */
     public static BSWellType getByName( String name ) {
         BSWellType wellType = null;

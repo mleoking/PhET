@@ -189,7 +189,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * Gets the eigenstates.
      * The eigenstates are calculated if they are currently null.
      * 
-     * @return
+     * @return an array of eigenstates, not null, possibly zero length
      */
     public BSEigenstate[] getEigenstates() {
         if ( _eigenstates == null ) {
@@ -214,7 +214,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * @param eigenstate
      * @param minX
      * @param maxX
-     * @return
+     * @return array of points that approximate the wave function
      */
     public Point2D[] getWaveFunctionPoints( BSEigenstate eigenstate, final double minX, final double maxX ) {
         final double energy = eigenstate.getEnergy();

@@ -183,7 +183,7 @@ public class ZoomControl extends JPanel {
     
     /**
      * Gets the AxisSpec that corresponds to the current zoom level.
-     * @return
+     * @return AxisSpec
      */
     public AxisSpec getAxisSpec() {
         return _zoomSpec.getAxisSpec( _zoomIndex );

@@ -138,7 +138,7 @@ public class BSWaveFunctionCache {
      * Gets an item from the cache.
      * 
      * @param index
-     * @return
+     * @return the cache item at index
      */
     public Item getItem( int index ) {
         return (Item)_items.get( index );
