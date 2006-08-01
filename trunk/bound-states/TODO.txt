@@ -9,12 +9,8 @@ HIGH PRIORITY:
 - add an option to show average prob density of a band of eigenstates
 
 MEDIUM PRIORITY:
-- at fastest clock speed, wave appears to move slower for some configurations (eg, E1 for 1D Coulomb in "Two Wells")
 
 LOW PRIORITY:
-- parameterize Schmidt-Lee to take variable value for MAX_TRIES, determine appropriate values to use
-- provide user with feedback when they attempt to drag a handle past its min/max
-- selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
@@ -497,6 +493,10 @@ DONE:
 
 
 REJECTED:
+(8/1/06) - at fastest clock speed, wave appears to move slower for some configurations; eg, E1 for 1D Coulomb in "Two Wells" (ok as is)
+(8/1/06) - parameterize Schmidt-Lee to take variable value for MAX_TRIES (already responsive enough, not worth effort)
+(8/1/06) - provide user with feedback when they attempt to drag a handle past its min/max (not necessary)
+(8/1/06) - selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350 (not important)
 (7/31/06) - wiggle me animation is jerky on some slower machines (seems to be OK now)
 (7/31/06) - make plots in bottom chart look smoother on Windows (already as good as it gets)
 (7/14/06) - drag handles that use the Schmidt-Lee eigenstate solver are less responsive than analytic solver (nothing I can do about this)
