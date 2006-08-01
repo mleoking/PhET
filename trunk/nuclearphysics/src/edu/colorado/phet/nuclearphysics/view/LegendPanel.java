@@ -120,11 +120,11 @@ public class LegendPanel extends JPanel {
         }
         if( allModelClasses || modelClasses.contains( Po210 ) ) {
             add( new JLabel( po210Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Polonium210Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Polonium211Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( Pb206 ) ) {
             add( new JLabel( pb206Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Lead206Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Lead207Label" ), SwingConstants.LEFT ), textGbc );
         }
     }
 

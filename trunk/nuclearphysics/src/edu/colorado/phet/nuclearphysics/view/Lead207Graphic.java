@@ -69,11 +69,11 @@ public class Lead207Graphic extends NucleusGraphic {
             g.setColor( NucleusLabelColors.getColor( this.getClass() ));
             g.setFont( Lead207Graphic.isotopeFont );
             FontMetrics fm = g.getFontMetrics();
-            g.drawString( SimStrings.get( "Lead206Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Lead206Graphic.Number" ) ), 0 );
+            g.drawString( SimStrings.get( "Lead207Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Lead207Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
             g.setFont( Lead207Graphic.elementFont );
-            g.drawString( SimStrings.get( "Lead206Graphic.Symbol" ), 0, dy );
+            g.drawString( SimStrings.get( "Lead207Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
         }
     }

@@ -69,11 +69,11 @@ public class Polonium211Graphic extends NucleusGraphic {
             g.setColor( NucleusLabelColors.getColor( this.getClass() ));
             g.setFont( Polonium211Graphic.isotopeFont );
             FontMetrics fm = g.getFontMetrics();
-            g.drawString( SimStrings.get( "Polonium210Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Polonium210Graphic.Number" ) ), 0 );
+            g.drawString( SimStrings.get( "Polonium211Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Polonium211Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
             g.setFont( Polonium211Graphic.elementFont );
-            g.drawString( SimStrings.get( "Polonium210Graphic.Symbol" ), 0, dy );
+            g.drawString( SimStrings.get( "Polonium211Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
         }
     }

@@ -13,12 +13,12 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 
 public class Lead207 extends ProfileableNucleus {
-    public static final int numNeutrons = 124;
-    public static final int numProtons = 83;
+    public static final int NUM_NEUTRONS = 124;
+    public static final int NUM_PROTONS = 83;
     public final static double MIN_POTENTIAL_ENERGY = -113;
 
     public Lead207( Point2D position ) {
-        super( position, Lead207.numProtons, Lead207.numNeutrons );
+        super( position, Lead207.NUM_PROTONS, Lead207.NUM_NEUTRONS );
     }
 
     public double getMinPotentialEnergy() {
