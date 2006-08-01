@@ -24,7 +24,7 @@ public class BSVersion {
 //    public static final String CVS_TAG = "boundstates-sandbox";
     
     public static final String NUMBER = "1.01.01";
-    public static final String CVS_TAG = "boundstates-1-01-01-2006-08-101";
+    public static final String CVS_TAG = "boundstates-1-01-01-2006-08-01";
     
     /* This class is not intended for instantiation. */
     private BSVersion() {}
