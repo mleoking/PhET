@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+1.01.01...
 (7/31/06) - pause the clock while dragging sliders in Config dialogs
 (7/31/06) - pause the clock while dragging the mass slider
 (7/31/06) - bugfix: set default cursor when mouse exits the energy chart
