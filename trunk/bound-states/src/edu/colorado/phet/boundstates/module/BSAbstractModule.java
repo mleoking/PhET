@@ -1200,7 +1200,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * @param value
      */
     public void setFieldConstant( double value ) {
-        System.out.println( "setFieldConstant " + value );//XXX
         if ( _asymmetricPotential != null ) {
             _asymmetricPotential.setFieldConstant( value );
         }
