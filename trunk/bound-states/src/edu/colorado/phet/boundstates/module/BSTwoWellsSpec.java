@@ -50,6 +50,9 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     // Magnification power of the magnifying glass
     private static final double MAGNIFICATION = 10;
     
+    // Field constant
+    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( 0, 0, 0, 0 );
+    
     //----------------------------------------------------------------------------
     // 1D Coulomb ranges
     //----------------------------------------------------------------------------
@@ -106,6 +109,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
+        setFieldConstantRange( FIELD_CONSTANT_RANGE );
         
         setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );

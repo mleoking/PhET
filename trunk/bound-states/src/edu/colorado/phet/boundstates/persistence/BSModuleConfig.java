@@ -50,6 +50,7 @@ public class BSModuleConfig implements BSSerializable {
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
     private boolean _phaseSelected;
+    private double _fieldConstant;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -190,6 +191,14 @@ public class BSModuleConfig implements BSSerializable {
     
     public void setSuperpositionCoefficients( double[] superpositionCoefficients ) {
         _superpositionCoefficients = superpositionCoefficients;
+    }
+    
+    public double getFieldConstant() {
+        return _fieldConstant;
+    }
+    
+    public void setFieldConstant( double value ) {
+        _fieldConstant = value;
     }
     
     //----------------------------------------------------------------------------

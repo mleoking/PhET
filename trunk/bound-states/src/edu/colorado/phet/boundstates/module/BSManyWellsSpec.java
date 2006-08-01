@@ -49,6 +49,9 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // Magnification power of the magnifying glass
     private static final double MAGNIFICATION = 10;
     
+    // Field constant
+    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( -5, 5, 0, 1 );
+    
     //----------------------------------------------------------------------------
     // 1D Coulomb ranges
     //----------------------------------------------------------------------------
@@ -82,10 +85,22 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // Square ranges
     //----------------------------------------------------------------------------
     
-    // Energy axis
-    private static final Range SQUARE_ENERGY_RANGE = new Range( -0.5, 20.5 ); // eV
-    private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
-    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0" );
+    // Energy axis zoom ranges
+    private static final Range SQUARE_ENERGY_RANGE1 = new Range( -0.5, 20.5 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING1 = 5; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT1 = new DecimalFormat( "0" );
+    
+    private static final Range SQUARE_ENERGY_RANGE2 = new Range( -20.5, 20.5 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING2 = 10; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT2 = new DecimalFormat( "0" );
+    
+    private static final Range SQUARE_ENERGY_RANGE3 = new Range( -30.5, 30.5 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING3 = 10; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT3 = new DecimalFormat( "0" );
+    
+    private static final Range SQUARE_ENERGY_RANGE4 = new Range( -40.5, 40.5 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING4 = 10; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT4 = new DecimalFormat( "0" );
     
     // Potential attributes
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0 ,0, 1 ); // eV
@@ -105,6 +120,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
+        setFieldConstantRange( FIELD_CONSTANT_RANGE );
         
         setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
@@ -131,8 +147,12 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         
         // Square spec
         {
-            AxisSpec axisSpec = new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
-            ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
+            AxisSpec axisSpec1 = new AxisSpec( SQUARE_ENERGY_RANGE1, SQUARE_ENERGY_TICK_SPACING1, SQUARE_ENERGY_TICK_FORMAT1 );
+            AxisSpec axisSpec2 = new AxisSpec( SQUARE_ENERGY_RANGE2, SQUARE_ENERGY_TICK_SPACING2, SQUARE_ENERGY_TICK_FORMAT2 );
+            AxisSpec axisSpec3 = new AxisSpec( SQUARE_ENERGY_RANGE3, SQUARE_ENERGY_TICK_SPACING3, SQUARE_ENERGY_TICK_FORMAT3 );
+            AxisSpec axisSpec4 = new AxisSpec( SQUARE_ENERGY_RANGE4, SQUARE_ENERGY_TICK_SPACING4, SQUARE_ENERGY_TICK_FORMAT4 );
+            AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2, axisSpec3, axisSpec4 };
+            ZoomSpec zoomSpec = new ZoomSpec( axisSpecs );
             BSPotentialSpec wellSpec = new BSPotentialSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
             setSquareSpec( wellSpec );

@@ -38,6 +38,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     private double _offset; // the offset, in eV
     private BSParticle _particle;
     private BSEigenstate[] _eigenstates; // Eigenstates cache
+    private double _fieldConstant;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,6 +52,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * @param offset
      */
     public BSAbstractPotential( BSParticle particle, int numberOfWells, double offset ) {
+        _fieldConstant = 0;
         setNumberOfWells( numberOfWells );
         setOffset( offset );
         setCenter( 0 );
@@ -165,6 +167,28 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
             markEigenstatesDirty();
             notifyObservers();
         }
+    }
+    
+    /**
+     * Sets the field constant that is applied when calculating potential energy.
+     * 
+     * @param value
+     */
+    public void setFieldConstant( double value ) {
+        if ( value != _fieldConstant ) {
+            _fieldConstant = value;
+            markEigenstatesDirty();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the field constant that is applied when calculating potential energy.
+     * 
+     * @return field constant
+     */
+    public double getFieldConstant() {
+        return _fieldConstant;
     }
     
     /**

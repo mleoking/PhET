@@ -177,6 +177,9 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
             energy += -kee / Math.abs( (position-c) - xi );
         }
         
+        // Apply field constant
+        energy += ( getFieldConstant() * position );
+        
         return offset + energy;
     }
  

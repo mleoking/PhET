@@ -71,6 +71,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
     private JCheckBox _magnifyingGlassCheckBox;
+    private SliderControl _fieldConstantSlider;
 
     // Wave Function controls
     private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton;
@@ -138,7 +139,21 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Magnifying glass on/off
             String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (?x)";
             _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
-
+            
+            // Field constant
+            DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
+            final double value = fieldConstantRange.getDefault();
+            final double min = fieldConstantRange.getMin();
+            final double max = fieldConstantRange.getMax();
+            final double tickSpacing = ( max - min );
+            final int decimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
+            String label = SimStrings.get( "label.fieldConstant" );
+            String units = "";
+            final int columns = 3;
+            _fieldConstantSlider = new SliderControl( value, min, max, tickSpacing, decimalPlaces, decimalPlaces, label, units, columns );
+            _fieldConstantSlider.setTextEditable( true );
+            _fieldConstantSlider.setNotifyWhileDragging( true );
+            
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -162,6 +177,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             }
             if ( moduleSpec.isMagnifyingGlassSupported() ) {
                 layout.addComponent( _magnifyingGlassCheckBox, row, col );
+                row++;
+            }
+            if ( fieldConstantRange.getLength() > 0 ) {
+                layout.addComponent( _fieldConstantSlider, row, col );
                 row++;
             }
             energyControlsPanel.setLayout( new BorderLayout() );
@@ -331,6 +350,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _configureEnergyButton.addActionListener( _listener );
             _superpositionButton.addActionListener( _listener );
             _magnifyingGlassCheckBox.addActionListener( _listener );
+            _fieldConstantSlider.addChangeListener( _listener );
             _waveFunctionRadioButton.addActionListener( _listener );
             _probabilityDensityRadioButton.addActionListener( _listener );
             _realCheckBox.addActionListener( _listener );
@@ -457,6 +477,14 @@ public class BSControlPanel extends BSAbstractControlPanel {
         return _massMultiplierSlider.getValue() * BSConstants.ELECTRON_MASS;
     }
 
+    public void setFieldConstant( double value ) {
+        _fieldConstantSlider.setValue( value );
+    }
+    
+    public double getFieldConstant() {
+        return _fieldConstantSlider.getValue();
+    }
+    
     //----------------------------------------------------------------------------
     // Generic getters, for attaching help items
     //----------------------------------------------------------------------------
@@ -536,6 +564,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             if ( event.getSource() == _numberOfWellsSlider ) {
                 handleNumberOfWells();
                 adjustClockState( _numberOfWellsSlider );
+            }
+            else if ( event.getSource() == _fieldConstantSlider ) {
+                handleFieldConstantSlider();
+                adjustClockState( _fieldConstantSlider );
             }
             else if ( event.getSource() == _massMultiplierSlider ) {
                 handleMassSlider();
@@ -646,5 +678,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private void handleMagnifyingGlassSelection() {
         _module.setMagnifyingGlassVisible( _magnifyingGlassCheckBox.isSelected() );
+    }
+    
+    private void handleFieldConstantSlider() {
+        double value = _fieldConstantSlider.getValue();
+        _module.setFieldConstant( value );
     }
 }

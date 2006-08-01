@@ -161,6 +161,10 @@ public class BSAsymmetricPotential extends BSAbstractPotential {
         if ( Math.abs( position - c ) <= w / 2 ) {
             energy = offset + ( h - ( Math.abs( c + w/2 - position ) * h / w ) );
         }
+        
+        // Apply field constant
+        energy += ( getFieldConstant() * position );
+        
         return energy;
     }
 

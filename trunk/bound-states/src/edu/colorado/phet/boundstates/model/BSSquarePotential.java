@@ -205,6 +205,9 @@ public class BSSquarePotential extends BSAbstractPotential {
                 break;
             }
         }
+        
+        // Apply field constant
+        energy += ( getFieldConstant() * position );
 
         return energy;
     }

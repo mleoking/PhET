@@ -9,12 +9,17 @@ HIGH PRIORITY:
 - add an option to show average prob density of a band of eigenstates
 
 MEDIUM PRIORITY:
+- in some cases, mag glass is not powerful enough to show all eigenstates
 
 LOW PRIORITY:
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
 DONE:
+(8/1/06) - add zoom buttons for square potential in Many module
+(8/1/06) - add persistence for field constant
+(8/1/06) - add field constant control to control panel
+(8/1/06) - add field constant to potential energy model, use in getEnergyAt
 1.01.01...
 (7/31/06) - pause the clock while dragging sliders in Config dialogs
 (7/31/06) - pause the clock while dragging the mass slider
