@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add a "field constant" feature to potential energy
+- account for field constant when positioning drag handles
 - add an option to show average prob density of a band of eigenstates
 
 MEDIUM PRIORITY:
