@@ -43,6 +43,8 @@ public abstract class BSAbstractModuleSpec {
     
     private IntegerRange _numberOfWellsRange;
     
+    private DoubleRange _fieldConstantRange;
+    
     private BSPotentialSpec _asymmetricSpec;
     private BSPotentialSpec _coulomb1DSpec;
     private BSPotentialSpec _coulomb3DSpec;
@@ -93,6 +95,14 @@ public abstract class BSAbstractModuleSpec {
         _numberOfWellsRange = numberOfWellsRange;
     }
 
+    public void setFieldConstantRange( DoubleRange range ) {
+        _fieldConstantRange = range;
+    }
+    
+    public DoubleRange getFieldConstantRange() {
+        return _fieldConstantRange;
+    }
+    
     public boolean isParticleControlsSupported() {
         return _particleControlsSupported;
     }

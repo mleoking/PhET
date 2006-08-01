@@ -134,8 +134,9 @@ public class BSHarmonicOscillatorPotential extends BSAbstractPotential {
         final double c = getCenter();
         final double m = getParticle().getMass();
         final double w = getAngularFrequency();
+        final double fieldEffect = getFieldConstant() * position;
         
-        return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) );
+        return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) ) + fieldEffect;
     }
 
     /**

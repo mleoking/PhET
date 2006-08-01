@@ -704,6 +704,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
             _controlPanel.setParticleMass( _particle.getMass() );
             _controlPanel.setMagnification( _moduleSpec.getMagnification() );
+            _controlPanel.setFieldConstant( _moduleSpec.getFieldConstantRange().getDefault() );
         }
         
         // Potential drag handles
@@ -831,6 +832,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
         config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
+        config.setFieldConstant( _controlPanel.getFieldConstant() );
     }
     
     /**
@@ -910,6 +912,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setWellType( _model.getWellType() );
         _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
         _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+        _controlPanel.setFieldConstant( config.getFieldConstant() );
         configureZoomControls( _model.getWellType() );
     }
     
@@ -1189,5 +1192,29 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _coulomb3DDragManager.setVisible( false );
         _harmonicOscillatorDragManager.setVisible( false );
         _squareDragManager.setVisible( false );
+    }
+    
+    /**
+     * Sets the field constant, applied to all potentials.
+     * 
+     * @param value
+     */
+    public void setFieldConstant( double value ) {
+        System.out.println( "setFieldConstant " + value );//XXX
+        if ( _asymmetricPotential != null ) {
+            _asymmetricPotential.setFieldConstant( value );
+        }
+        if ( _coulomb1DPotential != null ) {
+            _coulomb1DPotential.setFieldConstant( value );
+        }
+        if ( _coulomb3DPotential != null ) {
+            _coulomb3DPotential.setFieldConstant( value );
+        }
+        if ( _harmonicOscillatorPotential != null ) {
+            _harmonicOscillatorPotential.setFieldConstant( value );
+        }
+        if ( _squarePotential != null ) {
+            _squarePotential.setFieldConstant( value );
+        }
     }
 }
