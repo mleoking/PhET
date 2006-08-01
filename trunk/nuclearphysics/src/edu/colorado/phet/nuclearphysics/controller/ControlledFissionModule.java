@@ -26,6 +26,7 @@ import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -154,7 +155,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         createNuclei();
     }
 
-    protected void init( IClock clock ) {
+    protected void init( final IClock clock ) {
 
         // Set congtrol parameters
         setNumNeutronsFired( DEFAULT_NUM_NEUTRONS_FIRED );
@@ -205,6 +206,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                              vessel,
                                                              getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
+
 
         // Add a thermometer and a listener that will control the thermometer
         double thermometerColumnHeight = 400;
@@ -300,7 +302,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                                       model,
                                       rodAbsorptionProbability );
             model.addModelElement( rods[i] );
-        }
+        }        
         return rods;
     }
 

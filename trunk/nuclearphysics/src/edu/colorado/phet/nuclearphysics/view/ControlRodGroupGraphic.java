@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -59,7 +56,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
 
         setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         addTranslationListener( new Translator() );
-        addGraphic( rep );        
+        addGraphic( rep );
         orientation = controlRods[0].getOrientation();
     }
 
@@ -68,7 +65,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        rep.paint(  g2 );
+        rep.paint( g2 );
     }
 
     /**
@@ -81,15 +78,17 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
     public boolean contains( int i, int i1 ) {
         Point2D p = new Point2D.Double( i, i1 );
         // Note: if we try to do this in the constructor, atx doesn't work because it is the identity
-        // matrix at that time
-        if( invAtx == null ) {
+        // matrix at that time.
+        // If we do the following test to help performance, we have problems if the graphic
+        // gets this call before it has be set to its final size.
+//        if( invAtx == null ) {
             try {
                 this.invAtx = atx.createInverse();
             }
             catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-        }
+//        }
         invAtx.transform( p, p );
         return super.contains( (int)p.getX(), (int)p.getY() );
     }
@@ -126,9 +125,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
             // A graphic for the bar connecting the rods
             connectorGraphic = new PhetShapeGraphic( component, connectorShape,
                                                      new Color( 130, 150, 40 ),
-//                                                     Color.ORANGE,
-//                                                     (Color)rodGraphics[0].getFill(),
-new BasicStroke( 5 ), Color.black );
+                                                     new BasicStroke( 5 ), Color.black );
             this.addGraphic( connectorGraphic );
 
             // A handle to put on the connector bar
@@ -176,17 +173,17 @@ new BasicStroke( 5 ), Color.black );
             graphics2D.transform( atx );
             super.paint( graphics2D );
 
-            String str = SimStrings.get("ControlledFissionControlPanel.ControlRodAdjuster");
+            String str = SimStrings.get( "ControlledFissionControlPanel.ControlRodAdjuster" );
 //            String str = "Control Rod Adjuster";
             double x = verticalBar.getCenterX();
             double y = verticalBar.getCenterY();
-            graphics2D.transform( AffineTransform.getRotateInstance( -Math.PI /2,
-                                                                     x, y ));
+            graphics2D.transform( AffineTransform.getRotateInstance( -Math.PI / 2,
+                                                                     x, y ) );
             Font font = new Font( "SansSerif", Font.BOLD, 72 );
             graphics2D.setFont( font );
             Rectangle2D rect = GraphicsUtil.getStringBounds( str, graphics2D );
-            graphics2D.drawString( str, (float)(x - rect.getWidth() / 2),
-                                   (float)(y + 25) );
+            graphics2D.drawString( str, (float)( x - rect.getWidth() / 2 ),
+                                   (float)( y + 25 ) );
             restoreGraphicsState();
         }
 
@@ -201,10 +198,10 @@ new BasicStroke( 5 ), Color.black );
     /**
      * Translation handler
      */
-    private class Translator implements TranslationListener  {
+    private class Translator implements TranslationListener {
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            translate( translationEvent.getDx(), translationEvent.getDy());
+            translate( translationEvent.getDx(), translationEvent.getDy() );
         }
 
         /**
