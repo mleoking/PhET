@@ -27,45 +27,29 @@ import javax.swing.event.ChangeListener;
  */
 public class FadingMagnetControl extends ModelSlider {
 
-//    private static double MIN_CURRENT = MriConfig.MAX_FADING_COIL_CURRENT / 50;
     private static double MIN_FIELD = 0;
+    private static double DEFAULT_FIELD = MriConfig.MAX_FADING_COIL_FIELD / 4;
 
     public FadingMagnetControl( final MriModel model ) {
         super( SimStrings.get( "ControlPanel.MagneticField" ),
                "Tesla",
                MIN_FIELD,
-//               MIN_CURRENT,
-MriConfig.MAX_FADING_COIL_FIELD,
-//               MriConfig.MAX_FADING_COIL_CURRENT,
-MIN_FIELD );
-//               MIN_CURRENT );
+               MriConfig.MAX_FADING_COIL_FIELD,
+               DEFAULT_FIELD );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateMagnets( model, MIN_FIELD );
-//                updateMagnets( model, MIN_CURRENT );
             }
         } );
         updateMagnets( model, MIN_FIELD );
-//        updateMagnets( model, MIN_CURRENT );
-
-        // Add a listener that will update the slider if the magnet's current is changed by
-        // some means other than the slider
-//        Electromagnet.ChangeListener magnetListener = new Electromagnet.ChangeListener() {
-//            public void stateChanged( Electromagnet.ChangeEvent event ) {
-//                setValue( event.getElectromagnet().getFieldStrength() );
-//                setValue( event.getElectromagnet().getCurrent() );
-//            }
-//        };
-//        model.getUpperMagnet().addChangeListener( magnetListener );
-//        model.getLowerMagnet().addChangeListener( magnetListener );
     }
 
     private void updateMagnets( MriModel model, double value ) {
         Electromagnet upperMagnet = model.getUpperMagnet();
         upperMagnet.setFieldStrength( getValue() / 2 );
-//        upperMagnet.setCurrent( getValue() );
         Electromagnet lowerMagnet = model.getLowerMagnet();
-//        lowerMagnet.setCurrent( getValue() );
-        lowerMagnet.setFieldStrength( getValue() / 2 );
+        {
+            lowerMagnet.setFieldStrength( getValue() / 2 );
+        }
     }
 }
