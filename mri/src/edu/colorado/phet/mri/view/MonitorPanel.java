@@ -144,6 +144,17 @@ public class MonitorPanel extends PhetPCanvas {
         upperLine.setPositionY( centerY - offsetY );
     }
 
+    /**
+     * Sets the length, wavelength and location of the squiggle, and flashes it if  necessary
+     *
+     * @param model
+     */
+    private void adjustSquiggle( MriModel model ) {
+        energySquiggleUpdater.updateSquiggle( energySquiggle.getOffset().getX(),
+                                              lowerLine.getOffset().getY(),
+                                              SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
+    }
+
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
