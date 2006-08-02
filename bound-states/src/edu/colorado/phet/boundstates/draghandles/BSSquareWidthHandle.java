@@ -145,11 +145,10 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
             final double center = potential.getCenter( n - 1 ); // center of the right-most well
             final double width = potential.getWidth();
             final double height = potential.getHeight();
-            final double offset = potential.getOffset();
  
             // Calculate the handle's model coordinates
             final double handlePosition = center + ( width / 2 ); // right edge of the well
-            final double handleEnergy = offset + ( height / 2 ); // half way up the side of the well
+            final double handleEnergy = potential.getEnergyAt( handlePosition + 0.001 ) - ( height / 2 ); // half way up the side of the well
             
             // Convert to view coordinates
             Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
