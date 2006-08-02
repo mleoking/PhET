@@ -206,12 +206,18 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
         
         ArrayList eigenstates = new ArrayList();
         final int numberOfEigenstates = solver.getMaxEigenstates();
+        final double cutOffEnergy = getEnergyCutOff();
         int subscript = getGroundStateSubscript();
         
         for ( int n = 1; n <= numberOfEigenstates; n++ ) {
             double E = solver.getEnergy( n );
-            eigenstates.add( new BSEigenstate( subscript, E ) );
-            subscript++;
+            if ( E < cutOffEnergy ) {
+                eigenstates.add( new BSEigenstate( subscript, E ) );
+                subscript++;
+            }
+            else {
+                break;
+            }
         }
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
@@ -220,12 +226,11 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
     /*
      * Calculates the eigenstates using the Schmidt-Lee solver.
      * 
-     * We start from the ground state and continue up to the offset.
+     * We start from the ground state and work upward.
      * 
      * Skips ever-other "cluster" of nodes, where the cluster size 
      * is equal to the number of wells in the potential.
      * We do this because every-other cluster of eigenstates is unstable.
-     * Stop solving when we reach the top of the well (the top is the same as the offset).
      * Label the eigenstates with consecutive subscripts, (E1, E2, E3,...)
      * regardless of the node number used to solve.
      * 
@@ -239,8 +244,8 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList(); // array of BSEigentate
         ArrayList cluster = new ArrayList(); // array of BSEigenstate
-        final double maxE = getOffset();
         final int numberOfWells = getNumberOfWells();
+        final double cutOffEnergy = getEnergyCutOff();
         
         // Calculate the eigentates...
         int nodes = numberOfWells; // skip the first cluster
@@ -253,7 +258,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
             for ( int i = 0; !done && i < numberOfWells; i++ ) {
                 try {
                     double E = solver.getEnergy( nodes );
-                    if ( E <= maxE ) {
+                    if ( E < cutOffEnergy ) {
                         cluster.add( new BSEigenstate( subscript, E ) );
                     }
                     else {
@@ -261,7 +266,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
                     }
                 }
                 catch ( SchmidtLeeException sle ) {
-                    System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
+                    System.err.println( sle.getClass() + ": " + sle.getMessage() );
                     done = true;
                 }
                 nodes++;
