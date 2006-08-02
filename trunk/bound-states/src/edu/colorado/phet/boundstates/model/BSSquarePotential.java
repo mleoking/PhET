@@ -260,7 +260,7 @@ public class BSSquarePotential extends BSAbstractPotential {
         while ( !done ) {
             try {
                 double E = solver.getEnergy( nodes );
-                if ( E < cutOffEnergy ) {
+                if ( E <= cutOffEnergy ) {
                     int subscript = nodes + 1; // subscripts start at 1
                     eigenstates.add( new BSEigenstate( subscript, E ) );
                 }
