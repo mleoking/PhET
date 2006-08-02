@@ -18,6 +18,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.AxisChangeEvent;
+import org.jfree.chart.event.AxisChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -79,6 +81,15 @@ public class BSSquareSeparationMarker extends BSAbstractMarker implements Observ
         _rightNode.setStroke( BSConstants.DRAG_HANDLE_MARKERS_STROKE );
         _rightNode.setStrokePaint( DEFAULT_COLOR );
         addChild( _rightNode );
+        
+        // Y-axis may have a zoom control, so listen for axis changes.
+        ValueAxis yAxis = chartNode.getEnergyPlot().getRangeAxis();
+        yAxis.addChangeListener( new AxisChangeListener() {
+            // If the y axis is changed, update the drag bounds.
+            public void axisChanged( AxisChangeEvent event ) {
+                updateView();
+            }
+        });
         
         updateView();
     }
