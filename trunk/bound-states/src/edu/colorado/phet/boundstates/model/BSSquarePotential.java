@@ -253,7 +253,31 @@ public class BSSquarePotential extends BSAbstractPotential {
         
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        final double maxE = getOffset() + _height;
+        final double fieldConstant = getFieldConstant();
+        
+        /*
+         * Determine the maximum eigenstate energy.
+         * This is generally at the top of the well.
+         * When a field is applied to the potential, we have to look at
+         * the top of the left-most (or right-most) well, whichever is lower.
+         */
+        double maxE = getOffset() + _height;
+        if ( fieldConstant != 0 ) {
+            final int n = getNumberOfWells();
+            final double c = getCenter();
+            final double w = getWidth();
+            final double s = getSeparation();
+            final double fudgeFactor = 0.001; // so that we get a value at the top of the well, versus the bottom
+            if ( fieldConstant > 0 ) {
+                double leftEdge = c - ( ( ( w * n ) + ( s * ( n - 1 ) ) ) / 2.0 ) - fudgeFactor;
+                maxE = getEnergyAt( leftEdge );
+            }
+            else {
+                double rightEdge = c + ( ( ( w * n ) + ( s * ( n - 1 ) ) ) / 2.0 ) + fudgeFactor;
+                maxE = getEnergyAt( rightEdge );
+            }
+        }
+            
         int nodes = 0;
         
         boolean done = false;
@@ -269,7 +293,7 @@ public class BSSquarePotential extends BSAbstractPotential {
                 }
             }
             catch ( SchmidtLeeException sle ) {
-                System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
+                System.err.println( sle.getClass() + ": " + sle.getMessage() );
                 done = true;
             }
             nodes++;
