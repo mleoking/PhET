@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - account for field constant when positioning Square drag handles
-- account for field constant when deciding cut-off for finding 1D Coulomb eigenstates
 - add an option to show average prob density of a band of eigenstates
 - zoom level is not remembered when switching between potential types in Many module
 
@@ -18,6 +17,9 @@ LOW PRIORITY:
 
 
 DONE:
+(8/2/06) - account for field constant when deciding cut-off for finding 1D Coulomb eigenstates
+(8/2/06) - change energy cut-off for finding Square eigenstates
+(8/2/06) - change field constant range to [-2,+2]
 (8/2/06) - account for field constant when deciding cut-off for finding Square eigenstates
 (8/1/06) - add zoom buttons for square potential in Many module
 (8/1/06) - add persistence for field constant

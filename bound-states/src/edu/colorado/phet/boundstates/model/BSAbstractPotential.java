@@ -290,6 +290,24 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         return new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
     }
     
+    /*
+     * Determines the cut off for calculating eigenstate energies.
+     * This is generally at the top of the lowest well, taking field constant
+     * into account. For our specific conditions, we can use the lower
+     * of the energy values at the edges of the lattice.
+     */
+    protected double getEnergyCutOff() {
+        final double fieldConstant = getFieldConstant();
+        double cutOffEnergy = 0;
+        if ( fieldConstant > 0 ) {
+            cutOffEnergy = getEnergyAt( BSConstants.POSITION_MODEL_RANGE.getLowerBound() );
+        }
+        else {
+            cutOffEnergy = getEnergyAt( BSConstants.POSITION_MODEL_RANGE.getUpperBound() );
+        }
+        return cutOffEnergy;
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

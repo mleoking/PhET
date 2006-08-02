@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
@@ -247,44 +248,19 @@ public class BSSquarePotential extends BSAbstractPotential {
     
     /*
      * Calculates the eigenstates.
-     * Start at the ground state and continue up to the offset + height.
      */
     protected BSEigenstate[] calculateEigenstates() {
         
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        final double fieldConstant = getFieldConstant();
-        
-        /*
-         * Determine the maximum eigenstate energy.
-         * This is generally at the top of the well.
-         * When a field is applied to the potential, we have to look at
-         * the top of the left-most (or right-most) well, whichever is lower.
-         */
-        double maxE = getOffset() + _height;
-        if ( fieldConstant != 0 ) {
-            final int n = getNumberOfWells();
-            final double c = getCenter();
-            final double w = getWidth();
-            final double s = getSeparation();
-            final double fudgeFactor = 0.001; // so that we get a value at the top of the well, versus the bottom
-            if ( fieldConstant > 0 ) {
-                double leftEdge = c - ( ( ( w * n ) + ( s * ( n - 1 ) ) ) / 2.0 ) - fudgeFactor;
-                maxE = getEnergyAt( leftEdge );
-            }
-            else {
-                double rightEdge = c + ( ( ( w * n ) + ( s * ( n - 1 ) ) ) / 2.0 ) + fudgeFactor;
-                maxE = getEnergyAt( rightEdge );
-            }
-        }
-            
+        final double cutOffEnergy = getEnergyCutOff();
         int nodes = 0;
         
         boolean done = false;
         while ( !done ) {
             try {
                 double E = solver.getEnergy( nodes );
-                if ( E <= maxE ) {
+                if ( E < cutOffEnergy ) {
                     int subscript = nodes + 1; // subscripts start at 1
                     eigenstates.add( new BSEigenstate( subscript, E ) );
                 }
