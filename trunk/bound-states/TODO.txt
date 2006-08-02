@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(8/2/06) - add more tick marks to field constant slider
 (8/2/06) - bugfix: BSSquareSeparationMarker doesn't update when zoom level is changed
 (8/2/06) - change Square height drag handle to account for field constant
 (8/2/06) - change 1D Coulomb eigenstate calculator, allow partial group of eigenstates
