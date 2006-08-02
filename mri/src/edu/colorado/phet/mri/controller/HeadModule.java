@@ -125,7 +125,7 @@ MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
         // Add a detector
         Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 80,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 40,
-                                                             100,
+                                                             25,
                                                              MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 );
         detector = new Detector( detectorBounds, model );
         model.addModelElement( detector );

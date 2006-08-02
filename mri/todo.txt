@@ -11,10 +11,8 @@ Make Radiowave Source sliders graphical controls
 Add Wiggle-Me that points to the control panel
 Hide magnetic field arrows?
 Wiggle me vetoed
-Make "Hide atoms" "Hide atomic nuclei" (?)
 Vary size and color of donut for different atoms
 put range check on the magnetic field text field
-Make detector less obtrusive
 wiggle me for frequency and power
 
 
@@ -27,7 +25,8 @@ Done - Not posted
 ==============
 Change History
 ==============
-
+Make detector less obtrusive
+Make "Hide atoms" "Hide atomic nuclei" (?)
 "Hide atoms" checkbox for MRI (or button?)
 come up with the field at a reasonable level
 Add color picker to Options menu for finding a better background color

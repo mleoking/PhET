@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -58,7 +59,6 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         PPath bezelPNode = new PPath( bezel );
         bezelPNode.setStroke( new BasicStroke( 3 ) );
         bezelPNode.setPaint( new Color( 150, 150, 150 ) );
-        addChild( bezelPNode );
 
         PText label = new PText( "Detector" );
         label.setFont( font );
@@ -68,20 +68,41 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         label.setOffset( 5, bezel.getHeight() / 2 );
         RegisterablePNode labelPNode = new RegisterablePNode( label );
         labelPNode.setRegistrationPoint( 0, -label.getWidth() / 2 );
-        addChild( labelPNode );
 
-        double inset = 30;
-        double displaySize = detector.getBounds().getWidth() - inset * 2;
-        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() / 2 - displaySize / 2,
+//        double inset = 30;
+//        double displaySize = detector.getBounds().getWidth() - inset * 2;
+        double displaySize = 40;
+        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() + 20,
                                                                 detector.getBounds().getHeight() / 2 - displaySize / 2,
                                                                 displaySize,
                                                                 displaySize,
                                                                 10,
                                                                 10 );
+//        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() / 2 - displaySize / 2,
+//                                                                detector.getBounds().getHeight() / 2 - displaySize / 2,
+//                                                                displaySize,
+//                                                                displaySize,
+//                                                                10,
+//                                                                10 );
+
+        double connectorThickness = 20;
+        Rectangle2D connector = new Rectangle2D.Double( detector.getBounds().getWidth() / 2,
+                                                        detector.getBounds().getHeight() / 2 - connectorThickness / 2,
+                                                        display.getBounds2D().getX(),
+                                                        connectorThickness );
+        PPath connectorPNode = new PPath( connector );
+        connectorPNode.setStroke( new BasicStroke( 3 ) );
+        connectorPNode.setStrokePaint( Color.black );
+        connectorPNode.setPaint( new Color( 150, 150, 150 ) );
+
         displayPNode = new PPath( display );
         displayPNode.setStroke( new BasicStroke( 3 ) );
         displayPNode.setStrokePaint( Color.black );
         displayPNode.setPaint( Color.white );
+
+        addChild( connectorPNode );
+        addChild( bezelPNode );
+        addChild( labelPNode );
         addChild( displayPNode );
 
         setOffset( detector.getBounds().getX(), detector.getBounds().getY() );
