@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+(8/2/06) - change Square width drag handle to account for field constant
 (8/2/06) - account for field constant when deciding cut-off for finding 1D Coulomb eigenstates
 (8/2/06) - change energy cut-off for finding Square eigenstates
 (8/2/06) - change field constant range to [-2,+2]
