@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
+import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
@@ -37,10 +38,16 @@ import java.text.DecimalFormat;
  */
 public class RadiowaveSourceGraphic extends PNode {
 
+    private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45 * .7; // for scale = 0.4
+
     private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
-    private double panelDepth = 90;
+    private double panelDepth = 93;
+    private EnergySquiggle energySquiggle;
+    private MriModel model;
 
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas, AbstractMriModule module ) {
+
+        model = (MriModel)module.getModel();
 
         // todo: this line and variable is just for debugging
         double length = 700;
@@ -88,6 +95,40 @@ public class RadiowaveSourceGraphic extends PNode {
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
         addChild( freqPSwing );
+
+        // Squiggle next to frequency control
+        energySquiggle = new EnergySquiggle( EnergySquiggle.VERTICAL );
+        final PPath squiggleBox = new PPath( new Rectangle2D.Double( 0, 0, 15, 80 ) );
+        squiggleBox.setPaint( Color.white );
+        squiggleBox.setStrokePaint( Color.black );
+        final PNode squiggleNode = new PNode();
+        squiggleNode.addChild( squiggleBox );
+        squiggleNode.addChild( energySquiggle );
+        squiggleNode.setOffset( length - controlInsets.right * 2 - freqPSwing.getWidth() - squiggleBox.getWidth(),
+                                controlInsets.top );
+        addChild( squiggleNode );
+        final EnergySquiggleUpdater energySquiggleUpdater = new EnergySquiggleUpdater( energySquiggle,
+                                                                                       model );
+        radiowaveSource.addChangeListener( new PhotonSource.ChangeListener() {
+            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+                double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
+                double yOffset = squiggleBox.getBounds().getHeight();
+                energySquiggleUpdater.updateSquiggle( xOffset, yOffset, SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
+            }
+
+            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+                double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
+                double yOffset = squiggleBox.getBounds().getHeight();
+                energySquiggleUpdater.updateSquiggle( xOffset, yOffset, SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
+            }
+        } );
+        model.addListener( new MriModel.ChangeAdapter() {
+            public void fieldChanged( MriModel model ) {
+                double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
+                double yOffset = squiggleBox.getBounds().getHeight();
+                energySquiggleUpdater.updateSquiggle( xOffset, yOffset, SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
+            }
+        } );
 
         // Power control
         final ModelSlider powerCtrl = new ModelSlider( "Power",

@@ -15,7 +15,6 @@ Wiggle me vetoed
 Make "Hide atoms" "Hide atomic nuclei" (?)
 Vary size and color of donut for different atoms
 put range check on the magnetic field text field
-replicate squiggle graphic on Frequency control
 Make detector less obtrusive
 come up with the field at a reasonable level
 wiggle me for frequency and power
@@ -34,6 +33,7 @@ Change History
 Add color picker to Options menu for finding a better background color
 Add legend with dipoles and field arrows
 Change color of donuts for different atoms
+replicate squiggle graphic on Frequency control
 
 
 Change name on web site to Simplified MRI

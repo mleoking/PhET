@@ -11,12 +11,10 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.util.GraphicFlasher;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
@@ -71,6 +69,7 @@ public class MonitorPanel extends PhetPCanvas {
     private boolean matched = false;
     // There are several possibilities for how dipoles are represented. This specifies the representation du jour
     private DipoleRepresentationPolicy dipoleRepresentationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY_DIPOLE;
+    private EnergySquiggleUpdater energySquiggleUpdater;
 
     /**
      * Constructor
@@ -96,6 +95,8 @@ public class MonitorPanel extends PhetPCanvas {
         energySquiggle = new EnergySquiggle( EnergySquiggle.VERTICAL );
         addWorldChild( energySquiggle );
         energySquiggle.setOffset( energyAxisReserveX, 0 );
+        energySquiggleUpdater = new EnergySquiggleUpdater( energySquiggle,
+                                                           model );
 
         // Add a legend
         EnergyAxis energyAxis = new EnergyAxis();
@@ -117,7 +118,9 @@ public class MonitorPanel extends PhetPCanvas {
 
     private void updatePanel( MriModel model ) {
         setLinePositions( model );
-        adjustSquiggle( model );
+        energySquiggleUpdater.updateSquiggle( energySquiggle.getOffset().getX(),
+                                              lowerLine.getOffset().getY(),
+                                              SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
     }
 
     public void setRepresentationPolicy( DipoleRepresentationPolicy dipoleRepresentationPolicy ) {
@@ -139,40 +142,6 @@ public class MonitorPanel extends PhetPCanvas {
         double centerY = getHeight() / 2 + imageReserveSpace;
         lowerLine.setPositionY( centerY + offsetY );
         upperLine.setPositionY( centerY - offsetY );
-    }
-
-    /**
-     * Sets the length, wavelength and location of the squiggle, and flashes it if  necessary
-     *
-     * @param model
-     */
-    private void adjustSquiggle( MriModel model ) {
-        RadiowaveSource radiowaveSource = model.getRadiowaveSource();
-        double frequency = radiowaveSource.getFrequency();
-        double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
-
-        double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
-        energySquiggle.setTransparency( (float)transparency );
-
-        // TODO: the "caibration" numbers here need to be understood and made more systematic
-        double length = PhysicsUtil.frequencyToEnergy( frequency ) * SQUIGGLE_LENGTH_CALIBRATION_FACTOR;
-        energySquiggle.update( wavelength, 0, (int)length, 10 );
-        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length );
-
-        // Test to see if the squiggle should be flashed
-        Point2D p = new Point2D.Double( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
-        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( p ) * model.getSampleMaterial().getMu() );
-        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
-            if( !matched ) {
-                GraphicFlasher gf = new GraphicFlasher( energySquiggle );
-                gf.start();
-                matched = true;
-            }
-        }
-        else {
-            matched = false;
-        }
     }
 
     //----------------------------------------------------------------
