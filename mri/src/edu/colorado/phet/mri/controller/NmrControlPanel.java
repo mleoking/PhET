@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.MonitorPanel;
+import edu.colorado.phet.mri.view.MriLegend;
 
 import java.awt.*;
 
@@ -35,6 +36,7 @@ public class NmrControlPanel extends ControlPanel {
         MonitorPanel monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
 
+        addControlFullWidth( new MriLegend() );
         addControlFullWidth( monitorPanel );
         addControlFullWidth( new FadingMagnetControl( model ) );
 //        addControlFullWidth( new BFieldGraphicPanel( model ) );
