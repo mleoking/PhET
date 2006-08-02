@@ -60,13 +60,13 @@ public class PhetLookAndFeel {
 
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
-        "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
-        "Label", "Menu", "MenuBar", "MenuItem",
-        "OptionPane", "Panel",
-        "RadioButton", "RadioButtonMenuItem",
-        "Slider", "Spinner",
-        "TabbedPane", "TextArea", "TextField", "TextPane",
-        "ScrollBar", "Viewport"
+            "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
+            "Label", "Menu", "MenuBar", "MenuItem",
+            "OptionPane", "Panel",
+            "RadioButton", "RadioButtonMenuItem",
+            "Slider", "Spinner",
+            "TabbedPane", "TextArea", "TextField", "TextPane",
+            "ScrollBar", "Viewport"
     };
 
     //----------------------------------------------------------------------------
@@ -175,6 +175,11 @@ public class PhetLookAndFeel {
     /**
      * Applies this PhetLookAndFeel, effectively installing the resources it
      * describes in the UIDefaults database.
+     * <p/>
+     * Note: For the changes to be made to a program that is already up and
+     * running, call SwingUtilities.updateComponentTreeUI( PhetUtilities.getPhetFrame() );
+     * You will need to do this, for example, if you use this method as part of
+     * a mechanism to use a color chooser to change the background color.
      */
     public void apply() {
         UIDefaults defaults = UIManager.getDefaults();
