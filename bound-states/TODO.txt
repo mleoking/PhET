@@ -5,17 +5,20 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- account for field constant when positioning drag handles
+- account for field constant when positioning Square drag handles
+- account for field constant when deciding cut-off for finding 1D Coulomb eigenstates
 - add an option to show average prob density of a band of eigenstates
+- zoom level is not remembered when switching between potential types in Many module
 
 MEDIUM PRIORITY:
-- in some cases, magnifying glass is not powerful enough to show all eigenstates
+- in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
 
 LOW PRIORITY:
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
 DONE:
+(8/2/06) - account for field constant when deciding cut-off for finding Square eigenstates
 (8/1/06) - add zoom buttons for square potential in Many module
 (8/1/06) - add persistence for field constant
 (8/1/06) - add field constant control to control panel
