@@ -136,10 +136,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Superposition button
             _superpositionButton = new JButton( SimStrings.get( "button.superposition" ) );
             
-            // Magnifying glass on/off
-            String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (?x)";
-            _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
-            
             // Field constant
             DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
             final double value = fieldConstantRange.getDefault();
@@ -155,6 +151,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
                     tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _fieldConstantSlider.setTextEditable( true );
             _fieldConstantSlider.setNotifyWhileDragging( false );
+            
+            // Magnifying glass on/off
+            String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (?x)";
+            _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -177,12 +177,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( _superpositionButton, row, col );
                 row++;
             }
-            if ( moduleSpec.isMagnifyingGlassSupported() ) {
-                layout.addComponent( _magnifyingGlassCheckBox, row, col );
-                row++;
-            }
             if ( fieldConstantRange.getLength() > 0 ) {
                 layout.addComponent( _fieldConstantSlider, row, col );
+                row++;
+            }
+            if ( moduleSpec.isMagnifyingGlassSupported() ) {
+                layout.addComponent( _magnifyingGlassCheckBox, row, col );
                 row++;
             }
             energyControlsPanel.setLayout( new BorderLayout() );
