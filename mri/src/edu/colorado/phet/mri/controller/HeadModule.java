@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.view.DipoleGraphic;
 import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.umd.cs.piccolo.PNode;
 
@@ -151,5 +152,9 @@ MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
 
     public PNode getHeadGraphic() {
         return headGraphic;
+    }
+
+    public void setDipolesVisible( boolean visible ) {
+        getGraphicsManager().setAllOfTypeVisible( DipoleGraphic.class, visible );
     }
 }
