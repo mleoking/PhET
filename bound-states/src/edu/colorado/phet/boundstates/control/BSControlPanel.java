@@ -152,7 +152,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final int columns = 3;
             _fieldConstantSlider = new SliderControl( value, min, max, tickSpacing, decimalPlaces, decimalPlaces, label, units, columns );
             _fieldConstantSlider.setTextEditable( true );
-            _fieldConstantSlider.setNotifyWhileDragging( true );
+            _fieldConstantSlider.setNotifyWhileDragging( false );
             
             // Layout
             JPanel innerPanel = new JPanel();
