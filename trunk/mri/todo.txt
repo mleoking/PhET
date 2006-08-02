@@ -4,6 +4,22 @@ To Do
 - Look for source of slow-down
 - Get rid of classes that supported the big blue arrow in the control panel
 - Rename BFieldIndicatorB
+localize and translate to spanish
+Need equivalent of NMR energy levels panel for MRI panel
+"Hide atoms" checkbox for MRI (or button?)
+There's a memory leak
+Make Radiowave Source sliders graphical controls
+Add Wiggle-Me that points to the control panel
+Hide magnetic field arrows?
+Wiggle me vetoed
+Make "Hide atoms" "Hide atomic nuclei" (?)
+Vary size and color of donut for different atoms
+put range check on the magnetic field text field
+replicate squiggle graphic on Frequency control
+Make detector less obtrusive
+come up with the field at a reasonable level
+wiggle me for frequency and power
+
 
 
 =================
@@ -14,6 +30,21 @@ Done - Not posted
 ==============
 Change History
 ==============
+
+Add color picker to Options menu for finding a better background color
+Add legend with dipoles and field arrows
+Change color of donuts for different atoms
+
+
+Change name on web site to Simplified MRI
+Put EMW Rep radio buttons on the Radiowave Source panel
+Remove arrows and "I"s from the wires to the coils
+Change "Current to Magnet" to "Magnetic Field", and remove reluctance of coil
+Move magnet slider down below
+Change dipole donut colors on MonitorPanel
+Change "Sample material" to "Sample atom"
+swap power an frequency controls left and right
+
 
 0.01.14
 -------

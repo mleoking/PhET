@@ -14,7 +14,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.util.GraphicFlasher;
@@ -33,8 +32,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -47,46 +46,13 @@ import java.util.List;
  */
 public class MonitorPanel extends PhetPCanvas {
 
-    //----------------------------------------------------------------
-    // Class fields and methods
-    //----------------------------------------------------------------
-
-    private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
-    private static double IMAGE_WIDTH;
+    private BufferedImage spinUpImage, spinDownImage;
+    private double imageWidth;
     private static double BASE_SCALE = 0.5;
-    private static double SCALE = 0.4;
-    private static Color BACKGROUND = SampleChamberGraphic.BACKGROUND;
-    private static double BASE_SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.8; // for scale = 0;5
-    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45; // for scale = 0.4
-//    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
-    ;
-
-    static {
-        makeImages( SCALE );
-    }
-
-    private static void makeImages( double scale ) {
-        try {
-            SPIN_DOWN_IMAGE = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
-            SPIN_UP_IMAGE = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        SPIN_DOWN_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_DOWN_IMAGE, Math.PI / 2 );
-        SPIN_UP_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_UP_IMAGE, -Math.PI / 2 );
-
-        AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
-        AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-        SPIN_DOWN_IMAGE = scaleOp.filter( SPIN_DOWN_IMAGE, null );
-        SPIN_UP_IMAGE = scaleOp.filter( SPIN_UP_IMAGE, null );
-
-        IMAGE_WIDTH = Math.max( SPIN_DOWN_IMAGE.getWidth(), SPIN_UP_IMAGE.getWidth() );
-    }
-
-    //----------------------------------------------------------------
-    // Instance fields and methods
-    //----------------------------------------------------------------
+    private double scale = 0.4;
+    private double BASE_SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.8; // for scale = 0;5
+    private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45; // for scale = 0.4
+//    private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
 
     private ArrayList spinUpReps = new ArrayList();
     private ArrayList spinDownReps = new ArrayList();
@@ -113,14 +79,16 @@ public class MonitorPanel extends PhetPCanvas {
      */
     public MonitorPanel( final MriModel model ) {
 
-        setBackground( BACKGROUND );
+        setBackground( SampleChamberGraphic.BACKGROUND );
+
+        makeImages( scale, model.getSampleMaterial() );
 
         // Add graphics for the energy levels
-        lowerLine = new EnergyLevel( 200, spinDownReps, model, SPIN_DOWN_IMAGE );
+        lowerLine = new EnergyLevel( 200, spinDownReps, model, spinDownImage );
         addWorldChild( lowerLine );
         lowerLine.setOffset( 0, 100 );
 
-        upperLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
+        upperLine = new EnergyLevel( 200, spinUpReps, model, spinUpImage );
         addWorldChild( upperLine );
         upperLine.setOffset( 0, 60 );
 
@@ -162,7 +130,7 @@ public class MonitorPanel extends PhetPCanvas {
      * symetrically above and below it
      */
     private void setLinePositions( MriModel model ) {
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 1 / 2;
+        double imageReserveSpace = spinDownImage.getHeight() * 1 / 2;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double sampleMaterialRatio = model.getSampleMaterial().getMu() / SampleMaterial.HYDROGEN.getMu();
@@ -267,6 +235,15 @@ public class MonitorPanel extends PhetPCanvas {
             } );
         }
 
+        public void setDipoleRepImage( BufferedImage dipoleRepImage ) {
+            this.dipoleRepImage = dipoleRepImage;
+            Iterator nucleiRepsIt = nucleiReps.iterator();
+            while( nucleiRepsIt.hasNext() ) {
+                PImage pImage = (PImage)nucleiRepsIt.next();
+                pImage.setImage( dipoleRepImage );
+            }
+        }
+
         private void setLinelength( double lineLength ) {
             line.setLine( line.getX1(), line.getY1(), line.getX1() + lineLength, line.getY2() );
             lineNode.setPathTo( line );
@@ -275,7 +252,7 @@ public class MonitorPanel extends PhetPCanvas {
         private void addDipoleRep() {
             PNode dipoleGraphic = new PImage( dipoleRepImage );
             nucleiReps.add( dipoleGraphic );
-            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH + energySquiggleReserveX + energyAxisReserveX,
+            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * imageWidth + energySquiggleReserveX + energyAxisReserveX,
                                      -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
 
@@ -316,19 +293,13 @@ public class MonitorPanel extends PhetPCanvas {
 
     public static class DiscretePolicy implements DipoleRepresentationPolicy {
         public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
-
-            int numUp = 0, numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
                 boolean isUp = dipole.getSpin() == Spin.UP;
                 boolean isDown = !isUp;
                 ( (PNode)spinUpReps.get( i ) ).setVisible( isUp );
                 ( (PNode)spinDownReps.get( i ) ).setVisible( isDown );
-
-                numUp += isUp ? 1 : 0;
-                numDown += isDown ? 1 : 0;
             }
-//            System.out.println( "numUp = " + numUp  + " numDown = " + numDown );
         }
     }
 
@@ -385,7 +356,26 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
             updatePanel( model );
+            makeImages( scale, sampleMaterial );
+
+            // Add graphics for the energy levels
+            lowerLine.setDipoleRepImage( spinDownImage );
+            upperLine.setDipoleRepImage( spinDownImage );
         }
+    }
+
+    private void makeImages( double scale, SampleMaterial sampleMaterial ) {
+        spinDownImage = DipoleGraphic.getDipoleImage( sampleMaterial );
+        spinUpImage = DipoleGraphic.getDipoleImage( sampleMaterial );
+        spinDownImage = BufferedImageUtils.getRotatedImage( spinDownImage, Math.PI / 2 );
+        spinUpImage = BufferedImageUtils.getRotatedImage( spinUpImage, -Math.PI / 2 );
+
+        AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
+        AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+        spinDownImage = scaleOp.filter( spinDownImage, null );
+        spinUpImage = scaleOp.filter( spinUpImage, null );
+
+        imageWidth = Math.max( spinDownImage.getWidth(), spinUpImage.getWidth() );
     }
 
     //--------------------------------------------------------------------------------------------------

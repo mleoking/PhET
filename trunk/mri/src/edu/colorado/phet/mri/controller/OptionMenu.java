@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.mri.MriConfig;
 
 import javax.swing.*;
@@ -33,6 +34,33 @@ public class OptionMenu extends JMenu {
     public OptionMenu() {
         super( "Options" );
         add( new FlipDelayMI() );
+
+
+        final PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        JMenuItem backgroundColorMI = new JMenuItem( "Background color" );
+        add( backgroundColorMI );
+        backgroundColorMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                           "Background Color",
+                                                           phetLookAndFeel.getBackgroundColor() );
+                phetLookAndFeel.setBackgroundColor( newColor );
+                phetLookAndFeel.apply();
+                SwingUtilities.updateComponentTreeUI( PhetUtilities.getPhetFrame() );
+            }
+        } );
+
+        JMenuItem foregroundColorMI = new JMenuItem( "Foreground color" );
+        add( foregroundColorMI );
+        foregroundColorMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                           "Foreground Color",
+                                                           phetLookAndFeel.getForegroundColor() );
+                phetLookAndFeel.setForegroundColor( newColor );
+                phetLookAndFeel.apply();
+            }
+        } );
     }
 
     //----------------------------------------------------------------

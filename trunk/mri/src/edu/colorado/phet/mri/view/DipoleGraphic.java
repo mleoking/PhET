@@ -33,7 +33,7 @@ import java.io.IOException;
  */
 public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
 
-    private static BufferedImage getDipoleImage( SampleMaterial sampleMaterial ) {
+    public static BufferedImage getDipoleImage( SampleMaterial sampleMaterial ) {
         BufferedImage bImg = null;
         String imageName = null;
         if( sampleMaterial == SampleMaterial.HYDROGEN ) {

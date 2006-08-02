@@ -13,6 +13,7 @@ package edu.colorado.phet.mri;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.controller.HeadModule;
@@ -21,6 +22,9 @@ import edu.colorado.phet.mri.controller.OptionMenu;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * MriApplication
@@ -77,10 +81,46 @@ public class MriApplication extends PiccoloPhetApplication {
         }
     }
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+    private class OptionsMenu extends JMenu {
+
+        public OptionsMenu() {
+            super( "Options" );
+            final PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+            JMenuItem backgroundColorMI = new JMenuItem( "Background color" );
+            add( backgroundColorMI );
+            backgroundColorMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                               "Background Color",
+                                                               phetLookAndFeel.getBackgroundColor() );
+                    phetLookAndFeel.setBackgroundColor( newColor );
+                    phetLookAndFeel.apply();
+                }
+            } );
+
+            JMenuItem foregroundColorMI = new JMenuItem( "Foreground color" );
+            add( foregroundColorMI );
+            foregroundColorMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
+                                                               "Foreground Color",
+                                                               phetLookAndFeel.getForegroundColor() );
+                    phetLookAndFeel.setForegroundColor( newColor );
+                    phetLookAndFeel.apply();
+                }
+            } );
+        }
+    }
+
+
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-
+                PhetLookAndFeel.setLookAndFeel();
                 SimStrings.init( args, MriConfig.STRINGS_BUNDLE_NAME );
                 PhetApplication app = new MriApplication( args );
                 app.startApplication();
