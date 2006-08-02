@@ -243,7 +243,6 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList(); // array of BSEigentate
-        ArrayList cluster = new ArrayList(); // array of BSEigenstate
         final int numberOfWells = getNumberOfWells();
         final double cutOffEnergy = getEnergyCutOff();
         
@@ -253,13 +252,12 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
         boolean done = false;
         while ( !done ) {
             
-            // Get the cluster's eigenstates...
-            cluster.clear();
+            // Add the cluster's eigenstates, up to the cut off...
             for ( int i = 0; !done && i < numberOfWells; i++ ) {
                 try {
                     double E = solver.getEnergy( nodes );
                     if ( E < cutOffEnergy ) {
-                        cluster.add( new BSEigenstate( subscript, E ) );
+                        eigenstates.add( new BSEigenstate( subscript, E ) );
                     }
                     else {
                         done = true;
@@ -271,14 +269,6 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
                 }
                 nodes++;
                 subscript++;
-            }
-            
-            // Add the entire cluster or nothing...
-            if ( cluster.size() == numberOfWells ) {
-                Iterator i = cluster.iterator();
-                while ( i.hasNext() ) {
-                    eigenstates.add( i.next() );
-                }
             }
             
             // skip the next cluster
