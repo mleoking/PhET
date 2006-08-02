@@ -75,8 +75,11 @@ public class BSSquareHeightHandle extends BSPotentialHandle {
         final double maxX = chartNode.positionToNode( maxPosition );
         
         // energy -> y coordinates (+y is down!)
-        final double minEnergy = potential.getOffset() + spec.getHeightRange().getMin();
-        final double maxEnergy = potential.getOffset() + spec.getHeightRange().getMax();
+        final int n = potential.getNumberOfWells();
+        final double fieldConstant = potential.getFieldConstant();
+        final double handlePosition = potential.getCenter( n - 1 ) + ( potential.getWidth() / 2 ) + 0.1;
+        final double minEnergy = potential.getOffset() + spec.getHeightRange().getMin() + ( fieldConstant * handlePosition );
+        final double maxEnergy = potential.getOffset() + spec.getHeightRange().getMax() + ( fieldConstant * handlePosition );
         final double minY = chartNode.energyToNode( maxEnergy );
         final double maxY = chartNode.energyToNode( minEnergy );
         
@@ -108,7 +111,10 @@ public class BSSquareHeightHandle extends BSPotentialHandle {
             final double handleEnergy = modelPoint.getY();
             
             // Calculate the height
-            double height = handleEnergy - potential.getOffset();
+            final int n = potential.getNumberOfWells();
+            final double fieldConstant = potential.getFieldConstant();
+            final double handlePosition = potential.getCenter( n - 1 ) + ( potential.getWidth() / 2 ) + 0.1;
+            double height = handleEnergy - potential.getOffset() - ( fieldConstant * handlePosition );
             final int numberOfSignicantDecimalPlaces = spec.getHeightRange().getSignificantDecimalPlaces();
             height = round( height, numberOfSignicantDecimalPlaces );
             
@@ -132,11 +138,10 @@ public class BSSquareHeightHandle extends BSPotentialHandle {
             final double center = potential.getCenter( n - 1 ); // center of the right-most well
             final double width = potential.getWidth();
             final double height = potential.getHeight();
-            final double offset = potential.getOffset();
             
             // Calculate the handle's model coordinates
             final double handlePosition = center + ( width / 2 ) + 0.1;
-            final double handleEnergy = offset + height;
+            final double handleEnergy = potential.getEnergyAt( handlePosition );
             
             // Convert to view coordinates
             Point2D modelPoint = new Point2D.Double( handlePosition, handleEnergy );
