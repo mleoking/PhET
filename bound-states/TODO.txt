@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add an option to show average prob density of a band of eigenstates
 - zoom level is not remembered when switching between potential types in Many module
-- BSSquareSeparationMarker doesn't update when zoom level is changed
 
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
@@ -17,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(8/2/06) - bugfix: BSSquareSeparationMarker doesn't update when zoom level is changed
 (8/2/06) - change Square height drag handle to account for field constant
 (8/2/06) - change 1D Coulomb eigenstate calculator, allow partial group of eigenstates
 (8/2/06) - change Square width drag handle to account for field constant
