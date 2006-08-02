@@ -145,12 +145,14 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final double value = fieldConstantRange.getDefault();
             final double min = fieldConstantRange.getMin();
             final double max = fieldConstantRange.getMax();
-            final double tickSpacing = ( max - min );
-            final int decimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
+            final double tickSpacing = 1;
+            final int tickDecimalPlaces = 0;
+            final int valueDecimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
             String label = SimStrings.get( "label.fieldConstant" );
             String units = "";
             final int columns = 3;
-            _fieldConstantSlider = new SliderControl( value, min, max, tickSpacing, decimalPlaces, decimalPlaces, label, units, columns );
+            _fieldConstantSlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _fieldConstantSlider.setTextEditable( true );
             _fieldConstantSlider.setNotifyWhileDragging( false );
             
