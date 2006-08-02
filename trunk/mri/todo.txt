@@ -1,7 +1,10 @@
 =====
 To Do
 =====
-Look for source of slow-down
+- Look for source of slow-down
+- Get rid of classes that supported the big blue arrow in the control panel
+- Rename BFieldIndicatorB
+
 
 =================
 Done - Not posted
