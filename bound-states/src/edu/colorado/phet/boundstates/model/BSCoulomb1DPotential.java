@@ -256,7 +256,7 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
             for ( int i = 0; !done && i < numberOfWells; i++ ) {
                 try {
                     double E = solver.getEnergy( nodes );
-                    if ( E < cutOffEnergy ) {
+                    if ( E <= cutOffEnergy ) {
                         eigenstates.add( new BSEigenstate( subscript, E ) );
                     }
                     else {
