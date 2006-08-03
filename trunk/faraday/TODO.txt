@@ -23,6 +23,7 @@ v1r2...
 (8/3/06) - replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 (8/3/06) - fix positioning of arc around voltmeter guage
 (8/3/06) - fix TurbineGraphic so that column of water is properly resized
+(8/3/06) - pickup Spanish translations that were previously missing from phetcommon
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - add a Version object, like my in my other sims
 (12/27/05) - changes to support phetcommon's new Module and Clock architecture
