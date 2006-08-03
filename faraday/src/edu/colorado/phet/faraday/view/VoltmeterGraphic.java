@@ -215,7 +215,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 guage.setShape( new Arc2D.Double( 0, 0, diameter, diameter, 0, 180, Arc2D.CHORD ) );
                 guage.setBorderColor( GUAGE_COLOR );
                 guage.setStroke( GUAGE_STROKE );
-                guage.centerRegistrationPoint();
+                guage.setRegistrationPoint( (int)(diameter / 2 ), (int)(diameter / 2 ) );
                 guage.setLocation( PIVOT_POINT );
                 graphicLayerSet.addGraphic( guage, GUAGE_LAYER  );
             }
