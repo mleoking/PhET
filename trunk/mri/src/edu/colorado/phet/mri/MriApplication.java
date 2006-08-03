@@ -34,10 +34,6 @@ public class MriApplication extends PiccoloPhetApplication {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
-
-    private static String title = MriConfig.TITLE;
-    private static String description = MriConfig.DESCRIPTION;
-    private static String version = "0.01.13";
     private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     //--------------------------------------------------------------------------------------------------
@@ -58,9 +54,10 @@ public class MriApplication extends PiccoloPhetApplication {
     private Module[] modules = fullAppModules;
 
     public MriApplication( String[] args ) {
-//        super( args, title, description, version, frameSetup, PiccoloPhetApplication.JTABBED_PANE );
-        super( args, title, description, version, frameSetup );
-//        super( args, title, description, version, frameSetup, PiccoloPhetApplication.PHET_TABBED_PANE );
+        super( args, SimStrings.get( "Application.Title" ),
+               SimStrings.get( "Application.Description" ),
+               MriConfig.VERSION,
+               frameSetup );
         setModules( modules );
     }
 
@@ -88,6 +85,5 @@ public class MriApplication extends PiccoloPhetApplication {
                 app.startApplication();
             }
         } );
-
     }
 }

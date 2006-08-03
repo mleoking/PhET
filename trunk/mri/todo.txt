@@ -7,7 +7,6 @@ Detector doesn't appear to work at all
 Head control panel comes up too wide, and resizes when you move the power slider
 Head control panel sub-panels don't line up right
 Set fonts for magnet sliders
-Some property strings aren't being found
 
 ========
 Features
@@ -120,3 +119,8 @@ Make tumor more dense with hydrogen
 Make the &quot;Add Tumor&quot; button toggle to &quot;Remove Tumor&quot;
 Main magnet should have a minimum current that keeps the arrow in the control panel visible (but small)
 Fix sizing of play area so controls are completely visible
+
+==========
+Bugs fixed
+==========
+8/3/06 - Some property strings aren't being found
