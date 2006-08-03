@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -161,7 +162,7 @@ public class MonitorPanel extends PhetPCanvas {
 
     private class EnergyAxis extends PNode {
         public EnergyAxis() {
-            PText axisLabel = new PText( "Energy" );
+            PText axisLabel = new PText( SimStrings.get( "Misc.Energy" ) );
             axisLabel.rotate( -Math.PI / 2 );
             addChild( axisLabel );
             Arrow arrow = new Arrow( new Point2D.Double( 10, 40 ),

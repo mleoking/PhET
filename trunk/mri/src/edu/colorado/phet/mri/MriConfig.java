@@ -28,13 +28,13 @@ import java.awt.geom.Rectangle2D;
  */
 public class MriConfig {
 
+    // Location of strings
+    public static final String STRINGS_BUNDLE_NAME = "localization/MriStrings";
+
     // Descriptive information
     public static final String TITLE = SimStrings.get( "Application.Title" );
     public static final String DESCRIPTION = SimStrings.get( "Application.Description" );
     public static final String VERSION = "0.01";
-
-    // Location of strings
-    public static final String STRINGS_BUNDLE_NAME = "localization/MriStrings";
 
     public final static double scale = 1;
 

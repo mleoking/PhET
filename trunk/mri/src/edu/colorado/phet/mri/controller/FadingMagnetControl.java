@@ -32,7 +32,7 @@ public class FadingMagnetControl extends ModelSlider {
 
     public FadingMagnetControl( final MriModel model ) {
         super( SimStrings.get( "ControlPanel.MagneticField" ),
-               "Tesla",
+               SimStrings.get( "ControlPanel.Tesla" ),
                MIN_FIELD,
                MriConfig.MAX_FADING_COIL_FIELD,
                DEFAULT_FIELD );

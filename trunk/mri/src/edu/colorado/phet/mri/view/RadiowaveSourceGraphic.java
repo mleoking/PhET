@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
@@ -78,7 +79,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
-        final ModelSlider freqCtrl = new ModelSlider( "Frequency",
+        final ModelSlider freqCtrl = new ModelSlider( SimStrings.get( "Misc.Frequency" ),
                                                       "MHz",
                                                       MriConfig.MIN_FEQUENCY,
                                                       MriConfig.MAX_FEQUENCY,
@@ -131,7 +132,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
 
         // Power control
-        final ModelSlider powerCtrl = new ModelSlider( "Power",
+        final ModelSlider powerCtrl = new ModelSlider( SimStrings.get( "Misc.Power" ),
                                                        "",
                                                        0,
                                                        MriConfig.MAX_POWER,
@@ -155,7 +156,7 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( emRepPSwing );
 
         // Label
-        PText title = new PText( "Radiowave\nSource" );
+        PText title = new PText( SimStrings.get( "Misc.RadiowaveSourceLabel" ) );
         title.setPaint( new Color( 0, 0, 0, 0 ) );
         title.setTextPaint( Color.white );
         title.setFont( font );
