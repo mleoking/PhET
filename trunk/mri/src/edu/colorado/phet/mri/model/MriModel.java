@@ -275,7 +275,8 @@ new Vector2D.Double( 0, -1 ) );
         super.stepInTime( dt );
 
         List photons = getPhotons();
-        for( int i = 0; i < photons.size(); i++ ) {
+        for( int i = photons.size() - 1; i >= 0; i-- ) {
+//        for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
             if( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );

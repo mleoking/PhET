@@ -112,20 +112,14 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         double newValue = source.getValue();
-//        for( int i = values.length - 1; i >= (int)speed; i-- ) {
         for( int i = values.length - 1; i > 0; i-- ) {
-//            values[i] = values[i - (int)speed];
             values[i] = values[i - 1];
         }
-//        for( int i = 0; i < (int)speed; i++ ){
-//            values[i] = newValue;
-//        }
         values[0] = newValue;
         notifyObservers();
     }
 
     public double getAmplitudeAt( double x ) {
-//        return values[(int)( x )];
         return values[(int)( x / speed )];
     }
 

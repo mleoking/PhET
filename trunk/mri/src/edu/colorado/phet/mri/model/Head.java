@@ -61,27 +61,24 @@ public class Head extends Sample {
 
     public void removeTumor( Tumor tumor, BaseModel model ) {
         List dipoles = tumor.getDipoles();
-        for( int i = 0; i < dipoles.size(); i++ ) {
+        for( int i = dipoles.size() - 1; i >= 0; i-- ) {
+//        for( int i = 0; i < dipoles.size(); i++ ) {
             Dipole dipole = (Dipole)dipoles.get( i );
             model.removeModelElement( dipole );
         }
     }
 
     public void createDipoles( MriModel model, double spacing ) {
-//    public void createDipoles( MriModel model, int numDipoles ) {
         List dl = MriUtil.createDipolesForEllipse( skull, spacing );
-//        List dl = MriUtil.createDipolesForEllipse( skull, numDipoles );
         for( int i = 0; i < dl.size(); i++ ) {
             Dipole dipole = (Dipole)dl.get( i );
             model.addModelElement( dipole );
         }
         Dipole rightEarDipole = new Dipole();
         rightEarDipole.setPosition( ears[1].getCenterX(), ears[1].getCenterY() );
-//        rightEarDipole.setPosition( skull.getX() - 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10);
         model.addModelElement( rightEarDipole );
         Dipole leftEarDipole = new Dipole();
         leftEarDipole.setPosition( ears[0].getCenterX(), ears[0].getCenterY() );
-//        leftEarDipole.setPosition( skull.getX() + skull.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10 );
         model.addModelElement( leftEarDipole );
     }
 }

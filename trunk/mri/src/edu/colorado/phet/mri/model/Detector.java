@@ -54,7 +54,8 @@ public class Detector extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         List photons = model.getPhotons();
-        for( int i = 0; i < photons.size(); i++ ) {
+        for( int i = photons.size() - 1; i >= 0; i-- ) {
+//        for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
             if( !detectedPhotons.contains( photon ) && bounds.contains( photon.getPosition() ) ) {
                 numDetected++;
