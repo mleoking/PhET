@@ -1,6 +1,17 @@
-=====
-To Do
-=====
+====
+Bugs
+====
+Head module doesn't seem to resonate properly across the whole head when
+    there is no gradient field
+Detector doesn't appear to work at all
+Head control panel comes up too wide, and resizes when you move the power slider
+Head control panel sub-panels don't line up right
+Set fonts for magnet sliders
+Some property strings aren't being found
+
+========
+Features
+========
 - Look for source of slow-down
 - Get rid of classes that supported the big blue arrow in the control panel
 - Rename BFieldIndicatorB
