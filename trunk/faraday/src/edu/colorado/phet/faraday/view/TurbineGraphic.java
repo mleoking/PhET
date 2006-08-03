@@ -235,9 +235,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                         _waterGraphic.setShape( null );
                     }
                     else {
-                        int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
-                        _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
-                        _waterGraphic.setShape( _waterShape );
+                        updateWater( speed );
                     }
                 }
                 
@@ -251,6 +249,17 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         }
     }
     
+    /*
+     * Updates the shape used to represent the column of water.
+     * @param speed
+     */
+    private void updateWater( final double speed ) {
+        int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
+        _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
+        _waterGraphic.setShape( _waterShape );
+        setBoundsDirty();
+    }
+    
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
@@ -259,7 +268,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
      * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
      */
     public void canvasSizeChanged( edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height ); 
+        updateWater( _turbineModel.getSpeed() );
     }
     
     //----------------------------------------------------------------------------
