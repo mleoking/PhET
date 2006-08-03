@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
@@ -69,9 +70,9 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private ACPowerSupply _acPowerSupplyModel;
     private FaradaySlider _maxAmplitudeSlider;
     private FaradaySlider _frequencySlider;
-    private PhetTextGraphic _maxAmplitudeValue;
-    private PhetTextGraphic _frequencyValue;
-    private PhetTextGraphic _amplitudeValue;
+    private PhetTextGraphic2 _maxAmplitudeValue;
+    private PhetTextGraphic2 _frequencyValue;
+    private PhetTextGraphic2 _debugAmplitudeValue; // set DEBUG=true to display this
     private SineWaveGraphic _waveGraphic;
     private PhetShapeGraphic _cursorGraphic;
     private String _amplitudeFormat;
@@ -106,12 +107,10 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         
         // Background, contains all of the static graphic components.
         BackgroundGraphic background = new BackgroundGraphic( component );
-        addGraphic( background, BACKGROUND_LAYER );
         
         // Max Amplitude slider
         {
             _maxAmplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
-            addGraphic( _maxAmplitudeSlider, SLIDER_LAYER );
             
             _maxAmplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
             _maxAmplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
@@ -125,25 +124,22 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         
         // Max Amplitude value
         {
-            _maxAmplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( _maxAmplitudeValue, VALUE_LAYER );
-            _maxAmplitudeValue.setLocation( 45, 70 );
+            _maxAmplitudeValue = new PhetTextGraphic2( component, VALUE_FONT, "", VALUE_COLOR );
+            _maxAmplitudeValue.setLocation( 45, 57 );
             
             _amplitudeFormat = SimStrings.get( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
-        // Amplitude value
+        // Amplitude value  (debug)
         {
-            _amplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", Color.RED );
-            addGraphic( _amplitudeValue, CURSOR_LAYER );
-            _amplitudeValue.setLocation( 90, 70 );
-            _amplitudeValue.setVisible( DEBUG );
+            _debugAmplitudeValue = new PhetTextGraphic2( component, VALUE_FONT, "", Color.RED );
+            _debugAmplitudeValue.setLocation( 90, 57 );
+            _debugAmplitudeValue.setVisible( DEBUG );
         }
         
         // Frequency slider
         {
             _frequencySlider = new FaradaySlider( component, 100 /* track length */ );            
-            addGraphic( _frequencySlider, SLIDER_LAYER );
 
             _frequencySlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MIN ) );
             _frequencySlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MAX ) );
@@ -156,9 +152,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
 
         // Frequency value
         {
-            _frequencyValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( _frequencyValue, VALUE_LAYER );
-            _frequencyValue.setLocation( 210, 207 );
+            _frequencyValue = new PhetTextGraphic2( component, VALUE_FONT, " ", VALUE_COLOR );
+            _frequencyValue.setLocation( 210, 193 );
             
             _frequencyFormat = SimStrings.get( "ACPowerSupplyGraphic.frequency.format" );
         }
@@ -169,7 +164,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             // Configure cycles so that minimum frequency shows 1 cycle.
             _waveGraphic.setMaxCycles( FaradayConfig.AC_FREQUENCY_MAX / FaradayConfig.AC_FREQUENCY_MIN );
             _waveGraphic.setLocation( WAVE_ORIGIN );
-            addGraphic( _waveGraphic, WAVE_LAYER );
         }
         
         // Cursor
@@ -185,13 +179,31 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             int y = WAVE_ORIGIN.y;
             _cursorGraphic.setLocation( x, y );
             _cursorGraphic.setVisible( false );
-            addGraphic( _cursorGraphic, CURSOR_LAYER );
         }
+        
+        addGraphic( background, BACKGROUND_LAYER );
+        addGraphic( _maxAmplitudeSlider, SLIDER_LAYER );
+        addGraphic( _frequencySlider, SLIDER_LAYER );
+        addGraphic( _debugAmplitudeValue, CURSOR_LAYER );
+        addGraphic( _maxAmplitudeValue, VALUE_LAYER );
+        addGraphic( _frequencyValue, VALUE_LAYER );
+        addGraphic( _waveGraphic, WAVE_LAYER );
+        addGraphic( _cursorGraphic, CURSOR_LAYER );
         
         // Registration point is the bottom center.
         int rx = getWidth() / 2;
         int ry = getHeight();
         setRegistrationPoint( rx, ry );
+        
+        // DEBUG -- draw a red rectangle around bounds
+//        {
+//            Shape shape = new Rectangle2D.Double( 0, 0, getWidth(), getHeight() );
+//            PhetShapeGraphic boundsGraphic = new PhetShapeGraphic( component );
+//            boundsGraphic.setShape( shape );
+//            boundsGraphic.setStroke( new BasicStroke( 2f ) );
+//            boundsGraphic.setBorderColor( Color.RED );
+//            addGraphic( boundsGraphic, 10 );
+//        }
         
         _cursorAngle = 0.0;
         _previousMaxAmplitude = _previousFrequency = -2;  // any invalid value is fine... 
@@ -235,17 +247,17 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 updateCursor();
                 
                 // Update the current amplitude display.
-                if ( _amplitudeValue.isVisible() ) {
+                if ( _debugAmplitudeValue.isVisible() ) {
                     // Format the text
                     int value = (int) ( amplitude * 100 );
                     Object[] args = { new Integer( value ) };
                     String text = MessageFormat.format( _amplitudeFormat, args );
-                    _amplitudeValue.setText( text );
+                    _debugAmplitudeValue.setText( text );
                     
                     // Right justify
-                    int rx = _amplitudeValue.getBounds().width;
-                    int ry = _amplitudeValue.getBounds().height;
-                    _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
+                    int rx = _debugAmplitudeValue.getBounds().width;
+                    int ry = _debugAmplitudeValue.getBounds().height;
+                    _debugAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
                 }
             }
             else {
