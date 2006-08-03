@@ -69,7 +69,7 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
     private double _scale;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -91,10 +91,9 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _pickupCoilModel.removeObserver( this );
         _pickupCoilModel = null;
     }

@@ -36,7 +36,7 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
     private boolean _offWhenCurrentChangesDirection;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -56,10 +56,9 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _pickupCoilModel.removeObserver( this );
         _pickupCoilModel = null;
     }

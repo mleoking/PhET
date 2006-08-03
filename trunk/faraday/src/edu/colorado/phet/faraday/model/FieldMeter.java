@@ -37,7 +37,7 @@ public class FieldMeter extends FaradayObservable implements SimpleObserver {
     private Point2D _location;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     public FieldMeter( AbstractMagnet magnetModel ) {
@@ -54,10 +54,9 @@ public class FieldMeter extends FaradayObservable implements SimpleObserver {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;
     }

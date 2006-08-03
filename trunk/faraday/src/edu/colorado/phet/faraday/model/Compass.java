@@ -54,7 +54,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     private Vector2D _someVector;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -79,10 +79,9 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;
     }

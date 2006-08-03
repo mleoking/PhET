@@ -51,7 +51,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
 
     /**
@@ -91,10 +91,9 @@ public class BarMagnetGraphic extends PhetImageGraphic
     }
 
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _barMagnetModel.removeObserver( this );
     }
     

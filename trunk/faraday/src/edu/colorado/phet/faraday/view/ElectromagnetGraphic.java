@@ -55,7 +55,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     public ElectromagnetGraphic(
@@ -122,15 +122,14 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _electromagnetModel.removeObserver( this );
         _electromagnetModel = null;
-        _coilGraphic.finalize();
-        _batteryGraphic.finalize();
-        _acPowerSupplyGraphic.finalize();
+        _coilGraphic.cleanup();
+        _batteryGraphic.cleanup();
+        _acPowerSupplyGraphic.cleanup();
     }
     
 

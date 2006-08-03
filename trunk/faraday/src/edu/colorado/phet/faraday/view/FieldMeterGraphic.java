@@ -92,12 +92,11 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private FieldMeter _fieldMeterModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _magnitudeFormatter, _angleFormatter;
-    private Point _point; // reusable point
     private Vector2D _fieldVector; // reusable vector
     private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -117,7 +116,6 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         _magnitudeFormatter = new DecimalFormat( MAGNITUDE_FORMAT );
         _angleFormatter = new DecimalFormat( ANGLE_FORMAT );
         
-        _point = new Point();
         _fieldVector = new Vector2D();
         
         // Enable antialiasing for all children.
@@ -173,10 +171,9 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _fieldMeterModel.removeObserver( this );
         _fieldMeterModel = null;
     }

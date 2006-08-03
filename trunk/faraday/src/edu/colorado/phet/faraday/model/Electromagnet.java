@@ -34,7 +34,7 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     private boolean _isFlipped;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -60,10 +60,9 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _sourceCoilModel.removeObserver( this );
         _sourceCoilModel = null;
         

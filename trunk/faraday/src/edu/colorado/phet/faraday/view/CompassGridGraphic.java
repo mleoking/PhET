@@ -98,7 +98,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     }
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
 
     /**
@@ -143,10 +143,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;
     }

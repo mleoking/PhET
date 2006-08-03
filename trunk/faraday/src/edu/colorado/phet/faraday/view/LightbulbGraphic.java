@@ -50,7 +50,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private LightRaysGraphic _raysGraphic;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -88,10 +88,9 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _lightbulbModel.removeObserver( this );
         _lightbulbModel = null;
     }
