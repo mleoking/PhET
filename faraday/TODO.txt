@@ -19,7 +19,7 @@ LOW PRIORITY:
 
 DONE:
 v1r2...
-(8/3/06) - change finalize methods to cleanup, shouldn't override finalize
+(8/3/06) - change finalize() methods to cleanup(), shouldn't override finalize
 (8/3/06) - replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 (8/3/06) - fix positioning of arc around voltmeter guage
 (8/3/06) - fix TurbineGraphic so that column of water is properly resized
