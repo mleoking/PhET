@@ -9,6 +9,7 @@ HIGH:
 - add MegaHelp, as provided by Aaron
 
 MEDIUM:
+- no Spanish translations of phetcommon strings
 - port to latest phetcommon
 - phetcommon-based controls don't work while simulation is paused
 - background color on Windows
