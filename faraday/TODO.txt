@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 DONE:
 v1r2...
+(8/3/06) - create ProGuard config file for optimizing JAR file size
 (8/3/06) - AC power source is positioned incorrectly, not attached to coil (bounds problem with PhetTextGraphic and SineWaveGraphic)
 (8/3/06) - add a JSeparator between inputPanel and actionPanel in GridControlsDialog
 (8/3/06) - change "Reset" to "Reset All"
