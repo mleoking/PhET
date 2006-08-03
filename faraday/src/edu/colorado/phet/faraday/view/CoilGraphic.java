@@ -128,7 +128,7 @@ public class CoilGraphic implements SimpleObserver {
     private boolean _endsConnected;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
 
     /**
@@ -176,10 +176,9 @@ public class CoilGraphic implements SimpleObserver {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _coilModel.removeObserver( this );
         _coilModel = null;
     }

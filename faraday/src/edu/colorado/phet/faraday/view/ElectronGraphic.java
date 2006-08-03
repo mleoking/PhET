@@ -52,7 +52,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     private BufferedImage _backgroundImage;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -89,10 +89,9 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     }
 
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _electronModel.removeObserver( this );
         _electronModel = null;
     }

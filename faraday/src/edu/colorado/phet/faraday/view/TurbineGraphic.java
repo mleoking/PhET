@@ -75,7 +75,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private double _previousSpeed;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -180,10 +180,9 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     }
 
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _turbineModel.removeObserver( this );
         _turbineModel = null;
     }

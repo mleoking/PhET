@@ -59,7 +59,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private Vector2D _fieldVector;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -90,10 +90,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;
     }

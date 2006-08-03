@@ -64,7 +64,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
 
     /**
@@ -150,13 +150,12 @@ public class PickupCoilGraphic extends GraphicLayerSet
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _pickupCoilModel.removeObserver( this );
         _pickupCoilModel = null;
-        _coilGraphic.finalize();
+        _coilGraphic.cleanup();
     }
  
     //----------------------------------------------------------------------------

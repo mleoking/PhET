@@ -81,7 +81,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private double _cursorAngle;
     
     //----------------------------------------------------------------------------
-    // Constructors and finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -199,10 +199,9 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _acPowerSupplyModel.removeObserver( this );
         _acPowerSupplyModel = null;
     }

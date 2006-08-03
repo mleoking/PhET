@@ -62,7 +62,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
     private PhetTextGraphic _amplitudeValue;
     
     //----------------------------------------------------------------------------
-    // Constructors and finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -122,10 +122,9 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _batteryModel.removeObserver( this );
     }
  

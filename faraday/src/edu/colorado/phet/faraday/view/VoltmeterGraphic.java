@@ -60,7 +60,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     private PhetShapeGraphic _needle;
 
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -118,10 +118,9 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     }
 
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _voltmeterModel.removeObserver( this );
         _voltmeterModel = null;
     }
