@@ -40,8 +40,6 @@ public class FaradayApplication extends PhetApplication {
      * @param title
      * @param description
      * @param version
-     * @param clock
-     * @param useClockControlPanel
      * @param frameSetup
      */
     public FaradayApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
