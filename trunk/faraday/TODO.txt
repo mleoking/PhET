@@ -13,12 +13,13 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Help/MegaHelp
-- fix all javadoc warnings and errors
 
 
 
 DONE:
 v1r2...
+(8/3/06) - change "Reset" to "Reset All"
+(8/3/06) - fix all javadoc warnings
 (8/3/06) - change finalize() methods to cleanup(), shouldn't override finalize
 (8/3/06) - replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 (8/3/06) - fix positioning of arc around voltmeter guage
