@@ -16,8 +16,8 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.QuantumConfig;
+import edu.colorado.phet.quantum.model.Photon;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
@@ -37,8 +37,8 @@ import java.util.HashMap;
  * Date: Mar 21, 2003
  */
 public class PhotonGraphic extends PImage implements SimpleObserver,
-                                                               Photon.LeftSystemEventListener,
-                                                               Photon.VelocityChangedListener {
+                                                     Photon.LeftSystemEventListener,
+                                                     Photon.VelocityChangedListener {
 
     //----------------------------------------------------------------
     // Class
@@ -105,6 +105,7 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
 
     // A map that matches photon wavelengths to display colors
     static HashMap colorMap = new HashMap();
+
     static {
         colorMap.put( new Double( Photon.RED ), Color.red );
         colorMap.put( new Double( Photon.BLUE ), Color.blue );
@@ -232,7 +233,6 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         return photonGraphic;
     }
 
-
     //----------------------------------------------------------------
     // Instance
     //----------------------------------------------------------------
@@ -306,6 +306,9 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
                 bi = new BufferedImage( s_baseImage.getWidth(), s_baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
                 op.filter( s_baseImage, bi );
                 s_colorToImage.put( wavelength, bi );
+            }
+            else {
+                System.out.println( "PhotonGraphic.createImage" );
             }
         }
         // Record the height and width of he image before it's rotated
@@ -403,7 +406,6 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
 //        setLocation( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
         setOffset( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
 
-
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
         //        setImage( animation[currAnimationFrameNum] );
@@ -465,8 +467,8 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
 
     /**
      * For debugging
-     *
-//     * @param g2
+     * <p/>
+     * //     * @param g2
      */
 //    public void paint( Graphics2D g2 ) {
 //        super.paint( g2 );
@@ -478,10 +480,10 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     //-----------------------------------------------------------------
     // LeftSystemListener implementions
     //-----------------------------------------------------------------
-
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         s_instances.remove( this );
-//        photon.removeLeftSystemListener( this );
+        photon.removeLeftSystemListener( this );
+        photon.removeVelocityChangedListener( this );
         photon = null;
     }
 }

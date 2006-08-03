@@ -88,6 +88,8 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         }
     }
 
+    int photonCnt = 0;
+
     public void modelElementAdded( ModelElement modelElement ) {
         PNode graphic = null;
         PNode layer = canvas;
@@ -152,12 +154,27 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
     }
 
     public void modelElementRemoved( ModelElement modelElement ) {
+//        if( modelElement instanceof Photon ) {
+//            System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
+//        }
         GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
+        PNode pn = null;
         if( graphicRecord != null ) {
             PNode layer = graphicRecord.getLayer();
             PNode graphic = graphicRecord.getGraphic();
+            pn = graphic;
             layer.removeChild( graphic );
             modelElementToGraphicMap.remove( modelElement );
+        }
+        if( modelElement instanceof Photon ) {
+            Iterator it = modelElementToGraphicMap.values().iterator();
+            while( it.hasNext() ) {
+                GraphicRecord record = (GraphicRecord)it.next();
+                PNode graphic = record.getGraphic();
+                if( pn == graphic ) {
+                    System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
+                }
+            }
         }
     }
 
