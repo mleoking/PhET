@@ -87,20 +87,31 @@ public class DipoleFlipper implements ModelElement {
         waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
         waveCycle.setPower( MriConfig.MAX_POWER );
         model.addModelElement( waveCycle );
-        final PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
-                                                                     waveCycle.getPosition(),
-                                                                     20,
-                                                                     model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
-                                                                     PlaneWaveMedium.EAST,
-                                                                     10 );
+        PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
+                                                               waveCycle.getPosition(),
+                                                               20,
+                                                               model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
+                                                               PlaneWaveMedium.EAST,
+                                                               10 );
         model.addModelElement( planeWaveMedium );
 
         // Add a listener to the photon that will remove the wave representation from the model when
         // the photon leaves the model
-        photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
-            public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-                model.removeModelElement( planeWaveMedium );
-            }
-        } );
+        photon.addLeftSystemListener( new ModelElementRemover( waveCycle, planeWaveMedium ) );
+    }
+
+    private class ModelElementRemover implements Photon.LeftSystemEventListener {
+        private PlaneWaveCycle waveCycle;
+        private PlaneWaveMedium planeWaveMedium;
+
+        public ModelElementRemover( PlaneWaveCycle waveCycle, PlaneWaveMedium planeWaveMedium ) {
+            this.waveCycle = waveCycle;
+            this.planeWaveMedium = planeWaveMedium;
+        }
+
+        public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+            model.removeModelElement( planeWaveMedium );
+            model.removeModelElement( waveCycle );
+        }
     }
 }

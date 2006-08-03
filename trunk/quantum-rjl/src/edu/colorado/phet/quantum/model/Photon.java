@@ -14,8 +14,8 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class Photon extends Particle implements Collidable {
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
     static private int freePoolSize = 2000;
-    static private ArrayList freePool = new ArrayList( freePoolSize );
+//    static private ArrayList freePool = new ArrayList( freePoolSize );
 
     static public Photon create( Point2D location, Vector2D velocity ) {
         Photon newPhoton = new Photon();

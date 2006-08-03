@@ -13,7 +13,6 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.util.MySimPanel;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
@@ -57,12 +56,13 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
 
         // Make the canvas, world node, and graphics manager
-        PhetPCanvas simPanel = new MySimPanel( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
-                                                              (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
+        PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
+                                                               (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
+//        PhetPCanvas simPanel = new MySimPanel( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
+//                                                              (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
         setSimulationPanel( simPanel );
         worldNode = new PNode();
         simPanel.addScreenChild( worldNode );
-//        simPanel.addWorldChild( worldNode );
 
         graphicsManager = new ModelElementGraphicManager( this, simPanel, worldNode );
         graphicsManager.scanModel( model );
@@ -90,17 +90,14 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
 
         for( int i = 0; i < numArrowsX; i++ ) {
             for( int j = 0; j < numArrowsY; j++ ) {
-//                if( i == 0 || j == numArrowsY - 1 ) {
                 Point2D location = new Point2D.Double( ulc.getX() + spacingX * ( i + 0.5 ),
                                                        ulc.getY() + spacingY * ( j + 0.5 ) );
                 BFieldIndicatorB bfi = new BFieldIndicatorB( (MriModel)getModel(),
                                                              location,
                                                              70,
-//                                                                 100,
-null );
+                                                             null );
                 bfi.setOffset( location );
                 getGraphicsManager().addGraphic( bfi, getGraphicsManager().getControlLayer() );
-//                }
             }
         }
     }
