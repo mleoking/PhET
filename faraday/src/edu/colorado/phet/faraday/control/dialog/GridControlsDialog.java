@@ -22,11 +22,11 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.FaradayPanel;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
-import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 
 
 /**
