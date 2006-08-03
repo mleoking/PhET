@@ -16,7 +16,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -24,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
@@ -31,7 +31,6 @@ import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 

@@ -10,28 +10,27 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - change finalize methods to cleanup, shouldn't override finalize
-- replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 
 LOW PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
-- background color (use PhetLookAndFeel)
 - Help/MegaHelp
 - fix all javadoc warnings and errors
 
-PHETCOMMON:
-- bug: ControlPanel contents are vertically centered
-- bug: ApparatusPanel2 resize problems
 
 
 DONE:
+v1r2...
+(8/3/06) - replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 (8/3/06) - fix positioning of arc around voltmeter guage
 (8/3/06) - fix TurbineGraphic so that column of water is properly resized
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - add a Version object, like my in my other sims
 (12/27/05) - changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
-(9/27) - changed all JNLP files to assume that everything lives in faraday.jar
-(9/27) - moved Spanish translations and JNLP file into the faraday CVS project
+(9/27/05) - changed all JNLP files to assume that everything lives in faraday.jar
+(9/27/05) - moved Spanish translations and JNLP file into the faraday CVS project
+v1r1...
+(5/3/05) - changed the simulation title
 v1r0...
 (4/27) - fix the theta label in the Field Meter
 (4/27) - voltmeter: left probe red, right probe black

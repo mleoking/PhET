@@ -24,16 +24,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
-import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**

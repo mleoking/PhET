@@ -20,11 +20,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
