@@ -105,12 +105,17 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         JPanel inputPanel = createInputPanel();
         JPanel actionsPanel = createActionsPanel();
 
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( inputPanel, BorderLayout.CENTER );
-        panel.add( actionsPanel, BorderLayout.SOUTH );
+        JPanel bottomPanel = new JPanel( new BorderLayout() );
+        bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
+        bottomPanel.add( actionsPanel, BorderLayout.CENTER );
+        
+        JPanel mainPanel = new JPanel( new BorderLayout() );
+        mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
+        mainPanel.add( inputPanel, BorderLayout.CENTER );
+        mainPanel.add( bottomPanel, BorderLayout.SOUTH );
 
-        this.getContentPane().add( panel );
-        this.pack();
+        getContentPane().add( mainPanel );
+        pack();
         this.setResizable( false );
         this.setLocationRelativeTo( parent );
     }

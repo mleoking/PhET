@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 DONE:
 v1r2...
+(8/3/06) - add a JSeparator between inputPanel and actionPanel in GridControlsDialog
 (8/3/06) - change "Reset" to "Reset All"
 (8/3/06) - fix all javadoc warnings
 (8/3/06) - change finalize() methods to cleanup(), shouldn't override finalize
