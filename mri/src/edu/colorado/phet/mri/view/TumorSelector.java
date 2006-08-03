@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.model.Head;
 import edu.colorado.phet.mri.model.Tumor;
 
@@ -27,8 +28,8 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class TumorSelector extends JPanel {
-    private static String unselectedStr = "Add tumor";
-    private static String selectedStr = "RemoveTumor";
+    private static String unselectedStr = SimStrings.get( "ControlPanel.AddTumor" );
+    private static String selectedStr = SimStrings.get( "ControlPanel.RemoveTumor" );
 
     private Tumor tumor;
 
