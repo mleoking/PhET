@@ -74,6 +74,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
         
         setBorderColor( Color.GREEN );
         setStroke( new BasicStroke( 1f ) );
+        update();
     }
     
     //----------------------------------------------------------------------------
