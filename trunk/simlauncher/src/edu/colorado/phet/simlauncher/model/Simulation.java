@@ -296,6 +296,9 @@ public abstract class Simulation implements SimContainer {
      * The flag is set so that the SimTable will show an icon. This is only a stopgap way of doing it.
      */
     private void setUpdateAvailable( boolean isAvailable ) {
+        if( isAvailable ) {
+            System.out.println( "Simulation.setUpdateAvailable" );
+        }
         updateAvailable = isAvailable;
         boolean orgFlag = SimResource.isUpdateEnabled();
         SimResource.setUpdateEnabled( true );
@@ -313,7 +316,7 @@ public abstract class Simulation implements SimContainer {
                 SimResource simResource = (SimResource)resources.get( i );
                 simResource.checkForUpdate();
             }
-            setUpdateAvailable( isCurrent() );
+            setUpdateAvailable( !isCurrent() );
         }
     }
 
