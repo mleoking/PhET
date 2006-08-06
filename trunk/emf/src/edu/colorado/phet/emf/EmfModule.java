@@ -348,6 +348,9 @@ public class EmfModule extends Module {
         else {
             throw new RuntimeException( "invalid fieldSense" );
         }
+
+        // Causes screen to repaint if the clock is paused
+        getModel().stepInTime( 0 );
     }
 
     public int getFieldSense() {
@@ -356,6 +359,8 @@ public class EmfModule extends Module {
 
     public void setFieldDisplay( int display ) {
         apparatusPanel.setFieldDisplay( display );
+        // This makes the display refresh if the clock is paused
+        getModel().stepInTime( 0 );        
     }
 
     public void setCurveVisible( boolean isVisible ) {
