@@ -15,6 +15,7 @@ import edu.colorado.phet.simlauncher.model.PhetSiteConnection;
 import edu.colorado.phet.simlauncher.model.SimContainer;
 import edu.colorado.phet.simlauncher.model.Simulation;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.view.InstalledSimsPaneNew;
 import edu.colorado.phet.simlauncher.view.TopLevelPane;
 
 import javax.swing.*;
@@ -112,24 +113,24 @@ class SimulationMenu extends JMenu implements PhetSiteConnection.ChangeListener 
 
             for( int i = 0; i < sims.length; i++ ) {
                 Simulation sim = sims[i];
-                if( sim.isInstalled() ) {
+                // If the SimContainer that signalled us is the installed sims pane, all we can do
+                // is enable launching a selected sim
+                if( simContainer instanceof InstalledSimsPaneNew ) {
                     launchMI.setEnabled( true );
-                    uninstallMI.setEnabled( true );
-                    updateCheckMI.setEnabled( true );
                 }
-
-//                try {
-                    if( sim.isInstalled() && sim.isUpdateAvailable() ) {
-//                    if( sim.isInstalled() && !sim.isCurrent() ) {
-                        updateMI.setEnabled( true );
+                // If the catalog pane signaled us, there are several possibilities...
+                else {
+                    if( sim.isInstalled() ) {
+                        uninstallMI.setEnabled( true );
+                        if( sim.isUpdateAvailable() ) {
+                            sim.isUpdateAvailable();
+                            updateMI.setEnabled( true );
+                        }
                     }
-//                }
-//                catch( SimResourceException e ) {
-//                    // if we can't connect to check for an update, don't enable the menu item
-//                }
+                    else {
+                        installMI.setEnabled( true );
+                    }
 
-                if( !sim.isInstalled() ) {
-                    installMI.setEnabled( true );
                 }
             }
         }

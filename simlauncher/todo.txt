@@ -1,6 +1,7 @@
 ====
 Bugs
 ====
+- Put the cache uder the ProgramFiles directory
 - No Launch option for Simulation menu from Catalog pane
 - PhET and data directories are getting made under sl-local-root
 - Attempt to download from the PhET site happens before the startupNotices are checked. This means that if the URL
@@ -22,6 +23,7 @@ Bugs
 ======================
 Internal Design Issues
 ======================
+- Too many listeners in SimulationMenu. Too many listener types for TopLevelPane
 - Auto-update shouldn't be true by default, but if there is no catalog, an update must be done
 - put text labels in the actions themselves
 - make singleton Actions and use them to enable/disable controls
@@ -98,6 +100,15 @@ would only work with an XML file.
 - Putting up a table that can be sorted by different columns would look odd when a simulation belongs to several different categories
 
 
+=======
+0.01.01
+=======
+8/06/06 - Once a simtable has been built for a category, changing "show thumbnails" state in another category doesn't
+    change the state in the first category
+
+=======
+0.01.00
+=======
 
 =======
 0.00.12
@@ -295,3 +306,5 @@ Bugs fixed
 7/25/06 - Moving Man, older versin needs to be added to the Motion category
 7/25/06 - New Simulations category doesn't have CCK AC / virtual lab
 7/26/06 - Move simlauncher on spot out from the simulations directory
+8/06/06 - Once a simtable has been built for a category, changing "show thumbnails" state in another category doesn't
+    change the state in the first category
