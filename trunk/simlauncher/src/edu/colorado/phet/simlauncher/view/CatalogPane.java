@@ -266,6 +266,9 @@ public class CatalogPane extends JSplitPane implements SelectedSimsContainer {
             showThumbnailsCB.addActionListener( new AbstractAction() {
                 public void actionPerformed( ActionEvent e ) {
                     Options.instance().setShowCatalogThumbnails( showThumbnailsCB.isSelected() );
+                    // Clear the cache of contructed SimTables, so the new thumbnail state will
+                    // be respected when the user clicks on any category
+                    categoryToSimTable.clear();
                 }
             } );
             showThumbnailsCB.setSelected( Options.instance().isShowCatalogThumbnails() );
