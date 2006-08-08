@@ -39,13 +39,21 @@ public class HeadControl extends JPanel {
         } );
         showHideCB.setSelected( true );
 
-        final JCheckBox hideAtomsCB = new JCheckBox( SimStrings.get( "ControlPanel.HideAtoms" ) );
-        hideAtomsCB.addActionListener( new ActionListener() {
+        final JCheckBox showAtomsCB = new JCheckBox( SimStrings.get( "ControlPanel.ShowAtoms" ) );
+        showAtomsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setDipolesVisible( !hideAtomsCB.isSelected() );
+                module.setDipolesVisible( showAtomsCB.isSelected() );
             }
         } );
-        hideAtomsCB.setSelected( false );
+        showAtomsCB.setSelected( true );
+
+        final JCheckBox showFieldCB = new JCheckBox( SimStrings.get( "ControlPanel.ShowFieldArrows" ) );
+        showFieldCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setFieldArrowsVisible( showFieldCB.isSelected() );
+            }
+        } );
+        showFieldCB.setSelected( true );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 1, 1,
@@ -54,10 +62,12 @@ public class HeadControl extends JPanel {
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         add( showHideCB, gbc );
         gbc.gridy++;
-        add( hideAtomsCB, gbc );
+        add( showAtomsCB, gbc );
+        gbc.gridy++;
+        add( showFieldCB, gbc );
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridheight = 2;
+        gbc.gridheight = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         add( tumorSelector, gbc );
     }

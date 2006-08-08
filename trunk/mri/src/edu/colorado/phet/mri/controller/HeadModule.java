@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.DipoleGraphic;
 import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -44,9 +45,8 @@ public class HeadModule extends AbstractMriModule {
     static double headOffsetY = 35 * MriConfig.SCALE_FOR_ORG;
     static Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
                                                        MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-//                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
-MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
-MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
+                                                       MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
+                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
                                  new Ellipse2D[]{
                                          new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
                                                                MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 120,
@@ -57,7 +57,6 @@ MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
                                                                earOffsetX,
                                                                50 ),
                                  } );
-//                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
     private Detector detector;
     private GradientElectromagnet horizontalGradientMagnet;
     private GradientElectromagnet verticalGradientMagnet;
@@ -77,7 +76,6 @@ MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
     protected void init() {
 
         super.init();
-        System.out.println( "HeadModule.init" );
 
         MriModel model = (MriModel)getModel();
         Electromagnet lowerMagnet = model.getLowerMagnet();
@@ -156,5 +154,9 @@ MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
 
     public void setDipolesVisible( boolean visible ) {
         getGraphicsManager().setAllOfTypeVisible( DipoleGraphic.class, visible );
+    }
+
+    public void setFieldArrowsVisible( boolean visible ) {
+        getGraphicsManager().setAllOfTypeVisible( BFieldIndicatorB.class, visible );
     }
 }

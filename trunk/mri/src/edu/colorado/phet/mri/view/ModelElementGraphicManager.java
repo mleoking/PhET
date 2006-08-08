@@ -39,8 +39,9 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
     private PNode canvas;
     // A map of model elements to their graphics
     private HashMap modelElementToGraphicMap = new HashMap();
-    // List of graphic classes that are currently invisible
-    private List invisibleGraphicClasses = new ArrayList();
+    // Set of graphic classes that are currently invisible (need to use a set rather than
+    // a list so that if a class gets added twice, it can still be cleared with one message)
+    private Set invisibleGraphicClasses = new HashSet();
 
     // Special composite nodes that hold graphics of specific types. This is the way we get things to
     // stay in layers on the canvas
@@ -154,27 +155,12 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
     }
 
     public void modelElementRemoved( ModelElement modelElement ) {
-//        if( modelElement instanceof Photon ) {
-//            System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
-//        }
         GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
-        PNode pn = null;
         if( graphicRecord != null ) {
             PNode layer = graphicRecord.getLayer();
             PNode graphic = graphicRecord.getGraphic();
-            pn = graphic;
             layer.removeChild( graphic );
             modelElementToGraphicMap.remove( modelElement );
-        }
-        if( modelElement instanceof Photon ) {
-            Iterator it = modelElementToGraphicMap.values().iterator();
-            while( it.hasNext() ) {
-                GraphicRecord record = (GraphicRecord)it.next();
-                PNode graphic = record.getGraphic();
-                if( pn == graphic ) {
-                    System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
-                }
-            }
         }
     }
 
@@ -185,12 +171,11 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
      * @param isVisible
      */
     public void setAllOfTypeVisible( Class graphicClass, boolean isVisible ) {
-        Collection graphics = modelElementToGraphicMap.values();
-        for( Iterator iterator = graphics.iterator(); iterator.hasNext(); ) {
-            GraphicRecord graphicRecord = (GraphicRecord)iterator.next();
-            if( graphicClass.isInstance( graphicRecord.getGraphic() ) ) {
-                PNode graphic = (PNode)graphicRecord.getGraphic();
-                graphic.setVisible( isVisible );
+        Iterator nodeIt = canvas.getAllNodes().iterator();
+        while( nodeIt.hasNext() ) {
+            PNode node = (PNode)nodeIt.next();
+            if( graphicClass.isInstance( node ) ) {
+                node.setVisible( isVisible );
             }
         }
 

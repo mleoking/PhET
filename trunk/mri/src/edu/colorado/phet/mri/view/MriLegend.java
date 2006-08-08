@@ -38,8 +38,8 @@ public class MriLegend extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.EAST,
-                                                         GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 5, 5, 5, 5 ), 0, 0 );
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 5, 5, 0 ), 0, 0 );
         // The dipole
         BufferedImage atomImage = null;
         try {
@@ -53,10 +53,6 @@ public class MriLegend extends JPanel {
             e.printStackTrace();
         }
         ImageIcon atomIcon = new ImageIcon( atomImage );
-        add( new JLabel( atomIcon ), gbc );
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "ControlPanel.Atom" ) ), gbc );
 
         // The arrow
         double length = 25;
@@ -76,9 +72,33 @@ public class MriLegend extends JPanel {
         g2.dispose();
         ImageIcon arrowIcon = new ImageIcon( arrowImage );
 
-        gbc.anchor = GridBagConstraints.EAST;
+
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( new JLabel( "NMR" ), gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( "Nuclear magnetic resonance" ), gbc );
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( new JLabel( "MRI" ), gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( "Magnetic resonance imaging" ), gbc );
+
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( new JLabel( atomIcon ), gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( SimStrings.get( "ControlPanel.Atom" ) ), gbc );
+
         gbc.gridx = 0;
         gbc.gridy++;
+        gbc.anchor = GridBagConstraints.CENTER;
         add( new JLabel( arrowIcon ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;

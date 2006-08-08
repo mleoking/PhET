@@ -33,7 +33,7 @@ Done - Not posted
 
 
 ==============
-Change History
+0.01.17
 ==============
 Make detector less obtrusive
 Make "Hide atoms" "Hide atomic nuclei" (?)
