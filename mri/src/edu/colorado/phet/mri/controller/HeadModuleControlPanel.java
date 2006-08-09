@@ -16,7 +16,6 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.GradientMagnetControlPanel;
 import edu.colorado.phet.mri.view.MriLegend;
 
-import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -39,13 +38,13 @@ public class HeadModuleControlPanel extends ControlPanel {
         MriModel model = (MriModel)module.getModel();
 
         addControlFullWidth( new MriLegend() );
-        addControl( new FadingMagnetControl( model ) );
-        addControl( new GradientMagnetControlPanel( horizontalGradientMagnet, verticalGradientMagnet ) );
+        addControlFullWidth( new FadingMagnetControl( model ) );
+        addControlFullWidth( new GradientMagnetControlPanel( horizontalGradientMagnet, verticalGradientMagnet ) );
         addControlFullWidth( new HeadControl( module ) );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                setPreferredSize( new Dimension( 250, (int)getPreferredSize().getHeight() ) );
+//                setPreferredSize( new Dimension( 250, (int)getPreferredSize().getHeight() ) );
             }
         } );
     }
