@@ -11,16 +11,11 @@ Set fonts for magnet sliders
 ========
 Features
 ========
-- Look for source of slow-down
 - Get rid of classes that supported the big blue arrow in the control panel
 - Rename BFieldIndicatorB
 localize and translate to spanish
 Need equivalent of NMR energy levels panel for MRI panel
-There's a memory leak
 Make Radiowave Source sliders graphical controls
-Add Wiggle-Me that points to the control panel
-Hide magnetic field arrows?
-Wiggle me vetoed
 Vary size and color of donut for different atoms
 put range check on the magnetic field text field
 wiggle me for frequency and power
@@ -31,6 +26,8 @@ wiggle me for frequency and power
 Done - Not posted
 =================
 
+- Hide magnetic field arrows
+- remove auxiliary squiggle from Head module
 
 ==============
 0.01.17

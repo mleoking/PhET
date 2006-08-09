@@ -73,8 +73,11 @@ public class HeadModule extends AbstractMriModule {
         super( name, new SwingClock( delay, dt ), head );
     }
 
-    protected void init() {
+    public boolean auxiliarySquiggleVisible() {
+        return false;
+    }
 
+    protected void init() {
         super.init();
 
         MriModel model = (MriModel)getModel();

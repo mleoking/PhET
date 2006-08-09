@@ -49,6 +49,8 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         this.sample = sample;
     }
 
+    abstract public boolean auxiliarySquiggleVisible();
+
     protected void init() {
         MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1000, 768 ), sample );
         setModel( model );
