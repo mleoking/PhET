@@ -14,14 +14,18 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
 import edu.colorado.phet.mri.util.Magnifier;
+import edu.colorado.phet.piccolo.help.WiggleMe;
+import edu.colorado.phet.quantum.model.PhotonSource;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -61,8 +65,6 @@ public class NmrModule extends AbstractMriModule {
     protected void init() {
         super.init();
 
-        System.out.println( "NmrModule.init" );
-
         // Control panel
         setControlPanel( new NmrControlPanel( this ) );
 
@@ -71,6 +73,33 @@ public class NmrModule extends AbstractMriModule {
 
         // Set the initial view
         setEmRep( NmrModule.WAVE_VIEW );
+
+        // Put up a wiggle-me
+        createWiggleMe();
+    }
+
+    private void createWiggleMe() {
+        Point2D radiowaveSourceLocation = ( (MriModel)getModel() ).getRadiowaveSource().getPosition();
+        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
+                                                (int)radiowaveSourceLocation.getX() - 100,
+                                                (int)radiowaveSourceLocation.getY() );
+        getPhetPCanvas().addScreenChild( wiggleMe );
+        wiggleMe.setVisible( true );
+
+        ( (MriModel)getModel() ).getRadiowaveSource().addChangeListener( new PhotonSource.ChangeListener() {
+            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+                removeWiggleMe( event );
+            }
+
+            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+                removeWiggleMe( event );
+            }
+
+            private void removeWiggleMe( PhotonSource.ChangeEvent event ) {
+                ( (RadiowaveSource)event.getPhotonSource() ).removeChangeListener( this );
+                getPhetPCanvas().removeScreenChild( wiggleMe );
+            }
+        } );
     }
 
     class MagnifierPanel extends JPanel {

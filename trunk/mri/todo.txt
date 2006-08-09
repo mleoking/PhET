@@ -18,14 +18,13 @@ Need equivalent of NMR energy levels panel for MRI panel
 Make Radiowave Source sliders graphical controls
 Vary size and color of donut for different atoms
 put range check on the magnetic field text field
-wiggle me for frequency and power
 
 
 
 =================
 Done - Not posted
 =================
-
+wiggle me for frequency and power
 - Hide magnetic field arrows
 - remove auxiliary squiggle from Head module
 
