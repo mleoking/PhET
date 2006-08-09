@@ -89,13 +89,10 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
         // Radiowave Source
         double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
-//        length = 10;
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    lowerMagnetLocation.getY() + lowerMagnet.getBounds().getHeight() ),
-//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
-//                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 110 ),
-length,
-new Vector2D.Double( 0, -1 ) );
+                                               length,
+                                               new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {

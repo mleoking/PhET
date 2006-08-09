@@ -61,7 +61,7 @@ public class Beam extends Particle implements PhotonSource {
 
     /**
      * @param wavelength
-     * @param origin    The center point of the beam
+     * @param origin              The center point of the beam
      * @param length
      * @param beamWidth
      * @param direction
@@ -156,7 +156,6 @@ public class Beam extends Particle implements PhotonSource {
     }
 
     /**
-     *  
      * @param intensity
      * @param minWavelength
      * @param maxWavelength
@@ -164,7 +163,7 @@ public class Beam extends Particle implements PhotonSource {
     public void setIntensity( double intensity, double minWavelength, double maxWavelength ) {
         double wavelengthRange = maxWavelength - minWavelength;
         double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
+        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
         setPhotonsPerSecond( photonRate );
     }
 
@@ -180,7 +179,7 @@ public class Beam extends Particle implements PhotonSource {
     }
 
     public double getMaxIntensity() {
-        return maxPhotonsPerSecond ;
+        return maxPhotonsPerSecond;
     }
 
     public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
@@ -226,7 +225,7 @@ public class Beam extends Particle implements PhotonSource {
         // Produce photons
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
-            t+=dt;
+            t += dt;
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
                 for( int i = 0; i < nPhotons; i++ ) {
@@ -272,6 +271,10 @@ public class Beam extends Particle implements PhotonSource {
 
     public void addChangeListener( ChangeListener listener ) {
         changeListenerChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeListenerChannel.removeListener( listener );
     }
 
     public void addPhotonEmissionListener( PhotonEmissionListener listener ) {
