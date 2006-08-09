@@ -145,7 +145,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final int tickDecimalPlaces = 0;
             final int valueDecimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
             String label = SimStrings.get( "label.fieldConstant" );
-            String units = "";
+            String units = SimStrings.get( "units.fieldConstant" );
             final int columns = 3;
             _fieldConstantSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );

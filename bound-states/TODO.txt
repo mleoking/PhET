@@ -17,6 +17,10 @@ LOW PRIORITY:
 
 DONE:
 1.01.02...
+(8/9/06) - don't update while dragging sliders in Config dialogs
+(8/9/06) - change zoom ranges for Square in "Many" panel
+(8/9/06) - add "V/nm" units to field strength
+(8/9/06) - change "Field Strength" to "Electric Field"
 (8/2/06) - add more tick marks to field constant slider
 (8/2/06) - bugfix: BSSquareSeparationMarker doesn't update when zoom level is changed
 (8/2/06) - change Square height drag handle to account for field constant
