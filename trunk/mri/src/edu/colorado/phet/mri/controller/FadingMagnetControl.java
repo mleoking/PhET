@@ -10,14 +10,16 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.util.ControlBorderFactory;
+import edu.colorado.phet.mri.util.SliderControl;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * FadingMagnetControl
@@ -25,17 +27,23 @@ import javax.swing.event.ChangeListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FadingMagnetControl extends ModelSlider {
+public class FadingMagnetControl extends SliderControl {
 
     private static double MIN_FIELD = 0;
     private static double DEFAULT_FIELD = MriConfig.MAX_FADING_COIL_FIELD / 4;
 
     public FadingMagnetControl( final MriModel model ) {
-        super( SimStrings.get( "ControlPanel.MagneticField" ),
-               SimStrings.get( "ControlPanel.Tesla" ),
+        super( DEFAULT_FIELD,
                MIN_FIELD,
                MriConfig.MAX_FADING_COIL_FIELD,
-               DEFAULT_FIELD );
+               0.5, 1, 2,
+               SimStrings.get( "ControlPanel.MagneticField" ) + ":",
+               SimStrings.get( "ControlPanel.Tesla" ),
+               5,
+               new Insets( 0, 0, 0, 0 )
+        );
+        setTextEditable( true );
+        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.MainMagnet" ) ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateMagnets( model, MIN_FIELD );
