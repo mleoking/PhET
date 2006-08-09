@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.boundstates.BSLauncher
 
-CVS-Tag: boundstates-1-01-01-2006-08-01
+CVS-Tag: boundstates-1-01-02-2006-08-09
 
 
 
