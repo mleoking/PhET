@@ -90,17 +90,9 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     private static final double SQUARE_ENERGY_TICK_SPACING1 = 5; // eV
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT1 = new DecimalFormat( "0" );
     
-    private static final Range SQUARE_ENERGY_RANGE2 = new Range( -20.5, 20.5 ); // eV
+    private static final Range SQUARE_ENERGY_RANGE2 = new Range( -10.5, 30.5 ); // eV
     private static final double SQUARE_ENERGY_TICK_SPACING2 = 10; // eV
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT2 = new DecimalFormat( "0" );
-    
-    private static final Range SQUARE_ENERGY_RANGE3 = new Range( -30.5, 30.5 ); // eV
-    private static final double SQUARE_ENERGY_TICK_SPACING3 = 10; // eV
-    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT3 = new DecimalFormat( "0" );
-    
-    private static final Range SQUARE_ENERGY_RANGE4 = new Range( -40.5, 40.5 ); // eV
-    private static final double SQUARE_ENERGY_TICK_SPACING4 = 10; // eV
-    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT4 = new DecimalFormat( "0" );
     
     // Potential attributes
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0 ,0, 1 ); // eV
@@ -149,9 +141,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         {
             AxisSpec axisSpec1 = new AxisSpec( SQUARE_ENERGY_RANGE1, SQUARE_ENERGY_TICK_SPACING1, SQUARE_ENERGY_TICK_FORMAT1 );
             AxisSpec axisSpec2 = new AxisSpec( SQUARE_ENERGY_RANGE2, SQUARE_ENERGY_TICK_SPACING2, SQUARE_ENERGY_TICK_FORMAT2 );
-            AxisSpec axisSpec3 = new AxisSpec( SQUARE_ENERGY_RANGE3, SQUARE_ENERGY_TICK_SPACING3, SQUARE_ENERGY_TICK_FORMAT3 );
-            AxisSpec axisSpec4 = new AxisSpec( SQUARE_ENERGY_RANGE4, SQUARE_ENERGY_TICK_SPACING4, SQUARE_ENERGY_TICK_FORMAT4 );
-            AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2, axisSpec3, axisSpec4 };
+            AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2 };
             ZoomSpec zoomSpec = new ZoomSpec( axisSpecs );
             BSPotentialSpec wellSpec = new BSPotentialSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
