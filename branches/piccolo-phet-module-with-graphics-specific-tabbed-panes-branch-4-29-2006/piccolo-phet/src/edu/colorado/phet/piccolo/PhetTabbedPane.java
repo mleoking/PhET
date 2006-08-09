@@ -10,17 +10,6 @@
  */
 package edu.colorado.phet.piccolo;
 
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -31,6 +20,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -43,9 +41,29 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 
 public class PhetTabbedPane extends JPanel {
-    
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     public static final String IMAGE_PHET_LOGO = "images/phetlogo.png";
-    
+    private static boolean LOGO_VISIBLE;
+
+    /**
+     * Sets the visibility of the logo to the right of the tabs. This must be
+     * called before setModules() is called on the PhetApplication, or it won't
+     * have any effect.
+     *
+     * @param visible
+     */
+    public static void setLogoVisible( boolean visible ) {
+        PhetTabbedPane.LOGO_VISIBLE = visible;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private TabPane tabPane;
     /**
      * A piccolo canvas that displays the tabs
@@ -630,7 +648,9 @@ public class PhetTabbedPane extends JPanel {
             setZoomEventHandler( null );
             setOpaque( false );
 
-            getLayer().addChild( logo );
+            if( PhetTabbedPane.LOGO_VISIBLE ) {
+                getLayer().addChild( logo );
+            }
             getLayer().addChild( tabBase );
             addComponentListener( new ComponentListener() {
                 public void componentHidden( ComponentEvent e ) {
