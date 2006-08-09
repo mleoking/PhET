@@ -20,11 +20,11 @@ package edu.colorado.phet.boundstates;
  */
 public class BSVersion {
   
-//    public static final String NUMBER = "sandbox";
-//    public static final String CVS_TAG = "boundstates-sandbox";
+    public static final String NUMBER = "sandbox";
+    public static final String CVS_TAG = "boundstates-sandbox";
     
-    public static final String NUMBER = "1.01.02";
-    public static final String CVS_TAG = "boundstates-1-01-02-2006-08-09";
+//    public static final String NUMBER = "1.01.02";
+//    public static final String CVS_TAG = "boundstates-1-01-02-2006-08-09";
     
     /* This class is not intended for instantiation. */
     private BSVersion() {}
