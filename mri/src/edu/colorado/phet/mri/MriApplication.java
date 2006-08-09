@@ -22,6 +22,7 @@ import edu.colorado.phet.mri.controller.OptionMenu;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * MriApplication
@@ -80,7 +81,18 @@ public class MriApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 SimStrings.init( args, MriConfig.STRINGS_BUNDLE_NAME );
+
+                // Set the look and feel. Make the fonts a bit stronger
                 PhetLookAndFeel.setLookAndFeel();
+                PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
+                Font orgFont = UIManager.getFont( "Label.font" );
+                Font newFont = new Font( orgFont.getName(), Font.BOLD, orgFont.getSize() );
+                lookAndFeel.setFont( newFont );
+                lookAndFeel.setTitledBorderFont( newFont );
+                Color background = UIManager.getColor( "Panel.background" );
+                lookAndFeel.setBackgroundColor( background );
+                lookAndFeel.apply();
+
                 PhetApplication app = new MriApplication( args );
                 app.startApplication();
             }
