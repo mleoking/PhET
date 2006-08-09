@@ -15,6 +15,7 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.MonitorPanel;
 import edu.colorado.phet.mri.view.MriLegend;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -35,16 +36,13 @@ public class NmrControlPanel extends ControlPanel {
 
         MonitorPanel monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
+        JPanel monitorPanelWrapper = new JPanel();
+        monitorPanelWrapper.add( monitorPanel );
 
         addControlFullWidth( new MriLegend() );
-        addControlFullWidth( monitorPanel );
+        addControlFullWidth( monitorPanelWrapper );
+//        addControlFullWidth( monitorPanel );
         addControlFullWidth( new FadingMagnetControl( model ) );
-//        addControlFullWidth( new BFieldGraphicPanel( model ) );
-//        addControlFullWidth( new EmRepSelector( module ) );
         addControlFullWidth( new SampleMaterialSelector( model ) );
-
-//        addControl( new PrecessionControl( model ) );
-//        addControl( new SpinDeterminationControl( model ) );
-//        addControl( new MonitorPanelRepControl( monitorPanel ) );
     }
 }

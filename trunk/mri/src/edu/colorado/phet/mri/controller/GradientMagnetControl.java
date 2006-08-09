@@ -27,9 +27,6 @@ import java.awt.*;
  * @version $Revision$
  */
 public class GradientMagnetControl extends SliderControl {
-//public class GradientMagnetControl extends ModelSlider {
-    // Makes the magnet in the model have the appropriate current, but causes a smaller
-    // number to be displayed in the control panel. This was requested by Carl.
     public final static double VIEW_TO_MODEL_FACTOR = 10;
 
     public GradientMagnetControl( final GradientElectromagnet horizontalMagnet, String title ) {

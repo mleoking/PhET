@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
 import edu.colorado.phet.mri.controller.OptionMenu;
+import edu.colorado.phet.piccolo.PhetTabbedPane;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
@@ -59,6 +60,7 @@ public class MriApplication extends PiccoloPhetApplication {
                SimStrings.get( "Application.Description" ),
                MriConfig.VERSION,
                frameSetup );
+        PhetTabbedPane.setLogoVisible( false );
         setModules( modules );
     }
 
