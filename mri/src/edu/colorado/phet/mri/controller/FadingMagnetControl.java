@@ -56,8 +56,6 @@ public class FadingMagnetControl extends SliderControl {
         Electromagnet upperMagnet = model.getUpperMagnet();
         upperMagnet.setFieldStrength( getValue() / 2 );
         Electromagnet lowerMagnet = model.getLowerMagnet();
-        {
-            lowerMagnet.setFieldStrength( getValue() / 2 );
-        }
+        lowerMagnet.setFieldStrength( getValue() / 2 );
     }
 }

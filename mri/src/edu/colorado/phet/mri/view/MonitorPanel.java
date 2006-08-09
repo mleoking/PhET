@@ -47,11 +47,8 @@ public class MonitorPanel extends PhetPCanvas {
 
     private BufferedImage spinUpImage, spinDownImage;
     private double imageWidth;
-    private static double BASE_SCALE = 0.5;
     private double scale = 0.4;
-    private double BASE_SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.8; // for scale = 0;5
     private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45; // for scale = 0.4
-//    private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
 
     private ArrayList spinUpReps = new ArrayList();
     private ArrayList spinDownReps = new ArrayList();
@@ -237,8 +234,9 @@ public class MonitorPanel extends PhetPCanvas {
                                      -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
 
-            // Set the size of the panel
-            MonitorPanel.this.setPreferredSize( new Dimension( (int)( dipoleRepImage.getWidth() * ( nucleiReps.size() )
+            // Set the size of the panel. Leave a little space (one dipoleRepImagewidth) on the right,
+            // and space on the left for the energy axis and the energy squiggle
+            MonitorPanel.this.setPreferredSize( new Dimension( (int)( dipoleRepImage.getWidth() * ( nucleiReps.size() + 1 )
                                                                       + energySquiggleReserveX
                                                                       + energyAxisReserveX ),
                                                                getPreferredSize().height ) );

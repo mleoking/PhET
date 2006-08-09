@@ -45,9 +45,6 @@ public class MriLegend extends JPanel {
         try {
             atomImage = ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "dipole-5-hydrogen.gif" );
             atomImage = BufferedImageUtils.getRotatedImage( atomImage, -Math.PI / 2 );
-//            AffineTransform atx = AffineTransform.getScaleInstance( 0.9, 0.9 );
-//            AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-//            atomImage = atxOp.filter( atomImage, null );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -72,7 +69,7 @@ public class MriLegend extends JPanel {
         g2.dispose();
         ImageIcon arrowIcon = new ImageIcon( arrowImage );
 
-
+        // Lay out the panel
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         add( new JLabel( "NMR" ), gbc );

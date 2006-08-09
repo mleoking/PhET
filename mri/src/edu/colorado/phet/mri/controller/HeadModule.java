@@ -24,7 +24,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * MriModuleA
+ * HeadModule
  *
  * @author Ron LeMaster
  * @version $Revision$
