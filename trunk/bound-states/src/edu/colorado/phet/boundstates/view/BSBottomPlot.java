@@ -79,8 +79,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     private BSWaveFunctionPlotter _plotter;
     
-    private double _t; // time of the last clock tick
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -220,8 +218,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             }
             _model = model;
             _model.addObserver( this );
-            _plotter.updateCache();
-            updateAllSeries();
+            _plotter.notifyModelChanged();
         }
     }
     
@@ -290,7 +287,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
         
-        updateAllSeries();
+        _plotter.refreshAllSeries();
     }
     
     /**
@@ -316,6 +313,18 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         getRenderer( _magnitudeSeriesIndex ).setPaint( scheme.getMagnitudeColor() );
         getRenderer( _probabilityDensitySeriesIndex ).setPaint( scheme.getMagnitudeColor() ); // use magnitude color!
         getRenderer( _hiliteSeriesIndex ).setPaint( scheme.getEigenstateHiliteColor() );
+    }
+    
+    /**
+     * Clears all series.
+     */
+    public void clearAllSeries() {
+        _realSeries.clear();
+        _imaginarySeries.clear();
+        _magnitudeSeries.clear();
+        _phaseSeries.clear();
+        _probabilityDensitySeries.clear();
+        _hiliteSeries.clear();
     }
     
     //----------------------------------------------------------------------------
@@ -352,6 +361,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
 
     private void setSeriesVisible( int seriesIndex, boolean visible ) {
         getRenderer( seriesIndex ).setSeriesVisible( new Boolean( visible ) );
+        _plotter.refreshAllSeries();
     }
     
     private boolean isSeriesVisible( int seriesIndex ) {
@@ -360,7 +370,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setRealSeriesVisible( boolean visible ) {
         setSeriesVisible( _realSeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isRealSeriesVisible() {
@@ -369,7 +378,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setImaginarySeriesVisible( boolean visible ) {
         setSeriesVisible( _imaginarySeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isImaginarySeriesVisible() {
@@ -378,7 +386,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setMagnitudeSeriesVisible( boolean visible ) {
         setSeriesVisible( _magnitudeSeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isMagnitudeSeriesVisible() {
@@ -387,7 +394,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setPhaseSeriesVisible( boolean visible ) {
         setSeriesVisible( _phaseSeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isPhaseSeriesVisible() {
@@ -396,7 +402,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setProbabilityDensitySeriesVisible( boolean visible ) {
         setSeriesVisible( _probabilityDensitySeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isProbabilityDensitySeriesVisible() {
@@ -405,7 +410,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setHiliteSeriesVisible( boolean visible ) {
         setSeriesVisible( _hiliteSeriesIndex, visible );
-        updateAllSeries();
     }
     
     public boolean isHiliteSeriesVisible() {
@@ -425,26 +429,20 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     public void update( Observable o, Object arg ) {
         if ( o == _model ) {
             if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-                _plotter.updateHiliteSeries();
+                _plotter.notifyHiliteChanged();
             }
             else if ( arg == BSModel.PROPERTY_PARTICLE ) {
                 // ignore, we'll be notified that the potential changed
             }
             else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_COUNT ) {
-                // ignore, the plotter's cache doesn't need to change
+                // ignore, the plotter doesn't need to change
             }
             else if ( arg == null ||
                       arg == BSModel.PROPERTY_POTENTIAL ||
                       arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES  ) { 
-                _plotter.updateCache();
-                _plotter.updateTimeDependentSeries( _t );
+                _plotter.notifyModelChanged();
             }
         }
-    }
-
-    private void updateAllSeries() {
-        _plotter.updateTimeDependentSeries( _t );
-        _plotter.updateHiliteSeries();
     }
     
     //----------------------------------------------------------------------------
@@ -452,8 +450,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     //----------------------------------------------------------------------------
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        _t = clockEvent.getSimulationTime();
-        _plotter.updateTimeDependentSeries( _t );
+        final double t = clockEvent.getSimulationTime();
+        _plotter.notifyTimeChanged( t );
     }
 
     public void simulationTimeReset( ClockEvent clockEvent ) {}
