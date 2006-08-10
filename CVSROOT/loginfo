@@ -60,6 +60,7 @@
 ^fluorescent-lights\(/\|$\) mail -s "CVS commit: fluorescent-lights" ronlemaster
 ^fourier\(/\|$\) mail -s "CVS commit: fourier" cmalley
 ^greenhouse\(/\|$\) mail -s "CVS commit: greenhouse" ronlemaster
+^hydrogen-atom\(/\|$\) mail -s "CVS commit: hydrogen-atom" cmalley
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
 ^photoelectric\(/\|$\) mail -s "CVS commit: photoelectric" ronlemaster
