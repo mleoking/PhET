@@ -31,7 +31,7 @@ import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implements Observer {
 
     // maximum number of terms in superposition equation
-    private static final int MAX_TERMS = 5;
+    private static final int MAX_TERMS = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
