@@ -5,18 +5,19 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: superposition state is cleared when switching "Display" modes, only lowest non-zero coeff is preserved
-- add an option to show average prob density of a band of eigenstates
-- zoom level is not remembered when switching between potential types in Many module
+- add APD support to selection in magnifying glass
 
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
+- zoom level is not remembered when switching between potential types in Many module
 
 LOW PRIORITY:
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
 DONE:
+(8/10/06) - bugfix: superposition state is cleared when switching "Display" modes, only lowest non-zero coeff is preserved
+(8/10/06) - bugfix: call plotter.notifyModelChanged in BSBottomPlot.setMode so mode changes update correctly
 (8/10/06) - increase max terms in BSSelectedEquation
 (8/10/06) - bugfix: 1D Coulomb should use analytic scaling coefficients only in single-well case
 (8/10/09) - hierarchy of classes for plotting data in BSBottomPlot, including one with APD support
