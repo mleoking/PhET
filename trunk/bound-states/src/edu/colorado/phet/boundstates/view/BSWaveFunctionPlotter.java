@@ -12,35 +12,27 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.Point2D;
-import java.util.Observable;
-import java.util.Observer;
 
-import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
-import edu.colorado.phet.boundstates.model.*;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSModel;
+import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.boundstates.model.BSWaveFunctionCache;
 import edu.colorado.phet.boundstates.model.BSWaveFunctionCache.Item;
 import edu.colorado.phet.boundstates.util.Complex;
 import edu.colorado.phet.boundstates.util.MutableComplex;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSWaveFunctionPlotter
+ * BSWaveFunctionPlotter calculates the data series for the 
+ * "Wave Function" and "Probability Density" modes of the bottom chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class BSWaveFunctionPlotter {
+class BSWaveFunctionPlotter extends BSAbstractBottomPlotter {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,10 +45,6 @@ class BSWaveFunctionPlotter {
     private XYSeries _magnitudeSeries;
     private XYSeries _phaseSeries;
     private XYSeries _probabilityDensitySeries;
-    private XYSeries _hiliteSeries;
-    
-    // Cache of wave function data
-    private BSWaveFunctionCache _cache;
     
     // Memory optimizations
     private MutableComplex[] _psiSum; // reused by computeTimeDependentWaveFunction
@@ -67,9 +55,15 @@ class BSWaveFunctionPlotter {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param plot the plot that we're calculating data for
+     */
     public BSWaveFunctionPlotter( BSBottomPlot plot ) {
-        _plot = plot; 
-        _cache = new BSWaveFunctionCache();
+        super( plot );
+        
+        _plot = plot;
         
         // Series objects don't change, so get references to them now.
         _realSeries = plot.getRealSeries();
@@ -77,21 +71,11 @@ class BSWaveFunctionPlotter {
         _magnitudeSeries = plot.getMagnitudeSeries();
         _phaseSeries = plot.getPhaseSeries();
         _probabilityDensitySeries = plot.getProbabilityDensitySeries();
-        _hiliteSeries = plot.getHiliteSeries();
     }
     
     //----------------------------------------------------------------------------
-    // Public interface
+    // BSBottomPlot.IPlotter implementation
     //----------------------------------------------------------------------------
-
-    /**
-     * Notifies the plotter that the model has changed.
-     * This plotter updates its cache and refreshes all series.
-     */
-    public void notifyModelChanged() {
-        updateCache();
-        refreshAllSeries();
-    }
     
     /**
      * Notifies the plotter that the clock time has changed.
@@ -102,14 +86,6 @@ class BSWaveFunctionPlotter {
     public void notifyTimeChanged( final double t ) {
         _t = t;
         updateTimeDependentSeries( _t );
-    }
-    
-    /**
-     * Notifies the plotter that the index of the hilited eigenstate has changed.
-     * This plotter updates the data series for the hilited eigenstate.
-     */
-    public void notifyHiliteChanged() {
-        updateHiliteSeries();
     }
     
     /**
@@ -125,81 +101,22 @@ class BSWaveFunctionPlotter {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the series for the hilited eigenstate,
-     * which is a time-independent wave function solution.
-     * <p>
-     * How we display the hilited eigenstate's wave function is dependent
-     * on what other views are visible.  If probability density is visible,
-     * we display the hilite as probability density. If either real or 
-     * imaginary part is visible, we display the real hililite.  
-     * If magnitude or phase is the only thing visible, we display
-     * magnitude.  If none of the other views is visible, we display
-     * nothing.
-     */
-    private void updateHiliteSeries() {
-        
-        _hiliteSeries.setNotify( false );
-        _hiliteSeries.clear();
-        
-        BSModel model = _plot.getModel();
-        if ( model != null ) {
-            final int hiliteIndex = model.getHilitedEigenstateIndex();
-            if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
-                
-                /* 
-                 * NOTE - 
-                 * The cache only contains wave functions for eigenstates with non-zero
-                 * superposition coefficients. It's possible for the user to hilite any of the
-                 * eigenstates, so we compute their wave functions as they're hilited.  A possible
-                 * optimization would be to look for the hilited eigenstate's wave function in
-                 * the cache, and compute it (and cache it) if we don't find it in the cache.
-                 * In practice, there is no perceptible performance difference.
-                 */
-                BSEigenstate[] eigenstates = model.getEigenstates();
-                BSAbstractPotential potential = model.getPotential();
-                final double minX = _plot.getDomainAxis().getLowerBound();
-                final double maxX = _plot.getDomainAxis().getUpperBound();
-                Point2D[] points = potential.getWaveFunctionPoints( eigenstates[hiliteIndex], minX, maxX );
-                
-                for ( int i = 0; i < points.length; i++ ) {
-                    if ( _plot.isProbabilityDensitySeriesVisible() ) {
-                        double x = points[i].getX();
-                        double y = Math.pow( points[i].getY(), 2 );
-                        _hiliteSeries.add( x, y );
-                    }
-                    else if ( _plot.isRealSeriesVisible() || _plot.isImaginarySeriesVisible() ) {
-                        double x = points[i].getX();
-                        double y = points[i].getY();
-                        _hiliteSeries.add( x, y );
-                    }
-                    else if ( _plot.isMagnitudeSeriesVisible() || _plot.isPhaseSeriesVisible() ) {
-                        double x = points[i].getX();
-                        double y = Math.abs( points[i].getY() );
-                        _hiliteSeries.add( x, y );
-                    }
-                }
-            }
-        }
-        
-        _hiliteSeries.setNotify( true );
-    }
-    
-    /*
      * Updates the series that display the time-dependent superposition state.
      * This is the sum of all wave functions for eigenstates.
      * 
      * @param t clock time
      */
     private void updateTimeDependentSeries( final double t ) {
+        BSWaveFunctionCache cache = getCache();
         setTimeDependentSeriesNotify( false );
         clearTimeDependentSeries();
-        if ( _cache.getSize() > 0 ) {
+        if ( cache.getSize() > 0 ) {
             Complex[] psiSum = computeTimeDependentWaveFunction( t );
             if ( psiSum != null ) {
 
-                final double minX = _cache.getMinPosition();
-                final double maxX = _cache.getMaxPosition();
-                Point2D[] points = _cache.getItem( 0 ).getPoints(); // all wave functions should share the same x values
+                final double minX = cache.getMinPosition();
+                final double maxX = cache.getMaxPosition();
+                Point2D[] points = cache.getItem( 0 ).getPoints(); // all wave functions should share the same x values
                 assert ( psiSum.length == points.length );
 
                 for ( int i = 0; i < psiSum.length; i++ ) {
@@ -237,15 +154,15 @@ class BSWaveFunctionPlotter {
      * @param t
      */
     private Complex[] computeTimeDependentWaveFunction( final double t ) {
-   
-        if ( _cache.getSize() > 0 ) {
+        BSWaveFunctionCache cache = getCache();
+        if ( cache.getSize() > 0 ) {
             
             BSModel model = _plot.getModel();
             BSEigenstate[] eigenstates = model.getEigenstates();
             BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
             assert( eigenstates.length == coefficients.getNumberOfCoefficients() );
             
-            final int numberOfPoints = _cache.getNumberOfPointsInEachWaveFunction();
+            final int numberOfPoints = cache.getNumberOfPointsInEachWaveFunction();
             
             // Reuse previous psiSum array if numberOfPoints hasn't changed
             if ( _psiSum == null || numberOfPoints != _psiSum.length ) {
@@ -264,10 +181,10 @@ class BSWaveFunctionPlotter {
             MutableComplex Ft = new MutableComplex();
             
             // Iterate over the cache...
-            final int cacheSize = _cache.getSize();
+            final int cacheSize = cache.getSize();
             for ( int i = 0; i < cacheSize; i++ ) {
                 
-                Item item = _cache.getItem( i );
+                Item item = cache.getItem( i );
 
                 // Eigenstate index
                 final int eigenstateIndex = item.getEigenstateIndex();
@@ -302,7 +219,7 @@ class BSWaveFunctionPlotter {
             }
             
             // Scale the wave function sum
-            final double S = _cache.getSumScalingCoefficient();
+            final double S = cache.getSumScalingCoefficient();
             if ( S != 1 ) {
                 for ( int j = 0; j < _psiSum.length; j++ ) {
                     _psiSum[j].multiply( S );
@@ -310,15 +227,6 @@ class BSWaveFunctionPlotter {
             }
         }
         return _psiSum;
-    }
-    
-    /*
-     * Updates the cache of wave function data.
-     */
-    private void updateCache() {
-        final double minPosition = _plot.getDomainAxis().getLowerBound();
-        final double maxPosition = _plot.getDomainAxis().getUpperBound();
-        _cache.update( _plot.getModel(), minPosition, maxPosition );
     }
     
     /*

@@ -77,7 +77,35 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     private String _probabilityDensityLabel;
     private String _averageProbabilityDensityLabel;
     
-    private BSWaveFunctionPlotter _plotter;
+    private IPlotter _plotter;
+    
+    //----------------------------------------------------------------------------
+    // Interface for the plotter
+    //----------------------------------------------------------------------------
+    
+    public interface IPlotter {
+        /**
+         * Notifies the plotter that the model has changed.
+         */
+        public void notifyModelChanged();
+        
+        /**
+         * Notifies the plotter that the clock time has changed.
+         * 
+         * @param t clock time
+         */
+        public void notifyTimeChanged( final double t );
+        
+        /**
+         * Notifies the plotter that the index of the hilited eigenstate has changed.
+         */
+        public void notifyHiliteChanged();
+        
+        /**
+         * Refreshes all data series.
+         */
+        public void refreshAllSeries();
+    }
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -197,8 +225,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         setDomainAxis( xAxis );
         setRangeAxis( yAxis );
         
-        _plotter = new BSWaveFunctionPlotter( this );
-        
         setMode( BSBottomPlotMode.PROBABILITY_DENSITY );
     }
     
@@ -237,8 +263,14 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * @param mode
      */
     public void setMode( BSBottomPlotMode mode ) {
+        
+        clearAllSeries();
+        
         ValueAxis yAxis = getRangeAxis();
+        
         if ( mode == BSBottomPlotMode.WAVE_FUNCTION ) {
+            // Plotter
+            _plotter = new BSWaveFunctionPlotter( this );
             // Views
             setRealSeriesVisible( true );
             setImaginarySeriesVisible( true );
@@ -254,6 +286,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             yAxis.setAutoTickUnitSelection( true );
         }
         else if ( mode == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+            // Plotter
+            _plotter = new BSWaveFunctionPlotter( this );
             // Views
             setRealSeriesVisible( false );
             setImaginarySeriesVisible( false );
@@ -269,6 +303,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             yAxis.setAutoTickUnitSelection( true );
         }
         else if ( mode == BSBottomPlotMode.PROBABILITY_DENSITY || mode == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
+            // Plotter
+            _plotter = new BSAverageProbabilityDensityPlotter( this );
             // Views
             setRealSeriesVisible( false );
             setImaginarySeriesVisible( false );
