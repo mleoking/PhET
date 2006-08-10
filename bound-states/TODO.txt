@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(8/9/06) - verify that "Superposition State" and APD features are never both enabled
 (8/9/06) - add APD support to BSBottomPlot.setMode (does not change computation and display behavior yet)
 (8/9/06) - add APD support to eigenstate selection mechanism
 (8/9/06) - refactor eigenstate selection methods in BSEigenstatesNode

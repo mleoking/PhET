@@ -159,6 +159,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         
         super( title, new BSClock(), true /* startsPaused */ );
         
+        if ( moduleSpec.isSuperpositionControlsSupported() && moduleSpec.isAverageProbabilityDensitySupported() ) {
+            throw new UnsupportedOperationException( 
+                    "Superposition State and Average Probability Density features are mututally exclusive. " +
+                    "See the Javadoc for BSEigenstatesNode.setMode for details." );
+        }
+        
         _moduleSpec = moduleSpec;
         _colorScheme = BSConstants.COLOR_SCHEME;
         
