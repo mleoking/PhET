@@ -828,6 +828,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.saveCoulomb3DPotential( _coulomb3DPotential );
         config.saveHarmonicOscillatorPotential( _harmonicOscillatorPotential );
         config.saveSquarePotential( _squarePotential );
+        config.setNumberOfWells( _model.getPotential().getNumberOfWells() );
         config.setSuperpositionCoefficients( _superpositionCoefficients.getCoefficients() );
         
         // Control panel
@@ -872,6 +873,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _coulomb3DPotential = config.loadCoulomb3DPotential( _particle );
             _harmonicOscillatorPotential = config.loadHarmonicOscillatorPotential( _particle );
             _squarePotential = config.loadSquarePotential( _particle );
+            setNumberOfWells( config.getNumberOfWells() );
             
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
@@ -1070,7 +1072,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _controlPanel.setWellType( wellType );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-
+            
             // Clock
             resetClock();
         }
@@ -1083,8 +1085,25 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      */
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != _model.getNumberOfWells() ) {
-            _model.getPotential().setNumberOfWells( numberOfWells );
+            
+            if ( _asymmetricPotential != null ) {
+                _asymmetricPotential.setNumberOfWells( numberOfWells );
+            }
+            if ( _coulomb1DPotential != null ) {
+                _coulomb1DPotential.setNumberOfWells( numberOfWells );
+            }
+            if ( _coulomb3DPotential != null ) {
+                _coulomb3DPotential.setNumberOfWells( numberOfWells );
+            }
+            if ( _harmonicOscillatorPotential != null ) {
+                _harmonicOscillatorPotential.setNumberOfWells( numberOfWells );
+            }
+            if ( _squarePotential != null ) {
+                _squarePotential.setNumberOfWells( numberOfWells );
+            }
+            
             _eigenstatesNode.updateBandSelection();
+            
             resetClock();
         }
     }
