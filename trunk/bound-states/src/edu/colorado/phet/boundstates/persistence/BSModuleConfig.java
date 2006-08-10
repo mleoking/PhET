@@ -41,6 +41,7 @@ public class BSModuleConfig implements BSSerializable {
     private BSHarmonicOscillatorConfig _harmonicOscillatorConfig;
     private BSSquareConfig _squareConfig;
     private String _selectedWellTypeName;
+    private int _numberOfWells;
     private double[] _superpositionCoefficients;
     
     // Controls
@@ -64,6 +65,14 @@ public class BSModuleConfig implements BSSerializable {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setNumberOfWells( int numberOfWells ) {
+        _numberOfWells = numberOfWells;
+    }
+    
+    public int getNumberOfWells() {
+        return _numberOfWells;
+    }
     
     public void setClockRunning( boolean clockRunning ) {
         _clockRunning = clockRunning;
