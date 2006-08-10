@@ -87,7 +87,12 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
                 text = createSimpleString();
             }
             else {
-                text = createSuperpositionString();
+                if ( getMode() == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
+                    text = createAverageProbabilityDensityString();
+                }
+                else {
+                    text = createSuperpositionString();
+                }
             }
             setHTML( text );
 
@@ -168,65 +173,75 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
 
         BSModel model = getModel();
         String text = "";
-        
-        if ( getMode() == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
-            // Create sum of absolute squares of terms...
-            BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
-            int numberOfTerms = 0;
-            final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
-            text = "(";
-            for ( int i = 0; i < numberOfCoefficients && numberOfTerms < MAX_TERMS; i++ ) {
-                double coefficient = coefficients.getCoefficient( i );
-                if ( coefficient > 0 ) {
-                    if ( numberOfTerms > 0 ) {
-                        text += "+";
-                    }
-                    BSEigenstate eigenstate = model.getEigenstate( i );
-                    final int eigenstateSubscript = eigenstate.getSubscript();
-                    text += "|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup>";
-                    numberOfTerms++;
-                }
-            }
-            
-            // Add ellipsis if there are more non-zero terms that aren't shown...
-            final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
-            if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
-                text += "+...";
-            }
-            
-            text += ")/" + numberOfNonZeroCoefficients;
-        }
-        else {
-            // Create sum of terms...
-            BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
-            int numberOfTerms = 0;
-            final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
-            for ( int i = 0; i < numberOfCoefficients && numberOfTerms < MAX_TERMS; i++ ) {
-                double coefficient = coefficients.getCoefficient( i );
-                if ( coefficient > 0 ) {
-                    if ( numberOfTerms > 0 ) {
-                        text += "+";
-                    }
-                    BSEigenstate eigenstate = model.getEigenstate( i );
-                    final int eigenstateSubscript = eigenstate.getSubscript();
-                    text += BSConstants.COEFFICIENT_FORMAT.format( coefficient );
-                    text += BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)";
-                    numberOfTerms++;
-                }
-            }
 
-            // Add ellipsis if there are more non-zero terms that aren't shown...
-            final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
-            if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
-                text += "+...";
-            }
-
-            // Modify equation for probabilty density
-            if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
-                text = "|" + text + "|<sup>2</sup>";
+        // Create sum of terms...
+        BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
+        int numberOfTerms = 0;
+        final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients && numberOfTerms < MAX_TERMS; i++ ) {
+            double coefficient = coefficients.getCoefficient( i );
+            if ( coefficient > 0 ) {
+                if ( numberOfTerms > 0 ) {
+                    text += "+";
+                }
+                BSEigenstate eigenstate = model.getEigenstate( i );
+                final int eigenstateSubscript = eigenstate.getSubscript();
+                text += BSConstants.COEFFICIENT_FORMAT.format( coefficient );
+                text += BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)";
+                numberOfTerms++;
             }
         }
-        
+
+        // Add ellipsis if there are more non-zero terms that aren't shown...
+        final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
+        if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
+            text += "+...";
+        }
+
+        // Modify equation for probabilty density
+        if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+            text = "|" + text + "|<sup>2</sup>";
+        }
+
+        // Convert to html
+        String html = "<html>" + text + "<html>";
+        return html;
+    }
+    
+    /*
+     * Creates the string that is displayed when the bottom chart is in 
+     * "Average Probability Density" mode.
+     */
+    private String createAverageProbabilityDensityString() {
+        BSModel model = getModel();
+        String text = "";
+
+        // Create sum of absolute squares of terms...
+        BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
+        int numberOfTerms = 0;
+        final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
+        text = "(";
+        for ( int i = 0; i < numberOfCoefficients && numberOfTerms < MAX_TERMS; i++ ) {
+            double coefficient = coefficients.getCoefficient( i );
+            if ( coefficient > 0 ) {
+                if ( numberOfTerms > 0 ) {
+                    text += "+";
+                }
+                BSEigenstate eigenstate = model.getEigenstate( i );
+                final int eigenstateSubscript = eigenstate.getSubscript();
+                text += "|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup>";
+                numberOfTerms++;
+            }
+        }
+
+        // Add ellipsis if there are more non-zero terms that aren't shown...
+        final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
+        if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
+            text += "+...";
+        }
+
+        text += ")/" + numberOfNonZeroCoefficients;
+
         // Convert to html
         String html = "<html>" + text + "<html>";
         return html;
