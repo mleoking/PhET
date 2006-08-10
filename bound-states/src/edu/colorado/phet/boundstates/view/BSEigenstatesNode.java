@@ -163,6 +163,7 @@ public class BSEigenstatesNode extends PComposite implements Observer {
             _model = model;
             _model.addObserver( this );
             updateHiliteValueDisplay();
+            updateBandSelection();
         }
     }
     
@@ -212,7 +213,7 @@ public class BSEigenstatesNode extends PComposite implements Observer {
             BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
             final int lowestIndex = superpositionCoefficients.getLowestNonZeroCoefficientIndex();
             if ( _bandSelectionEnabled ) {
-                selectBand( lowestIndex );
+                selectBandByEigenstateIndex( lowestIndex );
             }
             else {
                 selectEigenstate( lowestIndex );
@@ -246,20 +247,42 @@ public class BSEigenstatesNode extends PComposite implements Observer {
     
     /*
      * Selects all of the eigenstates in the band to which eigenstateIndex belongs.
+     * 
+     * @param eigenstateIndex index of some eigenstate
+     */
+    private void selectBandByEigenstateIndex( final int eigenstateIndex ) {
+        final int bandSize = _model.getPotential().getNumberOfWells();
+        final int bandIndex = (int)( eigenstateIndex / bandSize );
+        selectBand( bandIndex );
+    }
+    
+    /*
+     * Selects all of the eigenstates in a band.
+     * <p>
      * The number of eigenstates in a band is equal to the number of wells.
      * But we may display only part of a band near the "top" of the well,
      * so we have to handle the possibility that we are selecting only a
      * partial band.
+     * <p>
+     * If there are no eigenstates in the specified band, 
+     * the lowest band is selected.
      * 
-     * @param eigenstateIndex index of some eigenstate
+     * @param bandIndex the band index
      */
-    private void selectBand( final int eigenstateIndex ) {
-        final int numberOfWells = _model.getPotential().getNumberOfWells();
-        final int bandSize = numberOfWells;
-        final int bandIndex = (int)( eigenstateIndex / bandSize ); // bands numbered starting from zero
-        _selectedBandIndex = bandIndex;
+    private void selectBand( int bandIndex ) {
+        System.out.println( "BSEigentatesNode.selectBand " + bandIndex );//XXX
+
         BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
-        superpositionCoefficients.setBandCoefficients( bandIndex, bandSize, 1  );
+        
+        final int bandSize = _model.getPotential().getNumberOfWells();
+        if ( ( bandSize * _selectedBandIndex ) + 1 > superpositionCoefficients.getNumberOfCoefficients() ) {
+            _selectedBandIndex = 0;
+        }
+        else {
+            _selectedBandIndex = bandIndex; 
+        }
+
+        superpositionCoefficients.setBandCoefficients( _selectedBandIndex, bandSize, 1  );
     }
     
     //----------------------------------------------------------------------------
@@ -277,7 +300,7 @@ public class BSEigenstatesNode extends PComposite implements Observer {
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
             _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
             if ( _bandSelectionEnabled ) {
-                selectBand( hiliteIndex );
+                selectBandByEigenstateIndex( hiliteIndex );
             }
             else {
                 selectEigenstate( hiliteIndex );
@@ -320,8 +343,13 @@ public class BSEigenstatesNode extends PComposite implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _model && arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-            updateHiliteValueDisplay();
+        if ( o == _model ) {
+            if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+                updateHiliteValueDisplay();
+            }
+            else if ( arg == BSModel.PROPERTY_POTENTIAL ) {
+                updateBandSelection();
+            }
         }
     }
     
