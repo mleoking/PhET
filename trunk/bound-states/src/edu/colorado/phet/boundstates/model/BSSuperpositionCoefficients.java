@@ -23,6 +23,12 @@ import java.util.Iterator;
 public class BSSuperpositionCoefficients extends BSObservable {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final int INDEX_UNDEFINED = -1;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -355,5 +361,51 @@ public class BSSuperpositionCoefficients extends BSObservable {
         }
         setNotifyEnabled( notifyEnabled );
         notifyObservers( BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS_VALUES );
+    }
+    
+    /**
+     * Gets the index of the lowest selected eigenstate.
+     * 
+     * @return the index
+     */
+    public int getLowestNonZeroCoefficientIndex() {
+        final int numberOfCoefficients = getNumberOfCoefficients();
+        int index = INDEX_UNDEFINED;
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            double coefficient = getCoefficient( i );
+            if ( coefficient != 0 ) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+    
+    /**
+     * Sets all the coefficient values in a band of eigenstates.
+     * 
+     * @param bandIndex band index, starts at zero
+     * @param bandSize number of coefficients in the band
+     * @param value coefficient value
+     */
+    public void setBandCoefficients( int bandIndex, int bandSize, double value ) {
+        setNotifyEnabled( false );
+        {
+            final int numberOfCoefficients = getNumberOfCoefficients();
+            
+            // Clear all
+            for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                setCoefficient( i, 0 );
+            }
+            
+            // Select eigenstates in band
+            if ( bandIndex != INDEX_UNDEFINED ) {
+                final int firstIndexInBand = bandIndex * bandSize;
+                for ( int i = firstIndexInBand; i < ( firstIndexInBand + bandSize ) && i < numberOfCoefficients; i++ ) {
+                    setCoefficient( i, value );
+                }
+            }
+        }
+        setNotifyEnabled( true );
     }
 }

@@ -26,6 +26,7 @@ import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
@@ -98,6 +99,8 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
     
     private MagnifyingGlassEventHandler _eventHandler;
     
+    private boolean _bandSelectionEnabled;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -111,6 +114,7 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
     public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSColorScheme colorScheme ) {
         _magnification = DEFAULT_MAGNIFICATION;
         _chartNode = chartNode;
+        _bandSelectionEnabled = false;
         initNodes();
         initEventHandling();
         setColorScheme( colorScheme );
@@ -333,6 +337,14 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
      */
     public PNode getPartsNode() {
         return _partsNode;
+    }
+    
+    /**
+     * Sets the selection mode.
+     * @param mode
+     */
+    public void setMode( BSBottomPlotMode mode ) {
+        _bandSelectionEnabled = ( mode == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY );
     }
     
     //----------------------------------------------------------------------------
@@ -563,13 +575,24 @@ public class BSMagnifyingGlass extends PNode implements Observer, PlotChangeList
     }
     
     /*
-     * Selects the eigenstate that is currently hilited.
+     * Selects the eigenstate (or band) that is currently hilited.
      * Clear the hilite so that the selection is displayed.
      */
     private void selectEigenstate( Point2D mousePoint ) {
+
         int hiliteIndex = _model.getHilitedEigenstateIndex();
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
-            _model.getSuperpositionCoefficients().setOneCoefficient( hiliteIndex );
+
+            if ( !_bandSelectionEnabled ) {
+                _model.getSuperpositionCoefficients().setOneCoefficient( hiliteIndex );
+            }
+            else {
+                final int numberOfWells = _model.getPotential().getNumberOfWells();
+                final int bandSize = numberOfWells;
+                final int bandIndex = (int)( hiliteIndex / bandSize ); // bands numbered starting from zero
+                _model.getSuperpositionCoefficients().setBandCoefficients( bandIndex, bandSize, 1  );
+            }
+            
             _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
         }
     }

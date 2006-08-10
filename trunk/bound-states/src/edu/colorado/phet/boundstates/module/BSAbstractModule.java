@@ -1147,6 +1147,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _selectedEquationNode.setMode( mode );
         _hilitedEquationNode.setMode( mode );
         _eigenstatesNode.setMode( mode );
+        _magnifyingGlass.setMode( mode );
     }
     
     public void setParticleMass( double mass ) {

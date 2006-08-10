@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add APD support to selection in magnifying glass
 
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
@@ -16,6 +15,8 @@ LOW PRIORITY:
 
 
 DONE:
+(8/10/06) - add APD support to selection in magnifying glass
+(8/10/06) - move "band selection" functionality to SuperpositionCoefficients model
 (8/10/06) - bugfix: superposition state is cleared when switching "Display" modes, only lowest non-zero coeff is preserved
 (8/10/06) - bugfix: call plotter.notifyModelChanged in BSBottomPlot.setMode so mode changes update correctly
 (8/10/06) - increase max terms in BSSelectedEquation
