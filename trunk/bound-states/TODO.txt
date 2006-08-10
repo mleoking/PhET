@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+1.01.03...
 (8/10/06) - add APD support to selection in magnifying glass
 (8/10/06) - move "band selection" functionality to SuperpositionCoefficients model
 (8/10/06) - bugfix: superposition state is cleared when switching "Display" modes, only lowest non-zero coeff is preserved
