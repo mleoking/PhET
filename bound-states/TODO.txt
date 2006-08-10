@@ -17,7 +17,10 @@ LOW PRIORITY:
 
 
 DONE:
-(8/9/06) - factor data calculation out of BSBottomPlot into a separate "plotter" class
+(8/10/06) - increase max terms in BSSelectedEquation
+(8/10/06) - bugfix: 1D Coulomb should use analytic scaling coefficients only in single-well case
+(8/10/09) - hierarchy of classes for plotting data in BSBottomPlot, including one with APD support
+(8/10/06) - factor data calculation out of BSBottomPlot into a separate "plotter" class
 (8/9/06) - verify that "Superposition State" and APD features are never both enabled
 (8/9/06) - add APD support to BSBottomPlot.setMode (does not change computation and display behavior yet)
 (8/9/06) - add APD support to eigenstate selection mechanism
