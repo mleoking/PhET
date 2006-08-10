@@ -188,6 +188,13 @@ public class BSEigenstatesNode extends PComposite implements Observer {
      * the number of wells. For example, with two wells and eigenstates E1, E2, E3, E4, 
      * we have 2 bands; band1=E1,E2 and band2=E3,E4.  So clicking on E1 would select 
      * both E1 and E2.
+     * <p>
+     * BSBottomPlot will use the average energy of the selected eigenstates 
+     * (any eigenstate with a non-zero superposition coefficient) to determine
+     * the average probability density. The actual superposition coefficients 
+     * are irrelevant, and should not be exposed to the end user. For this reason,
+     * the "Superposition State" and "Average Probability Density" features
+     * are mutually exclusive. No module should have both features enabled.
      * 
      * @param mode
      */
