@@ -87,6 +87,8 @@ Bug:
 >>Asking for clarification.
   Circuit does fit better.  I’m not crazy about requiring labels on all these clusters however on Advanced, it is necessary unless you replace Enable 
   with Advanced.  Deleting these cluster titles may be especially helpful in AC CCK if you’re running out of room.  What do you think?
+  
+  Rename "File" to "Circuit" in the control panel.
 
 ################################################
 #Lower Priority
