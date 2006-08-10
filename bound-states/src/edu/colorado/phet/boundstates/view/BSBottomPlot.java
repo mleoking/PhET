@@ -258,7 +258,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     }
     
     /**
-     * Sets the mode for this plot, which determines what the plot computes and displays.
+     * Sets the mode for this plot.
+     * The mode determines what series are displayed and 
+     * which plotter is used to compute the data.
      * 
      * @param mode
      */
@@ -323,7 +325,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
         
-        _plotter.refreshAllSeries();
+        if ( _model != null ) {
+            _plotter.notifyModelChanged();
+        }
     }
     
     /**
