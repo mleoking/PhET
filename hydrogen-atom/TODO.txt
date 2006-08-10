@@ -11,6 +11,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/10/06) - set up CVS commit notification
 (8/10/06) - create JNLP and SimStrings files
 (8/10/06) - set up project in CVS
 
