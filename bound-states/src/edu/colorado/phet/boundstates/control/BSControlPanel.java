@@ -429,6 +429,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
         else if ( mode == BSBottomPlotMode.PROBABILITY_DENSITY ) {
             _probabilityDensityRadioButton.setSelected( true );
         }
+        else if ( mode == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
+            _averageProbabilityDensityRadioButton.setSelected( true );
+        }
         else {
             throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
@@ -439,6 +442,15 @@ public class BSControlPanel extends BSAbstractControlPanel {
         BSBottomPlotMode mode = BSBottomPlotMode.WAVE_FUNCTION;
         if ( _probabilityDensityRadioButton.isSelected() ) {
             mode = BSBottomPlotMode.PROBABILITY_DENSITY;
+        }
+        else if ( _waveFunctionRadioButton.isSelected() ) {
+            mode = BSBottomPlotMode.WAVE_FUNCTION;
+        }
+        else if ( _averageProbabilityDensityRadioButton.isSelected() ) {
+            mode = BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY;
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported BSBottomPlotMode" );
         }
         return mode;
     }
