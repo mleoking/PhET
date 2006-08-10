@@ -100,31 +100,37 @@ public class BSCoulomb1DPotential extends BSAbstractPotential {
     
     /**
      * Gets the wave function approximation.
-     * For the single-well case, use an analytic solver.
-     * For multiple-wells, use the Schmidt-Lee solver.
+     * If we have a single well, use the analytic solver.
+     * For multiple wells, use the default solver (Schmidt-Lee).
      */
     public Point2D[] getWaveFunctionPoints( BSEigenstate eigenstate, final double minX, final double maxX ) {
-        if ( getNumberOfWells() != 1 ) {
-            return super.getWaveFunctionPoints( eigenstate, minX, maxX );
-        }
-        else {
+        if ( getNumberOfWells() == 1 ) {
             final int numberOfPoints = BSConstants.COULOMB_ANALYTIC_SAMPLE_POINTS;
             BSCoulomb1DSolver solver = new BSCoulomb1DSolver( this, getParticle() );
             return solver.getWaveFunction( eigenstate.getSubscript(), minX, maxX, numberOfPoints );
         }
+        else {
+            return super.getWaveFunctionPoints( eigenstate, minX, maxX );
+        }
     }
     
     /**
-     * Gets the coefficient required to normalize a wave function that 
-     * was produced using the 1D Coulomb solver.
+     * Gets the coefficient required to normalize a wave function.
+     * If we have a single well, use the analytic solver.
+     * For multiple wells, use the default solver (Schmidt-Lee).
      * 
      * @param points
      * @param eigenstateIndex 0,...n
      * @return double
      */
     public double getNormalizationCoefficient( Point2D[] points, int eigenstateIndex ) {
-        final int eigenstateSubscript = eigenstateIndex + 1; // Coulomb subscripts start with 1
-        return ( 1 / BSCoulomb1DSolver.getScalingCoefficient( eigenstateSubscript ) );
+        if ( getNumberOfWells() == 1 ) {
+            final int eigenstateSubscript = eigenstateIndex + 1; // Coulomb subscripts start with 1
+            return ( 1 / BSCoulomb1DSolver.getScalingCoefficient( eigenstateSubscript ) );
+        }
+        else {
+            return super.getNormalizationCoefficient( points, eigenstateIndex );
+        }
     }
     
     //----------------------------------------------------------------------------
