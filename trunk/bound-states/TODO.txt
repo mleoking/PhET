@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
+- document the "Average Probability Density" feature and add to doc/ folder
 
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
