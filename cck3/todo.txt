@@ -76,6 +76,11 @@ to read where you are, also would be nice to have a cursor which
 could move around and scroll along graph, this would require a play, 
 pause, step  button to be added in bottom of sim.
 
+Bug:
+> We found a bug in AC cck.  See the attached screenshot.  To reproduce
+> it, hook up the circuit so it's all attached in a circle, then split the
+> junction that's shown split in the screenshot.
+
 ################################################
 #Lower Priority
 #######################
