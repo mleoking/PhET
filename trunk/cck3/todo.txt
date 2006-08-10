@@ -85,6 +85,8 @@ Bug:
   however, it’s job is that of reset and brings the sim back to it’s initial setup.  Can you call it reset and move it out of that tool cluster?  
   It came up today because it caused confusion for an individual using it in the booth.
 >>Asking for clarification.
+  Circuit does fit better.  I’m not crazy about requiring labels on all these clusters however on Advanced, it is necessary unless you replace Enable 
+  with Advanced.  Deleting these cluster titles may be especially helpful in AC CCK if you’re running out of room.  What do you think?
 
 ################################################
 #Lower Priority
