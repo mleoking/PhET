@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 
+
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
 - zoom level is not remembered when switching between potential types in Many module
@@ -16,6 +17,11 @@ LOW PRIORITY:
 
 DONE:
 1.01.03...
+(8/10/06) - bugfix: add number of wells to persistence
+(8/10/06) - fix control panel to support APD persistence
+(8/10/06) - if band index is out of range, select the lowest band of eigenstates
+(8/10/06) - change number of wells to be a global setting, applied to all potentials
+(8/10/06) - decrease max terms to 3 in BSSelectedEquation
 (8/10/06) - add APD support to selection in magnifying glass
 (8/10/06) - move "band selection" functionality to SuperpositionCoefficients model
 (8/10/06) - bugfix: superposition state is cleared when switching "Display" modes, only lowest non-zero coeff is preserved
