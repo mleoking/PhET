@@ -40,6 +40,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
     private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
     private static final boolean MAGNIFYING_GLASS_SELECTED = false;
+    private static final boolean AVERAGE_PROBABILITY_DENSITY_SUPPORTED = false;
     
     // Particle ranges (min, max, default, significantDecimalPlaces)
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 2 );
@@ -116,7 +117,8 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );
         setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
-
+        setAverageProbabilityDensityIsSupported( AVERAGE_PROBABILITY_DENSITY_SUPPORTED );
+        
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
         
         setMagnification( MAGNIFICATION );

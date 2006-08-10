@@ -38,8 +38,8 @@ public abstract class BSAbstractModuleSpec {
     private boolean _particleControlsSupported;
     private boolean _magnifyingGlassSupported;
     private boolean _magnifyingGlassSelected;
-
     private DoubleRange _massMultiplierRange;
+    private boolean _averageProbabilityDensitySupported;
     
     private IntegerRange _numberOfWellsRange;
     
@@ -133,6 +133,14 @@ public abstract class BSAbstractModuleSpec {
     
     protected void setDefaultWellType( BSWellType defaultWellType ) {
         _defaultWellType = defaultWellType;
+    }
+    
+    public void setAverageProbabilityDensityIsSupported( boolean supported ) {
+        _averageProbabilityDensitySupported = supported;
+    }
+    
+    public boolean isAverageProbabilityDensitySupported() {
+        return _averageProbabilityDensitySupported;
     }
     
     public boolean isMagnifyingGlassSupported() {

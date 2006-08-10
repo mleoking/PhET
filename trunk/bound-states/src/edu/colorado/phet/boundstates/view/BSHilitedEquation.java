@@ -86,7 +86,7 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation {
                 if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
                     text = "<html>" + BSConstants.LOWERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x)</html>";
                 }
-                else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+                else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY || getMode() == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
                     text = "<html>|" + BSConstants.LOWERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x)|<sup>2</sup></html>";
                 }
                 else {

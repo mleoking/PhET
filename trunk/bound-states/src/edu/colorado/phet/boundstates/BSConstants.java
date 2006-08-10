@@ -153,6 +153,11 @@ public class BSConstants {
     public static final double PROBABILITY_DENSITY_TICK_SPACING = 0.5;
     public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
+    // Average Probability Density
+    public static final Range AVERAGE_PROBABILITY_DENSITY_RANGE = new Range( 0, 1.55 );
+    public static final double AVERAGE_PROBABILITY_DENSITY_TICK_SPACING = 0.5;
+    public static final DecimalFormat AVERAGE_PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    
     // Position
     // NOTE! If you change the position range, you may need to change SCHMIDT_LEE_SAMPLE_POINTS.
     public static final Range POSITION_MODEL_RANGE = new Range( -3.5, 3.5 ); // nm
