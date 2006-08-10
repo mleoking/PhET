@@ -24,6 +24,7 @@ import org.jfree.chart.event.AxisChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
@@ -56,6 +57,7 @@ public class BSEigenstatesNode extends PComposite implements Observer {
     
     private static final int MIN_DECIMAL_PLACES = 2; // min decimal places for displaying energy value
     private static final int MAX_DECIMAL_PLACES = 12; // max decimal places for displaying energy value
+    private static final int NO_BAND_INDEX = -1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,6 +72,9 @@ public class BSEigenstatesNode extends PComposite implements Observer {
     
     // Used to determine the number of decimal places in display of the hilited energy value.
     private NumberFormat _differenceFormat;
+    
+    private boolean _bandSelectionEnabled; // see setMode
+    private int _selectedBandIndex; // which band is selected, index starts at zero
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,6 +91,8 @@ public class BSEigenstatesNode extends PComposite implements Observer {
       
         _model = null;
         _hiliteIndex = BSEigenstate.INDEX_UNDEFINED;
+        _bandSelectionEnabled = false;
+        _selectedBandIndex = NO_BAND_INDEX;
         
         _chartNode = chartNode;
         _canvas = canvas;
@@ -171,6 +178,106 @@ public class BSEigenstatesNode extends PComposite implements Observer {
         _hiliteValueNode.setHTMLColor( colorScheme.getEigenstateHiliteColor() );
     }
 
+    /**
+     * Sets the mode.
+     * <p>
+     * This is a hack to support the "Average Probability Density" feature.
+     * If the mode of the bottom plot is BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY,
+     * then selecting an eigenstate causes all eigenstates in that eigenstate's band
+     * to be automatically selected. The number of eigenstates in a band is equal to
+     * the number of wells. For example, with two wells and eigenstates E1, E2, E3, E4, 
+     * we have 2 bands; band1=E1,E2 and band2=E3,E4.  So clicking on E1 would select 
+     * both E1 and E2.
+     * 
+     * @param mode
+     */
+    public void setMode( BSBottomPlotMode mode ) {
+        _bandSelectionEnabled = ( mode == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY );
+        _selectedBandIndex = NO_BAND_INDEX;
+        final int lowestIndex = getLowestSelectedEigenstateIndex();
+        if ( _bandSelectionEnabled ) {
+            selectBandByEigenstateIndex( lowestIndex );
+        }
+        else {
+            selectEigenstate( lowestIndex );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Selection
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Selects a specified eigenstate.
+     * Any eigenstates that were selected are deselected.
+     * 
+     * @param eigenstateIndex
+     */
+    private void selectEigenstate( final int eigenstateIndex ) {
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        
+        superpositionCoefficients.setNotifyEnabled( false ); // we're going to change them all
+        {
+            for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                superpositionCoefficients.setCoefficient( i, 0 );
+            }
+            superpositionCoefficients.setCoefficient( eigenstateIndex, 1 );
+        }
+        superpositionCoefficients.setNotifyEnabled( true ); // we're done changing, OK to notify
+    }
+    
+    /*
+     * Selects all of the eigenstates in the band to which eigenstateIndex belongs.
+     * 
+     * @param eigenstateIndex index of some eigenstate
+     */
+    private void selectBandByEigenstateIndex( final int eigenstateIndex ) {
+        final int numberOfWells = _model.getPotential().getNumberOfWells();
+        final int bandSize = numberOfWells;
+        final int bandIndex = (int)( eigenstateIndex / bandSize ); // bands numbered starting from zero
+        selectBand( bandIndex );
+    }
+    
+    /*
+     * Selects all of the eigenstates in a specified band.
+     * The number of eigenstates in a band is equal to the number of wells.
+     * But we may display only part of a band near the "top" of the well,
+     * so we have to handle the possibility that we are selecting only a
+     * partial band.
+     * 
+     * @param index index of some eigenstate
+     */
+    private void selectBand( final int bandIndex ) {
+        
+        _selectedBandIndex = bandIndex;
+
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        
+        superpositionCoefficients.setNotifyEnabled( false );
+        {
+            final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+            
+            // Deselect all
+            for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                superpositionCoefficients.setCoefficient( i, 0 );
+            }
+            
+            // Select eigenstates in band
+            if ( _selectedBandIndex != NO_BAND_INDEX ) {
+                
+                final int numberOfWells = _model.getPotential().getNumberOfWells();
+                final int bandSize = numberOfWells;
+                final int firstIndexInBand = _selectedBandIndex * bandSize;
+
+                for ( int i = firstIndexInBand; i < ( firstIndexInBand + bandSize ) && i < numberOfCoefficients; i++ ) {
+                    superpositionCoefficients.setCoefficient( i, 1 ); // doesn't matter what value we set
+                }
+            }
+        }
+        superpositionCoefficients.setNotifyEnabled( true ); // we're done changing, OK to notify
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -185,14 +292,12 @@ public class BSEigenstatesNode extends PComposite implements Observer {
         final int hiliteIndex = _model.getHilitedEigenstateIndex();
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
             _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
-            BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
-            final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
-            superpositionCoefficients.setNotifyEnabled( false );  // we're going to change them all
-            for ( int i = 0; i < numberOfCoefficients; i++ ) {
-                superpositionCoefficients.setCoefficient( i, 0 );
+            if ( _bandSelectionEnabled ) {
+                selectBandByEigenstateIndex( hiliteIndex );
             }
-            superpositionCoefficients.setCoefficient( hiliteIndex, 1 );
-            superpositionCoefficients.setNotifyEnabled( true ); // we're done changing, OK to notify
+            else {
+                selectEigenstate( hiliteIndex );
+            }
         }
     }
     
@@ -239,6 +344,16 @@ public class BSEigenstatesNode extends PComposite implements Observer {
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the band selection.
+     * This should be called when the number of wells changes.
+     */
+    public void updateBandSelection() {
+        if ( _bandSelectionEnabled ) {
+            selectBand( _selectedBandIndex );
+        }
+    }
     
     /*
      * Updates the display so that the the hilited eigenstate 
@@ -350,5 +465,22 @@ public class BSEigenstatesNode extends PComposite implements Observer {
             formatString += "0";
         }
         return new DecimalFormat( formatString );
+    }
+    
+    /*
+     * Gets the index of the lowest selected eigenstate.
+     */
+    private int getLowestSelectedEigenstateIndex() {
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        int index = BSEigenstate.INDEX_UNDEFINED;
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            double c = superpositionCoefficients.getCoefficient( i );
+            if ( c != 0 ) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

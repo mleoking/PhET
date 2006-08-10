@@ -74,7 +74,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private SliderControl _fieldConstantSlider;
 
     // Wave Function controls
-    private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton;
+    private JRadioButton _waveFunctionRadioButton;
+    private JRadioButton _probabilityDensityRadioButton;
+    private JRadioButton _averageProbabilityDensityRadioButton;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
 
@@ -203,11 +205,13 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JLabel label = new JLabel( SimStrings.get( "label.display" ) );
 
                 // Radio buttons
+                _averageProbabilityDensityRadioButton = new JRadioButton( SimStrings.get( "choice.display.averageProbabilityDensity" ) );
                 _probabilityDensityRadioButton = new JRadioButton( SimStrings.get( "choice.display.probabilityDensity" ) );
                 _waveFunctionRadioButton = new JRadioButton( SimStrings.get( "choice.display.waveFunction" ) );
 
                 // Button group
                 ButtonGroup buttonGroup = new ButtonGroup();
+                buttonGroup.add( _averageProbabilityDensityRadioButton );
                 buttonGroup.add( _probabilityDensityRadioButton );
                 buttonGroup.add( _waveFunctionRadioButton );
                 
@@ -223,6 +227,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( label, row, col, 2, 1 );
                 row++;
                 col++;
+                if ( moduleSpec.isAverageProbabilityDensitySupported() ) {
+                    layout.addComponent( _averageProbabilityDensityRadioButton, row, col );
+                    row++;
+                }
                 layout.addComponent( _probabilityDensityRadioButton, row, col );
                 row++;
                 layout.addComponent( _waveFunctionRadioButton, row, col );
@@ -355,6 +363,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _fieldConstantSlider.addChangeListener( _listener );
             _waveFunctionRadioButton.addActionListener( _listener );
             _probabilityDensityRadioButton.addActionListener( _listener );
+            _averageProbabilityDensityRadioButton.addActionListener( _listener );
             _realCheckBox.addActionListener( _listener );
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
@@ -554,6 +563,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
             else if ( event.getSource() == _probabilityDensityRadioButton ) {
                 handleDisplaySelection();
             }
+            else if ( event.getSource() == _averageProbabilityDensityRadioButton ) {
+                handleDisplaySelection();
+            }
             else if ( event.getSource() == _magnifyingGlassCheckBox ) {
                 handleMagnifyingGlassSelection();
             }
@@ -666,6 +678,13 @@ public class BSControlPanel extends BSAbstractControlPanel {
         }
         else if ( _probabilityDensityRadioButton.isSelected() ) {
             _module.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY );
+            _realCheckBox.setEnabled( false );
+            _imaginaryCheckBox.setEnabled( false );
+            _magnitudeCheckBox.setEnabled( false );
+            _phaseCheckBox.setEnabled( false );
+        }
+        else if ( _averageProbabilityDensityRadioButton.isSelected() ) {
+            _module.setBottomPlotMode( BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY );
             _realCheckBox.setEnabled( false );
             _imaginaryCheckBox.setEnabled( false );
             _magnitudeCheckBox.setEnabled( false );

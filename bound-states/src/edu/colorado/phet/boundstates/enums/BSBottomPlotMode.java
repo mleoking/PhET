@@ -27,6 +27,7 @@ public class BSBottomPlotMode extends AbstractEnum {
     // Well type values
     public static final BSBottomPlotMode WAVE_FUNCTION = new BSBottomPlotMode( "waveFunction" );
     public static final BSBottomPlotMode PROBABILITY_DENSITY = new BSBottomPlotMode( "probabilityDensity" );
+    public static final BSBottomPlotMode AVERAGE_PROBABILITY_DENSITY = new BSBottomPlotMode( "averageProbabilityDensity" );
     
     /**
      * Retrieves a well type by name.
@@ -42,6 +43,9 @@ public class BSBottomPlotMode extends AbstractEnum {
         }
         else if ( PROBABILITY_DENSITY.isNamed( name ) ) {
             mode = PROBABILITY_DENSITY;
+        }
+        else if ( AVERAGE_PROBABILITY_DENSITY.isNamed( name ) ) {
+            mode = AVERAGE_PROBABILITY_DENSITY;
         }
         return mode;
     }

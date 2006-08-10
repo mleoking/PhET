@@ -1078,6 +1078,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != _model.getNumberOfWells() ) {
             _model.getPotential().setNumberOfWells( numberOfWells );
+            _eigenstatesNode.updateBandSelection();
             resetClock();
         }
     }
@@ -1139,6 +1140,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _bottomPlot.setMode( mode );
         _selectedEquationNode.setMode( mode );
         _hilitedEquationNode.setMode( mode );
+        _eigenstatesNode.setMode( mode );
     }
     
     public void setParticleMass( double mass ) {

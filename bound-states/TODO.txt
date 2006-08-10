@@ -16,6 +16,14 @@ LOW PRIORITY:
 
 
 DONE:
+(8/9/06) - add APD support to BSBottomPlot.setMode (does not change computation and display behavior yet)
+(8/9/06) - add APD support to eigenstate selection mechanism
+(8/9/06) - refactor eigenstate selection methods in BSEigenstatesNode
+(8/9/06) - add APD support to equations that appear in bottom plot 
+(8/9/06) - add APD support to module specifications
+(8/9/06) - add "Average Probability Density of Band" display choice to control panel
+(8/9/06) - add BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY
+(8/9/06) - begin work on APD (Average Probability Density) feature
 1.01.02...
 (8/9/06) - don't update while dragging sliders in Config dialogs
 (8/9/06) - change zoom ranges for Square in "Many" panel
