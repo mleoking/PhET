@@ -270,7 +270,6 @@ public class BSEigenstatesNode extends PComposite implements Observer {
      * @param bandIndex the band index
      */
     private void selectBand( int bandIndex ) {
-        System.out.println( "BSEigentatesNode.selectBand " + bandIndex );//XXX
 
         BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
         
