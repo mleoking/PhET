@@ -1126,19 +1126,19 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     }
     
     public void setRealVisible( boolean visible ) {
-        _bottomPlot.setRealVisible( visible );
+        _bottomPlot.setRealSeriesVisible( visible );
     }
     
     public void setImaginaryVisible( boolean visible ) {
-        _bottomPlot.setImaginaryVisible( visible );
+        _bottomPlot.setImaginarySeriesVisible( visible );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
-        _bottomPlot.setMagnitudeVisible( visible );
+        _bottomPlot.setMagnitudeSeriesVisible( visible );
     }
     
     public void setPhaseVisible( boolean visible ) {
-        _bottomPlot.setPhaseVisible( visible );
+        _bottomPlot.setPhaseSeriesVisible( visible );
     }
     
     public void setBottomPlotMode( BSBottomPlotMode mode ) {
