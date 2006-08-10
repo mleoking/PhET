@@ -81,6 +81,11 @@ Bug:
 > it, hook up the circuit so it's all attached in a circle, then split the
 > junction that's shown split in the screenshot.
 
+  There is something I noticed a while ago and forgot to mention.  On CCK there is a clear button and it’s in a tool cluster labeled ‘File’; 
+  however, it’s job is that of reset and brings the sim back to it’s initial setup.  Can you call it reset and move it out of that tool cluster?  
+  It came up today because it caused confusion for an individual using it in the booth.
+>>Asking for clarification.
+
 ################################################
 #Lower Priority
 #######################
