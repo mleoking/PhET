@@ -35,7 +35,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * 
+ * BSWaveFunctionPlotter
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -61,6 +61,8 @@ class BSWaveFunctionPlotter {
     // Memory optimizations
     private MutableComplex[] _psiSum; // reused by computeTimeDependentWaveFunction
     
+    private double _t; // time of the most recent clock tick
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -79,20 +81,50 @@ class BSWaveFunctionPlotter {
     }
     
     //----------------------------------------------------------------------------
+    // Public interface
+    //----------------------------------------------------------------------------
+
+    /**
+     * Notifies the plotter that the model has changed.
+     * This plotter updates its cache and refreshes all series.
+     */
+    public void notifyModelChanged() {
+        updateCache();
+        refreshAllSeries();
+    }
+    
+    /**
+     * Notifies the plotter that the clock time has changed.
+     * This plotter updates all time-dependent data series.
+     * 
+     * @param t clock time
+     */
+    public void notifyTimeChanged( final double t ) {
+        _t = t;
+        updateTimeDependentSeries( _t );
+    }
+    
+    /**
+     * Notifies the plotter that the index of the hilited eigenstate has changed.
+     * This plotter updates the data series for the hilited eigenstate.
+     */
+    public void notifyHiliteChanged() {
+        updateHiliteSeries();
+    }
+    
+    /**
+     * Refreshes all data series.
+     */
+    public void refreshAllSeries() {
+        updateTimeDependentSeries( _t );
+        updateHiliteSeries();
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
-//    /**
-//     * Updates all data series.
-//     * 
-//     * @param t the current clock time
-//     */
-//    public void updateAllSeries( double t ) {
-//        updateTimeDependentSeries( t );
-//        updateHiliteSeries();
-//    }
-    
-    /**
+    /*
      * Updates the series for the hilited eigenstate,
      * which is a time-independent wave function solution.
      * <p>
@@ -104,7 +136,7 @@ class BSWaveFunctionPlotter {
      * magnitude.  If none of the other views is visible, we display
      * nothing.
      */
-    public void updateHiliteSeries() {
+    private void updateHiliteSeries() {
         
         _hiliteSeries.setNotify( false );
         _hiliteSeries.clear();
@@ -152,20 +184,13 @@ class BSWaveFunctionPlotter {
         _hiliteSeries.setNotify( true );
     }
     
-    /**
-     * Updates the cache of wave function data.
-     */
-    public void updateCache() {
-        final double minPosition = _plot.getDomainAxis().getLowerBound();
-        final double maxPosition = _plot.getDomainAxis().getUpperBound();
-        _cache.update( _plot.getModel(), minPosition, maxPosition );
-    }
-    
-    /**
+    /*
      * Updates the series that display the time-dependent superposition state.
      * This is the sum of all wave functions for eigenstates.
+     * 
+     * @param t clock time
      */
-    public void updateTimeDependentSeries( final double t ) {
+    private void updateTimeDependentSeries( final double t ) {
         setTimeDependentSeriesNotify( false );
         clearTimeDependentSeries();
         if ( _cache.getSize() > 0 ) {
@@ -285,6 +310,15 @@ class BSWaveFunctionPlotter {
             }
         }
         return _psiSum;
+    }
+    
+    /*
+     * Updates the cache of wave function data.
+     */
+    private void updateCache() {
+        final double minPosition = _plot.getDomainAxis().getLowerBound();
+        final double maxPosition = _plot.getDomainAxis().getUpperBound();
+        _cache.update( _plot.getModel(), minPosition, maxPosition );
     }
     
     /*
