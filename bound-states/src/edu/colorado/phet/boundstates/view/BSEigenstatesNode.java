@@ -199,14 +199,23 @@ public class BSEigenstatesNode extends PComposite implements Observer {
      * @param mode
      */
     public void setMode( BSBottomPlotMode mode ) {
+        
+        final boolean wasBandSelectionEnabled = _bandSelectionEnabled;
         _bandSelectionEnabled = ( mode == BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY );
-        _selectedBandIndex = NO_BAND_INDEX;
-        final int lowestIndex = getLowestSelectedEigenstateIndex();
-        if ( _bandSelectionEnabled ) {
-            selectBandByEigenstateIndex( lowestIndex );
+        
+        if ( !wasBandSelectionEnabled && mode != BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY ) {
+            // Switching between PROBABILITY_DENSITY and WAVE_FUNCTION, 
+            // don't change the selection!
         }
         else {
-            selectEigenstate( lowestIndex );
+            _selectedBandIndex = NO_BAND_INDEX;
+            final int lowestIndex = getLowestSelectedEigenstateIndex();
+            if ( _bandSelectionEnabled ) {
+                selectBandByEigenstateIndex( lowestIndex );
+            }
+            else {
+                selectEigenstate( lowestIndex );
+            }
         }
     }
     
