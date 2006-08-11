@@ -93,11 +93,16 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
-        PNode freqPSwing = new GraphicPSwing( new PSwing( canvas, freqCtrl ), "images/background.png" );
+        final PNode freqPSwing = new GraphicPSwing( new PSwing( canvas, freqCtrl ), "images/background.png" );
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
         freqCtrl.getTextField().setOpaque( true );
         addChild( freqPSwing );
+        freqCtrl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                freqPSwing.repaint();
+            }
+        } );
 
         // Squiggle next to frequency control
         if( module.auxiliarySquiggleVisible() ) {
