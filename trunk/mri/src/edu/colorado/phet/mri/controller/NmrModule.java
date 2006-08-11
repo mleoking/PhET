@@ -17,9 +17,13 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
-import edu.colorado.phet.mri.util.Magnifier;
+//import edu.colorado.phet.mri.util.Magnifier;
 import edu.colorado.phet.piccolo.help.WiggleMe;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.quantum.model.PhotonSource;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -76,6 +80,22 @@ public class NmrModule extends AbstractMriModule {
 
         // Put up a wiggle-me
         createWiggleMe();
+
+//
+//        final JSlider js = new JSlider( 0, 100, 50 );
+//        js.setOpaque( false );
+//        final PImage pi = PImageFactory.create( "images/background.png");
+//        PSwing pSwing = new PSwing( getPhetPCanvas(), js );
+//        final PNode pNode = new PNode();
+//        pNode.addChild( pi );
+//        pNode.addChild( pSwing );
+//        pNode.setOffset( 50, 50);
+//        js.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                js.revalidate();
+//            }
+//        } );
+//        getPhetPCanvas().addScreenChild( pNode );
     }
 
     private void createWiggleMe() {
@@ -102,33 +122,33 @@ public class NmrModule extends AbstractMriModule {
         } );
     }
 
-    class MagnifierPanel extends JPanel {
-        public MagnifierPanel( final Magnifier magnifier ) {
-            super( new GridBagLayout() );
-            setBorder( ControlBorderFactory.createBorder( "Magnifier " ) );
-
-            final JSpinner magSpinner = new JSpinner( new SpinnerNumberModel( 2, 0.5, 5, 0.1 ) );
-            magSpinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double mag = ( (Double)magSpinner.getValue() ).doubleValue();
-                    magnifier.setZoom( mag );
-                }
-            } );
-
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.EAST,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
-            gbc.gridheight = 2;
-            add( magnifier, gbc );
-            gbc.gridheight = 1;
-            gbc.gridx = 1;
-            gbc.anchor = GridBagConstraints.SOUTHWEST;
-            add( new JLabel( "Magnification" ), gbc );
-            gbc.anchor = GridBagConstraints.NORTHWEST;
-            gbc.gridy = 1;
-            add( magSpinner, gbc );
-        }
-    }
+//    class MagnifierPanel extends JPanel {
+//        public MagnifierPanel( final Magnifier magnifier ) {
+//            super( new GridBagLayout() );
+//            setBorder( ControlBorderFactory.createBorder( "Magnifier " ) );
+//
+//            final JSpinner magSpinner = new JSpinner( new SpinnerNumberModel( 2, 0.5, 5, 0.1 ) );
+//            magSpinner.addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    double mag = ( (Double)magSpinner.getValue() ).doubleValue();
+//                    magnifier.setZoom( mag );
+//                }
+//            } );
+//
+//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+//                                                             GridBagConstraints.EAST,
+//                                                             GridBagConstraints.NONE,
+//                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
+//            gbc.gridheight = 2;
+//            add( magnifier, gbc );
+//            gbc.gridheight = 1;
+//            gbc.gridx = 1;
+//            gbc.anchor = GridBagConstraints.SOUTHWEST;
+//            add( new JLabel( "Magnification" ), gbc );
+//            gbc.anchor = GridBagConstraints.NORTHWEST;
+//            gbc.gridy = 1;
+//            add( magSpinner, gbc );
+//        }
+//    }
 
 }

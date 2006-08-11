@@ -89,8 +89,6 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         }
     }
 
-    int photonCnt = 0;
-
     public void modelElementAdded( ModelElement modelElement ) {
         PNode graphic = null;
         PNode layer = canvas;

@@ -60,7 +60,7 @@ public class MriApplication extends PiccoloPhetApplication {
                SimStrings.get( "Application.Description" ),
                MriConfig.VERSION,
                frameSetup );
-        PhetTabbedPane.setLogoVisible( false );
+//        PhetTabbedPane.setLogoVisible( false );
         setModules( modules );
     }
 
