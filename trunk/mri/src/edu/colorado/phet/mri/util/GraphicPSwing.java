@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.mri.util;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,19 +26,24 @@ import java.awt.*;
  * @version $Revision$
  */
 public class GraphicPSwing extends PNode {
+    private PImage pImage;
+    private PSwing pSwing;
 
-    public GraphicPSwing( PSwingCanvas canvas, JComponent component, String backgroundImageFile ) {
-        this( canvas, component, PImageFactory.create( backgroundImageFile ) );
+    public GraphicPSwing( PSwing pSwing, String backgroundImageFile ) {
+        this( pSwing, PImageFactory.create( backgroundImageFile,
+                                            new Dimension( (int)pSwing.getWidth(),
+                                                           (int)pSwing.getHeight() ) ) );
     }
 
-    public GraphicPSwing( PSwingCanvas canvas, JComponent component, Image backgroundImage ) {
-        this( canvas, component, new PImage( backgroundImage ) );
+    public GraphicPSwing( PSwing pSwing, Image backgroundImage ) {
+        this( pSwing, new PImage( backgroundImage ) );
     }
 
-    public GraphicPSwing( PSwingCanvas canvas, JComponent component, PImage pImage ) {
-        PSwing pSwing = new PSwing( canvas, component );
-        setComponentTransparent( component );
-        component.setBorder( null );
+    public GraphicPSwing( PSwing pSwing, PImage pImage ) {
+        this.pImage = pImage;
+        this.pSwing = pSwing;
+        setComponentTransparent( pSwing.getComponent() );
+        pSwing.getComponent().setBorder( null );
         addChild( pImage );
         addChild( pSwing );
     }
@@ -53,5 +58,17 @@ public class GraphicPSwing extends PNode {
                 setComponentTransparent( jComp );
             }
         }
+    }
+
+    public PBounds getBounds() {
+        return pImage.getBounds();
+    }
+
+    public double getWidth() {
+        return pImage.getWidth();
+    }
+
+    public double getHeight() {
+        return pImage.getHeight();
     }
 }

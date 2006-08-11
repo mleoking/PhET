@@ -13,13 +13,12 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.util.GraphicPSwing;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
+import edu.colorado.phet.mri.util.GraphicPSwing;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
@@ -30,10 +29,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.io.IOException;
 
 /**
  * RadiowaveSourceGraphic
@@ -96,9 +93,10 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
-        PSwing freqPSwing = new PSwing( canvas, freqCtrl );
+        PNode freqPSwing = new GraphicPSwing( new PSwing( canvas, freqCtrl ), "images/background.png" );
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
+        freqCtrl.getTextField().setOpaque( true );
         addChild( freqPSwing );
 
         // Squiggle next to frequency control
@@ -108,7 +106,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Power control
         final ModelSlider powerCtrl = new ModelSlider( SimStrings.get( "Misc.Power" ),
-                                                       "",
+                                                       "%",
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,
@@ -119,19 +117,14 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         powerCtrl.setValue( powerCtrl.getValue() );
-        final PNode powerPSwing = new GraphicPSwing( canvas, powerCtrl, "images/background.png" );
+        PNode powerPSwing = new GraphicPSwing( new PSwing( canvas, powerCtrl ), "images/background.png" );
         powerCtrl.getTextField().setOpaque( true );
         powerPSwing.setOffset( controlInsets.left, controlInsets.top );
         addChild( powerPSwing );
-        powerCtrl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                powerPSwing.repaint();
-            }
-        } );
 
         // Controls for the photon/wave view choice
         EmRepSelector emRepSelector = new EmRepSelector( module );
-        PSwing emRepPSwing = new PSwing( canvas, emRepSelector );
+        PNode emRepPSwing = new GraphicPSwing( new PSwing( canvas, emRepSelector ), "images/background.png" );
         emRepPSwing.setOffset( ( length - emRepPSwing.getBounds().getWidth() ) / 2,
                                panelDepth - controlInsets.bottom - emRepPSwing.getBounds().getHeight() );
         addChild( emRepPSwing );
@@ -158,7 +151,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
     }
 
-    private void addAuxiliarySquiggle( double length, Insets controlInsets, PSwing freqPSwing, RadiowaveSource radiowaveSource ) {
+    private void addAuxiliarySquiggle( double length, Insets controlInsets, PNode freqPSwing, RadiowaveSource radiowaveSource ) {
         energySquiggle = new EnergySquiggle( EnergySquiggle.VERTICAL );
         final PPath squiggleBox = new PPath( new Rectangle2D.Double( 0, 0, 15, 80 ) );
         squiggleBox.setPaint( Color.white );
