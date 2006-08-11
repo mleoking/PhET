@@ -60,6 +60,13 @@ public class GraphicPSwing extends PNode {
         }
     }
 
+    public void repaint() {
+        System.out.println( "GraphicPSwing.repaint" );
+        this.invalidateFullBounds();
+        this.invalidatePaint();
+        super.repaint();
+    }
+
     public PBounds getBounds() {
         return pImage.getBounds();
     }
