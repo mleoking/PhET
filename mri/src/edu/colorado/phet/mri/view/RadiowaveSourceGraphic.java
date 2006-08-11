@@ -13,7 +13,9 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.util.GraphicPSwing;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.model.MriModel;
@@ -28,8 +30,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.io.IOException;
 
 /**
  * RadiowaveSourceGraphic
@@ -115,9 +119,15 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         powerCtrl.setValue( powerCtrl.getValue() );
-        PSwing powerPSwing = new PSwing( canvas, powerCtrl );
+        final PNode powerPSwing = new GraphicPSwing( canvas, powerCtrl, "images/background.png" );
+        powerCtrl.getTextField().setOpaque( true );
         powerPSwing.setOffset( controlInsets.left, controlInsets.top );
         addChild( powerPSwing );
+        powerCtrl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                powerPSwing.repaint();
+            }
+        } );
 
         // Controls for the photon/wave view choice
         EmRepSelector emRepSelector = new EmRepSelector( module );
