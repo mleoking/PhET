@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.model.MriModel;
@@ -43,12 +42,9 @@ public class HeadModuleControlPanel extends ControlPanel {
         addControlFullWidth( new GradientMagnetControlPanel( horizontalGradientMagnet, verticalGradientMagnet ) );
         addControlFullWidth( new HeadControl( module ) );
 
-        // Without doing this pack(), the first time the HeadModule comes up, there
-        // is extra horizonatl space laid out. I couldn't figure out another way to
-        // solve the problem.
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                PhetUtilities.getPhetFrame().pack();
+//                getLayout().layoutContainer( PhetUtilities.getPhetFrame().getContentPane() );
             }
         } );
     }

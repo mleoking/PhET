@@ -58,8 +58,10 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
 
         // Make the canvas, world node, and graphics manager
-        PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
-                                                               (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
+        Dimension renderingSize = new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
+                                                 (int)( model.getBounds().getHeight() * MriConfig.scale ) );
+        PhetPCanvas simPanel = new PhetPCanvas( renderingSize );
+        System.out.println( "renderingSize = " + renderingSize );
         setSimulationPanel( simPanel );
         worldNode = new PNode();
         simPanel.addScreenChild( worldNode );

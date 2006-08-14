@@ -70,8 +70,6 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         RegisterablePNode labelPNode = new RegisterablePNode( label );
         labelPNode.setRegistrationPoint( 0, -label.getWidth() / 2 );
 
-//        double inset = 30;
-//        double displaySize = detector.getBounds().getWidth() - inset * 2;
         double displaySize = 40;
         RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() + 20,
                                                                 detector.getBounds().getHeight() / 2 - displaySize / 2,
@@ -79,12 +77,6 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
                                                                 displaySize,
                                                                 10,
                                                                 10 );
-//        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() / 2 - displaySize / 2,
-//                                                                detector.getBounds().getHeight() / 2 - displaySize / 2,
-//                                                                displaySize,
-//                                                                displaySize,
-//                                                                10,
-//                                                                10 );
 
         double connectorThickness = 20;
         Rectangle2D connector = new Rectangle2D.Double( detector.getBounds().getWidth() / 2,
@@ -109,16 +101,14 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         setOffset( detector.getBounds().getX(), detector.getBounds().getY() );
 
         // Initialize the gradient paints
-        double x = detector.getBounds().getWidth() / 2;
-        double y = detector.getBounds().getHeight() / 2;
+        double x = display.getBounds().getMinX() + display.getBounds().getWidth() / 2;
+        double y = display.getBounds().getMinY() + display.getBounds().getHeight() / 2;
         for( int i = 0; i < gradientPaints.length; i++ ) {
-//            double radius = (gradientPaints.length - i) * 0.5;
-            double radius = ( detector.getBounds().getWidth() - detector.getBounds().getWidth() * i / gradientPaints.length ) / 2;
+            double radius = ( display.getBounds().getWidth() - display.getBounds().getWidth() * i / gradientPaints.length );
             gradientPaints[i] = new RoundGradientPaint( x, y,
                                                         grayScale[i],
                                                         new Point2D.Double( 0, radius ),
-//                                                        new Point2D.Double( 0, 20 ),
-Color.white );
+                                                        Color.white );
             ;
         }
     }
