@@ -12,13 +12,13 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
+import java.util.ArrayList;
 
 /**
  * PublishingModel
@@ -69,6 +69,11 @@ public class PublishingModel extends BaseModel {
     }
 
 
+    //--------------------------------------------------------------------------------------------------
+    // The rest...
+    //--------------------------------------------------------------------------------------------------
+    private ArrayList modelElements = new ArrayList();
+
     /**
      * Constructor
      *
@@ -80,12 +85,17 @@ public class PublishingModel extends BaseModel {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
+        modelElements.add( modelElement );
         modelListenerProxy.modelElementAdded( modelElement );
     }
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
+        modelElements.remove( modelElement );
         modelListenerProxy.modelElementRemoved( modelElement );
     }
 
+    public ArrayList getModelElements() {
+        return modelElements;
+    }
 }
