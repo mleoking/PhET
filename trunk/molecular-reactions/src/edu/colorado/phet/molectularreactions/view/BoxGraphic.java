@@ -29,12 +29,14 @@ public class BoxGraphic extends PNode {
     private Stroke stroke = new BasicStroke( wallThickness );
 
     public BoxGraphic( Box2D box ) {
-        Rectangle2D rect = new Rectangle2D.Double(
-                box.getMinX() - wallThickness / 2,
-                box.getMinY() - wallThickness / 2,
-                box.getWidth(),
-                box.getHeight() );
+        Rectangle2D rect = new Rectangle2D.Double( 0,
+                                                   0,
+                                                   box.getWidth() + wallThickness,
+                                                   box.getHeight() + wallThickness );
         PPath pPath = new PPath( rect, stroke );
         addChild( pPath );
+
+        setOffset( box.getMinX() - wallThickness / 2,
+                   box.getMinY() - wallThickness / 2 );
     }
 }

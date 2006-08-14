@@ -46,16 +46,16 @@ public class MRModule extends Module {
         canvas.addScreenChild( spatialView );
         setSimulationPanel( canvas );
 
-        // Add a box
-        Box2D box = new Box2D( new Point2D.Double( 50, 50),
-                               new Point2D.Double( 250, 250 ));
-        model.addModelElement( box );
-
         // Add a test molecule
-        RoundMolecule rm = new RoundMolecule( 10, 10);
-        rm.setPosition( 50, 100);
-        rm.setVelocity( 1, 0 );
+        RoundMolecule rm = new RoundMolecule( 7, 7);
+        rm.setPosition( 100, 100);
+        rm.setVelocity( -10, 7 );
         model.addModelElement( rm );
+
+        RoundMolecule rm2 = new RoundMolecule( 7, 7);
+        rm2.setPosition( 120, 200);
+        rm2.setVelocity( 3, 4 );
+        model.addModelElement( rm2 );
     }
 
 }

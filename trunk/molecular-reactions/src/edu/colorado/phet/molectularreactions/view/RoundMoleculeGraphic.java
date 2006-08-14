@@ -39,10 +39,10 @@ public class RoundMoleculeGraphic extends PNode implements SimpleObserver,
         this.molecule = molecule;
         molecule.addObserver( this );
 
-        Shape s = new Ellipse2D.Double( molecule.getCM().getX() - molecule.getRadius(),
-                                        molecule.getCM().getY() - molecule.getRadius(),
-                                        molecule.getRadius(),
-                                        molecule.getRadius() );
+        Shape s = new Ellipse2D.Double( -molecule.getRadius(),
+                                        -molecule.getRadius(),
+                                        molecule.getRadius() * 2,
+                                        molecule.getRadius() * 2);
         pPath = new PPath( s, defaultStroke );
         pPath.setPaint( Color.green );
         pPath.setStrokePaint( defaultStrokePaint );
