@@ -32,8 +32,6 @@ public class SphereSphereExpert implements CollisionExpert {
      */
     private boolean tweakCheck( Collidable cbA, Collidable cbB ) {
 
-//        if( true ) return true;
-
         SphericalBody sA = (SphericalBody)cbA;
         SphericalBody sB = (SphericalBody)cbB;
 

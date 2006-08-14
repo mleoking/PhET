@@ -65,7 +65,7 @@ public class SpatialView extends PNode {
     private class BoxGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
         protected BoxGraphicFactory() {
-            super( Box2D.class, moleculeLayer );
+            super( Box2D.class, boxLayer );
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
