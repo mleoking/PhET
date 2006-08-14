@@ -20,10 +20,12 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.util.GraphicPSwing;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.event.ChangeEvent;
@@ -76,7 +78,10 @@ public class RadiowaveSourceGraphic extends PNode {
         Rectangle2D box = new Rectangle2D.Double( 0, 0, length, h );
         PPath boxGraphic = new PPath( box );
         boxGraphic.setPaint( new Color( 80, 80, 80 ) );
-        addChild( boxGraphic );
+//        addChild( boxGraphic );
+
+        PImage background = PImageFactory.create( "images/radiowave-control-background.png", new Dimension(  (int)length, (int)h ));
+        addChild( background );
 
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
