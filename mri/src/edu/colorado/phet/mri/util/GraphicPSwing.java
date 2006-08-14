@@ -61,25 +61,19 @@ public class GraphicPSwing extends PNode {
     }
 
     public void repaint() {
-        System.out.println( "GraphicPSwing.repaint" );
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-
-                pSwing.setVisible( false );
-                JComponent component = pSwing.getComponent();
-                component.invalidate();
+        pSwing.setVisible( false );
+        JComponent component = pSwing.getComponent();
+        component.invalidate();
 //        component.validateTree();
-                component.revalidate();
-                component.doLayout();
-                component.repaint();
-                GraphicPSwing.this.invalidateFullBounds();
-                GraphicPSwing.this.invalidatePaint();
-                GraphicPSwing.super.repaint();
+        component.revalidate();
+        component.doLayout();
+        component.repaint();
+        GraphicPSwing.this.invalidateFullBounds();
+        GraphicPSwing.this.invalidatePaint();
+        GraphicPSwing.super.repaint();
 
 
-                pSwing.setVisible( true);
-//            }
-//        } );
+        pSwing.setVisible( true );
     }
 
     public PBounds getBounds() {

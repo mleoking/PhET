@@ -1,22 +1,15 @@
 ====
 Bugs
 ====
-Head module doesn't seem to resonate properly across the whole head when
-    there is no gradient field
-Detector doesn't appear to work at all
-Head control panel comes up too wide, and resizes when you move the power slider
-Head control panel sub-panels don't line up right
-Set fonts for magnet sliders
+- still slow on MRI module
+- window gets shorter when you go to MRI module
 
 ========
 Features
 ========
 - Get rid of classes that supported the big blue arrow in the control panel
 - Rename BFieldIndicatorB
-localize and translate to spanish
 Need equivalent of NMR energy levels panel for MRI panel
-Make Radiowave Source sliders graphical controls
-Vary size and color of donut for different atoms
 put range check on the magnetic field text field
 
 
@@ -24,9 +17,19 @@ put range check on the magnetic field text field
 =================
 Done - Not posted
 =================
+Head module doesn't seem to resonate properly across the whole head when
+    there is no gradient field
+Detector doesn't appear to work at all
+Head control panel comes up too wide, and resizes when you move the power slider
+Head control panel sub-panels don't line up right
+Set fonts for magnet sliders
+Make Radiowave Source sliders graphical controls
+Vary size and color of donut for different atoms
+localize and translate to spanish
 wiggle me for frequency and power
 - Hide magnetic field arrows
 - remove auxiliary squiggle from Head module
+- detector doesn't work
 
 ==============
 0.01.17
