@@ -33,8 +33,7 @@ public class Box2D extends Body implements Collidable {
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
 
     public Box2D() {
-        super();
-        setMass( Double.POSITIVE_INFINITY );
+        this( new Point2D.Double(), new Point2D.Double() );
     }
 
     public Box2D( Point2D corner1, Point2D corner2 ) {

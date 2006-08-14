@@ -25,8 +25,8 @@ public class MRModel extends PublishingModel {
         super( clock );
 
         // Create the box
-        Box2D box = new Box2D( /* specify the box */ );
-        addModelElement( box );
+//        Box2D box = new Box2D( /* specify the box */ );
+//        addModelElement( box );
 
 
         // Create collisions agents that will detect and handle collisions between molecules,
