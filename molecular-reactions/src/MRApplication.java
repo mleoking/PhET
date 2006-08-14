@@ -11,6 +11,7 @@
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 
 /**
@@ -24,7 +25,8 @@ public class MRApplication extends PhetApplication {
     public MRApplication( String[] args ) {
         super( args, SimStrings.get( "Application.title" ),
                SimStrings.get( "Application.description" ),
-               MRConfig.VERSION );
+               MRConfig.VERSION,
+               new FrameSetup.CenteredWithSize( 800, 600 ) );
 
         addModule( new MRModule() );
     }

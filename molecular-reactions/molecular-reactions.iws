@@ -79,6 +79,47 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/molectularreactions/view/BoxGraphic.java" line="31" class="edu.colorado.phet.molectularreactions.view.BoxGraphic" package="edu.colorado.phet.molectularreactions.view">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/modules/MRModule.java" line="49" class="edu.colorado.phet.molecularreactions.modules.MRModule" package="edu.colorado.phet.molecularreactions.modules">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/Box2D.java" line="39" class="edu.colorado.phet.collision.Box2D" package="edu.colorado.phet.collision">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -133,101 +174,57 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Molecule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Molecule.java">
+      <file leaf-file-name="SpatialView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molectularreactions/view/SpatialView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="553" selection-end="553" vertical-scroll-proportion="0.22345804">
+            <state line="49" column="0" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.23373984">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Box2D.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/Box2D.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="59" selection-start="951" selection-end="951" vertical-scroll-proportion="0.37398374">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RoundMolecule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/RoundMolecule.java">
+      <file leaf-file-name="MRModel.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/MRModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CollidableAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/CollidableAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="16" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.58746207">
+            <state line="29" column="33" selection-start="785" selection-end="785" vertical-scroll-proportion="0.8495935">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompoundMolecule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/CompoundMolecule.java">
+      <file leaf-file-name="MRModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/modules/MRModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="58" selection-start="2836" selection-end="2836" vertical-scroll-proportion="0.55005056">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MoleculeMoleculeCollisionAgent.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/collision/MoleculeMoleculeCollisionAgent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="0" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.73913044">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CollisionUtil.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/CollisionUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="13" selection-start="2828" selection-end="2828" vertical-scroll-proportion="0.79373103">
+            <state line="50" column="52" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.82642996">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PublishingModel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/PublishingModel.java">
+      <file leaf-file-name="MRApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/MRApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="7" selection-start="2826" selection-end="2826" vertical-scroll-proportion="0.89686555">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/phetcommon-dir/src/edu/colorado/phet/common/model/BaseModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="19" selection-start="2978" selection-end="2978" vertical-scroll-proportion="0.77654195">
+            <state line="28" column="54" selection-start="916" selection-end="916" vertical-scroll-proportion="0.6942801">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompositeBody.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/CompositeBody.java">
+      <file leaf-file-name="ModelElementGraphicManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/util/ModelElementGraphicManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="40" selection-start="478" selection-end="478" vertical-scroll-proportion="0.2264914">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Lobe.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Lobe.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="0" selection-start="1749" selection-end="1749" vertical-scroll-proportion="1.065723">
+            <state line="102" column="0" selection-start="3813" selection-end="3813" vertical-scroll-proportion="0.23373984">
               <folding />
             </state>
           </provider>
@@ -265,7 +262,7 @@
   </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" value="molecular-reactions" />
-    <option name="LAST_EDITED_TAB_NAME" value="Libraries (Classpath)" />
+    <option name="LAST_EDITED_TAB_NAME" value="Paths" />
   </component>
   <component name="NamedScopeManager" />
   <component name="PackagesPane">
@@ -380,8 +377,26 @@
         <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
+    </PATH>
+    <PATH>
       <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model\collision" />
+        <option name="myItemId" value="molecular-reactions.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="molecular-reactions" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\modules" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
@@ -404,6 +419,28 @@
       </PATH_ELEMENT>
       <PATH_ELEMENT>
         <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="molecular-reactions.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="molecular-reactions" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\PhET\molecular-reactions\src\edu\colorado\phet\molectularreactions\view" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
@@ -430,15 +467,17 @@
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="RunManagerConfig.compileBeforeRunning" value="true" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree">
-    <UpdateInfo date="5/22/06 4:53 PM" ActionInfo="Update">
+    <UpdateInfo date="8/14/06 2:19 PM" ActionInfo="Update">
       <UpdatedFiles>
         <FILE-GROUP>
           <option name="myUpdateName" value="Updated from server" />
@@ -452,6 +491,29 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestMotionHelpBalloonStartTime.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestHelpBalloon.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\src\edu\colorado\phet\piccolo\PhetTabbedPane.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\util\PhetUtilities.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model\PublishingModel.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\util\SwingUtils.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestHelpPane.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\util\DefaultDecimalFormat.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestComponentListener.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\tests-src\edu\colorado\phet\common\tests\TestPhetLookAndFeel.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\src\edu\colorado\phet\piccolo\help\MotionHelpBalloon.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\src\edu\colorado\phet\piccolo\help\AbstractHelpItem.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\menu\HelpMenu.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\PhetLookAndFeel.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\util\VersionUtils.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\data\localization\CommonStrings_es.properties</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\src\edu\colorado\phet\piccolo\event\ConstrainedDragHandler.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\util\DoubleGeneralPath.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestMotionHelpBalloonAnimateToNode.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\application\PhetApplication.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\piccolo-phet-dir\test-src\edu\colorado\phet\tests\piccolo\help\TestMotionHelpBalloon.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\application\AWTSplashWindow.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\data\localization\CommonStrings.properties</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -459,6 +521,18 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molectularreactions\view\EnergyView.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molectularreactions\view\SpatialView.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model\MRModel.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\tests-src\edu\colorado\phet\common\tests\utils\TestDefaultDecimalFormat.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\GPLAboutPanel.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\MRConfig.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\phetcommon-dir\src\edu\colorado\phet\common\view\PhetFrameWorkaround.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\.cvsignore</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\MRApplication.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\data\localization\MRStrings.properties</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\modules\MRModule.java</PATH>
+            <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\util\ModelElementGraphicManager.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -481,7 +555,9 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="MODIFIED" />
-          <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model\Molecule.java</PATH>
+          <PATH>C:\PhET\molecular-reactions\assets\images\panel-design-2.ai</PATH>
+          <PATH>C:\PhET\molecular-reactions\assets\images\panel-design-2.gif</PATH>
+          <PATH>C:\PhET\molecular-reactions\molecular-reactions.iws</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Merged with conflicts" />
@@ -504,7 +580,6 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UNKNOWN" />
           <PATH>C:\PhET\molecular-reactions\assets\images\Thumbs.db</PATH>
-          <PATH>C:\PhET\molecular-reactions\temp\assets\images\Thumbs.db</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally added" />
@@ -512,10 +587,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="LOCALLY_ADDED" />
-          <PATH>C:\PhET\molecular-reactions\molecular-reactions.ipr</PATH>
-          <PATH>C:\PhET\molecular-reactions\molecular-reactions.iws</PATH>
-          <PATH>C:\PhET\molecular-reactions\src\edu\colorado\phet\molecularreactions\model\RoundMolecule.java</PATH>
-          <PATH>C:\PhET\molecular-reactions\molecular-reactions.iml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally removed" />
@@ -564,14 +635,12 @@
   </component>
   <component name="RunManager">
     <activeType name="Application" />
-    <configuration selected="false" default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <module name="" />
+    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -584,13 +653,6 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
     </configuration>
     <configuration selected="false" default="true" type="JUnit" factoryName="JUnit">
       <module name="" />
@@ -607,6 +669,32 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
+    </configuration>
+    <configuration selected="false" default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="" />
+    </configuration>
+    <configuration selected="true" default="false" name="MRApplication" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="MRApplication" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <module name="molecular-reactions" />
+      <RunnerSettings RunnerId="Run" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3517" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
   </component>
   <component name="SelectInManager" />
@@ -652,31 +740,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="-2" width="1600" height="1170" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="986" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2629199" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.34068626" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32917467" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.32978722" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="2" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24951519" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33451536" order="2" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.028594771" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="4" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3356974" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32629558" order="8" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.2104019" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="3" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="5" />
+      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
     </layout>
   </component>
   <component name="VCS.FileViewConfiguration">
@@ -690,7 +778,7 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -699,7 +787,7 @@
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ERROR_OCCURED" value="false" />
+    <option name="ERROR_OCCURED" value="true" />
     <option name="ACTIVE_VCS_NAME" value="CVS" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
@@ -744,46 +832,25 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mechanics-dir/src/edu/colorado/phet/mechanics/Body.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/PublishingModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="16" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.34579438">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Lobe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="1749" selection-end="1749" vertical-scroll-proportion="1.065723">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/CompositeBody.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="40" selection-start="478" selection-end="478" vertical-scroll-proportion="0.2264914">
+        <state line="83" column="50" selection-start="2849" selection-end="2849" vertical-scroll-proportion="0.5805085">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/CollidableAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Lobe.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="16" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.58746207">
+        <state line="71" column="0" selection-start="1877" selection-end="1877" vertical-scroll-proportion="1.1954625">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Molecule.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/CompositeBody.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="553" selection-end="553" vertical-scroll-proportion="0.22345804">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/RoundMolecule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="23" column="13" selection-start="588" selection-end="588" vertical-scroll-proportion="0.32833335">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -792,42 +859,99 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/CompoundMolecule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="58" selection-start="2836" selection-end="2836" vertical-scroll-proportion="0.55005056">
+        <state line="27" column="46" selection-start="798" selection-end="798" vertical-scroll-proportion="-0.7366667">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/CollisionUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/RoundMolecule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="13" selection-start="2828" selection-end="2828" vertical-scroll-proportion="0.79373103">
+        <state line="25" column="44" selection-start="739" selection-end="739" vertical-scroll-proportion="0.32833335">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/Molecule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="11" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.74666667">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/piccolo-phet-module/src/edu/colorado/phet/piccolo/PhetPCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="13" selection-start="921" selection-end="921" vertical-scroll-proportion="-1.2259697">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molectularreactions/view/RoundMoleculeGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="24" selection-start="1707" selection-end="1707" vertical-scroll-proportion="0.47666666">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MRApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="54" selection-start="916" selection-end="916" vertical-scroll-proportion="0.6942801">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phetcommon-dir/src/edu/colorado/phet/common/model/BaseModel.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molectularreactions/view/BoxGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="19" selection-start="2978" selection-end="2978" vertical-scroll-proportion="0.77654195">
+        <state line="31" column="0" selection-start="682" selection-end="682" vertical-scroll-proportion="0.42265195">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/util/ModelElementGraphicManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="0" selection-start="3813" selection-end="3813" vertical-scroll-proportion="0.23373984">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/collision/MoleculeMoleculeCollisionAgent.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molectularreactions/view/SpatialView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="0" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.73913044">
+        <state line="49" column="0" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.23373984">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/PublishingModel.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/modules/MRModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="7" selection-start="2826" selection-end="2826" vertical-scroll-proportion="0.89686555">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="50" column="52" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.82642996">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collision-dir/src/edu/colorado/phet/collision/Box2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="59" selection-start="951" selection-end="951" vertical-scroll-proportion="0.37398374">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/molecularreactions/model/MRModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="33" selection-start="785" selection-end="785" vertical-scroll-proportion="0.8495935">
+          <folding />
         </state>
       </provider>
     </entry>

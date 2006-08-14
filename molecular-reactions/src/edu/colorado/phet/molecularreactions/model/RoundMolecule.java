@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RoundMolecule extends Body implements Collidable {
+public class RoundMolecule extends Molecule {
 
     private CollidableAdapter collidableAdapter = new CollidableAdapter( this );
     private double radius;

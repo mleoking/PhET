@@ -26,7 +26,7 @@ import java.util.*;
  * <p/>
  * Creates graphics when elements are added to the model, and adds the graphics in a well defined set
  * of layers according to their types.
- * <p>
+ * <p/>
  * When model elements leave the model, its corresponding graphic is removed from the view
  *
  * @author Ron LeMaster
@@ -34,7 +34,8 @@ import java.util.*;
  */
 public class ModelElementGraphicManager extends PublishingModel.ModelListenerAdapter {
 
-//    private AbstractMriModule module;
+    private Map modelElementClassToGraphicFactory = new HashMap();
+
     private PhetPCanvas phetPCanvas;
     // The PNode on which all dipole graphics are placed
     private PNode canvas;
@@ -49,30 +50,58 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     private PNode moleculeLayer = new PNode();
     private PNode boxLayer = new PNode();
     private PublishingModel model;
-    private Module module;
 
     /**
      * Constructor
      *
-     * @param phetPCanvas
+     * @param model
      * @param canvas
      */
-    public ModelElementGraphicManager( Module module, PhetPCanvas phetPCanvas, PNode canvas ) {
-        this.module = module;
-        this.phetPCanvas = phetPCanvas;
+    public ModelElementGraphicManager( PublishingModel model,
+                                       PNode canvas ) {
         this.canvas = canvas;
-        this.model = (PublishingModel)module.getModel();
+        this.model = model;
+        model.addListener( this );
 
         // Add layer nodes in the layer order we want to maintain
         canvas.addChild( moleculeLayer );
         canvas.addChild( boxLayer );
     }
 
-    private void scanModel( PublishingModel model ) {
+    /**
+     * Constructor
+     *
+     * @param model
+     * @param canvas
+     */
+    public ModelElementGraphicManager( PublishingModel model,
+                                       PNode canvas,
+                                       List graphicFactories ) {
+        this( model, canvas );
+        for( int i = 0; i < graphicFactories.size(); i++ ) {
+            GraphicFactory graphicFactory = (GraphicFactory)graphicFactories.get( i );
+            addGraphicFactory( graphicFactory );
+        }
+        scanModel();
+    }
+
+    public void addGraphicFactory( GraphicFactory graphicFactory ) {
+        modelElementClassToGraphicFactory.put( graphicFactory.getModelElementClass(),
+                                               graphicFactory );
+    }
+
+    /**
+     * Scans the model and creates graphics for all the model elements it
+     * currently has that don't have graphics. Use this after you have
+     * added a new factory to the ModelElementGraphicManager instance.
+     */
+    public void scanModel() {
         List modelElements = model.getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             ModelElement modelElement = (ModelElement)modelElements.get( i );
-            modelElementAdded( modelElement );
+            if( modelElementToGraphicMap.get( modelElement ) == null ) {
+                modelElementAdded( modelElement );
+            }
         }
     }
 
@@ -80,21 +109,12 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         PNode graphic = null;
         PNode layer = canvas;
 
-        // Based on the type of the model element, create a graphic for it and set the layer appropriately
-        if( modelElement instanceof Box2D ) {
-
-        }
-
-        if( modelElement instanceof RoundMolecule ){
-
-        }
-
-        if( modelElement instanceof CompoundMolecule  ) {
-
-        }
-
-        // If we created a graphic, add it to the canvas
-        if( graphic != null ) {
+        GraphicFactory graphicFactory = (GraphicFactory)modelElementClassToGraphicFactory.get( modelElement.getClass() );
+        if( graphicFactory != null ) {
+            graphic = graphicFactory.createGraphic( modelElement );
+            if( graphicFactory.getLayer() != null ) {
+                layer = graphicFactory.getLayer();
+            }
             if( invisibleGraphicClasses.contains( graphic.getClass() ) ) {
                 graphic.setVisible( false );
             }
@@ -167,5 +187,25 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         public PNode getLayer() {
             return layer;
         }
+    }
+
+    public static abstract class GraphicFactory {
+        private Class modelElementClass;
+        private PNode layer;
+
+        protected GraphicFactory( Class modelElementClass, PNode layer ) {
+            this.modelElementClass = modelElementClass;
+            this.layer = layer;
+        }
+
+        public Class getModelElementClass() {
+            return modelElementClass;
+        }
+
+        public PNode getLayer() {
+            return layer;
+        }
+
+        public abstract PNode createGraphic( ModelElement modelElement );
     }
 }

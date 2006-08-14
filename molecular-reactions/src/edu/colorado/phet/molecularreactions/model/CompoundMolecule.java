@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompoundMolecule extends CompositeBody implements Collidable {
+public class CompoundMolecule extends Molecule implements Collidable {
 
     //----------------------------------------------------------------
     // Class fileds and methods
