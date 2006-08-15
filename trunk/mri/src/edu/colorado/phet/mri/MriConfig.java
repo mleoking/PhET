@@ -53,7 +53,7 @@ public class MriConfig {
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 10;
-    public static final double MAX_FEQUENCY = 100;
+    public static final double MAX_FEQUENCY = 110;
     public static final double FREQUENCY_UNIT = 1E6;
 //    public static final double MIN_FEQUENCY = 20E6;
 //    public static final double MAX_FEQUENCY = 80E6;

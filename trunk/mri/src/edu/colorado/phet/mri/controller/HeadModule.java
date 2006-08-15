@@ -71,6 +71,7 @@ public class HeadModule extends AbstractMriModule {
 
     public HeadModule( String name ) {
         super( name, new SwingClock( delay, dt ), head );
+        setLogoPanelVisible( false );
     }
 
     public boolean auxiliarySquiggleVisible() {
