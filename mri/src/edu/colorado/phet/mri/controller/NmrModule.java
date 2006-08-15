@@ -16,9 +16,10 @@ import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
-import edu.colorado.phet.piccolo.help.WiggleMe;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.quantum.model.PhotonSource;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -91,11 +92,18 @@ public class NmrModule extends AbstractMriModule {
 
     private void createWiggleMe() {
         Point2D radiowaveSourceLocation = ( (MriModel)getModel() ).getRadiowaveSource().getPosition();
-        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
-                                                (int)radiowaveSourceLocation.getX() - 100,
-                                                (int)radiowaveSourceLocation.getY() );
+//        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
+//                                                (int)radiowaveSourceLocation.getX() - 100,
+//                                                (int)radiowaveSourceLocation.getY() );
+        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), SimStrings.get( "Application.WiggleMe" ) );
+        wiggleMe.setOffset( 50, 100 );
+        wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
+        wiggleMe.setBalloonVisible( true );
+        wiggleMe.setBalloonStroke( new BasicStroke( 1 ) );
         getPhetPCanvas().addScreenChild( wiggleMe );
         wiggleMe.setVisible( true );
+        wiggleMe.animateTo( ( (MriModel)getModel() ).getRadiowaveSource().getPosition().getX() - 120,
+                            ( (MriModel)getModel() ).getRadiowaveSource().getPosition().getY() - 20 );
 
         ( (MriModel)getModel() ).getRadiowaveSource().addChangeListener( new PhotonSource.ChangeListener() {
             public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
