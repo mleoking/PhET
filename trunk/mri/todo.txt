@@ -2,7 +2,11 @@
 Bugs
 ====
 - still slow on MRI module
-- window gets shorter when you go to MRI module
+- Use standard issue wiggle-me
+- Fix offset at bottom of frame for JWS
+- remove .0 on slider tracks
+- background of text fields with sliders should be white
+- More emphatic border around top level controls
 
 ========
 Features

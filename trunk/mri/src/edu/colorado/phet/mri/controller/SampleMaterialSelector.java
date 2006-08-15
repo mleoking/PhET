@@ -31,7 +31,7 @@ public class SampleMaterialSelector extends JPanel {
     public SampleMaterialSelector( final MriModel model ) {
         super( new GridBagLayout() );
 
-        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.SampleMaterial" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.SampleMaterial" ) ) );
 //        JLabel label = new JLabel( "Sample material:" );
         final JComboBox selector = new JComboBox( SampleMaterial.INSTANCES );
         selector.addItemListener( new ItemListener() {

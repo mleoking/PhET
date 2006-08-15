@@ -6,7 +6,7 @@ In addition, the copyclasspath task is found in a jar that Sam wrote. The
 jar and the ant distribution jar must also be included in the classpath.
 The name of the jar is currently antscripttest<xxx>.jar.
 
-To createBorder a jar than can be executed directly, the build.properties file
+To createPrimaryBorder a jar than can be executed directly, the build.properties file
 should define the variable ${main.class}
 
 Properties expected to be set exteernal to this script (typically, in

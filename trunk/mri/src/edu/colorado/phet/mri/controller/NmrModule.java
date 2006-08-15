@@ -16,19 +16,9 @@ import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
-import edu.colorado.phet.mri.util.ControlBorderFactory;
-//import edu.colorado.phet.mri.util.Magnifier;
 import edu.colorado.phet.piccolo.help.WiggleMe;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.quantum.model.PhotonSource;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -125,7 +115,7 @@ public class NmrModule extends AbstractMriModule {
 //    class MagnifierPanel extends JPanel {
 //        public MagnifierPanel( final Magnifier magnifier ) {
 //            super( new GridBagLayout() );
-//            setBorder( ControlBorderFactory.createBorder( "Magnifier " ) );
+//            setBorder( ControlBorderFactory.createPrimaryBorder( "Magnifier " ) );
 //
 //            final JSpinner magSpinner = new JSpinner( new SpinnerNumberModel( 2, 0.5, 5, 0.1 ) );
 //            magSpinner.addChangeListener( new ChangeListener() {

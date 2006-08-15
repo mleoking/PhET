@@ -6,7 +6,7 @@ In addition, the copyclasspath task is found in a jar that Sam wrote. The
 jar and the ant distribution jar must also be included in the classpath.
 The name of the jar is currently antscripttest<xxx>.jar.
 
-To createBorder a jar than can be executed directly, the build.properties file
+To createPrimaryBorder a jar than can be executed directly, the build.properties file
 should define the variable ${main.class}
 
 Properties expected to be set exteernal to this script (typically, in
@@ -78,7 +78,7 @@ ignorepath      (those elements of the ant classpath that should not be
     </target>
 
     <target name="Clean"
-        description="clean up">
+            description="clean up">
         <delete dir="${classes}"/>
         <delete dir="${jars}"/>
         <delete dir="${javadoc}"/>
@@ -86,7 +86,7 @@ ignorepath      (those elements of the ant classpath that should not be
     </target>
 
     <target name="Compile" depends="init"
-        description="compile the source ">
+            description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}">
@@ -94,7 +94,7 @@ ignorepath      (those elements of the ant classpath that should not be
     </target>
 
     <target name="Generate Jar" depends="Compile"
-        description="generate the distribution">
+            description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${jars}"/>
         <mkdir dir="${jars}"/>
@@ -124,7 +124,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <!-- Build an executable release for a client who will be using it for
         development -->
     <target name="Release With Lib" depends="Generate Jar,Javadoc"
-        description="generate the release distribution, including binary, source and docs">
+            description="generate the release distribution, including binary, source and docs">
         <!-- Create the distribution directory -->
         <mkdir dir="${releases}"/>
         <mkdir dir="${releases}/${distname}${version}_build-${build.number}"/>
@@ -149,7 +149,8 @@ ignorepath      (those elements of the ant classpath that should not be
 
         <copy todir="${releases}/${distname}${version}_build-${build.number}/src">
             <filterset>
-                <filter token="ant_header" value="This file is part of ${projectname}.${line.separator}${line.separator}${projectname} is free software; you can redistribute it and/or modify${line.separator}it under the terms of the GNU General Public License as published by${line.separator}the Free Software Foundation; either version 2 of the License, or${line.separator}(at your option) any later version.${line.separator}${line.separator}${projectname} is distributed in the hope that it will be useful,${line.separator}but WITHOUT ANY WARRANTY; without even the implied warranty of${line.separator}MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the${line.separator}GNU General Public License for more details.${line.separator}${line.separator}You should have received a copy of the GNU General Public License${line.separator}along with Foobar; if not, write to the Free Software${line.separator}Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA${line.separator}${line.separator}Copyright ${user.name}, 2003"/>
+                <filter token="ant_header"
+                        value="This file is part of ${projectname}.${line.separator}${line.separator}${projectname} is free software; you can redistribute it and/or modify${line.separator}it under the terms of the GNU General Public License as published by${line.separator}the Free Software Foundation; either version 2 of the License, or${line.separator}(at your option) any later version.${line.separator}${line.separator}${projectname} is distributed in the hope that it will be useful,${line.separator}but WITHOUT ANY WARRANTY; without even the implied warranty of${line.separator}MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the${line.separator}GNU General Public License for more details.${line.separator}${line.separator}You should have received a copy of the GNU General Public License${line.separator}along with Foobar; if not, write to the Free Software${line.separator}Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA${line.separator}${line.separator}Copyright ${user.name}, 2003"/>
             </filterset>
             <fileset dir="${src}"/>
         </copy>

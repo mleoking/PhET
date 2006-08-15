@@ -41,7 +41,7 @@ public class GradientMagnetControl extends SliderControl {
         );
 
         setTextEditable( true );
-        setBorder( ControlBorderFactory.createBorder( title ) );
+        setBorder( ControlBorderFactory.createSecondaryBorder( title ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 horizontalMagnet.setFieldStrength( getValue() * VIEW_TO_MODEL_FACTOR );

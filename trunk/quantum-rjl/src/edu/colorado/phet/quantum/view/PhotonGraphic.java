@@ -147,7 +147,7 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
 //            BufferedImage[] animation = new BufferedImage[numImgs];
 //            //            Image[] animation = new Image[numImgs];
 //            // Compute the size of buffered image needed to hold the rotated copy of the
-//            // base generator image, and createBorder the transform op for doing the rotation
+//            // base generator image, and createPrimaryBorder the transform op for doing the rotation
 //            AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
 //            int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
 //            int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
