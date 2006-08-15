@@ -34,7 +34,7 @@ public class MriLegend extends JPanel {
 
     public MriLegend() {
         super( new GridBagLayout() );
-        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.Legend" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.Legend" ) ) );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.EAST,

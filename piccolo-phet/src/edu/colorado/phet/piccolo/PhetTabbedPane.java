@@ -335,7 +335,7 @@ public class PhetTabbedPane extends JPanel {
     }
 
     /**
-     * Sets the TabNodeFactory used to createBorder subsequent tab nodes.
+     * Sets the TabNodeFactory used to createPrimaryBorder subsequent tab nodes.
      *
      * @param tabNodeFactory
      */

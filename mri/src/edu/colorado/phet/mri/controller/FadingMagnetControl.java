@@ -43,7 +43,7 @@ public class FadingMagnetControl extends SliderControl {
                new Insets( 0, 0, 0, 0 )
         );
         setTextEditable( true );
-        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.MainMagnet" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.MainMagnet" ) ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateMagnets( model, MIN_FIELD );
