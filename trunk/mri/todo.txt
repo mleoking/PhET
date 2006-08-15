@@ -2,11 +2,6 @@
 Bugs
 ====
 - still slow on MRI module
-- Use standard issue wiggle-me
-- Fix offset at bottom of frame for JWS
-- remove .0 on slider tracks
-- background of text fields with sliders should be white
-- More emphatic border around top level controls
 
 ========
 Features
@@ -17,9 +12,18 @@ Need equivalent of NMR energy levels panel for MRI panel
 put range check on the magnetic field text field
 
 
+=================
+0.01.19
+=================
+
+- Use standard issue wiggle-me
+- Fix offset at bottom of frame for JWS
+- remove .0 on slider tracks
+- background of text fields with sliders should be white
+- More emphatic border around top level controls
 
 =================
-Done - Not posted
+0.01.18
 =================
 Head module doesn't seem to resonate properly across the whole head when
     there is no gradient field

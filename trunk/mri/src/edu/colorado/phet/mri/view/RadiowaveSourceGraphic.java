@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -95,6 +96,12 @@ public class RadiowaveSourceGraphic extends PNode {
                                                       new DecimalFormat( "0" ) );
         freqCtrl.setNumMajorTicks( 5 );
         freqCtrl.setFont( font );
+        {
+            JTextField unitsReadout = freqCtrl.getUnitsReadout();
+            Font orgFont = unitsReadout.getFont();
+            Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() );
+            unitsReadout.setFont( newFont );
+        }
         freqCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
@@ -124,6 +131,12 @@ public class RadiowaveSourceGraphic extends PNode {
                                                        MriConfig.MAX_POWER,
                                                        0,
                                                        new DecimalFormat( "0" ) );
+        {
+            JTextField unitsReadout = powerCtrl.getUnitsReadout();
+            Font orgFont = unitsReadout.getFont();
+            Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() );
+            unitsReadout.setFont( newFont );
+        }
         powerCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setPower( powerCtrl.getValue() );
