@@ -23,9 +23,9 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.event.ChangeEvent;
@@ -81,7 +81,7 @@ public class RadiowaveSourceGraphic extends PNode {
 //        addChild( boxGraphic );
 
         // Background for the entire control
-        PImage background = PImageFactory.create( "images/radiowave-control-background.png", new Dimension(  (int)length, (int)h ));
+        PImage background = PImageFactory.create( "images/radiowave-control-background.png", new Dimension( (int)length, (int)h ) );
         addChild( background );
 
         // Frequency control
@@ -91,7 +91,9 @@ public class RadiowaveSourceGraphic extends PNode {
                                                       MriConfig.MIN_FEQUENCY,
                                                       MriConfig.MAX_FEQUENCY,
                                                       MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
-                                                      new DecimalFormat( "0.0" ) );
+                                                      new DecimalFormat( "0.0" ),
+                                                      new DecimalFormat( "0" ) );
+        freqCtrl.setNumMajorTicks( 5 );
         freqCtrl.setFont( font );
         freqCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -121,7 +123,7 @@ public class RadiowaveSourceGraphic extends PNode {
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,
-                                                       new DecimalFormat( "0.0" ) );
+                                                       new DecimalFormat( "0" ) );
         powerCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setPower( powerCtrl.getValue() );

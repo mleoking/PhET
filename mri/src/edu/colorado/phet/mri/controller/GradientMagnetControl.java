@@ -33,7 +33,7 @@ public class GradientMagnetControl extends SliderControl {
         super( 0,
                0,
                MriConfig.MAX_GRADIENT_COIL_FIELD,
-               0.02, 1, 2,
+               0.02, 2, 2,
                SimStrings.get( "ControlPanel.MagneticField" ) + ":",
                SimStrings.get( "ControlPanel.Tesla" ),
                5,

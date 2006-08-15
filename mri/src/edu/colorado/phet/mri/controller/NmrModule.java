@@ -50,6 +50,7 @@ public class NmrModule extends AbstractMriModule {
      */
     public NmrModule() {
         super( name, new SwingClock( delay, dt ), sampleChamber );
+        setLogoPanelVisible( false );
     }
 
     public boolean auxiliarySquiggleVisible() {

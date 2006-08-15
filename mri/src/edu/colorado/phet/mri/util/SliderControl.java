@@ -345,12 +345,17 @@ new Insets( 0, 3, 0, 2 ), 0, 0 );
     }
 
     /**
-     * Makes the text editable.
+     * Makes the text editable. If it's editable, the background is set to white
+     * There is a problem here, though. If you subsequently set it to false, the color
+     * doesn't go back to an uneditable color
      *
      * @param editable
      */
     public void setTextEditable( boolean editable ) {
         _valueTextField.setEditable( editable );
+        if( editable == true ) {
+            _valueTextField.setBackground( Color.white );
+        }
     }
 
     /**
