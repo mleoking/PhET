@@ -16,8 +16,8 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.quantum.QuantumConfig;
 import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.quantum.QuantumConfig;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;

@@ -135,12 +135,6 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         removeAllObservers();
     }
 
-    protected void finalize() throws Throwable {
-        System.out.println( "PlaneWaveMedium.finalize" );
-        super.finalize();
-    }
-
-
     //--------------------------------------------------------------------------------------------------
     //
     //--------------------------------------------------------------------------------------------------

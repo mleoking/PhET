@@ -29,8 +29,8 @@ public class AtomicState {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    static public final double minWavelength = Photon.BLUE - 20;
-    static public final double maxWavelength = Photon.GRAY;
+    static public final double minWavelength = edu.colorado.phet.quantum.model.Photon.BLUE - 20;
+    static public final double maxWavelength = edu.colorado.phet.quantum.model.Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
     static protected double STIMULATION_LIKELIHOOD = QuantumConfig.STIMULATION_LIKELIHOOD;

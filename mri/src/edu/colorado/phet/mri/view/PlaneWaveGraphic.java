@@ -222,9 +222,4 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver, PlaneWave
         
 
     }
-
-    protected void finalize() throws Throwable {
-        System.out.println( "PlaneWaveGraphic.finalize" );
-        super.finalize();
-    }
 }
