@@ -482,8 +482,10 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     //-----------------------------------------------------------------
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         s_instances.remove( this );
+        photon.removeObserver( this );
         photon.removeLeftSystemListener( this );
         photon.removeVelocityChangedListener( this );
         photon = null;
     }
+
 }
