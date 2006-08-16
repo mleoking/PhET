@@ -13,9 +13,11 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mri.util.IScalar;
 
 import java.awt.geom.Point2D;
+import java.util.EventListener;
 
 /**
  * PlaneWaveMedium
@@ -125,5 +127,35 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public void leaveSystem() {
+        listenerProxy.leftSystem( this );
+        eventChannel.removeAllListeners();
+        removeAllObservers();
+    }
+
+    protected void finalize() throws Throwable {
+        System.out.println( "PlaneWaveMedium.finalize" );
+        super.finalize();
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    //
+    //--------------------------------------------------------------------------------------------------
+    public interface Listener extends EventListener {
+        void leftSystem( PlaneWaveMedium planeWaveMedium );
+    }
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
     }
 }

@@ -29,6 +29,9 @@ import java.util.TreeMap;
 
 /**
  * MriModel
+ * <p>
+ * The primary representation of radio waves is with photons. There is a radio wave source that generates
+ * photons.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -153,6 +156,9 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
             photons.remove( modelElement );
             ( (Photon)modelElement ).removeFromSystem();
         }
+        if( modelElement instanceof PlaneWaveMedium ) {
+            ( (PlaneWaveMedium)modelElement ).leaveSystem();
+        }
         if( modelElement instanceof Electromagnet ) {
             Electromagnet magnet = (Electromagnet)modelElement;
             magnets.remove( modelElement );
@@ -273,7 +279,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
         List photons = getPhotons();
         for( int i = photons.size() - 1; i >= 0; i-- ) {
-//        for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
             if( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );

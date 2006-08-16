@@ -107,7 +107,9 @@ public class Photon extends Particle implements Collidable {
      */
     public void removeFromSystem() {
         leftSystemListenerProxy.leftSystemEventOccurred( new LeftSystemEvent() );
-        this.removeAllLeftSystemListeners();
+//        this.removeAllLeftSystemListeners();
+        leftSystemEventChannel.removeAllListeners();
+        velocityChangedEventChannel.removeAllListeners();
         this.removeAllObservers();
     }
 
@@ -201,9 +203,9 @@ public class Photon extends Particle implements Collidable {
         leftSystemEventChannel.removeListener( listener );
     }
 
-    void removeAllLeftSystemListeners() {
-        leftSystemEventChannel.removeAllListeners();
-    }
+//    void removeAllLeftSystemListeners() {
+//        leftSystemEventChannel.removeAllListeners();
+//    }
 
 
     public class VelocityChangedEvent extends EventObject {

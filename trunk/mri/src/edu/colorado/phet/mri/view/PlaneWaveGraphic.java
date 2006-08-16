@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PlaneWaveGraphic extends PNode implements SimpleObserver {
+public class PlaneWaveGraphic extends PNode implements SimpleObserver, PlaneWaveMedium.Listener {
 
     //----------------------------------------------------------------
     // Class data and methods
@@ -216,5 +216,15 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
             Paint paint = getColorForAmplitude( waveMedium.getAmplitudeAt( i * stepSize ) );
             components[i].setPaint( paint );
         }
+    }
+
+    public void leftSystem( PlaneWaveMedium planeWaveMedium ) {
+        
+
+    }
+
+    protected void finalize() throws Throwable {
+        System.out.println( "PlaneWaveGraphic.finalize" );
+        super.finalize();
     }
 }
