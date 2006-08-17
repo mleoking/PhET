@@ -43,7 +43,7 @@ public class MoleculeMoleculeCollisionAgent {
      * @param bodyB
      * @return
      */
-    public boolean areInContact( Body bodyA, Body bodyB ) {
+    public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
         Molecule moleculeA = (Molecule)bodyA;
         Molecule moleculeB = (Molecule)bodyB;
