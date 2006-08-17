@@ -16,8 +16,10 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 
 /**
  * MoleculeBoxCollisionAgent
@@ -68,17 +70,26 @@ public class MoleculeBoxCollisionAgent {
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = molecule.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        Molecule[] componentMolecules = molecule.getComponentMolecules();
-        for( int i = 0; i < componentMolecules.length; i++ ) {
+        if( detectCollision( molecule, molecule.getVelocity(), box ) ) {
+            doCollision( molecule, loa, collisionPt );
+        }
 
+//        Molecule[] componentMolecules = molecule.getComponentMolecules();
+//        for( int i = 0; i < componentMolecules.length; i++ ) {
+//            Molecule collidingMolecule = detectCollision( componentMolecules[i], box );
+//            if( collidingMolecule != null ){
+//                doCollision( collidingMolecule, loa, collisionPt );
+//            };
+
+/*
             if( componentMolecules[i] instanceof SimpleMolecule ) {
                 SimpleMolecule rm = (SimpleMolecule)componentMolecules[i];
 
                 // Hitting left wall?
                 double dx = rm.getCM().getX() - rm.getRadius() - box.getMinX();
                 if( dx <= 0 && rm.getVelocity().getX() < 0 ) {
-                    loa.setComponents( 1, 0);
-                    collisionPt.setLocation( box.getMinX(), rm.getCM().getY());
+                    loa.setComponents( 1, 0 );
+                    collisionPt.setLocation( box.getMinX(), rm.getCM().getY() );
                     doCollision( molecule, loa, collisionPt );
 //                    rm.setVelocity( -rm.getVelocity().getX(), rm.getVelocity().getY() );
 //                    rm.setPosition( rm.getPosition().getX() - dx, rm.getPosition().getY() );
@@ -88,8 +99,8 @@ public class MoleculeBoxCollisionAgent {
                 // Hitting right wall?
                 dx = rm.getCM().getX() + rm.getRadius() - box.getMaxX();
                 if( dx >= 0 && rm.getVelocity().getX() > 0 ) {
-                    loa.setComponents( 1, 0);
-                    collisionPt.setLocation( box.getMaxX(), rm.getCM().getY());
+                    loa.setComponents( 1, 0 );
+                    collisionPt.setLocation( box.getMaxX(), rm.getCM().getY() );
                     doCollision( molecule, loa, collisionPt );
 //                    rm.setVelocity( -rm.getVelocity().getX(), rm.getVelocity().getY() );
 //                    rm.setPosition( rm.getPosition().getX() - dx, rm.getPosition().getY() );
@@ -99,7 +110,7 @@ public class MoleculeBoxCollisionAgent {
                 // Hitting bottom wall?
                 double dy = rm.getCM().getY() - rm.getRadius() - box.getMinY();
                 if( dy <= 0 && molecule.getVelocity().getY() < 0 ) {
-                    loa.setComponents( 0,1);
+                    loa.setComponents( 0, 1 );
                     collisionPt.setLocation( rm.getCM().getX(), box.getMaxY() );
                     doCollision( molecule, loa, collisionPt );
 //                    rm.setVelocity( rm.getVelocity().getX(), -rm.getVelocity().getY() );
@@ -110,7 +121,7 @@ public class MoleculeBoxCollisionAgent {
                 // Hitting top wall?
                 dy = rm.getCM().getY() + rm.getRadius() - box.getMaxY();
                 if( dy >= 0 && molecule.getVelocity().getY() > 0 ) {
-                    loa.setComponents( 0,1);
+                    loa.setComponents( 0, 1 );
                     collisionPt.setLocation( rm.getCM().getX(), box.getMinY() );
                     doCollision( molecule, loa, collisionPt );
 //                    rm.setVelocity( rm.getVelocity().getX(), -rm.getVelocity().getY() );
@@ -118,7 +129,8 @@ public class MoleculeBoxCollisionAgent {
                     break;
                 }
             }
-        }
+*/
+//        }
 
         // tweak the energy to be constant
 //        double totalEnergy1 = molecule.getKineticEnergy();
@@ -131,6 +143,68 @@ public class MoleculeBoxCollisionAgent {
 //        bodyA.getVelocity().multiply( (float)fvA );
 
         return false;
+    }
+
+
+    private boolean detectCollision( Molecule molecule, Vector2D velocity, Box2D box ) {
+        boolean collisionDetected = false;
+        if( molecule instanceof CompoundMolecule ) {
+            CompoundMolecule compoundMolecule = (CompoundMolecule)molecule;
+            Molecule[] components = compoundMolecule.getComponentMolecules();
+            for( int i = 0; i < components.length && !collisionDetected; i++ ) {
+                Molecule component = components[i];
+                collisionDetected = detectCollision( component, velocity, box );
+            }
+        }
+        else if( molecule instanceof SimpleMolecule ) {
+            SimpleMolecule rm = (SimpleMolecule)molecule;
+            Line2D wall = new Line2D.Double();
+
+            // Hitting left wall?
+            wall.setLine( box.getMinX(), box.getMinY(), box.getMinX(), box.getMaxY() );
+            if( !collisionDetected &&
+                velocity.getX() < 0 &&
+                wall.intersectsLine( rm.getPosition().getX() - rm.getRadius(), rm.getPosition().getY(),
+                                     rm.getPositionPrev().getX() - rm.getRadius(), rm.getPositionPrev().getY() ) ) {
+                loa.setComponents( 1, 0 );
+                collisionPt.setLocation( box.getMinX(), rm.getCM().getY() );
+                collisionDetected = true;
+            }
+
+            // Hitting right wall?
+            wall.setLine( box.getMaxX(), box.getMinY(), box.getMaxX(), box.getMaxY() );
+            if( !collisionDetected &&
+                velocity.getX() > 0 &&
+                wall.intersectsLine( rm.getPosition().getX() + rm.getRadius(), rm.getPosition().getY(),
+                                     rm.getPositionPrev().getX() + rm.getRadius(), rm.getPositionPrev().getY() ) ) {
+                loa.setComponents( 1, 0 );
+                collisionPt.setLocation( box.getMaxX(), rm.getCM().getY() );
+                collisionDetected = true;
+            }
+
+            // Hitting bottom wall?
+            wall.setLine( box.getMinX(), box.getMaxY(), box.getMaxX(), box.getMaxY() );
+            if( !collisionDetected &&
+                velocity.getY() > 0 &&
+                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() + rm.getRadius(),
+                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() + rm.getRadius() ) ) {
+                loa.setComponents( 0, 1 );
+                collisionPt.setLocation( rm.getCM().getX(), box.getMaxY() );
+                collisionDetected = true;
+            }
+
+            // Hitting top wall?
+            wall.setLine( box.getMinX(), box.getMinY(), box.getMaxX(), box.getMinY() );
+            if( !collisionDetected &&
+                velocity.getY() < 0 &&
+                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() - rm.getRadius(),
+                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() - rm.getRadius() ) ) {
+                loa.setComponents( 0, 1 );
+                collisionPt.setLocation( rm.getCM().getX(), box.getMinY() );
+                collisionDetected = true;
+            }
+        }
+        return collisionDetected;
     }
 
 
@@ -160,18 +234,16 @@ public class MoleculeBoxCollisionAgent {
         double numerator = -vr * ( 1 + e );
         Vector3D n3D = new Vector3D( n );
         Vector3D r13D = new Vector3D( r1 );
-        Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float)( 1 / molecule.getMomentOfInertia() ) );
+        Vector3D t1 = r13D.crossProduct( n3D ).multiply( 1 / molecule.getMomentOfInertia() );
         Vector3D t1A = t1.crossProduct( t1 );
         double t1B = n3D.dot( t1A );
         double denominator = ( 1 / molecule.getMass() ) + t1B;
         denominator = ( 1 / molecule.getMass() ) +
-                      ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float)molecule.getMomentOfInertia() ).crossProduct( r13D ) ) );
+                      ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / molecule.getMomentOfInertia() ).crossProduct( r13D ) ) );
         double j = numerator / denominator;
 
         // Compute the new linear and angular velocities, based on the impulse
-        molecule.getVelocity().add( new Vector2D.Double( n ).scale( (float)( j / molecule.getMass() ) ) );
-
-        // Compute the angular velocity of the molecule
+        molecule.getVelocity().add( new Vector2D.Double( n ).scale( j / molecule.getMass() ) );
         molecule.setOmega( molecule.getOmega() + ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( molecule.getMomentOfInertia() ) );
 
         // tweak the energy to be constant

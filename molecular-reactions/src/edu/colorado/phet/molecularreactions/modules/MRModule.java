@@ -53,25 +53,26 @@ public class MRModule extends Module {
     private void testModule( MRModel model ) {
 
         // Add a test molecule
-//        RoundMolecule rm = new RoundMolecule( 7 );
-//        rm.setMass( 10 );
-//        rm.setPosition( 100, 105);
-//        rm.setVelocity( 5, 0 );
+        SimpleMolecule rm = new SimpleMolecule( 7 );
+        rm.setMass( 49 );
+        rm.setPosition( 100, 105);
+        rm.setVelocity( 5, 0 );
 //        model.addModelElement( rm );
-
-        SimpleMolecule rm2 = new SimpleMolecule( 5 );
-        rm2.setMass( 5  );
+//
+        SimpleMolecule rm2 = new SimpleMolecule( 10 );
+        rm2.setMass( 100  );
         rm2.setPosition( 200, 100);
-        rm2.setVelocity( -5, 0 );
+//        rm2.setVelocity( -5, 0 );
 //        model.addModelElement( rm2 );
 
-        SimpleMolecule rm3 = new SimpleMolecule( 10 );
-        rm3.setMass( 13 );
+        SimpleMolecule rm3 = new SimpleMolecule( 5 );
+        rm3.setMass( 25 );
         rm3.setPosition( 200, 115 );
 //        model.addModelElement( rm3);
 
         CompoundMolecule cm1 = new CompoundMolecule( new Molecule[]{ rm2, rm3 });
-        cm1.setVelocity( 4, 4);
+        cm1.setVelocity( 0, 4);
+        cm1.setOmega( 0.5);
         model.addModelElement( cm1 );
     }
 
