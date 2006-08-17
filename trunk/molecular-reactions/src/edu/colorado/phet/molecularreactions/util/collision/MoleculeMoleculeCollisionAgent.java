@@ -14,7 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 
 import java.awt.geom.Point2D;
@@ -69,9 +69,9 @@ public class MoleculeMoleculeCollisionAgent {
 
     private CollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
         CollisionSpec collisionSpec = null;
-        if( moleculeA instanceof RoundMolecule && moleculeB instanceof RoundMolecule ) {
-            RoundMolecule rmA = (RoundMolecule)moleculeA;
-            RoundMolecule rmB = (RoundMolecule)moleculeB;
+        if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
+            SimpleMolecule rmA = (SimpleMolecule)moleculeA;
+            SimpleMolecule rmB = (SimpleMolecule)moleculeB;
             if( rmA.getPosition().distanceSq( rmB.getPosition() )
                 <= ( rmA.getRadius() + rmB.getRadius() )
                    * ( rmA.getRadius() + rmB.getRadius() ) ) {

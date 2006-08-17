@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.molecularreactions.model.Molecule;
@@ -35,7 +35,7 @@ public class MoleculeMoleculeCollisionAgent implements CollisionExpert {
         return false;
     }
 
-    public void detectAndDoCollision( RoundMolecule moleculeA, RoundMolecule moleculeB ) {
+    public void detectAndDoCollision( SimpleMolecule moleculeA, SimpleMolecule moleculeB ) {
         double distSq = moleculeA.getPosition().distanceSq( moleculeB.getPosition() );
         double radSum = moleculeA.getRadius() + moleculeB.getRadius();
         if( distSq <= radSum * radSum ) {

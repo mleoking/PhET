@@ -16,13 +16,11 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molectularreactions.view.SpatialView;
 import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.molecularreactions.model.Molecule;
-import edu.colorado.phet.collision.Box2D;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * MRModule
@@ -48,28 +46,33 @@ public class MRModule extends Module {
         canvas.addScreenChild( spatialView );
         setSimulationPanel( canvas );
 
-        // Add a test molecule
-        RoundMolecule rm = new RoundMolecule( 7 );
-        rm.setMass( 10 );
-        rm.setPosition( 100, 105);
-        rm.setVelocity( 5, 0 );
-        model.addModelElement( rm );
+        // Test
+        testModule( model );
+    }
 
-        RoundMolecule rm2 = new RoundMolecule( 5 );
+    private void testModule( MRModel model ) {
+
+        // Add a test molecule
+//        RoundMolecule rm = new RoundMolecule( 7 );
+//        rm.setMass( 10 );
+//        rm.setPosition( 100, 105);
+//        rm.setVelocity( 5, 0 );
+//        model.addModelElement( rm );
+
+        SimpleMolecule rm2 = new SimpleMolecule( 5 );
         rm2.setMass( 5  );
         rm2.setPosition( 200, 100);
         rm2.setVelocity( -5, 0 );
-        model.addModelElement( rm2 );
+//        model.addModelElement( rm2 );
 
-        RoundMolecule rm3 = new RoundMolecule( 10 );
+        SimpleMolecule rm3 = new SimpleMolecule( 10 );
         rm3.setMass( 13 );
-        rm3.setPosition( 200, 107 );
-        model.addModelElement( rm3);
+        rm3.setPosition( 200, 115 );
+//        model.addModelElement( rm3);
 
         CompoundMolecule cm1 = new CompoundMolecule( new Molecule[]{ rm2, rm3 });
         cm1.setVelocity( 4, 4);
         model.addModelElement( cm1 );
-
     }
 
 }

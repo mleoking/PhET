@@ -15,7 +15,7 @@ import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
 import java.awt.geom.Point2D;
 
@@ -71,8 +71,8 @@ public class MoleculeBoxCollisionAgent {
         Molecule[] componentMolecules = molecule.getComponentMolecules();
         for( int i = 0; i < componentMolecules.length; i++ ) {
 
-            if( componentMolecules[i] instanceof RoundMolecule ) {
-                RoundMolecule rm = (RoundMolecule)componentMolecules[i];
+            if( componentMolecules[i] instanceof SimpleMolecule ) {
+                SimpleMolecule rm = (SimpleMolecule)componentMolecules[i];
 
                 // Hitting left wall?
                 double dx = rm.getCM().getX() - rm.getRadius() - box.getMinX();

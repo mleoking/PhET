@@ -10,13 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.util;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
-import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.*;
