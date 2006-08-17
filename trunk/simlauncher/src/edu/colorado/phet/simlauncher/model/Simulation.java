@@ -85,6 +85,10 @@ public abstract class Simulation implements SimContainer {
     protected void addResource( SimResource simResource ) {
         resources.add( simResource );
     }
+    
+    public List getResources(){
+        return resources;
+    }
 
     /**
      * Returns the Simulation instance for the simulation with a specified name.
