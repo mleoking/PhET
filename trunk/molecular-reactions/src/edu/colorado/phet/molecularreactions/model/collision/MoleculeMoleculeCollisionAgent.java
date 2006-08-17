@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.molecularreactions.model.RoundMolecule;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
+import edu.colorado.phet.molecularreactions.model.Molecule;
 
 /**
  * MoleculeMoleculeCollisionAgent
@@ -41,7 +42,7 @@ public class MoleculeMoleculeCollisionAgent implements CollisionExpert {
             // If the energy of the collision is high enough, create a compound molecule
             double e = moleculeA.getKineticEnergy() + moleculeB.getKineticEnergy();
             if( e > thresholdEnergy ) {
-                CompoundMolecule compoundMolecule = new CompoundMolecule( moleculeA, moleculeB );
+                CompoundMolecule compoundMolecule = new CompoundMolecule( new Molecule[]{ moleculeA,  moleculeB } );
                 model.addModelElement( compoundMolecule );
             }
 

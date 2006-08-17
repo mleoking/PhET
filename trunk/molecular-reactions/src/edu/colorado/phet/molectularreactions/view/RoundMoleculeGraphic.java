@@ -25,8 +25,8 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RoundMoleculeGraphic extends PNode implements SimpleObserver,
-                                                           Molecule.Listener {
+public class RoundMoleculeGraphic extends PNode implements SimpleObserver
+                                                           /*, Molecule.Listener*/ {
     private static Stroke defaultStroke = new BasicStroke( 1 );
     private static Stroke selectedStroke = new BasicStroke( 2 );
 
@@ -58,13 +58,13 @@ public class RoundMoleculeGraphic extends PNode implements SimpleObserver,
     // Implementation of Molecule.Listener
     //--------------------------------------------------------------------------------------------------
 
-    public void selected( Molecule.Event event ) {
-        pPath.setStroke( selectedStroke );
-        pPath.setStrokePaint( selectedStrokePaint );
-    }
-
-    public void unSelected( Molecule.Event event ) {
-        pPath.setStroke( defaultStroke );
-        pPath.setStrokePaint( defaultStrokePaint );
-    }
+//    public void selected( Molecule.Event event ) {
+//        pPath.setStroke( selectedStroke );
+//        pPath.setStrokePaint( selectedStrokePaint );
+//    }
+//
+//    public void unSelected( Molecule.Event event ) {
+//        pPath.setStroke( defaultStroke );
+//        pPath.setStrokePaint( defaultStrokePaint );
+//    }
 }

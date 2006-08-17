@@ -47,14 +47,16 @@ public class MRModule extends Module {
         setSimulationPanel( canvas );
 
         // Add a test molecule
-        RoundMolecule rm = new RoundMolecule( 7, 7);
-        rm.setPosition( 100, 100);
-        rm.setVelocity( -10, 7 );
+        RoundMolecule rm = new RoundMolecule( 7 );
+        rm.setMass( 10 );
+        rm.setPosition( 100, 105);
+        rm.setVelocity( 5, 0 );
         model.addModelElement( rm );
 
-        RoundMolecule rm2 = new RoundMolecule( 7, 7);
-        rm2.setPosition( 120, 200);
-        rm2.setVelocity( 3, 4 );
+        RoundMolecule rm2 = new RoundMolecule( 7 );
+        rm2.setMass( 5  );
+        rm2.setPosition( 200, 100);
+        rm2.setVelocity( -5, 0 );
         model.addModelElement( rm2 );
     }
 
