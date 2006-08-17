@@ -17,6 +17,9 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * CompoundMolecule
+ * <p>
+ * A compound molecule is a molecule composed of other molecules. Its position is its
+ * center of mass.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -24,17 +27,24 @@ import java.awt.geom.Rectangle2D;
 public class CompoundMolecule extends Molecule {
     private Molecule[] components;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
-    private Point2D cm = new Point2D.Double();
     private double orientation;
 
     public CompoundMolecule( Molecule[] components ) {
         super();
         this.components = components;
+        double mass = 0;
+        for( int i = 0; i < components.length; i++ ) {
+            Molecule component = components[i];
+            mass += component.getMass();
+        }
+        setMass( mass );
+        computeCM();
     }
 
     public CompoundMolecule( Molecule[] components, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         this.components = components;
+        computeCM();
     }
 
     public Molecule[] getComponentMolecules() {
@@ -50,6 +60,10 @@ public class CompoundMolecule extends Molecule {
     }
 
     public Point2D getCM() {
+        return getPosition();
+    }
+
+    private void computeCM() {
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
@@ -60,8 +74,9 @@ public class CompoundMolecule extends Molecule {
             ySum += mass * component.getCM().getY();
             massSum += mass;
         }
-        cm.setLocation( xSum / massSum, ySum / massSum );
-        return cm;
+//        cm.setLocation( xSum / massSum, ySum / massSum );
+//        setPosition( cm );
+        setPosition( xSum / massSum, ySum / massSum );
     }
 
     public double getMomentOfInertia() {
@@ -92,14 +107,12 @@ public class CompoundMolecule extends Molecule {
         double omegaOld = getOmega();
         double alphaOld = getAlpha();
 
-        double emfMag = 0;
-        double phi = 0;
 
         double alpha = 0;
-//        double alpha = s_c * Math.sin( phi ) * emfMag - s_b * omegaOld;
 
         // 1. Compute new orientation
-        double thetaNew = ( thetaOld + ( omegaOld * dt ) + ( alpha * dt * dt / 2 ) ) % ( Math.PI * 2 );
+        double dTheta = ( omegaOld * dt ) + ( alpha * dt * dt / 2 );
+        double thetaNew = ( thetaOld + dTheta ) % ( Math.PI * 2 );
 
         // 2. Compute temporary new angular velocity
         double omegaNewTemp = omegaOld + ( alpha * dt );
@@ -122,41 +135,25 @@ public class CompoundMolecule extends Molecule {
         setAlpha( alphaNew );
 
         super.stepInTime( dt );
-
-        // We have to wait until the lobes compute their linear kinematics
-        // (which happens in super.stepInTime() before we update their angular positions
-        // relative to the center of the molecule. Otherwise, their previous locations
-        // don't get set properly. (Previous location is used in collision detection)
-        updateLobes();
+        updateComponents( dTheta );
 
         notifyObservers();
     }
 
     /**
+     * Updates the position of each component molecule.
      *
+     * @param theta the rotation of the compound molecule
      */
-    public void updateLobes() {
+    public void updateComponents( double theta ) {
 
-        // Set the locations of the hydrogen atoms
-        double x;
-        double y;
-
-//        lobes[0].setCenter( this.getLocation().getX(), this.getLocation().getY() );
-//
-//        x = this.getLocation().getX()
-//                + s_hydrogenOxygenDist * Math.cos( dipoleOrientation + s_hydrogenAngleRad / 2 );
-//        y = this.getLocation().getY()
-//                + s_hydrogenOxygenDist * Math.sin( dipoleOrientation + s_hydrogenAngleRad / 2 );
-//        lobes[1].setCenter( x, y );
-//
-//        x = this.getLocation().getX()
-//                + s_hydrogenOxygenDist * Math.cos( dipoleOrientation - s_hydrogenAngleRad / 2 );
-//        y = this.getLocation().getY()
-//                + s_hydrogenOxygenDist * Math.sin( dipoleOrientation - s_hydrogenAngleRad / 2 );
-//        lobes[2].setCenter( x, y );
-//
-//        super.setDipoleOrientation( dipoleOrientation );
-
+        for( int i = 0; i < components.length; i++ ) {
+            Molecule component = components[i];
+            Vector2D separation = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
+                                                       component.getPosition().getY() - this.getPositionPrev().getY());
+            separation.rotate( theta );
+            component.setPosition( this.getPosition().getX() + separation.getX(),
+                                   this.getPosition().getY() + separation.getY() );
+        }
     }
-
 }
