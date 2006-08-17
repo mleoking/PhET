@@ -20,24 +20,25 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * RoundMolecule
+ * SimpleMolecule
+ * <p>
+ * A molecule that is a single sphere.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RoundMolecule extends Molecule {
-//public class RoundMolecule extends SolidSphere {
+public class SimpleMolecule extends Molecule {
 
     private double radius;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
 
 
-    public RoundMolecule( double radius ) {
+    public SimpleMolecule( double radius ) {
         super();
         this.radius = radius;
     }
 
-    public RoundMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    public SimpleMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         this.radius = radius;
     }

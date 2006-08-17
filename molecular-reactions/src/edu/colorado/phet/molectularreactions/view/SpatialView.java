@@ -12,7 +12,8 @@ package edu.colorado.phet.molectularreactions.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
@@ -45,20 +46,32 @@ public class SpatialView extends PNode {
 
         // Create the graphic manager and add required factories to it
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model, canvas );
-        megm.addGraphicFactory( new RoundMoleculeGraphicFactory() );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory() );
         megm.addGraphicFactory( new BoxGraphicFactory() );
+        megm.addGraphicFactory( new CompoundMoleculeGraphicFactory() );
         megm.scanModel();
     }
 
 
-    private class RoundMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
+    private class CompoundMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
-        protected RoundMoleculeGraphicFactory() {
-            super( RoundMolecule.class, moleculeLayer );
+        protected CompoundMoleculeGraphicFactory() {
+            super( CompoundMolecule.class, moleculeLayer );
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new RoundMoleculeGraphic( (RoundMolecule)modelElement ) ;
+            return new CompoundMoleculeGraphic( (CompoundMolecule)modelElement );
+        }
+    }
+
+    private class SimpleMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
+
+        protected SimpleMoleculeGraphicFactory() {
+            super( SimpleMolecule.class, moleculeLayer );
+        }
+
+        public PNode createGraphic( ModelElement modelElement ) {
+            return new SimpleMoleculeGraphic( (SimpleMolecule)modelElement ) ;
         }
     }
 

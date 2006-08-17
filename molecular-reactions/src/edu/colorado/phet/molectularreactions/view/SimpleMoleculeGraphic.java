@@ -12,30 +12,29 @@ package edu.colorado.phet.molectularreactions.view;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.RoundMolecule;
-import edu.colorado.phet.molecularreactions.model.Molecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.*;
 
 /**
- * RoundMoleculeGraphic
+ * SimpleMoleculeGraphic
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RoundMoleculeGraphic extends PNode implements SimpleObserver
+public class SimpleMoleculeGraphic extends PNode implements SimpleObserver
                                                            /*, Molecule.Listener*/ {
     private static Stroke defaultStroke = new BasicStroke( 1 );
     private static Stroke selectedStroke = new BasicStroke( 2 );
 
     private static Paint defaultStrokePaint = Color.black;
     private static Paint selectedStrokePaint = Color.red;
-    private RoundMolecule molecule;
+    private SimpleMolecule molecule;
     private PPath pPath;
 
-    public RoundMoleculeGraphic( RoundMolecule molecule ) {
+    public SimpleMoleculeGraphic( SimpleMolecule molecule ) {
         this.molecule = molecule;
         molecule.addObserver( this );
 
