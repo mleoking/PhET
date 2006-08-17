@@ -17,6 +17,7 @@ import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * RoundMolecule
@@ -24,13 +25,44 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RoundMolecule extends SolidSphere {
+public class RoundMolecule extends Molecule {
+//public class RoundMolecule extends SolidSphere {
 
-    private CollidableAdapter collidableAdapter = new CollidableAdapter( this );
-    private double mass;
+    private double radius;
+    private Rectangle2D boundingBox = new Rectangle2D.Double();
 
-    public RoundMolecule( double radius, double mass ) {
-        super( radius );
-        super.setMass( mass );
+
+    public RoundMolecule( double radius ) {
+        super();
+        this.radius = radius;
+    }
+
+    public RoundMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+        super( location, velocity, acceleration, mass, charge );
+        this.radius = radius;
+    }
+
+    public Molecule[] getComponentMolecules() {
+        return new Molecule[]{ this };
+    }
+
+    public Rectangle2D getBoundingBox() {
+        boundingBox.setRect( getPosition().getX() - radius,
+                                    getPosition().getY() - radius,
+                                    radius * 2,
+                                    radius * 2);
+        return boundingBox;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public Point2D getCM() {
+        return getPosition();
+    }
+
+    public double getMomentOfInertia() {
+        return radius * radius * getMass() / 2;
     }
 }

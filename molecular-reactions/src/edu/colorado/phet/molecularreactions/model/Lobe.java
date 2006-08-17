@@ -18,11 +18,12 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Lobe {
+public class Lobe /*extends Molecule*/ {
         private double radius;
         private double oldX, oldY;
         private Point2D.Double center = new Point2D.Double();
         private Point2D.Double centerPrevious = new Point2D.Double();
+
 
         public double getRadius() {
             return radius;
