@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+package edu.colorado.phet.molecularreactions;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -10,7 +10,7 @@
  */
 
 /**
- * MRConfig
+ * edu.colorado.phet.molecularreactions.MRConfig
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -22,4 +22,10 @@ public class MRConfig {
 
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
+
+    // Debug flag
+    public static boolean DEBUG;
+
+    // Model constants
+    public static double REACTION_THRESHOLD = 1E6;
 }

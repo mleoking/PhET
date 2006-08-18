@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+package edu.colorado.phet.molecularreactions;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -13,9 +13,10 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 /**
- * MRApplication
+ * edu.colorado.phet.molecularreactions.MRApplication
  *
  * @author Ron LeMaster
  * @version $Revision$

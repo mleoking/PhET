@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.util.collision;
+package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.collision.Box2D;

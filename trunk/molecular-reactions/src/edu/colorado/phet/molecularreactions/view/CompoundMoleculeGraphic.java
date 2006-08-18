@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view;
+package edu.colorado.phet.molecularreactions.view;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -16,6 +16,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.*;
@@ -35,11 +36,13 @@ public class CompoundMoleculeGraphic extends PNode implements SimpleObserver {
         compoundMolecule.addObserver( this );
         addChild( createComponentGraphics( compoundMolecule ) );
 
-        double r = 2;
-        cmNode = new PPath( new Ellipse2D.Double(-r,-r, r*2, r*2) );
-        cmNode.setPaint( Color.red );
-        addChild( cmNode );
-        update();
+        if( MRConfig.DEBUG ) {
+            double r = 2;
+            cmNode = new PPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
+            cmNode.setPaint( Color.red );
+            addChild( cmNode );
+            update();
+        }
     }
 
     private PNode createComponentGraphics( Molecule molecule ) {
@@ -59,6 +62,8 @@ public class CompoundMoleculeGraphic extends PNode implements SimpleObserver {
     }
 
     public void update() {
-        cmNode.setOffset( compoundMolecule.getCM() );
+        if( MRConfig.DEBUG ) {
+            cmNode.setOffset( compoundMolecule.getCM() );
+        }
     }
 }
