@@ -56,7 +56,7 @@ public class RampPanel extends PhetPCanvas {
 
     public RampPanel( RampModule module ) {
 //        setRenderingSize( getDefaultRenderingSize() );//DEC_05
-        super(getDefaultRenderSize() );
+        super( getDefaultRenderSize() );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -191,7 +191,7 @@ public class RampPanel extends PhetPCanvas {
     private void layoutChildren() {
         if( !recursing ) {
             recursing = true;
-            System.out.println( System.currentTimeMillis() + ": RampPanel.layoutChildren" );
+//            System.out.println( System.currentTimeMillis() + ": RampPanel.layoutChildren" );
             double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
 //            System.out.println( "yOrig = " + yOrig );
             double gopY = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
@@ -199,7 +199,7 @@ public class RampPanel extends PhetPCanvas {
 //            System.out.println( "gopY = " + gopY );
             if( gopY <= 0 ) {
                 gopY = yOrig;
-                System.out.println( "Reverting to orig bar gopY" );
+//                System.out.println( "Reverting to orig bar gopY" );
             }
             else {
 //                System.out.println( "Using new value" );

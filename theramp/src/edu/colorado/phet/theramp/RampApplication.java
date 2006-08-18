@@ -19,11 +19,11 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class RampApplication extends PhetApplication {
-
+    private static final String VERSION = "0.00.25";
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
     private static final String TITLE = "The Ramp";
     private static final String DESCRIPTION = "The Ramp Simulation";
-    private static final String VERSION = "0.24";
+
     private RampModule simpleRampModule;
     private RampModule advancedFeatureModule;
 //    private static PhetStartupWindow startupWindow;

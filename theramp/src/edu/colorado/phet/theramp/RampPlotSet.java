@@ -170,7 +170,8 @@ public class RampPlotSet extends PNode {
 
         public void setVisible( boolean b ) {
             if( !b ) {
-                System.out.println( "Chart too small to be shown, needs error handling." );
+//                System.out.println( "Chart too small to be shown, needs error handling." );
+                ///todo System.out.println( "Chart too small to be shown, needs error handling." );
             }
 //            plot.setVisible( b );
         }

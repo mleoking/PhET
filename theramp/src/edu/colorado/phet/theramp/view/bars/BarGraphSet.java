@@ -149,7 +149,7 @@ public class BarGraphSet extends PNode {
 
         public XAxis() {
             int yValue = transform1D.modelToView( 0 );
-            System.out.println( "yValue = " + yValue );
+//            System.out.println( "yValue = " + yValue );
             path = new PPath( createLinePath() );
             addChild( path );
             path.setStrokePaint( new Color( 255, 150, 150 ) );
@@ -208,7 +208,7 @@ public class BarGraphSet extends PNode {
 
     protected void finishInit( ValueAccessor[] workAccess ) {
         double w = workAccess.length * ( sep + dw ) - sep;
-        System.out.println( "width = " + barWidth );
+//        System.out.println( "width = " + barWidth );
         background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
         background.setPaint( null );
         background.setStroke( new BasicStroke() );

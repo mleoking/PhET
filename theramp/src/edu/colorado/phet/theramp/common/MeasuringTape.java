@@ -103,7 +103,7 @@ public class MeasuringTape extends PNode {
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
         Vector2D.Double viewVector = new Vector2D.Double( viewSrc, viewDst );
 
-        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
+//        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
         Line2D.Double line = new Line2D.Double( viewSrc, viewDst );
         tapeGraphic.setLine( line );
 
