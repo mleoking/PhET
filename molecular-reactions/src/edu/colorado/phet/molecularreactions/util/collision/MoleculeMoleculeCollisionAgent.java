@@ -16,6 +16,7 @@ import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
+import edu.colorado.phet.molecularreactions.model.MRModel;
 
 import java.awt.geom.Point2D;
 
@@ -43,7 +44,7 @@ public class MoleculeMoleculeCollisionAgent {
      * @param bodyB
      * @return
      */
-    public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
+    public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
         Molecule moleculeA = (Molecule)bodyA;
         Molecule moleculeB = (Molecule)bodyB;
@@ -59,7 +60,7 @@ public class MoleculeMoleculeCollisionAgent {
         if( boundingBoxesOverlap ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
-                doCillision( moleculeA, moleculeB, collisionSpec.getLoa(), collisionSpec.getCollisionPt() );
+                doCollision( model, moleculeA, moleculeB, collisionSpec.getLoa(), collisionSpec.getCollisionPt() );
             }
 
         }
@@ -107,14 +108,25 @@ public class MoleculeMoleculeCollisionAgent {
     }
 
     /**
+     * @param model
      * @param bodyA
      * @param bodyB
      * @param loa
      */
-    public void doCillision( Body bodyA, Body bodyB, Vector2D loa, Point2D.Double collisionPt ) {
+    public void doCollision( MRModel model, Body bodyA, Body bodyB, Vector2D loa, Point2D.Double collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
+
+        // If the total energy is sufficient, create a compound molecule
+        double threshold = 0;
+        if( totalEnergy0 > threshold && bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
+            Molecule[] ma = new Molecule[]{ (Molecule)bodyA,(Molecule)bodyB};
+            CompoundMolecule compoundMolecule = new CompoundMolecule( ma );
+            model.removeModelElement( bodyA );
+            model.removeModelElement( bodyB );
+            model.addModelElement( compoundMolecule );
+        }
 
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),
