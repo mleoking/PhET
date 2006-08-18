@@ -191,7 +191,7 @@ quantum-rjl quantum-rjl
 radio-waves emf 
 
 # The Ramp
-theramp theramp &jfreechart &jfreechart-phet &piccolo &phetcommon &antutil-dir
+theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil-dir
 
 # Schrodinger
 schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil-dir
