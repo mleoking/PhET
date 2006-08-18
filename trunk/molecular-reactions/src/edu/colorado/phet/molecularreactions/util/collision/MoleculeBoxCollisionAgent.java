@@ -148,6 +148,9 @@ public class MoleculeBoxCollisionAgent {
 
     private boolean detectCollision( Molecule molecule, Vector2D velocity, Box2D box ) {
         boolean collisionDetected = false;
+
+        velocity = molecule.getVelocity();
+        
         if( molecule instanceof CompoundMolecule ) {
             CompoundMolecule compoundMolecule = (CompoundMolecule)molecule;
             Molecule[] components = compoundMolecule.getComponentMolecules();

@@ -11,13 +11,14 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.mechanics.Vector3D;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
  * CompoundMolecule
- * <p>
+ * <p/>
  * A compound molecule is a molecule composed of other molecules. Its position is its
  * center of mass.
  *
@@ -29,22 +30,40 @@ public class CompoundMolecule extends Molecule {
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
 
+    /**
+     * Creates a CompoundMolecule from an array of molecules. The kinematic
+     * attributes of the new CompoundMolecule are set based on those of its
+     * components.
+     *
+     * @param components
+     */
     public CompoundMolecule( Molecule[] components ) {
         super();
         this.components = components;
+        computeKinematicsFromComponents( components );
+    }
+
+    private void computeKinematicsFromComponents( Molecule[] components ) {
+        computeCM();
         double mass = 0;
+        Vector2D compositeMomentum = new Vector2D.Double( );
+        Vector2D acceleration = new Vector2D.Double( );
+        Vector3D angularMomentum = new Vector3D();
+        Vector2D compositeCmToComponentCm = new Vector2D.Double( );
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
             mass += component.getMass();
+            Vector2D momentum =  new Vector2D.Double( component.getVelocity()).scale( component.getMass() );
+            compositeMomentum.add( momentum );
+            acceleration.add( component.getAcceleration() );
+            compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
+                                                    component.getPosition().getY() - getCM().getY());
+                        angularMomentum.add( compositeCmToComponentCm.crossProduct( momentum ));
         }
         setMass( mass );
-        computeCM();
-    }
-
-    public CompoundMolecule( Molecule[] components, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
-        super( location, velocity, acceleration, mass, charge );
-        this.components = components;
-        computeCM();
+        setVelocity( compositeMomentum.scale( 1 / mass ) );
+        setAcceleration( acceleration );
+        setOmega( angularMomentum.getZ() / getMomentOfInertia() );
     }
 
     public Molecule[] getComponentMolecules() {
@@ -74,8 +93,6 @@ public class CompoundMolecule extends Molecule {
             ySum += mass * component.getCM().getY();
             massSum += mass;
         }
-//        cm.setLocation( xSum / massSum, ySum / massSum );
-//        setPosition( cm );
         setPosition( xSum / massSum, ySum / massSum );
     }
 
@@ -147,13 +164,17 @@ public class CompoundMolecule extends Molecule {
      */
     public void updateComponents( double theta ) {
 
+        // Set the position and velocity of the component
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
-            Vector2D separation = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
-                                                       component.getPosition().getY() - this.getPositionPrev().getY());
-            separation.rotate( theta );
-            component.setPosition( this.getPosition().getX() + separation.getX(),
-                                   this.getPosition().getY() + separation.getY() );
+            Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
+                                                       component.getPosition().getY() - this.getPositionPrev().getY() );
+            compositeCmToComponentCm.rotate( theta );
+            component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
+                                   this.getPosition().getY() + compositeCmToComponentCm.getY() );
+            Vector2D v = component.getVelocity();
+            v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
+                             this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
     }
 }

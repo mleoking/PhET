@@ -47,33 +47,68 @@ public class MRModule extends Module {
         setSimulationPanel( canvas );
 
         // Test
-        testModule( model );
+        testSimpleToCompoundMolecules( model );
     }
 
-    private void testModule( MRModel model ) {
+    private void testSimpleToCompoundMolecules( MRModel model ) {
 
-        // Add a test molecule
+        // Set up two simple molecules to ram together
+        SimpleMolecule sm1 = new SimpleMolecule( 7 );
+        sm1.setMass( 49 );
+        sm1.setPosition( 100, 110);
+        sm1.setVelocity( 5, 0 );
+        model.addModelElement( sm1 );
+
+        SimpleMolecule sm2 = new SimpleMolecule( 10 );
+        sm2.setMass( 100 );
+        sm2.setPosition( 200, 105);
+        sm2.setVelocity( -0, 0 );
+        model.addModelElement( sm2 );
+
+        SimpleMolecule rm3 = new SimpleMolecule( 5 );
+        rm3.setMass( 25 );
+        rm3.setPosition( 70, 100 );
+//        rm3.setPosition( 200, 115 );
+        model.addModelElement( rm3);
+
+    }
+
+    private void testSimpleMoleculesA( MRModel model ) {
+
         SimpleMolecule rm = new SimpleMolecule( 7 );
         rm.setMass( 49 );
         rm.setPosition( 100, 105);
         rm.setVelocity( 5, 0 );
-//        model.addModelElement( rm );
-//
+        model.addModelElement( rm );
+
         SimpleMolecule rm2 = new SimpleMolecule( 10 );
         rm2.setMass( 100  );
         rm2.setPosition( 200, 100);
-//        rm2.setVelocity( -5, 0 );
-//        model.addModelElement( rm2 );
+        rm2.setVelocity( -5, 0 );
+        model.addModelElement( rm2 );
 
         SimpleMolecule rm3 = new SimpleMolecule( 5 );
         rm3.setMass( 25 );
         rm3.setPosition( 200, 115 );
-//        model.addModelElement( rm3);
-
-        CompoundMolecule cm1 = new CompoundMolecule( new Molecule[]{ rm2, rm3 });
-        cm1.setVelocity( 0, 4);
-        cm1.setOmega( 0.5);
-        model.addModelElement( cm1 );
+        model.addModelElement( rm3);
     }
 
+
+    private void testCompoundMoleculeA( MRModel model ) {
+
+        SimpleMolecule rm2 = new SimpleMolecule( 10 );
+        rm2.setMass( 100  );
+        rm2.setPosition( 200, 100);
+
+        SimpleMolecule rm3 = new SimpleMolecule( 5 );
+        rm3.setMass( 25 );
+        rm3.setPosition( 200, 115 );
+
+        CompoundMolecule cm1 = new CompoundMolecule( new Molecule[]{ rm2, rm3 });
+        cm1.setVelocity( 1,0 );
+//        cm1.setVelocity( 0, 4);
+//        cm1.setOmega( 0 );
+        cm1.setOmega( -0.3);
+        model.addModelElement( cm1 );
+    }
 }

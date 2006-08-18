@@ -54,14 +54,10 @@ public class MRModel extends PublishingModel {
                 Object o = modelElements.get( i );
                 if( o instanceof Molecule ) {
                     moleculeBoxCollisionAgent.detectAndDoCollision( (Molecule)o, box );
-//                    sphereBoxExpert.detectAndDoCollision( (Molecule)o,
-//                                                          box );
                     for( int j = modelElements.size() - 1; j >= 0; j-- ) {
                         Object o2 = modelElements.get( j );
                         if( o2 instanceof Molecule && o2 != o ) {
-                            moleculeMoleculeCollisionAgent.detectAndDoCollision( (Molecule)o, (Molecule)o2 );
-//                            moleculeMoleculeCollisionAgent.detectAndDoCollision( (SolidSphere)o,
-//                                                                     (SolidSphere)o2 );
+                            moleculeMoleculeCollisionAgent.detectAndDoCollision( MRModel.this, (Molecule)o, (Molecule)o2 );
                         }
                     }
                 }
