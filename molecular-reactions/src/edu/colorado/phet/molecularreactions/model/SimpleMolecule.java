@@ -32,10 +32,16 @@ public class SimpleMolecule extends Molecule {
     private double radius;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
 
-
+    /**
+     * A molecule that has no component molecules, and whose mass is the square of
+     * its radius
+     *
+     * @param radius
+     */
     public SimpleMolecule( double radius ) {
         super();
         this.radius = radius;
+        setMass( radius * radius );
     }
 
     public SimpleMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {

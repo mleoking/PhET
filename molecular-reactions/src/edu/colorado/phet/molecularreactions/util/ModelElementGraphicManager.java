@@ -105,7 +105,17 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         PNode graphic = null;
         PNode layer = canvas;
 
-        GraphicFactory graphicFactory = (GraphicFactory)modelElementClassToGraphicFactory.get( modelElement.getClass() );
+        // Look up the inheritance chain for a graphic factory that will work for the
+        // model element
+        Class modelElementClass = modelElement.getClass();
+        GraphicFactory graphicFactory = null;
+        while( modelElementClass != Object.class && graphicFactory == null ) {
+            graphicFactory = (GraphicFactory)modelElementClassToGraphicFactory.get( modelElementClass );
+            modelElementClass = modelElementClass.getSuperclass();
+        }
+
+        // If we found a graphic factory for the model element, have it make a graphic
+        // and add it to the view
         if( graphicFactory != null ) {
             graphic = graphicFactory.createGraphic( modelElement );
             if( graphicFactory.getLayer() != null ) {

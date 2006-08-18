@@ -11,9 +11,7 @@
 package edu.colorado.phet.molectularreactions.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
