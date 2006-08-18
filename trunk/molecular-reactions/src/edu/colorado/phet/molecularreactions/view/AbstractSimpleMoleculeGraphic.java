@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeB;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.Selectable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeB;
+import edu.colorado.phet.molecularreactions.model.Selectable;
 
+import java.util.HashMap;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.util.HashMap;
 
 /**
  * SimpleMoleculeGraphic
@@ -28,7 +28,7 @@ import java.util.HashMap;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
+abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
 
     private static HashMap moleculeTypeToColor = new HashMap();
     private static Color moleculeAColor = new Color( 0, 200, 0 );
@@ -36,14 +36,14 @@ public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, Simp
     private static Color defaultMoleculeColor = new Color( 100, 100, 100 );
 
     static {
-        moleculeTypeToColor.put( MoleculeA.class, moleculeAColor );
-        moleculeTypeToColor.put( MoleculeB.class, moleculeBColor );
+        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
+        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeB.class, AbstractSimpleMoleculeGraphic.moleculeBColor );
     }
 
     private static Color getColor( SimpleMolecule molecule ) {
-        Color color = (Color)moleculeTypeToColor.get( molecule.getClass() );
+        Color color = (Color)AbstractSimpleMoleculeGraphic.moleculeTypeToColor.get( molecule.getClass() );
         if( color == null ) {
-            color = defaultMoleculeColor;
+            color = AbstractSimpleMoleculeGraphic.defaultMoleculeColor;
         }
         return color;
     }
@@ -58,25 +58,30 @@ public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, Simp
     private SimpleMolecule molecule;
     private PPath pPath;
 
-    public SimpleMoleculeGraphic( SimpleMolecule molecule ) {
+    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         molecule.addListener( this );
 
         Shape s = new Ellipse2D.Double( -molecule.getRadius(),
-                                        -molecule.getRadius(),
-                                        molecule.getRadius() * 2,
-                                        molecule.getRadius() * 2 );
-        pPath = new PPath( s, defaultStroke );
-        pPath.setPaint( getColor( molecule ) );
-        pPath.setStrokePaint( defaultStrokePaint );
+                                                      -molecule.getRadius(),
+                                                      molecule.getRadius() * 2,
+                                                      molecule.getRadius() * 2 );
+        pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
+        pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
+        pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
         addChild( pPath );
         update();
     }
 
-    public void update() {
-        setOffset( molecule.getPosition() );
+    public SimpleMolecule getMolecule() {
+        return molecule;
     }
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+
+    abstract public void update();
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of SimpleMolecule.Listener
@@ -84,16 +89,16 @@ public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, Simp
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
-            pPath.setStroke( selectedStroke );
-            pPath.setStrokePaint( selectedStrokePaint );
+            pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
+            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
         }
         else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED) {
-            pPath.setStroke( nearestToSelectedStroke );
-            pPath.setStrokePaint( nearestToSelectedStrokePaint );
+            pPath.setStroke( AbstractSimpleMoleculeGraphic.nearestToSelectedStroke );
+            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.nearestToSelectedStrokePaint );
         }
         else {
-            pPath.setStroke( defaultStroke );
-            pPath.setStrokePaint( defaultStrokePaint );
+            pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
+            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
         }
     }
 }
