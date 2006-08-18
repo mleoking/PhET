@@ -88,5 +88,4 @@ public class SelectedMoleculeTracker implements ModelElement,
             setMoleculeTracked( molecule );
         }
     }
-
 }

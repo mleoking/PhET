@@ -48,7 +48,7 @@ public class CompoundMoleculeGraphic extends PNode implements SimpleObserver {
     private PNode createComponentGraphics( Molecule molecule ) {
         PNode pNode = null;
         if( molecule instanceof SimpleMolecule ) {
-            pNode = new SimpleMoleculeGraphic( (SimpleMolecule)molecule );
+            pNode = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
         }
         else {
             pNode = new PNode();
