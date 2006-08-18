@@ -41,6 +41,10 @@ public class MRModel extends PublishingModel {
         // Create collisions agents that will detect and handle collisions between molecules,
         // and between molecules and the box
         addModelElement( new CollisionAgent() );
+
+        // Add an agent that will track the simple molecule that's closest to the selected
+        // molecule
+        addModelElement( new SelectedMoleculeTracker( this ));
     }
 
 

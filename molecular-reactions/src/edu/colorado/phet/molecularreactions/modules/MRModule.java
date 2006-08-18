@@ -75,6 +75,7 @@ public class MRModule extends Module {
             m1.setPosition( 80, 60 );
             m1.setVelocity( 7, -3 );
             model.addModelElement( m1 );
+            m1.setSelectionStatus( Selectable.SELECTED );
         }
 
 
