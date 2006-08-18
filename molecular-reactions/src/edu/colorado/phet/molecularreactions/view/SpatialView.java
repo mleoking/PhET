@@ -8,11 +8,14 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view;
+package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
+import edu.colorado.phet.molecularreactions.view.BoxGraphic;
+import edu.colorado.phet.molecularreactions.view.CompoundMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;

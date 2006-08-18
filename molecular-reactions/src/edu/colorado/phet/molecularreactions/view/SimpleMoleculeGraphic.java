@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view;
+package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;

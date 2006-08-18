@@ -14,7 +14,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.molectularreactions.view.SpatialView;
+import edu.colorado.phet.molecularreactions.view.SpatialView;
+import edu.colorado.phet.molecularreactions.view.EnergyView;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import java.awt.*;
@@ -36,12 +37,19 @@ public class MRModule extends Module {
         // Create the model
         MRModel model = new MRModel( getClock() );
 
-        // Create basic graphic
+        // Create the basic graphics
         PhetPCanvas canvas = new PhetPCanvas( size );
-        SpatialView spatialView = new SpatialView( model );
-        spatialView.setOffset( 100, 100 );
-        canvas.addScreenChild( spatialView );
         setSimulationPanel( canvas );
+
+        // Create spatial view
+        SpatialView spatialView = new SpatialView( model );
+        spatialView.setOffset( 50, 100 );
+        canvas.addScreenChild( spatialView );
+
+        // Create energy view
+        EnergyView energyView = new EnergyView();
+        energyView.setOffset( 400, 100 );
+        canvas.addScreenChild( energyView );
 
         // Test
         testDefinedMolecules( model );
