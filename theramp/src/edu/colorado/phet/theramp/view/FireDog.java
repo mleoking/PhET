@@ -137,7 +137,6 @@ public class FireDog extends PNode {
             addWaterDrop();
         }
 
-
         protected void activityFinished() {
             getRampPanel().getRoot().addActivity( new WalkAway() );
         }
@@ -146,7 +145,7 @@ public class FireDog extends PNode {
     private class WalkAway extends PActivity {
 
         public WalkAway() {
-            super( 6000 );
+            super( 2500 );
             image.setImage( BufferedImageUtils.flipX( (BufferedImage)image.getImage() ) );
         }
 
@@ -157,6 +156,7 @@ public class FireDog extends PNode {
 
         protected void activityFinished() {
             getRampPanel().removeWorldChild( FireDog.this );
+            module.firedogFinished();
         }
     }
 
