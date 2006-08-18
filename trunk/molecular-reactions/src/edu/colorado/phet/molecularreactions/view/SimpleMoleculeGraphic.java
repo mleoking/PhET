@@ -14,6 +14,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeB;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.Selectable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -27,8 +28,7 @@ import java.util.HashMap;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimpleMoleculeGraphic extends PNode implements SimpleObserver
-        /*, Molecule.Listener*/ {
+public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
 
     private static HashMap moleculeTypeToColor = new HashMap();
     private static Color moleculeAColor = new Color( 0, 200, 0 );
@@ -48,18 +48,20 @@ public class SimpleMoleculeGraphic extends PNode implements SimpleObserver
         return color;
     }
 
-
     private static Stroke defaultStroke = new BasicStroke( 1 );
     private static Stroke selectedStroke = new BasicStroke( 2 );
+    private static Stroke nearestToSelectedStroke = new BasicStroke( 2 );
 
     private static Paint defaultStrokePaint = Color.black;
     private static Paint selectedStrokePaint = Color.red;
+    private static Paint nearestToSelectedStrokePaint = new Color( 255, 0, 255 );
     private SimpleMolecule molecule;
     private PPath pPath;
 
     public SimpleMoleculeGraphic( SimpleMolecule molecule ) {
         this.molecule = molecule;
         molecule.addObserver( this );
+        molecule.addListener( this );
 
         Shape s = new Ellipse2D.Double( -molecule.getRadius(),
                                         -molecule.getRadius(),
@@ -77,16 +79,21 @@ public class SimpleMoleculeGraphic extends PNode implements SimpleObserver
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of Molecule.Listener
+    // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------
 
-//    public void selected( Molecule.Event event ) {
-//        pPath.setStroke( selectedStroke );
-//        pPath.setStrokePaint( selectedStrokePaint );
-//    }
-//
-//    public void unSelected( Molecule.Event event ) {
-//        pPath.setStroke( defaultStroke );
-//        pPath.setStrokePaint( defaultStrokePaint );
-//    }
+    public void selectionStatusChanged( SimpleMolecule molecule ) {
+        if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
+            pPath.setStroke( selectedStroke );
+            pPath.setStrokePaint( selectedStrokePaint );
+        }
+        else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED) {
+            pPath.setStroke( nearestToSelectedStroke );
+            pPath.setStrokePaint( nearestToSelectedStrokePaint );
+        }
+        else {
+            pPath.setStroke( defaultStroke );
+            pPath.setStrokePaint( defaultStrokePaint );
+        }
+    }
 }
