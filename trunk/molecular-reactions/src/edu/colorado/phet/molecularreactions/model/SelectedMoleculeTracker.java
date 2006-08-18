@@ -40,9 +40,7 @@ public class SelectedMoleculeTracker implements ModelElement,
         if( moleculeTracked != null ) {
             List modelElements = model.getModelElements();
 
-            if( closestMolecule != null ) {
-                closestMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
-            }
+            SimpleMolecule prevClosetMolecule = closestMolecule;
 
             double closestDistSq = Double.POSITIVE_INFINITY;
             for( int i = 0; i < modelElements.size(); i++ ) {
@@ -57,7 +55,10 @@ public class SelectedMoleculeTracker implements ModelElement,
                 }
             }
 
-            if( closestMolecule != null ) {
+            if( closestMolecule != null && closestMolecule != prevClosetMolecule ) {
+                if( prevClosetMolecule != null ) {
+                    prevClosetMolecule.setSelectionStatus( Selectable.NOT_SELECTED);
+                }
                 closestMolecule.setSelectionStatus( Selectable.NEAREST_TO_SELECTED );
             }
         }

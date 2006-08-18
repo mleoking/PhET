@@ -90,13 +90,12 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}">
-            <src path="${project_home}/quantum-rjl/src"/>
             <src path="${project_home}/collision-dir/src"/>
+            <src path="${project_home}/mechanics-dir/src"/>
             <src path="${project_home}/piccolo-phet-module/src"/>
             <src path="${project_home}/piccolo-phet-module/piccolo-module/src"/>
             <src path="${project_home}/piccolo-phet-module/piccolo-module/extras"/>
             <src path="${project_home}/piccolo-phet-module/phetcommon-module/src"/>
-            <src path="${project_home}/mechanics/src"/>
             <exclude name="edu/umd/cs/piccolox/swt/**"/>
         </javac>
     </target>
@@ -113,7 +112,6 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${data}"/>
             <fileset dir="${project_home}/piccolo-phet-module/phetcommon-module/data"/>
             <fileset dir="${project_home}/piccolo-phet-module/data"/>
-            <fileset dir="${project_home}/quantum-rjl/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
