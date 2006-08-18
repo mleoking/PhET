@@ -113,7 +113,7 @@ public class ForceArrowGraphic extends PNode {
         }
         RampWorld rampWorld = getRampWorld();
         if( rampWorld == null ) {
-            System.out.println( "rampWorld = " + rampWorld );
+//            System.out.println( "rampWorld = " + rampWorld );
             return;
         }
 //        System.out.println( "blockGraphic.getBounds() = " + blockGraphic.getBlockBounds() );

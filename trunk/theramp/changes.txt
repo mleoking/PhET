@@ -1,3 +1,8 @@
+New in 0.00.25 (8-18-2006)
+Limited to 1 dog on screen at a time.
+Renamed "remove heat" to "cool ramp"
+Deleted extra print statements on the console on startup.
+
 New in 0.23 (1-2-2005)
 Upgraded to work with latest phetcommon
     -includes bugfixes for the control panel.

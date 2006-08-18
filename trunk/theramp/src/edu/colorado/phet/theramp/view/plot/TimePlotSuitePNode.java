@@ -563,13 +563,13 @@ public class TimePlotSuitePNode extends PhetPNode {
         updateGridlines();
         if( chartWidth < 2000 && chartHeight < 2000 ) {
             bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
-            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
+//            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
             decorateBuffer();
             chartGraphic.setImage( bufferedImage );
         }
         else {
-            System.out.println( "chartWidth = " + chartWidth );
-            System.out.println( "chartHeight = " + chartHeight );
+//            System.out.println( "chartWidth = " + chartWidth );
+//            System.out.println( "chartHeight = " + chartHeight );
         }
     }
 

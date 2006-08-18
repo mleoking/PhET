@@ -135,7 +135,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
             if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null )
             {
-                System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
+//                System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
                 rampTimeSeriesModel.getRampModule().getRampPanel().repaint();
             }
         }
