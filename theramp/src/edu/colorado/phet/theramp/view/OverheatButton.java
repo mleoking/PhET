@@ -34,7 +34,7 @@ public class OverheatButton extends PNode {
         shadowHTMLGraphic.setColor( Color.red );
         shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         addChild( shadowHTMLGraphic );
-        JButton overheat = new JButton( "Remove Heat" );
+        JButton overheat = new JButton( "Cool Ramp" );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         overheat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

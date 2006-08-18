@@ -43,7 +43,7 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( jb );
 
-        JButton clearHeat = new JButton( "Remove Heat" );
+        JButton clearHeat = new JButton( "Cool Ramp" );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
