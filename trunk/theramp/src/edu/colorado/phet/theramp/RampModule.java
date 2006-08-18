@@ -46,6 +46,7 @@ public class RampModule extends PiccoloModule {
     public static final int MAX_TIME = 30;
 //    public static final int MAX_TIME = 5;//testing only
     public static final boolean MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN = false;
+    private boolean firedogInProgress = false;
 //    private Timer timer;
 
     public RampModule( PhetFrame frame, IClock clock ) {
@@ -209,7 +210,10 @@ public class RampModule extends PiccoloModule {
     }
 
     public void cueFirefighter() {
-        new FireDog( this ).putOutFire();
+        if( !firedogInProgress ) {
+            firedogInProgress = true;
+            new FireDog( this ).putOutFire();
+        }
     }
 
     public void setAppliedForce( double appliedForce ) {
@@ -254,6 +258,10 @@ public class RampModule extends PiccoloModule {
 
     public void updateReadouts() {
         rampPanel.updateReadouts();
+    }
+
+    public void firedogFinished() {
+        firedogInProgress = false;
     }
 
     public static interface Listener {
