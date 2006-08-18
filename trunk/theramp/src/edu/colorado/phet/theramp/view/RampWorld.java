@@ -2,8 +2,8 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.piccolo.tools.MeasuringTape;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.common.MeasuringTape;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
@@ -92,7 +92,7 @@ public class RampWorld extends PNode {
             e.printStackTrace();
         }
 
-        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
+        measuringTape = new MeasuringTape( rampGraphic.getScreenTransform(),
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
         measuringTape.setVisible( false );
         addChild( measuringTape );
