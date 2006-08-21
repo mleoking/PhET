@@ -15,6 +15,7 @@ public class EnergySkateParkStrings {
     }
 
     public static String getString( String s ) {
-        return "$" + SimStrings.get( s ) + "$";
+//        return "$" + SimStrings.get( s ) + "$";
+        return SimStrings.get( s );
     }
 }
