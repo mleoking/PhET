@@ -2,6 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid
@@ -12,7 +13,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 
 public class LiveMode extends Mode {
     public LiveMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Play" );
+        super( timeSeriesModel, EnergySkateParkStrings.getString( "play" ) );
     }
 
     public void initialize() {

@@ -2,6 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
 
 /**
@@ -16,9 +17,9 @@ public class PlaybackMode extends Mode {
     private TimeSeriesModel timeSeriesModel;
 
     public PlaybackMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Playback" );
+        super( timeSeriesModel, EnergySkateParkStrings.getString( "playback" ) );
         this.timeSeriesModel = timeSeriesModel;
-        timer = new PhetTimer( "Playback Timer" );
+        timer = new PhetTimer( EnergySkateParkStrings.getString( "playback.timer" ) );
     }
 
     public double getPlaybackSpeed() {
