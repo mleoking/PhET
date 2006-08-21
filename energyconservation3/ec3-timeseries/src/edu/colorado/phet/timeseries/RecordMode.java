@@ -2,6 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
 
 /**
@@ -14,8 +15,8 @@ public class RecordMode extends Mode {
     private PhetTimer timer;
 
     public RecordMode( final TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Record" );
-        timer = new PhetTimer( "Record Timer" );
+        super( timeSeriesModel, EnergySkateParkStrings.getString( "record" ) );
+        timer = new PhetTimer( EnergySkateParkStrings.getString( "record.timer" ) );
     }
 
     public void initialize() {

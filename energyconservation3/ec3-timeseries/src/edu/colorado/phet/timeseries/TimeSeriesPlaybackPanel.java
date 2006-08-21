@@ -2,6 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 
 import javax.swing.*;
@@ -61,34 +62,34 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        live = createButton( "Go", "Play" );
+        live = createButton( EnergySkateParkStrings.getString( "go" ), "Play" );
         live.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startLiveMode();
             }
         } );
-        record = createButton( "Record", "Movie" );
+        record = createButton( EnergySkateParkStrings.getString( "record" ), "Movie" );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startRecording();
             }
         } );
 
-        pause = createButton( "Pause", "Pause" );
+        pause = createButton( EnergySkateParkStrings.getString( "pause" ), "Pause" );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
                 timeSeriesModel.setPaused( true );
             }
         } );
-        play = createButton( "Playback", "Forward" );
+        play = createButton( EnergySkateParkStrings.getString( "playback" ), "Forward" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
             }
         } );
 
-        rewind = createButton( "Rewind", "Rewind" );
+        rewind = createButton( EnergySkateParkStrings.getString( "rewind" ), "Rewind" );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -96,7 +97,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        slowMotion = createButton( "Slow Motion", "StepForward" );
+        slowMotion = createButton( EnergySkateParkStrings.getString( "slow.motion" ), "StepForward" );
 //        slowMotion = createButton( "<html>Slow<br>Motion</html>", "StepForward" );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -105,7 +106,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         } );
 
 //        clear = createButton( "Clear", "images/icons/java/media/Stop24.gif" );
-        clear = createButton( "Clear", "Stop" );
+        clear = createButton( EnergySkateParkStrings.getString( "clear" ), "Stop" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();
