@@ -21,7 +21,7 @@ public class RampAngleController {
 
     public RampAngleController( final RampModule rampModule ) {
         this.rampModule = rampModule;
-        this.modelSlider = new ModelSlider( "Ramp Angle", "degrees", 0, 90, rampModule.getRampAngle() );
+        this.modelSlider = new ModelSlider( TheRampStrings.getString( "ramp.angle" ), TheRampStrings.getString( "degrees" ), 0, 90, rampModule.getRampAngle() );
         rampModule.getRampPhysicalModel().getRamp().addObserver( new SimpleObserver() {
             public void update() {
                 double angle = rampModule.getRampAngle() / 2 / Math.PI * 360;

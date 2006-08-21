@@ -7,6 +7,7 @@ import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampPlotSet;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -234,8 +235,7 @@ public class RampPanel extends PhetPCanvas {
         PBounds screenBounds = target.getGlobalFullBounds();
         getCamera().globalToLocal( screenBounds );
 
-        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( "<html>Apply a Force<br>" +
-                                                                "to the Filing Cabinet</html>",
+        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( TheRampStrings.getString( "html.apply.a.force.br.to.the.filing.cabinet.html1" ),
                                                                 200, 100,
                                                                 getBlockGraphic().getObjectGraphic() );
         addScreenChild( wiggleMe );

@@ -2,7 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.theramp.TheRampStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        record = new JButton( "Record" );
+        record = new JButton( TheRampStrings.getString( "record" ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setRecordMode();
@@ -43,7 +43,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             e.printStackTrace();
         }
 
-        pause = new JButton( SimStrings.get( "Pause" ), pauseIcon );
+        pause = new JButton( TheRampStrings.getString( "pause" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
@@ -57,7 +57,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        play = new JButton( SimStrings.get( "Playback" ), playIcon );
+        play = new JButton( TheRampStrings.getString( "playback" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
@@ -71,7 +71,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        rewind = new JButton( SimStrings.get( "Rewind" ), rewindIcon );
+        rewind = new JButton( TheRampStrings.getString( "rewind" ), rewindIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -86,14 +86,14 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        slowMotion = new JButton( SimStrings.get( "Slow Motion" ), slowIcon );
+        slowMotion = new JButton( TheRampStrings.getString( "slow.motion" ), slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( .4 );
             }
         } );
 
-        clear = new JButton( SimStrings.get( "Clear" ) );
+        clear = new JButton( TheRampStrings.getString( "clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();
@@ -107,7 +107,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( clear );
 
         if( timeSeriesModel instanceof HasAudio ) {
-            final JCheckBox audio = new JCheckBox( "Sound", true );
+            final JCheckBox audio = new JCheckBox( TheRampStrings.getString( "sound" ), true );
             audio.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ( (HasAudio)timeSeriesModel ).setAudioEnabled( audio.isSelected() );

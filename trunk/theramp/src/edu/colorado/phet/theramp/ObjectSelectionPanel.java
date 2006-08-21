@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -68,13 +69,13 @@ public class ObjectSelectionPanel extends JPanel {
             add( jRadioButton );
 
         }
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Choose Object" ) );
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "choose.object1" ) ) );
     }
 
     private String getIconText( final RampObject imageElement ) {
 //        char muChar = '\u00F6';
         char muChar = '\u03BC';
-        return "<html>" + imageElement.getName() + "<br>" + imageElement.getMass() + " kg, " + muChar + " = " + imageElement.getStaticFriction() + "</html>";
+        return MessageFormat.format( TheRampStrings.getResourceBundle().getString( "html.0.br.1.kg.2.3.html" ), new Object[]{imageElement.getName(), new Double( imageElement.getMass() ), new Character( muChar ), new Double( imageElement.getStaticFriction() )} );
 //        return "<html>HELLO<sub>2</html>";
 //        return imageElement.getName() + " (" + imageElement.getMass() + " kg)";
     }

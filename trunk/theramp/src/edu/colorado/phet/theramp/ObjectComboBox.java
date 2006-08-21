@@ -12,6 +12,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -49,7 +50,7 @@ public class ObjectComboBox extends JComboBox {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
                 lab[i] = new ImageIcon( image );
-                lab[i].setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " kg)" );
+                lab[i].setDescription( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.1.kg" ), new Object[]{imageElements[i].getName(), new Double( imageElements[i].getMass() )} ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

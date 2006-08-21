@@ -3,7 +3,7 @@ package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
@@ -39,7 +39,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 //                module.requestEditInTextBox( GoPauseClearPanel.this );
             }
         };
-        goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
+        goPauseButton = new ControlButton( TheRampStrings.getString( "pause" ) );//longer text
         try {
             goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/light3.png" ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/stop-20.png" ) );
@@ -64,7 +64,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 }
             }
         } );
-        clearButton = new ControlButton( SimStrings.get( "Clear" ) );
+        clearButton = new ControlButton( ( TheRampStrings.getString( "clear" ) ) );
         clearButton.setBackground( EarthGraphic.earthGreen );
         setBackground( EarthGraphic.earthGreen );
         clearButton.addActionListener( new ActionListener() {
@@ -106,14 +106,14 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
 
         }
         if( pause ) {
-            goPauseButton.setText( "Pause" );
+            goPauseButton.setText( TheRampStrings.getString( "pause" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
             paintAll();
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "      Go!" );
+            goPauseButton.setText( "     " + TheRampStrings.getString( "go" ) );
             goPauseButton.setIcon( goIcon );
             paintAll();
             itsAGoButton = true;

@@ -21,15 +21,14 @@ import java.lang.reflect.InvocationTargetException;
 public class RampApplication extends PhetApplication {
     private static final String VERSION = "0.00.25";
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
-    private static final String TITLE = "The Ramp";
-    private static final String DESCRIPTION = "The Ramp Simulation";
 
     private RampModule simpleRampModule;
     private RampModule advancedFeatureModule;
 //    private static PhetStartupWindow startupWindow;
 
     public RampApplication( String[] args, IClock clock, FrameSetup frameSetup ) {
-        super( args, TITLE, DESCRIPTION, VERSION, frameSetup );
+        super( args, TheRampStrings.getString( "the.ramp" ), TheRampStrings.getString( "the.ramp.simulation" ),
+               VERSION, frameSetup );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
         advancedFeatureModule = new RampModule( getPhetFrame(), clock );
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
@@ -46,7 +45,7 @@ public class RampApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) {
-
+        TheRampStrings.init( args );
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
         PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5

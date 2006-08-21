@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -31,7 +32,7 @@ public class AppliedForceSimpleControl extends PNode {
 //        horizontalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
 
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
+        verticalLayoutPanel.add( new JLabel( TheRampStrings.getString( "applied.force.n" ) ) );
 
         SpinnerNumberModel model = new SpinnerNumberModel( module.getRampPhysicalModel().getAppliedForceScalar(), -maxValue, maxValue, 100 );
 

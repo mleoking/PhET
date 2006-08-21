@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
+import edu.colorado.phet.theramp.TheRampStrings;
+
 /**
  * User: Sam Reid
  * Date: May 17, 2005
@@ -50,7 +52,7 @@ public class Ground extends Surface {
     }
 
     public String getName() {
-        return "Ground";
+        return TheRampStrings.getString( "ground" );
     }
 
 }

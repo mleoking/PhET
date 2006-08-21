@@ -31,10 +31,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private JButton createButton( String name, String icon ) {
         JButton button = null;
         if( icon != null ) {
-            button = new JButton( SimStrings.get( name ), new ImageIcon( loadImage( icon ) ) );
+            button = new JButton( TheRampStrings.getString( name ), new ImageIcon( loadImage( icon ) ) );
         }
         else {
-            button = new JButton( SimStrings.get( name ) );
+            button = new JButton( TheRampStrings.getString( name ) );
         }
         if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
             button.setFont( new LucidaSansFont( 9, true ) );
