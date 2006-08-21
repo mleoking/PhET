@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.timeseries.ObjectTimePoint;
 import edu.colorado.phet.timeseries.ObjectTimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -86,7 +87,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
     protected boolean confirmReset() {
 //        return rampModule.resetDialogOk();
-        int answer = JOptionPane.showConfirmDialog( getSimulationPanel(), "Are you sure you'd like to clear the graphs?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+        int answer = JOptionPane.showConfirmDialog( getSimulationPanel(), TheRampStrings.getString( "are.you.sure.you.d.like.to.clear.the.graphs" ), TheRampStrings.getString( "confirm.clear" ), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
         return answer == JOptionPane.OK_OPTION;
     }
 

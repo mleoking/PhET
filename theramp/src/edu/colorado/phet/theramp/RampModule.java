@@ -50,7 +50,7 @@ public class RampModule extends PiccoloModule {
 //    private Timer timer;
 
     public RampModule( PhetFrame frame, IClock clock ) {
-        this( "More Features", frame, clock );
+        this( TheRampStrings.getString( "more.features" ), frame, clock );
     }
 
     public RampModule( String name, PhetFrame phetFrame, final IClock clock ) {
@@ -59,11 +59,11 @@ public class RampModule extends PiccoloModule {
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-                new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.3, 0.4 ),
-                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.5, 0.5, 0.4 ),
-                new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.4, 0.4, 0.6, 20 ),
-                new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.7, 0.7, 0.3 ),
-                new RampObject( "images/ollie.gif", "Sleepy Dog", 0.8, 15, 0.1, 0.1, 0.30, 5 ),
+                new RampObject( "images/cabinet.gif", TheRampStrings.getString( "file.cabinet" ), 0.8, 100, 0.3, 0.3, 0.4 ),
+                new RampObject( "images/fridge.gif", TheRampStrings.getString( "refrigerator" ), 0.35, 175, 0.5, 0.5, 0.4 ),
+                new RampObject( "images/piano.png", TheRampStrings.getString( "piano" ), 0.8, 225, 0.4, 0.4, 0.6, 20 ),
+                new RampObject( "images/crate.gif", TheRampStrings.getString( "crate" ), 0.8, 300, 0.7, 0.7, 0.3 ),
+                new RampObject( "images/ollie.gif", TheRampStrings.getString( "sleepy.dog" ), 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
 //        sort( rampObjects );
 
@@ -157,9 +157,9 @@ public class RampModule extends PiccoloModule {
     }
 
     public boolean resetDialogOk() {
-        JOptionPane pane = new JOptionPane( "Are you sure you'd like to reset everything?", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+        JOptionPane pane = new JOptionPane( TheRampStrings.getString( "are.you.sure.you.d.like.to.reset.everything" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
 
-        JDialog dialog = pane.createDialog( rampPanel, "Confirm Reset" );
+        JDialog dialog = pane.createDialog( rampPanel, TheRampStrings.getString( "confirm.reset" ) );
         pane.selectInitialValue();
         Point loc = getPhetPCanvas().getLocationOnScreen();
         Rectangle2D clearButton = getRampPanel().getClearButtonCanvasRect();

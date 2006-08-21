@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -53,7 +55,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         rampPhysicalModel.addListener( listener );
 
         //setCursorHand();
-        label = new PText( "h=???" );
+        label = new PText( TheRampStrings.getString( "h" ) );
         addChild( label );
         label.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
@@ -68,7 +70,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampPhysicalModel.getZeroPointY() );
-        label.setText( "h=0.0 @ y=" + str );
+        label.setText( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "h.0.0.y.0" ), new Object[]{str} ) );
 //        label.setText( "y=0.0" );
     }
 

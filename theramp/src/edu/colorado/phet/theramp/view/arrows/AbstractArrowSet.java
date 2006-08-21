@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,12 +17,12 @@ import java.util.ArrayList;
  */
 
 public class AbstractArrowSet extends PNode {
-    public static final String APPLIED = "Applied";
-    public static final String TOTAL = "Total";
-    public static final String FRICTION = "Friction";
-    public static final String WEIGHT = "Weight";
-    public static final String NORMAL = "Normal";
-    public static final String WALL = "Wall";
+    public static final String APPLIED = TheRampStrings.getString( "applied1" );
+    public static final String TOTAL = TheRampStrings.getString( "total" );
+    public static final String FRICTION = TheRampStrings.getString( "friction1" );
+    public static final String WEIGHT = TheRampStrings.getString( "weight" );
+    public static final String NORMAL = TheRampStrings.getString( "normal" );
+    public static final String WALL = TheRampStrings.getString( "wall" );
 
     private ArrayList graphics = new ArrayList();
 

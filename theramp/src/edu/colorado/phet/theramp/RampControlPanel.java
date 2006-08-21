@@ -32,7 +32,7 @@ public class RampControlPanel extends ControlPanel {
     public RampControlPanel( RampModule rampModule ) {
         super( rampModule );
         this.rampModule = rampModule;
-        JButton jb = new JButton( "Reset" );
+        JButton jb = new JButton( TheRampStrings.getString( "reset" ) );
         jb.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 
         jb.addActionListener( new ActionListener() {
@@ -43,7 +43,7 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( jb );
 
-        JButton clearHeat = new JButton( "Cool Ramp" );
+        JButton clearHeat = new JButton( TheRampStrings.getString( "cool.ramp" ) );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -84,7 +84,7 @@ public class RampControlPanel extends ControlPanel {
 //            return frictionSlider;
 //        }
 //        else {
-        final ModelSlider frictionSlider = new ModelSlider( "Coefficient of Friction", "", 0.1, 1.5, 0.5 );
+        final ModelSlider frictionSlider = new ModelSlider( TheRampStrings.getString( "coefficient.of.friction" ), "", 0.1, 1.5, 0.5 );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setFriction( frictionSlider.getValue() );
@@ -112,7 +112,7 @@ public class RampControlPanel extends ControlPanel {
     }
 
     private JCheckBox createFrictionlessCheckbox() {
-        final JCheckBox frictionless = new JCheckBox( "Frictionless", false );
+        final JCheckBox frictionless = new JCheckBox( TheRampStrings.getString( "frictionless" ), false );
         frictionless.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setFrictionEnabled( !frictionless.isSelected() );
@@ -139,13 +139,13 @@ public class RampControlPanel extends ControlPanel {
 
 
     protected void addWorkEnergyBarGraphControls() {
-        final JCheckBox energyBars = new JCheckBox( "Energy", true );
+        final JCheckBox energyBars = new JCheckBox( TheRampStrings.getString( "energy" ), true );
         energyBars.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().getRampPanel().setEnergyBarsVisible( energyBars.isSelected() );
             }
         } );
-        final JCheckBox workBars = new JCheckBox( "Work", true );
+        final JCheckBox workBars = new JCheckBox( TheRampStrings.getString( "work" ), true );
         workBars.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().getRampPanel().setWorkBarsVisible( workBars.isSelected() );
@@ -155,7 +155,7 @@ public class RampControlPanel extends ControlPanel {
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.add( workBars );
         verticalLayoutPanel.add( energyBars );
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Bar Graphs" ) );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "bar.graphs" ) ) );
         addControlFullWidth( verticalLayoutPanel );
     }
 

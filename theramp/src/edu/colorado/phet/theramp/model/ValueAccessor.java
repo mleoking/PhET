@@ -1,9 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 
 import java.awt.*;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -20,8 +22,8 @@ public abstract class ValueAccessor {
     private Color color;
     private String fullName;
 
-    public static final String joules = "Joules";
-    public static final String joulesAbbreviation = "J";
+    public static final String joules = TheRampStrings.getString( "joules" );
+    public static final String joulesAbbreviation = TheRampStrings.getString( "j" );
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {
         this.name = name;
@@ -60,7 +62,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends EnergyAccessor {
         public TotalEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( "Total", rampLookAndFeel.getTotalEnergyColor() );
+            super( TheRampStrings.getString( "total" ), rampLookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -71,7 +73,7 @@ public abstract class ValueAccessor {
     public static class KineticEnergy extends EnergyAccessor {
 
         public KineticEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( "Kinetic", rampLookAndFeel.getKineticEnergyColor() );
+            super( TheRampStrings.getString( "kinetic" ), rampLookAndFeel.getKineticEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -81,7 +83,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends EnergyAccessor {
         public PotentialEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( "Potential", rampLookAndFeel.getPotentialEnergyColor() );
+            super( TheRampStrings.getString( "potential" ), rampLookAndFeel.getPotentialEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -91,7 +93,7 @@ public abstract class ValueAccessor {
 
     public static class ThermalEnergy extends EnergyAccessor {
         public ThermalEnergy( RampLookAndFeel rampLookAndFeel ) {
-            super( "Thermal", rampLookAndFeel.getThermalEnergyColor() );
+            super( TheRampStrings.getString( "thermal" ), rampLookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -101,7 +103,7 @@ public abstract class ValueAccessor {
 
     public static class AppliedWork extends WorkAccessor {
         public AppliedWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Applied", rampLookAndFeel.getAppliedWorkColor(), "applied" );
+            super( TheRampStrings.getString( "applied1" ), rampLookAndFeel.getAppliedWorkColor(), TheRampStrings.getString( "applied" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -111,7 +113,7 @@ public abstract class ValueAccessor {
 
     public static class FrictiveWork extends WorkAccessor {
         public FrictiveWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Friction", rampLookAndFeel.getFrictionWorkColor(), "friction" );
+            super( TheRampStrings.getString( "friction1" ), rampLookAndFeel.getFrictionWorkColor(), TheRampStrings.getString( "friction" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -121,7 +123,7 @@ public abstract class ValueAccessor {
 
     public static class GravityWork extends WorkAccessor {
         public GravityWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Gravity", rampLookAndFeel.getGravityWorkColor(), "gravity" );
+            super( TheRampStrings.getString( "gravity" ), rampLookAndFeel.getGravityWorkColor(), TheRampStrings.getString( "gravity1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -131,7 +133,7 @@ public abstract class ValueAccessor {
 
     public static class TotalWork extends WorkAccessor {
         public TotalWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Net", rampLookAndFeel.getTotalWorkColor(), "net" );
+            super( TheRampStrings.getString( "net1" ), rampLookAndFeel.getTotalWorkColor(), TheRampStrings.getString( "net" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -141,27 +143,27 @@ public abstract class ValueAccessor {
 
     public static abstract class EnergyAccessor extends ValueAccessor {
         public EnergyAccessor( String name, Color color ) {
-            super( name, name, joules, joulesAbbreviation, color, name + " Energy" );
+            super( name, name, joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.energy" ), new Object[]{name} ) );
         }
     }
 
     public static abstract class WorkAccessor extends ValueAccessor {
         public WorkAccessor( String name, Color color, String subText ) {
-            super( name, "W<sub>" + subText + "</sub>", joules, joulesAbbreviation, color, name + " Work" );
+            super( name, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "w.sub.0.sub" ), new Object[]{subText} ), joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.work" ), new Object[]{name} ) );
         }
     }
 
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color, String subText ) {
-            super( name, "F<sub>" + subText + "</sub>", "Newtons", "N", color, name );
+            super( name, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "n" ), color, name );
         }
 
     }
 
     public static class ParallelFrictionAccessor extends ParallelForceAccessor {
         public ParallelFrictionAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( "Parallel Friction", rampLookAndFeel.getFrictionForceColor(), "friction" );
+            super( TheRampStrings.getString( "parallel.friction" ), rampLookAndFeel.getFrictionForceColor(), TheRampStrings.getString( "friction" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -171,7 +173,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelAppliedAccessor extends ParallelForceAccessor {
         public ParallelAppliedAccessor( RampLookAndFeel lookAndFeel ) {
-            super( "Parallel Applied Force", lookAndFeel.getAppliedForceColor(), "applied" );
+            super( TheRampStrings.getString( "parallel.applied.force" ), lookAndFeel.getAppliedForceColor(), TheRampStrings.getString( "applied" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -181,7 +183,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelGravityAccessor extends ParallelForceAccessor {
         public ParallelGravityAccessor( RampLookAndFeel lookAndFeel ) {
-            super( "Parallel Gravity Force", lookAndFeel.getWeightColor(), "gravity" );
+            super( TheRampStrings.getString( "parallel.gravity.force" ), lookAndFeel.getWeightColor(), TheRampStrings.getString( "gravity1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -191,7 +193,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelWallForceAccessor extends ParallelForceAccessor {
         public ParallelWallForceAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( "Parallel Wall Force", rampLookAndFeel.getWallForceColor(), "wall" );
+            super( TheRampStrings.getString( "parallel.wall.force" ), rampLookAndFeel.getWallForceColor(), TheRampStrings.getString( "wall1" ) );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {

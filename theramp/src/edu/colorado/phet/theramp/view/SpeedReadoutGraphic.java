@@ -2,11 +2,13 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -30,7 +32,7 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
 
     public void stepInTime( double dt ) {
         double value = rampPhysicalModel.getBlock().getVelocity();
-        String text = format.format( value ) + " m/s";
+        String text = MessageFormat.format( TheRampStrings.getString( "0.m.s" ), new Object[]{format.format( value )} );
         phetTextGraphic.setText( text );
     }
 }

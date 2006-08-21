@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -43,7 +44,7 @@ public class MeasuringTape extends PNode {
         bodyGraphic = new BodyGraphic();
         tapeGraphic = new TapeGraphic();
         endGraphic = new EndGraphic();
-        readoutGraphic = new ReadoutGraphic( "m" );
+        readoutGraphic = new ReadoutGraphic( TheRampStrings.getString( "m" ) );
 
         addChild( tapeGraphic );
         addChild( bodyGraphic );

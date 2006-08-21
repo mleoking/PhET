@@ -11,6 +11,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.common.BorderPNode;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.common.Range2D;
@@ -48,6 +49,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -189,7 +191,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         }
 
 
-        JButton maximize = new JButton( name + " Graph" );
+        JButton maximize = new JButton( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.graph" ), new Object[]{name} ) );
         maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
@@ -206,13 +208,13 @@ public class TimePlotSuitePNode extends PhetPNode {
         double dzHold = maxVisibleRange / 100;
         try {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
-                                                      -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom In" );
+                                                      -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "zoom.in" ) );
 
             zoomInGraphic = new PSwing( pCanvas, zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
-                                                       dzPress, dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom Out" );
+                                                       dzPress, dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "zoom.out" ) );
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomOut.getValue();

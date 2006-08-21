@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,11 +31,11 @@ public class OverheatButton extends PNode {
         this.module = module;
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
-        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( "Overheated." );
+        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( TheRampStrings.getString( "overheated" ) );
         shadowHTMLGraphic.setColor( Color.red );
         shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         addChild( shadowHTMLGraphic );
-        JButton overheat = new JButton( "Cool Ramp" );
+        JButton overheat = new JButton( TheRampStrings.getString( "cool.ramp" ) );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         overheat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

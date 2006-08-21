@@ -14,7 +14,7 @@ import edu.colorado.phet.theramp.view.RampPanel;
 
 public class SimpleRampModule extends RampModule {
     public SimpleRampModule( PhetFrame phetFrame, IClock clock ) {
-        super( "Introduction", phetFrame, clock );
+        super( TheRampStrings.getString( "introduction" ), phetFrame, clock );
     }
 
     protected RampControlPanel createRampControlPanel() {

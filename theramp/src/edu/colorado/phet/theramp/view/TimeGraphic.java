@@ -2,11 +2,13 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -32,7 +34,7 @@ public class TimeGraphic extends PNode implements ModelElement {
 
     public void stepInTime( double dt ) {
         double time = timeModel.getTime();
-        String text = format.format( time ) + " seconds";
+        String text = MessageFormat.format( TheRampStrings.getString( "0.seconds" ), new Object[]{format.format( time )} );
         phetTextGraphic.setText( text );
     }
 }

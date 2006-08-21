@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -28,7 +29,7 @@ public class AppliedForceControl extends PNode {
         this.module = module;
         this.rampPanel = rampPanel;
         double maxValue = 3000;
-        final ModelSlider modelSlider = new ModelSlider( "Applied Force", "Newtons", -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
+        final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "applied.force" ), TheRampStrings.getString( "newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
         modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
         PSwing pSwing = new PSwing( rampPanel, modelSlider );
         addChild( pSwing );

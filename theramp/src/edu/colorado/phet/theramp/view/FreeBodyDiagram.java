@@ -6,10 +6,10 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -67,23 +67,23 @@ public class FreeBodyDiagram extends PNode {
         addChild( axes );
 //        axes.setVisible( false );
 
-        mg = new ForceArrow( this, laf.getWeightColor(), SimStrings.get( "<html>F<sub>G</html>" ), new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "html.f.sub.g.html" ) ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( this, laf.getNormalColor(), SimStrings.get( "<html>F<sub>N</html>" ), new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( this, laf.getNormalColor(), ( TheRampStrings.getString( "html.f.sub.n.html" ) ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), SimStrings.get( "<html>F<sub>A</html>" ), new Vector2D.Double() );
+        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), ( TheRampStrings.getString( "html.f.sub.a.html" ) ), new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), SimStrings.get( "<html>F<sub>f</html>" ), new Vector2D.Double() );
+        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), ( TheRampStrings.getString( "html.f.sub.f.html" ) ), new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( this, laf.getNetForceColor(), SimStrings.get( "<html>F<sub>net</html>" ), new Vector2D.Double() );
+        netForce = new ForceArrow( this, laf.getNetForceColor(), ( TheRampStrings.getString( "html.f.sub.net.html" ) ), new Vector2D.Double() );
         addForceArrow( netForce );
         netForce.setVerticalOffset( -30 );
 
-        wallForce = new ForceArrow( this, laf.getWallForceColor(), SimStrings.get( "<html>F<sub>wall</html>" ), new Vector2D.Double() );
+        wallForce = new ForceArrow( this, laf.getWallForceColor(), ( TheRampStrings.getString( "html.f.sub.wall.html" ) ), new Vector2D.Double() );
         addForceArrow( wallForce );
         wallForce.setVerticalOffset( -30 );
 
@@ -116,7 +116,7 @@ public class FreeBodyDiagram extends PNode {
             }
         } );
 
-        PText title = new PText( "Free Body Diagram" );
+        PText title = new PText( TheRampStrings.getString( "free.body.diagram2" ) );
         addChild( title );
     }
 
@@ -277,8 +277,8 @@ public class FreeBodyDiagram extends PNode {
             addChild( yAxis );
 
 //            Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
-//            xLabel = new HTMLGraphic( SimStrings.get( "FreeBodyDiagram.fx" ), font, Color.black );
-//            yLabel = new HTMLGraphic( SimStrings.get( "FreeBodyDiagram.fy" ), font, Color.black );
+//            xLabel = new HTMLGraphic( ( "FreeBodyDiagram.fx" ), font, Color.black );
+//            yLabel = new HTMLGraphic( ( "FreeBodyDiagram.fy" ), font, Color.black );
 //            addChild( xLabel );
 //            addChild( yLabel );
 

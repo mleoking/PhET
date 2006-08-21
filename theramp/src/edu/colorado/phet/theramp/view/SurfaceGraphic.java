@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.umd.cs.piccolo.PNode;
@@ -25,6 +26,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -92,7 +94,7 @@ public class SurfaceGraphic extends PNode {
         addChild( heightExtentGraphic );
 
 //        heightReadoutGraphic = new PText( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
-        heightReadoutGraphic = new PText( "h=0.0 m" );
+        heightReadoutGraphic = new PText( TheRampStrings.getString( "h.0.0.m" ) );
         heightReadoutGraphic.setFont( new LucidaSansFont( 18, true ) );
         heightReadoutGraphic.setPaint( SkyGraphic.lightBlue );
         addChild( heightReadoutGraphic );
@@ -257,17 +259,17 @@ public class SurfaceGraphic extends PNode {
         globalToLocal( bounds );
 
         heightExtentGraphic.setPathToPolyline( new Point2D[]{
-            new Point2D.Double( bounds.getCenterX() - 5, floor.getP2().getY() ),
-            new Point2D.Double( bounds.getCenterX() + 5, floor.getP2().getY() ),
-            new Point2D.Double( bounds.getCenterX(), floor.getP2().getY() ),
-            new Point2D.Double( bounds.getCenterX(), jackShape.getY() ),
-            new Point2D.Double( bounds.getCenterX() + 5, jackShape.getY() ),
-            new Point2D.Double( bounds.getCenterX() - 5, jackShape.getY() )
+                new Point2D.Double( bounds.getCenterX() - 5, floor.getP2().getY() ),
+                new Point2D.Double( bounds.getCenterX() + 5, floor.getP2().getY() ),
+                new Point2D.Double( bounds.getCenterX(), floor.getP2().getY() ),
+                new Point2D.Double( bounds.getCenterX(), jackShape.getY() ),
+                new Point2D.Double( bounds.getCenterX() + 5, jackShape.getY() ),
+                new Point2D.Double( bounds.getCenterX() - 5, jackShape.getY() )
         } );
         heightExtentGraphic.setVisible( ramp.getHeight() > 0.4 );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
-        heightReadoutGraphic.setText( "h=" + heightStr + " m" );
+        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "h.0.m" ), new Object[]{heightStr} ) );
 
         rampTickSetGraphic.update();
         angleGraphic.update();

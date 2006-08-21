@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
@@ -23,7 +24,7 @@ public class XArrowSet extends AbstractArrowSet {
     public XArrowSet( final RampPanel component, BlockGraphic blockGraphic ) {
         super( component, blockGraphic );
         RampLookAndFeel ralf = new RampLookAndFeel();
-        String sub = "x";
+        String sub = TheRampStrings.getString( "x" );
         final RampPhysicalModel rampPhysicalModel = component.getRampModule().getRampPhysicalModel();
         ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( component, APPLIED, ralf.getAppliedForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {

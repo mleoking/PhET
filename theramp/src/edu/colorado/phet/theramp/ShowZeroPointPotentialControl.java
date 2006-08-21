@@ -19,7 +19,7 @@ public class ShowZeroPointPotentialControl {
     public ShowZeroPointPotentialControl( final RampModule rampModule ) {
         this.rampModule = rampModule;
 //        checkBox = new JCheckBox( "<html>Show zero-<br>point PE<html>", rampModule.getRampPanel().getRampWorld().isPotentialEnergyZeroGraphicVisible() );
-        checkBox = new JCheckBox( "Show zero-point PE", rampModule.getRampPanel().getRampWorld().isPotentialEnergyZeroGraphicVisible() );
+        checkBox = new JCheckBox( TheRampStrings.getString( "show.zero.point.pe" ), rampModule.getRampPanel().getRampWorld().isPotentialEnergyZeroGraphicVisible() );
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampModule.getRampPanel().getRampWorld().setPotentialEnergyZeroGraphicVisible( checkBox.isSelected() );

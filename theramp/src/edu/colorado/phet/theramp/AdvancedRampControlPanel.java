@@ -38,7 +38,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         super( module );
         this.module = module;
 
-        final JCheckBox measureCheckBox = new JCheckBox( "Measuring Tape" );
+        final JCheckBox measureCheckBox = new JCheckBox( TheRampStrings.getString( "measuring.tape" ) );
         addControl( measureCheckBox );
         measureCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -53,40 +53,40 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
         JPanel coordinatePanel = new VerticalLayoutPanel();
         final RampPanel rampPanel = module.getRampPanel();
-        final JCheckBox descartes = new JCheckBox( "Entire Vectors", rampPanel.isCartesianVisible() );
+        final JCheckBox descartes = new JCheckBox( TheRampStrings.getString( "entire.vectors" ), rampPanel.isCartesianVisible() );
         descartes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setCartesianArrowsVisible( descartes.isSelected() );
             }
         } );
-        final JCheckBox parallel = new JCheckBox( "Parallel Components", rampPanel.isParallelVisible() );
+        final JCheckBox parallel = new JCheckBox( TheRampStrings.getString( "parallel.components" ), rampPanel.isParallelVisible() );
         parallel.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setParallelArrowsVisible( parallel.isSelected() );
             }
         } );
-        final JCheckBox perpendicular = new JCheckBox( "Perpendicular Components", rampPanel.isPerpendicularVisible() );
+        final JCheckBox perpendicular = new JCheckBox( TheRampStrings.getString( "perpendicular.components" ), rampPanel.isPerpendicularVisible() );
         perpendicular.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setPerpendicularArrowsVisible( perpendicular.isSelected() );
             }
         } );
 
-        final JCheckBox x = new JCheckBox( "X-Components", rampPanel.isXVisible() );
+        final JCheckBox x = new JCheckBox( TheRampStrings.getString( "x.components" ), rampPanel.isXVisible() );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setXArrowsVisible( x.isSelected() );
             }
         } );
 
-        final JCheckBox y = new JCheckBox( "Y-Components", rampPanel.isYVisible() );
+        final JCheckBox y = new JCheckBox( TheRampStrings.getString( "y.components" ), rampPanel.isYVisible() );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setYArrowsVisible( y.isSelected() );
             }
         } );
 
-        coordinatePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Coordinate Frames" ) );
+        coordinatePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "coordinate.frames" ) ) );
         coordinatePanel.add( descartes );
         coordinatePanel.add( parallel );
         coordinatePanel.add( perpendicular );
@@ -94,7 +94,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         coordinatePanel.add( y );
 
         JPanel forcePanel = new VerticalLayoutPanel();
-        forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Forces to Show" ) );
+        forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "forces.to.show" ) ) );
 
         final JCheckBox showFriction = new JCheckBox( AbstractArrowSet.FRICTION, true );
         showFriction.addActionListener( new ActionListener() {
@@ -146,7 +146,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         addControlFullWidth( advancedPanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
-        JLabel label = new JLabel( "Choose Object:" );
+        JLabel label = new JLabel( TheRampStrings.getString( "choose.object" ) );
         addControlFullWidth( label );
         addControl( ocb );
 
@@ -160,10 +160,10 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         super.addPositionAngleControls();
 
         GraphButtonSet graphButtonSet = new GraphButtonSet();
-        addAdvancedControl( graphButtonSet, "Graphs" );
+        addAdvancedControl( graphButtonSet, TheRampStrings.getString( "graphs" ) );
 
         JPanel controls = new InitialConditionPanel( module );
-        addAdvancedControl( controls, "Controls" );
+        addAdvancedControl( controls, TheRampStrings.getString( "controls" ) );
 
 
         {
@@ -172,7 +172,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, controlPanelFBD );
             controlPanelFBD.addWorldChild( freeBodyDiagram );
 
-            AdvancedPanel advancedFBDPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
+            AdvancedPanel advancedFBDPanel = new AdvancedPanel( TheRampStrings.getString( "free.body.diagram1" ), TheRampStrings.getString( "free.body.diagram" ) );
             advancedFBDPanel.addControlFullWidth( controlPanelFBD );
             addControlFullWidth( advancedFBDPanel );
         }
@@ -189,7 +189,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
     class GraphButtonSet extends VerticalLayoutPanel {
         public GraphButtonSet() {
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Graphs" ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "graphs" ) ) );
             for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
                 final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
                 final JCheckBox checkBox = new JCheckBox( unit.getFullName(), true );
@@ -209,11 +209,11 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
     private Component createModelSelector() {
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
-        JRadioButton emergent = new JRadioButton( "Emergent" );
-        JRadioButton constrained = new JRadioButton( "Constrained" );
+        JRadioButton emergent = new JRadioButton( TheRampStrings.getString( "emergent" ) );
+        JRadioButton constrained = new JRadioButton( TheRampStrings.getString( "constrained" ) );
         panel.add( emergent );
         panel.add( constrained );
-        panel.setBorder( BorderFactory.createTitledBorder( "Model" ) );
+        panel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "model" ) ) );
         constrained.setSelected( true );
         emergent.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -232,7 +232,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     }
 
     private ModelSlider createMassSlider() {
-        final ModelSlider ms = new ModelSlider( "Mass", "kg", 100, 500, 100, new DecimalFormat( "000" ) );
+        final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "mass" ), TheRampStrings.getString( "kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
         ms.setModelTicks( new double[]{100, 500} );
         ms.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -250,7 +250,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
 
     private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider kineticFriction = new ModelSlider( "Kinetic Friction", "", 0, 1.5, 0.5 );
+        final ModelSlider kineticFriction = new ModelSlider( TheRampStrings.getString( "kinetic.friction" ), "", 0, 1.5, 0.5 );
         kineticFriction.setModelTicks( ticks );
         kineticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -266,7 +266,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     }
 
     private ModelSlider createStaticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider staticFriction = new ModelSlider( "Static Friction", "", 0, 1.5, 0.5 );
+        final ModelSlider staticFriction = new ModelSlider( TheRampStrings.getString( "static.friction" ), "", 0, 1.5, 0.5 );
         staticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.getRampPhysicalModel().getBlock().setStaticFriction( staticFriction.getValue() );
