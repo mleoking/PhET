@@ -20,6 +20,11 @@ import edu.colorado.phet.common.math.Vector2D;
  */
 public class Vector3D extends PhysicalVector {
 
+    public static Vector3D createCrossProduct( Vector2D v1, Vector2D v2 ) {
+        double z = v1.getMagnitude() * v2.getMagnitude() * Math.sin( v2.getAngle() - v1.getAngle() );
+        return new Vector3D( 0, 0, z );
+    }
+
     public Vector3D() {
         this( 0, 0, 0 );
     }
@@ -62,12 +67,16 @@ public class Vector3D extends PhysicalVector {
         this.setY( y );
         this.setZ( z );
         return this;
-    };
+    }
+
+    ;
 
     public Vector3D setComponents( Vector3D that ) {
         this.setComponents( that.getX(), that.getY(), that.getZ() );
         return this;
-    };
+    }
+
+    ;
 
     public double getX() {
         return getScalarAt( X );

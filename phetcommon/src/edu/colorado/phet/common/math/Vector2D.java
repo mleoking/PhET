@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.common.math;
 
-import edu.colorado.phet.mechanics.Vector3D;
-
 import java.awt.geom.Point2D;
 
 /**
@@ -38,8 +36,6 @@ public interface Vector2D extends AbstractVector2D {
     void setComponents( double x, double y );
 
     Vector2D normalize();
-
-    Vector3D crossProduct( Vector2D v );
 
     public static class Double extends AbstractVector2D.Double implements Vector2D {
         public Double() {
@@ -108,11 +104,6 @@ public interface Vector2D extends AbstractVector2D {
             double yPrime = r * Math.sin( gamma );
             this.setComponents( xPrime, yPrime );
             return this;
-        }
-
-        public Vector3D crossProduct( Vector2D v) {
-            double z = this.getMagnitude() * v.getMagnitude() * Math.sin( v.getAngle() - this.getAngle());
-            return new Vector3D( 0, 0, z );
         }
 
         public String toString() {
@@ -201,11 +192,6 @@ public interface Vector2D extends AbstractVector2D {
             double yPrime = r * Math.cos( gamma );
             this.setComponents( xPrime, yPrime );
             return this;
-        }
-
-        public Vector3D crossProduct( Vector2D v) {
-            double z = this.getMagnitude() * v.getMagnitude() * Math.sin( v.getAngle() - this.getAngle());
-            return new Vector3D( 0, 0, z );
         }
 
         public String toString() {
