@@ -45,7 +45,7 @@ public class SplineToolbox extends PNode {
         boundGraphic.setStrokePaint( Color.blue );
         boundGraphic.setPaint( Color.yellow );
         addChild( boundGraphic );
-        textGraphic = new PText( "Drag to add Track" );
+        textGraphic = new PText( EnergySkateParkStrings.getString( "drag.to.add.track" ) );
         textGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
         addChild( textGraphic );

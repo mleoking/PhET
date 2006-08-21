@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.view;
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.EC3RootNode;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
@@ -37,7 +38,7 @@ public class PauseIndicator extends PNode {
         this.ec3RootNode = ec3RootNode;
         PImage im = PImageFactory.create( "images/icons/java/media/Pause24.gif" );
         addChild( im );
-        ShadowPText text = new ShadowPText( "The Simulation is Paused" );
+        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "the.simulation.is.paused" ) );
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
         text.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
@@ -66,7 +67,7 @@ public class PauseIndicator extends PNode {
 
         } );
 
-        JButton record = new JButton( "Go" );
+        JButton record = new JButton( EnergySkateParkStrings.getString( "go" ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getTimeSeriesModel().startLiveMode();

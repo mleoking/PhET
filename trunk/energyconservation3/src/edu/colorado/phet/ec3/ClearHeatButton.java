@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 public class ClearHeatButton extends JButton {
     public ClearHeatButton( final EC3Module module ) {
-        setText( "Clear Heat" );
+        setText( EnergySkateParkStrings.getString( "clear.heat" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearHeat();

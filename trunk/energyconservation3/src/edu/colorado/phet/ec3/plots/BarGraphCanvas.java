@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.view.bargraphs.EnergyBarGraphSet;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -30,7 +31,7 @@ public class BarGraphCanvas extends PSwingCanvas {
                                                                      new ModelViewTransform1D( 0, 7000, 0, 500 ) );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
-        JButton removeHeatButton = new JButton( "Clear Heat" );
+        JButton removeHeatButton = new JButton( EnergySkateParkStrings.getString( "clear.heat" ) );
         removeHeatButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearHeat();

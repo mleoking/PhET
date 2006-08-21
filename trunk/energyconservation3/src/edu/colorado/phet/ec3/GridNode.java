@@ -14,6 +14,8 @@ import java.awt.geom.Line2D;
  */
 
 public class GridNode extends PhetPNode {
+    private static final String METERS = "0 meters";
+
     public GridNode() {
         double minX = 0;
         double minY = 0;
@@ -26,7 +28,7 @@ public class GridNode extends PhetPNode {
             if( x % 2 == 0 && x <= 10 ) {
                 String aText = "" + (int)x;
                 if( aText.equals( "0" ) ) {
-                    aText = "0 meters";
+                    aText = METERS;
                 }
                 PText text = new PText( aText );
                 text.setOffset( x + dx, minY + dy );
@@ -42,7 +44,7 @@ public class GridNode extends PhetPNode {
             if( y % 2 == 0 && y <= 6 && y >= 2 ) {
                 String aText = "" + (int)y;
                 if( aText.equals( "0" ) ) {
-                    aText = "0 meters";
+                    aText = METERS;
                 }
                 PText text = new PText( aText );
                 text.setOffset( minX + dx, y + dy );

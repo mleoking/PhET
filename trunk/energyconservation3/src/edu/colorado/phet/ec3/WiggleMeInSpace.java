@@ -22,7 +22,7 @@ public class WiggleMeInSpace {
 
     public WiggleMeInSpace( final EC3Module module ) {
         this.module = module;
-        hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), "<html>Press the Arrow Keys<br>to apply thrust!<html>" );
+        hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), EnergySkateParkStrings.getString( "html.press.the.arrow.keys.br.to.apply.thrust.html" ) );
         hintNode.setTextColor( Color.white );
         hintNode.setShadowTextColor( Color.darkGray );
         hintNode.setShadowTextOffset( 1 );

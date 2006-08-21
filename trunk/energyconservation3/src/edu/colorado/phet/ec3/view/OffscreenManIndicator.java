@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -31,7 +32,7 @@ public class OffscreenManIndicator extends PhetPNode {
         this.canvas = canvas;
         this.body = body;
         this.module = ec3Module;
-        JButton bringBackSkater = new JButton( "Bring back the Skater" );
+        JButton bringBackSkater = new JButton( EnergySkateParkStrings.getString( "bring.back.the.skater" ) );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ec3Module.resetSkater();

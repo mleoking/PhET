@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.ec3.EC3Legend;
 import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.ec3.common.SavedGraph;
 import edu.colorado.phet.ec3.model.Body;
@@ -112,22 +113,22 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     public EnergyPositionPlotCanvas( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
-        ke = new EnergyType( module, "Kinetic", module.getEnergyLookAndFeel().getKEColor(), this ) {
+        ke = new EnergyType( module, EnergySkateParkStrings.getString( "kinetic" ), module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( module, "Potential", module.getEnergyLookAndFeel().getPEColor(), this ) {
+        pe = new EnergyType( module, EnergySkateParkStrings.getString( "potential" ), module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return super.getModel().getPotentialEnergy( getBody() );
             }
         };
-        thermal = new EnergyType( module, "Thermal", module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
+        thermal = new EnergyType( module, EnergySkateParkStrings.getString( "thermal" ), module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getModel().getThermalEnergy();
             }
         };
-        total = new EnergyType( ec3Module, "Total", module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
+        total = new EnergyType( ec3Module, EnergySkateParkStrings.getString( "total" ), module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getModel().getTotalEnergy( getBody() );
             }
@@ -140,12 +141,12 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             }
         } );
         dataset = createDataset();
-        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, "Energy vs. Position" );
+        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "energy.vs.position" ) );
         setLayout( new BorderLayout() );
 
         southPanel = new JPanel();
 
-        JButton clear = new JButton( "Clear" );
+        JButton clear = new JButton( EnergySkateParkStrings.getString( "clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -153,7 +154,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         } );
 
 
-        JButton copy = new JButton( "Copy" );
+        JButton copy = new JButton( EnergySkateParkStrings.getString( "copy" ) );
         copy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 copyChart();
@@ -209,7 +210,8 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         Image copy = super.getLayer().toImage();
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
-        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", c2 );
+        String energyVsPosition = EnergySkateParkStrings.getString( "energy.vs.position.save" );
+        SavedGraph savedGraph = new SavedGraph( energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
     }

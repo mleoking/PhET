@@ -1,6 +1,7 @@
 package edu.colorado.phet.ec3.view.bargraphs;
 
 import edu.colorado.phet.ec3.EnergyLookAndFeel;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import java.awt.*;
@@ -33,7 +34,7 @@ public abstract class ValueAccessor {
 
     public static class KineticEnergy extends ValueAccessor {
         public KineticEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Kinetic", lookAndFeel.getKEColor() );
+            super( EnergySkateParkStrings.getString( "kinetic" ), lookAndFeel.getKEColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -46,7 +47,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends ValueAccessor {
         public PotentialEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Potential", lookAndFeel.getPEColor() );
+            super( EnergySkateParkStrings.getString( "potential" ), lookAndFeel.getPEColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -59,7 +60,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends ValueAccessor {
         public TotalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Total", lookAndFeel.getTotalEnergyColor() );
+            super( EnergySkateParkStrings.getString( "total" ), lookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -72,7 +73,7 @@ public abstract class ValueAccessor {
 
     public static class ThermalEnergy extends ValueAccessor {
         public ThermalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Thermal", lookAndFeel.getThermalEnergyColor() );
+            super( EnergySkateParkStrings.getString( "thermal" ), lookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
