@@ -58,7 +58,7 @@ public class CompoundMolecule extends Molecule {
             acceleration.add( component.getAcceleration() );
             compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
                                                     component.getPosition().getY() - getCM().getY());
-                        angularMomentum.add( compositeCmToComponentCm.crossProduct( momentum ));
+                        angularMomentum.add( Vector3D.createCrossProduct( compositeCmToComponentCm, momentum ));
         }
         setMass( mass );
         setVelocity( compositeMomentum.scale( 1 / mass ) );
