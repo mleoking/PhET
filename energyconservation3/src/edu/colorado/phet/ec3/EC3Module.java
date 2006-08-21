@@ -73,13 +73,13 @@ public class EC3Module extends PiccoloModule {
         EC3ControlPanel EC3ControlPanel = new EC3ControlPanel( this );
         setControlPanel( EC3ControlPanel );
 
-        barChartFrame = new JDialog( phetFrame, "Bar Charts", false );
+        barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
         barChartFrame.setContentPane( new BarGraphCanvas( this ) );
 
         barChartFrame.setSize( energyFrameWidth, 600 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
-        chartFrame = new JDialog( phetFrame, "Energy vs. Time", false );
+        chartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "energy.vs.time" ), false );
         energyTimePlotCanvas = new EnergyTimePlotCanvas( this );
         chartFrame.setContentPane( energyTimePlotCanvas );
         chartFrame.setSize( 800, chartFrameHeight );
@@ -87,7 +87,7 @@ public class EC3Module extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
-        energyPositionPlotFrame = new JDialog( phetFrame, "Energy vs. Position", false );
+        energyPositionPlotFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "energy.vs.position" ), false );
         energyPositionCanvas = new EnergyPositionPlotCanvas( this );
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
@@ -263,7 +263,7 @@ public class EC3Module extends PiccoloModule {
     }
 
     public void confirmAndReset() {
-        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), "Are you sure you want to reset?" );
+        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "are.you.sure.you.want.to.reset" ) );
         if( response == JOptionPane.OK_OPTION || response == JOptionPane.YES_OPTION ) {
             reset();
         }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -32,7 +33,7 @@ public class ZeroPointPotentialGraphic extends PhetPNode {
         path.setStrokePaint( Color.red );
         addChild( path );
 
-        PText text = new PText( "PE = 0 at this dotted line" );
+        PText text = new PText( EnergySkateParkStrings.getString( "pe.0.at.this.dotted.line" ) );
         text.setFont( new LucidaSansFont( 16, true ) );
         text.setTextPaint( new Color( 255, 60, 80 ) );
         addChild( text );

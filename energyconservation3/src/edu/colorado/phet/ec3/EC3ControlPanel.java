@@ -35,7 +35,7 @@ public class EC3ControlPanel extends ControlPanel {
 
     public EC3ControlPanel( final EC3Module module ) {
         this.module = module;
-        JButton reset = new JButton( "Reset" );
+        JButton reset = new JButton( EnergySkateParkStrings.getString( "reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -43,7 +43,7 @@ public class EC3ControlPanel extends ControlPanel {
         } );
         addControl( reset );
 
-        JButton resetSkater = new JButton( "Return Skater" );
+        JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "return.skater" ) );
         resetSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetSkater();
@@ -52,14 +52,14 @@ public class EC3ControlPanel extends ControlPanel {
         addControl( resetSkater );
 
         JPanel pathPanel = new JPanel( new BorderLayout() );
-        pathPanel.setBorder( BorderFactory.createTitledBorder( "Path" ) );
-        final JCheckBox recordPath = new JCheckBox( "Record", module.getEnergyConservationModel().isRecordPath() );
+        pathPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "path" ) ) );
+        final JCheckBox recordPath = new JCheckBox( EnergySkateParkStrings.getString( "record" ), module.getEnergyConservationModel().isRecordPath() );
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordPath( recordPath.isSelected() );
             }
         } );
-        final JButton clearHistory = new JButton( "Clear" );
+        final JButton clearHistory = new JButton( EnergySkateParkStrings.getString( "clear" ) );
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPaths();
@@ -77,7 +77,7 @@ public class EC3ControlPanel extends ControlPanel {
             e.printStackTrace();
         }
 
-        final JCheckBox measuringTape = new JCheckBox( "Measuring Tape", module.isMeasuringTapeVisible() );
+        final JCheckBox measuringTape = new JCheckBox( EnergySkateParkStrings.getString( "measuring.tape" ), module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMeasuringTapeVisible( measuringTape.isSelected() );
@@ -85,7 +85,7 @@ public class EC3ControlPanel extends ControlPanel {
         } );
         addControlFullWidth( new IconComponent( measuringTape, measuringTapeIcon ) );
 
-        final JCheckBox zeroPointPotential = new JCheckBox( "Potential Energy Reference" );
+        final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkStrings.getString( "potential.energy.reference" ) );
         zeroPointPotential.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getEnergyConservationCanvas().setZeroPointVisible( zeroPointPotential.isSelected() );
@@ -117,9 +117,9 @@ public class EC3ControlPanel extends ControlPanel {
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
         chartPanel.setFillNone();
         chartPanel.setAnchor( GridBagConstraints.WEST );
-        chartPanel.setBorder( BorderFactory.createTitledBorder( "Plot" ) );
+        chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plot" ) ) );
 
-        final JButton showChart = new JButton( "Energy vs. Time" );
+        final JButton showChart = new JButton( EnergySkateParkStrings.getString( "energy.vs.time" ) );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyTimePlotVisible( true );
@@ -127,7 +127,7 @@ public class EC3ControlPanel extends ControlPanel {
         } );
         chartPanel.add( showChart );
 
-        final JButton showEnergyPositionPlot = new JButton( "Energy vs. Position" );
+        final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "energy.vs.position" ) );
         showEnergyPositionPlot.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyPositionPlotVisible( true );
@@ -136,7 +136,7 @@ public class EC3ControlPanel extends ControlPanel {
         chartPanel.add( showEnergyPositionPlot );
 
 
-        final JButton showBarChart = new JButton( "Bar Graph" );
+        final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "bar.graph" ) );
         showBarChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBarChartVisible( true );
@@ -150,7 +150,7 @@ public class EC3ControlPanel extends ControlPanel {
         final FrictionControl frictionControl = new FrictionControl( module );
         final JComponent clearHeatButton = new ClearHeatButton( module );
 
-        AdvancedPanel frictionPanel = new AdvancedPanel( "Friction >>", "Hide Friction<<" );
+        AdvancedPanel frictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "friction" ), EnergySkateParkStrings.getString( "hide.friction" ) );
         frictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
         frictionPanel.addControl( clearHeatButton );
@@ -158,9 +158,9 @@ public class EC3ControlPanel extends ControlPanel {
 //        addControl( clearHeatButton );
         addControl( frictionPanel );
 
-        AdvancedPanel editSkaterPanel = new AdvancedPanel( "Edit Skater >>", "Hide Skater Properties<<" );
+        AdvancedPanel editSkaterPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "edit.skater" ), EnergySkateParkStrings.getString( "hide.skater.properties" ) );
 //        final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
-        final ModelSlider restitution = new ModelSlider( "Bounciness", "", 0, 1.0, 1.0 );
+        final ModelSlider restitution = new ModelSlider( EnergySkateParkStrings.getString( "bounciness" ), "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
         restitution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -184,7 +184,7 @@ public class EC3ControlPanel extends ControlPanel {
 
         editSkaterPanel.addControl( restitution );
 
-        final ModelSlider mass = new ModelSlider( "Mass", "kg", 0, 200, 75 );
+        final ModelSlider mass = new ModelSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 0, 200, 75 );
         mass.setModelTicks( new double[]{0, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

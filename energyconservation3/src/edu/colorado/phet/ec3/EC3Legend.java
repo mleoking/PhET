@@ -15,12 +15,12 @@ public class EC3Legend extends Legend {
 
     public EC3Legend( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
-        addEntry( "Kinetic Energy", ec3Module.getEnergyLookAndFeel().getKEColor() );
-        addEntry( "Potential Energy", ec3Module.getEnergyLookAndFeel().getPEColor() );
-        addEntry( "Thermal Energy", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getString( "kinetic.energy" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
+        addEntry( EnergySkateParkStrings.getString( "potential.energy" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
+        addEntry( EnergySkateParkStrings.getString( "thermal.energy" ), ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
     }
 
     public void addTotalEnergyEntry() {
-        addEntry( "Total Energy", ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getString( "total.energy" ), ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 }

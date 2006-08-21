@@ -23,7 +23,7 @@ public class FrictionControl extends VerticalLayoutPanel {
 
     public FrictionControl( final EC3Module module ) {
 
-        modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+        modelSlider = new ModelSlider( EnergySkateParkStrings.getString( "coefficient.of.friction" ), "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
 //        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1.0, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.setModelTicks( new double[]{0, 0.02, 0.04} );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -39,7 +39,7 @@ public class FrictionControl extends VerticalLayoutPanel {
             }
         } );
         modelSlider.setTextFieldVisible( false );
-        modelSlider.setExtremumLabels( new JLabel( "None" ), new JLabel( "Lots" ) );
+        modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "none" ) ), new JLabel( EnergySkateParkStrings.getString( "lots" ) ) );
         addFullWidth( modelSlider );
     }
 

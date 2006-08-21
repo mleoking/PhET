@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -113,7 +114,7 @@ public class SplineGraphic extends PNode {
 
     class PathPopupMenu extends JPopupMenu {
         public PathPopupMenu( final EC3Canvas ec3Canvas ) {
-            JMenuItem delete = new JMenuItem( "Delete Track" );
+            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ec3Canvas.removeSpline( SplineGraphic.this );
@@ -269,8 +270,8 @@ public class SplineGraphic extends PNode {
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
-            super( "Circle Popup Menu" );
-            JMenuItem delete = new JMenuItem( "Delete Control Point" );
+            super( EnergySkateParkStrings.getString( "circle.popup.menu" ) );
+            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.control.point" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( spline.numControlPoints() == 1 ) {

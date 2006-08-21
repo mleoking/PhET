@@ -34,9 +34,9 @@ public class LocationControlPanel extends VerticalLayoutPanel {
 //        location.add( earth );
 //        location.add( jupiter );
         VerticalLayoutPanel verticalLayoutPanel = this;
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Location" ) );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
         verticalLayoutPanel.setFillHorizontal();
-        showBackgroundCheckbox = new JCheckBox( "Show Background", true );
+        showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "show.background" ), true );
         verticalLayoutPanel.add( showBackgroundCheckbox );
         verticalLayoutPanel.add( space );
         verticalLayoutPanel.add( moon );

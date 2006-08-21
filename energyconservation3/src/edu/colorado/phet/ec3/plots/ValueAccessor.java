@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.plots;
 
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
+
 import java.awt.*;
 
 /**
@@ -18,7 +20,7 @@ public abstract class ValueAccessor {
     private Color color;
     private String fullName;
 
-    public static final String joules = "Joules";
+    public static final String joules = EnergySkateParkStrings.getString( "joules" );
     public static final String joulesAbbreviation = "J";
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {

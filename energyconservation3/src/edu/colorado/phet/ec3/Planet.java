@@ -42,7 +42,7 @@ public abstract class Planet {
 
     public static class Space extends Planet {
         protected Space() {
-            super( "Space", 0.0 );
+            super( EnergySkateParkStrings.getString( "space" ), 0.0 );
         }
 
         protected void setupImage( EC3Module module ) {
@@ -60,7 +60,7 @@ public abstract class Planet {
 
     public static class Earth extends Planet {
         protected Earth() {
-            super( "Earth", EnergyConservationModel.G_EARTH );
+            super( EnergySkateParkStrings.getString( "earth" ), EnergyConservationModel.G_EARTH );
         }
 
         protected void setupImage( EC3Module module ) {
@@ -78,7 +78,7 @@ public abstract class Planet {
 
     public static class Moon extends Planet {
         public Moon() {
-            super( "Moon", EnergyConservationModel.G_MOON );
+            super( EnergySkateParkStrings.getString( "moon" ), EnergyConservationModel.G_MOON );
         }
 
         protected void setupImage( EC3Module module ) {
@@ -95,7 +95,7 @@ public abstract class Planet {
 
     public static class Jupiter extends Planet {
         public Jupiter() {
-            super( "Jupiter", EnergyConservationModel.G_JUPITER );
+            super( EnergySkateParkStrings.getString( "jupiter" ), EnergyConservationModel.G_JUPITER );
         }
 
         protected void setupImage( EC3Module module ) {

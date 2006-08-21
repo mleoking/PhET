@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import org.jfree.chart.JFreeChart;
 
 import javax.swing.*;
@@ -24,14 +25,14 @@ public class ZoomPanel extends VerticalLayoutPanel {
     public ZoomPanel( final JFreeChart chart, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
         this.chart = chart;
         this.energyPositionPlotCanvas = energyPositionPlotCanvas;
-        JButton comp = new JButton( "Zoom Out" );
+        JButton comp = new JButton( EnergySkateParkStrings.getString( "zoom.out" ) );
         comp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 increase( +dy );
             }
         } );
         add( comp );
-        JButton zoomIn = new JButton( "Zoom In" );
+        JButton zoomIn = new JButton( EnergySkateParkStrings.getString( "zoom.in" ) );
         zoomIn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 increase( -dy );
