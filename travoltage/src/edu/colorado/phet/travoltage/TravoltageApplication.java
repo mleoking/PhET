@@ -3,6 +3,7 @@ package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
@@ -16,12 +17,12 @@ import javax.swing.*;
 
 public class TravoltageApplication extends PhetApplication {
     private static final String VERSION = "1.02";
-    private static final String TITLE = "Travoltage";
-    private static final String DESCRIPTION = "The John Travoltage Simulation";
+//    private static final String TITLE = "Travoltage";
+//    private static final String DESCRIPTION = ;
     private JDialog dialog;
 
     public TravoltageApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, new TravoltageFrameSetup() );
+        super( args, SimStrings.get( "TravoltageApplication.title" ), SimStrings.get( "TravoltageApplication.description" ), VERSION, new TravoltageFrameSetup() );
         addModule( new TravoltageModule() );
     }
 
@@ -44,6 +45,7 @@ public class TravoltageApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        SimStrings.init( args, "localization/TravoltageStrings" );
         new TravoltageLookAndFeel().initLookAndFeel();
         new TravoltageApplication( args ).startApplication();
     }
