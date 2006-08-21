@@ -101,6 +101,10 @@ public class SimStrings {
         }
     }
 
+    public static Locale getLocalizedLocale() {
+        return localizedLocale;
+    }
+
     public static String get( String key ) {
         if( localizedStrings == null ) {
 
