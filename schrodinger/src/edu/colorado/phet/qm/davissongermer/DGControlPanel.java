@@ -33,7 +33,7 @@ public class DGControlPanel extends ControlPanel {
         addRulerPanel();
         addProtractorPanel();
         addControl( new ClearButton( dgModule.getSchrodingerPanel() ) );
-        final JCheckBox plotCheckBox = new JCheckBox( "Plot" );
+        final JCheckBox plotCheckBox = new JCheckBox( QWIStrings.getString( "plot" ) );
         plotCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 DGControlPanel.this.setPlotVisible( plotCheckBox.isSelected() );
@@ -56,7 +56,7 @@ public class DGControlPanel extends ControlPanel {
         if( gun instanceof DGGun ) {
             DGGun dgGun = (DGGun)gun;
             final DGParticle particle = dgGun.getDgParticle();
-            final ModelSlider covariance = new ModelSlider( "Covariance", "", 0, 0.3, particle.getCovariance() );
+            final ModelSlider covariance = new ModelSlider( QWIStrings.getString( "covariance" ), "", 0, 0.3, particle.getCovariance() );
             covariance.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     particle.setCovariance( covariance.getValue() );
@@ -64,7 +64,7 @@ public class DGControlPanel extends ControlPanel {
             } );
             addControl( covariance );
 
-            final ModelSlider y0 = new ModelSlider( "Particle y0", "", 0, 1.0, particle.getStartYFraction() );
+            final ModelSlider y0 = new ModelSlider( QWIStrings.getString( "particle.y0" ), "", 0, 1.0, particle.getStartYFraction() );
             y0.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     particle.setStartYFraction( y0.getValue() );
@@ -95,7 +95,7 @@ public class DGControlPanel extends ControlPanel {
     }
 
     private void addProtractorPanel() {
-        final JCheckBox protractor = new JCheckBox( "Protractor", false );
+        final JCheckBox protractor = new JCheckBox( QWIStrings.getString( "protractor" ), false );
         protractor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dgModule.setProtractorVisible( protractor.isSelected() );

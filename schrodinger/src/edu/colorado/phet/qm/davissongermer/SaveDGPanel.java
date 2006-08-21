@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.davissongermer;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -25,7 +26,7 @@ public class SaveDGPanel {
         Image copy = dgPlotPanel.getLayer().toImage();
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
-        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", c2, parentFrame );
+        SavedGraph savedGraph = new SavedGraph( MessageFormat.format( QWIStrings.getResourceBundle().getString( "energy.vs.position.save.0" ), new Object[]{new Integer( saveCount )} ), c2, parentFrame );
         savedGraph.setVisible( true );
         saveCount++;
     }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class StopwatchCheckBox extends HorizontalLayoutPanel {
 
     public StopwatchCheckBox( QWIPanel QWIPanel ) {
         super();
-        final JCheckBox checkBox = new JCheckBox( "Stopwatch" );
+        final JCheckBox checkBox = new JCheckBox( QWIStrings.getString( "stopwatch" ) );
         this.QWIPanel = QWIPanel;
 
 //        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );

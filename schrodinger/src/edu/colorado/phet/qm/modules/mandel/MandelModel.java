@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
@@ -35,7 +36,7 @@ public class MandelModel extends QWIModel {
         setDetectionCausesCollapse( false );//since it's a split model
 
         if( DEBUG_MANDEL_WAVES ) {
-            final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
+            final WaveDebugger leftWaveDebugger = new WaveDebugger( QWIStrings.getString( "left" ), getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {
@@ -43,7 +44,7 @@ public class MandelModel extends QWIModel {
                 }
             } );
 
-            final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", getRightWavefunction() );
+            final WaveDebugger rightWaveDebugger = new WaveDebugger( QWIStrings.getString( "right" ), getRightWavefunction() );
             rightWaveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {

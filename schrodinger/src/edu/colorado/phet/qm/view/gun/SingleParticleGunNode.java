@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.QWIPanel;
 
@@ -105,9 +106,9 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     protected ImagePComboBox initComboBox() {
-        Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        Photon photon = new Photon( this, QWIStrings.getString( "photons" ), "images/photon-thumb.jpg" );
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
-        photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
+        photonBeamParticle = new PhotonBeamParticle( this, QWIStrings.getString( "photons" ), photonBeam );
 
         gunItems = new GunParticle[]{
                 photonBeamParticle,

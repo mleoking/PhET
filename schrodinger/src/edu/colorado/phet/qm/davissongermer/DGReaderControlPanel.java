@@ -19,9 +19,9 @@ public class DGReaderControlPanel extends VerticalLayoutPanel {
 
     public DGReaderControlPanel( final DGModule dgModule ) {
         this.dgModule = dgModule;
-        setBorder( BorderFactory.createTitledBorder( "Intensity Reader (testing only)" ) );
-        JRadioButton edge = new JRadioButton( "Edge", dgModule.getPlotPanel().isIntensityReaderEdge() );
-        JRadioButton circ = new JRadioButton( "Radial", dgModule.getPlotPanel().isIntensityReaderRadial() );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "intensity.reader.testing.only" ) ) );
+        JRadioButton edge = new JRadioButton( QWIStrings.getString( "edge" ), dgModule.getPlotPanel().isIntensityReaderEdge() );
+        JRadioButton circ = new JRadioButton( QWIStrings.getString( "radial" ), dgModule.getPlotPanel().isIntensityReaderRadial() );
         add( edge );
         add( circ );
         edge.addActionListener( new ActionListener() {

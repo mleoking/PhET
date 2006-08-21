@@ -13,7 +13,7 @@ import edu.colorado.phet.qm.view.gun.GunControlPanel;
 public class DGGunControlPanel extends GunControlPanel {
     public DGGunControlPanel( QWIPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        getTitleLabel().setText( "Electron Gun Controls" );
+        getTitleLabel().setText( QWIStrings.getString( "electron.gun.controls" ) );
     }
 
 //    public double getVelocityRealUnits() {

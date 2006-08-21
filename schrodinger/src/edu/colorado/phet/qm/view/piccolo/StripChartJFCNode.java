@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -44,8 +45,8 @@ public class StripChartJFCNode extends PNode {
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "",  // title
-                "x-axis",             // x-axis label
-                "y-axis",   // y-axis label
+                QWIStrings.getString( "x.axis" ),             // x-axis label
+                QWIStrings.getString( "y.axis" ),   // y-axis label
                 dataset,            // data
                 false,               // create legend?
                 false,               // generate tooltips?

@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.intensity;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.*;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.util.ComponentCenterer;
 
 import java.awt.*;
@@ -69,7 +70,7 @@ public class IntensityControlPanel extends QWIControlPanel {
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
 
         addControl( expandableDoubleSlitPanel );
-        AdvancedPanel advancedPanel = new AdvancedPanel( "Potential Barriers>>", "Hide Potential Barriers<<" );
+        AdvancedPanel advancedPanel = new AdvancedPanel( QWIStrings.getString( "potential.barriers" ), QWIStrings.getString( "hide.potential.barriers" ) );
         advancedPanel.addControlFullWidth( new PotentialPanel( getModule() ) );
         addControl( advancedPanel );
 

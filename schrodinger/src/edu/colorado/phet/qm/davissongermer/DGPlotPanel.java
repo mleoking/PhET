@@ -44,10 +44,10 @@ public class DGPlotPanel extends PSwingCanvas {
         this.dgModule = dgModule;
 //        intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
         intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
-        series = new XYSeries( "Live Data" );
+        series = new XYSeries( QWIStrings.getString( "live.data" ) );
         dataset = new XYSeriesCollection( series );
 
-        chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity", dataset, PlotOrientation.VERTICAL, true, false, false );
+        chart = ChartFactory.createScatterPlot( QWIStrings.getString( "intensity.plot" ), QWIStrings.getString( "angle.degrees" ), QWIStrings.getString( "intensity" ), dataset, PlotOrientation.VERTICAL, true, false, false );
         chart.getXYPlot().getDomainAxis().setRange( 0, 90 );
         chart.getXYPlot().getRangeAxis().setRange( 0, 0.1 );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );

@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
  */
 public class AtomShapeControlPanel extends VerticalLayoutPanel {
     public AtomShapeControlPanel( final DGModule dgModule ) {
-        setBorder( BorderFactory.createTitledBorder( "Atom Shape" ) );
-        JRadioButton circular = new JRadioButton( "Circular", dgModule.isAtomShapeCircular() );
-        JRadioButton squares = new JRadioButton( "Square", dgModule.isAtomShapeSquare() );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "atom.shape" ) ) );
+        JRadioButton circular = new JRadioButton( QWIStrings.getString( "circular" ), dgModule.isAtomShapeCircular() );
+        JRadioButton squares = new JRadioButton( QWIStrings.getString( "square" ), dgModule.isAtomShapeSquare() );
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( circular );
         buttonGroup.add( squares );

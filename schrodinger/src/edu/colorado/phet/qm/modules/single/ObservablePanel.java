@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
@@ -19,11 +20,11 @@ public class ObservablePanel extends AdvancedPanel {
     private QWIPanel QWIPanel;
 
     public ObservablePanel( QWIPanel QWIPanel ) {
-        super( "Observables>>", "Hide Observables<<" );
+        super( QWIStrings.getString( "observables" ), QWIStrings.getString( "hide.observables" ) );
         this.QWIPanel = QWIPanel;
 //        VerticalLayoutPanel lay = this;
 //        setBorder( BorderFactory.createTitledBorder( "Observables" ) );
-        final JCheckBox x = new JCheckBox( "<X>" );
+        final JCheckBox x = new JCheckBox( QWIStrings.getString( "x" ) );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
@@ -31,7 +32,7 @@ public class ObservablePanel extends AdvancedPanel {
         } );
         addControl( x );
 
-        final JCheckBox y = new JCheckBox( "<Y>" );
+        final JCheckBox y = new JCheckBox( QWIStrings.getString( "y" ) );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );

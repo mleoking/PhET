@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -150,8 +152,8 @@ public class ParticleUnits {
 
     public static class PhotonUnits extends ParticleUnits {
         public PhotonUnits() {
-            setDx( new Value( 1.0, 0.06 * 20000, "nm" ) );
-            setDt( new Value( 1, 0.1, "fs" ) );
+            setDx( new Value( 1.0, 0.06 * 20000, QWIStrings.getString( "nm" ) ) );
+            setDt( new Value( 1, 0.1, QWIStrings.getString( "fs" ) ) );
 
             setLatticeWidth( 2700 );
             setRulerWidth( 3000 );
@@ -171,14 +173,14 @@ public class ParticleUnits {
 
     public static class ElectronUnits extends ParticleUnits {
         public ElectronUnits() {
-            setHbar( new Value( 0.658, 1, "eV fs" ) );
-            setMass( new Value( 0.057, 100, "eV fs^2/nm^2" ) );
-            setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 0.05, 0.10, "fs" ) );
+            setHbar( new Value( 0.658, 1, QWIStrings.getString( "ev.fs" ) ) );
+            setMass( new Value( 0.057, 100, QWIStrings.getString( "ev.fs.2.nm.2" ) ) );
+            setDx( new Value( 1.0, 0.1, QWIStrings.getString( "nm" ) ) );
+            setDt( new Value( 0.05, 0.10, QWIStrings.getString( "fs" ) ) );
 
             double s = 100.0;
-            setMinVelocity( new Value( 700 / s, s, "km/s" ) );
-            setMaxVelocity( new Value( 1500 / s, s, "km/s" ) );
+            setMinVelocity( new Value( 700 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMaxVelocity( new Value( 1500 / s, s, QWIStrings.getString( "km.s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0" );
             setVelocityFormat( defaultFormat );
@@ -190,14 +192,14 @@ public class ParticleUnits {
 
     public static class NeutronUnits extends ParticleUnits {
         public NeutronUnits() {
-            setHbar( new Value( 0.000658, 1, "eV ps" ) );
-            setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 0.1, 0.1, "ps" ) );
-            setMass( new Value( 0.000104539, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+            setHbar( new Value( 0.000658, 1, QWIStrings.getString( "ev.ps" ) ) );
+            setDx( new Value( 1.0, 0.1, QWIStrings.getString( "nm" ) ) );
+            setDt( new Value( 0.1, 0.1, QWIStrings.getString( "ps" ) ) );
+            setMass( new Value( 0.000104539, 1.0 / 10000.0, QWIStrings.getString( "ev.fs.2.nm.2" ) ) );
 
             double s = 0.1;
-            setMinVelocity( new Value( 0.4 / s, s, "km/s" ) );
-            setMaxVelocity( new Value( 0.8 / s, s, "km/s" ) );
+            setMinVelocity( new Value( 0.4 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMaxVelocity( new Value( 0.8 / s, s, QWIStrings.getString( "km.s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0.0" );
             setVelocityFormat( defaultFormat );
@@ -209,14 +211,14 @@ public class ParticleUnits {
 
     public static class HeliumUnits extends ParticleUnits {
         public HeliumUnits() {
-            setHbar( new Value( 0.000658, 1, "eV ps" ) );
-            setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 0.5, 0.1, "ps" ) );
-            setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+            setHbar( new Value( 0.000658, 1, QWIStrings.getString( "ev.ps" ) ) );
+            setDx( new Value( 1.0, 0.1, QWIStrings.getString( "nm" ) ) );
+            setDt( new Value( 0.5, 0.1, QWIStrings.getString( "ps" ) ) );
+            setMass( new Value( 0.000414741, 1.0 / 10000.0, QWIStrings.getString( "ev.fs.2.nm.2" ) ) );
 
             double s = 0.1;
-            setMinVelocity( new Value( 0.1 / s, s, "km/s" ) );
-            setMaxVelocity( new Value( 0.2 / s, s, "km/s" ) );
+            setMinVelocity( new Value( 0.1 / s, s, QWIStrings.getString( "km.s" ) ) );
+            setMaxVelocity( new Value( 0.2 / s, s, QWIStrings.getString( "km.s" ) ) );
 
             DecimalFormat defaultFormat = new DecimalFormat( "0.0" );
             setVelocityFormat( defaultFormat );

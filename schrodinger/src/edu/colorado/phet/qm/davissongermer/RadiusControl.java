@@ -43,7 +43,7 @@ public class RadiusControl extends ConstrainedSliderControl {
 
     public RadiusControl( DGModel dgModel ) {
         this.dgModel = dgModel;
-        init( "Atom Radius", new DecimalFormat( "0.00" ),
+        init( QWIStrings.getString( "atom.radius" ), new DecimalFormat( "0.00" ),
               dgModel.getRadiusModelFrame(),
               dgModel.getRadiusViewFrame(),
               new CoordinateFrame( 0, getNumSliderValues( dgModel.getRadiusViewFrame() ) - 1 ) );

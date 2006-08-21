@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,16 +20,16 @@ public class PotentialPanel extends VerticalLayoutPanel {
     public PotentialPanel( final QWIModule module ) {
 
         setFillNone();
-        setBorder( BorderFactory.createTitledBorder( "Potential" ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "potential" ) ) );
 
-        JButton clear = new JButton( "Remove All" );
+        JButton clear = new JButton( QWIStrings.getString( "remove.all" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPotential();
             }
         } );
 
-        JButton newBarrier = new JButton( "Add Barrier" );
+        JButton newBarrier = new JButton( QWIStrings.getString( "add.barrier" ) );
         newBarrier.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.addPotential();

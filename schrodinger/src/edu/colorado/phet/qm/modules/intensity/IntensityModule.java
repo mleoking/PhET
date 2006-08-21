@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.SplitModel;
@@ -31,7 +32,7 @@ public class IntensityModule extends QWIModule {
     private boolean leftDetectorShouldBeEnabled = false;
 
     public IntensityModule( QWIApplication app, IClock clock ) {
-        this( "High Intensity", app, clock );
+        this( QWIStrings.getString( "high.intensity" ), app, clock );
     }
 
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {

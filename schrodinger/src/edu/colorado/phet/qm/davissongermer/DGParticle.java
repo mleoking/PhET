@@ -16,7 +16,7 @@ public class DGParticle extends DefaultGunParticle {
     private double startYFraction = 0.75;
 
     public DGParticle( AbstractGunNode gunNode ) {
-        super( gunNode, "Electrons", "images/electron-thumb.png", new DGParticleUnits() );
+        super( gunNode, QWIStrings.getString( "electrons" ), "images/electron-thumb.png", new DGParticleUnits() );
     }
 
     protected double getStartDxLattice() {

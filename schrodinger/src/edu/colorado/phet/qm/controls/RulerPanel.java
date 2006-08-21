@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ public class RulerPanel extends HorizontalLayoutPanel {
 
         final HorizontalLayoutPanel rulerPanel = this;
 
-        final JCheckBox ruler = new JCheckBox( "Ruler" );
+        final JCheckBox ruler = new JCheckBox( QWIStrings.getString( "ruler" ) );
         ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler3.png" ) );
         rulerPanel.add( ruler );
         rulerPanel.add( new JLabel( icon ) );

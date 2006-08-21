@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
@@ -30,13 +31,13 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
     public PhotonVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
-        setBorder( BorderFactory.createTitledBorder( "EM Wave Display" ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "em.wave.display" ) ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        grayMag = createVisualizationButton( "Time-Averaged Intensity", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( QWIStrings.getString( "time.averaged.intensity" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        realGray = createVisualizationButton( "E-Field", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( QWIStrings.getString( "e.field" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
 //        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );

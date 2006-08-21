@@ -31,7 +31,7 @@ public class SpacingControl extends ConstrainedSliderControl {
 
     public SpacingControl( DGModel dgModel ) {
         this.dgModel = dgModel;
-        init( "Atom Separation (D)", new DecimalFormat( "0.0" ),
+        init( QWIStrings.getString( "atom.separation.d" ), new DecimalFormat( "0.0" ),
               dgModel.getSpacingModelFrame(),
               dgModel.getSpacingViewFrame(),
               new CoordinateFrame( 0, getNumSliderValues( dgModel.getSpacingViewFrame() ) - 1 ) );

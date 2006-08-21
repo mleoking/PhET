@@ -1,10 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.math.Complex;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 
@@ -187,7 +189,7 @@ public class Wavefunction {
         double diff = 1.0 - postProb;
         double err = Math.abs( diff );
         if( err > 0.0001 && debug ) {
-            System.out.println( "Error in probability normalization, norm=" + postProb + ", err=" + err );
+            System.out.println( MessageFormat.format( QWIStrings.getString( "error.in.probability.normalization.norm.0.err.1" ), new Object[]{new Double( postProb ), new Double( err )} ) );
 //            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
 //            throw new RuntimeException( "Error in probability normalization." );
         }

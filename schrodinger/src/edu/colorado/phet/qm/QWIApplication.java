@@ -8,6 +8,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
@@ -32,19 +33,18 @@ import java.io.IOException;
 
 public class QWIApplication extends PiccoloPhetApplication {
     public static String VERSION = "1.02";
-    public static String TITLE = "Quantum Wave Interference";
-    public static String DESCRIPTION = "Quantum Wave Interference";
     private IntensityModule intensityModule;
 
     public QWIApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, new QWIFrameSetup() );
+        super( args, QWIStrings.getString( "quantum.wave.interference" ), QWIStrings.getString( "quantum.wave.interference" ),
+               VERSION, new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( QWIApplication.this, createClock() );
         addModule( intensityModule );
         addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
         addModule( new MandelModule( QWIApplication.this, createClock() ) );
-        JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
+        JMenuItem save = new JMenuItem( QWIStrings.getString( "save.detectors.barriers" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 QWIModule qwiModule = getActiveSchrodingerModule();
@@ -53,7 +53,7 @@ public class QWIApplication extends PiccoloPhetApplication {
         } );
         getPhetFrame().addFileMenuItem( save );
 
-        JMenuItem load = new JMenuItem( "Load (detectors & barriers)" );
+        JMenuItem load = new JMenuItem( QWIStrings.getString( "load.detectors.barriers" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -98,6 +98,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     }
 
     private static void oldmain( String[] args ) {
+        QWIStrings.init( args );
         new QWIPhetLookAndFeel() .initLookAndFeel();
         final QWIApplication QWIApplication = new QWIApplication( args );
         QWIApplication.startApplication();
@@ -108,7 +109,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     }
 
     private static void addWiggleMe( final QWIApplication QWIApplication ) {
-        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser" );
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), QWIStrings.getString( "turn.on.the.laser" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
         helpBalloon.setShadowTextOffset( 1 );

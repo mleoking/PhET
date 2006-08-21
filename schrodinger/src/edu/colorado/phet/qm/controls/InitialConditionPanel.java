@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
@@ -30,11 +31,11 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
     public InitialConditionPanel( QWIControlPanel qwiControlPanel ) {
         this.qwiControlPanel = qwiControlPanel;
 
-        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.5 );
-        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.75 );
-        pxSlider = new ModelSlider( "Momentum-x0", "", -1.5, 1.5, 0 );
-        pySlider = new ModelSlider( "Momentum-y0", "", -1.5, 1.5, -0.8 );
-        dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.04 );
+        xSlider = new ModelSlider( QWIStrings.getString( "x0" ), QWIStrings.getString( "1.l" ), 0, 1, 0.5 );
+        ySlider = new ModelSlider( QWIStrings.getString( "y0" ), QWIStrings.getString( "1.l" ), 0, 1, 0.75 );
+        pxSlider = new ModelSlider( QWIStrings.getString( "momentum.x0" ), "", -1.5, 1.5, 0 );
+        pySlider = new ModelSlider( QWIStrings.getString( "momentum.y0" ), "", -1.5, 1.5, -0.8 );
+        dxSlider = new ModelSlider( QWIStrings.getString( "size0" ), "", 0, 0.25, 0.04 );
 
         pxSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

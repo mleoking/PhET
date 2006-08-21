@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.FractionalDoubleSlit;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -39,7 +40,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         this.module = qwiModule;
         this.horizontalDoubleSlit = QWIModel.getDoubleSlitPotential();
         this.fractionalSlit = QWIModel.getFractionalDoubleSlit();
-        verticalPosition = createComponent( "Vertical Position", new Setter() {
+        verticalPosition = createComponent( QWIStrings.getString( "vertical.position" ), new Setter() {
             double insetY = 10 / 60.0;
 
             public void valueChanged( double val ) {
@@ -64,7 +65,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         } );
 
 
-        slitSize = createComponent( "Slit Width ", new Setter() {
+        slitSize = createComponent( QWIStrings.getString( "slit.width" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSize( val );
             }
@@ -86,7 +87,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        slitSeparation = createComponent( "Slit Separation", new Setter() {
+        slitSeparation = createComponent( QWIStrings.getString( "slit.separation" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSeparation( val );
             }
@@ -108,7 +109,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isBarrierAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "absorbing.barriers" ), getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );
