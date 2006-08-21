@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 
 /**
@@ -16,7 +17,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
     private QWIModule module;
 
     public ExpandableDoubleSlitPanel( final QWIModule module ) {
-        super( "Double Slits >>", "Disable Slits<<" );
+        super( QWIStrings.getString( "double.slits" ), QWIStrings.getString( "disable.slits" ) );
         this.module = module;
         addControlFullWidth( new DoubleSlitControlPanel( module.getQWIModel(), module ) );
         addListener( new Listener() {

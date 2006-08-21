@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.Hashtable;
 
 /**
@@ -105,7 +106,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         slider.setValue( (int)Math.round( transform( getModelValue(), modelFrame, sliderFrame ) ) );
         String text = "" + format.format( transform( getModelValue(), modelFrame, viewFrame ) );
 //        textReadout.setText( text + " nm" );
-        titleLabel.setText( title + ": " + text + " nm" );
+        titleLabel.setText( MessageFormat.format( QWIStrings.getString( "0.1.nm" ), new Object[]{title, text} ) );
     }
 
 //    private static class TextReadout extends HorizontalLayoutPanel {

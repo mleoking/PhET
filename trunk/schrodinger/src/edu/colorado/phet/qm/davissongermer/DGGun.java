@@ -36,7 +36,7 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( mybeams );
-        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
+        imageComboBox.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "gun.type" ) ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();

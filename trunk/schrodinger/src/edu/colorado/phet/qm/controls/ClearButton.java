@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class ClearButton extends JButton {
     public ClearButton( final QWIPanel qwiPanel ) {
-        super( "Clear Wave" );
+        super( QWIStrings.getString( "clear.wave" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 qwiPanel.clearWavefunction();

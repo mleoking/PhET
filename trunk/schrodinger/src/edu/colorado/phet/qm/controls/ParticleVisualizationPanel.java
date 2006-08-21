@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
@@ -34,19 +35,19 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
     public ParticleVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
-        setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "wave.function.display" ) ) );
         buttonGroup = new ButtonGroup();
 
-        grayMag = createVisualizationButton( "Magnitude", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( QWIStrings.getString( "magnitude" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        realGray = createVisualizationButton( "Real Part", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( QWIStrings.getString( "real.part" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
-        complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
+        complexGray = createVisualizationButton( QWIStrings.getString( "imaginary.part" ), new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
         addFullWidth( complexGray );
 
-        phaseColorRadioButton = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
+        phaseColorRadioButton = createVisualizationButton( QWIStrings.getString( "phase.color" ), new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
         addFullWidth( phaseColorRadioButton );
         v = new VisButton[]{grayMag, realGray, complexGray, phaseColorRadioButton};
     }

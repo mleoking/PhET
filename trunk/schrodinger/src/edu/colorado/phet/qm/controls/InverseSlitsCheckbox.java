@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class InverseSlitsCheckbox extends JCheckBox {
     private QWIPanel QWIPanel;
 
     public InverseSlitsCheckbox( final QWIPanel QWIPanel ) {
-        super( "Anti-Slits" );
+        super( QWIStrings.getString( "anti.slits" ) );
         this.QWIPanel = QWIPanel;
         setSelected( QWIPanel.isInverseSlits() );
         addActionListener( new ActionListener() {

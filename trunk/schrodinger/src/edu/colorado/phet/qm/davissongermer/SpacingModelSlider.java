@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class SpacingModelSlider extends ModelSlider {
     public SpacingModelSlider( final DGModel dgModel, final double scale ) {
-        super( "Atom Separation (D)", "nm", 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
+        super( QWIStrings.getString( "atom.separation.d" ), QWIStrings.getString( "nm" ), 0.4, 1.2, dgModel.getFractionalSpacing() * scale, new DecimalFormat( "0.0" ) );
         getSlider().setSnapToTicks( true );
         setModelTicks( new double[]{0.4, ( 1.2 + 0.4 ) / 2, 1.2} );
         addChangeListener( new ChangeListener() {

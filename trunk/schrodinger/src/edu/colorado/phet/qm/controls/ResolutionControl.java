@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class ResolutionControl extends AdvancedPanel {
     }
 
     public ResolutionControl( final QWIModule qwiModule ) {
-        super( "Resolution>>", "Resolution<<" );
+        super( QWIStrings.getString( "resolution1" ), QWIStrings.getString( "resolution2" ) );
         this.qwiModule = qwiModule;
 
 //        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
@@ -78,7 +79,7 @@ public class ResolutionControl extends AdvancedPanel {
         final JComboBox jComboBox = new JComboBox( QWIModule.getResolutionSetups() );
         jComboBox.setSelectedItem( new Integer( qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
 //        addControl( new JLabel( "Pixels per lattice cell." ) );
-        addControl( new JLabel( "Resolution" ) );
+        addControl( new JLabel( QWIStrings.getString( "resolution" ) ) );
         addControl( jComboBox );
         jComboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -93,7 +94,7 @@ public class ResolutionControl extends AdvancedPanel {
                                            qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize();
         getSchrodingerModule().setWaveSize( INIT_WAVE_SIZE );
 
-        JLabel numSkip = new JLabel( "Time Step" );
+        JLabel numSkip = new JLabel( QWIStrings.getString( "time.step" ) );
         addControl( numSkip );
         final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( QWIScreenNode.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
         frameSkip.addChangeListener( new ChangeListener() {

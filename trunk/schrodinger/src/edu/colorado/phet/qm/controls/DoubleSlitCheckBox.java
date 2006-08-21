@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class DoubleSlitCheckBox extends JCheckBox {
     private QWIModel QWIModel;
 
     public DoubleSlitCheckBox( final QWIModel QWIModel ) {
-        super( "Double Slit", QWIModel.isDoubleSlitEnabled() );
+        super( QWIStrings.getString( "double.slit" ), QWIModel.isDoubleSlitEnabled() );
         setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
 
         this.QWIModel = QWIModel;

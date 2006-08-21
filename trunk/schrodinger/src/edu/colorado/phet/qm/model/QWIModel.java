@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -82,14 +83,14 @@ public class QWIModel implements ModelElement {
         fractionalDoubleSlit = createFractionalDoubleSlit();
 
         if( DEBUG_WAVES ) {
-            final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
+            final WaveDebugger sourceWaveDebugger = new WaveDebugger( QWIStrings.getString( "source.wave" ), getSourceWave() );
             sourceWaveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {
                     sourceWaveDebugger.update();
                 }
             } );
-            final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", getWavefunction() );
+            final WaveDebugger waveDebugger = new WaveDebugger( QWIStrings.getString( "main.wave" ), getWavefunction() );
             waveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {

@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
@@ -22,7 +23,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
 
     public IntensityScreenPanel( QWIControlPanel qwiControlPanel ) {
         this.qwiControlPanel = qwiControlPanel;
-        setBorder( BorderFactory.createTitledBorder( "Intensity Screen" ) );
+        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "intensity.screen" ) ) );
 
         final IntensityManager intensityManager = qwiControlPanel.getModule().getIntensityDisplay();
         JPanel inflationPanel = new HorizontalLayoutPanel();
@@ -33,12 +34,12 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
                 intensityManager.setProbabilityScaleFudgeFactor( val );
             }
         } );
-        inflationPanel.add( new JLabel( "Probability Inflation" ) );
+        inflationPanel.add( new JLabel( QWIStrings.getString( "probability.inflation" ) ) );
         inflationPanel.add( probabilityInflation );
         super.addFullWidth( inflationPanel );
 
         JPanel pan = new HorizontalLayoutPanel();
-        pan.add( new JLabel( "Waveform Decrement" ) );
+        pan.add( new JLabel( QWIStrings.getString( "waveform.decrement" ) ) );
         final JSpinner waveformDec = new JSpinner( new SpinnerNumberModel( intensityManager.getNormDecrement(), 0, 1.0, 0.1 ) );
 //        waveformDec.setBorder( BorderFactory.createTitledBorder( "Waveform Decrement" ) );
         waveformDec.addChangeListener( new ChangeListener() {
@@ -51,7 +52,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         super.addFullWidth( pan );
 
         JPanel p3 = new HorizontalLayoutPanel();
-        p3.add( new JLabel( "Multiplier" ) );
+        p3.add( new JLabel( QWIStrings.getString( "multiplier" ) ) );
         final JSpinner mult = new JSpinner( new SpinnerNumberModel( intensityManager.getMultiplier(), 0, 1000, 5 ) );
         mult.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -62,7 +63,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         super.addFullWidth( p3 );
 
         JPanel p4 = new HorizontalLayoutPanel();
-        p4.add( new JLabel( "Opacity" ) );
+        p4.add( new JLabel( QWIStrings.getString( "opacity" ) ) );
         final JSpinner transparency = new JSpinner( new SpinnerNumberModel( getDetectorSheetPNode().getOpacity(), 0, 255, 1 ) );
         transparency.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

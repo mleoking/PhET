@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.WaveModel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
@@ -26,7 +27,7 @@ public class MandelModule extends QWIModule {
     private ArrayList listeners = new ArrayList();
 
     public MandelModule( QWIApplication app, IClock clock ) {
-        super( "2 Lasers", app, clock );
+        super( QWIStrings.getString( "2.lasers" ), app, clock );
         splitModel = new MandelModel();
         setQWIModel( splitModel );
         mandelSchrodingerPanel = new MandelSchrodingerPanel( this );

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -34,9 +35,9 @@ public class QWIControlPanel extends ControlPanel {
         this.module = module;
         getContentPanel().setAnchor( GridBagConstraints.WEST );
         this.initialConditionPanel = createInitialConditionPanel();
-        AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
+        AdvancedPanel advancedICPanel = new AdvancedPanel( QWIStrings.getString( "show" ), QWIStrings.getString( "hide" ) );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
-        advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
+        advancedICPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "initial.conditions" ) ) );
         advancedICPanel.addListener( new AdvancedPanel.Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                 JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( QWIControlPanel.this );
@@ -49,7 +50,7 @@ public class QWIControlPanel extends ControlPanel {
             }
         } );
 
-        JButton fireParticle = new JButton( "Fire Particle" );
+        JButton fireParticle = new JButton( QWIStrings.getString( "fire.particle" ) );
         fireParticle.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fireParticle();
@@ -63,15 +64,15 @@ public class QWIControlPanel extends ControlPanel {
         }
 
 
-        advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
+        advancedPanel = new AdvancedPanel( QWIStrings.getString( "advanced" ), QWIStrings.getString( "hide.advanced" ) );
 
         VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
-        AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen>>", "Screen<<" );
+        AdvancedPanel advancedIntensityScreen = new AdvancedPanel( QWIStrings.getString( "screen1" ), QWIStrings.getString( "screen2" ) );
         advancedIntensityScreen.addControl( intensityScreen );
         advancedPanel.addControlFullWidth( advancedIntensityScreen );
 
         VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
-        AdvancedPanel advSim = new AdvancedPanel( "Simulation>>", "Hide Simulation<<" );
+        AdvancedPanel advSim = new AdvancedPanel( QWIStrings.getString( "simulation" ), QWIStrings.getString( "hide.simulation" ) );
         advSim.addControlFullWidth( simulationPanel );
         advancedPanel.addControlFullWidth( advSim );
 
@@ -124,10 +125,10 @@ public class QWIControlPanel extends ControlPanel {
 
     private VerticalLayoutPanel createSimulationPanel( final QWIModule module ) {
         VerticalLayoutPanel simulationPanel = new VerticalLayoutPanel();
-        simulationPanel.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
+        simulationPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "simulation1" ) ) );
 
         final JSpinner gridWidth = new JSpinner( new SpinnerNumberModel( getDiscreteModel().getGridWidth(), 1, 1000, 10 ) );
-        gridWidth.setBorder( BorderFactory.createTitledBorder( "Resolution" ) );
+        gridWidth.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "resolution" ) ) );
         gridWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
@@ -137,7 +138,7 @@ public class QWIControlPanel extends ControlPanel {
         simulationPanel.addFullWidth( gridWidth );
 
         final JSpinner timeStep = new JSpinner( new SpinnerNumberModel( 0.8, 0, 2, 0.1 ) );
-        timeStep.setBorder( BorderFactory.createTitledBorder( "DT" ) );
+        timeStep.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "dt" ) ) );
 
         timeStep.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -171,7 +172,7 @@ public class QWIControlPanel extends ControlPanel {
     }
 
     public JCheckBox getSlitAbsorptionCheckbox() {
-        final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isBarrierAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "absorbing.barriers" ), getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );

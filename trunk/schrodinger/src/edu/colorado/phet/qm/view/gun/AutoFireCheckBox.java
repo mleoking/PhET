@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,7 +17,7 @@ import java.awt.*;
 
 public class AutoFireCheckBox extends JCheckBox {
     public AutoFireCheckBox( final AutoFire autoFire ) {
-        super( "Auto-Repeat" );
+        super( QWIStrings.getString( "auto.repeat" ) );
         setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         setForeground( Color.white );
         addChangeListener( new ChangeListener() {

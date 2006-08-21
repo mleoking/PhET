@@ -4,6 +4,7 @@ package edu.colorado.phet.qm;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.phetcommon.UIController;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -30,12 +31,12 @@ public class QWIOptionsMenu extends JMenu {
     private JCheckBoxMenuItem expectationValueYItem;
 
     public QWIOptionsMenu( final QWIModule qwiModule ) {
-        super( "Options" );
+        super( QWIStrings.getString( "options" ) );
         setMnemonic( 'o' );
         this.qwiModule = qwiModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 
-        expectationValueXItem = new JCheckBoxMenuItem( "Show Expectation Value <X>" );
+        expectationValueXItem = new JCheckBoxMenuItem( QWIStrings.getString( "show.expectation.value.x" ) );
         expectationValueXItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( expectationValueXItem.isSelected() );
@@ -43,7 +44,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( expectationValueXItem );
 
-        expectationValueYItem = new JCheckBoxMenuItem( "Show Expectation Value <Y>" );
+        expectationValueYItem = new JCheckBoxMenuItem( QWIStrings.getString( "show.expectation.value.y" ) );
         expectationValueYItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( expectationValueYItem.isSelected() );
@@ -51,7 +52,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
         add( expectationValueYItem );
 
-        JMenuItem item = new JMenuItem( "Resolution" );
+        JMenuItem item = new JMenuItem( QWIStrings.getString( "resolution" ) );
         final ResolutionControl resolutionControl = new ResolutionControl( qwiModule );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -80,7 +81,7 @@ public class QWIOptionsMenu extends JMenu {
         add( item );
 
         if( debug ) {
-            JMenuItem printModelParameters = new JMenuItem( "Print Model Parameter" );
+            JMenuItem printModelParameters = new JMenuItem( QWIStrings.getString( "print.model.parameter" ) );
             printModelParameters.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     printModelParameters();
@@ -90,11 +91,11 @@ public class QWIOptionsMenu extends JMenu {
         }
 
         addSeparator();
-        JMenuItem propagators = new JMenuItem( "Propagators" );
+        JMenuItem propagators = new JMenuItem( QWIStrings.getString( "propagators" ) );
         propagators.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( propagatorControlFrame == null ) {
-                    propagatorControlFrame = new JDialog( qwiModule.getPhetFrame(), "Propagators" );
+                    propagatorControlFrame = new JDialog( qwiModule.getPhetFrame(), QWIStrings.getString( "propagators" ) );
 
                     propagatorControlFrame.setContentPane( new PropagatorPanel( getDiscreteModel() ) );
                     propagatorControlFrame.pack();
@@ -106,7 +107,7 @@ public class QWIOptionsMenu extends JMenu {
         } );
 //        add( propagators );
 
-        JMenuItem ui = new JMenuItem( "UI" );
+        JMenuItem ui = new JMenuItem( QWIStrings.getString( "ui" ) );
         ui.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 UIController.showUIController();

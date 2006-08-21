@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
@@ -25,7 +26,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
 
     public SlitDetectorPanel( final IntensityModule intensityModule ) {
         this.intensityModule = intensityModule;
-        leftSlit = new JCheckBox( "Detector on Left Slit" );
+        leftSlit = new JCheckBox( QWIStrings.getString( "detector.on.left.slit" ) );
         leftSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
@@ -33,7 +34,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
         } );
         add( leftSlit );
 
-        rightSlit = new JCheckBox( "Detector on Right Slit" );
+        rightSlit = new JCheckBox( QWIStrings.getString( "detector.on.right.slit" ) );
         rightSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );

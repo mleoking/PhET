@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
@@ -40,7 +41,7 @@ public class DefaultGunParticle extends GunParticle {
 
     private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
-        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), "Velocity", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( "Lucida Sans", Font.BOLD, 12 ), Color.white ) {
+        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), QWIStrings.getString( "velocity" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( "Lucida Sans", Font.BOLD, 12 ), Color.white ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -156,14 +157,14 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public static DefaultGunParticle createElectron( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "electrons" ), "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
     }
 
     public static DefaultGunParticle createHelium( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "helium.atoms" ), "images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
     }
 
     public static DefaultGunParticle createNeutron( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "neutrons" ), "images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
     }
 }

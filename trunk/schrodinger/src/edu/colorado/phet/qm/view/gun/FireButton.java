@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -28,7 +29,8 @@ public class FireButton extends JButton {
     private FireParticle fireParticle;
 
     public FireButton( FireParticle fireParticle ) {
-        super( "Fire" );
+
+        super( QWIStrings.getString( "fire" ) );
         this.fireParticle = fireParticle;
         setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
         setForeground( Color.red );

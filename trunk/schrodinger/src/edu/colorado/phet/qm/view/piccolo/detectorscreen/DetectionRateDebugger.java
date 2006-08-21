@@ -1,6 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
+
+import java.text.MessageFormat;
+
 /**
  * User: Sam Reid
  * Date: Jul 29, 2005
@@ -26,8 +30,8 @@ public class DetectionRateDebugger {
     private void printout() {
         double elapsedSeconds = ( System.currentTimeMillis() - startTime ) / 1000.0;
         double intensity = numCounts / elapsedSeconds;
-        System.out.println( "counts=" + numCounts + ", time=" + elapsedSeconds );
-        System.out.println( "Total average Intensity=" + intensity + " particles/second" );
+        System.out.println( MessageFormat.format( QWIStrings.getResourceBundle().getString( "counts.0.time.1" ), new Object[]{new Integer( numCounts ), new Double( elapsedSeconds )} ) );
+        System.out.println( MessageFormat.format( QWIStrings.getResourceBundle().getString( "total.average.intensity.0.particles.second" ), new Object[]{new Double( intensity )} ) );
     }
 
 }

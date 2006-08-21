@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.IntensityBeam;
 import edu.colorado.phet.qm.view.gun.IntensityGunNode;
@@ -102,7 +103,7 @@ public class MandelGunSet extends IntensityGunNode {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIStrings.getString( "photons" ), "images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
 
         final IntensityBeam[] beams = new IntensityBeam[]{photonMandelBeam};

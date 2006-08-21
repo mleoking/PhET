@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.*;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.Detector;
 
 import javax.swing.*;
@@ -29,19 +30,19 @@ public class SingleParticleControlPanel extends QWIControlPanel {
 
     public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
-        AdvancedPanel potentialPanel = new AdvancedPanel( "Potential Barriers>>", "Hide Potential Barriers<<" );
+        AdvancedPanel potentialPanel = new AdvancedPanel( QWIStrings.getString( "potential.barriers" ), QWIStrings.getString( "hide.potential.barriers" ) );
         potentialPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
-        AdvancedPanel detectorPanel = new AdvancedPanel( "Detectors>>", "Detectors<<" );
+        AdvancedPanel detectorPanel = new AdvancedPanel( QWIStrings.getString( "detectors1" ), QWIStrings.getString( "detectors" ) );
         detectorPanel.addControlFullWidth( new DetectorPanel( singleParticleModule ) );
 
-        JButton createDetectorArray = new JButton( "Create Detector Array" );
+        JButton createDetectorArray = new JButton( QWIStrings.getString( "create.detector.array" ) );
         createDetectorArray.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 createDetectorArray();
             }
         } );
 
-        final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
+        final ModelSlider modelSlider = new ModelSlider( QWIStrings.getString( "dectector.prob.scale" ), "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Detector.setProbabilityScaleFudgeFactor( modelSlider.getValue() );

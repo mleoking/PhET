@@ -13,6 +13,7 @@ package edu.colorado.phet.qm.persistence;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 
 import javax.jnlp.*;
 import javax.swing.*;
@@ -116,7 +117,7 @@ public class PersistenceManager {
 
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( "Save" );
+        fileChooser.setDialogTitle( QWIStrings.getString( "save" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -128,8 +129,8 @@ public class PersistenceManager {
 
         // If the file exists, confirm overwrite.
         if( selectedFile.exists() ) {
-            String title = "Confirm";
-            String message = "Confirm save?";
+            String title = QWIStrings.getString( "confirm" );
+            String message = QWIStrings.getString( "confirm.save" );
             int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
             if( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -316,7 +317,7 @@ public class PersistenceManager {
      */
     public void showError( String format, String errorMessage ) {
         Window frame = getFrame();
-        String title = "Error";
+        String title = QWIStrings.getString( "error" );
         Object[] args = {errorMessage};
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

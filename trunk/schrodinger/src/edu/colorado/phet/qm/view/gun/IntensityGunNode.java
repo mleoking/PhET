@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.controls.IntensitySlider;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -37,7 +38,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
     private PSwing onPswing;
-    private PText onOffTextNode = new PText( "Off" );
+    private PText onOffTextNode = new PText( QWIStrings.getString( "off" ) );
 
     protected IntensitySlider getIntensitySlider() {
         return intensitySlider;
@@ -127,7 +128,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIStrings.getString( "photons" ), "images/photon-thumb.jpg" );
         IntensityBeam[] mybeams = new IntensityBeam[]{
                 new PhotonBeam( this, photon ),
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),
@@ -198,7 +199,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         if( currentBeam != null ) {
             currentBeam.setHighIntensityModeOn( on );
         }
-        onOffTextNode.setText( on ? "On" : "Off" );
+        onOffTextNode.setText( on ? QWIStrings.getString( "on" ) : QWIStrings.getString( "off" ) );
         onOffTextNode.setTextPaint( on ? Color.red : Color.black );
     }
 

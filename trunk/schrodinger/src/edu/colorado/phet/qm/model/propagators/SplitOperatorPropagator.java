@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
@@ -55,10 +56,10 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private void addDebugControls() {
-        JFrame controls = new JFrame( "SOM controls" );
+        JFrame controls = new JFrame( QWIStrings.getString( "som.controls" ) );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, scale, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( QWIStrings.getString( "scale" ), QWIStrings.getString( "1.p.2" ), 0, 0.1, scale, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScale( modelSlider.getValue() );
@@ -67,7 +68,7 @@ public class SplitOperatorPropagator extends Propagator {
         } );
 //        scale = modelSlider.getValue();
         verticalLayoutPanel.add( modelSlider );
-        final JCheckBox comp = new JCheckBox( "Show momenta" );
+        final JCheckBox comp = new JCheckBox( QWIStrings.getString( "show.momenta" ) );
         comp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 displayMomentumWavefunction = comp.isSelected();
@@ -83,7 +84,7 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private void initMomentumDisplay() {
-        momentumDisplay = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 3, 3 );
+        momentumDisplay = new WaveDebugger( QWIStrings.getString( "wave" ), new Wavefunction( 50, 50 ), 3, 3 );
         momentumDisplay.setComplexColorMap( new VisualColorMap3() );
         momentumDisplay.setVisible( true );
     }

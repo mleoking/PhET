@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
@@ -36,14 +37,14 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 //        setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
 //        setBorder( BorderFactory.createCompoundBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), BorderFactory.createBevelBorder( BevelBorder.RAISED ) ) );
         this.detectorSheetPNode = detectorSheetPNode;
-        clearButton = new JButton( "Clear" );
+        clearButton = new JButton( QWIStrings.getString( "clear" ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 detectorSheetPNode.reset();
             }
         } );
 
-        saveScreenJButton = new JButton( "Copy Screen" );
+        saveScreenJButton = new JButton( QWIStrings.getString( "copy.screen" ) );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 BufferedImage image = detectorSheetPNode.copyScreen();
@@ -53,7 +54,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1.0, 0.2, new DecimalFormat( "0.0" ) );
+        brightnessModelSlider = new ModelSlider( QWIStrings.getString( "screen.brightness" ), "", 0, 1.0, 0.2, new DecimalFormat( "0.0" ) );
         brightnessModelSlider.setTextFieldVisible( false );
 //        brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
         brightnessModelSlider.setModelTicks( new double[]{0, 0.5, 1.0} );
@@ -64,7 +65,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
         setBrightness();
 
-        fadeCheckbox = new JCheckBox( "Fade", getSchrodingerPanel().isFadeEnabled() );
+        fadeCheckbox = new JCheckBox( QWIStrings.getString( "fade" ), getSchrodingerPanel().isFadeEnabled() );
         fadeCheckbox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
@@ -77,11 +78,11 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
 
         displayPanel = new HorizontalLayoutPanel();
-        displayPanel.setBorder( BorderFactory.createTitledBorder( "Display" ) );
+        displayPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "display" ) ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( "Hits", !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
-        JRadioButton showAverage = new JRadioButton( "Average Intensity", IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showHits = new JRadioButton( QWIStrings.getString( "hits" ), !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( QWIStrings.getString( "average.intensity" ), IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
@@ -101,7 +102,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.add( showHits );
 
         HorizontalLayoutPanel screenPanel = new HorizontalLayoutPanel();
-        screenPanel.setBorder( BorderFactory.createTitledBorder( "Screen" ) );
+        screenPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen" ) ) );
         screenPanel.add( fadeCheckbox );
         screenPanel.add( clearButton );
         screenPanel.add( saveScreenJButton );

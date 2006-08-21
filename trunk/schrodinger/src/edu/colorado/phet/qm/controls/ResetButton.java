@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class ResetButton extends JButton {
     public ResetButton( final QWIModule module ) {
-        super( "Reset" );
+        super( QWIStrings.getString( "reset" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean confirm = module.confirmReset();

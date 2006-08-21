@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.math.Complex;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -17,6 +18,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -57,7 +59,7 @@ public class IntensityReader extends PComposite {
         addInputEventListener( new PDragEventHandler() );
         addChild( crosshairs );
 
-        readout = new PText( "Value=???" );
+        readout = new PText( QWIStrings.getString( "value" ) );
         readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         readout.setTextPaint( Color.blue );
         addChild( readout );
@@ -104,11 +106,11 @@ public class IntensityReader extends PComposite {
         if( simpleWavefunctionGraphic.getWavefunction().containsLocation( cellLocation.x, cellLocation.y ) ) {
             Complex value = simpleWavefunctionGraphic.getWavefunction().valueAt( cellLocation.x, cellLocation.y );
 //        readout.setText( "Location=" + location + ", bounds=" + simpleWavefunctionGraphic.getFullBounds() );
-            readout.setText( "Magnitude=" + new DecimalFormat( "0.00" ).format( value.abs() ) );
+            readout.setText( MessageFormat.format( QWIStrings.getResourceBundle().getString( "magnitude.0" ), new Object[]{new DecimalFormat( "0.00" ).format( value.abs() )} ) );
             stripChartJFCNode.addValue( time++, value.abs() );
         }
         else {
-            readout.setText( "Location=" + cellLocation );
+            readout.setText( MessageFormat.format( QWIStrings.getResourceBundle().getString( "location.0" ), new Object[]{cellLocation} ) );
         }
 
 //        textBackground.setPathTo( new Rectangle2D.Double( 0,0,readout.getFullBounds().getWidth(), readout.getFullBounds().getHeight() ) );

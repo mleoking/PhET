@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
@@ -16,7 +17,7 @@ public class MandelSchrodingerScreenNode extends QWIScreenNode {
 
     public MandelSchrodingerScreenNode( MandelModule module, QWIPanel QWIPanel ) {
         super( module, QWIPanel );
-        getDetectorSheetPNode().setTitle( "Black & White Screen" );
+        getDetectorSheetPNode().setTitle( QWIStrings.getString( "black.white.screen" ) );
         this.mandelModule = module;
     }
 
