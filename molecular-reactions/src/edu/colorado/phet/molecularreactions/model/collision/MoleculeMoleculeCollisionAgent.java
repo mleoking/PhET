@@ -125,10 +125,14 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // If the total energy is sufficient, create a compound molecule
+        // If the total energy is sufficient,
+        // the bodies are simple molecules,
+        // and they are of different types (two of the same types can't combine)
+        // create a compound molecule
         if( totalEnergy0 > reactionThreshold
-            && bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
-            Molecule[] ma = new Molecule[]{ (Molecule)bodyA,(Molecule)bodyB};
+            && bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule
+            && bodyA.getClass() != bodyB.getClass() ) {
+            Molecule[] ma = new Molecule[]{(Molecule)bodyA, (Molecule)bodyB};
             CompoundMolecule compoundMolecule = new CompoundMolecule( ma );
             model.removeModelElement( bodyA );
             model.removeModelElement( bodyB );
@@ -137,8 +141,8 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),
-                                           collisionPt.getY() - bodyA.getPosition().getY());
-        Vector2D r2 = new Vector2D.Double(  collisionPt.getX() - bodyB.getPosition().getX(),
+                                           collisionPt.getY() - bodyA.getPosition().getY() );
+        Vector2D r2 = new Vector2D.Double( collisionPt.getX() - bodyB.getPosition().getX(),
                                            collisionPt.getY() - bodyB.getPosition().getY() );
 
         // Get the unit vector along the line of action
