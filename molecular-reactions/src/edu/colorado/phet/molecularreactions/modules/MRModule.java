@@ -36,6 +36,10 @@ public class MRModule extends Module {
 
         // Create the model
         MRModel model = new MRModel( getClock() );
+        setModel( model );
+
+        // create the control panel
+        setControlPanel( new TestControlPanel( this ) );
 
         // Create the basic graphics
         PhetPCanvas canvas = new PhetPCanvas( size );

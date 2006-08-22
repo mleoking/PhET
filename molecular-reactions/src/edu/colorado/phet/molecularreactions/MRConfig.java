@@ -27,5 +27,5 @@ public class MRConfig {
     public static boolean DEBUG;
 
     // Model constants
-    public static double REACTION_THRESHOLD = 1E6;
+    public static double REACTION_THRESHOLD = 7E3;
 }

@@ -27,7 +27,7 @@ public class MRApplication extends PhetApplication {
         super( args, SimStrings.get( "Application.title" ),
                SimStrings.get( "Application.description" ),
                MRConfig.VERSION,
-               new FrameSetup.CenteredWithSize( 800, 600 ) );
+               new FrameSetup.CenteredWithSize( 1000, 600 ) );
 
         addModule( new MRModule() );
     }

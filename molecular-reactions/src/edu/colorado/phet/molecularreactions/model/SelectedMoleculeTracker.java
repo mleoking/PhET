@@ -21,7 +21,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class SelectedMoleculeTracker implements ModelElement,
-                                                MRModel.ModelListener,
+                                                PublishingModel.ModelListener,
                                                 SimpleMolecule.Listener{
     private MRModel model;
     private SimpleMolecule moleculeTracked;
