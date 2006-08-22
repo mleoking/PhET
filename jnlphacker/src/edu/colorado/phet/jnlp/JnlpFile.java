@@ -75,8 +75,8 @@ public class JnlpFile {
     }
 
     public String toString() {
-//        XMLOutputter xmlOutputter = new XMLOutputter();
-        XMLOutputter xmlOutputter = new XMLOutputter( "", true );
+        XMLOutputter xmlOutputter = new XMLOutputter();
+//        XMLOutputter xmlOutputter = new XMLOutputter( "", true );
 //        xmlOutputter.setLineSeparator( "\n" );
         return xmlOutputter.outputString( jdomDoc );
     }
@@ -108,6 +108,19 @@ public class JnlpFile {
 
     public void setCodebase( String codebase ) {
         getJdomDoc().getRootElement().getAttribute( "codebase" ).setValue( codebase );
+    }
+
+    public String getHomepage() {
+        String homepage = null;
+        Element homepageElem = getJdomDoc().getRootElement().getChild("information").getChild( "homepage" );
+        if( homepageElem != null ) {
+            homepage = homepageElem.getValue();
+        }
+        return homepage;
+    }
+
+    public void setHomepage( String homepage ) {
+        getJdomDoc().getRootElement().getChild("information").getChild( "homepage" ).getAttribute( "href").setValue( homepage ).setValue( homepage );
     }
 
     public void setJnlpUrl( String url ) {
