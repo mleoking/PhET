@@ -41,6 +41,8 @@ public class TestControlPanel extends JPanel {
                                                              0,
                                                              MRConfig.REACTION_THRESHOLD * 2,
                                                              model.getReactionThresholdEnergy() );
+        thresholdEnergySlider.setNumMajorTicks( 0 );
+        thresholdEnergySlider.setNumMinorTicks( 0 );
         thresholdEnergySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setReactionThresholdEnergy( thresholdEnergySlider.getValue());
