@@ -1,3 +1,6 @@
+1.02.02 (8-21-2006)
+Bugfix: Spark wiggles while paused.
+
 1.02.01 (8-21-2006)
 Fixed spanish version.
 
