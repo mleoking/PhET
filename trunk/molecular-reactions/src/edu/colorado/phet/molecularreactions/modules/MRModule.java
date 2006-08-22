@@ -52,7 +52,7 @@ public class MRModule extends Module {
 
         // Create energy view
         EnergyView energyView = new EnergyView( model );
-        energyView.setOffset( 400, 100 );
+        energyView.setOffset( 400, 20 );
         canvas.addScreenChild( energyView );
 
         // Test
