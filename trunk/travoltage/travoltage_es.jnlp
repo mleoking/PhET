@@ -17,7 +17,7 @@ information.
 <jnlp
         spec="1.0+"
         codebase="http://www.colorado.edu/physics/phet/dev/"
-        href="travoltage/@VERSION@/travoltage.jnlp">
+        href="travoltage/@VERSION@/travoltage_es.jnlp">
     <information>
         <title>John Travoltage</title>
         <vendor>PhET(tm)</vendor>
@@ -32,5 +32,7 @@ information.
         <j2se version="1.4+"/>
         <jar href="travoltage/@VERSION@/travoltage-pro.jar"/>
     </resources>
-    <application-desc main-class="@MAIN-CLASS@"/>
+    <application-desc main-class="@MAIN-CLASS@">
+        <argument>user.language=es</argument>
+    </application-desc>
 </jnlp>

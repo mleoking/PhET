@@ -1,3 +1,6 @@
+1.02.01 (8-21-2006)
+Fixed spanish version.
+
 1.01.01 (7-10-2006)
 Changed the initial help text.
 Changed the default arm angle.
