@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
@@ -19,6 +20,7 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.util.List;
+import java.util.EventListener;
 import java.awt.geom.Point2D;
 
 /**
@@ -29,6 +31,7 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
+    private double reactionThresholdEnergy = MRConfig.REACTION_THRESHOLD;
 
     public MRModel( IClock clock ) {
         super( clock );
@@ -44,14 +47,45 @@ public class MRModel extends PublishingModel {
 
         // Add an agent that will track the simple molecule that's closest to the selected
         // molecule
-        addModelElement( new SelectedMoleculeTracker( this ));
+        addModelElement( new SelectedMoleculeTracker( this ) );
+    }
+
+    public double getReactionThresholdEnergy() {
+        return reactionThresholdEnergy;
+    }
+
+    public void setReactionThresholdEnergy( double reactionThresholdEnergy ) {
+        this.reactionThresholdEnergy = reactionThresholdEnergy;
+        modelListenerProxy.reactionThresholdChanged( this );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface ModelListener extends EventListener {
+        void reactionThresholdChanged( MRModel model );
+    }
+    private EventChannel modelEventChannel = new EventChannel( ModelListener.class );
+    private ModelListener modelListenerProxy = (ModelListener)modelEventChannel.getListenerProxy();
+
+    public void addListener( ModelListener listener ) {
+        modelEventChannel.addListener( listener );
+    }
+
+    public void removeListener( ModelListener listener ) {
+        modelEventChannel.removeListener( listener );
     }
 
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
     private class CollisionAgent implements ModelElement {
         SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
-        MoleculeMoleculeCollisionAgent moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( MRConfig.REACTION_THRESHOLD);
-        MoleculeBoxCollisionAgent  moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
+        MoleculeMoleculeCollisionAgent moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( MRModel.this );
+        MoleculeBoxCollisionAgent moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
 
         public void stepInTime( double dt ) {
             List modelElements = getModelElements();

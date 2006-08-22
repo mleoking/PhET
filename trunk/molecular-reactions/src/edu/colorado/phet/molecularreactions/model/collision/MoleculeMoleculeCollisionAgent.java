@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
@@ -26,7 +27,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeMoleculeCollisionAgent {
+public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
@@ -37,8 +38,9 @@ public class MoleculeMoleculeCollisionAgent {
 
     private double reactionThreshold;
 
-    public MoleculeMoleculeCollisionAgent( double reactionThreshold ) {
-        this.reactionThreshold = reactionThreshold;
+    public MoleculeMoleculeCollisionAgent( MRModel model ) {
+        this.reactionThreshold = model.getReactionThresholdEnergy();
+        model.addListener( this );
     }
 
     /**
@@ -222,5 +224,21 @@ public class MoleculeMoleculeCollisionAgent {
         public Point2D.Double getCollisionPt() {
             return collisionPt;
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of MRModel.ModelListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void reactionThresholdChanged( MRModel model ) {
+        this.reactionThreshold = model.getReactionThresholdEnergy();
+    }
+
+    public void modelElementAdded( ModelElement element ) {
+        // noop
+    }
+
+    public void modelElementRemoved( ModelElement element ) {
+        // noop
     }
 }

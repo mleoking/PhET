@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.molecularreactions.model.PublishingModel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -31,7 +32,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyView extends PNode implements MRModel.ModelListener, SimpleMolecule.Listener {
+public class EnergyView extends PNode implements PublishingModel.ModelListener, SimpleMolecule.Listener {
     private Dimension size = new Dimension( 300, 300 );
     private Color backgroundColor = Color.black;
     private Color curveColor = Color.cyan;
