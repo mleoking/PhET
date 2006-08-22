@@ -1,3 +1,6 @@
+3.02.01 (8-21-2006)
+Renamed "sp" to "es" for internationalization.
+
 3.01.12
 Added "(DC & AC)" to the title.
 
