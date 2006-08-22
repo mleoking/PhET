@@ -70,7 +70,7 @@ public class TravoltageRootNode extends PNode {
 //        } );
 
         double angle = Math.PI / 3.8;
-        sparkNode = new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6 );
+        sparkNode = new SparkNode( getArmNode(), getDoorknobNode(), angle, 4, 6, travoltageModule.getClock() );
         travoltageModel.addListener( new TravoltageModel.Listener() {
             public void sparkStarted() {
 //                sparkNode.setVisible( true );

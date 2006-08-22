@@ -1,14 +1,14 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.Vector;
@@ -26,25 +26,34 @@ public class SparkNode extends PNode {
     private double maxDTheta;
     private Random random;
     private double threshold;
+    private IClock clock;
     private ArmNode armNode;
     private DoorknobNode doorknobNode;
     private double segLength;
 
-    public SparkNode( ArmNode armNode, DoorknobNode doorknobNode, double maxDTheta, double threshold, double segLength ) {
+    public SparkNode( ArmNode armNode, DoorknobNode doorknobNode, double maxDTheta, double threshold, double segLength, final IClock clock ) {
         this.armNode = armNode;
         this.doorknobNode = doorknobNode;
         this.segLength = segLength;
         this.maxDTheta = maxDTheta;
         this.threshold = threshold;
+        this.clock = clock;
         this.random = new Random();
         this.sink = doorknobNode.getGlobalKnobPoint();
         updateSource();
-        Timer timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
                 update();
             }
         } );
-        timer.start();
+//        Timer timer = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if( !clock.isPaused() ) {
+//                    update();
+//                }
+//            }
+//        } );
+//        timer.start();
         armNode.addListener( new LimbNode.Listener() {
             public void limbRotated() {
                 updateSource();
