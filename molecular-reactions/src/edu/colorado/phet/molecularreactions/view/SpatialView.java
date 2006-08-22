@@ -37,7 +37,7 @@ public class SpatialView extends PNode {
     PNode boxLayer = new PNode();
 
     public SpatialView( MRModel model ) {
-        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 300), new BasicStroke( 1 ));
+        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 400), new BasicStroke( 1 ));
         canvas.setPaint( background );
         addChild( canvas );
 
