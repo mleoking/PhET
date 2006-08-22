@@ -31,6 +31,10 @@ public class Box2D extends Body implements Collidable {
     private double minimumWidth = 100;
     private CollidableAdapter collidableAdapter = new CollidableAdapter( this );
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
+    // This is something that is probably left over from the far past of the Ideal Gas sim.
+    // Rather than break things, I've added it as a constructor parameter so you can make it 0.
+    // See setState()
+    private double width0 = 40;
 
     public Box2D() {
         this( new Point2D.Double(), new Point2D.Double() );
@@ -38,6 +42,13 @@ public class Box2D extends Body implements Collidable {
 
     public Box2D( Point2D corner1, Point2D corner2 ) {
         super();
+        this.setState( corner1, corner2 );
+        setMass( Double.POSITIVE_INFINITY );
+    }
+
+    public Box2D( Point2D corner1, Point2D corner2, double width0 ) {
+        super();
+        this.width0 = width0;
         this.setState( corner1, corner2 );
         setMass( Double.POSITIVE_INFINITY );
     }
@@ -72,7 +83,7 @@ public class Box2D extends Body implements Collidable {
         this.corner2 = corner2;
         maxX = Math.max( corner1.getX(), corner2.getX() );
         maxY = Math.max( corner1.getY(), corner2.getY() );
-        minX = Math.max( Math.min( Math.min( corner1.getX(), corner2.getX() ), maxX - minimumWidth ), 40 );
+        minX = Math.max( Math.min( Math.min( corner1.getX(), corner2.getX() ), maxX - minimumWidth ), width0 );
         minY = Math.min( corner1.getY(), corner2.getY() );
         center = new Point2D.Double( ( this.maxX + this.minX ) / 2,
                                      ( this.maxY + this.minY ) / 2 );

@@ -1,9 +1,12 @@
+====
+Bugs
+====
+- Energy view shows molecules spearated by the dist between their CMs. It
+    should show distance between edgges of molecules.
+
+- Only molecules of different type should be able to combine.
 
 
 ==============
 Model features
 ==============
-CompoundMolecule needs to set the velocity of its components, and the
-collision agents need to consider the velocity of the components in collision
-detection, not the velocity of the composite. Alternatively, the collision detection
-could just rely on containment

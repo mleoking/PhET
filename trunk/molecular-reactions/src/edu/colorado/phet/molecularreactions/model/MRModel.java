@@ -37,8 +37,9 @@ public class MRModel extends PublishingModel {
         super( clock );
 
         // Add a box
-        box = new Box2D( new Point2D.Double( 50, 50 ),
-                         new Point2D.Double( 250, 250 ) );
+        box = new Box2D( new Point2D.Double( 30, 30 ),
+                         new Point2D.Double( 250, 350 ),
+                         0 );
         addModelElement( box );
 
         // Create collisions agents that will detect and handle collisions between molecules,
