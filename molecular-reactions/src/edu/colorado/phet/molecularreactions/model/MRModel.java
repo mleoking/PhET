@@ -25,6 +25,13 @@ import java.awt.geom.Point2D;
 
 /**
  * MRModel
+ * <p>
+ * The model for molecular reactions
+ * <p>
+ * Notes:
+ * <p>
+ * When a molecule becomes part of a compound molecule, it is taken out of the model.
+ * That means it doesn't get clock ticks or show up in the getModelElements() list.
  *
  * @author Ron LeMaster
  * @version $Revision$

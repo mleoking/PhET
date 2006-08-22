@@ -125,10 +125,9 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // If the total energy is sufficient,
+        // Create a compound molecule if the total energy is sufficient,
         // the bodies are simple molecules,
         // and they are of different types (two of the same types can't combine)
-        // create a compound molecule
         if( totalEnergy0 > reactionThreshold
             && bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule
             && bodyA.getClass() != bodyB.getClass() ) {

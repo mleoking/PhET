@@ -34,13 +34,15 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class EnergyView extends PNode implements PublishingModel.ModelListener, SimpleMolecule.Listener {
-    private Dimension size = new Dimension( 300, 300 );
-    private Color backgroundColor = Color.black;
+
+    private int width = 300;
+    private Dimension moleculePaneSize = new Dimension( 150, width );
+    private Dimension curvePaneSize = new Dimension( 300, width );
+    private Color moleculePaneBackgroundColor = new Color( 240, 230, 180 );
+    private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;
 
     private PNode moleculeLayer = new PNode();
-    private PNode curveLayer = new PNode();
-    private PNode cursorLayer = new PNode();
 
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;
@@ -53,40 +55,74 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     /**
      *
      */
-    public EnergyView( MRModel model) {
-        PPath background = new PPath( new Rectangle2D.Double( 0, 0,
-                                                              size.getWidth(),
-                                                              size.getHeight() ) );
-        background.setPaint( backgroundColor );
+    public EnergyView( MRModel model ) {
 
-        addChild( background );
-        addChild( moleculeLayer );
-        addChild( curveLayer );
-        addChild( cursorLayer );
+        // The pane that has the molecules
+        PPath moleculePane = createMoleculePane();
+        addChild( createMoleculePane() );
 
-        // Create the curve
-        EnergyCurve energyCurve = new EnergyCurve( size.getWidth(), curveColor );
-        energyCurve.setLeftLevel( 250 );
-        energyCurve.setRightLevel( 200 );
-        energyCurve.setPeakLevel( 100 );
-        curveLayer.addChild( energyCurve );
-
-        // Create the cursor
-        cursor = new Cursor( background.getHeight() - cursorInsets.top - cursorInsets.bottom );
-        cursorLayer.addChild( cursor );
+        // The pane that has the curve and cursor
+        PPath curvePane = createCurvePane( moleculePane );
+        addChild( curvePane );
 
         model.addListener( this );
         model.addModelElement( new MoleculeTracker() );
         update();
     }
 
+    /**
+     * Creates the pane that has the energy curve and cursor
+     *
+     * @param moleculePane
+     * @return a PNode
+     */
+    private PPath createCurvePane( PPath moleculePane ) {
+        PNode curveLayer = new PNode();
+        PNode cursorLayer = new PNode();
+        PPath curvePane = new PPath( new Rectangle2D.Double( 0, 0,
+                                                             curvePaneSize.getWidth(),
+                                                             curvePaneSize.getHeight() ) );
+        curvePane.setOffset( 0, moleculePane.getHeight() );
+        curvePane.setPaint( energyPaneBackgroundColor );
+
+        curvePane.addChild( curveLayer );
+        curvePane.addChild( cursorLayer );
+
+        // Create the curve
+        EnergyCurve energyCurve = new EnergyCurve( curvePaneSize.getWidth(), curveColor );
+        energyCurve.setLeftLevel( 250 );
+        energyCurve.setRightLevel( 200 );
+        energyCurve.setPeakLevel( 100 );
+        curveLayer.addChild( energyCurve );
+
+        // Create the cursor
+        cursor = new Cursor( curvePane.getHeight() - cursorInsets.top - cursorInsets.bottom );
+        cursorLayer.addChild( cursor );
+
+        return curvePane;
+    }
+
+    /**
+     * Creates the pane that shows the molecules
+     *
+     * @return a PNode
+     */
+    private PPath createMoleculePane() {
+        PPath moleculePane = new PPath( new Rectangle2D.Double( 0, 0,
+                                                                moleculePaneSize.getHeight(),
+                                                                moleculePaneSize.getWidth() ) );
+        moleculePane.setPaint( moleculePaneBackgroundColor );
+        moleculePane.addChild( moleculeLayer );
+        return moleculePane;
+    }
+
     private void update() {
-        if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null) {
+        if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
             double dist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double maxSeparation = 100;
             double yOffset = 20;
             double xOffset = 20;
-            double x = Math.max( xOffset, size.getWidth() / 2 - dist );
+            double x = Math.max( xOffset, curvePaneSize.getWidth() / 2 - dist );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
             double yMin = midPoint.getY() - Math.min( dist, maxSeparation ) / 2;
             double yMax = midPoint.getY() + Math.min( dist, maxSeparation ) / 2;
@@ -104,7 +140,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         else if( nearestToSelectedMoleculeGraphic != null ) {
             nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
         }
-
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -114,11 +149,11 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         private double width = 10;
 
         Cursor( double height ) {
-            Rectangle2D cursorShape = new Rectangle2D.Double(0,0, width, height );
+            Rectangle2D cursorShape = new Rectangle2D.Double( 0, 0, width, height );
             PPath cursorPPath = new PPath( cursorShape );
-            cursorPPath.setStroke( new BasicStroke( 1 ));
-            cursorPPath.setStrokePaint( new Color( 200, 200, 200 ));
-            cursorPPath.setPaint( new Color( 200, 200, 200, 200 ));
+            cursorPPath.setStroke( new BasicStroke( 1 ) );
+            cursorPPath.setStrokePaint( new Color( 200, 200, 200 ) );
+            cursorPPath.setPaint( new Color( 200, 200, 200, 200 ) );
             addChild( cursorPPath );
 
             setRegistrationPoint( width / 2, 0 );
