@@ -25,11 +25,11 @@ import java.awt.geom.Point2D;
 
 /**
  * MRModel
- * <p>
+ * <p/>
  * The model for molecular reactions
- * <p>
+ * <p/>
  * Notes:
- * <p>
+ * <p/>
  * When a molecule becomes part of a composite molecule, it is taken out of the model.
  * That means it doesn't get clock ticks or show up in the getModelElements() list.
  *
@@ -73,6 +73,7 @@ public class MRModel extends PublishingModel {
     public interface ModelListener extends EventListener {
         void reactionThresholdChanged( MRModel model );
     }
+
     private EventChannel modelEventChannel = new EventChannel( ModelListener.class );
     private ModelListener modelListenerProxy = (ModelListener)modelEventChannel.getListenerProxy();
 
@@ -83,8 +84,6 @@ public class MRModel extends PublishingModel {
     public void removeListener( ModelListener listener ) {
         modelEventChannel.removeListener( listener );
     }
-
-
 
     //--------------------------------------------------------------------------------------------------
     // Inner classes
@@ -99,14 +98,24 @@ public class MRModel extends PublishingModel {
             List modelElements = getModelElements();
             for( int i = modelElements.size() - 1; i >= 0; i-- ) {
                 Object o = modelElements.get( i );
+
+                // Checkevery Molecule that is not part of a large CompositeMolecule
                 if( o instanceof Molecule ) {
-                    for( int j = modelElements.size() - 1; j >= 0; j-- ) {
-                        Object o2 = modelElements.get( j );
-                        if( o2 instanceof Molecule && o2 != o ) {
-                            moleculeMoleculeCollisionAgent.detectAndDoCollision( MRModel.this, (Molecule)o, (Molecule)o2 );
+                    Molecule moleculeA = (Molecule)o;
+                    if( !moleculeA.isPartOfComposite() ) {
+                        for( int j = modelElements.size() - 1; j >= 0; j-- ) {
+                            Object o2 = modelElements.get( j );
+                            if( o2 instanceof Molecule ) {
+                                Molecule moleculeB = (Molecule)o2;
+                                if( !moleculeB.isPartOfComposite() && moleculeA != moleculeB ) {
+                                    moleculeMoleculeCollisionAgent.detectAndDoCollision( MRModel.this,
+                                                                                         moleculeA,
+                                                                                         moleculeB );
+                                }
+                            }
                         }
+                        moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
                     }
-                    moleculeBoxCollisionAgent.detectAndDoCollision( (Molecule)o, box );
                 }
             }
         }
