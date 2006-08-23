@@ -96,4 +96,10 @@ public class ExpandableScreenChartGraphic extends PNode {
             screenChart.updateChart();
         }
     }
+
+    public void reset() {
+        setExpanded( false );
+        updateChart();
+        updateLocation();
+    }
 }
