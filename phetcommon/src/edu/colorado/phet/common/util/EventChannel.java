@@ -194,12 +194,12 @@ public class EventChannel implements InvocationHandler {
             // If anyone tried to add or remove a listener while we were invoking
             // targets, add/remove them now
             if( !listenersToAdd.isEmpty() ) {
-                System.out.println( "listenersToAdd = " + listenersToAdd.size() );
+//                System.out.println( "listenersToAdd = " + listenersToAdd.size() );
                 targets.addAll( listenersToAdd );
                 listenersToAdd.clear();
             }
             if( !listenersToRemove.isEmpty() ) {
-                System.out.println( "listenersToRemove = " + listenersToRemove.size() );
+//                System.out.println( "listenersToRemove = " + listenersToRemove.size() );
                 targets.removeAll( listenersToRemove );
                 listenersToRemove.clear();
             }
