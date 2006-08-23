@@ -59,6 +59,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
             public void viewChanged() {
                 updateRotationGlyphColor();
             }
+
+            public void viewTypeChanged() {
+            }
         } );
 
 //        addScreenChild( soundWaveGraphic );//todo unnecessary when rotation graphic is in place.
@@ -105,6 +108,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         soundWaveGraphic.addListener( new SoundWaveGraphic.Listener() {
             public void viewChanged() {
                 crossSectionGraphic.setColor( soundWaveGraphic.isParticleVisible() ? Color.white : Color.black );
+            }
+
+            public void viewTypeChanged() {
             }
         } );
         addScreenChild( crossSectionGraphic );
@@ -235,5 +241,6 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableWaveChart.reset();
         multiOscillator.reset();
         measurementToolSet.reset();
+        soundWaveGraphic.reset();
     }
 }

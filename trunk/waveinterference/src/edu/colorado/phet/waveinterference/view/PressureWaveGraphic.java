@@ -229,6 +229,13 @@ public class PressureWaveGraphic extends PNode {
         updateBounds();
     }
 
+    public void reset() {
+        for( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle)particles.get( i );
+            particle.reset();
+        }
+    }
+
     public class Particle extends PImage {
         private int homeX;
         private int homeY;
@@ -253,6 +260,10 @@ public class PressureWaveGraphic extends PNode {
             return new Point( homeX, homeY );
         }
 
+        public void reset() {
+            this.velocity.setComponents( 0, 0 );
+            this.setOffset( homeX * spacingBetweenCells, homeY * spacingBetweenCells );
+        }
 //        public void updateBounds() {
 //            a=homeX*latticeScreenCoordinates.getCellWidth();
 //            b=homeY*latticeScreenCoordinates.getCellWidth();

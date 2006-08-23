@@ -60,6 +60,16 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
             }
         } );
         add( spacingSlider );
+
+        multiOscillator.addListener( new MultiOscillator.Listener() {
+            public void multiOscillatorChanged() {
+                spacingSlider.setValue( multiOscillator.getSpacing() );
+                oneDrip.setSelected( multiOscillator.isOneSource() );
+                twoDrips.setSelected( multiOscillator.isTwoSource() );
+                updateSpacingSlider();
+            }
+        } );
+
         updateSpacingSlider();
     }
 
