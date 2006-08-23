@@ -3,6 +3,9 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.waveinterference.util.WIStrings;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -19,4 +22,14 @@ public class WaveInterferenceModule extends PiccoloModule {
         setSimulationPanel( phetPCanvas );
     }
 
+    public void queryResetAll() {
+        int result = JOptionPane.showConfirmDialog( getSimulationPanel(), WIStrings.getString( "sure.to.reset.all" ) );
+        if( result == JOptionPane.OK_OPTION ) {
+            resetAll();
+        }
+    }
+
+    public void resetAll() {
+
+    }
 }

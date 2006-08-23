@@ -12,6 +12,9 @@ import edu.colorado.phet.common.view.ControlPanel;
 
 public class WaveInterferenceControlPanel extends ControlPanel {
     public WaveInterferenceControlPanel() {
+    }
 
+    public void addVerticalSpace() {
+        addControlFullWidth( new VerticalSeparator() );
     }
 }
