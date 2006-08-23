@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.waveinterference.Resettable;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 /**
  * Colors the wave area black if the wave hasn't propagated there yet.
  */
-public class PhotonEmissionColorMap implements ColorMap {
+public class PhotonEmissionColorMap implements ColorMap, Resettable {
     private WaveModel lattice;
     private boolean[][] inited;
     private Color color;
@@ -61,5 +62,13 @@ public class PhotonEmissionColorMap implements ColorMap {
 
     public void setDark( int i, int k ) {
         inited[i][k] = false;
+    }
+
+    public void reset() {
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int k = 0; k < getHeight(); k++ ) {
+                setDark( i, k );
+            }
+        }
     }
 }
