@@ -11,6 +11,8 @@ import edu.colorado.phet.common.view.ControlPanel;
  */
 
 public class WaveInterferenceControlPanel extends ControlPanel {
+    public static final int PAD_FOR_RESET_BUTTON = 5;
+
     public WaveInterferenceControlPanel() {
     }
 

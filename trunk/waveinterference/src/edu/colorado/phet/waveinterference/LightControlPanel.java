@@ -21,9 +21,10 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         this.lightModule = lightModule;
         addControl( new MeasurementControlPanel( lightModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( WIStrings.getString( "e.field" ), lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
-        addVerticalSpace();
+
+        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
         addControl( new ResetModuleControl( lightModule ) );
-        addVerticalSpace();
+        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addVerticalSpace();

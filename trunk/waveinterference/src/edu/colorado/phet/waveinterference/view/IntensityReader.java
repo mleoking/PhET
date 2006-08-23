@@ -33,9 +33,10 @@ public class IntensityReader extends PhetPNode {
     private CrosshairGraphic crosshairGraphic;
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
-    private boolean detached = false;
+    private boolean detached = true;
     private Vector2D originalDisplacement;
     private boolean constrainedToMidline = false;
+    private boolean allowAttachment = false;
 
     public IntensityReader( String title, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.waveModel = waveModel;
@@ -221,9 +222,11 @@ public class IntensityReader extends PhetPNode {
     }
 
     private void attachCrosshair() {
-        detached = false;
-        crosshairGraphic.setOffset( stripChartJFCNode.getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
-                                    stripChartJFCNode.getFullBounds().getCenterY() + originalDisplacement.getY() );
+        if( allowAttachment ) {
+            detached = false;
+            crosshairGraphic.setOffset( stripChartJFCNode.getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
+                                        stripChartJFCNode.getFullBounds().getCenterY() + originalDisplacement.getY() );
+        }
     }
 
     private void detachCrosshair() {

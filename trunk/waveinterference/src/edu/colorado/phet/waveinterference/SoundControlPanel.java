@@ -24,10 +24,10 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( WIStrings.getString( "pressure" ), soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
-        addVerticalSpace();
 
-        addControl( new ResetModuleControl( this.soundModule ) );
-        addVerticalSpace();
+        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
+        addControl( new ResetModuleControl( soundModule ) );
+        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
         addControl( new WaveRotateControl3D( soundModule.getWaveInterferenceModel(), soundModule.getRotationWaveGraphic() ) );
         addVerticalSpace();
