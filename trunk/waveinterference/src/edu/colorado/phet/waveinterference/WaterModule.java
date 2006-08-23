@@ -98,6 +98,6 @@ public class WaterModule extends WaveInterferenceModule {
 
     public void resetAll() {
         super.resetAll();
-        getWaveModel().clear();
+        getWaveInterferenceModel().reset();
     }
 }
