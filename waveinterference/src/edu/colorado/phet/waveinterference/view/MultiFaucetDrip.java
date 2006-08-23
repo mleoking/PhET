@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class MultiFaucetDrip {//todo should this extend pnode, with primary & secondary as children?
-    boolean twoDrips;
+    private boolean twoDrips;
     private double spacing = 10;
     private WaveModel waveModel;
     private FaucetGraphic primary;

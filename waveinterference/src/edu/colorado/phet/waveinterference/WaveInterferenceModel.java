@@ -21,7 +21,6 @@ public class WaveInterferenceModel implements ModelElement {
     private Oscillator primaryOscillator;
     private Oscillator secondaryOscillator;
 
-//    private static final double startTime = System.currentTimeMillis() / 1000.0;
     private double time = 0.0;
     private ArrayList listeners = new ArrayList();
 
@@ -29,12 +28,10 @@ public class WaveInterferenceModel implements ModelElement {
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
-//        waveModel = new WaveModel( 120,120);
         slitPotential = new SlitPotential( waveModel );
         primaryOscillator = new Oscillator( waveModel );
         secondaryOscillator = new Oscillator( waveModel );
-        secondaryOscillator.setEnabled( false );
-        secondaryOscillator.setLocation( 10, 10 );
+        initSecondaryOscillator();
         waveModel.setPotential( slitPotential );
         slitPotential.addListener( new SlitPotential.Listener() {
             public void slitsChanged() {
@@ -55,6 +52,11 @@ public class WaveInterferenceModel implements ModelElement {
             public void amplitudeChanged() {
             }
         } );
+    }
+
+    private void initSecondaryOscillator() {
+        secondaryOscillator.setEnabled( false );
+        secondaryOscillator.setLocation( 10, 10 );
     }
 
     public void setDistanceUnits( String distanceUnits ) {
@@ -100,6 +102,14 @@ public class WaveInterferenceModel implements ModelElement {
     public void reset() {
         waveModel.clear();
         slitPotential.reset();
+        time = 0;
+        primaryOscillator.reset();
+        secondaryOscillator.reset();
+    }
+
+    public void setInitialConditions() {
+        primaryOscillator.saveState();
+        secondaryOscillator.saveState();
     }
 
     public static interface Listener {

@@ -21,6 +21,11 @@ public class Oscillator {
     private double time;
     private boolean enabled = true;
     private ArrayList listeners = new ArrayList();
+    private Oscillator prototype;
+
+    private Oscillator( WaveModel waveModel, boolean prototype ) {
+        this( waveModel );
+    }
 
     public Oscillator( WaveModel waveModel ) {
         this( waveModel, 8, waveModel.getHeight() / 2 );
@@ -28,8 +33,7 @@ public class Oscillator {
 
     public Oscillator( WaveModel waveModel, int x, int y ) {
         this.waveModel = waveModel;
-        this.x = x;
-        this.y = y;
+        setLocation( x, y );
     }
 
     public void setTime( double t ) {
@@ -141,6 +145,26 @@ public class Oscillator {
 
     public Point2D getCenter() {
         return new Point2D.Double( getCenterX(), getCenterY() );
+    }
+
+    public void reset() {
+        setAmplitude( prototype.getAmplitude() );
+        setEnabled( prototype.isEnabled() );
+        setFrequency( prototype.getFrequency() );
+        setLocation( prototype.getCenterX(), prototype.getCenterY() );
+        setPeriod( prototype.getPeriod() );
+        setRadius( prototype.getRadius() );
+        setTime( prototype.getTime() );
+    }
+
+    public void saveState() {//for initial conditions.
+        this.prototype = new Oscillator( waveModel, true );
+        this.prototype.setAmplitude( getAmplitude() );
+        this.prototype.setEnabled( isEnabled() );
+        this.prototype.setFrequency( getFrequency() );
+        this.prototype.setLocation( getCenterX(), getCenterY() );
+        this.prototype.setPeriod( getPeriod() );
+        this.prototype.setTime( time );
     }
 
     public static interface Listener {

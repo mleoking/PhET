@@ -63,6 +63,8 @@ public class SoundModule extends WaveInterferenceModule {
 
         setSimulationPanel( soundSimulationPanel );
         setControlPanel( soundControlPanel );
+
+        waveInterferenceModel.setInitialConditions();
     }
 
     public WaveModel getWaveModel() {
@@ -119,6 +121,6 @@ public class SoundModule extends WaveInterferenceModule {
 
     public void resetAll() {
         super.resetAll();
-        getWaveModel().clear();
+        getWaveInterferenceModel().reset();
     }
 }
