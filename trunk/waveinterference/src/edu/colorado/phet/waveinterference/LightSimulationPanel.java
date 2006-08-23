@@ -263,4 +263,27 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     public WaveInterferenceScreenUnits getScreenUnits() {
         return screenUnits;
     }
+
+    public void reset() {
+        rotationWaveGraphic.reset();
+        primaryLaserGraphic.reset();
+        secondaryLaserGraphic.reset();
+        intensityReaderSet.reset();
+        expandableWaveChart.reset();
+        multiOscillator.reset();
+        measurementToolSet.reset();
+        darkWave.reset();
+        if( waveModelGraphic.getColorMap() instanceof Resettable ) {
+            ( (Resettable)waveModelGraphic.getColorMap() ).reset();
+        }
+
+//        rotationWaveGraphic.reset();
+//        primarySpeaker.reset();
+//        secondarySpeaker.reset();
+//        intensityReaderSet.reset();
+//        expandableWaveChart.reset();
+
+//        measurementToolSet.reset();
+//        soundWaveGraphic.reset();
+    }
 }

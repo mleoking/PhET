@@ -129,5 +129,6 @@ public class LightModule extends WaveInterferenceModule {
     public void resetAll() {
         super.resetAll();
         getWaveInterferenceModel().reset();
+        lightSimulationPanel.reset();
     }
 }

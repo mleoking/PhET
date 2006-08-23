@@ -99,6 +99,13 @@ public class DarkWave {
 
     ArrayList darkWaves = new ArrayList();
 
+    public void reset() {
+        while( darkWaves.size() > 0 ) {
+            DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( 0 );
+            darkWaves.remove( darkPropagator );
+        }
+    }
+
     static class DarkPropagator {
         private Oscillator source;
         private PhotonEmissionColorMap colorMap;
