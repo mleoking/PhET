@@ -15,6 +15,7 @@ import edu.colorado.phet.mechanics.Vector3D;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 /**
  * CompositeMolecule
@@ -42,9 +43,11 @@ public class CompositeMolecule extends Molecule {
         this.components = components;
         computeKinematicsFromComponents( components );
 
-        // Set the velocitis and accelerations of the components to 0,
-        // so they won't move on their own while they're part of the
-        // composite
+        // Tell each of the components that they are now part of a composite
+        for( int i = 0; i < components.length; i++ ) {
+            Molecule component = components[i];
+            component.setPartOfComposite( true );
+        }
     }
 
     /**
@@ -177,7 +180,7 @@ public class CompositeMolecule extends Molecule {
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
             Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
-                                                       component.getPosition().getY() - this.getPositionPrev().getY() );
+                                                                     component.getPosition().getY() - this.getPositionPrev().getY() );
             compositeCmToComponentCm.rotate( theta );
             component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
                                    this.getPosition().getY() + compositeCmToComponentCm.getY() );

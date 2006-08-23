@@ -29,6 +29,7 @@ import java.awt.geom.Point2D;
  */
 abstract public class Molecule extends Body implements Collidable {
     private CollidableAdapter collidableAdapter;
+    private boolean isPartOfComposite;
 
     protected Molecule() {
         this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
@@ -78,6 +79,26 @@ abstract public class Molecule extends Body implements Collidable {
 
     public Point2D getPositionPrev() {
         return collidableAdapter.getPositionPrev();
+    }
+
+    public boolean isPartOfComposite() {
+        return isPartOfComposite;
+    }
+
+    public void setPartOfComposite( boolean partOfComposite ) {
+        isPartOfComposite = partOfComposite;
+    }
+
+    /**
+     * If the molecule is part of a larger composite, there should be not stepInTime
+     * behavior. It will be taken care of by the CompositeMolecule
+     * 
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        if( !isPartOfComposite ) {
+            super.stepInTime( dt );
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

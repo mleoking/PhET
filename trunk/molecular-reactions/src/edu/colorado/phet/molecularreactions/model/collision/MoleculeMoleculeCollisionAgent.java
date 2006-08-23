@@ -55,6 +55,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         Molecule moleculeA = (Molecule)bodyA;
         Molecule moleculeB = (Molecule)bodyB;
+        CollisionSpec collisionSpec = null;
 
         // Do bounding box test
         boolean boundingBoxesOverlap = false;
@@ -63,7 +64,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
                                && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        CollisionSpec collisionSpec = null;
         if( boundingBoxesOverlap ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {

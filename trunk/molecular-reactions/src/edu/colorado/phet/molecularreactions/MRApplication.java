@@ -13,6 +13,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.modules.TestModule;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 /**
@@ -29,7 +30,7 @@ public class MRApplication extends PhetApplication {
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 600 ) );
 
-        addModule( new MRModule() );
+        addModule( new TestModule() );
     }
 
 
