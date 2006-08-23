@@ -36,9 +36,9 @@ class EnergyCurve extends PNode {
     private PPath leftFloor;
     private PPath rightFloor;
     private PPath centralCurve;
-    double x1;
-    double x2;
-    double x3;
+    double x1;  // the x coord of the junction between the left floor and the central curve
+    double x2;  // the x coord of the peak of the central curve
+    double x3;  // the x coord of the junction between the central curve and the right floor
 
     /**
      *
