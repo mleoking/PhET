@@ -6,8 +6,8 @@ Bugs
 
 - Only molecules of different type should be able to combine.
 
-- Reason why nearestToTrackedMolecule gets lost when it becomes part of a compound molecule:
-    It is taken out of the model while it's part of the compound molecule!
+- Reason why nearestToTrackedMolecule gets lost when it becomes part of a composit molecule:
+    It is taken out of the model while it's part of the composite molecule!
 
 ==============
 Model features

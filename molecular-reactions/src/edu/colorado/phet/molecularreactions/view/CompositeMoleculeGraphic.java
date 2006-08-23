@@ -13,7 +13,7 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.MRConfig;
@@ -27,14 +27,14 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompoundMoleculeGraphic extends PNode implements SimpleObserver {
-    private CompoundMolecule compoundMolecule;
+public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
+    private CompositeMolecule compositeMolecule;
     private PPath cmNode;
 
-    public CompoundMoleculeGraphic( CompoundMolecule compoundMolecule ) {
-        this.compoundMolecule = compoundMolecule;
-        compoundMolecule.addObserver( this );
-        addChild( createComponentGraphics( compoundMolecule ) );
+    public CompositeMoleculeGraphic( CompositeMolecule compositeMolecule ) {
+        this.compositeMolecule = compositeMolecule;
+        compositeMolecule.addObserver( this );
+        addChild( createComponentGraphics( compositeMolecule ) );
 
         if( MRConfig.DEBUG ) {
             double r = 2;
@@ -63,7 +63,7 @@ public class CompoundMoleculeGraphic extends PNode implements SimpleObserver {
 
     public void update() {
         if( MRConfig.DEBUG ) {
-            cmNode.setOffset( compoundMolecule.getCM() );
+            cmNode.setOffset( compositeMolecule.getCM() );
         }
     }
 }

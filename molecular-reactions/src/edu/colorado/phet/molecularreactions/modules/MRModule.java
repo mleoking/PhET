@@ -86,7 +86,7 @@ public class MRModule extends Module {
     }
 
 
-    private void testSimpleToCompoundMolecules( MRModel model ) {
+    private void testSimpleToCompositeMolecules( MRModel model ) {
 
         // Set up two simple molecules to ram together
         SimpleMolecule sm1 = new SimpleMolecule( 7 );
@@ -130,7 +130,7 @@ public class MRModule extends Module {
     }
 
 
-    private void testCompoundMoleculeA( MRModel model ) {
+    private void testCompositeMoleculeA( MRModel model ) {
 
         SimpleMolecule rm2 = new SimpleMolecule( 10 );
         rm2.setMass( 100 );
@@ -140,7 +140,7 @@ public class MRModule extends Module {
         rm3.setMass( 25 );
         rm3.setPosition( 200, 115 );
 
-        CompoundMolecule cm1 = new CompoundMolecule( new Molecule[]{rm2, rm3} );
+        CompositeMolecule cm1 = new CompositeMolecule( new Molecule[]{rm2, rm3} );
         cm1.setVelocity( 1, 0 );
 //        cm1.setVelocity( 0, 4);
 //        cm1.setOmega( 0 );

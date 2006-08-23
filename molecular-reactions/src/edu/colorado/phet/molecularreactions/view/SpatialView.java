@@ -14,7 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.BoxGraphic;
-import edu.colorado.phet.molecularreactions.view.CompoundMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.CompositeMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
@@ -49,19 +49,19 @@ public class SpatialView extends PNode {
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model, canvas );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( moleculeLayer ) );
         megm.addGraphicFactory( new BoxGraphicFactory() );
-        megm.addGraphicFactory( new CompoundMoleculeGraphicFactory() );
+        megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
         megm.scanModel();
     }
 
 
-    private class CompoundMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
+    private class CompositeMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
-        protected CompoundMoleculeGraphicFactory() {
-            super( CompoundMolecule.class, moleculeLayer );
+        protected CompositeMoleculeGraphicFactory() {
+            super( CompositeMolecule.class, moleculeLayer );
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new CompoundMoleculeGraphic( (CompoundMolecule)modelElement );
+            return new CompositeMoleculeGraphic( (CompositeMolecule)modelElement );
         }
     }
 

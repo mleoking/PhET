@@ -16,7 +16,7 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 
 import java.awt.geom.Point2D;
@@ -93,15 +93,15 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 collisionSpec = new CollisionSpec( loa, collisionPt );
             }
         }
-        else if( moleculeA instanceof CompoundMolecule ) {
-            CompoundMolecule cmA = (CompoundMolecule)moleculeA;
+        else if( moleculeA instanceof CompositeMolecule ) {
+            CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             for( int j = 0; j < cmA.getComponentMolecules().length; j++ ) {
                 Molecule moleculeC = cmA.getComponentMolecules()[j];
                 return getCollisionSpec( moleculeC, moleculeB );
             }
         }
-        else if( moleculeB instanceof CompoundMolecule ) {
-            CompoundMolecule cmB = (CompoundMolecule)moleculeB;
+        else if( moleculeB instanceof CompositeMolecule ) {
+            CompositeMolecule cmB = (CompositeMolecule)moleculeB;
             for( int j = 0; j < cmB.getComponentMolecules().length; j++ ) {
                 Molecule moleculeC = cmB.getComponentMolecules()[j];
                 return getCollisionSpec( moleculeA, moleculeC );
@@ -125,17 +125,17 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // Create a compound molecule if the total energy is sufficient,
+        // Create a composite molecule if the total energy is sufficient,
         // the bodies are simple molecules,
         // and they are of different types (two of the same types can't combine)
         if( totalEnergy0 > reactionThreshold
             && bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule
             && bodyA.getClass() != bodyB.getClass() ) {
             Molecule[] ma = new Molecule[]{(Molecule)bodyA, (Molecule)bodyB};
-            CompoundMolecule compoundMolecule = new CompoundMolecule( ma );
+            CompositeMolecule compositeMolecule = new CompositeMolecule( ma );
             model.removeModelElement( bodyA );
             model.removeModelElement( bodyB );
-            model.addModelElement( compoundMolecule );
+            model.addModelElement( compositeMolecule );
         }
 
         // Get the vectors from the bodies' CMs to the point of contact

@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
  * <p>
  * Notes:
  * <p>
- * When a molecule becomes part of a compound molecule, it is taken out of the model.
+ * When a molecule becomes part of a composite molecule, it is taken out of the model.
  * That means it doesn't get clock ticks or show up in the getModelElements() list.
  *
  * @author Ron LeMaster
