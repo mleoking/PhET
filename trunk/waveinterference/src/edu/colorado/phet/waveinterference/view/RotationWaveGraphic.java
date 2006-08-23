@@ -122,6 +122,10 @@ public class RotationWaveGraphic extends PNode {
         waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
     }
 
+    public void reset() {
+        setViewAngle( 0.0 );
+    }
+
     public static interface Listener {
         void rotationChanged();
     }

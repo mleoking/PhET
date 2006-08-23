@@ -203,4 +203,12 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     public WaveInterferenceScreenUnits getScreenUnits() {
         return screenUnits;
     }
+
+    public void reset() {
+        rotationWaveGraphic.reset();
+        primaryFaucetGraphic.reset();
+        secondaryFaucetGraphic.reset();
+        intensityReaderSet.reset();
+        expandableWaveChart.reset();
+    }
 }

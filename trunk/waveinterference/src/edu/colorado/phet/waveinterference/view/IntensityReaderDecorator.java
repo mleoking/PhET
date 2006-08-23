@@ -99,6 +99,10 @@ public class IntensityReaderDecorator extends PhetPNode {
         } );
     }
 
+    public void delete() {
+        doDelete();
+    }
+
     private void doDelete() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );

@@ -123,6 +123,10 @@ public class ExpandableWaveChart extends PNode {
         waveChartGraphic.setCurveColor( rootColor );
     }
 
+    public void reset() {
+        setExpanded( false );
+    }
+
     public static interface Listener {
         void expansionStateChanged();
     }

@@ -53,6 +53,11 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
                 }
             }
         } );
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                rotate.setValue( rotationWaveGraphic.getRotation() );
+            }
+        } );
 //        rotate.addMouseListener( new MouseAdapter() {
 //            public void mouseReleased( MouseEvent e ) {
 //                System.out.println( "WaveRotateControl.mouseReleased" );

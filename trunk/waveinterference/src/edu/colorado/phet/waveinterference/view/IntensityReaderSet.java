@@ -51,4 +51,11 @@ public class IntensityReaderSet extends PhetPNode {
             intensityReaderDecorator.setConstrainedToMidline( middle );
         }
     }
+
+    public void reset() {
+        while( intensityReaders.size() > 0 ) {
+            IntensityReaderDecorator intensityReaderDecorator = (IntensityReaderDecorator)intensityReaders.get( 0 );
+            intensityReaderDecorator.delete();
+        }
+    }
 }
