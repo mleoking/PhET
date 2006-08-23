@@ -13,6 +13,10 @@ import java.awt.*;
 
 public class VerticalSeparator extends JPanel {
     public VerticalSeparator() {
-        add( Box.createRigidArea( new Dimension( 20, 20 ) ) );
+        this( 20 );
+    }
+
+    public VerticalSeparator( int h ) {
+        add( Box.createRigidArea( new Dimension( h, h ) ) );
     }
 }
