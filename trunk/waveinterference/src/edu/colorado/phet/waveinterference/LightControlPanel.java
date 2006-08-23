@@ -21,17 +21,19 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         this.lightModule = lightModule;
         addControl( new MeasurementControlPanel( lightModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( WIStrings.getString( "e.field" ), lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
-        addControl( new VerticalSeparator() );
-        addControl( new ClearWaveControl( lightModule.getWaveModel() ) );
-        addControlFullWidth( new VerticalSeparator() );
+        addVerticalSpace();
+        addControl( new ResetModuleControl( lightModule ) );
+        addVerticalSpace();
 
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
-        addControlFullWidth( new VerticalSeparator() );
-        slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential(), lightModule.getScreenUnits() );
-        addControl( slitControlPanel );
-        addControlFullWidth( new VerticalSeparator() );
+        addVerticalSpace();
+
         multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "light" ), lightModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
+        addVerticalSpace();
+
+        slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential(), lightModule.getScreenUnits() );
+        addControl( slitControlPanel );
 
         //enable these lines to add a "Show Screen" button to the control panel.
 //        screenControlPanel = new ReducedScreenControlPanel( lightModule.getScreenNode() );

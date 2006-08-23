@@ -17,15 +17,20 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
     public WaterControlPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
         addControl( new MeasurementControlPanel( waterModule.getMeasurementToolSet() ) );
+
         addControl( new DetectorSetControlPanel( WIStrings.getString( "water.level" ), waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
-        addControl( new VerticalSeparator() );
-        addControl( new ClearWaveControl( waterModule.getWaveModel() ) );
-        addControlFullWidth( new VerticalSeparator() );
+        addVerticalSpace();
+
+        addControl( new ResetModuleControl( waterModule ) );
+        addVerticalSpace();
+
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
-        addControlFullWidth( new VerticalSeparator() );
-        addControl( new SlitControlPanel( waterModule.getSlitPotential(), waterModule.getScreenUnits() ) );
-        addControlFullWidth( new VerticalSeparator() );
+        addVerticalSpace();
 
         addControl( new MultiDripControlPanel( waterModule.getMultiDrip(), waterModule.getScreenUnits() ) );
+        addControlFullWidth( new VerticalSeparator() );
+
+        addControl( new SlitControlPanel( waterModule.getSlitPotential(), waterModule.getScreenUnits() ) );
     }
+
 }

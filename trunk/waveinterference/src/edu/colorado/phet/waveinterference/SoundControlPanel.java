@@ -24,23 +24,26 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( WIStrings.getString( "pressure" ), soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
-        addControl( new VerticalSeparator() );
-        addControl( new ClearWaveControl( this.soundModule.getWaveModel() ) );
+        addVerticalSpace();
 
-        addControlFullWidth( new VerticalSeparator() );
+        addControl( new ResetModuleControl( this.soundModule ) );
+        addVerticalSpace();
+
         addControl( new WaveRotateControl3D( soundModule.getWaveInterferenceModel(), soundModule.getRotationWaveGraphic() ) );
+        addVerticalSpace();
 
-        addControlFullWidth( new VerticalSeparator() );
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
-
-        addControlFullWidth( new VerticalSeparator() );
-        slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential(), soundModule.getScreenUnits() );
-        addControl( slitControlPanel );
-        addControlFullWidth( new VerticalSeparator() );
+        addVerticalSpace();
 
         multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "speaker" ), soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
+        addVerticalSpace();
+
+        slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential(), soundModule.getScreenUnits() );
+        addControl( slitControlPanel );
+
+
     }
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {
