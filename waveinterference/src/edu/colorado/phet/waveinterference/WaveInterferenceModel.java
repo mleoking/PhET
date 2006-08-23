@@ -97,6 +97,11 @@ public class WaveInterferenceModel implements ModelElement {
         return modelUnits;
     }
 
+    public void reset() {
+        waveModel.clear();
+        slitPotential.reset();
+    }
+
     public static interface Listener {
         public void symmetryChanged();
     }

@@ -23,9 +23,13 @@ public class SlitPotential implements Potential {
     private Potential potential;
     private ArrayList listeners = new ArrayList();
 
-    public SlitPotential( WaveModel waveModel ) {
+    private SlitPotential( WaveModel waveModel, boolean init ) {
         this.waveModel = waveModel;
         location = (int)( waveModel.getWidth() * 0.75 );
+    }
+
+    public SlitPotential( WaveModel waveModel ) {
+        this( waveModel, true );
         waveModel.addListener( new WaveModel.Listener() {
             public void sizeChanged() {
                 update();
@@ -44,6 +48,20 @@ public class SlitPotential implements Potential {
 
     public boolean isTwoSlits() {
         return !isOneSlit();
+    }
+
+    public void reset() {
+        SlitPotential prototype = new SlitPotential( waveModel, true );
+        setEnabled( prototype.enabled );
+        setSlitWidth( prototype.slitWidth );
+        setLocation( prototype.location );
+        if( prototype.oneSlit ) {
+            setOneSlit();
+        }
+        else {
+            setTwoSlits();
+        }
+        setSlitSeparation( prototype.slitSeparation );
     }
 
     public static interface Listener {
@@ -75,8 +93,10 @@ public class SlitPotential implements Potential {
     }
 
     public void setEnabled( boolean selected ) {
-        this.enabled = selected;
-        update();
+        if( this.enabled != selected ) {
+            this.enabled = selected;
+            update();
+        }
     }
 
     public void setOneSlit() {

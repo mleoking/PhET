@@ -26,21 +26,18 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
     private ModelSlider slitSeparation;
     private ModelSlider slitWidthSlider;
     private ModelSlider slitLocationSlider;
-//    private WaveInterferenceModelUnits modelUnits;
-//    private LatticeScreenCoordinates latticeScreenCoordinates;
     private WaveInterferenceScreenUnits units;
+    private JCheckBox enableCheckBox;
 
     public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits ) {
         this.units = waveInterferenceScreenUnits;
-//        this.modelUnits = modelUnits;
-//        this.latticeScreenCoordinates = latticeScreenCoordinates;
         setBorder( BorderFactory.createEtchedBorder() );
         this.slitPotential = slitPotential;
         HorizontalLayoutPanel topPanel = new HorizontalLayoutPanel();
-        final JCheckBox enable = new JCheckBox( WIStrings.getString( "enabled" ), slitPotential.isEnabled() );
-        enable.addChangeListener( new ChangeListener() {
+        enableCheckBox = new JCheckBox( WIStrings.getString( "enabled" ), slitPotential.isEnabled() );
+        enableCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                slitPotential.setEnabled( enable.isSelected() );
+                slitPotential.setEnabled( enableCheckBox.isSelected() );
             }
         } );
 
@@ -53,20 +50,20 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         buttonGroup.add( twoSlits );
         noBarrier.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setSlitEnabled( !noBarrier.isSelected() );
+                updateUIToReflectSlitEnabled( !noBarrier.isSelected() );
             }
 
         } );
         oneSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setSlitEnabled( true );
+                updateUIToReflectSlitEnabled( true );
                 slitPotential.setOneSlit();
                 updateSeparationCheckbox();
             }
         } );
         twoSlits.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setSlitEnabled( true );
+                updateUIToReflectSlitEnabled( true );
                 slitPotential.setTwoSlits();
                 updateSeparationCheckbox();
             }
@@ -92,7 +89,6 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitWidthSlider );
 
         slitLocationSlider = new ModelSlider( WIStrings.getString( "barrier.location" ), "", 0, 75, slitPotential.getLocation() );
-        //        slitLocationSlider.setPaintLabels( false );
         slitLocationSlider.setModelLabels( toHashtable( new int[]{0, 75 / 2, 75} ) );
         slitLocationSlider.setTextFieldVisible( false );
         slitLocationSlider.setBorder( null );
@@ -104,7 +100,6 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitLocationSlider );
 
         slitSeparation = new ModelSlider( WIStrings.getString( "slit.separation" ), "", 0, 50, slitPotential.getSlitSeparation() );
-//        slitSeparation.setPaintLabels( false );
         slitSeparation.setModelLabels( toHashtable( new int[]{0, 25, 50} ) );
         slitSeparation.setTextFieldVisible( false );
         slitSeparation.setBorder( null );
@@ -115,10 +110,23 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         } );
         add( slitSeparation );
         updateSeparationCheckbox();
-        setSlitEnabled( slitPotential.isEnabled() );
+        updateUIToReflectSlitEnabled( slitPotential.isEnabled() );
         slitPotential.addListener( new SlitPotential.Listener() {
             public void slitsChanged() {
-                updateSeparationCheckbox();
+                slitSeparation.setValue( slitPotential.getSlitSeparation() );
+                slitWidthSlider.setValue( slitPotential.getSlitWidth() );
+                slitLocationSlider.setValue( slitPotential.getLocation() );
+                enableCheckBox.setSelected( slitPotential.isEnabled() );
+                if( !slitPotential.isEnabled() ) {
+                    noBarrier.setSelected( true );
+                }
+                else if( slitPotential.isOneSlit() ) {
+                    oneSlit.setSelected( true );
+                }
+                else {
+                    twoSlits.setSelected( true );
+                }
+                updateUIToReflectSlitEnabled( slitPotential.isEnabled() );
             }
         } );
     }
@@ -135,7 +143,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         slitSeparation.setEnabled( a && b && c );
     }
 
-    private void setSlitEnabled( boolean b ) {
+    private void updateUIToReflectSlitEnabled( boolean b ) {
         slitPotential.setEnabled( b );
         slitWidthSlider.setEnabled( b );
         slitLocationSlider.setEnabled( b );
@@ -144,7 +152,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
 
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        setSlitEnabled( slitPotential.isEnabled() );
+        updateUIToReflectSlitEnabled( slitPotential.isEnabled() );
         updateSeparationCheckbox();
     }
 
