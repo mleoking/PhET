@@ -102,5 +102,6 @@ public class WaterModule extends WaveInterferenceModule {
     public void resetAll() {
         super.resetAll();
         getWaveInterferenceModel().reset();
+        waterSimulationPanel.reset();
     }
 }

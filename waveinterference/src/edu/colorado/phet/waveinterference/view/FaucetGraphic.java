@@ -249,6 +249,12 @@ public class FaucetGraphic extends PhetPNode {
         return latticeScreenCoordinates;
     }
 
+    public void reset() {
+        while( drops.size() > 0 ) {
+            removeDrop( (WaterDropGraphic)drops.get( 0 ) );
+        }
+    }
+
     public static interface Listener {
         void enabledStateChanged();
     }
