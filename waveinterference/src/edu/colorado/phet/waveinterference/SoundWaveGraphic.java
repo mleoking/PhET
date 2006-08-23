@@ -21,11 +21,11 @@ public class SoundWaveGraphic extends PNode {
     private double particleSize = 1 * 0.75;
     private static final double MAX_PARTICLE_SIZE = 60 * 0.35;
 
-//    private boolean grayscaleVisible = true;
-//    private boolean particlesVisible = false;
+    private boolean grayscaleVisible = true;
+    private boolean particlesVisible = false;
     //this is a trial for a few interviews to set particle mode default on initialization.
-    private boolean grayscaleVisible = false;
-    private boolean particlesVisible = true;
+//    private boolean grayscaleVisible = false;
+//    private boolean particlesVisible = true;
 
     public SoundWaveGraphic( WaveModelGraphic waveModelGraphic, PressureWaveGraphic pressureWaveGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
@@ -37,8 +37,17 @@ public class SoundWaveGraphic extends PNode {
 
     private ArrayList listeners = new ArrayList();
 
+    public void reset() {
+        setParticlesVisible( false );
+        setGrayscaleVisible( true );
+        notifyViewChanged();
+        pressureWaveGraphic.reset();
+    }
+
     public static interface Listener {
         void viewChanged();
+
+        void viewTypeChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -66,6 +75,7 @@ public class SoundWaveGraphic extends PNode {
     public void update() {
         waveModelGraphic.update();
         pressureWaveGraphic.update();
+        notifyViewChanged();
     }
 
     public double getParticleSize() {
@@ -81,6 +91,7 @@ public class SoundWaveGraphic extends PNode {
         this.grayscaleVisible = grayscaleVisible;
         updateView();
         notifyViewChanged();
+        notifyViewTypeChanged();
     }
 
     public boolean isGrayscaleVisible() {
@@ -91,6 +102,14 @@ public class SoundWaveGraphic extends PNode {
         this.particlesVisible = particlesVisible;
         updateView();
         notifyViewChanged();
+        notifyViewTypeChanged();
+    }
+
+    private void notifyViewTypeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.viewTypeChanged();
+        }
     }
 
     public boolean isParticleVisible() {

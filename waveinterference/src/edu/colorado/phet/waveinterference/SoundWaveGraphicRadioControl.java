@@ -39,11 +39,24 @@ public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable
         buttonGroup.add( particles );
         add( grayscale );
         add( particles );
+
+        soundWaveGraphic.addListener( new SoundWaveGraphic.Listener() {
+            public void viewChanged() {
+            }
+
+            public void viewTypeChanged() {
+                grayscale.setSelected( soundWaveGraphic.isGrayscaleVisible() );
+                particles.setSelected( soundWaveGraphic.isParticleVisible() );
+            }
+        } );
+
         update();
     }
 
     private void update() {
-        soundWaveGraphic.setGrayscaleVisible( grayscale.isSelected() );
-        soundWaveGraphic.setParticlesVisible( !grayscale.isSelected() );
+        boolean showGray = grayscale.isSelected();
+        boolean showPart = particles.isSelected();
+        soundWaveGraphic.setGrayscaleVisible( showGray );
+        soundWaveGraphic.setParticlesVisible( showPart );
     }
 }
