@@ -52,7 +52,7 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( WIStrings.getString( "spacing" ), "m", 0, 30, multiFaucetDrip.getSpacing() );
+        spacingSlider = new ModelSlider( WIStrings.getString( "spacing" ), WIStrings.getString( "m" ), 0, 30, multiFaucetDrip.getSpacing() );
         spacingSlider.setModelLabels( screenUnits.toHashtable( new int[]{0, 15, 30}, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
@@ -70,6 +70,18 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         };
         multiFaucetDrip.getPrimary().getOscillator().addListener( listener );
         multiFaucetDrip.getSecondary().getOscillator().addListener( listener );
+
+        multiFaucetDrip.addListener( new MultiFaucetDrip.Listener() {
+            public void spacingChanged() {
+            }
+
+            public void dropCountChanged() {
+                oneDrip.setSelected( multiFaucetDrip.isOneDrip() );
+                twoDrips.setSelected( multiFaucetDrip.isTwoDrip() );
+                updateSpacingReadout();
+                updateSpacingSliderEnable();
+            }
+        } );
     }
 
     private void updateSpacingReadout() {//todo this model is a bit ugly, but works correctly.

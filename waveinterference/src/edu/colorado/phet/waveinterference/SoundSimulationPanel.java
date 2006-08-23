@@ -226,4 +226,14 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     public WaveInterferenceScreenUnits getScreenUnits() {
         return screenUnits;
     }
+
+    public void reset() {
+        rotationWaveGraphic.reset();
+        primarySpeaker.reset();
+        secondarySpeaker.reset();
+        intensityReaderSet.reset();
+        expandableWaveChart.reset();
+        multiOscillator.reset();
+        measurementToolSet.reset();
+    }
 }

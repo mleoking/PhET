@@ -80,4 +80,7 @@ public class MultiOscillator {
         this.spacing = value;
         update();
     }
+
+    public void reset() {
+    }
 }

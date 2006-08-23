@@ -210,5 +210,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         secondaryFaucetGraphic.reset();
         intensityReaderSet.reset();
         expandableWaveChart.reset();
+        multiFaucetDrip.reset();
+        measurementToolSet.reset();
     }
 }

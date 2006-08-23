@@ -11,6 +11,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -23,6 +24,9 @@ public class MeasurementToolSet extends PhetPNode {
     private WaveMeasuringTape measuringTape;
     private PNode stopwatchGraphic;
     private PSwingCanvas pSwingCanvas;
+    private ArrayList listeners = new ArrayList();
+    private StopwatchPanelDectorator stopwatchDecorator;
+    private PSwing pswing;
 
     public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, WaveInterferenceModel waveInterferenceModel ) {
         this( pSwingCanvas, clock, latticeScreenCoordinates, waveInterferenceModel.getDistanceUnits(), waveInterferenceModel.getPhysicalWidth(), waveInterferenceModel.getPhysicalHeight(), waveInterferenceModel.getTimeUnits(), waveInterferenceModel.getTimeScale() );
@@ -33,18 +37,18 @@ public class MeasurementToolSet extends PhetPNode {
         this.pSwingCanvas = pSwingCanvas;
         measuringTape = new WaveMeasuringTape( latticeScreenCoordinates, physicalWidth, physicalHeight );
         measuringTape.setVisible( false );
-//        measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
 
-        stopwatchGraphic = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock, timeScale, timeUnits ) ) );
+        stopwatchDecorator = new StopwatchPanelDectorator( clock, timeScale, timeUnits );
+        pswing = new PSwing( pSwingCanvas, stopwatchDecorator );
+        stopwatchGraphic = new PhetPNode( pswing );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );
         stopwatchGraphic.setVisible( false );
 
         setDistanceUnits( units );
-
-
         addChild( stopwatchGraphic );
+        initStopwatchLocation();
     }
 
     public boolean isMeasuringTapeVisible() {
@@ -53,6 +57,7 @@ public class MeasurementToolSet extends PhetPNode {
 
     public void setMeasuringTapeVisible( boolean selected ) {
         measuringTape.setVisible( selected );
+        notifyVisibilityChanged();
     }
 
     public boolean isStopwatchVisible() {
@@ -61,6 +66,7 @@ public class MeasurementToolSet extends PhetPNode {
 
     public void setStopwatchVisible( boolean selected ) {
         stopwatchGraphic.setVisible( selected );
+        notifyVisibilityChanged();
     }
 
     public void setDistanceUnits( String distanceUnits ) {
@@ -73,5 +79,33 @@ public class MeasurementToolSet extends PhetPNode {
 
     public WaveMeasuringTape getMeasuringTape() {
         return measuringTape;
+    }
+
+    public void reset() {
+        setMeasuringTapeVisible( false );
+        setStopwatchVisible( false );
+        measuringTape.reset();
+        stopwatchDecorator.reset();
+        initStopwatchLocation();
+    }
+
+    private void initStopwatchLocation() {
+        pswing.setOffset( 0, 0 );
+        stopwatchGraphic.setOffset( 50, 50 );
+    }
+
+    public static interface Listener {
+        void toolVisibilitiesChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyVisibilityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.toolVisibilitiesChanged();
+        }
     }
 }

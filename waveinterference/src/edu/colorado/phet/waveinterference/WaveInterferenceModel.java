@@ -152,7 +152,6 @@ public class WaveInterferenceModel implements ModelElement {
 
     private double getTime() {
         return time;
-//        return System.currentTimeMillis() / 1000.0 - startTime;
     }
 
     public boolean isSymmetric() {
