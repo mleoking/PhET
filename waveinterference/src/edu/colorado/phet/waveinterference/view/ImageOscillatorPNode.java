@@ -64,5 +64,7 @@ public class ImageOscillatorPNode extends PNode {
     }
 
     public void reset() {
+//        update();
+//        updateLocation();
     }
 }

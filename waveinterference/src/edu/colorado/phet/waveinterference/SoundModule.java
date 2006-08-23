@@ -123,6 +123,7 @@ public class SoundModule extends WaveInterferenceModule {
         super.resetAll();
         getWaveInterferenceModel().reset();
         soundSimulationPanel.reset();
+        soundModuleAudio.reset();
     }
 
 }
