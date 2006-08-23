@@ -18,16 +18,22 @@ import java.awt.*;
  */
 
 public class StopwatchPanelDectorator extends VerticalLayoutPanel {
+    private StopwatchPanel stopwatchPanel;
+
     public StopwatchPanelDectorator( IClock clock, double timeScale, String timeUnits ) {
         setBorder( new LineBorder( Color.black, 2, true ) );
         JLabel label = new JLabel( WIStrings.getString( "stopwatch" ) );
         add( label );
-        StopwatchPanel stopwatchPanel = new StopwatchPanel( clock );
+        stopwatchPanel = new StopwatchPanel( clock );
         stopwatchPanel.setScaleFactor( timeScale );
         stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
         label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );
         label.setOpaque( true );
+    }
+
+    public void reset() {
+        stopwatchPanel.reset();
     }
 }

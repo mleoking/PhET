@@ -18,6 +18,8 @@ import java.awt.geom.Rectangle2D;
 public class WaveMeasuringTape extends MeasuringTape {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private Rectangle2D modelBounds = new Rectangle2D.Double( 0, 0, 30, 30 );
+    private Point2D.Double initialSrc;
+    private Point2D.Double initialDst;
 
     public WaveMeasuringTape( LatticeScreenCoordinates latticeScreenCoordinates, double physicalWidth, double physicalHeight ) {
         super( new ModelViewTransform2D( new Rectangle( 50, 50 ), new Rectangle( 50, 50 ) ), new Point2D.Double() );
@@ -30,8 +32,12 @@ public class WaveMeasuringTape extends MeasuringTape {
         updateMapping();
         setUnits( "cm" );
         setWaveAreaSize( physicalWidth, physicalHeight );
-        setLocation( new Point2D.Double( physicalWidth / 2, physicalHeight / 2 ),
-                     new Point2D.Double( physicalWidth * 0.75, physicalHeight / 2 ) );
+        Point2D.Double src = new Point2D.Double( physicalWidth / 2, physicalHeight / 2 );
+        Point2D.Double dst = new Point2D.Double( physicalWidth * 0.75, physicalHeight / 2 );
+        setLocation( src, dst );
+
+        this.initialSrc = new Point2D.Double( src.x, src.y );
+        this.initialDst = new Point2D.Double( dst.x, dst.y );
     }
 
     public void setWaveAreaSize( double width, double height ) {
@@ -46,5 +52,9 @@ public class WaveMeasuringTape extends MeasuringTape {
     public void setLocation( Point2D src, Point2D dst ) {
         setModelSrc( src );
         setModelDst( dst );
+    }
+
+    public void reset() {
+        setLocation( initialSrc, initialDst );
     }
 }

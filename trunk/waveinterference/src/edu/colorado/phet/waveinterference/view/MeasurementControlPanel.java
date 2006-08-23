@@ -34,6 +34,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         } );
         add( new IconComponent( measuringTape, getTapeIcon() ) );
 
+
         final JCheckBox stopwatch = new JCheckBox( WIStrings.getString( "stopwatch" ), measurementToolSet.isStopwatchVisible() );
         stopwatch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -41,6 +42,13 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( new IconComponent( stopwatch, getClockThumb() ) );
+
+        measurementToolSet.addListener( new MeasurementToolSet.Listener() {
+            public void toolVisibilitiesChanged() {
+                measuringTape.setSelected( measurementToolSet.isMeasuringTapeVisible() );
+                stopwatch.setSelected( measurementToolSet.isStopwatchVisible() );
+            }
+        } );
     }
 
     private BufferedImage getClockThumb() {

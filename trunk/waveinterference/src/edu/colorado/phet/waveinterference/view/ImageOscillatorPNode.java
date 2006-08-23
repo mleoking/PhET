@@ -62,4 +62,7 @@ public class ImageOscillatorPNode extends PNode {
     public PImage getImageNode() {
         return imageNode;
     }
+
+    public void reset() {
+    }
 }

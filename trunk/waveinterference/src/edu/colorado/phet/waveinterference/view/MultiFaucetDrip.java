@@ -42,8 +42,14 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
         updateSecondary();
     }
 
+    public void reset() {
+        setOneDrip();
+    }
+
     public static interface Listener {
         void spacingChanged();
+
+        void dropCountChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -73,6 +79,14 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     public void setOneDrip() {
         this.twoDrips = false;
         update();
+        notifyDropCountChanged();
+    }
+
+    private void notifyDropCountChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.dropCountChanged();
+        }
     }
 
     private void update() {
@@ -97,6 +111,7 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     public void setTwoDrips() {
         this.twoDrips = true;
         update();
+        notifyDropCountChanged();
     }
 
     public double getSpacing() {

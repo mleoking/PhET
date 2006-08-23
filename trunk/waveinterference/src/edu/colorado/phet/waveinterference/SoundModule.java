@@ -122,5 +122,7 @@ public class SoundModule extends WaveInterferenceModule {
     public void resetAll() {
         super.resetAll();
         getWaveInterferenceModel().reset();
+        soundSimulationPanel.reset();
     }
+
 }
