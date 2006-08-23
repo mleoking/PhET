@@ -32,8 +32,6 @@ import java.awt.geom.Line2D;
  */
 class EnergyCurve extends PNode {
     private double peakLevel;
-    private double width;
-    private Color color;
 
     private PPath leftFloor;
     private PPath rightFloor;
@@ -42,13 +40,16 @@ class EnergyCurve extends PNode {
     double x2;
     double x3;
 
-
+    /**
+     *
+     * @param width Width of the entire curve
+     * @param color
+     */
     EnergyCurve( double width, Color color ) {
-        this.width = width;
+
         x1 = width * 0.4;
         x2 = width * 0.5;
         x3 = width * 0.6;
-        this.color = color;
 
         leftFloor = new PPath();
         leftFloor.setPathTo( new Line2D.Double( 0, 0, x1, 0 ) );
