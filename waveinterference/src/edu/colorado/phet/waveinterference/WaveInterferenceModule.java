@@ -39,6 +39,6 @@ public class WaveInterferenceModule extends PiccoloModule {
     }
 
     public void resetAll() {
-
+        getClock().start();
     }
 }
