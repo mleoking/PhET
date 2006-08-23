@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
@@ -44,6 +45,12 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
         faucetGraphic.addListener( new FaucetGraphic.Listener() {
             public void enabledStateChanged() {
                 updateState();
+            }
+        } );
+        faucetGraphic.getOscillator().addListener( new Oscillator.Adapter() {
+            public void enabledStateChanged() {
+                onRadioButton.setSelected( faucetGraphic.getOscillator().isEnabled() );
+                offRadioButton.setSelected( !faucetGraphic.getOscillator().isEnabled() );
             }
         } );
         updateState();

@@ -29,6 +29,7 @@ public class WaterModule extends WaveInterferenceModule {
             setDistanceUnits( "cm" );
             setPhysicalSize( 10, 10 );
         }
+
     }
 
     public WaterModule() {
@@ -42,6 +43,8 @@ public class WaterModule extends WaveInterferenceModule {
 
         setSimulationPanel( waterSimulationPanel );
         setControlPanel( waterControlPanel );
+
+        waveInterferenceModel.setInitialConditions();//because some are set from controls in setSimulationPanel
     }
 
     public WaveModel getWaveModel() {

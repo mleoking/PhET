@@ -26,6 +26,11 @@ public class AmplitudeControl extends VerticalLayoutPanel {
                 oscillator.setAmplitude( amplitudeSlider.getValue() );
             }
         } );
+        oscillator.addListener( new Oscillator.Adapter() {
+            public void amplitudeChanged() {
+                amplitudeSlider.setValue( oscillator.getAmplitude() );
+            }
+        } );
         amplitudeSlider.setTextFieldVisible( false );
         amplitudeSlider.setPaintLabels( false );
         amplitudeSlider.setPaintTicks( false );

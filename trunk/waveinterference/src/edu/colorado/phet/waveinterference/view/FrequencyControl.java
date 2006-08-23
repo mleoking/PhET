@@ -29,5 +29,10 @@ public class FrequencyControl extends VerticalLayoutPanel {
         frequencySlider.setPaintLabels( false );
         frequencySlider.setPaintTicks( false );
         add( frequencySlider );
+        oscillator.addListener( new Oscillator.Adapter() {
+            public void frequencyChanged() {
+                frequencySlider.setValue( oscillator.getFrequency() );
+            }
+        } );
     }
 }

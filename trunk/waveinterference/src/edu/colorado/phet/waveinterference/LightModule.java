@@ -54,6 +54,8 @@ public class LightModule extends WaveInterferenceModule {
 
         setSimulationPanel( lightSimulationPanel );
         setControlPanel( lightControlPanel );
+
+        waveInterferenceModel.setInitialConditions();
     }
 
 //    public void activate() {
@@ -126,6 +128,6 @@ public class LightModule extends WaveInterferenceModule {
 
     public void resetAll() {
         super.resetAll();
-        getWaveModel().clear();
+        getWaveInterferenceModel().reset();
     }
 }
