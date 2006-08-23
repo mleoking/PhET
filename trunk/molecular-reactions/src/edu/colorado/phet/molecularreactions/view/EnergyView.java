@@ -27,7 +27,7 @@ import java.awt.geom.Point2D;
 /**
  * EnergyView
  * <p/>
- * A view of the MRModel that shows the potential energy of two individual molecules, or their compound
+ * A view of the MRModel that shows the potential energy of two individual molecules, or their composite
  * molecule. This is a fairly abstract view.
  *
  * @author Ron LeMaster

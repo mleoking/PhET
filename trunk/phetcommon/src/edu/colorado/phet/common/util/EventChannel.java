@@ -66,6 +66,9 @@ public class EventChannel implements InvocationHandler {
     private List targets = new ArrayList();
     private Class targetInterface;
     private Object proxy;
+    private List listenersToAdd = new ArrayList();
+    private List listenersToRemove = new ArrayList();
+    private boolean invokingTargets;
 
     /**
      * Creates a proxy for a list of objects that implement a specified interface
@@ -90,7 +93,12 @@ public class EventChannel implements InvocationHandler {
      */
     public synchronized void addListener( EventListener listener ) {
         if( targetInterface.isInstance( listener ) ) {
-            targets.add( listener );
+            if( invokingTargets ) {
+                listenersToAdd.add( listener );
+            }
+            else {
+                targets.add( listener );
+            }
         }
         else {
             throw new InvalidParameterException( "Parameter is not EventListener" );
@@ -104,7 +112,12 @@ public class EventChannel implements InvocationHandler {
      */
     public synchronized void removeListener( EventListener listener ) {
         if( targetInterface.isInstance( listener ) ) {
-            targets.remove( listener );
+            if( invokingTargets ) {
+                listenersToRemove.add( listener );
+            }
+            else {
+                targets.remove( listener );
+            }
         }
         else {
             throw new InvalidParameterException( "Parameter is not EventListener" );
@@ -171,9 +184,24 @@ public class EventChannel implements InvocationHandler {
     public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
         Object target = null;
         try {
+            invokingTargets = true;
             for( int i = 0; i < targets.size(); i++ ) {
                 target = targets.get( i );
                 invokeMethod( method, target, args );
+            }
+            invokingTargets = false;
+
+            // If anyone tried to add or remove a listener while we were invoking
+            // targets, add/remove them now
+            if( !listenersToAdd.isEmpty() ) {
+                System.out.println( "listenersToAdd = " + listenersToAdd.size() );
+                targets.addAll( listenersToAdd );
+                listenersToAdd.clear();
+            }
+            if( !listenersToRemove.isEmpty() ) {
+                System.out.println( "listenersToRemove = " + listenersToRemove.size() );
+                targets.removeAll( listenersToRemove );
+                listenersToRemove.clear();
             }
         }
         catch( InvocationTargetException ite ) {

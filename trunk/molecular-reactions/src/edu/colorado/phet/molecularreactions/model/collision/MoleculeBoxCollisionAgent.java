@@ -16,7 +16,7 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.Molecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.CompoundMolecule;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
@@ -82,9 +82,9 @@ public class MoleculeBoxCollisionAgent {
 
         velocity = molecule.getVelocity();
         
-        if( molecule instanceof CompoundMolecule ) {
-            CompoundMolecule compoundMolecule = (CompoundMolecule)molecule;
-            Molecule[] components = compoundMolecule.getComponentMolecules();
+        if( molecule instanceof CompositeMolecule ) {
+            CompositeMolecule compositeMolecule = (CompositeMolecule)molecule;
+            Molecule[] components = compositeMolecule.getComponentMolecules();
             for( int i = 0; i < components.length && !collisionDetected; i++ ) {
                 Molecule component = components[i];
                 collisionDetected = detectCollision( component, velocity, box );

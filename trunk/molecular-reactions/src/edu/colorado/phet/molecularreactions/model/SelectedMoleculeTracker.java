@@ -40,7 +40,7 @@ public class SelectedMoleculeTracker implements ModelElement,
         List modelElements = model.getModelElements();
 
         // If the molecule being tracked is in the models list of elements, that means
-        // it's not in a compound molecule. If that's the case, look for the closest
+        // it's not in a composite molecule. If that's the case, look for the closest
         // molecule to it of the other type
         if( moleculeTracked != null && modelElements.contains( moleculeTracked )) {
 

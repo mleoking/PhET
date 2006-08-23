@@ -17,32 +17,41 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * CompoundMolecule
+ * CompositeMolecule
  * <p/>
- * A compound molecule is a molecule composed of other molecules. Its position is its
+ * A composite molecule is a molecule composed of other molecules. Its position is its
  * center of mass.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompoundMolecule extends Molecule {
+public class CompositeMolecule extends Molecule {
     private Molecule[] components;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
 
     /**
-     * Creates a CompoundMolecule from an array of molecules. The kinematic
-     * attributes of the new CompoundMolecule are set based on those of its
+     * Creates a CompositeMolecule from an array of molecules. The kinematic
+     * attributes of the new CompositeMolecule are set based on those of its
      * components.
      *
      * @param components
      */
-    public CompoundMolecule( Molecule[] components ) {
+    public CompositeMolecule( Molecule[] components ) {
         super();
         this.components = components;
         computeKinematicsFromComponents( components );
+
+        // Set the velocitis and accelerations of the components to 0,
+        // so they won't move on their own while they're part of the
+        // composite
     }
 
+    /**
+     * Determines the CM (and position), velocity and acceleration of the
+     * composite molecules from those of its components
+     * @param components
+     */
     private void computeKinematicsFromComponents( Molecule[] components ) {
         computeCM();
         double mass = 0;
@@ -160,7 +169,7 @@ public class CompoundMolecule extends Molecule {
     /**
      * Updates the position of each component molecule.
      *
-     * @param theta the rotation of the compound molecule
+     * @param theta the rotation of the composite molecule
      */
     public void updateComponents( double theta ) {
 
