@@ -116,4 +116,9 @@ public class SoundModule extends WaveInterferenceModule {
     public WaveInterferenceModel getWaveInterferenceModel() {
         return waveInterferenceModel;
     }
+
+    public void resetAll() {
+        super.resetAll();
+        getWaveModel().clear();
+    }
 }
