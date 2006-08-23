@@ -24,7 +24,7 @@ public class WavelengthControlPanel extends VerticalLayoutPanel {
     private Oscillator oscillator;
     private double speedOfLight = 1000.0;
 
-    public WavelengthControlPanel( WaveModelGraphic waveModelGraphic, Oscillator oscillator ) {
+    public WavelengthControlPanel( WaveModelGraphic waveModelGraphic, final Oscillator oscillator ) {
         addFullWidth( new JLabel( WIStrings.getString( "wavelength" ) ) );
         this.waveModelGraphic = waveModelGraphic;
         this.oscillator = oscillator;
@@ -33,6 +33,11 @@ public class WavelengthControlPanel extends VerticalLayoutPanel {
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
+            }
+        } );
+        oscillator.addListener( new Oscillator.Adapter() {
+            public void frequencyChanged() {
+                slider.updateSelectedWavelength( speedOfLight / oscillator.getFrequency() );
             }
         } );
         add( slider );

@@ -20,16 +20,18 @@ import java.awt.event.ActionListener;
 
 public class LaserWaveChartControl extends PNode {
     private LaserWaveChartGraphic laserWaveChartGraphic;
+    private JCheckBox curve;
+    private JCheckBox vectors;
 
     public LaserWaveChartControl( PSwingCanvas pSwingCanvas, final LaserWaveChartGraphic laserWaveChartGraphic ) {
         this.laserWaveChartGraphic = laserWaveChartGraphic;
-        final JCheckBox curve = new JCheckBox( WIStrings.getString( "curve" ), laserWaveChartGraphic.isCurveVisible() );
+        curve = new JCheckBox( WIStrings.getString( "curve" ), laserWaveChartGraphic.isCurveVisible() );
         curve.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setCurveVisible( curve.isSelected() );
             }
         } );
-        final JCheckBox vectors = new JCheckBox( WIStrings.getString( "vectors" ), laserWaveChartGraphic.isVectorsVisible() );
+        vectors = new JCheckBox( WIStrings.getString( "vectors" ), laserWaveChartGraphic.isVectorsVisible() );
         vectors.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setVectorsVisible( vectors.isSelected() );
@@ -49,5 +51,14 @@ public class LaserWaveChartControl extends PNode {
 
         PSwing pSwing = new PSwing( pSwingCanvas, verticalLayoutPanel );
         addChild( pSwing );
+        reset();
+    }
+
+    public void reset() {
+        curve.setSelected( true );
+        vectors.setSelected( false );
+
+        laserWaveChartGraphic.setCurveVisible( curve.isSelected() );
+        laserWaveChartGraphic.setVectorsVisible( vectors.isSelected() );
     }
 }

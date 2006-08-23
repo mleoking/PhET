@@ -109,6 +109,21 @@ public class SRRWavelengthSlider extends PNode {
         }
     }
 
+    public void setSelectedWavelength( double wavelength ) {
+        double x = linearFunction.createInverse().evaluate( wavelength );
+//        System.out.println( "wavelength = " + wavelength +", x="+x);
+        if( !MathUtil.isApproxEqual( x, spectrumSliderKnob.getOffset().getX(), 10E-4 ) ) {
+            spectrumSliderKnob.setOffset( x, spectrumSliderKnob.getOffset().getY() );
+            spectrumSliderKnob.setPaint( new VisibleColor( wavelength ) );
+            ChangeEvent e = new ChangeEvent( this );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                ChangeListener changeListener = (ChangeListener)listeners.get( i );
+                changeListener.stateChanged( e );
+            }
+            repaint();
+        }
+    }
+
     public double getWavelength() {
         double x = spectrumSliderKnob.getOffset().getX();
         return linearFunction.evaluate( x );
@@ -127,6 +142,7 @@ public class SRRWavelengthSlider extends PNode {
     public void setOpaque( boolean opaque ) {
         boundGraphic.setVisible( opaque );
     }
+
 
     public class SpectrumSliderKnob extends PPath {
 

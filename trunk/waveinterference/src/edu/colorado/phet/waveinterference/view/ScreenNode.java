@@ -100,6 +100,10 @@ public class ScreenNode extends PhetPNode {
         return enabled;
     }
 
+    public void reset() {
+        setScreenEnabled( false );
+    }
+
     public static interface Listener {
         void enabledStateChanged();
     }

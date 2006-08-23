@@ -276,14 +276,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         if( waveModelGraphic.getColorMap() instanceof Resettable ) {
             ( (Resettable)waveModelGraphic.getColorMap() ).reset();
         }
-
-//        rotationWaveGraphic.reset();
-//        primarySpeaker.reset();
-//        secondarySpeaker.reset();
-//        intensityReaderSet.reset();
-//        expandableWaveChart.reset();
-
-//        measurementToolSet.reset();
-//        soundWaveGraphic.reset();
+        expandableScreenChartGraphic.reset();
+        playAreaReducedScreenControlPanel.reset();
+        waveChartGraphic.reset();
     }
 }

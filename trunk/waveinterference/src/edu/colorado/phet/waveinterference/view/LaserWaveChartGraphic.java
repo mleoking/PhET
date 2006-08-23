@@ -80,6 +80,10 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
         return colorized;
     }
 
+    public void reset() {
+        laserWaveChartControl.reset();
+    }
+
     public class VectorView extends PhetPNode {
         private boolean indicateOneBlackVector = false;
 

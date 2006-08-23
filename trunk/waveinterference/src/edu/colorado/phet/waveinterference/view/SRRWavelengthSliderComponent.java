@@ -47,4 +47,9 @@ public class SRRWavelengthSliderComponent extends PCanvas {
     public double getWavelength() {
         return wavelengthSliderGraphic.getWavelength();
     }
+
+    public void updateSelectedWavelength( double wavelength ) {
+        wavelengthSliderGraphic.setSelectedWavelength( wavelength );
+        paintImmediately( 0, 0, getWidth(), getHeight() );
+    }
 }

@@ -86,4 +86,9 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
         showButton.setVisible( !screenNode.isScreenEnabled() );
         closeButtonNode.setVisible( screenNode.isScreenEnabled() );
     }
+
+    public void reset() {
+        screenNode.reset();
+        updateExpanded();
+    }
 }
