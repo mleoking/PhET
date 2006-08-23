@@ -101,8 +101,16 @@ public class AudioControlPanel extends JPanel {
         return _soundCheckBox.isSelected();
     }
 
-    public double getAmplitude() {
+    public double getVolume() {
         return _soundSlider.getValue() / 100.0;
+    }
+
+    public void updateAudioEnabled( boolean audioEnabled ) {
+        _soundCheckBox.setSelected( audioEnabled );
+    }
+
+    public void updateVolume( double amplitude ) {
+        _soundSlider.setValue( (int)( amplitude * 100.0 ) );
     }
 
     public static interface Listener {
@@ -125,7 +133,7 @@ public class AudioControlPanel extends JPanel {
             }
 
             public void amplitudeChanged() {
-                System.out.println( "audioControlPanel.getAmplitude() = " + audioControlPanel.getAmplitude() );
+                System.out.println( "audioControlPanel.getAmplitude() = " + audioControlPanel.getVolume() );
             }
         } );
         frame.setContentPane( audioControlPanel );

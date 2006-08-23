@@ -142,7 +142,7 @@ public class FourierSoundPlayer implements Runnable {
      * @return true or false
      */
     public boolean isEnabled() {
-        return _oscillator.isEnabled();
+        return _soundEnabled && active;
     }
 
     /**

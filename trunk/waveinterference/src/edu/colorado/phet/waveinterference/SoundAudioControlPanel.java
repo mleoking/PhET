@@ -16,7 +16,7 @@ public class SoundAudioControlPanel extends JPanel {
     private SoundModuleAudio soundModuleAudio;
     private final AudioControlPanel audioControlPanel;
 
-    public SoundAudioControlPanel( SoundModuleAudio soundModuleAudio ) {
+    public SoundAudioControlPanel( final SoundModuleAudio soundModuleAudio ) {
         this.soundModuleAudio = soundModuleAudio;
         audioControlPanel = new AudioControlPanel();
         add( audioControlPanel );
@@ -29,10 +29,19 @@ public class SoundAudioControlPanel extends JPanel {
                 update();
             }
         } );
+        soundModuleAudio.addListener( new SoundModuleAudio.Listener() {
+            public void audioEnabledChanged() {
+                audioControlPanel.updateAudioEnabled( soundModuleAudio.isAudioEnabled() );
+            }
+
+            public void volumeChanged() {
+                audioControlPanel.updateVolume( soundModuleAudio.getVolume() );
+            }
+        } );
     }
 
     private void update() {
         soundModuleAudio.setAudioEnabled( audioControlPanel.isAudioEnabled() );
-        soundModuleAudio.setAmplitude( audioControlPanel.getAmplitude() );
+        soundModuleAudio.setVolume( audioControlPanel.getVolume() );
     }
 }
