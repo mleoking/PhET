@@ -8,17 +8,16 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.view;
+package edu.colorado.phet.molectularreactions.view.energy;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.Selectable;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -96,7 +95,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curveLayer.addChild( energyCurve );
 
         // Create the cursor
-        cursor = new Cursor( curvePane.getHeight() - cursorInsets.top - cursorInsets.bottom );
+        cursor = new EnergyCursor( curvePane.getHeight() - cursorInsets.top - cursorInsets.bottom );
         cursorLayer.addChild( cursor );
 
         return curvePane;
@@ -139,79 +138,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         }
         else if( nearestToSelectedMoleculeGraphic != null ) {
             nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // The cursor
-    //--------------------------------------------------------------------------------------------------
-    private class Cursor extends RegisterablePNode {
-        private double width = 10;
-
-        Cursor( double height ) {
-            Rectangle2D cursorShape = new Rectangle2D.Double( 0, 0, width, height );
-            PPath cursorPPath = new PPath( cursorShape );
-            cursorPPath.setStroke( new BasicStroke( 1 ) );
-            cursorPPath.setStrokePaint( new Color( 200, 200, 200 ) );
-            cursorPPath.setPaint( new Color( 200, 200, 200, 200 ) );
-            addChild( cursorPPath );
-
-            setRegistrationPoint( width / 2, 0 );
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // The curve
-    //--------------------------------------------------------------------------------------------------
-
-    private class EnergyCurve extends PPath {
-        private double leftLevel;
-        private double peakLevel;
-        private double rightLevel;
-        private double width;
-        private Color color;
-
-        EnergyCurve( double width, Color color ) {
-            this.width = width;
-            this.color = color;
-            update();
-        }
-
-        private void update() {
-            DoubleGeneralPath curve = new DoubleGeneralPath();
-
-            double x1 = width * 0.4;
-            double x2 = width * 0.5;
-            double x3 = width * 0.6;
-            curve.moveTo( 0, leftLevel );
-            curve.lineTo( x1, leftLevel );
-
-            curve.curveTo( x1 + ( x2 - x1 ) * 0.33, leftLevel,
-                           x1 + ( x2 - x1 ) * 0.66, peakLevel,
-                           x2, peakLevel );
-            curve.curveTo( x2 + ( x3 - x2 ) * 0.33, peakLevel,
-                           x2 + ( x3 - x2 ) * 0.66, rightLevel,
-                           x3, rightLevel );
-            curve.lineTo( width, rightLevel );
-
-            setPathTo( curve.getGeneralPath() );
-            setStrokePaint( color );
-            setStroke( new BasicStroke( 3 ) );
-        }
-
-        void setLeftLevel( double leftLevel ) {
-            this.leftLevel = leftLevel;
-            update();
-        }
-
-        void setPeakLevel( double peakLevel ) {
-            this.peakLevel = peakLevel;
-            update();
-        }
-
-        void setRightLevel( double rightLevel ) {
-            this.rightLevel = rightLevel;
-            update();
         }
     }
 

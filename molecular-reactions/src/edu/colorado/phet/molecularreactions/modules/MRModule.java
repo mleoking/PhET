@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
-import edu.colorado.phet.molecularreactions.view.EnergyView;
+import edu.colorado.phet.molectularreactions.view.energy.EnergyView;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import java.awt.*;
