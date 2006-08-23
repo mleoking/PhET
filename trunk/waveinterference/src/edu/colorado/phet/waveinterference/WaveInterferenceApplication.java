@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
@@ -51,9 +50,9 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
         }
     }
 
-    protected PhetFrame createPhetFrame() {
-        return super.createPhetFrame();
-    }
+//    protected PhetFrame createPhetFrame() {
+//        return new PhetFrameWorkaround( this );
+//    }
 
     public static void main( final String[] args ) {
         SimStrings.init( args, LOCALIZATION_BUNDLE_BASENAME );

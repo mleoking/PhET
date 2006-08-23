@@ -23,9 +23,18 @@ public class WaveInterferenceModule extends PiccoloModule {
     }
 
     public void queryResetAll() {
+        boolean paused = getClock().isPaused();
+        getClock().pause();
+        //see PhetFrameWorkaround; joptionpane doesn't paint when sim is running.
         int result = JOptionPane.showConfirmDialog( getSimulationPanel(), WIStrings.getString( "sure.to.reset.all" ) );
         if( result == JOptionPane.OK_OPTION ) {
             resetAll();
+        }
+        if( paused ) {
+            getClock().pause();
+        }
+        else {
+            getClock().start();
         }
     }
 
