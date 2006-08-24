@@ -37,6 +37,7 @@ public class MRModule extends Module {
         // Create the model
         MRModel model = new MRModel( getClock() );
         setModel( model );
+        model.setEnergyProfile( new EnergyProfile( ) );
 
         // create the control panel
         setControlPanel( new TestControlPanel( this ) );

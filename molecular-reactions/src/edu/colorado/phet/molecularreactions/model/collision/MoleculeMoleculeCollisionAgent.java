@@ -39,7 +39,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private double reactionThreshold;
 
     public MoleculeMoleculeCollisionAgent( MRModel model ) {
-        this.reactionThreshold = model.getReactionThresholdEnergy();
+        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
         model.addListener( this );
     }
 
@@ -234,7 +234,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     //--------------------------------------------------------------------------------------------------
 
     public void reactionThresholdChanged( MRModel model ) {
-        this.reactionThreshold = model.getReactionThresholdEnergy();
+        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
     }
 
     public void modelElementAdded( ModelElement element ) {
