@@ -11,6 +11,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -43,10 +46,12 @@ public class PressureWaveGraphic extends PNode {
     private boolean pinked = false;
     private PPath background;
     private static final int IMAGE_HEIGHT = 14;
+    private ArrayList listeners = new ArrayList();
 
     //todo dummy variables to handle offset for rotatable case.
     private double dx;
     private double dy;
+    private boolean markersVisible = true;
 
     public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, SlitPotential slitPotential ) {
         this.lattice = lattice;
@@ -70,7 +75,7 @@ public class PressureWaveGraphic extends PNode {
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
                 if( i % MOD == 0 && j % MOD == 0 ) {
-                    Particle particle = new Particle( isPink( i, j ) ? pinkImage : blueImage, i, j );
+                    Particle particle = isMarked( i, j ) ? new MarkedParticle( blueImage, i, j ) : new Particle( blueImage, i, j );
                     addParticle( particle );
                 }
             }
@@ -117,7 +122,7 @@ public class PressureWaveGraphic extends PNode {
         return pot != 0;
     }
 
-    private boolean isPink( int i, int j ) {
+    private boolean isMarked( int i, int j ) {
         return random.nextDouble() < 0.05;
 //        return isPinkForCenter( i, j );
     }
@@ -233,6 +238,53 @@ public class PressureWaveGraphic extends PNode {
         for( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle)particles.get( i );
             particle.reset();
+        }
+        setMarkersVisible( true );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.markerVisibilityChanged();
+        }
+    }
+
+    public boolean getMarkersVisible() {
+        return markersVisible;
+    }
+
+    public void setMarkersVisible( boolean markersVisible ) {
+        this.markersVisible = markersVisible;
+        for( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle)particles.get( i );
+            if( particle instanceof MarkedParticle ) {
+                MarkedParticle mp = (MarkedParticle)particle;
+                mp.updateMarkVisible();
+            }
+        }
+    }
+
+    public class MarkedParticle extends Particle {
+        private PPath mark;
+//        private boolean markVisible = true;
+
+        public MarkedParticle( BufferedImage newImage, int i, int j ) {
+            super( newImage, i, j );
+            Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
+            FontRenderContext fontRenderContext = new FontRenderContext( new AffineTransform(), true, false );
+            GlyphVector glyphVector = font.createGlyphVector( fontRenderContext, "X" );
+            Shape shape = glyphVector.getOutline();
+
+            mark = new PPath( shape );
+//            mark.setPaint( Color.red );
+            mark.setStroke( new BasicStroke( 1.35f ) );
+            mark.setStrokePaint( Color.red );
+
+            addChild( mark );
+            mark.setOffset( getImage().getWidth( null ) / 2 - mark.getFullBounds().getWidth() / 2,
+                            getImage().getHeight( null ) / 2 + mark.getFullBounds().getHeight() / 2 );
+            updateMarkVisible();
+        }
+
+        public void updateMarkVisible() {
+            mark.setVisible( markersVisible );
         }
     }
 
@@ -459,16 +511,26 @@ public class PressureWaveGraphic extends PNode {
         }
     }
 
-    public void updateORIG() {
-        removeAllChildren();
-        for( int i = 0; i < lattice.getWidth(); i++ ) {
-            for( int j = 0; j < lattice.getHeight(); j++ ) {
-                Particle particle = new Particle( blueImageORIG, i, j );
-                if( lattice.getValue( i, j ) > 0.25 ) {
-                    addParticle( particle );
-                }
-            }
-        }
+//    public void updateORIG() {
+//        removeAllChildren();
+//        for( int i = 0; i < lattice.getWidth(); i++ ) {
+//            for( int j = 0; j < lattice.getHeight(); j++ ) {
+//                Particle particle = new Particle( blueImageORIG, i, j, isMarked( i, j ) );
+//                if( lattice.getValue( i, j ) > 0.25 ) {
+//                    addParticle( particle );
+//                }
+//            }
+//        }
+//    }
+
+
+    public static interface Listener {
+        void markerVisibilityChanged();
     }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
 
 }

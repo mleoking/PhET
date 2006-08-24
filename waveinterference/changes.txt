@@ -4,6 +4,8 @@ Added Reset All.
 Detector crosshairs can no longer attach to the body of the intensity display.
 Added a graphic to signify rotation.
 Made drop size proportional to wave amplitudue.
+Reverted to grayscale as default for sound module (instead of particle view).
+Added a checkbox that allows the user to mark the particles.
 
 New in 0.00.21 (5-25-2006)
 Sound Module: Changed time unit to microsec.

@@ -44,6 +44,10 @@ public class SoundWaveGraphic extends PNode {
         pressureWaveGraphic.reset();
     }
 
+    public PressureWaveGraphic getPressureWaveGraphic() {
+        return pressureWaveGraphic;
+    }
+
     public static interface Listener {
         void viewChanged();
 
