@@ -27,7 +27,30 @@ import java.util.HashMap;
  * @version $Revision$
  */
 public class CompositeMolecule extends Molecule {
-    private Molecule[] components;
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private static int numSimpleMolecules( Molecule molecule ) {
+        int n = 0;
+        if( molecule instanceof SimpleMolecule ) {
+            n = 1;
+        }
+        else if( molecule instanceof CompositeMolecule ) {
+            Molecule[] components = ( (CompositeMolecule)molecule ).components;
+            for( int i = 0; i < components.length; i++ ) {
+                n += numSimpleMolecules( components[i] );
+            }
+        }
+        return n;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private SimpleMolecule[] components;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
 
@@ -38,39 +61,89 @@ public class CompositeMolecule extends Molecule {
      *
      * @param components
      */
-    public CompositeMolecule( Molecule[] components ) {
+    public CompositeMolecule( SimpleMolecule[] components ) {
         super();
         this.components = components;
-        computeKinematicsFromComponents( components );
 
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
             component.setPartOfComposite( true );
         }
+
+        // Compute compiste properties
+        computeKinematicsFromComponents( components );
+    }
+
+    /**
+     * Adds a component molecule to the composite molecule
+     *
+     * @param molecule
+     */
+    private void addComponent( SimpleMolecule molecule ) {
+        // Add the molecule to the list of components
+        SimpleMolecule[] newComponents = new SimpleMolecule[components.length + 1];
+        for( int i = 0; i < components.length; i++ ) {
+            newComponents[i] = components[i];
+        }
+        newComponents[newComponents.length - 1] = molecule;
+        components = newComponents;
+
+        // Factor in the new component's kinematics
+        addComponentKinematics( molecule );
+
+        // Tell the new component that it is part of a composite
+        molecule.setPartOfComposite( true );
+    }
+
+
+    /**
+     * Determines the CM (and position), velocity and acceleration of the
+     * composite molecules from those of its components
+     */
+    private void addComponentKinematics( Molecule component ) {
+        computeCM();
+        double mass = 0;
+        Vector2D compositeMomentum = getMomentum();
+//        Vector2D acceleration = getAcceleration();
+        Vector3D angularMomentum = new Vector3D( 0, 0, getOmega() * getMomentOfInertia() );
+        Vector2D compositeCmToComponentCm = new Vector2D.Double();
+        mass += component.getMass();
+        Vector2D momentum = new Vector2D.Double( component.getVelocity() ).scale( component.getMass() );
+        compositeMomentum.add( momentum );
+//        acceleration.add( component.getAcceleration() );
+        compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
+                                                component.getPosition().getY() - getCM().getY() );
+        angularMomentum.add( Vector3D.createCrossProduct( compositeCmToComponentCm, momentum ) );
+        setMass( mass );
+        setVelocity( compositeMomentum.scale( 1 / mass ) );
+//        setAcceleration( acceleration );
+        setOmega( angularMomentum.getZ() / getMomentOfInertia() );
     }
 
     /**
      * Determines the CM (and position), velocity and acceleration of the
      * composite molecules from those of its components
+     *
      * @param components
      */
     private void computeKinematicsFromComponents( Molecule[] components ) {
+
         computeCM();
         double mass = 0;
-        Vector2D compositeMomentum = new Vector2D.Double( );
-        Vector2D acceleration = new Vector2D.Double( );
+        Vector2D compositeMomentum = new Vector2D.Double();
+        Vector2D acceleration = new Vector2D.Double();
         Vector3D angularMomentum = new Vector3D();
-        Vector2D compositeCmToComponentCm = new Vector2D.Double( );
+        Vector2D compositeCmToComponentCm = new Vector2D.Double();
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
             mass += component.getMass();
-            Vector2D momentum =  new Vector2D.Double( component.getVelocity()).scale( component.getMass() );
+            Vector2D momentum = new Vector2D.Double( component.getVelocity() ).scale( component.getMass() );
             compositeMomentum.add( momentum );
             acceleration.add( component.getAcceleration() );
             compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
-                                                    component.getPosition().getY() - getCM().getY());
-                        angularMomentum.add( Vector3D.createCrossProduct( compositeCmToComponentCm, momentum ));
+                                                    component.getPosition().getY() - getCM().getY() );
+            angularMomentum.add( Vector3D.createCrossProduct( compositeCmToComponentCm, momentum ) );
         }
         setMass( mass );
         setVelocity( compositeMomentum.scale( 1 / mass ) );
@@ -178,15 +251,24 @@ public class CompositeMolecule extends Molecule {
 
         // Set the position and velocity of the component
         for( int i = 0; i < components.length; i++ ) {
-            Molecule component = components[i];
-            Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
-                                                                     component.getPosition().getY() - this.getPositionPrev().getY() );
-            compositeCmToComponentCm.rotate( theta );
-            component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
-                                   this.getPosition().getY() + compositeCmToComponentCm.getY() );
-            Vector2D v = component.getVelocity();
-            v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
-                             this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
+            SimpleMolecule component = components[i];
+                Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
+                                                                         component.getPosition().getY() - this.getPositionPrev().getY() );
+                compositeCmToComponentCm.rotate( theta );
+                component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
+                                       this.getPosition().getY() + compositeCmToComponentCm.getY() );
+                Vector2D v = component.getVelocity();
+                v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
+                                 this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
+    }
+
+    public int numSimpleMolecules() {
+        return numSimpleMolecules( this );
+    }
+
+
+    public double getKineticEnergy() {
+        return super.getKineticEnergy();
     }
 }

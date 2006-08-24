@@ -27,8 +27,24 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
+        testB( (MRModel)getModel() );
         testDefinedMolecules( (MRModel)getModel() );
 //        testCompisiteMoleculeA( model );
+    }
+
+    private void testB( MRModel model ) {
+
+        model.getEnergyProfile().setPeakLevel( 0 );
+        SimpleMolecule m1 = new MoleculeA();
+        m1.setPosition( 110, 60 );
+        m1.setVelocity( 1, 0 );
+        model.addModelElement( m1 );
+
+        SimpleMolecule m2 = new MoleculeB();
+        m2.setPosition( 180, 60 );
+        m2.setVelocity( 0, 0 );
+        model.addModelElement( m2 );
+        m2.setSelectionStatus( Selectable.SELECTED );
     }
 
     private void testCompisiteMoleculeA( MRModel model ) {
@@ -44,7 +60,7 @@ public class TestModule extends MRModule {
         model.addModelElement( m2 );
         m2.setSelectionStatus( Selectable.SELECTED );
 
-        CompositeMolecule compositeMolecule = new CompositeMolecule( new Molecule[]{m1, m2} );
+        CompositeMolecule compositeMolecule = new CompositeMolecule( new SimpleMolecule[]{m1, m2} );
         model.addModelElement( compositeMolecule );
     }
 
@@ -59,14 +75,21 @@ public class TestModule extends MRModule {
         {
             SimpleMolecule m1 = new MoleculeA();
             m1.setPosition( 140, 60 );
-            m1.setVelocity( 7, -3 );
+            m1.setVelocity( 4, -3 );
             model.addModelElement( m1 );
         }
 
         {
             SimpleMolecule m1 = new MoleculeB();
             m1.setPosition( 80, 60 );
-            m1.setVelocity( 7, -3 );
+            m1.setVelocity( 2, -7 );
+            model.addModelElement( m1 );
+            m1.setSelectionStatus( Selectable.SELECTED );
+        }
+        {
+            SimpleMolecule m1 = new MoleculeB();
+            m1.setPosition( 20, 80 );
+            m1.setVelocity( 4, -1 );
             model.addModelElement( m1 );
             m1.setSelectionStatus( Selectable.SELECTED );
         }
@@ -127,7 +150,7 @@ public class TestModule extends MRModule {
         rm3.setMass( 25 );
         rm3.setPosition( 200, 115 );
 
-        CompositeMolecule cm1 = new CompositeMolecule( new Molecule[]{rm2, rm3} );
+        CompositeMolecule cm1 = new CompositeMolecule( new SimpleMolecule[]{rm2, rm3} );
         cm1.setVelocity( 1, 0 );
 //        cm1.setVelocity( 0, 4);
 //        cm1.setOmega( 0 );
