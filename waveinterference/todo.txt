@@ -2,6 +2,8 @@
 Remaining Work
 ##################################
 
+Evaluate the different lattice shape on the light tab.  Should all modules use this shape?
+
 Increase performance on mac.
 
 There is one detail that I just noticed. I think the stopwatch in the sound

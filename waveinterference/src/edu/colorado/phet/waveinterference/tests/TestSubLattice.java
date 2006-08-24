@@ -34,7 +34,7 @@ public class TestSubLattice extends Module {
         waveModel = new WaveModel( 50, 50 );
         waveModel.setSourceValue( 10, 10, 1 );
 //        waveModelGraphic = new WaveModelGraphic( waveModel, 5,5 );
-        waveModelGraphic = new WaveModelGraphic( new WaveModel( new SubLattice2D( waveModel.getLattice(), new Rectangle( 0, 0, 10, 10 ) ) ), 5, 5 );
+        waveModelGraphic = new WaveModelGraphic( new WaveModel( new SubLattice2D( waveModel.getLattice(), new Rectangle( 0, 0, 10, 10 ) ), 20, 20 ), 5, 5 );
         panel.addScreenChild( waveModelGraphic );
     }
 

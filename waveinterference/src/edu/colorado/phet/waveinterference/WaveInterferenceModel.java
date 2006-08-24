@@ -27,7 +27,11 @@ public class WaveInterferenceModel implements ModelElement {
     private WaveInterferenceModelUnits modelUnits = new WaveInterferenceModelUnits();
 
     public WaveInterferenceModel() {
-        waveModel = new WaveModel( 60, 60 );
+        this( 20, 20 );
+    }
+
+    public WaveInterferenceModel( int dampX, int dampY ) {
+        waveModel = new WaveModel( 60, 60, dampX, dampY );
         slitPotential = new SlitPotential( waveModel );
         primaryOscillator = new Oscillator( waveModel );
         secondaryOscillator = new Oscillator( waveModel );
@@ -53,6 +57,10 @@ public class WaveInterferenceModel implements ModelElement {
             }
         } );
     }
+
+//    public void setDampingRegion( int dampX, int dampY ) {
+//        waveModel.setDampingRegion( dampX, dampY );
+//    }
 
     private void initSecondaryOscillator() {
         secondaryOscillator.setEnabled( false );
