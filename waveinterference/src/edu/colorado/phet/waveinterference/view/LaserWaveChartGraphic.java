@@ -54,6 +54,10 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
         }
     }
 
+    protected double getChartOffset() {
+        return 17;
+    }
+
     public void updateChart() {
         super.updateChart();
         updateVectorView();

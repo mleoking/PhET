@@ -95,10 +95,14 @@ public class WaveChartGraphic extends PNode {
         Rectangle2D r2 = jFreeChartNode.getBounds();
         Rectangle2D data = jFreeChartNode.getDataArea();
         double dataX = latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getX();
-        double dataY = latticeScreenCoordinates.toScreenCoordinates( 0, waveModel.getHeight() ).getY();
+        double dataY = latticeScreenCoordinates.toScreenCoordinates( 0, waveModel.getHeight() ).getY() + getChartOffset();
         double dataInsetX = data.getX() - r2.getX();
         jFreeChartNode.setBounds( 0, 0, r2.getWidth(), r2.getHeight() );
         jFreeChartNode.setOffset( dataX - dataInsetX, dataY );
+    }
+
+    protected double getChartOffset() {
+        return 0;
     }
 
     private void synchronizeWidth() {
