@@ -37,6 +37,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveChartGraphic waveChartGraphic;
     private CrossSectionGraphic crossSectionGraphic;
     private WaveInterferenceScreenUnits screenUnits;
+//    private ThisSideUpGraphic thisSideUpGraphic;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -48,7 +49,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         waveSideView.setStrokeColor( waterColor.getColor().darker() );//todo make it mutable
         waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
-        RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
+        final RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
         rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
@@ -113,6 +114,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
         updateWaveSize();
+
+        ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
+        addScreenChild( thisSideUpWrapper );
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {

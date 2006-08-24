@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -31,6 +32,7 @@ public class RotationGlyph extends PNode {
     private MutableColor surfaceColor = new MutableColor( Color.blue );
     private PPath crossSectionGraphic;
     private BasicStroke STROKE = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1 );
+    private ArrayList listeners = new ArrayList();
 
     public RotationGlyph() {
         this( new MutableColor( Color.blue ) );
@@ -92,10 +94,27 @@ public class RotationGlyph extends PNode {
         update();
     }
 
+
+    public static interface Listener {
+        void angleChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyAngleChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.angleChanged();
+        }
+    }
+
     public void setAngle( double angle ) {
         this.angle = angle;
         assert angle >= 0 && angle <= Math.PI;
         update();
+        notifyAngleChanged();
     }
 
     public void update() {
@@ -128,6 +147,8 @@ public class RotationGlyph extends PNode {
         depth.setPathTo( depthPath.getGeneralPath() );
 
         crossSectionGraphic.setPathTo( new Line2D.Double( 0, 2 * h, primaryWidth, 2 * h ) );
+
+
     }
 
     public double getSurfaceHeight() {

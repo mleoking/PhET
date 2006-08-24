@@ -161,6 +161,9 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( playAreaReducedScreenControlPanelContainer );
         darkWave = new DarkWave( this );
         screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
+
+        ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
+        addScreenChild( thisSideUpWrapper );
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {

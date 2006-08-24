@@ -136,6 +136,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
         updateWaveSize();
+
+        ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
+        addScreenChild( thisSideUpWrapper );
 //        addScaleTest();
     }
 
