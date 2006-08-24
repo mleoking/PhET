@@ -1,6 +1,3 @@
-- EnergyProfileGraphic needs to get bounds as a constructor parameter, instead of just
-    width, and use it to determine the location of the y coords of the key points in the curve
-
 ====
 Bugs
 ====

@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -39,7 +40,7 @@ public class TestControlPanel extends JPanel {
         final ModelSlider thresholdEnergySlider = new ModelSlider( "Threshold energy",
                                                              "",
                                                              0,
-                                                             MRConfig.REACTION_THRESHOLD * 2,
+                                                             MRConfig.MAX_REACTION_THRESHOLD,
                                                              model.getEnergyProfile().getPeakLevel() );
         thresholdEnergySlider.setNumMajorTicks( 0 );
         thresholdEnergySlider.setNumMinorTicks( 0 );
@@ -49,6 +50,11 @@ public class TestControlPanel extends JPanel {
             }
         } );
         model.getEnergyProfile().setPeakLevel(thresholdEnergySlider.getValue());
+        model.getEnergyProfile().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                thresholdEnergySlider.setValue( (( EnergyProfile )e.getSource()).getPeakLevel() );
+            }
+        } );
 
         add( thresholdEnergySlider, gbc );
     }
