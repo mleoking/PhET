@@ -16,15 +16,23 @@ public class WaveModel {
     private ArrayList listeners = new ArrayList();
 
     public WaveModel( int width, int height ) {
-        this( new Lattice2D( width, height ) );
+        this( new Lattice2D( width, height ), 20, 20 );
     }
 
-    public WaveModel( Lattice2D lattice2D ) {
+    public WaveModel( int width, int height, int dampX, int dampY ) {
+        this( new Lattice2D( width, height ), dampX, dampY );
+    }
+
+    public WaveModel( Lattice2D lattice2D, int dampX, int dampY ) {
 //        classicalWavePropagator = new ClassicalWavePropagator( new ConstantPotential() );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential() ,10,10);
 
-        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 10, 40);
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 5, 30 );
+        System.out.println( "dampX = " + dampX + ", dampY=" + dampY );
+        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), dampX, dampY );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 100,100);
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 30,30);
         this.lattice = lattice2D;
@@ -55,6 +63,11 @@ public class WaveModel {
     public Potential getPotential() {
         return classicalWavePropagator.getPotential();
     }
+
+//    public void setDampingRegion( int dampX, int dampY ) {
+//        classicalWavePropagator.setDampingRegion( dampX, dampY );
+////        classicalWavePropagator = new DampedClassicalWavePropagator( getPotential(), dampX, dampY );
+//    }
 
     public static interface Listener {
 

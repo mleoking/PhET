@@ -35,6 +35,7 @@ public class LightModule extends WaveInterferenceModule {
 
     public static class LightModel extends WaveInterferenceModel {
         public LightModel() {
+            super( 10, 40 );//uses a tall skinny shape for damping to discourage interference at the screen at the right side
             super.setDistanceUnits( "nm" );
             //todo: determined through experiment, depends on wavelength to frequency mapping in WavelengthControlPanel
             super.setPhysicalSize( 4200, 4200 );
