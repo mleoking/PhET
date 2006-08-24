@@ -31,7 +31,7 @@ public class EnergyProfile {
     private BoundedRangeModel rightRange;
     private BoundedRangeModel peakRange;
 
-    public EnergyProfile( double peakLevel, double leftLevel, double rightLevel ) {
+    public EnergyProfile( double leftLevel, double peakLevel, double rightLevel ) {
         this.peakLevel = peakLevel;
         this.leftLevel = leftLevel;
         this.rightLevel = rightLevel;
@@ -66,7 +66,7 @@ public class EnergyProfile {
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
-    //--------------------------------------------------------------------------------------------------        
+    //--------------------------------------------------------------------------------------------------
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 

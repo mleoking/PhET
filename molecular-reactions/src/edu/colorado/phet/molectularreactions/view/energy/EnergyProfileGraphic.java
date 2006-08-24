@@ -22,10 +22,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * EnergyCurve
- * <p>
+ * <p/>
  * The curve is made up of three PPaths: One for the flat line to on the left,
  * one for the curve in the center, and one for the flat line on the right.
  * They are drawn and handled separately, and they each have their own mouse handlers.
@@ -42,15 +43,20 @@ class EnergyProfileGraphic extends PNode {
     double x1;  // the x coord of the junction between the left floor and the central curve
     double x2;  // the x coord of the peak of the central curve
     double x3;  // the x coord of the junction between the central curve and the right floor
+    double peakGrabTolerance = 10;
+    private EnergyProfile energyProfile;
+    private Rectangle2D bounds;
 
     /**
-     *
-     * @param width Width of the entire curve
+     * @param bounds Bounds within which the graphic must be drawn
      * @param color
      */
-    EnergyProfileGraphic( EnergyProfile energyProfile, double width, Color color ) {
+    EnergyProfileGraphic( EnergyProfile energyProfile, Rectangle2D bounds, Color color ) {
+        this.energyProfile = energyProfile;
+        this.bounds = bounds;
 
         energyProfile.addChangeListener( new EnergyProfileChangeListener() );
+        double width = bounds.getWidth();
         x1 = width * 0.4;
         x2 = width * 0.5;
         x3 = width * 0.6;
@@ -73,15 +79,16 @@ class EnergyProfileGraphic extends PNode {
         addChild( centralCurve );
         centralCurve.setStrokePaint( color );
         centralCurve.setStroke( new BasicStroke( 3 ) );
-        centralCurve.addInputEventListener( new PeakMouseHandler( x2 - 5, x2 + 5));
+        centralCurve.addInputEventListener( new PeakMouseHandler( x2 - 5, x2 + 5 ) );
 
         update( energyProfile );
     }
 
     private void update( EnergyProfile energyProfile ) {
-        setLeftLevel( energyProfile.getLeftLevel() );
-        setRightLevel( energyProfile.getRightLevel() );
-        setPeakLevel( energyProfile.getPeakLevel() );
+        leftFloor.setOffset( leftFloor.getOffset().getX(), bounds.getHeight() - energyProfile.getLeftLevel() );
+        rightFloor.setOffset( rightFloor.getOffset().getX(), bounds.getHeight() - energyProfile.getRightLevel() );
+        peakLevel = bounds.getHeight() - energyProfile.getPeakLevel() ;
+        updateCentralCurve();
     }
 
     /**
@@ -89,31 +96,16 @@ class EnergyProfileGraphic extends PNode {
      */
     private void updateCentralCurve() {
         DoubleGeneralPath centralPath = new DoubleGeneralPath();
-        double leftLevel = leftFloor.getOffset().getY();
-        double rightLevel = rightFloor.getOffset().getY();
-        centralPath.moveTo( x1, leftLevel );
-        centralPath.curveTo( x1 + ( x2 - x1 ) * 0.33, leftLevel,
+        double leftY = leftFloor.getOffset().getY();
+        double rightY = rightFloor.getOffset().getY();
+        centralPath.moveTo( x1, leftY );
+        centralPath.curveTo( x1 + ( x2 - x1 ) * 0.33, leftY,
                              x1 + ( x2 - x1 ) * 0.66, peakLevel,
                              x2, peakLevel );
         centralPath.curveTo( x2 + ( x3 - x2 ) * 0.33, peakLevel,
-                             x2 + ( x3 - x2 ) * 0.66, rightLevel,
-                             x3, rightLevel );
+                             x2 + ( x3 - x2 ) * 0.66, rightY,
+                             x3, rightY );
         centralCurve.setPathTo( centralPath.getGeneralPath() );
-    }
-
-    private void setLeftLevel( double leftLevel ) {
-        leftFloor.setOffset( leftFloor.getOffset().getX(), leftLevel );
-        updateCentralCurve();
-    }
-
-    private void setPeakLevel( double peakLevel ) {
-        this.peakLevel = peakLevel;
-        updateCentralCurve();
-    }
-
-    private void setRightLevel( double rightLevel ) {
-        rightFloor.setOffset( rightFloor.getOffset().getX(), rightLevel );
-        updateCentralCurve();
     }
 
     /**
@@ -139,8 +131,13 @@ class EnergyProfileGraphic extends PNode {
 
         public void mouseDragged( PInputEvent event ) {
             double dy = event.getDelta().getHeight();
-            pNode.setOffset( pNode.getOffset().getX(),
-                             pNode.getOffset().getY() + dy );
+            double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
+            if( eventX <= x1 ) {
+                energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy );
+            }
+            else if( eventX >= x3 ) {
+                energyProfile.setRightLevel( energyProfile.getRightLevel() - dy );
+            }
         }
     }
 
@@ -155,8 +152,9 @@ class EnergyProfileGraphic extends PNode {
         /**
          * The parameters are used to make sure that curve only responds to the mouse when
          * the mouse is near the curve's center point.
-         * @param xMin  The minimum x that should respond to the mouse
-         * @param xMax  The maximum x that should respond to the mouse
+         *
+         * @param xMin The minimum x that should respond to the mouse
+         * @param xMax The maximum x that should respond to the mouse
          */
         public PeakMouseHandler( double xMin, double xMax ) {
             this.xMin = xMin;
@@ -178,11 +176,13 @@ class EnergyProfileGraphic extends PNode {
 
         public void mouseDragged( PInputEvent event ) {
             double dy = event.getDelta().getHeight();
-            setPeakLevel( peakLevel + dy );
-            updateCentralCurve();
+            energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy );
         }
     }
 
+    /**
+     * Hanldes changes in the model 
+     */
     private class EnergyProfileChangeListener implements ChangeListener {
         public void stateChanged( ChangeEvent e ) {
             EnergyProfile energyProfile = (EnergyProfile)e.getSource();

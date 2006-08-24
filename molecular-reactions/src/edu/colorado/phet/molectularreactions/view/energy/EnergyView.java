@@ -49,7 +49,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     private PNode nearestToSelectedMoleculeGraphic;
 
     private PNode cursor;
-    private Insets cursorInsets = new Insets( 20, 0, 10, 0 );
+    private Insets insets = new Insets( 20, 10, 10, 10 );
 
     /**
      *
@@ -88,14 +88,20 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curvePane.addChild( cursorLayer );
 
         // Create the curve
-        EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(), curvePaneSize.getWidth(), curveColor );
+        Rectangle2D curveBounds = new Rectangle2D.Double( insets.left,
+                                                          insets.top,
+                                                          curvePaneSize.getWidth() - insets.left - insets.right,
+                                                          curvePaneSize.getHeight() - insets.top - insets.bottom );
+        EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
+                                                                              curveBounds, 
+                                                                              curveColor );
 //        energyProfileGraphic.setLeftLevel( 250 );
 //        energyProfileGraphic.setRightLevel( 200 );
 //        energyProfileGraphic.setPeakLevel( 100 );
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the cursor
-        cursor = new EnergyCursor( curvePane.getHeight() - cursorInsets.top - cursorInsets.bottom );
+        cursor = new EnergyCursor( curvePane.getHeight() - insets.top - insets.bottom );
         cursorLayer.addChild( cursor );
 
         return curvePane;
@@ -131,7 +137,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
 
             // set location of cursor
-            cursor.setOffset( midPoint.getX(), cursorInsets.top );
+            cursor.setOffset( midPoint.getX(), insets.top );
         }
         else if( selectedMoleculeGraphic != null ) {
             selectedMoleculeGraphic.setOffset( 20, 20 );
