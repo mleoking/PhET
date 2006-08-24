@@ -31,7 +31,7 @@ public class WaveModel {
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 10, 40);
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 5, 30 );
-        System.out.println( "dampX = " + dampX + ", dampY=" + dampY );
+//        System.out.println( "dampX = " + dampX + ", dampY=" + dampY );
         classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), dampX, dampY );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 100,100);
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 30,30);

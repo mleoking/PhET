@@ -14,9 +14,9 @@ import java.awt.*;
 
 public class WaveIntereferenceLookAndFeel {
     public static void initLookAndFeel() {
-        PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
-        phetLookAndFeel.apply();
+        phetLookAndFeel.updateDefaults();
+        phetLookAndFeel.initLookAndFeel();
     }
 }
