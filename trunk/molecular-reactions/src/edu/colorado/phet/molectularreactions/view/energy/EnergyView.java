@@ -61,7 +61,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         addChild( createMoleculePane() );
 
         // The pane that has the curve and cursor
-        PPath curvePane = createCurvePane( moleculePane );
+        PPath curvePane = createCurvePane( moleculePane, model );
         addChild( curvePane );
 
         model.addListener( this );
@@ -75,7 +75,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
      * @param moleculePane
      * @return a PNode
      */
-    private PPath createCurvePane( PPath moleculePane ) {
+    private PPath createCurvePane( PPath moleculePane, MRModel model ) {
         PNode curveLayer = new PNode();
         PNode cursorLayer = new PNode();
         PPath curvePane = new PPath( new Rectangle2D.Double( 0, 0,
@@ -88,11 +88,11 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curvePane.addChild( cursorLayer );
 
         // Create the curve
-        EnergyCurve energyCurve = new EnergyCurve( curvePaneSize.getWidth(), curveColor );
-        energyCurve.setLeftLevel( 250 );
-        energyCurve.setRightLevel( 200 );
-        energyCurve.setPeakLevel( 100 );
-        curveLayer.addChild( energyCurve );
+        EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(), curvePaneSize.getWidth(), curveColor );
+//        energyProfileGraphic.setLeftLevel( 250 );
+//        energyProfileGraphic.setRightLevel( 200 );
+//        energyProfileGraphic.setPeakLevel( 100 );
+        curveLayer.addChild( energyProfileGraphic );
 
         // Create the cursor
         cursor = new EnergyCursor( curvePane.getHeight() - cursorInsets.top - cursorInsets.bottom );

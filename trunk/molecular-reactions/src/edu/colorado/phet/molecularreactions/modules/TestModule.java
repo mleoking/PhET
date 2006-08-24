@@ -33,18 +33,18 @@ public class TestModule extends MRModule {
 
     private void testCompisiteMoleculeA( MRModel model ) {
 
-            SimpleMolecule m1 = new MoleculeA();
-            m1.setPosition( 140, 60 );
-            m1.setVelocity( 3, 3 );
-            model.addModelElement( m1 );
+        SimpleMolecule m1 = new MoleculeA();
+        m1.setPosition( 140, 60 );
+        m1.setVelocity( 3, 3 );
+        model.addModelElement( m1 );
 
-            SimpleMolecule m2 = new MoleculeB();
-            m2.setPosition( 150, 60 );
-            m2.setVelocity( 3, 3 );
-            model.addModelElement( m2 );
-            m2.setSelectionStatus( Selectable.SELECTED );
+        SimpleMolecule m2 = new MoleculeB();
+        m2.setPosition( 150, 60 );
+        m2.setVelocity( 3, 3 );
+        model.addModelElement( m2 );
+        m2.setSelectionStatus( Selectable.SELECTED );
 
-        CompositeMolecule compositeMolecule = new CompositeMolecule( new Molecule[]{ m1, m2 } );
+        CompositeMolecule compositeMolecule = new CompositeMolecule( new Molecule[]{m1, m2} );
         model.addModelElement( compositeMolecule );
     }
 

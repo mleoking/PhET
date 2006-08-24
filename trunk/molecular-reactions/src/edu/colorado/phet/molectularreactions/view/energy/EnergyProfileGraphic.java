@@ -16,7 +16,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
@@ -30,7 +33,7 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-class EnergyCurve extends PNode {
+class EnergyProfileGraphic extends PNode {
     private double peakLevel;
 
     private PPath leftFloor;
@@ -45,8 +48,9 @@ class EnergyCurve extends PNode {
      * @param width Width of the entire curve
      * @param color
      */
-    EnergyCurve( double width, Color color ) {
+    EnergyProfileGraphic( EnergyProfile energyProfile, double width, Color color ) {
 
+        energyProfile.addChangeListener( new EnergyProfileChangeListener() );
         x1 = width * 0.4;
         x2 = width * 0.5;
         x3 = width * 0.6;
@@ -70,7 +74,14 @@ class EnergyCurve extends PNode {
         centralCurve.setStrokePaint( color );
         centralCurve.setStroke( new BasicStroke( 3 ) );
         centralCurve.addInputEventListener( new PeakMouseHandler( x2 - 5, x2 + 5));
-        updateCentralCurve();
+
+        update( energyProfile );
+    }
+
+    private void update( EnergyProfile energyProfile ) {
+        setLeftLevel( energyProfile.getLeftLevel() );
+        setRightLevel( energyProfile.getRightLevel() );
+        setPeakLevel( energyProfile.getPeakLevel() );
     }
 
     /**
@@ -90,21 +101,20 @@ class EnergyCurve extends PNode {
         centralCurve.setPathTo( centralPath.getGeneralPath() );
     }
 
-    void setLeftLevel( double leftLevel ) {
+    private void setLeftLevel( double leftLevel ) {
         leftFloor.setOffset( leftFloor.getOffset().getX(), leftLevel );
         updateCentralCurve();
     }
 
-    void setPeakLevel( double peakLevel ) {
+    private void setPeakLevel( double peakLevel ) {
         this.peakLevel = peakLevel;
         updateCentralCurve();
     }
 
-    void setRightLevel( double rightLevel ) {
+    private void setRightLevel( double rightLevel ) {
         rightFloor.setOffset( rightFloor.getOffset().getX(), rightLevel );
         updateCentralCurve();
     }
-
 
     /**
      * Handles mousing on the left and right floors. Each floor gets
@@ -131,7 +141,6 @@ class EnergyCurve extends PNode {
             double dy = event.getDelta().getHeight();
             pNode.setOffset( pNode.getOffset().getX(),
                              pNode.getOffset().getY() + dy );
-            updateCentralCurve();
         }
     }
 
@@ -171,6 +180,13 @@ class EnergyCurve extends PNode {
             double dy = event.getDelta().getHeight();
             setPeakLevel( peakLevel + dy );
             updateCentralCurve();
+        }
+    }
+
+    private class EnergyProfileChangeListener implements ChangeListener {
+        public void stateChanged( ChangeEvent e ) {
+            EnergyProfile energyProfile = (EnergyProfile)e.getSource();
+            update( energyProfile );
         }
     }
 }

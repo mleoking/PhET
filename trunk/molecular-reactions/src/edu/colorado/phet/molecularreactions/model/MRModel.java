@@ -39,6 +39,7 @@ import java.awt.geom.Point2D;
 public class MRModel extends PublishingModel {
     private Box2D box;
     private double reactionThresholdEnergy = MRConfig.REACTION_THRESHOLD;
+    private EnergyProfile energyProfile = new EnergyProfile( MRConfig.REACTION_THRESHOLD, 0, 0 );
 
     public MRModel( IClock clock ) {
         super( clock );
@@ -58,13 +59,23 @@ public class MRModel extends PublishingModel {
         addModelElement( new SelectedMoleculeTracker( this ) );
     }
 
-    public double getReactionThresholdEnergy() {
-        return reactionThresholdEnergy;
+//    public double getReactionThresholdEnergy() {
+//        return reactionThresholdEnergy;
+//    }
+//
+//    public void setReactionThresholdEnergy( double reactionThresholdEnergy ) {
+//        this.reactionThresholdEnergy = reactionThresholdEnergy;
+//        modelListenerProxy.reactionThresholdChanged( this );
+//    }
+
+    public void setEnergyProfile( EnergyProfile energyProfile ) {
+        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel());
+        this.energyProfile.setRightLevel( energyProfile.getRightLevel());
+        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel());
     }
 
-    public void setReactionThresholdEnergy( double reactionThresholdEnergy ) {
-        this.reactionThresholdEnergy = reactionThresholdEnergy;
-        modelListenerProxy.reactionThresholdChanged( this );
+    public EnergyProfile getEnergyProfile() {
+        return energyProfile;
     }
 
     //--------------------------------------------------------------------------------------------------
