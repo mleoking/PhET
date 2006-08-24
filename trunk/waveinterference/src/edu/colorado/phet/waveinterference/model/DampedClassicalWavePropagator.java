@@ -101,12 +101,20 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         }
     }
 
+//    private void dampScale( Lattice2D lattice ) {
+//        dampVertical( lattice, 0, +1, dampX / 2 );
+//        dampVertical( lattice, lattice.getWidth() - 1, -1, dampX / 3 );
+//        dampHorizontal( lattice, 0, +1, dampY / 2 );
+//        dampHorizontal( lattice, lattice.getHeight() - 1, -1, dampY / 3 );
+//    }
+
     private void dampScale( Lattice2D lattice ) {
         dampVertical( lattice, 0, +1, dampX / 2 );
         dampVertical( lattice, lattice.getWidth() - 1, -1, dampX / 3 );
         dampHorizontal( lattice, 0, +1, dampY / 2 );
         dampHorizontal( lattice, lattice.getHeight() - 1, -1, dampY / 3 );
     }
+
 //    double[]dampCoefficients=new double[]{0.999,0.999,0.998,0.995,0.99,0.9,0.8};
 
     private float getDamp( int depthInDampRegion ) {
