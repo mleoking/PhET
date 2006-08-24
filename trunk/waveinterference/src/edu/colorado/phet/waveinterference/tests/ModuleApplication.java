@@ -16,7 +16,7 @@ import javax.swing.*;
 
 public class ModuleApplication {
     public ModuleApplication() {
-        WaveIntereferenceLookAndFeel.initLookAndFeel();
+        new WaveIntereferenceLookAndFeel().initLookAndFeel();
     }
 
     public void startApplication( String[]args, Module module ) {

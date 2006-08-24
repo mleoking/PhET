@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -12,11 +13,13 @@ import java.awt.*;
  * Copyright (c) Mar 27, 2006 by Sam Reid
  */
 
-public class WaveIntereferenceLookAndFeel {
-    public static void initLookAndFeel() {
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
-        phetLookAndFeel.updateDefaults();
-        phetLookAndFeel.initLookAndFeel();
+public class WaveIntereferenceLookAndFeel extends PhetLookAndFeel {
+    public WaveIntereferenceLookAndFeel() {
+        setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        updateDefaults();//todo is this necessary?
+    }
+
+    protected String getLookAndFeelClassName() {
+        return UIManager.getSystemLookAndFeelClassName();
     }
 }

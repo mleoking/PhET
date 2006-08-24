@@ -56,7 +56,7 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) {
         SimStrings.init( args, LOCALIZATION_BUNDLE_BASENAME );
-        WaveIntereferenceLookAndFeel.initLookAndFeel();
+        new WaveIntereferenceLookAndFeel().initLookAndFeel();
         if( Arrays.asList( args ).contains( "-smooth" ) ) {
             doSmooth();
         }

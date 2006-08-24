@@ -28,7 +28,7 @@ public class RunAllTests extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        WaveIntereferenceLookAndFeel.initLookAndFeel();
+        new WaveIntereferenceLookAndFeel().initLookAndFeel();
         new RunAllTests( args ).startApplication();
     }
 }

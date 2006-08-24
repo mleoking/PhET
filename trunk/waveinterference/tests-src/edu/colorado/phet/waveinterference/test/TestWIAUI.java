@@ -33,7 +33,7 @@ public class TestWIAUI extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        WaveIntereferenceLookAndFeel.initLookAndFeel();
+        new WaveIntereferenceLookAndFeel().initLookAndFeel();
         try {
             final String systemLookAndFeelClassName = smooth.SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
             System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
