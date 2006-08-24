@@ -39,7 +39,7 @@ import java.awt.geom.Point2D;
 public class MRModel extends PublishingModel {
     private Box2D box;
     private double reactionThresholdEnergy = MRConfig.REACTION_THRESHOLD;
-    private EnergyProfile energyProfile = new EnergyProfile( MRConfig.REACTION_THRESHOLD, 0, 0 );
+    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.REACTION_THRESHOLD, 0 );
 
     public MRModel( IClock clock ) {
         super( clock );
