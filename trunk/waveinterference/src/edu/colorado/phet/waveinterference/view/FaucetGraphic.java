@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -14,6 +16,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -185,10 +189,11 @@ public class FaucetGraphic extends PhetPNode {
     }
 
     private void addDrop() {
-        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed, clipDrops );
+        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed, clipDrops, oscillator.getAmplitude() );
         double x = faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0;
         double y = faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0;
         waterDropGraphic.setOffset( x, y );
+//        waterDropGraphic.setScale( );
         addDrop( waterDropGraphic );
     }
 
@@ -262,12 +267,23 @@ public class FaucetGraphic extends PhetPNode {
     class WaterDropGraphic extends PNode {
         private PImage image;
         private double speed;
+        private double amplitude;
         private boolean clip = false;
 
-        public WaterDropGraphic( double speed, boolean clip ) {
+        public WaterDropGraphic( double speed, boolean clip, double amplitude ) {
             this.clip = clip;
             this.speed = speed;
-            image = PImageFactory.create( "images/raindrop1.png" );
+            this.amplitude = amplitude;
+//            image = PImageFactory.create( "images/raindrop1.png" );
+            double scale = amplitude;
+            try {
+                BufferedImage origImage = ImageLoader.loadBufferedImage( "images/raindrop1.png" );
+                image = new PImage( BufferedImageUtils.rescaleXMaintainAspectRatio( origImage, (int)Math.max( scale * origImage.getWidth(), 1 ) ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+//            image.setImage( BufferedImageUtils.rescaleFractional( image.get) );
             addChild( image );
         }
 
