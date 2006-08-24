@@ -45,7 +45,7 @@ public class BSCovalentBondsApplication extends BSAbstractApplication {
     /*
      * Initializes modules.
      */
-    protected void initModules( String[] args ) {
+    protected void initModules() {
         addTwoWellsModule();
         getTwoWellsModule().setHasWiggleMe( true );
     }

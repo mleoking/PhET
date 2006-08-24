@@ -45,7 +45,7 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
     /*
      * Initializes modules.
      */
-    protected void initModules( String[] args ) {
+    protected void initModules() {
         addOneWellModule();
         addTwoWellsModule();
         addManyWellsModule();

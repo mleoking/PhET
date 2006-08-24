@@ -79,7 +79,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
             String title, String description, String version, FrameSetup frameSetup )
     {
         super( args, title, description, version, frameSetup );
-        initModules( args );
+        initModules();
         initMenubar();
     }
     
@@ -89,12 +89,8 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
     
     /*
      * Initializes the modules.
-     * Command line args are consulted to see which modules should be created.
-     * If no command line args are found, then all of the modules are created.
-     * 
-     * @param clock
      */
-    protected abstract void initModules( String[] args );
+    protected abstract void initModules();
     
     /*
      * Initializes the menubar.

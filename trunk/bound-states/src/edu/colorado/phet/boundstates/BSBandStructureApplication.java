@@ -45,7 +45,7 @@ public class BSBandStructureApplication extends BSAbstractApplication {
     /*
      * Initializes modules.
      */
-    protected void initModules( String[] args ) {
+    protected void initModules() {
         addManyWellsModule();
         getManyWellsModule().setHasWiggleMe( true );
     }
