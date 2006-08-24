@@ -4,10 +4,12 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,6 +142,17 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
         addScreenChild( thisSideUpWrapper );
 //        addScaleTest();
+        SoundWaveGraphicRadioControl soundWaveGraphicRadioControl = new SoundWaveGraphicRadioControl( soundWaveGraphic );
+        final PSwing pSwing = new PSwing( this, new ShinyPanel( soundWaveGraphicRadioControl ) );
+        addScreenChild( pSwing );
+
+        getLatticeScreenCoordinates().addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+//                updateRadioButtons();
+                pSwing.setOffset( getLatticeScreenCoordinates().getScreenRect().getMaxX(),
+                                  getLatticeScreenCoordinates().getScreenRect().getCenterY() - pSwing.getFullBounds().getHeight() / 2 );
+            }
+        } );
     }
 
     private void updateRotationGlyphColor() {

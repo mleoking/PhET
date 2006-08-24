@@ -32,8 +32,8 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new WaveRotateControl3D( soundModule.getWaveInterferenceModel(), soundModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
-        addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
-        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
+//        addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
+//        addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
         addControl( new ShowMarkersControl( soundModule.getSoundWaveGraphic(), soundModule.getSoundWaveGraphic().getPressureWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
