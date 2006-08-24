@@ -37,9 +37,7 @@ class EnergyCursor extends RegisterablePNode {
         cursorPPath.setStrokePaint( new Color( 200, 200, 200 ) );
         cursorPPath.setPaint( new Color( 200, 200, 200, 200 ) );
         addChild( cursorPPath );
-
         setRegistrationPoint( width / 2, 0 );
-
         this.addInputEventListener( new MouseHandler( this ) );
     }
 

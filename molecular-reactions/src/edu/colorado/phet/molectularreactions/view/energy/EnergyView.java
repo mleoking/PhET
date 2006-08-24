@@ -77,7 +77,9 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
      */
     private PPath createCurvePane( PPath moleculePane, MRModel model ) {
         PNode curveLayer = new PNode();
+        curveLayer.setOffset( insets.left, insets.top );
         PNode cursorLayer = new PNode();
+        cursorLayer.setOffset( insets.left, insets.top );
         PPath curvePane = new PPath( new Rectangle2D.Double( 0, 0,
                                                              curvePaneSize.getWidth(),
                                                              curvePaneSize.getHeight() ) );
@@ -88,20 +90,15 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curvePane.addChild( cursorLayer );
 
         // Create the curve
-        Rectangle2D curveBounds = new Rectangle2D.Double( insets.left,
-                                                          insets.top,
-                                                          curvePaneSize.getWidth() - insets.left - insets.right,
-                                                          curvePaneSize.getHeight() - insets.top - insets.bottom );
+        Dimension curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - insets.left - insets.right,
+                                                 (int)curvePaneSize.getHeight() - insets.top - insets.bottom );
         EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
-                                                                              curveBounds, 
+                                                                              curveAreaSize,
                                                                               curveColor );
-//        energyProfileGraphic.setLeftLevel( 250 );
-//        energyProfileGraphic.setRightLevel( 200 );
-//        energyProfileGraphic.setPeakLevel( 100 );
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the cursor
-        cursor = new EnergyCursor( curvePane.getHeight() - insets.top - insets.bottom );
+        cursor = new EnergyCursor( curveAreaSize.getHeight() );
         cursorLayer.addChild( cursor );
 
         return curvePane;
@@ -137,7 +134,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
 
             // set location of cursor
-            cursor.setOffset( midPoint.getX(), insets.top );
+            cursor.setOffset( midPoint.getX(), 0 );
         }
         else if( selectedMoleculeGraphic != null ) {
             selectedMoleculeGraphic.setOffset( 20, 20 );

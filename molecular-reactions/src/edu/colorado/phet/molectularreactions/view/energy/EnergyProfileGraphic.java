@@ -17,12 +17,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * EnergyCurve
@@ -36,7 +36,7 @@ import java.awt.geom.Rectangle2D;
  */
 class EnergyProfileGraphic extends PNode {
     private double peakLevel;
-
+    private double modelToViewScale;
     private PPath leftFloor;
     private PPath rightFloor;
     private PPath centralCurve;
@@ -45,18 +45,19 @@ class EnergyProfileGraphic extends PNode {
     double x3;  // the x coord of the junction between the central curve and the right floor
     double peakGrabTolerance = 10;
     private EnergyProfile energyProfile;
-    private Rectangle2D bounds;
+    private Dimension size;
 
     /**
-     * @param bounds Bounds within which the graphic must be drawn
+     * @param size size of the area in which the curve is to be drawn
      * @param color
      */
-    EnergyProfileGraphic( EnergyProfile energyProfile, Rectangle2D bounds, Color color ) {
+    EnergyProfileGraphic( EnergyProfile energyProfile, Dimension size, Color color ) {
         this.energyProfile = energyProfile;
-        this.bounds = bounds;
+        this.modelToViewScale = size.getHeight() / MRConfig.MAX_REACTION_THRESHOLD;
+        this.size = size;
 
         energyProfile.addChangeListener( new EnergyProfileChangeListener() );
-        double width = bounds.getWidth();
+        double width = size.getWidth();
         x1 = width * 0.4;
         x2 = width * 0.5;
         x3 = width * 0.6;
@@ -85,9 +86,11 @@ class EnergyProfileGraphic extends PNode {
     }
 
     private void update( EnergyProfile energyProfile ) {
-        leftFloor.setOffset( leftFloor.getOffset().getX(), bounds.getHeight() - energyProfile.getLeftLevel() );
-        rightFloor.setOffset( rightFloor.getOffset().getX(), bounds.getHeight() - energyProfile.getRightLevel() );
-        peakLevel = bounds.getHeight() - energyProfile.getPeakLevel() ;
+        leftFloor.setOffset( leftFloor.getOffset().getX(),
+                             size.getHeight() - energyProfile.getLeftLevel() * modelToViewScale );
+        rightFloor.setOffset( rightFloor.getOffset().getX(),
+                              size.getHeight() - energyProfile.getRightLevel() * modelToViewScale );
+        peakLevel = size.getHeight() - energyProfile.getPeakLevel() * modelToViewScale;
         updateCentralCurve();
     }
 
@@ -133,10 +136,10 @@ class EnergyProfileGraphic extends PNode {
             double dy = event.getDelta().getHeight();
             double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
             if( eventX <= x1 ) {
-                energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy );
+                energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy / modelToViewScale );
             }
             else if( eventX >= x3 ) {
-                energyProfile.setRightLevel( energyProfile.getRightLevel() - dy );
+                energyProfile.setRightLevel(energyProfile.getRightLevel() - dy / modelToViewScale );
             }
         }
     }
@@ -176,7 +179,7 @@ class EnergyProfileGraphic extends PNode {
 
         public void mouseDragged( PInputEvent event ) {
             double dy = event.getDelta().getHeight();
-            energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy );
+            energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy / modelToViewScale );
         }
     }
 

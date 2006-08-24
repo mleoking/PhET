@@ -19,6 +19,8 @@ import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.geom.Point2D;
 
 /**
@@ -38,7 +40,12 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
     private double reactionThreshold;
 
-    public MoleculeMoleculeCollisionAgent( MRModel model ) {
+    public MoleculeMoleculeCollisionAgent( final MRModel model ) {
+        model.getEnergyProfile().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                reactionThreshold = model.getEnergyProfile().getPeakLevel();
+            }
+        } );
         this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
         model.addListener( this );
     }
