@@ -11,6 +11,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/24/06) - acquire gun image from QWI simulation, licensing cleared by Sam Reid
 (8/24/06) - add custom clock control panel
 (8/24/06) - create HAModule
 (8/24/06) - create HAApplication
