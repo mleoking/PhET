@@ -44,27 +44,6 @@ public abstract class AbstractModule extends PiccoloModule {
     }
     
     //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Enabled or disables help.
-     * <p>
-     * WORKAROUND: 
-     * If the clock is running, help items are often not drawn correctly.
-     * This implementation ensures that the help items draw correctly by
-     * pausing and starting the clock. 
-     */
-    public void setHelpEnabled( boolean enabled ) {
-        super.setHelpEnabled( enabled );
-        boolean clockIsRunning = getClock().isRunning();
-        if ( clockIsRunning ) {
-            getClock().pause();
-            getClock().start();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
     // Abstract
     //----------------------------------------------------------------------------
 
