@@ -21,8 +21,12 @@ public class WaveModel {
 
     public WaveModel( Lattice2D lattice2D ) {
 //        classicalWavePropagator = new ClassicalWavePropagator( new ConstantPotential() );
-        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
 //        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential() ,10,10);
+
+        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 100,100);
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 30,30);
         this.lattice = lattice2D;
     }
 

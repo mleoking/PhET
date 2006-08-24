@@ -161,7 +161,7 @@ public class PressureWaveGraphic extends PNode {
         }
         for( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle)particles.get( i );
-            if( particle.getImage() == pinkImage ) {
+            if( particle instanceof MarkedParticle ) {
                 removeChild( particle );
                 addChild( particle );
             }
