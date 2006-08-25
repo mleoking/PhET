@@ -98,7 +98,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         {
             PhetImageGraphic faucet = new PhetImageGraphic( component, FaradayConfig.FAUCET_IMAGE );
             addGraphic( faucet, FAUCET_LAYER );
-            faucet.setLocation( -265, -350 );
+            faucet.setLocation( -405, -350 );
             faucet.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
         }
         
@@ -117,13 +117,13 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Water Flow slider
         {
-            _flowSlider = new FaradaySlider( component, 65 );
+            _flowSlider = new FaradaySlider( component, 70 );
             addGraphic( _flowSlider, SLIDER_LAYER );
             _flowSlider.setMinimum( 0 );
             _flowSlider.setMaximum( 100 );
             _flowSlider.setValue( 0 );
             _flowSlider.centerRegistrationPoint();
-            _flowSlider.setLocation( -195, -322 );
+            _flowSlider.setLocation( -160, -335 );
             _flowSlider.addChangeListener( new SliderListener() );
         }
         

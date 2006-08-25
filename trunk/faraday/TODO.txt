@@ -16,6 +16,8 @@ LOW PRIORITY:
 
 
 DONE:
+v1r3...
+(8/25/06) - replace water faucet image (not sure where it came from) with one I made
 v1r2...
 (8/3/06) - create ProGuard config file for optimizing JAR file size
 (8/3/06) - AC power source is positioned incorrectly, not attached to coil (bounds problem with PhetTextGraphic and SineWaveGraphic)
