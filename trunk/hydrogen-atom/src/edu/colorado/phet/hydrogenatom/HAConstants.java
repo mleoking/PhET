@@ -74,7 +74,7 @@ public class HAConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = new Color( 220, 220, 220 );
+    public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Images
