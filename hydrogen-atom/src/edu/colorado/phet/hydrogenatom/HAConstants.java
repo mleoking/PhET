@@ -85,6 +85,7 @@ public class HAConstants {
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gun-on-button.png";
     public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gun-off-button.png";
+    public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //----------------------------------------------------------------------------
     // Cursors
