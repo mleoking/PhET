@@ -362,7 +362,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     public void setSpectrumSize( Dimension size ) {
 
         // Read a fresh copy of the image.
-        String resourceName = ColorVisionConfig.SPECTRUM_IMAGE;
+        String resourceName = Constants.SPECTRUM_IMAGE;
         BufferedImage image;
         try {
             image = ImageLoader.loadBufferedImage( resourceName );

@@ -35,7 +35,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
         super( component );
 
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        visibleGraphic = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
+        visibleGraphic = new PhetImageGraphic( component, Constants.SPECTRUM_IMAGE );
         double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
         double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
         double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
