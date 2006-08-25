@@ -35,7 +35,7 @@ public class HAGunNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 34, 70 );
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 33, 68 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,14 +53,26 @@ public class HAGunNode extends PNode {
         BufferedImage gunImage = null;
         BufferedImage onButtonImage = null;
         BufferedImage offButtonImage = null;
+        BufferedImage cableImage = null;
+        BufferedImage panelImage = null;
         try {
             gunImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN );
             onButtonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_ON_BUTTON );
             offButtonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_OFF_BUTTON );
+            cableImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_CONTROL_CABLE );
+            panelImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_CONTROL_PANEL );
         }
         catch ( IOException e ) {
             e.printStackTrace();
         }
+        
+        PImage cableNode = new PImage( cableImage );
+        addChild( cableNode );
+        cableNode.setOffset( 13, 175 );
+        
+        PImage panelNode = new PImage( panelImage );
+        addChild( panelNode );
+        panelNode.setOffset( 0, 210 );
         
         PImage gunNode = new PImage( gunImage );
         addChild( gunNode );

@@ -83,6 +83,8 @@ public class HAConstants {
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
+    public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gun-control-cable.png";
+    public static final String IMAGE_GUN_CONTROL_PANEL = IMAGES_DIRECTORY + "gun-control-panel.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gun-on-button.png";
     public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gun-off-button.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
