@@ -11,6 +11,9 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/25/06) - add control cable and control panel for gun
+(8/25/06) - fix gun on/off button images
+(8/25/06) - fix gun image
 (8/24/06) - add basic gun graphic with on/off button
 (8/24/06) - acquire gun image from QWI simulation, licensing cleared by Sam Reid
 (8/24/06) - add custom clock control panel
