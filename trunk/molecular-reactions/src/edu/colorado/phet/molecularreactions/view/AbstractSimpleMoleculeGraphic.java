@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeB;
 import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
 import java.util.HashMap;
 import java.awt.*;
@@ -28,8 +29,13 @@ import java.awt.geom.Ellipse2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
+abstract public class AbstractSimpleMoleculeGraphic extends RegisterablePNode implements SimpleObserver, SimpleMolecule.Listener {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private static double BOND_OFFSET = 2;
     private static HashMap moleculeTypeToColor = new HashMap();
     private static Color moleculeAColor = new Color( 0, 200, 0 );
     private static Color moleculeBColor = new Color( 240, 240, 0 );
@@ -48,6 +54,10 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         return color;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static Stroke defaultStroke = new BasicStroke( 1 );
     private static Stroke selectedStroke = new BasicStroke( 2 );
     private static Stroke nearestToSelectedStroke = new BasicStroke( 2 );
@@ -63,10 +73,13 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         molecule.addObserver( this );
         molecule.addListener( this );
 
-        Shape s = new Ellipse2D.Double( -molecule.getRadius(),
-                                                      -molecule.getRadius(),
-                                                      molecule.getRadius() * 2,
-                                                      molecule.getRadius() * 2 );
+        double radius = molecule.getRadius() - BOND_OFFSET;
+
+        Shape s = new Ellipse2D.Double( 0,
+                                        0,
+                                        radius * 2,
+                                        radius * 2 );
+        setRegistrationPoint( molecule.getRadius(), molecule.getRadius() );
         pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
         pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
         pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
@@ -92,7 +105,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
             pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
             pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
         }
-        else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED) {
+        else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
             pPath.setStroke( AbstractSimpleMoleculeGraphic.nearestToSelectedStroke );
             pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.nearestToSelectedStrokePaint );
         }

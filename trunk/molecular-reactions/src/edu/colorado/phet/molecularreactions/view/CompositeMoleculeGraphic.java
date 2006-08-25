@@ -43,6 +43,8 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
             addChild( cmNode );
             update();
         }
+
+        
     }
 
     private PNode createComponentGraphics( Molecule molecule ) {

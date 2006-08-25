@@ -51,6 +51,7 @@ public class CompositeMolecule extends Molecule {
     //--------------------------------------------------------------------------------------------------
 
     private SimpleMolecule[] components;
+    private Bond[] bonds;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
 
@@ -61,9 +62,10 @@ public class CompositeMolecule extends Molecule {
      *
      * @param components
      */
-    public CompositeMolecule( SimpleMolecule[] components ) {
+    public CompositeMolecule( SimpleMolecule[] components, Bond[] bonds ) {
         super();
         this.components = components;
+        this.bonds = bonds;
 
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
@@ -266,7 +268,6 @@ public class CompositeMolecule extends Molecule {
     public int numSimpleMolecules() {
         return numSimpleMolecules( this );
     }
-
 
     public double getKineticEnergy() {
         return super.getKineticEnergy();
