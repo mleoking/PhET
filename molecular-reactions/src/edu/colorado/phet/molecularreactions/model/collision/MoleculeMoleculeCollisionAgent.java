@@ -14,10 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
-import edu.colorado.phet.molecularreactions.model.Molecule;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
-import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.*;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -144,7 +141,8 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // and they are of different types (two of the same types can't combine)
         if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB ) ) {
             SimpleMolecule[] ma = createArrayOfAllSimpleMolecules( bodyA, bodyB );
-            CompositeMolecule compositeMolecule = new CompositeMolecule( ma );
+            Bond[] ba = createArrayOfBonds( bodyA, bodyB );
+            CompositeMolecule compositeMolecule = new CompositeMolecule( ma, ba );
             model.removeModelElement( bodyA );
             model.removeModelElement( bodyB );
             model.addModelElement( compositeMolecule );
@@ -218,6 +216,10 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 //        bodyB.getVelocity().multiply( fvB );
             }
         }
+    }
+
+    private Bond[] createArrayOfBonds( Body bodyA, Body bodyB ) {
+        return null;    
     }
 
     private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {

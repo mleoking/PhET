@@ -60,7 +60,8 @@ public class TestModule extends MRModule {
         model.addModelElement( m2 );
         m2.setSelectionStatus( Selectable.SELECTED );
 
-        CompositeMolecule compositeMolecule = new CompositeMolecule( new SimpleMolecule[]{m1, m2} );
+        CompositeMolecule compositeMolecule = new CompositeMolecule( new SimpleMolecule[]{m1, m2},
+                                                                     new Bond[] {new Bond( m1, m2 ) } );
         model.addModelElement( compositeMolecule );
     }
 
@@ -150,7 +151,8 @@ public class TestModule extends MRModule {
         rm3.setMass( 25 );
         rm3.setPosition( 200, 115 );
 
-        CompositeMolecule cm1 = new CompositeMolecule( new SimpleMolecule[]{rm2, rm3} );
+        CompositeMolecule cm1 = new CompositeMolecule( new SimpleMolecule[]{rm2, rm3},
+                                                       new Bond[] { new Bond( rm2, rm3 ) } );
         cm1.setVelocity( 1, 0 );
 //        cm1.setVelocity( 0, 4);
 //        cm1.setOmega( 0 );
