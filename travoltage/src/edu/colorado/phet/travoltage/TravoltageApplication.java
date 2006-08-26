@@ -17,8 +17,6 @@ import javax.swing.*;
 
 public class TravoltageApplication extends PhetApplication {
     private static final String VERSION = "1.03";
-//    private static final String TITLE = "Travoltage";
-//    private static final String DESCRIPTION = ;
     private JDialog dialog;
 
     public TravoltageApplication( String[] args ) {
@@ -29,10 +27,6 @@ public class TravoltageApplication extends PhetApplication {
     public void showAboutDialog() {
         if( dialog == null ) {
             dialog = new TravoltageAboutDialog( this );
-//            dialog.setContentPane( new TravoltageAboutPanel( this ) );
-
-//            dialog.pack();
-//            dialog.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
             SwingUtils.centerWindowOnScreen( dialog );
         }
         dialog.show();
@@ -44,9 +38,13 @@ public class TravoltageApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
-        SimStrings.init( args, "localization/TravoltageStrings" );
-        new TravoltageLookAndFeel().initLookAndFeel();
-        new TravoltageApplication( args ).startApplication();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                SimStrings.init( args, "localization/TravoltageStrings" );
+                new TravoltageLookAndFeel().initLookAndFeel();
+                new TravoltageApplication( args ).startApplication();
+            }
+        } );
     }
 }
