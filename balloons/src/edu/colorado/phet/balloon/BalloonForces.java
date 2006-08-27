@@ -76,7 +76,7 @@ public class BalloonForces implements Law {
         //System.err.println("x="+x+", kqq="+kqq+", pow="+pow);
         double f = kqq / pow;
         if( count++ % disp == 0 ) {
-            System.err.println( "pow=" + pow + ", k=" + k + ", f=" + f );
+//            System.err.println( "pow=" + pow + ", k=" + k + ", f=" + f );
         }
         return new DoublePoint( f, 0 );
     }
@@ -94,6 +94,7 @@ public class BalloonForces implements Law {
 //  	//System.err.println("f="+f);
 //  	return new DoublePoint(f,0);
 //      }
+
     public DoublePoint getSweaterForce( BalloonPainter bp ) {
         DoublePoint sweater = s.getCenter();
         DoublePoint x = getCenter( bp );

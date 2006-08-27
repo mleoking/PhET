@@ -29,6 +29,7 @@ import java.util.Random;
  * Test comment.
  */
 public class BalloonApplet extends JApplet implements IHelp {
+    private static final String VERSION = "1.00.01";
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = true;
     int width;
@@ -49,6 +50,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     public BufferedImage sweaterImage;
     public int wallWidth;
     public JPanel controlPanel;
+
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
@@ -279,10 +281,10 @@ public class BalloonApplet extends JApplet implements IHelp {
         //sys.addLaw(new DelayedLaw(new Repaint(painterPanel),2));
         //sys.addLaw(new DelayedLaw(new Repaint(this),20));
         int x = dragBounds.x + dragBounds.width;
-        System.err.println( "x=" + x );
+//        System.err.println( "x=" + x );
         int widdie = x - sweaterImage.getWidth() / 2;
         Rectangle bounds = new Rectangle( sweaterImage.getWidth() / 2, 0, widdie + 143, PANEL_HEIGHT - 50 );
-        System.err.println( "bounds=" + bounds );
+//        System.err.println( "bounds=" + bounds );
         sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, w ) );
         sys.addLaw( w );
         sys.addLaw( ( new Repaint( painterPanel ) ) );
@@ -315,7 +317,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
         ba.init();
-        JFrame jf = new JFrame( SimStrings.get( "balloons.frame.title" ) );
+        JFrame jf = new JFrame( SimStrings.get( "balloons.frame.title" ) + " (" + VERSION + ")" );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
         jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );

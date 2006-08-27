@@ -51,7 +51,7 @@ public class BalloonFilter extends LookupTable {
         BalloonFilter bf = new BalloonFilter();
         LookupOp lo = new LookupOp( bf, null );
         BufferedImage out = lo.filter( balloon, null );
-        System.err.println( "Created output filter: " + out );
+//        System.err.println( "Created output filter: " + out );
 
         JFrame f = new JFrame();
         LayeredPainter lp = new LayeredPainter();
