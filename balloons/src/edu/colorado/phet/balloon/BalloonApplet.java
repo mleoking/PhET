@@ -95,11 +95,15 @@ public class BalloonApplet extends JApplet implements IHelp {
         height = PANEL_HEIGHT;
         ImageLoader loader = new ResourceLoader4( getClass().getClassLoader(), this );
 
-        BufferedImage balloon = loader.loadBufferedImage( "images/FilteredBalloon-ii.GIF" );
-        BufferedImage blueCharge = loader.loadBufferedImage( "images/FilteredBalloon-ii.GIF" );
+//        String blueBalloonIm = "FilteredBalloon-ii.GIF";
+//        String yellowBalloonIm = "balloon5_filter-ii.GIF";
+        String blueBalloonIm = "balloon-blue.gif";
+        String yellowBalloonIm = "balloon-yellow.gif";
+        BufferedImage balloon = loader.loadBufferedImage( "images/" + blueBalloonIm );
+        BufferedImage blueCharge = loader.loadBufferedImage( "images/" + blueBalloonIm );
 
-        BufferedImage yelBal = loader.loadBufferedImage( "images/balloon5_filter-ii.GIF" );
-        BufferedImage yelCharge = loader.loadBufferedImage( "images/balloon5_filter-ii.GIF" );
+        BufferedImage yelBal = loader.loadBufferedImage( "images/" + yellowBalloonIm );
+        BufferedImage yelCharge = loader.loadBufferedImage( "images/" + yellowBalloonIm );
 
         paintCharge( yelCharge );
         paintCharge( blueCharge );
