@@ -1,26 +1,25 @@
 package edu.colorado.phet.balloon;
 
-import smooth.metal.SmoothLookAndFeel;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PhetLookAndFeel extends SmoothLookAndFeel {
+public class PhetLookAndFeel extends MetalLookAndFeel {
     private static Font font;
     private static Color foregroundColor;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
     private String[] types = new String[]{
-        "Button", "MenuItem", "Panel", "Dialog",
-        "CheckBox", "RadioButton", "ComboBox",
-        "Menu", "MenuItem", "MenuBar",
-        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea", "Spinner", "Label"
+            "Button", "MenuItem", "Panel", "Dialog",
+            "CheckBox", "RadioButton", "ComboBox",
+            "Menu", "MenuItem", "MenuBar",
+            "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
+            "TextField", "TextArea", "Spinner", "Label"
     };
 
     public static Font getFont() {
