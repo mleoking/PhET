@@ -50,7 +50,7 @@ public class BF2 extends LookupTable {
         BufferedImage balloon = loader.loadBufferedImage( in );
         LookupOp lo = new LookupOp( this, null );
         BufferedImage out = lo.filter( balloon, null );
-        System.err.println( "Created output filter: " + out );
+//        System.err.println( "Created output filter: " + out );
 
         JFrame f = new JFrame();
         LayeredPainter lp = new LayeredPainter();
