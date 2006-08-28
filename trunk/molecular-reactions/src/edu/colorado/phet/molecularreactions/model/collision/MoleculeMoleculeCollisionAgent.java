@@ -158,16 +158,26 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
                 Bond bond = new Bond( collisionSpec.getMoleculeA(), collisionSpec.getMoleculeB() );
                 ( (CompositeMolecule)bodyB ).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
+                System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
             }
             else if( bodyB instanceof SimpleMolecule && bodyA instanceof CompositeMolecule ) {
                 Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA );
                 ( (CompositeMolecule)bodyA ).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
+                System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
             }
             else {
                 throw new RuntimeException( "unexpected situation" );
             }
         }
         // Otherwise, do a perfectly elastic collision
+
+
+
+
+
+
+
+
         else {
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),

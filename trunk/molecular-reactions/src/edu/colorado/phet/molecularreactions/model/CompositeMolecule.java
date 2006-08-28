@@ -186,7 +186,6 @@ public class CompositeMolecule extends Molecule {
      * @param molecule
      */
     private void setNewComponentPosition( Bond bond, SimpleMolecule molecule ) {
-        bond.getParticipants();
         SimpleMolecule existingComponent = bond.getParticipants()[0] == molecule ? bond.getParticipants()[1]
                                            : bond.getParticipants()[1];
         Bond[] existingBonds = getBonds();
