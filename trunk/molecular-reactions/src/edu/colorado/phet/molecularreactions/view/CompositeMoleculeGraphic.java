@@ -22,6 +22,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * CompoundMoleculeGraphic
@@ -29,19 +30,28 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
+public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, CompositeMolecule.Listener {
     private CompositeMolecule compositeMolecule;
     private PPath cmNode;
+    private PNode bondsLayer = new PNode();
+    private PNode simpleMoleculeLayer = new PNode();
+    private HashMap simpleMoleculeToGraphicMap = new HashMap();
+    private HashMap participantsToBondGraphicsMap = new HashMap();
 
     /**
      *
      * @param compositeMolecule
      */
     public CompositeMoleculeGraphic( CompositeMolecule compositeMolecule ) {
+        compositeMolecule.addListener( this );
         this.compositeMolecule = compositeMolecule;
         compositeMolecule.addObserver( this );
-        addChild( createBondGraphics( compositeMolecule ) );
-        addChild( createComponentGraphics( compositeMolecule ) );
+
+        addChild( bondsLayer );
+        addChild( simpleMoleculeLayer );
+
+        createComponentGraphics( compositeMolecule );
+        createBondGraphics( compositeMolecule.getBonds() );
 
         if( MRConfig.DEBUG ) {
             double r = 2;
@@ -52,36 +62,51 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
         }
     }
 
-    private PNode createComponentGraphics( Molecule molecule ) {
-        PNode pNode = null;
+    private void createComponentGraphics( Molecule molecule ) {
         if( molecule instanceof SimpleMolecule ) {
-            pNode = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
+            SpatialSimpleMoleculeGraphic simpleMoleculeGraphic = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
+            simpleMoleculeToGraphicMap.put( molecule, simpleMoleculeGraphic );
+            simpleMoleculeLayer.addChild( simpleMoleculeGraphic );
         }
         else {
-            pNode = new PNode();
             Molecule[] componentMolecules = molecule.getComponentMolecules();
             for( int i = 0; i < componentMolecules.length; i++ ) {
                 Molecule component = componentMolecules[i];
-                pNode.addChild( createComponentGraphics( component ) );
+                createComponentGraphics( component );
             }
         }
-        return pNode;
     }
 
-    private PNode createBondGraphics( CompositeMolecule molecule ) {
-        PNode layer = new PNode();
-        Bond[] bonds = molecule.getBonds();
+    private void createBondGraphics( Bond[] bonds ) {
         for( int i = 0; i < bonds.length; i++ ) {
             Bond bond = bonds[i];
-            PNode bondGraphic = new BondGraphic( bond );
-            layer.addChild( bondGraphic );
+            createBondGraphic( bond );
         }
-        return layer;
+    }
+
+    private void createBondGraphic( Bond bond ) {
+        PNode bondGraphic = new BondGraphic( bond );
+        participantsToBondGraphicsMap.put( bond.getParticipants()[0], bondGraphic );
+        participantsToBondGraphicsMap.put( bond.getParticipants()[1], bondGraphic );
+        bondsLayer.addChild( bondGraphic );
     }
 
     public void update() {
         if( MRConfig.DEBUG ) {
             cmNode.setOffset( compositeMolecule.getCM() );
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of CompositeMolecule.Listener
+    //--------------------------------------------------------------------------------------------------
+
+    public void componentAdded( SimpleMolecule component, Bond bond ) {
+        createComponentGraphics( component );
+        createBondGraphic( bond );
+    }
+
+    public void componentRemoved( SimpleMolecule component, Bond bond ) {
+        // noop
     }
 }
