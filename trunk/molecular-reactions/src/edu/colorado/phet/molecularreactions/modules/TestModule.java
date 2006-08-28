@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
 
@@ -41,15 +42,15 @@ public class TestModule extends MRModule {
      */
     private void testC( MRModel model ) {
 
-        model.getEnergyProfile().setPeakLevel( 0 );
+        model.getEnergyProfile().setPeakLevel( 300 );
         SimpleMolecule m1 = new MoleculeA();
         m1.setPosition( 110, 60 );
         m1.setVelocity( 0, 0 );
-//        model.addModelElement( m1 );
+        model.addModelElement( m1 );
         SimpleMolecule m1a = new MoleculeA();
         m1a.setPosition( 110 + m1a.getRadius() * 2, 60 );
         m1a.setVelocity( 0, 0 );
-//        model.addModelElement( m1a );
+        model.addModelElement( m1a );
 
         CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[] { m1, m1a },
                                                       new Bond[] { new Bond( m1, m1a )});

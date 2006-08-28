@@ -72,14 +72,16 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         Molecule moleculeB = (Molecule)bodyB;
         CollisionSpec collisionSpec = null;
 
-        // Do bounding box test
+        // Do bounding box test to avoid more computation for most pairs of molecules
         boolean boundingBoxesOverlap = false;
         double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
         double dy = Math.abs( moleculeA.getPosition().getY() - moleculeB.getPosition().getY() );
         boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
                                && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        if( boundingBoxesOverlap ) {
+        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
+        // composite
+        if( boundingBoxesOverlap && !moleculeA.isPartOfComposite() && !moleculeB.isPartOfComposite() ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
@@ -149,8 +151,8 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
             if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
                 CompositeMolecule compositeMolecule = new CompositeMolecule( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB );
-                model.removeModelElement( bodyA );
-                model.removeModelElement( bodyB );
+//                model.removeModelElement( bodyA );
+//                model.removeModelElement( bodyB );
                 model.addModelElement( compositeMolecule );
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
@@ -377,7 +379,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
                 && m2 instanceof SimpleMolecule
                 && totalEnergy >= reactionThreshold ) {
-                System.out.println( "MoleculeMoleculeCollisionAgent$SimpleMoleculeCompoundMoleculeCriteria.criteriaMet" );
                 return true;
             }
             return false;

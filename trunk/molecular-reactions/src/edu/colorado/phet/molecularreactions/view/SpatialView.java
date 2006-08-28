@@ -86,4 +86,6 @@ public class SpatialView extends PNode {
             return new BoxGraphic( (Box2D)modelElement ) ;
         }
     }
+
+    
 }

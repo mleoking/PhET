@@ -83,7 +83,7 @@ public class CompositeMolecule extends Molecule {
             component.setPartOfComposite( true );
         }
 
-        // Compute compiste properties
+        // Compute composite properties
         computeKinematicsFromComponents( components );
     }
 
@@ -119,13 +119,19 @@ public class CompositeMolecule extends Molecule {
             }
         }
 
+        // Remove the simple molecule from the composite
         List componentList = new ArrayList( Arrays.asList( components ) );
         componentList.remove( molecule );
         components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+        molecule.setPartOfComposite( false );
 
+        // Remove the bond from our list of bonds
         List bondList = new ArrayList( Arrays.asList( bonds ) );
         bondList.remove( bond );
         bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
+
+        // Compute composite properties
+        computeKinematicsFromComponents( components );
 
         listenerProxy.componentRemoved( molecule, bond );
     }
@@ -144,6 +150,11 @@ public class CompositeMolecule extends Molecule {
         List componentList = new ArrayList( Arrays.asList( components ) );
         componentList.add( molecule );
         components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+
+        // Add the bond to the list of bonds
+        List bondList = new ArrayList( Arrays.asList( bonds ));
+        bondList.add( bond );
+        bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
 
         // Factor in the new component's kinematics
         addComponentKinematics( molecule );

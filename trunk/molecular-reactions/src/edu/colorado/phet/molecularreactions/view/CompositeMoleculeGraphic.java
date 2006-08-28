@@ -47,9 +47,9 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
         compositeMolecule.addObserver( this );
 
         addChild( bondsLayer );
-        addChild( simpleMoleculeLayer );
+//        addChild( simpleMoleculeLayer );
 
-        createComponentGraphics( compositeMolecule );
+//        createComponentGraphics( compositeMolecule );
         createBondGraphics( compositeMolecule.getBonds() );
 
         if( MRConfig.DEBUG ) {
@@ -105,8 +105,8 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     }
 
     public void componentRemoved( SimpleMolecule component, Bond bond ) {
-        PNode moleculeGraphic = (PNode)simpleMoleculeToGraphicMap.get( component );
-        simpleMoleculeLayer.removeChild( moleculeGraphic );
+//        PNode moleculeGraphic = (PNode)simpleMoleculeToGraphicMap.get( component );
+//        simpleMoleculeLayer.removeChild( moleculeGraphic );
         PNode bondGraphic = (PNode)bondToGraphicMap.get( bond );
         bondsLayer.removeChild( bondGraphic );
     }
