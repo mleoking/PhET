@@ -41,8 +41,13 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private double reactionThreshold;
     private ReactionCriteria reactionCriteria;
 
+    /**
+     *
+     * @param model
+     */
     public MoleculeMoleculeCollisionAgent( final MRModel model ) {
 
+//        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
         reactionCriteria = new SimpleMoleculeReactionCriteria();
 
         model.getEnergyProfile().addChangeListener( new ChangeListener() {
@@ -289,6 +294,9 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         boolean criteriaMet( Molecule bodyA, Molecule bodyB );
     }
 
+    /**
+     * Combines two simple molecules of different types into one compound molecule
+     */
     class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
         public boolean criteriaMet( Molecule m1, Molecule m2 ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold
@@ -297,12 +305,18 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         }
     }
 
+    /**
+     * Combines any two molecules together
+     */
     class SimpleMoleculeReactionCriteria implements ReactionCriteria {
         public boolean criteriaMet( Molecule m1, Molecule m2 ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold;
         }
     }
 
+    /**
+     * If a simple molecule hits a compound molecule, combines
+     */
     class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
         public boolean criteriaMet( Molecule m1, Molecule m2 ) {
             double totalEnergy = m1.getKineticEnergy() + m2.getKineticEnergy();

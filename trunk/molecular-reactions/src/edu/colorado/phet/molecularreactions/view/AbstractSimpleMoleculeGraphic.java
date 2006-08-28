@@ -24,7 +24,13 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 /**
- * SimpleMoleculeGraphic
+ * AbstractSimpleMoleculeGraphic
+ * <p>
+ * Base class used in the spatial and energy views for the graphics for simple molecules
+ * <p>
+ * The radius of the molecule is not used for the radius of the disk used in the graphic. Rather,
+ * the disk is smaller, so that the bonds between molecules can be shown as a line. This may need
+ * to change so that collisions look more natural on the screen.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -68,18 +74,21 @@ abstract public class AbstractSimpleMoleculeGraphic extends RegisterablePNode im
     private SimpleMolecule molecule;
     private PPath pPath;
 
+    /**
+     *
+     * @param molecule
+     */
     public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         molecule.addListener( this );
 
         double radius = molecule.getRadius() - BOND_OFFSET;
-
         Shape s = new Ellipse2D.Double( 0,
                                         0,
                                         radius * 2,
                                         radius * 2 );
-        setRegistrationPoint( molecule.getRadius(), molecule.getRadius() );
+        setRegistrationPoint( radius, radius );
         pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
         pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
         pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );

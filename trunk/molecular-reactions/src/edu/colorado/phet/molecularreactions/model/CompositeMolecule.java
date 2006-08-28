@@ -157,6 +157,10 @@ public class CompositeMolecule extends Molecule {
         return components;
     }
 
+    public Bond[] getBonds() {
+        return bonds;
+    }
+
     public Rectangle2D getBoundingBox() {
         boundingBox.setRect( components[0].getBoundingBox() );
         for( int i = 1; i < components.length; i++ ) {
