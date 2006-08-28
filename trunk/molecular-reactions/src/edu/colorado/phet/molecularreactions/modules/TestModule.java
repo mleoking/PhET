@@ -56,7 +56,7 @@ public class TestModule extends MRModule {
         model.addModelElement( cm );
 
         SimpleMolecule m2 = new MoleculeB();
-        m2.setPosition( 115, 100 );
+        m2.setPosition( 115, 150 );
         m2.setVelocity( 0, -3 );
         model.addModelElement( m2 );
         m2.setSelectionStatus( Selectable.SELECTED );
