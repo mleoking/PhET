@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - get photon image from discharge lamps
 
 MEDIUM PRIORITY:
+- get model details from Sam McKagan
 
 LOW PRIORITY:
 
