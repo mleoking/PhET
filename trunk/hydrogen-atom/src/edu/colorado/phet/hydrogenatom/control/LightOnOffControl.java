@@ -9,14 +9,19 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.control.LightSourceControl;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -24,12 +29,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * HAGunNode
+ * LightOnOffControl
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAGunNode extends PNode {
+public class LightOnOffControl extends PNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,52 +47,48 @@ public class HAGunNode extends PNode {
     //----------------------------------------------------------------------------
     
     private PImage _onButton, _offButton;
+    private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public HAGunNode() {
+    public LightOnOffControl() {
         super();
         
+        // Images
         BufferedImage gunImage = null;
         BufferedImage onButtonImage = null;
         BufferedImage offButtonImage = null;
-        BufferedImage cableImage = null;
-        BufferedImage panelImage = null;
         try {
             gunImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN );
             onButtonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_ON_BUTTON );
             offButtonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_OFF_BUTTON );
-            cableImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_CONTROL_CABLE );
-            panelImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_CONTROL_PANEL );
         }
         catch ( IOException e ) {
             e.printStackTrace();
         }
         
-        PImage cableNode = new PImage( cableImage );
-        addChild( cableNode );
-        cableNode.setOffset( 13, 175 );
-        
-        PImage panelNode = new PImage( panelImage );
-        addChild( panelNode );
-        panelNode.setOffset( 0, 210 );
-        
+        // Light representation
         PImage gunNode = new PImage( gunImage );
         addChild( gunNode );
         
+        // On button
         _onButton = new PImage( onButtonImage );
         addChild( _onButton );
         _onButton.setOffset( BUTTON_OFFSET );
         
+        // Off button
         _offButton = new PImage( offButtonImage );
         addChild( _offButton );
         _offButton.setOffset( BUTTON_OFFSET );
        
+        // Event handling
+        _listenerList = new EventListenerList();
+        
         PBasicInputEventHandler buttonHandler = new PBasicInputEventHandler() {
             public void mousePressed(PInputEvent event) {
-                toggleButton();
+                setOn( !isOn() );
             }
         };
         _onButton.addInputEventListener( buttonHandler );
@@ -95,18 +96,59 @@ public class HAGunNode extends PNode {
         _onButton.addInputEventListener( new CursorHandler() );
         _offButton.addInputEventListener( new CursorHandler() );
         
-        _onButton.setVisible( false );
-        _offButton.setVisible( true );
+        // Default state
+        setOn( false );
     }
     
     //----------------------------------------------------------------------------
-    // 
+    // Mutators
     //----------------------------------------------------------------------------
     
-    private void toggleButton() {
-        _onButton.setVisible( !_onButton.getVisible() );
+    public void setOn( boolean on ) {
+        _onButton.setVisible( on );
         _onButton.setPickable( _onButton.getVisible() );
-        _offButton.setVisible( !_offButton.getVisible() );
+        _offButton.setVisible( !on );
         _offButton.setPickable( _offButton.getVisible() );
+        fireChangeEvent( new ChangeEvent( this ) );
+    }
+    
+    public boolean isOn() {
+        return _onButton.getVisible();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+
+    /**
+     * Adds a ChangeListener.
+     *
+     * @param listener the listener
+     */
+    public void addChangeListener( ChangeListener listener ) {
+        _listenerList.add( ChangeListener.class, listener );
+    }
+
+    /**
+     * Removes a ChangeListener.
+     *
+     * @param listener the listener
+     */
+    public void removeChangeListener( ChangeListener listener ) {
+        _listenerList.remove( ChangeListener.class, listener );
+    }
+
+    /**
+     * Fires a ChangeEvent.
+     *
+     * @param event the event
+     */
+    private void fireChangeEvent( ChangeEvent event ) {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
+            }
+        }
     }
 }

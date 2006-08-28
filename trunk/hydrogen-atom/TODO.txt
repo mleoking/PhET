@@ -5,12 +5,18 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- port beam controls from Photoelectric Effect sim, use for gun controls
+- wavelength control range of 90-700 nm (far UV, no far IR)
+- ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
+- port spectrometer from Discharge Lamps sim
+- get photon image from discharge lamps
 
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
 
 DONE:
+(8/28/06) - continue fleshing out light gun controls
 (8/25/06) - add control cable and control panel for gun
 (8/25/06) - fix gun on/off button images
 (8/25/06) - fix gun image
