@@ -11,11 +11,12 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Vector3D;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
+import java.util.EventListener;
 
 /**
  * CompositeMolecule
@@ -56,6 +57,15 @@ public class CompositeMolecule extends Molecule {
     private double orientation;
 
     /**
+     * Creates a CompositeMolecule from two simple molecules
+     * @param sm1
+     * @param sm2
+     */
+    public CompositeMolecule( SimpleMolecule sm1, SimpleMolecule sm2 ) {
+        this( new SimpleMolecule[]{ sm1, sm2 }, new Bond[] { new Bond( sm1, sm2 ) });
+    }
+
+    /**
      * Creates a CompositeMolecule from an array of molecules. The kinematic
      * attributes of the new CompositeMolecule are set based on those of its
      * components.
@@ -63,7 +73,6 @@ public class CompositeMolecule extends Molecule {
      * @param components
      */
     public CompositeMolecule( SimpleMolecule[] components, Bond[] bonds ) {
-        super();
         this.components = components;
         this.bonds = bonds;
 
@@ -82,7 +91,7 @@ public class CompositeMolecule extends Molecule {
      *
      * @param molecule
      */
-    private void addComponent( SimpleMolecule molecule ) {
+    public void addSimpleMolecule( SimpleMolecule molecule, Bond bond ) {
         // Add the molecule to the list of components
         SimpleMolecule[] newComponents = new SimpleMolecule[components.length + 1];
         for( int i = 0; i < components.length; i++ ) {
@@ -96,6 +105,9 @@ public class CompositeMolecule extends Molecule {
 
         // Tell the new component that it is part of a composite
         molecule.setPartOfComposite( true );
+
+        // Notify listeners
+        listenerProxy.componentAdded( molecule, bond );
     }
 
 
@@ -153,7 +165,7 @@ public class CompositeMolecule extends Molecule {
         setOmega( angularMomentum.getZ() / getMomentOfInertia() );
     }
 
-    public Molecule[] getComponentMolecules() {
+    public SimpleMolecule[] getComponentMolecules() {
         return components;
     }
 
@@ -276,4 +288,24 @@ public class CompositeMolecule extends Molecule {
     public double getKineticEnergy() {
         return super.getKineticEnergy();
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface Listener extends EventListener {
+        void componentAdded( SimpleMolecule component, Bond bond );
+        void componentRemoved( SimpleMolecule component, Bond bond );
+    }
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
+    }
+
 }

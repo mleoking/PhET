@@ -47,8 +47,8 @@ public class SimpleMolecule extends Molecule implements Selectable {
         this.radius = radius;
     }
 
-    public Molecule[] getComponentMolecules() {
-        return new Molecule[]{ this };
+    public SimpleMolecule[] getComponentMolecules() {
+        return new SimpleMolecule[]{ this };
     }
 
     public Rectangle2D getBoundingBox() {

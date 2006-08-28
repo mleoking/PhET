@@ -42,13 +42,12 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private ReactionCriteria reactionCriteria;
 
     /**
-     *
      * @param model
      */
     public MoleculeMoleculeCollisionAgent( final MRModel model ) {
 
-//        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
-        reactionCriteria = new SimpleMoleculeReactionCriteria();
+        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
+//        reactionCriteria = new SimpleMoleculeReactionCriteria();
 
         model.getEnergyProfile().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -145,12 +144,24 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // the bodies are simple molecules,
         // and they are of different types (two of the same types can't combine)
         if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB ) ) {
-            SimpleMolecule[] ma = createArrayOfAllSimpleMolecules( bodyA, bodyB );
-            Bond[] ba = createArrayOfBonds( bodyA, bodyB );
-            CompositeMolecule compositeMolecule = new CompositeMolecule( ma, ba );
-            model.removeModelElement( bodyA );
-            model.removeModelElement( bodyB );
-            model.addModelElement( compositeMolecule );
+
+            if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
+                CompositeMolecule compositeMolecule = new CompositeMolecule( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB );
+                model.removeModelElement( bodyA );
+                model.removeModelElement( bodyB );
+                model.addModelElement( compositeMolecule );
+            }
+            else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
+                Bond bond = createBond( (SimpleMolecule)bodyA, (CompositeMolecule)bodyB);
+                ((CompositeMolecule)bodyB).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
+            }
+            else if( bodyB instanceof SimpleMolecule && bodyA instanceof CompositeMolecule ) {
+                Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA);
+                ((CompositeMolecule)bodyA).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
+            }
+            else {
+                throw new RuntimeException( "unexpected situation");
+            }
         }
         // Otherwise, do a perfectly elastic collision
         else {
@@ -223,22 +234,44 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         }
     }
 
+    private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
+        Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
+        return bond;
+    }
+
     private Bond[] createArrayOfBonds( Body bodyA, Body bodyB ) {
-        return null;    
+        if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
+            return new Bond[]{new Bond( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB )};
+        }
+        else if( bodyA instanceof SimpleMolecule ) {
+            double shortestDistSq = Double.POSITIVE_INFINITY;
+            SimpleMolecule[] am = ( (CompositeMolecule)bodyB ).getComponentMolecules();
+            SimpleMolecule closestMolecule = null;
+            for( int i = 0; i < am.length; i++ ) {
+                SimpleMolecule m = am[i];
+                double d = bodyA.getPosition().distanceSq( m.getPosition() );
+                if( d < shortestDistSq ) {
+                    closestMolecule = m;
+                }
+                shortestDistSq = d;
+            }
+            Bond newBond = new Bond( (SimpleMolecule)bodyA, closestMolecule );
+        }
+        return null;
     }
 
     private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {
-        List molecules = new ArrayList( );
+        List molecules = new ArrayList();
         if( bodyA instanceof CompositeMolecule ) {
             CompositeMolecule compositeMolecule = (CompositeMolecule)bodyA;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules()));
+            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
         }
         else {
             molecules.add( bodyA );
         }
         if( bodyB instanceof CompositeMolecule ) {
             CompositeMolecule compositeMolecule = (CompositeMolecule)bodyB;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules()));
+            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
         }
         else {
             molecules.add( bodyB );
@@ -324,9 +357,11 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             // One of the molecules must be a composite molecule whose components
             // are two simple molecules, and the other molecule must be a simple molecule
             if( m1 instanceof CompositeMolecule
-                && ((CompositeMolecule)m1).numSimpleMolecules() == 2
-                && m2 instanceof SimpleMolecule ) {
+                && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
+                && m2 instanceof SimpleMolecule
+                    && totalEnergy >= reactionThreshold ) {
                 System.out.println( "MoleculeMoleculeCollisionAgent$SimpleMoleculeCompoundMoleculeCriteria.criteriaMet" );
+                return true;
             }
             return false;
         }

@@ -105,7 +105,7 @@ abstract public class Molecule extends Body implements Collidable {
     //  Abstract methods
     //--------------------------------------------------------------------------------------------------
 
-    abstract public Molecule[] getComponentMolecules();
+    abstract public SimpleMolecule[] getComponentMolecules();
 
     abstract public Rectangle2D getBoundingBox();
 }
