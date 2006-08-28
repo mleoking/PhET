@@ -24,7 +24,13 @@ import java.awt.*;
 import java.util.HashMap;
 
 /**
- * CompoundMoleculeGraphic
+ * CompositeMoleculeGraphic
+ * <p>
+ * The only thing that this graphic adds to the view is a representation of the bonds between the
+ * SimpleMolecules that make up the CompositeMolecule.
+ * <p>
+ * If a debug flag is set, a red dot is displayed at the CM of the CompositeMolecule
+ *
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -33,8 +39,8 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     private CompositeMolecule compositeMolecule;
     private PPath cmNode;
     private PNode bondsLayer = new PNode();
-    private PNode simpleMoleculeLayer = new PNode();
-    private HashMap simpleMoleculeToGraphicMap = new HashMap();
+//    private PNode simpleMoleculeLayer = new PNode();
+//    private HashMap simpleMoleculeToGraphicMap = new HashMap();
     private HashMap bondToGraphicMap = new HashMap();
 
     /**
@@ -61,20 +67,20 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
         }
     }
 
-    private void createComponentGraphics( Molecule molecule ) {
-        if( molecule instanceof SimpleMolecule ) {
-            SpatialSimpleMoleculeGraphic simpleMoleculeGraphic = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
-            simpleMoleculeToGraphicMap.put( molecule, simpleMoleculeGraphic );
-            simpleMoleculeLayer.addChild( simpleMoleculeGraphic );
-        }
-        else {
-            Molecule[] componentMolecules = molecule.getComponentMolecules();
-            for( int i = 0; i < componentMolecules.length; i++ ) {
-                Molecule component = componentMolecules[i];
-                createComponentGraphics( component );
-            }
-        }
-    }
+//    private void createComponentGraphics( Molecule molecule ) {
+//        if( molecule instanceof SimpleMolecule ) {
+//            SpatialSimpleMoleculeGraphic simpleMoleculeGraphic = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
+//            simpleMoleculeToGraphicMap.put( molecule, simpleMoleculeGraphic );
+//            simpleMoleculeLayer.addChild( simpleMoleculeGraphic );
+//        }
+//        else {
+//            Molecule[] componentMolecules = molecule.getComponentMolecules();
+//            for( int i = 0; i < componentMolecules.length; i++ ) {
+//                Molecule component = componentMolecules[i];
+//                createComponentGraphics( component );
+//            }
+//        }
+//    }
 
     private void createBondGraphics( Bond[] bonds ) {
         for( int i = 0; i < bonds.length; i++ ) {
@@ -100,7 +106,7 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     //--------------------------------------------------------------------------------------------------
 
     public void componentAdded( SimpleMolecule component, Bond bond ) {
-        createComponentGraphics( component );
+//        createComponentGraphics( component );
         createBondGraphic( bond );
     }
 

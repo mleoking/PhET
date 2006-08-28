@@ -34,6 +34,7 @@ import java.awt.geom.Rectangle2D;
 public class SpatialView extends PNode {
     Color background = new Color( 255, 255, 200 );
     PNode moleculeLayer = new PNode();
+    PNode bondLayer = new PNode();
     PNode boxLayer = new PNode();
 
     public SpatialView( MRModel model ) {
@@ -42,6 +43,7 @@ public class SpatialView extends PNode {
         addChild( canvas );
 
         // Add the layers to the canvas in their z order
+        addChild( bondLayer );
         addChild( moleculeLayer );
         addChild( boxLayer );
 
@@ -57,7 +59,7 @@ public class SpatialView extends PNode {
     private class CompositeMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
         protected CompositeMoleculeGraphicFactory() {
-            super( CompositeMolecule.class, moleculeLayer );
+            super( CompositeMolecule.class, bondLayer );
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
