@@ -28,7 +28,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testC( (MRModel)getModel() );
+        testD( (MRModel)getModel() );
+//        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
 //        testDefinedMolecules( (MRModel)getModel() );
 //        testCompisiteMoleculeA( model );
@@ -36,14 +37,90 @@ public class TestModule extends MRModule {
 
 
     /**
+     * Puts in a several molecules with components of different types and
+     * simple molecules
+     *
+     * @param model
+     */
+    private void testD( MRModel model ) {
+        {
+            model.getEnergyProfile().setPeakLevel( 300 );
+            SimpleMolecule m1 = new MoleculeA();
+            m1.setPosition( 110, 60 );
+            m1.setVelocity( 0, 0 );
+            model.addModelElement( m1 );
+            SimpleMolecule m1a = new MoleculeA();
+            m1a.setPosition( 110 + m1a.getRadius() * 2, 60 );
+            m1a.setVelocity( 0, 0 );
+            model.addModelElement( m1a );
+
+            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                          new Bond[]{new Bond( m1, m1a )} );
+
+            model.addModelElement( cm );
+
+            SimpleMolecule m2 = new MoleculeB();
+            m2.setPosition( 115, 150 );
+            m2.setVelocity( 0, -3 );
+            model.addModelElement( m2 );
+            m2.setSelectionStatus( Selectable.SELECTED );
+        }
+        {
+            model.getEnergyProfile().setPeakLevel( 300 );
+            SimpleMolecule m1 = new MoleculeA();
+            m1.setPosition( 60, 110 );
+            m1.setVelocity( 5, 1 );
+            model.addModelElement( m1 );
+            SimpleMolecule m1a = new MoleculeA();
+            m1a.setPosition( 30, m1a.getRadius() * 2 + 110 );
+            m1a.setVelocity( 0, 0 );
+            model.addModelElement( m1a );
+
+            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                          new Bond[]{new Bond( m1, m1a )} );
+
+            model.addModelElement( cm );
+
+            SimpleMolecule m2 = new MoleculeB();
+            m2.setPosition( 185, 120 );
+            m2.setVelocity( -4, 2 );
+            model.addModelElement( m2 );
+            m2.setSelectionStatus( Selectable.SELECTED );
+        }
+        {
+//            model.getEnergyProfile().setPeakLevel( 300 );
+//            SimpleMolecule m1 = new MoleculeA();
+//            m1.setPosition( 110, 60 );
+//            m1.setVelocity( 0, 0 );
+//            model.addModelElement( m1 );
+//            SimpleMolecule m1a = new MoleculeA();
+//            m1a.setPosition( 110 + m1a.getRadius() * 2, 60 );
+//            m1a.setVelocity( 0, 0 );
+//            model.addModelElement( m1a );
+//
+//            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+//                                                          new Bond[]{new Bond( m1, m1a )} );
+//
+//            model.addModelElement( cm );
+//
+//            SimpleMolecule m2 = new MoleculeB();
+//            m2.setPosition( 115, 150 );
+//            m2.setVelocity( 0, -3 );
+//            model.addModelElement( m2 );
+//            m2.setSelectionStatus( Selectable.SELECTED );
+        }
+    }
+
+    /**
      * Puts in a compound molecule with components of different types and a
      * simple molecule of the other type
+     *
      * @param model
      */
     private void testC( MRModel model ) {
 
         model.getEnergyProfile().setPeakLevel( 300 );
-        SimpleMolecule m1 = new MoleculeA();
+        SimpleMolecule m1 = new MoleculeB();
         m1.setPosition( 110, 60 );
         m1.setVelocity( 0, 0 );
         model.addModelElement( m1 );
@@ -52,8 +129,8 @@ public class TestModule extends MRModule {
         m1a.setVelocity( 0, 0 );
         model.addModelElement( m1a );
 
-        CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[] { m1, m1a },
-                                                      new Bond[] { new Bond( m1, m1a )});
+        CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                      new Bond[]{new Bond( m1, m1a )} );
         model.addModelElement( cm );
 
         SimpleMolecule m2 = new MoleculeB();
@@ -92,7 +169,7 @@ public class TestModule extends MRModule {
         m2.setSelectionStatus( Selectable.SELECTED );
 
         CompositeMolecule compositeMolecule = new CompositeMolecule( new SimpleMolecule[]{m1, m2},
-                                                                     new Bond[] {new Bond( m1, m2 ) } );
+                                                                     new Bond[]{new Bond( m1, m2 )} );
         model.addModelElement( compositeMolecule );
     }
 
@@ -183,7 +260,7 @@ public class TestModule extends MRModule {
         rm3.setPosition( 200, 115 );
 
         CompositeMolecule cm1 = new CompositeMolecule( new SimpleMolecule[]{rm2, rm3},
-                                                       new Bond[] { new Bond( rm2, rm3 ) } );
+                                                       new Bond[]{new Bond( rm2, rm3 )} );
         cm1.setVelocity( 1, 0 );
 //        cm1.setVelocity( 0, 4);
 //        cm1.setOmega( 0 );
