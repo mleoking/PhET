@@ -20,7 +20,6 @@ import edu.colorado.phet.molecularreactions.model.Bond;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -36,7 +35,7 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     private PNode bondsLayer = new PNode();
     private PNode simpleMoleculeLayer = new PNode();
     private HashMap simpleMoleculeToGraphicMap = new HashMap();
-    private HashMap participantsToBondGraphicsMap = new HashMap();
+    private HashMap bondToGraphicMap = new HashMap();
 
     /**
      *
@@ -86,8 +85,7 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
 
     private void createBondGraphic( Bond bond ) {
         PNode bondGraphic = new BondGraphic( bond );
-        participantsToBondGraphicsMap.put( bond.getParticipants()[0], bondGraphic );
-        participantsToBondGraphicsMap.put( bond.getParticipants()[1], bondGraphic );
+        bondToGraphicMap.put( bond, bondGraphic );
         bondsLayer.addChild( bondGraphic );
     }
 
@@ -107,6 +105,9 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     }
 
     public void componentRemoved( SimpleMolecule component, Bond bond ) {
-        // noop
+        PNode moleculeGraphic = (PNode)simpleMoleculeToGraphicMap.get( component );
+        simpleMoleculeLayer.removeChild( moleculeGraphic );
+        PNode bondGraphic = (PNode)bondToGraphicMap.get( bond );
+        bondsLayer.removeChild( bondGraphic );
     }
 }

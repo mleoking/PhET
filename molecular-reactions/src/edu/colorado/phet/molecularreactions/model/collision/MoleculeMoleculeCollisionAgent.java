@@ -82,7 +82,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         if( boundingBoxesOverlap ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
-                doCollision( model, moleculeA, moleculeB, collisionSpec.getLoa(), collisionSpec.getCollisionPt() );
+                doCollision( model, moleculeA, moleculeB, collisionSpec );
             }
 
         }
@@ -105,7 +105,9 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 Point2D.Double collisionPt = new Point2D.Double( rmA.getCM().getX() - xDiff * aFrac,
                                                                  rmA.getCM().getY() - yDiff * aFrac );
                 loa.setComponents( xDiff, yDiff );
-                collisionSpec = new CollisionSpec( loa, collisionPt );
+                collisionSpec = new CollisionSpec( loa, collisionPt,
+                                                   (SimpleMolecule)moleculeA,
+                                                   (SimpleMolecule)moleculeB );
             }
         }
         else if( moleculeA instanceof CompositeMolecule ) {
@@ -133,16 +135,16 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
      * @param model
      * @param bodyA
      * @param bodyB
-     * @param loa
+     * @param collisionSpec
      */
-    public void doCollision( MRModel model, Body bodyA, Body bodyB, Vector2D loa, Point2D.Double collisionPt ) {
+    public void doCollision( MRModel model, Body bodyA, Body bodyB, CollisionSpec collisionSpec ) {
+        Vector2D loa = collisionSpec.getLoa();
+        Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // Create a composite molecule if the total energy is sufficient,
-        // the bodies are simple molecules,
-        // and they are of different types (two of the same types can't combine)
+        // Create a composite molecule if ReactionCriteria are met
         if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB ) ) {
 
             if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
@@ -152,15 +154,15 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 model.addModelElement( compositeMolecule );
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
-                Bond bond = createBond( (SimpleMolecule)bodyA, (CompositeMolecule)bodyB);
-                ((CompositeMolecule)bodyB).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
+                Bond bond = new Bond( collisionSpec.getMoleculeA(), collisionSpec.getMoleculeB() );
+                ( (CompositeMolecule)bodyB ).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
             }
             else if( bodyB instanceof SimpleMolecule && bodyA instanceof CompositeMolecule ) {
-                Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA);
-                ((CompositeMolecule)bodyA).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
+                Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA );
+                ( (CompositeMolecule)bodyA ).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
             }
             else {
-                throw new RuntimeException( "unexpected situation");
+                throw new RuntimeException( "unexpected situation" );
             }
         }
         // Otherwise, do a perfectly elastic collision
@@ -288,8 +290,15 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         private Vector2D loa;
         private Point2D.Double collisionPt;
+        private SimpleMolecule moleculeA;
+        private SimpleMolecule moleculeB;
 
-        public CollisionSpec( Vector2D loa, Point2D.Double collisionPt ) {
+        public CollisionSpec( Vector2D loa,
+                              Point2D.Double collisionPt,
+                              SimpleMolecule moleculeA,
+                              SimpleMolecule moleculeB ) {
+            this.moleculeB = moleculeB;
+            this.moleculeA = moleculeA;
             this.loa = loa;
             this.collisionPt = collisionPt;
         }
@@ -300,6 +309,14 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         public Point2D.Double getCollisionPt() {
             return collisionPt;
+        }
+
+        public SimpleMolecule getMoleculeA() {
+            return moleculeA;
+        }
+
+        public SimpleMolecule getMoleculeB() {
+            return moleculeB;
         }
     }
 
@@ -359,7 +376,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             if( m1 instanceof CompositeMolecule
                 && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
                 && m2 instanceof SimpleMolecule
-                    && totalEnergy >= reactionThreshold ) {
+                && totalEnergy >= reactionThreshold ) {
                 System.out.println( "MoleculeMoleculeCollisionAgent$SimpleMoleculeCompoundMoleculeCriteria.criteriaMet" );
                 return true;
             }

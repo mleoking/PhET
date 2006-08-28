@@ -16,7 +16,7 @@ import edu.colorado.phet.mechanics.Vector3D;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.EventListener;
+import java.util.*;
 
 /**
  * CompositeMolecule
@@ -58,11 +58,12 @@ public class CompositeMolecule extends Molecule {
 
     /**
      * Creates a CompositeMolecule from two simple molecules
+     *
      * @param sm1
      * @param sm2
      */
     public CompositeMolecule( SimpleMolecule sm1, SimpleMolecule sm2 ) {
-        this( new SimpleMolecule[]{ sm1, sm2 }, new Bond[] { new Bond( sm1, sm2 ) });
+        this( new SimpleMolecule[]{sm1, sm2}, new Bond[]{new Bond( sm1, sm2 )} );
     }
 
     /**
@@ -87,18 +88,62 @@ public class CompositeMolecule extends Molecule {
     }
 
     /**
+     * Removes a component molecule from the composite.
+     * <p/>
+     * A component can only be removed from the end of a molecule. Throws a
+     * RuntimeException if requested to remove a component that isn't on the end
+     *
+     * @param molecule
+     */
+    public void removeSimpleMolecule( SimpleMolecule molecule ) {
+        // Find the bonds that the component participates in. If there is more than one,
+        // throw an exception
+        Bond bond = null;
+        for( int i = 0; i < getBonds().length; i++ ) {
+            Bond testBond = getBonds()[i];
+            if( testBond.getParticipants()[0] == molecule ) {
+                if( bond != null ) {
+                    throw new RuntimeException( "attempt to remove an inner component" );
+                }
+                else {
+                    bond = testBond;
+                }
+            }
+            if( testBond.getParticipants()[1] == molecule ) {
+                if( bond != null ) {
+                    throw new RuntimeException( "attempt to remove an inner component" );
+                }
+                else {
+                    bond = testBond;
+                }
+            }
+        }
+
+        List componentList = new ArrayList( Arrays.asList( components ) );
+        componentList.remove( molecule );
+        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+
+        List bondList = new ArrayList( Arrays.asList( bonds ) );
+        bondList.remove( bond );
+        bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
+
+        listenerProxy.componentRemoved( molecule, bond );
+    }
+
+    /**
      * Adds a component molecule to the composite molecule
      *
      * @param molecule
      */
     public void addSimpleMolecule( SimpleMolecule molecule, Bond bond ) {
+
+        // Place the new molecule so it's in line with the current components
+        setNewComponentPosition( bond, molecule );
+
         // Add the molecule to the list of components
-        SimpleMolecule[] newComponents = new SimpleMolecule[components.length + 1];
-        for( int i = 0; i < components.length; i++ ) {
-            newComponents[i] = components[i];
-        }
-        newComponents[newComponents.length - 1] = molecule;
-        components = newComponents;
+        List componentList = new ArrayList( Arrays.asList( components ) );
+        componentList.add( molecule );
+        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
 
         // Factor in the new component's kinematics
         addComponentKinematics( molecule );
@@ -108,6 +153,52 @@ public class CompositeMolecule extends Molecule {
 
         // Notify listeners
         listenerProxy.componentAdded( molecule, bond );
+
+        // DEBUG!!!
+        // For now, release the other component in the molecule. There should be a better way to do this
+        SimpleMolecule moleculeToRemove = null;
+        for( int i = 0; i < components.length; i++ ) {
+            SimpleMolecule component = components[i];
+            if( component != bond.getParticipants()[0] && component != bond.getParticipants()[1] ) {
+                moleculeToRemove = component;
+            }
+        }
+        if( moleculeToRemove != null ) {
+            removeSimpleMolecule( moleculeToRemove );
+        }
+    }
+
+    /**
+     * Repositions a new component so it is in line with the exisiting components of the molecule
+     *
+     * @param bond
+     * @param molecule
+     */
+    private void setNewComponentPosition( Bond bond, SimpleMolecule molecule ) {
+        bond.getParticipants();
+        SimpleMolecule existingComponent = bond.getParticipants()[0] == molecule ? bond.getParticipants()[1]
+                                           : bond.getParticipants()[1];
+        Bond[] existingBonds = getBonds();
+        Bond bondToAlignWith = null;
+        Point2D rootPosition = null;
+        for( int i = 0; i < existingBonds.length && bondToAlignWith == null; i++ ) {
+            Bond existingBond = existingBonds[i];
+            if( existingBond.getParticipants()[0] == existingComponent ) {
+                rootPosition = existingBond.getParticipants()[1].getPosition();
+                bondToAlignWith = existingBond;
+            }
+            if( existingBond.getParticipants()[1] == existingComponent ) {
+                rootPosition = existingBond.getParticipants()[0].getPosition();
+                bondToAlignWith = existingBond;
+            }
+        }
+        Vector2D v1 = new Vector2D.Double( existingComponent.getPosition().getX() - rootPosition.getX(),
+                                           existingComponent.getPosition().getY() - rootPosition.getY() );
+        Vector2D v2 = new Vector2D.Double( molecule.getPosition().getX() - existingComponent.getPosition().getX(),
+                                           molecule.getPosition().getY() - existingComponent.getPosition().getY() );
+        v2.rotate( v1.getAngle() - v2.getAngle() );
+        molecule.setPosition( existingComponent.getPosition().getX() + v2.getX(),
+                              existingComponent.getPosition().getY() + v2.getY() );
     }
 
 
@@ -270,14 +361,14 @@ public class CompositeMolecule extends Molecule {
         // Set the position and velocity of the component
         for( int i = 0; i < components.length; i++ ) {
             SimpleMolecule component = components[i];
-                Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
-                                                                         component.getPosition().getY() - this.getPositionPrev().getY() );
-                compositeCmToComponentCm.rotate( theta );
-                component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
-                                       this.getPosition().getY() + compositeCmToComponentCm.getY() );
-                Vector2D v = component.getVelocity();
-                v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
-                                 this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
+            Vector2D compositeCmToComponentCm = new Vector2D.Double( component.getPosition().getX() - this.getPositionPrev().getX(),
+                                                                     component.getPosition().getY() - this.getPositionPrev().getY() );
+            compositeCmToComponentCm.rotate( theta );
+            component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
+                                   this.getPosition().getY() + compositeCmToComponentCm.getY() );
+            Vector2D v = component.getVelocity();
+            v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
+                             this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
     }
 
@@ -294,6 +385,7 @@ public class CompositeMolecule extends Molecule {
     //--------------------------------------------------------------------------------------------------
     public interface Listener extends EventListener {
         void componentAdded( SimpleMolecule component, Bond bond );
+
         void componentRemoved( SimpleMolecule component, Bond bond );
     }
 
