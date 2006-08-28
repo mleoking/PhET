@@ -145,7 +145,15 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
     public void setColor( Color color ) {
         this._color = color;
     }
-
+    
+    public int getMaximum() {
+        return _slider.getMaximum();
+    }
+    
+    public int getMinimum() {
+        return _slider.getMinimum();
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -283,8 +291,4 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
             super.paintComponent( g );
         }
     } // paint
-
-    public void setMaximum( int maximum ) {
-        _slider.setMaximum( maximum );
-    }
 }

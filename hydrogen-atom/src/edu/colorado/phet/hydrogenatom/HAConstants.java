@@ -62,8 +62,8 @@ public class HAConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
-    public static final Font TIME_DISPLAY_FONT = new Font( FONT_NAME, Font.BOLD, 22 );
-    public static final Font TIME_UNITS_FONT = new Font( FONT_NAME, Font.PLAIN, 22 );
+    public static final Font CONTROL_FONT = new Font( FONT_NAME, Font.PLAIN, 16 );
+    public static final Font TITLE_FONT = new Font( FONT_NAME, Font.BOLD, 22 );
     
     //----------------------------------------------------------------------------
     // Strokes
