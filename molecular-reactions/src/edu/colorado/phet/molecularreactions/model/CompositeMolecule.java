@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Vector3D;
+import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -32,6 +33,13 @@ public class CompositeMolecule extends Molecule {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+    public static class Type {
+        private Type(){}
+    }
+    public static Type AA = new Type();
+    public static Type BB = new Type();
+    public static Type AB = new Type();
+    public static Type OTHER = new Type();
 
     private static int numSimpleMolecules( Molecule molecule ) {
         int n = 0;
@@ -45,6 +53,27 @@ public class CompositeMolecule extends Molecule {
             }
         }
         return n;
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface Listener extends EventListener {
+        void componentAdded( SimpleMolecule component, Bond bond );
+
+        void componentRemoved( SimpleMolecule component, Bond bond );
+    }
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -99,7 +128,7 @@ public class CompositeMolecule extends Molecule {
         // Find the bonds that the component participates in. If there is more than one,
         // throw an exception
         Bond bond = null;
-        for( int i = 0; i < getBonds().length; i++ ) {
+        for( int i = 0; i < getBonds().length && bond == null; i++ ) {
             Bond testBond = getBonds()[i];
             if( testBond.getParticipants()[0] == molecule ) {
                 if( bond != null ) {
@@ -132,6 +161,12 @@ public class CompositeMolecule extends Molecule {
 
         // Compute composite properties
         computeKinematicsFromComponents( components );
+
+        // Compute the kinematics of the released molecule
+        // todo: something may be wrong here. The velocity shouldn't be set to 0.
+        HardBodyCollision collision = new HardBodyCollision();
+        molecule.setVelocity( 0,0 );
+        collision.detectAndDoCollision( this, molecule );
 
         listenerProxy.componentRemoved( molecule, bond );
     }
@@ -173,6 +208,7 @@ public class CompositeMolecule extends Molecule {
             SimpleMolecule component = components[i];
             if( component != bond.getParticipants()[0] && component != bond.getParticipants()[1] ) {
                 moleculeToRemove = component;
+                break;
             }
         }
         if( moleculeToRemove != null ) {
@@ -391,24 +427,25 @@ public class CompositeMolecule extends Molecule {
         return super.getKineticEnergy();
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Events and listeners
-    //--------------------------------------------------------------------------------------------------
-    public interface Listener extends EventListener {
-        void componentAdded( SimpleMolecule component, Bond bond );
-
-        void componentRemoved( SimpleMolecule component, Bond bond );
+    public Type getType() {
+        if( numSimpleMolecules() !=  2) {
+            return OTHER;
+        }
+        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeA ) {
+            return AA;
+        }
+        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeA ) {
+            return AA;
+        }
+        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeB ) {
+            return AB;
+        }
+        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeA ) {
+            return AB;
+        }
+        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeB ) {
+            return BB;
+        }
+        return OTHER;
     }
-
-    private EventChannel eventChannel = new EventChannel( Listener.class );
-    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
-
-    public void addListener( Listener listener ) {
-        eventChannel.addListener( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        eventChannel.removeListener( listener );
-    }
-
 }

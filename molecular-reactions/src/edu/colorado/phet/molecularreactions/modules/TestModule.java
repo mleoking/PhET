@@ -28,7 +28,7 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testD( (MRModel)getModel() );
+        testE( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
 //        testDefinedMolecules( (MRModel)getModel() );
@@ -39,11 +39,11 @@ public class TestModule extends MRModule {
     void testE( MRModel model ) {
         {
             model.getEnergyProfile().setPeakLevel( 50 );
-            SimpleMolecule m1 = new MoleculeA();
+            SimpleMolecule m1 = new MoleculeB();
             m1.setPosition( 180, 60 );
             m1.setVelocity( 0, 0 );
             model.addModelElement( m1 );
-            SimpleMolecule m1a = new MoleculeA();
+            SimpleMolecule m1a = new MoleculeB();
             m1a.setPosition( 180 + m1a.getRadius() * 2, 60 );
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );

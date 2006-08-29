@@ -43,8 +43,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends RegisterablePNode im
 
     private static double BOND_OFFSET = 2;
     private static HashMap moleculeTypeToColor = new HashMap();
-    private static Color moleculeAColor = new Color( 0, 200, 0 );
-    private static Color moleculeBColor = new Color( 240, 240, 0 );
+    private static Color moleculeAColor = new Color( 240, 240, 0 );
+    private static Color moleculeBColor = new Color( 0, 200, 0 );
     private static Color defaultMoleculeColor = new Color( 100, 100, 100 );
 
     static {

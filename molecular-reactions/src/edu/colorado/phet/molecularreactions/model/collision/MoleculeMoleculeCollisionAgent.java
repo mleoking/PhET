@@ -172,12 +172,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // Otherwise, do a perfectly elastic collision
 
 
-
-
-
-
-
-
         else {
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),
@@ -381,21 +375,58 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
      */
     class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
         public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-            double totalEnergy = m1.getKineticEnergy() + m2.getKineticEnergy();
+
+            // Determine the kinetic energy in the collision. We consider this to be the
+            // kinetic energy of an object whose mass is equal to the total masses of
+            // the two molecules, moving at a speed equal to the magnitude of the
+            // relative velocity of the two molecules
+            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
+                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
+            double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa), 0 );
+            double ke = 0.5 * (m1.getMass() + m2.getMass() ) * sRel * sRel;
+
+            // Classify the two molecules. Note that there must be one and only one
+            // simple molecule, and one and only one composite molecule
+            CompositeMolecule cm = null;
+            SimpleMolecule sm = null;
+            if( m1 instanceof CompositeMolecule ) {
+                cm = (CompositeMolecule)m1;
+            }
+            else {
+                sm = (SimpleMolecule)m1;
+            }
+
+            if( m2 instanceof CompositeMolecule ) {
+                if( cm != null ) {
+                    return false;
+                }
+                else {
+                    cm = (CompositeMolecule)m2;
+                }
+            }
+            else {
+                if( sm != null ) {
+                    return false;
+                }
+                else {
+                    sm = (SimpleMolecule)m2;
+                }
+            }
 
             // One of the molecules must be a composite molecule whose components
             // are two simple molecules, and the other molecule must be a simple molecule
-            if( m1 instanceof CompositeMolecule
-                && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
-                && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
-                && m2 instanceof SimpleMolecule
-                && totalEnergy >= reactionThreshold ) {
+            if( cm.numSimpleMolecules() == 2
+                && cm.getType() == CompositeMolecule.BB
+                && sm instanceof MoleculeA
+                && ke >= reactionThreshold ) {
+//                && totalEnergy >= reactionThreshold ) {
                 return true;
             }
-            if( m2 instanceof CompositeMolecule
-                && ( (CompositeMolecule)m2 ).numSimpleMolecules() == 2
-                && m1 instanceof SimpleMolecule
-                && totalEnergy >= reactionThreshold ) {
+            if( cm.numSimpleMolecules() == 2
+                && cm.getType() == CompositeMolecule.AB
+                && sm instanceof MoleculeB
+                && ke >= reactionThreshold ) {
+//                && totalEnergy >= reactionThreshold ) {
                 return true;
             }
             return false;
