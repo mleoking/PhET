@@ -8,6 +8,9 @@ Add a message to notify overwriting files when saving?  There is a confirm messa
 
 Reset should reset wavelength, velocity,
 >>This proves to be very difficult right now (2+ hours?).  After refactoring, should be much easier.
+
+QWI also throws exceptions on startup at times. (More often than Travoltage)
+•	Couldn’t reproduce from main site on 3 tests.
     
 ############################################
 # Lower Priority
