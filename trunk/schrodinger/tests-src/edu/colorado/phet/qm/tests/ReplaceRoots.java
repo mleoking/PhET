@@ -14,7 +14,7 @@ public class ReplaceRoots {
     static String newText = ":ssh:samreid@phet.cvs.sourceforge.net:/cvsroot/phet";
 
     public static void main( String[] args ) {
-        File root = new File( "C:\\PhET\\projects-ii\\theramp5" );
+        File root = new File( "C:\\PhET\\projects-ii\\balloons" );
         searchAndReplace( root );
     }
 
