@@ -28,7 +28,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testE( (MRModel)getModel() );
+//        testE( (MRModel)getModel() );
+        testD( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
 //        testDefinedMolecules( (MRModel)getModel() );
@@ -70,11 +71,11 @@ public class TestModule extends MRModule {
     private void testD( MRModel model ) {
         {
             model.getEnergyProfile().setPeakLevel( 50 );
-            SimpleMolecule m1 = new MoleculeA();
+            SimpleMolecule m1 = new MoleculeB();
             m1.setPosition( 180, 60 );
             m1.setVelocity( 0, 0 );
             model.addModelElement( m1 );
-            SimpleMolecule m1a = new MoleculeA();
+            SimpleMolecule m1a = new MoleculeB();
             m1a.setPosition( 180 + m1a.getRadius() * 2, 60 );
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
@@ -84,7 +85,7 @@ public class TestModule extends MRModule {
 
             model.addModelElement( cm );
 
-            SimpleMolecule m2 = new MoleculeB();
+            SimpleMolecule m2 = new MoleculeA();
             m2.setPosition( 80, 60 );
             m2.setVelocity( 2, 0 );
             model.addModelElement( m2 );
@@ -92,11 +93,11 @@ public class TestModule extends MRModule {
         }
         {
             model.getEnergyProfile().setPeakLevel( 300 );
-            SimpleMolecule m1 = new MoleculeA();
+            SimpleMolecule m1 = new MoleculeB();
             m1.setPosition( 60, 110 );
             m1.setVelocity( 5, 1 );
             model.addModelElement( m1 );
-            SimpleMolecule m1a = new MoleculeA();
+            SimpleMolecule m1a = new MoleculeB();
             m1a.setPosition( 60, m1a.getRadius() * 2 + 110 );
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
@@ -105,7 +106,7 @@ public class TestModule extends MRModule {
                                                           new Bond[]{new Bond( m1, m1a )} );
             model.addModelElement( cm );
 
-            SimpleMolecule m2 = new MoleculeB();
+            SimpleMolecule m2 = new MoleculeA();
             m2.setPosition( 185, 120 );
             m2.setVelocity( -4, 2 );
             model.addModelElement( m2 );
