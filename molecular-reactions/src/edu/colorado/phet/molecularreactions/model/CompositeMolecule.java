@@ -144,7 +144,7 @@ public class CompositeMolecule extends Molecule {
     public void addSimpleMolecule( SimpleMolecule molecule, Bond bond ) {
 
         // Place the new molecule so it's in line with the current components
-        setNewComponentPosition( bond, molecule );
+//        setNewComponentPosition( bond, molecule );
 
         // Add the molecule to the list of components
         List componentList = new ArrayList( Arrays.asList( components ) );
