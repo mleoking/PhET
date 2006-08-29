@@ -24,7 +24,7 @@ public class MRConfig {
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
 
     // Debug flag
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     // Model constants
     public static double MAX_REACTION_THRESHOLD = 0.5E3;
