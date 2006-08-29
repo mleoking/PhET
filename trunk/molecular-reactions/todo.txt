@@ -9,6 +9,12 @@ Bugs
 - Reason why nearestToTrackedMolecule gets lost when it becomes part of a composit molecule:
     It is taken out of the model while it's part of the composite molecule!
 
+==========
+Internal
+==========
+- HardBodyCollision takes Molecules. It should take Body
+- Look at todo in CompositeMolecule.releaseSimpleMolecule()
+
 ==============
 Model features
 ==============
