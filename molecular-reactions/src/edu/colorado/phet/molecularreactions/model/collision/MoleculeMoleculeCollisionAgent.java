@@ -387,7 +387,14 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             // are two simple molecules, and the other molecule must be a simple molecule
             if( m1 instanceof CompositeMolecule
                 && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
+                && ( (CompositeMolecule)m1 ).numSimpleMolecules() == 2
                 && m2 instanceof SimpleMolecule
+                && totalEnergy >= reactionThreshold ) {
+                return true;
+            }
+            if( m2 instanceof CompositeMolecule
+                && ( (CompositeMolecule)m2 ).numSimpleMolecules() == 2
+                && m1 instanceof SimpleMolecule
                 && totalEnergy >= reactionThreshold ) {
                 return true;
             }

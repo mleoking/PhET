@@ -157,7 +157,8 @@ public class CompositeMolecule extends Molecule {
         bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
 
         // Factor in the new component's kinematics
-        addComponentKinematics( molecule );
+//        addComponentKinematics( molecule );
+        this.computeKinematicsFromComponents( components );
 
         // Tell the new component that it is part of a composite
         molecule.setPartOfComposite( true );
