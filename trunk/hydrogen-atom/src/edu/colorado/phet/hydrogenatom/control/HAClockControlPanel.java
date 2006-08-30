@@ -39,7 +39,7 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAClockControls extends JPanel {
+public class HAClockControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,7 +61,7 @@ public class HAClockControls extends JPanel {
      * 
      * @param clock
      */
-    public HAClockControls( HAClock clock ) {
+    public HAClockControlPanel( HAClock clock ) {
         super();
         
         // Clock

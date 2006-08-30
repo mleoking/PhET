@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add wavelength control to light control panel
 - port beam controls from Photoelectric Effect sim, use for gun controls
 - wavelength control range of 90-700 nm (far UV, no far IR)
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
@@ -17,6 +18,8 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/29/06) - rewrite gun control panels
+(8/29/06) - add "Gun Type" control (light or alpha particles)
 (8/28/06) - continue fleshing out light gun controls
 (8/25/06) - add control cable and control panel for gun
 (8/25/06) - fix gun on/off button images

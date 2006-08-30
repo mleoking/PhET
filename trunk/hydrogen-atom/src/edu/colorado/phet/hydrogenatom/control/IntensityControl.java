@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 
-public class LightIntensityControl extends JPanel {
+public class IntensityControl extends JPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -43,7 +43,7 @@ public class LightIntensityControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LightIntensityControl() {
+    public IntensityControl() {
         super();
         
         _listenerList = new EventListenerList();
@@ -53,7 +53,6 @@ public class LightIntensityControl extends JPanel {
         _slider.addChangeListener( listener );
         
         _textField = new JFormattedTextField();
-        _textField.setFont( HAConstants.CONTROL_FONT );
         _textField.setColumns( 2 );
         _textField.addActionListener( listener );
         _textField.addFocusListener( listener );
@@ -61,6 +60,9 @@ public class LightIntensityControl extends JPanel {
         
         JLabel units = new JLabel( "%" );
         units.setFont( HAConstants.CONTROL_FONT );
+        
+        // Fonts
+        _textField.setFont( HAConstants.CONTROL_FONT );
         
         // Opacity
         setOpaque( false );
@@ -84,6 +86,10 @@ public class LightIntensityControl extends JPanel {
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
+    
+    public void setColor( Color color ) {
+        _slider.setColor( color );
+    }
     
     public void setValue( int value ) {
         _slider.setValue( value );
