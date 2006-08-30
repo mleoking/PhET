@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
 - add cursor to wavelength control
-- move units outside texfield in wavelength control
 - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 - port spectrometer from Discharge Lamps sim
@@ -18,6 +17,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/30/06) - move units outside textfield in wavelength control
 (8/30/06) - set wavelength control range of 90-780 nm (far UV, no far IR)
 (8/30/06) - WavelengthControl, a rewrite of spectrum slider for Piccolo
 (8/29/06) - rewrite gun control panels

@@ -12,11 +12,10 @@
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.GeneralPath;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,10 +23,14 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
@@ -395,8 +398,12 @@ public class WavelengthControl extends PNode {
         public ValueDisplay( PSwingCanvas canvas ) {
             super();
             
+            JLabel unitsLabel = new JLabel( UNITS_LABEL );
+            unitsLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            
             _formattedTextField = new JFormattedTextField();
-            _formattedTextField.setColumns( 4 );
+            _formattedTextField.setColumns( 3 );
+            _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             
             _formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -421,19 +428,33 @@ public class WavelengthControl extends PNode {
                 }
             } );
             
-            PSwing pswing = new PSwing( canvas, _formattedTextField );
+            // Layout
+            JPanel panel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+            layout.setInsets( new Insets( 0, 3, 0, 0 ) );
+            panel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _formattedTextField, row, col++ );
+            layout.addComponent( unitsLabel, row, col );
+            
+            // Opacity
+            panel.setOpaque( false );
+            unitsLabel.setOpaque( false );
+            
+            // Piccolo wrapper
+            PSwing pswing = new PSwing( canvas, panel );
             addChild( pswing );
         }
         
         public void setValue( double wavelength ) {
-            String s = VALUE_FORMAT.format( wavelength ) + " " + UNITS_LABEL;
+            String s = VALUE_FORMAT.format( wavelength );
             _formattedTextField.setText( s );
         }
         
         public double getValue() {
             String text = _formattedTextField.getText().toLowerCase();
-            int nmLoc = text.indexOf( "nm" );
-            text = ( nmLoc >= 0 ) ? _formattedTextField.getText().substring( 0, nmLoc ) : text;
             double wavelength = 0;
             try {
                 wavelength = Double.parseDouble( text );
@@ -441,7 +462,7 @@ public class WavelengthControl extends PNode {
             catch ( NumberFormatException nfe ) {
                 warnUser();
                 wavelength = _wavelength;
-                setValue( wavelength );
+                this.setValue( wavelength );
             }
             return wavelength;
         }
