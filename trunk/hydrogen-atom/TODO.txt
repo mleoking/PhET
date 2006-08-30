@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add cursor to wavelength control
+- move units outside texfield in wavelength control
 - add wavelength control to light control panel
-- port wavelength control from Photoelectric Effect sim
-- wavelength control range of 90-700 nm (far UV, no far IR)
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 - port spectrometer from Discharge Lamps sim
 
@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/30/06) - set wavelength control range of 90-700 nm (far UV, no far IR)
 (8/30/06) - WavelengthControl, a rewrite of spectrum slider for Piccolo
 (8/29/06) - rewrite gun control panels
 (8/29/06) - add "Gun Type" control (light or alpha particles)
@@ -34,6 +35,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(8/30/06) - port wavelength control from Photoelectric Effect sim (easier to rewrite)
 
 ===============================================================================
 end of file

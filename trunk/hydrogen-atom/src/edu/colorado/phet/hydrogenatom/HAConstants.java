@@ -19,6 +19,8 @@ import javax.swing.BorderFactory;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
+
 
 /**
  * HAConstants is a collection of constants.
@@ -125,6 +127,6 @@ public class HAConstants {
     //----------------------------------------------------------------------------
     
     public static final double MIN_WAVELENGTH = 90;
-    public static final double MAX_WAVELENGTH = 900;
+    public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
     
 }
