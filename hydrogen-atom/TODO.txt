@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
 - add cursor to wavelength control
+- type a bogus value into wavelength control, it beeps but doesn't reset to previous value
 - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 - port spectrometer from Discharge Lamps sim
