@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(8/30/06) - WavelengthControl, a rewrite of spectrum slider for Piccolo
 (8/29/06) - rewrite gun control panels
 (8/29/06) - add "Gun Type" control (light or alpha particles)
 (8/28/06) - continue fleshing out light gun controls
