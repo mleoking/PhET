@@ -22,6 +22,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AlphaParticleControlPanel;
 import edu.colorado.phet.hydrogenatom.control.GunTypeControlPanel;
 import edu.colorado.phet.hydrogenatom.control.LightControlPanel;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -75,14 +76,7 @@ public class HAGunNode extends PNode {
         _alphaParticleControlPanelNode = new PSwing( canvas, alphaParticleControlPanel );
         
         // Cable
-        BufferedImage cableImage = null;
-        try {
-            cableImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_GUN_CONTROL_CABLE );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        PImage cableNode = new PImage( cableImage );
+        PImage cableNode = PImageFactory.create( HAConstants.IMAGE_GUN_CONTROL_CABLE );
         
         // Add nodes in background-to-foreground order
         addChild( cableNode );
