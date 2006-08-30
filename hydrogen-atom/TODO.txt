@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
 - add cursor to wavelength control
 - move units outside texfield in wavelength control
 - add wavelength control to light control panel
@@ -17,7 +18,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
-(8/30/06) - set wavelength control range of 90-700 nm (far UV, no far IR)
+(8/30/06) - set wavelength control range of 90-780 nm (far UV, no far IR)
 (8/30/06) - WavelengthControl, a rewrite of spectrum slider for Piccolo
 (8/29/06) - rewrite gun control panels
 (8/29/06) - add "Gun Type" control (light or alpha particles)
