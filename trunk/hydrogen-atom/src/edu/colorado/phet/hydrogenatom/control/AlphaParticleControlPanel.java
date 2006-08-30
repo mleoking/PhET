@@ -35,7 +35,7 @@ public class AlphaParticleControlPanel extends JPanel {
         JLabel title = new JLabel( SimStrings.get( "title.alphaParticleControls" ) );
         title.setFont( HAConstants.TITLE_FONT );
         _intensityControl = new IntensityControl();
-        _intensityControl.setColor( HAConstants.NON_VISIBLE_COLOR );
+        _intensityControl.setColor( HAConstants.ALPHA_PARTICLES_COLOR );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

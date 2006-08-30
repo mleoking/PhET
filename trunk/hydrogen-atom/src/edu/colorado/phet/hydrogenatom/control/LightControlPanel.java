@@ -11,13 +11,10 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -47,7 +44,7 @@ public class LightControlPanel extends JPanel {
         int col = 0;
         layout.addComponent( title, row++, col );
         layout.addComponent( _typeControl, row++, col );
-        layout.addComponent( _intensityControl, row, col );
+        layout.addComponent( _intensityControl, row++, col );
         
         // Border
         setBorder( HAConstants.CONTROL_PANEL_BORDER );
