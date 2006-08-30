@@ -95,7 +95,9 @@ public class HAModule extends PiccoloModule {
         
         //XXX test
         {
-            final WavelengthControl wavelengthControl = new WavelengthControl( _canvas, 90, 900, Color.GRAY, Color.LIGHT_GRAY );
+            final WavelengthControl wavelengthControl = new WavelengthControl( _canvas, 
+                    HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
+                    HAConstants.UV_COLOR, HAConstants.IR_COLOR );
             wavelengthControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     System.out.println( "wavelength=" + wavelengthControl.getWavelength() );
