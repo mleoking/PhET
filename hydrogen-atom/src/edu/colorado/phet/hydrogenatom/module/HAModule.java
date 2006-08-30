@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.module;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -20,7 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.*;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
-import edu.colorado.phet.hydrogenatom.view.HALightNode;
+import edu.colorado.phet.hydrogenatom.view.HAGunNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpPane;
@@ -43,10 +42,7 @@ public class HAModule extends PiccoloModule {
     private PhetPCanvas _canvas;
     private PNode _rootNode;
     
-    private LightOnOffControl _lightOnOffControl;
-    private LightSourceControl _lightSourceControl;
-    private LightIntensityControl _lightIntensityControl;
-    private HAClockControls _clockControls;
+    private HAClockControlPanel _clockControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -82,17 +78,14 @@ public class HAModule extends PiccoloModule {
         // Gun
         {
             // controls
-            _lightOnOffControl = new LightOnOffControl();
-            _lightSourceControl = new LightSourceControl();
-            _lightSourceControl.setButtonFont( HAConstants.CONTROL_FONT );
-            _lightIntensityControl = new LightIntensityControl();
+            GunOnOffControl gunOnOffControl = new GunOnOffControl();
+            GunTypeControlPanel gunTypeControlPanel = new GunTypeControlPanel();
+            LightControlPanel lightControlPanel = new LightControlPanel( _canvas );
+            AlphaParticleControlPanel alphaParticleControlPanel = new AlphaParticleControlPanel( _canvas );
             
-            // convert Swing controls to PNodes
-            PNode lightSourceNode = new PSwing( _canvas, _lightSourceControl );
-            PNode lightIntensityNode = new PSwing( _canvas, _lightIntensityControl );
-            
-            // group everything related to light source
-            HALightNode gunNode = new HALightNode( _lightOnOffControl, lightSourceNode, lightIntensityNode );
+            // group everything related to the gun
+            HAGunNode gunNode = new HAGunNode( _canvas, gunOnOffControl, gunTypeControlPanel, 
+                    lightControlPanel, alphaParticleControlPanel );
             gunNode.setOffset( 50, 200 );
             _rootNode.addChild( gunNode );
         }
@@ -103,8 +96,8 @@ public class HAModule extends PiccoloModule {
         
         // Clock controls
         {
-            _clockControls = new HAClockControls( (HAClock) getClock() );
-            setClockControlPanel( _clockControls );
+            _clockControlPanel = new HAClockControlPanel( (HAClock) getClock() );
+            setClockControlPanel( _clockControlPanel );
         }
         
         //----------------------------------------------------------------------------

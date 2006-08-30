@@ -11,61 +11,86 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**
- * LightSourceControl is the control that determines the type of 
- * light source -- white or monochromatic.
+ * GunTypeControlPanel is the control panel that determines what the guns shoots,
+ * either light (photons) or alpha particles.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightSourceControl extends JPanel {
+public class GunTypeControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JRadioButton _whiteButton;
-    private JRadioButton _monochromaticButton;
+    private JRadioButton _lightButton;
+    private JRadioButton _alphaParticlesButton;
     private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LightSourceControl() {
+    public GunTypeControlPanel() {
         super();
         
         _listenerList = new EventListenerList();
         
+        // Title
+        JLabel title = new JLabel( SimStrings.get( "title.gunTypeControls" ) );
+        title.setFont( HAConstants.TITLE_FONT );
+        
+        // Images
+        Icon photonIcon = null;
+        Icon alphaParticleIcon = null;
+        try {
+            BufferedImage photonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_PHOTON );
+            photonIcon = new ImageIcon( photonImage );
+            BufferedImage alphaParticleImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_ALPHA_PARTICLE );
+            alphaParticleIcon = new ImageIcon( alphaParticleImage );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        
         // Radio buttons
-        _whiteButton = new JRadioButton( SimStrings.get( "button.white" ) );
-        _whiteButton.addChangeListener( new ChangeListener() {
+        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.get( "button.light" ), photonIcon );
+        _lightButton = photonsControl.getRadioButton();
+        _lightButton.setHorizontalTextPosition( SwingConstants.RIGHT );
+        _lightButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireChangeEvent( new ChangeEvent( this ) );
             }      
         });
-        _monochromaticButton = new JRadioButton( SimStrings.get( "button.monochromatic" ) );
-        _monochromaticButton.addChangeListener( new ChangeListener() {
+        
+        RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.get( "button.alphaParticles" ), alphaParticleIcon );
+        _alphaParticlesButton = alphaParticleControl.getRadioButton();
+        _alphaParticlesButton.setHorizontalTextPosition( SwingConstants.RIGHT );
+        _alphaParticlesButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireChangeEvent( new ChangeEvent( this ) );
-            }      
+            }
         });
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _whiteButton );
-        buttonGroup.add( _monochromaticButton );
+        buttonGroup.add( _lightButton );
+        buttonGroup.add( _alphaParticlesButton );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -73,41 +98,44 @@ public class LightSourceControl extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
-        layout.addComponent( _whiteButton, row, col++ );
-        layout.addComponent( _monochromaticButton, row, col );
+        layout.addComponent( title, row++, col );
+        layout.addComponent( photonsControl, row++, col );
+        layout.addComponent( alphaParticleControl, row, col );
+        
+        // Fonts
+        _lightButton.setFont( HAConstants.CONTROL_FONT );
+        _alphaParticlesButton.setFont( HAConstants.CONTROL_FONT );
         
         // Opacity
-        setOpaque( false );
-        _whiteButton.setOpaque( false );
-        _monochromaticButton.setOpaque( false );
+        setOpaque( true );
+        _lightButton.setOpaque( false );
+        _alphaParticlesButton.setOpaque( false );
+        
+        // Border 
+        setBorder( HAConstants.CONTROL_PANEL_BORDER );
         
         // Default state
-        setWhiteSelected( true );
+        setLightSelected( true );
     }
     
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void setButtonFont( Font font ) {
-        _whiteButton.setFont( font );
-        _monochromaticButton.setFont( font );
+    public void setLightSelected( boolean selected ) {
+        _lightButton.setSelected( selected );
     }
     
-    public void setWhiteSelected( boolean selected ) {
-        _whiteButton.setSelected( selected );
+    public boolean isLightSelected() {
+        return _lightButton.isSelected();
     }
     
-    public boolean isWhiteSelected() {
-        return _whiteButton.isSelected();
+    public void setAlphaParticlesSelected( boolean selected ) {
+        _alphaParticlesButton.setSelected( selected );
     }
     
-    public void setMonochromaticSelected( boolean selected ) {
-        _monochromaticButton.setSelected( selected );
-    }
-    
-    public boolean isMonochromaticSelected() {
-        return _monochromaticButton.isSelected();
+    public boolean isAlphaParticlesSelected() {
+        return _alphaParticlesButton.isSelected();
     }
     
     //----------------------------------------------------------------------------

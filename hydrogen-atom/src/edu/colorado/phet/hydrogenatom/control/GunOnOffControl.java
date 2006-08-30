@@ -21,7 +21,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.LightSourceControl;
+import edu.colorado.phet.hydrogenatom.control.LightTypeControl;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -29,12 +29,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * LightOnOffControl
+ * GunOnOffControl
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightOnOffControl extends PNode {
+public class GunOnOffControl extends PNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -53,7 +53,7 @@ public class LightOnOffControl extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LightOnOffControl() {
+    public GunOnOffControl() {
         super();
         
         // Images
@@ -69,7 +69,7 @@ public class LightOnOffControl extends PNode {
             e.printStackTrace();
         }
         
-        // Light representation
+        // Gun representation
         PImage gunNode = new PImage( gunImage );
         addChild( gunNode );
         

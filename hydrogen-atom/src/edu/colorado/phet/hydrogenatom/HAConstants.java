@@ -14,7 +14,10 @@ package edu.colorado.phet.hydrogenatom;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 
 /**
@@ -63,7 +66,7 @@ public class HAConstants {
 
     public static final String FONT_NAME = "Lucida Sans";
     public static final Font CONTROL_FONT = new Font( FONT_NAME, Font.PLAIN, 16 );
-    public static final Font TITLE_FONT = new Font( FONT_NAME, Font.BOLD, 22 );
+    public static final Font TITLE_FONT = new Font( FONT_NAME, Font.BOLD, 20 );
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -76,17 +79,30 @@ public class HAConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
+    // Color used for wavelengths outside the visible spectrum
+    public static final Color NON_VISIBLE_COLOR = Color.LIGHT_GRAY;
+    
+    //----------------------------------------------------------------------------
+    // Borders
+    //----------------------------------------------------------------------------
+    
+    public static final Border CONTROL_PANEL_BORDER = 
+        BorderFactory.createCompoundBorder(
+          BorderFactory.createBevelBorder( BevelBorder.RAISED, Color.GRAY, Color.BLACK ),
+          BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGE_ALPHA_PARTICLE = IMAGES_DIRECTORY + "alphaParticle.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
-    public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gun-control-cable.png";
-    public static final String IMAGE_GUN_CONTROL_PANEL = IMAGES_DIRECTORY + "gun-control-panel.png";
-    public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gun-on-button.png";
-    public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gun-off-button.png";
+    public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
+    public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
+    public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
+    public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //----------------------------------------------------------------------------
