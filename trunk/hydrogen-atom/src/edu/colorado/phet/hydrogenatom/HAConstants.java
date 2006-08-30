@@ -79,8 +79,15 @@ public class HAConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
-    // Color used for wavelengths outside the visible spectrum
-    public static final Color NON_VISIBLE_COLOR = Color.LIGHT_GRAY;
+    // Generic transparent color
+    public static final Color COLOR_TRANSPARENT = new Color( 0, 0, 0 );
+    
+    // Colors used for wavelengths outside the visible spectrum
+    public static final Color UV_COLOR = Color.GRAY;
+    public static final Color IR_COLOR = Color.GRAY;
+    
+    // Color used for alpha particle intensity slider
+    public static final Color ALPHA_PARTICLES_COLOR = Color.GRAY;
     
     //----------------------------------------------------------------------------
     // Borders
@@ -112,4 +119,12 @@ public class HAConstants {
     public static final Cursor DEFAULT_CURSOR = new Cursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
     public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
+    
+    //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    public static final double MIN_WAVELENGTH = 90;
+    public static final double MAX_WAVELENGTH = 900;
+    
 }

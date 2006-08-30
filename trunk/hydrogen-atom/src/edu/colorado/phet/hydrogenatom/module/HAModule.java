@@ -11,9 +11,13 @@
 
 package edu.colorado.phet.hydrogenatom.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -24,7 +28,6 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class HAModule extends PiccoloModule {
@@ -88,6 +91,18 @@ public class HAModule extends PiccoloModule {
                     lightControlPanel, alphaParticleControlPanel );
             gunNode.setOffset( 50, 200 );
             _rootNode.addChild( gunNode );
+        }
+        
+        //XXX test
+        {
+            final WavelengthControl wavelengthControl = new WavelengthControl( _canvas, 90, 900, Color.GRAY, Color.LIGHT_GRAY );
+            wavelengthControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    System.out.println( "wavelength=" + wavelengthControl.getWavelength() );
+                }
+            } );
+            wavelengthControl.setOffset( 100, 100 );
+            _rootNode.addChild( wavelengthControl );
         }
         
         //----------------------------------------------------------------------------
