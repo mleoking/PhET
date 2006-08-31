@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.tests.piccolo;
 
+import java.awt.Color;
+
 import javax.swing.*;
 
 import edu.umd.cs.piccolo.PNode;
@@ -19,15 +21,22 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * TestPSwingQuality demonstrates the rendering quality of PSwing.
- * Two panels are shown; one is opaque and one is transparent.
+ * Three panels are shown; one is opaque and the other two are transparent.
  * On Macintosh (OS 10.3.9, JDK 1.4.2_09) the quality of the 
- * transparent panel is unacceptable.
+ * transparent panels is unacceptable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class TestPSwingQuality extends JFrame {
 
+    /* Use opaque JComponents */
+    private static int SET_OPAQUE_TRUE = 1;
+    /* Use transparent JComponents using setOpaque(false) */
+    private static int SET_OPAQUE_FALSE = 2;
+    /* Use transparent JComponents using setBackground(new Color(0,0,0,0)) */
+    private static int SET_BACKGROUND_TRANSPARENT = 3;
+    
     public static void main( String[] args ) {
         JFrame frame = new TestPSwingQuality();
         frame.show();
@@ -36,8 +45,9 @@ public class TestPSwingQuality extends JFrame {
     public TestPSwingQuality() {
         super( "TestPSwingQuality" );
         
-        JPanel opaquePanel = new TestPanel( true /* opaque */ );
-        JPanel transparentPanel = new TestPanel( false /* opaque */ );
+        JPanel opaquePanel = new TestPanel( "setOpaque(true)", SET_OPAQUE_TRUE );
+        JPanel transparentPanel = new TestPanel( "setOpaque(false)", SET_OPAQUE_FALSE );
+        JPanel backgroundPanel = new TestPanel( "setBackground(transparent)", SET_BACKGROUND_TRANSPARENT );
         
         PSwingCanvas canvas = new PSwingCanvas();
         
@@ -47,9 +57,14 @@ public class TestPSwingQuality extends JFrame {
         PNode transparentNode = new PSwing( canvas, transparentPanel );
         canvas.getLayer().addChild( transparentNode );
 
+        PNode backgroundNode = new PSwing( canvas, backgroundPanel );
+        canvas.getLayer().addChild( backgroundNode );
+        
         opaqueNode.setOffset( 50, 50 );
         transparentNode.setOffset( opaqueNode.getFullBounds().getX(), 
                 opaqueNode.getFullBounds().getY() + opaqueNode.getFullBounds().getHeight() );
+        backgroundNode.setOffset( transparentNode.getFullBounds().getX(), 
+                transparentNode.getFullBounds().getY() + transparentNode.getFullBounds().getHeight() );
         
         getContentPane().add( canvas );
         setSize( 300, 300 );
@@ -58,7 +73,7 @@ public class TestPSwingQuality extends JFrame {
     
     private static class TestPanel extends JPanel {
 
-        public TestPanel( boolean opaque ) {
+        public TestPanel( String title, int type ) {
             
             JRadioButton rb1 = new JRadioButton( "ABC XYZ 123" );
             JRadioButton rb2 = new JRadioButton( "abc xyz 456" );
@@ -67,15 +82,24 @@ public class TestPSwingQuality extends JFrame {
             buttonGroup.add( rb2 );
             rb1.setSelected( true );
 
-            String title = opaque ? "Opaque" : "Transparent";
             setBorder( BorderFactory.createTitledBorder( title ) );
             add( rb1 );
             add( rb2 );
-
-            // opacity
-            setOpaque( opaque );
-            rb1.setOpaque( opaque );
-            rb2.setOpaque( opaque );
+            
+            if ( type == SET_OPAQUE_TRUE ) {
+                // do nothing
+            }
+            else if ( type == SET_OPAQUE_FALSE ) {
+                setOpaque( false );
+                rb1.setOpaque( false );
+                rb2.setOpaque( false );
+            }
+            else if ( type == SET_BACKGROUND_TRANSPARENT ) {
+                Color transparentColor = new Color( 0f, 0f, 0f, 0f );
+                setBackground( transparentColor );
+                rb1.setBackground( transparentColor );
+                rb2.setBackground( transparentColor );
+            }
         }
     }
 }
