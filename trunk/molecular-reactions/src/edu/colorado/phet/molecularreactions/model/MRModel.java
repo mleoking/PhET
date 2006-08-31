@@ -68,9 +68,9 @@ public class MRModel extends PublishingModel {
 //    }
 
     public void setEnergyProfile( EnergyProfile energyProfile ) {
-        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel());
-        this.energyProfile.setRightLevel( energyProfile.getRightLevel());
-        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel());
+        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel() );
+        this.energyProfile.setRightLevel( energyProfile.getRightLevel() );
+        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel() );
     }
 
     public EnergyProfile getEnergyProfile() {
@@ -124,7 +124,15 @@ public class MRModel extends PublishingModel {
                                 }
                             }
                         }
-                        moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
+
+                        // Check for collisions between the molecule and the box. Note that we have to
+                        // do this until no collisions are detected so that cases in which a molecule
+                        // hits in the corner of the box will be handled properly. If we don't do this,
+                        // molecules can escape from the box
+                        boolean collided;
+                        do {
+                            collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
+                        } while( collided );
                     }
                 }
             }
