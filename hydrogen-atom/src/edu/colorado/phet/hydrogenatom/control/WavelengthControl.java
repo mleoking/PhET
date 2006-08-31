@@ -123,7 +123,6 @@ public class WavelengthControl extends PNode {
         _wavelength = _minWavelength - 1; // any value outside the range
         _uvColor = uvColor;
         _irColor = irColor;
-        
         _listenerList = new EventListenerList();
         
         _knob = new Knob( DEFAULT_KNOB_SIZE );
@@ -134,6 +133,7 @@ public class WavelengthControl extends PNode {
         addChild( _knob );
         addChild( _valueDisplay );
         
+        _track.setOffset( 0, 0 );
         _knob.setOffset( 0, _track.getFullBounds().getHeight() );
         _valueDisplay.setOffset( 0, -_valueDisplay.getFullBounds().getHeight() - VALUE_Y_OFFSET );
         
@@ -338,52 +338,63 @@ public class WavelengthControl extends PNode {
             double uvTrackWidth = ( uvBandwidth / visibleBandwidth ) * spectrumTrackWidth;
             double irTrackWidth = ( irBandwith / visibleBandwidth ) * spectrumTrackWidth;
             
-            PPath uvTrack = new PPath();
-            uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, spectrumTrackHeight ) );
-            uvTrack.setPaint( uvColor );
-            uvTrack.setStrokePaint( null );
+            boolean hasUV = ( uvTrackWidth > 0 );
+            boolean hasIR = ( irTrackWidth > 0 );
             
-            PPath irTrack = new PPath();
-            irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, spectrumTrackHeight ) );
-            irTrack.setPaint( irColor );
-            irTrack.setStrokePaint( null );
-            
+            PPath uvTrack = null;
             PText uvText = null;
-            if ( minWavelength < VisibleColor.MIN_WAVELENGTH ) {
+            if ( hasUV ) {
+                
+                uvTrack = new PPath();
+                uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, spectrumTrackHeight ) );
+                uvTrack.setPaint( uvColor );
+                uvTrack.setStrokePaint( null );
+                
                 uvText = new PText( UV_STRING );
                 uvText.setFont( UV_IR_FONT );
                 uvText.setTextPaint( UV_LABEL_COLOR );
             }
             
+            PPath irTrack = null;
             PText irText = null;
-            if ( maxWavelength > VisibleColor.MAX_WAVELENGTH ) {
+            if ( hasIR ) {
+                
+                irTrack = new PPath();
+                irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, spectrumTrackHeight ) );
+                irTrack.setPaint( irColor );
+                irTrack.setStrokePaint( null );
+
                 irText = new PText( IR_STRING );
                 irText.setFont( UV_IR_FONT );
                 irText.setTextPaint( IR_LABEL_COLOR );
             }
             
             // Layering
-            addChild( uvTrack );
-            addChild( irTrack );
-            addChild( spectrumTrack );
-            if ( uvText != null ) {
+            if ( hasUV ) {
+                addChild( uvTrack );
                 addChild( uvText );
             }
-            if ( irText != null ) {
+            if ( hasIR ) {
+                addChild( irTrack );
                 addChild( irText );
             }
-            
+            addChild( spectrumTrack );
+
             // Positioning
-            uvTrack.setOffset( 0, 0 );
-            spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
-            irTrack.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth(), 0 );
-            if ( uvText != null ) {
+            if ( hasUV ) {
+                uvTrack.setOffset( 0, 0 );
+                spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
                 uvText.setOffset( spectrumTrack.getFullBounds().getX() - uvText.getFullBounds().getWidth() - UV_IR_LABEL_MARGIN, 
-                                  ( spectrumTrack.getFullBounds().getHeight() - uvText.getFullBounds().getHeight() ) / 2 );
+                        ( spectrumTrack.getFullBounds().getHeight() - uvText.getFullBounds().getHeight() ) / 2 );
             }
-            if ( irText != null ) {
+            else {
+                spectrumTrack.setOffset( 0, 0 );
+            }
+            
+            if ( hasIR ) {
+                irTrack.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth(), 0 );
                 irText.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth() + UV_IR_LABEL_MARGIN, 
-                                  ( spectrumTrack.getFullBounds().getHeight() - irText.getFullBounds().getHeight() ) / 2 );
+                        ( spectrumTrack.getFullBounds().getHeight() - irText.getFullBounds().getHeight() ) / 2 );
             }
         }
     }
