@@ -72,16 +72,22 @@ public class MoleculeBoxCollisionAgent {
 
         if( detectCollision( molecule, molecule.getVelocity(), box ) ) {
             doCollision( molecule, loa, collisionPt );
+            return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
-
-    private boolean detectCollision( Molecule molecule, Vector2D velocity, Box2D box ) {
+    private boolean detectCollision
+            ( Molecule
+                    molecule, Vector2D
+                    velocity, Box2D
+                    box ) {
         boolean collisionDetected = false;
 
         velocity = molecule.getVelocity();
-        
+
         if( molecule instanceof CompositeMolecule ) {
             CompositeMolecule compositeMolecule = (CompositeMolecule)molecule;
             Molecule[] components = compositeMolecule.getComponentMolecules();
@@ -142,7 +148,11 @@ public class MoleculeBoxCollisionAgent {
     }
 
 
-    public void doCollision( Molecule molecule, Vector2D loa, Point2D.Double collisionPt ) {
+    public void doCollision
+            ( Molecule
+                    molecule, Vector2D
+                    loa, Point2D.Double
+                    collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = molecule.getKineticEnergy() /*+ bodyB.getKineticEnergy()*/;

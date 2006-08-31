@@ -28,12 +28,12 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testF( (MRModel)getModel() );
+//        testF( (MRModel)getModel() );
 //        testE( (MRModel)getModel() );
 //        testD( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
-//        testDefinedMolecules( (MRModel)getModel() );
+        testDefinedMolecules( (MRModel)getModel() );
 //        testCompisiteMoleculeA( model );
     }
 
