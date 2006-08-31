@@ -171,6 +171,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     private Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
     private BufferedImage buffer;
     private PSwingCanvas pSwingCanvas;
+    private static final Color BUFFER_BACKGROUND_COLOR = new Color(0,0,0,0);
 
     /**
      * Constructs a new visual component wrapper for the Swing component
@@ -290,8 +291,8 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         }
         else {
             Graphics2D bufferedGraphics = buffer.createGraphics();
-            bufferedGraphics.setBackground( Color.black );
-            bufferedGraphics.clipRect( 0, 0, component.getWidth(), component.getHeight() );
+            bufferedGraphics.setBackground( BUFFER_BACKGROUND_COLOR);
+            bufferedGraphics.clearRect( 0, 0, component.getWidth(), component.getHeight() );
         }
         Graphics2D bufferedGraphics = buffer.createGraphics();
 
