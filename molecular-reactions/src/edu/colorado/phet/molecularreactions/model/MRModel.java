@@ -28,17 +28,25 @@ import java.awt.geom.Point2D;
  * <p/>
  * The model for molecular reactions
  * <p/>
- * Notes:
+ * The model consists principally of SimpleMolecules and CompositeMolecules, and an EnergyProfile. CompositeMolecules
+ * are composed of SimpleMolecules, only. They cannot contain other CompositeMolecules.
  * <p/>
- * When a molecule becomes part of a composite molecule, it is taken out of the model.
- * That means it doesn't get clock ticks or show up in the getModelElements() list.
+ * There are three types of SimpleMolecules: A, B, and C. A and C molecules can exist either by themselves, or in
+ * combination with one B molecule. CompositeMolecules, therefore can be either AB or BC molecules.
+ * <p>
+ * The EnergyProfile defines the potential energy of an AB molecule, the potential energy of a BC molecule, and
+ * the energy threshold between those two that must be crossed in order for a reaction to occur. The reaction can be
+ * either an A molecule hitting a BC molecule with enough energy to cross the threshold and become an AB molecule
+ * and a free C molecule, or a C molecule hitting an AB molecule resulting in a BC molecule and a free A molecule.
+ * <p>
+ * All collisions are detected and handled by a CollisionAgent.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.DEFAULT_REACTION_THRESHOLD, 0 );
+    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.DEFAULT_REACTION_THRESHOLD, 0, 40 );
 
     public MRModel( IClock clock ) {
         super( clock );
@@ -51,21 +59,15 @@ public class MRModel extends PublishingModel {
 
         // Create collisions agents that will detect and handle collisions between molecules,
         // and between molecules and the box
-        addModelElement( new CollisionAgent() );
+        addModelElement( new CollisionAgent( this ) );
 
         // Add an agent that will track the simple molecule that's closest to the selected
         // molecule
         addModelElement( new SelectedMoleculeTracker( this ) );
-    }
 
-//    public double getReactionThresholdEnergy() {
-//        return reactionThresholdEnergy;
-//    }
-//
-//    public void setReactionThresholdEnergy( double reactionThresholdEnergy ) {
-//        this.reactionThresholdEnergy = reactionThresholdEnergy;
-//        modelListenerProxy.reactionThresholdChanged( this );
-//    }
+        // Add an agent that will create provisional bonds when appropriate
+        addModelElement( new ProvisionalBondDetector( this ));
+    }
 
     public void setEnergyProfile( EnergyProfile energyProfile ) {
         this.energyProfile.setLeftLevel( energyProfile.getLeftLevel() );
@@ -75,6 +77,10 @@ public class MRModel extends PublishingModel {
 
     public EnergyProfile getEnergyProfile() {
         return energyProfile;
+    }
+
+    public Box2D getBox() {
+        return box;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -93,54 +99,5 @@ public class MRModel extends PublishingModel {
 
     public void removeListener( ModelListener listener ) {
         modelEventChannel.removeListener( listener );
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
-    //--------------------------------------------------------------------------------------------------
-
-    private class CollisionAgent implements ModelElement {
-        SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
-        MoleculeMoleculeCollisionAgent moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( MRModel.this );
-        MoleculeBoxCollisionAgent moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
-
-        public void stepInTime( double dt ) {
-            List modelElements = getModelElements();
-            for( int i = modelElements.size() - 1; i >= 0; i-- ) {
-                Object o = modelElements.get( i );
-
-                // Checkevery Molecule that is not part of a large CompositeMolecule
-                if( o instanceof Molecule ) {
-                    Molecule moleculeA = (Molecule)o;
-                    if( !moleculeA.isPartOfComposite() ) {
-                        for( int j = modelElements.size() - 1; j >= 0; j-- ) {
-                            Object o2 = modelElements.get( j );
-                            if( o2 instanceof Molecule ) {
-                                Molecule moleculeB = (Molecule)o2;
-                                if( !moleculeB.isPartOfComposite() && moleculeA != moleculeB ) {
-                                    moleculeMoleculeCollisionAgent.detectAndDoCollision( MRModel.this,
-                                                                                         moleculeA,
-                                                                                         moleculeB );
-                                }
-                            }
-                        }
-
-                        // Check for collisions between the molecule and the box. Note that we have to
-                        // do this until no collisions are detected so that cases in which a molecule
-                        // hits in the corner of the box will be handled properly. If we don't do this,
-                        // molecules can escape from the box
-                        boolean collided;
-                        collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
-                        if( collided ) {
-                            moleculeA.stepInTime( dt );
-                            collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
-                            if( !collided ) {
-                                moleculeA.stepInTime( -dt );
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

@@ -52,6 +52,7 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( moleculeLayer ) );
         megm.addGraphicFactory( new BoxGraphicFactory() );
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
+        megm.addGraphicFactory( new ProvisionalBondGraphicFactory() );
         megm.scanModel();
     }
 
@@ -86,6 +87,17 @@ public class SpatialView extends PNode {
 
         public PNode createGraphic( ModelElement modelElement ) {
             return new BoxGraphic( (Box2D)modelElement ) ;
+        }
+    }
+
+    private class ProvisionalBondGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
+
+        protected ProvisionalBondGraphicFactory() {
+            super( ProvisionalBond.class, bondLayer );
+        }
+
+        public PNode createGraphic( ModelElement modelElement ) {
+            return new ProvisionalBondGraphic( (ProvisionalBond)modelElement ) ;
         }
     }
 
