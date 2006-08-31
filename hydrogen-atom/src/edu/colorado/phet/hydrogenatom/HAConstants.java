@@ -82,7 +82,7 @@ public class HAConstants {
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
     // Generic transparent color
-    public static final Color COLOR_TRANSPARENT = new Color( 0, 0, 0 );
+    public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Colors used for wavelengths outside the visible spectrum
     public static final Color UV_COLOR = Color.GRAY;
