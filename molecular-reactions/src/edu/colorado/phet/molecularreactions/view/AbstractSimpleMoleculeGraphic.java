@@ -35,7 +35,7 @@ import java.awt.geom.Ellipse2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractSimpleMoleculeGraphic extends RegisterablePNode implements SimpleObserver, SimpleMolecule.Listener {
+abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -84,11 +84,10 @@ abstract public class AbstractSimpleMoleculeGraphic extends RegisterablePNode im
         molecule.addListener( this );
 
         double radius = molecule.getRadius() - BOND_OFFSET;
-        Shape s = new Ellipse2D.Double( 0,
-                                        0,
+        Shape s = new Ellipse2D.Double( -radius,
+                                        -radius,
                                         radius * 2,
                                         radius * 2 );
-        setRegistrationPoint( radius, radius );
         pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
         pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
         pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );

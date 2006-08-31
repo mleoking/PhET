@@ -74,14 +74,21 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         // Do bounding box test to avoid more computation for most pairs of molecules
         boolean boundingBoxesOverlap = false;
-        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
-        double dy = Math.abs( moleculeA.getPosition().getY() - moleculeB.getPosition().getY() );
-        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
-                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
+        boundingBoxesOverlap= moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox());
+//        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
+//        double dy = Math.abs( moleculeA.getPosition().getY() - moleculeB.getPosition().getY() );
+//        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
+//                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
+
+        if( boundingBoxesOverlap ) {
+            System.out.println( "MoleculeMoleculeCollisionAgent.detectAndDoCollision" );
+        }
 
         // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
         // composite
-        if( boundingBoxesOverlap && !moleculeA.isPartOfComposite() && !moleculeB.isPartOfComposite() ) {
+        if( boundingBoxesOverlap
+            && !moleculeA.isPartOfComposite()
+            && !moleculeB.isPartOfComposite() ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
@@ -92,8 +99,16 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     }
 
 
+    /**
+     * Determines the parameters of the collision between two molecules.
+     * @param moleculeA
+     * @param moleculeB
+     * @return A CollisionSpec, if a collision occurs, otherwise return null
+     */
     private CollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
         CollisionSpec collisionSpec = null;
+
+        // If both the molecules are simple molecules, we can determine if they are colliding
         if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
             SimpleMolecule rmA = (SimpleMolecule)moleculeA;
             SimpleMolecule rmB = (SimpleMolecule)moleculeB;
@@ -112,19 +127,26 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                                                    (SimpleMolecule)moleculeB );
             }
         }
+
+        // If one of the molecules is a componsite molecule, recursively descend through it
+        // to get down to the simple molecules before we can determine if there is a collision
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
-            for( int j = 0; j < cmA.getComponentMolecules().length; j++ ) {
+            CollisionSpec cs = null;
+            for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmA.getComponentMolecules()[j];
-                return getCollisionSpec( moleculeC, moleculeB );
+                cs = getCollisionSpec( moleculeC, moleculeB );
             }
+            return cs;
         }
         else if( moleculeB instanceof CompositeMolecule ) {
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
-            for( int j = 0; j < cmB.getComponentMolecules().length; j++ ) {
+            CollisionSpec cs = null;
+            for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmB.getComponentMolecules()[j];
-                return getCollisionSpec( moleculeA, moleculeC );
+                cs = getCollisionSpec( moleculeA, moleculeC );
             }
+            return cs;
         }
         else {
             throw new RuntimeException( "error in function" );
@@ -151,8 +173,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
             if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
                 CompositeMolecule compositeMolecule = new CompositeMolecule( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB );
-//                model.removeModelElement( bodyA );
-//                model.removeModelElement( bodyB );
                 model.addModelElement( compositeMolecule );
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
@@ -169,9 +189,8 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 throw new RuntimeException( "unexpected situation" );
             }
         }
+
         // Otherwise, do a perfectly elastic collision
-
-
         else {
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),
