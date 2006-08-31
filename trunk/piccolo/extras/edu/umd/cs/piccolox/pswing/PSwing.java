@@ -285,8 +285,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
         manager.lockRepaint( component );
 
-        if( !isBufferValid() )
-        {
+        if( !isBufferValid() ) {
             buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
         }
         else {
@@ -317,15 +316,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * A template method that tells whether the buffer for the image of the Swing components
-     * is currently valid. This method was factored out of paint( Graphics2D g2 ) so that
-     * subclasses could be written to handle special cases that do not work properly with
-     * the check done in this implementation. In particular, JSliders with isOpaque() == false
-     * don't work properly.
+     * Tells whether the buffer for the image of the Swing components
+     * is currently valid.
      *
      * @return true if the buffer is currently valid
      */
-    protected boolean isBufferValid() {
+    private boolean isBufferValid() {
         return !( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight());
     }
 
