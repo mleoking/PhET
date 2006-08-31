@@ -28,15 +28,43 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-//        testF( (MRModel)getModel() );
+//        testG( (MRModel)getModel() );
+        testF( (MRModel)getModel() );
 //        testE( (MRModel)getModel() );
 //        testD( (MRModel)getModel() );
-//        testC( (MRModel)getModel() );
+        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
         testDefinedMolecules( (MRModel)getModel() );
 //        testCompisiteMoleculeA( model );
     }
 
+
+    void testG( MRModel model ) {
+        {
+            model.getEnergyProfile().setPeakLevel( 50 );
+            SimpleMolecule m1 = new MoleculeA();
+            m1.setPosition( 180, 60 );
+            m1.setVelocity( 0, 0 );
+            model.addModelElement( m1 );
+            SimpleMolecule m1a = new MoleculeB();
+            m1a.setPosition( 180 + m1a.getRadius() * 2, 60 );
+            m1a.setVelocity( 0, 0 );
+            model.addModelElement( m1a );
+
+            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                          new Bond[]{new Bond( m1, m1a )} );
+            cm.setOmega( 0.1 );
+            cm.setVelocity( 0, -0.4);
+
+            model.addModelElement( cm );
+
+//            SimpleMolecule m2 = new MoleculeA();
+//            m2.setPosition( 180, 150 );
+//            m2.setVelocity( 0, -2 );
+//            model.addModelElement( m2 );
+//            m2.setSelectionStatus( Selectable.SELECTED );
+        }
+    }
 
     void testF( MRModel model ) {
         {

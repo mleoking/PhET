@@ -130,9 +130,14 @@ public class MRModel extends PublishingModel {
                         // hits in the corner of the box will be handled properly. If we don't do this,
                         // molecules can escape from the box
                         boolean collided;
-                        do {
+                        collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
+                        if( collided ) {
+                            moleculeA.stepInTime( dt );
                             collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, box );
-                        } while( collided );
+                            if( !collided ) {
+                                moleculeA.stepInTime( -dt );
+                            }
+                        }
                     }
                 }
             }
