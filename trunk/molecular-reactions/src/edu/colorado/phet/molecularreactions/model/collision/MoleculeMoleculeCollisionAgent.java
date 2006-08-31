@@ -73,6 +73,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         CollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
+        // Todo: possible performance bottleneck here. 
         boolean boundingBoxesOverlap = false;
         boundingBoxesOverlap= moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox());
 //        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
@@ -80,9 +81,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 //        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
 //                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        if( boundingBoxesOverlap ) {
-            System.out.println( "MoleculeMoleculeCollisionAgent.detectAndDoCollision" );
-        }
 
         // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
         // composite
@@ -438,14 +436,12 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 && cm.getType() == CompositeMolecule.BB
                 && sm instanceof MoleculeA
                 && ke >= reactionThreshold ) {
-//                && totalEnergy >= reactionThreshold ) {
                 return true;
             }
             if( cm.numSimpleMolecules() == 2
                 && cm.getType() == CompositeMolecule.AB
                 && sm instanceof MoleculeB
                 && ke >= reactionThreshold ) {
-//                && totalEnergy >= reactionThreshold ) {
                 return true;
             }
             return false;

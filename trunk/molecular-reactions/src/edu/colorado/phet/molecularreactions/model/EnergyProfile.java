@@ -27,11 +27,14 @@ public class EnergyProfile {
     private double leftLevel;
     private double rightLevel;
     private double peakLevel;
-    private BoundedRangeModel leftRange;
-    private BoundedRangeModel rightRange;
-    private BoundedRangeModel peakRange;
+    // The width of the threshold curvel. I.E, the separatio between stable states.
+    private double thresholdWidth;
+//    private BoundedRangeModel leftRange;
+//    private BoundedRangeModel rightRange;
+//    private BoundedRangeModel peakRange;
 
-    public EnergyProfile( double leftLevel, double peakLevel, double rightLevel ) {
+    public EnergyProfile( double leftLevel, double peakLevel, double rightLevel, double thresholdWidth ) {
+        this.thresholdWidth = thresholdWidth;
         this.peakLevel = peakLevel;
         this.leftLevel = leftLevel;
         this.rightLevel = rightLevel;
@@ -62,6 +65,10 @@ public class EnergyProfile {
     public void setPeakLevel( double peakLevel ) {
         this.peakLevel = peakLevel;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+    }
+
+    public double getThresholdWidth() {
+        return thresholdWidth;
     }
 
     //--------------------------------------------------------------------------------------------------

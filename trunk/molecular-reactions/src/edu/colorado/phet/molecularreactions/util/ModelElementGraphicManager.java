@@ -101,6 +101,12 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         }
     }
 
+    /**
+     * When a ModelElement is added to the Model, we create a graphic, if a factor has be installed for that
+     * class of ModelElement
+     *
+     * @param modelElement
+     */
     public void modelElementAdded( ModelElement modelElement ) {
         PNode graphic = null;
         PNode layer = canvas;
