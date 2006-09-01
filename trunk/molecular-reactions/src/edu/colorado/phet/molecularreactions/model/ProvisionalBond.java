@@ -19,6 +19,10 @@ import java.awt.geom.Point2D;
  * <p/>
  * A ProvisionalBond is a bond that exists between two SimpleMolecules that are not yet completely bonded, or
  * were bonded and are now separating.
+ * <p>
+ * This is a ModelElement. At each time step, it checks to see if distance between the molecules it is
+ * bonding is less than or equal to the maximum bond length. If it is, the bond removes itself from the
+ * model.
  *
  * @author Ron LeMaster
  * @version $Revision$

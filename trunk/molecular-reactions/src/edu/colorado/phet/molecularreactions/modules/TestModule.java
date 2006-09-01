@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
@@ -42,35 +43,62 @@ public class TestModule extends MRModule {
 
     /**
      * For testing A_AB_BC_C reactions, and Reaction class in general
+     *
      * @param model
      */
     void testI( MRModel model ) {
         {
+            model.setReaction( new A_AB_BC_C_Reaction() );
             model.getEnergyProfile().setPeakLevel( 50 );
-            SimpleMolecule m1 = new MoleculeA();
-            m1.setPosition( 180, 60 );
-            m1.setVelocity( 0, 0 );
-            model.addModelElement( m1 );
-            SimpleMolecule m1a = new MoleculeB();
-            m1a.setPosition( 180 + m1a.getRadius() * 2 +5, 60 );
-            m1a.setVelocity( 0, 0 );
-            model.addModelElement( m1a );
+            {
+                SimpleMolecule m1 = new MoleculeA();
+                m1.setPosition( 180, 60 );
+                m1.setVelocity( 0, 0 );
+                model.addModelElement( m1 );
+                SimpleMolecule m1a = new MoleculeB();
+                m1a.setPosition( 180 + m1a.getRadius() * 2 + 5, 60 );
+                m1a.setVelocity( 0, 0 );
+                model.addModelElement( m1a );
 
-            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                              new Bond[]{new Bond( m1, m1a )} );
 //            cm.setOmega( 0.1 );
 //            cm.setVelocity( 0, -0.4);
-            model.addModelElement( cm );
+                model.addModelElement( cm );
 
-            SimpleMolecule m2 = new MoleculeC();
-            m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
-            m2.setVelocity( 1.5, 0 );
-            model.addModelElement( m2 );
+                SimpleMolecule m2 = new MoleculeC();
+                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setVelocity( 1.5, 0 );
+                model.addModelElement( m2 );
+            }
+            {
+                SimpleMolecule m1 = new MoleculeB();
+                m1.setPosition( 180, 120 );
+                m1.setVelocity( 0, 0 );
+                model.addModelElement( m1 );
+                SimpleMolecule m1a = new MoleculeA();
+                m1a.setPosition( 180 + m1a.getRadius() * 2 + 5, m1.getPosition().getY() );
+                m1a.setVelocity( 0, 0 );
+                model.addModelElement( m1a );
+
+                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                              new Bond[]{new Bond( m1, m1a )} );
+//            cm.setOmega( 0.1 );
+//            cm.setVelocity( 0, -0.4);
+                model.addModelElement( cm );
+
+                SimpleMolecule m2 = new MoleculeC();
+                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setVelocity( 1.5, 0 );
+                model.addModelElement( m2 );
+            }
 
         }
     }
+
     /**
      * For testing provisional bonds
+     *
      * @param model
      */
     void testH( MRModel model ) {
@@ -102,7 +130,7 @@ public class TestModule extends MRModule {
             CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
                                                           new Bond[]{new Bond( m1, m1a )} );
             cm.setOmega( 0.1 );
-            cm.setVelocity( 0, -0.4);
+            cm.setVelocity( 0, -0.4 );
 
             model.addModelElement( cm );
 

@@ -30,6 +30,7 @@ import java.awt.geom.Point2D;
 abstract public class Molecule extends Body implements Collidable {
     private CollidableAdapter collidableAdapter;
     private boolean isPartOfComposite;
+    private Molecule parentComposite;
 
     protected Molecule() {
         this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
@@ -82,11 +83,20 @@ abstract public class Molecule extends Body implements Collidable {
     }
 
     public boolean isPartOfComposite() {
-        return isPartOfComposite;
+        return parentComposite != null;
+//        return isPartOfComposite;
     }
 
-    public void setPartOfComposite( boolean partOfComposite ) {
-        isPartOfComposite = partOfComposite;
+//    public void setPartOfComposite( boolean partOfComposite ) {
+//        isPartOfComposite = partOfComposite;
+//    }
+
+    public Molecule getParentComposite() {
+        return parentComposite;
+    }
+
+    public void setParentComposite( Molecule parentComposite ) {
+        this.parentComposite = parentComposite;
     }
 
     /**

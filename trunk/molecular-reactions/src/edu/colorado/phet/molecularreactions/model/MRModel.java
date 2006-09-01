@@ -53,8 +53,8 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-    private Reaction reaction = new A_AB_BC_C_Reaction();
-//    private Reaction reaction = new Reaction();
+//    private Reaction reaction = new A_AB_BC_C_Reaction();
+    private Reaction reaction = new Reaction();
 
     public MRModel( IClock clock ) {
         super( clock );
@@ -77,11 +77,9 @@ public class MRModel extends PublishingModel {
         addModelElement( new ProvisionalBondDetector( this ));
     }
 
-//    public void setEnergyProfile( EnergyProfile energyProfile ) {
-//        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel() );
-//        this.energyProfile.setRightLevel( energyProfile.getRightLevel() );
-//        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel() );
-//    }
+    public void setReaction( Reaction reaction ) {
+        this.reaction = reaction;
+    }
 
     public Reaction getReaction() {
         return reaction;
