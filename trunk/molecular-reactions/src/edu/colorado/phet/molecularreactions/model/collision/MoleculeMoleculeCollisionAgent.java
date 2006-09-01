@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -39,22 +40,24 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private Vector2D loa = new Vector2D.Double();
 
     private double reactionThreshold;
-    private ReactionCriteria reactionCriteria;
+    private Reaction.ReactionCriteria reactionCriteria;
 
     /**
      * @param model
      */
     public MoleculeMoleculeCollisionAgent( final MRModel model ) {
 
-        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
+        reactionCriteria = model.getReaction().getReactionCriteria();
+//        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
 //        reactionCriteria = new SimpleMoleculeReactionCriteria();
 
-        model.getEnergyProfile().addChangeListener( new ChangeListener() {
+        final EnergyProfile energyProfile = model.getEnergyProfile();
+        energyProfile.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                reactionThreshold = model.getEnergyProfile().getPeakLevel();
+                reactionThreshold = energyProfile.getPeakLevel();
             }
         } );
-        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
+        this.reactionThreshold = energyProfile.getPeakLevel();
         model.addListener( this );
     }
 
@@ -70,7 +73,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         Molecule moleculeA = (Molecule)bodyA;
         Molecule moleculeB = (Molecule)bodyB;
-        CollisionSpec collisionSpec = null;
+        MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
         // Todo: possible performance bottleneck here.
@@ -103,8 +106,8 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
      * @param moleculeB
      * @return A CollisionSpec, if a collision occurs, otherwise return null
      */
-    private CollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
-        CollisionSpec collisionSpec = null;
+    private MoleculeMoleculeCollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
+        MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // If both the molecules are simple molecules, we can determine if they are colliding
         if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
@@ -120,9 +123,9 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 Point2D.Double collisionPt = new Point2D.Double( rmA.getCM().getX() - xDiff * aFrac,
                                                                  rmA.getCM().getY() - yDiff * aFrac );
                 loa.setComponents( xDiff, yDiff );
-                collisionSpec = new CollisionSpec( loa, collisionPt,
-                                                   (SimpleMolecule)moleculeA,
-                                                   (SimpleMolecule)moleculeB );
+                collisionSpec = new MoleculeMoleculeCollisionSpec( loa, collisionPt,
+                                                                   (SimpleMolecule)moleculeA,
+                                                                   (SimpleMolecule)moleculeB );
             }
         }
 
@@ -130,7 +133,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // to get down to the simple molecules before we can determine if there is a collision
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
-            CollisionSpec cs = null;
+            MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmA.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeC, moleculeB );
@@ -139,7 +142,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         }
         else if( moleculeB instanceof CompositeMolecule ) {
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
-            CollisionSpec cs = null;
+            MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmB.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeA, moleculeC );
@@ -159,7 +162,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
      * @param bodyB
      * @param collisionSpec
      */
-    public void doCollision( MRModel model, Body bodyA, Body bodyB, CollisionSpec collisionSpec ) {
+    public void doCollision( MRModel model, Body bodyA, Body bodyB, MoleculeMoleculeCollisionSpec collisionSpec ) {
         Vector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
@@ -167,7 +170,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Create a composite molecule if ReactionCriteria are met
-        if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB ) ) {
+        if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
 
             if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
                 CompositeMolecule compositeMolecule = new CompositeMolecule( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB );
@@ -290,40 +293,40 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     //  Inner classes
     //--------------------------------------------------------------------------------------------------
 
-    private static class CollisionSpec {
-
-        private Vector2D loa;
-        private Point2D.Double collisionPt;
-        private SimpleMolecule moleculeA;
-        private SimpleMolecule moleculeB;
-
-        public CollisionSpec( Vector2D loa,
-                              Point2D.Double collisionPt,
-                              SimpleMolecule moleculeA,
-                              SimpleMolecule moleculeB ) {
-            this.moleculeB = moleculeB;
-            this.moleculeA = moleculeA;
-            this.loa = loa;
-            this.collisionPt = collisionPt;
-        }
-
-        public Vector2D getLoa() {
-            return loa;
-        }
-
-        public Point2D.Double getCollisionPt() {
-            return collisionPt;
-        }
-
-        public SimpleMolecule getMoleculeA() {
-            return moleculeA;
-        }
-
-        public SimpleMolecule getMoleculeB() {
-            return moleculeB;
-        }
-    }
-
+//    public static class CollisionSpec {
+//
+//        private Vector2D loa;
+//        private Point2D.Double collisionPt;
+//        private SimpleMolecule moleculeA;
+//        private SimpleMolecule moleculeB;
+//
+//        public CollisionSpec( Vector2D loa,
+//                              Point2D.Double collisionPt,
+//                              SimpleMolecule moleculeA,
+//                              SimpleMolecule moleculeB ) {
+//            this.moleculeB = moleculeB;
+//            this.moleculeA = moleculeA;
+//            this.loa = loa;
+//            this.collisionPt = collisionPt;
+//        }
+//
+//        public Vector2D getLoa() {
+//            return loa;
+//        }
+//
+//        public Point2D.Double getCollisionPt() {
+//            return collisionPt;
+//        }
+//
+//        public SimpleMolecule getMoleculeA() {
+//            return moleculeA;
+//        }
+//
+//        public SimpleMolecule getMoleculeB() {
+//            return moleculeB;
+//        }
+//    }
+//
     //--------------------------------------------------------------------------------------------------
     // Implementation of MRModel.ModelListener
     //--------------------------------------------------------------------------------------------------
@@ -340,92 +343,92 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // noop
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Reaction criteria
-    //--------------------------------------------------------------------------------------------------
-
-    interface ReactionCriteria {
-        boolean criteriaMet( Molecule bodyA, Molecule bodyB );
-    }
-
-    /**
-     * Combines two simple molecules of different types into one compound molecule
-     */
-    class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold
-                   && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
-                   && m1.getClass() != m2.getClass();
-        }
-    }
-
-    /**
-     * Combines any two molecules together
-     */
-    class SimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold;
-        }
-    }
-
-    /**
-     * If a simple molecule hits a compound molecule, combines
-     */
-    class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-
-            // Determine the kinetic energy in the collision. We consider this to be the
-            // kinetic energy of an object whose mass is equal to the total masses of
-            // the two molecules, moving at a speed equal to the magnitude of the
-            // relative velocity of the two molecules
-            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
-                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
-            double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa), 0 );
-            double ke = 0.5 * (m1.getMass() + m2.getMass() ) * sRel * sRel;
-
-            // Classify the two molecules. Note that there must be one and only one
-            // simple molecule, and one and only one composite molecule
-            CompositeMolecule cm = null;
-            SimpleMolecule sm = null;
-            if( m1 instanceof CompositeMolecule ) {
-                cm = (CompositeMolecule)m1;
-            }
-            else {
-                sm = (SimpleMolecule)m1;
-            }
-
-            if( m2 instanceof CompositeMolecule ) {
-                if( cm != null ) {
-                    return false;
-                }
-                else {
-                    cm = (CompositeMolecule)m2;
-                }
-            }
-            else {
-                if( sm != null ) {
-                    return false;
-                }
-                else {
-                    sm = (SimpleMolecule)m2;
-                }
-            }
-
-            // One of the molecules must be a composite molecule whose components
-            // are two simple molecules, and the other molecule must be a simple molecule
-            if( cm.numSimpleMolecules() == 2
-                && cm.getType() == CompositeMolecule.BB
-                && sm instanceof MoleculeA
-                && ke >= reactionThreshold ) {
-                return true;
-            }
-            if( cm.numSimpleMolecules() == 2
-                && cm.getType() == CompositeMolecule.AB
-                && sm instanceof MoleculeB
-                && ke >= reactionThreshold ) {
-                return true;
-            }
-            return false;
-        }
-    }
+//    //--------------------------------------------------------------------------------------------------
+//    // Reaction criteria
+//    //--------------------------------------------------------------------------------------------------
+//
+//    interface ReactionCriteria {
+//        boolean criteriaMet( Molecule bodyA, Molecule bodyB );
+//    }
+//
+//    /**
+//     * Combines two simple molecules of different types into one compound molecule
+//     */
+//    class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
+//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
+//            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold
+//                   && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
+//                   && m1.getClass() != m2.getClass();
+//        }
+//    }
+//
+//    /**
+//     * Combines any two molecules together
+//     */
+//    class SimpleMoleculeReactionCriteria implements ReactionCriteria {
+//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
+//            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold;
+//        }
+//    }
+//
+//    /**
+//     * If a simple molecule hits a compound molecule, combines
+//     */
+//    class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
+//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
+//
+//            // Determine the kinetic energy in the collision. We consider this to be the
+//            // kinetic energy of an object whose mass is equal to the total masses of
+//            // the two molecules, moving at a speed equal to the magnitude of the
+//            // relative velocity of the two molecules
+//            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
+//                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
+//            double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa), 0 );
+//            double ke = 0.5 * (m1.getMass() + m2.getMass() ) * sRel * sRel;
+//
+//            // Classify the two molecules. Note that there must be one and only one
+//            // simple molecule, and one and only one composite molecule
+//            CompositeMolecule cm = null;
+//            SimpleMolecule sm = null;
+//            if( m1 instanceof CompositeMolecule ) {
+//                cm = (CompositeMolecule)m1;
+//            }
+//            else {
+//                sm = (SimpleMolecule)m1;
+//            }
+//
+//            if( m2 instanceof CompositeMolecule ) {
+//                if( cm != null ) {
+//                    return false;
+//                }
+//                else {
+//                    cm = (CompositeMolecule)m2;
+//                }
+//            }
+//            else {
+//                if( sm != null ) {
+//                    return false;
+//                }
+//                else {
+//                    sm = (SimpleMolecule)m2;
+//                }
+//            }
+//
+//            // One of the molecules must be a composite molecule whose components
+//            // are two simple molecules, and the other molecule must be a simple molecule
+//            if( cm.numSimpleMolecules() == 2
+//                && cm.getType() == CompositeMolecule.BB
+//                && sm instanceof MoleculeA
+//                && ke >= reactionThreshold ) {
+//                return true;
+//            }
+//            if( cm.numSimpleMolecules() == 2
+//                && cm.getType() == CompositeMolecule.AB
+//                && sm instanceof MoleculeB
+//                && ke >= reactionThreshold ) {
+//                return true;
+//            }
+//            return false;
+//        }
+//    }
 }

@@ -39,6 +39,7 @@ public class CompositeMolecule extends Molecule {
     public static Type AA = new Type();
     public static Type BB = new Type();
     public static Type AB = new Type();
+    public static Type BC = new Type();
     public static Type OTHER = new Type();
 
     private static int numSimpleMolecules( Molecule molecule ) {
@@ -445,6 +446,12 @@ public class CompositeMolecule extends Molecule {
         }
         if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeB ) {
             return BB;
+        }
+        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeC ) {
+            return BC;
+        }
+        if( components[0] instanceof MoleculeC && components[1] instanceof MoleculeB ) {
+            return BC;
         }
         return OTHER;
     }
