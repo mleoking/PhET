@@ -10,13 +10,15 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
+import edu.colorado.phet.common.model.ModelElement;
+
 /**
  * Bond
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Bond {
+public class Bond implements ModelElement {
     private SimpleMolecule[] participants;
 
     public Bond( SimpleMolecule m1, SimpleMolecule m2 ) {
@@ -25,5 +27,13 @@ public class Bond {
 
     public SimpleMolecule[] getParticipants() {
         return participants;
+    }
+
+    /**
+     * No time-dependent behavior
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        // noop
     }
 }

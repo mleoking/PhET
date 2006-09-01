@@ -15,22 +15,36 @@ import edu.colorado.phet.common.model.ModelElement;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * ProvisionalBondDetector
- * <p>
+ * <p/>
  * Detects when provisional bonds should be created.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapter implements ModelElement {
+public class ProvisionalBondDetector implements ModelElement, PublishingModel.ModelListener {
     private MRModel model;
-    private Map moleculeToBond = new HashMap();
+    private Map moleculeToProvisionalBond = new HashMap();
+    private List bondedMolecules = new ArrayList();
 
     public ProvisionalBondDetector( MRModel model ) {
         this.model = model;
         model.addListener( this );
+
+        // Scan the model for existing Bonds. SimpleMolecules participating in hard bonds are
+        // not eligible to participate in provisional bonds
+        List modelElements = model.getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof Bond ) {
+                Bond bond = (Bond)o;
+                bondedMolecules.add( bond.getParticipants()[0] );
+                bondedMolecules.add( bond.getParticipants()[1] );
+            }
+        }
     }
 
     public void stepInTime( double dt ) {
@@ -55,11 +69,11 @@ public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapte
                         if( moleculeSeparation <= provisionalBondMaxLength ) {
 
                             // If no provisional bond exists for either of these two simple molecules, create one
-                            if( moleculeToBond.get( sm1 ) == null && moleculeToBond.get( sm2 ) == null ) {
+                            if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains(  sm2 ) ){
                                 ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
                                 model.addModelElement( bond );
-                                moleculeToBond.put( sm1, bond );
-                                moleculeToBond.put( sm2, bond );
+                                bondedMolecules.add( sm1 );
+                                bondedMolecules.add( sm2 );
                             }
                         }
                     }
@@ -68,11 +82,27 @@ public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapte
         }
     }
 
+    /**
+     * If a ProvisionalBond is removed from the model, make its participants eligible for provisional bonding
+     * @param element
+     */
     public void modelElementRemoved( ModelElement element ) {
         if( element instanceof ProvisionalBond ) {
             ProvisionalBond bond = (ProvisionalBond)element;
-            moleculeToBond.remove( bond.getMolecules()[0] );
-            moleculeToBond.remove( bond.getMolecules()[1] );
+            bondedMolecules.remove( bond.getMolecules()[0] );
+            bondedMolecules.remove( bond.getMolecules()[1] );
+        }
+    }
+
+    /**
+     * If a Bond is added to the model, its participants should become eligible for provisional bonding
+     * @param element
+     */
+    public void modelElementAdded( ModelElement element ) {
+        if( element instanceof Bond ) {
+            Bond bond = (Bond)element;
+            bondedMolecules.remove( bond.getParticipants()[0] );
+            bondedMolecules.remove( bond.getParticipants()[1] );
         }
     }
 }

@@ -18,3 +18,4 @@ Internal
 ==============
 Model features
 ==============
+- MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
