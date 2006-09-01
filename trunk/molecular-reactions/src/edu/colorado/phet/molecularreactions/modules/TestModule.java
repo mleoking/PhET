@@ -28,9 +28,9 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testH( (MRModel)getModel() );
+//        testH( (MRModel)getModel() );
 //        testG( (MRModel)getModel() );
-//        testF( (MRModel)getModel() );
+        testF( (MRModel)getModel() );
 //        testE( (MRModel)getModel() );
 //        testD( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );

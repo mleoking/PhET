@@ -73,7 +73,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         CollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
-        // Todo: possible performance bottleneck here. 
+        // Todo: possible performance bottleneck here.
         boolean boundingBoxesOverlap = false;
         boundingBoxesOverlap= moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox());
 //        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
@@ -175,11 +175,13 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
                 Bond bond = new Bond( collisionSpec.getMoleculeA(), collisionSpec.getMoleculeB() );
+                model.addModelElement( bond );
                 ( (CompositeMolecule)bodyB ).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
                 System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
             }
             else if( bodyB instanceof SimpleMolecule && bodyA instanceof CompositeMolecule ) {
                 Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA );
+                model.addModelElement( bond );
                 ( (CompositeMolecule)bodyA ).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
                 System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
             }
@@ -262,27 +264,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
         Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
         return bond;
-    }
-
-    private Bond[] createArrayOfBonds( Body bodyA, Body bodyB ) {
-        if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
-            return new Bond[]{new Bond( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB )};
-        }
-        else if( bodyA instanceof SimpleMolecule ) {
-            double shortestDistSq = Double.POSITIVE_INFINITY;
-            SimpleMolecule[] am = ( (CompositeMolecule)bodyB ).getComponentMolecules();
-            SimpleMolecule closestMolecule = null;
-            for( int i = 0; i < am.length; i++ ) {
-                SimpleMolecule m = am[i];
-                double d = bodyA.getPosition().distanceSq( m.getPosition() );
-                if( d < shortestDistSq ) {
-                    closestMolecule = m;
-                }
-                shortestDistSq = d;
-            }
-            Bond newBond = new Bond( (SimpleMolecule)bodyA, closestMolecule );
-        }
-        return null;
     }
 
     private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {
