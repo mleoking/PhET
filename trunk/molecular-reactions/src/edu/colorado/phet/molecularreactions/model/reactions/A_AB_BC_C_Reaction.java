@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.model.reactions;
 
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.math.Vector2D;
@@ -92,10 +91,10 @@ public class A_AB_BC_C_Reaction extends Reaction {
             // molecule in the composite molecule
             boolean thirdClassificationCriterionMet = false;
             if( secondClassificationCriterionMet
-                && (!( collisionSpec.getMoleculeA() instanceof MoleculeA
-                      && collisionSpec.getMoleculeB() instanceof MoleculeC ) )
-                && (!( collisionSpec.getMoleculeA() instanceof MoleculeC
-                      && collisionSpec.getMoleculeB() instanceof MoleculeA  ) )
+                && (!( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
+                && (!( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA  ) )
                     ) {
                 thirdClassificationCriterionMet = true;
             }

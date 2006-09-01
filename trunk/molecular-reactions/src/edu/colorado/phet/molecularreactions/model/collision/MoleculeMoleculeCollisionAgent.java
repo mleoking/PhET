@@ -177,7 +177,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
                 model.addModelElement( compositeMolecule );
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
-                Bond bond = new Bond( collisionSpec.getMoleculeA(), collisionSpec.getMoleculeB() );
+                Bond bond = new Bond( collisionSpec.getSimpleMoleculeA(), collisionSpec.getSimpleMoleculeB() );
                 model.addModelElement( bond );
                 ( (CompositeMolecule)bodyB ).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
                 System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
@@ -318,11 +318,11 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 //            return collisionPt;
 //        }
 //
-//        public SimpleMolecule getMoleculeA() {
+//        public SimpleMolecule getSimpleMoleculeA() {
 //            return moleculeA;
 //        }
 //
-//        public SimpleMolecule getMoleculeB() {
+//        public SimpleMolecule getSimpleMoleculeB() {
 //            return moleculeB;
 //        }
 //    }
