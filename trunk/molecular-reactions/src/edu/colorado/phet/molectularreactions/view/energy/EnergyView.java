@@ -121,6 +121,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     private void update() {
         if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
             double dist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
+//                          - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 100;
             double yOffset = 20;
             double xOffset = 20;

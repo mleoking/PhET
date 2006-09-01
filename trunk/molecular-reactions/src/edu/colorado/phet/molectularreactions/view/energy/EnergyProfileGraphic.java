@@ -58,9 +58,9 @@ class EnergyProfileGraphic extends PNode {
 
         energyProfile.addChangeListener( new EnergyProfileChangeListener() );
         double width = size.getWidth();
-        x1 = width * 0.4;
         x2 = width * 0.5;
-        x3 = width * 0.6;
+        x1 = x2 - energyProfile.getThresholdWidth() / 2;
+        x3 = x2 + energyProfile.getThresholdWidth() / 2;
 
         leftFloor = new PPath();
         leftFloor.setPathTo( new Line2D.Double( 0, 0, x1, 0 ) );

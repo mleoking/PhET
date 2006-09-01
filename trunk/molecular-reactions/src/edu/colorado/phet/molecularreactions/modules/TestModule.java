@@ -30,8 +30,8 @@ public class TestModule extends MRModule {
         // Test
 //        testH( (MRModel)getModel() );
 //        testG( (MRModel)getModel() );
-        testF( (MRModel)getModel() );
-//        testE( (MRModel)getModel() );
+//        testF( (MRModel)getModel() );
+        testE( (MRModel)getModel() );
 //        testD( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
