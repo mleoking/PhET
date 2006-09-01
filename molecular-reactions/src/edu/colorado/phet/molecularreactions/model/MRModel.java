@@ -40,6 +40,11 @@ import java.awt.geom.Point2D;
  * and a free C molecule, or a C molecule hitting an AB molecule resulting in a BC molecule and a free A molecule.
  * <p>
  * All collisions are detected and handled by a CollisionAgent.
+ * <p>
+ * There are two sorts of bonds in the model. Regular, or "hard" bonds, and provisional bonds. Hard bonds join two
+ * molecules in a compound molecule. Provisional bonds are used to show the relationship between simple molecules that
+ * are within a certain distance of a bonding site in a compound molecule. This includes simple molecules approaching
+ * compound molecules, and simple molecules that are leaving compound molecules after a reaction.
  *
  * @author Ron LeMaster
  * @version $Revision$
