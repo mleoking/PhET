@@ -70,6 +70,9 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
 
                             // If no provisional bond exists for either of these two simple molecules, create one
                             if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains(  sm2 ) ){
+                                System.out.println( "sm1.getPosition().distance( sm2.getPosition() ) = " + sm1.getPosition().distance( sm2.getPosition() ) );
+                                System.out.println( "moleculeSeparation = " + moleculeSeparation );
+                                System.out.println( "provisionalBondMaxLength = " + provisionalBondMaxLength );
                                 ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
                                 model.addModelElement( bond );
                                 bondedMolecules.add( sm1 );

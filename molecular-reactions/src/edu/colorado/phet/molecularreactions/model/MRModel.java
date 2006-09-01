@@ -51,7 +51,7 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.DEFAULT_REACTION_THRESHOLD, 0, 40 );
+    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.DEFAULT_REACTION_THRESHOLD, 0, 60 );
 
     public MRModel( IClock clock ) {
         super( clock );

@@ -50,6 +50,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
     private PNode cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
+    private Dimension curveAreaSize;
 
     /**
      *
@@ -80,9 +81,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curveLayer.setOffset( insets.left, insets.top );
         PNode cursorLayer = new PNode();
         cursorLayer.setOffset( insets.left, insets.top );
-        PPath curvePane = new PPath( new Rectangle2D.Double( 0, 0,
+        PPath curvePane = new PPath( new Rectangle2D.Double( 0,
+                                                             0,
                                                              curvePaneSize.getWidth(),
-                                                             curvePaneSize.getHeight() ) );
+                                                             curvePaneSize.getHeight()) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
 
@@ -90,8 +92,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curvePane.addChild( cursorLayer );
 
         // Create the curve
-        Dimension curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - insets.left - insets.right,
-                                                 (int)curvePaneSize.getHeight() - insets.top - insets.bottom );
+        curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - insets.left - insets.right,
+                                       (int)curvePaneSize.getHeight() - insets.top - insets.bottom );
         EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
                                                                               curveAreaSize,
                                                                               curveColor );
@@ -114,21 +116,22 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                                                                 moleculePaneSize.getHeight(),
                                                                 moleculePaneSize.getWidth() ) );
         moleculePane.setPaint( moleculePaneBackgroundColor );
+        moleculeLayer.setOffset( insets.left, 0 );
         moleculePane.addChild( moleculeLayer );
         return moleculePane;
     }
 
     private void update() {
         if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
-            double dist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
-//                          - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
+            double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
+            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 100;
             double yOffset = 20;
             double xOffset = 20;
-            double x = Math.max( xOffset, curvePaneSize.getWidth() / 2 - dist );
+            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 - edgeDist );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
-            double yMin = midPoint.getY() - Math.min( dist, maxSeparation ) / 2;
-            double yMax = midPoint.getY() + Math.min( dist, maxSeparation ) / 2;
+            double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
+            double yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
 
             // set locatation of molecules
             selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
