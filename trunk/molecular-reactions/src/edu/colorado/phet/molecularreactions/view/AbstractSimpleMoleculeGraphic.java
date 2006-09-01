@@ -41,7 +41,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private static double BOND_OFFSET = 2;
+    private static double BOND_OFFSET = 0;
+//    private static double BOND_OFFSET = 2;
     private static HashMap moleculeTypeToColor = new HashMap();
     private static Color moleculeAColor = new Color( 240, 240, 0 );
     private static Color moleculeBColor = new Color( 0, 200, 0 );
