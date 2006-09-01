@@ -28,10 +28,11 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
+        testI( (MRModel)getModel() );
 //        testH( (MRModel)getModel() );
 //        testG( (MRModel)getModel() );
 //        testF( (MRModel)getModel() );
-        testE( (MRModel)getModel() );
+//        testE( (MRModel)getModel() );
 //        testD( (MRModel)getModel() );
 //        testC( (MRModel)getModel() );
 //        testB( (MRModel)getModel() );
@@ -39,6 +40,35 @@ public class TestModule extends MRModule {
 //        testCompisiteMoleculeA( model );
     }
 
+    /**
+     * For testing A_AB_BC_C reactions, and Reaction class in general
+     * @param model
+     */
+    void testI( MRModel model ) {
+        {
+            model.getEnergyProfile().setPeakLevel( 50 );
+            SimpleMolecule m1 = new MoleculeA();
+            m1.setPosition( 180, 60 );
+            m1.setVelocity( 0, 0 );
+            model.addModelElement( m1 );
+            SimpleMolecule m1a = new MoleculeB();
+            m1a.setPosition( 180 + m1a.getRadius() * 2 +5, 60 );
+            m1a.setVelocity( 0, 0 );
+            model.addModelElement( m1a );
+
+            CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                          new Bond[]{new Bond( m1, m1a )} );
+//            cm.setOmega( 0.1 );
+//            cm.setVelocity( 0, -0.4);
+            model.addModelElement( cm );
+
+            SimpleMolecule m2 = new MoleculeC();
+            m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+            m2.setVelocity( 1.5, 0 );
+            model.addModelElement( m2 );
+
+        }
+    }
     /**
      * For testing provisional bonds
      * @param model

@@ -17,6 +17,8 @@ import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.util.List;
@@ -51,7 +53,8 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-    private EnergyProfile energyProfile = new EnergyProfile( 0, MRConfig.DEFAULT_REACTION_THRESHOLD, 0, 60 );
+    private Reaction reaction = new A_AB_BC_C_Reaction();
+//    private Reaction reaction = new Reaction();
 
     public MRModel( IClock clock ) {
         super( clock );
@@ -74,14 +77,18 @@ public class MRModel extends PublishingModel {
         addModelElement( new ProvisionalBondDetector( this ));
     }
 
-    public void setEnergyProfile( EnergyProfile energyProfile ) {
-        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel() );
-        this.energyProfile.setRightLevel( energyProfile.getRightLevel() );
-        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel() );
+//    public void setEnergyProfile( EnergyProfile energyProfile ) {
+//        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel() );
+//        this.energyProfile.setRightLevel( energyProfile.getRightLevel() );
+//        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel() );
+//    }
+
+    public Reaction getReaction() {
+        return reaction;
     }
 
     public EnergyProfile getEnergyProfile() {
-        return energyProfile;
+        return reaction.getEnergyProfile();
     }
 
     public Box2D getBox() {
