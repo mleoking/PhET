@@ -110,7 +110,7 @@ public class CompositeMolecule extends Molecule {
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
-            component.setPartOfComposite( true );
+            component.setParentComposite( this );
         }
 
         // Compute composite properties
@@ -153,7 +153,7 @@ public class CompositeMolecule extends Molecule {
         List componentList = new ArrayList( Arrays.asList( components ) );
         componentList.remove( molecule );
         components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
-        molecule.setPartOfComposite( false );
+        molecule.setParentComposite( null );
 
         // Remove the bond from our list of bonds
         List bondList = new ArrayList( Arrays.asList( bonds ) );
@@ -197,7 +197,7 @@ public class CompositeMolecule extends Molecule {
         this.computeKinematicsFromComponents( components );
 
         // Tell the new component that it is part of a composite
-        molecule.setPartOfComposite( true );
+        molecule.setParentComposite( this );
 
         // Notify listeners
         listenerProxy.componentAdded( molecule, bond );
