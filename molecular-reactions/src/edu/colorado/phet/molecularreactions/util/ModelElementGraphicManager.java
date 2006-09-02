@@ -145,10 +145,6 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     }
 
     public void modelElementRemoved( ModelElement modelElement ) {
-
-        if( modelElement instanceof ProvisionalBond  ) {
-            System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
-        }
         GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
         if( graphicRecord != null ) {
             PNode layer = graphicRecord.getLayer();
