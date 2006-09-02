@@ -28,7 +28,7 @@ import java.awt.*;
  */
 public class ProvisionalBondGraphic extends PNode implements SimpleObserver {
 //    private Stroke stroke = new BasicStroke( 3 );
-    private Stroke stroke = new BasicStroke( 2,
+    static private Stroke stroke = new BasicStroke( 2,
                                              BasicStroke.CAP_ROUND,
                                              BasicStroke.JOIN_BEVEL,
                                              0,

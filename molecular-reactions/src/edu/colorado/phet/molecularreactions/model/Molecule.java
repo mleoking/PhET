@@ -29,7 +29,6 @@ import java.awt.geom.Point2D;
  */
 abstract public class Molecule extends Body implements Collidable {
     private CollidableAdapter collidableAdapter;
-    private boolean isPartOfComposite;
     private Molecule parentComposite;
 
     protected Molecule() {
@@ -106,7 +105,7 @@ abstract public class Molecule extends Body implements Collidable {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        if( !isPartOfComposite ) {
+        if( !isPartOfComposite() ) {
             super.stepInTime( dt );
         }
     }

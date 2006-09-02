@@ -57,12 +57,13 @@ public class CollisionAgent implements ModelElement {
                     }
 
                     // Check for collisions between the molecule and the box. Note that we have to
-                    // do this until no collisions are detected so that cases in which a molecule
+                    // do this several times so that cases in which a molecule
                     // hits in the corner of the box will be handled properly. If we don't do this,
                     // molecules can escape from the box
                     boolean collided;
                     collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                     if( collided ) {
+//                        collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                         moleculeA.stepInTime( dt );
                         collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                         if( !collided ) {

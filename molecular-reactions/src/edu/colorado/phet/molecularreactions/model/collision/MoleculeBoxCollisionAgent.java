@@ -95,49 +95,54 @@ public class MoleculeBoxCollisionAgent {
         else if( molecule instanceof SimpleMolecule ) {
             SimpleMolecule rm = (SimpleMolecule)molecule;
             Line2D wall = new Line2D.Double();
+            loa.setComponents( 0, 0 );
 
             // Hitting left wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMinX(), box.getMaxY() );
-            if( !collisionDetected &&
-                velocity.getX() < 0 &&
+            if( velocity.getX() < 0 &&
                 wall.intersectsLine( rm.getPosition().getX() - rm.getRadius(), rm.getPosition().getY(),
                                      rm.getPositionPrev().getX() - rm.getRadius(), rm.getPositionPrev().getY() ) ) {
-                loa.setComponents( 1, 0 );
+                loa.setComponents( loa.getX() - 1, loa.getY() + 0 );
                 collisionPt.setLocation( box.getMinX(), rm.getCM().getY() );
                 collisionDetected = true;
             }
 
             // Hitting right wall?
             wall.setLine( box.getMaxX(), box.getMinY(), box.getMaxX(), box.getMaxY() );
-            if( !collisionDetected &&
-                velocity.getX() > 0 &&
+            if( velocity.getX() > 0 &&
                 wall.intersectsLine( rm.getPosition().getX() + rm.getRadius(), rm.getPosition().getY(),
                                      rm.getPositionPrev().getX() + rm.getRadius(), rm.getPositionPrev().getY() ) ) {
-                loa.setComponents( 1, 0 );
+                loa.setComponents( loa.getX() + 1, loa.getY() + 0 );
                 collisionPt.setLocation( box.getMaxX(), rm.getCM().getY() );
                 collisionDetected = true;
             }
 
             // Hitting bottom wall?
             wall.setLine( box.getMinX(), box.getMaxY(), box.getMaxX(), box.getMaxY() );
-            if( !collisionDetected &&
-                velocity.getY() > 0 &&
+            if( velocity.getY() > 0 &&
                 wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() + rm.getRadius(),
                                      rm.getPositionPrev().getX(), rm.getPositionPrev().getY() + rm.getRadius() ) ) {
-                loa.setComponents( 0, 1 );
+                loa.setComponents( loa.getX() + 0, loa.getY() + 1 );
                 collisionPt.setLocation( rm.getCM().getX(), box.getMaxY() );
                 collisionDetected = true;
             }
 
             // Hitting top wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMaxX(), box.getMinY() );
-            if( !collisionDetected &&
-                velocity.getY() < 0 &&
+            if( velocity.getY() < 0 &&
                 wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() - rm.getRadius(),
                                      rm.getPositionPrev().getX(), rm.getPositionPrev().getY() - rm.getRadius() ) ) {
-                loa.setComponents( 0, 1 );
+                loa.setComponents( loa.getX() + 0, loa.getY() - 1 );
                 collisionPt.setLocation( rm.getCM().getX(), box.getMinY() );
                 collisionDetected = true;
+            }
+
+            // Are we hitting in a corner?
+            if( collisionDetected ) {
+                if( loa.getX() != 0 && loa.getY() != 0 ) {
+                    loa.scale( Math.sin( Math.PI / 4 ) );
+                    collisionPt.setLocation( rm.getCM().getX() + loa.getX(), rm.getCM().getY() + loa.getY() );
+                }
             }
         }
         return collisionDetected;

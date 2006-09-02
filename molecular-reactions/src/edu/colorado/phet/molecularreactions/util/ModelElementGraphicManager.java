@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.util;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
+import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -144,6 +145,10 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     }
 
     public void modelElementRemoved( ModelElement modelElement ) {
+
+        if( modelElement instanceof ProvisionalBond  ) {
+            System.out.println( "ModelElementGraphicManager.modelElementRemoved" );
+        }
         GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
         if( graphicRecord != null ) {
             PNode layer = graphicRecord.getLayer();
