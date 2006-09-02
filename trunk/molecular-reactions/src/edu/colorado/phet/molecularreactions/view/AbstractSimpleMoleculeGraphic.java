@@ -13,10 +13,7 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeB;
-import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
 import java.util.HashMap;
@@ -46,11 +43,13 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private static HashMap moleculeTypeToColor = new HashMap();
     private static Color moleculeAColor = new Color( 240, 240, 0 );
     private static Color moleculeBColor = new Color( 0, 200, 0 );
+    private static Color moleculeCColor = new Color( 160, 0, 160 );
     private static Color defaultMoleculeColor = new Color( 100, 100, 100 );
 
     static {
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeB.class, AbstractSimpleMoleculeGraphic.moleculeBColor );
+        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeC.class, AbstractSimpleMoleculeGraphic.moleculeCColor );
     }
 
     private static Color getColor( SimpleMolecule molecule ) {

@@ -92,7 +92,11 @@ public class Reaction {
             // the two molecules, moving at a speed equal to the magnitude of the
             // relative velocity of the two molecules
             Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
-                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
+                                                m2.getPosition().getY() - m1.getPosition().getY());
+            if( loa.getMagnitude() == 0 ) {
+                return false;
+            }
+            loa.normalize();
             double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa), 0 );
             double ke = 0.5 * (m1.getMass() + m2.getMass() ) * sRel * sRel;
 

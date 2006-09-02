@@ -394,7 +394,10 @@ public class CompositeMolecule extends Molecule {
         setAlpha( alphaNew );
 
         super.stepInTime( dt );
+
         updateComponents( dTheta );
+
+//        computeCM();
 
         notifyObservers();
     }
@@ -415,6 +418,8 @@ public class CompositeMolecule extends Molecule {
             component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
                                    this.getPosition().getY() + compositeCmToComponentCm.getY() );
             Vector2D v = component.getVelocity();
+//            v.setComponents( v.getX() + getOmega() * -compositeCmToComponentCm.getY(),
+//                             v.getY() +getOmega() * compositeCmToComponentCm.getX() );
             v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
                              this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
