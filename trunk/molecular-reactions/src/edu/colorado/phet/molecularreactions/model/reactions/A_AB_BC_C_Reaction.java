@@ -25,7 +25,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
     private static EnergyProfile energyProfile = new EnergyProfile( 0,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     0,
-                                                                    60 );
+                                                                    50 );
 
     public A_AB_BC_C_Reaction() {
         super( energyProfile, new Criteria( energyProfile ) );
@@ -91,18 +91,22 @@ public class A_AB_BC_C_Reaction extends Reaction {
             // molecule in the composite molecule
             boolean thirdClassificationCriterionMet = false;
             if( secondClassificationCriterionMet
-                && (!( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
-                && (!( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
-                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA  ) )
-                    ) {
+                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC )
+                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) )
+            ) ) {
                 thirdClassificationCriterionMet = true;
             }
 
             // The relative kinetic energy of the collision must be above the
             // energy profile threshold
             if( thirdClassificationCriterionMet ) {
+                System.out.println( "getRelKE( m1, m2 ) = " + getRelKE( m1, m2 ) );
                 result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
+                if( result ) {
+                    System.out.println( "A_AB_BC_C_Reaction$Criteria.criteriaMet" );
+                }
             }
             return result;
         }

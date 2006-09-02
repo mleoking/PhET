@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.view.Legend;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 
@@ -32,10 +33,13 @@ public class TestControlPanel extends JPanel {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1,1,1,1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0,0,0,0),0,0 );
+
+//        add( new Legend(), gbc );
 
         final ModelSlider thresholdEnergySlider = new ModelSlider( "Threshold energy",
                                                              "",

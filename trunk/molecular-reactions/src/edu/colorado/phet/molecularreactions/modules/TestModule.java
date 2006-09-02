@@ -29,8 +29,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testJ( (MRModel)getModel() );
-//        testI( (MRModel)getModel() );
+//        testJ( (MRModel)getModel() );
+        testI( (MRModel)getModel() );
 //        testH( (MRModel)getModel() );
 //        testG( (MRModel)getModel() );
 //        testF( (MRModel)getModel() );
@@ -118,8 +118,29 @@ public class TestModule extends MRModule {
 
                 CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
                                                               new Bond[]{new Bond( m1, m1a )} );
-//            cm.setOmega( 0.1 );
-//            cm.setVelocity( 0, -0.4);
+            cm.setOmega( 0.1 );
+            cm.setVelocity( 0, -0.4);
+                model.addModelElement( cm );
+
+                SimpleMolecule m2 = new MoleculeC();
+                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setVelocity( 5, 0 );
+                model.addModelElement( m2 );
+            }
+            {
+                SimpleMolecule m1 = new MoleculeB();
+                m1.setPosition( 180, 120 );
+                m1.setVelocity( 0, 0 );
+                model.addModelElement( m1 );
+                SimpleMolecule m1a = new MoleculeA();
+                m1a.setPosition( 180 + m1a.getRadius() * 2 + 5, m1.getPosition().getY() );
+                m1a.setVelocity( 0, 0 );
+                model.addModelElement( m1a );
+
+                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                              new Bond[]{new Bond( m1, m1a )} );
+            cm.setOmega( 0.1 );
+            cm.setVelocity( 0, -0.4);
                 model.addModelElement( cm );
 
                 SimpleMolecule m2 = new MoleculeC();
@@ -127,27 +148,6 @@ public class TestModule extends MRModule {
                 m2.setVelocity( 1.5, 0 );
                 model.addModelElement( m2 );
             }
-//            {
-//                SimpleMolecule m1 = new MoleculeB();
-//                m1.setPosition( 180, 120 );
-//                m1.setVelocity( 0, 0 );
-//                model.addModelElement( m1 );
-//                SimpleMolecule m1a = new MoleculeA();
-//                m1a.setPosition( 180 + m1a.getRadius() * 2 + 5, m1.getPosition().getY() );
-//                m1a.setVelocity( 0, 0 );
-//                model.addModelElement( m1a );
-//
-//                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
-//                                                              new Bond[]{new Bond( m1, m1a )} );
-////            cm.setOmega( 0.1 );
-////            cm.setVelocity( 0, -0.4);
-//                model.addModelElement( cm );
-//
-//                SimpleMolecule m2 = new MoleculeC();
-//                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
-//                m2.setVelocity( 1.5, 0 );
-//                model.addModelElement( m2 );
-//            }
 
         }
     }

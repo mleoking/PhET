@@ -53,8 +53,8 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-//    private Reaction reaction = new A_AB_BC_C_Reaction();
-    private Reaction reaction = new Reaction();
+    private Reaction reaction = new A_AB_BC_C_Reaction();
+//    private Reaction reaction = new Reaction();
 
     public MRModel( IClock clock ) {
         super( clock );
