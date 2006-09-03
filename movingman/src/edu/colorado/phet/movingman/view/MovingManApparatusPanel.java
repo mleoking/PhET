@@ -253,7 +253,7 @@ public class MovingManApparatusPanel
     }
 
     public void setManTransform( LinearTransform1d transform ) {
-        System.out.println( "SETTING transform = " + transform );
+//        System.out.println( "SETTING transform = " + transform );
         this.manPositionTransform = transform;
         manGraphic.setTransform( transform );
         walkwayGraphic.setTransform( transform );

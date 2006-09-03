@@ -27,7 +27,7 @@ public class DataSuite {
     public void updateSmoothedSeries() {
         int numPtsToAvg = Math.min( numSmoothingPoints, timeSeries.size() );
         if( numPtsToAvg == 0 ) {
-            System.out.println( "No points to average." );
+//            System.out.println( "No points to average." );
             return;
         }
         double valSum = 0;

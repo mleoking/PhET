@@ -251,7 +251,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void setTransform( LinearTransform1d transform ) {
         this.transform = transform;
         this.inversion = transform.getInvertedInstance();
-        System.out.println( "MG.setTransform@" + hashCode() + "= " + transform );
+//        System.out.println( "MG.setTransform@" + hashCode() + "= " + transform );
         positionChanged();
     }
 

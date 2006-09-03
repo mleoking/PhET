@@ -1,19 +1,13 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -37,7 +31,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -46,8 +39,6 @@ import java.util.Locale;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class MovingManModule extends Module {
-    private static final String MOVING_MAN_VERSION = "1.15";
-    private static boolean addJEP = true;
     private PhetFrame frame;
 
     private MovingManModel movingManModel;
@@ -57,8 +48,6 @@ public class MovingManModule extends Module {
 
     private MovingManApparatusPanel movingManApparatusPanel;
 
-    // Localization
-    public static final String localizedStringsPath = "localization/MovingManStrings";
     private boolean soundEnabled = true;
 
 
@@ -342,7 +331,7 @@ public class MovingManModule extends Module {
     public void deactivate( PhetApplication app ) {
     }
 
-    private void setFrame( PhetFrame frame ) {
+    void setFrame( PhetFrame frame ) {
         this.frame = frame;
     }
 
@@ -524,7 +513,7 @@ public class MovingManModule extends Module {
     }
 
 
-    private void setInited( boolean b ) {
+    void setInited( boolean b ) {
         getMovingManApparatusPanel().setInited( b );
     }
 
@@ -532,7 +521,7 @@ public class MovingManModule extends Module {
         return movingManApparatusPanel;
     }
 
-    private static void addMiscMenu( final MovingManModule module ) {
+    static void addMiscMenu( final MovingManModule module ) {
         final JFrame frame = module.getFrame();
         JMenu miscMenu = new JMenu( SimStrings.get( "MovingManModule.SpecialFeaturesMenu" ) );
         miscMenu.setMnemonic( SimStrings.get( "MovingManModule.SpecialFeaturesMenuMnemonic" ).charAt( 0 ) );
@@ -667,82 +656,6 @@ public class MovingManModule extends Module {
 
     public WalkWayGraphic getWalkwayGraphic() {
         return getMovingManApparatusPanel().getWalkwayGraphic();
-    }
-
-
-    public static void main( final String[] args ) throws Exception {
-        QuickTimer initTime = new QuickTimer();
-//        boolean same = 0 == -0;
-//        System.out.println( "same = " + same );
-//        UIManager.setLookAndFeel( MetalLookAndFeel.class.getName());//to initialize for later.
-
-        PhetLookAndFeel plaf = new PhetLookAndFeel();
-        plaf.setInsets( new Insets( 1, 1, 1, 1 ) );
-        plaf.apply();
-        PhetLookAndFeel.setLookAndFeel();
-
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
-
-//        // Initialize localized strings
-//        SimStrings.init( args, localizedStringsPath );
-
-        //Putting in swing thread avoids concurrentmodification exception in GraphicLayerSet.
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-                try {
-                    runMain( args );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-        System.out.println( "initTime = " + initTime );
-    }
-
-    private static void runMain( String[] args ) throws IOException {
-//        AbstractClock clock = new SwingTimerClock( 1, 30, true );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
-//        clock.set
-//        clock.setDelay( 30 );
-        FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
-        String revision = MOVING_MAN_VERSION;
-        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " - " + revision,
-                                                      SimStrings.get( "MovingManApplication.description" ),
-                                                      revision, setup );
-        desc.setName( "movingman" );
-        PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );
-        PhetFrame frame = tpa.getPhetFrame();
-        final MovingManModule m = new MovingManModule( clock );
-
-        tpa.setModules( new Module[]{m} );
-
-//        final PhetFrame frame = tpa.getPhetFrame();
-        m.setFrame( frame );
-        if( m.getControlPanel() != null ) {
-        }
-        if( addJEP ) {
-            addMiscMenu( m );
-        }
-
-        tpa.startApplication();
-        m.getTimeModel().getRecordMode().initialize();
-
-        m.setInited( true );
-        m.relayout();
-        m.setSmoothingSmooth();
-//        RepaintDebugGraphic repaintDebugGraphic=new RepaintDebugGraphic( m.getApparatusPanel(), clock);
-        RepaintDebugGraphic.enable( m.getApparatusPanel(), clock );
     }
 
     public void initialize() {

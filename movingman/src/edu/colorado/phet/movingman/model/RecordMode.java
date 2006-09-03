@@ -23,7 +23,7 @@ public class RecordMode extends Mode {
 //                module.setNumSmoothingPoints( 2 );
                 module.setSmoothingSharp();
 //                module.setSmoothingSmooth();
-                System.out.println( "Recording started." );
+//                System.out.println( "Recording started." );
             }
         } );
     }

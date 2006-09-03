@@ -185,8 +185,7 @@ public class MovingManTimeModel {
         if( !same ) {
             this.mode = mode;
             this.mode.initialize();
-            System.out.println( "Changed mode to: " + mode.getName() );
-
+//            System.out.println( "Changed mode to: " + mode.getName() );
         }
     }
 
