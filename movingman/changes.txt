@@ -1,1 +1,3 @@
-New in 1.15.01:
+New in 1.15.01 
+Removed debugging statements from console.
+Added build files.
