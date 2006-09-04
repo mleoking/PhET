@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.movingman.common.ZoomControl;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
@@ -47,6 +48,8 @@ public class PlotDevice extends GraphicLayerSet {
 
     private Chart chart;
     private BufferedChart bufferedChart;
+    private ZoomControl horizontalZoomControl;
+    private ZoomControl verticalZoomControl;
 
     public PlotDevice( ApparatusPanel apparatusPanel, Range2D range, String name, String sliderImageLoc, Color foregroundColor ) {
         super( apparatusPanel );
@@ -81,7 +84,7 @@ public class PlotDevice extends GraphicLayerSet {
                 }
             }
         } );
-        addGraphic( zoomPanel );
+//        addGraphic( zoomPanel );
         addGraphic( minimizeButton );
 
         bufferedChart = new BufferedChart( apparatusPanel, chart );
@@ -92,9 +95,42 @@ public class PlotDevice extends GraphicLayerSet {
             }
         } );
         addGraphic( cursor );
+
+        final ActionListener incPos = new ValueChange( 5, 0, 100 );
+        final ActionListener incNeg = new ValueChange( -5, 0, 100 );
+
+        horizontalZoomControl = new ZoomControl( apparatusPanel, ZoomControl.HORIZONTAL );
+        horizontalZoomControl.addZoomListener( new ZoomControl.ZoomListener() {
+            public void zoomPerformed( ZoomControl.ZoomEvent event ) {
+                if( event.getZoomType() == ZoomControl.ZoomEvent.HORIZONTAL_ZOOM_IN ) {
+                    horizontalZoom( -1 );
+                }
+                else {
+                    horizontalZoom( +1 );
+                }
+            }
+
+        } );
+        addGraphic( horizontalZoomControl );
+
+        verticalZoomControl = new ZoomControl( apparatusPanel, ZoomControl.VERTICAL );
+        verticalZoomControl.addZoomListener( new ZoomControl.ZoomListener() {
+            public void zoomPerformed( ZoomControl.ZoomEvent event ) {
+                if( event.getZoomType() == ZoomControl.ZoomEvent.VERTICAL_ZOOM_IN ) {
+                    incPos.actionPerformed( null );
+                }
+                else {
+                    incNeg.actionPerformed( null );
+                }
+            }
+        } );
+        addGraphic( verticalZoomControl );
+
 //        addListener( new CursorHelpItem( apparatusPanel, this ) );
         setChartSize( 600, 200 );
+
     }
+
 
     private void fireCursorDragged( double modelX ) {
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -113,7 +149,9 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void setChartSize( int width, int height ) {
-        chart.setChartSize( width, height );
+        int buttonInsetX = 8;
+        int eastInset = horizontalZoomControl.getWidth() + buttonInsetX * 2;
+        chart.setChartSize( width - eastInset, height );
 //        GradientPaint gradientPaint=new GradientPaint( 0,0,chartBackgroundColor, width, height, Color.white);
 //        chart.setBackground( gradientPaint );
 
@@ -121,7 +159,10 @@ public class PlotDevice extends GraphicLayerSet {
         int guessSliderThumbHeight = (int)( chartSlider.getWidth() / 2.0 );
         chartSlider.setBounds( -chartSlider.getWidth() * 2 - 2, -guessSliderThumbHeight / 2, chartSlider.getWidth(), height + guessSliderThumbHeight );
 
-        zoomPanel.setLocation( 2, chart.getChartBounds().height - zoomPanel.getHeight() - 2 );
+//        zoomPanel.setLocation( 2, chart.getChartBounds().height - zoomPanel.getHeight() - 2 );
+        zoomPanel.setLocation( chart.getChartBounds().width + 5, 0 );
+        horizontalZoomControl.setLocation( chart.getChartBounds().width + buttonInsetX, chart.getChartBounds().height - horizontalZoomControl.getHeight() - 2 );
+        verticalZoomControl.setLocation( chart.getChartBounds().width + buttonInsetX, chart.getChartBounds().height - horizontalZoomControl.getHeight() * 2 - 2 - 5 );
         minimizeButton.setLocation( chart.getChartBounds().width - minimizeButton.getWidth() - 2, 2 );
 
         setBoundsDirty();
@@ -347,6 +388,29 @@ public class PlotDevice extends GraphicLayerSet {
         }
     }
 
+    private void horizontalZoom( double dz ) {
+        setMaxTime( getMaxTime() + dz );
+    }
+
+    public void setMaxTime( double maxTime ) {
+        if( maxTime != getMaxTime() && maxTime <= 20 && maxTime >= 2 ) {
+            chart.setRange( new Range2D( chart.getRange().getMinX(), chart.getRange().getMinY(), maxTime, chart.getRange().getMaxY() ) );
+            rebuildChartBuffer();
+            notifyBufferChanged();
+            notifyMaxTimeChanged();
+        }
+    }
+
+    private void notifyMaxTimeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+            plotDeviceListener.maxTimeChanged( getMaxTime() );
+        }
+    }
+
+    private double getMaxTime() {
+        return chart.getRange().getMaxX();
+    }
 
     class ValueChange implements ActionListener {
         double increment;

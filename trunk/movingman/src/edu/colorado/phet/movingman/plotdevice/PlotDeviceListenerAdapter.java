@@ -31,4 +31,7 @@ public class PlotDeviceListenerAdapter implements PlotDeviceListener {
 
     public void playbackTimeChanged() {
     }
+
+    public void maxTimeChanged( double maxTime ) {
+    }
 }

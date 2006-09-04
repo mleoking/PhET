@@ -24,4 +24,5 @@ public interface PlotDeviceListener {
 
     void playbackTimeChanged();
 
+    void maxTimeChanged( double maxTime );
 }
