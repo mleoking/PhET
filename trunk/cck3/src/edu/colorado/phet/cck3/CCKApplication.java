@@ -9,6 +9,7 @@ import edu.colorado.phet.common_cck.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_cck.view.util.FrameSetup;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -95,10 +96,18 @@ public class CCKApplication {
         }
     }
 
-    public static void main( String[] args ) throws IOException {
-        SimStrings.init( args, localizedStringsPath );
-        new CCKPhetLookAndFeel().initLookAndFeel();
-        new CCKApplication( args ).startApplication();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                SimStrings.init( args, localizedStringsPath );
+                new CCKPhetLookAndFeel().initLookAndFeel();
+                try {
+                    new CCKApplication( args ).startApplication();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
     }
-
 }
