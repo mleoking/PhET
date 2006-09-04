@@ -1,3 +1,6 @@
-New in 1.15.01 
+New in 1.15.02 (9-3-2006)
+Added vertical and horizontal zoom buttons outside of the graph.
+
+New in 1.15.01 (9-3-2006) 
 Removed debugging statements from console.
 Added build files.
