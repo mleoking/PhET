@@ -142,6 +142,17 @@ public class PlotSet {
         positionSuite.addListener( listener );
         velSuite.addListener( listener );
         accSuite.addListener( listener );
+
+        PlotDeviceListenerAdapter plotDeviceListenerAdapter = new PlotDeviceListenerAdapter() {
+            public void maxTimeChanged( double maxTime ) {
+                positionPlot.setMaxTime( maxTime );
+                velocityPlot.setMaxTime( maxTime );
+                accelerationPlot.setMaxTime( maxTime );
+            }
+        };
+        positionPlot.addListener( plotDeviceListenerAdapter );
+        velocityPlot.addListener( plotDeviceListenerAdapter );
+        accelerationPlot.addListener( plotDeviceListenerAdapter );
     }
 
     public void addListener( Listener listener ) {

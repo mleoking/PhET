@@ -28,6 +28,9 @@ import java.util.EventObject;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
+ *          <p/>
+ *          <p/>
+ *          Copied from Fourier simulation on 9-3-2006.
  */
 public class ZoomControl extends GraphicLayerSet {
 

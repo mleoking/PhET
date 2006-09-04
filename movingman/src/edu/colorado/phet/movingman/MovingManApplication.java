@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class MovingManApplication {
 
-    private static final String MOVING_MAN_VERSION = "1.15.01";
+    private static final String MOVING_MAN_VERSION = "1.15.02";
     private static boolean addJEP = true;
 
     // Localization
