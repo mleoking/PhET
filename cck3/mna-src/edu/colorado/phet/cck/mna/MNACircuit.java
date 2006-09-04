@@ -520,8 +520,9 @@ public class MNACircuit {
         public boolean isLegalSolution() {
             for( int i = 0; i < solutionMatrix.getRowDimension(); i++ ) {
                 for( int j = 0; j < solutionMatrix.getColumnDimension(); j++ ) {
-                    if( Double.isNaN( solutionMatrix.get( i, j ) ) || Double.isInfinite( solutionMatrix.get( i, j ) ) )
-                    {
+                    double value = solutionMatrix.get( i, j );
+                    if( Double.isNaN( value ) || Double.isInfinite( value ) || Math.abs( value ) > 10E10 )
+                    {//this change is recent; if we get more than 1 billion amps, we have a problem (maybe) 
                         return false;
                     }
                 }
