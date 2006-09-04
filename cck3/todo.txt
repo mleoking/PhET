@@ -90,7 +90,6 @@ Bug:
   
   Rename "File" to "Circuit" in the control panel.
 
-CCK
 Froze at Merlot talk.
 Retitle the top tool cluster from "File" to "Circuit"
 Bug report from McKagan: open circuit still conducts in particular situations

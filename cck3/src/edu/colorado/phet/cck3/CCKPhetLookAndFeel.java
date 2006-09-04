@@ -2,6 +2,7 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -17,5 +18,9 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
     public CCKPhetLookAndFeel() {
         setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
         setBackgroundColor( cckBackground );
+    }
+
+    protected String getLookAndFeelClassName() {
+        return UIManager.getSystemLookAndFeelClassName();
     }
 }
