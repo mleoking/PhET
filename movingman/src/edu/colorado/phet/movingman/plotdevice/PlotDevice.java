@@ -96,8 +96,8 @@ public class PlotDevice extends GraphicLayerSet {
         } );
         addGraphic( cursor );
 
-        final ActionListener incPos = new ValueChange( 5, 0, 100 );
-        final ActionListener incNeg = new ValueChange( -5, 0, 100 );
+        final ActionListener incPos = new ValueChange( 5, 0, MAX_Y );
+        final ActionListener incNeg = new ValueChange( -5, 0, MAX_Y );
 
         horizontalZoomControl = new ZoomControl( apparatusPanel, ZoomControl.HORIZONTAL );
         horizontalZoomControl.addZoomListener( new ZoomControl.ZoomListener() {
@@ -128,7 +128,7 @@ public class PlotDevice extends GraphicLayerSet {
 
 //        addListener( new CursorHelpItem( apparatusPanel, this ) );
         setChartSize( 600, 200 );
-
+        updateZoomButtonsEnabled();
     }
 
 
@@ -392,12 +392,27 @@ public class PlotDevice extends GraphicLayerSet {
         setMaxTime( getMaxTime() + dz );
     }
 
+    private static double MIN_TIME = 2;
+    private static double MAX_TIME = 20;
+
+    private static double MAX_Y = 100;
+    private static double MIN_Y = 2;
+
+    public void updateZoomButtonsEnabled() {
+        horizontalZoomControl.setZoomInEnabled( getMaxTime() > MIN_TIME );
+        horizontalZoomControl.setZoomOutEnabled( getMaxTime() < MAX_TIME );
+
+        verticalZoomControl.setZoomOutEnabled( chart.getRange().getMaxY() < 95 );
+        verticalZoomControl.setZoomInEnabled( chart.getRange().getMaxY() > MIN_Y );
+    }
+
     public void setMaxTime( double maxTime ) {
-        if( maxTime != getMaxTime() && maxTime <= 20 && maxTime >= 2 ) {
+        if( maxTime != getMaxTime() && maxTime <= MAX_TIME && maxTime >= MIN_TIME ) {
             chart.setRange( new Range2D( chart.getRange().getMinX(), chart.getRange().getMinY(), maxTime, chart.getRange().getMaxY() ) );
             rebuildChartBuffer();
             notifyBufferChanged();
             notifyMaxTimeChanged();
+            updateZoomButtonsEnabled();
         }
     }
 
@@ -432,6 +447,7 @@ public class PlotDevice extends GraphicLayerSet {
                 setPaintYLines( getYLines( newDiffY, 5 ) );
                 rebuildChartBuffer();
                 notifyBufferChanged();
+                updateZoomButtonsEnabled();
             }
         }
 
