@@ -1,3 +1,6 @@
+3.02.02 (9-3-2006)
+Added local jnlp file implementation.
+
 3.02.01 (8-21-2006)
 Renamed "sp" to "es" for internationalization.
 
