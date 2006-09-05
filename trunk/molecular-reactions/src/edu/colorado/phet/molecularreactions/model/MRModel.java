@@ -28,9 +28,10 @@ import java.awt.geom.Point2D;
 /**
  * MRModel
  * <p/>
- * The model for molecular reactions
+ * The model for molecular reactions.
  * <p/>
- * The model consists principally of SimpleMolecules and CompositeMolecules, and an EnergyProfile. CompositeMolecules
+ * The model consists principally of SimpleMolecules and CompositeMolecules, an instance
+ * of EnergyProfile, andan instance of Reaction. CompositeMolecules
  * are composed of SimpleMolecules, only. They cannot contain other CompositeMolecules.
  * <p/>
  * There are three types of SimpleMolecules: A, B, and C. A and C molecules can exist either by themselves, or in
@@ -54,8 +55,11 @@ import java.awt.geom.Point2D;
 public class MRModel extends PublishingModel {
     private Box2D box;
     private Reaction reaction = new A_AB_BC_C_Reaction();
-//    private Reaction reaction = new Reaction();
 
+    /**
+     * Constructor
+     * @param clock
+     */
     public MRModel( IClock clock ) {
         super( clock );
 
