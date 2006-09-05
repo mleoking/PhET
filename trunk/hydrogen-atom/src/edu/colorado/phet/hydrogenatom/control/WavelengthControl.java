@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -60,30 +61,47 @@ public class WavelengthControl extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Dimension DEFAULT_KNOB_SIZE = new Dimension( 20, 20 );
+    private static final Dimension KNOB_SIZE = new Dimension( 20, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
+    
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
+    private static final double VALUE_Y_OFFSET = 2;
+    private static final String UNITS_LABEL = "nm";
+    
+    private static final double CURSOR_WIDTH = 2;
+    private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
+    private static final Color CURSOR_COLOR = Color.BLACK;
+    
     private static final String UV_STRING = "< UV";
     private static final String IR_STRING = "IR >";
     private static final Color UV_LABEL_COLOR = Color.WHITE;
     private static final Color IR_LABEL_COLOR = Color.WHITE;
     private static final Font UV_IR_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 12 );
     private static final double UV_IR_LABEL_MARGIN = 3;
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
-    private static final double VALUE_Y_OFFSET = 2;
-    private static final String UNITS_LABEL = "nm";
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    // needed for wrapping Swing components with PSwing
     private PSwingCanvas _canvas;
+    // control's range, in nanometers
     private double _minWavelength, _maxWavelength;
+    // colors used to represent UV and IR wavelengths
     private Color _uvColor, _irColor;
+    // slider knob, what the user drags
     private Knob _knob;
+    // track that the knob moves along
     private Track _track;
+    // editable value displayed above the track
     private ValueDisplay _valueDisplay;
+    // cursor that appears in the track, directly above the knob
+    private Cursor _cursor;
+    // handles dragging of the knob
     private ConstrainedDragHandler _dragHandler;
+    // for notification of listeners
     private EventListenerList _listenerList;
+    // the current wavelength value displayed by this control
     private double _wavelength;
     
     //----------------------------------------------------------------------------
@@ -125,30 +143,32 @@ public class WavelengthControl extends PNode {
         _irColor = irColor;
         _listenerList = new EventListenerList();
         
-        _knob = new Knob( DEFAULT_KNOB_SIZE );
+        _knob = new Knob( KNOB_SIZE );
         _track = new Track( minWavelength, maxWavelength, uvColor, irColor );
         _valueDisplay = new ValueDisplay( _canvas );
+        _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
         
         addChild( _track );
         addChild( _knob );
         addChild( _valueDisplay );
+        addChild( _cursor );
         
+        // Track position never changes and defines the origin.
         _track.setOffset( 0, 0 );
-        _knob.setOffset( 0, _track.getFullBounds().getHeight() );
-        _valueDisplay.setOffset( 0, -_valueDisplay.getFullBounds().getHeight() - VALUE_Y_OFFSET );
         
-        _dragHandler = new ConstrainedDragHandler();
+        // Handler for dragging the knob
+        _dragHandler = new ConstrainedDragHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                handleKnobDrag();
+            }
+        };
         _dragHandler.setVerticalLockEnabled( true );
         _dragHandler.setTreatAsPointEnabled( true );
         _dragHandler.setNodeCenter( _knob.getFullBounds().getWidth() / 2, 0 );
         _dragHandler.setDragBounds( _track.getGlobalFullBounds() ); 
         _knob.addInputEventListener( _dragHandler );
         _knob.addInputEventListener( new CursorHandler() );
-        _knob.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                handleKnobDrag();
-            }
-        } );
         
         // Adjust the knob's drag bounds if this control's bounds are changed.
         addPropertyChangeListener( new PropertyChangeListener() {
@@ -171,13 +191,17 @@ public class WavelengthControl extends PNode {
      * Sets the wavelength.
      * 
      * @param wavelength wavelength in nanometers
+     * @throws IllegalArgumentException if wavelength is outside of min/max range
      */
     public void setWavelength( double wavelength ) {
+        
+//        if ( wavelength < _minWavelength || wavelength > _maxWavelength ) {
+//            throw new IllegalArgumentException( "wavelength out of range: " + wavelength );
+//        }
+        
         if ( wavelength != _wavelength ) {
             _wavelength = wavelength;
-            updateKnobColor( wavelength );
-            updateKnobPosition( wavelength );
-            updateValueDisplay( wavelength );
+            updateUI( wavelength );
             fireChangeEvent( new ChangeEvent( this ) );
         }
     }
@@ -189,6 +213,43 @@ public class WavelengthControl extends PNode {
      */
     public double getWavelength() {
         return _wavelength;
+    }
+    
+    /**
+     * Sets the foreground color of text field used to display the current value.
+     * 
+     * @param color
+     */
+    public void setValueForeground( Color color ) {
+        _valueDisplay.getFormattedTextField().setForeground( color );
+    }
+    
+    /**
+     * Sets the background color of text field used to display the current value.
+     * 
+     * @param color
+     */
+    public void setValueBackground( Color color ) {
+        _valueDisplay.getFormattedTextField().setBackground( color );
+    }
+    
+    /**
+     * Sets the foreground color of the units label that appears to
+     * the right of the text field that displays the current value.
+     * 
+     * @param color
+     */
+    public void setUnitsForeground( Color color ) {
+        _valueDisplay.getUnitsLabel().setForeground( color );
+    }
+    
+    /**
+     * Sets the color of the cursor that appears above the slider knob.
+     * 
+     * @param color
+     */
+    public void setCursorColor( Color color ) {
+        _cursor.setStrokePaint( color );
     }
     
     //----------------------------------------------------------------------------
@@ -214,38 +275,37 @@ public class WavelengthControl extends PNode {
      */
     private void handleKnobDrag() {
         double wavelength = calculateWavelength();
-        if ( wavelength != _wavelength ) {
-            _wavelength = wavelength;
-            updateKnobColor( wavelength );
-            updateValueDisplay( wavelength );
-            fireChangeEvent( new ChangeEvent( this ) );
-        }
+        setWavelength( wavelength );
     }
     
     /*
      * Handles entry of values in the text field.
      */
-    public void handleValueEntry() {
+    private void handleValueEntry() {
         double wavelength = _valueDisplay.getValue();
         if ( wavelength >= _minWavelength && wavelength <= _maxWavelength ) {
-            if ( wavelength != _wavelength ) {
-                _wavelength = wavelength;
-                updateKnobColor( wavelength );
-                updateKnobPosition( wavelength );
-                updateValueDisplay( wavelength );
-                fireChangeEvent( new ChangeEvent( this ) );
-            }
+            setWavelength( wavelength );
         }
         else {
             warnUser();
-            updateValueDisplay( wavelength );
+            setWavelength( _wavelength ); // revert
         }
     }
     
     /*
-     * Updates the knob's color to match a specified wavelength.
+     * Updates the UI to match a specified wavelength.
      */
-    private void updateKnobColor( double wavelength ) {
+    private void updateUI( double wavelength ) {
+        
+        double bandwidth = _maxWavelength - _minWavelength;
+        
+        PBounds trackBounds = _track.getFullBounds();
+        final double knobWidth = _knob.getFullBounds().getWidth();
+        final double cursorWidth = _cursor.getFullBounds().getWidth();
+        final double valueDisplayWidth = _valueDisplay.getFullBounds().getWidth();
+        final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
+        
+        // Knob color
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             _knob.setPaint( _uvColor );
         }
@@ -256,35 +316,24 @@ public class WavelengthControl extends PNode {
             Color color = VisibleColor.wavelengthToColor( wavelength );
             _knob.setPaint( color );
         }
-    }
     
-    /*
-     * Updates the knob's position to match a specified wavelength.
-     */
-    private void updateKnobPosition( double wavelength ) {
-        if ( wavelength < _minWavelength || wavelength > _maxWavelength ) {
-            throw new IllegalArgumentException( "wavelength out of range: " + wavelength );
-        }
-        double bandwidth = _maxWavelength - _minWavelength;
-        PBounds trackBounds = _track.getFullBounds();
-        PBounds knobBounds = _knob.getFullBounds();
+        // Knob position: below the track with tip positioned at wavelength
         double trackX = trackBounds.getX();
         double trackWidth = trackBounds.getWidth();
-        double knobY = knobBounds.getY();
         double knobX = trackX + ( trackWidth * ( ( wavelength - _minWavelength ) / bandwidth ) );
+        double knobY = trackBounds.getHeight();
         _knob.setOffset( knobX, knobY );
-    }
     
-    /*
-     * Update the value display, changing the value shown and the position of the textfield.
-     */
-    private void updateValueDisplay( double wavelength ) {
+        // Value display: above the track, centered above the knob
         _valueDisplay.setValue( wavelength );
-        PBounds valueDisplayBound = _valueDisplay.getFullBounds();
-        PBounds knobBonds = _knob.getFullBounds();
-        final double x = knobBonds.getX() + ( knobBonds.getWidth() / 2 ) - ( valueDisplayBound.getWidth() / 2 );
-        final double y = valueDisplayBound.getY();
-        _valueDisplay.setOffset( x, y );
+        final double valueX = knobX - ( valueDisplayWidth / 2 );
+        final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
+        _valueDisplay.setOffset( valueX, valueY );
+
+        // Cursor position: inside the track, centered above the knob
+        final double cursorX = knobX - ( cursorWidth / 2 );
+        final double cursorY = 0;
+        _cursor.setOffset( cursorX, cursorY );
     }
     
     /*
@@ -405,12 +454,13 @@ public class WavelengthControl extends PNode {
     private class ValueDisplay extends PNode {
         
         private JFormattedTextField _formattedTextField;
+        private JLabel _unitsLabel;
         
         public ValueDisplay( PSwingCanvas canvas ) {
             super();
             
-            JLabel unitsLabel = new JLabel( UNITS_LABEL );
-            unitsLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            _unitsLabel = new JLabel( UNITS_LABEL );
+            _unitsLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
             
             _formattedTextField = new JFormattedTextField();
             _formattedTextField.setColumns( 3 );
@@ -448,11 +498,11 @@ public class WavelengthControl extends PNode {
             int row = 0;
             int col = 0;
             layout.addComponent( _formattedTextField, row, col++ );
-            layout.addComponent( unitsLabel, row, col );
+            layout.addComponent( _unitsLabel, row, col );
             
             // Opacity
             panel.setOpaque( false );
-            unitsLabel.setOpaque( false );
+            _unitsLabel.setOpaque( false );
             
             // Piccolo wrapper
             PSwing pswing = new PSwing( canvas, panel );
@@ -476,6 +526,27 @@ public class WavelengthControl extends PNode {
                 this.setValue( wavelength );
             }
             return wavelength;
+        }
+        
+        public JLabel getUnitsLabel() {
+            return _unitsLabel;
+        }
+        
+        public JFormattedTextField getFormattedTextField() {
+            return _formattedTextField;
+        }
+    }
+    
+    /* 
+     * Rectangular "cursor" that appears in the track directly above the knob.
+     */
+    private static class Cursor extends PPath {
+        
+        public Cursor( double width, double height ) {
+            super();
+            setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
+            setStroke( CURSOR_STROKE );
+            setStrokePaint( CURSOR_COLOR );
         }
     }
     
