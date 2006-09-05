@@ -17,6 +17,10 @@ MEDIUM PRIORITY:
 - get model details from Sam McKagan
 
 LOW PRIORITY:
+- generate spectrum instead of using an image file
+- add ability to set dimensions of wavelength control
+- add ability to set knob size of wavelength control
+- add ability to set font for wavelength control
 
 DONE:
 (9/5/06) - integrate drag handling into wavelength control's ConstrainedDragHandler
