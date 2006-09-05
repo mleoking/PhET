@@ -2,10 +2,9 @@
 Bugs
 ====
 - Amount of energy needed to get to reaction is delta from floor, not absolute value
-- Shoud kinetic energy increase if compound molecule has lower floor?
+- Should kinetic energy increase if compound molecule has lower floor?
 - How should selection/higlighting work? Use CM instead of halo.
 - Composite molecules should have specified space between the components
--
 
 - Reason why nearestToTrackedMolecule gets lost when it becomes part of a composit molecule:
     It is taken out of the model while it's part of the composite molecule!
