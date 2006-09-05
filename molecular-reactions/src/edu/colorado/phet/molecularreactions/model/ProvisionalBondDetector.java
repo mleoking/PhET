@@ -50,6 +50,10 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
         }
     }
 
+    /**
+     * Scans the model for provisional bonds that should be created.
+     * @param dt
+     */
     public void stepInTime( double dt ) {
 
         // Determine how far apart two molecules can be and have a provisional bond
@@ -66,29 +70,12 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                 for( int j = 0; j < modelElements.size(); j++ ) {
                     Object o1 = modelElements.get( j );
 
-                    // If we have two SimpleMolecules, see if they're close enough to qualify for a
-                    // provisional bond
-                    if( o1 instanceof SimpleMolecule && o != o1 ) {
-                        SimpleMolecule sm2 = (SimpleMolecule)o1;
-
-                        // NOTE!!! This code only works for A_AB_BC_C reactions. It counts on the fact that
-                        // there are only two components in a composite molecule, and that
-                        // reaction.getReactionCriteria().criteriaMet() only returns true for the component
-                        // that the simple molecule can knock off the composite
-                        MoleculeMoleculeCollisionSpec collisionSpec = new MoleculeMoleculeCollisionSpec( null,
-                                                                                                         null,
-                                                                                                         sm1,
-                                                                                                         sm2 );
+                    // If the second model element is a composite molecule, see if the simple molecule
+                    // is close enough to qualify for a provisional bond
+                    if( o1 instanceof CompositeMolecule && sm1.getParentComposite() != o1 ) {
+                        CompositeMolecule cm = (CompositeMolecule)o1;
                         Reaction reaction = model.getReaction();
-                        Molecule m1 = sm1.isPartOfComposite() ? sm1.getParentComposite() : sm1;
-                        Molecule m2 = sm2.isPartOfComposite() ? sm2.getParentComposite() : sm2;
-                        if( reaction.getReactionCriteria().criteriaMet( m1,
-//                        if( !reaction.getReactionCriteria().criteriaMet( m1,
-                                                                         m2,
-                                                                         collisionSpec ) ) {
-                            continue;
-                        }
-
+                        SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
                         double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
                         if( moleculeSeparation <= provisionalBondMaxLength ) {
