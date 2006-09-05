@@ -31,7 +31,52 @@ public class A_AB_BC_C_Reaction extends Reaction {
         super( energyProfile, new Criteria( energyProfile ) );
     }
 
-    private static double getRelKE( Molecule m1, Molecule m2 ) {
+    public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
+        SimpleMolecule sm = null;
+        if( moleculeAdded instanceof MoleculeA ) {
+            if( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeC ) {
+                sm = compositeMolecule.getComponentMolecules()[0];
+            }
+            else if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeC ) {
+                sm = compositeMolecule.getComponentMolecules()[1];
+            }
+            else {
+                throw new RuntimeException( "internal error" );
+            }
+        }
+        if( moleculeAdded instanceof MoleculeC ) {
+            if( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeA ) {
+                sm = compositeMolecule.getComponentMolecules()[0];
+            }
+            else if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeA ) {
+                sm = compositeMolecule.getComponentMolecules()[1];
+            }
+            else {
+                throw new RuntimeException( "internal error" );
+            }
+        }
+        return sm;
+    }
+
+    public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
+        SimpleMolecule sm = getMoleculeToRemove( compositeMolecule, moleculeAdded );
+        SimpleMolecule moleculeToKeep = null;
+        if( sm == compositeMolecule.getComponentMolecules()[0] ) {
+            moleculeToKeep = compositeMolecule.getComponentMolecules()[1];
+        }
+        else if( sm == compositeMolecule.getComponentMolecules()[1] ) {
+            moleculeToKeep = compositeMolecule.getComponentMolecules()[0];
+        }
+        else {
+            throw new RuntimeException( "internal error" );
+        }
+        return moleculeToKeep;
+    }
+
+    private static double getRelKE
+            ( Molecule
+                    m1, Molecule
+                    m2 ) {
         // Determine the kinetic energy in the collision. We consider this to be the
         // kinetic energy of an object whose mass is equal to the total masses of
         // the two molecules, moving at a speed equal to the magnitude of the
@@ -102,11 +147,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
             // The relative kinetic energy of the collision must be above the
             // energy profile threshold
             if( thirdClassificationCriterionMet ) {
-                System.out.println( "getRelKE( m1, m2 ) = " + getRelKE( m1, m2 ) );
                 result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
-                if( result ) {
-                    System.out.println( "A_AB_BC_C_Reaction$Criteria.criteriaMet" );
-                }
             }
             return result;
         }

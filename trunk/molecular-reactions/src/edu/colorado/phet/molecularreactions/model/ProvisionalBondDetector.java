@@ -71,8 +71,10 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                     if( o1 instanceof SimpleMolecule && o != o1 ) {
                         SimpleMolecule sm2 = (SimpleMolecule)o1;
 
-                        // If the two molecules couldn't participate in a reaction, then they are not
-                        // eligible for a provisional bond
+                        // NOTE!!! This code only works for A_AB_BC_C reactions. It counts on the fact that
+                        // there are only two components in a composite molecule, and that
+                        // reaction.getReactionCriteria().criteriaMet() only returns true for the component
+                        // that the simple molecule can knock off the composite
                         MoleculeMoleculeCollisionSpec collisionSpec = new MoleculeMoleculeCollisionSpec( null,
                                                                                                          null,
                                                                                                          sm1,
@@ -80,7 +82,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                         Reaction reaction = model.getReaction();
                         Molecule m1 = sm1.isPartOfComposite() ? sm1.getParentComposite() : sm1;
                         Molecule m2 = sm2.isPartOfComposite() ? sm2.getParentComposite() : sm2;
-                        if( !reaction.getReactionCriteria().criteriaMet( m1,
+                        if( reaction.getReactionCriteria().criteriaMet( m1,
+//                        if( !reaction.getReactionCriteria().criteriaMet( m1,
                                                                          m2,
                                                                          collisionSpec ) ) {
                             continue;

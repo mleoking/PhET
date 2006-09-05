@@ -78,12 +78,11 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         // Do bounding box test to avoid more computation for most pairs of molecules
         // Todo: possible performance bottleneck here.
         boolean boundingBoxesOverlap = false;
-        boundingBoxesOverlap= moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox());
+        boundingBoxesOverlap = moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox() );
 //        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
 //        double dy = Math.abs( moleculeA.getPosition().getY() - moleculeB.getPosition().getY() );
 //        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
 //                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
-
 
         // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
         // composite
@@ -102,6 +101,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
     /**
      * Determines the parameters of the collision between two molecules.
+     *
      * @param moleculeA
      * @param moleculeB
      * @return A CollisionSpec, if a collision occurs, otherwise return null
@@ -171,26 +171,38 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         // Create a composite molecule if ReactionCriteria are met
         if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
+            SimpleMolecule simpleMolecule = null;
+            CompositeMolecule compositeMolecule = null;
+            Bond bond = null;
 
+            //  todo: This should never happen. Take out
             if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
-                CompositeMolecule compositeMolecule = new CompositeMolecule( (SimpleMolecule)bodyA, (SimpleMolecule)bodyB );
-                model.addModelElement( compositeMolecule );
+                throw new RuntimeException( "internal error" );
             }
             else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
-                Bond bond = new Bond( collisionSpec.getSimpleMoleculeA(), collisionSpec.getSimpleMoleculeB() );
-                model.addModelElement( bond );
-                ( (CompositeMolecule)bodyB ).addSimpleMolecule( (SimpleMolecule)bodyA, bond );
-                System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
+                simpleMolecule = (SimpleMolecule)bodyA;
+                compositeMolecule = (CompositeMolecule)bodyB;
             }
             else if( bodyB instanceof SimpleMolecule && bodyA instanceof CompositeMolecule ) {
-                Bond bond = createBond( (SimpleMolecule)bodyB, (CompositeMolecule)bodyA );
-                model.addModelElement( bond );
-                ( (CompositeMolecule)bodyA ).addSimpleMolecule( (SimpleMolecule)bodyB, bond );
-                System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
+                simpleMolecule = (SimpleMolecule)bodyB;
+                compositeMolecule = (CompositeMolecule)bodyA;
             }
             else {
                 throw new RuntimeException( "unexpected situation" );
             }
+            SimpleMolecule moleculeToRemove = model.getReaction().getMoleculeToRemove( compositeMolecule, simpleMolecule );
+            if( compositeMolecule.getComponentMolecules()[0] == moleculeToRemove ){
+                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[1] );
+            }
+            else if( compositeMolecule.getComponentMolecules()[1] == moleculeToRemove ) {
+                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
+            }
+            else {
+                throw new RuntimeException( "internal error");
+            }
+            model.addModelElement( bond );
+            compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
+            System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
         }
 
         // Otherwise, do a perfectly elastic collision
