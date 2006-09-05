@@ -48,9 +48,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     public MoleculeMoleculeCollisionAgent( final MRModel model ) {
 
         reactionCriteria = model.getReaction().getReactionCriteria();
-//        reactionCriteria = new SimpleMoleculeCompoundMoleculeCriteria();
-//        reactionCriteria = new SimpleMoleculeReactionCriteria();
-
         final EnergyProfile energyProfile = model.getEnergyProfile();
         energyProfile.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
