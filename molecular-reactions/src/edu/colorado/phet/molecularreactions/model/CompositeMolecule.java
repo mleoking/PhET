@@ -11,9 +11,11 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -34,8 +36,10 @@ public class CompositeMolecule extends Molecule {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     public static class Type {
-        private Type(){}
+        private Type() {
+        }
     }
+
     public static Type AA = new Type();
     public static Type BB = new Type();
     public static Type AB = new Type();
@@ -126,6 +130,14 @@ public class CompositeMolecule extends Molecule {
      * @param molecule
      */
     public void removeSimpleMolecule( SimpleMolecule molecule ) {
+
+        // Remove the simple molecule from the composite
+        List componentList = new ArrayList( Arrays.asList( components ) );
+        componentList.remove( molecule );
+        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+        molecule.setParentComposite( null );
+
+        // Remove the bond from our list of bonds
         // Find the bonds that the component participates in. If there is more than one,
         // throw an exception
         Bond bond = null;
@@ -148,14 +160,6 @@ public class CompositeMolecule extends Molecule {
                 }
             }
         }
-
-        // Remove the simple molecule from the composite
-        List componentList = new ArrayList( Arrays.asList( components ) );
-        componentList.remove( molecule );
-        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
-        molecule.setParentComposite( null );
-
-        // Remove the bond from our list of bonds
         List bondList = new ArrayList( Arrays.asList( bonds ) );
         bondList.remove( bond );
         bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
@@ -164,57 +168,62 @@ public class CompositeMolecule extends Molecule {
         computeKinematicsFromComponents( components );
 
         // Compute the kinematics of the released molecule
-        // todo: something may be wrong here. The velocity shouldn't be set to 0.
-        HardBodyCollision collision = new HardBodyCollision();
-        molecule.setVelocity( 0,0 );
-        collision.detectAndDoCollision( this, molecule );
+        // The molecule being released will be between the two that are left in the composite.
+        // Send the removed molecule off on a line that bisects the larger angle between the lines connecting
+        // the CM of the one being removed and the CMs of the other two
+        Vector2D v1 = new Vector2D.Double( components[0].getCM(), molecule.getCM() );
+        Vector2D v2 = new Vector2D.Double( components[1].getCM(), molecule.getCM() );
+        double theta = ( v1.getAngle() - v2.getAngle() ) / 2;
+
+        //  TODO: make the magnitude of the velocity correct, and the time step is suspicious to me...
+        Vector2D v3 = new Vector2D.Double( 5, 0 );
+        v3.rotate( theta );
+        molecule.setVelocity( v3 );
+        molecule.stepInTime( 1 );
 
         listenerProxy.componentRemoved( molecule, bond );
     }
 
     /**
-     * Adds a component molecule to the composite molecule
+     * Adds a component moleculeAdded to the composite moleculeAdded
      *
-     * @param molecule
+     * @param moleculeAdded
      */
-    public void addSimpleMolecule( SimpleMolecule molecule, Bond bond ) {
+    public void addSimpleMolecule( SimpleMolecule moleculeAdded, Bond bond, Reaction reaction ) {
 
-        // Place the new molecule so it's in line with the current components
-//        setNewComponentPosition( bond, molecule );
-
-        // Add the molecule to the list of components
-        List componentList = new ArrayList( Arrays.asList( components ) );
-        componentList.add( molecule );
-        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+        // Determine which component molecule is staying in the composite
+        SimpleMolecule moleculeRemaining = reaction.getMoleculeToKeep( this, moleculeAdded );
 
         // Add the bond to the list of bonds
-        List bondList = new ArrayList( Arrays.asList( bonds ));
+        List bondList = new ArrayList( Arrays.asList( bonds ) );
         bondList.add( bond );
         bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
 
-        // Factor in the new component's kinematics
-//        addComponentKinematics( molecule );
-        this.computeKinematicsFromComponents( components );
+        // Tell the new component that it is part of a composite, and set its position
+        moleculeAdded.setParentComposite( this );
+        Vector2D d = new Vector2D.Double( moleculeRemaining.getCM(), moleculeAdded.getCM() );
+        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() + 10 );
+        moleculeAdded.setPosition( MathUtil.radialToCartesian( d.getMagnitude(),
+                                                               d.getAngle(),
+                                                               moleculeRemaining.getPosition() ) );
 
-        // Tell the new component that it is part of a composite
-        molecule.setParentComposite( this );
+        // Add the moleculeAdded to the list of components
+        List componentList = new ArrayList( Arrays.asList( components ) );
+        componentList.add( moleculeAdded );
+        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
 
-        // Notify listeners
-        listenerProxy.componentAdded( molecule, bond );
 
-        // DEBUG!!!
-        // For now, release the other component in the molecule. There should be a better way to do this
-        SimpleMolecule moleculeToRemove = null;
-        for( int i = 0; i < components.length; i++ ) {
-            SimpleMolecule component = components[i];
-            if( component != bond.getParticipants()[0] && component != bond.getParticipants()[1] ) {
-                moleculeToRemove = component;
-                break;
-            }
-        }
+        // Remove the molecule that's getting kicked out
+        SimpleMolecule moleculeToRemove = reaction.getMoleculeToRemove( this, moleculeAdded );
         if( moleculeToRemove != null ) {
             removeSimpleMolecule( moleculeToRemove );
         }
+
+        // Factor in the new component's kinematics
+        this.computeKinematicsFromComponents( components );
+
+        // Notify listeners
+        listenerProxy.componentAdded( moleculeAdded, bond );
     }
 
     /**
@@ -434,7 +443,7 @@ public class CompositeMolecule extends Molecule {
     }
 
     public Type getType() {
-        if( numSimpleMolecules() !=  2) {
+        if( numSimpleMolecules() != 2 ) {
             return OTHER;
         }
         if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeA ) {

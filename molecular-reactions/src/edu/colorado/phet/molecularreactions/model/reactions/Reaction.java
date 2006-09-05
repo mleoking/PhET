@@ -25,7 +25,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Reaction {
+abstract public class Reaction {
     private EnergyProfile energyProfile;
     private ReactionCriteria reactionCriteria;
 
@@ -38,6 +38,10 @@ public class Reaction {
         this.energyProfile = energyProfile;
         this.reactionCriteria = reactionCriteria;
     }
+
+    abstract public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
+
+    abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
 
     public EnergyProfile getEnergyProfile() {
         return energyProfile;

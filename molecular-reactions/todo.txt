@@ -1,10 +1,11 @@
 ====
 Bugs
 ====
-- Energy view shows molecules spearated by the dist between their CMs. It
-    should show distance between edgges of molecules.
-
-- Only molecules of different type should be able to combine.
+- Amount of energy needed to get to reaction is delta from floor, not absolute value
+- Shoud kinetic energy increase if compound molecule has lower floor?
+- How should selection/higlighting work? Use CM instead of halo.
+- Composite molecules should have specified space between the components
+-
 
 - Reason why nearestToTrackedMolecule gets lost when it becomes part of a composit molecule:
     It is taken out of the model while it's part of the composite molecule!
@@ -19,3 +20,9 @@ Internal
 Model features
 ==============
 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+
+===============
+Model questions
+===============
+- When a reaction occurs, should the new component molecule snap into place where the one it knocked off  was?
+- How much kinetic energy should the component that was knocked off have?
