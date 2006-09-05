@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
-
+- at UV/visible boundary, cursor and knob color don't match
 - type a bogus value into wavelength control, it beeps but doesn't reset to previous value
 - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
@@ -18,6 +18,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 
 DONE:
+(9/5/06) - integrate drag handling into wavelength control's ConstrainedDragHandler
 (9/5/06) - consolidate/simplify UI update code for wavelength control
 (9/5/06) - add cursor to wavelength control
 (8/30/06) - move units outside textfield in wavelength control
