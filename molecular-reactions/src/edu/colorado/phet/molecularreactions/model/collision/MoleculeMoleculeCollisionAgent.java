@@ -211,6 +211,9 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
             // Get the unit vector along the line of action
             n.setComponents( loa.getX(), loa.getY() );
+            if( n.getMagnitude() == 0 ) {
+                System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
+            }
             n.normalize();
 
             // If the relative velocity show the points moving apart, then there is no collision.

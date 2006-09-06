@@ -39,6 +39,12 @@ abstract public class Reaction {
         this.reactionCriteria = reactionCriteria;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+
+    abstract public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 );
+
     abstract public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
 
     abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );

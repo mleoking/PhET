@@ -26,11 +26,11 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounter extends PNode implements PublishingModel.ModelListener {
+public class MoleculeCounterPNode extends PNode implements PublishingModel.ModelListener {
     private PText readout;
     private Class moleculeClass;
 
-    public MoleculeCounter( MRModel model, Class moleculeClass ) {
+    public MoleculeCounterPNode( MRModel model, Class moleculeClass ) {
         this.moleculeClass = moleculeClass;
         PPath outerBackground = new PPath( new RoundRectangle2D.Double( 0, 0, 40, 30, 5, 5 ) );
         outerBackground.setPaint( new Color( 50, 30, 10 ) );

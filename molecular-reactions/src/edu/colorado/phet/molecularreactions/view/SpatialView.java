@@ -56,13 +56,13 @@ public class SpatialView extends PNode {
         megm.scanModel();
 
         // Molecule counters
-        MoleculeCounter aCounter = new MoleculeCounter( model, MoleculeA.class );
+        MoleculeCounterPNode aCounter = new MoleculeCounterPNode( model, MoleculeA.class );
         aCounter.setOffset( 20, canvas.getHeight() );
         addChild( aCounter );
-        MoleculeCounter bCounter = new MoleculeCounter( model, MoleculeB.class );
+        MoleculeCounterPNode bCounter = new MoleculeCounterPNode( model, MoleculeB.class );
         bCounter.setOffset( 80, canvas.getHeight() );
         addChild( bCounter );
-        MoleculeCounter cCounter = new MoleculeCounter( model, MoleculeC.class );
+        MoleculeCounterPNode cCounter = new MoleculeCounterPNode( model, MoleculeC.class );
         cCounter.setOffset( 140, canvas.getHeight() );
         addChild( cCounter );
     }
