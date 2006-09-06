@@ -11,11 +11,13 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -72,6 +74,25 @@ public class LightControlPanel extends PNode {
         _typeControl.setLabelsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         _intensityControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         _wavelengthControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
+        
+        // Light type control handler
+        _typeControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleLightTypeChange();
+            }
+        } );
+        
+        // Wavelength control handler
+        _wavelengthControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleWavelengthChange();
+            }
+        } );
+        
+        // Default state
+        _typeControl.setWhiteSelected( true );
+        _intensityControl.setValue( 100 );
+        _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
     }
     
     public LightTypeControl getTypeControl() {
@@ -84,5 +105,20 @@ public class LightControlPanel extends PNode {
     
     public WavelengthControl getWavelengthControl() {
         return _wavelengthControl;
+    }
+    
+    private void handleLightTypeChange() {
+        if ( _typeControl.isWhiteSelected() ) {
+            _intensityControl.setColor( _wavelengthControl.getColor() );
+            _wavelengthControl.setVisible( true );
+        }
+        else {
+            _intensityControl.setColor( HAConstants.UV_COLOR );
+            _wavelengthControl.setVisible( false );
+        }
+    }
+    
+    private void handleWavelengthChange() {
+        _intensityControl.setColor( _wavelengthControl.getColor() );
     }
 }

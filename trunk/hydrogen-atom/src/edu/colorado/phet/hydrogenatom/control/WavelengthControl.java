@@ -195,7 +195,7 @@ public class WavelengthControl extends PNode {
         }
         
         // Default state
-        setWavelength( VisibleColor.MIN_WAVELENGTH );
+        setWavelength( _minWavelength );
     }
     
     //----------------------------------------------------------------------------
@@ -228,6 +228,25 @@ public class WavelengthControl extends PNode {
      */
     public double getWavelength() {
         return _wavelength;
+    }
+    
+    /**
+     * Gets the color that corresponds to the current wavelength.
+     * 
+     * @return
+     */
+    public Color getColor() {
+        Color color = null;
+        if ( _wavelength < VisibleColor.MIN_WAVELENGTH ) {
+            color = _uvColor;
+        }
+        else if ( _wavelength > VisibleColor.MAX_WAVELENGTH ) {
+            color = _irColor;
+        }
+        else {
+            color = VisibleColor.wavelengthToColor( _wavelength );
+        }
+        return color;
     }
     
     /**
@@ -334,19 +353,9 @@ public class WavelengthControl extends PNode {
         final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
         
         // Knob color
-        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            _knob.setPaint( _uvColor );
-            _cursor.setPaint( _uvColor );
-        }
-        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            _knob.setPaint( _irColor );
-            _cursor.setPaint( _irColor );
-        }
-        else {
-            Color color = VisibleColor.wavelengthToColor( wavelength );
-            _knob.setPaint( color );
-            _cursor.setPaint( color );
-        }
+        Color wavelengthColor = getColor();
+        _knob.setPaint( wavelengthColor );
+        _cursor.setPaint( wavelengthColor );
     
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();

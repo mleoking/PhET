@@ -20,6 +20,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/6/06) - hook up internal handlers in gun controls, to hide/show controls and set colors properly
 (9/6/06) - add ability to set background/foreground color scheme for gun controls
 (9/6/06) - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 (9/5/06) - click on wavelength control track to move to a value
