@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- click on wavelength control track to move to a value
 - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 - port spectrometer from Discharge Lamps sim
@@ -20,6 +19,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/5/06) - click on wavelength control track to move to a value
 (9/5/06) - bugfix: type a bogus value into wavelength control, it beeps but doesn't reset to previous value
 (9/5/06) - clamp dragging of wavelength control to min/max range
 (9/5/06) - test wavelength control with scale applied
