@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.module;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -29,6 +30,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 
 public class HAModule extends PiccoloModule {
@@ -49,6 +52,7 @@ public class HAModule extends PiccoloModule {
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
+    private PText _notToScaleLabel;
     
     private HAClockControlPanel _clockControlPanel;
     
@@ -109,6 +113,17 @@ public class HAModule extends PiccoloModule {
             _gunNode = new GunNode( _canvas );
             _gunNode.setOffset( 30, 200 );
             _rootNode.addChild( _gunNode );
+        }
+        
+        // "Not to scale" label
+        {
+            _notToScaleLabel = new PText( SimStrings.get( "label.notToScale" ) );
+            _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            PBounds b = _modeSwitch.getFullBounds();
+            double x = b.getX();
+            double y = b.getY() + b.getHeight() + 15;
+            _notToScaleLabel.setOffset( x, y );
+            _rootNode.addChild( _notToScaleLabel );
         }
         
         //----------------------------------------------------------------------------

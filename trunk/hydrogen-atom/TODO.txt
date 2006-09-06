@@ -5,6 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- "Show electron energy level diagram" checkbox
+- "Show spectrometer" checkbox
+- black box placeholder for model
+- placeholder for energy graph
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
@@ -19,6 +23,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/6/06) - add "Drawings are not to scale" label
 (9/6/06) - add atomic model selection control
 (9/6/06) - add experiment/prediction mode switch
 (9/6/06) - move contruction of control panels inside HAGunNode
