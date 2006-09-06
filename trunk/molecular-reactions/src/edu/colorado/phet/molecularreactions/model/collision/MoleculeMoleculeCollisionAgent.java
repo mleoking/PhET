@@ -163,6 +163,12 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         Vector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
+        // If the loa vector has zero length, then the two bodies are right on top of each other,
+        // and the collision can't be computed
+        if( loa.getMagnitude() == 0 ) {
+            return;
+        }
+
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
