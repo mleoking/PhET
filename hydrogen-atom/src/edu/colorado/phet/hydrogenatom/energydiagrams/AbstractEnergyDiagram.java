@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import edu.colorado.phet.hydrogenatom.view.HANode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public abstract class AbstractEnergyDiagram extends PNode {
+public abstract class AbstractEnergyDiagram extends HANode {
 
     public AbstractEnergyDiagram( String imageName ) {
         super();

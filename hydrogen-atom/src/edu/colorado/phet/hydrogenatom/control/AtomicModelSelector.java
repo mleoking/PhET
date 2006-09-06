@@ -26,7 +26,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.hydrogenatom.view.HANode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -36,7 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AtomicModelSelector extends PNode {
+public class AtomicModelSelector extends HANode {
 
     //----------------------------------------------------------------------------
     // Instance data

@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.hydrogenatom.view.HANode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -36,7 +35,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunTypeControlPanel extends PNode {
+public class GunTypeControlPanel extends HANode {
 
     //----------------------------------------------------------------------------
     // Instance data

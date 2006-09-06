@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.hydrogenatom.view.HANode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightControlPanel extends PNode {
+public class LightControlPanel extends HANode {
 
     //----------------------------------------------------------------------------
     // Class data

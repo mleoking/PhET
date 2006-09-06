@@ -111,8 +111,6 @@ public class HAModule extends PiccoloModule {
             _modeSwitch.addChangeListener( new ChangeListener() {
                public void stateChanged( ChangeEvent event ) {
                    _atomicModelSelector.setVisible( _modeSwitch.isPredictionSelected() );
-                   _atomicModelSelector.setPickable( _modeSwitch.isPredictionSelected() );
-                   _atomicModelSelector.setChildrenPickable( _modeSwitch.isPredictionSelected() );
                    updateEnergyDiagram();
                }
             });
