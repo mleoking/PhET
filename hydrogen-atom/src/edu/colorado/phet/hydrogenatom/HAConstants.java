@@ -91,6 +91,10 @@ public class HAConstants {
     // Color used for alpha particle intensity slider
     public static final Color ALPHA_PARTICLES_COLOR = Color.GRAY;
     
+    // Colors used for foreground and background in Gun control panels
+    public static final Color GUN_CONTROLS_BACKGROUND = new Color( 220, 220, 220 );
+    public static final Color GUN_CONTROLS_FOREGROUND = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Borders
     //----------------------------------------------------------------------------

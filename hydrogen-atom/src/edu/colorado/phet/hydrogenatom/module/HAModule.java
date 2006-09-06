@@ -82,7 +82,7 @@ public class HAModule extends PiccoloModule {
         {
             // controls
             GunOnOffControl gunOnOffControl = new GunOnOffControl();
-            GunTypeControlPanel gunTypeControlPanel = new GunTypeControlPanel();
+            GunTypeControlPanel gunTypeControlPanel = new GunTypeControlPanel( _canvas );
             LightControlPanel lightControlPanel = new LightControlPanel( _canvas );
             AlphaParticleControlPanel alphaParticleControlPanel = new AlphaParticleControlPanel( _canvas );
             
@@ -91,21 +91,6 @@ public class HAModule extends PiccoloModule {
                     lightControlPanel, alphaParticleControlPanel );
             gunNode.setOffset( 50, 200 );
             _rootNode.addChild( gunNode );
-        }
-        
-        //XXX test
-        {
-            final WavelengthControl wavelengthControl = new WavelengthControl( _canvas, 
-                    HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
-                    HAConstants.UV_COLOR, HAConstants.IR_COLOR );
-            wavelengthControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-//                    System.out.println( "wavelength=" + wavelengthControl.getWavelength() );
-                }
-            } );
-            wavelengthControl.setOffset( 100, 100 );
-//            wavelengthControl.scale( 1.5 );
-            _rootNode.addChild( wavelengthControl );
         }
         
         //----------------------------------------------------------------------------

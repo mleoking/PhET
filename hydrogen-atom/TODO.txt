@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - add model continuum control
 - add experiment/prediction selection switch
 - port spectrometer from Discharge Lamps sim
@@ -21,6 +20,8 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/6/06) - add ability to set background/foreground color scheme for gun controls
+(9/6/06) - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 (9/5/06) - click on wavelength control track to move to a value
 (9/5/06) - bugfix: type a bogus value into wavelength control, it beeps but doesn't reset to previous value
 (9/5/06) - clamp dragging of wavelength control to min/max range
