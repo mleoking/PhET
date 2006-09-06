@@ -124,6 +124,12 @@ public class HAConstants {
     public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
+    //XXX temporary images
+    public static final String IMAGE_BOHR_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "bohrEnergyDiagram.png";
+    public static final String IMAGE_DEBROGLIE_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "deBroglieEnergyDiagram.png";
+    public static final String IMAGE_SCHRODINGER_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "schrodingerEnergyDiagram.png";
+    public static final String IMAGE_SOLAR_SYSTEM_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "solarSystemEnergyDiagram.png";
+    
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
