@@ -11,10 +11,12 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -117,4 +119,18 @@ abstract public class Molecule extends Body implements Collidable {
     abstract public SimpleMolecule[] getComponentMolecules();
 
     abstract public Rectangle2D getBoundingBox();
+
+    public void applyForce( Vector2D force, SpringCollision.CollisionSpec collisionSpec ) {
+
+        // Compute the torque
+
+        // Get the vector from the cm to the point of application
+        Vector2D r = new Vector2D.Double( getCM(), collisionSpec.getCollisionPt() );
+
+        // Torque = F x r
+        double t = force.getCrossProductScalar( r );
+
+        // Compute the angular acceleration
+        this.setAlpha( t * getMomentOfInertia() ); 
+    }
 }

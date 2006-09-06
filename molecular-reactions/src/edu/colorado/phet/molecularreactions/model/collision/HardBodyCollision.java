@@ -66,11 +66,12 @@ public class HardBodyCollision {
         boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
                                && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
-        // composite
-        collisionSpec = getCollisionSpec( moleculeA, moleculeB );
-        if( collisionSpec != null ) {
-            doCollision( moleculeA, moleculeB, collisionSpec );
+        // Don't go farther if the bounding boxes don't overlap
+        if( boundingBoxesOverlap ) {
+            collisionSpec = getCollisionSpec( moleculeA, moleculeB );
+            if( collisionSpec != null ) {
+                doCollision( moleculeA, moleculeB, collisionSpec );
+            }
         }
         return ( collisionSpec != null );
     }
@@ -98,16 +99,16 @@ public class HardBodyCollision {
         }
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
-            for( int j = 0; j < cmA.getComponentMolecules().length; j++ ) {
+            for( int j = 0; j < cmA.getComponentMolecules().length && collisionSpec == null; j++ ) {
                 Molecule moleculeC = cmA.getComponentMolecules()[j];
-                return getCollisionSpec( moleculeC, moleculeB );
+                collisionSpec = getCollisionSpec( moleculeC, moleculeB );
             }
         }
         else if( moleculeB instanceof CompositeMolecule ) {
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
-            for( int j = 0; j < cmB.getComponentMolecules().length; j++ ) {
+            for( int j = 0; j < cmB.getComponentMolecules().length && collisionSpec == null; j++ ) {
                 Molecule moleculeC = cmB.getComponentMolecules()[j];
-                return getCollisionSpec( moleculeA, moleculeC );
+                collisionSpec = getCollisionSpec( moleculeA, moleculeC );
             }
         }
         else {
@@ -123,6 +124,10 @@ public class HardBodyCollision {
      * @param collisionSpec
      */
     public void doCollision( Body bodyA, Body bodyB, HardBodyCollision.CollisionSpec collisionSpec ) {
+
+        Vector2D mTotal1 = new Vector2D.Double( bodyA.getMomentum()).add( bodyB.getMomentum() );
+
+
         Vector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
@@ -195,6 +200,12 @@ public class HardBodyCollision {
 //        double fvB = ( vMagB - dvB ) / vMagB;
 //        bodyB.getVelocity().multiply( fvB );
         }
+
+        Vector2D mTotal2 = new Vector2D.Double( bodyA.getMomentum()).add( bodyB.getMomentum() );
+        System.out.println( "HardBodyCollision.doCollision" );
+        System.out.println( "mTotal1 = " + mTotal1 );
+        System.out.println( "mTotal2 = " + mTotal2 );
+
     }
 
     //--------------------------------------------------------------------------------------------------

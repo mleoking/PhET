@@ -53,12 +53,12 @@ public class TestModule extends MRModule {
             model.setReaction( new A_AB_BC_C_Reaction() );
             model.getEnergyProfile().setPeakLevel( 50 );
             {
-                SimpleMolecule m1 = new MoleculeA();
+                SimpleMolecule m1 = new MoleculeB();
                 m1.setPosition( 180, 60 );
                 m1.setVelocity( 0, 0 );
                 model.addModelElement( m1 );
-                SimpleMolecule m1a = new MoleculeB();
-                m1a.setPosition( 180 + m1a.getRadius() * 2 + 5, 60 );
+                SimpleMolecule m1a = new MoleculeA();
+                m1a.setPosition( m1.getPosition().getX() + m1.getRadius() + m1a.getRadius(), 60 );
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
