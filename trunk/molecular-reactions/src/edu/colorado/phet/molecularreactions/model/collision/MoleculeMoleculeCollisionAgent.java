@@ -16,6 +16,7 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -39,7 +40,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private Vector2D angRel = new Vector2D.Double();
     private Vector2D loa = new Vector2D.Double();
 
-    private double reactionThreshold;
     private Reaction.ReactionCriteria reactionCriteria;
 
     /**
@@ -48,13 +48,13 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     public MoleculeMoleculeCollisionAgent( final MRModel model ) {
 
         reactionCriteria = model.getReaction().getReactionCriteria();
-        final EnergyProfile energyProfile = model.getEnergyProfile();
-        energyProfile.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                reactionThreshold = energyProfile.getPeakLevel();
-            }
-        } );
-        this.reactionThreshold = energyProfile.getPeakLevel();
+//        final EnergyProfile energyProfile = model.getEnergyProfile();
+//        energyProfile.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                reactionThreshold = energyProfile.getPeakLevel();
+//            }
+//        } );
+//        this.reactionThreshold = energyProfile.getPeakLevel();
         model.addListener( this );
     }
 
@@ -193,18 +193,21 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             else {
                 throw new RuntimeException( "unexpected situation" );
             }
-            SimpleMolecule moleculeToRemove = model.getReaction().getMoleculeToRemove( compositeMolecule, simpleMolecule );
-            if( compositeMolecule.getComponentMolecules()[0] == moleculeToRemove ){
-                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[1] );
-            }
-            else if( compositeMolecule.getComponentMolecules()[1] == moleculeToRemove ) {
-                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
-            }
-            else {
-                throw new RuntimeException( "internal error");
-            }
-            model.addModelElement( bond );
-            compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
+
+            A_AB_BC_C_Reaction reaction = (A_AB_BC_C_Reaction)model.getReaction();
+            reaction.doReaction( compositeMolecule, simpleMolecule );
+//            SimpleMolecule moleculeToRemove = model.getReaction().getMoleculeToRemove( compositeMolecule, simpleMolecule );
+//            if( compositeMolecule.getComponentMolecules()[0] == moleculeToRemove ){
+//                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[1] );
+//            }
+//            else if( compositeMolecule.getComponentMolecules()[1] == moleculeToRemove ) {
+//                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
+//            }
+//            else {
+//                throw new RuntimeException( "internal error");
+//            }
+//            model.addModelElement( bond );
+//            compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
         }
 
         // Otherwise, do a perfectly elastic collision
@@ -349,7 +352,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     //--------------------------------------------------------------------------------------------------
 
     public void reactionThresholdChanged( MRModel model ) {
-        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
+//        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
     }
 
     public void modelElementAdded( ModelElement element ) {

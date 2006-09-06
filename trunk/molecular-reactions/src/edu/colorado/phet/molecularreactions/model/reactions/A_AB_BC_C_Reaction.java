@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.model.reactions;
 
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
+import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -26,14 +27,56 @@ public class A_AB_BC_C_Reaction extends Reaction {
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     0,
                                                                     50 );
+    private MRModel model;
 
-    public A_AB_BC_C_Reaction() {
+    public A_AB_BC_C_Reaction( MRModel model ) {
         super( energyProfile, new Criteria( energyProfile ) );
+        this.model = model;
     }
 
     public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
         return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
     }
+
+    public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
+        if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
+            doReaction( (MoleculeAB)cm, (MoleculeC)sm );
+        }
+        else if( cm instanceof MoleculeBC && sm instanceof MoleculeA ) {
+            doReaction( (MoleculeBC)cm, (MoleculeA)sm );
+        }
+        else {
+            throw new RuntimeException("internal error");
+        }
+    }
+
+    private void doReaction( MoleculeAB mAB, MoleculeC mC ) {
+        MoleculeB mB = mAB.getMoleculeB();
+        MoleculeA mA = mAB.getMoleculeA();
+        model.removeModelElement( mAB );
+        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{ mB, mC }, new Bond[]{new Bond( mB, mC )} );
+        model.addModelElement( mBC );
+
+
+        // Compute the kinematics of the released molecule
+        // todo: something may be wrong here. The velocity shouldn't be set to 0.
+        HardBodyCollision collision = new HardBodyCollision();
+//        this.setMomentum( this.getMomentum().add( molecule.getMomentum() ));
+        mA.setVelocity( 0,0 );
+
+        // todo: mA doesn't seem to be getting the collision
+        collision.detectAndDoCollision( mBC, mA );
+
+    }
+
+    public void doReaction( MoleculeBC mAB, MoleculeA mC ) {
+        MoleculeB mB = mAB.getMoleculeB();
+
+        model.removeModelElement( mAB );
+        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{ mB, mC }, new Bond[]{new Bond( mB, mC )} );
+        model.addModelElement( mBC );
+    }
+
 
     public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
         SimpleMolecule sm = null;
@@ -75,18 +118,6 @@ public class A_AB_BC_C_Reaction extends Reaction {
             throw new RuntimeException( "internal error" );
         }
         return moleculeToKeep;
-    }
-
-    private static double getRelKE( Molecule m1, Molecule m2 ) {
-        // Determine the kinetic energy in the collision. We consider this to be the
-        // kinetic energy of an object whose mass is equal to the total masses of
-        // the two molecules, moving at a speed equal to the magnitude of the
-        // relative velocity of the two molecules
-        Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
-                                            m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
-        double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
-        double ke = 0.5 * ( m1.getMass() + m2.getMass() ) * sRel * sRel;
-        return ke;
     }
 
     /**
@@ -137,7 +168,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
          *
          * @param m1
          * @param m2
-         * @return
+         * @return true if the molecules are the proper type for the reaction
          */
         public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
 
@@ -177,5 +208,16 @@ public class A_AB_BC_C_Reaction extends Reaction {
             return secondClassificationCriterionMet;
         }
 
+        private static double getRelKE( Molecule m1, Molecule m2 ) {
+            // Determine the kinetic energy in the collision. We consider this to be the
+            // kinetic energy of an object whose mass is equal to the total masses of
+            // the two molecules, moving at a speed equal to the magnitude of the
+            // relative velocity of the two molecules
+            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
+                                                m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
+            double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
+            double ke = 0.5 * ( m1.getMass() + m2.getMass() ) * sRel * sRel;
+            return ke;
+        }
     }
 }

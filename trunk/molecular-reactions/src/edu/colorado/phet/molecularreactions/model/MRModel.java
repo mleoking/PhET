@@ -54,7 +54,7 @@ import java.awt.geom.Point2D;
  */
 public class MRModel extends PublishingModel {
     private Box2D box;
-    private Reaction reaction = new A_AB_BC_C_Reaction();
+    private Reaction reaction;
 
     /**
      * Constructor
@@ -62,6 +62,9 @@ public class MRModel extends PublishingModel {
      */
     public MRModel( IClock clock ) {
         super( clock );
+
+        // Create the reaction object;
+        reaction = new A_AB_BC_C_Reaction( this );
 
         // Add a box
         box = new Box2D( new Point2D.Double( 30, 30 ),

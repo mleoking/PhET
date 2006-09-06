@@ -91,16 +91,6 @@ public class CompositeMolecule extends Molecule {
     private double orientation;
 
     /**
-     * Creates a CompositeMolecule from two simple molecules
-     *
-     * @param sm1
-     * @param sm2
-     */
-    public CompositeMolecule( SimpleMolecule sm1, SimpleMolecule sm2 ) {
-        this( new SimpleMolecule[]{sm1, sm2}, new Bond[]{new Bond( sm1, sm2 )} );
-    }
-
-    /**
      * Creates a CompositeMolecule from an array of molecules. The kinematic
      * attributes of the new CompositeMolecule are set based on those of its
      * components.
