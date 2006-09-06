@@ -54,6 +54,17 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
         megm.addGraphicFactory( new ProvisionalBondGraphicFactory() );
         megm.scanModel();
+
+        // Molecule counters
+        MoleculeCounter aCounter = new MoleculeCounter( model, MoleculeA.class );
+        aCounter.setOffset( 20, canvas.getHeight() );
+        addChild( aCounter );
+        MoleculeCounter bCounter = new MoleculeCounter( model, MoleculeB.class );
+        bCounter.setOffset( 80, canvas.getHeight() );
+        addChild( bCounter );
+        MoleculeCounter cCounter = new MoleculeCounter( model, MoleculeC.class );
+        cCounter.setOffset( 140, canvas.getHeight() );
+        addChild( cCounter );
     }
 
 

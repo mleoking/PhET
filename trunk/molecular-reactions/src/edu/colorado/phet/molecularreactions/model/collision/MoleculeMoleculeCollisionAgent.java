@@ -199,7 +199,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             }
             model.addModelElement( bond );
             compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
-            System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
         }
 
         // Otherwise, do a perfectly elastic collision

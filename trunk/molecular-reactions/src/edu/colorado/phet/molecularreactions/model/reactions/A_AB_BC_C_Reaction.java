@@ -132,14 +132,22 @@ public class A_AB_BC_C_Reaction extends Reaction {
                 }
             }
 
-            // The simple molecule must have collided with the non-B simple
+            // The simple molecule must have collided with the B simple
             // molecule in the composite molecule
             boolean thirdClassificationCriterionMet = false;
             if( secondClassificationCriterionMet
                 && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC )
-                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
                             && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) )
+            ) ) {
+                thirdClassificationCriterionMet = true;
+            }
+            else if( secondClassificationCriterionMet
+                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
+                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
             ) ) {
                 thirdClassificationCriterionMet = true;
             }

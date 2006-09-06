@@ -16,12 +16,26 @@ Internal
 - Look at todo in CompositeMolecule.releaseSimpleMolecule()
 
 ==============
+Features
+==============
+- temperature control
+- add/remove molecules
+
+==============
 Model features
 ==============
-- MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+- simple molecule reactant must hit the simple molecule in the composite reactant that is
+    going to remain in the composite product (i.e., the B molecule)
+- Change to spring model for collision
 
 ===============
 Model questions
 ===============
 - When a reaction occurs, should the new component molecule snap into place where the one it knocked off  was?
 - How much kinetic energy should the component that was knocked off have?
+
+
+=======
+Done
+=======
+09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.

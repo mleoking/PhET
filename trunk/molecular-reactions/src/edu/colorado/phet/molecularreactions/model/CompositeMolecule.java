@@ -168,18 +168,11 @@ public class CompositeMolecule extends Molecule {
         computeKinematicsFromComponents( components );
 
         // Compute the kinematics of the released molecule
-        // The molecule being released will be between the two that are left in the composite.
-        // Send the removed molecule off on a line that bisects the larger angle between the lines connecting
-        // the CM of the one being removed and the CMs of the other two
-        Vector2D v1 = new Vector2D.Double( components[0].getCM(), molecule.getCM() );
-        Vector2D v2 = new Vector2D.Double( components[1].getCM(), molecule.getCM() );
-        double theta = ( v1.getAngle() - v2.getAngle() ) / 2;
-
-        //  TODO: make the magnitude of the velocity correct, and the time step is suspicious to me...
-        Vector2D v3 = new Vector2D.Double( 5, 0 );
-        v3.rotate( theta );
-        molecule.setVelocity( v3 );
-        molecule.stepInTime( 1 );
+        // todo: something may be wrong here. The velocity shouldn't be set to 0.
+        HardBodyCollision collision = new HardBodyCollision();
+        this.setMomentum( this.getMomentum().add( molecule.getMomentum() ));
+        molecule.setVelocity( 0,0 );
+        collision.detectAndDoCollision( this, molecule );
 
         listenerProxy.componentRemoved( molecule, bond );
     }
@@ -190,6 +183,8 @@ public class CompositeMolecule extends Molecule {
      * @param moleculeAdded
      */
     public void addSimpleMolecule( SimpleMolecule moleculeAdded, Bond bond, Reaction reaction ) {
+
+        double mt1 = moleculeAdded.getMomentum().add( this.getMomentum()).getMagnitude();
 
         // Determine which component molecule is staying in the composite
         SimpleMolecule moleculeRemaining = reaction.getMoleculeToKeep( this, moleculeAdded );
@@ -202,7 +197,8 @@ public class CompositeMolecule extends Molecule {
         // Tell the new component that it is part of a composite, and set its position
         moleculeAdded.setParentComposite( this );
         Vector2D d = new Vector2D.Double( moleculeRemaining.getCM(), moleculeAdded.getCM() );
-        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() + 10 );
+        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius());
+//        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() + 10 );
         moleculeAdded.setPosition( MathUtil.radialToCartesian( d.getMagnitude(),
                                                                d.getAngle(),
                                                                moleculeRemaining.getPosition() ) );
@@ -212,6 +208,9 @@ public class CompositeMolecule extends Molecule {
         componentList.add( moleculeAdded );
         components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
 
+        // Factor in the new component's kinematics
+        this.computeKinematicsFromComponents( components );
+        double mt2 = this.getMomentum().getMagnitude();
 
         // Remove the molecule that's getting kicked out
         SimpleMolecule moleculeToRemove = reaction.getMoleculeToRemove( this, moleculeAdded );
@@ -219,68 +218,14 @@ public class CompositeMolecule extends Molecule {
             removeSimpleMolecule( moleculeToRemove );
         }
 
-        // Factor in the new component's kinematics
-        this.computeKinematicsFromComponents( components );
-
         // Notify listeners
         listenerProxy.componentAdded( moleculeAdded, bond );
-    }
 
-    /**
-     * Repositions a new component so it is in line with the exisiting components of the molecule
-     *
-     * @param bond
-     * @param molecule
-     */
-    private void setNewComponentPosition( Bond bond, SimpleMolecule molecule ) {
-        SimpleMolecule existingComponent = bond.getParticipants()[0] == molecule ? bond.getParticipants()[1]
-                                           : bond.getParticipants()[1];
-        Bond[] existingBonds = getBonds();
-        Bond bondToAlignWith = null;
-        Point2D rootPosition = null;
-        for( int i = 0; i < existingBonds.length && bondToAlignWith == null; i++ ) {
-            Bond existingBond = existingBonds[i];
-            if( existingBond.getParticipants()[0] == existingComponent ) {
-                rootPosition = existingBond.getParticipants()[1].getPosition();
-                bondToAlignWith = existingBond;
-            }
-            if( existingBond.getParticipants()[1] == existingComponent ) {
-                rootPosition = existingBond.getParticipants()[0].getPosition();
-                bondToAlignWith = existingBond;
-            }
-        }
-        Vector2D v1 = new Vector2D.Double( existingComponent.getPosition().getX() - rootPosition.getX(),
-                                           existingComponent.getPosition().getY() - rootPosition.getY() );
-        Vector2D v2 = new Vector2D.Double( molecule.getPosition().getX() - existingComponent.getPosition().getX(),
-                                           molecule.getPosition().getY() - existingComponent.getPosition().getY() );
-        v2.rotate( v1.getAngle() - v2.getAngle() );
-        molecule.setPosition( existingComponent.getPosition().getX() + v2.getX(),
-                              existingComponent.getPosition().getY() + v2.getY() );
-    }
+        double mt3 = moleculeToRemove.getMomentum().add( this.getMomentum()).getMagnitude();
+        System.out.println( "mt1 = " + mt1 );
+        System.out.println( "mt2 = " + mt2 );
+        System.out.println( "mt3 = " + mt3 );
 
-
-    /**
-     * Determines the CM (and position), velocity and acceleration of the
-     * composite molecules from those of its components
-     */
-    private void addComponentKinematics( Molecule component ) {
-        computeCM();
-        double mass = 0;
-        Vector2D compositeMomentum = getMomentum();
-//        Vector2D acceleration = getAcceleration();
-        Vector3D angularMomentum = new Vector3D( 0, 0, getOmega() * getMomentOfInertia() );
-        Vector2D compositeCmToComponentCm = new Vector2D.Double();
-        mass += component.getMass();
-        Vector2D momentum = new Vector2D.Double( component.getVelocity() ).scale( component.getMass() );
-        compositeMomentum.add( momentum );
-//        acceleration.add( component.getAcceleration() );
-        compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
-                                                component.getPosition().getY() - getCM().getY() );
-        angularMomentum.add( Vector3D.createCrossProduct( compositeCmToComponentCm, momentum ) );
-        setMass( mass );
-        setVelocity( compositeMomentum.scale( 1 / mass ) );
-//        setAcceleration( acceleration );
-        setOmega( angularMomentum.getZ() / getMomentOfInertia() );
     }
 
     /**
@@ -311,6 +256,10 @@ public class CompositeMolecule extends Molecule {
         setVelocity( compositeMomentum.scale( 1 / mass ) );
         setAcceleration( acceleration );
         setOmega( angularMomentum.getZ() / getMomentOfInertia() );
+
+        for( int i = 0; i < components.length; i++ ) {
+            components[i].setVelocity( getVelocity() );
+        }
     }
 
     public SimpleMolecule[] getComponentMolecules() {
