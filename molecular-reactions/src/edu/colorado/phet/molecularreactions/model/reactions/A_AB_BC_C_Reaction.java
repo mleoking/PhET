@@ -204,11 +204,11 @@ public class A_AB_BC_C_Reaction extends Reaction {
             // composite molecule
             boolean secondClassificationCriterionMet = false;
             if( firstClassificationCriterionMet ) {
-                if( cm.getType() == CompositeMolecule.AB
+                if( cm instanceof MoleculeAB
                     && sm instanceof MoleculeC ) {
                     secondClassificationCriterionMet = true;
                 }
-                else if( cm.getType() == CompositeMolecule.BC
+                else if( cm instanceof MoleculeBC
                          && sm instanceof MoleculeA ) {
                     secondClassificationCriterionMet = true;
                 }

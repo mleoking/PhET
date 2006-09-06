@@ -35,16 +35,6 @@ public class CompositeMolecule extends Molecule {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
-    public static class Type {
-        private Type() {
-        }
-    }
-
-    public static Type AA = new Type();
-    public static Type BB = new Type();
-    public static Type AB = new Type();
-    public static Type BC = new Type();
-    public static Type OTHER = new Type();
 
     private static int numSimpleMolecules( Molecule molecule ) {
         int n = 0;
@@ -91,16 +81,31 @@ public class CompositeMolecule extends Molecule {
     private double orientation;
 
     /**
+     * Default constructor is protected
+     */
+    protected CompositeMolecule() {
+    }
+
+
+    /**
      * Creates a CompositeMolecule from an array of molecules. The kinematic
      * attributes of the new CompositeMolecule are set based on those of its
      * components.
      *
+     * @param molecules
+     */
+    public CompositeMolecule( SimpleMolecule[] molecules, Bond[] bonds ) {
+        setComponents( molecules, bonds );
+    }
+
+    /**
+     * Set the components that make up the composite
+     *
      * @param components
      */
-    public CompositeMolecule( SimpleMolecule[] components, Bond[] bonds ) {
-        this.components = components;
+    protected void setComponents( SimpleMolecule[] components, Bond[] bonds ) {
         this.bonds = bonds;
-
+        this.components = components;
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
             Molecule component = components[i];
@@ -160,8 +165,8 @@ public class CompositeMolecule extends Molecule {
         // Compute the kinematics of the released molecule
         // todo: something may be wrong here. The velocity shouldn't be set to 0.
         HardBodyCollision collision = new HardBodyCollision();
-        this.setMomentum( this.getMomentum().add( molecule.getMomentum() ));
-        molecule.setVelocity( 0,0 );
+        this.setMomentum( this.getMomentum().add( molecule.getMomentum() ) );
+        molecule.setVelocity( 0, 0 );
         collision.detectAndDoCollision( this, molecule );
 
         listenerProxy.componentRemoved( molecule, bond );
@@ -174,7 +179,7 @@ public class CompositeMolecule extends Molecule {
      */
     public void addSimpleMolecule( SimpleMolecule moleculeAdded, Bond bond, Reaction reaction ) {
 
-        double mt1 = moleculeAdded.getMomentum().add( this.getMomentum()).getMagnitude();
+        double mt1 = moleculeAdded.getMomentum().add( this.getMomentum() ).getMagnitude();
 
         // Determine which component molecule is staying in the composite
         SimpleMolecule moleculeRemaining = reaction.getMoleculeToKeep( this, moleculeAdded );
@@ -187,8 +192,7 @@ public class CompositeMolecule extends Molecule {
         // Tell the new component that it is part of a composite, and set its position
         moleculeAdded.setParentComposite( this );
         Vector2D d = new Vector2D.Double( moleculeRemaining.getCM(), moleculeAdded.getCM() );
-        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius());
-//        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() + 10 );
+        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() );
         moleculeAdded.setPosition( MathUtil.radialToCartesian( d.getMagnitude(),
                                                                d.getAngle(),
                                                                moleculeRemaining.getPosition() ) );
@@ -211,7 +215,7 @@ public class CompositeMolecule extends Molecule {
         // Notify listeners
         listenerProxy.componentAdded( moleculeAdded, bond );
 
-        double mt3 = moleculeToRemove.getMomentum().add( this.getMomentum()).getMagnitude();
+        double mt3 = moleculeToRemove.getMomentum().add( this.getMomentum() ).getMagnitude();
         System.out.println( "mt1 = " + mt1 );
         System.out.println( "mt2 = " + mt2 );
         System.out.println( "mt3 = " + mt3 );
@@ -250,6 +254,21 @@ public class CompositeMolecule extends Molecule {
         for( int i = 0; i < components.length; i++ ) {
             components[i].setVelocity( getVelocity() );
         }
+    }
+
+    protected Molecule getMoleculeOfType( Class moleculeType ) {
+        Molecule m = null;
+        for( int i = 0; i < components.length && m == null; i++ ) {
+            if( moleculeType.isInstance( components[i] ) ) {
+                m = components[i];
+            }
+        }
+
+        // Check to see if we found something
+        if( m == null ) {
+            throw new RuntimeException( "internal error" );
+        }
+        return m;
     }
 
     public SimpleMolecule[] getComponentMolecules() {
@@ -345,8 +364,6 @@ public class CompositeMolecule extends Molecule {
 
         updateComponents( dTheta );
 
-//        computeCM();
-
         notifyObservers();
     }
 
@@ -379,33 +396,5 @@ public class CompositeMolecule extends Molecule {
 
     public double getKineticEnergy() {
         return super.getKineticEnergy();
-    }
-
-    public Type getType() {
-        if( numSimpleMolecules() != 2 ) {
-            return OTHER;
-        }
-        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeA ) {
-            return AA;
-        }
-        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeA ) {
-            return AA;
-        }
-        if( components[0] instanceof MoleculeA && components[1] instanceof MoleculeB ) {
-            return AB;
-        }
-        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeA ) {
-            return AB;
-        }
-        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeB ) {
-            return BB;
-        }
-        if( components[0] instanceof MoleculeB && components[1] instanceof MoleculeC ) {
-            return BC;
-        }
-        if( components[0] instanceof MoleculeC && components[1] instanceof MoleculeB ) {
-            return BC;
-        }
-        return OTHER;
     }
 }
