@@ -80,15 +80,7 @@ public class HAModule extends PiccoloModule {
         
         // Gun
         {
-            // controls
-            GunOnOffControl gunOnOffControl = new GunOnOffControl();
-            GunTypeControlPanel gunTypeControlPanel = new GunTypeControlPanel( _canvas );
-            LightControlPanel lightControlPanel = new LightControlPanel( _canvas );
-            AlphaParticleControlPanel alphaParticleControlPanel = new AlphaParticleControlPanel( _canvas );
-            
-            // group everything related to the gun
-            HAGunNode gunNode = new HAGunNode( _canvas, gunOnOffControl, gunTypeControlPanel, 
-                    lightControlPanel, alphaParticleControlPanel );
+            HAGunNode gunNode = new HAGunNode( _canvas );
             gunNode.setOffset( 50, 200 );
             _rootNode.addChild( gunNode );
         }
