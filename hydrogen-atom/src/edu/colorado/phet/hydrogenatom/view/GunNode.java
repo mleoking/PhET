@@ -25,12 +25,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * HAGunNode
+ * GunNode
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAGunNode extends PNode {
+public class GunNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -52,7 +52,7 @@ public class HAGunNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public HAGunNode( PSwingCanvas canvas ) 
+    public GunNode( PSwingCanvas canvas ) 
     {
         super();
         
@@ -115,17 +115,15 @@ public class HAGunNode extends PNode {
     
     private void updateControls() {
         boolean isLightSelected = _gunTypeControlPanel.isLightSelected();
-        _lightControlPanel.setVisible( isLightSelected );
-        _lightControlPanel.setPickable( isLightSelected );
-        _alphaParticleControlPanel.setVisible( !isLightSelected );
-        _alphaParticleControlPanel.setPickable( !isLightSelected );
         
-        // Move the visible panel to the top so that it gets mouse events.
-        if ( isLightSelected ) {
-            _lightControlPanel.moveToFront();
-        }
-        else {
-            _alphaParticleControlPanel.moveToFront();
-        }
+        // Change visibility
+        _lightControlPanel.setVisible( isLightSelected );
+        _alphaParticleControlPanel.setVisible( !isLightSelected );
+        
+        // Change pickability so that mouse events get to the proper controls
+        _lightControlPanel.setPickable( isLightSelected );
+        _lightControlPanel.setChildrenPickable( isLightSelected );
+        _alphaParticleControlPanel.setPickable( !isLightSelected );
+        _alphaParticleControlPanel.setChildrenPickable( !isLightSelected );
     }
 }
