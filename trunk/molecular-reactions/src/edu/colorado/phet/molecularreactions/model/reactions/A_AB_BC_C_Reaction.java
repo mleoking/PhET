@@ -29,11 +29,21 @@ public class A_AB_BC_C_Reaction extends Reaction {
                                                                     50 );
     private MRModel model;
 
+    /**
+     * Constructor
+     * @param model
+     */
     public A_AB_BC_C_Reaction( MRModel model ) {
         super( energyProfile, new Criteria( energyProfile ) );
         this.model = model;
     }
 
+    /**
+     * Checks to see if two molecules are the right types for the reaction
+     * @param m1
+     * @param m2
+     * @return true if the molecules are of the correct type for the reaction
+     */
     public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
         return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
     }
@@ -51,30 +61,29 @@ public class A_AB_BC_C_Reaction extends Reaction {
     }
 
     private void doReaction( MoleculeAB mAB, MoleculeC mC ) {
+        // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
-        model.removeModelElement( mAB );
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{ mB, mC }, new Bond[]{new Bond( mB, mC )} );
-        model.addModelElement( mBC );
-
-
-        // Compute the kinematics of the released molecule
-        // todo: something may be wrong here. The velocity shouldn't be set to 0.
-        HardBodyCollision collision = new HardBodyCollision();
-//        this.setMomentum( this.getMomentum().add( molecule.getMomentum() ));
-        mA.setVelocity( 0,0 );
-
-        // todo: mA doesn't seem to be getting the collision
-        collision.detectAndDoCollision( mBC, mA );
-
+        doReactionII( mAB, mBC, mA );
     }
 
-    public void doReaction( MoleculeBC mAB, MoleculeA mC ) {
-        MoleculeB mB = mAB.getMoleculeB();
+    private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
+        // Delete the old composite molecule and make a new one with the new components
+        MoleculeB mB = mBC.getMoleculeB();
+        MoleculeC mC = mBC.getMoleculeC();
+        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{ mB, mA }, new Bond[]{new Bond( mB, mA )} );
+        doReactionII( mBC, mAB, mC );
+    }
 
+    private void doReactionII( Molecule mAB, Molecule mBC, Molecule mA ) {
         model.removeModelElement( mAB );
-        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{ mB, mC }, new Bond[]{new Bond( mB, mC )} );
         model.addModelElement( mBC );
+        mA.setParentComposite( null );
+
+        // Compute the kinematics of the released molecule
+        HardBodyCollision collision = new HardBodyCollision();
+        collision.detectAndDoCollision( mBC, mA );
     }
 
 
