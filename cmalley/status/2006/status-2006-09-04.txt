@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 29 - August 31, 2006 (Tue-Thu)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - worked on controls that appear in the play area
+  - ported "spectrum slider" to Piccolo
+  
+  Piccolo:
+  - identified a rendering problem with PSwing
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - October 8-19
+  
+--
