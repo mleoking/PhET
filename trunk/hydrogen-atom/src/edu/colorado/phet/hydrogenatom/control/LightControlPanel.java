@@ -23,15 +23,35 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * LightControlPanel
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class LightControlPanel extends PNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double MARGIN = 30;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private LightTypeControl _typeControl;
     private IntensityControl _intensityControl;
     private WavelengthControl _wavelengthControl;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public LightControlPanel( PSwingCanvas canvas ) {
         super();
         
@@ -95,6 +115,10 @@ public class LightControlPanel extends PNode {
         _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
     }
     
+    //----------------------------------------------------------------------------
+    // Mutators
+    //----------------------------------------------------------------------------
+    
     public LightTypeControl getTypeControl() {
         return _typeControl;
     }
@@ -107,6 +131,13 @@ public class LightControlPanel extends PNode {
         return _wavelengthControl;
     }
     
+    //----------------------------------------------------------------------------
+    // private
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Changes visibility and color of controls to match the type of light.
+     */
     private void handleLightTypeChange() {
         if ( _typeControl.isWhiteSelected() ) {
             _intensityControl.setColor( _wavelengthControl.getColor() );
@@ -118,6 +149,9 @@ public class LightControlPanel extends PNode {
         }
     }
     
+    /*
+     * Changes the intensity control's color to match the wavelength.
+     */
     private void handleWavelengthChange() {
         _intensityControl.setColor( _wavelengthControl.getColor() );
     }
