@@ -20,6 +20,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/6/06) - placeholder for spectrometer
 (9/6/06) - extend PNode to handle pickable property in setVisible
 (9/6/06) - add placeholder images for energy diagrams
 (9/6/06) - add "Show electron energy level diagram" checkbox
