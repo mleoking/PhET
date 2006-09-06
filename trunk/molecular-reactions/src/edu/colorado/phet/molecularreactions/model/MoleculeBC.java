@@ -12,6 +12,8 @@ package edu.colorado.phet.molecularreactions.model;
 
 /**
  * MoleculeAB
+ * <p>
+ * A composite molecule that has a B and a C.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -20,6 +22,9 @@ public class MoleculeBC extends CompositeMolecule {
 
     public MoleculeBC( SimpleMolecule[] components, Bond[] bonds ) {
         super( components, bonds );
+        if( getMoleculeB() == null || getMoleculeC() == null ) {
+            throw new RuntimeException( "internal error" );
+        }
     }
 
     public MoleculeC getMoleculeC() {
@@ -28,19 +33,5 @@ public class MoleculeBC extends CompositeMolecule {
 
     public MoleculeB getMoleculeB() {
         return (MoleculeB)getMoleculeOfType( MoleculeB.class );
-    }
-
-    private Molecule getMoleculeOfType( Class moleculeType ) {
-        Molecule m = null;
-        if( moleculeType.isInstance( getComponentMolecules()[0]) ) {
-            m = getComponentMolecules()[0];
-        }
-        else if( moleculeType.isInstance( getComponentMolecules()[1]) ) {
-            m = getComponentMolecules()[1];
-        }
-        else {
-            throw new RuntimeException( "internal error" );
-        }
-        return m;
     }
 }

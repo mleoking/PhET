@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 
 /**
  * MoleculeFactory
- * <p>
+ * <p/>
  * A factory class that creates instances of Molecule
  *
  * @author Ron LeMaster
@@ -24,18 +24,48 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeFactory {
 
+    /**
+     * Creates an instance of a specified class on module
+     * 
+     * @param moleculeClass
+     * @param position
+     * @param velocity
+     * @return
+     */
     public static Molecule createMolecule( Class moleculeClass,
                                            Point2D position,
                                            Vector2D velocity ) {
         Molecule molecule = null;
-        try {
-            molecule = (Molecule)moleculeClass.newInstance();
+        if( moleculeClass == MoleculeAB.class ) {
+            SimpleMolecule mA = new MoleculeA();
+            mA.setPosition( position.getX() - mA.getRadius(), position.getY() );
+            mA.setVelocity( velocity );
+            SimpleMolecule mB = new MoleculeB();
+            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
+            mB.setVelocity( velocity );
+            molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB},
+                                       new Bond[]{new Bond( mA, mB )} );
         }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
+        else if( moleculeClass == MoleculeBC.class ) {
+            SimpleMolecule mC = new MoleculeC();
+            mC.setPosition( position.getX() - mC.getRadius(), position.getY() );
+            mC.setVelocity( velocity );
+            SimpleMolecule mB = new MoleculeB();
+            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
+            mB.setVelocity( velocity );
+            molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB},
+                                       new Bond[]{new Bond( mC, mB )} );
         }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
+        else {
+            try {
+                molecule = (Molecule)moleculeClass.newInstance();
+            }
+            catch( InstantiationException e ) {
+                e.printStackTrace();
+            }
+            catch( IllegalAccessException e ) {
+                e.printStackTrace();
+            }
         }
 
         molecule.setPosition( position );

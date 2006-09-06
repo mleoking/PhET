@@ -23,6 +23,8 @@ import java.awt.event.ActionEvent;
 
 /**
  * MoleculeInstanceControlPanel
+ * <p>
+ * Panel that shows the number of each type of molecule
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -38,11 +40,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel bLabel = new JLabel( "B" );
         JLabel cLabel = new JLabel( "C" );
         JLabel abLabel = new JLabel( "AB" );
+        JLabel bcLabel = new JLabel( "BC" );
 
         JTextField aTF = new MoleculeCounter( 2, MoleculeA.class, model );
         JTextField bTF = new MoleculeCounter( 2, MoleculeB.class, model );
         JTextField cTF = new MoleculeCounter( 2, MoleculeC.class, model );
-//        JTextField abTF = new MoleculeCounter( 8, MoleculeAB.class, model );
+        JTextField abTF = new MoleculeCounter( 2, MoleculeAB.class, model );
+        JTextField bcTF = new MoleculeCounter( 2, MoleculeBC.class, model );
 
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
@@ -54,6 +58,8 @@ public class MoleculeInstanceControlPanel extends JPanel {
         add( aLabel, gbc );
         add( bLabel, gbc );
         add( cLabel, gbc );
+        add( abLabel, gbc );
+        add( bcLabel, gbc );
 
         gbc.gridx = 1;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -61,5 +67,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         add( aTF, gbc );
         add( bTF, gbc );
         add( cTF, gbc );
+        add(abTF, gbc );
+        add(bcTF, gbc );
     }
 }

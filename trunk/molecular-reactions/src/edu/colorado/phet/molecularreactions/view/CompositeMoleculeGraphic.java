@@ -49,17 +49,15 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
     public CompositeMoleculeGraphic( CompositeMolecule compositeMolecule ) {
         compositeMolecule.addListener( this );
         this.compositeMolecule = compositeMolecule;
-        compositeMolecule.addObserver( this );
+//        compositeMolecule.addObserver( this );
 
         addChild( bondsLayer );
-//        addChild( simpleMoleculeLayer );
 
         if( DebugFlags.SHOW_BOUNDING_BOX ) {
             boundingBox = new PPath( compositeMolecule.getBoundingBox() );
             addChild( boundingBox );
         }
 
-//        createComponentGraphics( compositeMolecule );
         createBondGraphics( compositeMolecule.getBonds() );
 
         if( DebugFlags.SHOW_CM ) {
@@ -69,22 +67,9 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
             addChild( cmNode );
             update();
         }
-    }
 
-//    private void createComponentGraphics( Molecule molecule ) {
-//        if( molecule instanceof SimpleMolecule ) {
-//            SpatialSimpleMoleculeGraphic simpleMoleculeGraphic = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule );
-//            simpleMoleculeToGraphicMap.put( molecule, simpleMoleculeGraphic );
-//            simpleMoleculeLayer.addChild( simpleMoleculeGraphic );
-//        }
-//        else {
-//            Molecule[] componentMolecules = molecule.getComponentMolecules();
-//            for( int i = 0; i < componentMolecules.length; i++ ) {
-//                Molecule component = componentMolecules[i];
-//                createComponentGraphics( component );
-//            }
-//        }
-//    }
+        compositeMolecule.addObserver( this );
+    }
 
     private void createBondGraphics( Bond[] bonds ) {
         for( int i = 0; i < bonds.length; i++ ) {
@@ -104,6 +89,9 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
             boundingBox.setPathTo( compositeMolecule.getBoundingBox() );
         }
         if( DebugFlags.SHOW_CM ) {
+            if( cmNode == null || compositeMolecule == null) {
+                System.out.println( "CompositeMoleculeGraphic.update" );
+            }
             cmNode.setOffset( compositeMolecule.getCM() );
         }
     }

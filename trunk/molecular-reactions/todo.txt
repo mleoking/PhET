@@ -9,8 +9,11 @@ Bugs
 ==========
 Internal
 ==========
-- HardBodyCollision takes Molecules. It should take Body
+- HardBodyCollision takes Molecules. It should take Body. Can't because it uses bounding box
+    overlap test.
 - Look at todo in CompositeMolecule.releaseSimpleMolecule()
+- Is Bond[] needed in CompositeMolecule?
+
 
 ==============
 Features
