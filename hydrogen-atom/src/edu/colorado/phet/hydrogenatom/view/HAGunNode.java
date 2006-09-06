@@ -67,7 +67,7 @@ public class HAGunNode extends PNode {
             }
         });
        
-        // Cable that connects gun to control panels
+        // Cable that physically connects gun to control panels
         PImage cableNode = PImageFactory.create( HAConstants.IMAGE_GUN_CONTROL_CABLE );
         
         // Add nodes in background-to-foreground order
