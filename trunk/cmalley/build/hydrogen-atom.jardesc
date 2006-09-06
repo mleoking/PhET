@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="/Volumes/files/phet-workspace/jars/hydrogenatom.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/build/hydrogen-atom.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/hydrogen-atom.mf">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=hydrogen-atom"/>
+        <javaElement handleIdentifier="=phetcommon"/>
+        <javaElement handleIdentifier="=piccolo"/>
+        <javaElement handleIdentifier="=piccolo-phet"/>
+    </selectedElements>
+</jardesc>
