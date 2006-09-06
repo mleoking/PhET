@@ -13,6 +13,8 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.common.model.ModelElement;
@@ -26,11 +28,11 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounterPNode extends PNode implements PublishingModel.ModelListener {
-    private PText readout;
+public class MoleculeCounterPNode extends PNode /*implements PublishingModel.ModelListener */{
+//    private PText readout;
     private Class moleculeClass;
 
-    public MoleculeCounterPNode( MRModel model, Class moleculeClass ) {
+    public MoleculeCounterPNode( PSwingCanvas canvas, MRModel model, Class moleculeClass ) {
         this.moleculeClass = moleculeClass;
         PPath outerBackground = new PPath( new RoundRectangle2D.Double( 0, 0, 40, 30, 5, 5 ) );
         outerBackground.setPaint( new Color( 50, 30, 10 ) );
@@ -38,26 +40,33 @@ public class MoleculeCounterPNode extends PNode implements PublishingModel.Model
         PPath innerBackground = new PPath( new RoundRectangle2D.Double( 5, 5, 30, 20, 5, 5 ) );
         innerBackground.setPaint( Color.white );
         addChild( innerBackground );
-        readout = new PText( "0" );
-        readout.setPaint( Color.white );
-        readout.setBounds( 0, 0, 30, 15 );
-        readout.setOffset( 20, 8 );
+
+        MoleculeCounter moleculeCounter = new MoleculeCounter( 2,
+                                                               moleculeClass,
+                                                               model );
+        moleculeCounter.setBorder( null );
+        PSwing readout = new PSwing( canvas, moleculeCounter );
+//        readout = new PText( "0" );
+//        readout = new PText( "0" );
+//        readout.setPaint( Color.white );
+//        readout.setBounds( 0, 0, 30, 15 );
+        readout.setOffset( 10, 8 );
         addChild( readout );
 
-        model.addListener( this );
+//        model.addListener( this );
     }
 
-    public void modelElementAdded( ModelElement element ) {
-        if( moleculeClass.isInstance( element ) ) {
-            int cnt = Integer.parseInt( readout.getText() );
-            readout.setText( Integer.toString( ++cnt ) );
-        }
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        if( moleculeClass.isInstance( element ) ) {
-            int cnt = Integer.parseInt( readout.getText() );
-            readout.setText( Integer.toString( --cnt ) );
-        }
-    }
+//    public void modelElementAdded( ModelElement element ) {
+//        if( moleculeClass.isInstance( element ) ) {
+//            int cnt = Integer.parseInt( readout.getText() );
+//            readout.setText( Integer.toString( ++cnt ) );
+//        }
+//    }
+//
+//    public void modelElementRemoved( ModelElement element ) {
+//        if( moleculeClass.isInstance( element ) ) {
+//            int cnt = Integer.parseInt( readout.getText() );
+//            readout.setText( Integer.toString( --cnt ) );
+//        }
+//    }
 }

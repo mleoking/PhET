@@ -47,7 +47,7 @@ public class MRModule extends Module {
         setSimulationPanel( canvas );
 
         // Create spatial view
-        SpatialView spatialView = new SpatialView( model );
+        SpatialView spatialView = new SpatialView( model, canvas );
         spatialView.setOffset( 30, 30 );
         canvas.addScreenChild( spatialView );
 

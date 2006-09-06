@@ -6,9 +6,6 @@ Bugs
 - How should selection/higlighting work? Use CM instead of halo.
 - Composite molecules should have specified space between the components
 
-- Reason why nearestToTrackedMolecule gets lost when it becomes part of a composit molecule:
-    It is taken out of the model while it's part of the composite molecule!
-
 ==========
 Internal
 ==========
@@ -18,8 +15,10 @@ Internal
 ==============
 Features
 ==============
+- Don't allow user to add B molecules
+- Allow user to add/remove AB and BC molecules 
 - temperature control
-- add/remove molecules
+- randomize adding molecules
 
 ==============
 Model features
@@ -31,7 +30,6 @@ Model features
 ===============
 Model questions
 ===============
-- When a reaction occurs, should the new component molecule snap into place where the one it knocked off  was?
 - How much kinetic energy should the component that was knocked off have?
 
 
@@ -39,3 +37,4 @@ Model questions
 Done
 =======
 09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+09-06-06 - add/remove molecules
