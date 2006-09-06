@@ -41,7 +41,7 @@ public class LightControlPanel extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private LightTypeControl _typeControl;
+    private LightTypeControl _lightTypeControl;
     private IntensityControl _intensityControl;
     private WavelengthControl _wavelengthControl;
     
@@ -56,7 +56,7 @@ public class LightControlPanel extends PNode {
         super();
         
         // Components
-        _typeControl = new LightTypeControl();
+        _lightTypeControl = new LightTypeControl();
         _intensityControl = new IntensityControl();
         _wavelengthControl = new WavelengthControl( canvas,
                 HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
@@ -68,7 +68,7 @@ public class LightControlPanel extends PNode {
 
         // Wrappers for Swing components
         PSwing panelWrapper = new PSwing( canvas, panel );
-        PSwing typeControlWrapper = new PSwing( canvas, _typeControl );
+        PSwing typeControlWrapper = new PSwing( canvas, _lightTypeControl );
         PSwing intensityControlWrapper = new PSwing( canvas, _intensityControl );
         
         // Layering
@@ -91,12 +91,12 @@ public class LightControlPanel extends PNode {
         
         // Colors
         panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
-        _typeControl.setLabelsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
+        _lightTypeControl.setLabelsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         _intensityControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         _wavelengthControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         
         // Light type control handler
-        _typeControl.addChangeListener( new ChangeListener() {
+        _lightTypeControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightTypeChange();
             }
@@ -110,7 +110,7 @@ public class LightControlPanel extends PNode {
         } );
         
         // Default state
-        _typeControl.setWhiteSelected( true );
+        _lightTypeControl.setWhiteSelected( true );
         _intensityControl.setValue( 100 );
         _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
     }
@@ -119,8 +119,8 @@ public class LightControlPanel extends PNode {
     // Mutators
     //----------------------------------------------------------------------------
     
-    public LightTypeControl getTypeControl() {
-        return _typeControl;
+    public LightTypeControl getLightTypeControl() {
+        return _lightTypeControl;
     }
     
     public IntensityControl getIntensityControl() {
@@ -139,7 +139,7 @@ public class LightControlPanel extends PNode {
      * Changes visibility and color of controls to match the type of light.
      */
     private void handleLightTypeChange() {
-        if ( _typeControl.isWhiteSelected() ) {
+        if ( _lightTypeControl.isWhiteSelected() ) {
             _intensityControl.setColor( _wavelengthControl.getColor() );
             _wavelengthControl.setVisible( true );
         }
