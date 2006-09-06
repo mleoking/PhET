@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add close icon to spectrometer snapshot
+- spectrometer snapshot should not have a camera button
 - black box placeholder for model
 - port spectrometer from Discharge Lamps sim
 
