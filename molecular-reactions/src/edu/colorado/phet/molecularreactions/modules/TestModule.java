@@ -29,8 +29,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testL( (MRModel)getModel() );
-//        testK( (MRModel)getModel() );
+//        testL( (MRModel)getModel() );
+        testK( (MRModel)getModel() );
 //        testJ( (MRModel)getModel() );
 //        testI( (MRModel)getModel() );
 //        testH( (MRModel)getModel() );
@@ -51,7 +51,7 @@ public class TestModule extends MRModule {
      */
     void testL( MRModel model ) {
         {
-            model.setReaction( new A_AB_BC_C_Reaction() );
+            model.setReaction( new A_AB_BC_C_Reaction( model ) );
             model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeB();
@@ -90,7 +90,7 @@ public class TestModule extends MRModule {
      */
     void testK( MRModel model ) {
         {
-            model.setReaction( new A_AB_BC_C_Reaction() );
+            model.setReaction( new A_AB_BC_C_Reaction(model) );
             model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeB();
@@ -102,7 +102,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
                                                               new Bond[]{new Bond( m1, m1a )} );
                 cm.setOmega( 0 );
                 cm.setVelocity( 0, 0 );
@@ -123,7 +123,7 @@ public class TestModule extends MRModule {
      */
     void testJ( MRModel model ) {
         {
-            model.setReaction( new A_AB_BC_C_Reaction() );
+            model.setReaction( new A_AB_BC_C_Reaction(model) );
             model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeA();
@@ -178,7 +178,7 @@ public class TestModule extends MRModule {
      */
     void testI( MRModel model ) {
         {
-            model.setReaction( new A_AB_BC_C_Reaction() );
+            model.setReaction( new A_AB_BC_C_Reaction(model ) );
             model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeA();
