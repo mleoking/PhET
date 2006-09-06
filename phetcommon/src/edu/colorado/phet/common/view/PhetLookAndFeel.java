@@ -331,7 +331,18 @@ public class PhetLookAndFeel {
 
     /**
      * Determines the look and feel class name that will be used by this PhetLookAndFeel.
-     * The default behavior is:
+     * The default behavior is to use the native look and feel for the platform.
+     *
+     * @return the class name for the look and feel.
+     */
+    protected String getLookAndFeelClassName() {
+        return UIManager.getSystemLookAndFeelClassName();
+    }
+
+    /**
+     * This method can be called in an override of getLookAndFeelClassName in case the simulation needs Ocean instead of Windows L&F
+     * <p/>
+     * The behavior is:
      * >> - Aqua on Mac
      * >> - Windows LAF for Window JDK 1.4.2
      * >> - default LAF (Ocean) for Windows with JDK 1.5
@@ -339,7 +350,7 @@ public class PhetLookAndFeel {
      *
      * @return the class name for the look and feel.
      */
-    protected String getLookAndFeelClassName() {
+    protected String getLookAndFeelClassNamePreferOceanToWindows() {
         String javaVersion = System.getProperty( "java.version" );
         boolean oldJava = javaVersion.toLowerCase().startsWith( "1.4" ) || javaVersion.startsWith( "1.3" );
         String lafClassName = null;
