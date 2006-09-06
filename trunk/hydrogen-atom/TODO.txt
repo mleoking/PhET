@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- spectrometer buttons are fully transparent on Windows
 - create spectrometers snapshots
 - title spectrometer snapshots with name of atomic model used to create it
 - add "Photons emitted" title to spectrometer

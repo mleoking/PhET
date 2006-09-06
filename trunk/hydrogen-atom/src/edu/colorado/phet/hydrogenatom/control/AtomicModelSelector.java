@@ -89,38 +89,50 @@ public class AtomicModelSelector extends HANode {
         // Action handlers
         _billiardBallButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.BILLIARD_BALL;
-                fireChangeEvent( new ChangeEvent( this ) );
-            }    
+                if ( _billiardBallButton.isSelected() ) {
+                    _selectedModel = AtomicModel.BILLIARD_BALL;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
+            }
         });
         _plumPuddingButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.PLUM_PUDDING;
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( _plumPuddingButton.isSelected() ) {
+                    _selectedModel = AtomicModel.PLUM_PUDDING;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }    
         });
         _solarSystemButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.SOLAR_SYSTEM;
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( _solarSystemButton.isSelected() ) {
+                    _selectedModel = AtomicModel.SOLAR_SYSTEM;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }    
         });
         _bohrButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.BOHR;
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( _bohrButton.isSelected() ) {
+                    _selectedModel = AtomicModel.BOHR;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }    
         });
         _deBroglieButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.DEBROGLIE;
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( _deBroglieButton.isSelected() ) {
+                    _selectedModel = AtomicModel.DEBROGLIE;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }    
         });
         _schrodingerButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _selectedModel = AtomicModel.SCHRODINGER;
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( _schrodingerButton.isSelected() ) {
+                    _selectedModel = AtomicModel.SCHRODINGER;
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }    
         });
         
