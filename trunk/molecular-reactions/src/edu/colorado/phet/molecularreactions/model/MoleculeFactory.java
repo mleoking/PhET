@@ -26,16 +26,17 @@ public class MoleculeFactory {
 
     /**
      * Creates an instance of a specified class on module
-     * 
+     *
      * @param moleculeClass
-     * @param position
-     * @param velocity
-     * @return
+     * @param moleculeParamGenerator
+     * @return a molecule
      */
     public static Molecule createMolecule( Class moleculeClass,
-                                           Point2D position,
-                                           Vector2D velocity ) {
+                                           MoleculeParamGenerator moleculeParamGenerator ) {
         Molecule molecule = null;
+        MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
+        Point2D position = params.getPosition();
+        Vector2D velocity = params.getVelocity();
         if( moleculeClass == MoleculeAB.class ) {
             SimpleMolecule mA = new MoleculeA();
             mA.setPosition( position.getX() - mA.getRadius(), position.getY() );

@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
@@ -28,13 +29,14 @@ import java.util.List;
  */
 public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener {
     private Class moleculeClass;
+    private MRModel model;
     private int cnt;
     // Flag to mark that we are adding or removing molecules from the model,
     // so that we don't respond to add/remove messages from the model
     private boolean selfUpdating;
+    private MoleculeParamGenerator moleculeParamGenerator;
 
     /**
-     * 
      * @param columns
      * @param moleculeClass
      * @param model
@@ -42,6 +44,13 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
     public MoleculeCounter( int columns, final Class moleculeClass, final MRModel model ) {
         super( columns );
         this.moleculeClass = moleculeClass;
+        this.model = model;
+        Rectangle2D r = model.getBox().getBounds();
+        Rectangle2D generatorBounds = new Rectangle2D.Double( r.getMinX() + 20,
+                                                              r.getMinY() + 20,
+                                                              r.getWidth() - 40,
+                                                              r.getHeight() - 40 );
+        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5 );
         model.addListener( this );
         setText( "0" );
 
@@ -58,8 +67,7 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
                                                         model.getBox().getMinY() + 120 );
                         Vector2D v = new Vector2D.Double( 2, 2 );
                         Molecule m = MoleculeFactory.createMolecule( moleculeClass,
-                                                                     p,
-                                                                     v );
+                                                                     moleculeParamGenerator );
                         addMoleculeToModel( m, model );
                         cnt++;
                     }
@@ -87,17 +95,6 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
         } );
     }
 
-    private void removeMoleculeFromModel( Molecule molecule, MRModel model ) {
-        model.removeModelElement( molecule );
-        if( molecule instanceof CompositeMolecule ) {
-            SimpleMolecule[] components = molecule.getComponentMolecules();
-            for( int k = 0; k < components.length; k++ ) {
-                SimpleMolecule component = components[k];
-                model.addModelElement( component );
-            }
-        }
-    }
-
     private void addMoleculeToModel( Molecule m, MRModel model ) {
         model.addModelElement( m );
         if( m instanceof CompositeMolecule ) {
@@ -109,17 +106,39 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
         }
     }
 
+    private void removeMoleculeFromModel( Molecule molecule, MRModel model ) {
+        model.removeModelElement( molecule );
+        if( molecule instanceof CompositeMolecule ) {
+            SimpleMolecule[] components = molecule.getComponentMolecules();
+            for( int k = 0; k < components.length; k++ ) {
+                SimpleMolecule component = components[k];
+                model.removeModelElement( component );
+            }
+        }
+    }
+
     public void modelElementAdded( ModelElement element ) {
         if( !selfUpdating && moleculeClass.isInstance( element ) ) {
-            cnt = Integer.parseInt( getText() );
-            setText( Integer.toString( ++cnt ) );
+            setMoleculeCount();
         }
     }
 
     public void modelElementRemoved( ModelElement element ) {
         if( !selfUpdating && moleculeClass.isInstance( element ) ) {
-            cnt = Integer.parseInt( getText() );
-            setText( Integer.toString( --cnt ) );
+            setMoleculeCount();
         }
+    }
+
+    private void setMoleculeCount() {
+        List modelElements = model.getModelElements();
+        int n = 0;
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( moleculeClass.isInstance( o )) {
+                n++;
+            }
+        }
+        cnt = n;
+        setText( Integer.toString( n ) );
     }
 }
