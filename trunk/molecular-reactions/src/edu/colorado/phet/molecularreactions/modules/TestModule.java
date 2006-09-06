@@ -29,7 +29,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testK( (MRModel)getModel() );
+        testL( (MRModel)getModel() );
+//        testK( (MRModel)getModel() );
 //        testJ( (MRModel)getModel() );
 //        testI( (MRModel)getModel() );
 //        testH( (MRModel)getModel() );
@@ -41,6 +42,45 @@ public class TestModule extends MRModule {
 //        testB( (MRModel)getModel() );
 //        testDefinedMolecules( (MRModel)getModel() );
 //        testCompisiteMoleculeA( model );
+    }
+
+    /**
+     * Multiple molecules
+     *
+     * @param model
+     */
+    void testL( MRModel model ) {
+        {
+            model.setReaction( new A_AB_BC_C_Reaction() );
+            model.getEnergyProfile().setPeakLevel( 50 );
+            {
+                SimpleMolecule m1 = new MoleculeB();
+                m1.setPosition( 180, 60 );
+                m1.setVelocity( 0, 0 );
+                model.addModelElement( m1 );
+                SimpleMolecule m1a = new MoleculeA();
+                m1a.setPosition( m1.getPosition().getX() + m1.getRadius() + m1a.getRadius(), 60 );
+                m1a.setVelocity( 0, 0 );
+                model.addModelElement( m1a );
+
+                CompositeMolecule cm = new CompositeMolecule( new SimpleMolecule[]{m1, m1a},
+                                                              new Bond[]{new Bond( m1, m1a )} );
+                cm.setOmega( 0 );
+                cm.setVelocity( 0, 0 );
+                model.addModelElement( cm );
+
+                SimpleMolecule m2 = new MoleculeC();
+                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setVelocity( 1.5, 0 );
+                model.addModelElement( m2 );
+            }
+
+            {
+                Molecule smA = new MoleculeA();
+                smA.setPosition( 100, 150 );
+                model.addModelElement( smA );
+            }
+        }
     }
 
     /**

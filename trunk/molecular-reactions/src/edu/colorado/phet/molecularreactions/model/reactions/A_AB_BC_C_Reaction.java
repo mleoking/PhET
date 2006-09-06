@@ -31,6 +31,10 @@ public class A_AB_BC_C_Reaction extends Reaction {
         super( energyProfile, new Criteria( energyProfile ) );
     }
 
+    public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
+        return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
+    }
+
     public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
         SimpleMolecule sm = null;
         if( moleculeAdded instanceof MoleculeA ) {
@@ -73,10 +77,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
         return moleculeToKeep;
     }
 
-    private static double getRelKE
-            ( Molecule
-                    m1, Molecule
-                    m2 ) {
+    private static double getRelKE( Molecule m1, Molecule m2 ) {
         // Determine the kinetic energy in the collision. We consider this to be the
         // kinetic energy of an object whose mass is equal to the total masses of
         // the two molecules, moving at a speed equal to the magnitude of the
@@ -88,6 +89,9 @@ public class A_AB_BC_C_Reaction extends Reaction {
         return ke;
     }
 
+    /**
+     * The ReactionCriteria for this Reaction class
+     */
     private static class Criteria implements Reaction.ReactionCriteria {
 
         private EnergyProfile energyProfile;
@@ -98,6 +102,44 @@ public class A_AB_BC_C_Reaction extends Reaction {
 
         public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
             boolean result = false;
+
+            // The simple molecule must have collided with the B simple
+            // molecule in the composite molecule
+            boolean thirdClassificationCriterionMet = false;
+            if( moleculesAreProperTypes( m1, m2 )
+                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
+                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) )
+            ) ) {
+                thirdClassificationCriterionMet = true;
+            }
+            else if( moleculesAreProperTypes( m1, m2 )
+                     && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                          || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
+                                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
+            ) ) {
+                thirdClassificationCriterionMet = true;
+            }
+
+            // The relative kinetic energy of the collision must be above the
+            // energy profile threshold
+            if( thirdClassificationCriterionMet ) {
+                result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
+            }
+            return result;
+        }
+
+        /**
+         * Determines if one of the molecules is simple and the other composite, and
+         * if the simple one is of the correct class to react with the composite
+         *
+         * @param m1
+         * @param m2
+         * @return
+         */
+        public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
 
             // We need to have one simple molecule and one composite molecule
             boolean firstClassificationCriterionMet = false;
@@ -132,32 +174,8 @@ public class A_AB_BC_C_Reaction extends Reaction {
                 }
             }
 
-            // The simple molecule must have collided with the B simple
-            // molecule in the composite molecule
-            boolean thirdClassificationCriterionMet = false;
-            if( secondClassificationCriterionMet
-                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
-                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) )
-            ) ) {
-                thirdClassificationCriterionMet = true;
-            }
-            else if( secondClassificationCriterionMet
-                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
-                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
-                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
-            ) ) {
-                thirdClassificationCriterionMet = true;
-            }
-
-            // The relative kinetic energy of the collision must be above the
-            // energy profile threshold
-            if( thirdClassificationCriterionMet ) {
-                result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
-            }
-            return result;
+            return secondClassificationCriterionMet;
         }
+
     }
 }

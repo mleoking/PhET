@@ -22,7 +22,7 @@ import java.util.List;
  * <p/>
  * Detects when provisional bonds should be created. It does not destroy provional bonds.
  * That is done by the bonds themselves
- * <p>
+ * <p/>
  * This is a ModelElement. At each time step, it looks at all the molecules in the model
  * to see if any qualify for provisional bonds.
  *
@@ -52,6 +52,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
 
     /**
      * Scans the model for provisional bonds that should be created.
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -75,17 +76,21 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                     if( o1 instanceof CompositeMolecule && sm1.getParentComposite() != o1 ) {
                         CompositeMolecule cm = (CompositeMolecule)o1;
                         Reaction reaction = model.getReaction();
-                        SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
-                        double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
-                        if( moleculeSeparation <= provisionalBondMaxLength ) {
+                        // Check that the molecules are of types that can react
+                        if( reaction.moleculesAreProperTypes( sm1, cm ) ) {
+                            SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
-                            // If no provisional bond exists for either of these two simple molecules, create one
-                            if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains( sm2 ) ) {
-                                ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
-                                model.addModelElement( bond );
-                                bondedMolecules.add( sm1 );
-                                bondedMolecules.add( sm2 );
+                            double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
+                            if( moleculeSeparation <= provisionalBondMaxLength ) {
+
+                                // If no provisional bond exists for either of these two simple molecules, create one
+                                if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains( sm2 ) ) {
+                                    ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
+                                    model.addModelElement( bond );
+                                    bondedMolecules.add( sm1 );
+                                    bondedMolecules.add( sm2 );
+                                }
                             }
                         }
                     }
