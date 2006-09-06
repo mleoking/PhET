@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -157,31 +158,43 @@ public class WavelengthControl extends PNode {
         // Track position never changes and defines the origin.
         _track.setOffset( 0, 0 );
         
-        // Handler for dragging the knob
-        _dragHandler = new ConstrainedDragHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
-                handleKnobDrag();
-            }
-        };
-        _dragHandler.setVerticalLockEnabled( true );
-        _dragHandler.setTreatAsPointEnabled( true );
-        Rectangle2D dragBounds = calculateDragBounds();
-        _dragHandler.setDragBounds( dragBounds );
-        _knob.addInputEventListener( _dragHandler );
-        _knob.addInputEventListener( new CursorHandler() );
-        
-        // Adjust the knob's drag bounds if this control's bounds are changed.
-        addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( PNode.PROPERTY_FULL_BOUNDS.equals( event.getPropertyName() ) ) {
-                    Rectangle2D dragBounds = calculateDragBounds();
-                    _dragHandler.setDragBounds( dragBounds ); 
+        // Track interactivity
+        {
+            _track.addInputEventListener( new CursorHandler() );
+            _track.addInputEventListener( new PBasicInputEventHandler() {
+
+                public void mousePressed( PInputEvent event ) {
+                    handleTrackClick( event.getPositionRelativeTo( _track ) );
                 }
-            }
-        } );
+            } );
+        }
         
-        // Default state 
+        // Knob interactivity
+        {
+            _dragHandler = new ConstrainedDragHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    super.mouseDragged( event );
+                    handleKnobDrag();
+                }
+            };
+            _dragHandler.setVerticalLockEnabled( true );
+            _dragHandler.setTreatAsPointEnabled( true );
+            updateDragBounds();
+            _knob.addInputEventListener( _dragHandler );
+            _knob.addInputEventListener( new CursorHandler() );
+
+            // Adjust the knob's drag bounds if this control's bounds are changed.
+            addPropertyChangeListener( new PropertyChangeListener() {
+
+                public void propertyChange( PropertyChangeEvent event ) {
+                    if ( PNode.PROPERTY_FULL_BOUNDS.equals( event.getPropertyName() ) ) {
+                        updateDragBounds();
+                    }
+                }
+            } );
+        }
+        
+        // Default state
         setWavelength( VisibleColor.MIN_WAVELENGTH );
     }
     
@@ -258,13 +271,6 @@ public class WavelengthControl extends PNode {
     // Private methods
     //----------------------------------------------------------------------------
     
-    private Rectangle2D calculateDragBounds() {
-        PBounds trackGFB = _track.getGlobalFullBounds();
-        PBounds knobGFB = _knob.getGlobalFullBounds();
-        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - (knobGFB.getWidth()/2), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
-        return dragBounds;
-    }
-    
     /*
      * Calculates the wavelength that corresponds to the knob position.
      */
@@ -273,7 +279,7 @@ public class WavelengthControl extends PNode {
         PBounds trackBounds = _track.getFullBounds();
         PBounds knobBounds = _knob.getFullBounds();
         final double trackX = trackBounds.getX();
-        final double trackWidth = (int) trackBounds.getWidth();
+        final double trackWidth = trackBounds.getWidth();
         final double knobTipX = knobBounds.getX() + ( knobBounds.getWidth() / 2 );
         final double wavelength = _minWavelength + ( ( ( knobTipX - trackX ) / trackWidth ) * bandwidth );
         return wavelength;
@@ -301,6 +307,17 @@ public class WavelengthControl extends PNode {
             _valueDisplay.setValue( _wavelength ); // revert
             _valueDisplay.selectAll();
         }
+    }
+    
+    /*
+     * Handles a mouse click on the track.
+     */
+    private void handleTrackClick( Point2D trackPoint ) {
+        System.out.println( trackPoint );//XXX
+        final double bandwidth = _maxWavelength - _minWavelength;
+        final double trackWidth = _track.getFullBounds().getWidth();
+        final double wavelength = _minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
+        setWavelength( wavelength );
     }
     
     /*
@@ -348,6 +365,16 @@ public class WavelengthControl extends PNode {
         final double cursorX = knobX + ( knobWidth / 2 ) - ( cursorWidth / 2 );
         final double cursorY = 0;
         _cursor.setOffset( cursorX, cursorY );
+    }
+    
+    /*
+     * Updates drag bounds for the knob.
+     */
+    private void updateDragBounds() {
+        PBounds trackGFB = _track.getGlobalFullBounds();
+        PBounds knobGFB = _knob.getGlobalFullBounds();
+        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - (knobGFB.getWidth()/2), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
+        _dragHandler.setDragBounds( dragBounds );
     }
     
     /*
