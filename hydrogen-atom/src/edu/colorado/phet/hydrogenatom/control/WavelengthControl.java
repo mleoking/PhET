@@ -298,7 +298,8 @@ public class WavelengthControl extends PNode {
         }
         else {
             warnUser();
-            setWavelength( _wavelength ); // revert
+            _valueDisplay.setValue( _wavelength ); // revert
+            _valueDisplay.selectAll();
         }
     }
     
@@ -559,6 +560,11 @@ public class WavelengthControl extends PNode {
         /* Gets a reference to the formatted text field, for setting its properties. */
         public JFormattedTextField getFormattedTextField() {
             return _formattedTextField;
+        }
+        
+        /* Selects the entire text field */
+        public void selectAll() {
+            _formattedTextField.selectAll();
         }
     }
     
