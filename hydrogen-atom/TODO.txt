@@ -6,11 +6,14 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - create spectrometers snapshots
+- title spectrometer snapshots with name of atomic model used to create it
+- add "Photons emitted" title to spectrometer
 - add close icon to spectrometer snapshot
 - spectrometer snapshot should not have a camera button
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
+- when do things reset? (eg, does spectrometer reset when you change the model?)
 - canvas layout
 - get model details from Sam McKagan
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
