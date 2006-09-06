@@ -20,7 +20,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
-(9/6/06) - add placeholders for energy diagrams
+(9/6/06) - add placeholder images for energy diagrams
 (9/6/06) - add "Show electron energy level diagram" checkbox
 (9/6/06) - add "Show spectrometer" checkbox
 (9/6/06) - add "Drawings are not to scale" label
