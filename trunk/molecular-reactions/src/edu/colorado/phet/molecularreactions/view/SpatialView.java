@@ -19,6 +19,7 @@ import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -37,7 +38,7 @@ public class SpatialView extends PNode {
     PNode bondLayer = new PNode();
     PNode boxLayer = new PNode();
 
-    public SpatialView( MRModel model ) {
+    public SpatialView( MRModel model, PSwingCanvas pSwingCanvas ) {
         PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 400), new BasicStroke( 1 ));
         canvas.setPaint( background );
         addChild( canvas );
@@ -56,13 +57,13 @@ public class SpatialView extends PNode {
         megm.scanModel();
 
         // Molecule counters
-        MoleculeCounterPNode aCounter = new MoleculeCounterPNode( model, MoleculeA.class );
+        MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
         aCounter.setOffset( 20, canvas.getHeight() );
         addChild( aCounter );
-        MoleculeCounterPNode bCounter = new MoleculeCounterPNode( model, MoleculeB.class );
+        MoleculeCounterPNode bCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeB.class );
         bCounter.setOffset( 80, canvas.getHeight() );
         addChild( bCounter );
-        MoleculeCounterPNode cCounter = new MoleculeCounterPNode( model, MoleculeC.class );
+        MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
         cCounter.setOffset( 140, canvas.getHeight() );
         addChild( cCounter );
     }
