@@ -118,6 +118,7 @@ public class HAConstants {
     public static final String IMAGE_ALPHA_PARTICLE = IMAGES_DIRECTORY + "alphaParticle.png";
     public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
+    public static final String IMAGE_EXPERIMENT_ATOM = IMAGES_DIRECTORY + "experimentAtom.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
@@ -128,10 +129,16 @@ public class HAConstants {
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //XXX temporary images
-    public static final String IMAGE_BOHR_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "bohrEnergyDiagram.png";
-    public static final String IMAGE_DEBROGLIE_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "deBroglieEnergyDiagram.png";
-    public static final String IMAGE_SCHRODINGER_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "schrodingerEnergyDiagram.png";
-    public static final String IMAGE_SOLAR_SYSTEM_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "solarSystemEnergyDiagram.png";
+    public static final String IMAGE_BILLIARD_BALL_ATOM = IMAGES_DIRECTORY + "tmp-billiardBallAtom.png";
+    public static final String IMAGE_BOHR_ATOM = IMAGES_DIRECTORY + "tmp-bohrAtom.png";
+    public static final String IMAGE_BOHR_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-bohrEnergyDiagram.png";
+    public static final String IMAGE_DEBROGLIE_ATOM = IMAGES_DIRECTORY + "tmp-deBroglieAtom.png";
+    public static final String IMAGE_DEBROGLIE_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-deBroglieEnergyDiagram.png";
+    public static final String IMAGE_PLUM_PUDDING_ATOM = IMAGES_DIRECTORY + "tmp-plumPuddingAtom.png";
+    public static final String IMAGE_SCHRODINGER_ATOM = IMAGES_DIRECTORY + "tmp-schrodingerAtom.png";
+    public static final String IMAGE_SCHRODINGER_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-schrodingerEnergyDiagram.png";
+    public static final String IMAGE_SOLAR_SYSTEM_ATOM = IMAGES_DIRECTORY + "tmp-solarSystemAtom.png";
+    public static final String IMAGE_SOLAR_SYSTEM_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-solarSystemEnergyDiagram.png";
     
     //----------------------------------------------------------------------------
     // Cursors
