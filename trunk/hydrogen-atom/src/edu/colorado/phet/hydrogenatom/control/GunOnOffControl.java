@@ -21,9 +21,8 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.LightTypeControl;
+import edu.colorado.phet.hydrogenatom.view.HANode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -34,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunOnOffControl extends PNode {
+public class GunOnOffControl extends HANode {
 
     //----------------------------------------------------------------------------
     // Class data

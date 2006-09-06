@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunNode extends PNode {
+public class GunNode extends HANode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -115,15 +115,7 @@ public class GunNode extends PNode {
     
     private void updateControls() {
         boolean isLightSelected = _gunTypeControlPanel.isLightSelected();
-        
-        // Change visibility
         _lightControlPanel.setVisible( isLightSelected );
         _alphaParticleControlPanel.setVisible( !isLightSelected );
-        
-        // Change pickability so that mouse events get to the proper controls
-        _lightControlPanel.setPickable( isLightSelected );
-        _lightControlPanel.setChildrenPickable( isLightSelected );
-        _alphaParticleControlPanel.setPickable( !isLightSelected );
-        _alphaParticleControlPanel.setChildrenPickable( !isLightSelected );
     }
 }
