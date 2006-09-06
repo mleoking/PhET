@@ -79,7 +79,7 @@ public class LightControlPanel extends PNode {
         
         // Layout
         {
-            double panelWidth = Math.max( Math.max( typeControlWrapper.getFullBounds().getWidth(), intensityControlWrapper.getFullBounds().getWidth() ), _wavelengthControl.getFullBounds().getWidth() + 17 ) + ( 2 * MARGIN );
+            double panelWidth = Math.max( Math.max( typeControlWrapper.getFullBounds().getWidth(), intensityControlWrapper.getFullBounds().getWidth() ), _wavelengthControl.getFullBounds().getWidth() ) + ( 2 * MARGIN );
             double panelHeight = typeControlWrapper.getFullBounds().getHeight() + intensityControlWrapper.getFullBounds().getHeight() + _wavelengthControl.getFullBounds().getHeight() + 30;
             panel.setPreferredSize( new Dimension( (int) panelWidth, (int) panelHeight ) );
             panelWrapper.setOffset( 0, 0 );

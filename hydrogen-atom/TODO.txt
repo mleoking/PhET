@@ -5,11 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add model continuum control
-- add experiment/prediction selection switch
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
+- canvas layout
 - get model details from Sam McKagan
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 
@@ -20,6 +19,8 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/6/06) - add atomic model selection control
+(9/6/06) - add experiment/prediction mode switch
 (9/6/06) - move contruction of control panels inside HAGunNode
 (9/6/06) - hook up internal handlers in gun controls, to hide/show controls and set colors properly
 (9/6/06) - add ability to set background/foreground color scheme for gun controls
