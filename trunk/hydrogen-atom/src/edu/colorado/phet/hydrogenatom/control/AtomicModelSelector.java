@@ -165,6 +165,32 @@ public class AtomicModelSelector extends PNode {
         _deBroglieButton.setFont( HAConstants.CONTROL_FONT );
         _schrodingerButton.setFont( HAConstants.CONTROL_FONT );
         
+        // Opacity
+        outerPanel.setOpaque( true );
+        titlePanel.setOpaque( false );
+        buttonPanel.setOpaque( false );
+        _atomicModelLabel.setOpaque( false );
+        _classicalLabel.setOpaque( false );
+        _quantumLabel.setOpaque( false );
+        _billiardBallButton.setOpaque( false );
+        _plumPuddingButton.setOpaque( false );
+        _solarSystemButton.setOpaque( false );
+        _bohrButton.setOpaque( false );
+        _deBroglieButton.setOpaque( false );
+        _schrodingerButton.setOpaque( false );
+        
+        // Colors
+        outerPanel.setBackground( HAConstants.ATOMIC_MODEL_CONTROL_BACKGROUND );
+        _atomicModelLabel.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _classicalLabel.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _quantumLabel.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _billiardBallButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _plumPuddingButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _solarSystemButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _bohrButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _deBroglieButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        _schrodingerButton.setForeground( HAConstants.ATOMIC_MODEL_FOREGROUND );
+        
         // Default state
         setSelection( AtomicModel.BILLIARD_BALL );
     }

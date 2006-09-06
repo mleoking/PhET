@@ -94,6 +94,11 @@ public class ModeSwitch extends PNode {
         _experimentRadioButton.setOpaque( false );
         _predictionRadioButton.setOpaque( false );
         
+        // Colors
+        panel.setBackground( HAConstants.MODE_CONTROL_BACKGROUND );
+        _experimentRadioButton.setForeground( HAConstants.MODE_CONTROL_FOREGROUND );
+        _predictionRadioButton.setForeground( HAConstants.MODE_CONTROL_FOREGROUND );
+        
         // Default state
         _predictionRadioButton.setSelected( true );
     }

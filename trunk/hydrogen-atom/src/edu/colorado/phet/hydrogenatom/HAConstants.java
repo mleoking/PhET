@@ -95,6 +95,12 @@ public class HAConstants {
     public static final Color GUN_CONTROLS_BACKGROUND = new Color( 220, 220, 220 );
     public static final Color GUN_CONTROLS_FOREGROUND = Color.BLACK;
     
+    public static final Color MODE_CONTROL_BACKGROUND = GUN_CONTROLS_BACKGROUND;
+    public static final Color MODE_CONTROL_FOREGROUND = GUN_CONTROLS_FOREGROUND;
+    
+    public static final Color ATOMIC_MODEL_CONTROL_BACKGROUND = GUN_CONTROLS_BACKGROUND;
+    public static final Color ATOMIC_MODEL_FOREGROUND = GUN_CONTROLS_FOREGROUND;
+    
     //----------------------------------------------------------------------------
     // Borders
     //----------------------------------------------------------------------------
