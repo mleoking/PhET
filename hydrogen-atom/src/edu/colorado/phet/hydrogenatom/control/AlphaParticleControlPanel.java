@@ -24,11 +24,27 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * AlphaParticleControlPanel
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class AlphaParticleControlPanel extends PNode {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private IntensityControl _intensityControl;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public AlphaParticleControlPanel( PSwingCanvas canvas ) {
         super();
         
@@ -56,6 +72,10 @@ public class AlphaParticleControlPanel extends PNode {
         panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
         _intensityControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
     }
+    
+    //----------------------------------------------------------------------------
+    // Mutators
+    //----------------------------------------------------------------------------
     
     public IntensityControl getIntensityControl() {
         return _intensityControl;
