@@ -100,10 +100,11 @@ public class HAModule extends PiccoloModule {
                     HAConstants.UV_COLOR, HAConstants.IR_COLOR );
             wavelengthControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    System.out.println( "wavelength=" + wavelengthControl.getWavelength() );
+//                    System.out.println( "wavelength=" + wavelengthControl.getWavelength() );
                 }
             } );
             wavelengthControl.setOffset( 100, 100 );
+//            wavelengthControl.scale( 1.5 );
             _rootNode.addChild( wavelengthControl );
         }
         
