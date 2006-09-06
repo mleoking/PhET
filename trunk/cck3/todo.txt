@@ -95,6 +95,17 @@ Retitle the top tool cluster from "File" to "Circuit"
 Bug report from McKagan: open circuit still conducts in particular situations
 Rewrite graphics in piccolo.
 
+While working on the interview paper Carl thought of a possible addition to CCK.
+What do you think about adding a person who can be used to test out the physiological responses to electricity.  
+I’m not sure of the easiest way but he would have various reactions according the the stimulous. 
+If it were as simple as touching a battery to his tongue (maybe to hard to integrate into CCK) 
+he’d just jump a little and say something appropriate, as the shock gets stronger he may say ouch 
+and finally it might just turn into a pile of black ashes or something.  Problems to think about are 
+making it too much fun and CCK is already very full.  Possibly put him in the advanced panel.  
+We came up with this because one of the benefits of simulations is being able to take risks 
+without negative consequences and when students study electricity this is one of the most engaging 
+topics and in lab students are quite often afraid of electrocuting themselves.  What do you think?
+
 ################################################
 #Lower Priority
 #######################
