@@ -116,12 +116,15 @@ public class HAConstants {
 
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_ALPHA_PARTICLE = IMAGES_DIRECTORY + "alphaParticle.png";
+    public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
     public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
     public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon.png";
+    public static final String IMAGE_SPECTROMETER = IMAGES_DIRECTORY + "spectrometer.png";
+    public static final String IMAGE_SPECTROMETER_SNAPSHOT = IMAGES_DIRECTORY + "spectrometerSnapshot.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //XXX temporary images

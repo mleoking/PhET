@@ -31,6 +31,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
 import edu.colorado.phet.hydrogenatom.view.GunNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -69,6 +70,8 @@ public class HAModule extends PiccoloModule {
     private DeBroglieEnergyDiagram _deBroglieEnergyDiagram;
     private SchrodingerEnergyDiagram _schrodingerEnergyDiagram;
     private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
+    
+    private Spectrometer _spectrometer;
     
     private HAClockControlPanel _clockControlPanel;
     
@@ -190,8 +193,21 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBox.setOpaque( false );
             _spectrometerCheckBox.setFont( HAConstants.CONTROL_FONT );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
-            _spectrometerCheckBoxNode.setOffset( 700, 700 );
+            _spectrometerCheckBoxNode.setOffset( 700, 710 );
             _rootNode.addChild( _spectrometerCheckBoxNode );
+            
+            _spectrometerCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    _spectrometer.setVisible( _spectrometerCheckBox.isSelected() );
+                }
+            } );
+        }
+        
+        // Spectrometer
+        {
+            _spectrometer = new Spectrometer( _canvas, false /* isaSnapshot */ );
+            _spectrometer.setOffset( 700, 525 );
+            _rootNode.addChild( _spectrometer );
         }
         
         //----------------------------------------------------------------------------
@@ -232,6 +248,8 @@ public class HAModule extends PiccoloModule {
     private void reset() {
         _modeSwitch.setPredictionSelected( true );
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
+        _spectrometerCheckBox.setSelected( true );
+        _energyDiagramCheckBox.setSelected( false );
     }
     
     private void layoutCanvas() {
