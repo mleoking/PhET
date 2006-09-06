@@ -11,21 +11,17 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AlphaParticleControlPanel;
+import edu.colorado.phet.hydrogenatom.control.GunOnOffControl;
 import edu.colorado.phet.hydrogenatom.control.GunTypeControlPanel;
 import edu.colorado.phet.hydrogenatom.control.LightControlPanel;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -47,6 +43,7 @@ public class HAGunNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private GunOnOffControl _gunOnOffControl;
     private GunTypeControlPanel _gunTypeControlPanel;
     private LightControlPanel _lightControlPanel;
     private AlphaParticleControlPanel _alphaParticleControlPanel;
@@ -55,18 +52,14 @@ public class HAGunNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public HAGunNode( 
-            PSwingCanvas canvas,
-            PNode gunNode,
-            GunTypeControlPanel gunTypeControlPanel,
-            LightControlPanel lightControlPanel,
-            AlphaParticleControlPanel alphaParticleControlPanel ) 
+    public HAGunNode( PSwingCanvas canvas ) 
     {
         super();
         
-        _gunTypeControlPanel = gunTypeControlPanel;
-        _lightControlPanel = lightControlPanel;
-        _alphaParticleControlPanel = alphaParticleControlPanel;
+        _gunOnOffControl = new GunOnOffControl();
+        _gunTypeControlPanel = new GunTypeControlPanel( canvas );
+        _lightControlPanel = new LightControlPanel( canvas );
+        _alphaParticleControlPanel = new AlphaParticleControlPanel( canvas );
         
         _gunTypeControlPanel.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -79,21 +72,41 @@ public class HAGunNode extends PNode {
         
         // Add nodes in background-to-foreground order
         addChild( cableNode );
-        addChild( gunNode );
+        addChild( _gunOnOffControl );
         addChild( _gunTypeControlPanel );
         addChild( _lightControlPanel );
         addChild( _alphaParticleControlPanel );
         
         // Layout
-        gunNode.setOffset( 0, 0 );
+        _gunOnOffControl.setOffset( 0, 0 );
         cableNode.setOffset( 13, 175 );
-        gunTypeControlPanel.setOffset( 0, PANEL_Y_OFFSET );
-        final double panelY = gunTypeControlPanel.getFullBounds().getY() + gunTypeControlPanel.getFullBounds().getHeight() + PANEL_Y_SPACING;
+        _gunTypeControlPanel.setOffset( 0, PANEL_Y_OFFSET );
+        final double panelY = _gunTypeControlPanel.getFullBounds().getY() + _gunTypeControlPanel.getFullBounds().getHeight() + PANEL_Y_SPACING;
         _lightControlPanel.setOffset( 0, panelY );
         _alphaParticleControlPanel.setOffset( 0, panelY );
     
         // Default state
         updateControls();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators
+    //----------------------------------------------------------------------------
+    
+    public GunOnOffControl getGunOnOffControl() {
+        return _gunOnOffControl;
+    }
+    
+    public GunTypeControlPanel getGunTypeControlPanel() {
+        return _gunTypeControlPanel;
+    }
+    
+    public LightControlPanel getLightControlPanel() {
+        return _lightControlPanel;
+    }
+    
+    public AlphaParticleControlPanel getAlphaParticleControlPanel() {
+        return _alphaParticleControlPanel;
     }
     
     //----------------------------------------------------------------------------
