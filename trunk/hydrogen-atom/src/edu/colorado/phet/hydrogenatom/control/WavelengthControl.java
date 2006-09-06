@@ -31,6 +31,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -50,7 +51,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * WavelengthControl is the control used for setting wavelength.
- * It handles wavelengths inside and outside the visible spectrum.
+ * It handles visible wavelengths, plus optional UV and IR wavelengths.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -68,7 +69,7 @@ public class WavelengthControl extends PNode {
     private static final double VALUE_Y_OFFSET = 2;
     private static final String UNITS_LABEL = "nm";
     
-    private static final double CURSOR_WIDTH = 2;
+    private static final double CURSOR_WIDTH = 3;
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
     private static final Color CURSOR_COLOR = Color.BLACK;
     
@@ -143,7 +144,7 @@ public class WavelengthControl extends PNode {
         _irColor = irColor;
         _listenerList = new EventListenerList();
         
-        _knob = new Knob( KNOB_SIZE );
+        _knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
         _track = new Track( minWavelength, maxWavelength, uvColor, irColor );
         _valueDisplay = new ValueDisplay( _canvas );
         _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
@@ -165,8 +166,8 @@ public class WavelengthControl extends PNode {
         };
         _dragHandler.setVerticalLockEnabled( true );
         _dragHandler.setTreatAsPointEnabled( true );
-        _dragHandler.setNodeCenter( _knob.getFullBounds().getWidth() / 2, 0 );
-        _dragHandler.setDragBounds( _track.getGlobalFullBounds() ); 
+        Rectangle2D dragBounds = calculateDragBounds();
+        _dragHandler.setDragBounds( dragBounds );
         _knob.addInputEventListener( _dragHandler );
         _knob.addInputEventListener( new CursorHandler() );
         
@@ -174,7 +175,8 @@ public class WavelengthControl extends PNode {
         addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( PNode.PROPERTY_FULL_BOUNDS.equals( event.getPropertyName() ) ) {
-                    _dragHandler.setDragBounds( _track.getGlobalFullBounds() ); 
+                    Rectangle2D dragBounds = calculateDragBounds();
+                    _dragHandler.setDragBounds( dragBounds ); 
                 }
             }
         } );
@@ -194,10 +196,10 @@ public class WavelengthControl extends PNode {
      * @throws IllegalArgumentException if wavelength is outside of min/max range
      */
     public void setWavelength( double wavelength ) {
-        
-//        if ( wavelength < _minWavelength || wavelength > _maxWavelength ) {
-//            throw new IllegalArgumentException( "wavelength out of range: " + wavelength );
-//        }
+       
+        if ( wavelength < _minWavelength || wavelength > _maxWavelength ) {
+            throw new IllegalArgumentException( "wavelength out of range: " + wavelength );
+        }
         
         if ( wavelength != _wavelength ) {
             _wavelength = wavelength;
@@ -256,17 +258,24 @@ public class WavelengthControl extends PNode {
     // Private methods
     //----------------------------------------------------------------------------
     
+    private Rectangle2D calculateDragBounds() {
+        PBounds trackGFB = _track.getGlobalFullBounds();
+        PBounds knobGFB = _knob.getGlobalFullBounds();
+        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - (knobGFB.getWidth()/2), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
+        return dragBounds;
+    }
+    
     /*
      * Calculates the wavelength that corresponds to the knob position.
      */
     private double calculateWavelength() {
-        double bandwidth = _maxWavelength - _minWavelength;
+        final double bandwidth = _maxWavelength - _minWavelength;
         PBounds trackBounds = _track.getFullBounds();
         PBounds knobBounds = _knob.getFullBounds();
-        double trackX = trackBounds.getX();
-        double trackWidth = trackBounds.getWidth();
-        double knobX = knobBounds.getX() + ( knobBounds.getWidth() / 2 );
-        double wavelength = _minWavelength + ( ( ( knobX - trackX ) / trackWidth ) * bandwidth );
+        final double trackX = trackBounds.getX();
+        final double trackWidth = (int) trackBounds.getWidth();
+        final double knobTipX = knobBounds.getX() + ( knobBounds.getWidth() / 2 );
+        final double wavelength = _minWavelength + ( ( ( knobTipX - trackX ) / trackWidth ) * bandwidth );
         return wavelength;
     }
     
@@ -275,14 +284,15 @@ public class WavelengthControl extends PNode {
      */
     private void handleKnobDrag() {
         double wavelength = calculateWavelength();
+        wavelength = MathUtil.clamp( _minWavelength, wavelength, _maxWavelength );
         setWavelength( wavelength );
     }
     
     /*
      * Handles entry of values in the text field.
      */
-    private void handleValueEntry() {
-        double wavelength = _valueDisplay.getValue();
+    private void handleTextEntry() {
+        final double wavelength = _valueDisplay.getValue();
         if ( wavelength >= _minWavelength && wavelength <= _maxWavelength ) {
             setWavelength( wavelength );
         }
@@ -297,7 +307,7 @@ public class WavelengthControl extends PNode {
      */
     private void updateUI( double wavelength ) {
         
-        double bandwidth = _maxWavelength - _minWavelength;
+        final double bandwidth = _maxWavelength - _minWavelength;
         
         PBounds trackBounds = _track.getFullBounds();
         final double knobWidth = _knob.getFullBounds().getWidth();
@@ -308,30 +318,33 @@ public class WavelengthControl extends PNode {
         // Knob color
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             _knob.setPaint( _uvColor );
+            _cursor.setPaint( _uvColor );
         }
         else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
             _knob.setPaint( _irColor );
+            _cursor.setPaint( _irColor );
         }
         else {
             Color color = VisibleColor.wavelengthToColor( wavelength );
             _knob.setPaint( color );
+            _cursor.setPaint( color );
         }
     
         // Knob position: below the track with tip positioned at wavelength
-        double trackX = trackBounds.getX();
-        double trackWidth = trackBounds.getWidth();
-        double knobX = trackX + ( trackWidth * ( ( wavelength - _minWavelength ) / bandwidth ) );
-        double knobY = trackBounds.getHeight();
+        final double trackX = trackBounds.getX();
+        final double trackWidth = trackBounds.getWidth();
+        final double knobX = trackX + ( trackWidth * ( ( wavelength - _minWavelength ) / bandwidth ) ) - ( knobWidth / 2 );
+        final double knobY = trackBounds.getHeight();
         _knob.setOffset( knobX, knobY );
     
         // Value display: above the track, centered above the knob
         _valueDisplay.setValue( wavelength );
-        final double valueX = knobX - ( valueDisplayWidth / 2 );
+        final double valueX = knobX + ( knobWidth / 2 ) - ( valueDisplayWidth / 2 );
         final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
         _valueDisplay.setOffset( valueX, valueY );
 
         // Cursor position: inside the track, centered above the knob
-        final double cursorX = knobX - ( cursorWidth / 2 );
+        final double cursorX = knobX + ( knobWidth / 2 ) - ( cursorWidth / 2 );
         final double cursorY = 0;
         _cursor.setOffset( cursorX, cursorY );
     }
@@ -352,16 +365,17 @@ public class WavelengthControl extends PNode {
      */
     private static class Knob extends PPath {
         
-        public Knob( Dimension size ) {
+        /* Constructor */
+        public Knob( float width, float height ) {
             super();
             
             GeneralPath path = new GeneralPath();
-            path.moveTo( 0, 0 ); // tip of the knob
-            path.lineTo( -0.5f * size.width, 0.3f * size.height );
-            path.lineTo( -0.5f * size.width, 1f * size.height );
-            path.lineTo( 0.5f * size.width, 1f * size.height );
-            path.lineTo( 0.5f * size.width, 0.3f * size.height );
-            path.closePath();    
+            path.moveTo( 0.5f * width, 0f ); // tip of the knob
+            path.lineTo( width, 0.3f * height );
+            path.lineTo( width, 1f * height );
+            path.lineTo( 0f, 1f * height );
+            path.lineTo( 0f, 0.3f * height );
+            path.closePath();
             setPathTo( path );
             
             setStroke( KNOB_STROKE );
@@ -374,22 +388,25 @@ public class WavelengthControl extends PNode {
      */
     private static class Track extends PComposite {
         
+        /* Constructor */
         public Track( double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
             super();
             
+            /* Portion of the track that represents visible wavelengths */
             PImage spectrumTrack = PImageFactory.create( HAConstants.IMAGE_SPECTRUM );
-            double spectrumTrackWidth = spectrumTrack.getFullBounds().getWidth();
-            double spectrumTrackHeight = spectrumTrack.getFullBounds().getHeight();
+            final double spectrumTrackWidth = spectrumTrack.getFullBounds().getWidth();
+            final double spectrumTrackHeight = spectrumTrack.getFullBounds().getHeight();
             
-            double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
-            double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
-            double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
-            double uvTrackWidth = ( uvBandwidth / visibleBandwidth ) * spectrumTrackWidth;
-            double irTrackWidth = ( irBandwith / visibleBandwidth ) * spectrumTrackWidth;
+            final double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
+            final double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
+            final double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
+            final double uvTrackWidth = ( uvBandwidth / visibleBandwidth ) * spectrumTrackWidth;
+            final double irTrackWidth = ( irBandwith / visibleBandwidth ) * spectrumTrackWidth;
             
-            boolean hasUV = ( uvTrackWidth > 0 );
-            boolean hasIR = ( irTrackWidth > 0 );
+            final boolean hasUV = ( uvTrackWidth > 0 );
+            final boolean hasIR = ( irTrackWidth > 0 );
             
+            /* Portion of the track that represents ultra-violet (UV) wavelengths */
             PPath uvTrack = null;
             PText uvText = null;
             if ( hasUV ) {
@@ -397,13 +414,14 @@ public class WavelengthControl extends PNode {
                 uvTrack = new PPath();
                 uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, spectrumTrackHeight ) );
                 uvTrack.setPaint( uvColor );
-                uvTrack.setStrokePaint( null );
+                uvTrack.setStroke( null );
                 
                 uvText = new PText( UV_STRING );
                 uvText.setFont( UV_IR_FONT );
                 uvText.setTextPaint( UV_LABEL_COLOR );
             }
             
+            /* Portion of the track that represents infra-red (IR) wavelengths */
             PPath irTrack = null;
             PText irText = null;
             if ( hasIR ) {
@@ -411,7 +429,7 @@ public class WavelengthControl extends PNode {
                 irTrack = new PPath();
                 irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, spectrumTrackHeight ) );
                 irTrack.setPaint( irColor );
-                irTrack.setStrokePaint( null );
+                irTrack.setStroke( null );
 
                 irText = new PText( IR_STRING );
                 irText.setFont( UV_IR_FONT );
@@ -456,19 +474,22 @@ public class WavelengthControl extends PNode {
         private JFormattedTextField _formattedTextField;
         private JLabel _unitsLabel;
         
+        /* Constructor */
         public ValueDisplay( PSwingCanvas canvas ) {
             super();
             
+            /* units label, appears to the right of the text field */
             _unitsLabel = new JLabel( UNITS_LABEL );
             _unitsLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
             
+            /* editable text field */
             _formattedTextField = new JFormattedTextField();
             _formattedTextField.setColumns( 3 );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             
             _formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    handleValueEntry();
+                    handleTextEntry();
                 }
             } );
             _formattedTextField.addFocusListener( new FocusListener() {
@@ -480,7 +501,7 @@ public class WavelengthControl extends PNode {
                 public void focusLost( FocusEvent e ) {
                     try {
                         _formattedTextField.commitEdit();
-                        handleValueEntry();
+                        handleTextEntry();
                     }
                     catch ( ParseException pe ) {
                         warnUser();
@@ -509,11 +530,13 @@ public class WavelengthControl extends PNode {
             addChild( pswing );
         }
         
+        /* Sets the value displayed by the text field. */
         public void setValue( double wavelength ) {
             String s = VALUE_FORMAT.format( wavelength );
             _formattedTextField.setText( s );
         }
         
+        /* Gets the value displayed by the text field. */
         public double getValue() {
             String text = _formattedTextField.getText().toLowerCase();
             double wavelength = 0;
@@ -528,10 +551,12 @@ public class WavelengthControl extends PNode {
             return wavelength;
         }
         
+        /* Gets a reference to the units JLabel, for setting its properties. */
         public JLabel getUnitsLabel() {
             return _unitsLabel;
         }
         
+        /* Gets a reference to the formatted text field, for setting its properties. */
         public JFormattedTextField getFormattedTextField() {
             return _formattedTextField;
         }
@@ -542,6 +567,7 @@ public class WavelengthControl extends PNode {
      */
     private static class Cursor extends PPath {
         
+        /* Constructor */
         public Cursor( double width, double height ) {
             super();
             setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );

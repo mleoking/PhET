@@ -5,10 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
-- at UV/visible boundary, cursor and knob color don't match
 - type a bogus value into wavelength control, it beeps but doesn't reset to previous value
-- enable range check for wavelength arg in WavelengthControl.setWavelength
+- click on wavelength control track to move to a value
 - rewrite gun control panels to be Piccolo nodes, not JPanels, so WavelengthControl can be added
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 - port spectrometer from Discharge Lamps sim
@@ -23,6 +21,11 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/5/06) - clamp dragging of wavelength control to min/max range
+(9/5/06) - test wavelength control with scale applied
+(9/5/06) - enable range check for wavelength arg in WavelengthControl.setWavelength
+(9/5/06) - fill wavelength control cursor with same color as knob
+(9/5/06) - fix wavelength slider, cursor drags past minWavelength, can't reach maxWavelength (off by 3 nm)
 (9/5/06) - integrate drag handling into wavelength control's ConstrainedDragHandler
 (9/5/06) - consolidate/simplify UI update code for wavelength control
 (9/5/06) - add cursor to wavelength control
