@@ -48,7 +48,8 @@ public class HAGunNode extends PNode {
     //----------------------------------------------------------------------------
     
     private GunTypeControlPanel _gunTypeControlPanel;
-    private PNode _lightControlPanelNode, _alphaParticleControlPanelNode;
+    private LightControlPanel _lightControlPanel;
+    private AlphaParticleControlPanel _alphaParticleControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,34 +65,32 @@ public class HAGunNode extends PNode {
         super();
         
         _gunTypeControlPanel = gunTypeControlPanel;
+        _lightControlPanel = lightControlPanel;
+        _alphaParticleControlPanel = alphaParticleControlPanel;
+        
         _gunTypeControlPanel.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 updateControls(); 
             }
         });
        
-        // convert Swing controls to PNodes
-        PNode gunTypeControlPanelNode = new PSwing( canvas, gunTypeControlPanel );
-        _lightControlPanelNode = new PSwing( canvas, lightControlPanel );
-        _alphaParticleControlPanelNode = new PSwing( canvas, alphaParticleControlPanel );
-        
         // Cable
         PImage cableNode = PImageFactory.create( HAConstants.IMAGE_GUN_CONTROL_CABLE );
         
         // Add nodes in background-to-foreground order
         addChild( cableNode );
         addChild( gunNode );
-        addChild( gunTypeControlPanelNode );
-        addChild( _lightControlPanelNode );
-        addChild( _alphaParticleControlPanelNode );
+        addChild( _gunTypeControlPanel );
+        addChild( _lightControlPanel );
+        addChild( _alphaParticleControlPanel );
         
         // Layout
         gunNode.setOffset( 0, 0 );
         cableNode.setOffset( 13, 175 );
-        gunTypeControlPanelNode.setOffset( 0, PANEL_Y_OFFSET );
-        final double panelY = gunTypeControlPanelNode.getFullBounds().getY() + gunTypeControlPanelNode.getFullBounds().getHeight() + PANEL_Y_SPACING;
-        _lightControlPanelNode.setOffset( 0, panelY );
-        _alphaParticleControlPanelNode.setOffset( 0, panelY );
+        gunTypeControlPanel.setOffset( 0, PANEL_Y_OFFSET );
+        final double panelY = gunTypeControlPanel.getFullBounds().getY() + gunTypeControlPanel.getFullBounds().getHeight() + PANEL_Y_SPACING;
+        _lightControlPanel.setOffset( 0, panelY );
+        _alphaParticleControlPanel.setOffset( 0, panelY );
     
         // Default state
         updateControls();
@@ -101,11 +100,19 @@ public class HAGunNode extends PNode {
     // 
     //----------------------------------------------------------------------------
     
-    public void updateControls() {
+    private void updateControls() {
         boolean isLightSelected = _gunTypeControlPanel.isLightSelected();
-        _lightControlPanelNode.setVisible( isLightSelected );
-        _lightControlPanelNode.setPickable( isLightSelected );
-        _alphaParticleControlPanelNode.setVisible( !isLightSelected );
-        _alphaParticleControlPanelNode.setPickable( !isLightSelected );
+        _lightControlPanel.setVisible( isLightSelected );
+        _lightControlPanel.setPickable( isLightSelected );
+        _alphaParticleControlPanel.setVisible( !isLightSelected );
+        _alphaParticleControlPanel.setPickable( !isLightSelected );
+        
+        // Move the visible panel to the top so that it gets mouse events.
+        if ( isLightSelected ) {
+            _lightControlPanel.moveToFront();
+        }
+        else {
+            _alphaParticleControlPanel.moveToFront();
+        }
     }
 }

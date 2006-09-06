@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -26,6 +25,9 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * GunTypeControlPanel is the control panel that determines what the guns shoots,
@@ -34,7 +36,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunTypeControlPanel extends JPanel {
+public class GunTypeControlPanel extends PNode {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,7 +50,7 @@ public class GunTypeControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GunTypeControlPanel() {
+    public GunTypeControlPanel( PSwingCanvas canvas ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -93,8 +95,10 @@ public class GunTypeControlPanel extends JPanel {
         buttonGroup.add( _alphaParticlesButton );
         
         // Layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
+        JPanel panel = new JPanel();
+        panel.setBorder( HAConstants.CONTROL_PANEL_BORDER );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
@@ -102,17 +106,24 @@ public class GunTypeControlPanel extends JPanel {
         layout.addComponent( photonsControl, row++, col );
         layout.addComponent( alphaParticleControl, row, col );
         
+        // Piccolo wrapper for panel
+        PSwing pswing = new PSwing( canvas, panel );
+        addChild( pswing );
+        
         // Fonts
         _lightButton.setFont( HAConstants.CONTROL_FONT );
         _alphaParticlesButton.setFont( HAConstants.CONTROL_FONT );
         
         // Opacity
-        setOpaque( true );
+        panel.setOpaque( true );
         _lightButton.setOpaque( false );
         _alphaParticlesButton.setOpaque( false );
-        
-        // Border 
-        setBorder( HAConstants.CONTROL_PANEL_BORDER );
+
+        // Colors
+        panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
+        title.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND);
+        _lightButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
+        _alphaParticlesButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         
         // Default state
         setLightSelected( true );

@@ -11,43 +11,67 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.GridBagConstraints;
+import java.awt.Color;
+import java.awt.Dimension;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
-public class LightControlPanel extends JPanel {
+public class LightControlPanel extends PNode {
 
+    private static final double MARGIN = 30;
+    
     private LightTypeControl _typeControl;
     private IntensityControl _intensityControl;
+    private WavelengthControl _wavelengthControl;
     
     public LightControlPanel( PSwingCanvas canvas ) {
         super();
         
         // Components
-        JLabel title = new JLabel( SimStrings.get( "title.lightControls" ) );
-        title.setFont( HAConstants.TITLE_FONT );
         _typeControl = new LightTypeControl();
         _intensityControl = new IntensityControl();
+        _wavelengthControl = new WavelengthControl( canvas,
+                HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
+                HAConstants.UV_COLOR, HAConstants.IR_COLOR );
         
         // Layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int col = 0;
-        layout.addComponent( title, row++, col );
-        layout.addComponent( _typeControl, row++, col );
-        layout.addComponent( _intensityControl, row++, col );
+        JPanel panel = new JPanel();
+        panel.setBorder( HAConstants.CONTROL_PANEL_BORDER );
+
+        // Wrappers for Swing components
+        PSwing panelWrapper = new PSwing( canvas, panel );
+        PSwing typeControlWrapper = new PSwing( canvas, _typeControl );
+        PSwing intensityControlWrapper = new PSwing( canvas, _intensityControl );
         
-        // Border
-        setBorder( HAConstants.CONTROL_PANEL_BORDER );
+        // Layering
+        addChild( panelWrapper );
+        addChild( typeControlWrapper );
+        addChild( intensityControlWrapper );
+        addChild( _wavelengthControl );
+        
+        // Layout
+        {
+            double panelWidth = Math.max( Math.max( typeControlWrapper.getFullBounds().getWidth(), intensityControlWrapper.getFullBounds().getWidth() ), _wavelengthControl.getFullBounds().getWidth() + 17 ) + ( 2 * MARGIN );
+            double panelHeight = typeControlWrapper.getFullBounds().getHeight() + intensityControlWrapper.getFullBounds().getHeight() + _wavelengthControl.getFullBounds().getHeight() + 30;
+            panel.setPreferredSize( new Dimension( (int) panelWidth, (int) panelHeight ) );
+            panelWrapper.setOffset( 0, 0 );
+            
+            typeControlWrapper.setOffset( MARGIN, 5 );
+            intensityControlWrapper.setOffset( typeControlWrapper.getFullBounds().getX(), typeControlWrapper.getFullBounds().getY() + typeControlWrapper.getFullBounds().getHeight() + 5 );
+            _wavelengthControl.setOffset( intensityControlWrapper.getFullBounds().getX() + 8, intensityControlWrapper.getFullBounds().getY() + intensityControlWrapper.getFullBounds().getHeight() + 22 );
+        }
+        
+        // Colors
+        panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
+        _typeControl.setLabelsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
+        _intensityControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
+        _wavelengthControl.setUnitsForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
     }
     
     public LightTypeControl getTypeControl() {
@@ -56,5 +80,9 @@ public class LightControlPanel extends JPanel {
     
     public IntensityControl getIntensityControl() {
         return _intensityControl;
+    }
+    
+    public WavelengthControl getWavelengthControl() {
+        return _wavelengthControl;
     }
 }

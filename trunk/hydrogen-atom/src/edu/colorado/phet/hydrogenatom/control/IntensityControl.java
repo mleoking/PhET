@@ -37,6 +37,7 @@ public class IntensityControl extends JPanel {
     
     private ColorIntensitySlider _slider;
     private JFormattedTextField _textField;
+    private JLabel _units;
     private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
@@ -58,8 +59,8 @@ public class IntensityControl extends JPanel {
         _textField.addFocusListener( listener );
         _textField.addKeyListener( listener );
         
-        JLabel units = new JLabel( "%" );
-        units.setFont( HAConstants.CONTROL_FONT );
+        _units = new JLabel( "%" );
+        _units.setFont( HAConstants.CONTROL_FONT );
         
         // Fonts
         _textField.setFont( HAConstants.CONTROL_FONT );
@@ -67,7 +68,7 @@ public class IntensityControl extends JPanel {
         // Opacity
         setOpaque( false );
         _slider.setOpaque( false );
-        units.setOpaque( false );
+        _units.setOpaque( false );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -77,7 +78,7 @@ public class IntensityControl extends JPanel {
         int col = 0;
         layout.addComponent( _slider, row, col++ );
         layout.addComponent( _textField, row, col++ );
-        layout.addComponent( units, row, col++ );
+        layout.addComponent( _units, row, col++ );
         
         // Default state
         setValue( 0 );
@@ -100,6 +101,14 @@ public class IntensityControl extends JPanel {
     public int getValue() {
         return _slider.getValue();
     }
+    
+    public void setUnitsForeground( Color color ) {
+        _units.setForeground( color );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Private
+    //----------------------------------------------------------------------------
     
     private void updateSlider() {
         boolean error = false;

@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 
 import javax.swing.ButtonGroup;
@@ -108,6 +108,11 @@ public class LightTypeControl extends JPanel {
     
     public boolean isMonochromaticSelected() {
         return _monochromaticButton.isSelected();
+    }
+    
+    public void setLabelsForeground( Color color ) {
+        _whiteButton.setForeground( color );
+        _monochromaticButton.setForeground( color );
     }
     
     //----------------------------------------------------------------------------
