@@ -37,10 +37,10 @@ public abstract class LaserElementProperties extends ElementProperties {
 
     }
 
-    public AtomicState getGroundState() {
-        return getStates()[0];
-    }
-
+//    public AtomicState getGroundState() {
+//        return getStates()[0];
+//    }
+//
     public AtomicState getMiddleEnergyState() {
         return getStates()[1];
     }

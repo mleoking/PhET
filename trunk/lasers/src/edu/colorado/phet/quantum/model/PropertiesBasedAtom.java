@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.quantum.model;
 
-import edu.colorado.phet.lasers.model.LaserModel;
-
 /**
  * PropertiesBasedAtom
  * <p>
@@ -27,7 +25,7 @@ public class PropertiesBasedAtom extends Atom {
     /**
      * @param model
      */
-    public PropertiesBasedAtom( LaserModel model, ElementProperties elementProperties ) {
+    public PropertiesBasedAtom( QuantumModel model, ElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
@@ -43,7 +41,7 @@ public class PropertiesBasedAtom extends Atom {
      * @param states
      * @deprecated
      */
-    public PropertiesBasedAtom( LaserModel model, AtomicState[] states ) {
+    public PropertiesBasedAtom( QuantumModel model, AtomicState[] states ) {
         super( model, states.length, true );
 
         if( states.length < 2 ) {
@@ -57,7 +55,7 @@ public class PropertiesBasedAtom extends Atom {
      * Returns the state the atom will be in after it emits a photon. By default, this is the
      * ground state
      *
-     * @return
+     * @return the state the atom will be in after it emits a photon
      */
     public AtomicState getEnergyStateAfterEmission() {
         return energyEmissionStrategy.emitEnergy( this );

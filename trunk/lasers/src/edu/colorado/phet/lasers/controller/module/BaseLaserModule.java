@@ -33,9 +33,10 @@ import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.view.AtomGraphic;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
-import edu.colorado.phet.quantum.view.TubeGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -225,7 +226,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
-        BandPass bandPass = new BandPass( LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH );
+        BandPass bandPass = new BandPass( QuantumConfig.MIN_WAVELENGTH, QuantumConfig.MAX_WAVELENGTH );
         rightMirror.addReflectionStrategy( bandPass );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
@@ -560,7 +561,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 else {
                     double energyLevelDiff = laserModel.getMiddleEnergyState().getEnergyLevel() -
                                              laserModel.getGroundState().getEnergyLevel();
-                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= LaserConfig.ENERGY_TOLERANCE ) {
+                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= QuantumConfig.ENERGY_TOLERANCE ) {
+//                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= LaserConfig.ENERGY_TOLERANCE ) {
                         isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
                     }
                 }

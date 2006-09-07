@@ -34,7 +34,7 @@ import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
 import edu.colorado.phet.quantum.model.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.quantum.view.TubeGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
@@ -43,9 +43,6 @@ import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.quantum.view.PlateGraphic;
-import edu.colorado.phet.quantum.view.TubeGraphic;
 
 import javax.swing.*;
 import java.awt.*;

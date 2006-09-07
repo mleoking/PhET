@@ -104,7 +104,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     // The minimum energy and maximum energies of the states we are representing
     private double groundStateEnergy = Double.MAX_VALUE;
-    private double maxEnergy = Double.MIN_VALUE;
+    private double maxEnergy = -Double.MAX_VALUE;
 
     // The strategy to use for picking the color of atom graphics and energy level lines
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
@@ -214,7 +214,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     public void setEnergyLevels( AtomicState[] atomicStates ) {
 
         // Find the minimum and maximum energy levels
-        maxEnergy = Double.MIN_VALUE;
+//        maxEnergy = 0;
+        maxEnergy = -Double.MAX_VALUE;
         groundStateEnergy = Double.MAX_VALUE;
         for( int i = 0; i < atomicStates.length; i++ ) {
             AtomicState atomicState = atomicStates[i];

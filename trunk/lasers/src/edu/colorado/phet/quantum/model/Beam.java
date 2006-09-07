@@ -157,7 +157,7 @@ public class Beam extends Particle implements PhotonSource {
     }
 
     /**
-     *  
+     *
      * @param intensity
      * @param minWavelength
      * @param maxWavelength
@@ -165,14 +165,16 @@ public class Beam extends Particle implements PhotonSource {
     public void setIntensity( double intensity, double minWavelength, double maxWavelength ) {
         double wavelengthRange = maxWavelength - minWavelength;
         double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
+//        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
+        double photonRate = intensity * getWavelength();
         setPhotonsPerSecond( photonRate );
     }
 
     public double getIntensity( double minWavelength, double maxWavelength ) {
         double wavelengthRange = maxWavelength - minWavelength;
         double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
+        double intensity = photonsPerSecond / getWavelength();
+//        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
         return intensity;
     }
 
@@ -180,9 +182,9 @@ public class Beam extends Particle implements PhotonSource {
         return this.maxPhotonsPerSecond;
     }
 
-    public double getMaxIntensity() {
-        return maxPhotonsPerSecond ;
-    }
+//    public double getMaxIntensity() {
+//        return maxPhotonsPerSecond ;
+//    }
 
     public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;

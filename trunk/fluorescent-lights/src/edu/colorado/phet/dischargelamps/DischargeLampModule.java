@@ -26,8 +26,10 @@ import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.quantum.model.Tube;
-import edu.colorado.phet.quantum.view.TubeGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.*;
 

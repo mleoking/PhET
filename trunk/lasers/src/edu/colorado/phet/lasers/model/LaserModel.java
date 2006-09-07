@@ -15,7 +15,6 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
@@ -28,12 +27,14 @@ import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
+public class  LaserModel extends QuantumModel {
+//public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
     //----------------------------------------------------------------
     // Class fields
@@ -75,7 +76,6 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
     // Properties for two and three level atoms
     private LaserElementProperties twoLevelProperties = new TwoLevelElementProperties();
     private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
-    private LaserElementProperties currentElementProperties = twoLevelProperties;
 
     // Replacement for behavior that was previously built into BaseModel
     private SimpleObservable observable = new SimpleObservable() ;
@@ -84,6 +84,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
      *
      */
     public LaserModel() {
+
+        setCurrentElementProperties( twoLevelProperties );
 
         // Set up the system of collision experts
         collisionMechanism = new CollisionMechanism();
@@ -139,7 +141,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
     private boolean isLasingPhoton( Photon photon ) {
         double middleToGroundEnergyDiff = getMiddleEnergyState().getEnergyLevel() - getGroundState().getEnergyLevel();
         return ( Math.abs( photon.getVelocity().getAngle() % Math.PI ) < angleWindow
-                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
+                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= QuantumConfig.ENERGY_TOLERANCE ));
+//                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
 //        return ( ( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
 //                   || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow )
 //                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
@@ -222,11 +225,13 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
 
         switch( numLevels ) {
             case 2:
-                currentElementProperties = twoLevelProperties;
+                setCurrentElementProperties( twoLevelProperties );
+//                currentElementProperties = twoLevelProperties;
                 getPumpingBeam().setEnabled( false );
                 break;
             case 3:
-                currentElementProperties = threeLevelProperties;
+                setCurrentElementProperties( threeLevelProperties );
+//                currentElementProperties = threeLevelProperties;
                 getPumpingBeam().setEnabled( true );
                 break;
             default:
@@ -235,22 +240,23 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         // Set the available states of all the atoms
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
-            atom.setStates( currentElementProperties.getStates() );
+            atom.setStates( getCurrentElementProperties().getStates() );
         }
 
         // Initialize the number of atoms in each level
         numGroundStateAtoms = 0;
         numMiddleStateAtoms = 0;
         numHighStateAtoms = 0;
+        LaserElementProperties elementProperties = (LaserElementProperties)getCurrentElementProperties();
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
-            if( atom.getCurrState() == currentElementProperties.getGroundState() ) {
+            if( atom.getCurrState() == elementProperties.getGroundState() ) {
                 numGroundStateAtoms++;
             }
-            if( atom.getCurrState() == currentElementProperties.getMiddleEnergyState() ) {
+            if( atom.getCurrState() == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms++;
             }
-            if( atom.getCurrState() == currentElementProperties.getHighEnergyState() ) {
+            if( atom.getCurrState() == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms++;
             }
         }
@@ -317,20 +323,16 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         return numPhotons;
     }
 
-    public AtomicState getGroundState() {
-        return currentElementProperties.getGroundState();
-    }
-
     public AtomicState getMiddleEnergyState() {
-        return currentElementProperties.getStates()[1];
+        return getCurrentElementProperties().getStates()[1];
     }
 
     public AtomicState getHighEnergyState() {
-        return currentElementProperties.getHighEnergyState();
+        return ((LaserElementProperties)getCurrentElementProperties()).getHighEnergyState();
     }
 
     public AtomicState[] getStates() {
-        return currentElementProperties.getStates();
+        return getCurrentElementProperties().getStates();
     }
 
     public int getNumLasingPhotons() {
@@ -484,7 +486,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
             lasingPhotons.remove( photon );
             changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
-        removeModelElement( event.getPhoton() );
+        super.leftSystemEventOccurred( event );
+//        removeModelElement( event.getPhoton() );
     }
 
     //----------------------------------------------------------------
@@ -499,22 +502,23 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         public void stateChanged( Atom.ChangeEvent event ) {
             AtomicState prevState = event.getPrevState();
             AtomicState currState = event.getCurrState();
-            if( prevState == currentElementProperties.getGroundState() ) {
+            LaserElementProperties elementProperties = (LaserElementProperties)getCurrentElementProperties();
+            if( prevState == elementProperties.getGroundState() ) {
                 numGroundStateAtoms--;
             }
-            if( prevState == currentElementProperties.getMiddleEnergyState() ) {
+            if( prevState == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms--;
             }
-            if( prevState == currentElementProperties.getHighEnergyState() ) {
+            if( prevState == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms--;
             }
-            if( currState == currentElementProperties.getGroundState() ) {
+            if( currState == elementProperties.getGroundState() ) {
                 numGroundStateAtoms++;
             }
-            if( currState == currentElementProperties.getMiddleEnergyState() ) {
+            if( currState == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms++;
             }
-            if( currState == currentElementProperties.getHighEnergyState() ) {
+            if( currState == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms++;
             }
         }

@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -149,7 +150,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
-            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( LaserConfig.MIN_WAVELENGTH ) + groundStateEnergy);
+            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy);
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
 

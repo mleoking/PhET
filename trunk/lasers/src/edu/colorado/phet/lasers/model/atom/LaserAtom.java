@@ -51,6 +51,15 @@ public class LaserAtom extends PropertiesBasedAtom {
         }
     }
 
+    public void setStates( AtomicState[] states ) {
+        super.setStates( states );
+        states[1] = ((LaserModel)getModel()).getMiddleEnergyState();
+        if( states.length == 3 ) {
+//        if( numEnergyLevels == 3 ) {
+            states[2] = ((LaserModel)getModel()).getHighEnergyState();
+        }
+    }
+
     /**
      * Agent that flips the flag that controls the time that an atom must remain in the ground state
      */

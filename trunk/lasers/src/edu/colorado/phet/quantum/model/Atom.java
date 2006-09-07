@@ -13,7 +13,6 @@ package edu.colorado.phet.quantum.model;
 import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -42,7 +41,7 @@ public class Atom extends SolidSphere {
     //----------------------------------------------------------------
 
     private StateLifetimeManager stateLifetimeManager;
-    private BaseModel model;
+    private QuantumModel model;
     private AtomicState currState;
     private AtomicState[] states;
     private boolean isStateLifetimeFixed = false;
@@ -51,7 +50,7 @@ public class Atom extends SolidSphere {
      * @param model
      * @param numStates
      */
-    public Atom( LaserModel model, int numStates ) {
+    public Atom( QuantumModel model, int numStates ) {
         this( model, numStates, false );
     }
 
@@ -60,7 +59,7 @@ public class Atom extends SolidSphere {
      * @param numStates
      * @param isStateLifetimeFixed
      */
-    public Atom( LaserModel model, int numStates, boolean isStateLifetimeFixed ) {
+    public Atom( QuantumModel model, int numStates, boolean isStateLifetimeFixed ) {
         super( s_radius );
         this.model = model;
         this.isStateLifetimeFixed = isStateLifetimeFixed;
@@ -77,6 +76,10 @@ public class Atom extends SolidSphere {
         return states;
     }
 
+    protected QuantumModel getModel() {
+        return model;
+    }
+
     /**
      * Sets the states that the atom can be in. Sets the atom's current state to the
      * ground state
@@ -87,7 +90,6 @@ public class Atom extends SolidSphere {
         this.states = states;
         // Find the minimum and maximum energy states
         double maxEnergy = -Double.MAX_VALUE;
-        double minEnergy = Double.MAX_VALUE;
         for( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             double energy = state.getEnergyLevel();
@@ -106,13 +108,13 @@ public class Atom extends SolidSphere {
      *
      * @param numEnergyLevels
      */
-    public void setNumEnergyLevels( int numEnergyLevels, LaserModel model ) {
+    public void setNumEnergyLevels( int numEnergyLevels, QuantumModel model ) {
         states = new AtomicState[numEnergyLevels];
         states[0] = model.getGroundState();
-        states[1] = model.getMiddleEnergyState();
-        if( numEnergyLevels == 3 ) {
-            states[2] = model.getHighEnergyState();
-        }
+//        states[1] = model.getMiddleEnergyState();
+//        if( numEnergyLevels == 3 ) {
+//            states[2] = model.getHighEnergyState();
+//        }
         groundState = states[0];
         highestEnergyState = states[states.length - 1];
     }

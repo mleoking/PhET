@@ -14,8 +14,7 @@ package edu.colorado.phet.quantum.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -34,7 +33,7 @@ public class AtomicState {
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
-    static protected double STIMULATION_LIKELIHOOD = LaserConfig.STIMULATION_LIKELIHOOD;
+    static protected double STIMULATION_LIKELIHOOD = QuantumConfig.STIMULATION_LIKELIHOOD;
     static protected final double wavelengthTolerance = 10;
 
     static public void setStimulationLikelihood( double p ) {
@@ -88,7 +87,7 @@ public class AtomicState {
      * Returns the lifetime of the state. This is based on the energy level.
      * The higher the energy, the shorter the lifetime.
      *
-     * @return
+     * @return mean life time
      */
     public double getMeanLifeTime() {
         return meanLifetime;
@@ -119,7 +118,7 @@ public class AtomicState {
      * specified state
      *
      * @param nextState
-     * @return
+     * @return wavelength of emitted photon
      */
     public double determineEmittedPhotonWavelength( AtomicState nextState ) {
         double energy1 = this.getEnergyLevel();
@@ -133,7 +132,7 @@ public class AtomicState {
      * Returns the wavelength of a photon that would be emitted if the atom dropped to the next
      * lower energy state
      *
-     * @return
+     * @return wavelength of emitted photon
      */
     public double determineEmittedPhotonWavelength() {
         double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
@@ -149,24 +148,24 @@ public class AtomicState {
      * in energy between this state and the next lowest energy state.
      *
      * @param photon
-     * @return
+     * @return true if the photon makes the atom go to a higher state
      */
     protected boolean isStimulatedBy( Photon photon, Atom atom ) {
         boolean result = false;
         AtomicState[] states = atom.getStates();
-        if( LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
+        if( QuantumConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
             for( int i = 0; i < states.length && states[i] != this && result == false; i++ ) {
                 AtomicState state = states[i];
                 if( state.getEnergyLevel() < this.getEnergyLevel() ) {
                     double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
-                    result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+                    result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= QuantumConfig.ENERGY_TOLERANCE
                                && Math.random() < STIMULATION_LIKELIHOOD );
                 }
             }
         }
         else {
             double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
-            result = Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+            result = Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= QuantumConfig.ENERGY_TOLERANCE
                      && Math.random() < STIMULATION_LIKELIHOOD;
         }
         return result;
@@ -216,7 +215,7 @@ public class AtomicState {
      * @param atom
      * @param photon
      * @param energy
-     * @return
+     * @return the state that the atom can be in that is the specified energy above its current state
      */
     public AtomicState getElevatedState( Atom atom, Photon photon, double energy ) {
         AtomicState result = null;
@@ -225,7 +224,7 @@ public class AtomicState {
              stateIdx >= 0 && states[stateIdx] != this && result == null;
              stateIdx-- ) {
             double de = photon.getEnergy() - ( states[stateIdx].getEnergyLevel() - energy );
-            if( Math.abs( de ) <= LaserConfig.ENERGY_TOLERANCE ) {
+            if( Math.abs( de ) <= QuantumConfig.ENERGY_TOLERANCE ) {
                 result = states[stateIdx];
             }
         }
@@ -257,7 +256,7 @@ public class AtomicState {
      * because that results in stack overflows.
      *
      * @param obj
-     * @return
+     * @return true if equal
      */
     public boolean equals( Object obj ) {
         boolean result = false;

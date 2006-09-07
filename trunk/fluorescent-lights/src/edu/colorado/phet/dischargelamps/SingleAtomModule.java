@@ -11,12 +11,10 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
-import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
@@ -25,8 +23,7 @@ import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.Electron;
 import edu.colorado.phet.quantum.model.ElectronSource;
-import edu.colorado.phet.quantum.model.Tube;
-import edu.colorado.phet.quantum.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
 import java.awt.*;
