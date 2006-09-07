@@ -19,8 +19,8 @@ import edu.colorado.phet.hydrogenatom.control.AlphaParticleControlPanel;
 import edu.colorado.phet.hydrogenatom.control.GunOnOffControl;
 import edu.colorado.phet.hydrogenatom.control.GunTypeControlPanel;
 import edu.colorado.phet.hydrogenatom.control.LightControlPanel;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunNode extends HANode {
+public class GunNode extends PhetPNode {
     
     //----------------------------------------------------------------------------
     // Class data

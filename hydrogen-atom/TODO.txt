@@ -5,7 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- spectrometer buttons are fully transparent on Windows
+- bigger energy diagrams
+- 3D "magic box" with cut-out side that holds 6 atoms, make it as big as possible
+- title bar and close button on spectrometer
+- gun nozzle same size as side of magic box (bigger gun? or just bigger nozzle?)
+- redo "gun type" control panel, horizontal radio buttons at top of controls
+- toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
+- spectrometer buttons are fully transparent on Win98
 - create spectrometers snapshots
 - title spectrometer snapshots with name of atomic model used to create it
 - add "Photons emitted" title to spectrometer
@@ -14,6 +20,8 @@ HIGH PRIORITY:
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
+- make control panels have rounded corners and textured backgrounds
+- redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
 - when do things reset? (eg, does spectrometer reset when you change the model?)
 - canvas layout
 - get model details from Sam McKagan
@@ -26,6 +34,10 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/7/06) - bugfix: behavior of white and monochromatic radio buttons is reversed
+(9/7/06) - discussed behavior of the various atomic models with Sam McKagan
+(9/7/06) - replaced HANode with PhetPNode
+(9/7/06) - fixed the way PhetPNode handles visibile and pickable flags
 (9/6/06) - add placeholders for visual representation of atomic models
 (9/6/06) - placeholder for spectrometer
 (9/6/06) - extend PNode to handle pickable property in setVisible

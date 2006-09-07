@@ -12,11 +12,12 @@
 package edu.colorado.phet.hydrogenatom.view;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class PlumPuddingAtomNode extends HANode {
+public class PlumPuddingAtomNode extends PhetPNode {
 
     public PlumPuddingAtomNode() {
         PImage image = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING_ATOM );
