@@ -13,8 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * User: Sam Reid
@@ -467,7 +466,7 @@ public class PhetJComponent extends PhetGraphic {
 
     public static class PhetJComponentRepaintManager extends RepaintManager {
         private Hashtable table = new Hashtable();//key=JComponent, value=PhetJComponent.
-        private static ArrayList dirty = new ArrayList();
+        private Set dirty = new HashSet();
         private boolean tooManyDirty = false;
 
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
@@ -493,10 +492,9 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         public void updateGraphics() {
-            for( int i = 0; i < dirty.size(); i++ )
-            {//todo coalesce the paint messages.  Can some code from RepaintManager be reused?
-                PhetJComponent phetJComponent = (PhetJComponent)dirty.get( i );
-                phetJComponent.repaint();
+            for (Iterator iterator = dirty.iterator(); iterator.hasNext();) {
+                PhetJComponent component = (PhetJComponent) iterator.next();
+                component.repaint();
             }
             dirty.clear();
         }
