@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.view.HANode;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightControlPanel extends HANode {
+public class LightControlPanel extends PhetPNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -110,7 +110,7 @@ public class LightControlPanel extends HANode {
         } );
         
         // Default state
-        _lightTypeControl.setWhiteSelected( true );
+        _lightTypeControl.setMonochromaticSelected( true );
         _intensityControl.setValue( 100 );
         _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
     }
@@ -139,7 +139,7 @@ public class LightControlPanel extends HANode {
      * Changes visibility and color of controls to match the type of light.
      */
     private void handleLightTypeChange() {
-        if ( _lightTypeControl.isWhiteSelected() ) {
+        if ( _lightTypeControl.isMonochromaticSelected() ) {
             _intensityControl.setColor( _wavelengthControl.getColor() );
             _wavelengthControl.setVisible( true );
         }

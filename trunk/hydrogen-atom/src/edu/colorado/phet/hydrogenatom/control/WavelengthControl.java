@@ -36,7 +36,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.view.HANode;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -58,7 +58,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavelengthControl extends HANode {
+public class WavelengthControl extends PhetPNode {
     
     //----------------------------------------------------------------------------
     // Class data
