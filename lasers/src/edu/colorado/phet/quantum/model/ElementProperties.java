@@ -17,6 +17,9 @@ import java.util.Arrays;
  * <p>
  * A specification class that contains the properties for an element that are
  * required by the model.
+ * <p>
+ * The ElementProperties has an array of AtomicStates, which must have at least one element, which is the
+ * ground state.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -56,6 +59,10 @@ public class ElementProperties {
             this.energyLevels = energyLevels;
             updateStates();
         }
+    }
+
+    public AtomicState getGroundState() {
+        return getStates()[0];
     }
 
     public double getMeanStateLifetime() {

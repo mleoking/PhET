@@ -26,7 +26,7 @@ import java.util.Random;
 
 /**
  * Class: Photon
- * Package: edu.colorado.phet.lasers.model
+ * Package: edu.colorado.phet.quantum.model
  * Author: Another Guy
  * Date: Mar 21, 2003
  */

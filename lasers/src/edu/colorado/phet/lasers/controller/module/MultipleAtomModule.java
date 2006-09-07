@@ -24,6 +24,7 @@ import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -121,8 +122,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         pumpBeamControl = new BeamControl( getApparatusPanel(),
                                            pumpControlLocation,
                                            pumpingBeam,
-                                           LaserConfig.MIN_WAVELENGTH,
-                                           LaserConfig.MAX_WAVELENGTH,
+                                           QuantumConfig.MIN_WAVELENGTH,
+                                           QuantumConfig.MAX_WAVELENGTH,
                                            LaserConfig.BEAM_CONTROL_IMAGE );
         getApparatusPanel().addGraphic( pumpBeamControl );
 

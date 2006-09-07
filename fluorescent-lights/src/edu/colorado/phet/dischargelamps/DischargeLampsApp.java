@@ -18,14 +18,16 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.model.clock.TimingStrategy;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.quantum.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 
 /**
  * DischargeLampsApp
@@ -58,7 +60,7 @@ public class DischargeLampsApp extends PhetApplication {
                                                                          30,
                                                                          maxSpeed );
         setModules( new Module[]{singleAtomModule,
-                                 multipleAtomModule} );
+                multipleAtomModule} );
         setActiveModule( singleAtomModule );
 
         // Add some options in a menu
@@ -96,9 +98,12 @@ public class DischargeLampsApp extends PhetApplication {
      * @param args
      */
     public static void main( String[] args ) {
-
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+//        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 64 ) );
+        phetLookAndFeel.apply();
         // Tell SimStrings where the simulations-specific strings are
-        SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
+        SimStrings.init( args,DischargeLampsConfig.localizedStringsPath );
+//        SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
         SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
         DischargeLampsApp app = new DischargeLampsApp( args );

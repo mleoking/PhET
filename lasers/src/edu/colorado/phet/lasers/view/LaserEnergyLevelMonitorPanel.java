@@ -28,6 +28,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -558,7 +559,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         private void checkForMatch() {
             double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
             if( beam.isEnabled() && Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE )
-                                    <= LaserConfig.ENERGY_TOLERANCE ) {
+                                    <= QuantumConfig.ENERGY_TOLERANCE ) {
+//                                    <= LaserConfig.ENERGY_TOLERANCE ) {
                 if( !matched ) {
                     flashGraphic();
                     matched = true;

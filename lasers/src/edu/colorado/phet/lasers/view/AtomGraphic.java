@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.quantum.view;
+package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;

@@ -26,6 +26,7 @@ import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -145,8 +146,8 @@ public class SingleAtomModule extends BaseLaserModule {
             seedBeamControl = new BeamControl( getApparatusPanel(),
                                                controlLocation,
                                                seedBeam,
-                                               LaserConfig.MIN_WAVELENGTH,
-                                               LaserConfig.MAX_WAVELENGTH,
+                                               QuantumConfig.MIN_WAVELENGTH,
+                                               QuantumConfig.MAX_WAVELENGTH,
                                                LaserConfig.BEAM_CONTROL_IMAGE );
             getApparatusPanel().addGraphic( seedBeamControl );
         }
@@ -174,8 +175,8 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpBeamControl = new BeamControl( getApparatusPanel(),
                                                pumpControlLocation,
                                                pumpingBeam,
-                                               LaserConfig.MIN_WAVELENGTH,
-                                               LaserConfig.MAX_WAVELENGTH,
+                                               QuantumConfig.MIN_WAVELENGTH,
+                                               QuantumConfig.MAX_WAVELENGTH,
                                                LaserConfig.BEAM_CONTROL_IMAGE );
             wireGraphic.setLocation( -170, 40 );
             pumpBeamControl.addGraphic( wireGraphic );

@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.view;
+package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -18,8 +18,10 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+//import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.quantum.QuantumConfig;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -325,7 +327,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi = null;
         // If the wavelength is in the IR, use the special graphic
-        if( photon.getWavelength() > LaserConfig.MAX_WAVELENGTH ) {
+        if( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
             bi = s_IRphotonGraphic;
         }
         // Otherwise, get an image that is the appropriate duotone color

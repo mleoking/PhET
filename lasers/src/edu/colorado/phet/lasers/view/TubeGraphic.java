@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.quantum.view;
+package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
