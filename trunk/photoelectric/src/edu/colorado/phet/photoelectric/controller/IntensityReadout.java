@@ -85,9 +85,9 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
 //                                    PhotoelectricConfig.MAX_WAVELENGTH );
 //            this.beam.setPhotonsPerSecond( photonsPerSecond );
 
-            update( percent );
-
-//            update( photonsPerSecond );
+//            update( percent );
+//
+            update( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
             JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.get( "Intensity.message" ) );
@@ -96,6 +96,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     }
 
     private void update( double intensity ) {
+        System.out.println("intensity = " + intensity/ beam.getMaxIntensity());
         readout.setText( format.format( intensity / beam.getMaxIntensity() ) );
 //        readout.setText( format.format( intensity / beam.getMaxPhotonsPerSecond() ) );
     }
