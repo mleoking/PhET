@@ -1,5 +1,3 @@
-/* LookAndFeelValues.java */
-
 package com.pixelzoom.util;
 
 import java.util.Arrays;

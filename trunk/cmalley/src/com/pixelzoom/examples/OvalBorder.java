@@ -74,6 +74,7 @@ public class OvalBorder implements Border {
         p.setBorder( new OvalBorder() );
 
         f.getContentPane().add( p );
+        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.show();
     }
 }
