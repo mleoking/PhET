@@ -36,6 +36,9 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/8/060 - implement module reset method for controls
+(9/8/06) - refactor methods out of module into a controller class
+(9/8/06) - make Piccolo graphic for black box using Java2D
 (9/8/06) - make images for electron, neutron, billard ball, plum pudding
 (9/7/06) - bugfix: behavior of white and monochromatic radio buttons is reversed
 (9/7/06) - discussed behavior of the various atomic models with Sam McKagan

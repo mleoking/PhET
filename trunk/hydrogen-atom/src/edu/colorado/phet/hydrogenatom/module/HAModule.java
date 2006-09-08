@@ -13,14 +13,11 @@ package edu.colorado.phet.hydrogenatom.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.JCheckBox;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
@@ -66,8 +63,7 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _spectrometerCheckBox;
     private PNode _spectrometerCheckBoxNode;
     
-    private MagicBoxBack _magicBoxBack;
-    private MagicBoxFront _magicBoxFront;
+    private BlackBox _blackBox;
     
     private ExperimentAtomNode _experimentAtomNode;
     private BilliardBallAtomNode _billiardBallAtomNode;
@@ -122,11 +118,6 @@ public class HAModule extends PiccoloModule {
             _modeSwitch = new ModeSwitch( _canvas );
             _modeSwitch.setOffset( 30, 10 );
             _rootNode.addChild( _modeSwitch );
-            _modeSwitch.addChangeListener( new ChangeListener() {
-               public void stateChanged( ChangeEvent event ) {
-                   handleModeChange();
-               }
-            });
         }
         
         // Atomic Model selector
@@ -134,12 +125,6 @@ public class HAModule extends PiccoloModule {
             _atomicModelSelector = new AtomicModelSelector( _canvas );
             _atomicModelSelector.setOffset( 300, 10 );
             _rootNode.addChild( _atomicModelSelector );
-            
-            _atomicModelSelector.addChangeListener( new ChangeListener() {
-               public void stateChanged( ChangeEvent event ) {
-                   handleAtomicModelChange();
-               }
-            });
         }
         
         // Gun
@@ -168,12 +153,6 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
             _energyDiagramCheckBoxNode.setOffset( 850, 120 );
             _rootNode.addChild( _energyDiagramCheckBoxNode );
-            
-            _energyDiagramCheckBox.addChangeListener( new ChangeListener() { 
-                public void stateChanged( ChangeEvent event ) {
-                    updateEnergyDiagram();
-                }
-            } );
         }
         
         // Energy diagrams
@@ -205,12 +184,6 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
             _spectrometerCheckBoxNode.setOffset( 700, 710 );
             _rootNode.addChild( _spectrometerCheckBoxNode );
-            
-            _spectrometerCheckBox.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    _spectrometer.setVisible( _spectrometerCheckBox.isSelected() );
-                }
-            } );
         }
         
         // Spectrometer
@@ -251,14 +224,10 @@ public class HAModule extends PiccoloModule {
         
         // Magic Box
         {
-           _magicBoxBack = new MagicBoxBack( 385, 385, 10 ); 
-           _rootNode.addChild( _magicBoxBack );
-           _magicBoxBack.setOffset( 300, 135 );
-           
-           _magicBoxFront = new MagicBoxFront( 385, 385 ); 
-           _magicBoxFront.setWindowOpen( true );
-           _rootNode.addChild( _magicBoxFront );
-           _magicBoxFront.setOffset( 300, 135 );
+           _blackBox = new BlackBox( 385, 385, 10 ); 
+           _rootNode.addChild( _blackBox.getBackNode() );
+           _rootNode.addChild( _blackBox.getFrontNode() );
+           _blackBox.setOffset( 300, 135 );
         }
         
         //----------------------------------------------------------------------------
@@ -270,6 +239,8 @@ public class HAModule extends PiccoloModule {
             _clockControlPanel = new HAClockControlPanel( (HAClock) getClock() );
             setClockControlPanel( _clockControlPanel );
         }
+        
+        HAController controller = new HAController( this, _modeSwitch, _atomicModelSelector, _gunNode,  _energyDiagramCheckBox, _spectrometerCheckBox );
         
         //----------------------------------------------------------------------------
         // Help
@@ -284,12 +255,9 @@ public class HAModule extends PiccoloModule {
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
-       
-        _canvas.addComponentListener( new LayoutListener() );
         
         reset();
-        layoutCanvas();
-
+        updateCanvasLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -299,46 +267,33 @@ public class HAModule extends PiccoloModule {
     private void reset() {
         _modeSwitch.setPredictionSelected( true );
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
+        _blackBox.open();
+        _gunNode.getGunTypeControlPanel().setLightSelected();
+        _gunNode.getLightControlPanel().getLightTypeControl().setMonochromaticSelected();
+        _gunNode.getLightControlPanel().getIntensityControl().setValue( 100 );
+        _gunNode.getLightControlPanel().getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
+        _gunNode.getAlphaParticleControlPanel().getIntensityControl().setValue( 100 );
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
     }
     
-    private void layoutCanvas() {
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    public void updateCanvasLayout() {
         //XXX
     }
     
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Fixes the "play area" layout when the window size changes.
-     */
-    private class LayoutListener extends ComponentAdapter {
-        public void componentResized( ComponentEvent event ) {
-            if ( event.getSource() == _canvas ) {
-                layoutCanvas();
-            }
-        }
+    public void updateBlackBox() {
+        _blackBox.setOpen( _modeSwitch.isPredictionSelected() );
     }
     
-    private void handleModeChange() {
+    public void updateAtomicModelSelector() {
         _atomicModelSelector.setVisible( _modeSwitch.isPredictionSelected() );
-        updateMagicBox();
-        updateAtomicModel();
-        updateEnergyDiagram();
     }
     
-    private void handleAtomicModelChange() {
-        updateAtomicModel();
-        updateEnergyDiagram(); 
-    }
-    
-    private void updateMagicBox() {
-        _magicBoxFront.setWindowOpen( _modeSwitch.isPredictionSelected() );
-    }
-    
-    private void updateAtomicModel() {
+    public void updateAtomicModel() {
         
         AtomicModel atomicModel = _atomicModelSelector.getSelection();
         
@@ -375,7 +330,7 @@ public class HAModule extends PiccoloModule {
         }
     }
     
-    private void updateEnergyDiagram() {
+    public void updateEnergyDiagram() {
         
         AtomicModel atomicModel = _atomicModelSelector.getSelection();
         
@@ -403,5 +358,9 @@ public class HAModule extends PiccoloModule {
                 _solarSystemEnergyDiagram.setVisible( _energyDiagramCheckBox.isSelected() );
             }
         }
+    }
+    
+    public void updateSpectrometer() {
+        _spectrometer.setVisible( _spectrometerCheckBox.isSelected() );
     }
 }

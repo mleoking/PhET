@@ -125,23 +125,23 @@ public class GunTypeControlPanel extends PhetPNode {
         _alphaParticlesButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         
         // Default state
-        setLightSelected( true );
+        setLightSelected();
     }
     
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void setLightSelected( boolean selected ) {
-        _lightButton.setSelected( selected );
+    public void setLightSelected() {
+        _lightButton.setSelected( true );
     }
     
     public boolean isLightSelected() {
         return _lightButton.isSelected();
     }
     
-    public void setAlphaParticlesSelected( boolean selected ) {
-        _alphaParticlesButton.setSelected( selected );
+    public void setAlphaParticlesSelected() {
+        _alphaParticlesButton.setSelected( true );
     }
     
     public boolean isAlphaParticlesSelected() {
