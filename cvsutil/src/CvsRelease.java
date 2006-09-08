@@ -83,7 +83,12 @@ public class CvsRelease extends CvsUtil {
     }
 
 
-    public static void main( String[] args ) throws IOException {
-        new CvsRelease( args );
+    public static void main( String[] args ) {
+        try {
+            new CvsRelease( args );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

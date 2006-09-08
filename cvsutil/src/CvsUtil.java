@@ -9,6 +9,7 @@
  * Date modified : $Date$
  */
 
+import javax.swing.*;
 import java.io.*;
 
 /**
@@ -90,5 +91,13 @@ public abstract class CvsUtil {
         out.flush();
         in.close();
         out.close();
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( "CVS Util");
+        frame.setContentPane( new CvsUtilPanel() );
+        frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
