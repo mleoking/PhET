@@ -94,7 +94,12 @@ public class CvsMigrate extends CvsUtil {
     }
 
 
-    public static void main( String[] args ) throws IOException {
-        new CvsMigrate( args);
+    public static void main( String[] args ) {
+        try {
+            new CvsMigrate( args);
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
