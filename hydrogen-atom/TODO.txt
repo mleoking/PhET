@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bigger energy diagrams ala Discharge Lamps sim
-- 3D "magic box" with cut-out side that holds 6 atoms, make it as big as possible
 - title bar and close button on spectrometer
 - gun nozzle same size as side of magic box (bigger gun? or just bigger nozzle?)
 - redo "gun type" control panel, horizontal radio buttons at top of controls
