@@ -47,6 +47,9 @@ public class HAModule extends PiccoloModule {
     
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
     
+    private static final Dimension BLACK_BOX_SIZE = new Dimension( 425, 425 );
+    private static final double BLACK_BOX_DEPTH = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -116,21 +119,18 @@ public class HAModule extends PiccoloModule {
         // Mode switch (experiment/prediction)
         {
             _modeSwitch = new ModeSwitch( _canvas );
-            _modeSwitch.setOffset( 30, 10 );
             _rootNode.addChild( _modeSwitch );
         }
         
         // Atomic Model selector
         {
             _atomicModelSelector = new AtomicModelSelector( _canvas );
-            _atomicModelSelector.setOffset( 300, 10 );
             _rootNode.addChild( _atomicModelSelector );
         }
         
         // Gun
         {
             _gunNode = new GunNode( _canvas );
-            _gunNode.setOffset( 30, 220 );
             _rootNode.addChild( _gunNode );
         }
         
@@ -138,10 +138,6 @@ public class HAModule extends PiccoloModule {
         {
             _notToScaleLabel = new PText( SimStrings.get( "label.notToScale" ) );
             _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
-            PBounds b = _modeSwitch.getFullBounds();
-            double x = b.getX();
-            double y = b.getY() + b.getHeight() + 15;
-            _notToScaleLabel.setOffset( x, y );
             _rootNode.addChild( _notToScaleLabel );
         }
         
@@ -151,7 +147,6 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBox.setOpaque( false );
             _energyDiagramCheckBox.setFont( HAConstants.CONTROL_FONT );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
-            _energyDiagramCheckBoxNode.setOffset( 850, 120 );
             _rootNode.addChild( _energyDiagramCheckBoxNode );
         }
         
@@ -161,14 +156,6 @@ public class HAModule extends PiccoloModule {
             _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram();
             _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram();
             _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram();
-            
-            PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
-            double x = b.getX() + b.getWidth() - _bohrEnergyDiagram.getFullBounds().getWidth();
-            double y = b.getY() + b.getHeight() + 10;
-            _bohrEnergyDiagram.setOffset( x, y );
-            _deBroglieEnergyDiagram.setOffset( x, y );
-            _schrodingerEnergyDiagram.setOffset( x, y );
-            _solarSystemEnergyDiagram.setOffset( x, y );
             
             _rootNode.addChild( _bohrEnergyDiagram );
             _rootNode.addChild( _deBroglieEnergyDiagram );
@@ -182,14 +169,12 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBox.setOpaque( false );
             _spectrometerCheckBox.setFont( HAConstants.CONTROL_FONT );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
-            _spectrometerCheckBoxNode.setOffset( 700, 710 );
             _rootNode.addChild( _spectrometerCheckBoxNode );
         }
         
         // Spectrometer
         {
             _spectrometer = new Spectrometer( _canvas, false /* isaSnapshot */ );
-            _spectrometer.setOffset( 700, 525 );
             _rootNode.addChild( _spectrometer );
         }
         
@@ -203,16 +188,6 @@ public class HAModule extends PiccoloModule {
             _schrodingerAtomNode = new SchrodingerAtomNode();
             _solarSystemAtomNode = new SolarSystemAtomNode();
             
-            double x = 300;
-            double y = 135;
-            _experimentAtomNode.setOffset( x, y );
-            _billiardBallAtomNode.setOffset( x, y );
-            _bohrAtomNode.setOffset( x, y );
-            _deBroglieAtomNode.setOffset( x, y );
-            _plumPuddingAtomNode.setOffset( x, y );
-            _schrodingerAtomNode.setOffset( x, y );
-            _solarSystemAtomNode.setOffset( x, y );
-            
 //            _rootNode.addChild( _experimentAtomNode );
 //            _rootNode.addChild( _billiardBallAtomNode );
 //            _rootNode.addChild( _bohrAtomNode );
@@ -224,10 +199,9 @@ public class HAModule extends PiccoloModule {
         
         // Magic Box
         {
-           _blackBox = new BlackBox( 385, 385, 10 ); 
+           _blackBox = new BlackBox( BLACK_BOX_SIZE.width, BLACK_BOX_SIZE.height, BLACK_BOX_DEPTH ); 
            _rootNode.addChild( _blackBox.getBackNode() );
            _rootNode.addChild( _blackBox.getFrontNode() );
-           _blackBox.setOffset( 300, 135 );
         }
         
         //----------------------------------------------------------------------------
@@ -282,7 +256,48 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     public void updateCanvasLayout() {
-        //XXX
+        
+        _modeSwitch.setOffset( 30, 10 );
+        _atomicModelSelector.setOffset( 300, 10 );
+        _gunNode.setOffset( 30, 220 );
+        
+        {
+            PBounds b = _modeSwitch.getFullBounds();
+            double x = b.getX();
+            double y = b.getY() + b.getHeight() + 15;
+            _notToScaleLabel.setOffset( x, y );
+        }
+        
+        _energyDiagramCheckBoxNode.setOffset( 850, 120 );
+        
+        //XXX temporary
+        {
+            PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
+            double x = b.getX() + b.getWidth() - _bohrEnergyDiagram.getFullBounds().getWidth();
+            double y = b.getY() + b.getHeight() + 10;
+            _bohrEnergyDiagram.setOffset( x, y );
+            _deBroglieEnergyDiagram.setOffset( x, y );
+            _schrodingerEnergyDiagram.setOffset( x, y );
+            _solarSystemEnergyDiagram.setOffset( x, y );
+        }
+        
+        _spectrometerCheckBoxNode.setOffset( 500, 710 );
+        _spectrometer.setOffset( 700, 565 );
+        
+        //XXX temporary
+        {
+            double x = 300;
+            double y = 135;
+            _experimentAtomNode.setOffset( x, y );
+            _billiardBallAtomNode.setOffset( x, y );
+            _bohrAtomNode.setOffset( x, y );
+            _deBroglieAtomNode.setOffset( x, y );
+            _plumPuddingAtomNode.setOffset( x, y );
+            _schrodingerAtomNode.setOffset( x, y );
+            _solarSystemAtomNode.setOffset( x, y );
+        }
+        
+        _blackBox.setOffset( 300, 130 );
     }
     
     public void updateBlackBox() {
