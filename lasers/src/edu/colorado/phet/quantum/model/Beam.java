@@ -163,28 +163,41 @@ public class Beam extends Particle implements PhotonSource {
      * @param maxWavelength
      */
     public void setIntensity( double intensity, double minWavelength, double maxWavelength ) {
-        double wavelengthRange = maxWavelength - minWavelength;
-        double middleWavelength = wavelengthRange / 2 + minWavelength;
+//        double wavelengthRange = maxWavelength - minWavelength;
+//        double middleWavelength = wavelengthRange / 2 + minWavelength;
 //        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
-        double photonRate = intensity * getWavelength();
-        setPhotonsPerSecond( photonRate );
+//        setPhotonsPerSecond( photonRate );
+//
+        setPhotonsPerSecond( intensity * intensityToRateFactor( minWavelength, maxWavelength ));
     }
 
     public double getIntensity( double minWavelength, double maxWavelength ) {
+//        double wavelengthRange = maxWavelength - minWavelength;
+//        double middleWavelength = wavelengthRange / 2 + minWavelength;
+//        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
+//        return intensity;
+
+        return photonsPerSecond * rateToIntensityFactor( minWavelength, maxWavelength );
+    }
+
+    private double rateToIntensityFactor(double minWavelength, double maxWavelength ) {
+        return 1 / intensityToRateFactor( minWavelength, maxWavelength );
+    }
+
+    private double intensityToRateFactor(double minWavelength, double maxWavelength ) {
         double wavelengthRange = maxWavelength - minWavelength;
         double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double intensity = photonsPerSecond / getWavelength();
-//        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
-        return intensity;
+        double intensityFactor = 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange );
+        return intensityFactor;
     }
 
     public double getMaxPhotonsPerSecond() {
         return this.maxPhotonsPerSecond;
     }
 
-//    public double getMaxIntensity() {
-//        return maxPhotonsPerSecond ;
-//    }
+    public double getMaxIntensity( double minWavelength, double maxWavelength ) {
+        return maxPhotonsPerSecond * rateToIntensityFactor( minWavelength, maxWavelength ) ;
+    }
 
     public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
