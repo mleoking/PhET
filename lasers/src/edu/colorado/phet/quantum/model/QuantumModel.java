@@ -27,9 +27,9 @@ public class QuantumModel extends BaseModel implements Photon.LeftSystemEventLis
         removeModelElement( event.getPhoton() );
     }
 
-    public AtomicState getGroundState() {
-        return currentElementProperties.getGroundState();
-    }
+//    public AtomicState getGroundState() {
+//        return currentElementProperties.getGroundState();
+//    }
 
     protected ElementProperties getCurrentElementProperties() {
 //    protected LaserElementProperties getCurrentElementProperties() {
