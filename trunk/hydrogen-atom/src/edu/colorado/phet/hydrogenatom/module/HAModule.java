@@ -130,7 +130,7 @@ public class HAModule extends PiccoloModule {
         // Gun
         {
             _gunNode = new GunNode( _canvas );
-            _gunNode.setOffset( 30, 200 );
+            _gunNode.setOffset( 30, 220 );
             _rootNode.addChild( _gunNode );
         }
         

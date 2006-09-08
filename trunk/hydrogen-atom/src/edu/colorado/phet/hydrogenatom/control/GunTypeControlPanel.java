@@ -54,10 +54,6 @@ public class GunTypeControlPanel extends PhetPNode {
         
         _listenerList = new EventListenerList();
         
-        // Title
-        JLabel title = new JLabel( SimStrings.get( "title.gunTypeControls" ) );
-        title.setFont( HAConstants.TITLE_FONT );
-        
         // Images
         Icon photonIcon = null;
         Icon alphaParticleIcon = null;
@@ -101,7 +97,6 @@ public class GunTypeControlPanel extends PhetPNode {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
-        layout.addComponent( title, row++, col );
         layout.addComponent( photonsControl, row++, col );
         layout.addComponent( alphaParticleControl, row, col );
         
@@ -120,7 +115,6 @@ public class GunTypeControlPanel extends PhetPNode {
 
         // Colors
         panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
-        title.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND);
         _lightButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         _alphaParticlesButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         
