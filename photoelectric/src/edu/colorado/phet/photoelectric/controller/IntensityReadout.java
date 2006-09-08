@@ -92,11 +92,12 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
             text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
             double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
             photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
-//            this.beam.setIntensity( percent,
-//                                    PhotoelectricConfig.MIN_WAVELENGTH,
-//                                    PhotoelectricConfig.MAX_WAVELENGTH );
+            double intensity = percent / 100 * beam.getMaxIntensity( PhotoelectricConfig.MIN_WAVELENGTH,
+                                    PhotoelectricConfig.MAX_WAVELENGTH );
+            beam.setIntensity( intensity,
+                                    PhotoelectricConfig.MAX_WAVELENGTH );
 //            this.beam.setPhotonsPerSecond( photonsPerSecond );
-            this.beam.setPhotonsPerSecond( readoutValueToPhotonsPerSecond() );
+//            this.beam.setPhotonsPerSecond( readoutValueToPhotonsPerSecond() );
 
 //            update( percent );
 
@@ -108,9 +109,10 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         }
     }
 
-    private void update( double photonsPerSecond ) {
-//        readout.setText( format.format( photonsPerSecond / beam.getMaxIntensity() ) );
-        readout.setText( format.format( photonsPerSecond / beam.getMaxPhotonsPerSecond() ) );
+    private void update( double intensity ) {
+        readout.setText( format.format( intensity / beam.getMaxIntensity(PhotoelectricConfig.MIN_WAVELENGTH,
+                                                              PhotoelectricConfig.MAX_WAVELENGTH ) ) );
+//        readout.setText( format.format( photonsPerSecond / beam.getMaxPhotonsPerSecond() ) );
     }
 
     void setValue( double wavelength ) {
@@ -118,10 +120,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     }
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-//        update( beam.getIntensity( PhotoelectricConfig.MIN_WAVELENGTH,
-//                                   PhotoelectricConfig.MAX_WAVELENGTH ) );
-        if( !selfUpdating ) {
-            update( event.getRate() );
-        }
+        update( beam.getIntensity( PhotoelectricConfig.MAX_WAVELENGTH ) );
+//            update( event.getRate() );
     }
 }

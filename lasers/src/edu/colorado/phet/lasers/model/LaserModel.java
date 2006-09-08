@@ -323,6 +323,10 @@ public class  LaserModel extends QuantumModel {
         return numPhotons;
     }
 
+//    public AtomicState getGroundState() {
+//        return getCurrentElementProperties().getGroundState();
+//    }
+//
     public AtomicState getMiddleEnergyState() {
         return getCurrentElementProperties().getStates()[1];
     }
