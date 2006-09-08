@@ -5,17 +5,17 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bigger energy diagrams ala Discharge Lamps sim
+- redo "gun type" control panel, lose title, horizontal radio buttons at top of controls
+- make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
+- bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
+- bug: spectrometer buttons are fully transparent on Win98
 - title bar and close button on spectrometer
-- gun nozzle same size as side of magic box (bigger gun? or just bigger nozzle?)
-- redo "gun type" control panel, horizontal radio buttons at top of controls
-- toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
-- spectrometer buttons are fully transparent on Win98
-- create spectrometers snapshots
+- title realtime spectrometer with "Photons emitted"
 - title spectrometer snapshots with name of atomic model used to create it
-- add "Photons emitted" title to spectrometer
+- create spectrometers snapshots
 - add close icon to spectrometer snapshot
-- spectrometer snapshot should not have a camera button
+- remove camera button from spectrometer snapshot
+- bigger energy diagrams ala Discharge Lamps sim
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
@@ -35,6 +35,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/8/06) - remove title from gun type control panel
 (9/8/06) - implement module reset method for controls
 (9/8/06) - refactor methods out of module into a controller class
 (9/8/06) - make Piccolo graphic for black box using Java2D
