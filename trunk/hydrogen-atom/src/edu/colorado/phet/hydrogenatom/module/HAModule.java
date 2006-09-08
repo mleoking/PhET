@@ -66,6 +66,9 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _spectrometerCheckBox;
     private PNode _spectrometerCheckBoxNode;
     
+    private MagicBoxBack _magicBoxBack;
+    private MagicBoxFront _magicBoxFront;
+    
     private ExperimentAtomNode _experimentAtomNode;
     private BilliardBallAtomNode _billiardBallAtomNode;
     private BohrAtomNode _bohrAtomNode;
@@ -121,9 +124,7 @@ public class HAModule extends PiccoloModule {
             _rootNode.addChild( _modeSwitch );
             _modeSwitch.addChangeListener( new ChangeListener() {
                public void stateChanged( ChangeEvent event ) {
-                   _atomicModelSelector.setVisible( _modeSwitch.isPredictionSelected() );
-                   updateAtomNode();
-                   updateEnergyDiagram();
+                   handleModeChange();
                }
             });
         }
@@ -136,8 +137,7 @@ public class HAModule extends PiccoloModule {
             
             _atomicModelSelector.addChangeListener( new ChangeListener() {
                public void stateChanged( ChangeEvent event ) {
-                   updateAtomNode();
-                   updateEnergyDiagram(); 
+                   handleAtomicModelChange();
                }
             });
         }
@@ -240,13 +240,25 @@ public class HAModule extends PiccoloModule {
             _schrodingerAtomNode.setOffset( x, y );
             _solarSystemAtomNode.setOffset( x, y );
             
-            _rootNode.addChild( _experimentAtomNode );
-            _rootNode.addChild( _billiardBallAtomNode );
-            _rootNode.addChild( _bohrAtomNode );
-            _rootNode.addChild( _deBroglieAtomNode );
-            _rootNode.addChild( _plumPuddingAtomNode );
-            _rootNode.addChild( _schrodingerAtomNode );
-            _rootNode.addChild( _solarSystemAtomNode );
+//            _rootNode.addChild( _experimentAtomNode );
+//            _rootNode.addChild( _billiardBallAtomNode );
+//            _rootNode.addChild( _bohrAtomNode );
+//            _rootNode.addChild( _deBroglieAtomNode );
+//            _rootNode.addChild( _plumPuddingAtomNode );
+//            _rootNode.addChild( _schrodingerAtomNode );
+//            _rootNode.addChild( _solarSystemAtomNode );
+        }
+        
+        // Magic Box
+        {
+           _magicBoxBack = new MagicBoxBack( 385, 385, 10 ); 
+           _rootNode.addChild( _magicBoxBack );
+           _magicBoxBack.setOffset( 300, 135 );
+           
+           _magicBoxFront = new MagicBoxFront( 385, 385 ); 
+           _magicBoxFront.setWindowOpen( true );
+           _rootNode.addChild( _magicBoxFront );
+           _magicBoxFront.setOffset( 300, 135 );
         }
         
         //----------------------------------------------------------------------------
@@ -310,7 +322,23 @@ public class HAModule extends PiccoloModule {
         }
     }
     
-    private void updateAtomNode() {
+    private void handleModeChange() {
+        _atomicModelSelector.setVisible( _modeSwitch.isPredictionSelected() );
+        updateMagicBox();
+        updateAtomicModel();
+        updateEnergyDiagram();
+    }
+    
+    private void handleAtomicModelChange() {
+        updateAtomicModel();
+        updateEnergyDiagram(); 
+    }
+    
+    private void updateMagicBox() {
+        _magicBoxFront.setWindowOpen( _modeSwitch.isPredictionSelected() );
+    }
+    
+    private void updateAtomicModel() {
         
         AtomicModel atomicModel = _atomicModelSelector.getSelection();
         
