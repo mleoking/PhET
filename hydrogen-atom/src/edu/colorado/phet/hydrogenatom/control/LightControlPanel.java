@@ -110,7 +110,7 @@ public class LightControlPanel extends PhetPNode {
         } );
         
         // Default state
-        _lightTypeControl.setMonochromaticSelected( true );
+        _lightTypeControl.setMonochromaticSelected();
         _intensityControl.setValue( 100 );
         _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
     }

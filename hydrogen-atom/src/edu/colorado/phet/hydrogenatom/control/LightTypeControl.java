@@ -87,23 +87,23 @@ public class LightTypeControl extends JPanel {
         _monochromaticButton.setOpaque( false );
         
         // Default state
-        setWhiteSelected( true );
+        setWhiteSelected();
     }
     
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void setWhiteSelected( boolean selected ) {
-        _whiteButton.setSelected( selected );
+    public void setWhiteSelected() {
+        _whiteButton.setSelected( true );
     }
     
     public boolean isWhiteSelected() {
         return _whiteButton.isSelected();
     }
     
-    public void setMonochromaticSelected( boolean selected ) {
-        _monochromaticButton.setSelected( selected );
+    public void setMonochromaticSelected() {
+        _monochromaticButton.setSelected( true );
     }
     
     public boolean isMonochromaticSelected() {
