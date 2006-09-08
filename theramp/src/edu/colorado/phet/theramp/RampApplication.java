@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class RampApplication extends PhetApplication {
-    private static final String VERSION = "0.00.25";
+    private static final String VERSION = "1.01";
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
 
     private RampModule simpleRampModule;
