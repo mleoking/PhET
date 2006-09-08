@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- redo "gun type" control panel, lose title, horizontal radio buttons at top of controls
+- redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
 - bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
 - bug: spectrometer buttons are fully transparent on Win98
@@ -20,7 +20,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - redo gun on/off buttons using Fireworks
-- when atomic model is changed, delete all photons & alpha particles, clear spectrometer
+- when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - make control panels have rounded corners and textured backgrounds
 - redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
 - when do things reset? (eg, does spectrometer reset when you change the model?)

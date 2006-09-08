@@ -36,8 +36,8 @@ public class GunNode extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static double PANEL_Y_OFFSET = 280;
-    private static double PANEL_Y_SPACING = 0;
+    private static double PANEL_Y_OFFSET = 265;
+    private static double PANEL_Y_SPACING = 15;
     
     //----------------------------------------------------------------------------
     // Instance data
