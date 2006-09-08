@@ -72,15 +72,12 @@ public class MovingManApplication {
     }
 
     private static void runMain( String[] args ) throws IOException {
-//        AbstractClock clock = new SwingTimerClock( 1, 30, true );
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
-//        clock.set
-//        clock.setDelay( 30 );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
-        String revision = MOVING_MAN_VERSION;
-        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " - " + revision,
+        String version = MOVING_MAN_VERSION;
+        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " (" + version + ")",
                                                       SimStrings.get( "MovingManApplication.description" ),
-                                                      revision, setup );
+                                                      version, setup );
         desc.setName( "movingman" );
         PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );
         PhetFrame frame = tpa.getPhetFrame();
