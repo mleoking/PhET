@@ -21,6 +21,7 @@ HIGH PRIORITY:
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
+- redo gun on/off buttons using Fireworks
 - when atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - make control panels have rounded corners and textured backgrounds
 - redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
