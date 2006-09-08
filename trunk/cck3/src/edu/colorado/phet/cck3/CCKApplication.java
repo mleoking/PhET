@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.common_cck.application.ApplicationModel;
+import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
@@ -16,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -42,12 +44,20 @@ public class CCKApplication {
         }
 
         cckModule = new CCKModule( args );
+        Module cckModule2 = new CCKModule( args );
+        cckModule2.setName( "mod 2" );
+
+        Module[] modules = new Module[]{cckModule, cckModule2};
+
+
         String subTitle = Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
         FrameSetup frameSetup = debugMode ? new FrameSetup.CenteredWithInsets( 0, 200 ) : (FrameSetup)new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 75, 100 ) );
         ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + subTitle + " (" + readVersion() + ")",
                                                        SimStrings.get( "CCK3Application.description" ),
-                                                       SimStrings.get( "CCK3Application.version" ), frameSetup, cckModule, clock );
+                                                       SimStrings.get( "CCK3Application.version" ), frameSetup, modules, clock );
+//                                                       SimStrings.get( "CCK3Application.version" ), frameSetup, cckModule, clock );
         model.setName( "cck" );
+        model.setInitialModule( cckModule );
 
         application = new PhetApplication( model );
         application.getApplicationView().getPhetFrame().addMenu( new LookAndFeelMenu() );
@@ -97,17 +107,26 @@ public class CCKApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                SimStrings.init( args, localizedStringsPath );
-                new CCKPhetLookAndFeel().initLookAndFeel();
-                try {
-                    new CCKApplication( args ).startApplication();
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    SimStrings.init( args, localizedStringsPath );
+                    new CCKPhetLookAndFeel().initLookAndFeel();
+                    try {
+                        new CCKApplication( args ).startApplication();
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
                 }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
+        System.out.println( "args = " + args );
     }
 }
