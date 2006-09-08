@@ -91,11 +91,11 @@ public class PlaybackPanel extends JPanel {
             }
 
             public void recordingPaused() {
-                setButtons( true, true, false, false );
+                setButtons( true, true, false, true );
             }
 
             public void recordingFinished() {
-                setButtons( true, true, false, false );
+                setButtons( true, true, false, true );
             }
 
             public void playbackFinished() {
