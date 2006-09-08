@@ -463,13 +463,20 @@ public class CCKModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        this.aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, aspectRatio );
-        this.aspectRatioPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                relayout();
-            }
-        } );
-        app.getApplicationView().getBasicPhetPanel().setApparatusPanelContainer( aspectRatioPanel );
+        //Todo see below.
+        /**
+         * This code was originally used in CCK to ensure aspect ratio is correct.  However, it replaces the
+         * existing apparatus panel container and is incompatibile with multiple modules.
+         */
+
+//        this.aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, aspectRatio );
+//        this.aspectRatioPanel.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                relayout();
+//            }
+//        } );
+//        app.getApplicationView().getBasicPhetPanel().setApparatusPanelContainer( aspectRatioPanel );
+
     }
 
     public Circuit getCircuit() {

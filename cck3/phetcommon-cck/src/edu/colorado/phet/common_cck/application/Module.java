@@ -143,4 +143,8 @@ public class Module {
 
     public void showMegaHelp() {
     }
+
+    public void setName( String s ) {
+        this.name = s;
+    }
 }
