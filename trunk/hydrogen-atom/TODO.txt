@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- get requirements for which things in the play area should resize
 - bigger energy diagrams ala Discharge Lamps sim
 - 3D "magic box" with cut-out side that holds 6 atoms, make it as big as possible
 - title bar and close button on spectrometer
@@ -37,10 +36,11 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
-(9/8/060 - implement module reset method for controls
+(9/8/06) - implement module reset method for controls
 (9/8/06) - refactor methods out of module into a controller class
 (9/8/06) - make Piccolo graphic for black box using Java2D
 (9/8/06) - make images for electron, neutron, billard ball, plum pudding
+(9/7/06) - verified requirement that everything in the play area should resize when sim window is resized
 (9/7/06) - bugfix: behavior of white and monochromatic radio buttons is reversed
 (9/7/06) - discussed behavior of the various atomic models with Sam McKagan
 (9/7/06) - replaced HANode with PhetPNode
