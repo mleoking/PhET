@@ -1,17 +1,7 @@
-/* Copyright 2003-2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.util;
 
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
 
 /**
  * This formatter never returns zero-values with a minus
@@ -20,7 +10,7 @@ import java.text.FieldPosition;
  * whereas
  * new DefaultDecimalFormat("0.0").format(-0) returns "0.0";
  */
-public class DefaultDecimalFormat extends DecimalFormat {
+public class DefaultDecimalFormat {
     private DecimalFormat decimalFormat;
 
     public DefaultDecimalFormat( String str ) {
@@ -31,18 +21,11 @@ public class DefaultDecimalFormat extends DecimalFormat {
         this.decimalFormat = decimalFormat;
     }
 
-    public StringBuffer format( double number, StringBuffer result,
-                                FieldPosition fieldPosition ) {
-        StringBuffer a = decimalFormat.format( number, new StringBuffer(), fieldPosition );
-        if( Double.parseDouble( a.toString() ) == 0 && a.indexOf( "-" ) == 0 ) {
-            String x = a.toString();
-            x = x.substring( 1 );
-            result.append( x );
+    public String format( double val ) {
+        String str = decimalFormat.format( val );
+        if( Double.parseDouble( str.replace( ',', '.' ) ) == 0 && str.indexOf( "-" ) >= 0 ) {
+            return format( 0 );
         }
-        else {
-            result.append( a );
-        }
-        return result;
+        return str;
     }
-
 }
