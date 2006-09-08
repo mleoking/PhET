@@ -171,7 +171,8 @@ public class Beam extends Particle implements PhotonSource {
 //        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
 //        setPhotonsPerSecond( photonRate );
 //
-        setPhotonsPerSecond( intensity * intensityToRateFactor( maxWavelength ));
+        setPhotonsPerSecond( intensity );         
+//        setPhotonsPerSecond( intensity * intensityToRateFactor( maxWavelength ));
     }
 
     public double getIntensity( double maxWavelength ) {
@@ -180,6 +181,7 @@ public class Beam extends Particle implements PhotonSource {
 //        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
 //        return intensity;
 
+        if( true ) return photonsPerSecond;
         return photonsPerSecond * rateToIntensityFactor( maxWavelength );
     }
 

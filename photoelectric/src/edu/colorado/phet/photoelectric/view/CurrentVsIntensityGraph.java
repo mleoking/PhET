@@ -79,21 +79,21 @@ public class CurrentVsIntensityGraph extends PhotoelectricGraph {
 
         model.addChangeListener(new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged(PhotoelectricModel.ChangeEvent event) {
-                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MIN_WAVELENGTH),
+                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MAX_WAVELENGTH),
                              model.getCurrent());
 //                addDataPoint(model.getBeam().getPhotonsPerSecond(), model.getCurrent());
             }
 
             public void voltageChanged(PhotoelectricModel.ChangeEvent event) {
                 lineDataSet.clear();
-                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MIN_WAVELENGTH),
+                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MAX_WAVELENGTH),
                              model.getCurrent());
 //                addDataPoint(model.getBeam().getPhotonsPerSecond(), model.getCurrent());
             }
 
             public void wavelengthChanged(PhotoelectricModel.ChangeEvent event) {
                 lineDataSet.clear();
-                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MIN_WAVELENGTH),
+                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MAX_WAVELENGTH),
                              model.getCurrent());
 //                addDataPoint(model.getBeam().getPhotonsPerSecond(), model.getCurrent());
             }
@@ -103,7 +103,7 @@ public class CurrentVsIntensityGraph extends PhotoelectricGraph {
             }
 
             public void beamIntensityChanged(PhotoelectricModel.ChangeEvent event) {
-                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MIN_WAVELENGTH),
+                addDataPoint(model.getBeam().getIntensity( PhotoelectricConfig.MAX_WAVELENGTH),
                              model.getCurrent());
 //                addDataPoint(model.getBeam().getPhotonsPerSecond(), model.getCurrent());
             }
