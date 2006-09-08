@@ -1,0 +1,64 @@
+<project name="General Ant Build Script" default="Generate Jar" basedir=".">
+
+    <property name="distname" value="${dist-name}"/>
+    <property name="main.class" value="${main-class}" />
+
+    <!--  Set ant output directories.  -->
+    <property name="ant.output" value="../ant_output"/>
+    <property name="classes" location="${ant.output}/classes"/>
+    <property name="jars" location="${ant.output}/jars"/>
+    <property name="javadoc" location="${ant.output}/javadoc"/>
+    <property name="lib" location="${ant.output}/lib"/>
+
+    <!--    Set current sister directories, for backup and release data. -->
+    <property name="development" location=".."/>
+    <property name="backup" location="../backup"/>
+    <property name="releases" location="../releases"/>
+    <property name="idea.classes" location="${development}/classes"/>
+
+    <!--  Set up child directories, for during the build.  -->
+    <property name="src" location="../src"/>
+
+    <target name="Clean Dependencies">
+        <delete dir="${idea.classes}"></delete>
+        <mkdir dir="${idea.classes}"></mkdir>
+    </target>
+
+    <target name="init">
+        <tstamp/>
+    </target>
+
+    <target name="Clean"
+        description="clean up">
+        <delete dir="${classes}"/>
+        <delete dir="${jars}"/>
+    </target>
+
+    <target name="Compile" depends="init"
+        description="compile the source ">
+        <delete dir="${classes}"/>
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" destdir="${classes}"/>
+    </target>
+
+    <target name="Generate Build Info">
+        <tstamp>
+            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
+        </tstamp>
+    </target>
+
+    <target name="Generate Jar" depends="Compile"
+        description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <delete dir="${jars}"/>
+        <mkdir dir="${jars}"/>
+        <antcall target="Generate Build Info"/>
+        <jar destfile="${jars}/${distname}.jar">
+            <fileset dir="${classes}"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>
