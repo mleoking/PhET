@@ -40,13 +40,16 @@ public class PhetAudioClip {
             line.open( AudioSystem.getAudioInputStream( url.openStream() ) );
         }
         catch( Exception e ) {
+            e.printStackTrace();
             throw new PhetAudioException( e, this );
         }
     }
 
     public void playAndWait() {
-        line.start();
+//        System.out.println( "Started playing: " + url );
         line.setFramePosition( 0 );//prepare for next run
+        line.start();
+//        System.out.println( "Finished playing: " + url );
     }
 
     public void play() {
