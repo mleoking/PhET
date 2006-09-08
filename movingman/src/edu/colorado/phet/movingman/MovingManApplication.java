@@ -14,7 +14,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -43,16 +42,18 @@ public class MovingManApplication {
         PhetLookAndFeel.setLookAndFeel();
 
         String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
+//        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+//            Locale.setDefault( new Locale( applicationLocale ) );
+//        }
+        String path = localizedStringsPath;
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
+//            Locale.setDefault( new Locale( locale ) );
+            path += "_" + locale;
         }
-
-        SimStrings.setStrings( localizedStringsPath );
+        System.out.println( "path = " + path );
+        SimStrings.setStrings( path );
 
 //        // Initialize localized strings
 //        SimStrings.init( args, localizedStringsPath );
