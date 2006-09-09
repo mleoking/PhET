@@ -12,12 +12,20 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.util.EventListener;
 import java.util.EventObject;
 
 /**
  * Battery
+ * <p>
+ * For the purposed of the Discharge Lamps simulation, the battery cannot have a
+ * 0 voltage. This is done so that if one of the plates is being heated, electrons
+ * will be produced even if the voltage on the batter reads 0. See setVoltage().
+ * The value that is set if 0 is sent as a parameter is chosen so that electrons
+ * will be produced, but the value will still show up as 0 on readouts. It's a
+ * good question whether this should have been done here or in the view.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -51,6 +59,9 @@ public class Battery extends SimpleObservable {
     }
 
     public void setVoltage( double voltage ) {
+        if( voltage == 0 ) {
+            voltage = 0.004 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+        }
         this.voltage = voltage;
         changeListenerProxy.voltageChanged( new ChangeEvent( this ) );
         super.notifyObservers();

@@ -38,7 +38,7 @@ public class BatteryReadout extends GraphicLayerSet {
         super( component );
         this.centerPoint = centerPoint;
 
-        readout = new JTextField( 4 );
+        readout = new JTextField( 5 );
         readout.setHorizontalAlignment( JTextField.HORIZONTAL );
         readout.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

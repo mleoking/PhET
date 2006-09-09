@@ -14,6 +14,7 @@ package edu.colorado.phet.dischargelamps.control;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Battery;
 
@@ -129,6 +130,7 @@ public class BatterySlider extends GraphicSlider {
             if( event.getSource() == BatterySlider.this ) {
                 // Read the value.
                 double voltage = getValue();
+
                 // Update the model.
                 model.setVoltage( voltage / voltageCalibrationFactor );
             }

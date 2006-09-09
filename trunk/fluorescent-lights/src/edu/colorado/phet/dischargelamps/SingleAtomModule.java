@@ -44,6 +44,7 @@ public class SingleAtomModule extends DischargeLampModule {
     private double maxCurrent = 3;
 //    private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
+    private JPanel logoPanel;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -68,6 +69,10 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add module-specific controls
         addControls();
+
+        // Get the default logo panel, so we can restore it after it is removed
+        // when we go into continuous mode;
+//        setLogoPanel( getLogoPanel() );
 
         setSquigglesEnabled( true );
     }
@@ -128,7 +133,7 @@ public class SingleAtomModule extends DischargeLampModule {
                 GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.NONE,
-                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                 new Insets( -5, 0, -1, 0 ), 0, 0 );
                 JPanel rbPanel = new JPanel();
                 rbPanel.add( singleShotRB );
                 rbPanel.add( continuousRB );
@@ -136,6 +141,7 @@ public class SingleAtomModule extends DischargeLampModule {
                 gbc.anchor = GridBagConstraints.CENTER;
                 gbc.gridy = 1;
                 gbc.gridx = 0;
+                gbc.insets = new Insets( 0, 0, -1, 0 );
                 electronProductionControlPanel.add( singleShotBtn, gbc );
                 electronProductionControlPanel.add( currentSlider, gbc );
 
@@ -144,9 +150,6 @@ public class SingleAtomModule extends DischargeLampModule {
                 getControlPanel().add( elmp );
             }
         }
-
-        // Slow motion check box
-//        getControlPanel().add( new SlowMotionCheckBox( (Clock)getClock() ) );
 
         // Set the size of the panel
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
@@ -162,6 +165,12 @@ public class SingleAtomModule extends DischargeLampModule {
      * @param singleShotBtn
      */
     private void setSingleShotElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
+
+        if( getLogoPanel() == null ) {
+            setLogoPanel( logoPanel );
+            getControlPanel().revalidate();
+        }
+
         currentSlider.setVisible( false );
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
@@ -183,6 +192,12 @@ public class SingleAtomModule extends DischargeLampModule {
 //        collisionEnergyIndicatorGraphic.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
         super.setHeatingElementsVisible( true );
+
+        if( logoPanel == null ) {
+            logoPanel = getLogoPanel();
+        }
+        setLogoPanel( null );
+        getControlPanel().revalidate();
     }
 
     /**
