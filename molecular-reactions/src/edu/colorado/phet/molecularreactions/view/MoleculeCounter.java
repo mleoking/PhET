@@ -23,11 +23,15 @@ import java.util.List;
 
 /**
  * MoleculeCounter
+ * <p>
+ * Listens to the model to detect when molecules are added and removed to the model,
+ * and listens
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener {
+public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener,
+                                                           Molecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
     private int cnt;
@@ -45,13 +49,15 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
         super( columns );
         this.moleculeClass = moleculeClass;
         this.model = model;
+        model.addListener( this );
+        Molecule.addClassListener( this );
+
         Rectangle2D r = model.getBox().getBounds();
         Rectangle2D generatorBounds = new Rectangle2D.Double( r.getMinX() + 20,
                                                               r.getMinY() + 20,
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
         moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5 );
-        model.addListener( this );
         setText( "0" );
 
         this.addActionListener( new ActionListener() {
@@ -117,6 +123,23 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
         }
     }
 
+    private void setMoleculeCount() {
+        List modelElements = model.getModelElements();
+        int n = 0;
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( moleculeClass.isInstance( o ) && !( (Molecule)o ).isPartOfComposite() ) {
+                n++;
+            }
+        }
+        cnt = n;
+        setText( Integer.toString( n ) );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of PublishingModel.Listener
+    //--------------------------------------------------------------------------------------------------
+
     public void modelElementAdded( ModelElement element ) {
         if( !selfUpdating && moleculeClass.isInstance( element ) ) {
             setMoleculeCount();
@@ -129,16 +152,11 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
         }
     }
 
-    private void setMoleculeCount() {
-        List modelElements = model.getModelElements();
-        int n = 0;
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( moleculeClass.isInstance( o )) {
-                n++;
-            }
-        }
-        cnt = n;
-        setText( Integer.toString( n ) );
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of Molecule.ClassListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void statusChanged( Molecule molecule ) {
+        setMoleculeCount();
     }
 }

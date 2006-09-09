@@ -30,6 +30,29 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 abstract public class Molecule extends Body implements Collidable {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+    public static interface ClassListener extends EventListener {
+        void statusChanged( Molecule molecule );
+    }
+
+    public static EventChannel classEventChannel = new EventChannel( ClassListener.class );
+    private ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
+
+    public static void addClassListener( ClassListener listener ) {
+        classEventChannel.addListener( listener );
+    }
+
+    public static void removeClassListener( ClassListener listener ) {
+        classEventChannel.removeListener( listener );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private CollidableAdapter collidableAdapter;
     private Molecule parentComposite;
 
@@ -85,12 +108,7 @@ abstract public class Molecule extends Body implements Collidable {
 
     public boolean isPartOfComposite() {
         return parentComposite != null;
-//        return isPartOfComposite;
     }
-
-//    public void setPartOfComposite( boolean partOfComposite ) {
-//        isPartOfComposite = partOfComposite;
-//    }
 
     public Molecule getParentComposite() {
         return parentComposite;
@@ -98,6 +116,7 @@ abstract public class Molecule extends Body implements Collidable {
 
     public void setParentComposite( Molecule parentComposite ) {
         this.parentComposite = parentComposite;
+        classListenerProxy.statusChanged( this );
     }
 
     /**
