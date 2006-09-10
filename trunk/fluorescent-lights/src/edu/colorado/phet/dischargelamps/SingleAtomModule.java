@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
@@ -69,10 +70,6 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add module-specific controls
         addControls();
-
-        // Get the default logo panel, so we can restore it after it is removed
-        // when we go into continuous mode;
-//        setLogoPanel( getLogoPanel() );
 
         setSquigglesEnabled( true );
     }
@@ -168,7 +165,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         if( getLogoPanel() == null ) {
             setLogoPanel( logoPanel );
-            getControlPanel().revalidate();
+            PhetUtilities.getPhetFrame().repaint();
         }
 
         currentSlider.setVisible( false );
