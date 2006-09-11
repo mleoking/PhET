@@ -27,6 +27,7 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/11/06) - add y-axis to energy diagram
 (9/11/06) - bigger energy diagrams ala Discharge Lamps sim, draw placeholders using Java2D, delete images
 (9/11/06) - create and manage spectrometers snapshots
 (9/11/06) - title spectrometer snapshots with model name and snapshot#
