@@ -1,0 +1,4 @@
+New in 1.01 (9-11-2006)
+Added build & deployment process.
+Switched to native look and feel.
+Added title and version info to the title bar.
