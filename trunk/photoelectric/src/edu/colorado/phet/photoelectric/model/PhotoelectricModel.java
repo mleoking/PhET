@@ -326,7 +326,6 @@ public class PhotoelectricModel extends DischargeLampModel {
      */
     private class PhotonTracker implements PhotonEmittedListener, Photon.LeftSystemEventListener {
         public void photonEmitted( PhotonEmittedEvent event ) {
-//        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             addModelElement( photon );
             photons.add( photon );
@@ -378,8 +377,6 @@ public class PhotoelectricModel extends DischargeLampModel {
     //-----------------------------------------------------------------
     // Events and listeners
     //-----------------------------------------------------------------
-
-//    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private EventChannel changeEventChannel = new ModelEventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
