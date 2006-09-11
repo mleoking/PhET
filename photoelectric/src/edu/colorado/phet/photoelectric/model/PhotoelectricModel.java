@@ -56,7 +56,6 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     // Factor to make voltage across electrodes display properly calibrated
     public static final double VOLTAGE_SCALE_FACTOR = 1;
-//    public static final double VOLTAGE_SCALE_FACTOR = 0.2865;
 
     public static double MIN_VOLTAGE = -8;
     public static double MAX_VOLTAGE = 8;
@@ -64,7 +63,6 @@ public class PhotoelectricModel extends DischargeLampModel {
     public static double MAX_WAVELENGTH = 800;
     public static double MAX_PHOTONS_PER_SECOND = 500;
     public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR / 8;
-//    public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -105,12 +103,6 @@ public class PhotoelectricModel extends DischargeLampModel {
      *
      */
     public PhotoelectricModel( IClock clock ) {
-
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked(ClockEvent clockEvent) {
-                stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-        });
 
         // Set the max and min voltage of the battery
         getBattery().setMaxVoltage( MAX_VOLTAGE );
@@ -191,6 +183,8 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @param dt
      */
     public void stepInTime( double dt ) {
+
+        super.stepInTime( dt );
 
         // Check for photons hitting the cathode
         for( int i = 0; i < photons.size(); i++ ) {

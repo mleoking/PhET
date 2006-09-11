@@ -29,10 +29,6 @@ import java.util.Random;
  * vary by a specified fanout angle.
  * The beam has a beamWidth, and the photons are randomly distributed across that beamWidth.
  * It's position is at the midpoint of that beamWidth.
- * <p>
- * The beam has a derived attribute called intensity. This represents the fraction of maximum energy the
- * beam can produce, based on its maximum photons per second and the minimum wavelength,
- * or highest frequency, light it can produce. Its maximum value is the maximum photons per second.
  */
 public class Beam extends Particle implements PhotonSource {
 
@@ -157,53 +153,12 @@ public class Beam extends Particle implements PhotonSource {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
+        System.out.println( "nextTimeToProducePhoton = " + nextTimeToProducePhoton );
         rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent( this ) );
-    }
-
-    /**
-     *
-     * @param intensity
-     * @param maxWavelength
-     */
-    public void setIntensity( double intensity, double maxWavelength ) {
-//        double wavelengthRange = maxWavelength - minWavelength;
-//        double middleWavelength = wavelengthRange / 2 + minWavelength;
-//        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
-//        setPhotonsPerSecond( photonRate );
-//
-        setPhotonsPerSecond( intensity );         
-//        setPhotonsPerSecond( intensity * intensityToRateFactor( maxWavelength ));
-    }
-
-    public double getIntensity( double maxWavelength ) {
-//        double wavelengthRange = maxWavelength - minWavelength;
-//        double middleWavelength = wavelengthRange / 2 + minWavelength;
-//        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
-//        return intensity;
-
-        if( true ) return photonsPerSecond;
-        return photonsPerSecond * rateToIntensityFactor( maxWavelength );
-    }
-
-    private double rateToIntensityFactor(double minWavelength ) {
-        return 1 / intensityToRateFactor( minWavelength );
-    }
-
-    private double intensityToRateFactor( double maxWavelength ) {
-//        double wavelengthRange = maxWavelength - minWavelength;
-//        double middleWavelength = wavelengthRange / 2 + minWavelength;
-//        double intensityFactor = 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange );
-        double intensityFactor = getWavelength() / maxWavelength;
-        return intensityFactor;
     }
 
     public double getMaxPhotonsPerSecond() {
         return this.maxPhotonsPerSecond;
-    }
-
-    public double getMaxIntensity( double minWavelength, double maxWavelength ) {
-        return getMaxPhotonsPerSecond();
-//        return maxPhotonsPerSecond * rateToIntensityFactor( minWavelength, maxWavelength ) ;
     }
 
     public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
@@ -247,9 +202,11 @@ public class Beam extends Particle implements PhotonSource {
         // Produce photons
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
+            System.out.println( "timeSinceLastPhotonProduced = " + timeSinceLastPhotonProduced );
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
 
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
+                System.out.println( "nPhotons = " + nPhotons );
                 for( int i = 0; i < nPhotons; i++ ) {
                     // Set the photon's velocity to a fanout angle proportional to its distance from the
                     // center of the beam
