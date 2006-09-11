@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
 - add x-axis ticks and labels to spectrometer
 - redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
@@ -15,7 +16,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - make control panels have rounded corners and textured backgrounds
-- redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
 - canvas layout
 - get model details from Sam McKagan & Mike Dubson
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
