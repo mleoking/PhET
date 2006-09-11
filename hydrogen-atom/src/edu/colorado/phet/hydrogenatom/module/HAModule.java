@@ -13,6 +13,8 @@ package edu.colorado.phet.hydrogenatom.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 
@@ -32,8 +34,11 @@ import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -47,7 +52,7 @@ public class HAModule extends PiccoloModule {
     
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
     
-    private static final Dimension BLACK_BOX_SIZE = new Dimension( 425, 425 );
+    private static final Dimension BLACK_BOX_SIZE = new Dimension( 400, 400 );
     private static final double BLACK_BOX_DEPTH = 10;
     
     //----------------------------------------------------------------------------
@@ -57,6 +62,7 @@ public class HAModule extends PiccoloModule {
     private PhetPCanvas _canvas;
     private PNode _rootNode;
     
+    private HAController _controller;
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
@@ -82,8 +88,10 @@ public class HAModule extends PiccoloModule {
     private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
     
     private Spectrometer _spectrometer;
+    private ArrayList _spectrometerSnapshots; // list of Spectrometer
     
     private HAClockControlPanel _clockControlPanel;
+    private int _spectrumSnapshotCounter; // incremented each time a spectrometer snapshot is taken
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -174,8 +182,11 @@ public class HAModule extends PiccoloModule {
         
         // Spectrometer
         {
-            _spectrometer = new Spectrometer( _canvas, false /* isaSnapshot */ );
+            String title = SimStrings.get( "label.photonsEmitted" );
+            _spectrometer = new Spectrometer( _canvas, title, false /* isaSnapshot */ );
             _rootNode.addChild( _spectrometer );
+            
+            _spectrometerSnapshots = new ArrayList();
         }
         
         // Atom representations
@@ -214,7 +225,9 @@ public class HAModule extends PiccoloModule {
             setClockControlPanel( _clockControlPanel );
         }
         
-        HAController controller = new HAController( this, _modeSwitch, _atomicModelSelector, _gunNode,  _energyDiagramCheckBox, _spectrometerCheckBox );
+        _controller = new HAController( this, 
+                _modeSwitch, _atomicModelSelector, _gunNode,  
+                _energyDiagramCheckBox, _spectrometer, _spectrometerCheckBox );
         
         //----------------------------------------------------------------------------
         // Help
@@ -282,7 +295,7 @@ public class HAModule extends PiccoloModule {
         }
         
         _spectrometerCheckBoxNode.setOffset( 500, 710 );
-        _spectrometer.setOffset( 700, 565 );
+        _spectrometer.setOffset( 680, 550 );
         
         //XXX temporary
         {
@@ -376,6 +389,34 @@ public class HAModule extends PiccoloModule {
     }
     
     public void updateSpectrometer() {
-        _spectrometer.setVisible( _spectrometerCheckBox.isSelected() );
+        final boolean visible = _spectrometerCheckBox.isSelected();
+        _spectrometer.setVisible( visible );
+        Iterator i = _spectrometerSnapshots.iterator();
+        while ( i.hasNext() ) {
+            Spectrometer spectrometer = (Spectrometer)i.next();
+            spectrometer.setVisible( visible );
+        }
+    }
+    
+    public void createSpectrometerSnapshot() {
+        
+        _spectrumSnapshotCounter++;
+        
+        String title = SimStrings.get( "label.snapshot") + " " + _spectrumSnapshotCounter + ": " + _atomicModelSelector.getSelectionName();
+        final Spectrometer spectrometer = new Spectrometer( _canvas, title, true /* isaSnapshot */ );
+        
+        _rootNode.addChild( spectrometer );
+        _controller.addSpectrometerListener( spectrometer );
+        _spectrometerSnapshots.add( spectrometer );
+        
+        PBounds sb = _spectrometer.getFullBounds();
+        double x = sb.getX();
+        double y = sb.getY() - spectrometer.getFullBounds().getHeight() - ( 10 * _spectrometerSnapshots.size() );
+        spectrometer.setOffset( x, y );
+    }
+    
+    public void deleteSpectrometerSnapshot( Spectrometer spectrometer ) {
+        _rootNode.removeChild( spectrometer );
+        _spectrometerSnapshots.remove( spectrometer );
     }
 }

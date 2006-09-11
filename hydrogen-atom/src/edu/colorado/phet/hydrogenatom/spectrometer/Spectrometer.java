@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.hydrogenatom.spectrometer;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,14 +24,20 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener.SpectrometerEvent;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -42,6 +51,13 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class Spectrometer extends PhetPNode {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color TITLE_COLOR = Color.WHITE;
+    private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 14 );
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -51,20 +67,25 @@ public class Spectrometer extends PhetPNode {
     private JButton _snapshotButton;
     
     private boolean _isRunning;
+    private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Spectrometer( PSwingCanvas canvas, boolean isaSnapshot ) {
+    public Spectrometer( PSwingCanvas canvas, String title, boolean isaSnapshot ) {
         
         _isRunning = false;
+        _listenerList = new EventListenerList();
         
         // Images
         Icon cameraIcon = null;
+        Icon closeIcon = null;
         try {
             BufferedImage cameraImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CAMERA );
             cameraIcon = new ImageIcon( cameraImage );
+            BufferedImage closeImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOSE_BUTTON );
+            closeIcon = new ImageIcon( closeImage );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -78,10 +99,16 @@ public class Spectrometer extends PhetPNode {
             spectrometerImage = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER );
         }
         
-        _closeButton = new JButton( "close" );//XXX use an icon
+        PText titleNode = new PText( title );
+        titleNode.setFont( TITLE_FONT );
+        titleNode.setTextPaint( TITLE_COLOR );
+        
+        _closeButton = new JButton( closeIcon );
+        _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         _startStopButton = new JButton( SimStrings.get( "button.spectrometer.start" ) );
         _resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
         _snapshotButton = new JButton( cameraIcon );
+        _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
@@ -105,25 +132,136 @@ public class Spectrometer extends PhetPNode {
         _snapshotButton.setOpaque( false );
         
         addChild( spectrometerImage );
+        addChild( titleNode );
         if ( isaSnapshot ) {
             addChild( closeButtonNode );
         }
-        addChild( buttonPanelNode );
+        else {
+            addChild( buttonPanelNode );
+        }
         
         PBounds b = spectrometerImage.getFullBounds();
-        closeButtonNode.setOffset( b.getX() + 5, b.getY() + b.getHeight() - closeButtonNode.getFullBounds().getHeight() - 5 );
-        buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 5, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
-    
+        if ( isaSnapshot ) {
+            closeButtonNode.setOffset( b.getX() + 15, b.getY() + 8 );
+            PBounds cb = closeButtonNode.getFullBounds();
+            titleNode.setOffset( cb.getX() + cb.getWidth() + 5, b.getY() + 12 );
+        }
+        else {
+            titleNode.setOffset( b.getX() + 15, b.getY() + 12 );
+            buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 15, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
+        }
+        
         _startStopButton.addActionListener( new ActionListener() {
            public void actionPerformed( ActionEvent event ) {
                _isRunning = !_isRunning;
                if ( _isRunning ) {
+                   fireStart();
                    _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
                }
                else {
+                   fireStop();
                    _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
                }
            }
         });
+        _resetButton.addActionListener( new ActionListener() { 
+            public void actionPerformed( ActionEvent event ) {
+                fireReset();
+            }
+        } );
+        _closeButton.addActionListener( new ActionListener() { 
+            public void actionPerformed( ActionEvent event ) {
+                fireClose();
+            }
+        } );
+        _snapshotButton.addActionListener( new ActionListener() { 
+            public void actionPerformed( ActionEvent event ) {
+                fireSnapshot();
+            }
+        } );
+        
+        if ( isaSnapshot ) {
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    final double dx = event.getCanvasDelta().width;
+                    final double dy = event.getCanvasDelta().height;
+                    translate( dx, dy );
+                }
+                public void mousePressed( PInputEvent event ) {
+                    moveToFront();
+                }
+            } );
+        }
+        else {
+            buttonPanelNode.addInputEventListener( new CursorHandler() );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+
+    /**
+     * Adds a SpectrometerListener.
+     *
+     * @param listener the listener
+     */
+    public void addSpectrometerListener( SpectrometerListener listener ) {
+        _listenerList.add( SpectrometerListener.class, listener );
+    }
+
+    /**
+     * Removes a SpectrometerListener.
+     *
+     * @param listener the listener
+     */
+    public void removeSpectrometerListener( SpectrometerListener listener ) {
+        _listenerList.remove( SpectrometerListener.class, listener );
+    }
+
+    private void fireStart() {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == SpectrometerListener.class ) {
+                ( (SpectrometerListener)listeners[i + 1] ).start( new SpectrometerEvent( this ) );
+            }
+        }
+    }
+    
+    private void fireStop() {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == SpectrometerListener.class ) {
+                ( (SpectrometerListener)listeners[i + 1] ).stop( new SpectrometerEvent( this ) );
+            }
+        }
+    }
+
+    private void fireReset() {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == SpectrometerListener.class ) {
+                ( (SpectrometerListener)listeners[i + 1] ).reset( new SpectrometerEvent( this ) );
+            }
+        }
+    }
+
+    private void fireClose() {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == SpectrometerListener.class ) {
+                ( (SpectrometerListener)listeners[i + 1] ).close( new SpectrometerEvent( this ) );
+            }
+        }
+    }
+    
+    private void fireSnapshot() {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == SpectrometerListener.class ) {
+                ( (SpectrometerListener)listeners[i + 1] ).snapshot( new SpectrometerEvent( this ) );
+            }
+        }
     }
 }
