@@ -35,6 +35,8 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/11/06) - image for spectrometer close button
+(9/11/06) - new gun on/off buttons
 (9/8/06) - remove title from gun type control panel
 (9/8/06) - implement module reset method for controls
 (9/8/06) - refactor methods out of module into a controller class

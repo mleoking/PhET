@@ -119,6 +119,7 @@ public class HAConstants {
     public static final String IMAGE_BILLIARD_BALL = IMAGES_DIRECTORY + "billiardBall.png";
     public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
+    public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
     public static final String IMAGE_ELECTRON = IMAGES_DIRECTORY + "electron.png";
     public static final String IMAGE_EXPERIMENT_ATOM = IMAGES_DIRECTORY + "experimentAtom.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
