@@ -110,7 +110,7 @@ public class TestModule extends MRModule {
 
                 SimpleMolecule m2 = new MoleculeC();
                 m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
-                m2.setVelocity( 1.5, 0 );
+                m2.setVelocity( 3, 0 );
                 model.addModelElement( m2 );
             }
         }

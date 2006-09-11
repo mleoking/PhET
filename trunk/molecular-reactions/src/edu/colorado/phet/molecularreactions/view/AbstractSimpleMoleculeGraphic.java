@@ -105,12 +105,14 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         addChild( cmNode );
 
         // Catch mouse clicks that select this graphic's molecule
-        this.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseClicked( PInputEvent event ) {
-                super.mouseClicked( event );
-                getMolecule().setSelectionStatus( Selectable.SELECTED );
-            }
-        } );
+        if( molecule instanceof MoleculeA || molecule instanceof MoleculeC ) {
+            this.addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseClicked( PInputEvent event ) {
+                    super.mouseClicked( event );
+                    getMolecule().setSelectionStatus( Selectable.SELECTED );
+                }
+            } );
+        }
 
         update();
     }

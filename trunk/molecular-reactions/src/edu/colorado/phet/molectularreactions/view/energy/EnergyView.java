@@ -13,10 +13,7 @@ package edu.colorado.phet.molectularreactions.view.energy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.Selectable;
-import edu.colorado.phet.molecularreactions.model.PublishingModel;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 
 import java.awt.*;
@@ -45,8 +42,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;
-    private PNode selectedMoleculeGraphic;
-    private PNode nearestToSelectedMoleculeGraphic;
+    private EnergySimpleMoleculeGraphic selectedMoleculeGraphic;
+    private EnergySimpleMoleculeGraphic nearestToSelectedMoleculeGraphic;
 
     private PNode cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
@@ -84,7 +81,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         PPath curvePane = new PPath( new Rectangle2D.Double( 0,
                                                              0,
                                                              curvePaneSize.getWidth(),
-                                                             curvePaneSize.getHeight()) );
+                                                             curvePaneSize.getHeight() ) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
 
@@ -123,12 +120,55 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
     private void update() {
         if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
+
+            // Which side of the profile the molecules show up on depends on their type
+
+            // Identify which molecule is the free one, and which one is bound in a composite
+            SimpleMolecule boundMolecule = null;
+            SimpleMolecule freeMolecule = null;
+            if( selectedMolecule.isPartOfComposite() ) {
+                boundMolecule = selectedMolecule;
+                freeMolecule = nearestToSelectedMolecule;
+            }
+            else if( nearestToSelectedMolecule.isPartOfComposite() ) {
+                boundMolecule = nearestToSelectedMolecule;
+                freeMolecule = selectedMolecule;
+            }
+            else {
+//                throw new RuntimeException( "internal error");
+            }
+
+            int direction = 0;
+            // If the selected molecule is an A molecule and it's free, we're on the left
+            if( selectedMolecule instanceof MoleculeA && selectedMolecule == freeMolecule ) {
+                direction = -1;
+            }
+            // If the selected molecule is an A molecule and it's bound, we're on the right
+            else if( selectedMolecule instanceof MoleculeA && selectedMolecule == boundMolecule ) {
+                direction = 1;
+            }
+            // If the selected molecule is a C molecule and it's free, we're on the right
+            else if( selectedMolecule instanceof MoleculeC && selectedMolecule == freeMolecule ) {
+                direction = 1;
+            }
+            // If the selected molecule is a C molecule and it's bound, we're on the left
+            else if( selectedMolecule instanceof MoleculeC && selectedMolecule == boundMolecule ) {
+                direction = -1;
+            }
+            else {
+                throw new RuntimeException( "internal error");
+            }
+
+
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 100;
             double yOffset = 20;
             double xOffset = 20;
-            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 - edgeDist );
+
+//            double xDistFromCenter = curveAreaSize.getWidth() / 2 + ( edgeDist * direction );
+            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 + ( edgeDist * direction ));
+//            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 - edgeDist );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
             double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
             double yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
@@ -152,14 +192,18 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     // Implementation of MRModel.Listener
     //--------------------------------------------------------------------------------------------------
 
-    public void modelElementAdded( ModelElement element ) {
+    public void modelElementAdded
+            ( ModelElement
+                    element ) {
         if( element instanceof SimpleMolecule ) {
             SimpleMolecule molecule = (SimpleMolecule)element;
             molecule.addListener( this );
         }
     }
 
-    public void modelElementRemoved( ModelElement element ) {
+    public void modelElementRemoved
+            ( ModelElement
+                    element ) {
         if( element instanceof SimpleMolecule ) {
             SimpleMolecule molecule = (SimpleMolecule)element;
             molecule.removeListener( this );
@@ -170,7 +214,9 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------
 
-    public void selectionStatusChanged( SimpleMolecule molecule ) {
+    public void selectionStatusChanged
+            ( SimpleMolecule
+                    molecule ) {
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
@@ -190,7 +236,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         }
         update();
     }
-
 
     //--------------------------------------------------------------------------------------------------
     // Model element to track distance between molecules of interest
