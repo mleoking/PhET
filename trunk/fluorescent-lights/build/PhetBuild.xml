@@ -92,11 +92,11 @@ ignorepath      (those elements of the ant classpath that should not be
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}" classpath="${project_home}/../jfreechart/lib/jfreechart-1.0.0.jar;${project_home}/../jfreechart/lib/jcommon-1.0.0.jar">
             <src path="${project_home}/lasers/src"/>
-            <src path="${project_home}/lasers/controls-module/src"/>
+            <src path="${project_home}/lasers/controls-dir/src"/>
             <src path="${project_home}/lasers/phetgraphics-module/src"/>
             <src path="${project_home}/lasers/phetgraphics-module/phetcommon-module/src"/>
-            <src path="${project_home}/lasers/collision-module/src"/>
-            <src path="${project_home}/lasers/controls-module/src"/>
+            <src path="${project_home}/lasers/collision-dir/src"/>
+            <src path="${project_home}/lasers/controls-dir/src"/>
             <src path="${project_home}/lasers/mechanics-module/src"/>
             <!--            classpath="${addl-classpath}">-->
         </javac>
@@ -112,7 +112,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="${development}/lasers/controls-module/data"/>
+            <fileset dir="${development}/lasers/controls-dir/data"/>
             <fileset dir="${development}/lasers/data"/>
             <fileset dir="${development}/lasers/phetgraphics-module/phetcommon-module/data"/>
             <manifest>
