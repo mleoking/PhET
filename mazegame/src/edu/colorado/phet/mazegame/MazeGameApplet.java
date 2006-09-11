@@ -3,7 +3,8 @@ package edu.colorado.phet.mazegame;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
-import javax.imageio.ImageIO;
+import edu.colorado.phet.common.view.util.ImageLoader;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.applet.AudioClip;
@@ -57,8 +58,8 @@ public class MazeGameApplet extends JApplet {
         //splat = getImage(getDocumentBase(), "sunburst.gif");
         try {
 
-            splat = ImageIO.read( getClass().getClassLoader().getResource( "RedBang.gif" ) );
-            ballImage = ImageIO.read( getClass().getClassLoader().getResource( "ballsmall2.gif" ) );
+            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );
+            ballImage = ImageLoader.loadBufferedImage( "ballsmall2-orig.gif" );
 //            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
 //            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
         }
