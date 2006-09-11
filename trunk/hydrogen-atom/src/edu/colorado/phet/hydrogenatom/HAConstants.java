@@ -136,14 +136,10 @@ public class HAConstants {
     //XXX temporary images
     public static final String IMAGE_BILLIARD_BALL_ATOM = IMAGES_DIRECTORY + "tmp-billiardBallAtom.png";
     public static final String IMAGE_BOHR_ATOM = IMAGES_DIRECTORY + "tmp-bohrAtom.png";
-    public static final String IMAGE_BOHR_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-bohrEnergyDiagram.png";
     public static final String IMAGE_DEBROGLIE_ATOM = IMAGES_DIRECTORY + "tmp-deBroglieAtom.png";
-    public static final String IMAGE_DEBROGLIE_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-deBroglieEnergyDiagram.png";
     public static final String IMAGE_PLUM_PUDDING_ATOM = IMAGES_DIRECTORY + "tmp-plumPuddingAtom.png";
     public static final String IMAGE_SCHRODINGER_ATOM = IMAGES_DIRECTORY + "tmp-schrodingerAtom.png";
-    public static final String IMAGE_SCHRODINGER_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-schrodingerEnergyDiagram.png";
     public static final String IMAGE_SOLAR_SYSTEM_ATOM = IMAGES_DIRECTORY + "tmp-solarSystemAtom.png";
-    public static final String IMAGE_SOLAR_SYSTEM_ENERGY_DIAGRAM = IMAGES_DIRECTORY + "tmp-solarSystemEnergyDiagram.png";
     
     //----------------------------------------------------------------------------
     // Cursors

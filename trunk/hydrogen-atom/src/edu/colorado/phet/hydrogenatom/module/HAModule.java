@@ -281,12 +281,12 @@ public class HAModule extends PiccoloModule {
             _notToScaleLabel.setOffset( x, y );
         }
         
-        _energyDiagramCheckBoxNode.setOffset( 850, 120 );
-        
-        //XXX temporary
+        // Energy Diagram
         {
+            _energyDiagramCheckBoxNode.setOffset( 825, 120 );
+            
             PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
-            double x = b.getX() + b.getWidth() - _bohrEnergyDiagram.getFullBounds().getWidth();
+            double x = b.getX();
             double y = b.getY() + b.getHeight() + 10;
             _bohrEnergyDiagram.setOffset( x, y );
             _deBroglieEnergyDiagram.setOffset( x, y );
@@ -294,8 +294,11 @@ public class HAModule extends PiccoloModule {
             _solarSystemEnergyDiagram.setOffset( x, y );
         }
         
-        _spectrometerCheckBoxNode.setOffset( 500, 710 );
-        _spectrometer.setOffset( 680, 550 );
+        // Spectrometer
+        {
+            _spectrometerCheckBoxNode.setOffset( 500, 710 );
+            _spectrometer.setOffset( 680, 550 );
+        }
         
         //XXX temporary
         {
@@ -402,7 +405,14 @@ public class HAModule extends PiccoloModule {
         
         _spectrumSnapshotCounter++;
         
-        String title = SimStrings.get( "label.snapshot") + " " + _spectrumSnapshotCounter + ": " + _atomicModelSelector.getSelectionName();
+        String title = SimStrings.get( "label.snapshot") + " " + _spectrumSnapshotCounter + ": ";
+        if ( _modeSwitch.isPredictionSelected() ) {
+            title +=  _atomicModelSelector.getSelectionName();
+        }
+        else {
+            title += SimStrings.get( "title.spectrometer.experiment" );
+        }
+        
         final Spectrometer spectrometer = new Spectrometer( _canvas, title, true /* isaSnapshot */ );
         
         _rootNode.addChild( spectrometer );

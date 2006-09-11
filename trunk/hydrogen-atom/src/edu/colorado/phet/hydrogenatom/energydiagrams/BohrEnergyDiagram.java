@@ -17,6 +17,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 public class BohrEnergyDiagram extends AbstractEnergyDiagram {
 
     public BohrEnergyDiagram() {
-        super( HAConstants.IMAGE_BOHR_ENERGY_DIAGRAM );
+        super();
     }
 }

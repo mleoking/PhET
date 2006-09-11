@@ -17,6 +17,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram {
 
     public SchrodingerEnergyDiagram() {
-        super( HAConstants.IMAGE_SCHRODINGER_ENERGY_DIAGRAM );
+        super();
     }
 }

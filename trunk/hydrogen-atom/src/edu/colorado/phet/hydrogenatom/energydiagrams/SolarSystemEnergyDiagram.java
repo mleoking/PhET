@@ -17,6 +17,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram {
 
     public SolarSystemEnergyDiagram() {
-        super( HAConstants.IMAGE_SOLAR_SYSTEM_ENERGY_DIAGRAM );
+        super();
     }
 }
