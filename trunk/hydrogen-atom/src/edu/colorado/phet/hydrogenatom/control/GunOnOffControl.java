@@ -39,7 +39,7 @@ public class GunOnOffControl extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 33, 68 );
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 33, 72 );
     
     //----------------------------------------------------------------------------
     // Instance data

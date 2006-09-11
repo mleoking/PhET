@@ -238,6 +238,29 @@ public class AtomicModelSelector extends PhetPNode {
         return _selectedModel;
     }
     
+    public String getSelectionName() {
+        String name = null;
+        if ( _billiardBallButton.isSelected() ) {
+            name = _billiardBallButton.getText();
+        }
+        else if ( _plumPuddingButton.isSelected() ) {
+            name = _plumPuddingButton.getText();
+        }
+        else if ( _solarSystemButton.isSelected() ) {
+            name = _solarSystemButton.getText();
+        }
+        else if ( _bohrButton.isSelected() ) {
+            name = _bohrButton.getText();
+        }
+        else if ( _deBroglieButton.isSelected() ) {
+            name = _deBroglieButton.getText();
+        }
+        else if ( _schrodingerButton.isSelected() ) {
+            name = _schrodingerButton.getText();
+        }
+        return name;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------

@@ -20,6 +20,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
+import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener.SpectrometerAdapter;
 import edu.colorado.phet.hydrogenatom.view.GunNode;
 
 
@@ -30,7 +33,9 @@ public class HAController {
     private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
     private JCheckBox _energyDiagramCheckBox;
+    private Spectrometer _spectrometer;
     private JCheckBox _spectrometerCheckBox;
+    private SpectrometerListener _spectrometerListener;
     
     public HAController(
             HAModule module,
@@ -38,6 +43,7 @@ public class HAController {
             AtomicModelSelector atomicModelSelector,
             GunNode gunNode,
             JCheckBox energyDiagramCheckBox,
+            Spectrometer spectrometer,
             JCheckBox spectrometerCheckBox )
     {
         _module = module;
@@ -45,6 +51,7 @@ public class HAController {
         _atomicModelSelector = atomicModelSelector;
         _gunNode = gunNode;
         _energyDiagramCheckBox = energyDiagramCheckBox;
+        _spectrometer = spectrometer;
         _spectrometerCheckBox = spectrometerCheckBox;
         
         initListeners();
@@ -105,12 +112,34 @@ public class HAController {
                 handleEnergyDiagramSelection();
             }
         } );
+        
+        _spectrometerListener = new SpectrometerAdapter() {
+            public void close( SpectrometerEvent event ) {
+                handleSpectrometerClose( (Spectrometer)event.getSource() );
+            }
+            public void snapshot( SpectrometerEvent event ) {
+                handleSpectrometerSnapshot();
+            }
+        };
+        _spectrometer.addSpectrometerListener( _spectrometerListener );
          
         _spectrometerCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleSpectrometerSelection();
             }
         } );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators
+    //----------------------------------------------------------------------------
+    
+    public void addSpectrometerListener( Spectrometer spectrometer ) {
+        spectrometer.addSpectrometerListener( _spectrometerListener );
+    }
+    
+    public void removeSpectrometerListener( Spectrometer spectrometer ) {
+        spectrometer.removeSpectrometerListener( _spectrometerListener );
     }
     
     //----------------------------------------------------------------------------
@@ -159,5 +188,14 @@ public class HAController {
     
     private void handleSpectrometerSelection() {
         _module.updateSpectrometer();
+    }
+    
+    private void handleSpectrometerSnapshot() {
+        _module.createSpectrometerSnapshot();
+    }
+    
+    private void handleSpectrometerClose( Spectrometer spectrometer ) {
+        removeSpectrometerListener( spectrometer );
+        _module.deleteSpectrometerSnapshot( spectrometer );
     }
 }

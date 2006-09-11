@@ -9,12 +9,7 @@ HIGH PRIORITY:
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
 - bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
 - bug: spectrometer buttons are fully transparent on Win98
-- title bar and close button on spectrometer
-- title realtime spectrometer with "Photons emitted"
-- title spectrometer snapshots with name of atomic model used to create it
 - create spectrometers snapshots
-- add close icon to spectrometer snapshot
-- remove camera button from spectrometer snapshot
 - bigger energy diagrams ala Discharge Lamps sim
 - port spectrometer from Discharge Lamps sim
 
@@ -35,6 +30,11 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/11/06) - title spectrometer snapshots with model name and snapshot#
+(9/11/06) - title dynamic spectrometer with "Photons emitted"
+(9/11/06) - add close icon to spectrometer snapshot
+(9/11/06) - remove start/stop, reset, and camera buttons from spectrometer snapshot
+(9/11/06) - new image for spectrometer, with title area
 (9/11/06) - image for spectrometer close button
 (9/11/06) - new gun on/off buttons
 (9/8/06) - remove title from gun type control panel
