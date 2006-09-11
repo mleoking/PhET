@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add x-axis ticks and labels to spectrometer
 - redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
 - bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
