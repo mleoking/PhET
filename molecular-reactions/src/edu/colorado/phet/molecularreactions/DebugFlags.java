@@ -18,5 +18,5 @@ package edu.colorado.phet.molecularreactions;
  */
 public class DebugFlags {
     public static boolean SHOW_BOUNDING_BOX = false;
-    public static boolean SHOW_CM = true;
+    public static boolean SHOW_CM = false;
 }

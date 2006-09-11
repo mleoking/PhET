@@ -9,6 +9,8 @@ Bugs
 ==========
 Internal
 ==========
+- Some objects that listen to SimpleMolecule.Listener.selectionStatusChanged() should
+    listen instead to the SelectedMoleculeTracker. 
 - HardBodyCollision takes Molecules. It should take Body. Can't because it uses bounding box
     overlap test.
 - Look at todo in CompositeMolecule.releaseSimpleMolecule()

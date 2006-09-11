@@ -158,6 +158,22 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     }
 
     /**
+     * When a model element is removed from the model, we remove its associated graphic
+     * from the layer it's on, and remove the graphic from our records
+     *
+     * @param modelElement
+     */
+    public void modelElementRemoved( ModelElement modelElement ) {
+        GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
+        if( graphicRecord != null ) {
+            PNode layer = graphicRecord.getLayer();
+            PNode graphic = graphicRecord.getGraphic();
+            layer.removeChild( graphic );
+            modelElementToGraphicMap.remove( modelElement );
+        }
+    }
+
+    /**
      * Adds a graphic directly to the canvas. This is provided with a public interface so that
      * clients can add graphicsfor object that are not ModelElements.
      *
@@ -176,16 +192,6 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
      */
     public void addGraphic( PNode graphic, PNode layer ) {
         layer.addChild( graphic );
-    }
-
-    public void modelElementRemoved( ModelElement modelElement ) {
-        GraphicRecord graphicRecord = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
-        if( graphicRecord != null ) {
-            PNode layer = graphicRecord.getLayer();
-            PNode graphic = graphicRecord.getGraphic();
-            layer.removeChild( graphic );
-            modelElementToGraphicMap.remove( modelElement );
-        }
     }
 
     /**
@@ -210,6 +216,25 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
             invisibleGraphicClasses.remove( graphicClass );
         }
     }
+
+    /**
+     * Get all the graphics for model elemenst of a specified class
+     *
+     * @param modelElementClass
+     * @return all the graphics for the model elements of a specified class
+     */
+    public List getGraphicsForModelElementClass( Class modelElementClass ) {
+        List graphics = new ArrayList();
+        Iterator keyIt = modelElementToGraphicMap.keySet().iterator();
+        while( keyIt.hasNext() ) {
+            ModelElement modelElement = (ModelElement)keyIt.next();
+            if( modelElementClass.isInstance( modelElement )) {
+                graphics.add( modelElement );
+            }
+        }
+        return graphics;
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Inner classes
