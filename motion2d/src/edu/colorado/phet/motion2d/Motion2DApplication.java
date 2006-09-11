@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,25 +24,38 @@ public class Motion2DApplication {
 
     public static final String localizedStringsPath = "localization/Motion2dStrings";
 
-    public static void main( String[] args ) {
-        SimStrings.init( args, localizedStringsPath );
-        new Motion2DLookAndFeel().initLookAndFeel();
+    public static void main( final String[] args ) {
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
 
-        Motion2DApplet ja = new Motion2DApplet();
-        ja.init();
+                    SimStrings.init( args, localizedStringsPath );
+                    new Motion2DLookAndFeel().initLookAndFeel();
 
-        JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) + " (" + version + ")" );
+                    Motion2DApplet ja = new Motion2DApplet();
+                    ja.init();
 
-        f.setContentPane( ja );
+                    JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) + " (" + version + ")" );
 
-        f.setSize( 800, 500 );
-        centerFrameOnScreen( f );
+                    f.setContentPane( ja );
 
-        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        f.repaint();
-        SwingUtilities.invokeLater( new Repaint( ja ) );
+                    f.setSize( 800, 500 );
+                    centerFrameOnScreen( f );
 
-        f.setVisible( true );
+                    f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                    f.repaint();
+                    SwingUtilities.invokeLater( new Repaint( ja ) );
+
+                    f.setVisible( true );
+                }
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
     }
 
     private static void centerFrameOnScreen( JFrame f ) {
