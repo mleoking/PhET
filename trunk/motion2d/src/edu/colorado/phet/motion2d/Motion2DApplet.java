@@ -14,7 +14,7 @@ public class Motion2DApplet extends JApplet {
     private Container myPane;
     private Motion2DPanel motion2DPanel;
     Image ballImage, emptyImage;
-    Cursor hide, show;		//Invisible and visible mouse cursors
+    Cursor hide, show;        //Invisible and visible mouse cursors
 
     public Motion2DPanel getMotion2DPanel() {
         return motion2DPanel;
@@ -25,7 +25,7 @@ public class Motion2DApplet extends JApplet {
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }
-        SimStrings.setStrings( Motion2D.localizedStringsPath );
+        SimStrings.setStrings( Motion2DApplication.localizedStringsPath );
 
         try {
             ballImage = ImageLoaderSolo.loadBufferedImage( "ballsmall2.gif" );

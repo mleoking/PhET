@@ -23,7 +23,7 @@
         <jar href="motion2d/lib/phetcommon.jar"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.motion2d.Motion2D">
+    <application-desc main-class="edu.colorado.phet.motion2d.Motion2DApplication">
         <!-- uncomment to specify user language
           <argument>user.language=test</argument>
         -->
