@@ -25,6 +25,7 @@ LOW PRIORITY:
 - add ability to set dimensions of wavelength control
 - add ability to set knob size of wavelength control
 - add ability to set font for wavelength control
+- ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
 (9/11/06) - add y-axis to energy diagram
