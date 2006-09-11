@@ -11,17 +11,23 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 
 public abstract class AbstractEnergyDiagram extends PhetPNode {
 
-    public AbstractEnergyDiagram( String imageName ) {
+    public AbstractEnergyDiagram() {
         super();
         
-        PImage image = PImageFactory.create( imageName );
-        addChild( image );
+        PPath path = new PPath( new Rectangle2D.Double( 0, 0, 300, 380 ) );
+        path.setStroke( new BasicStroke( 2f ) );
+        path.setStrokePaint( Color.BLACK );
+        
+        addChild( path );
     }
 }

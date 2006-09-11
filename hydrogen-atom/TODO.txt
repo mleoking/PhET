@@ -9,8 +9,6 @@ HIGH PRIORITY:
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
 - bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
 - bug: spectrometer buttons are fully transparent on Win98
-- create spectrometers snapshots
-- bigger energy diagrams ala Discharge Lamps sim
 - port spectrometer from Discharge Lamps sim
 
 MEDIUM PRIORITY:
@@ -18,7 +16,6 @@ MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - make control panels have rounded corners and textured backgrounds
 - redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
-- when do things reset? (eg, does spectrometer reset when you change the model?)
 - canvas layout
 - get model details from Sam McKagan
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
@@ -30,6 +27,8 @@ LOW PRIORITY:
 - add ability to set font for wavelength control
 
 DONE:
+(9/11/06) - bigger energy diagrams ala Discharge Lamps sim, draw placeholders using Java2D, delete images
+(9/11/06) - create and manage spectrometers snapshots
 (9/11/06) - title spectrometer snapshots with model name and snapshot#
 (9/11/06) - title dynamic spectrometer with "Photons emitted"
 (9/11/06) - add close icon to spectrometer snapshot

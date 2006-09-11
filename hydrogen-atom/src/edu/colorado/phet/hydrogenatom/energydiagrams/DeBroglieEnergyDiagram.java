@@ -17,6 +17,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 public class DeBroglieEnergyDiagram extends AbstractEnergyDiagram {
 
     public DeBroglieEnergyDiagram() {
-        super( HAConstants.IMAGE_DEBROGLIE_ENERGY_DIAGRAM );
+        super();
     }
 }
