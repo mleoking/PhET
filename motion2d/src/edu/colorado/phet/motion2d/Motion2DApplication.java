@@ -9,7 +9,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,17 +17,20 @@ import java.util.Locale;
  * Time: 7:50:58 PM
  * To change this template use Options | File Templates.
  */
-public class Motion2D {
+public class Motion2DApplication {
     // Localization
+    public static final String version = "1.02";
+
     public static final String localizedStringsPath = "localization/Motion2dStrings";
-    
+
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
+        new Motion2DLookAndFeel().initLookAndFeel();
 
         Motion2DApplet ja = new Motion2DApplet();
         ja.init();
-        
-        JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) );
+
+        JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) + " (" + version + ")" );
 
         f.setContentPane( ja );
 
@@ -40,7 +42,6 @@ public class Motion2D {
         SwingUtilities.invokeLater( new Repaint( ja ) );
 
         f.setVisible( true );
-
     }
 
     private static void centerFrameOnScreen( JFrame f ) {
