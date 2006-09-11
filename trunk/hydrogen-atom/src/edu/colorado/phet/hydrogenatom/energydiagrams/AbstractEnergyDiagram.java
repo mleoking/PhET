@@ -55,7 +55,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         axisNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
         axisNode.setStrokePaint( AXIS_STROKE_COLOR );
 
-        // Arrow head
+        // Arrow head on y-axis
         PPath arrowNode = new PPath();
         GeneralPath arrowPath = new GeneralPath();
         arrowPath.moveTo( 0, 0 );
