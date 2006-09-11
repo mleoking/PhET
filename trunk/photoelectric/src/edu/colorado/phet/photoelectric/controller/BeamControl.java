@@ -31,7 +31,16 @@ import java.awt.*;
 /**
  * BeamControl
  * <p/>
- * A wavelength slider and intensity slider for controlling a CollimatedBeam
+ * A wavelength slider and intensity slider for controlling a CollimatedBeam.
+ * <p>
+ * The intensity slider actaully controls the photon production rate of the beam.
+ * It's range is 0 to beam.getMaxPhotonsPerSecond();
+ * <p>
+ * Next to the intensity slider is an editable text field that shows the percentage
+ * of maximum production that the beam is set to. This control is an instance of
+ * IntesityReadout.
+ * <p>
+ * Note that the slider works in photons per second, and the text field in percent.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -106,16 +115,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                 PhetUtilities.invokeLater( new Runnable() {
                     public void run() {
                         int value = wavelengthSlider.getValue();
-
-                        // When the wavelength changes, the photon rate needs to change, too, so
-                        // we need to make this call
-                        double intensity = beam.getIntensity( PhotoelectricConfig.MAX_WAVELENGTH );
-
                         beam.setWavelength( (int)( value ) );
-
-                        beam.setIntensity( intensity,
-                                           PhotoelectricConfig.MAX_WAVELENGTH );
-                        System.out.println( "beam.getPhotonsPerSecond() = " + beam.getPhotonsPerSecond() );
                     }
                 } );
             }
@@ -127,9 +127,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         // Make a spectrum intensitySlider
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
-//        intensitySlider.setMaximum( (int)maximumRate );
-        intensitySlider.setMaximum( (int)beam.getMaxIntensity( PhotoelectricConfig.MAX_WAVELENGTH,
-                                                               PhotoelectricConfig.MAX_WAVELENGTH ) );
+        intensitySlider.setMaximum( (int)maximumRate );
         intensitySlider.setLocation( intensitySliderLoc ); // default is (0,0)
         apparatusPanel.add( intensitySlider );
 
@@ -141,44 +139,11 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new IntesitySliderChangeListener( beam ) );
         beam.setPhotonsPerSecond( intensitySlider.getValue() );
-        beam.addWavelengthChangeListener( new WavelengthChangeListener( intensitySlider ) );
-    }
-
-//    public IntensitySlider getIntensityControl() {
-//        return intensitySlider;
-//    }
-
-    public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
-        private IntensitySlider slider;
-
-        public WavelengthChangeListener( IntensitySlider slider ) {
-            this.slider = slider;
-        }
-
-        /**
-         * When the wavelength changes, we want to keep the intensity constant, so we
-         * need to adjust the photon rate of the beam
-         *
-         * @param event
-         */
-        public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-            double intensity = intensitySlider.getValue();
-            beam.setIntensity( intensity, PhotoelectricConfig.MAX_WAVELENGTH );
-//            slider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
-        }
     }
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         intensitySlider.setVisible( visible );
-    }
-
-    private double sliderValueToPhotonsPerSecond( int sliderValue ) {
-        return ( (double)sliderValue / 100 ) * beam.getMaxPhotonsPerSecond();
-    }
-
-    private int photonsPerSecondToSliderValue( double photonsPerSecond ) {
-        return (int)( ( photonsPerSecond / beam.getMaxPhotonsPerSecond() ) * 100 );
     }
 
     //----------------------------------------------------------------
@@ -187,9 +152,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         if( !selfUpdating ) {
-//            intensitySlider.setValue( photonsPerSecondToSliderValue( beam.getPhotonsPerSecond() ) );
-//        intensitySlider.setValue( (int)( 100 * beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
-            intensitySlider.setValue( (int)Math.round( beam.getIntensity( PhotoelectricConfig.MAX_WAVELENGTH ) ) );
+            intensitySlider.setValue( (int)beam.getPhotonsPerSecond() );
         }
     }
 
@@ -204,10 +167,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
             PhetUtilities.invokeLater( new Runnable() {
                 public void run() {
                     selfUpdating = true;
-//                    beam.setPhotonsPerSecond( sliderValueToPhotonsPerSecond( intensitySlider.getValue() ) );
-                    //                        beam.setPhotonsPerSecond( ( intensitySlider.getValue() / 100 ) * beam.getMaxPhotonsPerSecond() );
-                    beam.setIntensity( intensitySlider.getValue(),
-                                       PhotoelectricConfig.MAX_WAVELENGTH );
+                    beam.setPhotonsPerSecond( intensitySlider.getValue() );
                     selfUpdating = false;
                 }
             } );
