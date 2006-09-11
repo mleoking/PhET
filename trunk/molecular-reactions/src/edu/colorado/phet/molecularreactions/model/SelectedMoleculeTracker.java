@@ -11,8 +11,10 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.List;
+import java.util.EventListener;
 
 /**
  * SelectedMoleculeTracker
@@ -32,17 +34,25 @@ public class SelectedMoleculeTracker implements ModelElement,
         model.addListener( this );
     }
 
-    public void setMoleculeTracked( SimpleMolecule moleculeTracked ) {
+    private void setMoleculeTracked( SimpleMolecule moleculeTracked ) {
+        SimpleMolecule prevMolecule = this.moleculeTracked;
+        if( prevMolecule != null ) {
+            prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
+        }
         this.moleculeTracked = moleculeTracked;
+        listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, prevMolecule );
+    }
+
+    public SimpleMolecule getMoleculeTracked() {
+        return moleculeTracked;
     }
 
     public void stepInTime( double dt ) {
         List modelElements = model.getModelElements();
 
-        // If the molecule being tracked is in the models list of elements, that means
-        // it's not in a composite molecule. If that's the case, look for the closest
-        // molecule to it of the other type
-        if( moleculeTracked != null && modelElements.contains( moleculeTracked )) {
+        // Look for the closest molecule to the one being tracked that isn't of the
+        // same type
+        if( moleculeTracked != null /*&& modelElements.contains( moleculeTracked )*/ ) {
 
             SimpleMolecule prevClosetMolecule = closestMolecule;
 
@@ -92,5 +102,23 @@ public class SelectedMoleculeTracker implements ModelElement,
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
             setMoleculeTracked( molecule );
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface Listener extends EventListener {
+        void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule);
+    }
+
+    private EventChannel listenerEventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)listenerEventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        listenerEventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listenerEventChannel.removeListener( listener );
     }
 }

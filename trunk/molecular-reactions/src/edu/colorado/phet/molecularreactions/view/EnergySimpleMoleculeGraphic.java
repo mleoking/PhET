@@ -25,6 +25,7 @@ public class EnergySimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
     }
 
     public void update() {
+        super.update();
 //        setOffset( getMolecule().getPosition() );
     }
 }

@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.view.Legend;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -59,8 +60,12 @@ public class TestControlPanel extends JPanel {
             }
         } );
 
-        add( thresholdEnergySlider, gbc );
+        // Button to pause and select a molecule
+        JButton selectMoleculeBtn = new JButton( "<html><center>Select molecule<br>to track");
+        selectMoleculeBtn.addActionListener( new SelectMoleculeAction( module.getClock(), model ) );
 
+        add( thresholdEnergySlider, gbc );
+        add( selectMoleculeBtn, gbc );
         add( new MoleculeInstanceControlPanel( model ), gbc );
     }
 }

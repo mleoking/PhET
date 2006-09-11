@@ -24,16 +24,15 @@ import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 
 /**
- * SimpleMoleculeGraphic
+ * SpatialSimpleMoleculeGraphic
+ * <p>
+ * Graphic for simple molecules for use in the SpatialView
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class SpatialSimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
     private PPath boundingBox;
-    private PPath cmNode;
-    private double r = 2;
-
 
     public SpatialSimpleMoleculeGraphic( SimpleMolecule molecule ) {
         super( molecule );
@@ -44,25 +43,15 @@ public class SpatialSimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic 
             addChild( boundingBox );
             update();
         }
-
-        if( DebugFlags.SHOW_CM ) {
-            cmNode = new PPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
-            cmNode.setPaint( Color.red );
-            addChild( cmNode );
-            update();
-        }
     }
 
     public void update() {
+        super.update();
         setOffset( getMolecule().getCM() );
         if( DebugFlags.SHOW_BOUNDING_BOX && boundingBox != null ) {
             boundingBox.setPathTo( getMolecule().getBoundingBox() );
             boundingBox.setOffset( -getMolecule().getPosition().getX(),
                                    -getMolecule().getPosition().getY() );
-        }
-
-        if( DebugFlags.SHOW_CM && cmNode != null ) {
-            cmNode.setPathTo( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
         }
     }
 }

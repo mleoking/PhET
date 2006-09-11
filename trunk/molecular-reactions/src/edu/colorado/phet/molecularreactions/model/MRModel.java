@@ -55,6 +55,7 @@ import java.awt.geom.Point2D;
 public class MRModel extends PublishingModel {
     private Box2D box;
     private Reaction reaction;
+    private SelectedMoleculeTracker selectedMoleculeTracker;
 
     /**
      * Constructor
@@ -78,7 +79,8 @@ public class MRModel extends PublishingModel {
 
         // Add an agent that will track the simple molecule that's closest to the selected
         // molecule
-        addModelElement( new SelectedMoleculeTracker( this ) );
+        selectedMoleculeTracker = new SelectedMoleculeTracker( this );
+        addModelElement( selectedMoleculeTracker );
 
         // Add an agent that will create provisional bonds when appropriate
         addModelElement( new ProvisionalBondDetector( this ));
@@ -99,6 +101,19 @@ public class MRModel extends PublishingModel {
     public Box2D getBox() {
         return box;
     }
+
+    public SimpleMolecule getMoleculeBeingTracked() {
+        return selectedMoleculeTracker.getMoleculeTracked();
+    }
+
+    public void addSelectedMoleculeTrackerListener( SelectedMoleculeTracker.Listener listener ) {
+        selectedMoleculeTracker.addListener( listener );
+    }
+
+    public void removeSelectedMoleculeTrackerListener( SelectedMoleculeTracker.Listener listener ) {
+        selectedMoleculeTracker.removeListener( listener );    
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
