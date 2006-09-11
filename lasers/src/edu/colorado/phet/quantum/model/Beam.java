@@ -153,7 +153,6 @@ public class Beam extends Particle implements PhotonSource {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-        System.out.println( "nextTimeToProducePhoton = " + nextTimeToProducePhoton );
         rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent( this ) );
     }
 
@@ -202,11 +201,9 @@ public class Beam extends Particle implements PhotonSource {
         // Produce photons
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
-            System.out.println( "timeSinceLastPhotonProduced = " + timeSinceLastPhotonProduced );
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
 
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
-                System.out.println( "nPhotons = " + nPhotons );
                 for( int i = 0; i < nPhotons; i++ ) {
                     // Set the photon's velocity to a fanout angle proportional to its distance from the
                     // center of the beam
