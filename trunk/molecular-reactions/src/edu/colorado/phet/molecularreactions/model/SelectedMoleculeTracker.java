@@ -52,7 +52,7 @@ public class SelectedMoleculeTracker implements ModelElement,
 
         // Look for the closest molecule to the one being tracked that isn't of the
         // same type
-        if( moleculeTracked != null /*&& modelElements.contains( moleculeTracked )*/ ) {
+        if( moleculeTracked != null ) {
 
             SimpleMolecule prevClosetMolecule = closestMolecule;
 
@@ -61,10 +61,13 @@ public class SelectedMoleculeTracker implements ModelElement,
                 Object o = modelElements.get( i );
                 if( o instanceof SimpleMolecule && o != moleculeTracked ) {
                     SimpleMolecule testMolecule = (SimpleMolecule)o;
+                    if( moleculeTracked instanceof MoleculeA && testMolecule instanceof MoleculeB
+                            || moleculeTracked instanceof MoleculeC && testMolecule instanceof MoleculeB ) {
                     double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
                     if( distSq < closestDistSq ) {
                         closestDistSq = distSq;
                         closestMolecule = testMolecule;
+                    }
                     }
                 }
             }
