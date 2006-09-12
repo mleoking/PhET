@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -29,6 +30,7 @@ import edu.colorado.phet.quantum.model.Electron;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 
 /**
  * CollisionEnergyIndicator
@@ -116,6 +118,54 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
 //        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
         plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() - Electron.ELECTRON_RADIUS;
 //        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() + Electron.ELECTRON_RADIUS;
+
+        Point2D p1Upper = new Point2D.Double( model.getLeftHandPlate().getPosition().getX(),
+                                         model.getLeftHandPlate().getPosition().getY() +
+                                         Electron.ELECTRON_RADIUS +
+                                         ( model.getLeftHandPlate().getEndpoints()[1].getY()
+                                           - model.getLeftHandPlate().getEndpoints()[0].getY() ) / 2 );
+        Point2D p2Upper = new Point2D.Double( model.getRightHandPlate().getPosition().getX(),
+                                         model.getRightHandPlate().getPosition().getY() +
+                                         Electron.ELECTRON_RADIUS +
+                                         ( model.getRightHandPlate().getEndpoints()[1].getY()
+                                           - model.getRightHandPlate().getEndpoints()[0].getY() ) / 2 );
+        Line2D lUpper = new Line2D.Double( p1Upper, p2Upper );
+        Ellipse2D e = new Ellipse2D.Double( atom.getCM().getX() - atom.getRadius(),
+                                            atom.getCM().getY() - atom.getRadius(),
+                                            atom.getRadius() * 2,
+                                            atom.getRadius() * 2 );
+        Point2D[] paUpper = MathUtil.getLineCircleIntersection( e, lUpper );
+
+        Point2D p1Lower = new Point2D.Double( model.getLeftHandPlate().getPosition().getX(),
+                                         model.getLeftHandPlate().getPosition().getY() -
+                                         Electron.ELECTRON_RADIUS +
+                                         ( model.getLeftHandPlate().getEndpoints()[1].getY()
+                                           - model.getLeftHandPlate().getEndpoints()[0].getY() ) / 2 );
+        Point2D p2Lower = new Point2D.Double( model.getRightHandPlate().getPosition().getX(),
+                                         model.getRightHandPlate().getPosition().getY() -
+                                         Electron.ELECTRON_RADIUS +
+                                         ( model.getRightHandPlate().getEndpoints()[1].getY()
+                                           - model.getRightHandPlate().getEndpoints()[0].getY() ) / 2 );
+        Line2D lLower = new Line2D.Double( p1Lower, p2Lower );
+        Point2D[] paLower = MathUtil.getLineCircleIntersection( e, lLower );
+
+        this.setVisible( false );
+        double dUpper = Double.POSITIVE_INFINITY;
+        if( paUpper[0] != null && paUpper[1] != null ) {
+            this.setVisible( true );
+            double d1 = Math.abs( emittingPlate.getPosition().getX() - paUpper[0].getX() );
+            double d2 = Math.abs( emittingPlate.getPosition().getX() - paUpper[1].getX() );
+            dUpper = Math.min( d1, d2 ) - Electron.ELECTRON_RADIUS;
+        }
+        double dLower= Double.POSITIVE_INFINITY;
+        if( paLower[0] != null && paLower[1] != null ) {
+            this.setVisible( true );
+            double d1 = Math.abs( emittingPlate.getPosition().getX() - paLower[0].getX() );
+            double d2 = Math.abs( emittingPlate.getPosition().getX() - paLower[1].getX() );
+            dLower = Math.min( d1, d2 ) - Electron.ELECTRON_RADIUS;
+        }
+        plateToAtomDist = Math.min( dUpper, dLower );
+
 
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
