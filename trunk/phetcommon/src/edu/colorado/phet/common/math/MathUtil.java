@@ -13,6 +13,7 @@ package edu.colorado.phet.common.math;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 /**
@@ -545,5 +546,49 @@ public class MathUtil {
             }
         }
         return a * aFactor;
+    }
+
+    /**
+     * Returns the points where a line intersects a circle, if they exist.
+     * Adapted from:
+     * Weisstein, Eric W. "Circle-Line Intersection."
+     * From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/Circle-LineIntersection.html
+     * <p>
+     * Modified to handle circles that are not centered at (0,0).
+     *
+     * @param c An Ellipse2D. Assumes width == height
+     * @param l A Line2D.
+     * @return An array of two points. If the line is tangent to the circle, the array contains two points
+     * with the same coordinates. If the line does not intersect the circle, the array contains two nulls.
+     */
+    public static Point2D[] getLineCircleIntersection( Ellipse2D c, Line2D l ) {
+
+        double cx = c.getCenterX();
+        double cy = c.getCenterY();
+        double x1 = l.getX1() - cx;
+        double x2 = l.getX2() - cx;
+        double y1 = l.getY1() - cy;
+        double y2 = l.getY2() - cy;
+        double r = c.getWidth() / 2;
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double dr = Math.sqrt( dx * dx + dy * dy );
+        double D = x1 * y2 - x2 * y1;
+
+        double discriminant = r*r*dr*dr - D*D;
+        double radical = Math.sqrt( discriminant );
+        double numeratorX_1 = D*dy - MathUtil.getSign( dy )* dx * radical;
+        double numeratorX_2 = D*dy + MathUtil.getSign( dy )* dx * radical;
+
+        double numeratorY_1 = -D*dx - Math.abs(dy)*radical;
+        double numeratorY_2 = -D*dx + Math.abs(dy)*radical;
+
+        Point2D[] result = new Point2D[2];
+        if( discriminant >= 0 ) {
+            double denom = dr * dr;
+            result[0] = new Point2D.Double( cx + numeratorX_1 / denom, cy + numeratorY_1 / denom );
+            result[1] = new Point2D.Double( cx + numeratorX_2 / denom, cy + numeratorY_2 / denom );
+        }
+        return result;
     }
 }
