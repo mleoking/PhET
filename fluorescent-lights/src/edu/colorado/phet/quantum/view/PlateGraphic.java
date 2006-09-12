@@ -22,12 +22,13 @@ import java.io.IOException;
 
 /**
  * PlateGraphic
+ * <p>
+ * A graphic for an anode or cathode plate
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class PlateGraphic extends CompositePhetGraphic implements HeatingElement.ChangeListener {
-//public class PlateGraphic extends PhetImageGraphic implements HeatingElement.ChangeListener {
 
     //-----------------------------------------------------------------
     // Class data
@@ -74,7 +75,6 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
             e.printStackTrace();
         }
         double scaleX = 1;
-//        double scaleY = DischargeLampsConfig.PIXELS_PER_NM * plateLength / image.getHeight();
         double scaleY = plateLength / image.getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
                                                            AffineTransformOp.TYPE_BILINEAR );

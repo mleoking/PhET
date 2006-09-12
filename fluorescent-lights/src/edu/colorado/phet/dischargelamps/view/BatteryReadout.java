@@ -20,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
@@ -42,19 +44,12 @@ public class BatteryReadout extends GraphicLayerSet {
         readout.setHorizontalAlignment( JTextField.HORIZONTAL );
         readout.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                double voltage = 0;
-                try {
-                    String text = readout.getText().toLowerCase();
-                    int vLoc = text.indexOf( 'v' );
-                    text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
-                    voltage = Double.parseDouble( text );
-                    battery.setVoltage( voltage );
-                }
-                catch( NumberFormatException e1 ) {
-                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                                   "Voltage must be numeric, or a number followed by \"v\"" );
-                    updateText( battery.getVoltage() );
-                }
+                setBatteryVoltage( battery, component );
+            }
+        } );
+        readout.addFocusListener( new FocusAdapter() {
+            public void focusLost( FocusEvent e ) {
+                setBatteryVoltage( battery, component );
             }
         } );
         readoutGraphic = PhetJComponent.newInstance( component, readout );
@@ -67,6 +62,22 @@ public class BatteryReadout extends GraphicLayerSet {
             }
         } );
         update( battery.getVoltage() );
+    }
+
+    private void setBatteryVoltage( Battery battery, Component component ) {
+        double voltage = 0;
+        try {
+            String text = readout.getText().toLowerCase();
+            int vLoc = text.indexOf( 'v' );
+            text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
+            voltage = Double.parseDouble( text );
+            battery.setVoltage( voltage );
+        }
+        catch( NumberFormatException e1 ) {
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                                           "Voltage must be numeric, or a number followed by \"v\"" );
+            updateText( battery.getVoltage() );
+        }
     }
 
     private void update( double voltage ) {

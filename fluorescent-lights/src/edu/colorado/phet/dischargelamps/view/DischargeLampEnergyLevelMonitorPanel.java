@@ -69,9 +69,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     // Instance data
     //----------------------------------------------------------------
 
-    // Number of milliseconds between display updates. Energy level populations are averaged over this time
-//    private long averagingPeriod = 300;
-
     // The diameter of an atom as displayed on the screen, in pixels
     private int atomDiam = 10;
     // Dimensions of the panel
@@ -224,6 +221,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
         }
 
+        // todo:  DEBUG!!! REMOVE!!
+        maxEnergy = DischargeLampsConfig.MAX_ENERGY_LEVEL;
+
         // Remove any energy level graphics we might have
         // Add the energy level lines to the panel
         for( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
@@ -235,7 +235,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         levelGraphics = new EnergyLevelGraphic[atomicStates.length];
         levelLineLength = (int)( ( numAtoms - 1 ) * ( atomDiam * ( 1 - atomGraphicOverlap ) ) + atomDiam * 1.5 );
         for( int i = 0; i < levelGraphics.length; i++ ) {
-            levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
+             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
                                                        atomicStates[0].getEnergyLevel(),
                                                        levelLineOriginX,
                                                        levelLineLength,

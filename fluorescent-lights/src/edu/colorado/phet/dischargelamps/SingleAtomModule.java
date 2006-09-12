@@ -217,9 +217,13 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Make the atom movable with the mouse within the bounds of the tube
         Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
-                                                         tubeBounds.getMinY() + atom.getRadius(),
+                                                         atom.getPosition().getY(),
                                                          tubeBounds.getWidth() - atom.getRadius() * 2,
-                                                         tubeBounds.getHeight() - atom.getRadius() * 2 );
+                                                         1 );
+//        Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
+//                                                         tubeBounds.getMinY() + atom.getRadius(),
+//                                                         tubeBounds.getWidth() - atom.getRadius() * 2,
+//                                                         tubeBounds.getHeight() - atom.getRadius() * 2 );
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
 

@@ -96,7 +96,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/lasers/phetgraphics-module/src"/>
             <src path="${project_home}/lasers/phetgraphics-module/phetcommon-module/src"/>
             <src path="${project_home}/lasers/collision-dir/src"/>
-            <src path="${project_home}/lasers/controls-dir/src"/>
+            <!--<src path="${project_home}/lasers/controls-module/src"/>-->
             <src path="${project_home}/lasers/mechanics-module/src"/>
             <!--            classpath="${addl-classpath}">-->
         </javac>
