@@ -161,8 +161,12 @@ public class Atom extends SolidSphere {
      * @param y
      */
     public void setPosition( double x, double y ) {
+        boolean positionChanged = false;
+        if( getPosition().getX() != x || getPosition().getY() != y ) {
+            positionChanged = true;
+        }
         super.setPosition( x, y );
-        if( changeListenerProxy != null ) {
+        if( changeListenerProxy != null && positionChanged ) {
             changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
         }
     }

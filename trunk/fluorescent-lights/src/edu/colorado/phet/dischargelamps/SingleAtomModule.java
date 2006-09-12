@@ -43,7 +43,6 @@ import java.awt.geom.Rectangle2D;
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
     private double maxCurrent = 3;
-//    private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
     private JPanel logoPanel;
 
@@ -194,7 +193,8 @@ public class SingleAtomModule extends DischargeLampModule {
             logoPanel = getLogoPanel();
         }
         setLogoPanel( null );
-        getControlPanel().revalidate();
+        PhetUtilities.getPhetFrame().repaint();
+//        getControlPanel().revalidate();
     }
 
     /**
@@ -216,14 +216,14 @@ public class SingleAtomModule extends DischargeLampModule {
         getApparatusPanel().addGraphic( atomGraphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
 
         // Make the atom movable with the mouse within the bounds of the tube
-        Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
-                                                         atom.getPosition().getY(),
-                                                         tubeBounds.getWidth() - atom.getRadius() * 2,
-                                                         1 );
 //        Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
-//                                                         tubeBounds.getMinY() + atom.getRadius(),
+//                                                         atom.getPosition().getY(),
 //                                                         tubeBounds.getWidth() - atom.getRadius() * 2,
-//                                                         tubeBounds.getHeight() - atom.getRadius() * 2 );
+//                                                         1 );
+        Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
+                                                         tubeBounds.getMinY() + atom.getRadius(),
+                                                         tubeBounds.getWidth() - atom.getRadius() * 2,
+                                                         tubeBounds.getHeight() - atom.getRadius() * 2 );
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
 

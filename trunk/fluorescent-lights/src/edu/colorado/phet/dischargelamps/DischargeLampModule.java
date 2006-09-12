@@ -338,7 +338,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0, 40, 0, 0 ), 0, 0 );
+                                                             new Insets( -2, 40, -2, 0 ), 0, 0 );
             optionsPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.Options" ) ) );
             JPanel cbPanel = new JPanel( new GridLayout( 2, 1 ) );
 
@@ -351,7 +351,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
                     model.getSpectrometer().start();
                 }
             } );
-            cbPanel.add( spectrometerCB );
+//            cbPanel.add( spectrometerCB );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
             squiggleCB = new JCheckBox( SimStrings.get( "Controls.Squiggles" ) );
@@ -361,7 +361,9 @@ public class DischargeLampModule extends PhetGraphicsModule {
                 }
             } );
             cbPanel.add( squiggleCB );
-            optionsPanel.add( cbPanel, gbc );
+            optionsPanel.add( spectrometerCB, gbc );
+            optionsPanel.add( squiggleCB, gbc );
+//            optionsPanel.add( cbPanel, gbc );
             optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
             controlPanel.addFullWidth( optionsPanel );
         }
