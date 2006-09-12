@@ -102,7 +102,7 @@ public class DischargeLampsApp extends PhetApplication {
 //        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 64 ) );
         phetLookAndFeel.initLookAndFeel();
         // Tell SimStrings where the simulations-specific strings are
-        SimStrings.init( args,DischargeLampsConfig.localizedStringsPath );
+        SimStrings.init( args, DischargeLampsConfig.localizedStringsPath );
 //        SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
         SimStrings.setStrings( LaserConfig.localizedStringsPath );
 

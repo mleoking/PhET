@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
@@ -23,6 +24,7 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.GroundState;
 import edu.colorado.phet.quantum.model.Plate;
+import edu.colorado.phet.quantum.model.Electron;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -74,7 +76,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Create the text
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( elmp,
                                                                              DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                                             new String[]{"Energy at", "collision"},
+                                                                             new String[]{SimStrings.get("Misc.energyAt"),
+                                                                                     SimStrings.get("Misc.collision") },
                                                                              Color.black );
         textGraphic.setLocation( (int)electronGraphic.getBounds().getMaxX() + 5, -8 );
         addGraphic( textGraphic );
@@ -83,7 +86,6 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         model = (DischargeLampModel)module.getModel();
         model.addChangeListener( new ModelChangeListener() );
         atom = (DischargeLampAtom)module.getAtom();
-//        atom = (module.getAtom();
         atom.addChangeListener( new AtomChangeListener() );
         this.energyYTx = elmp.getEnergyYTx();
         energyYTx.addListener( new ModelViewTransform1D.Observer() {
@@ -99,7 +101,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Get the distance of the atom from the emitting plate, and the distance
         // between the plates
         double voltage = model.getVoltage();
-        double plateToPlateDist = model.getLeftHandPlate().getPosition().distance( model.getRightHandPlate().getPosition() );
+        double plateToPlateDist = model.getLeftHandPlate().getPosition().distance( model.getRightHandPlate().getPosition() ) - Electron.ELECTRON_RADIUS;
         double plateToAtomDist = 0;
         Plate emittingPlate = null;
         if( voltage > 0 ) {
@@ -111,15 +113,15 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Must correct the distance between the plate and the atom by the radii of the atom and an electron. Note
         // the sign of the electron radius correction. This seems to work(???)
 //        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) + Electron.ELECTRON_RADIUS;
-        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
+//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
+        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() - Electron.ELECTRON_RADIUS;
 //        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() + Electron.ELECTRON_RADIUS;
 
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
         // Determine the y location of the line. Don't let it go off the top of the panel
-        new GroundState().getEnergyLevel();
-//        int y = energyYTx.modelToView( electronEnergy * 5.55 + model.getAtomicStates()[0].getEnergyLevel() );
+//        new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
 

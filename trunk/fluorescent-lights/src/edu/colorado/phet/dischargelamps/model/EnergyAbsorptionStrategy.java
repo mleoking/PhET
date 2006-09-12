@@ -39,7 +39,8 @@ public abstract class EnergyAbsorptionStrategy {
     public static double getElectronEnergyAtCollision( DischargeLampAtom atom, Electron electron ) {
         double energy = 0;
         double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
-        double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
+        double atomRadSq = ( atom.getBaseRadius() + electron.getRadius() ) * ( atom.getBaseRadius() + electron.getRadius() );
+//        double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
         double prevDist = electron.getPositionPrev().distance( atom.getPosition() ) - electron.getRadius() - atom.getBaseRadius();
         double collisionDist = Math.sqrt( prevDistSq ) - Math.sqrt( atomRadSq );
 
@@ -71,7 +72,6 @@ public abstract class EnergyAbsorptionStrategy {
 
         public static void setElectronDirection( Electron electron ) {
             double theta = random.nextDouble() * dispersionAngle - dispersionAngle / 2;
-            System.out.println( "Math.toDegrees( theta ) = " + Math.toDegrees( theta ) );
             electron.getVelocity().rotate( theta );
         }
     }

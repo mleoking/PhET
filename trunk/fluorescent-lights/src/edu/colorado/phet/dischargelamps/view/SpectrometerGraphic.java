@@ -182,18 +182,12 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         startStopBtn.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent e ) {
-//                if( startStopEnabled ) {
-//                    startStopEnabled = false;
-                    if( start ) {
-                        spectrometer.start();
-                    }
-                    else {
-                        spectrometer.stop();
-                    }
-//                }
-//                else {
-//                    startStopEnabled = true;
-//                }
+                if( start ) {
+                    spectrometer.start();
+                }
+                else {
+                    spectrometer.stop();
+                }
             }
         } );
         addGraphic( startStopBtn );
