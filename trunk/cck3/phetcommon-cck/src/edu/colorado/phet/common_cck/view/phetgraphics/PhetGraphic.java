@@ -13,8 +13,8 @@ import java.awt.*;
  * Testing.
  */
 public abstract class PhetGraphic implements BoundedGraphic {
-    private Rectangle lastBounds = null;
-    private Rectangle bounds = null;
+    private Rectangle lastBounds = new Rectangle();
+    private Rectangle bounds = new Rectangle();
     private Component component;
 //    private boolean visible = false;
     protected boolean visible = true;
@@ -109,6 +109,12 @@ public abstract class PhetGraphic implements BoundedGraphic {
             if( lastBounds == null ) {
                 lastBounds = new Rectangle( bounds );
             }
+        }
+        if( this.bounds == null ) {
+            this.bounds = new Rectangle();
+//            throw new RuntimeException( "Rebuilt bounds, but it's still null");
+            new RuntimeException( "Rebuilt bounds, but it's still null" ).printStackTrace();
+
         }
     }
 

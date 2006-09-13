@@ -54,7 +54,6 @@ public class CCKModule extends Module {
      */
     private CCKModel model;
     private SetupParameters parameters;
-
     private CCK2ImageSuite imageSuite;
     private CCK3ControlPanel cck3controlPanel;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
@@ -67,7 +66,7 @@ public class CCKModule extends Module {
      */
     private CCKApparatusPanel cckApparatusPanel;
 
-    private AspectRatioPanel aspectRatioPanel;
+    private AspectRatioPanel aspectRatioPanel; /* Aspect ratio panel used in single-module setups*/
 
     /**
      * Piccolo-specific data
@@ -468,17 +467,6 @@ public class CCKModule extends Module {
             ReadoutGraphic readoutGraphic = rg[i];
             readoutGraphic.recompute();
         }
-    }
-
-    public void debugListeners() {
-//        int numTransformListeners = gett.numTransformListeners();
-//        int numCircuitListeners = getCircuit().numCircuitListeners();
-//        System.out.println( "numCircuitListeners = " + numCircuitListeners );
-//        System.out.println( "numTransformListeners = " + numTransformListeners );
-//        System.out.println( "Arrays.asList( transform.getTransformListeners() ) = " + Arrays.asList( transform.getTransformListeners() ) );
-//        System.out.println( "getCircuit().getCircuitListeners() = " + Arrays.asList( getCircuit().getCircuitListeners() ) );
-//        int jg = JunctionGraphic.getInstanceCount();
-//        System.out.println( "jg = " + jg );
     }
 
     public SetupParameters getParameters() {

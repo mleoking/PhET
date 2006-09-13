@@ -117,8 +117,6 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
     }
 
     public void init() {
-
-//        transform = new ModelViewTransform2D( getCCKModel().getModelBounds(), new Rectangle( getApparatusPanel().getWidth(), getApparatusPanel().getHeight() ) );
         transform.setModelBounds( getCCKModel().getModelBounds() );
         transform.setViewBounds( new Rectangle( getApparatusPanel().getWidth(), getApparatusPanel().getHeight() ) );
 
