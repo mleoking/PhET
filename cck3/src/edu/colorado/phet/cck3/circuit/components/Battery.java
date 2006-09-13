@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 
@@ -35,7 +35,7 @@ public class Battery extends CircuitComponent {
     }
 
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
-        this( start, dir, length, height, kl, CCKModule.MIN_RESISTANCE, internalResistanceOn );
+        this( start, dir, length, height, kl, CCKModel.MIN_RESISTANCE, internalResistanceOn );
     }
 
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn ) {
@@ -68,8 +68,8 @@ public class Battery extends CircuitComponent {
     }
 
     public void setResistance( double resistance ) {
-        if( resistance < CCKModule.MIN_RESISTANCE ) {
-            throw new IllegalArgumentException( "Resistance was les than the min, value=" + resistance + ", min=" + CCKModule.MIN_RESISTANCE );
+        if( resistance < CCKModel.MIN_RESISTANCE ) {
+            throw new IllegalArgumentException( "Resistance was les than the min, value=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE );
         }
         super.setResistance( resistance );
     }
@@ -92,7 +92,7 @@ public class Battery extends CircuitComponent {
             setResistance( internalResistance );
         }
         else {
-            setResistance( CCKModule.MIN_RESISTANCE );
+            setResistance( CCKModel.MIN_RESISTANCE );
         }
     }
 

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.grabbag;
 
-import edu.colorado.phet.cck3.CCKModule;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ Dog = infinite
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "dog.gif" ), SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 ) );
 
         add( new GrabBagItem( "dollarbill.gif", SimStrings.get( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 ) );
-        add( new GrabBagItem( "paperclip.gif", SimStrings.get( "GrabBag.PaperClip" ), CCKModule.MIN_RESISTANCE, .7 ) );
-        add( new GrabBagItem( "penny.gif", SimStrings.get( "GrabBag.Penny" ), CCKModule.MIN_RESISTANCE, .6 ) );
+        add( new GrabBagItem( "paperclip.gif", SimStrings.get( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 ) );
+        add( new GrabBagItem( "penny.gif", SimStrings.get( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 ) );
         add( new GrabBagItem( "eraser.gif", SimStrings.get( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 ) );
         add( new GrabBagItem( "pencil.gif", SimStrings.get( "GrabBag.PencilLead" ), 3000, 3.5 ) );
         add( new GrabBagItem( "hand.gif", SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 ) );

@@ -13,6 +13,7 @@ package edu.colorado.phet.cck3.model;
 import edu.colorado.phet.cck3.BulbDimension;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
+import edu.colorado.phet.cck3.ResistivityManager;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
@@ -21,7 +22,6 @@ import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
-import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Rectangle2D;
 
@@ -65,8 +65,12 @@ public class CCKModel {
     public static final double JUNCTION_RADIUS = .162;
     private boolean modelChanged = false;
 
-    private BaseModel baseModel;
     private CircuitChangeListener circuitChangeListener;
+
+    private ResistivityManager resistivityManager;
+    private boolean internalResistanceOn = false;
+    public static final double MIN_RESISTANCE = 1E-8;
+
 
     public CCKModel( CCKModule module ) {
         // Create the circuitSolver and the listener that will invoke it
@@ -88,6 +92,9 @@ public class CCKModel {
         layout = new ConstantDensityLayout( module );
         getCircuit().addCircuitListener( layout );
         module.addModelElement( particleSet );
+
+        this.resistivityManager = new ResistivityManager( getCircuit() );
+        getCircuit().addCircuitListener( resistivityManager );
     }
 
 
@@ -145,5 +152,42 @@ public class CCKModel {
 
     public CircuitChangeListener getCircuitChangeListener() {
         return circuitChangeListener;
+    }
+
+    public void setResistivityEnabled( boolean selected ) {
+
+//        System.out.println( "Set resistivity enabled= " + selected );
+        if( selected == resistivityManager.isEnabled() ) {
+            return;
+        }
+        else {
+            resistivityManager.setEnabled( selected );
+            if( !selected ) {
+                setWireResistance( MIN_RESISTANCE );
+            }
+        }
+    }
+
+    private void setWireResistance( double defaultResistance ) {
+        for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+            Branch br = getCircuit().branchAt( i );
+            if( br.getClass().equals( Branch.class ) ) {
+                br.setResistance( defaultResistance );
+            }
+        }
+    }
+
+    public ResistivityManager getResistivityManager() {
+        return resistivityManager;
+    }
+
+    public boolean isInternalResistanceOn() {
+        return internalResistanceOn;
+    }
+
+    public void setInternalResistanceOn( boolean selected ) {
+        if( this.internalResistanceOn != selected ) {
+            this.internalResistanceOn = selected;
+        }
     }
 }

@@ -439,7 +439,7 @@ public class Circuit {
             double amplitude = Double.parseDouble( xml.getAttribute( "amplitude", Double.NaN + "" ) );
             double freq = Double.parseDouble( xml.getAttribute( "frequency", Double.NaN + "" ) );
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
-            ACVoltageSource voltageSource = new ACVoltageSource( kl, startJunction, endJunction, length, height, CCKModule.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            ACVoltageSource voltageSource = new ACVoltageSource( kl, startJunction, endJunction, length, height, CCKModel.MIN_RESISTANCE, module.isInternalResistanceOn() );
             voltageSource.setInternalResistance( internalResistance );
             voltageSource.setAmplitude( amplitude );
             voltageSource.setFrequency( freq );
@@ -459,7 +459,7 @@ public class Circuit {
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
             //            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
             //            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
-            Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCKModule.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCKModel.MIN_RESISTANCE, module.isInternalResistanceOn() );
             batt.setInternalResistance( internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
             double val = Double.parseDouble( voltVal );

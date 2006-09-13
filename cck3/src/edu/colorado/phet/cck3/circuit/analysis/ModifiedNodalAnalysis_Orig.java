@@ -2,10 +2,10 @@
 package edu.colorado.phet.cck3.circuit.analysis;
 
 import Jama.Matrix;
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.Vector2D;
 
 import java.awt.geom.Point2D;
@@ -141,7 +141,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
                 Battery batt = (Battery)branch;
                 Battery idealBattery = new Battery( batt.getVoltageDrop(), 0 );
                 equivalentCircuit.branchMap.put( branch, idealBattery );
-                double internalResistance = CCKModule.MIN_RESISTANCE;
+                double internalResistance = CCKModel.MIN_RESISTANCE;
                 if( batt.isInternalResistanceOn() ) {
                     internalResistance = batt.getInteralResistance();
                 }

@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.circuit.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
@@ -44,7 +45,7 @@ public class TestCurrent extends TestCase {
     }
 
     private void testSimpleCircuit( double r, double v ) {
-        double battResistance = CCKModule.MIN_RESISTANCE;
+        double battResistance = CCKModel.MIN_RESISTANCE;
         Resistor resistor = new Resistor( module.getCircuitChangeListener(), new Junction( 5, 5 ),
                                           new Junction( 5, 6 ), 1, 1 );
         resistor.setResistance( r - battResistance );
@@ -70,7 +71,7 @@ public class TestCurrent extends TestCase {
         double numVolt = 4;
         double minVolt = -100;
         double maxVolt = 100;
-        double minRes = CCKModule.MIN_RESISTANCE * 2;
+        double minRes = CCKModel.MIN_RESISTANCE * 2;
         double maxRes = 100;
 
         double dVolt = ( maxVolt - minVolt ) / numVolt;
