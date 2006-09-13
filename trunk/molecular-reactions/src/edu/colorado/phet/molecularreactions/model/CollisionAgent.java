@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
+import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 
 import java.util.List;
 
@@ -31,7 +32,12 @@ public class CollisionAgent implements ModelElement {
 
     public CollisionAgent( MRModel model ) {
         this.model = model;
-        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model );
+
+        // todo: DEBUG. move elsewhere
+        SpringCollision.Spring spring = new SpringCollision.Spring( 1, 50 );
+        SpringCollision springCollision = new SpringCollision( spring );
+
+        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model, springCollision );
         moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
     }
 
@@ -40,7 +46,7 @@ public class CollisionAgent implements ModelElement {
         for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             Object o = modelElements.get( i );
 
-            // Checkevery Molecule that is not part of a large CompositeMolecule
+            // Check every Molecule that is not part of a larger CompositeMolecule
             if( o instanceof Molecule ) {
                 Molecule moleculeA = (Molecule)o;
                 if( !moleculeA.isPartOfComposite() ) {
@@ -63,7 +69,6 @@ public class CollisionAgent implements ModelElement {
                     boolean collided;
                     collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                     if( collided ) {
-//                        collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                         moleculeA.stepInTime( dt );
                         collided = moleculeBoxCollisionAgent.detectAndDoCollision( moleculeA, model.getBox() );
                         if( !collided ) {

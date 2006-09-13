@@ -353,7 +353,7 @@ public class CompositeMolecule extends Molecule {
         double alphaNew = alphaOld;
 
         // 4. Compute new angular velocity
-        double omegaNew = omegaOld + ( ( alphaNew + alpha ) / 2 ) * dt;
+        double omegaNew = omegaOld + getAlpha() * dt;
 
         // Update state attributes
         setOrientation( thetaNew );
@@ -383,8 +383,6 @@ public class CompositeMolecule extends Molecule {
             component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
                                    this.getPosition().getY() + compositeCmToComponentCm.getY() );
             Vector2D v = component.getVelocity();
-//            v.setComponents( v.getX() + getOmega() * -compositeCmToComponentCm.getY(),
-//                             v.getY() +getOmega() * compositeCmToComponentCm.getX() );
             v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
                              this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }

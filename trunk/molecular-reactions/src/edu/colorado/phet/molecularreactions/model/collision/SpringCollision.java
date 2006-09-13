@@ -29,31 +29,52 @@ public class SpringCollision {
         this.spring = spring;
     }
 
-    public void collide( Molecule m1, Molecule m2, CollisionSpec collisionSpec ) {
+    public void collide( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
 
         // If the edges of the body are closer than the max length of
         // the spring, the magnitude of the force will > 0
-        double fMag = 0;
+        double separation = collisionSpec.getSimpleMoleculeA().getPosition().distance( collisionSpec.getSimpleMoleculeB().getPosition() )
+            - collisionSpec.getSimpleMoleculeA().getRadius() - collisionSpec.getSimpleMoleculeB().getRadius();
 
-        // The direction of the force will be along the line of action
-        Vector2D f = new Vector2D.Double( collisionSpec.getLoa() ).scale( fMag );
+        if( separation <= spring.getRestingLength() ) {
 
-        // Accelerate each of the bodies with the force
-        m1.applyForce( f.scale( m1.getMass()) , collisionSpec );
-        m2.applyForce( f.scale( -m2.getMass()), collisionSpec  );
+            double fMag = Math.abs( spring.getRestingLength() - separation ) * spring.getK();
+
+            // The direction of the force will be along the line of action
+            Vector2D f = new Vector2D.Double( collisionSpec.getLoa() ).normalize().scale( fMag );
+
+            // Accelerate each of the bodies with the force
+            m1.applyForce( f, collisionSpec );
+            m2.applyForce( f.scale( -1 ), collisionSpec );
+        }
+    }
+
+    /**
+     * todo: this shouldn't be necessary
+     * @return
+     */
+    public Spring getSpring() {
+        return spring;
     }
 
 
     public static class Spring {
         double k;
-        double maxLength;
+        double restingLength;
 
-        public Spring( double k, double maxLength ) {
+        public Spring( double k, double restingLength ) {
             this.k = k;
-            this.maxLength = maxLength;
+            this.restingLength = restingLength;
+        }
+
+        public double getRestingLength() {
+            return restingLength;
+        }
+
+        public double getK() {
+            return k;
         }
     }
-
 
     //--------------------------------------------------------------------------------------------------
     //  Inner classes
