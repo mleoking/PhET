@@ -71,6 +71,7 @@ public class CCKModel {
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
     public static final double MIN_RESISTANCE = 1E-8;
+    public static final double SCH_BULB_DIST = 1;
 
 
     public CCKModel( CCKModule module ) {

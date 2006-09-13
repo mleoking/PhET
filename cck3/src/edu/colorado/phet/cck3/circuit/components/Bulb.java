@@ -151,7 +151,7 @@ public class Bulb extends CircuitComponent {
 
     private static void expandToSchematic( Bulb bulb, Circuit circuit ) {
         Vector2D vec = new Vector2D.Double( bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition() );
-        Point2D dst = vec.getInstanceOfMagnitude( CCKModule.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
+        Point2D dst = vec.getInstanceOfMagnitude( CCKModel.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
         if( circuit != null ) {
             Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );

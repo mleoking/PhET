@@ -54,7 +54,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
         };
         transform.addTransformListener( transformListener );
 //<<<<<<< BranchGraphic.java
-        if( CCKModule.GRAPHICAL_DEBUG ) {
+        if( CircuitGraphic.GRAPHICAL_DEBUG ) {
             debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
         }
 ////=======
@@ -91,11 +91,13 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             highlight.setVisible( branch.isSelected() );
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
-            String text = "r=" + branch.getResistance();
-            if( CCKModule.getModule().getParticleSet() != null ) {
-                text += ", n=" + CCKModule.getModule().getParticleSet().getParticles( branch ).length;
-            }
+
             if( debugText != null ) {
+                CCKModule module = null;
+                String text = "r=" + branch.getResistance();
+                if( module.getParticleSet() != null ) {
+                    text += ", n=" + module.getParticleSet().getParticles( branch ).length;
+                }
                 debugText.setText( text );
                 Point bounds = RectangleUtils.getCenter( core.getShape().getBounds() );
                 debugText.setPosition( bounds.x, bounds.y );
