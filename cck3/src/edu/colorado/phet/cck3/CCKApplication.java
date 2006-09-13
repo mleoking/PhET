@@ -11,7 +11,6 @@ import edu.colorado.phet.common_cck.view.util.FrameSetup;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -64,11 +63,6 @@ public class CCKApplication {
         application.getApplicationView().getPhetFrame().addMenu( new OptionsMenu( application, cckModule ) );
 
         this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
-        cckModule.getApparatusPanel().addKeyListener( new SimpleKeyEvent( KeyEvent.VK_D ) {
-            public void invoke() {
-                cckModule.debugListeners();
-            }
-        } );
         if( debugMode ) {
             application.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
