@@ -39,16 +39,6 @@ abstract public class Reaction {
         this.reactionCriteria = reactionCriteria;
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Abstract methods
-    //--------------------------------------------------------------------------------------------------
-
-    abstract public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 );
-
-    abstract public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
-
-    abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
-
     public EnergyProfile getEnergyProfile() {
         return energyProfile;
     }
@@ -58,11 +48,31 @@ abstract public class Reaction {
     }
 
     //--------------------------------------------------------------------------------------------------
+    // Abstract and template methods
+    //--------------------------------------------------------------------------------------------------
+
+    /**
+     * Checks to see if two molecules are the right types for the reaction
+     * @param molecule1
+     * @param molecule2
+     * @return true if the molecules are of the correct type for the reaction
+     */
+    public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ){
+            return getReactionCriteria().moleculesAreProperTypes( molecule1, molecule2 );
+    }
+
+    abstract public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
+
+    abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
+
+    //--------------------------------------------------------------------------------------------------
     // Reaction criteria
     //--------------------------------------------------------------------------------------------------
 
     public interface ReactionCriteria {
         boolean criteriaMet( Molecule bodyA, Molecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec );
+
+        boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 );
     }
 
     /**
@@ -74,6 +84,10 @@ abstract public class Reaction {
                    && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
                    && m1.getClass() != m2.getClass();
         }
+
+        public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ) {
+            return true;
+        }
     }
 
     /**
@@ -82,6 +96,10 @@ abstract public class Reaction {
     class SimpleMoleculeReactionCriteria implements ReactionCriteria {
         public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > energyProfile.getPeakLevel();
+        }
+
+        public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ) {
+            return true;
         }
     }
 }

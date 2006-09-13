@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
+import edu.colorado.phet.molecularreactions.model.collision.HardSphereCollision;
 
 import java.util.List;
 
@@ -34,10 +35,13 @@ public class CollisionAgent implements ModelElement {
         this.model = model;
 
         // todo: DEBUG. move elsewhere
-        SpringCollision.Spring spring = new SpringCollision.Spring( 1, 50 );
-        SpringCollision springCollision = new SpringCollision( spring );
+        SpringCollision.Spring spring = new SpringCollision.Spring( 1, model.getReaction().getEnergyProfile().getThresholdWidth() / 2);
+        SpringCollision springCollision = new SpringCollision( model, spring );
 
-        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model, springCollision );
+        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model,
+                                                                             springCollision,
+//                                                                             new HardSphereCollision() );
+                                                                             springCollision );
         moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
     }
 

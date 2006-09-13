@@ -37,16 +37,16 @@ public class A_AB_BC_C_Reaction extends Reaction {
         super( energyProfile, new Criteria( energyProfile ) );
         this.model = model;
     }
-
-    /**
-     * Checks to see if two molecules are the right types for the reaction
-     * @param m1
-     * @param m2
-     * @return true if the molecules are of the correct type for the reaction
-     */
-    public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
-        return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
-    }
+//
+//    /**
+//     * Checks to see if two molecules are the right types for the reaction
+//     * @param m1
+//     * @param m2
+//     * @return true if the molecules are of the correct type for the reaction
+//     */
+//    public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
+//        return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
+//    }
 
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
         if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {

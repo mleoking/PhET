@@ -13,10 +13,8 @@ package edu.colorado.phet.molecularreactions.model.collision;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -29,7 +27,7 @@ import java.util.Arrays;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
+public class MoleculeMoleculeCollisionAgent {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
@@ -39,15 +37,18 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
     private Vector2D loa = new Vector2D.Double();
 
     private Reaction.ReactionCriteria reactionCriteria;
-    private SpringCollision springCollision;
+    private SpringCollision reactantCollision;
+    private Collision nonReactantCollision;
 
     /**
      * @param model
      */
-    public MoleculeMoleculeCollisionAgent( final MRModel model, SpringCollision springCollision ) {
+    public MoleculeMoleculeCollisionAgent( final MRModel model,
+                                           SpringCollision reactantCollision,
+                                           Collision nonReactantCollision ) {
         reactionCriteria = model.getReaction().getReactionCriteria();
-        this.springCollision = springCollision;
-        model.addListener( this );
+        this.reactantCollision = reactantCollision;
+        this.nonReactantCollision = nonReactantCollision;
     }
 
     /**
@@ -66,8 +67,6 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         // Do bounding box test to avoid more computation for most pairs of molecules
         // Todo: possible performance bottleneck here.
-        boolean boundingBoxesOverlap = false;
-        boundingBoxesOverlap = moleculeA.getBoundingBox().intersects( moleculeB.getBoundingBox() );
 //        double dx = Math.abs( moleculeA.getPosition().getX() - moleculeB.getPosition().getX() );
 //        double dy = Math.abs( moleculeA.getPosition().getY() - moleculeB.getPosition().getY() );
 //        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
@@ -75,20 +74,23 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
 
         // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
         // composite
-        double d = bodyA.getPosition().distance( bodyB.getPosition() );
-        if(
-//        if( boundingBoxesOverlap
-            /*&&*/!moleculeA.isPartOfComposite()
+        if( !moleculeA.isPartOfComposite()
             && !moleculeB.isPartOfComposite() ) {
-            collisionSpec = getCollisionSpec( moleculeA, moleculeB );
-            if( collisionSpec != null ) {
-                springCollision.collide( moleculeA, moleculeB, collisionSpec );
-            }
-
+//            if( model.getReaction().moleculesAreProperTypes( moleculeA, moleculeB ) ) {
+                collisionSpec = getCollisionSpec( moleculeA, moleculeB, reactantCollision.getInteractionDistance() );
+                if( collisionSpec != null ) {
+                    reactantCollision.collide( moleculeA, moleculeB, collisionSpec );
+                }
+//            }
+//            else {
+//                collisionSpec = getCollisionSpec( moleculeA, moleculeB, nonReactantCollision.getInteractionDistance() );
+//                if( collisionSpec != null ) {
+//                    nonReactantCollision.collide( moleculeA, moleculeB, collisionSpec );
+//                }
+//            }
         }
         return ( collisionSpec != null );
     }
-
 
     /**
      * Determines the parameters of the collision between two molecules.
@@ -97,15 +99,18 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
      * @param moleculeB
      * @return A CollisionSpec, if a collision occurs, otherwise return null
      */
-    private MoleculeMoleculeCollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
+    private MoleculeMoleculeCollisionSpec getCollisionSpec
+            ( Molecule
+                    moleculeA, Molecule
+                    moleculeB, double interactionDistance ) {
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // If both the molecules are simple molecules, we can determine if they are colliding
         if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
             SimpleMolecule rmA = (SimpleMolecule)moleculeA;
             SimpleMolecule rmB = (SimpleMolecule)moleculeB;
-            if( rmA.getPosition().distanceSq( rmB.getPosition() )
-                <= springCollision.getSpring().getRestingLength() * springCollision.getSpring().getRestingLength() ) {
+            if( rmA.getPosition().distance( rmB.getPosition() ) - rmA.getRadius() - rmB.getRadius()
+                <= interactionDistance ) {
 
                 double xDiff = rmA.getCM().getX() - rmB.getCM().getX();
                 double yDiff = rmA.getCM().getY() - rmB.getCM().getY();
@@ -126,7 +131,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmA.getComponentMolecules()[j];
-                cs = getCollisionSpec( moleculeC, moleculeB );
+                cs = getCollisionSpec( moleculeC, moleculeB, interactionDistance );
             }
             return cs;
         }
@@ -135,7 +140,7 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
                 Molecule moleculeC = cmB.getComponentMolecules()[j];
-                cs = getCollisionSpec( moleculeA, moleculeC );
+                cs = getCollisionSpec( moleculeA, moleculeC, interactionDistance );
             }
             return cs;
         }
@@ -144,46 +149,5 @@ public class MoleculeMoleculeCollisionAgent implements MRModel.ModelListener {
         }
 
         return collisionSpec;
-    }
-
-    private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
-        Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
-        return bond;
-    }
-
-    private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {
-        List molecules = new ArrayList();
-        if( bodyA instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)bodyA;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
-        }
-        else {
-            molecules.add( bodyA );
-        }
-        if( bodyB instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)bodyB;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
-        }
-        else {
-            molecules.add( bodyB );
-        }
-        SimpleMolecule[] ma = (SimpleMolecule[])molecules.toArray( new SimpleMolecule[ molecules.size()] );
-        return ma;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of MRModel.ModelListener
-    //--------------------------------------------------------------------------------------------------
-
-    public void reactionThresholdChanged( MRModel model ) {
-//        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
-    }
-
-    public void modelElementAdded( ModelElement element ) {
-        // noop
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        // noop
     }
 }
