@@ -22,8 +22,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector2;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
-import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
@@ -211,6 +211,13 @@ public class HAModule extends PiccoloModule {
            _blackBox = new BlackBox( BLACK_BOX_SIZE.width, BLACK_BOX_SIZE.height, BLACK_BOX_DEPTH ); 
            _rootNode.addChild( _blackBox.getBackNode() );
            _rootNode.addChild( _blackBox.getFrontNode() );
+        }
+        
+        //XXXX test
+        {
+            AtomicModelSelector2 ams = new AtomicModelSelector2();
+            ams.setOffset( 100, 100 );
+            _rootNode.addChild( ams );
         }
         
         //----------------------------------------------------------------------------
