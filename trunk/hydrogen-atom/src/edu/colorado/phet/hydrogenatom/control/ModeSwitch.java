@@ -30,6 +30,7 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -62,7 +63,7 @@ public class ModeSwitch extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetPNode _topSwitchNode, _bottomSwitchNode;
+    private PhetPNode _switchUpNode, _switchDownNode;
     private PPath _topLineNode, _bottomLineNode;
     private PText _topTitleNode, _topSubtitleNode, _bottomTitleNode, _bottomSubtitleNode;
     
@@ -73,24 +74,23 @@ public class ModeSwitch extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     */
     public ModeSwitch() {
         super();
         
-        _listenerList = new EventListenerList();
-        
         PImage panel = PImageFactory.create( HAConstants.IMAGE_MODE_PANEL );
+        _switchUpNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );
+        _switchDownNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
         
         if ( EXPERIMENT_IS_AT_TOP ) {
-            _bottomSwitchNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
-            _topSwitchNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );
             _topTitleNode = new PText( SimStrings.get( "label.experiment" ) );
             _topSubtitleNode = new PText( SimStrings.get( "label.whatReallyHappens" ) );
             _bottomTitleNode = new PText( SimStrings.get( "label.prediction" ) );
             _bottomSubtitleNode = new PText( SimStrings.get( "label.whatTheModelPredicts" ) );
         }
         else {
-            _bottomSwitchNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );
-            _topSwitchNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
             _topTitleNode = new PText( SimStrings.get( "label.prediction") );
             _topSubtitleNode = new PText( SimStrings.get( "label.whatTheModelPredicts") );
             _bottomTitleNode = new PText( SimStrings.get( "label.experiment") );
@@ -111,6 +111,7 @@ public class ModeSwitch extends PhetPNode {
         _bottomLineNode.setStroke( LINE_STROKE );
         _bottomLineNode.setStrokePaint( ON_COLOR );
         
+        // Order is front-to-back
         addChild( panel );
         addChild( _topLineNode );
         addChild( _bottomLineNode );
@@ -118,23 +119,23 @@ public class ModeSwitch extends PhetPNode {
         addChild( _topSubtitleNode );
         addChild( _bottomTitleNode );
         addChild( _bottomSubtitleNode );
-        addChild( _bottomSwitchNode );
-        addChild( _topSwitchNode );
+        addChild( _switchUpNode );
+        addChild( _switchDownNode );
         
         // Positions
         {
             PBounds pb = panel.getFullBounds();
-            PBounds sb = _bottomSwitchNode.getFullBounds();
+            PBounds sb = _switchDownNode.getFullBounds();
 
             // Panel
             panel.setOffset( 0, 0 );
             
             // Switch
-            _bottomSwitchNode.setOffset( pb.getX() + MARGIN, pb.getY() + ( pb.getHeight() / 3 ) - ( sb.getHeight() / 2 ) );
-            _topSwitchNode.setOffset( _bottomSwitchNode.getOffset() );
+            _switchDownNode.setOffset( pb.getX() + MARGIN, pb.getY() + ( pb.getHeight() / 3 ) - ( sb.getHeight() / 2 ) );
+            _switchUpNode.setOffset( _switchDownNode.getOffset() );
             
             // Markers
-            sb = _bottomSwitchNode.getFullBounds();
+            sb = _switchDownNode.getFullBounds();
             PBounds mub = _topLineNode.getFullBounds();
             _topLineNode.setOffset( sb.getX() + sb.getWidth() - 5, sb.getY() - mub.getHeight() + 10 );
             _bottomLineNode.setOffset( sb.getX() + sb.getWidth() - 5, sb.getY() + sb.getHeight() - 10 );
@@ -170,19 +171,36 @@ public class ModeSwitch extends PhetPNode {
         
         // Event handling
         {
-            _topSwitchNode.addInputEventListener( new CursorHandler() );
-            _topSwitchNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setExperimentSelected( !EXPERIMENT_IS_AT_TOP );
-                }
-            } );
+            _listenerList = new EventListenerList();
             
-            _bottomSwitchNode.addInputEventListener( new CursorHandler() );
-            _bottomSwitchNode.addInputEventListener( new PBasicInputEventHandler() {
+            // These parts are not interactive
+            panel.setPickable( false );
+            _topLineNode.setPickable( false );
+            _bottomLineNode.setPickable( false );
+            
+            // Moves the switch to the top position
+            PInputEventListener topSwitcher = new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     setExperimentSelected( EXPERIMENT_IS_AT_TOP );
                 }
-            } );
+            };
+            
+            // Moves the switch to the bottom position
+            PInputEventListener bottomSwitcher = new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    setExperimentSelected( !EXPERIMENT_IS_AT_TOP );
+                }
+            };
+            
+            _switchUpNode.addInputEventListener( new CursorHandler() );
+            _switchUpNode.addInputEventListener( bottomSwitcher );
+            _topTitleNode.addInputEventListener( topSwitcher );
+            _topSubtitleNode.addInputEventListener( topSwitcher );
+            
+            _switchDownNode.addInputEventListener( new CursorHandler() );
+            _switchDownNode.addInputEventListener( topSwitcher );
+            _bottomTitleNode.addInputEventListener( bottomSwitcher );
+            _bottomSubtitleNode.addInputEventListener( bottomSwitcher );
         }
         
         // Default state
@@ -209,6 +227,10 @@ public class ModeSwitch extends PhetPNode {
         return !_isExperimentMode;
     }
     
+    //----------------------------------------------------------------------------
+    // Private
+    //----------------------------------------------------------------------------
+    
     private void setExperimentSelected( boolean selected ) {
         _isExperimentMode = selected;
         updateUI();
@@ -216,15 +238,18 @@ public class ModeSwitch extends PhetPNode {
     }
     
     private void updateUI() {
-        _bottomSwitchNode.setVisible( !_isExperimentMode );
-        _topSwitchNode.setVisible( _isExperimentMode );
         
-        Color upColor = _isExperimentMode ? ON_COLOR : OFF_COLOR;
+        boolean isUpVisible = EXPERIMENT_IS_AT_TOP ? _isExperimentMode : !_isExperimentMode;
+        
+        _switchUpNode.setVisible( isUpVisible );
+        _switchDownNode.setVisible( !isUpVisible );
+
+        Color upColor = isUpVisible ? ON_COLOR : OFF_COLOR;
         _topLineNode.setStrokePaint( upColor );
         _topTitleNode.setTextPaint( upColor );
         _topSubtitleNode.setTextPaint( upColor );
         
-        Color downColor = !_isExperimentMode ? ON_COLOR : OFF_COLOR;
+        Color downColor = !isUpVisible ? ON_COLOR : OFF_COLOR;
         _bottomLineNode.setStrokePaint( downColor );
         _bottomTitleNode.setTextPaint( downColor );
         _bottomSubtitleNode.setTextPaint( downColor );
