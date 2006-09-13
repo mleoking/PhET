@@ -76,24 +76,25 @@ public class CCKModule extends Module {
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
-    private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
+    private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
 
     /**
      * PhetGraphics-specific data
      */
+    private CCKApparatusPanel cckApparatusPanel;
     private CircuitGraphic circuitGraphic;
     private ModelViewTransform2D transform;
-    private AspectRatioPanel aspectRatioPanel;
     private Toolbox toolbox;
     private VirtualAmmeter virtualAmmeter;
     private InteractiveVoltmeter interactiveVoltmeter;
     private VoltmeterGraphic voltmeterGraphic;
     private WiggleMe wiggleMe;
     private CCKHelp help;
-    private CCKApparatusPanel cckApparatusPanel;
     private PhetShadowTextGraphic timeScaleTextGraphic;
     private Area electronClip = new Area();
+
+    private AspectRatioPanel aspectRatioPanel;
 
     /**
      * Piccolo-specific data
