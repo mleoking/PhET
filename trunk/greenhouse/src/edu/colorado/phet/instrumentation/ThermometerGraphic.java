@@ -60,9 +60,9 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
                 }
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
-                    double scale = newBounds.getWidth() / origBounds.getWidth();
-                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
-                }
+                double scale = newBounds.getWidth() / origBounds.getWidth();
+                scaleTx = AffineTransform.getScaleInstance( scale, scale );
+            }
         } );
         update();
     }
@@ -88,7 +88,6 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
             throw new RuntimeException( e );
         }
 
-//        thermometerTx.preConcatenate( scaleTx );
         // Translate the transform so the bottom of the thermometer is now at the origin
         thermometerTx.translate( 0, -thermometerBackground.getHeight() * scaleTx.getScaleY() );
         // Move the thermometer graphic to where the thermometer model is
@@ -119,44 +118,55 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         String s = formatter.format( thermometer.getTemperature() ) + SimStrings.get( "ThermometerGraphic.KelvinUnits" );
         FontMetrics fontMetrics = gbi.getFontMetrics();
         int width = thermometerBI.getWidth() - 25;
-//        int width = thermometerBI.getWidth() - 14;
         int height = fontMetrics.getHeight();
         int centerX = thermometerBI.getWidth() / 2;
-//        int textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
         int boxLeft = centerX - width / 2;
         int textLeft = boxLeft + width - fontMetrics.stringWidth( s ) - fontMetrics.stringWidth( " " );
 
         // Kelvin
         int up = 40;
-//        int up = 20;
         gbi.setColor( Color.white );
-        gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height );
         gbi.setColor( Color.black );
-        gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height );
         gbi.setColor( Color.black );
         gbi.drawString( s, textLeft, thermometerBI.getHeight() - up );
 
         // Fahrenheit
-        s = formatter.format( kelvinToFahrenheit( thermometer.getTemperature() ) ) + SimStrings.get( "ThermometerGraphic.FahrenheitUnits" );
+        double nonKelvinTemperature = 0;
+        String units = "";
+        if( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.FAHRENHEIT ) {
+            nonKelvinTemperature = kelvinToFahrenheit( thermometer.getTemperature() );
+            units = SimStrings.get( "ThermometerGraphic.FahrenheitUnits" );
+        }
+        else if( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.CELSIUS ) {
+            nonKelvinTemperature = kelvinToCelcius( thermometer.getTemperature() );
+            units = SimStrings.get( "ThermometerGraphic.CelsiusUnits" );
+        }
+        s = formatter.format( nonKelvinTemperature ) + units;
         up -= height;
         gbi.setColor( Color.white );
-        gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height );
         gbi.setColor( Color.black );
-        gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height );
         gbi.setColor( Color.black );
         textLeft = boxLeft + width - fontMetrics.stringWidth( s ) - fontMetrics.stringWidth( " " );
-//        textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
         gbi.drawString( s, textLeft, thermometerBI.getHeight() - up );
         gbi.dispose();
 
-//        thermometerTx.preConcatenate( scaleTx );
+        // Draw it
         g2.drawImage( thermometerBI, thermometerTx, this );
     }
 
 
     private double kelvinToFahrenheit( double k ) {
-        double f = ((k - 273.15 ) * 1.8 ) + 32;
+        double f = ( ( k - 273.15 ) * 1.8 ) + 32;
         return f;
+    }
+
+    private double kelvinToCelcius( double k ) {
+        double c = k - 273.15;
+        return c;
     }
 
     // Attempt to get things to draw properly by delaying this to the end of the Swing thread cycle.
