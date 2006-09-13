@@ -1,6 +1,10 @@
 ====
 Bugs
 ====
+Spring collision
+    - Force must be infinite on contact
+    - Collisions aren't conservative
+    - Angular velocity shouldn't acrue in simple test. Should there be a floor on r?            
 - Amount of energy needed to get to reaction is delta from floor, not absolute value
 - Should kinetic energy increase if compound molecule has lower floor?
 - How should selection/higlighting work? Use CM instead of halo.
