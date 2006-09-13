@@ -74,7 +74,7 @@ public class CCKModule extends Module {
     private ModelViewTransform2D transform;
     private AspectRatioPanel aspectRatioPanel;
     private CCK2ImageSuite imageSuite;
-    private CircuitChangeListener circuitChangeListener;
+//    private CircuitChangeListener circuitChangeListener;
 
     private Toolbox toolbox;
     private VirtualAmmeter virtualAmmeter;
@@ -146,8 +146,7 @@ public class CCKModule extends Module {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         module = this;
         setModel( new BaseModel() );
-        model = new CCKModel( this, circuitChangeListener );
-
+        model = new CCKModel( this );
 
         this.parameters = new SetupParameters( this, args );
 
@@ -307,8 +306,8 @@ public class CCKModule extends Module {
         return model.getCircuitSolver();
     }
 
-    public CircuitChangeListener getKirkhoffListener() {
-        return circuitChangeListener;
+    public CircuitChangeListener getCircuitChangeListener() {
+        return model.getCircuitChangeListener();
     }
 
     private void doinit() throws IOException {
@@ -318,7 +317,9 @@ public class CCKModule extends Module {
         transform = new ModelViewTransform2D( model.getModelBounds(), viewBounds );
         //        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
-        setupToolbox();
+
+        toolbox = new Toolbox( createToolboxBounds(), this, toolboxColor );
+        getApparatusPanel().addGraphic( toolbox );
 //        particleSet = new ParticleSet( this, getCircuit() );
 //        layout = new ConstantDensityLayout( this );
 //        getCircuit().addCircuitListener( layout );
@@ -427,13 +428,12 @@ public class CCKModule extends Module {
                                        h );
     }
 
-    private void setupToolbox() {
-        if( toolbox != null ) {
-            throw new RuntimeException( "Only one toolbox per app, please." );
-        }
-        toolbox = new Toolbox( createToolboxBounds(), this, toolboxColor );
-        getApparatusPanel().addGraphic( toolbox );
-    }
+//    private void setupToolbox() {
+//        if( toolbox != null ) {
+//            throw new RuntimeException( "Only one toolbox per app, please." );
+//        }
+//        
+//    }
 
     private void addVirtualAmmeter() {
         virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );

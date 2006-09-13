@@ -118,12 +118,12 @@ public class Toolbox extends CompositeGraphic {
     private void addAmmeter( double componentWidth, double componentX, double y, Vector2D.Double dir ) {
         double samLength = componentWidth;
         double samHeight = CCKModel.SERIES_AMMETER_DIMENSION.getHeightForLength( samLength );
-        SeriesAmmeter sam = new SeriesAmmeter( module.getKirkhoffListener(), new Point2D.Double( componentX, y ),
+        SeriesAmmeter sam = new SeriesAmmeter( module.getCircuitChangeListener(), new Point2D.Double( componentX, y ),
                                                new ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
         SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, SimStrings.get( "Toolbox.AmmeterTitle" ) );
         sag.setFont( new Font( "Lucida Sans", Font.PLAIN, 8 ) );
         SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );
-        ammeterSource = new BranchSource.AmmeterSource( sag, schAg, module.getCircuitGraphic(), parent, sam, module.getKirkhoffListener(), dir,
+        ammeterSource = new BranchSource.AmmeterSource( sag, schAg, module.getCircuitGraphic(), parent, sam, module.getCircuitChangeListener(), dir,
                                                         CCKModel.SERIES_AMMETER_DIMENSION.getLength(),
                                                         CCKModel.SERIES_AMMETER_DIMENSION.getHeight(), module );
         addSource( ammeterSource );
@@ -133,7 +133,7 @@ public class Toolbox extends CompositeGraphic {
         BufferedImage baseImage = module.getImageSuite().getKnifeBoardImage();
         double initialSwitchHeight = CCKModel.SWITCH_DIMENSION.getHeightForLength( componentWidth );
         Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), dir.getScaledInstance( -1 ),
-                                      componentWidth, initialSwitchHeight, module.getKirkhoffListener() );
+                                      componentWidth, initialSwitchHeight, module.getCircuitChangeListener() );
         BufferedImage leverImage = module.getImageSuite().getKnifeHandleImage();
         CircuitComponentImageGraphic sg = new CircuitComponentImageGraphic( baseImage, parent, mySwitch, transform );
         final TestCG switchGraphic = new TestCG( module.getApparatusPanel() );
@@ -157,7 +157,7 @@ public class Toolbox extends CompositeGraphic {
             }
         } );
         switchSource = new BranchSource.SwitchSource( switchGraphic, schSwitchGraphic, module.getCircuitGraphic(), parent,
-                                                      mySwitch, module.getKirkhoffListener(),
+                                                      mySwitch, module.getCircuitChangeListener(),
                                                       CCKModel.SWITCH_DIMENSION, module );
         addSource( switchSource );
         y += dy;
@@ -171,14 +171,14 @@ public class Toolbox extends CompositeGraphic {
         bulbDir = bulbDir.getRotatedInstance( BulbComponentGraphic.determineTilt() );
         double bulbY = y - CCKModel.BULB_DIMENSION.getHeight() * modelRect.getHeight() / 30;
         Bulb bulb = new Bulb( new Point2D.Double( componentX + componentWidth / 2, bulbY ),
-                              bulbDir, 1, bulbToolWidth, bulbToolHeight, module.getKirkhoffListener() );//TODO 1 is broken
+                              bulbDir, 1, bulbToolWidth, bulbToolHeight, module.getCircuitChangeListener() );//TODO 1 is broken
         BulbComponentGraphic bulbGraphic = new BulbComponentGraphic( parent, bulb, transform, module );
         Vector2D schBulbDir = new Vector2D.Double( 1, 0 );
         Bulb schematicBulb = new Bulb( new Point2D.Double( componentX, bulbY ),
-                                       schBulbDir, componentWidth, bulbToolWidth, bulbToolHeight, module.getKirkhoffListener() );
+                                       schBulbDir, componentWidth, bulbToolWidth, bulbToolHeight, module.getCircuitChangeListener() );
 
         SchematicBulbGraphic schBulbGraphic = new SchematicBulbGraphic( parent, schematicBulb, transform, schematicWireThickness );
-        bulbSource = new BranchSource.BulbSource( bulbGraphic, module.getCircuitGraphic(), parent, bulb, schBulbGraphic, CCKModel.BULB_DIMENSION, module.getKirkhoffListener(),
+        bulbSource = new BranchSource.BulbSource( bulbGraphic, module.getCircuitGraphic(), parent, bulb, schBulbGraphic, CCKModel.BULB_DIMENSION, module.getCircuitChangeListener(),
                                                   CCKModel.BULB_DIMENSION.getDistBetweenJunctions(), module );
         addSource( bulbSource );
         y += dy * 1.2;
@@ -188,10 +188,10 @@ public class Toolbox extends CompositeGraphic {
     private double addBattery( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
         double battToolHeight = CCKModel.BATTERY_DIMENSION.getHeightForLength( componentWidth );
 
-        Battery batt = new Battery( new Point2D.Double( componentX, y ), dir, componentWidth, battToolHeight, module.getKirkhoffListener(), module.isInternalResistanceOn() );
+        Battery batt = new Battery( new Point2D.Double( componentX, y ), dir, componentWidth, battToolHeight, module.getCircuitChangeListener(), module.isInternalResistanceOn() );
         CircuitComponentImageGraphic battGraphic = new CircuitComponentImageGraphic( module.getImageSuite().getLifelikeSuite().getBatteryImage(), parent, batt, transform );
         SchematicBatteryGraphic battG = new SchematicBatteryGraphic( parent, batt, transform, schematicWireThickness );
-        batterySource = new BranchSource.BatterySource( battGraphic, battG, module.getCircuitGraphic(), parent, batt, CCKModel.BATTERY_DIMENSION, module.getKirkhoffListener(), module );
+        batterySource = new BranchSource.BatterySource( battGraphic, battG, module.getCircuitGraphic(), parent, batt, CCKModel.BATTERY_DIMENSION, module.getCircuitChangeListener(), module );
         addSource( batterySource );
         y += dy;
         return y;
@@ -201,10 +201,10 @@ public class Toolbox extends CompositeGraphic {
 
         BufferedImage resistorImage = module.getImageSuite().getResistorImage();
         double initalResistorHeight = CCKModel.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
-        Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );
+        Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getCircuitChangeListener() );
         ResistorGraphic rg = new ResistorGraphic( resistorImage, parent, resistor, transform );
         SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
-        resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCKModel.RESISTOR_DIMENSION, module );
+        resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getCircuitChangeListener(), CCKModel.RESISTOR_DIMENSION, module );
         addSource( resistorSource );
         y += dy;
 
@@ -214,13 +214,13 @@ public class Toolbox extends CompositeGraphic {
     private double addCapacitor( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
 //        BufferedImage im = module.getImageSuite().getCapacitorImage();
         double initialHeight = CCKModel.CAP_DIM.getHeightForLength( componentWidth );
-        Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
+        Capacitor resistor = new Capacitor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getCircuitChangeListener() );
         SchematicCapacitor3DGraphic schematicGraphic = new SchematicCapacitor3DGraphic( parent, resistor, transform, schematicWireThickness );
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1280, 1024 ), new Rectangle( 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height ) );
         schematicGraphic.setHeight( modelViewTransform2D.modelToViewDifferentialY( 50 ) );
         schematicGraphic.setWidth( modelViewTransform2D.modelToViewDifferentialX( 35 ) );
         schematicGraphic.setDistBetweenPlates( modelViewTransform2D.modelToViewDifferentialX( 10 ) );
-        capacitorSource = new BranchSource.CapacitorSource( schematicGraphic, schematicGraphic, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCKModel.CAP_DIM, module );
+        capacitorSource = new BranchSource.CapacitorSource( schematicGraphic, schematicGraphic, module.getCircuitGraphic(), parent, resistor, module.getCircuitChangeListener(), CCKModel.CAP_DIM, module );
         addSource( capacitorSource );
         y += dy;
         return y;
@@ -228,10 +228,10 @@ public class Toolbox extends CompositeGraphic {
 
     private double addInductor( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
         double initialHeight = CCKModel.CAP_DIM.getHeightForLength( componentWidth );
-        Inductor inductor = new Inductor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getKirkhoffListener() );
+        Inductor inductor = new Inductor( new Point2D.Double( componentX, y ), dir, componentWidth, initialHeight, module.getCircuitChangeListener() );
         CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getInductorImage(), parent, inductor, transform );
         SchematicInductorGraphic schematic = new SchematicInductorGraphic( parent, inductor, transform, schematicWireThickness );
-        inductorSource = new BranchSource.InductorSource( lifelike, schematic, module.getCircuitGraphic(), parent, inductor, module.getKirkhoffListener(), CCKModel.INDUCTOR_DIM, module );
+        inductorSource = new BranchSource.InductorSource( lifelike, schematic, module.getCircuitGraphic(), parent, inductor, module.getCircuitChangeListener(), CCKModel.INDUCTOR_DIM, module );
         addSource( inductorSource );
         y += dy;
         return y;
@@ -241,22 +241,22 @@ public class Toolbox extends CompositeGraphic {
         double acToolHeight = CCKModel.AC_DIM.getHeightForLength( componentWidth );
 
         ACVoltageSource ac = new ACVoltageSource( new Point2D.Double( componentX, y ), dir,
-                                                  componentWidth, acToolHeight, module.getKirkhoffListener(), module.isInternalResistanceOn() );
+                                                  componentWidth, acToolHeight, module.getCircuitChangeListener(), module.isInternalResistanceOn() );
         CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), parent, ac, transform );
 //        SchematicOscillateGraphic schematic = new SchematicOscillateGraphic( parent, batt, transform, schematicWireThickness );
         SchematicOscillateGraphic schematic = new SchematicACGraphic( parent, ac, transform, schematicWireThickness );
         acSource = new BranchSource.ACSource( lifelike, schematic, module.getCircuitGraphic(),
-                                              parent, ac, CCKModel.AC_DIM, module.getKirkhoffListener(), module );
+                                              parent, ac, CCKModel.AC_DIM, module.getCircuitChangeListener(), module );
         addSource( acSource );
         y += dy;
         return y;
     }
 
     private double addWireBranch( double componentX, double y, double componentX2, double dy ) {
-        Branch wireBranch = new Branch( module.getKirkhoffListener(), new Junction( componentX, y ), new Junction( componentX2, y ) );
+        Branch wireBranch = new Branch( module.getCircuitChangeListener(), new Junction( componentX, y ), new Junction( componentX2, y ) );
         BranchGraphic bg = new BranchGraphic( wireBranch, parent, .14, transform, CircuitGraphic.COPPER );
         BranchGraphic schematicBranchGraphic = new BranchGraphic( wireBranch, parent, .1, transform, Color.black );
-        wireSource = new BranchSource.WireSource( wireBranch, bg, schematicBranchGraphic, module.getCircuitGraphic(), parent, module.getKirkhoffListener(), CCKModel.WIRE_LENGTH, module );
+        wireSource = new BranchSource.WireSource( wireBranch, bg, schematicBranchGraphic, module.getCircuitGraphic(), parent, module.getCircuitChangeListener(), CCKModel.WIRE_LENGTH, module );
         addSource( wireSource );
         y += dy;
         return y;

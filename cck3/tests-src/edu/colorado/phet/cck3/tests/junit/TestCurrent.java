@@ -45,10 +45,10 @@ public class TestCurrent extends TestCase {
 
     private void testSimpleCircuit( double r, double v ) {
         double battResistance = CCKModule.MIN_RESISTANCE;
-        Resistor resistor = new Resistor( module.getKirkhoffListener(), new Junction( 5, 5 ),
+        Resistor resistor = new Resistor( module.getCircuitChangeListener(), new Junction( 5, 5 ),
                                           new Junction( 5, 6 ), 1, 1 );
         resistor.setResistance( r - battResistance );
-        Battery battery = new Battery( module.getKirkhoffListener(), resistor.getStartJunction(), resistor.getEndJunction(), 1, 1, battResistance, false );
+        Battery battery = new Battery( module.getCircuitChangeListener(), resistor.getStartJunction(), resistor.getEndJunction(), 1, 1, battResistance, false );
         battery.setVoltageDrop( v );
         module.getCircuit().addBranch( resistor );
         module.getCircuit().addBranch( battery );

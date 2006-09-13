@@ -66,13 +66,11 @@ public class CCKModel {
     private boolean modelChanged = false;
 
     private BaseModel baseModel;
+    private CircuitChangeListener circuitChangeListener;
 
-
-    public CCKModel( CCKModule module, CircuitChangeListener circuitChangeListener ) {
-        this.circuit = new Circuit( circuitChangeListener );
-
+    public CCKModel( CCKModule module ) {
         // Create the circuitSolver and the listener that will invoke it
-        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
                 if( isRunning() ) {
@@ -84,7 +82,8 @@ public class CCKModel {
             }
 
         };
-
+        this.circuit = new Circuit( circuitChangeListener );
+        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
         particleSet = new ParticleSet( module, getCircuit() );
         layout = new ConstantDensityLayout( module );
         getCircuit().addCircuitListener( layout );
@@ -142,5 +141,9 @@ public class CCKModel {
 
     public double getModelHeight() {
         return modelHeight;
+    }
+
+    public CircuitChangeListener getCircuitChangeListener() {
+        return circuitChangeListener;
     }
 }

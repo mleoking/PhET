@@ -76,7 +76,7 @@ public class GrabBagItem {
         Point2D start = new Point2D.Double( x, y );
         Vector2D.Double dir = new Vector2D.Double( 1, 0 );
         double height = modelLength / image.getWidth() * image.getHeight();
-        GrabBagResistor res = new GrabBagResistor( start, dir, modelLength, height, module.getKirkhoffListener(), this );
+        GrabBagResistor res = new GrabBagResistor( start, dir, modelLength, height, module.getCircuitChangeListener(), this );
         res.setResistance( getResistance() );
         return res;
     }
