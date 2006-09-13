@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
+import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
@@ -12,6 +13,10 @@ import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_cck.view.graphics.Boundary;
+import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -19,9 +24,12 @@ import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -76,6 +84,33 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
                 timeScaleTextGraphic.setPosition( x, y );
             }
         } );
+
+        getApparatusPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                getApparatusPanel().requestFocus();
+            }
+        } );
+        getApparatusPanel().setFocusable( true );
+        getApparatusPanel().setBackground( new Color( 0, 0, 0, 0 ) );
+
+
+        DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
+            public void paint( Graphics2D g ) {
+            }
+        }, new Boundary() {
+            public boolean contains( int x, int y ) {
+                return true;
+            }
+        } );
+        backgroundGraphic.addMouseInputListener( new MouseInputAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                getCircuit().clearSelection();
+            }
+        } );
+        getApparatusPanel().addGraphic( backgroundGraphic, Double.NEGATIVE_INFINITY );
+        BasicGraphicsSetup setup = new BasicGraphicsSetup();
+        setup.setBicubicInterpolation();
+        getApparatusPanel().addGraphicsSetup( setup );
     }
 
     private CCKApparatusPanel getApparatusPanel() {
@@ -342,5 +377,27 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
             }
         }
         return area;
+    }
+
+    public void convertJunctionGraphic( Junction junction ) {
+        if( getCircuit().hasJunction( junction ) ) {
+            Branch[] outputs = getCircuit().getAdjacentBranches( junction );
+            if( outputs.length == 1 ) {
+                Branch out = outputs[0];
+                if( out instanceof CircuitComponent ) {
+                    CircuitComponent cc = (CircuitComponent)out;
+                    getCircuitGraphic().convertToComponentGraphic( junction, cc );
+                }
+            }
+        }
+    }
+
+    public void updateReadoutGraphics() {
+
+        ReadoutGraphic[] rg = getCircuitGraphic().getReadoutGraphics();
+        for( int i = 0; i < rg.length; i++ ) {
+            ReadoutGraphic readoutGraphic = rg[i];
+            readoutGraphic.recompute();
+        }
     }
 }
