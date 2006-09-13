@@ -1,6 +1,10 @@
 Collision Issues
 ================
-
+- Energy isn't conserved
+- Simple molecules sometimes get curving trajectories
+- Energy profile must be keyed to components types of the composite
+- spring constants must correspond to difference between profile floors
+    and the peak
 
 ====
 Bugs
