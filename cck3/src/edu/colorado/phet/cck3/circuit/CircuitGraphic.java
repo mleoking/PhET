@@ -575,7 +575,7 @@ public class CircuitGraphic extends CompositeGraphic {
             branches.addAll( Arrays.asList( circuit.getAdjacentBranches( junction1 ) ) );
         }
         Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
-        module.relayout( bo );
+        module.layoutElectrons( bo );
         for( int i = 0; i < newJ.length; i++ ) {
             Junction junction1 = newJ[i];
             Branch connection = circuit.getAdjacentBranches( junction1 )[0];

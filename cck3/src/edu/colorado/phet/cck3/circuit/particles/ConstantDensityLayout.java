@@ -36,17 +36,12 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
             bs.addBranches( module.getCircuit().getStrongConnections( branches[i].getEndJunction() ) );
         }
         Branch[] torelayout = bs.getBranches();
-        relayout( torelayout );
+        layoutElectrons( torelayout );
     }
 
     public void branchesMovedOrig( Branch[] branches ) {
-//        ArrayList relay=new ArrayList( );
-
-
         ArrayList moved = new ArrayList( Arrays.asList( branches ) );
-//        int num = module.getParticleSet().numParticles();
-//        System.out.println( "num= " + num );
-        relayout( branches );
+        layoutElectrons( branches );
         ArrayList branchesToRelayout = new ArrayList();
         Branch[] all = module.getCircuit().getBranches();
         for( int i = 0; i < all.length; i++ ) {
@@ -59,19 +54,17 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
             }
         }
         Branch[] torelayout = (Branch[])branchesToRelayout.toArray( new Branch[0] );
-        relayout( torelayout );
-//        int numAfter = module.getParticleSet().numParticles();
-//        System.out.println( "numAfter = " + numAfter );
+        layoutElectrons( torelayout );
     }
 
-    public void relayout( Branch[] branches ) {
+    public void layoutElectrons( Branch[] branches ) {
         for( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
-            relayout( branch );
+            layoutElectrons( branch );
         }
     }
 
-    private void relayout( Branch branch ) {
+    private void layoutElectrons( Branch branch ) {
         ParticleSet ps = module.getParticleSet();
         ParticleSetGraphic psg = module.getParticleSetGraphic();
         Electron[] electrons = ps.removeParticles( branch );

@@ -20,6 +20,7 @@ import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
+import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
 
@@ -118,8 +119,8 @@ public class CCKModel {
         return SCALE;
     }
 
-    public void relayout( Branch[] branches ) {
-        layout.relayout( branches );
+    public void layoutElectrons( Branch[] branches ) {
+        layout.layoutElectrons( branches );
     }
 
     public CircuitSolver getCircuitSolver() {
@@ -188,6 +189,15 @@ public class CCKModel {
     public void setInternalResistanceOn( boolean selected ) {
         if( this.internalResistanceOn != selected ) {
             this.internalResistanceOn = selected;
+        }
+
+        Branch[] b = getCircuit().getBranches();
+        for( int i = 0; i < b.length; i++ ) {
+            Branch branch = b[i];
+            if( branch instanceof Battery ) {
+                Battery batt = (Battery)branch;
+                batt.setInternalResistanceOn( selected );
+            }
         }
     }
 }

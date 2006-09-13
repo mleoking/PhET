@@ -116,7 +116,7 @@ public class CCK3ControlPanel extends ControlPanel {
                     module.getCircuitGraphic().addGraphic( batt );
                     System.out.println( "i = " + i );
                 }
-                module.relayout( module.getCircuit().getBranches() );
+                module.layoutElectrons( module.getCircuit().getBranches() );
             }
         } );
 
@@ -565,17 +565,17 @@ public class CCK3ControlPanel extends ControlPanel {
         public AdvancedControlPanel( final CCKModule module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
 
-            addListener( new Listener() {
-                public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
-                    module.setAdvancedEnabled( false );
-//                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
-                }
-
-                public void advancedPanelShown( AdvancedPanel advancedPanel ) {
-                    module.setAdvancedEnabled( true );
-//                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
-                }
-            } );
+//            addListener( new Listener() {
+//                public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
+//                    module.setAdvancedEnabled( false );
+////                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
+//                }
+//
+//                public void advancedPanelShown( AdvancedPanel advancedPanel ) {
+//                    module.setAdvancedEnabled( true );
+////                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
+//                }
+//            } );
             this.module = module;
 //            setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
