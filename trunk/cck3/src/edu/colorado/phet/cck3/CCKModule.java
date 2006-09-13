@@ -65,10 +65,12 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCKModule extends Module {
-
+    /**
+     * General module data
+     */
     private CCKModel model;
     private SetupParameters parameters;
-    private boolean inited = false;
+    private boolean initedLayout = false;
     private CCK2ImageSuite imageSuite;
     private CCK3ControlPanel cck3controlPanel;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
@@ -77,6 +79,9 @@ public class CCKModule extends Module {
     private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
+    /**
+     * PhetGraphics-specific data
+     */
     private CircuitGraphic circuitGraphic;
     private ModelViewTransform2D transform;
     private AspectRatioPanel aspectRatioPanel;
@@ -90,6 +95,9 @@ public class CCKModule extends Module {
     private PhetShadowTextGraphic timeScaleTextGraphic;
     private Area electronClip = new Area();
 
+    /**
+     * Piccolo-specific data
+     */
     private PNode stopwatch;
 
     public CCKModule( String[] args ) throws IOException {
@@ -174,25 +182,13 @@ public class CCKModule extends Module {
         if( getApparatusPanel().getWidth() == 0 || getApparatusPanel().getHeight() == 0 ) {
             return;
         }
-        if( !inited ) {
-            inited = true;
-            Runnable r = new Runnable() {
-                public void run() {
-                    try {
-                        doinit();
-                        if( !transform.getViewBounds().equals( getViewBounds() ) ) {
-                            transform.setViewBounds( getViewBounds() );
-                            getApparatusPanel().repaint();
-                            getCircuit().updateAll();
-                        }
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
-            SwingUtilities.invokeLater( r );
+        if( !initedLayout ) {
+            initedLayout = true;
+            if( !transform.getViewBounds().equals( getViewBounds() ) ) {
+                transform.setViewBounds( getViewBounds() );
+                getApparatusPanel().repaint();
+                getCircuit().updateAll();
+            }
         }
 
         if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
@@ -203,7 +199,7 @@ public class CCKModule extends Module {
     }
 
 
-    private void doinit() throws IOException {
+    private void init() throws IOException {
         Rectangle vb = getApparatusPanel().getBounds();
         Rectangle viewBounds = new Rectangle( vb.width, vb.height );
         transform = new ModelViewTransform2D( model.getModelBounds(), viewBounds );
@@ -725,5 +721,14 @@ public class CCKModule extends Module {
 
     public SetupParameters getParameters() {
         return parameters;
+    }
+
+    public void applicationStarted() {
+        try {
+            init();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

@@ -92,6 +92,12 @@ public class CCKApplication {
     private void startApplication() {
         application.startApplication();
         cckModule.getApparatusPanel().requestFocus();
+        for( int i = 0; i < application.numModules(); i++ ) {
+            if( application.moduleAt( i )instanceof CCKModule ) {
+                CCKModule module = (CCKModule)application.moduleAt( i );
+                module.applicationStarted();
+            }
+        }
     }
 
     private static String readVersion() {
