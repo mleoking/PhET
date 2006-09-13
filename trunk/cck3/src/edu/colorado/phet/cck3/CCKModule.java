@@ -4,14 +4,11 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
-import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
-import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
@@ -20,6 +17,7 @@ import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.cck3.common.WiggleMe;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
@@ -70,49 +68,19 @@ import java.util.Arrays;
  */
 public class CCKModule extends Module {
     private SetupParameters parameters;
-    private Circuit circuit;
+
     private CircuitGraphic circuitGraphic;
     private boolean inited = false;
     private ModelViewTransform2D transform;
     private AspectRatioPanel aspectRatioPanel;
-
     private CCK2ImageSuite imageSuite;
-    private ParticleSet particleSet;
-    private ConstantDensityLayout layout;
-    private CircuitSolver circuitSolver;
     private CircuitChangeListener circuitChangeListener;
 
-    private static final double SCALE = .5;
-    private double aspectRatio = 1.2;
-    private double modelWidth = 10;
-    private double modelHeight = modelWidth / aspectRatio;
-    //    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-    private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-    public static double ELECTRON_DX = .56 * SCALE;
-    private static final double switchscale = 1.45;
-    public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
-    public static final ComponentDimension CAP_DIM = new ComponentDimension( 1.8 * SCALE, .6 * SCALE );
-    public static final ComponentDimension AC_DIM = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
-    public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE * switchscale, 0.8 * SCALE * switchscale );
-    public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
-    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
-    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
-    public static final ComponentDimension INDUCTOR_DIM = new ComponentDimension( 2.5 * SCALE, 0.6 * SCALE );
-    private static double bulbLength = 1;
-    private static double bulbHeight = 1.5;
-    private static double bulbDistJ = .39333;
-    private static double bulbScale = 1.9;
-    public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
-
-    public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
-    public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
-    public static final double JUNCTION_RADIUS = .162;
-    public static final double STICKY_THRESHOLD = SCALE;
     private Toolbox toolbox;
     private VirtualAmmeter virtualAmmeter;
     private InteractiveVoltmeter interactiveVoltmeter;
     private VoltmeterGraphic voltmeterGraphic;
-    public static final double SCH_BULB_DIST = 1;
+
     private WiggleMe wiggleMe;
     private CCKHelp help;
     private CCK3ControlPanel cck3controlPanel;
@@ -122,9 +90,6 @@ public class CCKModule extends Module {
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
-    private ResistivityManager resistivityManager;
-    private boolean internalResistanceOn = false;
-    public static final double MIN_RESISTANCE = 1E-8;
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
 
@@ -132,16 +97,58 @@ public class CCKModule extends Module {
     static CCKModule module;
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
-
+    public static final double SCH_BULB_DIST = 1;
     // Localization
 
     private Area electronClip = new Area();
     private PNode stopwatch;
-    private boolean changed = false;
+
+
+    private CCKModel model;
+
+//    private ParticleSet particleSet;
+//    private ConstantDensityLayout layout;
+//    private CircuitSolver circuitSolver;
+//    private double aspectRatio = 1.2;
+//    private static final double SCALE = .5;
+//    private double modelWidth = 10;
+//    private double modelHeight = modelWidth / aspectRatio;
+//    //    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
+//    private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
+//    public static double ELECTRON_DX = .56 * SCALE;
+//    private static final double switchscale = 1.45;
+//    public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
+//    public static final ComponentDimension CAP_DIM = new ComponentDimension( 1.8 * SCALE, .6 * SCALE );
+//    public static final ComponentDimension AC_DIM = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
+//    public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE * switchscale, 0.8 * SCALE * switchscale );
+//    public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
+//    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
+//    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
+//    public static final ComponentDimension INDUCTOR_DIM = new ComponentDimension( 2.5 * SCALE, 0.6 * SCALE );
+//    private static double bulbLength = 1;
+//    private static double bulbHeight = 1.5;
+//    private static double bulbDistJ = .39333;
+//    private static double bulbScale = 1.9;
+//    public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
+//
+//    public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
+//    public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
+//    public static final double JUNCTION_RADIUS = .162;
+//    private boolean modelChanged = false;
+
+    private ResistivityManager resistivityManager;
+    private boolean internalResistanceOn = false;
+    public static final double MIN_RESISTANCE = 1E-8;
+
+//    public static final double STICKY_THRESHOLD = SCALE;
 
     public CCKModule( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         module = this;
+        setModel( new BaseModel() );
+        model = new CCKModel( this, circuitChangeListener );
+
+
         this.parameters = new SetupParameters( this, args );
 
         magicPanel = new CCKApparatusPanel();
@@ -179,42 +186,38 @@ public class CCKModule extends Module {
         setup.setBicubicInterpolation();
         getApparatusPanel().addGraphicsSetup( setup );
 
-        setModel( new BaseModel() {
+        // Create a BaseModel that will get clock ticks and add a model element to
+        // it that will tell the CCKModel to step
+//        setModel( new BaseModel() );
+        getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                //                long time = System.currentTimeMillis();
-                super.stepInTime( dt );
-                //                long now = System.currentTimeMillis();
-                //                long dx = now - time;
-                //                if( dx != 0 ) {
-                //                    System.out.println( "Base Model = " + dx );
-                //                }
+                model.stepInTime( dt );
             }
         } );
-        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
-        circuitChangeListener = new CircuitChangeListener() {
-            public void circuitChanged() {
-                if( isRunning() ) {
-                    changed = true;
-                }
-                else {
-                    circuitSolver.apply( circuit );
-                }
-            }
+//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+//        circuitChangeListener = new CircuitChangeListener() {
+//            public void circuitChanged() {
+//                if( isRunning() ) {
+//                    modelChanged = true;
+//                }
+//                else {
+//                    circuitSolver.apply( getCircuit() );
+//                }
+//            }
+//
+//        };
 
-        };
-
-        addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-//                System.out.println( "dt = " + dt );
-                dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
-                if( circuit.isDynamic() || changed ) {
-                    circuit.stepInTime( dt );
-                    circuitSolver.apply( circuit );
-                }
-            }
-        } );
-
-        circuit = new Circuit( circuitChangeListener );
+//        addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+////                System.out.println( "dt = " + dt );
+//                dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
+//                if( getCircuit().isDynamic() || modelChanged ) {
+//                    getCircuit().stepInTime( dt );
+//                    circuitSolver.apply( getCircuit() );
+//                }
+//            }
+//        } );
+//        this.model = new CCKModel( circuitChangeListener );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
@@ -228,7 +231,7 @@ public class CCKModule extends Module {
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
         imageSuite = new CCK2ImageSuite();
         this.resistivityManager = new ResistivityManager( this );
-        circuit.addCircuitListener( resistivityManager );
+        getCircuit().addCircuitListener( resistivityManager );
         CCK3ControlPanel controlPanel = null;
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
@@ -245,9 +248,9 @@ public class CCKModule extends Module {
         setResistivityEnabled( true );
     }
 
-    private boolean isRunning() {
-        return true;
-    }
+//    private boolean isRunning() {
+//        return true;
+//    }
 
     private void relayout() {
         if( getApparatusPanel().getWidth() == 0 || getApparatusPanel().getHeight() == 0 ) {
@@ -262,7 +265,7 @@ public class CCKModule extends Module {
                         if( !transform.getViewBounds().equals( getViewBounds() ) ) {
                             transform.setViewBounds( getViewBounds() );
                             getApparatusPanel().repaint();
-                            circuit.updateAll();
+                            getCircuit().updateAll();
                         }
                     }
                     catch( IOException e ) {
@@ -278,7 +281,7 @@ public class CCKModule extends Module {
         if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
             transform.setViewBounds( getViewBounds() );
             getApparatusPanel().repaint();
-            circuit.updateAll();
+            getCircuit().updateAll();
         }
     }
 
@@ -291,7 +294,7 @@ public class CCKModule extends Module {
     }
 
     public void relayout( Branch[] branches ) {
-        layout.relayout( branches );
+        model.relayout( branches );
     }
 
     public Rectangle getViewBounds() {
@@ -300,8 +303,8 @@ public class CCKModule extends Module {
         return viewBounds;
     }
 
-    public CircuitSolver getKirkhoffSolver() {
-        return circuitSolver;
+    public CircuitSolver getCircuitSolver() {
+        return model.getCircuitSolver();
     }
 
     public CircuitChangeListener getKirkhoffListener() {
@@ -312,14 +315,14 @@ public class CCKModule extends Module {
         //        Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
         Rectangle vb = getApparatusPanel().getBounds();
         Rectangle viewBounds = new Rectangle( vb.width, vb.height );
-        transform = new ModelViewTransform2D( modelBounds, viewBounds );
+        transform = new ModelViewTransform2D( model.getModelBounds(), viewBounds );
         //        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
         setupToolbox();
-        particleSet = new ParticleSet( this, circuit );
-        layout = new ConstantDensityLayout( this );
-        circuit.addCircuitListener( layout );
-        addModelElement( particleSet );
+//        particleSet = new ParticleSet( this, getCircuit() );
+//        layout = new ConstantDensityLayout( this );
+//        getCircuit().addCircuitListener( layout );
+//        addModelElement( particleSet );
         addGraphic( circuitGraphic, 2 );
         addVirtualAmmeter();
         Voltmeter voltmeter = new Voltmeter( 5, 5, .7, this );
@@ -332,7 +335,7 @@ public class CCKModule extends Module {
             e.printStackTrace();
         }
 
-        circuitSolver.addSolutionListener( new CircuitSolutionListener() {
+        getCircuitSolver().addSolutionListener( new CircuitSolutionListener() {
             public void circuitSolverFinished() {
                 voltmeterGraphic.recomputeVoltage();
             }
@@ -346,7 +349,7 @@ public class CCKModule extends Module {
                 voltmeterGraphic.recomputeVoltage();
             }
         } );
-        circuit.addCircuitListener( new CircuitListenerAdapter() {
+        getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void branchesMoved( Branch[] branches ) {
                 voltmeterGraphic.recomputeVoltage();
             }
@@ -355,7 +358,7 @@ public class CCKModule extends Module {
                 voltmeterGraphic.recomputeVoltage();
             }
         } );
-        circuitSolver.addSolutionListener( new FireHandler( circuitGraphic ) );
+        getCircuitSolver().addSolutionListener( new FireHandler( circuitGraphic ) );
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
@@ -383,10 +386,10 @@ public class CCKModule extends Module {
         } );
         getApparatusPanel().addGraphic( wiggleMe, 100 );
         getModel().addModelElement( wiggleMe );
-        circuit.addCircuitListener( new CircuitListenerAdapter() {
+        getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void branchesMoved( Branch[] branches ) {
                 if( branches.length > 0 ) {
-                    circuit.removeCircuitListener( this );
+                    getCircuit().removeCircuitListener( this );
                     wiggleMe.setVisible( false );
                     getApparatusPanel().removeGraphic( wiggleMe );
                     getModel().removeModelElement( wiggleMe );
@@ -434,7 +437,7 @@ public class CCKModule extends Module {
 
     private void addVirtualAmmeter() {
         virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );
-        circuitSolver.addSolutionListener( new CircuitSolutionListener() {
+        getCircuitSolver().addSolutionListener( new CircuitSolutionListener() {
             public void circuitSolverFinished() {
                 virtualAmmeter.recompute();
             }
@@ -448,7 +451,7 @@ public class CCKModule extends Module {
                 virtualAmmeter.recompute();
             }
         } );
-        circuit.addCircuitListener( new CircuitListenerAdapter() {
+        getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void branchesMoved( Branch[] branches ) {
                 virtualAmmeter.recompute();
             }
@@ -463,24 +466,17 @@ public class CCKModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        //Todo see below.
-        /**
-         * This code was originally used in CCK to ensure aspect ratio is correct.  However, it replaces the
-         * existing apparatus panel container and is incompatibile with multiple modules.
-         */
-
-//        this.aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, aspectRatio );
+//        this.aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, model.getAspectRatio() );
 //        this.aspectRatioPanel.addComponentListener( new ComponentAdapter() {
 //            public void componentResized( ComponentEvent e ) {
 //                relayout();
 //            }
 //        } );
 //        app.getApplicationView().getBasicPhetPanel().setApparatusPanelContainer( aspectRatioPanel );
-
     }
 
     public Circuit getCircuit() {
-        return circuit;
+        return model.getCircuit();
     }
 
     public ModelViewTransform2D getTransform() {
@@ -500,11 +496,11 @@ public class CCKModule extends Module {
     }
 
     public ParticleSet getParticleSet() {
-        return particleSet;
+        return model.getParticleSet();
     }
 
     public Rectangle2D.Double getJunctionBounds() {
-        Junction[] j = circuit.getJunctions();
+        Junction[] j = getCircuit().getJunctions();
         Rectangle2D.Double rect = null;
         for( int i = 0; i < j.length; i++ ) {
             Junction junction = j[i];
@@ -519,19 +515,19 @@ public class CCKModule extends Module {
     }
 
     public void setZoom( double scale ) {
-        double newWidth = modelWidth * scale;
-        double newHeight = modelHeight * scale;
+        double newWidth = model.getModelWidth() * scale;
+        double newHeight = model.getModelHeight() * scale;
 
         Rectangle2D jb = getJunctionBounds();
         Point2D.Double center = null;
         if( jb == null ) {
-            center = RectangleUtils.getCenter2D( modelBounds );
+            center = RectangleUtils.getCenter2D( model.getModelBounds() );
         }
         else {
             center = RectangleUtils.getCenter2D( jb );
         }
         Rectangle2D.Double r = new Rectangle2D.Double( center.x - newWidth / 2, center.y - newHeight / 2, newWidth, newHeight );
-        //could prevent people from zooming in beyond the boundary of the circuit,
+        //could prevent people from zooming in beyond the boundary of the getCircuit(),
         //but someone may want to zoom in on just the bulb or something.
         transform.setModelBounds( r );
         toolbox.setModelBounds( createToolboxBounds(), cck3controlPanel.isSeriesAmmeterSelected() );
@@ -543,15 +539,15 @@ public class CCKModule extends Module {
     }
 
     public void removeParticlesAndGraphics( Branch branch ) {
-        Electron[] out = particleSet.removeParticles( branch );
+        Electron[] out = getParticleSet().removeParticles( branch );
         circuitGraphic.getParticleSetGraphic().removeGraphics( out );
     }
 
     public void removeBranch( Branch branch ) {
-        circuit.setFireKirkhoffChanges( false );
+        getCircuit().setFireKirkhoffChanges( false );
         removeParticlesAndGraphics( branch );
         circuitGraphic.removeGraphic( branch );
-        circuit.remove( branch );
+        getCircuit().remove( branch );
 
         //see if the adjacent junctions are free.
         testRemove( branch.getStartJunction() );
@@ -561,15 +557,15 @@ public class CCKModule extends Module {
         //if the junction remains, and it has exactly one connection, which is of type CircuitComponent.
         convertJunctionGraphic( branch.getStartJunction() );
         convertJunctionGraphic( branch.getEndJunction() );
-        circuit.setFireKirkhoffChanges( true );
-        circuit.fireKirkhoffChanged();
+        getCircuit().setFireKirkhoffChanges( true );
+        getCircuit().fireKirkhoffChanged();
         getApparatusPanel().repaint();
 
     }
 
     private void convertJunctionGraphic( Junction junction ) {
-        if( circuit.hasJunction( junction ) ) {
-            Branch[] outputs = circuit.getAdjacentBranches( junction );
+        if( getCircuit().hasJunction( junction ) ) {
+            Branch[] outputs = getCircuit().getAdjacentBranches( junction );
             if( outputs.length == 1 ) {
                 Branch out = outputs[0];
                 if( out instanceof CircuitComponent ) {
@@ -581,10 +577,10 @@ public class CCKModule extends Module {
     }
 
     private void testRemove( Junction st ) {
-        Branch[] out = circuit.getAdjacentBranches( st );
+        Branch[] out = getCircuit().getAdjacentBranches( st );
         if( out.length == 0 ) {
             circuitGraphic.removeGraphic( st );
-            circuit.remove( st );
+            getCircuit().remove( st );
         }
     }
 
@@ -597,8 +593,8 @@ public class CCKModule extends Module {
     }
 
     public void clear() {
-        while( circuit.numBranches() > 0 ) {
-            Branch br = circuit.branchAt( 0 );
+        while( getCircuit().numBranches() > 0 ) {
+            Branch br = getCircuit().branchAt( 0 );
             removeBranch( br );
         }
     }
@@ -606,8 +602,8 @@ public class CCKModule extends Module {
     public void setLifelike( boolean lifelike ) {
         toolbox.setLifelike( lifelike );
         circuitGraphic.setLifelike( lifelike );
-        circuit.fireBranchesMoved( circuit.getBranches() );
-        circuit.fireKirkhoffChanged();
+        getCircuit().fireBranchesMoved( getCircuit().getBranches() );
+        getCircuit().fireKirkhoffChanged();
         getApparatusPanel().repaint();
     }
 
@@ -622,17 +618,17 @@ public class CCKModule extends Module {
     public void setCircuit( Circuit newCircuit ) {
         clear();
         for( int i = 0; i < newCircuit.numJunctions(); i++ ) {
-            circuit.addJunction( newCircuit.junctionAt( i ) );
+            getCircuit().addJunction( newCircuit.junctionAt( i ) );
         }
         for( int i = 0; i < newCircuit.numBranches(); i++ ) {
-            circuit.addBranch( newCircuit.branchAt( i ) );
+            getCircuit().addBranch( newCircuit.branchAt( i ) );
         }
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
-            circuitGraphic.addGraphic( circuit.branchAt( i ) );
+        for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+            circuitGraphic.addGraphic( getCircuit().branchAt( i ) );
         }
         //        circuitGraphic.fixJunctionGraphics();
-        layout.relayout( circuit.getBranches() );
-        circuitSolver.apply( circuit );
+        relayout( getCircuit().getBranches() );
+        getCircuitSolver().apply( getCircuit() );
         circuitGraphic.reapplySolderGraphics();
         getApparatusPanel().repaint();
     }
@@ -642,7 +638,7 @@ public class CCKModule extends Module {
     }
 
     public void deleteSelection() {
-        Branch[] sel = circuit.getSelectedBranches();
+        Branch[] sel = getCircuit().getSelectedBranches();
         for( int i = 0; i < sel.length; i++ ) {
             Branch branch = sel[i];
             removeBranch( branch );
@@ -650,10 +646,10 @@ public class CCKModule extends Module {
     }
 
     public void desolderSelection() {
-        Junction[] sel = circuit.getSelectedJunctions();
+        Junction[] sel = getCircuit().getSelectedJunctions();
         for( int i = 0; i < sel.length; i++ ) {
             Junction junction = sel[i];
-            int numConnections = circuit.getNeighbors( junction ).length;
+            int numConnections = getCircuit().getNeighbors( junction ).length;
             if( numConnections > 1 ) {
                 circuitGraphic.split( junction );
             }
@@ -666,11 +662,11 @@ public class CCKModule extends Module {
     }
 
     public void selectAll() {
-        circuit.selectAll();
+        getCircuit().selectAll();
     }
 
     void resetDynamics() {
-        circuit.resetDynamics();
+        getCircuit().resetDynamics();
     }
 
     void clockTickFinished() {
@@ -764,8 +760,8 @@ public class CCKModule extends Module {
 
     public void setElectronsVisible( boolean visible ) {
         this.electronsVisible = visible;
-        if( layout != null && circuit != null && getApparatusPanel() != null ) {
-            layout.branchesMoved( circuit.getBranches() );
+        if( model.getElectronLayout() != null && getCircuit() != null && getApparatusPanel() != null ) {
+            model.getElectronLayout().branchesMoved( getCircuit().getBranches() );
             getApparatusPanel().repaint();
         }
     }
@@ -783,15 +779,19 @@ public class CCKModule extends Module {
         Branch b3 = toolbox.getWireSource().createBranch();
         add( b3 );
 
-        new BranchSet( circuit, new Branch[]{b1} ).translate( -5, 0 );
+        new BranchSet( getCircuit(), new Branch[]{b1} ).translate( -5, 0 );
         AbstractVector2D dv = new Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
-        new BranchSet( circuit, new Branch[]{b2} ).translate( dv );
+        new BranchSet( getCircuit(), new Branch[]{b2} ).translate( dv );
         b3.getStartJunction().setPosition( b2.getEndJunction().getX(), b2.getEndJunction().getY() );
         b3.getEndJunction().setPosition( b1.getStartJunction().getX(), b1.getStartJunction().getY() );
         relayout( new Branch[]{b1, b2, b3} );
         circuitGraphic.collapseJunctions( b1.getEndJunction(), b2.getStartJunction() );
         circuitGraphic.collapseJunctions( b2.getEndJunction(), b3.getStartJunction() );
         circuitGraphic.collapseJunctions( b3.getEndJunction(), b1.getStartJunction() );
+    }
+
+    public CCKModel getCCKModel() {
+        return model;
     }
 
     public static class ResistivityManager extends CircuitListenerAdapter {
@@ -807,14 +807,18 @@ public class CCKModule extends Module {
             this.circuit = module.getCircuit();
         }
 
+        public Circuit getCircuit() {
+            return circuit;
+        }
+
         public void junctionsMoved() {
             changed();
         }
 
         private void changed() {
             if( enabled ) {
-                for( int i = 0; i < circuit.numBranches(); i++ ) {
-                    Branch b = circuit.branchAt( i );
+                for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+                    Branch b = getCircuit().branchAt( i );
                     if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
                         double resistance = getResistance( b );
                         b.setResistance( resistance );
@@ -880,8 +884,8 @@ public class CCKModule extends Module {
     }
 
     private void setWireResistance( double defaultResistance ) {
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
-            Branch br = circuit.branchAt( i );
+        for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+            Branch br = getCircuit().branchAt( i );
             if( br.getClass().equals( Branch.class ) ) {
                 br.setResistance( defaultResistance );
             }
@@ -901,7 +905,7 @@ public class CCKModule extends Module {
             ReadoutGraphic readoutGraphic = rg[i];
             readoutGraphic.recompute();
         }
-        Branch[] b = circuit.getBranches();
+        Branch[] b = getCircuit().getBranches();
         for( int i = 0; i < b.length; i++ ) {
             Branch branch = b[i];
             if( branch instanceof Battery ) {
@@ -927,11 +931,11 @@ public class CCKModule extends Module {
 
     public void debugListeners() {
         int numTransformListeners = transform.numTransformListeners();
-        int numCircuitListeners = circuit.numCircuitListeners();
+        int numCircuitListeners = getCircuit().numCircuitListeners();
         System.out.println( "numCircuitListeners = " + numCircuitListeners );
         System.out.println( "numTransformListeners = " + numTransformListeners );
         System.out.println( "Arrays.asList( transform.getTransformListeners() ) = " + Arrays.asList( transform.getTransformListeners() ) );
-        System.out.println( "circuit.getCircuitListeners() = " + Arrays.asList( circuit.getCircuitListeners() ) );
+        System.out.println( "getCircuit().getCircuitListeners() = " + Arrays.asList( getCircuit().getCircuitListeners() ) );
         int jg = JunctionGraphic.getInstanceCount();
         System.out.println( "jg = " + jg );
     }

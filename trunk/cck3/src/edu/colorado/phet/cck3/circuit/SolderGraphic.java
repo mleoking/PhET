@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -101,7 +101,7 @@ public class SolderGraphic extends PhetShapeGraphic {
         if( !isVisible() ) {
             return;
         }
-        double radius = CCKModule.JUNCTION_RADIUS * 1.34;
+        double radius = CCKModel.JUNCTION_RADIUS * 1.34;
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         Point ctr = transform.modelToView( junction.getPosition() );
         double viewRadius = transform.modelToViewDifferentialX( radius );

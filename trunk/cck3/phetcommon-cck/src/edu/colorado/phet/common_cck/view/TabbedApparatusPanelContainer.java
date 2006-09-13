@@ -17,21 +17,27 @@ import javax.swing.event.ChangeListener;
 public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
     Module current;
     private PhetApplication application;
+    private boolean adding;
 
     public TabbedApparatusPanelContainer( final PhetApplication application ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = getSelectedIndex();
-                current = application.moduleAt( selectedIdx );
-                application.setActiveModule( selectedIdx );
+                if( selectedIdx >= 0 && !adding ) {
+                    current = application.moduleAt( selectedIdx );
+                    application.setActiveModule( selectedIdx );
+                }
             }
         } );
         application.addModuleObserver( this );
     }
 
     public void moduleAdded( Module module ) {
+        adding = true;
+        System.out.println( "TabbedApparatusPanelContainer.moduleAdded, module=" + module );
         addTab( module.getName(), module.getApparatusPanel() );
+        adding = false;
     }
 
     public void activeModuleChanged( Module m ) {

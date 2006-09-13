@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
@@ -29,7 +30,7 @@ public class ConstantDensityPropagator implements ModelElement {
     //    private double MAX_STEP = .182;
     //    private double MAX_STEP = .1;
     //    private double MAX_STEP = CCK3Module.ELECTRON_DX * .4;// * .48;
-    private double MAX_STEP = CCKModule.ELECTRON_DX * .43;// * .48;
+    private double MAX_STEP = CCKModel.ELECTRON_DX * .43;// * .48;
     //    private double MAX_STEP = .35;
     //    private double MAX_STEP = .1 / 10;
     private int numEqualize = 2;

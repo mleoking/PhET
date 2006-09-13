@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
@@ -26,7 +27,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private ModelViewTransform2D transform;
     private double radius;
     private Circuit circuit;
-    private double strokeWidthModelCoords = CCKModule.JUNCTION_GRAPHIC_STROKE_WIDTH;
+    private double strokeWidthModelCoords = CCKModel.JUNCTION_GRAPHIC_STROKE_WIDTH;
     private SimpleObserver observer;
     private TransformListener transformListener;
     private PhetShapeGraphic highlightGraphic;

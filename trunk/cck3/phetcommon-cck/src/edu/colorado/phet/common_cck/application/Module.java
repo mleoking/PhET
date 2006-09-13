@@ -87,7 +87,7 @@ public class Module {
         return name;
     }
 
-    protected void addModelElement( ModelElement modelElement ) {
+    public void addModelElement( ModelElement modelElement ) {
         getModel().addModelElement( modelElement );
     }
 

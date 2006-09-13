@@ -82,7 +82,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
                 changed();
             }
         };
-        module.getKirkhoffSolver().addSolutionListener( circuitSolutionListener );
+        module.getCircuitSolver().addSolutionListener( circuitSolutionListener );
         blackGraphic = new PhetShapeGraphic( parent, new Area(), stroke, Color.black );
 
         addGraphic( highlightRegion );
@@ -181,7 +181,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     public void delete() {
         component.removeObserver( simpleObserver );
         transform.removeTransformListener( transformListener );
-        module.getKirkhoffSolver().removeSolutionListener( circuitSolutionListener );
+        module.getCircuitSolver().removeSolutionListener( circuitSolutionListener );
     }
 
 }

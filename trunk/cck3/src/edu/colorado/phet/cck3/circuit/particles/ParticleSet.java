@@ -29,53 +29,6 @@ public class ParticleSet implements ModelElement {
         return density;
     }
 
-    class Storage {
-        double time;
-        Hashtable listtable = new Hashtable();
-        Hashtable arraytable = new Hashtable();
-
-        public Storage() {
-        }
-
-        public void reset() {
-            this.time = ParticleSet.this.time;
-        }
-
-        public double getTime() {
-            return time;
-        }
-
-        public Electron[] getParticles( Branch branch ) {
-            Electron[] e = (Electron[])arraytable.get( branch );
-            return e;
-        }
-
-        public void synchronize() {
-            this.time = ParticleSet.this.time;
-            listtable.clear();
-            arraytable.clear();
-            for( int i = 0; i < circuit.numBranches(); i++ ) {
-                listtable.put( circuit.branchAt( i ), new ArrayList() );
-            }
-            for( int i = 0; i < particles.size(); i++ ) {
-                Electron particle = (Electron)particles.get( i );
-                Branch branch = particle.getBranch();
-                ArrayList list = (ArrayList)listtable.get( branch );
-                list.add( particle );
-            }
-            Enumeration k = listtable.keys();
-            while( k.hasMoreElements() ) {
-                Branch branch = (Branch)k.nextElement();
-                ArrayList value = (ArrayList)listtable.get( branch );
-                arraytable.put( branch, value.toArray( new Electron[0] ) );
-            }
-        }
-
-        public void removeParticles( Branch branch ) {
-            arraytable.put( branch, new Electron[0] );
-        }
-    }
-
     public ParticleSet( CCKModule module, Circuit circuit ) {
         propagator = new ConstantDensityPropagator( module, this, circuit );
         this.circuit = circuit;
@@ -192,6 +145,53 @@ public class ParticleSet implements ModelElement {
             }
         }
         return lower;
+    }
+
+    class Storage {
+        double time;
+        Hashtable listtable = new Hashtable();
+        Hashtable arraytable = new Hashtable();
+
+        public Storage() {
+        }
+
+        public void reset() {
+            this.time = ParticleSet.this.time;
+        }
+
+        public double getTime() {
+            return time;
+        }
+
+        public Electron[] getParticles( Branch branch ) {
+            Electron[] e = (Electron[])arraytable.get( branch );
+            return e;
+        }
+
+        public void synchronize() {
+            this.time = ParticleSet.this.time;
+            listtable.clear();
+            arraytable.clear();
+            for( int i = 0; i < circuit.numBranches(); i++ ) {
+                listtable.put( circuit.branchAt( i ), new ArrayList() );
+            }
+            for( int i = 0; i < particles.size(); i++ ) {
+                Electron particle = (Electron)particles.get( i );
+                Branch branch = particle.getBranch();
+                ArrayList list = (ArrayList)listtable.get( branch );
+                list.add( particle );
+            }
+            Enumeration k = listtable.keys();
+            while( k.hasMoreElements() ) {
+                Branch branch = (Branch)k.nextElement();
+                ArrayList value = (ArrayList)listtable.get( branch );
+                arraytable.put( branch, value.toArray( new Electron[0] ) );
+            }
+        }
+
+        public void removeParticles( Branch branch ) {
+            arraytable.put( branch, new Electron[0] );
+        }
     }
 
 }
