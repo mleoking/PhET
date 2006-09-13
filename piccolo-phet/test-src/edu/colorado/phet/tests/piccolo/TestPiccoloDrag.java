@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.tests;
+package edu.colorado.phet.tests.piccolo;
 
 /**
  * User: Sam Reid
