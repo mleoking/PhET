@@ -11,8 +11,10 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * AtomicModelSelector is the control for selecting an atomic model.
@@ -60,9 +63,14 @@ public class AtomicModelSelector extends PhetPNode {
     private static final Color BUTTON_SELECTED_COLOR = Color.WHITE;
     private static final Color BUTTON_DESELECTED_COLOR = Color.LIGHT_GRAY;
     
+    // margin around edges of panel
     private static final double MARGIN = 10;
+    // space between buttons
     private static final double BUTTON_SPACING = 15;
+    // space between a button and its label
     private static final double LABEL_SPACING = 4;
+    // space between buttons and the continuum label
+    private static final double CONTINUUM_SPACING = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -103,9 +111,6 @@ public class AtomicModelSelector extends PhetPNode {
         // Panel
         PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
         
-        // Continuum
-        PPath continuumTrack = new PPath();
-        
         // Labels
         PText atomicModelLabel = new PText( SimStrings.get( "label.atomicModel" ) );
         atomicModelLabel.setFont( TITLE_FONT );
@@ -116,12 +121,10 @@ public class AtomicModelSelector extends PhetPNode {
         PText classicalLabel = new PText( SimStrings.get( "label.classical" ) );
         classicalLabel.setFont( CONTINUUM_FONT );
         classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // yes, this is correct
-        classicalLabel.rotate( Math.toRadians( 90 ) );
         
         PText quantumLabel = new PText( SimStrings.get( "label.quantum" ) );
         quantumLabel.setFont( CONTINUUM_FONT );
         quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
-        quantumLabel.rotate( Math.toRadians( 90 ) );
         
         _billiardBallLabel = new HTMLNode( SimStrings.get( "label.billardBall" ) );
         _billiardBallLabel.setFont( BUTTON_FONT );
@@ -178,9 +181,28 @@ public class AtomicModelSelector extends PhetPNode {
         widthNodes.add( _schrodingerButton );
         heightNodes.add( _schrodingerButton );
         
-        // Panel sizing
+        // Panel & continuum sizing
+        double continuumWidth = 0;
+        double continuumHeight = 0;
         {
-            // Find the width of the panel
+            // Height of the panel
+            double panelHeight = 0;
+            Iterator j = heightNodes.iterator();
+            while ( j.hasNext() ) {
+                PNode node = (PNode)j.next();
+                panelHeight += node.getFullBounds().getHeight();
+            }
+            panelHeight += ( 6 * LABEL_SPACING );
+            panelHeight += ( 6 * BUTTON_SPACING );
+            panelHeight += ( 2 * MARGIN );
+            
+            // Width and height of continuum (dependent on panel height)
+            double w1 = classicalLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
+            double w2 = quantumLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
+            continuumWidth = Math.max( w1, w2 ) + 2;
+            continuumHeight = panelHeight - atomicModelLabel.getFullBounds().getHeight() - ( 2 * MARGIN ) - BUTTON_SPACING;
+            
+            // Width of the panel (dependent on continuum width)
             double panelWidth = 0;
             double maxNodeWidth = 0;
             Iterator i = widthNodes.iterator();
@@ -191,18 +213,9 @@ public class AtomicModelSelector extends PhetPNode {
                 }
             }
             panelWidth += maxNodeWidth;
+            panelWidth += CONTINUUM_SPACING;
+            panelWidth += continuumWidth;
             panelWidth += ( 2 * MARGIN );
-            
-            // Find the height of the panel
-            double panelHeight = 0;
-            Iterator j = heightNodes.iterator();
-            while ( j.hasNext() ) {
-                PNode node = (PNode)j.next();
-                panelHeight += node.getFullBounds().getHeight();
-            }
-            panelHeight += ( 6 * LABEL_SPACING );
-            panelHeight += ( 6 * BUTTON_SPACING );
-            panelHeight += ( 2 * MARGIN );
             
             // Scale the panel
             PBounds pb = panel.getFullBounds();
@@ -216,20 +229,39 @@ public class AtomicModelSelector extends PhetPNode {
         // Selection indicator
         {
             _selectionIndicator = new PPath();
-            // NOTE! Assumes that all buttons are the same size.
-            double w = panel.getFullBounds().getWidth() - 10;
-            double h = _billiardBallButton.getFullBounds().getHeight() + 4;
+            double w = panel.getFullBounds().getWidth() - continuumWidth - CONTINUUM_SPACING - ( 2 * MARGIN );
+            double h = _billiardBallButton.getFullBounds().getHeight() + 4; // Assumes that all buttons are the same size!
             _selectionIndicator.setPathTo( new Rectangle2D.Double( 0, 0, w, h ) );
             _selectionIndicator.setPaint( BUTTON_SELECTED_COLOR );
             _selectionIndicator.setStroke( null );
         }
         
+        // Continuum
+        PComposite continuumNode = new PComposite();
+        {      
+            final double w = continuumHeight;
+            final double h = continuumWidth;
+            
+            PPath track = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
+            track.setStroke( null );
+            GradientPaint gradient = new GradientPaint( 0f, 0f, CONTINUUM_CLASSICAL_COLOR, (float)w, 0f, CONTINUUM_QUANTUM_COLOR );
+            track.setPaint( gradient );
+            
+            continuumNode.addChild( track );
+            continuumNode.addChild( classicalLabel );
+            continuumNode.addChild( quantumLabel );
+            
+            final double xmargin = 5;
+            final double ymargin = 2;
+            
+            track.setOffset( 0, 0 );
+            classicalLabel.setOffset( xmargin, ymargin );
+            quantumLabel.setOffset( track.getFullBounds().getWidth() - quantumLabel.getFullBounds().getWidth() - xmargin, ymargin );
+        }
+        
         // Layout, front to back
         addChild( panel );
         addChild( atomicModelLabel );
-//        addChild( continuumTrack );
-//        addChild( classicalLabel );
-//        addChild( quantumLabel );
         addChild( _selectionIndicator );
         addChild( _billiardBallLabel );
         addChild( _billiardBallButton );
@@ -243,6 +275,7 @@ public class AtomicModelSelector extends PhetPNode {
         addChild( _deBroglieButton );
         addChild( _schrodingerLabel );
         addChild( _schrodingerButton );
+        addChild( continuumNode );
         
         // Positioning
         {
@@ -251,18 +284,25 @@ public class AtomicModelSelector extends PhetPNode {
             
             atomicModelLabel.setOffset( ( panelWidth - atomicModelLabel.getFullBounds().getWidth() ) / 2, MARGIN );
             
-            setOffsetCentered( panel, _billiardBallLabel, atomicModelLabel, BUTTON_SPACING );
-            setOffsetCentered( panel, _billiardBallButton, _billiardBallLabel, LABEL_SPACING );
-            setOffsetCentered( panel, _plumPuddingLabel, _billiardBallButton, BUTTON_SPACING );
-            setOffsetCentered( panel, _plumPuddingButton, _plumPuddingLabel, LABEL_SPACING );
-            setOffsetCentered( panel, _solarSystemLabel, _plumPuddingButton, BUTTON_SPACING );
-            setOffsetCentered( panel, _solarSystemButton, _solarSystemLabel, LABEL_SPACING );
-            setOffsetCentered( panel, _bohrLabel, _solarSystemButton, BUTTON_SPACING );
-            setOffsetCentered( panel, _bohrButton, _bohrLabel, LABEL_SPACING );
-            setOffsetCentered( panel, _deBroglieLabel, _bohrButton, BUTTON_SPACING );
-            setOffsetCentered( panel, _deBroglieButton, _deBroglieLabel, LABEL_SPACING );
-            setOffsetCentered( panel, _schrodingerLabel, _deBroglieButton, BUTTON_SPACING );
-            setOffsetCentered( panel, _schrodingerButton, _schrodingerLabel, LABEL_SPACING );
+            setOffsetCentered( _billiardBallLabel, atomicModelLabel, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _billiardBallButton, _billiardBallLabel, panel, continuumNode, LABEL_SPACING );
+            setOffsetCentered( _plumPuddingLabel, _billiardBallButton, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _plumPuddingButton, _plumPuddingLabel, panel, continuumNode, LABEL_SPACING );
+            setOffsetCentered( _solarSystemLabel, _plumPuddingButton, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _solarSystemButton, _solarSystemLabel, panel, continuumNode, LABEL_SPACING );
+            setOffsetCentered( _bohrLabel, _solarSystemButton, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _bohrButton, _bohrLabel, panel, continuumNode, LABEL_SPACING );
+            setOffsetCentered( _deBroglieLabel, _bohrButton, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _deBroglieButton, _deBroglieLabel, panel, continuumNode, LABEL_SPACING );
+            setOffsetCentered( _schrodingerLabel, _deBroglieButton, panel, continuumNode, BUTTON_SPACING );
+            setOffsetCentered( _schrodingerButton, _schrodingerLabel, panel, continuumNode, LABEL_SPACING );
+            
+            PBounds pb = panel.getFullBounds();
+            AffineTransform xform = new AffineTransform();
+            xform.translate( pb.getWidth() - continuumNode.getFullBounds().getHeight() - MARGIN, _billiardBallLabel.getFullBounds().getY() );
+            xform.rotate( Math.toRadians( 90 ) );
+            xform.translate( 0, -continuumNode.getFullBounds().getHeight() );
+            continuumNode.setTransform( xform );
         }
         
         // Event handling 
@@ -270,10 +310,11 @@ public class AtomicModelSelector extends PhetPNode {
             _listenerList = new EventListenerList();
             
             panel.setPickable( false );
-            continuumTrack.setPickable( false );
+            continuumNode.setPickable( false );
             atomicModelLabel.setPickable( false );
             classicalLabel.setPickable( false );
             quantumLabel.setPickable( false );
+            _selectionIndicator.setPickable( false );
             
             _billiardBallButton.addInputEventListener( new CursorHandler() );
             _billiardBallButton.addInputEventListener( new PBasicInputEventHandler() {
@@ -366,6 +407,7 @@ public class AtomicModelSelector extends PhetPNode {
         return _selectedModel;
     }
     
+    //XXX This should be removed, the name will contain HTML markup.
     public String getSelectionName() {
         String name = null;
         if ( _selectedModel == AtomicModel.BILLIARD_BALL ) {
@@ -393,10 +435,10 @@ public class AtomicModelSelector extends PhetPNode {
     // Event handling
     //----------------------------------------------------------------------------
     
-    private void setOffsetCentered( PNode panel, PNode node, PNode nodeAbove, double spacing ) {
-        node.setOffset( 
-                ( panel.getFullBounds().getWidth() - node.getFullBounds().getWidth() ) / 2,
-                nodeAbove.getFullBounds().getY() + nodeAbove.getFullBounds().getHeight() + spacing );
+    private void setOffsetCentered( PNode node, PNode nodeAbove, PNode panel, PNode continuumNode, double spacing ) {
+        double x = ( panel.getFullBounds().getWidth() - continuumNode.getFullBounds().getHeight() - CONTINUUM_SPACING - node.getFullBounds().getWidth() ) / 2;
+        double y = nodeAbove.getFullBounds().getY() + nodeAbove.getFullBounds().getHeight() + spacing;
+        node.setOffset( x, y );
     }
     
     private void updateUI() {
