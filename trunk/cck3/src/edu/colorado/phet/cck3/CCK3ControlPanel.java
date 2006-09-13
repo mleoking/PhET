@@ -111,7 +111,7 @@ public class CCK3ControlPanel extends ControlPanel {
                     double x1 = rand.nextDouble() * 10;
                     double y1 = rand.nextDouble() * 10;
                     Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
-                                                CCKModel.BATTERY_DIMENSION.getLength(), CCKModel.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0, false );
+                                                CCKModel.BATTERY_DIMENSION.getLength(), CCKModel.BATTERY_DIMENSION.getHeight(), module.getCircuitChangeListener(), 0, false );
                     module.getCircuit().addBranch( batt );
                     module.getCircuitGraphic().addGraphic( batt );
                     System.out.println( "i = " + i );
@@ -386,7 +386,7 @@ public class CCK3ControlPanel extends ControlPanel {
         parser.setValidator( new NonValidator() );
 
         IXMLElement parsed = (IXMLElement)parser.parse();
-        Circuit circuit = Circuit.parseXML( parsed, module.getKirkhoffListener(), module );
+        Circuit circuit = Circuit.parseXML( parsed, module.getCircuitChangeListener(), module );
         module.setCircuit( circuit );
     }
 
