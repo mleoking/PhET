@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.MathUtil;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
@@ -238,8 +239,8 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModule.MIN_RESISTANCE ) {
-                value = CCKModule.MIN_RESISTANCE;
+            if( value < CCKModel.MIN_RESISTANCE ) {
+                value = CCKModel.MIN_RESISTANCE;
             }
             super.element.setResistance( value );
         }
@@ -254,8 +255,8 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModule.MIN_RESISTANCE ) {
-                value = CCKModule.MIN_RESISTANCE;
+            if( value < CCKModel.MIN_RESISTANCE ) {
+                value = CCKModel.MIN_RESISTANCE;
             }
             super.element.setResistance( value );
         }
@@ -273,8 +274,8 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModule.MIN_RESISTANCE ) {
-                value = CCKModule.MIN_RESISTANCE;
+            if( value < CCKModel.MIN_RESISTANCE ) {
+                value = CCKModel.MIN_RESISTANCE;
             }
 //            super.element.setResistance( value );
 //            System.out.println( "set battery internal resistance= " + value );

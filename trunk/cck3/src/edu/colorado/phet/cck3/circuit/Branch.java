@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class Branch extends SimpleObservableDebug {
 //    public static final double WIRE_RESISTANCE_MIN = 0.0001;
-    double resistance = CCKModule.MIN_RESISTANCE;//WIRE_RESISTANCE_MIN;
+    double resistance = CCKModel.MIN_RESISTANCE;//WIRE_RESISTANCE_MIN;
     double current;
     double voltageDrop;
     private Junction startJunction;
@@ -35,7 +35,7 @@ public class Branch extends SimpleObservableDebug {
 
     protected Branch( CircuitChangeListener listener ) {
         label = toLabel( indexCounter++ );
-        setResistance( CCKModule.MIN_RESISTANCE );
+        setResistance( CCKModel.MIN_RESISTANCE );
         addKirkhoffListener( listener );
     }
 
@@ -98,8 +98,8 @@ public class Branch extends SimpleObservableDebug {
         if( resistance < 0 ) {
             throw new RuntimeException( "Resistance was < 0, value=" + resistance );
         }
-        if( resistance < CCKModule.MIN_RESISTANCE ) {
-            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + CCKModule.MIN_RESISTANCE );
+        if( resistance < CCKModel.MIN_RESISTANCE ) {
+            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE );
         }
         if( resistance != this.resistance ) {
             this.resistance = resistance;

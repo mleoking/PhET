@@ -67,6 +67,9 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCKModule extends Module {
+
+    private CCKModel model;
+
     private SetupParameters parameters;
 
     private CircuitGraphic circuitGraphic;
@@ -74,7 +77,6 @@ public class CCKModule extends Module {
     private ModelViewTransform2D transform;
     private AspectRatioPanel aspectRatioPanel;
     private CCK2ImageSuite imageSuite;
-//    private CircuitChangeListener circuitChangeListener;
 
     private Toolbox toolbox;
     private VirtualAmmeter virtualAmmeter;
@@ -85,7 +87,6 @@ public class CCKModule extends Module {
     private CCKHelp help;
     private CCK3ControlPanel cck3controlPanel;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
-//    public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
     private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
@@ -98,47 +99,9 @@ public class CCKModule extends Module {
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
     public static final double SCH_BULB_DIST = 1;
-    // Localization
 
     private Area electronClip = new Area();
     private PNode stopwatch;
-
-
-    private CCKModel model;
-
-//    private ParticleSet particleSet;
-//    private ConstantDensityLayout layout;
-//    private CircuitSolver circuitSolver;
-//    private double aspectRatio = 1.2;
-//    private static final double SCALE = .5;
-//    private double modelWidth = 10;
-//    private double modelHeight = modelWidth / aspectRatio;
-//    //    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-//    private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-//    public static double ELECTRON_DX = .56 * SCALE;
-//    private static final double switchscale = 1.45;
-//    public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
-//    public static final ComponentDimension CAP_DIM = new ComponentDimension( 1.8 * SCALE, .6 * SCALE );
-//    public static final ComponentDimension AC_DIM = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
-//    public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE * switchscale, 0.8 * SCALE * switchscale );
-//    public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
-//    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
-//    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
-//    public static final ComponentDimension INDUCTOR_DIM = new ComponentDimension( 2.5 * SCALE, 0.6 * SCALE );
-//    private static double bulbLength = 1;
-//    private static double bulbHeight = 1.5;
-//    private static double bulbDistJ = .39333;
-//    private static double bulbScale = 1.9;
-//    public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
-//
-//    public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
-//    public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
-//    public static final double JUNCTION_RADIUS = .162;
-//    private boolean modelChanged = false;
-
-    private ResistivityManager resistivityManager;
-    private boolean internalResistanceOn = false;
-    public static final double MIN_RESISTANCE = 1E-8;
 
 //    public static final double STICKY_THRESHOLD = SCALE;
 
@@ -187,36 +150,11 @@ public class CCKModule extends Module {
 
         // Create a BaseModel that will get clock ticks and add a model element to
         // it that will tell the CCKModel to step
-//        setModel( new BaseModel() );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 model.stepInTime( dt );
             }
         } );
-//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
-//        circuitChangeListener = new CircuitChangeListener() {
-//            public void circuitChanged() {
-//                if( isRunning() ) {
-//                    modelChanged = true;
-//                }
-//                else {
-//                    circuitSolver.apply( getCircuit() );
-//                }
-//            }
-//
-//        };
-
-//        addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-////                System.out.println( "dt = " + dt );
-//                dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
-//                if( getCircuit().isDynamic() || modelChanged ) {
-//                    getCircuit().stepInTime( dt );
-//                    circuitSolver.apply( getCircuit() );
-//                }
-//            }
-//        } );
-//        this.model = new CCKModel( circuitChangeListener );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
@@ -229,8 +167,7 @@ public class CCKModule extends Module {
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
         imageSuite = new CCK2ImageSuite();
-        this.resistivityManager = new ResistivityManager( this );
-        getCircuit().addCircuitListener( resistivityManager );
+
         CCK3ControlPanel controlPanel = null;
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
@@ -246,10 +183,6 @@ public class CCKModule extends Module {
         getApparatusPanel().addGraphic( messageGraphic, Double.POSITIVE_INFINITY );
         setResistivityEnabled( true );
     }
-
-//    private boolean isRunning() {
-//        return true;
-//    }
 
     private void relayout() {
         if( getApparatusPanel().getWidth() == 0 || getApparatusPanel().getHeight() == 0 ) {
@@ -311,19 +244,13 @@ public class CCKModule extends Module {
     }
 
     private void doinit() throws IOException {
-        //        Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
         Rectangle vb = getApparatusPanel().getBounds();
         Rectangle viewBounds = new Rectangle( vb.width, vb.height );
         transform = new ModelViewTransform2D( model.getModelBounds(), viewBounds );
-        //        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
 
         toolbox = new Toolbox( createToolboxBounds(), this, toolboxColor );
         getApparatusPanel().addGraphic( toolbox );
-//        particleSet = new ParticleSet( this, getCircuit() );
-//        layout = new ConstantDensityLayout( this );
-//        getCircuit().addCircuitListener( layout );
-//        addModelElement( particleSet );
         addGraphic( circuitGraphic, 2 );
         addVirtualAmmeter();
         Voltmeter voltmeter = new Voltmeter( 5, 5, .7, this );
@@ -363,8 +290,6 @@ public class CCKModule extends Module {
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
-        //        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
-        //                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
         wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025,
                                  SimStrings.get( "CCK3Module.GrabAWire" ) );
         transform.addTransformListener( new TransformListener() {
@@ -415,25 +340,13 @@ public class CCKModule extends Module {
         double toolBoxWidthFrac = .085;
         double toolBoxInsetXFrac = 1 - toolBoxWidthFrac * 1.5;
         double toolBoxHeightFrac = 0.82;
-//        double toolBoxInsetYFrac = .05;
         double toolBoxInsetYFrac = 0.015;
         Rectangle2D modelBounds = transform.getModelBounds();
         double y = modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac;
-//        System.out.println( "modelBounds.getY() = " + modelBounds.getY() + ", modelBounds.geth=" + modelBounds.getHeight() + ", tbiyf=" + toolBoxInsetYFrac );
-//        System.out.println( "y = " + y );
         double x = modelBounds.getX() + modelBounds.getWidth() * toolBoxInsetXFrac;
         double h = modelBounds.getHeight() * toolBoxHeightFrac;
-        return new Rectangle2D.Double( x, y,
-                                       modelBounds.getWidth() * toolBoxWidthFrac,
-                                       h );
+        return new Rectangle2D.Double( x, y, modelBounds.getWidth() * toolBoxWidthFrac, h );
     }
-
-//    private void setupToolbox() {
-//        if( toolbox != null ) {
-//            throw new RuntimeException( "Only one toolbox per app, please." );
-//        }
-//        
-//    }
 
     private void addVirtualAmmeter() {
         virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );
@@ -690,7 +603,6 @@ public class CCKModule extends Module {
     }
 
     public Shape getElectronClip() {
-//        this.electronClip = recomputeElectronClip();
         return electronClip;
     }
 
@@ -794,112 +706,20 @@ public class CCKModule extends Module {
         return model;
     }
 
-    public static class ResistivityManager extends CircuitListenerAdapter {
-        private CCKModule module;
-        private Circuit circuit;
-//        public static final double DEFAULT_RESISTIVITY = 0.01;
-        public static final double DEFAULT_RESISTIVITY = MIN_RESISTANCE;
-        private double resistivity = DEFAULT_RESISTIVITY;
-        private boolean enabled = true;
-
-        public ResistivityManager( CCKModule module ) {
-            this.module = module;
-            this.circuit = module.getCircuit();
-        }
-
-        public Circuit getCircuit() {
-            return circuit;
-        }
-
-        public void junctionsMoved() {
-            changed();
-        }
-
-        private void changed() {
-            if( enabled ) {
-                for( int i = 0; i < getCircuit().numBranches(); i++ ) {
-                    Branch b = getCircuit().branchAt( i );
-                    if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
-                        double resistance = getResistance( b );
-                        b.setResistance( resistance );
-                        //                        System.out.println( "resistance = " + resistance );
-                    }
-                }
-            }
-        }
-
-        private double getResistance( Branch b ) {
-            double length = b.getLength();
-            double resistance = length * resistivity;
-//            System.out.println( "resistance=" + resistance + ", min=" + MIN_RESISTANCE );
-            if( resistance < MIN_RESISTANCE ) {
-//                System.out.println( "Branch resistance was less than min, returning min." );//todo remove debug comment
-                return MIN_RESISTANCE;
-            }
-            else {
-                return resistance;
-            }
-//            resistance = Math.max( resistance, MIN_RESISTANCE );
-//            return resistance;
-        }
-
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        public void setEnabled( boolean enabled ) {
-            this.enabled = enabled;
-            if( enabled ) {
-                changed();
-            }
-        }
-
-        public double getResistivity() {
-            return resistivity;
-        }
-
-        public void setResistivity( double resistivity ) {
-            if( this.resistivity != resistivity ) {
-                this.resistivity = resistivity;
-                changed();
-            }
-        }
-    }
-
     public void setResistivityEnabled( boolean selected ) {
-//        System.out.println( "Set resistivity enabled= " + selected );
-        if( selected == resistivityManager.isEnabled() ) {
-            return;
-        }
-        else {
-            resistivityManager.setEnabled( selected );
-            if( !selected ) {
-                setWireResistance( MIN_RESISTANCE );
-            }
-        }
+        model.setResistivityEnabled( selected );
     }
 
     public ResistivityManager getResistivityManager() {
-        return resistivityManager;
-    }
-
-    private void setWireResistance( double defaultResistance ) {
-        for( int i = 0; i < getCircuit().numBranches(); i++ ) {
-            Branch br = getCircuit().branchAt( i );
-            if( br.getClass().equals( Branch.class ) ) {
-                br.setResistance( defaultResistance );
-            }
-        }
+        return model.getResistivityManager();
     }
 
     public boolean isInternalResistanceOn() {
-        return internalResistanceOn;
+        return model.isInternalResistanceOn();
     }
 
     public void setInternalResistanceOn( boolean selected ) {
-        if( this.internalResistanceOn != selected ) {
-            this.internalResistanceOn = selected;
-        }
+        model.setInternalResistanceOn( selected );
         ReadoutGraphic[] rg = circuitGraphic.getReadoutGraphics();
         for( int i = 0; i < rg.length; i++ ) {
             ReadoutGraphic readoutGraphic = rg[i];

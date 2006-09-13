@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.DynamicBranch;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import net.n3.nanoxml.IXMLElement;
@@ -28,7 +28,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     public Inductor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
-        setResistance( CCKModule.MIN_RESISTANCE );
+        setResistance( CCKModel.MIN_RESISTANCE );
         setKirkhoffEnabled( true );
     }
 

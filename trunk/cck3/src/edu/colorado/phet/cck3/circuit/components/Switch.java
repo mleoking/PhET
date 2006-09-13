@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;
@@ -41,7 +41,7 @@ public class Switch extends CircuitComponent {
         if( closed != this.closed ) {
             this.closed = closed;
             if( closed ) {
-                super.setResistance( CCKModule.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
+                super.setResistance( CCKModel.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
             }
             else {
 //                super.setResistance( Double.POSITIVE_INFINITY );
