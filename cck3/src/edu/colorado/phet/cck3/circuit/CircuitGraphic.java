@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.CCKApparatusPanel;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
@@ -60,7 +61,8 @@ public class CircuitGraphic extends CompositeGraphic {
     public static final boolean GRAPHICAL_DEBUG = false;
 
 
-    public CircuitGraphic( final CCKModule module ) throws IOException {
+    public CircuitGraphic( final CCKModule module, CCKApparatusPanel apparatusPanel ) throws IOException {
+        this.apparatusPanel = apparatusPanel;
         graphicSource = new Lifelike();
         lifelike = true;
 
@@ -69,10 +71,10 @@ public class CircuitGraphic extends CompositeGraphic {
         this.module = module;
         this.circuit = module.getCircuit();
         particleSetGraphic = new ParticleSetGraphic( module );
-        this.transform = module.getTransform();
-        this.apparatusPanel = module.getApparatusPanel();
+//        this.transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 100, 100 ) );
+        this.transform = apparatusPanel.getTransform();
 
-        solderLayer = new CompositePhetGraphic( module.getApparatusPanel() );
+        solderLayer = new CompositePhetGraphic( this.apparatusPanel );
         solderLayer.setVisible( true );
         module.getCircuit().addCircuitListener( new CircuitListener() {
             public void junctionRemoved( Junction junction ) {
