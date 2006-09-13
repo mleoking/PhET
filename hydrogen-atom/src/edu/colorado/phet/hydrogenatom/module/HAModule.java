@@ -415,6 +415,7 @@ public class HAModule extends PiccoloModule {
         
         String title = SimStrings.get( "label.snapshot") + " " + _spectrumSnapshotCounter + ": ";
         if ( _modeSwitch.isPredictionSelected() ) {
+            //XXX replace this call, the title may contain HTML markup
             title +=  _atomicModelSelector.getSelectionName();
         }
         else {
