@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- redo mode selector: toggle switch graphic, bigger font for "Experiment" and "Prediction"
 - add x-axis ticks and labels to spectrometer
 - redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
@@ -28,6 +27,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/13/06) - redo mode switch to be more "fun"
 (9/13/06) - change color of plum pudding to "plum" (0x993399)
 (9/11/06) - add y-axis to energy diagram
 (9/11/06) - bigger energy diagrams ala Discharge Lamps sim, draw placeholders using Java2D, delete images
