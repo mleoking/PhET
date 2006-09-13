@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -36,7 +35,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private PhetTextGraphic debugGraphic;
 //    private boolean showLabel = false;
 //<<<<<<< JunctionGraphic.java
-    private boolean showLabel = CCKModule.GRAPHICAL_DEBUG;
+    private boolean showLabel = CircuitGraphic.GRAPHICAL_DEBUG;
 //=======
 //    private boolean showLabel = false;
 //>>>>>>> 1.13

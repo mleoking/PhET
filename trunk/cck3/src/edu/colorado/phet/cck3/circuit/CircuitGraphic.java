@@ -57,6 +57,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private GraphicSource graphicSource;
     private boolean readoutGraphicsVisible = false;
     private CachingImageLoader hashedImageLoader = new CachingImageLoader();
+    public static final boolean GRAPHICAL_DEBUG = false;
 
 
     public CircuitGraphic( final CCKModule module ) throws IOException {

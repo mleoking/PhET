@@ -16,7 +16,7 @@ public class OptionsMenu extends JMenu {
     public OptionsMenu( PhetApplication application, CCKModule cck ) {
         super( SimStrings.get( "OptionsMenu.Title" ) );
         setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
-        cck.setFrame( application.getApplicationView().getPhetFrame() );
+//        cck.setFrame( application.getApplicationView().getPhetFrame() );
         add( new BackgroundColorMenuItem( application, cck ) );
         add( new ToolboxColorMenuItem( application, cck ) );
     }

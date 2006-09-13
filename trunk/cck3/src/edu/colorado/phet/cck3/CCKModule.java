@@ -27,7 +27,6 @@ import edu.colorado.phet.common_cck.model.BaseModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
-import edu.colorado.phet.common_cck.view.PhetFrame;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.common_cck.view.graphics.Boundary;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -68,45 +67,33 @@ import java.util.Arrays;
 public class CCKModule extends Module {
 
     private CCKModel model;
-
     private SetupParameters parameters;
-
-    private CircuitGraphic circuitGraphic;
     private boolean inited = false;
-    private ModelViewTransform2D transform;
-    private AspectRatioPanel aspectRatioPanel;
     private CCK2ImageSuite imageSuite;
-
-    private Toolbox toolbox;
-    private VirtualAmmeter virtualAmmeter;
-    private InteractiveVoltmeter interactiveVoltmeter;
-    private VoltmeterGraphic voltmeterGraphic;
-
-    private WiggleMe wiggleMe;
-    private CCKHelp help;
     private CCK3ControlPanel cck3controlPanel;
+    private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
+    private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
     private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
-    private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
-    private boolean electronsVisible = true;
-    private PhetFrame phetFrame;
-
+    private CircuitGraphic circuitGraphic;
+    private ModelViewTransform2D transform;
+    private AspectRatioPanel aspectRatioPanel;
+    private Toolbox toolbox;
+    private VirtualAmmeter virtualAmmeter;
+    private InteractiveVoltmeter interactiveVoltmeter;
+    private VoltmeterGraphic voltmeterGraphic;
+    private WiggleMe wiggleMe;
+    private CCKHelp help;
     private CCKApparatusPanel cckApparatusPanel;
-    static CCKModule module;
-    public static final boolean GRAPHICAL_DEBUG = false;
-    public PhetShadowTextGraphic messageGraphic;
-    public static final double SCH_BULB_DIST = 1;
-
+    private PhetShadowTextGraphic timeScaleTextGraphic;
     private Area electronClip = new Area();
-    private PNode stopwatch;
 
-//    public static final double STICKY_THRESHOLD = SCALE;
+    private PNode stopwatch;
 
     public CCKModule( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
-        module = this;
         setModel( new BaseModel() );
         model = new CCKModel( this );
 
@@ -171,15 +158,15 @@ public class CCKModule extends Module {
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
         setControlPanel( cck3controlPanel.getComponent() );
-        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), " ", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
+        timeScaleTextGraphic = new PhetShadowTextGraphic( getApparatusPanel(), " ", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                int x = messageGraphic.getBounds().height;
-                int y = getApparatusPanel().getHeight() - messageGraphic.getBounds().height;
-                messageGraphic.setPosition( x, y );
+                int x = timeScaleTextGraphic.getBounds().height;
+                int y = getApparatusPanel().getHeight() - timeScaleTextGraphic.getBounds().height;
+                timeScaleTextGraphic.setPosition( x, y );
             }
         } );
-        getApparatusPanel().addGraphic( messageGraphic, Double.POSITIVE_INFINITY );
+        getApparatusPanel().addGraphic( timeScaleTextGraphic, Double.POSITIVE_INFINITY );
         setResistivityEnabled( true );
     }
 
@@ -206,7 +193,6 @@ public class CCKModule extends Module {
             };
 
             SwingUtilities.invokeLater( r );
-            //            r.run();
         }
 
         if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
@@ -379,6 +365,7 @@ public class CCKModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
+        //Uncomment this code to correct the aspect ratio in PhetGraphics code
 //        this.aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, model.getAspectRatio() );
 //        this.aspectRatioPanel.addComponentListener( new ComponentAdapter() {
 //            public void componentResized( ComponentEvent e ) {
@@ -587,12 +574,8 @@ public class CCKModule extends Module {
         }
     }
 
-    public static CCKModule getModule() {
-        return module;
-    }
-
     public PhetShadowTextGraphic getTimescaleGraphic() {
-        return messageGraphic;
+        return timeScaleTextGraphic;
     }
 
     public void regainFocus() {
@@ -658,14 +641,6 @@ public class CCKModule extends Module {
 
     public void setStopwatchVisible( boolean visible ) {
         stopwatch.setVisible( visible );
-    }
-
-    void setFrame( PhetFrame phetFrame ) {
-        this.phetFrame = phetFrame;
-    }
-
-    public PhetFrame getPhetFrame() {
-        return phetFrame;
     }
 
     public void setElectronsVisible( boolean visible ) {
@@ -736,12 +711,6 @@ public class CCKModule extends Module {
             readoutGraphic.recompute();
         }
     }
-
-//    resistivity is now always on by default.
-//    public void setAdvancedEnabled( boolean advanced ) {
-////        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
-////        setResistivityEnabled( advanced );
-//    }
 
     public void debugListeners() {
         int numTransformListeners = transform.numTransformListeners();
