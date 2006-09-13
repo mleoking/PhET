@@ -116,10 +116,14 @@ public class HAConstants {
 
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_ALPHA_PARTICLE = IMAGES_DIRECTORY + "alphaParticle.png";
+    public static final String IMAGE_ATOMIC_MODEL_PANEL = IMAGES_DIRECTORY + "atomicModelPanel.png";
     public static final String IMAGE_BILLIARD_BALL = IMAGES_DIRECTORY + "billiardBall.png";
+    public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
+    public static final String IMAGE_BOHR_BUTTON = IMAGES_DIRECTORY + "bohrButton.png";
     public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
+    public static final String IMAGE_DEBROGLIE_BUTTON = IMAGES_DIRECTORY + "deBroglieButton.png";
     public static final String IMAGE_ELECTRON = IMAGES_DIRECTORY + "electron.png";
     public static final String IMAGE_EXPERIMENT_ATOM = IMAGES_DIRECTORY + "experimentAtom.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
@@ -132,6 +136,9 @@ public class HAConstants {
     public static final String IMAGE_NEUTRON = IMAGES_DIRECTORY + "neutron.png";
     public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon.png";
     public static final String IMAGE_PLUM_PUDDING = IMAGES_DIRECTORY + "plumPudding.png";
+    public static final String IMAGE_PLUM_PUDDING_BUTTON = IMAGES_DIRECTORY + "plumPuddingButton.png";
+    public static final String IMAGE_SCHRODINGER_BUTTON = IMAGES_DIRECTORY + "schrodingerButton.png";
+    public static final String IMAGE_SOLAR_SYSTEM_BUTTON = IMAGES_DIRECTORY + "solarSystemButton.png";
     public static final String IMAGE_SPECTROMETER = IMAGES_DIRECTORY + "spectrometer.png";
     public static final String IMAGE_SPECTROMETER_SNAPSHOT = IMAGES_DIRECTORY + "spectrometerSnapshot.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
