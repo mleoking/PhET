@@ -136,8 +136,8 @@ public class ModeSwitch extends PhetPNode {
             // Markers
             sb = _bottomSwitchNode.getFullBounds();
             PBounds mub = _topLineNode.getFullBounds();
-            _topLineNode.setOffset( sb.getX() + sb.getWidth() + 5, sb.getY() - mub.getHeight() );
-            _bottomLineNode.setOffset( sb.getX() + sb.getWidth() + 5, sb.getY() + sb.getHeight() );
+            _topLineNode.setOffset( sb.getX() + sb.getWidth() - 5, sb.getY() - mub.getHeight() + 10 );
+            _bottomLineNode.setOffset( sb.getX() + sb.getWidth() - 5, sb.getY() + sb.getHeight() - 10 );
             
             // Top title and subtitle
             mub = _topLineNode.getFullBounds();
