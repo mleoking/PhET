@@ -18,7 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector2;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener;
@@ -30,7 +30,7 @@ public class HAController {
 
     private HAModule _module;
     private ModeSwitch _modeSwitch;
-    private AtomicModelSelector2 _atomicModelSelector;
+    private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
     private JCheckBox _energyDiagramCheckBox;
     private Spectrometer _spectrometer;
@@ -40,7 +40,7 @@ public class HAController {
     public HAController(
             HAModule module,
             ModeSwitch modeSwitch,
-            AtomicModelSelector2 atomicModelSelector,
+            AtomicModelSelector atomicModelSelector,
             GunNode gunNode,
             JCheckBox energyDiagramCheckBox,
             Spectrometer spectrometer,

@@ -21,7 +21,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector2;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
@@ -61,7 +61,7 @@ public class HAModule extends PiccoloModule {
     
     private HAController _controller;
     private ModeSwitch _modeSwitch;
-    private AtomicModelSelector2 _atomicModelSelector;
+    private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
     private PText _notToScaleLabel;
     private JCheckBox _energyDiagramCheckBox;
@@ -129,7 +129,7 @@ public class HAModule extends PiccoloModule {
         
         // Atomic Model selector
         {
-            _atomicModelSelector = new AtomicModelSelector2();
+            _atomicModelSelector = new AtomicModelSelector();
             _rootNode.addChild( _atomicModelSelector );
         }
         
