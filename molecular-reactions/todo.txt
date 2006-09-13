@@ -20,10 +20,7 @@ Internal
 ==============
 Features
 ==============
-- Don't allow user to add B molecules
-- Allow user to add/remove AB and BC molecules 
 - temperature control
-- randomize adding molecules
 
 ==============
 Model features
@@ -41,5 +38,9 @@ Model questions
 =======
 Done
 =======
-09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+09-11-06 - Provisional bonds fade in and out
+09-11-06 - Don't allow user to add B molecules
+09-11-06 - Allow user to add/remove AB and BC molecules
 09-06-06 - add/remove molecules
+09-06-06 - randomize adding molecules
+09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
