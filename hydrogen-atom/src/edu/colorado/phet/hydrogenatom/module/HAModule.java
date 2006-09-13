@@ -24,6 +24,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
+import edu.colorado.phet.hydrogenatom.control.ModeSwitch2;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -34,11 +35,8 @@ import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -213,6 +211,13 @@ public class HAModule extends PiccoloModule {
            _blackBox = new BlackBox( BLACK_BOX_SIZE.width, BLACK_BOX_SIZE.height, BLACK_BOX_DEPTH ); 
            _rootNode.addChild( _blackBox.getBackNode() );
            _rootNode.addChild( _blackBox.getFrontNode() );
+        }
+        
+        //XXX test
+        {
+            ModeSwitch2 ms2 = new ModeSwitch2();
+            _rootNode.addChild( ms2 );
+            ms2.setOffset( 100, 100 );
         }
         
         //----------------------------------------------------------------------------
