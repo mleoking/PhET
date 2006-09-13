@@ -24,7 +24,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
-import edu.colorado.phet.hydrogenatom.control.ModeSwitch2;
+import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -124,7 +124,7 @@ public class HAModule extends PiccoloModule {
         
         // Mode switch (experiment/prediction)
         {
-            _modeSwitch = new ModeSwitch( _canvas );
+            _modeSwitch = new ModeSwitch();
             _rootNode.addChild( _modeSwitch );
         }
         
@@ -213,13 +213,6 @@ public class HAModule extends PiccoloModule {
            _rootNode.addChild( _blackBox.getFrontNode() );
         }
         
-        //XXX test
-        {
-            ModeSwitch2 ms2 = new ModeSwitch2();
-            _rootNode.addChild( ms2 );
-            ms2.setOffset( 100, 100 );
-        }
-        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -257,7 +250,7 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     private void reset() {
-        _modeSwitch.setPredictionSelected( true );
+        _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         _blackBox.open();
         _gunNode.getGunTypeControlPanel().setLightSelected();
