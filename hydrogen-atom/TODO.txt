@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
 - bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
+- show compresses UV and IR range in spectrometer (like in Discharge Lamps)
 
 MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
