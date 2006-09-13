@@ -46,10 +46,6 @@ public class SpringCollision implements Collision {
 
         // If the edges are touching or overlapping, then make a composite molecule
         Reaction.ReactionCriteria reactionCriteria = model.getReaction().getReactionCriteria();
-
-        if( separation <= 0 ) {
-            System.out.println( "SpringCollision.collide" );
-        }
         if( separation <= 0 && reactionCriteria.criteriaMet( mA, mB, collisionSpec ) ) {
             doReaction( mA, mB, collisionSpec );
         }
@@ -88,15 +84,6 @@ public class SpringCollision implements Collision {
         reaction.doReaction( compositeMolecule, simpleMolecule );
     }
 
-    /**
-     * todo: this shouldn't be necessary
-     *
-     * @return
-     */
-    public Spring getSpring() {
-        return spring;
-    }
-
     public double getInteractionDistance() {
         return spring.getRestingLength();
     }
@@ -120,44 +107,6 @@ public class SpringCollision implements Collision {
 
         public double getK() {
             return k;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    //  Inner classes
-    //--------------------------------------------------------------------------------------------------
-
-    public static class CollisionSpec {
-
-        private Vector2D loa;
-        private Point2D.Double collisionPt;
-        private SimpleMolecule moleculeA;
-        private SimpleMolecule moleculeB;
-
-        public CollisionSpec( Vector2D loa,
-                              Point2D.Double collisionPt,
-                              SimpleMolecule moleculeA,
-                              SimpleMolecule moleculeB ) {
-            this.moleculeB = moleculeB;
-            this.moleculeA = moleculeA;
-            this.loa = loa;
-            this.collisionPt = collisionPt;
-        }
-
-        public Vector2D getLoa() {
-            return loa;
-        }
-
-        public Point2D.Double getCollisionPt() {
-            return collisionPt;
-        }
-
-        public SimpleMolecule getMoleculeA() {
-            return moleculeA;
-        }
-
-        public SimpleMolecule getMoleculeB() {
-            return moleculeB;
         }
     }
 }

@@ -27,6 +27,6 @@ public class MRConfig {
     public static boolean DEBUG = true;
 
     // Model constants
-    public static double MAX_REACTION_THRESHOLD = 0.5E3;
+    public static double MAX_REACTION_THRESHOLD = 5E3;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
 }

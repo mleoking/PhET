@@ -23,30 +23,21 @@ import edu.colorado.phet.common.math.Vector2D;
  * @version $Revision$
  */
 public class A_AB_BC_C_Reaction extends Reaction {
-    private static EnergyProfile energyProfile = new EnergyProfile( 0,
+    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .4,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
-                                                                    0,
+                                                                    MRConfig.DEFAULT_REACTION_THRESHOLD * .2,
                                                                     50 );
     private MRModel model;
 
     /**
      * Constructor
+     *
      * @param model
      */
     public A_AB_BC_C_Reaction( MRModel model ) {
         super( energyProfile, new Criteria( energyProfile ) );
         this.model = model;
     }
-//
-//    /**
-//     * Checks to see if two molecules are the right types for the reaction
-//     * @param m1
-//     * @param m2
-//     * @return true if the molecules are of the correct type for the reaction
-//     */
-//    public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
-//        return ((Criteria)getReactionCriteria()).moleculesAreProperTypes( m1, m2 );
-//    }
 
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
         if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
@@ -56,7 +47,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
             doReaction( (MoleculeBC)cm, (MoleculeA)sm );
         }
         else {
-            throw new RuntimeException("internal error");
+            throw new RuntimeException( "internal error" );
         }
     }
 
@@ -64,7 +55,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
-        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{ mB, mC }, new Bond[]{new Bond( mB, mC )} );
+        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC}, new Bond[]{new Bond( mB, mC )} );
         doReactionII( mAB, mBC, mA );
     }
 
@@ -72,7 +63,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
         MoleculeC mC = mBC.getMoleculeC();
-        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{ mB, mA }, new Bond[]{new Bond( mB, mA )} );
+        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA}, new Bond[]{new Bond( mB, mA )} );
         doReactionII( mBC, mAB, mC );
     }
 
@@ -166,6 +157,16 @@ public class A_AB_BC_C_Reaction extends Reaction {
             // The relative kinetic energy of the collision must be above the
             // energy profile threshold
             if( thirdClassificationCriterionMet ) {
+                CompositeMolecule cm = m1 instanceof CompositeMolecule
+                                       ? (CompositeMolecule)m1
+                                       : (CompositeMolecule)m2;
+                double de = 0;
+                if( cm instanceof MoleculeAB ) {
+                    de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+                }
+                else {
+                    de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
+                }
                 result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
             }
             return result;
