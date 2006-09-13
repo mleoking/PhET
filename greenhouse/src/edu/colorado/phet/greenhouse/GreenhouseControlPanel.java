@@ -77,15 +77,23 @@ public class GreenhouseControlPanel extends JPanel {
     private AtmosphereSelectionPane atmosphereSelectionPane;
     private JCheckBox allPhotonsCB;
     private JCheckBox thermometerCB;
+    private JRadioButton fahrenheitRB;
+    private JRadioButton celsiusRB;
 
 
     /**
+     * Constructor
+     *
      * @param module
      */
     public GreenhouseControlPanel( final GreenhouseModule module ) {
 
         this.module = module;
         final GreenhouseModel model = module.getGreenhouseModel();
+
+        //--------------------------------------------------------------------------------------------------
+        // Create the controls
+        //--------------------------------------------------------------------------------------------------
 
         // PhET logo
         JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
@@ -156,8 +164,21 @@ public class GreenhouseControlPanel extends JPanel {
         thermometerCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.thermometerEnabled( thermometerCB.isSelected() );
+                fahrenheitRB.setEnabled( thermometerCB.isSelected() );
+                celsiusRB.setEnabled( thermometerCB.isSelected() );
             }
         } );
+
+        // Set temperature readout to fahreheit or celsius
+        ButtonGroup tempUnitsBG = new ButtonGroup();
+        fahrenheitRB = new JRadioButton( SimStrings.get( "GreenhouseControlPanel.Faherenheit" ) );
+        celsiusRB = new JRadioButton( SimStrings.get( "GreenhouseControlPanel.Celsius" ) );
+        tempUnitsBG.add( fahrenheitRB );
+        tempUnitsBG.add( celsiusRB );
+        TemperatureUnitsSetter temperatureUnitsSetter = new TemperatureUnitsSetter();
+        fahrenheitRB.addActionListener( temperatureUnitsSetter );
+        celsiusRB.addActionListener( temperatureUnitsSetter );
+        fahrenheitRB.setSelected( true );
 
         // Ratio of photons to see
         allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
@@ -185,9 +206,10 @@ public class GreenhouseControlPanel extends JPanel {
 
         setDefaultConditions();
 
-        //
+        //--------------------------------------------------------------------------------------------------
         // Lay out the controls
-        //
+        //--------------------------------------------------------------------------------------------------
+
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -204,16 +226,41 @@ public class GreenhouseControlPanel extends JPanel {
             add( panel, gbc );
         }
 
-        // Options optionsPanel
+        // Options panel
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.Options" ) ) );
-        GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
-                                                             GridBagConstraints.WEST,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 25, 0, 25 ), 0, 0 );
-        optionsPanel.add( cloudPanel, optsGbc );
-        optionsPanel.add( thermometerCB, optsGbc );
-        optionsPanel.add( allPhotonsCB, optsGbc );
+        {
+            Insets insetsA = new Insets( 0, 15, 0, 15 );
+            Insets insetsB = new Insets( 0, 2, 0, 2 );
+            GridBagConstraints optsGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                 GridBagConstraints.CENTER,
+                                                                 GridBagConstraints.NONE,
+                                                                 insetsA, 0, 0 );
+            optsGbc.gridwidth = 2;
+            optionsPanel.add( cloudPanel, optsGbc );
+
+            optsGbc.anchor = GridBagConstraints.WEST;
+            optsGbc.gridy++;
+            optionsPanel.add( thermometerCB, optsGbc );
+
+            optsGbc.gridwidth = 1;
+            optsGbc.gridheight = 1;
+            optsGbc.gridy++;
+            optsGbc.anchor = GridBagConstraints.EAST;
+            optsGbc.insets = insetsB;
+            optionsPanel.add( fahrenheitRB, optsGbc );
+            optsGbc.gridx = 1;
+            optsGbc.anchor = GridBagConstraints.WEST;
+            optionsPanel.add( celsiusRB, optsGbc );
+
+            optsGbc.gridwidth = 2;
+            optsGbc.gridheight = 1;
+            optsGbc.gridx = 0;
+            optsGbc.gridy++;
+            optsGbc.anchor = GridBagConstraints.WEST;
+            optsGbc.insets = insetsA;
+            optionsPanel.add( allPhotonsCB, optsGbc );
+        }
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( atmosphereSelectionPane, gbc );
@@ -509,15 +556,15 @@ public class GreenhouseControlPanel extends JPanel {
             labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
                             preIndRevTick );
 
-            JLabel noneTick = new JLabel( SimStrings.get("GreenhouseControlPanel.None" ));
-            JLabel lotsTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.Lots" ));
-            labelTable.put( new Integer( (int)tx.modelToView( maxModelValue )),
+            JLabel noneTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.None" ) );
+            JLabel lotsTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.Lots" ) );
+            labelTable.put( new Integer( (int)tx.modelToView( maxModelValue ) ),
                             lotsTick );
-            labelTable.put( new Integer( (int)tx.modelToView( minModelValue )),
+            labelTable.put( new Integer( (int)tx.modelToView( minModelValue ) ),
                             noneTick );
 
             slider.setLabelTable( labelTable );
-            slider.setMajorTickSpacing( (int)( tx.modelToView( maxModelValue) - tx.modelToView( minModelValue )));
+            slider.setMajorTickSpacing( (int)( tx.modelToView( maxModelValue ) - tx.modelToView( minModelValue ) ) );
             slider.setPaintTicks( true );
         }
 
@@ -617,6 +664,17 @@ public class GreenhouseControlPanel extends JPanel {
         public void setEnabled( boolean enabled ) {
             super.setEnabled( enabled );
             slider.setEnabled( enabled );
+        }
+    }
+
+    private class TemperatureUnitsSetter implements ActionListener {
+        public void actionPerformed( ActionEvent e ) {
+            if( fahrenheitRB.isSelected() ) {
+                GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.FAHRENHEIT;
+            }
+            else if( celsiusRB.isSelected() ) {
+                GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
+            }
         }
     }
 }

@@ -55,6 +55,12 @@ public class GreenhouseConfig {
 
     public static final double sigma = 5.67E-8;
 
+    // Parameter for the units displayed by the thermometer
+    public static final Object FAHRENHEIT = new Object();
+    public static final Object CELSIUS = new Object();
+    public static Object TEMPERATURE_UNITS = FAHRENHEIT;    
+
+    // Graphics-related parameters
     public static double EARTH_BASE_LAYER = ApparatusPanel.LAYER_DEFAULT;
     public static double SUNLIGHT_PHOTON_GRAPHIC_LAYER = EARTH_BASE_LAYER - 1;
     public static double IR_PHOTON_GRAPHIC_LAYER = SUNLIGHT_PHOTON_GRAPHIC_LAYER - 0.000000001;
