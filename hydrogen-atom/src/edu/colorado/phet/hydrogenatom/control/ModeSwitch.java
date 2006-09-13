@@ -50,7 +50,7 @@ public class ModeSwitch extends PhetPNode {
     // This controls whether "Experiment" or "Prediction" is at the top position.
     private static final boolean EXPERIMENT_IS_AT_TOP = true;
     
-    private static final Font BIG_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 20 );
+    private static final Font BIG_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Font LITTLE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     private static final Color ON_COLOR = Color.WHITE;
     private static final Color OFF_COLOR = Color.LIGHT_GRAY;
