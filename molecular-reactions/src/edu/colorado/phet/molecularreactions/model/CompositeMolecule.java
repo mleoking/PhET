@@ -30,7 +30,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompositeMolecule extends Molecule {
+abstract public class CompositeMolecule extends Molecule {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
