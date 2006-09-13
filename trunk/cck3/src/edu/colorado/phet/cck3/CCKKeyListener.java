@@ -66,7 +66,7 @@ public class CCKKeyListener implements KeyListener {
             cck.clear();
             cck.addTestCircuit();
             for( int i = 0; i < 500; i++ ) {
-                cck.relayout( cck.getCircuit().getBranches() );
+                cck.layoutElectrons( cck.getCircuit().getBranches() );
                 System.out.println( "Relayout = " + i );
             }
         }
@@ -81,7 +81,7 @@ public class CCKKeyListener implements KeyListener {
             cck.clear();
             cck.addTestCircuit();
             for( int i = 0; i < 5000; i++ ) {
-                cck.relayout( cck.getCircuit().getBranches() );
+                cck.layoutElectrons( cck.getCircuit().getBranches() );
                 System.out.println( "Relayout = " + i );
             }
         }

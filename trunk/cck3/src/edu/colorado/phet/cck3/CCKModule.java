@@ -6,7 +6,6 @@ import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
-import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
@@ -94,7 +93,7 @@ public class CCKModule extends Module {
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
 
-    private CCKApparatusPanel magicPanel;
+    private CCKApparatusPanel cckApparatusPanel;
     static CCKModule module;
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
@@ -113,11 +112,11 @@ public class CCKModule extends Module {
 
         this.parameters = new SetupParameters( this, args );
 
-        magicPanel = new CCKApparatusPanel();
-        magicPanel.setMyBackground( apparatusPanelColor );
-        setApparatusPanel( magicPanel );
-        clock.start();
-        stopwatch = new MyPhetPNode( magicPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
+        cckApparatusPanel = new CCKApparatusPanel();
+        cckApparatusPanel.setMyBackground( apparatusPanelColor );
+        setApparatusPanel( cckApparatusPanel );
+        stripChartClock.start();
+        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.scale, "s" ) ) );
         stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatch.addInputEventListener( new PDragEventHandler() );
         getApparatusPanel().addScreenChild( stopwatch );
@@ -217,31 +216,6 @@ public class CCKModule extends Module {
         }
     }
 
-    public CCKApparatusPanel getMagicPanel() {
-        return magicPanel;
-    }
-
-    public boolean isElectronsVisible() {
-        return electronsVisible;
-    }
-
-    public void relayout( Branch[] branches ) {
-        model.relayout( branches );
-    }
-
-    public Rectangle getViewBounds() {
-        Rectangle viewBounds = getApparatusPanel().getBounds();
-        viewBounds = new Rectangle( 0, 0, viewBounds.width, viewBounds.height );
-        return viewBounds;
-    }
-
-    public CircuitSolver getCircuitSolver() {
-        return model.getCircuitSolver();
-    }
-
-    public CircuitChangeListener getCircuitChangeListener() {
-        return model.getCircuitChangeListener();
-    }
 
     private void doinit() throws IOException {
         Rectangle vb = getApparatusPanel().getBounds();
@@ -328,6 +302,32 @@ public class CCKModule extends Module {
         help = new CCKHelp( this );
         setSeriesAmmeterVisible( false );
         setInternalResistanceOn( true );
+    }
+
+    public CCKApparatusPanel getCCKApparatusPanel() {
+        return cckApparatusPanel;
+    }
+
+    public boolean isElectronsVisible() {
+        return electronsVisible;
+    }
+
+    public void layoutElectrons( Branch[] branches ) {
+        model.layoutElectrons( branches );
+    }
+
+    public Rectangle getViewBounds() {
+        Rectangle viewBounds = getApparatusPanel().getBounds();
+        viewBounds = new Rectangle( 0, 0, viewBounds.width, viewBounds.height );
+        return viewBounds;
+    }
+
+    public CircuitSolver getCircuitSolver() {
+        return model.getCircuitSolver();
+    }
+
+    public CircuitChangeListener getCircuitChangeListener() {
+        return model.getCircuitChangeListener();
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -473,7 +473,6 @@ public class CCKModule extends Module {
         getCircuit().setFireKirkhoffChanges( true );
         getCircuit().fireKirkhoffChanged();
         getApparatusPanel().repaint();
-
     }
 
     private void convertJunctionGraphic( Junction junction ) {
@@ -540,7 +539,7 @@ public class CCKModule extends Module {
             circuitGraphic.addGraphic( getCircuit().branchAt( i ) );
         }
         //        circuitGraphic.fixJunctionGraphics();
-        relayout( getCircuit().getBranches() );
+        layoutElectrons( getCircuit().getBranches() );
         getCircuitSolver().apply( getCircuit() );
         circuitGraphic.reapplySolderGraphics();
         getApparatusPanel().repaint();
@@ -583,8 +582,8 @@ public class CCKModule extends Module {
     }
 
     void clockTickFinished() {
-        if( magicPanel != null ) {
-            magicPanel.synchronizeImmediately();
+        if( cckApparatusPanel != null ) {
+            cckApparatusPanel.synchronizeImmediately();
         }
     }
 
@@ -627,11 +626,11 @@ public class CCKModule extends Module {
         return area;
     }
 
-    SwingClock clock = new SwingClock( 30, 1 );
+    SwingClock stripChartClock = new SwingClock( 30, 1 );
 
     public void addCurrentChart() {
-        clock.start();
-        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current (Amps)", clock, getCircuitGraphic() );
+        stripChartClock.start();
+        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current (Amps)", stripChartClock, getCircuitGraphic() );
         chart.setOffset( 200, 200 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {
@@ -642,8 +641,8 @@ public class CCKModule extends Module {
     }
 
     public void addVoltageChart() {
-        clock.start();
-        final VoltageStripChart chart = new VoltageStripChart( getApparatusPanel(), "Current", clock, getCircuitGraphic() );
+        stripChartClock.start();
+        final VoltageStripChart chart = new VoltageStripChart( getApparatusPanel(), "Current", stripChartClock, getCircuitGraphic() );
         chart.setOffset( 250, 400 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {
@@ -669,7 +668,6 @@ public class CCKModule extends Module {
         return phetFrame;
     }
 
-
     public void setElectronsVisible( boolean visible ) {
         this.electronsVisible = visible;
         if( model.getElectronLayout() != null && getCircuit() != null && getApparatusPanel() != null ) {
@@ -679,7 +677,7 @@ public class CCKModule extends Module {
     }
 
     private void add( Branch branch ) {
-        circuitGraphic.getCircuit().addBranch( branch );
+        getCircuit().addBranch( branch );
         circuitGraphic.addGraphic( branch );
     }
 
@@ -696,7 +694,7 @@ public class CCKModule extends Module {
         new BranchSet( getCircuit(), new Branch[]{b2} ).translate( dv );
         b3.getStartJunction().setPosition( b2.getEndJunction().getX(), b2.getEndJunction().getY() );
         b3.getEndJunction().setPosition( b1.getStartJunction().getX(), b1.getStartJunction().getY() );
-        relayout( new Branch[]{b1, b2, b3} );
+        layoutElectrons( new Branch[]{b1, b2, b3} );
         circuitGraphic.collapseJunctions( b1.getEndJunction(), b2.getStartJunction() );
         circuitGraphic.collapseJunctions( b2.getEndJunction(), b3.getStartJunction() );
         circuitGraphic.collapseJunctions( b3.getEndJunction(), b1.getStartJunction() );
@@ -720,19 +718,7 @@ public class CCKModule extends Module {
 
     public void setInternalResistanceOn( boolean selected ) {
         model.setInternalResistanceOn( selected );
-        ReadoutGraphic[] rg = circuitGraphic.getReadoutGraphics();
-        for( int i = 0; i < rg.length; i++ ) {
-            ReadoutGraphic readoutGraphic = rg[i];
-            readoutGraphic.recompute();
-        }
-        Branch[] b = getCircuit().getBranches();
-        for( int i = 0; i < b.length; i++ ) {
-            Branch branch = b[i];
-            if( branch instanceof Battery ) {
-                Battery batt = (Battery)branch;
-                batt.setInternalResistanceOn( selected );
-            }
-        }
+        updateReadoutGraphics();
         if( !selected ) {
             //hide all the internal resistance editors
             ArrayList batteryMenus = CircuitComponentInteractiveGraphic.BatteryJMenu.instances;
@@ -743,11 +729,19 @@ public class CCKModule extends Module {
         }
     }
 
-    //todo: resistivity is now always on by default.
-    public void setAdvancedEnabled( boolean advanced ) {
-//        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
-//        setResistivityEnabled( advanced );
+    private void updateReadoutGraphics() {
+        ReadoutGraphic[] rg = circuitGraphic.getReadoutGraphics();
+        for( int i = 0; i < rg.length; i++ ) {
+            ReadoutGraphic readoutGraphic = rg[i];
+            readoutGraphic.recompute();
+        }
     }
+
+//    resistivity is now always on by default.
+//    public void setAdvancedEnabled( boolean advanced ) {
+////        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
+////        setResistivityEnabled( advanced );
+//    }
 
     public void debugListeners() {
         int numTransformListeners = transform.numTransformListeners();

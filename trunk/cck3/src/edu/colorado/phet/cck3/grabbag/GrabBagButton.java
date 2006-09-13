@@ -77,7 +77,7 @@ public class GrabBagButton extends JButton {
         module.getCircuit().addBranch( b );
         module.getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
 
-        module.relayout( new Branch[]{b} );
+        module.layoutElectrons( new Branch[]{b} );
         module.getApparatusPanel().repaint();
     }
 
