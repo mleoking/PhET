@@ -50,7 +50,21 @@ public class ProvisionalBond implements ModelElement {
         }
     }
 
+    /**
+     * Gets the molecules that participate in the bond
+     *
+     * @return an array with references to the molecules
+     */
     public SimpleMolecule[] getMolecules() {
         return molecules;
+    }
+
+    /**
+     * Gets the maximum length of the bond
+     *
+     * @return the max length of the bond
+     */
+    public double getMaxBondLength() {
+        return maxBondLength;
     }
 }
