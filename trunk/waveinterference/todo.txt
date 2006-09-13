@@ -15,6 +15,21 @@ speaker movement, it looks like the actual freq of the speaker is about
 Solution: If you change the stopwatch to read microsec, I think this should
 make everything consistent.
 
+Yesterday I asked one student to look at the box rotating with the arrow on wave
+interference. I'm not sure what to think of his reaction. He got that the side
+and the top was the same but he had figured out with water that there were only
+two settings that it wasn't really rotating. I'll let you know after
+I've done more.
+
+But this student did find a bug - when the light is yellow and set to high
+amplitude, the intensity line runs off its graph - see attached picture. It's
+very reproducable.
+
+He also had the detectors on in the particle view of sound and when he stepped
+through the sim, it seemed to imply to him that "high pressure" (i.e., when the
+graph on the detector peaked) the particles were spread furthest apart. I could
+not reproduce this at home.
+
 ##############################################################
 Questions
 ##################################
