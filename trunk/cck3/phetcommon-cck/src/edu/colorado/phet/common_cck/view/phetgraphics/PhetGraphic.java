@@ -25,6 +25,9 @@ public abstract class PhetGraphic implements BoundedGraphic {
 
     protected PhetGraphic( Component component ) {
         this.component = component;
+        if( component == null ) {
+            throw new RuntimeException( "Null component in " + getClass() );
+        }
     }
 
     public Rectangle getBounds() {

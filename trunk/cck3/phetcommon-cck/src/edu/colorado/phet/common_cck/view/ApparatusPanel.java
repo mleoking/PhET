@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.common_cck.view;
 
-import edu.colorado.phet.cck3.CCKApparatusPanel;
+import edu.colorado.phet.cck3.RectangleRepaintApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.GraphicsState;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -163,8 +163,8 @@ public class ApparatusPanel extends PhetPCanvas {
 
     public void setMyBackground( Color color ) {
         this.myBackground = color;
-        if( this instanceof CCKApparatusPanel ) {
-            CCKApparatusPanel cckApparatusPanel = (CCKApparatusPanel)this;
+        if( this instanceof RectangleRepaintApparatusPanel ) {
+            RectangleRepaintApparatusPanel cckApparatusPanel = (RectangleRepaintApparatusPanel)this;
             cckApparatusPanel.superRepaint();
         }
     }
