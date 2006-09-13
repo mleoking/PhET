@@ -268,15 +268,28 @@ public class HAModule extends PiccoloModule {
     
     public void updateCanvasLayout() {
         
-        _modeSwitch.setOffset( 30, 10 );
-        _atomicModelSelector.setOffset( 300, 10 );
+        _modeSwitch.setOffset( 10, 10 );
+        
+        // Atomic Model selector
+        {
+            PBounds msb = _modeSwitch.getFullBounds();
+            _atomicModelSelector.setOffset( msb.getX() + msb.getWidth() + 10, msb.getY() );
+        }
+        
+        // Gun
         _gunNode.setOffset( 30, 220 );
         
+        // "Drawings are not to scale" note
         {
-            PBounds b = _modeSwitch.getFullBounds();
-            double x = b.getX();
-            double y = b.getY() + b.getHeight() + 15;
+            PBounds msb = _modeSwitch.getFullBounds();
+            double x = msb.getX();
+            double y = msb.getY() + msb.getHeight() + 10;
             _notToScaleLabel.setOffset( x, y );
+        }
+        
+        // Black box
+        {
+            _blackBox.setOffset( 300, 130 );
         }
         
         // Energy Diagram
@@ -310,8 +323,6 @@ public class HAModule extends PiccoloModule {
             _schrodingerAtomNode.setOffset( x, y );
             _solarSystemAtomNode.setOffset( x, y );
         }
-        
-        _blackBox.setOffset( 300, 130 );
     }
     
     public void updateBlackBox() {
