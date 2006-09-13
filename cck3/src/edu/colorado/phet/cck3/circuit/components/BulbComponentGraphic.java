@@ -68,7 +68,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
                 changeIntensity();
             }
         };
-        module.getKirkhoffSolver().addSolutionListener( circuitSolutionListener );
+        module.getCircuitSolver().addSolutionListener( circuitSolutionListener );
 
         srcShape = new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT );
         lbg = new LightBulbGraphic( srcShape );
@@ -185,7 +185,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
     public void delete() {
         transform.removeTransformListener( transformListener );
         component.removeObserver( simpleObserver );
-        module.getKirkhoffSolver().removeSolutionListener( circuitSolutionListener );
+        module.getCircuitSolver().removeSolutionListener( circuitSolutionListener );
     }
 
     public void paint( Graphics2D g ) {

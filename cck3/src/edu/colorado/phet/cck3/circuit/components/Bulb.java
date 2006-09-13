@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -132,7 +133,7 @@ public class Bulb extends CircuitComponent {
     }
 
     private Vector2D collaspeToLifelike( Bulb bulb, Circuit circuit ) {
-        double distBetweenJ = CCKModule.BULB_DIMENSION.getDistBetweenJunctions();
+        double distBetweenJ = CCKModel.BULB_DIMENSION.getDistBetweenJunctions();
         AbstractVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
         Point2D dst = vector.getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );

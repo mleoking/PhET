@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -195,7 +196,7 @@ public class Circuit {
             Junction opposite = branch.opposite( junction );
             AbstractVector2D vec = new Vector2D.Double( opposite.getPosition(), junction.getPosition() );
             double curLength = vec.getMagnitude();
-            double newLength = Math.abs( curLength - CCKModule.JUNCTION_RADIUS * 1.5 );
+            double newLength = Math.abs( curLength - CCKModel.JUNCTION_RADIUS * 1.5 );
             vec = vec.getInstanceOfMagnitude( newLength );
             Point2D desiredDst = vec.getDestination( opposite.getPosition() );
             Point2D dst = desiredDst;

@@ -11,7 +11,9 @@
 package edu.colorado.phet.cck3.model;
 
 import edu.colorado.phet.cck3.BulbDimension;
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
+import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
@@ -66,7 +68,7 @@ public class CCKModel {
     private BaseModel baseModel;
 
 
-    public CCKModel( CircuitChangeListener circuitChangeListener ) {
+    public CCKModel( CCKModule module, CircuitChangeListener circuitChangeListener ) {
         this.circuit = new Circuit( circuitChangeListener );
 
         // Create the circuitSolver and the listener that will invoke it
@@ -82,6 +84,11 @@ public class CCKModel {
             }
 
         };
+
+        particleSet = new ParticleSet( module, getCircuit() );
+        layout = new ConstantDensityLayout( module );
+        getCircuit().addCircuitListener( layout );
+        module.addModelElement( particleSet );
     }
 
 
@@ -103,5 +110,37 @@ public class CCKModel {
 
     public double getScale() {
         return SCALE;
+    }
+
+    public void relayout( Branch[] branches ) {
+        layout.relayout( branches );
+    }
+
+    public CircuitSolver getCircuitSolver() {
+        return circuitSolver;
+    }
+
+    public ParticleSet getParticleSet() {
+        return particleSet;
+    }
+
+    public ConstantDensityLayout getElectronLayout() {
+        return layout;
+    }
+
+    public Rectangle2D.Double getModelBounds() {
+        return modelBounds;
+    }
+
+    public double getAspectRatio() {
+        return aspectRatio;
+    }
+
+    public double getModelWidth() {
+        return modelWidth;
+    }
+
+    public double getModelHeight() {
+        return modelHeight;
     }
 }

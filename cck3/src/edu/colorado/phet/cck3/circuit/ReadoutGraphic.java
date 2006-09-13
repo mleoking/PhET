@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.Switch;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -89,12 +90,12 @@ public class ReadoutGraphic implements Graphic {
         boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
         boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;
         if( up || down ) {
-            pt = new Point2D.Double( pt.getX() + CCKModule.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
+            pt = new Point2D.Double( pt.getX() + CCKModel.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
         }
         else {
-            pt = new Point2D.Double( pt.getX(), pt.getY() + CCKModule.BATTERY_DIMENSION.getHeight() * .3 );
+            pt = new Point2D.Double( pt.getX(), pt.getY() + CCKModel.BATTERY_DIMENSION.getHeight() * .3 );
         }
-        pt = new Point2D.Double( pt.getX() + CCKModule.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
+        pt = new Point2D.Double( pt.getX() + CCKModel.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
         Point out = transform.modelToView( pt );
         Color foregroundColor = Color.black;
         Color backgroundColor = Color.yellow;

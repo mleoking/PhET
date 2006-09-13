@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.BranchSet;
 import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
+import edu.colorado.phet.cck3.model.CCKModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,12 +81,12 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
 //            System.out.println( "Didn't remove all particles." );
 //        }
         if( module.isElectronsVisible() ) {
-            double offset = CCKModule.ELECTRON_DX / 2;
+            double offset = CCKModel.ELECTRON_DX / 2;
             double startingPoint = offset;
             double endingPoint = branch.getLength() - offset;
             //compress or expand, but fix a particle at startingPoint and endingPoint.
             double L = endingPoint - startingPoint;
-            double desiredDensity = 1 / CCKModule.ELECTRON_DX;
+            double desiredDensity = 1 / CCKModel.ELECTRON_DX;
             double N = L * desiredDensity;
             int integralNumberParticles = (int)Math.ceil( N );
             double mydensity = ( integralNumberParticles - 1 ) / L;

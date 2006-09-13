@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
+import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -32,7 +33,7 @@ import java.util.*;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CircuitGraphic extends CompositeGraphic {
-    private static double JUNCTION_RADIUS = CCKModule.JUNCTION_RADIUS;
+    private static double JUNCTION_RADIUS = CCKModel.JUNCTION_RADIUS;
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
     public static final Color SILVER = Color.gray;
     private CompositeGraphic filamentLayer = new CompositeGraphic();
@@ -48,7 +49,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private Circuit circuit;
     private ModelViewTransform2D transform;
     private ApparatusPanel apparatusPanel;
-    private double STICKY_THRESHOLD = CCKModule.STICKY_THRESHOLD;
+    private double STICKY_THRESHOLD;
     private CCKModule module;
     private ArrayList listeners = new ArrayList();
     private Hashtable readoutMap = new Hashtable();
@@ -57,9 +58,13 @@ public class CircuitGraphic extends CompositeGraphic {
     private boolean readoutGraphicsVisible = false;
     private CachingImageLoader hashedImageLoader = new CachingImageLoader();
 
+
     public CircuitGraphic( final CCKModule module ) throws IOException {
         graphicSource = new Lifelike();
         lifelike = true;
+
+        STICKY_THRESHOLD = module.getCCKModel().getScale();
+
         this.module = module;
         this.circuit = module.getCircuit();
         particleSetGraphic = new ParticleSetGraphic( module );
@@ -921,7 +926,7 @@ public class CircuitGraphic extends CompositeGraphic {
                                                                                            aSwitch, getTransform() );
             CircuitGraphic.this.addGraphic( aSwitch, switchGraphic );
             BufferedImage lever = module.getImageSuite().getKnifeHandleImage();
-            ComponentDimension leverDimension = CCKModule.LEVER_DIMENSION;
+            ComponentDimension leverDimension = CCKModel.LEVER_DIMENSION;
             LeverGraphic leverGraphic = new LeverGraphic( switchGraphic, lever, apparatusPanel, getTransform(), leverDimension.getLength(), leverDimension.getHeight() );
             InteractiveLever interactiveLever = new InteractiveLever( transform, apparatusPanel, leverGraphic );
             leverLayer.addGraphic( interactiveLever );
