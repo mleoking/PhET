@@ -101,6 +101,10 @@ public class PhetApplication {
         applicationModel.getClock().removeClockTickListener( clockTickListener );
     }
 
+    public int numModules() {
+        return applicationModel.numModules();
+    }
+
     /**
      * Maintains a list of all modules in an application, and provides a mechanism for switching
      * which module is active.  (Only supports one active module.)
