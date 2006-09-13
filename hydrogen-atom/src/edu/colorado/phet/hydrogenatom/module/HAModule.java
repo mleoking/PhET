@@ -21,7 +21,6 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector2;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
@@ -62,7 +61,7 @@ public class HAModule extends PiccoloModule {
     
     private HAController _controller;
     private ModeSwitch _modeSwitch;
-    private AtomicModelSelector _atomicModelSelector;
+    private AtomicModelSelector2 _atomicModelSelector;
     private GunNode _gunNode;
     private PText _notToScaleLabel;
     private JCheckBox _energyDiagramCheckBox;
@@ -130,7 +129,7 @@ public class HAModule extends PiccoloModule {
         
         // Atomic Model selector
         {
-            _atomicModelSelector = new AtomicModelSelector( _canvas );
+            _atomicModelSelector = new AtomicModelSelector2();
             _rootNode.addChild( _atomicModelSelector );
         }
         
@@ -213,13 +212,6 @@ public class HAModule extends PiccoloModule {
            _rootNode.addChild( _blackBox.getFrontNode() );
         }
         
-        //XXXX test
-        {
-            AtomicModelSelector2 ams = new AtomicModelSelector2();
-            ams.setOffset( 100, 100 );
-            _rootNode.addChild( ams );
-        }
-        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -280,23 +272,23 @@ public class HAModule extends PiccoloModule {
         // Atomic Model selector
         {
             PBounds msb = _modeSwitch.getFullBounds();
-            _atomicModelSelector.setOffset( msb.getX() + msb.getWidth() + 10, msb.getY() );
+            _atomicModelSelector.setOffset( msb.getX(), msb.getY() + msb.getHeight() + 10 );
         }
         
         // Gun
-        _gunNode.setOffset( 30, 220 );
+        _gunNode.setOffset( 200, 220 );
         
         // "Drawings are not to scale" note
         {
             PBounds msb = _modeSwitch.getFullBounds();
-            double x = msb.getX();
-            double y = msb.getY() + msb.getHeight() + 10;
+            double x = msb.getX() + msb.getWidth() + 10;
+            double y = msb.getY();
             _notToScaleLabel.setOffset( x, y );
         }
         
         // Black box
         {
-            _blackBox.setOffset( 300, 130 );
+            _blackBox.setOffset( 400, 130 );
         }
         
         // Energy Diagram
@@ -314,7 +306,7 @@ public class HAModule extends PiccoloModule {
         
         // Spectrometer
         {
-            _spectrometerCheckBoxNode.setOffset( 500, 710 );
+            _spectrometerCheckBoxNode.setOffset( 500, 715 );
             _spectrometer.setOffset( 680, 550 );
         }
         

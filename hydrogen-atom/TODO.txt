@@ -28,6 +28,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/13/06) - rewrite AtomicModelSelector, icon-based, vertical
 (9/13/06) - change color of plum pudding to Color.RED to indicate positive charge (Sam McKagan's request)
 (9/13/06) - redo mode switch to be more "fun"
 (9/13/06) - change color of plum pudding to "plum" (0x993399)
