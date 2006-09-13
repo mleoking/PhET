@@ -5,7 +5,6 @@ import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
@@ -19,11 +18,7 @@ import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.model.BaseModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
-import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
-import edu.colorado.phet.common_cck.view.graphics.Boundary;
-import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
@@ -33,10 +28,7 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -55,7 +47,7 @@ public class CCKModule extends Module {
     private CCKModel model;
     private SetupParameters parameters;
     private CCK2ImageSuite imageSuite;
-    private CCK3ControlPanel cck3controlPanel;
+    private CCK3ControlPanel cckControlPanel;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
@@ -66,7 +58,8 @@ public class CCKModule extends Module {
      */
     private CCKApparatusPanel cckApparatusPanel;
 
-    private AspectRatioPanel aspectRatioPanel; /* Aspect ratio panel used in single-module setups*/
+    /* Aspect ratio panel used in single-module setups*/
+    private AspectRatioPanel aspectRatioPanel;
 
     /**
      * Piccolo-specific data
@@ -83,6 +76,7 @@ public class CCKModule extends Module {
         cckApparatusPanel = new CCKApparatusPanel( this, model );
 
         setApparatusPanel( cckApparatusPanel );
+
         stripChartClock.start();
         stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.scale, "s" ) ) );
         stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -90,30 +84,6 @@ public class CCKModule extends Module {
         getApparatusPanel().addScreenChild( stopwatch );
         stopwatch.setOffset( 150, 150 );
         stopwatch.setVisible( false );
-        getApparatusPanel().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                getApparatusPanel().requestFocus();
-            }
-        } );
-        getApparatusPanel().setFocusable( true );
-        getApparatusPanel().setBackground( new Color( 0, 0, 0, 0 ) );
-        DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
-            public void paint( Graphics2D g ) {
-            }
-        }, new Boundary() {
-            public boolean contains( int x, int y ) {
-                return true;
-            }
-        } );
-        backgroundGraphic.addMouseInputListener( new MouseInputAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                getCircuit().clearSelection();
-            }
-        } );
-        getApparatusPanel().addGraphic( backgroundGraphic, Double.NEGATIVE_INFINITY );
-        BasicGraphicsSetup setup = new BasicGraphicsSetup();
-        setup.setBicubicInterpolation();
-        getApparatusPanel().addGraphicsSetup( setup );
 
         // Create a BaseModel that will get clock ticks and add a model element to
         // it that will tell the CCKModel to step
@@ -123,21 +93,14 @@ public class CCKModule extends Module {
             }
         } );
 
-        aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
 
-
-        CCK3ControlPanel controlPanel = null;
-        controlPanel = new CCK3ControlPanel( this );
-        this.cck3controlPanel = controlPanel;
-        setControlPanel( cck3controlPanel.getComponent() );
+        this.cckControlPanel = new CCK3ControlPanel( this );
+        setControlPanel( cckControlPanel.getComponent() );
 
         setResistivityEnabled( true );
-    }
-
-
-    private void init() throws IOException {
-//        cckApparatusPanel.init();
         setInternalResistanceOn( true );
+
+        aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
     }
 
     public RectangleRepaintApparatusPanel getCCKApparatusPanel() {
@@ -187,7 +150,6 @@ public class CCKModule extends Module {
         return model.getCircuit();
     }
 
-
     public CCK2ImageSuite getImageSuite() {
         return imageSuite;
     }
@@ -203,7 +165,6 @@ public class CCKModule extends Module {
     public ParticleSet getParticleSet() {
         return model.getParticleSet();
     }
-
 
     public void setZoom( double scale ) {
         cckApparatusPanel.setZoom( scale );
@@ -230,24 +191,11 @@ public class CCKModule extends Module {
 
         //see if the adjacent junctions remain, and should be converted to component ends (for rotation)
         //if the junction remains, and it has exactly one connection, which is of type CircuitComponent.
-        convertJunctionGraphic( branch.getStartJunction() );
-        convertJunctionGraphic( branch.getEndJunction() );
+        cckApparatusPanel.convertJunctionGraphic( branch.getStartJunction() );
+        cckApparatusPanel.convertJunctionGraphic( branch.getEndJunction() );
         getCircuit().setFireKirkhoffChanges( true );
         getCircuit().fireKirkhoffChanged();
         getApparatusPanel().repaint();
-    }
-
-    private void convertJunctionGraphic( Junction junction ) {
-        if( getCircuit().hasJunction( junction ) ) {
-            Branch[] outputs = getCircuit().getAdjacentBranches( junction );
-            if( outputs.length == 1 ) {
-                Branch out = outputs[0];
-                if( out instanceof CircuitComponent ) {
-                    CircuitComponent cc = (CircuitComponent)out;
-                    getCircuitGraphic().convertToComponentGraphic( junction, cc );
-                }
-            }
-        }
     }
 
     private void testRemove( Junction st ) {
@@ -281,7 +229,7 @@ public class CCKModule extends Module {
     }
 
     public void showMegaHelp() {
-        cck3controlPanel.showHelpImage();
+        cckControlPanel.showHelpImage();
     }
 
     public Toolbox getToolbox() {
@@ -353,9 +301,9 @@ public class CCKModule extends Module {
     }
 
     public void regainFocus() {
-        getApparatusPanel().requestFocus();
         Window window = SwingUtilities.getWindowAncestor( getApparatusPanel() );
         window.requestFocus();
+        getApparatusPanel().requestFocus();
     }
 
     public Shape getElectronClip() {
@@ -462,31 +410,21 @@ public class CCKModule extends Module {
     }
 
     private void updateReadoutGraphics() {
-        ReadoutGraphic[] rg = getCircuitGraphic().getReadoutGraphics();
-        for( int i = 0; i < rg.length; i++ ) {
-            ReadoutGraphic readoutGraphic = rg[i];
-            readoutGraphic.recompute();
-        }
+        cckApparatusPanel.updateReadoutGraphics();
     }
 
     public SetupParameters getParameters() {
         return parameters;
     }
 
-    public void applicationStarted() {
-        try {
-            init();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
     public CCK3ControlPanel getCCKControlPanel() {
-        return cck3controlPanel;
+        return cckControlPanel;
     }
 
     public ModelViewTransform2D getTransform() {
         return cckApparatusPanel.getTransform();
+    }
+
+    public void applicationStarted() {
     }
 }
