@@ -73,8 +73,8 @@ public class CCKModule extends Module {
 
         this.parameters = new SetupParameters( this, args );
         imageSuite = new CCK2ImageSuite();
-        cckApparatusPanel = new CCKApparatusPanel( this, model );
 
+        cckApparatusPanel = new CCKApparatusPanel( this, model );
         setApparatusPanel( cckApparatusPanel );
 
         stripChartClock.start();
@@ -92,7 +92,6 @@ public class CCKModule extends Module {
                 model.stepInTime( dt );
             }
         } );
-
 
         this.cckControlPanel = new CCK3ControlPanel( this );
         setControlPanel( cckControlPanel.getComponent() );

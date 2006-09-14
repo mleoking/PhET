@@ -417,7 +417,6 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
     }
 
     public void updateReadoutGraphics() {
-
         ReadoutGraphic[] rg = getCircuitGraphic().getReadoutGraphics();
         for( int i = 0; i < rg.length; i++ ) {
             ReadoutGraphic readoutGraphic = rg[i];
