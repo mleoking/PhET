@@ -269,7 +269,7 @@ public class HAModule extends PiccoloModule {
         
         _modeSwitch.setOffset( 10, 10 );
         
-        // Atomic Model selector
+        // Atomic Model selector, below mode selector, left aligned.
         {
             PBounds msb = _modeSwitch.getFullBounds();
             _atomicModelSelector.setOffset( msb.getX(), msb.getY() + msb.getHeight() + 10 );
@@ -278,23 +278,24 @@ public class HAModule extends PiccoloModule {
         // Gun
         _gunNode.setOffset( 200, 190 );
         
-        // "Drawings are not to scale" note
-        {
-            PBounds msb = _modeSwitch.getFullBounds();
-            double x = msb.getX() + msb.getWidth() + 10;
-            double y = msb.getY();
-            _notToScaleLabel.setOffset( x, y );
-        }
-        
         // Black box
         {
             _blackBox.setOffset( 400, 50 );
+        }
+        
+        // "Drawings are not to scale" note, centered above black box.
+        {
+            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            double x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
+            double y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
+            _notToScaleLabel.setOffset( x, y );
         }
         
         // Energy Diagram
         {
             _energyDiagramCheckBoxNode.setOffset( 900, 10 );
             
+            // Diagram is below checkbox, left aligned.
             PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
             double x = b.getX();
             double y = b.getY() + b.getHeight() + 10;
