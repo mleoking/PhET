@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.common;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests;
 
-import edu.colorado.phet.cck3.common.Sine;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
@@ -47,11 +46,11 @@ public class TestFontMetrics {
         panel.addGraphic( sg2 );
         panel.addGraphic( g );
         SwingTimerClock stc = new SwingTimerClock( 1, 30 );
-        final Sine sine = new Sine( 20, .05 );
+//        final Sine sine = new Sine( 20, .05 );
         stc.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
                 time += dt;
-                double loc = sine.valueAtTime( time );
+                double loc = Math.cos( time );
                 g.setPosition( g.getX(), (int)loc + 300 );
                 panel.repaint();
             }

@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.common;
 
 
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;

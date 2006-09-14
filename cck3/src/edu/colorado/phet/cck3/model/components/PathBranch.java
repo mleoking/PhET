@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.model.components;
 
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.Junction;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

@@ -4,9 +4,12 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.chart.CurrentStripChart;
+import edu.colorado.phet.cck3.chart.VoltageStripChart;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKApparatusPanel;
+import edu.colorado.phet.cck3.phetgraphics_cck.RectangleRepaintApparatusPanel;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
@@ -14,8 +17,6 @@ import edu.colorado.phet.cck3.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.model.BaseModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
@@ -45,7 +46,7 @@ public class CCKModule extends Module {
      * General module data
      */
     private CCKModel model;
-    private SetupParameters parameters;
+    private CCKParameters parameters;
     private CCK2ImageSuite imageSuite;
     private CCK3ControlPanel cckControlPanel;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
@@ -71,7 +72,7 @@ public class CCKModule extends Module {
         setModel( new BaseModel() );
         model = new CCKModel();
 
-        this.parameters = new SetupParameters( this, args );
+        this.parameters = new CCKParameters( this, args );
         imageSuite = new CCK2ImageSuite();
 
         cckApparatusPanel = new CCKApparatusPanel( this, model );
@@ -373,7 +374,7 @@ public class CCKModule extends Module {
         add( b3 );
 
         new BranchSet( getCircuit(), new Branch[]{b1} ).translate( -5, 0 );
-        AbstractVector2D dv = new Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
+        edu.colorado.phet.common.math.Vector2D.Double dv = new edu.colorado.phet.common.math.Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
         new BranchSet( getCircuit(), new Branch[]{b2} ).translate( dv );
         b3.getStartJunction().setPosition( b2.getEndJunction().getX(), b2.getEndJunction().getY() );
         b3.getEndJunction().setPosition( b1.getStartJunction().getX(), b1.getStartJunction().getY() );
@@ -416,7 +417,7 @@ public class CCKModule extends Module {
         cckApparatusPanel.updateReadoutGraphics();
     }
 
-    public SetupParameters getParameters() {
+    public CCKParameters getParameters() {
         return parameters;
     }
 

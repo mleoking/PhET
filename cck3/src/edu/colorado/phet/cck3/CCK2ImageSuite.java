@@ -1,9 +1,8 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_cck.view.util.CachingImageLoader;
-import edu.colorado.phet.common_cck.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class CCK2ImageSuite {
     private String batteryImageLocation = "images/AA-battery-100.gif";
     private String resistorImageLocation = "images/resistor3.gif";
     private BufferedImage resistorImage;
-    private CachingImageLoader imageLoader = new CachingImageLoader();
+    private ImageLoader imageLoader = new ImageLoader();
     private BufferedImage capacitorImage;
     private String capImageLoc = "images/cap5.gif";
     private String acImageLoc = "images/ac.gif";
@@ -79,7 +78,7 @@ public class CCK2ImageSuite {
         return capacitorImage;
     }
 
-    public CachingImageLoader getImageLoader() {
+    public ImageLoader getImageLoader() {
         return imageLoader;
     }
 

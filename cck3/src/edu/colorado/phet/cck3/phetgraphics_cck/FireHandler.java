@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.phetgraphics_cck;
 
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;

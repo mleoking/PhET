@@ -1,7 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common_cck.view.util;
 
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

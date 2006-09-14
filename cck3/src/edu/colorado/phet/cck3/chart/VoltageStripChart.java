@@ -1,7 +1,5 @@
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.chart;
 
-import edu.colorado.phet.cck3.chart.DoubleTerminalFloatingChart;
-import edu.colorado.phet.cck3.chart.TwoTerminalValueReader;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common.model.clock.IClock;

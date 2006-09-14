@@ -1,14 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.common.AdvancedPanel;
 import edu.colorado.phet.cck3.common.CCKStrings;
+import edu.colorado.phet.cck3.common.ControlPanel;
+import edu.colorado.phet.cck3.controls.ResetDynamicsButton;
 import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.ResistivityManager;
 import edu.colorado.phet.cck3.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.model.components.Battery;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.ImageLoader;

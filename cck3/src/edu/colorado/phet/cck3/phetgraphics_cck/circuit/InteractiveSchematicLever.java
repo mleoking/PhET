@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.Boundary;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;

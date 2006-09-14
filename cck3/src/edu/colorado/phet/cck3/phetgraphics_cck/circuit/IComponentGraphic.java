@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 

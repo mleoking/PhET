@@ -5,7 +5,7 @@ import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.Battery;
 import edu.colorado.phet.cck3.model.components.Branch;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
 

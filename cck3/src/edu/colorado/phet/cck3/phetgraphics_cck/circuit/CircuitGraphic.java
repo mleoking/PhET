@@ -1,16 +1,15 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKApparatusPanel;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.components.*;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKApparatusPanel;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -294,7 +293,7 @@ public class CircuitGraphic extends CompositeGraphic {
             Graphic graphic = getGraphic( branch );
             if( !branch.hasJunction( junction ) ) {
                 if( intersectsShape( graphic, shape ) ) {
-                    AbstractVector2D vec = branch.getDirectionVector();
+                    edu.colorado.phet.common.math.AbstractVector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance( dx );
                     Branch[] sc = circuit.getStrongConnections( junction );

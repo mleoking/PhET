@@ -1,6 +1,7 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.phetgraphics_cck;
 
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools.Voltmeter;

@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.controls;
 
+import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKStrings;
 
 import javax.swing.*;

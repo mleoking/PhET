@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.common_cck.view.phetgraphics;
 
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
