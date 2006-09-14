@@ -13,6 +13,9 @@ package edu.colorado.phet.hydrogenatom.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,6 +41,7 @@ import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -113,6 +117,12 @@ public class HAModule extends PiccoloModule {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
             _canvas.setBackground( HAConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
+            
+            _canvas.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    updateCanvasLayout();
+                }
+            } );
         }
         
         // Root of our scene graph
@@ -267,16 +277,26 @@ public class HAModule extends PiccoloModule {
     
     public void updateCanvasLayout() {
         
+        // Determine the visible bounds in world coordinates
+        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
+        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
+
+        // margins and spacing
         final double xMargin = 10;
         final double yMargin = 10;
-        final double xSpacing = 10;
+        final double xSpacing = 20;
         final double ySpacing = 10;
         
+        // reusable (x,y) coordinates, for setting offsets
         double x, y;
         
-        _modeSwitch.setOffset( xMargin, yMargin );
+        // Mode Switch, in upper left corner
+        {
+            _modeSwitch.setOffset( xMargin, yMargin );
+        }
         
-        // Atomic Model selector, below mode selector, left aligned.
+        // Atomic Model Selector, below mode selector, left aligned.
         {
             PBounds msb = _modeSwitch.getFullBounds();
             x = msb.getX();
@@ -288,13 +308,13 @@ public class HAModule extends PiccoloModule {
         {
             PBounds ab = _atomicModelSelector.getFullBounds();
             x = ab.getX() + ab.getWidth() + xSpacing;
-            y = 190;
+            y = 190;//XXX
             _gunNode.setOffset( x, y );
         }
         
         // Black box
         {
-            _blackBox.setOffset( 400, 50 );
+            _blackBox.setOffset( 400, 50 );//XXX
         }
         
         // "Drawings are not to scale" note, centered above black box.
@@ -322,10 +342,12 @@ public class HAModule extends PiccoloModule {
             _solarSystemEnergyDiagram.setOffset( x, y );
         }
         
-        // Spectrometer
+        // Spectrometer, in bottom right corner.
         {
             PBounds bb = _blackBox.getBackNode().getFullBounds();
-            x = 670;
+            PBounds gb = _gunNode.getFullBounds();
+            final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
+            x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometer.getFullBounds().getWidth() - xMargin );
             y = bb.getY() + bb.getHeight() + ySpacing;
             _spectrometer.setOffset( x, y );
             _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
