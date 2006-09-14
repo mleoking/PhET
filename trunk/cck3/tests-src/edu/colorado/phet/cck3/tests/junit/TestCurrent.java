@@ -1,12 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests.junit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck3.model.components.Battery;
 import edu.colorado.phet.cck3.model.components.Resistor;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.PhetApplication;

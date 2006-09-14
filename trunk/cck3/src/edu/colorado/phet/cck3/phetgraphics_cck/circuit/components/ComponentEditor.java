@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.Circuit;
@@ -11,13 +10,14 @@ import edu.colorado.phet.cck3.model.components.ACVoltageSource;
 import edu.colorado.phet.cck3.model.components.Battery;
 import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.ReadoutGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.math.MathUtil;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.util.SwingUtils;
 
 import javax.swing.*;

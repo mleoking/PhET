@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.model.components.Bulb;
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.CCKPhetGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.IComponentGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;

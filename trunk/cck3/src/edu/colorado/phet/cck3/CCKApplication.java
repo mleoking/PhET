@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.controls.LookAndFeelMenu;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
@@ -104,8 +105,8 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-                edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
-//                    SimStrings.init( args, CCKApplication.localizedStringsPath );
+//                edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
+                SimStrings.init( args, CCKApplication.localizedStringsPath );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
                     new CCKApplication( args ).startApplication();

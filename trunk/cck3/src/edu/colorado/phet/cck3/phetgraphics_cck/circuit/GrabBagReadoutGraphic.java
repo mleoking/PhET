@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 

@@ -1,12 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.components.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.CCKApparatusPanel;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.common.math.Vector2D;

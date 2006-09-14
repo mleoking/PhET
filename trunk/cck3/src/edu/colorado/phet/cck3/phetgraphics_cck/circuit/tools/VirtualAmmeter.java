@@ -1,17 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.TargetReadoutTool;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.BranchGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.InteractiveBranchGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;

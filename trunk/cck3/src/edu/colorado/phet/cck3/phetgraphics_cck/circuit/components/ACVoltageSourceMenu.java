@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.components.ACVoltageSource;
 import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

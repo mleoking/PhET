@@ -2,15 +2,15 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.controls.LookAndFeelMenu;
 import edu.colorado.phet.cck3.controls.OptionsMenu;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
-import edu.colorado.phet.common_cck.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_cck.view.util.FrameSetup;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -64,7 +64,7 @@ public class CCKApplication_orig {
         application.getApplicationView().getPhetFrame().addMenu( new LookAndFeelMenu() );
         application.getApplicationView().getPhetFrame().addMenu( new OptionsMenu( application, cckModule ) );
 
-        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
+        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule ) );
         if( debugMode ) {
             application.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }

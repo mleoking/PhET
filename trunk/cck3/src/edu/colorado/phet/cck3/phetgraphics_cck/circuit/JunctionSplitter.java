@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.model.ModelElement;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

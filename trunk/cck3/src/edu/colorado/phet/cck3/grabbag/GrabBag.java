@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.grabbag;
 
 import edu.colorado.phet.cck3.model.CCKModel;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.util.ArrayList;
 

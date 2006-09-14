@@ -1,12 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
 import edu.colorado.phet.cck3.model.Electron;
 import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Bulb;
 import edu.colorado.phet.cck3.model.components.PathBranch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;

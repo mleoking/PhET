@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.SimpleObservableDebug;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 
 import java.awt.geom.Rectangle2D;
 

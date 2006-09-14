@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck3.model.Junction;
@@ -12,6 +11,7 @@ import edu.colorado.phet.cck3.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.JunctionGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.toolbox.Toolbox;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -20,7 +20,6 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

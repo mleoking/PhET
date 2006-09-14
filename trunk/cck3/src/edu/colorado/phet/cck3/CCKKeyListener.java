@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.model.analysis.ModifiedNodalAnalysis_Orig;
-import edu.colorado.phet.common_cck.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +17,9 @@ import java.awt.event.KeyListener;
  */
 public class CCKKeyListener implements KeyListener {
     CCKModule cck;
-    private RepaintDebugGraphic colorG;
 
-    public CCKKeyListener( CCKModule cck, RepaintDebugGraphic colorG ) {
+    public CCKKeyListener( CCKModule cck ) {
         this.cck = cck;
-        this.colorG = colorG;
     }
 
     public void keyPressed( KeyEvent e ) {
@@ -31,13 +29,7 @@ public class CCKKeyListener implements KeyListener {
     }
 
     public void keyReleased( KeyEvent e ) {
-        if( e.getKeyCode() == KeyEvent.VK_UP ) {
-            colorG.setActive( true );
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-            colorG.setActive( false );
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
+        if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
             cck.deleteSelection();
             cck.desolderSelection();
         }
