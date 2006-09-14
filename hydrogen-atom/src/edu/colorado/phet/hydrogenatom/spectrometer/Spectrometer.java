@@ -55,7 +55,7 @@ public class Spectrometer extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 14 );
+    private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Instance data
