@@ -157,6 +157,7 @@ public class HAModule extends PiccoloModule {
         // "Not to scale" label
         {
             _notToScaleLabel = new PText( SimStrings.get( "label.notToScale" ) );
+            _notToScaleLabel.setTextPaint( HAConstants.CANVAS_LABELS_COLOR );
             _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
             _rootNode.addChild( _notToScaleLabel );
         }
@@ -165,6 +166,7 @@ public class HAModule extends PiccoloModule {
         {
             _energyDiagramCheckBox = new JCheckBox( SimStrings.get( "label.showEnergyDiagram" ) );
             _energyDiagramCheckBox.setOpaque( false );
+            _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _energyDiagramCheckBox.setFont( HAConstants.CONTROL_FONT );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
             _rootNode.addChild( _energyDiagramCheckBoxNode );
@@ -187,6 +189,7 @@ public class HAModule extends PiccoloModule {
         {
             _spectrometerCheckBox = new JCheckBox( SimStrings.get( "label.showSpectrometer" ) );
             _spectrometerCheckBox.setOpaque( false );
+            _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _spectrometerCheckBox.setFont( HAConstants.CONTROL_FONT );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
             _rootNode.addChild( _spectrometerCheckBoxNode );
@@ -361,14 +364,20 @@ public class HAModule extends PiccoloModule {
             _solarSystemEnergyDiagram.setOffset( x, y );
         }
         
-        // Spectrometer, in bottom right corner.
+        // Spectrometer
         {
+            // Spectrometer in bottom right corner.
             PBounds bb = _blackBox.getBackNode().getFullBounds();
             PBounds gb = _gunControlPanel.getFullBounds();
             final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
             x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometer.getFullBounds().getWidth() - xMargin );
             y = bb.getY() + bb.getHeight() + ySpacing;
             _spectrometer.setOffset( x, y );
+            
+            // Checkbox above right of spectrometer
+            PBounds sb = _spectrometer.getFullBounds();
+            x = _energyDiagramCheckBoxNode.getFullBounds().getX();
+            y = sb.getY() - _spectrometerCheckBoxNode.getFullBounds().getHeight() - 15;
             _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
         }
         

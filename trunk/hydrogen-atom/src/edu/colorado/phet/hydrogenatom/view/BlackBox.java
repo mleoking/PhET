@@ -35,10 +35,10 @@ public class BlackBox {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color FRONT_COLOR = Color.BLACK;
-    private static final Color TOP_COLOR_FRONT = Color.DARK_GRAY;
-    private static final Color TOP_COLOR_BACK = Color.GRAY;
-    private static final Color INSIDE_COLOR = Color.DARK_GRAY;
+    private static final Color FRONT_COLOR = Color.DARK_GRAY;
+    private static final Color TOP_COLOR_FRONT = Color.GRAY;
+    private static final Color TOP_COLOR_BACK = Color.DARK_GRAY;
+    private static final Color INSIDE_COLOR = Color.GRAY;
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;

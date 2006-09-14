@@ -8,8 +8,6 @@ HIGH PRIORITY:
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - UV range of wavelength control is hard to see against gray control panel
 - design a gun control that shoots either one-shot or continuous
-- change canvas background to black
-- move spectrometer checkbox above right of spectrometer
 - make 3D black box very small with a smaller gun pointed up at it
 - small gun shoots a beam, color is white or monochromatic color (for light), or gray (for alpha particle)
 - label small black box "Box of Hydrogen"
@@ -34,6 +32,8 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/14/06) - change canvas background to black
+(9/14/06) - move spectrometer checkbox above right of spectrometer
 (9/14/06) - tag code with hydrogenatom-sandbox-2006-09-14
 (9/14/06) - translate to Spanish and test layout
 (9/14/06) - change size and color of spectrometer image so it doesn't look the control panels
