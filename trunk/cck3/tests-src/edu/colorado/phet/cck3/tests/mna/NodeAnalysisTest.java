@@ -1,14 +1,14 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.tests.mna;
 
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.components.Battery;
-import edu.colorado.phet.cck3.circuit.components.Capacitor;
-import edu.colorado.phet.cck3.circuit.components.Inductor;
-import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitChangeListener;
+import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.model.components.Capacitor;
+import edu.colorado.phet.cck3.model.components.Inductor;
+import edu.colorado.phet.cck3.model.components.Resistor;
 import edu.colorado.phet.common_cck.math.Vector2D;
 
 import java.awt.geom.Point2D;

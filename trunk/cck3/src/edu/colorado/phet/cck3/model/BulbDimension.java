@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.model;
 
 /**
  * User: Sam Reid

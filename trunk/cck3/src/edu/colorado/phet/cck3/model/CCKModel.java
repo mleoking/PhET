@@ -10,9 +10,6 @@
  */
 package edu.colorado.phet.cck3.model;
 
-import edu.colorado.phet.cck3.BulbDimension;
-import edu.colorado.phet.cck3.ComponentDimension;
-import edu.colorado.phet.cck3.ResistivityManager;
 import edu.colorado.phet.cck3.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.model.analysis.MNASolver;
