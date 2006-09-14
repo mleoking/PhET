@@ -68,6 +68,7 @@ public class HAModule extends PiccoloModule {
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
+    private GunControlPanel _gunControlPanel;
     private PText _notToScaleLabel;
     private JCheckBox _energyDiagramCheckBox;
     private PNode _energyDiagramCheckBoxNode;
@@ -148,6 +149,9 @@ public class HAModule extends PiccoloModule {
         {
             _gunNode = new GunNode( _canvas );
             _rootNode.addChild( _gunNode );
+            
+            _gunControlPanel = new GunControlPanel( _canvas );
+            _rootNode.addChild( _gunControlPanel );
         }
         
         // "Not to scale" label
@@ -234,7 +238,7 @@ public class HAModule extends PiccoloModule {
         }
         
         _controller = new HAController( this, 
-                _modeSwitch, _atomicModelSelector, _gunNode,  
+                _modeSwitch, _atomicModelSelector, _gunNode, _gunControlPanel,
                 _energyDiagramCheckBox, _spectrometer, _spectrometerCheckBox );
         
         //----------------------------------------------------------------------------
@@ -263,11 +267,12 @@ public class HAModule extends PiccoloModule {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         _blackBox.open();
-        _gunNode.getGunControlPanel().getGunTypeControl().setLightSelected();
-        _gunNode.getGunControlPanel().getLightTypeControl().setMonochromaticSelected();
-        _gunNode.getGunControlPanel().getLightIntensityControl().setValue( 100 );
-        _gunNode.getGunControlPanel().getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
-        _gunNode.getGunControlPanel().getAlphaParticlesIntensityControl().setValue( 100 );
+        _gunNode.getGunOnOffControl().setOn( false );
+        _gunControlPanel.getGunTypeControl().setLightSelected();
+        _gunControlPanel.getLightTypeControl().setMonochromaticSelected();
+        _gunControlPanel.getLightIntensityControl().setValue( 100 );
+        _gunControlPanel.getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
+        _gunControlPanel.getAlphaParticlesIntensityControl().setValue( 100 );
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
     }
@@ -284,8 +289,8 @@ public class HAModule extends PiccoloModule {
         Dimension worldSize = new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
 
         // margins and spacing
-        final double xMargin = 10;
-        final double yMargin = 10;
+        final double xMargin = 20;
+        final double yMargin = 20;
         final double xSpacing = 20;
         final double ySpacing = 10;
         
@@ -316,6 +321,15 @@ public class HAModule extends PiccoloModule {
         // Black box
         {
             _blackBox.setOffset( 400, 50 );//XXX
+        }
+        
+        // Gun control panel
+        {
+            PBounds ab = _atomicModelSelector.getFullBounds();
+            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            x = ab.getX() + ab.getWidth() + xSpacing;
+            y = bb.getY() + bb.getHeight() + ySpacing;
+            _gunControlPanel.setOffset( x, y );
         }
         
         // "Drawings are not to scale" note, centered above black box.
