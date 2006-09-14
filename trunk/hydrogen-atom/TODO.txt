@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add x-axis ticks and labels to spectrometer
-- make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
+- configurable gun nozzle size, make it match height of black box
 - bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
 - show compresses UV and IR range in spectrometer (like in Discharge Lamps)
