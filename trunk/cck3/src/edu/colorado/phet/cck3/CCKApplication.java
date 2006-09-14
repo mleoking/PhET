@@ -41,9 +41,9 @@ public class CCKApplication extends PhetApplication {
     }
 
     public CCKApplication( String[]args ) throws IOException {
-        super( args, SimStrings.get( "CCK3Application.title" ) + getSubTitle( args ) + " (" + readVersion() + ")",
-               SimStrings.get( "CCK3Application.description" ),
-               SimStrings.get( "CCK3Application.version" ) );
+        super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ) + " (" + readVersion() + ")",
+               SimStrings.get( "CCKApplication.description" ),
+               SimStrings.get( "CCKApplication.version" ) );
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
@@ -108,7 +108,7 @@ public class CCKApplication extends PhetApplication {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
-//                    SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
+//                    SimStrings.init( args, CCKApplication.localizedStringsPath );
                     new CCKPhetLookAndFeel().initLookAndFeel();
                     try {
                         new CCKApplication( args ).startApplication();
