@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.BranchSet;
+import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
 import edu.colorado.phet.cck3.model.CCKModel;
 
@@ -17,12 +17,14 @@ import java.util.Arrays;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
-    private CCKModule module;
-    boolean dolayout = true;
-//    boolean dolayout=false;
+    private boolean dolayout = true;
+    private Circuit circuit;
+    private ParticleSet particleSet;
+    private boolean electronsVisible = true;
 
-    public ConstantDensityLayout( CCKModule module ) {
-        this.module = module;
+    public ConstantDensityLayout( Circuit circuit, ParticleSet particleSet ) {
+        this.circuit = circuit;
+        this.particleSet = particleSet;
     }
 
     public void branchesMoved( Branch[] branches ) {
@@ -30,20 +32,24 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
             return;
         }
 //        ArrayList relay=new ArrayList( );
-        BranchSet bs = new BranchSet( module.getCircuit(), branches );
+        BranchSet bs = new BranchSet( getCircuit(), branches );
         for( int i = 0; i < branches.length; i++ ) {
-            bs.addBranches( module.getCircuit().getStrongConnections( branches[i].getStartJunction() ) );
-            bs.addBranches( module.getCircuit().getStrongConnections( branches[i].getEndJunction() ) );
+            bs.addBranches( getCircuit().getStrongConnections( branches[i].getStartJunction() ) );
+            bs.addBranches( getCircuit().getStrongConnections( branches[i].getEndJunction() ) );
         }
         Branch[] torelayout = bs.getBranches();
         layoutElectrons( torelayout );
+    }
+
+    private Circuit getCircuit() {
+        return circuit;
     }
 
     public void branchesMovedOrig( Branch[] branches ) {
         ArrayList moved = new ArrayList( Arrays.asList( branches ) );
         layoutElectrons( branches );
         ArrayList branchesToRelayout = new ArrayList();
-        Branch[] all = module.getCircuit().getBranches();
+        Branch[] all = getCircuit().getBranches();
         for( int i = 0; i < all.length; i++ ) {
             Branch branch = all[i];
             if( branch.getCurrent() != 0 ) {
@@ -65,15 +71,12 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
     }
 
     private void layoutElectrons( Branch branch ) {
-        ParticleSet ps = module.getParticleSet();
-        ParticleSetGraphic psg = module.getParticleSetGraphic();
-        Electron[] electrons = ps.removeParticles( branch );
-        psg.removeGraphics( electrons );
-//        Electron[] rem = ps.getParticles( branch );
-//        if( rem.length != 0 ) {
-//            System.out.println( "Didn't remove all particles." );
-//        }
-        if( module.isElectronsVisible() ) {
+        particleSet.removeParticles( branch );
+
+//        ParticleSetGraphic particleSetGraphic = module.getParticleSetGraphic();
+//        particleSetGraphic.removeGraphics( electrons );
+
+        if( getElectronsVisible() ) {
             double offset = CCKModel.ELECTRON_DX / 2;
             double startingPoint = offset;
             double endingPoint = branch.getLength() - offset;
@@ -90,9 +93,13 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
             for( int i = 0; i < integralNumberParticles; i++ ) {
                 double x = i * dx + startingPoint;
                 Electron e = new Electron( branch, x );
-                ps.addParticle( e );
-                psg.addGraphic( e );
+                particleSet.addParticle( e );
+//                particleSetGraphic.addGraphic( e );
             }
         }
+    }
+
+    private boolean getElectronsVisible() {
+        return electronsVisible;
     }
 }
