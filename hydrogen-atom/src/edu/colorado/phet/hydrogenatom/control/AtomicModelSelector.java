@@ -53,9 +53,9 @@ public class AtomicModelSelector extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 20 );
-    private static final Color TITLE_COLOR = Color.WHITE;
+    private static final Color TITLE_COLOR = Color.BLACK;
     
-    private static final Font CONTINUUM_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font CONTINUUM_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Color CONTINUUM_CLASSICAL_COLOR = Color.WHITE;
     private static final Color CONTINUUM_QUANTUM_COLOR = Color.BLACK;
     
@@ -112,9 +112,9 @@ public class AtomicModelSelector extends PhetPNode {
         PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
         
         // Labels
-        PText atomicModelLabel = new PText( SimStrings.get( "label.atomicModel" ) );
+        HTMLNode atomicModelLabel = new HTMLNode( SimStrings.get( "label.atomicModel" ) );
         atomicModelLabel.setFont( TITLE_FONT );
-        atomicModelLabel.setTextPaint( TITLE_COLOR );
+        atomicModelLabel.setHTMLColor( TITLE_COLOR );
         widthNodes.add( atomicModelLabel );
         heightNodes.add( atomicModelLabel );
         
