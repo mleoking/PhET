@@ -79,7 +79,10 @@ public class HAConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.WHITE;
+    public static final Color CANVAS_BACKGROUND = Color.BLACK;
+    
+    // Color of labels placed directly on the play area
+    public static final Color CANVAS_LABELS_COLOR = Color.WHITE;
     
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
