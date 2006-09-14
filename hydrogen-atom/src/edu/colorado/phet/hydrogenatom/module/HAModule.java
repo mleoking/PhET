@@ -25,6 +25,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
@@ -262,11 +263,11 @@ public class HAModule extends PiccoloModule {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         _blackBox.open();
-        _gunNode.getGunTypeControlPanel().setLightSelected();
-        _gunNode.getLightControlPanel().getLightTypeControl().setMonochromaticSelected();
-        _gunNode.getLightControlPanel().getIntensityControl().setValue( 100 );
-        _gunNode.getLightControlPanel().getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
-        _gunNode.getAlphaParticleControlPanel().getIntensityControl().setValue( 100 );
+        _gunNode.getGunControlPanel().getGunTypeControl().setLightSelected();
+        _gunNode.getGunControlPanel().getLightTypeControl().setMonochromaticSelected();
+        _gunNode.getGunControlPanel().getLightIntensityControl().setValue( 100 );
+        _gunNode.getGunControlPanel().getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
+        _gunNode.getGunControlPanel().getAlphaParticlesIntensityControl().setValue( 100 );
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
     }

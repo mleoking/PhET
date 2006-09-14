@@ -11,11 +11,15 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -29,13 +33,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * GunTypeControlPanel is the control panel that determines what the guns shoots,
+ * GunTypeControl is the control that determines what the guns shoots,
  * either light (photons) or alpha particles.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunTypeControlPanel extends PhetPNode {
+public class GunTypeControl extends PhetPNode {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -49,7 +53,7 @@ public class GunTypeControlPanel extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GunTypeControlPanel( PSwingCanvas canvas ) {
+    public GunTypeControl( PSwingCanvas canvas ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -91,13 +95,14 @@ public class GunTypeControlPanel extends PhetPNode {
         
         // Layout
         JPanel panel = new JPanel();
-        panel.setBorder( HAConstants.CONTROL_PANEL_BORDER );
+        panel.setBorder( new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setInsets( new Insets( 0, 0, 0, 5 ) ); // top,left,bottom,right
         panel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
-        layout.addComponent( photonsControl, row++, col );
+        layout.addComponent( photonsControl, row, col++ );
         layout.addComponent( alphaParticleControl, row, col );
         
         // Piccolo wrapper for panel
@@ -109,14 +114,9 @@ public class GunTypeControlPanel extends PhetPNode {
         _alphaParticlesButton.setFont( HAConstants.CONTROL_FONT );
         
         // Opacity
-        panel.setOpaque( true );
+        panel.setOpaque( false );
         _lightButton.setOpaque( false );
         _alphaParticlesButton.setOpaque( false );
-
-        // Colors
-        panel.setBackground( HAConstants.GUN_CONTROLS_BACKGROUND );
-        _lightButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
-        _alphaParticlesButton.setForeground( HAConstants.GUN_CONTROLS_FOREGROUND );
         
         // Default state
         setLightSelected();
@@ -140,6 +140,11 @@ public class GunTypeControlPanel extends PhetPNode {
     
     public boolean isAlphaParticlesSelected() {
         return _alphaParticlesButton.isSelected();
+    }
+    
+    public void setLabelsForeground( Color color ) {
+        _lightButton.setForeground( color );
+        _alphaParticlesButton.setForeground( color );
     }
     
     //----------------------------------------------------------------------------

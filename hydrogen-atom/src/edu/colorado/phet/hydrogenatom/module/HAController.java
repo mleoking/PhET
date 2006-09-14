@@ -77,31 +77,31 @@ public class HAController {
            }
         });
         
-        _gunNode.getGunTypeControlPanel().addChangeListener( new ChangeListener() {
+        _gunNode.getGunControlPanel().getGunTypeControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleGunTypeChange();
             }
         } );
         
-        _gunNode.getLightControlPanel().getLightTypeControl().addChangeListener( new ChangeListener() {
+        _gunNode.getGunControlPanel().getLightTypeControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightTypeChange();
             }
         } );
         
-        _gunNode.getLightControlPanel().getIntensityControl().addChangeListener( new ChangeListener() {
+        _gunNode.getGunControlPanel().getLightIntensityControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightIntensityChange();
             }
         } );
         
-        _gunNode.getLightControlPanel().getWavelengthControl().addChangeListener( new ChangeListener() {
+        _gunNode.getGunControlPanel().getWavelengthControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightWavelengthChange();
             }
         } );
         
-        _gunNode.getAlphaParticleControlPanel().getIntensityControl().addChangeListener( new ChangeListener() {
+        _gunNode.getGunControlPanel().getAlphaParticlesIntensityControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleAlphaParticleIntensityChange();
             }

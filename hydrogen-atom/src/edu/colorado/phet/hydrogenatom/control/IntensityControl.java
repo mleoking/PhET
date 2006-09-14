@@ -11,16 +11,14 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -36,7 +34,7 @@ public class IntensityControl extends JPanel {
     //----------------------------------------------------------------------------
     
     private ColorIntensitySlider _slider;
-    private JFormattedTextField _textField;
+    private JFormattedTextField _formattedTextField;
     private JLabel _units;
     private EventListenerList _listenerList;
     
@@ -53,17 +51,18 @@ public class IntensityControl extends JPanel {
         _slider = new ColorIntensitySlider( Color.RED, ColorIntensitySlider.HORIZONTAL, size );
         _slider.addChangeListener( listener );
         
-        _textField = new JFormattedTextField();
-        _textField.setColumns( 2 );
-        _textField.addActionListener( listener );
-        _textField.addFocusListener( listener );
-        _textField.addKeyListener( listener );
+        _formattedTextField = new JFormattedTextField();
+        _formattedTextField.setColumns( 3 );
+        _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
+        _formattedTextField.addActionListener( listener );
+        _formattedTextField.addFocusListener( listener );
+        _formattedTextField.addKeyListener( listener );
         
         _units = new JLabel( "%" );
         _units.setFont( HAConstants.CONTROL_FONT );
         
         // Fonts
-        _textField.setFont( HAConstants.CONTROL_FONT );
+        _formattedTextField.setFont( HAConstants.CONTROL_FONT );
         
         // Opacity
         setOpaque( false );
@@ -72,12 +71,13 @@ public class IntensityControl extends JPanel {
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        layout.setInsets( new Insets( 0, 0, 0, 0 ) ); // top, left, bottom, right
         this.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
         layout.addComponent( _slider, row, col++ );
-        layout.addComponent( _textField, row, col++ );
+        layout.addComponent( _formattedTextField, row, col++ );
         layout.addComponent( _units, row, col++ );
         
         // Default state
@@ -113,7 +113,7 @@ public class IntensityControl extends JPanel {
     private void updateSlider() {
         boolean error = false;
         
-        String s = _textField.getText();
+        String s = _formattedTextField.getText();
         try {
             int i = Integer.parseInt( s );
             if ( i >= _slider.getMinimum() && i <= _slider.getMaximum() ) {
@@ -136,7 +136,7 @@ public class IntensityControl extends JPanel {
     private void updateTextField() {
         final int value = _slider.getValue();
         String s = "" + value;
-        _textField.setText( s );
+        _formattedTextField.setText( s );
     }
     
     /*
@@ -186,7 +186,7 @@ public class IntensityControl extends JPanel {
         
         /* Use the up/down arrow keys to change the value. */
         public void keyPressed( KeyEvent e ) {
-            if ( e.getSource() == _textField ) {
+            if ( e.getSource() == _formattedTextField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final int value = _slider.getValue() + 1;
                     setValue( value );
@@ -200,7 +200,7 @@ public class IntensityControl extends JPanel {
         
         /* User pressed enter in text field. */
         public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _textField ) {
+            if ( e.getSource() == _formattedTextField ) {
                 updateSlider();
                 fireChangeEvent( new ChangeEvent( this ) );
             }
@@ -218,8 +218,8 @@ public class IntensityControl extends JPanel {
          * Selects the entire value text field when it gains focus.
          */
         public void focusGained( FocusEvent e ) {
-            if ( e.getSource() == _textField ) {
-                _textField.selectAll();
+            if ( e.getSource() == _formattedTextField ) {
+                _formattedTextField.selectAll();
             }
         }
         
@@ -227,9 +227,9 @@ public class IntensityControl extends JPanel {
          * Processes the contents of the value text field when it loses focus.
          */
         public void focusLost( FocusEvent e ) {
-            if ( e.getSource() == _textField ) {
+            if ( e.getSource() == _formattedTextField ) {
                 try {
-                    _textField.commitEdit();
+                    _formattedTextField.commitEdit();
                     updateSlider();
                 }
                 catch ( ParseException pe ) {
