@@ -1,11 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.model.components;
 
-import edu.colorado.phet.cck3.circuit.PathBranch;
-import edu.colorado.phet.cck3.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.view.util.DoubleGeneralPath;

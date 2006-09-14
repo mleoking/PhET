@@ -2,8 +2,8 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.chart.DoubleTerminalFloatingChart;
 import edu.colorado.phet.cck3.chart.TwoTerminalValueReader;
-import edu.colorado.phet.cck3.circuit.CircuitGraphic;
-import edu.colorado.phet.cck3.circuit.VoltageCalculation;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 

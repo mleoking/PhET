@@ -3,13 +3,14 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.chart.CCKTime;
-import edu.colorado.phet.cck3.circuit.CircuitGraphic;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
-import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
-import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
+import edu.colorado.phet.cck3.chart.CurrentStripChart;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
