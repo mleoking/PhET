@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCKApparatusPanel;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.components.*;

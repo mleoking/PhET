@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.debug;
+package edu.colorado.phet.cck3.common;
 
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.util.SimpleObserver;

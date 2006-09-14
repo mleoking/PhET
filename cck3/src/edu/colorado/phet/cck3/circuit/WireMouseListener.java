@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.BranchSet;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;

@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck3.model;
 
+import edu.colorado.phet.cck3.model.components.Branch;
+
 /**
  * User: Sam Reid
  * Date: Sep 12, 2006

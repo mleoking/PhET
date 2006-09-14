@@ -4,7 +4,6 @@ package edu.colorado.phet.cck3.circuit.toolbox;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.common.PhetTooltipControl;
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.ComponentDimension;
 import edu.colorado.phet.cck3.model.Junction;

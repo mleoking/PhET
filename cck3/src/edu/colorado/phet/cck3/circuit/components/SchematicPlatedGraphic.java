@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;

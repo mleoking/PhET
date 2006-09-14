@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.chart;
 
-import edu.colorado.phet.cck3.circuit.components.CCKStrings;
+import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;

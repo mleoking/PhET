@@ -2,7 +2,11 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
-import edu.colorado.phet.cck3.model.*;
+import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitListener;
+import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;

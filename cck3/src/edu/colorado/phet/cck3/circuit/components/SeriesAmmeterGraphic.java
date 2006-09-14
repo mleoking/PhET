@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
+import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.cck3.model.components.SeriesAmmeter;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;

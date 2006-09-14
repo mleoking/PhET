@@ -5,7 +5,7 @@ import edu.colorado.phet.cck3.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.cck3.circuit.BranchGraphic;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
-import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;

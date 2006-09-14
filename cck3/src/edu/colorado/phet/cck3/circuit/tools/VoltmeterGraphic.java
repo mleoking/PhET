@@ -5,7 +5,7 @@ import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.circuit.VoltageCalculation;
-import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
+import edu.colorado.phet.cck3.common.SimpleObservableDebug;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;

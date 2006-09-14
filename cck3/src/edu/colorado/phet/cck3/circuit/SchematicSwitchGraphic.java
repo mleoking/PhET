@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.cck3.model.components.Switch;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;

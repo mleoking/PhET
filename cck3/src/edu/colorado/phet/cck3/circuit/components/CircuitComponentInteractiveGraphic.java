@@ -3,9 +3,9 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.*;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -321,7 +321,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             final JMenuItem flip = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    bulb.flip( module );
+                    bulb.flip( module.getCircuit() );
                 }
             } );
             menu.addPopupMenuListener( new PopupMenuListener() {

@@ -1,8 +1,9 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.model;
+package edu.colorado.phet.cck3.model.components;
 
 import edu.colorado.phet.cck3.circuit.CompositeCircuitChangeListener;
-import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
+import edu.colorado.phet.cck3.common.SimpleObservableDebug;
+import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -18,8 +19,7 @@ import java.util.ArrayList;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class Branch extends SimpleObservableDebug {
-//    public static final double WIRE_RESISTANCE_MIN = 0.0001;
-    double resistance = CCKModel.MIN_RESISTANCE;//WIRE_RESISTANCE_MIN;
+    double resistance = CCKModel.MIN_RESISTANCE;
     double current;
     double voltageDrop;
     private Junction startJunction;

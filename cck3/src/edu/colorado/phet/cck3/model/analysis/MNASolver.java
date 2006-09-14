@@ -2,12 +2,8 @@
 package edu.colorado.phet.cck3.model.analysis;
 
 import edu.colorado.phet.cck.mna.MNACircuit;
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.Circuit;
-import edu.colorado.phet.cck3.model.components.Battery;
-import edu.colorado.phet.cck3.model.components.Capacitor;
-import edu.colorado.phet.cck3.model.components.Inductor;
-import edu.colorado.phet.cck3.model.components.Resistor;
+import edu.colorado.phet.cck3.model.components.*;
 
 import java.util.ArrayList;
 

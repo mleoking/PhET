@@ -1,10 +1,10 @@
 package edu.colorado.phet.cck3.model.analysis;
 
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Resistor;
 import edu.colorado.phet.cck3.model.components.Switch;
 

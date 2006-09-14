@@ -9,6 +9,7 @@ import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;

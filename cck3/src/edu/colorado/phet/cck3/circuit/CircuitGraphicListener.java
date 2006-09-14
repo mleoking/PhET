@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
 
 /**

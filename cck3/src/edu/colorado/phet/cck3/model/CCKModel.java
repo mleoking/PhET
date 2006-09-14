@@ -14,6 +14,7 @@ import edu.colorado.phet.cck3.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.model.analysis.MNASolver;
 import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.model.components.Branch;
 
 import java.awt.geom.Rectangle2D;
 
