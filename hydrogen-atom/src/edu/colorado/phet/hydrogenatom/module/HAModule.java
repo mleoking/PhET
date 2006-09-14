@@ -320,7 +320,11 @@ public class HAModule extends PiccoloModule {
         
         // Black box
         {
-            _blackBox.setOffset( 400, 50 );//XXX
+            PBounds gb = _gunNode.getFullBounds();
+            PBounds ntsb = _notToScaleLabel.getFullBounds();
+            x = gb.getX() + gb.getWidth() + xSpacing;
+            y = 10 + ntsb.getHeight() + 10;
+            _blackBox.setOffset( x, y );
         }
         
         // Gun control panel
@@ -360,7 +364,7 @@ public class HAModule extends PiccoloModule {
         // Spectrometer, in bottom right corner.
         {
             PBounds bb = _blackBox.getBackNode().getFullBounds();
-            PBounds gb = _gunNode.getFullBounds();
+            PBounds gb = _gunControlPanel.getFullBounds();
             final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
             x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometer.getFullBounds().getWidth() - xMargin );
             y = bb.getY() + bb.getHeight() + ySpacing;

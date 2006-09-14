@@ -25,6 +25,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/14/06) - translate to Spanish and test layout
 (9/14/06) - change size and color of spectrometer image so it doesn't look the control panels
 (9/14/06) - separate gun control panel out of GunNode
 (9/14/06) - redo gun control panel, integrate gun type control, add sexy background
