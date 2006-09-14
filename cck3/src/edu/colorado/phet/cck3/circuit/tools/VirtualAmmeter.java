@@ -2,8 +2,12 @@
 package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCKModule;
-import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.BranchGraphic;
+import edu.colorado.phet.cck3.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.graphics.mousecontrols.Translatable;

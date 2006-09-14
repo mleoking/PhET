@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
-import edu.colorado.phet.cck3.circuit.components.Switch;
+import edu.colorado.phet.cck3.model.components.Switch;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;

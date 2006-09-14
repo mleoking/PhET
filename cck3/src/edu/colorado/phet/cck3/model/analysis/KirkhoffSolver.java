@@ -1,11 +1,11 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.circuit.analysis;
+package edu.colorado.phet.cck3.model.analysis;
 
 import Jama.Matrix;
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Battery;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck3.circuit.analysis;
+package edu.colorado.phet.cck3.model.analysis;
 
 /**
  * User: Sam Reid

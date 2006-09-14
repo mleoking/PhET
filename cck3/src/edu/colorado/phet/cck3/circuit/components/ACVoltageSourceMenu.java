@@ -2,6 +2,8 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
+import edu.colorado.phet.cck3.model.components.ACVoltageSource;
+import edu.colorado.phet.cck3.model.components.Battery;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

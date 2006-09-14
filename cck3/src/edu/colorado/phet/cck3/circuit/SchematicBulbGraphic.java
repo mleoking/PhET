@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.circuit.components.Bulb;
 import edu.colorado.phet.cck3.circuit.components.SchematicResistorGraphic;
+import edu.colorado.phet.cck3.model.components.Bulb;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;

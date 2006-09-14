@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.model.CircuitChangeListener;
+
 import java.util.ArrayList;
 
 /**

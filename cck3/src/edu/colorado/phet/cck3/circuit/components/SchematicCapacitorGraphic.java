@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.HasCapacitorClip;
+import edu.colorado.phet.cck3.model.components.Capacitor;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;

@@ -1,6 +1,6 @@
-package edu.colorado.phet.cck3.circuit.analysis;
+package edu.colorado.phet.cck3.model.analysis;
 
-import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.model.Circuit;
 
 import java.util.ArrayList;
 
