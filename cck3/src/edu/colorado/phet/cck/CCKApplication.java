@@ -7,6 +7,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
@@ -31,11 +32,17 @@ public class CCKApplication extends PiccoloPhetApplication {
     static class CCKPhetGraphicModuleAdapter extends Module {
         private CCKModule cckModule;
 
+        /* Aspect ratio panel used in single-module setups*/
+        private AspectRatioPanel aspectRatioPanel;
+
         public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
             super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
+
             cckModule = new CCKModule( args );
+            aspectRatioPanel = new AspectRatioPanel( cckModule.getCCKApparatusPanel(), 5, 5, 1.2 );
             cckModule.initControlPanel( this );
-            setSimulationPanel( cckModule.getCCKApparatusPanel() );
+//            setSimulationPanel( cckModule.getCCKApparatusPanel() );
+            setSimulationPanel( aspectRatioPanel );
             setControlPanel( cckModule.getControlPanel() );
             addModelElement( new ModelElement() {
                 public void stepInTime( double dt ) {

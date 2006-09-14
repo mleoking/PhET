@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
 
 /**
@@ -10,4 +11,8 @@ import edu.colorado.phet.piccolo.PhetPNode;
  */
 
 public class CircuitNode extends PhetPNode {
+    public void addGraphic( Wire wire ) {
+        WireNode wireNode = new WireNode( wire );
+        addChild( wireNode );
+    }
 }

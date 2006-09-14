@@ -149,6 +149,14 @@ public abstract class Branch extends SimpleObservableDebug {
         }
     }
 
+    public Point2D getStartPoint() {
+        return startJunction.getPosition();
+    }
+
+    public Point2D getEndPoint() {
+        return endJunction.getPosition();
+    }
+
     public double getX1() {
         return startJunction.getX();
     }
