@@ -47,8 +47,8 @@ public class CCKModule extends Module {
      */
     private CCKModel model;
     private CCKParameters parameters;
-    private CCK2ImageSuite imageSuite;
-    private CCK3ControlPanel cckControlPanel;
+    private CCKImageSuite imageSuite;
+    private CCKControlPanel cckControlPanel;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
@@ -73,7 +73,7 @@ public class CCKModule extends Module {
         model = new CCKModel();
 
         this.parameters = new CCKParameters( this, args );
-        imageSuite = new CCK2ImageSuite();
+        imageSuite = new CCKImageSuite();
 
         cckApparatusPanel = new CCKApparatusPanel( this, model );
         setApparatusPanel( cckApparatusPanel );
@@ -89,7 +89,7 @@ public class CCKModule extends Module {
             }
         } );
 
-        this.cckControlPanel = new CCK3ControlPanel( this );
+        this.cckControlPanel = new CCKControlPanel( this );
         setControlPanel( cckControlPanel.getComponent() );
 
         setResistivityEnabled( true );
@@ -154,7 +154,7 @@ public class CCKModule extends Module {
         return model.getCircuit();
     }
 
-    public CCK2ImageSuite getImageSuite() {
+    public CCKImageSuite getImageSuite() {
         return imageSuite;
     }
 
@@ -421,7 +421,7 @@ public class CCKModule extends Module {
         return parameters;
     }
 
-    public CCK3ControlPanel getCCKControlPanel() {
+    public CCKControlPanel getCCKControlPanel() {
         return cckControlPanel;
     }
 

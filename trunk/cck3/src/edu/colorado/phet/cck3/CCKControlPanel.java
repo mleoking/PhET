@@ -46,14 +46,14 @@ import java.util.Random;
  * Time: 11:03:06 AM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class CCK3ControlPanel extends ControlPanel {
+public class CCKControlPanel extends ControlPanel {
     private CCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private GrabBagButton grabBagButton;
     private JPanel advancedPanel;
 
-    public CCK3ControlPanel( final CCKModule module ) {
+    public CCKControlPanel( final CCKModule module ) {
         super( module );
         setTitleVisible( false );
         advancedControlPanel = new AdvancedControlPanel( module );

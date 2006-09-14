@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck3.phetgraphics_cck;
 
-import edu.colorado.phet.cck3.CCK3ControlPanel;
+import edu.colorado.phet.cck3.CCKControlPanel;
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
@@ -340,7 +340,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         getApparatusPanel().repaint();
     }
 
-    private CCK3ControlPanel getControlPanel() {
+    private CCKControlPanel getControlPanel() {
         return module.getCCKControlPanel();
     }
 

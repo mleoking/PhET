@@ -14,7 +14,7 @@ import java.io.IOException;
  * Copyright (c) Dec 6, 2003 by Sam Reid
  * Testing cvs.
  */
-public class CCK2ImageSuite {
+public class CCKImageSuite {
 
     private ImageSuite lifelikeImageSuite;
     private BufferedImage closedImage;
@@ -30,7 +30,7 @@ public class CCK2ImageSuite {
 //    private String inductorImageLoc="images/inductor1.jpg";
     private String inductorImageLoc = "images/inductor2.gif";
 
-    public CCK2ImageSuite() throws IOException {
+    public CCKImageSuite() throws IOException {
         loadImages();
     }
 
