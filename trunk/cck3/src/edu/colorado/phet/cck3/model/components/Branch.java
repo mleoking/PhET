@@ -4,9 +4,9 @@ package edu.colorado.phet.cck3.model.components;
 import edu.colorado.phet.cck3.common.SimpleObservableDebug;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CompositeCircuitChangeListener;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import java.awt.geom.Point2D;

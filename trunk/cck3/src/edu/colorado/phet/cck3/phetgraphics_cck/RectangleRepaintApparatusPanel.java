@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.phetgraphics_cck;
 
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 

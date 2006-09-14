@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common_cck.view.graphics.transforms;
 
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

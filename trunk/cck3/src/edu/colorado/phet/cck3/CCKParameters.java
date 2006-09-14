@@ -8,8 +8,8 @@ import java.util.Arrays;
  * Time: 9:22:23 AM
  * Copyright (c) Jul 7, 2006 by Sam Reid
  */
-public class SetupParameters {
-    String[] args;
+public class CCKParameters {
+    private String[] args;
     private boolean virtualLab = false;
     private boolean grabBag = true;
     private boolean allowPlainResistors = true;
@@ -23,7 +23,7 @@ public class SetupParameters {
     private boolean useVisualControlPanel = true;
     private boolean dynamics = false;
 
-    public SetupParameters( CCKModule module, String[] args ) {
+    public CCKParameters( CCKModule module, String[] args ) {
         this.args = args;
         if( containsArg( "-dynamics" ) ) {
             dynamics = true;

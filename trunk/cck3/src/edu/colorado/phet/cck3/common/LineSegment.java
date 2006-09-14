@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.util.DoubleGeneralPath;
 
 import java.awt.*;

@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck3.model.components.ACVoltageSource;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.SchematicOscillateGraphic;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 

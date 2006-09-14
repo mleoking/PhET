@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common_cck.model;
 
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 
 import java.awt.geom.Point2D;

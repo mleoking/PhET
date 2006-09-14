@@ -8,9 +8,8 @@ import edu.colorado.phet.cck3.model.components.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.*;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.*;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.ImmutableVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -121,7 +120,7 @@ public class Toolbox extends CompositeGraphic {
         double samLength = componentWidth;
         double samHeight = CCKModel.SERIES_AMMETER_DIMENSION.getHeightForLength( samLength );
         SeriesAmmeter sam = new SeriesAmmeter( module.getCircuitChangeListener(), new Point2D.Double( componentX, y ),
-                                               new ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
+                                               new edu.colorado.phet.common.math.ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
         SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, SimStrings.get( "Toolbox.AmmeterTitle" ) );
         sag.setFont( new Font( "Lucida Sans", Font.PLAIN, 8 ) );
         SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );
@@ -134,7 +133,8 @@ public class Toolbox extends CompositeGraphic {
     private double addSwitch( double componentWidth, double componentX, double y, Vector2D.Double dir, double dy ) {
         BufferedImage baseImage = module.getImageSuite().getKnifeBoardImage();
         double initialSwitchHeight = CCKModel.SWITCH_DIMENSION.getHeightForLength( componentWidth );
-        Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), dir.getScaledInstance( -1 ),
+        AbstractVector2D scaledInstance = dir.getScaledInstance( -1 );
+        Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), scaledInstance,
                                       componentWidth, initialSwitchHeight, module.getCircuitChangeListener() );
         BufferedImage leverImage = module.getImageSuite().getKnifeHandleImage();
         CircuitComponentImageGraphic sg = new CircuitComponentImageGraphic( baseImage, parent, mySwitch, transform );

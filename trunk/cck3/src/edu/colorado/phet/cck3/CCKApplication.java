@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.controls.LookAndFeelMenu;
+import edu.colorado.phet.cck3.controls.OptionsMenu;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;

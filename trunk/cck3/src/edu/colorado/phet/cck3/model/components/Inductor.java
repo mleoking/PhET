@@ -5,8 +5,8 @@ import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.DynamicBranch;
 import edu.colorado.phet.cck3.model.Junction;
-import edu.colorado.phet.common_cck.math.AbstractVector2D;
-import edu.colorado.phet.common_cck.math.Vector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
