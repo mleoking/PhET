@@ -2,10 +2,10 @@
 package edu.colorado.phet.cck3.model.analysis;
 
 import Jama.Matrix;
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.model.components.Branch;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

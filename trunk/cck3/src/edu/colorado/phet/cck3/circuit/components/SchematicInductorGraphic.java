@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;

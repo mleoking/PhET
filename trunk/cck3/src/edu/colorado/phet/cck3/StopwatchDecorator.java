@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.components.CCKStrings;
+import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.clock.StopwatchPanel;

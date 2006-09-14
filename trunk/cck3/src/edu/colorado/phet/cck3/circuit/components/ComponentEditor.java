@@ -3,9 +3,15 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.ReadoutGraphic;
-import edu.colorado.phet.cck3.model.*;
+import edu.colorado.phet.cck3.common.CCKStrings;
+import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitListener;
+import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.ACVoltageSource;
 import edu.colorado.phet.cck3.model.components.Battery;
+import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.common_cck.math.MathUtil;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;

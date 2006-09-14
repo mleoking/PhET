@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.grabbag;
 
 import edu.colorado.phet.cck3.CCKModule;
-import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Resistor;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.model;
 
-import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
+import edu.colorado.phet.cck3.common.SimpleObservableDebug;
 
 import java.awt.geom.Point2D;
 

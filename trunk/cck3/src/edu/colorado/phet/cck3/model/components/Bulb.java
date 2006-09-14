@@ -1,9 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.model.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.components.BulbComponentGraphic;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
@@ -178,8 +176,7 @@ public class Bulb extends CircuitComponent {
         filament.setConnectAtRight( connectAtRight );
     }
 
-    public void flip( CCKModule module ) {
-        Circuit circuit = module.getCircuit();
+    public void flip( Circuit circuit ) {
         connectAtRight = !connectAtRight;
         filament.setConnectAtRight( connectAtRight );
         double sign = -1;

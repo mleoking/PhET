@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.components.CCKStrings;
+import edu.colorado.phet.cck3.common.CCKStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.components.CCKStrings;
+import edu.colorado.phet.cck3.common.CCKStrings;
 import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.Circuit;
@@ -90,7 +90,7 @@ public class CCK3ControlPanel extends ControlPanel {
         JButton xml = new JButton( SimStrings.get( "CCK3ControlPanel.ShowXMLButton" ) );
         xml.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getCircuit().toXML();
+                CircuitXML.toXML( module.getCircuit() );
             }
         } );
 
@@ -387,7 +387,7 @@ public class CCK3ControlPanel extends ControlPanel {
         parser.setValidator( new NonValidator() );
 
         IXMLElement parsed = (IXMLElement)parser.parse();
-        Circuit circuit = Circuit.parseXML( parsed, module.getCircuitChangeListener(), module );
+        Circuit circuit = CircuitXML.parseXML( parsed, module.getCircuitChangeListener(), module );
         module.setCircuit( circuit );
     }
 
@@ -395,7 +395,7 @@ public class CCK3ControlPanel extends ControlPanel {
         ServiceSource ss = new ServiceSource();
         FileSaveService fos = ss.getFileSaveService( module.getApparatusPanel() );
 
-        XMLElement xml = module.getCircuit().toXML();
+        XMLElement xml = CircuitXML.toXML( module.getCircuit() );
         StringWriter sw = new StringWriter();
         XMLWriter writer = new XMLWriter( sw );
         writer.write( xml );

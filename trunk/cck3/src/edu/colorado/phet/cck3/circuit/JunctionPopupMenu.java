@@ -3,9 +3,9 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
-import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Branch;
 
 import javax.swing.*;
 import java.awt.*;

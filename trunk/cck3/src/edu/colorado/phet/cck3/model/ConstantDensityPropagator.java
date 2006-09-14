@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.model;
 
 import edu.colorado.phet.cck3.FireHandler;
+import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.common_cck.model.ModelElement;
 
 import java.text.DecimalFormat;
@@ -97,21 +98,6 @@ public class ConstantDensityPropagator implements ModelElement {
         }
     }
 
-//    private void notifyAverageChanged() {
-//
-//        if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
-//            if( !module.getParameters().hideAllElectrons() ) {
-//                module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
-//                                                      + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
-//                module.getTimescaleGraphic().setVisible( true );
-//            }
-//        }
-//        else {
-//            module.getTimescaleGraphic().setText( "" );
-//            module.getTimescaleGraphic().setVisible( false );
-//        }
-//    }
-
     private double getMaxCurrent() {
         double max = 0;
         for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -139,7 +125,7 @@ public class ConstantDensityPropagator implements ModelElement {
 
     private void equalize( Electron e, double dt ) {
         //if it has a lower and upper neighbor, try to get the distance to each to be half of
-        //CCK3Module.ELECTRON_DX
+        //ELECTRON_DX
         Electron upper = particleSet.getUpperNeighborInBranch( e );
         Electron lower = particleSet.getLowerNeighborInBranch( e );
         if( upper == null || lower == null ) {
