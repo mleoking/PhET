@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.common_cck.model.ModelElement;
@@ -29,13 +28,17 @@ public class ParticleSet implements ModelElement {
         return density;
     }
 
-    public ParticleSet( CCKModule module, Circuit circuit ) {
-        propagator = new ConstantDensityPropagator( module, this, circuit );
+    public ParticleSet( Circuit circuit ) {
+        propagator = new ConstantDensityPropagator( this, circuit );
         this.circuit = circuit;
     }
 
     public void addParticle( Electron e ) {
         particles.add( e );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.particleAdded( e );
+        }
     }
 
     public void clear() {
@@ -68,6 +71,25 @@ public class ParticleSet implements ModelElement {
         return (Electron[])all.toArray( new Electron[0] );
     }
 
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void particlesRemoved( Electron[]electrons );
+
+        void particleAdded( Electron e );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners( Electron[]p ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.particlesRemoved( p );
+        }
+    }
+
     public Electron[] removeParticles( Branch branch ) {
         Electron[] p = getParticles( branch );
         for( int i = 0; i < p.length; i++ ) {
@@ -76,6 +98,7 @@ public class ParticleSet implements ModelElement {
             electron.delete();
         }
         storage.removeParticles( branch );
+        notifyListeners( p );
         return p;
     }
 
@@ -145,6 +168,10 @@ public class ParticleSet implements ModelElement {
             }
         }
         return lower;
+    }
+
+    public ConstantDensityPropagator getPropagator() {
+        return propagator;
     }
 
     class Storage {

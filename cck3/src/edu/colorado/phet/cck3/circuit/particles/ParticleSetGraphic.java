@@ -23,6 +23,15 @@ public class ParticleSetGraphic extends CompositeGraphic {
     public ParticleSetGraphic( CCKModule module ) throws IOException {
         this.module = module;
         this.image = module.getImageSuite().getParticleImage();
+        this.module.getParticleSet().addListener( new ParticleSet.Listener() {
+            public void particlesRemoved( Electron[]electrons ) {
+                removeGraphics( electrons );
+            }
+
+            public void particleAdded( Electron e ) {
+                addGraphic( e );
+            }
+        } );
     }
 
     public void addGraphic( Electron e ) {

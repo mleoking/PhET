@@ -11,7 +11,6 @@
 package edu.colorado.phet.cck3.model;
 
 import edu.colorado.phet.cck3.BulbDimension;
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.ResistivityManager;
 import edu.colorado.phet.cck3.circuit.Branch;
@@ -74,7 +73,7 @@ public class CCKModel {
     public static final double SCH_BULB_DIST = 1;
 
 
-    public CCKModel( CCKModule module ) {
+    public CCKModel() {
         // Create the circuitSolver and the listener that will invoke it
 
         circuitChangeListener = new CircuitChangeListener() {
@@ -90,10 +89,9 @@ public class CCKModel {
         };
         this.circuit = new Circuit( circuitChangeListener );
         circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
-        particleSet = new ParticleSet( module, getCircuit() );
-        layout = new ConstantDensityLayout( module );
+        particleSet = new ParticleSet( getCircuit() );
+        layout = new ConstantDensityLayout( getCircuit(), particleSet );
         getCircuit().addCircuitListener( layout );
-        module.addModelElement( particleSet );
 
         this.resistivityManager = new ResistivityManager( getCircuit() );
         getCircuit().addCircuitListener( resistivityManager );
@@ -106,6 +104,7 @@ public class CCKModel {
             getCircuit().stepInTime( dt );
             circuitSolver.apply( getCircuit() );
         }
+        particleSet.stepInTime( dt );
     }
 
     public Circuit getCircuit() {
