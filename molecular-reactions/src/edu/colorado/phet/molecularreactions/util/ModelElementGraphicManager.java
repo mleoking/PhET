@@ -146,8 +146,14 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         // and add it to the view
         if( graphicFactory != null ) {
             graphic = graphicFactory.createGraphic( modelElement );
+
+            // If the graphic factory has a layer associated with it, put the
+            // graphic on that layer. Otherwise, put it right on the canvas
             if( graphicFactory.getLayer() != null ) {
                 layer = graphicFactory.getLayer();
+            }
+            else {
+                layer = canvas;
             }
             if( invisibleGraphicClasses.contains( graphic.getClass() ) ) {
                 graphic.setVisible( false );
