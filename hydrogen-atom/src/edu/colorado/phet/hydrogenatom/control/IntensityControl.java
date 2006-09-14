@@ -44,13 +44,13 @@ public class IntensityControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntensityControl() {
+    public IntensityControl( Dimension size ) {
         super();
         
         _listenerList = new EventListenerList();
         EventHandler listener = new EventHandler();
         
-        _slider = new ColorIntensitySlider( Color.RED, ColorIntensitySlider.HORIZONTAL, new Dimension( 175, 25 ) );
+        _slider = new ColorIntensitySlider( Color.RED, ColorIntensitySlider.HORIZONTAL, size );
         _slider.addChangeListener( listener );
         
         _textField = new JFormattedTextField();
