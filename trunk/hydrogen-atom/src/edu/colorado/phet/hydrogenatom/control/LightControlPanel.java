@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -36,6 +37,7 @@ public class LightControlPanel extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final double MARGIN = 30;
+    private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension( 175, 20 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -57,7 +59,7 @@ public class LightControlPanel extends PhetPNode {
         
         // Components
         _lightTypeControl = new LightTypeControl();
-        _intensityControl = new IntensityControl();
+        _intensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );
         _wavelengthControl = new WavelengthControl( canvas,
                 HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
                 HAConstants.UV_COLOR, HAConstants.IR_COLOR );
@@ -144,7 +146,7 @@ public class LightControlPanel extends PhetPNode {
             _wavelengthControl.setVisible( true );
         }
         else {
-            _intensityControl.setColor( HAConstants.UV_COLOR );
+            _intensityControl.setColor( Color.WHITE );
             _wavelengthControl.setVisible( false );
         }
     }

@@ -13,6 +13,7 @@ package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -70,6 +71,7 @@ public class LightTypeControl extends JPanel {
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        layout.setInsets( new Insets( 0, 5, 0, 5 ) );
         this.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;

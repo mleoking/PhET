@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
@@ -30,6 +31,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class AlphaParticleControlPanel extends PhetPNode {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension( 175, 20 );
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -46,7 +53,7 @@ public class AlphaParticleControlPanel extends PhetPNode {
         super();
         
         // Components
-        _intensityControl = new IntensityControl();
+        _intensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );
         _intensityControl.setColor( HAConstants.ALPHA_PARTICLES_COLOR );
         
         // Panel
