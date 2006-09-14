@@ -28,19 +28,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @version $Revision$
  */
 public class GunNode extends PhetPNode {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static double PANEL_Y_OFFSET = 350;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private GunOnOffControl _gunOnOffControl;
-    private GunControlPanel _gunControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +44,6 @@ public class GunNode extends PhetPNode {
         super();
         
         _gunOnOffControl = new GunOnOffControl();
-        _gunControlPanel = new GunControlPanel( canvas );
        
         // Cable that physically connects gun to control panels
         PImage cableNode = PImageFactory.create( HAConstants.IMAGE_GUN_CONTROL_CABLE );
@@ -59,12 +51,10 @@ public class GunNode extends PhetPNode {
         // Add nodes in background-to-foreground order
         addChild( cableNode );
         addChild( _gunOnOffControl );
-        addChild( _gunControlPanel );
         
         // Layout
         _gunOnOffControl.setOffset( 0, 0 );
         cableNode.setOffset( 13, 175 );
-        _gunControlPanel.setOffset( 0, PANEL_Y_OFFSET );
     }
     
     //----------------------------------------------------------------------------
@@ -73,9 +63,5 @@ public class GunNode extends PhetPNode {
     
     public GunOnOffControl getGunOnOffControl() {
         return _gunOnOffControl;
-    }
-    
-    public GunControlPanel getGunControlPanel() {
-        return _gunControlPanel;
     }
 }

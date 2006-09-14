@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener;
@@ -32,6 +33,7 @@ public class HAController {
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
     private GunNode _gunNode;
+    private GunControlPanel _gunControlPanel;
     private JCheckBox _energyDiagramCheckBox;
     private Spectrometer _spectrometer;
     private JCheckBox _spectrometerCheckBox;
@@ -42,6 +44,7 @@ public class HAController {
             ModeSwitch modeSwitch,
             AtomicModelSelector atomicModelSelector,
             GunNode gunNode,
+            GunControlPanel gunControlPanel,
             JCheckBox energyDiagramCheckBox,
             Spectrometer spectrometer,
             JCheckBox spectrometerCheckBox )
@@ -50,6 +53,7 @@ public class HAController {
         _modeSwitch = modeSwitch;
         _atomicModelSelector = atomicModelSelector;
         _gunNode = gunNode;
+        _gunControlPanel = gunControlPanel;
         _energyDiagramCheckBox = energyDiagramCheckBox;
         _spectrometer = spectrometer;
         _spectrometerCheckBox = spectrometerCheckBox;
@@ -77,31 +81,31 @@ public class HAController {
            }
         });
         
-        _gunNode.getGunControlPanel().getGunTypeControl().addChangeListener( new ChangeListener() {
+        _gunControlPanel.getGunTypeControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleGunTypeChange();
             }
         } );
         
-        _gunNode.getGunControlPanel().getLightTypeControl().addChangeListener( new ChangeListener() {
+        _gunControlPanel.getLightTypeControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightTypeChange();
             }
         } );
         
-        _gunNode.getGunControlPanel().getLightIntensityControl().addChangeListener( new ChangeListener() {
+        _gunControlPanel.getLightIntensityControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightIntensityChange();
             }
         } );
         
-        _gunNode.getGunControlPanel().getWavelengthControl().addChangeListener( new ChangeListener() {
+        _gunControlPanel.getWavelengthControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleLightWavelengthChange();
             }
         } );
         
-        _gunNode.getGunControlPanel().getAlphaParticlesIntensityControl().addChangeListener( new ChangeListener() {
+        _gunControlPanel.getAlphaParticlesIntensityControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleAlphaParticleIntensityChange();
             }
