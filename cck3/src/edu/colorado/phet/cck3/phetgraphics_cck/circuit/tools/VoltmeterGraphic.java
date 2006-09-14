@@ -1,11 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.SimpleObservableDebug;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

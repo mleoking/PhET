@@ -1,15 +1,15 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;

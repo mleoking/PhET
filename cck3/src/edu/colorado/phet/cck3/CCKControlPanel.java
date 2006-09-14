@@ -10,11 +10,11 @@ import edu.colorado.phet.cck3.model.ResistivityManager;
 import edu.colorado.phet.cck3.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.HelpPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
-import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common_cck.view.util.ImageLoader;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
-import edu.colorado.phet.common_cck.view.util.SwingUtils;
 import net.n3.nanoxml.*;
 import org.srr.localjnlp.ServiceSource;
 import org.srr.localjnlp.local.InputStreamFileContents;
@@ -453,7 +453,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         String plainText = je + "\n" + le + "\n" + oh + "\n";
         JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
-                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
+                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
         };

@@ -1,22 +1,22 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.components;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.cck3.model.components.SeriesAmmeter;
 import edu.colorado.phet.cck3.phetgraphics_cck.CCKCompositePhetGraphic;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.IComponentGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTransformGraphic;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

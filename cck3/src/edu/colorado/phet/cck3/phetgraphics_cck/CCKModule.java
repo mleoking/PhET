@@ -1,6 +1,7 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3;
+package edu.colorado.phet.cck3.phetgraphics_cck;
 
+import edu.colorado.phet.cck3.*;
 import edu.colorado.phet.cck3.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck3.chart.CCKTime;
 import edu.colorado.phet.cck3.chart.CurrentStripChart;
@@ -8,13 +9,12 @@ import edu.colorado.phet.cck3.chart.VoltageStripChart;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.model.components.Branch;
-import edu.colorado.phet.cck3.phetgraphics_cck.CCKApparatusPanel;
-import edu.colorado.phet.cck3.phetgraphics_cck.RectangleRepaintApparatusPanel;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
 import edu.colorado.phet.common_cck.model.BaseModel;
@@ -22,7 +22,6 @@ import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -298,11 +297,11 @@ public class CCKModule extends Module implements ICCKModule {
         getCircuit().selectAll();
     }
 
-    void resetDynamics() {
+    public void resetDynamics() {
         getCircuit().resetDynamics();
     }
 
-    void clockTickFinished() {
+    public void clockTickFinished() {
         if( cckApparatusPanel != null ) {
             cckApparatusPanel.synchronizeImmediately();
         }

@@ -1,16 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.toolbox;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.CircuitChangeListener;
 import edu.colorado.phet.cck3.model.ComponentDimension;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.*;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck3.phetgraphics_cck.PhetTooltipControl;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -20,7 +21,6 @@ import edu.colorado.phet.common_cck.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;

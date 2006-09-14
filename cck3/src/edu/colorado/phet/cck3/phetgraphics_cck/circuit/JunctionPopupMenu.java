@@ -1,11 +1,11 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 
 import javax.swing.*;
 import java.awt.*;

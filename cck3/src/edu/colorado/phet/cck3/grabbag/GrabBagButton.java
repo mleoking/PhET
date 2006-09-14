@@ -5,9 +5,9 @@ import edu.colorado.phet.cck3.ICCKModule;
 import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Resistor;
 import edu.colorado.phet.cck3.phetgraphics_cck.HasCircuitGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.util.SwingUtils;
 
 import javax.swing.*;

@@ -1,7 +1,6 @@
 package edu.colorado.phet.cck3.phetgraphics_cck;
 
 import edu.colorado.phet.cck3.CCKControlPanel;
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
@@ -16,6 +15,7 @@ import edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_cck.view.graphics.Boundary;
@@ -26,7 +26,6 @@ import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;

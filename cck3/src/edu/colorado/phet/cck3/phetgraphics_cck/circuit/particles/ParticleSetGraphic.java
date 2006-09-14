@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.phetgraphics_cck.circuit.particles;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.model.Electron;
 import edu.colorado.phet.cck3.model.ParticleSet;
+import edu.colorado.phet.cck3.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 
 import java.awt.image.BufferedImage;

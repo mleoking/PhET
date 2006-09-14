@@ -4,10 +4,10 @@ package edu.colorado.phet.cck3.phetgraphics_cck.circuit.components;
 import edu.colorado.phet.cck3.common.RoundGradientPaint;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
