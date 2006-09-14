@@ -33,11 +33,19 @@ import java.awt.geom.Rectangle2D;
  */
 public class CCKModel {
     private Circuit circuit;
+    private CircuitSolver circuitSolver;
+    private ResistivityManager resistivityManager;
+    private boolean internalResistanceOn = false;
 
-    // Moved from CCKModule
     private ParticleSet particleSet;
     private ConstantDensityLayout layout;
-    private CircuitSolver circuitSolver;
+
+    private boolean modelChanged = false;
+    private CircuitChangeListener circuitChangeListener;
+
+    /**
+     * Scale and size information.
+     */
     private double aspectRatio = 1.2;
     private static final double SCALE = .5;
     private double modelWidth = 10;
@@ -59,16 +67,11 @@ public class CCKModel {
     private static double bulbDistJ = .39333;
     private static double bulbScale = 1.9;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
-
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
     public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
     public static final double JUNCTION_RADIUS = .162;
-    private boolean modelChanged = false;
 
-    private CircuitChangeListener circuitChangeListener;
 
-    private ResistivityManager resistivityManager;
-    private boolean internalResistanceOn = false;
     public static final double MIN_RESISTANCE = 1E-8;
     public static final double SCH_BULB_DIST = 1;
 

@@ -75,10 +75,9 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
 
         if( getElectronsVisible() ) {
             double offset = CCKModel.ELECTRON_DX / 2;
-            double startingPoint = offset;
             double endingPoint = branch.getLength() - offset;
             //compress or expand, but fix a particle at startingPoint and endingPoint.
-            double L = endingPoint - startingPoint;
+            double L = endingPoint - offset;
             double desiredDensity = 1 / CCKModel.ELECTRON_DX;
             double N = L * desiredDensity;
             int integralNumberParticles = (int)Math.ceil( N );
@@ -88,7 +87,7 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
                 integralNumberParticles = 0;
             }
             for( int i = 0; i < integralNumberParticles; i++ ) {
-                particleSet.addParticle( new Electron( branch, i * dx + startingPoint ) );
+                particleSet.addParticle( new Electron( branch, i * dx + offset ) );
             }
         }
     }

@@ -78,12 +78,7 @@ public class CCKModule extends Module {
         setApparatusPanel( cckApparatusPanel );
 
         stripChartClock.start();
-        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.scale, "s" ) ) );
-        stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        stopwatch.addInputEventListener( new PDragEventHandler() );
-        getApparatusPanel().addScreenChild( stopwatch );
-        stopwatch.setOffset( 150, 150 );
-        stopwatch.setVisible( false );
+        setupStopwatch();
 
         // Create a BaseModel that will get clock ticks and add a model element to
         // it that will tell the CCKModel to step
@@ -100,6 +95,15 @@ public class CCKModule extends Module {
         setInternalResistanceOn( true );
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
+    }
+
+    private void setupStopwatch() {
+        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.scale, "s" ) ) );
+        stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        stopwatch.addInputEventListener( new PDragEventHandler() );
+        getApparatusPanel().addScreenChild( stopwatch );
+        stopwatch.setOffset( 150, 150 );
+        stopwatch.setVisible( false );
     }
 
     public RectangleRepaintApparatusPanel getCCKApparatusPanel() {
