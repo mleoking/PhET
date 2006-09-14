@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.cck3.phetcommon;
+package edu.colorado.phet.cck3.common;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 

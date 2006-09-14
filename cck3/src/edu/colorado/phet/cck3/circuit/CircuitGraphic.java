@@ -3,7 +3,6 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCKApparatusPanel;
 import edu.colorado.phet.cck3.CCKModule;
-import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;

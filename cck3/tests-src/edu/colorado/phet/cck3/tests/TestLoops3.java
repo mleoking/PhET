@@ -1,11 +1,11 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests;
 
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.analysis.Path;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitChangeListener;
+import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.analysis.Path;
 
 /**
  * User: Sam Reid
