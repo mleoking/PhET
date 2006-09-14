@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- text in control panels is hard to read
+- all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - UV range of wavelength control is hard to see against gray control panel
 - design a gun control that shoots either one-shot or continuous
 - change canvas background to black
