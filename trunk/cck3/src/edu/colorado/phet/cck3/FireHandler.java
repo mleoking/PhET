@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.model.components.Branch;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CircuitGraphic;
 
 /**
  * User: Sam Reid

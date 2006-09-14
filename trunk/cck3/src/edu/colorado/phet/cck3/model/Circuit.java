@@ -1,12 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.model;
 
-import edu.colorado.phet.cck3.circuit.CompositeCircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.VoltageCalculation;
 import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Capacitor;
 import edu.colorado.phet.cck3.model.components.CircuitComponent;
 import edu.colorado.phet.cck3.model.components.Inductor;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.CompositeCircuitChangeListener;
+import edu.colorado.phet.cck3.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.math.Vector2D;
