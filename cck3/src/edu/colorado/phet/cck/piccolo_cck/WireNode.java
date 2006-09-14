@@ -35,7 +35,6 @@ public class WireNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 PDimension delta = event.getDeltaRelativeTo( WireNode.this );
-                System.out.println( "delta = " + delta );
                 wire.getStartJunction().translate( delta.width, delta.height );
                 wire.getEndJunction().translate( delta.width, delta.height );
             }
