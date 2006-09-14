@@ -1,20 +1,12 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.controls.LookAndFeelMenu;
-import edu.colorado.phet.cck3.controls.OptionsMenu;
-import edu.colorado.phet.common_cck.application.ApplicationModel;
-import edu.colorado.phet.common_cck.application.Module;
-import edu.colorado.phet.common_cck.application.PhetApplication;
-import edu.colorado.phet.common_cck.model.clock.AbstractClock;
-import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
-import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
-import edu.colorado.phet.common_cck.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common_cck.view.util.FrameSetup;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,14 +21,29 @@ import java.util.Arrays;
  * Copyright (c) Jul 7, 2006 by Sam Reid
  */
 
-public class CCKApplication {
+public class CCKApplication extends PhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
-    private PhetApplication application;
-    private CCKModule cckModule;
+
+    static class CCKPhetGraphicModuleAdapter extends Module {
+        private CCKModule cckModule;
+
+        public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
+            super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
+            cckModule = new CCKModule( args );
+            setSimulationPanel( cckModule.getCCKApparatusPanel() );
+            setControlPanel( cckModule.getControlPanel() );
+        }
+    }
+
+    public static String getSubTitle( String[]args ) {
+        return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
+    }
 
     public CCKApplication( String[]args ) throws IOException {
-        final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
+        super( args, SimStrings.get( "CCK3Application.title" ) + getSubTitle( args ) + " (" + readVersion() + ")",
+               SimStrings.get( "CCK3Application.description" ),
+               SimStrings.get( "CCK3Application.version" ) );
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
@@ -44,57 +51,45 @@ public class CCKApplication {
             System.out.println( "debugMode = " + debugMode );
         }
 
-        cckModule = new CCKModule( args );
-        Module cckModule2 = new CCKModule( args );
-        cckModule2.setName( "mod 2" );
+        CCKPhetGraphicModuleAdapter phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
+        CCKPiccoloModule cckPiccoloModule = new CCKPiccoloModule( args );
+        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
+        setModules( modules );
 
-        Module[] modules = new Module[]{cckModule, cckModule2};
+        getPhetFrame().addMenu( new LookAndFeelMenu() );
+//        getPhetFrame().addMenu( new OptionsMenu( th, cckModule ) );//todo options menu
 
-
-        String subTitle = Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
-        FrameSetup frameSetup = debugMode ? new FrameSetup.CenteredWithInsets( 0, 200 ) : (FrameSetup)new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 75, 100 ) );
-        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + subTitle + " (" + readVersion() + ")",
-                                                       SimStrings.get( "CCK3Application.description" ),
-                                                       SimStrings.get( "CCK3Application.version" ), frameSetup, modules, clock );
-//                                                       SimStrings.get( "CCK3Application.version" ), frameSetup, cckModule, clock );
-        model.setName( "cck" );
-        model.setInitialModule( cckModule );
-
-        application = new PhetApplication( model );
-        application.getApplicationView().getPhetFrame().addMenu( new LookAndFeelMenu() );
-        application.getApplicationView().getPhetFrame().addMenu( new OptionsMenu( application, cckModule ) );
-
-        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
-        if( debugMode ) {
-            application.getApplicationView().getPhetFrame().setLocation( 0, 0 );
-        }
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
-                cckModule.clockTickFinished();
-            }
-        } );
-        //todo this is buggy with user-set pause & play
-        application.getApplicationView().getPhetFrame().addWindowListener( new WindowAdapter() {
-            public void windowIconified( WindowEvent e ) {
-                clock.setPaused( true );
-            }
-
-            public void windowDeiconified( WindowEvent e ) {
-                clock.setPaused( false );
-            }
-        } );
+//        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
+//        if( debugMode ) {
+//            application.getApplicationView().getPhetFrame().setLocation( 0, 0 );
+//        }
+//        clock.addClockTickListener( new ClockListener() {
+//            public void clockTicked( IClock c, double dt ) {
+//                cckModule.clockTickFinished();
+//            }
+//        } );
+//        //todo this is buggy with user-set pause & play
+//        application.getApplicationView().getPhetFrame().addWindowListener( new WindowAdapter() {
+//            public void windowIconified( WindowEvent e ) {
+//                clock.setPaused( true );
+//            }
+//
+//            public void windowDeiconified( WindowEvent e ) {
+//                clock.setPaused( false );
+//            }
+//        } );
     }
 
-    private void startApplication() {
-        application.startApplication();
-        cckModule.getApparatusPanel().requestFocus();
-        for( int i = 0; i < application.numModules(); i++ ) {
-            if( application.moduleAt( i )instanceof CCKModule ) {
-                CCKModule module = (CCKModule)application.moduleAt( i );
-                module.applicationStarted();
-            }
-        }
-    }
+//    public void startApplication() {
+//        super.startApplication();
+//        cckModule.getApparatusPanel().requestFocus();
+//        for( int i = 0; i < numModules(); i++ ) {
+//            if( moduleAt( i )instanceof CCKModule ) {
+//                CCKModule module = (CCKModule)moduleAt( i );
+//                module.applicationStarted();
+//            }
+//        }
+//    }
 
     private static String readVersion() {
         URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
@@ -112,7 +107,8 @@ public class CCKApplication {
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    SimStrings.init( args, localizedStringsPath );
+                    edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
+//                    SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
                     new CCKPhetLookAndFeel().initLookAndFeel();
                     try {
                         new CCKApplication( args ).startApplication();
