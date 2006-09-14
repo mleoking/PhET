@@ -267,16 +267,30 @@ public class HAModule extends PiccoloModule {
     
     public void updateCanvasLayout() {
         
-        _modeSwitch.setOffset( 10, 10 );
+        final double xMargin = 10;
+        final double yMargin = 10;
+        final double xSpacing = 10;
+        final double ySpacing = 10;
+        
+        double x, y;
+        
+        _modeSwitch.setOffset( xMargin, yMargin );
         
         // Atomic Model selector, below mode selector, left aligned.
         {
             PBounds msb = _modeSwitch.getFullBounds();
-            _atomicModelSelector.setOffset( msb.getX(), msb.getY() + msb.getHeight() + 10 );
+            x = msb.getX();
+            y = msb.getY() + msb.getHeight() + ySpacing;
+            _atomicModelSelector.setOffset( x, y );
         }
         
         // Gun
-        _gunNode.setOffset( 200, 190 );
+        {
+            PBounds ab = _atomicModelSelector.getFullBounds();
+            x = ab.getX() + ab.getWidth() + xSpacing;
+            y = 190;
+            _gunNode.setOffset( x, y );
+        }
         
         // Black box
         {
@@ -286,19 +300,22 @@ public class HAModule extends PiccoloModule {
         // "Drawings are not to scale" note, centered above black box.
         {
             PBounds bb = _blackBox.getBackNode().getFullBounds();
-            double x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
-            double y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
+            x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
+            y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
             _notToScaleLabel.setOffset( x, y );
         }
         
-        // Energy Diagram
+        // Energy Diagram, to the right of the black box.
         {
-            _energyDiagramCheckBoxNode.setOffset( 900, 10 );
+            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            x = bb.getX() + bb.getHeight() + 10;
+            y = yMargin;
+            _energyDiagramCheckBoxNode.setOffset( x, y );
             
             // Diagram is below checkbox, left aligned.
             PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
-            double x = b.getX();
-            double y = b.getY() + b.getHeight() + 10;
+            x = b.getX();
+            y = b.getY() + b.getHeight() + 10;
             _bohrEnergyDiagram.setOffset( x, y );
             _deBroglieEnergyDiagram.setOffset( x, y );
             _schrodingerEnergyDiagram.setOffset( x, y );
@@ -307,14 +324,17 @@ public class HAModule extends PiccoloModule {
         
         // Spectrometer
         {
-            _spectrometerCheckBoxNode.setOffset( 700, 715 );
-            _spectrometer.setOffset( 680, 550 );
+            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            x = 670;
+            y = bb.getY() + bb.getHeight() + ySpacing;
+            _spectrometer.setOffset( x, y );
+            _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
         }
         
         //XXX temporary
         {
-            double x = 300;
-            double y = 135;
+            x = 300;
+            y = 135;
             _experimentAtomNode.setOffset( x, y );
             _billiardBallAtomNode.setOffset( x, y );
             _bohrAtomNode.setOffset( x, y );
