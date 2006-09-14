@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.model.*;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;

@@ -1,7 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.Junction;
+import edu.colorado.phet.cck3.model.components.Battery;
 import edu.colorado.phet.common_cck.math.Vector2D;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.common_cck.view.util.RectangleUtils;

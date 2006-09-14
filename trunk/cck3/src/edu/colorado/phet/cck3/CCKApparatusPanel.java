@@ -1,17 +1,18 @@
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
-import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
+import edu.colorado.phet.cck3.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.circuit.CircuitGraphicListener;
+import edu.colorado.phet.cck3.circuit.ReadoutGraphic;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
-import edu.colorado.phet.cck3.circuit.particles.ConstantDensityPropagator;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.cck3.common.WiggleMe;
-import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.model.*;
+import edu.colorado.phet.cck3.model.analysis.CircuitSolutionListener;
+import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
 import edu.colorado.phet.common_cck.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.BasicGraphicsSetup;

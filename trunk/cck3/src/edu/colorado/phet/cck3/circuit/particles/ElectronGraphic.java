@@ -2,12 +2,13 @@
 package edu.colorado.phet.cck3.circuit.particles;
 
 import edu.colorado.phet.cck3.CCKModule;
-import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.PathBranch;
-import edu.colorado.phet.cck3.circuit.components.Bulb;
 import edu.colorado.phet.cck3.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Electron;
+import edu.colorado.phet.cck3.model.components.Bulb;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;

@@ -13,15 +13,10 @@ package edu.colorado.phet.cck3.model;
 import edu.colorado.phet.cck3.BulbDimension;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.ResistivityManager;
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.analysis.CircuitAnalysisCCKAdapter;
-import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
-import edu.colorado.phet.cck3.circuit.analysis.MNASolver;
-import edu.colorado.phet.cck3.circuit.components.Battery;
-import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
-import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
+import edu.colorado.phet.cck3.model.analysis.CircuitAnalysisCCKAdapter;
+import edu.colorado.phet.cck3.model.analysis.CircuitSolver;
+import edu.colorado.phet.cck3.model.analysis.MNASolver;
+import edu.colorado.phet.cck3.model.components.Battery;
 
 import java.awt.geom.Rectangle2D;
 

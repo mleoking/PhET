@@ -2,8 +2,10 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCKModule;
-import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.circuit.ReadoutGraphic;
+import edu.colorado.phet.cck3.model.*;
+import edu.colorado.phet.cck3.model.components.ACVoltageSource;
+import edu.colorado.phet.cck3.model.components.Battery;
 import edu.colorado.phet.common_cck.math.MathUtil;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;

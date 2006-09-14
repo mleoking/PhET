@@ -1,10 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.CircuitGraphic;
+import edu.colorado.phet.cck3.circuit.HasJunctionGraphic;
+import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
+import edu.colorado.phet.cck3.circuit.JunctionGraphic;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.common.PositionedHelpItem;
+import edu.colorado.phet.cck3.model.Branch;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitListenerAdapter;
+import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;

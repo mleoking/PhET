@@ -1,9 +1,9 @@
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
+import edu.colorado.phet.cck3.model.Branch;
 import edu.colorado.phet.cck3.model.CCKModel;
+import edu.colorado.phet.cck3.model.Circuit;
+import edu.colorado.phet.cck3.model.CircuitListenerAdapter;
 
 /**
  * User: Sam Reid

@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.cck3.circuit.components;
+package edu.colorado.phet.cck3.model.components;
 
-import edu.colorado.phet.cck3.circuit.CircuitChangeListener;
-import edu.colorado.phet.cck3.circuit.DynamicBranch;
-import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.model.CircuitChangeListener;
+import edu.colorado.phet.cck3.model.DynamicBranch;
+import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.common_cck.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;

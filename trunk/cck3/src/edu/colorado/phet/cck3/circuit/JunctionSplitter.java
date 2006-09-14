@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCKModule;
+import edu.colorado.phet.cck3.model.Junction;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 

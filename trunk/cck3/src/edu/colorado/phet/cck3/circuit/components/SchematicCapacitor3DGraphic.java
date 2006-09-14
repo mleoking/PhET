@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.HasCapacitorClip;
 import edu.colorado.phet.cck3.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
+import edu.colorado.phet.cck3.model.components.Capacitor;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;

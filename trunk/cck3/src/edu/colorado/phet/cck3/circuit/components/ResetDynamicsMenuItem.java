@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.circuit.DynamicBranch;
+import edu.colorado.phet.cck3.model.DynamicBranch;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
