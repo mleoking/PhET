@@ -307,7 +307,7 @@ public class HAModule extends PiccoloModule {
         
         // Spectrometer
         {
-            _spectrometerCheckBoxNode.setOffset( 500, 715 );
+            _spectrometerCheckBoxNode.setOffset( 700, 715 );
             _spectrometer.setOffset( 680, 550 );
         }
         
@@ -436,7 +436,12 @@ public class HAModule extends PiccoloModule {
     }
     
     public void deleteSpectrometerSnapshot( Spectrometer spectrometer ) {
-        _rootNode.removeChild( spectrometer );
-        _spectrometerSnapshots.remove( spectrometer );
+        if ( spectrometer == _spectrometer ) {
+            _spectrometerCheckBox.setSelected( false );
+        }
+        else {
+            _rootNode.removeChild( spectrometer );
+            _spectrometerSnapshots.remove( spectrometer );
+        }
     }
 }

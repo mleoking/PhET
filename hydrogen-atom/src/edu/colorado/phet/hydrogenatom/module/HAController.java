@@ -195,7 +195,9 @@ public class HAController {
     }
     
     private void handleSpectrometerClose( Spectrometer spectrometer ) {
-        removeSpectrometerListener( spectrometer );
+        if ( spectrometer != _spectrometer ) {
+            removeSpectrometerListener( spectrometer );
+        }
         _module.deleteSpectrometerSnapshot( spectrometer );
     }
 }

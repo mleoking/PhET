@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add close button to spectrometer, put "Show" button behind spectrometer
 - add x-axis ticks and labels to spectrometer
 - redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
@@ -29,6 +28,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/13/06) - add close button to spectrometer, put "Show" button behind spectrometer
 (9/13/06) - tweak canvas layout
 (9/13/06) - make black box significantly larger
 (9/13/06) - make energy diagrams slightly narrower
