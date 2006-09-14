@@ -89,17 +89,7 @@ public class HAConstants {
     public static final Color IR_COLOR = Color.GRAY;
     
     // Color used for alpha particle intensity slider
-    public static final Color ALPHA_PARTICLES_COLOR = Color.GRAY;
-    
-    // Colors used for foreground and background in Gun control panels
-    public static final Color GUN_CONTROLS_BACKGROUND = new Color( 220, 220, 220 );
-    public static final Color GUN_CONTROLS_FOREGROUND = Color.BLACK;
-    
-    public static final Color MODE_CONTROL_BACKGROUND = GUN_CONTROLS_BACKGROUND;
-    public static final Color MODE_CONTROL_FOREGROUND = GUN_CONTROLS_FOREGROUND;
-    
-    public static final Color ATOMIC_MODEL_CONTROL_BACKGROUND = GUN_CONTROLS_BACKGROUND;
-    public static final Color ATOMIC_MODEL_FOREGROUND = GUN_CONTROLS_FOREGROUND;
+    public static final Color ALPHA_PARTICLES_COLOR = UV_COLOR;
     
     //----------------------------------------------------------------------------
     // Borders
@@ -130,6 +120,7 @@ public class HAConstants {
     public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
     public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
+    public static final String IMAGE_GUN_PANEL = IMAGES_DIRECTORY + "gunPanel.png";
     public static final String IMAGE_MODE_PANEL = IMAGES_DIRECTORY + "modePanel.png";
     public static final String IMAGE_MODE_SWITCH_DOWN = IMAGES_DIRECTORY + "modeSwitchDown.png";
     public static final String IMAGE_MODE_SWITCH_UP = IMAGES_DIRECTORY + "modeSwitchUp.png";

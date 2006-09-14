@@ -6,16 +6,13 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add x-axis ticks and labels to spectrometer
-- redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
-- bug: toggle buttons in atomic model selector get selected on mouseover (Windows, JDK 1.5.0_08)
 - bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
 - show compresses UV and IR range in spectrometer (like in Discharge Lamps)
 
 MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
-- make control panels have rounded corners and textured backgrounds
 - canvas layout
 - get model details from Sam McKagan & Mike Dubson
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
@@ -28,6 +25,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/14/06) - redo gun control panel, integrate gun type control, add sexy background
 (9/14/06) - move spectrometer close button to upper left corner (ala Windows)
 (9/14/06) - canvas layout tweaks
 (9/13/06) - add close button to spectrometer, put "Show" button behind spectrometer
@@ -100,6 +98,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(9/13/06) - bug: toggle buttons in atomic model selector get selected on mouseover, Windows, JDK 1.5.0_08 (got rid of toggle buttons)
 (8/30/06) - port wavelength control from Photoelectric Effect sim (easier to rewrite)
 
 ===============================================================================
