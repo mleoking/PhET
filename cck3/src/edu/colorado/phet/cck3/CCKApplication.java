@@ -1,10 +1,12 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.controls.LookAndFeelMenu;
+import edu.colorado.phet.cck3.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -21,7 +23,7 @@ import java.util.Arrays;
  * Copyright (c) Jul 7, 2006 by Sam Reid
  */
 
-public class CCKApplication extends PhetApplication {
+public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
 
@@ -33,6 +35,12 @@ public class CCKApplication extends PhetApplication {
             cckModule = new CCKModule( args );
             setSimulationPanel( cckModule.getCCKApparatusPanel() );
             setControlPanel( cckModule.getControlPanel() );
+            addModelElement( new ModelElement() {
+                public void stepInTime( double dt ) {
+                    cckModule.getModel().stepInTime( dt );
+                    cckModule.getCCKApparatusPanel().synchronizeImmediately();
+                }
+            } );
         }
     }
 
@@ -80,17 +88,6 @@ public class CCKApplication extends PhetApplication {
 //        } );
     }
 
-//    public void startApplication() {
-//        super.startApplication();
-//        cckModule.getApparatusPanel().requestFocus();
-//        for( int i = 0; i < numModules(); i++ ) {
-//            if( moduleAt( i )instanceof CCKModule ) {
-//                CCKModule module = (CCKModule)moduleAt( i );
-//                module.applicationStarted();
-//            }
-//        }
-//    }
-
     private static String readVersion() {
         URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
         try {
@@ -103,28 +100,19 @@ public class CCKApplication extends PhetApplication {
         }
     }
 
-    public static void main( final String[] args ) {
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
-                    edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
+    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+                edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
 //                    SimStrings.init( args, CCKApplication.localizedStringsPath );
-                    new CCKPhetLookAndFeel().initLookAndFeel();
-                    try {
-                        new CCKApplication( args ).startApplication();
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                    }
+                new CCKPhetLookAndFeel().initLookAndFeel();
+                try {
+                    new CCKApplication( args ).startApplication();
                 }
-            } );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch( InvocationTargetException e ) {
-            e.printStackTrace();
-        }
-        System.out.println( "args = " + args );
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
     }
 }
