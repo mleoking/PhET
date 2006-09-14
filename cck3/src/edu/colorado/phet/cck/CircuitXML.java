@@ -49,7 +49,7 @@ public class CircuitXML {
     public static Branch toBranch( ICCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if( type.equals( Branch.class.getName() ) ) {
-            Branch branch = new Branch( kl, startJunction, endJunction );
+            Branch branch = new Wire( kl, startJunction, endJunction );
             return branch;
         }
         double length = Double.parseDouble( xml.getAttribute( "length", "-1" ) );

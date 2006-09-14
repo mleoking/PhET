@@ -38,6 +38,11 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         setControlPanel( new CCKControlPanel( this, this ) );
     }
 
+    public void activate() {
+        super.activate();
+        getSimulationPanel().requestFocus();
+    }
+
     public Circuit getCircuit() {
         return model.getCircuit();
     }
