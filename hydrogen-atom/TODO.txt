@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add close button to spectrometer, put "Show" button behind spectrometer
 - add x-axis ticks and labels to spectrometer
 - redo gun control panel
 - make gun nozzle same size as side of black box (bigger gun? bigger nozzle?)
