@@ -51,9 +51,9 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     public CCKApplication( String[]args ) throws IOException {
-        super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ) + " (" + readVersion() + ")",
+        super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
                SimStrings.get( "CCKApplication.description" ),
-               SimStrings.get( "CCKApplication.version" ) );
+               readVersion() );
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
