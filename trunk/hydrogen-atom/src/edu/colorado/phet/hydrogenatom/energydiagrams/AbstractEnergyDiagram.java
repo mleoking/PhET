@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public abstract class AbstractEnergyDiagram extends PhetPNode {
 
-    private static final Dimension DIAGRAM_SIZE = new Dimension( 300, 380 );
+    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 380 );
     private static final double MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
     private static final float AXIS_STROKE_WIDTH = 2;

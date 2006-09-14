@@ -49,7 +49,7 @@ public class HAModule extends PiccoloModule {
     
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
     
-    private static final Dimension BLACK_BOX_SIZE = new Dimension( 400, 400 );
+    private static final Dimension BLACK_BOX_SIZE = new Dimension( 475, 475 );
     private static final double BLACK_BOX_DEPTH = 10;
     
     //----------------------------------------------------------------------------
@@ -276,7 +276,7 @@ public class HAModule extends PiccoloModule {
         }
         
         // Gun
-        _gunNode.setOffset( 200, 220 );
+        _gunNode.setOffset( 200, 190 );
         
         // "Drawings are not to scale" note
         {
@@ -288,12 +288,12 @@ public class HAModule extends PiccoloModule {
         
         // Black box
         {
-            _blackBox.setOffset( 400, 130 );
+            _blackBox.setOffset( 400, 50 );
         }
         
         // Energy Diagram
         {
-            _energyDiagramCheckBoxNode.setOffset( 825, 120 );
+            _energyDiagramCheckBoxNode.setOffset( 900, 10 );
             
             PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
             double x = b.getX();
