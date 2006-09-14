@@ -30,6 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
  * Time: 1:27:42 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class CCKModule extends Module {
+public class CCKModule extends Module implements ICCKModule {
     /**
      * General module data
      */
@@ -69,10 +70,10 @@ public class CCKModule extends Module {
 
     public CCKModule( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
+        this.parameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
         model = new CCKModel();
 
-        this.parameters = new CCKParameters( this, args );
         imageSuite = new CCKImageSuite();
 
         cckApparatusPanel = new CCKApparatusPanel( this, model );
@@ -89,13 +90,16 @@ public class CCKModule extends Module {
             }
         } );
 
-        this.cckControlPanel = new CCKControlPanel( this );
-        setControlPanel( cckControlPanel.getComponent() );
 
         setResistivityEnabled( true );
         setInternalResistanceOn( true );
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
+    }
+
+    public void initControlPanel( edu.colorado.phet.common.application.Module module ) {
+        this.cckControlPanel = new CCKControlPanel( this, module );
+        setControlPanel( cckControlPanel );
     }
 
     private void setupStopwatch() {
@@ -232,6 +236,10 @@ public class CCKModule extends Module {
 
     }
 
+    public boolean isLifelike() {
+        return getCircuitGraphic().isLifelike();
+    }
+
     public void showMegaHelp() {
         cckControlPanel.showHelpImage();
     }
@@ -344,6 +352,10 @@ public class CCKModule extends Module {
         } );
     }
 
+    public void setAllReadoutsVisible( boolean r ) {
+        getCircuitGraphic().setAllReadoutsVisible( r );
+    }
+
     public boolean isStopwatchVisible() {
         return stopwatch.getVisible();
     }
@@ -358,6 +370,10 @@ public class CCKModule extends Module {
             model.getElectronLayout().branchesMoved( getCircuit().getBranches() );
             getApparatusPanel().repaint();
         }
+    }
+
+    public Rectangle2D getModelBounds() {
+        return getTransform().getModelBounds();
     }
 
     private void add( Branch branch ) {
@@ -419,6 +435,10 @@ public class CCKModule extends Module {
 
     public CCKParameters getParameters() {
         return parameters;
+    }
+
+    public JComponent getSimulationPanel() {
+        return getApparatusPanel();
     }
 
     public CCKControlPanel getCCKControlPanel() {

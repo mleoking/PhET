@@ -1,9 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.grabbag;
 
-import edu.colorado.phet.cck3.CCKModule;
+import edu.colorado.phet.cck3.ICCKModule;
 import edu.colorado.phet.cck3.model.components.Branch;
 import edu.colorado.phet.cck3.model.components.Resistor;
+import edu.colorado.phet.cck3.phetgraphics_cck.HasCircuitGraphic;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
@@ -23,10 +24,10 @@ import java.awt.image.BufferedImage;
  */
 public class GrabBagButton extends JButton {
     private GrabBag bag;
-    private CCKModule module;
+    private ICCKModule module;
     private JFrame dialog;
 
-    public GrabBagButton( CCKModule module ) {
+    public GrabBagButton( ICCKModule module ) {
         super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
         this.module = module;
         addActionListener( new ActionListener() {
@@ -49,7 +50,7 @@ public class GrabBagButton extends JButton {
         for( int i = 0; i < bag.numItems(); i++ ) {
             final GrabBagItem it = bag.itemAt( i );
             BufferedImage image = it.getImage();
-            BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), image, 40 );
+            BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getSimulationPanel(), image, 40 );
 //            JButton jb = new JButton( it.getName(), new ImageIcon( fixedSize ) );
             ImageIcon icon = new ImageIcon( fixedSize );
             JButton jb = new JButton( it.getName() );
@@ -75,10 +76,13 @@ public class GrabBagButton extends JButton {
         dialog.setVisible( false );
         Resistor b = it.createBranch( module );
         module.getCircuit().addBranch( b );
-        module.getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
+        if( module instanceof HasCircuitGraphic ) {
+            ( (HasCircuitGraphic)module ).getCircuitGraphic().addGraphic( b, BufferedImageUtils.flipY( it.getImage() ) );
+        }
+
 
         module.layoutElectrons( new Branch[]{b} );
-        module.getApparatusPanel().repaint();
+        module.getSimulationPanel().repaint();
     }
 
     private void showGrabBag() {
