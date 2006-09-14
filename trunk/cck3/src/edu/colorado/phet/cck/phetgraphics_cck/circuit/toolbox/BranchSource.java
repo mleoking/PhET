@@ -154,7 +154,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             dir = dir.getInstanceOfMagnitude( -finalLength );
             Point2D src = super.branch.getEndJunction().getPosition();
             Point2D dst = dir.getDestination( src );
-            return new Branch( super.circuitChangeListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
+            return new Wire( super.circuitChangeListener, new Junction( src.getX(), src.getY() ), new Junction( dst.getX(), dst.getY() ) );
         }
 
     }

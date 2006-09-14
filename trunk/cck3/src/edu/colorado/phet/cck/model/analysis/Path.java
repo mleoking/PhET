@@ -3,10 +3,7 @@ package edu.colorado.phet.cck.model.analysis;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.Battery;
-import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.cck.model.components.Switch;
+import edu.colorado.phet.cck.model.components.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -306,8 +303,8 @@ public class Path {
             public void circuitChanged() {
             }
         };
-        Branch a = new Branch( kl, j0, j1 );
-        Branch b = new Branch( kl, j0, j1 );
+        Branch a = new Wire( kl, j0, j1 );
+        Branch b = new Wire( kl, j0, j1 );
 
         Path p = new Path( a, j1 );
         p.add( b, j0 );

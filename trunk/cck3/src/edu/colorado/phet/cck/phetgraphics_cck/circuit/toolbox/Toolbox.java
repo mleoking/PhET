@@ -255,7 +255,7 @@ public class Toolbox extends CompositeGraphic {
     }
 
     private double addWireBranch( double componentX, double y, double componentX2, double dy ) {
-        Branch wireBranch = new Branch( module.getCircuitChangeListener(), new Junction( componentX, y ), new Junction( componentX2, y ) );
+        Branch wireBranch = new Wire( module.getCircuitChangeListener(), new Junction( componentX, y ), new Junction( componentX2, y ) );
         BranchGraphic bg = new BranchGraphic( wireBranch, parent, .14, transform, CircuitGraphic.COPPER );
         BranchGraphic schematicBranchGraphic = new BranchGraphic( wireBranch, parent, .1, transform, Color.black );
         wireSource = new BranchSource.WireSource( wireBranch, bg, schematicBranchGraphic, module.getCircuitGraphic(), parent, module.getCircuitChangeListener(), CCKModel.WIRE_LENGTH, module );

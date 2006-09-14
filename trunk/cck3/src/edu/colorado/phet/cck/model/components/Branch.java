@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Time: 1:32:58 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class Branch extends SimpleObservableDebug {
+public abstract class Branch extends SimpleObservableDebug {
     double resistance = CCKModel.MIN_RESISTANCE;
     double current;
     double voltageDrop;

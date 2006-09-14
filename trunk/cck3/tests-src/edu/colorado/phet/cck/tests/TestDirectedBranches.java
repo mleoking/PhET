@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.analysis.Path;
-import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Wire;
 
 /**
  * User: Sam Reid
@@ -25,12 +25,12 @@ public class TestDirectedBranches {
         Junction j2 = new Junction( 1, 0 );
         Junction j3 = new Junction( 1, 0 );
         Junction j4 = new Junction( 1, 0 );
-        circuit.addBranch( new Branch( kl, j0, j4 ) );
-        circuit.addBranch( new Branch( kl, j1, j3 ) );
-        circuit.addBranch( new Branch( kl, j1, j2 ) );
-        circuit.addBranch( new Branch( kl, j2, j4 ) );
-        circuit.addBranch( new Branch( kl, j3, j4 ) );
-        circuit.addBranch( new Branch( kl, j2, j3 ) );
+        circuit.addBranch( new Wire( kl, j0, j4 ) );
+        circuit.addBranch( new Wire( kl, j1, j3 ) );
+        circuit.addBranch( new Wire( kl, j1, j2 ) );
+        circuit.addBranch( new Wire( kl, j2, j4 ) );
+        circuit.addBranch( new Wire( kl, j3, j4 ) );
+        circuit.addBranch( new Wire( kl, j2, j3 ) );
 
         Path[] p = Path.getLoops( circuit );
         for( int i = 0; i < p.length; i++ ) {

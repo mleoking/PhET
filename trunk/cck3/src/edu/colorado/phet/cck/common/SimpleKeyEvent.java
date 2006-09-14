@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 public class SimpleKeyEvent implements KeyListener {
     int keycode;
 
-    protected SimpleKeyEvent( int keycode ) {
+    public SimpleKeyEvent( int keycode ) {
         this.keycode = keycode;
     }
 
