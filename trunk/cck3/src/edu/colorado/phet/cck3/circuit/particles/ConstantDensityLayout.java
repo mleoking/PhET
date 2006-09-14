@@ -73,9 +73,6 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
     private void layoutElectrons( Branch branch ) {
         particleSet.removeParticles( branch );
 
-//        ParticleSetGraphic particleSetGraphic = module.getParticleSetGraphic();
-//        particleSetGraphic.removeGraphics( electrons );
-
         if( getElectronsVisible() ) {
             double offset = CCKModel.ELECTRON_DX / 2;
             double startingPoint = offset;
@@ -91,10 +88,7 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
                 integralNumberParticles = 0;
             }
             for( int i = 0; i < integralNumberParticles; i++ ) {
-                double x = i * dx + startingPoint;
-                Electron e = new Electron( branch, x );
-                particleSet.addParticle( e );
-//                particleSetGraphic.addGraphic( e );
+                particleSet.addParticle( new Electron( branch, i * dx + startingPoint ) );
             }
         }
     }

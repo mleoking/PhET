@@ -1,14 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
-import edu.colorado.phet.cck3.CCKModule;
 import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.common_cck.model.ModelElement;
-import edu.colorado.phet.common_cck.view.util.SimStrings;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -20,73 +18,29 @@ import java.util.*;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityPropagator implements ModelElement {
-    private CCKModule module;
     private ParticleSet particleSet;
     private Circuit circuit;
     private double speedScale = .01;
     private double MIN_CURRENT = Math.pow( 10, -10 );
-//    private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
-    //    private double MAX_STEP = .15;
-    //    private double MAX_STEP = .182;
-    //    private double MAX_STEP = .1;
-    //    private double MAX_STEP = CCK3Module.ELECTRON_DX * .4;// * .48;
-    private double MAX_STEP = CCKModel.ELECTRON_DX * .43;// * .48;
-    //    private double MAX_STEP = .35;
-    //    private double MAX_STEP = .1 / 10;
+    private double MAX_STEP = CCKModel.ELECTRON_DX * .43;
     private int numEqualize = 2;
     private double scale;
-    SmoothData smoothData = new SmoothData( 30 );
+    private SmoothData smoothData = new SmoothData( 30 );
+    private double timeScalingPercentValue;
+    private String percent;
+    private DecimalFormat decimalFormat = new DecimalFormat( "##" );
 
-    static class SmoothData {
-        private ArrayList data;
-        private int windowSize;
-
-        public SmoothData( int windowSize ) {
-            data = new ArrayList( windowSize );
-            this.windowSize = windowSize;
-        }
-
-        public int numDataPoints() {
-            return data.size();
-        }
-
-        public int getWindowSize() {
-            return windowSize;
-        }
-
-        public void addData( double d ) {
-            data.add( new Double( d ) );
-            while( numDataPoints() > getWindowSize() ) {
-                data.remove( 0 );
-            }
-        }
-
-        public double getAverage() {
-            double sum = 0;
-            for( int i = 0; i < data.size(); i++ ) {
-                java.lang.Double aDouble = (java.lang.Double)data.get( i );
-                sum += aDouble.doubleValue();
-            }
-            return sum / data.size();
-        }
-
-        public double getMedian() {
-            ArrayList list = new ArrayList( data );
-            Collections.sort( list );
-            int elm = list.size() / 2;
-            return dataAt( elm );
-        }
-
-        private double dataAt( int elm ) {
-            Double d = (Double)data.get( elm );
-            return d.doubleValue();
-        }
-    }
-
-    public ConstantDensityPropagator( CCKModule module, ParticleSet particleSet, Circuit circuit ) {
-        this.module = module;
+    public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {
         this.particleSet = particleSet;
         this.circuit = circuit;
+    }
+
+    public double getTimeScalingPercentValue() {
+        return timeScalingPercentValue;
+    }
+
+    public DecimalFormat getDecimalFormat() {
+        return decimalFormat;
     }
 
     public void stepInTime( double dt ) {
@@ -102,27 +56,15 @@ public class ConstantDensityPropagator implements ModelElement {
             scale = 1;
         }
         smoothData.addData( scale * 100 );
-        double avg = smoothData.getAverage();
-//        double avg=smoothData.getMedian();
-        DecimalFormat df = new DecimalFormat( "##" );
-        String percent = df.format( avg );
+        this.timeScalingPercentValue = smoothData.getAverage();
+
+        this.percent = decimalFormat.format( timeScalingPercentValue );
         if( percent.equals( "0" ) ) {
             percent = "1";
         }
-        if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
-            if( !module.getParameters().hideAllElectrons() ) {
-                module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
-                                                      + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
-                module.getTimescaleGraphic().setVisible( true );
-            }
-        }
-        else {
-            module.getTimescaleGraphic().setText( "" );
-            module.getTimescaleGraphic().setVisible( false );
-        }
-        if( avg < 1 ) {
-
-
+        //todo add test for change before notify
+        notifyListeners();
+        if( timeScalingPercentValue < 1 ) {
         }
         for( int i = 0; i < particleSet.numParticles(); i++ ) {
             Electron e = particleSet.particleAt( i );
@@ -137,6 +79,42 @@ public class ConstantDensityPropagator implements ModelElement {
             System.out.println( "cap = " + cap );
         }
     }
+
+    private ArrayList listeners = new ArrayList();
+
+    public String getPercentString() {
+        return percent;
+    }
+
+    public static interface Listener {
+        void timeScaleChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.timeScaleChanged();
+        }
+    }
+
+//    private void notifyAverageChanged() {
+//
+//        if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
+//            if( !module.getParameters().hideAllElectrons() ) {
+//                module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
+//                                                      + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+//                module.getTimescaleGraphic().setVisible( true );
+//            }
+//        }
+//        else {
+//            module.getTimescaleGraphic().setText( "" );
+//            module.getTimescaleGraphic().setVisible( false );
+//        }
+//    }
 
     private double getMaxCurrent() {
         double max = 0;
@@ -411,14 +389,12 @@ public class ConstantDensityPropagator implements ModelElement {
             CircuitLocation circuitLocation = loc[i];
             vm.put( circuitLocation, getDensity( circuitLocation ) );
         }
-        CircuitLocation lowestDensity = (CircuitLocation)vm.argMin();
-        return lowestDensity;
+        return (CircuitLocation)vm.argMin();
     }
 
     private double getDensity( CircuitLocation circuitLocation ) {
         Branch branch = circuitLocation.getBranch();
-        double density = module.getParticleSet().getDensity( branch );
-        return density;
+        return particleSet.getDensity( branch );
     }
 
     private CircuitLocation[] getLocations( Electron e, double dt, double overshoot, boolean under ) {
@@ -468,4 +444,49 @@ public class ConstantDensityPropagator implements ModelElement {
         return (CircuitLocation[])all.toArray( new CircuitLocation[0] );
     }
 
+    static class SmoothData {
+        private ArrayList data;
+        private int windowSize;
+
+        public SmoothData( int windowSize ) {
+            data = new ArrayList( windowSize );
+            this.windowSize = windowSize;
+        }
+
+        public int numDataPoints() {
+            return data.size();
+        }
+
+        public int getWindowSize() {
+            return windowSize;
+        }
+
+        public void addData( double d ) {
+            data.add( new Double( d ) );
+            while( numDataPoints() > getWindowSize() ) {
+                data.remove( 0 );
+            }
+        }
+
+        public double getAverage() {
+            double sum = 0;
+            for( int i = 0; i < data.size(); i++ ) {
+                java.lang.Double aDouble = (java.lang.Double)data.get( i );
+                sum += aDouble.doubleValue();
+            }
+            return sum / data.size();
+        }
+
+        public double getMedian() {
+            ArrayList list = new ArrayList( data );
+            Collections.sort( list );
+            int elm = list.size() / 2;
+            return dataAt( elm );
+        }
+
+        private double dataAt( int elm ) {
+            Double d = (Double)data.get( elm );
+            return d.doubleValue();
+        }
+    }
 }
