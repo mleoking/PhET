@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- when the gun is in "continuous fire" mode, what determines when the next shot is fired?
+- when the gun is in "single shot" mode, what determines when it's OK to shoot again?
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - UV range of wavelength control is hard to see against gray control panel
 - design a gun control that shoots either one-shot or continuous
