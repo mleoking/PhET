@@ -33,6 +33,7 @@ public class CCKApplication extends PiccoloPhetApplication {
         public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
             super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
             cckModule = new CCKModule( args );
+            cckModule.initControlPanel( this );
             setSimulationPanel( cckModule.getCCKApparatusPanel() );
             setControlPanel( cckModule.getControlPanel() );
             addModelElement( new ModelElement() {

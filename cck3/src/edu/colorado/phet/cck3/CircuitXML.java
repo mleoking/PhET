@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class CircuitXML {
 
-    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, CCKModule module ) {
+    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, ICCKModule module ) {
         Circuit cir = new Circuit( kl );
         for( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
@@ -46,7 +46,7 @@ public class CircuitXML {
         return cir;
     }
 
-    public static Branch toBranch( CCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
+    public static Branch toBranch( ICCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if( type.equals( Branch.class.getName() ) ) {
             Branch branch = new Branch( kl, startJunction, endJunction );
@@ -102,7 +102,7 @@ public class CircuitXML {
         else if( type.equals( Bulb.class.getName() ) ) {
             String widthStr = xml.getAttribute( "width", Double.NaN + "" );
             double width = Double.parseDouble( widthStr );
-            boolean schematic = !module.getCircuitGraphic().isLifelike();
+            boolean schematic = !module.isLifelike();
             Bulb bulb = new Bulb( kl, startJunction, endJunction, width, length, height, schematic );
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
             double val = Double.parseDouble( resVal );

@@ -23,7 +23,7 @@ public class CCKParameters {
     private boolean useVisualControlPanel = true;
     private boolean dynamics = false;
 
-    public CCKParameters( CCKModule module, String[] args ) {
+    public CCKParameters( ICCKModule module, String[] args ) {
         this.args = args;
         if( containsArg( "-dynamics" ) ) {
             dynamics = true;

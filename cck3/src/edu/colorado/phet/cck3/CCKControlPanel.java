@@ -3,15 +3,13 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.common.AdvancedPanel;
 import edu.colorado.phet.cck3.common.CCKStrings;
-import edu.colorado.phet.cck3.common.ControlPanel;
 import edu.colorado.phet.cck3.controls.ResetDynamicsButton;
 import edu.colorado.phet.cck3.grabbag.GrabBagButton;
-import edu.colorado.phet.cck3.model.CCKModel;
 import edu.colorado.phet.cck3.model.Circuit;
 import edu.colorado.phet.cck3.model.ResistivityManager;
 import edu.colorado.phet.cck3.model.analysis.KirkhoffSolver;
-import edu.colorado.phet.cck3.model.components.Battery;
-import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.HelpPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.ImageLoader;
@@ -31,14 +29,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -46,16 +42,14 @@ import java.util.Random;
  * Time: 11:03:06 AM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class CCKControlPanel extends ControlPanel {
-    private CCKModule module;
+public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel {
+    private ICCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private GrabBagButton grabBagButton;
     private JPanel advancedPanel;
 
-    public CCKControlPanel( final CCKModule module ) {
-        super( module );
-        setTitleVisible( false );
+    public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
         JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
@@ -103,24 +97,8 @@ public class CCKControlPanel extends ControlPanel {
                 int IMAX = 200;
                 for( int i = 0; i < IMAX; i++ ) {
                     System.out.println( "i = " + i + "/" + IMAX );
-                    module.setLifelike( !module.getCircuitGraphic().isLifelike() );
+                    module.setLifelike( !module.isLifelike() );
                 }
-            }
-        } );
-        JButton manyComp = new JButton( SimStrings.get( "CCK3ControlPanel.AddBatteriesButton" ) );
-        final Random rand = new Random( 0 );
-        manyComp.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                for( int i = 0; i < 100; i++ ) {
-                    double x1 = rand.nextDouble() * 10;
-                    double y1 = rand.nextDouble() * 10;
-                    Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
-                                                CCKModel.BATTERY_DIMENSION.getLength(), CCKModel.BATTERY_DIMENSION.getHeight(), module.getCircuitChangeListener(), 0, false );
-                    module.getCircuit().addBranch( batt );
-                    module.getCircuitGraphic().addGraphic( batt );
-                    System.out.println( "i = " + i );
-                }
-                module.layoutElectrons( module.getCircuit().getBranches() );
             }
         } );
 
@@ -149,7 +127,7 @@ public class CCKControlPanel extends ControlPanel {
         addControl( Box.createVerticalStrut( 7 ) );
 //        addControl( Box.createVerticalBox( ));
 //        addControl( Box.createVerticalGlue( ));
-        super.addControlFullWidth( getHelpPanel() );
+        super.addControlFullWidth( new HelpPanel( m ) );
     }
 
     private void add( JComponent component ) {
@@ -165,10 +143,10 @@ public class CCKControlPanel extends ControlPanel {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/bag.gif" );
             grabBagButton = new GrabBagButton( module );
             grabBagButton.setIcon( new ImageIcon( image ) );
-            module.getApparatusPanel().setLayout( null );
-            module.getApparatusPanel().add( grabBagButton );
+            module.getSimulationPanel().setLayout( null );
+            module.getSimulationPanel().add( grabBagButton );
 
-            module.getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            module.getSimulationPanel().addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
                     updateButton();
                 }
@@ -190,7 +168,7 @@ public class CCKControlPanel extends ControlPanel {
 
         int insetX = 15;
         int insetY = 15;
-        int x = module.getApparatusPanel().getWidth() - insetX - w;
+        int x = module.getSimulationPanel().getWidth() - insetX - w;
         int y = insetY;
         grabBagButton.reshape( x, y, w, h );
     }
@@ -251,7 +229,7 @@ public class CCKControlPanel extends ControlPanel {
         voltmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVoltmeterVisible( voltmeter.isSelected() );
-                module.getApparatusPanel().repaint();
+
             }
         } );
 
@@ -337,8 +315,8 @@ public class CCKControlPanel extends ControlPanel {
         showReadouts.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean r = showReadouts.isSelected();
-                module.getCircuitGraphic().setAllReadoutsVisible( r );
-                module.getApparatusPanel().repaint();
+                module.setAllReadoutsVisible( r );
+                module.getSimulationPanel().repaint();
             }
         } );
         JRadioButton lifelike = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
@@ -370,7 +348,7 @@ public class CCKControlPanel extends ControlPanel {
 
     private void load() throws IOException, XMLException {
         ServiceSource ss = new ServiceSource();
-        FileOpenService fos = ss.getFileOpenService( module.getApparatusPanel() );
+        FileOpenService fos = ss.getFileOpenService( module.getSimulationPanel() );
         FileContents open = fos.openFileDialog( SimStrings.get( "CCK3ControlPanel.OpenFileDialog" ),
                                                 new String[]{SimStrings.get( "CCK3ControlPanel.FileExtension" )} );
         if( open == null ) {
@@ -396,7 +374,7 @@ public class CCKControlPanel extends ControlPanel {
 
     private void save() throws IOException {
         ServiceSource ss = new ServiceSource();
-        FileSaveService fos = ss.getFileSaveService( module.getApparatusPanel() );
+        FileSaveService fos = ss.getFileSaveService( module.getSimulationPanel() );
 
         XMLElement xml = CircuitXML.toXML( module.getCircuit() );
         StringWriter sw = new StringWriter();
@@ -445,7 +423,7 @@ public class CCKControlPanel extends ControlPanel {
             e.printStackTrace();
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
-            JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(),
+            JOptionPane.showMessageDialog( module.getSimulationPanel(), sw.getBuffer().toString(),
                                            SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
     }
@@ -454,7 +432,7 @@ public class CCKControlPanel extends ControlPanel {
         module.setZoom( scale );
     }
 
-    private static void printEm( CCKModule module ) {
+    private static void printEm( ICCKModule module ) {
         KirkhoffSolver ks = new KirkhoffSolver();
         Circuit circuit = module.getCircuit();
         KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
@@ -525,7 +503,7 @@ public class CCKControlPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if( needsClearing ) {
-                    int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+                    int answer = JOptionPane.showConfirmDialog( module.getSimulationPanel(),
                                                                 SimStrings.get( "CCK3ControlPanel.DeleteConfirm" ) );
                     if( answer == JOptionPane.OK_OPTION ) {
                         module.clear();
@@ -561,12 +539,12 @@ public class CCKControlPanel extends ControlPanel {
     }
 
     static class AdvancedControlPanel extends AdvancedPanel {
-        private CCKModule module;
+        private ICCKModule module;
         private JDialog dialog;
         private PhetSlider resistivitySlider;
         private JCheckBox hideElectrons;
 
-        public AdvancedControlPanel( final CCKModule module ) {
+        public AdvancedControlPanel( final ICCKModule module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
 
 //            addListener( new Listener() {
@@ -638,7 +616,7 @@ public class CCKControlPanel extends ControlPanel {
 
         public void showDialog() {
             if( dialog == null ) {
-                Window parent = SwingUtilities.getWindowAncestor( module.getApparatusPanel() );
+                Window parent = SwingUtilities.getWindowAncestor( module.getSimulationPanel() );
                 dialog = new JDialog( (Frame)parent, SimStrings.get( "CCK3ControlPanel.AdvancedControlsDialog" ) );
                 dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
                 dialog.setModal( false );
