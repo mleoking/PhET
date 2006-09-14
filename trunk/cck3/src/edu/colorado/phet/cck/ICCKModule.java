@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.components.Branch;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -15,6 +16,8 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Sep 14, 2006 by Sam Reid
  */
 public interface ICCKModule {
+    public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
+
     Circuit getCircuit();
 
     void setLifelike( boolean b );

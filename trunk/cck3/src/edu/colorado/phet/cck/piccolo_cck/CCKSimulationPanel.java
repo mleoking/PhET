@@ -1,8 +1,8 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
-
-import javax.swing.*;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 /**
  * User: Sam Reid
@@ -11,10 +11,11 @@ import javax.swing.*;
  * Copyright (c) Sep 14, 2006 by Sam Reid
  */
 
-public class CCKSimulationPanel extends JComponent {
+public class CCKSimulationPanel extends PhetPCanvas {
     private CCKModel model;
 
     public CCKSimulationPanel( CCKModel model ) {
         this.model = model;
+        setBackground( ICCKModule.BACKGROUND_COLOR );
     }
 }

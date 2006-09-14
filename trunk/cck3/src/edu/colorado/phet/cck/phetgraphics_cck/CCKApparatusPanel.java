@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.CCKControlPanel;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.analysis.CircuitSolver;
@@ -59,7 +60,6 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
     private PhetShadowTextGraphic timeScaleTextGraphic;
     private Area electronClip = new Area();
     private boolean initedLayout = false;
-    private static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     private CCKModel cckmodel;
     private CCKModule module;
 
@@ -68,7 +68,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         this.cckmodel = cckmodel;
         transform = new ModelViewTransform2D( cckmodel.getModelBounds(), new Rectangle( 100, 100 ) );
         circuitGraphic = new CircuitGraphic( module, this );
-        setMyBackground( apparatusPanelColor );
+        setMyBackground( ICCKModule.BACKGROUND_COLOR );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
