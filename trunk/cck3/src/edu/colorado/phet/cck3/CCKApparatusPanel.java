@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.circuit.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck3.circuit.analysis.CircuitSolver;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.circuit.particles.ConstantDensityPropagator;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
@@ -111,6 +112,29 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         BasicGraphicsSetup setup = new BasicGraphicsSetup();
         setup.setBicubicInterpolation();
         getApparatusPanel().addGraphicsSetup( setup );
+
+        addTimeScaleListener();
+    }
+
+    private void addTimeScaleListener() {
+        getCCKModel().getParticleSet().getPropagator().addListener( new ConstantDensityPropagator.Listener() {
+            public void timeScaleChanged() {
+                ConstantDensityPropagator propagator = getCCKModel().getParticleSet().getPropagator();
+                String percent = propagator.getPercentString();
+                if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 )
+                {
+                    if( !module.getParameters().hideAllElectrons() ) {
+                        module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
+                                                              + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+                        module.getTimescaleGraphic().setVisible( true );
+                    }
+                }
+                else {
+                    module.getTimescaleGraphic().setText( "" );
+                    module.getTimescaleGraphic().setVisible( false );
+                }
+            }
+        } );
     }
 
     private CCKApparatusPanel getApparatusPanel() {

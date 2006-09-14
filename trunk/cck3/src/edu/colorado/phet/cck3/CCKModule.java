@@ -69,7 +69,7 @@ public class CCKModule extends Module {
     public CCKModule( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         setModel( new BaseModel() );
-        model = new CCKModel( this );
+        model = new CCKModel();
 
         this.parameters = new SetupParameters( this, args );
         imageSuite = new CCK2ImageSuite();
