@@ -5,13 +5,22 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- text in control panels is hard to read
+- UV range of wavelength control is hard to see against gray control panel
+- design a gun control that shoots either one-shot or continuous
+- change canvas background to black
+- move spectrometer checkbox above right of spectrometer
+- make 3D black box very small with a smaller gun pointed up at it
+- small gun shoots a beam, color is white or monochromatic color (for light), or gray (for alpha particle)
+- label small black box "Box of Hydrogen"
+- make current black box a 2D rectangle that is a zoomed in view of part of tiny black box
+- remove intensity controls for light and alpha particles
 - add x-axis ticks and labels to spectrometer
-- configurable gun nozzle size, make it match height of black box
+
+MEDIUM PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
 - show compresses UV and IR range in spectrometer (like in Discharge Lamps)
-
-MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - canvas layout
 - get model details from Sam McKagan & Mike Dubson
@@ -102,6 +111,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(9/14/06) - configurable gun nozzle size, make it match height of black box (interface was changed)
 (9/13/06) - bug: toggle buttons in atomic model selector get selected on mouseover, Windows, JDK 1.5.0_08 (got rid of toggle buttons)
 (8/30/06) - port wavelength control from Photoelectric Effect sim (easier to rewrite)
 
