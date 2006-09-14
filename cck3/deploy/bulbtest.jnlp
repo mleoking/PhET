@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/cck/bulbtest1"
-    href="bulbtest.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/projects/cck/bulbtest1"
+        href="bulbtest.jnlp">
     <information>
         <title>Circuit Construction Kit</title>
         <vendor>PhET(tm)</vendor>
@@ -22,5 +22,5 @@
         <jar href="lib/phetcommon.jar"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.cck3.LightBulbGraphic"/>
+    <application-desc main-class="edu.colorado.phet.cck.LightBulbGraphic"/>
 </jnlp>

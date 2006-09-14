@@ -44,7 +44,7 @@ information.
         <jar href="cck/cck-help.jar" download="lazy"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.cck3.phetgraphics_cck.CCKModule">
+    <application-desc main-class="edu.colorado.phet.cck.phetgraphics_cck.CCKModule">
         <argument>user.language=sp</argument>
     </application-desc>
 </jnlp>
