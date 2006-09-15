@@ -44,15 +44,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
      * @param model
      */
     public MoleculeMoleculeHardSphereCollisionAgent( final MRModel model ) {
-
         reactionCriteria = model.getReaction().getReactionCriteria();
-//        final EnergyProfile energyProfile = model.getEnergyProfile();
-//        energyProfile.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                reactionThreshold = energyProfile.getPeakLevel();
-//            }
-//        } );
-//        this.reactionThreshold = energyProfile.getPeakLevel();
         model.addListener( this );
     }
 
@@ -171,7 +163,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Create a composite molecule if ReactionCriteria are met
-        if( reactionCriteria.criteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
+        if( model.getReaction().areCriteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
             Bond bond = null;

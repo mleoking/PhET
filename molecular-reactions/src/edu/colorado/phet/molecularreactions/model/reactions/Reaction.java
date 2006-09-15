@@ -47,6 +47,11 @@ abstract public class Reaction {
         return reactionCriteria;
     }
 
+    public boolean areCriteriaMet(Molecule bodyA, Molecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec) {
+        double energyThreshold = getThresholdEnergy( bodyA, bodyB );
+        return reactionCriteria.criteriaMet( bodyA, bodyB, collisionSpec, energyThreshold );
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Abstract and template methods
     //--------------------------------------------------------------------------------------------------
@@ -72,7 +77,10 @@ abstract public class Reaction {
     //--------------------------------------------------------------------------------------------------
 
     public interface ReactionCriteria {
-        boolean criteriaMet( Molecule bodyA, Molecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec );
+        boolean criteriaMet( Molecule bodyA,
+                             Molecule bodyB,
+                             MoleculeMoleculeCollisionSpec collisionSpec,
+                             double energyThreshold );
 
         boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 );
     }
@@ -81,7 +89,7 @@ abstract public class Reaction {
      * Combines two simple molecules of different types into one compound molecule
      */
     class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
+        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > energyProfile.getPeakLevel()
                    && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
                    && m1.getClass() != m2.getClass();
@@ -96,7 +104,7 @@ abstract public class Reaction {
      * Combines any two molecules together
      */
     class SimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
+        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > energyProfile.getPeakLevel();
         }
 

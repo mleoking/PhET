@@ -30,8 +30,8 @@ public class TestModule extends MRModule {
 
         // Test
 //        testM( (MRModel)getModel() );
-//        testL( (MRModel)getModel() );
-        testK( (MRModel)getModel() );
+        testL( (MRModel)getModel() );
+//        testK( (MRModel)getModel() );
 //        testJ( (MRModel)getModel() );
 //        testI( (MRModel)getModel() );
 //        testH( (MRModel)getModel() );
@@ -82,7 +82,7 @@ public class TestModule extends MRModule {
             model.setReaction( new A_AB_BC_C_Reaction( model ) );
             {
                 SimpleMolecule m1 = new MoleculeB();
-                m1.setMass( 1e9);
+//                m1.setMass( 1e9);
                 m1.setPosition( 180, 60 );
                 m1.setVelocity( 0, 0 );
                 model.addModelElement( m1 );
