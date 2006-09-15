@@ -139,18 +139,18 @@ public class MRModel extends PublishingModel {
 //        clearForces();
         double ke1 = getTotalKineticEnergy();
         pe1 = potentialEnergyStored;
-        System.out.println( "pe0 = " + pe0 + "\tpe1 = " + pe1 );
-        double deltaPe = pe1 - pe0;
-        pe0 = pe1;
-        double f = ( ke0 - deltaPe ) / ke1;
-        if( f < 0 ) {
-            System.out.println( "MRModel.stepInTime" );
-        }
-        if( f > 0 ) {
-            adjustKineticEnergy( Math.sqrt( f ) );
-        }
-        double ke2 = getTotalKineticEnergy();
-        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
+//        System.out.println( "pe0 = " + pe0 + "\tpe1 = " + pe1 );
+//        double deltaPe = pe1 - pe0;
+//        pe0 = pe1;
+//        double f = ( ke0 - deltaPe ) / ke1;
+//        if( f < 0 ) {
+//            System.out.println( "MRModel.stepInTime" );
+//        }
+//        if( f > 0 ) {
+//            adjustKineticEnergy( Math.sqrt( f ) );
+//        }
+//        double ke2 = getTotalKineticEnergy();
+//        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
     }
 
     private void adjustKineticEnergy( double eFactor ) {

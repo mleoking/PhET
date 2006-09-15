@@ -75,6 +75,14 @@ public class SpringCollision implements Collision {
             System.out.println( "spring.getEnergy( separation ) = " + spring.getEnergy( separation ) );
             model.addToPotentialEnergyStored( spring.getEnergy( separation ));
 
+            if( true ) {
+                spring.pushOnMolecule( mA, separation, new Vector2D.Double( mA.getPosition(),
+                                                                            mB.getPosition()) );
+                spring.pushOnMolecule( mB, separation, new Vector2D.Double( mB.getPosition(),
+                                                                            mA.getPosition()) );
+                return;
+            }
+
             double fMag = spring.getForce( separation );
 //            double fMag = Math.abs( spring.getRestingLength() - separation ) * spring.getK();
 
@@ -166,6 +174,40 @@ public class SpringCollision implements Collision {
                 System.out.println( "SpringCollision$Spring.getEnergy" );
             }
             return energy;
+        }
+
+
+        public void pushOnMolecule( Molecule molecule, double length, Vector2D loa ) {
+
+            // NOrmalize the line of action vector
+            loa.normalize();
+
+            // Determine the amount the molecule has moved in the direction of the
+            // spring in its last time step
+            Vector2D dl = new Vector2D.Double( molecule.getPositionPrev(), molecule.getPosition() );
+            double ds = dl.dot( loa );
+
+            // Compute the change in potential energy in the spring during that last
+            // time step
+            double dPe = ds * k;
+
+            // Reduce the molecule's velocity in the direction that the spring pushes
+            // on it by an amount that corresponds to the change in the spring's potential
+            // energy. If the change in potential is greater than the kinetic energy the molecule
+            // has in that direction, reverse the molecule's direction of travel.
+            double ss = molecule.getVelocity().dot( loa );
+            double keS = ss* ss * molecule.getMass() / 2;
+
+//            if( keS > dPe ) {
+                keS -= dPe;
+
+            if( keS < 0 ) {
+                System.out.println( "SpringCollision$Spring.pushOnMolecule" );
+            }
+                int sign = MathUtil.getSign( keS );
+                double deltaS = sign * Math.sqrt( 2 * ( keS * sign ) /molecule.getMass()) - ss;
+                molecule.getVelocity().add( loa.scale( deltaS ));
+//            }
         }
     }
 }
