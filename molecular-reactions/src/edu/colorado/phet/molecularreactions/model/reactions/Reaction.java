@@ -65,6 +65,8 @@ abstract public class Reaction {
 
     abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule,  SimpleMolecule moleculeAdded );
 
+    abstract public double getThresholdEnergy( Molecule mA, Molecule mB );
+
     //--------------------------------------------------------------------------------------------------
     // Reaction criteria
     //--------------------------------------------------------------------------------------------------

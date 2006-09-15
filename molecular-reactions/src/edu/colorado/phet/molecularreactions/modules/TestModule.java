@@ -29,8 +29,8 @@ public class TestModule extends MRModule {
     public TestModule() {
 
         // Test
-        testM( (MRModel)getModel() );
-//        testL( (MRModel)getModel() );
+//        testM( (MRModel)getModel() );
+        testL( (MRModel)getModel() );
 //        testK( (MRModel)getModel() );
 //        testJ( (MRModel)getModel() );
 //        testI( (MRModel)getModel() );
@@ -48,7 +48,6 @@ public class TestModule extends MRModule {
     void testM( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction( model ) );
-            model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeB();
                 m1.setPosition( 180, 60 );
@@ -81,9 +80,9 @@ public class TestModule extends MRModule {
     void testL( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction( model ) );
-            model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeB();
+                m1.setMass( 1e9);
                 m1.setPosition( 180, 60 );
                 m1.setVelocity( 0, 0 );
                 model.addModelElement( m1 );
@@ -100,8 +99,10 @@ public class TestModule extends MRModule {
 
                 SimpleMolecule m2 = new MoleculeC();
                 m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
-                m2.setVelocity( 3, 0 );
+                m2.setVelocity( 4, 0 );
                 model.addModelElement( m2 );
+
+                m2.setSelectionStatus( Selectable.SELECTED );
             }
         }
     }
@@ -114,7 +115,6 @@ public class TestModule extends MRModule {
     void testK( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction(model) );
-            model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );
@@ -147,7 +147,6 @@ public class TestModule extends MRModule {
     void testJ( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction(model) );
-            model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );
@@ -202,7 +201,6 @@ public class TestModule extends MRModule {
     void testI( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction(model ) );
-            model.getEnergyProfile().setPeakLevel( 50 );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );

@@ -140,11 +140,11 @@ abstract public class Molecule extends Body implements Collidable {
 
     abstract public Rectangle2D getBoundingBox();
 
-    public void applyForce( Vector2D force, MoleculeMoleculeCollisionSpec collisionSpec ) {
+    public void applyForce( Vector2D force, Point2D ptOfApplication ) {
 
         // Compute the torque
         // Get the vector from the cm to the point of application
-        Vector2D r = new Vector2D.Double( getCM(), collisionSpec.getCollisionPt() );
+        Vector2D r = new Vector2D.Double( getCM(), ptOfApplication );
         // Torque = F x r
         double t = force.getCrossProductScalar( r );
 

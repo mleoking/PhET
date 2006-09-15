@@ -23,8 +23,8 @@ import java.awt.geom.Point2D;
 /**
  * EnergyView
  * <p/>
- * A view of the MRModel that shows the potential energy of two individual molecules, or their composite
- * molecule. This is a fairly abstract view.
+ * A view of the MRModel that shows the potential energy of two individual molecules,
+ * or their composite molecule. This is a fairly abstract view.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -118,6 +118,9 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         return moleculePane;
     }
 
+    /**
+     * Updates the positions of the graphics
+     */
     private void update() {
         if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
 
@@ -135,9 +138,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 freeMolecule = selectedMolecule;
             }
             else {
-//                throw new RuntimeException( "internal error");
+                throw new RuntimeException( "internal error");
             }
 
+            // Figure out on which side of the centerline the molecules should appear
             int direction = 0;
             // If the selected molecule is an A molecule and it's free, we're on the left
             if( selectedMolecule instanceof MoleculeA && selectedMolecule == freeMolecule ) {
@@ -166,9 +170,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             double yOffset = 20;
             double xOffset = 20;
 
-//            double xDistFromCenter = curveAreaSize.getWidth() / 2 + ( edgeDist * direction );
-            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 + ( edgeDist * direction ));
-//            double x = Math.max( xOffset, curveAreaSize.getWidth() / 2 - edgeDist );
+            double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, edgeDist );
+            double x = curveAreaSize.getWidth() / 2 + ( xOffsetFromCenter * direction );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
             double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
             double yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
