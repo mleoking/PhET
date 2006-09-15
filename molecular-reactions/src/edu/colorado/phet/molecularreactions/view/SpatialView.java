@@ -39,7 +39,7 @@ public class SpatialView extends PNode {
     PNode boxLayer = new PNode();
 
     public SpatialView( MRModel model, PSwingCanvas pSwingCanvas ) {
-        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 400), new BasicStroke( 1 ));
+        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 450), new BasicStroke( 1 ));
         canvas.setPaint( background );
         addChild( canvas );
 
@@ -66,6 +66,15 @@ public class SpatialView extends PNode {
         MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
         cCounter.setOffset( 140, canvas.getHeight() );
         addChild( cCounter );
+
+        // Temperature control
+        TemperatureControl tempCtrl = new TemperatureControl( model );
+        model.addModelElement( tempCtrl );
+        TemperatureControlGraphic tempCtrlGraphic = new TemperatureControlGraphic( pSwingCanvas, tempCtrl );
+        tempCtrlGraphic.setOffset( 200, 200 );
+        addChild( tempCtrlGraphic );
+        tempCtrlGraphic.setOffset( (model.getBox().getMaxX() + model.getBox().getMinX()) / 2,
+                                   model.getBox().getMaxY() + 30 );
     }
 
 

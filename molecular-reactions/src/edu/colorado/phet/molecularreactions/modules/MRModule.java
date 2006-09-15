@@ -37,7 +37,6 @@ public class MRModule extends Module {
         // Create the model
         MRModel model = new MRModel( getClock() );
         setModel( model );
-//        model.setEnergyProfile( new EnergyProfile( , 100, 40) );
 
         // create the control panel
         setControlPanel( new TestControlPanel( this ) );
@@ -48,7 +47,7 @@ public class MRModule extends Module {
 
         // Create spatial view
         SpatialView spatialView = new SpatialView( model, canvas );
-        spatialView.setOffset( 30, 30 );
+        spatialView.setOffset( 30, 10 );
         canvas.addScreenChild( spatialView );
 
         // Create energy view
