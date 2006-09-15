@@ -39,6 +39,33 @@ public class A_AB_BC_C_Reaction extends Reaction {
         this.model = model;
     }
 
+    /**
+     * Returns the energy between the floor associated with the composite molecule in
+     * a potential reaction, and the reaction's threshold peak
+     * @param mA
+     * @param mB
+     * @return
+     */
+    public double getThresholdEnergy( Molecule mA, Molecule mB ) {
+        double thresholdEnergy = 0;
+        if( mA instanceof MoleculeA && mB instanceof MoleculeBC ) {
+            thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+        }
+        else if( mA instanceof MoleculeBC && mB instanceof MoleculeA ) {
+            thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+        }
+        else if( mA instanceof MoleculeC && mB instanceof MoleculeAB ) {
+            thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
+        }
+        else if( mA instanceof MoleculeAB && mB instanceof MoleculeC ) {
+            thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
+        }
+        else {
+            throw new RuntimeException( "arguments of wrong type");
+        }
+        return thresholdEnergy;
+    }
+
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
         if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
             doReaction( (MoleculeAB)cm, (MoleculeC)sm );
@@ -217,6 +244,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
 
             return secondClassificationCriterionMet;
         }
+
 
         private static double getRelKE( Molecule m1, Molecule m2 ) {
             // Determine the kinetic energy in the collision. We consider this to be the

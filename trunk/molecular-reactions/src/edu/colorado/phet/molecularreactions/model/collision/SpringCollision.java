@@ -11,11 +11,10 @@
 package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-
-import java.awt.geom.Point2D;
 
 /**
  * SpringCollision
@@ -41,26 +40,55 @@ public class SpringCollision implements Collision {
         // the spring, the magnitude of the force will > 0
         SimpleMolecule smA = collisionSpec.getSimpleMoleculeA();
         SimpleMolecule smB = collisionSpec.getSimpleMoleculeB();
+
+        // For the separation of the molecules, we use how far apart their edges were HALF-WAY
+        // THROUGH THE LAST TIME STEP.
+        double dx = ((smA.getPosition().getX() + smA.getPositionPrev().getX() ) / 2 )
+                    - ((smB.getPosition().getX() + smB.getPositionPrev().getX() ) / 2 );
+        double dy = ((smA.getPosition().getY() + smA.getPositionPrev().getY() ) / 2 )
+                    - ((smB.getPosition().getY() + smB.getPositionPrev().getY() ) / 2 );
+//        double separation = Math.sqrt(dx * dx + dy * dy ) - smA.getRadius() - smB.getRadius();
         double separation = smA.getPosition().distance( smB.getPosition() )
                             - smA.getRadius() - smB.getRadius();
 
-        // If the edges are touching or overlapping, then make a composite molecule
+        // Set the spring constant to correspond the energy threshold when the spring is
+        // compressed to 0 length
+        double thresholdEnergy = model.getReaction().getThresholdEnergy( mA, mB );
+        double dl = spring.getRestingLength();
+        double k = 2 * thresholdEnergy / ( dl * dl );
+        spring.setK( k );
+
         Reaction.ReactionCriteria reactionCriteria = model.getReaction().getReactionCriteria();
-        if( separation <= 0 && reactionCriteria.criteriaMet( mA, mB, collisionSpec ) ) {
+        if( reactionCriteria.moleculesAreProperTypes( mA, mB )
+//        && spring.getEnergy( sep ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
+        && spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
             doReaction( mA, mB, collisionSpec );
+        }
+        if( separation <= 0 && !reactionCriteria.criteriaMet( mA, mB, collisionSpec )
+            && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB )) {
+            System.out.println( "SpringCollision.collide" );
         }
 
         // else, if the separation is less than the resting length, do the spring thing
         else if( separation <= spring.getRestingLength() ) {
 
-            double fMag = Math.abs( spring.getRestingLength() - separation ) * spring.getK();
+            System.out.println( "spring.getEnergy( separation ) = " + spring.getEnergy( separation ) );
+            model.addToPotentialEnergyStored( spring.getEnergy( separation ));
+
+            double fMag = spring.getForce( separation );
+//            double fMag = Math.abs( spring.getRestingLength() - separation ) * spring.getK();
 
             // The direction of the force will be along the line of action
-            Vector2D f = new Vector2D.Double( collisionSpec.getLoa() ).normalize().scale( fMag );
+//            if( fMag == Double.POSITIVE_INFINITY ) {
+//                double fMagA =
+//            }
+            Vector2D fA = new Vector2D.Double( collisionSpec.getLoa() ).normalize().scale( fMag );
+            Vector2D fB = new Vector2D.Double( fA).scale( -1 );
+
 
             // Accelerate each of the bodies with the force
-            mA.applyForce( f, collisionSpec );
-            mB.applyForce( f.scale( -1 ), collisionSpec );
+            mA.applyForce( fA, collisionSpec.getCollisionPt() );
+            mB.applyForce( fB, collisionSpec.getCollisionPt() );
         }
     }
 
@@ -105,8 +133,39 @@ public class SpringCollision implements Collision {
             return restingLength;
         }
 
+        public void setK( double k ) {
+            this.k = k;
+        }
+
         public double getK() {
             return k;
+        }
+
+        /**
+         * Gets the magnitude of the force exerted by the spring.
+         * @param length
+         * @return
+         */
+        public double getForce( double length ) {
+            int sign = MathUtil.getSign( length - restingLength );
+            double f = ( restingLength - length ) * k;
+            if( length == 0 ) {
+                System.out.println( "SpringCollision$Spring.getForce" );
+            }
+            return f;
+        }
+
+        /**
+         * Returns the stored energy in the spring if it is at a specified length
+         * @param length
+         * @return the energy stored in the spring
+         */
+        public double getEnergy( double length ) {
+            double energy = ( ( getRestingLength() - length ) * getForce( length ) / 2 );
+            if( energy < 0 ) {
+                System.out.println( "SpringCollision$Spring.getEnergy" );
+            }
+            return energy;
         }
     }
 }
