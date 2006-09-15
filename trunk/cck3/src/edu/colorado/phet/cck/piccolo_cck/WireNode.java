@@ -78,4 +78,5 @@ public class WireNode extends PhetPNode {
         Shape wireShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wireLine );
         wirePPath.setPathTo( wireShape );
     }
+
 }
