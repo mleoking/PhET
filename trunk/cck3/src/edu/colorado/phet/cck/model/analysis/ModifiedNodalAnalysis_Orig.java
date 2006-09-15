@@ -161,7 +161,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
             }
         }
         while( c.numJunctions() > 0 ) {
-            c.remove( c.junctionAt( 0 ) );
+            c.removeJunction( c.junctionAt( 0 ) );
         }
         for( int i = 0; i < circuit.numJunctions(); i++ ) {
             Junction j = circuit.junctionAt( i );

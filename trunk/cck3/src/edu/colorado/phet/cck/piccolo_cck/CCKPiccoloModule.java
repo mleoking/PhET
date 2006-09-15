@@ -88,6 +88,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setCircuit( Circuit circuit ) {
+        model.getCircuit().setCircuit( circuit );
     }
 
     public boolean isInternalResistanceOn() {

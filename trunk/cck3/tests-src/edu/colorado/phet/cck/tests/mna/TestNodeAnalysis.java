@@ -38,7 +38,7 @@ public class TestNodeAnalysis extends NodeAnalysisTest {
         Junction bottomCenter1 = combine( circuit, r1.getEndJunction(), r3.getEndJunction() );
         Junction bottomCenter = combine( circuit, bottomCenter1, v2.getEndJunction() );
         while( circuit.numJunctions() > 0 ) {
-            circuit.remove( circuit.junctionAt( 0 ) );
+            circuit.removeJunction( circuit.junctionAt( 0 ) );
         }
         circuit.addJunction( bottomCenter );
         circuit.addJunction( topleft );

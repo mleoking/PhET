@@ -5,9 +5,3 @@
         to be imagined, that will emerge as we go. 
 - Two model layers: one for topology, one for topography?
 - Create Wire class, and make Branch abstract
-
-In CCKModule:activate()
-        /**
-         * This code was originally used in CCK to ensure aspect ratio is correct.  However, it replaces the
-         * existing apparatus panel container and is incompatibile with multiple modules.
-         */

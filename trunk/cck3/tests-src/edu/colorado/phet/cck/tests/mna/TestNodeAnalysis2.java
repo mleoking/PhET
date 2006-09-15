@@ -28,7 +28,7 @@ public class TestNodeAnalysis2 extends NodeAnalysisTest {
         Junction j1 = combine( circuit, res.getEndJunction(), bat.getStartJunction() );
         Junction j2 = combine( circuit, bat.getEndJunction(), res.getStartJunction() );
         while( circuit.numJunctions() > 0 ) {
-            circuit.remove( circuit.junctionAt( 0 ) );
+            circuit.removeJunction( circuit.junctionAt( 0 ) );
         }
         circuit.addJunction( j1 );
         circuit.addJunction( j2 );

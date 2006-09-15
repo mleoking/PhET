@@ -34,7 +34,7 @@ public class TestDCRCSnapshot extends NodeAnalysisTest {
         Junction j2 = combine( circuit, res.getEndJunction(), cap.getStartJunction() );
         Junction j3 = combine( circuit, cap.getEndJunction(), bat.getStartJunction() );
         while( circuit.numJunctions() > 0 ) {
-            circuit.remove( circuit.junctionAt( 0 ) );
+            circuit.removeJunction( circuit.junctionAt( 0 ) );
         }
         circuit.addJunction( j1 );
         circuit.addJunction( j2 );
