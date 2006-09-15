@@ -135,6 +135,9 @@ public abstract class ComponentEditor extends JDialog {
             public void junctionsSplit( Junction old, Junction[] j ) {
             }
 
+            public void branchAdded( Branch branch ) {
+            }
+
 
         };
         circuit.addCircuitListener( circuitListener );

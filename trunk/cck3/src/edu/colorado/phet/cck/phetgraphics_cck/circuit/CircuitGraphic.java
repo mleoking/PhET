@@ -103,6 +103,9 @@ public class CircuitGraphic extends CompositeGraphic {
             public void junctionsSplit( Junction old, Junction[] j ) {
             }
 
+            public void branchAdded( Branch branch ) {
+            }
+
         } );
         Graphic connectorGraphic = new Graphic() {
             public void paint( Graphics2D g ) {

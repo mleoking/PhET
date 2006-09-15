@@ -31,7 +31,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         toolboxNode = new ToolboxNode();
         addScreenChild( toolboxNode );
 
-        circuitNode = new CircuitNode();
+        circuitNode = new CircuitNode( model.getCircuit() );
         addWorldChild( circuitNode );
 
         messageNode = new MessageNode();
@@ -40,17 +40,13 @@ public class CCKSimulationPanel extends PhetPCanvas {
         addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {
             public void invoke() {
                 super.invoke();
-                addTestCircuit();
+                addTestElement();
             }
         } );
         setWorldScale( 30 );
     }
 
-    private void addTestCircuit() {
-        Junction a = new Junction( 5, 5 );
-        Junction b = new Junction( 8, 5 );
-        Wire component = new Wire( model.getCircuitChangeListener(), a, b );
-        model.getCircuit().addBranch( component );
-        circuitNode.addGraphic( component );
+    private void addTestElement() {
+        model.getCircuit().addBranch( new Wire( model.getCircuitChangeListener(), new Junction( 5, 5 ), new Junction( 8, 5 ) ) );
     }
 }

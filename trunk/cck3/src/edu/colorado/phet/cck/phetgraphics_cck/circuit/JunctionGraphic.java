@@ -90,6 +90,9 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             public void junctionsSplit( Junction old, Junction[] j ) {
             }
 
+            public void branchAdded( Branch branch ) {
+            }
+
         };
         circuit.addCircuitListener( this.circuitListener );
 
