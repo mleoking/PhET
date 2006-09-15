@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -52,6 +53,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
         } );
         relayout();
+        setZoomEventHandler( new PZoomEventHandler() );
     }
 
     private void relayout() {
