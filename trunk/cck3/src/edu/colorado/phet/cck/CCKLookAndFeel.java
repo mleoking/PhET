@@ -10,6 +10,7 @@ public class CCKLookAndFeel {
     public static final double WIRE_THICKNESS = 0.3;
     public static final double DEFAULT_SCALE = 109.3 / 100.0;
     public static final Color HIGHLIGHT_COLOR = Color.yellow;
+    public static final Color toolboxColor = new Color( 241, 241, 241 );
     public static final double HIGHLIGHT_SCALE = 1.5;
 
     public static Font getFont() {

@@ -52,7 +52,7 @@ public class CCKModule extends Module implements ICCKModule {
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
-    public static final Color toolboxColor = new Color( 241, 241, 241 );
+//    public static final Color toolboxColor = new Color( 241, 241, 241 );
 
     /**
      * PhetGraphics-specific data

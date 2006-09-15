@@ -8,6 +8,8 @@ import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -28,7 +30,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         this.model = model;
         setBackground( ICCKModule.BACKGROUND_COLOR );
 
-        toolboxNode = new ToolboxNode();
+        toolboxNode = new ToolboxNode( model );
         addScreenChild( toolboxNode );
 
         circuitNode = new CircuitNode( model.getCircuit() );
@@ -44,6 +46,17 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
         } );
         setWorldScale( 30 );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+        relayout();
+    }
+
+    private void relayout() {
+        double toolboxInsetX = 15;
+        toolboxNode.setOffset( getWidth() - toolboxNode.getFullBounds().getWidth() - toolboxInsetX, getHeight() / 2 - toolboxNode.getFullBounds().getHeight() / 2 );
     }
 
     private void addTestElement() {
