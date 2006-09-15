@@ -218,7 +218,7 @@ public class Circuit {
                 updateNeighbors( newJ );
             }
         }
-        remove( junction );
+        removeJunction( junction );
         fireJunctionsMoved();
         circuitChangeListener.circuitChanged();
         fireJunctionsSplit( junction, newJunctions );
@@ -232,7 +232,7 @@ public class Circuit {
         }
     }
 
-    public void remove( Junction junction ) {
+    public void removeJunction( Junction junction ) {
         junctions.remove( junction );
         junction.delete();
         fireJunctionRemoved( junction );
@@ -241,8 +241,7 @@ public class Circuit {
     public Branch[] getStrongConnections( Junction junction ) {
         ArrayList visited = new ArrayList();
         getStrongConnections( visited, junction );
-        Branch[] b = (Branch[])visited.toArray( new Branch[0] );
-        return b;
+        return (Branch[])visited.toArray( new Branch[0] );
     }
 
     public Branch[] getStrongConnections( Branch wrongDir, Junction junction ) {
@@ -254,8 +253,7 @@ public class Circuit {
         if( wrongDir != null ) {
             visited.remove( wrongDir );
         }
-        Branch[] b = (Branch[])visited.toArray( new Branch[0] );
-        return b;
+        return (Branch[])visited.toArray( new Branch[0] );
     }
 
     private void getStrongConnections( ArrayList visited, Junction junction ) {
@@ -275,8 +273,7 @@ public class Circuit {
     public Branch[] getConnectedSubgraph( Junction junction ) {
         ArrayList visited = new ArrayList();
         getConnectedSubgraph( visited, junction );
-        Branch[] b = (Branch[])visited.toArray( new Branch[0] );
-        return b;
+        return (Branch[])visited.toArray( new Branch[0] );
     }
 
     private void getConnectedSubgraph( ArrayList visited, Junction junction ) {
@@ -314,7 +311,7 @@ public class Circuit {
         return (Branch)branches.get( i );
     }
 
-    public void remove( Branch branch ) {
+    public void removeBranch( Branch branch ) {
         branches.remove( branch );
         branch.delete();
         fireBranchRemoved( branch );
@@ -539,5 +536,22 @@ public class Circuit {
             }
         }
         return sum;
+    }
+
+    public void setCircuit( Circuit newCircuit ) {
+        clear();
+        for( int i = 0; i < newCircuit.numJunctions(); i++ ) {
+            addJunction( newCircuit.junctionAt( i ) );
+        }
+        for( int i = 0; i < newCircuit.numBranches(); i++ ) {
+            addBranch( newCircuit.branchAt( i ) );
+        }
+    }
+
+    public void clear() {
+        while( numBranches() > 0 ) {
+            Branch br = branchAt( 0 );
+            removeBranch( br );
+        }
     }
 }

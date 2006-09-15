@@ -190,7 +190,7 @@ public class CCKModule extends Module implements ICCKModule {
         getCircuit().setFireKirkhoffChanges( false );
         removeParticlesAndGraphics( branch );
         getCircuitGraphic().removeGraphic( branch );
-        getCircuit().remove( branch );
+        getCircuit().removeBranch( branch );
 
         //see if the adjacent junctions are free.
         testRemove( branch.getStartJunction() );
@@ -209,7 +209,7 @@ public class CCKModule extends Module implements ICCKModule {
         Branch[] out = getCircuit().getAdjacentBranches( st );
         if( out.length == 0 ) {
             getCircuitGraphic().removeGraphic( st );
-            getCircuit().remove( st );
+            getCircuit().removeJunction( st );
         }
     }
 
@@ -222,10 +222,7 @@ public class CCKModule extends Module implements ICCKModule {
     }
 
     public void clear() {
-        while( getCircuit().numBranches() > 0 ) {
-            Branch br = getCircuit().branchAt( 0 );
-            removeBranch( br );
-        }
+        getCircuit().clear();
     }
 
     public void setLifelike( boolean lifelike ) {
@@ -248,13 +245,7 @@ public class CCKModule extends Module implements ICCKModule {
     }
 
     public void setCircuit( Circuit newCircuit ) {
-        clear();
-        for( int i = 0; i < newCircuit.numJunctions(); i++ ) {
-            getCircuit().addJunction( newCircuit.junctionAt( i ) );
-        }
-        for( int i = 0; i < newCircuit.numBranches(); i++ ) {
-            getCircuit().addBranch( newCircuit.branchAt( i ) );
-        }
+        getCircuit().setCircuit( newCircuit );
         for( int i = 0; i < getCircuit().numBranches(); i++ ) {
             getCircuitGraphic().addGraphic( getCircuit().branchAt( i ) );
         }

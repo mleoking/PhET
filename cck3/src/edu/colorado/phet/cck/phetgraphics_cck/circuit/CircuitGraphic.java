@@ -562,7 +562,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
     private void remove( Junction junction ) {
         removeGraphic( junction );
-        circuit.remove( junction );
+        circuit.removeJunction( junction );
     }
 
     public ModelViewTransform2D getTransform() {

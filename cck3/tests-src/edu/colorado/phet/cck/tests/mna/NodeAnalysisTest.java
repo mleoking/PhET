@@ -40,8 +40,8 @@ public class NodeAnalysisTest {
                 brl.setEndJunction( replacement );
             }
         }
-        circuit.remove( a );
-        circuit.remove( b );
+        circuit.removeJunction( a );
+        circuit.removeJunction( b );
 
         circuit.addJunction( replacement );
         return replacement;
