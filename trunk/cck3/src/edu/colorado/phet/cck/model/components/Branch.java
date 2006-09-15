@@ -201,6 +201,11 @@ public abstract class Branch extends SimpleObservableDebug {
         this.startJunction = newJunction;
     }
 
+    public void translate( double dx, double dy ) {
+        getStartJunction().translate( dx, dy );
+        getEndJunction().translate( dx, dy );
+    }
+
     public void setEndJunction( Junction newJunction ) {
         this.endJunction = newJunction;
     }

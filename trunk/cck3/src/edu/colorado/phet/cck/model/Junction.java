@@ -86,4 +86,8 @@ public class Junction extends SimpleObservableDebug {
     public double getVoltage() {
         return voltage;
     }
+
+    public void setPosition( Point2D location ) {
+        setPosition( location.getX(), location.getY() );
+    }
 }

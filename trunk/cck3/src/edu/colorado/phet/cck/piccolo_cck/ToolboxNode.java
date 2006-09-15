@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -15,6 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -26,12 +28,14 @@ import java.util.ArrayList;
 
 public class ToolboxNode extends PhetPNode {
     private PPath toolboxBounds;
+    private PhetPCanvas canvas;
     private CCKModel model;
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 50;
     private static final double BETWEEN_INSET = 20;
 
-    public ToolboxNode( CCKModel model ) {
+    public ToolboxNode( PhetPCanvas canvas, CCKModel model ) {
+        this.canvas = canvas;
         this.model = model;
         this.toolboxBounds = new PPath( new Rectangle( 100, 600 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
@@ -62,6 +66,8 @@ public class ToolboxNode extends PhetPNode {
 
     abstract class BranchMaker extends PComposite {//tricky way of circumventing children's behaviors
         private PText label;
+        private boolean branchDragging;
+        private Branch branch;
 
         public BranchMaker( String name ) {
             label = new PText( name );
@@ -70,14 +76,39 @@ public class ToolboxNode extends PhetPNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     super.mouseDragged( event );
-                    Branch branch = createBranch();
-                    model.getCircuit().addBranch( branch );
+                    // If we haven't created the branch yet
+                    if( !branchDragging ) {
+                        branch = createBranch();
+                        // Position the branch so it's centered on the mouse event.
+                        setBranchLocationFromEvent( event );
+                        model.getCircuit().addBranch( branch );
+                        branchDragging = true;
+                        branch.setSelected( true );
+                    }
+                    // else, we're dragging a branch that we created.
+                    else {
+                        setBranchLocationFromEvent( event );
+//                        event.getDeltaRelativeTo( WireNode.this );
+//                        branch.translate( event.getCanvasDelta().get);
+                    }
                 }
 
                 public void mouseReleased( PInputEvent event ) {
-                    super.mouseReleased( event );
+                    branchDragging = false;
                 }
             } );
+        }
+
+        private void setBranchLocationFromEvent( PInputEvent event ) {
+            Point2D worldLoc = new Point2D.Double( event.getCanvasPosition().getX(),
+                                                   event.getCanvasPosition().getY() );
+            canvas.getPhetRootNode().globalToWorld( worldLoc );
+            double dx = branch.getEndPoint().getX() - branch.getStartPoint().getX();
+            double dy = branch.getEndPoint().getY() - branch.getStartPoint().getY();
+            branch.getStartJunction().setPosition( worldLoc.getX() - dx / 2,
+                                                   worldLoc.getY() - dy / 2 );
+            branch.getEndJunction().setPosition( worldLoc.getX() + dx / 2,
+                                                 worldLoc.getY() + dy / 2 );
         }
 
         protected abstract Branch createBranch();
