@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -21,15 +22,21 @@ import java.awt.geom.Line2D;
 
 public class WireNode extends PhetPNode {
     private Wire wire;
-    private PPath ppath;
+    private PPath wirePPath;
+    private PPath wireHighlightPPath;
 
     public WireNode( final Wire wire ) {
         this.wire = wire;
 
-        ppath = new PPath();
-        ppath.setPaint( Color.blue );
-        ppath.setStroke( new BasicStroke( 0.01f ) );
-        addChild( ppath );
+        wireHighlightPPath = new PPath();
+        wireHighlightPPath.setPaint( CCKLookAndFeel.HIGHLIGHT_COLOR );
+        wireHighlightPPath.setStroke( null );
+
+        wirePPath = new PPath();
+        wirePPath.setPaint( CCKLookAndFeel.COPPER );
+        wirePPath.setStroke( null );
+        addChild( wireHighlightPPath );
+        addChild( wirePPath );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
@@ -37,6 +44,15 @@ public class WireNode extends PhetPNode {
                 PDimension delta = event.getDeltaRelativeTo( WireNode.this );
                 wire.getStartJunction().translate( delta.width, delta.height );
                 wire.getEndJunction().translate( delta.width, delta.height );
+            }
+
+            public void mousePressed( PInputEvent event ) {
+                wire.setSelected( true );
+            }
+        } );
+        wire.addObserver( new SimpleObserver() {
+            public void update() {
+                WireNode.this.update();
             }
         } );
         wire.getStartJunction().addObserver( new SimpleObserver() {
@@ -53,8 +69,13 @@ public class WireNode extends PhetPNode {
     }
 
     private void update() {
-        Line2D.Double line = new Line2D.Double( wire.getStartPoint(), wire.getEndPoint() );
-        Shape wireShape = new BasicStroke( 0.2f ).createStrokedShape( line );
-        ppath.setPathTo( wireShape );
+        Line2D.Double wireLine = new Line2D.Double( wire.getStartPoint(), wire.getEndPoint() );
+
+        wireHighlightPPath.setVisible( wire.isSelected() );
+        Shape highlightShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wireLine );
+        wireHighlightPPath.setPathTo( highlightShape );
+
+        Shape wireShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wireLine );
+        wirePPath.setPathTo( wireShape );
     }
 }

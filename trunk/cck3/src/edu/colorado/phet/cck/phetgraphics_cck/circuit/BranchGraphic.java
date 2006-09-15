@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
@@ -28,7 +29,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
     private PhetShapeGraphic core;
-    private Color highlightColor = Color.yellow;
+    private Color highlightColor = CCKLookAndFeel.HIGHLIGHT_COLOR;
     private PhetShapeGraphic highlight;
     private PhetTextGraphic debugText;
 //    private boolean debug = false;
@@ -54,25 +55,14 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
-//<<<<<<< BranchGraphic.java
         if( CircuitGraphic.GRAPHICAL_DEBUG ) {
             debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
         }
-////=======
-//        if( debug ) {
-//            debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
-//            addGraphic( debugText );
-//        }
-//>>>>>>> 1.12
-
         doupdate();
         setVisible( true );
-//<<<<<<< BranchGraphic.java
         if( debugText != null ) {
             addGraphic( debugText );
         }
-//=======
-//>>>>>>> 1.12
     }
 
     public void setVisible( boolean visible ) {
@@ -84,13 +74,14 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
 
     private void doupdate() {
         Shape coreshape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness );
-        Shape highlightShape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness * 1.5 );
+        Shape highlightShape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness * CCKLookAndFeel.HIGHLIGHT_SCALE );
         if( coreshape.getBounds().width == 0 && coreshape.getBounds().height == 0 ) {
             //            throw new RuntimeException( "No bounds to coreshape." );
         }
         else {
             highlight.setVisible( branch.isSelected() );
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
+
             core.setShape( transform.createTransformedShape( coreshape ) );
 
             if( debugText != null ) {
