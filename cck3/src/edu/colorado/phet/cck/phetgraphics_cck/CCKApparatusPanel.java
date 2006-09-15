@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.CCKControlPanel;
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
@@ -151,14 +152,16 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         if( !initedLayout ) {
             init();
             initedLayout = true;
-            if( !transform.getViewBounds().equals( getViewBounds() ) ) {
+            if( !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 )
+            {
                 transform.setViewBounds( getViewBounds() );
                 getApparatusPanel().repaint();
                 getCircuit().updateAll();
             }
         }
 
-        if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
+        if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 )
+        {
             transform.setViewBounds( getViewBounds() );
             getApparatusPanel().repaint();
             getCircuit().updateAll();
@@ -179,9 +182,10 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
 
     public void init() {
         transform.setModelBounds( getCCKModel().getModelBounds() );
-        transform.setViewBounds( new Rectangle( getApparatusPanel().getWidth(), getApparatusPanel().getHeight() ) );
 
-        toolbox = new Toolbox( createToolboxBounds(), module, CCKModule.toolboxColor );
+        transform.setViewBounds( new Rectangle( getApparatusPanel().getWidth() > 0 ? getApparatusPanel().getWidth() : 100, getApparatusPanel().getHeight() > 0 ? getApparatusPanel().getHeight() : 100 ) );
+
+        toolbox = new Toolbox( createToolboxBounds(), module, CCKLookAndFeel.toolboxColor );
         getApparatusPanel().addGraphic( toolbox );
         addGraphic( getCircuitGraphic(), 2 );
         addVirtualAmmeter();

@@ -29,30 +29,6 @@ public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
 
-    static class CCKPhetGraphicModuleAdapter extends Module {
-        private CCKModule cckModule;
-
-        /* Aspect ratio panel used in single-module setups*/
-        private AspectRatioPanel aspectRatioPanel;
-
-        public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
-            super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
-
-            cckModule = new CCKModule( args );
-            aspectRatioPanel = new AspectRatioPanel( cckModule.getCCKApparatusPanel(), 5, 5, 1.2 );
-            cckModule.initControlPanel( this );
-//            setSimulationPanel( cckModule.getCCKApparatusPanel() );
-            setSimulationPanel( aspectRatioPanel );
-            setControlPanel( cckModule.getControlPanel() );
-            addModelElement( new ModelElement() {
-                public void stepInTime( double dt ) {
-                    cckModule.getModel().stepInTime( dt );
-                    cckModule.getCCKApparatusPanel().synchronizeImmediately();
-                }
-            } );
-        }
-    }
-
     public static String getSubTitle( String[]args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
     }
@@ -70,7 +46,8 @@ public class CCKApplication extends PiccoloPhetApplication {
 
         CCKPhetGraphicModuleAdapter phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
         CCKPiccoloModule cckPiccoloModule = new CCKPiccoloModule( args );
-        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
+//        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
+        Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         setModules( modules );
 
         getPhetFrame().addMenu( new LookAndFeelMenu() );
@@ -109,6 +86,30 @@ public class CCKApplication extends PiccoloPhetApplication {
         }
     }
 
+    static class CCKPhetGraphicModuleAdapter extends Module {
+        private CCKModule cckModule;
+
+        /* Aspect ratio panel used in single-module setups*/
+        private AspectRatioPanel aspectRatioPanel;
+
+        public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
+            super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
+
+            cckModule = new CCKModule( args );
+            aspectRatioPanel = new AspectRatioPanel( cckModule.getCCKApparatusPanel(), 5, 5, 1.2 );
+            cckModule.initControlPanel( this );
+//            setSimulationPanel( cckModule.getCCKApparatusPanel() );
+            setSimulationPanel( aspectRatioPanel );
+            setControlPanel( cckModule.getControlPanel() );
+            addModelElement( new ModelElement() {
+                public void stepInTime( double dt ) {
+                    cckModule.getModel().stepInTime( dt );
+                    cckModule.getCCKApparatusPanel().synchronizeImmediately();
+                }
+            } );
+        }
+    }
+
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
@@ -124,4 +125,5 @@ public class CCKApplication extends PiccoloPhetApplication {
             }
         } );
     }
+
 }
