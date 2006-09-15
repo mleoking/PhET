@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.*;
@@ -35,7 +36,7 @@ import java.util.*;
  */
 public class CircuitGraphic extends CompositeGraphic {
     private static double JUNCTION_RADIUS = CCKModel.JUNCTION_RADIUS;
-    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
+    public static final Color COPPER = CCKLookAndFeel.COPPER;
     public static final Color SILVER = Color.gray;
     private CompositeGraphic filamentLayer = new CompositeGraphic();
     private CompositeGraphic branches = new CompositeGraphic();
@@ -854,7 +855,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     class Lifelike implements GraphicSource {
-        double wireThickness = .3;
+        double wireThickness = CCKLookAndFeel.WIRE_THICKNESS;
 
         public Lifelike() {
         }
