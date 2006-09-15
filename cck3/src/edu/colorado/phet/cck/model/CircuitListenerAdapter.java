@@ -30,4 +30,7 @@ public class CircuitListenerAdapter implements CircuitListener {
 
     public void junctionsSplit( Junction old, Junction[] j ) {
     }
+
+    public void branchAdded( Branch branch ) {
+    }
 }

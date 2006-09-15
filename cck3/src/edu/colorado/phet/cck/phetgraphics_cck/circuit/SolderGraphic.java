@@ -77,6 +77,9 @@ public class SolderGraphic extends PhetShapeGraphic {
                 }
             }
 
+            public void branchAdded( Branch branch ) {
+            }
+
         };
         circuit.addCircuitListener( circuitListener );
         transformListener = new TransformListener() {

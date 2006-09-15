@@ -168,6 +168,7 @@ public class Circuit {
         addJunction( component.getStartJunction() );
         addJunction( component.getEndJunction() );
         branches.add( component );
+        fireBranchAdded( component );
     }
 
     public void notifyNeighbors( Branch b ) {
@@ -322,6 +323,13 @@ public class Circuit {
 
     public void setFireKirkhoffChanges( boolean fireKirkhoffChanges ) {
         this.fireKirkhoffChanges = fireKirkhoffChanges;
+    }
+
+    private void fireBranchAdded( Branch branch ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            CircuitListener circuitListener = (CircuitListener)listeners.get( i );
+            circuitListener.branchAdded( branch );
+        }
     }
 
     private void fireBranchRemoved( Branch branch ) {
