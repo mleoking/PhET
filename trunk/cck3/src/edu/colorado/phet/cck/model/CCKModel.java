@@ -196,4 +196,8 @@ public class CCKModel {
             }
         }
     }
+
+    public void resetDynamics() {
+        getCircuit().resetDynamics();
+    }
 }
