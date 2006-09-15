@@ -60,11 +60,11 @@ public class Spring {
     /**
      * Returns the stored energy in the spring if it is at a specified length
      *
-     * @param length
+     * @param springLength
      * @return the energy stored in the spring
      */
-    public double getEnergy( double length ) {
-        double energy = ( ( getRestingLength() - length ) * getForce( length ) / 2 );
+    public double getEnergy( double springLength ) {
+        double energy = ( ( getRestingLength() - springLength ) * getForce( springLength ) / 2 );
         if( energy < 0 ) {
             System.out.println( "SpringCollision$Spring.getEnergy" );
         }

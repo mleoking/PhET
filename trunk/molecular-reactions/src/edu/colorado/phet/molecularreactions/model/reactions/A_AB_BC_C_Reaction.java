@@ -23,7 +23,7 @@ import edu.colorado.phet.common.math.Vector2D;
  * @version $Revision$
  */
 public class A_AB_BC_C_Reaction extends Reaction {
-    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .4,
+    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .9,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD * .2,
                                                                     50 );
@@ -42,6 +42,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
     /**
      * Returns the energy between the floor associated with the composite molecule in
      * a potential reaction, and the reaction's threshold peak
+     *
      * @param mA
      * @param mB
      * @return
@@ -61,7 +62,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
         }
         else {
-            throw new RuntimeException( "arguments of wrong type");
+            throw new RuntimeException( "arguments of wrong type" );
         }
         return thresholdEnergy;
     }
@@ -94,6 +95,14 @@ public class A_AB_BC_C_Reaction extends Reaction {
         doReactionII( mBC, mAB, mC );
     }
 
+    /**
+     * Removes the old composite molecule from the model, adds the new one, and
+     * sets the kinematics for the reaction products using a hard sphere collision
+     *
+     * @param mAB
+     * @param mBC
+     * @param mA
+     */
     private void doReactionII( Molecule mAB, Molecule mBC, Molecule mA ) {
         model.removeModelElement( mAB );
         model.addModelElement( mBC );
@@ -158,43 +167,44 @@ public class A_AB_BC_C_Reaction extends Reaction {
             this.energyProfile = energyProfile;
         }
 
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec ) {
+        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double thresholdEnergy ) {
             boolean result = false;
 
             // The simple molecule must have collided with the B simple
             // molecule in the composite molecule
-            boolean thirdClassificationCriterionMet = false;
+            boolean classificationCriterionMet = false;
             if( moleculesAreProperTypes( m1, m2 )
                 && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
                        && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
                      || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) )
-            ) ) {
-                thirdClassificationCriterionMet = true;
+                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) ) ) {
+                classificationCriterionMet = true;
             }
             else if( moleculesAreProperTypes( m1, m2 )
                      && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
                             && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
                           || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) )
-            ) ) {
-                thirdClassificationCriterionMet = true;
+                                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) ) ) ) {
+                classificationCriterionMet = true;
             }
 
             // The relative kinetic energy of the collision must be above the
             // energy profile threshold
-            if( thirdClassificationCriterionMet ) {
+            if( classificationCriterionMet ) {
                 CompositeMolecule cm = m1 instanceof CompositeMolecule
                                        ? (CompositeMolecule)m1
                                        : (CompositeMolecule)m2;
                 double de = 0;
-                if( cm instanceof MoleculeAB ) {
+                if( cm instanceof MoleculeBC ) {
                     de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
                 }
-                else {
+                else if( cm instanceof MoleculeAB ) {
                     de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
                 }
-                result = getRelKE( m1, m2 ) > energyProfile.getPeakLevel();
+                else {
+                    throw new IllegalArgumentException( "internal error ");
+                }
+                result = getRelKE( m1, m2 ) > de;
             }
             return result;
         }

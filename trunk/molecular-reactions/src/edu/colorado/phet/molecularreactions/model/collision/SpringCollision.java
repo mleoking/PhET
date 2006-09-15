@@ -64,7 +64,7 @@ public class SpringCollision implements Collision {
         && spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
             doReaction( mA, mB, collisionSpec );
         }
-        if( separation <= 0 && !reactionCriteria.criteriaMet( mA, mB, collisionSpec )
+        if( separation <= 0 && !model.getReaction().areCriteriaMet( mA, mB, collisionSpec )
             && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB )) {
             System.out.println( "SpringCollision.collide" );
         }
