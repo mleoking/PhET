@@ -97,7 +97,6 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         getApparatusPanel().setFocusable( true );
         getApparatusPanel().setBackground( new Color( 0, 0, 0, 0 ) );
 
-
         DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
             }

@@ -63,4 +63,14 @@ public interface ICCKModule {
     Rectangle2D getModelBounds();
 
     void layoutElectrons( Branch[] branches );
+
+    void resetDynamics();
+
+    void selectAll();
+
+    void addTestCircuit();
+
+    void deleteSelection();
+
+    void desolderSelection();
 }

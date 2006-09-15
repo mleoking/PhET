@@ -119,4 +119,20 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void layoutElectrons( Branch[] branches ) {
         model.layoutElectrons( branches );
     }
+
+    public void resetDynamics() {
+        model.resetDynamics();
+    }
+
+    public void selectAll() {
+    }
+
+    public void addTestCircuit() {
+    }
+
+    public void deleteSelection() {
+    }
+
+    public void desolderSelection() {
+    }
 }

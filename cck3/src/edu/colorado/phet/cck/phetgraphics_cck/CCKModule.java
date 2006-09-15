@@ -289,7 +289,7 @@ public class CCKModule extends Module implements ICCKModule {
     }
 
     public void resetDynamics() {
-        getCircuit().resetDynamics();
+        model.resetDynamics();
     }
 
     public void clockTickFinished() {

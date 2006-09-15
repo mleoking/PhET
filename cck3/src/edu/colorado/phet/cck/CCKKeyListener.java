@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
  * Copyright (c) Jun 30, 2004 by Sam Reid
  */
 public class CCKKeyListener implements KeyListener {
-    CCKModule cck;
+    ICCKModule cck;
 
     public CCKKeyListener( CCKModule cck ) {
         this.cck = cck;
@@ -37,7 +37,7 @@ public class CCKKeyListener implements KeyListener {
             cck.selectAll();
         }
         else if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
-            boolean orig = cck.getCircuitGraphic().isLifelike();
+            boolean orig = cck.isLifelike();
             for( int i = 0; i < 50; i++ ) {
                 cck.setLifelike( !orig );
                 cck.setLifelike( orig );
