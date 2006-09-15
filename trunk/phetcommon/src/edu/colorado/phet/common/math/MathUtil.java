@@ -591,4 +591,18 @@ public class MathUtil {
         }
         return result;
     }
+
+    /**
+     * Returns the projection of one vector on another. The arguments are
+     * not modified.
+     *
+     * @param v1
+     * @param v2
+     * @return A vector that is the projection of v1 on v2
+     */
+    public static Vector2D getProjection( Vector2D v1, Vector2D v2 ) {
+        Vector2D proj = new Vector2D.Double( v2 ).normalize();
+        proj = proj.scale( v1.dot(proj));
+        return proj;
+    }
 }
