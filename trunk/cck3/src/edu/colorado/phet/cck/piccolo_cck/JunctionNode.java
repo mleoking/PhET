@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -8,10 +9,10 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -23,15 +24,16 @@ import java.awt.geom.Ellipse2D;
 public class JunctionNode extends PhetPNode {
     private double strokeWidthModelCoords = CCKModel.JUNCTION_GRAPHIC_STROKE_WIDTH;
     private Stroke shapeStroke = new BasicStroke( 2 );
-    private Stroke highlightStroke = new BasicStroke( 4 );
     private CCKModel cckModel;
     private Junction junction;
+    private CircuitNode circuitNode;
     private PPath shapePNode;
     private PPath highlightPNode;
 
-    public JunctionNode( CCKModel cckModel, final Junction junction ) {
+    public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode ) {
         this.cckModel = cckModel;
         this.junction = junction;
+        this.circuitNode = circuitNode;
         shapePNode = new PPath();
         shapePNode.setStroke( shapeStroke );
         highlightPNode = new PPath();
@@ -49,13 +51,27 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setStrokePaint( Color.red );
         shapePNode.setPaint( new Color( 0, 0, 0, 0 ) );
         addInputEventListener( new PBasicInputEventHandler() {
+            Junction stickyTarget = null;
+
             public void mouseDragged( PInputEvent event ) {
-                PDimension dim = event.getDeltaRelativeTo( JunctionNode.this );
-                junction.translate( dim.width, dim.height );
+                Point2D pt = event.getPositionRelativeTo( JunctionNode.this );
+                Point2D target = new Point2D.Double( pt.getX(), pt.getY() );
+                stickyTarget = circuitNode.getStickyTarget( junction, target.getX(), target.getY() );
+                if( stickyTarget != null ) {
+                    target = stickyTarget.getPosition();
+                }
+                junction.setPosition( target );
             }
 
             public void mousePressed( PInputEvent event ) {
-                junction.setSelected( true );
+                getCircuit().setSelection( junction );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                if( stickyTarget != null ) {
+                    getCircuit().collapseJunctions( junction, stickyTarget );
+                }
+                stickyTarget = null;
             }
         } );
 
@@ -82,5 +98,13 @@ public class JunctionNode extends PhetPNode {
         Ellipse2D.Double circle = new Ellipse2D.Double();
         circle.setFrameFromCenter( junction.getX(), junction.getY(), junction.getX() + radius, junction.getY() + radius );
         return circle;
+    }
+
+    Junction getJunction() {
+        return junction;
+    }
+
+    private Circuit getCircuit() {
+        return cckModel.getCircuit();
     }
 }

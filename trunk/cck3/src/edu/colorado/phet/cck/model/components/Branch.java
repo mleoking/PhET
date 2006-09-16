@@ -48,9 +48,22 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
-        this.startJunction = startJunction;
-        this.endJunction = endJunction;
+        setStartJunction( startJunction );
+        setEndJunction( endJunction );
+//        this.startJunction = startJunction;
+//        this.endJunction = endJunction;
+//
+//        startJunction.addObserver( so );
+//        endJunction.addObserver( so );
     }
+
+    //todo this could be awkward
+    //if a junction changes, this branch has also changed.
+    SimpleObserver so = new SimpleObserver() {
+        public void update() {
+            notifyObservers();
+        }
+    };
 
     public boolean isSelected() {
         return isSelected;
@@ -198,7 +211,11 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setStartJunction( Junction newJunction ) {
+        if( startJunction != null ) {
+            startJunction.removeObserver( so );
+        }
         this.startJunction = newJunction;
+        startJunction.addObserver( so );
     }
 
     public void translate( double dx, double dy ) {
@@ -207,7 +224,11 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setEndJunction( Junction newJunction ) {
+        if( endJunction != null ) {
+            endJunction.removeObserver( so );
+        }
         this.endJunction = newJunction;
+        endJunction.addObserver( so );
     }
 
     public void replaceJunction( Junction junction, Junction newJ ) {
@@ -266,13 +287,6 @@ public abstract class Branch extends SimpleObservableDebug {
     public Point2D getCenter() {
         return new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
     }
-
-//    public void addAttributes( XMLElement branchElement ) {
-//    }
-
-//    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, CircuitChangeListener kl ) {
-//        return new Branch( kl, startJunction, endJunction );
-//    }
 
     public void delete() {
         removeAllObservers();

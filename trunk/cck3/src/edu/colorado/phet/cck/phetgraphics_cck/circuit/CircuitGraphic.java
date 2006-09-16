@@ -430,20 +430,6 @@ public class CircuitGraphic extends CompositeGraphic {
         return null;
     }
 
-    public boolean wouldConnectionCauseOverlappingBranches( Junction a, Junction b ) {
-        Junction[] neighborsOfA = getCircuit().getNeighbors( a );
-        Junction[] neighborsOfB = getCircuit().getNeighbors( b );
-        for( int i = 0; i < neighborsOfA.length; i++ ) {
-            Junction na = neighborsOfA[i];
-            for( int j = 0; j < neighborsOfB.length; j++ ) {
-                Junction nb = neighborsOfB[j];
-                if( na == nb ) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     public DragMatch getBestDragMatch( Branch[] sc, Vector2D dx ) {
         Junction[] sources = Circuit.getJunctions( sc );
@@ -512,7 +498,7 @@ public class CircuitGraphic extends CompositeGraphic {
             Junction target = targets[i];
             double dist = loc.distance( target.getPosition() );
             if( target != dragging && !getCircuit().hasBranch( dragging, target ) &&
-                !wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
+                !getCircuit().wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
                 if( closestJunction == null || dist < closestValue ) {
                     boolean legal = !contains( strong, target );
                     if( dist <= STICKY_THRESHOLD && legal ) {

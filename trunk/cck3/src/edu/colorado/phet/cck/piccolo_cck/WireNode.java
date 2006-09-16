@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -21,11 +22,13 @@ import java.awt.geom.Line2D;
  */
 
 public class WireNode extends PhetPNode {
+    private CCKModel cckModel;
     private Wire wire;
     private PPath wirePPath;
     private PPath wireHighlightPPath;
 
-    public WireNode( final Wire wire ) {
+    public WireNode( final CCKModel cckModel, final Wire wire ) {
+        this.cckModel = cckModel;
         this.wire = wire;
 
         wireHighlightPPath = new PPath();
@@ -42,12 +45,11 @@ public class WireNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 PDimension delta = event.getDeltaRelativeTo( WireNode.this );
-
                 wire.translate( delta.width, delta.height );
             }
 
             public void mousePressed( PInputEvent event ) {
-                wire.setSelected( true );
+                cckModel.getCircuit().setSelection( wire );
             }
         } );
         wire.addObserver( new SimpleObserver() {

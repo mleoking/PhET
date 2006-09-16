@@ -556,4 +556,36 @@ public class Circuit {
             removeBranch( br );
         }
     }
+
+    public boolean wouldConnectionCauseOverlappingBranches( Junction a, Junction b ) {
+        Junction[] neighborsOfA = getNeighbors( a );
+        Junction[] neighborsOfB = getNeighbors( b );
+        for( int i = 0; i < neighborsOfA.length; i++ ) {
+            Junction na = neighborsOfA[i];
+            for( int j = 0; j < neighborsOfB.length; j++ ) {
+                Junction nb = neighborsOfB[j];
+                if( na == nb ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public void collapseJunctions( Junction j1, Junction j2 ) {
+        if( !j1.getPosition().equals( j2.getPosition() ) ) {
+            throw new RuntimeException( "Juncitons Not at same coordinates." );
+        }
+        removeJunction( j1 );
+        removeJunction( j2 );
+        Junction replacement = new Junction( j1.getX(), j1.getY() );
+        addJunction( replacement );
+        replaceJunction( j1, replacement );
+        replaceJunction( j2, replacement );
+
+        fireKirkhoffChanged();
+        fireJunctionsCollapsed( j1, j2, replacement );
+    }
+
 }

@@ -124,7 +124,7 @@ public class ToolboxNode extends PhetPNode {
     class WireMaker extends BranchMaker {
         public WireMaker() {
             super( "Wire" );
-            WireNode child = new WireNode( new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) ) );
+            WireNode child = new WireNode( model, new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) ) );
             child.scale( 40 );//todo choose scale based on insets?
             //child.setNonInteractive();//todo how to make this node use graphic code, but different interaction model?  Could use PComposite, see above.
             setDisplayGraphic( child );
