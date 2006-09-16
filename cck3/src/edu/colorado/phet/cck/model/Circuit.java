@@ -165,10 +165,12 @@ public class Circuit {
         if( component == null ) {
             throw new RuntimeException( "Null component." );
         }
-        addJunction( component.getStartJunction() );
-        addJunction( component.getEndJunction() );
+
         branches.add( component );
         fireBranchAdded( component );
+
+        addJunction( component.getStartJunction() );
+        addJunction( component.getEndJunction() );
     }
 
     public void notifyNeighbors( Branch b ) {

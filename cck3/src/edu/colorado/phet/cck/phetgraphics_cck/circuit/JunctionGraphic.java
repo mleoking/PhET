@@ -37,12 +37,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private CircuitListener circuitListener;
     private static int instanceCount = 0;
     private PhetTextGraphic debugGraphic;
-//    private boolean showLabel = false;
-//<<<<<<< JunctionGraphic.java
     private boolean showLabel = CircuitGraphic.GRAPHICAL_DEBUG;
-//=======
-//    private boolean showLabel = false;
-//>>>>>>> 1.13
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( parent );
