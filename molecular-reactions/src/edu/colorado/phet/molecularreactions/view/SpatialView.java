@@ -38,8 +38,8 @@ public class SpatialView extends PNode {
     PNode bondLayer = new PNode();
     PNode boxLayer = new PNode();
 
-    public SpatialView( MRModel model, PSwingCanvas pSwingCanvas ) {
-        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, 300, 450), new BasicStroke( 1 ));
+    public SpatialView( MRModel model, PSwingCanvas pSwingCanvas, Dimension size ) {
+        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, size.getWidth(), size.getHeight()), new BasicStroke( 1 ));
         canvas.setPaint( background );
         addChild( canvas );
 

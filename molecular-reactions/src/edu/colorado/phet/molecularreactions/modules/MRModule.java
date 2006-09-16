@@ -45,14 +45,23 @@ public class MRModule extends Module {
         PhetPCanvas canvas = new PhetPCanvas( size );
         setSimulationPanel( canvas );
 
+        // Set up the sizes and locations of the views
+        Insets insets = new Insets( 10, 10, 10, 10 );
+
         // Create spatial view
-        SpatialView spatialView = new SpatialView( model, canvas );
-        spatialView.setOffset( 30, 10 );
+        Dimension spatialViewSize = new Dimension( 400, 450 );
+        model.getBox().setBounds( model.getBox().getBounds().getMinX(),
+                                  model.getBox().getBounds().getMinY(),
+                                  spatialViewSize.getWidth() - 30,
+                                  spatialViewSize.getHeight() - 100 );
+        SpatialView spatialView = new SpatialView( model, canvas, spatialViewSize );
+        spatialView.setOffset( insets.left, insets.top );
         canvas.addScreenChild( spatialView );
 
         // Create energy view
         EnergyView energyView = new EnergyView( model );
-        energyView.setOffset( 400, 20 );
+        energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.right + insets.left,
+                              insets.top );
         canvas.addScreenChild( energyView );
     }
 }
