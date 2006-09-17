@@ -329,7 +329,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
                                                                              200,
                                                                              300,
                                                                              configurableElement );
-            controlPanel.addFullWidth( energyLevelsMonitorPanel );
+            controlPanel.addControl( energyLevelsMonitorPanel );
         }
 
         {
@@ -365,7 +365,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             optionsPanel.add( squiggleCB, gbc );
 //            optionsPanel.add( cbPanel, gbc );
             optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
-            controlPanel.addFullWidth( optionsPanel );
+            controlPanel.addControlFullWidth( optionsPanel );
         }
     }
 

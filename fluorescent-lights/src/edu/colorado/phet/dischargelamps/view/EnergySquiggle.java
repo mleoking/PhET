@@ -84,7 +84,6 @@ public class EnergySquiggle extends PhetImageGraphic {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-//                    g2d.setColor( c );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
                     kPrev = k;
