@@ -76,6 +76,7 @@ public class EnergySquiggle extends PhetImageGraphic {
         if( c.getRed() == 0 && c.getGreen() == 0 & c.getBlue() == 0 ) {
             c = Color.black;
         }
+        g2d.setColor( c );
 
         double renderedWavelength = Math.max( wavelength, VisibleColor.MIN_WAVELENGTH / 2 );
         double freqFactor = 15 * renderedWavelength / 680;
@@ -83,7 +84,7 @@ public class EnergySquiggle extends PhetImageGraphic {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-                    g2d.setColor( c );
+//                    g2d.setColor( c );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
                     kPrev = k;
