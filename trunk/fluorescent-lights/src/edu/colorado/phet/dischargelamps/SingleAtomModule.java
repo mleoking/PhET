@@ -194,7 +194,7 @@ public class SingleAtomModule extends DischargeLampModule {
         }
         setLogoPanel( null );
         PhetUtilities.getPhetFrame().repaint();
-//        getControlPanel().revalidate();
+        getControlPanel().revalidate();
     }
 
     /**
