@@ -36,6 +36,8 @@ public class BoxOfHydrogen extends PhetPNode {
     
     private static final float BACK_OFFSET = 0.15f;
     
+    private static final Font LABEL_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
+    
     public BoxOfHydrogen( double width, double height, double depth  ) {
         super();
         
@@ -71,7 +73,7 @@ public class BoxOfHydrogen extends PhetPNode {
         HTMLNode labelNode = new HTMLNode();
         labelNode.setHTML( SimStrings.get( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-        labelNode.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 ) );
+        labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
         
         PBounds lb = labelNode.getFullBounds();
