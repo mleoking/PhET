@@ -100,13 +100,14 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
     private AffineTransform createTransform() {
         Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
-        double dist = component.getStartJunction().getPosition().distance( component.getEndJunction().getPosition() );
-        double length = component.getLength();
-        double diff = Math.abs( length - dist );
 
-        if( diff > Double.parseDouble( "1E-10" ) ) {
-            throw new RuntimeException( "Components moved to a weird place, Dist between junctions=" + dist + ", Requested Length=" + length + ", diff=" + diff );
-        }
+        //todo this error code has been removed without analysis
+//        double dist = component.getStartJunction().getPosition().distance( component.getEndJunction().getPosition() );
+//        double length = component.getLength();
+//        double diff = Math.abs( length - dist );
+//        if( diff > Double.parseDouble( "1E-10" ) ) {
+//            throw new RuntimeException( "Components moved to a weird place, Dist between junctions=" + dist + ", Requested Length=" + length + ", diff=" + diff );
+//        }
 
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
         AffineTransform at = createTransform( imageGraphic.getImage().getWidth(), imageGraphic.getImage().getHeight(),
