@@ -34,9 +34,9 @@ public class CircuitInteractionModel {
         this.circuit = circuit;
     }
 
-    public void translate( Branch branch, double dx, double dy ) {
-        branch.translate( dx, dy );
-    }
+//    public void translate( Branch branch, double dx, double dy ) {
+//        branch.translate( dx, dy );
+//    }
 
     public void translate( Branch branch, Point2D dragPt ) {
         if( !isDragging ) {
@@ -54,7 +54,6 @@ public class CircuitInteractionModel {
                     toStart = new ImmutableVector2D.Double( dragPt, startJ );
                 }
                 Point2D newStartPosition = toStart.getDestination( dragPt );
-//                CircuitComponent component = branchGraphic.getCircuitComponent();
                 Vector2D dx = new Vector2D.Double( cc.getStartJunction().getPosition(), newStartPosition );
                 Branch[] sc = circuit.getStrongConnections( cc.getStartJunction() );
                 match = getCircuit().getBestDragMatch( sc, dx );
@@ -97,6 +96,9 @@ public class CircuitInteractionModel {
                 apply( scEnd, endDX, branch.getEndJunction(), endMatch );
             }
         }
+    }
+
+    public void dropBranch( Branch branch ) {
     }
 
     private CircuitComponent getSoleComponent( Junction j ) {
@@ -183,4 +185,6 @@ public class CircuitInteractionModel {
         }
 //        System.out.println( "match = " + match );
     }
+
+
 }

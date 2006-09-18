@@ -50,6 +50,10 @@ public class WireNode extends PhetPNode {
                 circuitInteractionModel.translate( wire, pt );
             }
 
+            public void mouseReleased( PInputEvent event ) {
+                circuitInteractionModel.dropBranch( wire );
+            }
+
             public void mousePressed( PInputEvent event ) {
                 cckModel.getCircuit().setSelection( wire );
             }
