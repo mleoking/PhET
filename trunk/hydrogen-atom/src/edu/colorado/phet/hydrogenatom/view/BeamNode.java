@@ -17,9 +17,16 @@ import java.awt.geom.GeneralPath;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
+/**
+ * BeamNode is the beam the comes out of the gun.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BeamNode extends PhetPNode {
 
+    private static final double TAIL_TO_HEAD_RATIO = 0.5;
+    
     private PPath _pathNode;
     private int _r, _g, _b;
     private int _intensity;
@@ -28,10 +35,12 @@ public class BeamNode extends PhetPNode {
         super();
         
         GeneralPath path = new GeneralPath();
-        path.moveTo( -.50f * (float)width, 0 );
-        path.lineTo( .50f * (float)width, 0 );
-        path.lineTo( .25f * (float)width, (float)height );
-        path.lineTo( -.25f * (float)width, (float)height );
+        float headWidth = (float)( width / 2 );
+        float tailWidth = (float)( headWidth * TAIL_TO_HEAD_RATIO );
+        path.moveTo( -headWidth, 0 );
+        path.lineTo( +headWidth, 0 );
+        path.lineTo( +tailWidth, (float)height );
+        path.lineTo( -tailWidth, (float)height );
         path.closePath();
         
         _pathNode = new PPath();
