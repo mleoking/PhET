@@ -25,7 +25,7 @@ import edu.colorado.phet.common.math.Vector2D;
 public class A_AB_BC_C_Reaction extends Reaction {
     private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .9,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
-                                                                    MRConfig.DEFAULT_REACTION_THRESHOLD * .2,
+                                                                    MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
                                                                     50 );
     private MRModel model;
 
