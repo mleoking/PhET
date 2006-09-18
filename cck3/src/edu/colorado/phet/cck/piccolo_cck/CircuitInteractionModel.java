@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
+import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -22,11 +23,12 @@ import java.util.Arrays;
 
 public class CircuitInteractionModel {
     private Circuit circuit;
-//    private Junction stickyTarget;
     private ImmutableVector2D.Double toStart;
-    private boolean isDragging = false;
-    private Circuit.DragMatch match;
     private ImmutableVector2D.Double toEnd;
+
+    private boolean draggingBranch = false;
+    private Circuit.DragMatch branchDragMatch;
+
     private Circuit.DragMatch startMatch;
     private Circuit.DragMatch endMatch;
     private Circuit.DragMatch junctionDragMatch;
@@ -36,77 +38,86 @@ public class CircuitInteractionModel {
     }
 
     public void translate( Branch branch, Point2D dragPt ) {
-        if( !isDragging ) {
-            isDragging = true;
+        if( !draggingBranch ) {
+            draggingBranch = true;
             toStart = new ImmutableVector2D.Double( dragPt, branch.getStartJunction().getPosition() );
             toEnd = new ImmutableVector2D.Double( dragPt, branch.getEndJunction().getPosition() );
         }
         else {
             if( branch instanceof CircuitComponent ) {
-                CircuitComponent cc = (CircuitComponent)branch;
+                translateCircuitComponent( (CircuitComponent)branch, dragPt );
+            }
+            else if( branch instanceof Wire ) {//branch was just a wire
+                translateWire( (Wire)branch, dragPt );
+            }
+            else {
+                throw new RuntimeException( "Unknown wire type: " + branch.getClass() );
+            }
+        }
+    }
 
-                if( !isDragging ) {
-                    isDragging = true;
-                    Point2D startJ = cc.getStartJunction().getPosition();
-                    toStart = new ImmutableVector2D.Double( dragPt, startJ );
-                }
-                Point2D newStartPosition = toStart.getDestination( dragPt );
-                Vector2D dx = new Vector2D.Double( cc.getStartJunction().getPosition(), newStartPosition );
-                Branch[] sc = circuit.getStrongConnections( cc.getStartJunction() );
-                match = getCircuit().getBestDragMatch( sc, dx );
-                if( match == null ) {
-                    BranchSet branchSet = new BranchSet( circuit, sc );
-                    branchSet.translate( dx );
-                }
-                else {
-                    Vector2D vector = match.getVector();
-                    BranchSet branchSet = new BranchSet( circuit, sc );
-                    branchSet.translate( vector );
+    private void translateWire( Wire wire, Point2D dragPt ) {
+        Point2D newStartPosition = toStart.getDestination( dragPt );
+        Point2D newEndPosition = toEnd.getDestination( dragPt );
+        Branch[] scStart = circuit.getStrongConnections( wire.getStartJunction() );
+        Branch[] scEnd = circuit.getStrongConnections( wire.getEndJunction() );
+        Vector2D startDX = new Vector2D.Double( wire.getStartJunction().getPosition(), newStartPosition );
+        Vector2D endDX = new Vector2D.Double( wire.getEndJunction().getPosition(), newEndPosition );
+        Junction[] startSources = getSources( scStart, wire.getStartJunction() );
+        Junction[] endSources = getSources( scEnd, wire.getEndJunction() );
+        //how about removing any junctions in start and end that share a branch?
+        //Is this sufficient to keep from dropping wires directly on other wires?
+
+        startMatch = getCircuit().getBestDragMatch( startSources, startDX );
+        endMatch = getCircuit().getBestDragMatch( endSources, endDX );
+
+        if( startMatch != null && endMatch != null ) {
+            for( int i = 0; i < circuit.numBranches(); i++ ) {
+                Branch b = circuit.branchAt( i );
+                if( b.hasJunction( startMatch.getTarget() ) && wire.hasJunction( endMatch.getTarget() ) ) {
+                    startMatch = null;
+                    endMatch = null;
+                    break;
                 }
             }
-            else {//branch was just a wire
-                Point2D newStartPosition = toStart.getDestination( dragPt );
-                Point2D newEndPosition = toEnd.getDestination( dragPt );
-                Branch[] scStart = circuit.getStrongConnections( branch.getStartJunction() );
-                Branch[] scEnd = circuit.getStrongConnections( branch.getEndJunction() );
-                Vector2D startDX = new Vector2D.Double( branch.getStartJunction().getPosition(), newStartPosition );
-                Vector2D endDX = new Vector2D.Double( branch.getEndJunction().getPosition(), newEndPosition );
-                Junction[] startSources = getSources( scStart, branch.getStartJunction() );
-                Junction[] endSources = getSources( scEnd, branch.getEndJunction() );
-                //how about removing any junctions in start and end that share a branch?
-                //Is this sufficient to keep from dropping wires directly on other wires?
+        }
+        apply( scStart, startDX, wire.getStartJunction(), startMatch );
+        apply( scEnd, endDX, wire.getEndJunction(), endMatch );
+    }
 
-                startMatch = getCircuit().getBestDragMatch( startSources, startDX );
-                endMatch = getCircuit().getBestDragMatch( endSources, endDX );
-
-                if( startMatch != null && endMatch != null ) {
-                    for( int i = 0; i < circuit.numBranches(); i++ ) {
-                        Branch b = circuit.branchAt( i );
-                        if( b.hasJunction( startMatch.getTarget() ) && branch.hasJunction( endMatch.getTarget() ) ) {
-                            startMatch = null;
-                            endMatch = null;
-                            break;
-                        }
-                    }
-                }
-                apply( scStart, startDX, branch.getStartJunction(), startMatch );
-                apply( scEnd, endDX, branch.getEndJunction(), endMatch );
-            }
+    private void translateCircuitComponent( CircuitComponent cc, Point2D dragPt ) {
+        if( !draggingBranch ) {
+            draggingBranch = true;
+            Point2D startJ = cc.getStartJunction().getPosition();
+            toStart = new ImmutableVector2D.Double( dragPt, startJ );
+        }
+        Point2D newStartPosition = toStart.getDestination( dragPt );
+        Vector2D dx = new Vector2D.Double( cc.getStartJunction().getPosition(), newStartPosition );
+        Branch[] sc = circuit.getStrongConnections( cc.getStartJunction() );
+        branchDragMatch = getCircuit().getBestDragMatch( sc, dx );
+        if( branchDragMatch == null ) {
+            BranchSet branchSet = new BranchSet( circuit, sc );
+            branchSet.translate( dx );
+        }
+        else {
+            Vector2D vector = branchDragMatch.getVector();
+            BranchSet branchSet = new BranchSet( circuit, sc );
+            branchSet.translate( vector );
         }
     }
 
     public void dropBranch( Branch branch ) {
         if( branch instanceof CircuitComponent ) {
-            isDragging = false;
-            if( match != null ) {
-                getCircuit().collapseJunctions( match.getSource(), match.getTarget() );
+            if( branchDragMatch != null ) {
+                getCircuit().collapseJunctions( branchDragMatch.getSource(), branchDragMatch.getTarget() );
             }
-            match = null;
+            branchDragMatch = null;
+            draggingBranch = false;
             //todo, need bumpAway implementation
 //        circuitGraphic.bumpAway( branchGraphic.getCircuitComponent() );
         }
         else {
-            isDragging = false;
+            draggingBranch = false;
             if( startMatch != null ) {
                 getCircuit().collapseJunctions( startMatch.getSource(), startMatch.getTarget() );
             }
@@ -116,7 +127,6 @@ public class CircuitInteractionModel {
             //todo need bumpaway implementation
 //            circuitGraphic.bumpAway( branch );
         }
-
     }
 
     private CircuitComponent getSoleComponent( Junction j ) {
@@ -135,33 +145,40 @@ public class CircuitInteractionModel {
 
     private void drag( Junction junction, Point2D target ) {
         if( getSoleComponent( junction ) != null ) {
-            CircuitComponent branch = getSoleComponent( junction );
-            Junction opposite = branch.opposite( junction );
-            AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
-            vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );
-            Point2D dst = vec.getDestination( opposite.getPosition() );
-            junction.setPosition( dst.getX(), dst.getY() );
+            rotateComponent( junction, target );
         }
         else {
-            //find a potential match.
-            Branch[] sc = circuit.getStrongConnections( junction );
-            Junction[] j = Circuit.getJunctions( sc );
-            ArrayList ju = new ArrayList( Arrays.asList( j ) );
-            if( !ju.contains( junction ) ) {
-                ju.add( junction );
-            }
-
-            Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
-            Vector2D dx = new Vector2D.Double( junction.getPosition(), target );
-            junctionDragMatch = getCircuit().getBestDragMatch( jx, dx );
-            if( junctionDragMatch != null ) {
-                dx = junctionDragMatch.getVector();
-            }
-
-            BranchSet bs = new BranchSet( circuit, sc );
-            bs.addJunction( junction );
-            bs.translate( dx );
+            translateJunction( junction, target );
         }
+    }
+
+    private void translateJunction( Junction junction, Point2D target ) {
+        Branch[] sc = circuit.getStrongConnections( junction );
+        Junction[] j = Circuit.getJunctions( sc );
+        ArrayList ju = new ArrayList( Arrays.asList( j ) );
+        if( !ju.contains( junction ) ) {
+            ju.add( junction );
+        }
+
+        Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
+        Vector2D dx = new Vector2D.Double( junction.getPosition(), target );
+        junctionDragMatch = getCircuit().getBestDragMatch( jx, dx );
+        if( junctionDragMatch != null ) {
+            dx = junctionDragMatch.getVector();
+        }
+
+        BranchSet bs = new BranchSet( circuit, sc );
+        bs.addJunction( junction );
+        bs.translate( dx );
+    }
+
+    private void rotateComponent( Junction junction, Point2D target ) {
+        CircuitComponent branch = getSoleComponent( junction );
+        Junction opposite = branch.opposite( junction );
+        AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
+        vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );
+        Point2D dst = vec.getDestination( opposite.getPosition() );
+        junction.setPosition( dst.getX(), dst.getY() );
     }
 
     public Junction getStickyTarget( Junction junction, double x, double y ) {
@@ -217,6 +234,5 @@ public class CircuitInteractionModel {
         }
 //        System.out.println( "match = " + match );
     }
-
 
 }
