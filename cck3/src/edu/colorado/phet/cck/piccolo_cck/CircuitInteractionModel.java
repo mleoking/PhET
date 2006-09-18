@@ -22,14 +22,14 @@ import java.util.Arrays;
 
 public class CircuitInteractionModel {
     private Circuit circuit;
-    private Junction stickyTarget;
+//    private Junction stickyTarget;
     private ImmutableVector2D.Double toStart;
     private boolean isDragging = false;
     private Circuit.DragMatch match;
     private ImmutableVector2D.Double toEnd;
     private Circuit.DragMatch startMatch;
     private Circuit.DragMatch endMatch;
-    private Circuit.DragMatch dragMatch;
+    private Circuit.DragMatch junctionDragMatch;
 
     public CircuitInteractionModel( Circuit circuit ) {
         this.circuit = circuit;
@@ -153,9 +153,9 @@ public class CircuitInteractionModel {
 
             Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
             Vector2D dx = new Vector2D.Double( junction.getPosition(), target );
-            dragMatch = getCircuit().getBestDragMatch( jx, dx );
-            if( dragMatch != null ) {
-                dx = dragMatch.getVector();
+            junctionDragMatch = getCircuit().getBestDragMatch( jx, dx );
+            if( junctionDragMatch != null ) {
+                dx = junctionDragMatch.getVector();
             }
 
             BranchSet bs = new BranchSet( circuit, sc );
@@ -189,10 +189,10 @@ public class CircuitInteractionModel {
     }
 
     public void dropJunction( Junction junction ) {
-        if( stickyTarget != null ) {
-            getCircuit().collapseJunctions( junction, stickyTarget );
+        if( junctionDragMatch != null ) {
+            getCircuit().collapseJunctions( junction, junctionDragMatch.getTarget() );
         }
-        stickyTarget = null;
+        junctionDragMatch = null;
     }
 
     private Junction[] getSources( Branch[] sc, Junction j ) {

@@ -41,7 +41,9 @@ public class ParticleSet implements ModelElement {
     }
 
     public void clear() {
+        Electron[]e = (Electron[])particles.toArray( new Electron[0] );
         particles.clear();
+        notifyElectronsRemoved( e );
     }
 
     public Electron[] getParticles( Branch branch ) {
@@ -81,7 +83,7 @@ public class ParticleSet implements ModelElement {
         listeners.add( listener );
     }
 
-    public void notifyListeners( Electron[]p ) {
+    public void notifyElectronsRemoved( Electron[]p ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particlesRemoved( p );
@@ -96,7 +98,7 @@ public class ParticleSet implements ModelElement {
             electron.delete();
         }
         storage.removeParticles( branch );
-        notifyListeners( p );
+        notifyElectronsRemoved( p );
         return p;
     }
 
