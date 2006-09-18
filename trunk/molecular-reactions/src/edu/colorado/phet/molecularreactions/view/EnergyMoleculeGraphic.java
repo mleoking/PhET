@@ -11,9 +11,7 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.colorado.phet.molecularreactions.model.Molecule;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 /**
@@ -42,14 +40,18 @@ public class EnergyMoleculeGraphic extends PNode implements SimpleObserver {
             addChild( new EnergySimpleMoleculeGraphic( (SimpleMolecule)molecule ) );
         }
         else {
-//        if( molecule instanceof CompositeMolecule ) {
+            // Keep the B molecule in the middle of the display by putting the other molecule
+            // on top if it's an A molecule, and below if it's a C molecule
             SimpleMolecule[] components = ( (CompositeMolecule)molecule.getParentComposite() ).getComponentMolecules();
-            PNode mg1 = new EnergySimpleMoleculeGraphic( (SimpleMolecule)components[0] );
-            mg1.setOffset( 0, -mg1.getFullBounds().getHeight() / 2 );
-            addChild( mg1 );
-            PNode mg2 = new EnergySimpleMoleculeGraphic( (SimpleMolecule)components[1] );
-            mg2.setOffset( 0, mg1.getFullBounds().getHeight() / 2 );
-            addChild( mg2 );
+            SimpleMolecule smB = components[0] instanceof MoleculeB ? components[0] : components[1];
+            SimpleMolecule smX = components[0] instanceof MoleculeB ? components[1] : components[0];
+            PNode mgB = new EnergySimpleMoleculeGraphic( smB );
+            mgB.setOffset( 0, 0 );
+            addChild( mgB );
+            PNode mgX = new EnergySimpleMoleculeGraphic( smX );
+            int direction = smX instanceof MoleculeA ? -1 : 1;
+            mgX.setOffset( 0, direction * mgB.getFullBounds().getHeight() );
+            addChild( mgX );
         }
     }
 

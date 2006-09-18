@@ -141,7 +141,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 freeMolecule = selectedMolecule;
             }
             else {
-                throw new RuntimeException( "internal error");
+                throw new RuntimeException( "internal error" );
             }
 
             // Figure out on which side of the centerline the molecules should appear
@@ -166,7 +166,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 throw new RuntimeException( "internal error" );
             }
 
-            // Position the molecule graphicsw
+            // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 100;
@@ -179,9 +179,24 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
             double yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
 
-            // set locatation of molecules
-            selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-            nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+            // Set locatation of molecules. Use the *direction* variable we set above
+            // to determine which graphic should be on top
+            if( freeMolecule instanceof MoleculeC && freeMolecule == selectedMolecule ) {
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+            }
+            else if( freeMolecule instanceof MoleculeC && freeMolecule == nearestToSelectedMolecule ) {
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+            }
+            else if( freeMolecule instanceof MoleculeA && freeMolecule == selectedMolecule ) {
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+            }
+            else if( freeMolecule instanceof MoleculeA && freeMolecule == nearestToSelectedMolecule ) {
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+            }
 
             // set location of cursor
             cursor.setOffset( midPoint.getX(), 0 );
