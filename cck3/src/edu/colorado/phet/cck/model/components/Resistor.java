@@ -41,12 +41,4 @@ public class Resistor extends CircuitComponent {
         xml.setAttribute( "resistance", getResistance() + "" );
     }
 
-//    public static Resistor parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, KirkhoffListener kl ) {
-//        Resistor r = new Resistor( kl, startJunction, endJunction );
-//        String bulb = xml.getAttribute( "resistance", "0" );
-//        double rx = Double.parseDouble( bulb );
-//        r.setResistance( rx );
-//        return r;
-//    }
-
 }
