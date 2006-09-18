@@ -225,7 +225,7 @@ public class GunControlPanel extends PhetPNode {
      */
     private void handleLightTypeChange() {
         if ( _lightTypeControl.isMonochromaticSelected() ) {
-            _lightIntensityControl.setColor( _wavelengthControl.getColor() );
+            _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
             _wavelengthControl.setVisible( true );
         }
         else {
@@ -238,6 +238,6 @@ public class GunControlPanel extends PhetPNode {
      * Changes the intensity control's color to match the wavelength.
      */
     private void handleWavelengthChange() {
-        _lightIntensityControl.setColor( _wavelengthControl.getColor() );
+        _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
     }
 }
