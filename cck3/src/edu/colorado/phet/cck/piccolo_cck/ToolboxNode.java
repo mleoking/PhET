@@ -14,7 +14,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
@@ -90,10 +89,7 @@ public class ToolboxNode extends PhetPNode {
                     }
                     // else, we're dragging a branch that we created.
                     else {
-                        PDimension d = event.getCanvasDelta();
-                        canvas.getPhetRootNode().globalToWorld( d );
-//                        circuitInteractionModel.translate( branch, getWorldLocation( event ) );
-                        circuitInteractionModel.translate( branch, d.width, d.height );
+                        circuitInteractionModel.translate( branch, getWorldLocation( event ) );
                     }
                 }
 
