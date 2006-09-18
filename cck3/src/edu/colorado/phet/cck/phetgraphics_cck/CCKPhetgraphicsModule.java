@@ -89,7 +89,6 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
             }
         } );
 
-
         setResistivityEnabled( true );
         setInternalResistanceOn( true );
 
