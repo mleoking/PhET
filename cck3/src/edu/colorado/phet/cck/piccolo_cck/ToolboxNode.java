@@ -1,8 +1,10 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
@@ -34,7 +36,7 @@ public class ToolboxNode extends PhetPNode {
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 50;
     private static final double BETWEEN_INSET = 20;
-    CircuitInteractionModel circuitInteractionModel;
+    private CircuitInteractionModel circuitInteractionModel;
 
     public ToolboxNode( PhetPCanvas canvas, CCKModel model ) {
         this.canvas = canvas;
@@ -47,6 +49,7 @@ public class ToolboxNode extends PhetPNode {
 
         addBranchMaker( new WireMaker() );
         addBranchMaker( new ResistorMaker() );
+        addBranchMaker( new BatteryMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -82,7 +85,7 @@ public class ToolboxNode extends PhetPNode {
                         // Position the branch so it's centered on the mouse event.
                         setBranchLocationFromEvent( event );
                         model.getCircuit().addBranch( createdBranch );
-                        createdBranch.setSelected( true );
+                        model.getCircuit().setSelection( createdBranch );
                     }
                     circuitInteractionModel.translate( createdBranch, getWorldLocation( event ) );
                 }
@@ -125,26 +128,51 @@ public class ToolboxNode extends PhetPNode {
     class WireMaker extends BranchMaker {
         public WireMaker() {
             super( "Wire" );
-            WireNode child = new WireNode( model, new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) ) );
+            WireNode child = new WireNode( model, createWire() );
             child.scale( 40 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
-        protected Branch createBranch() {
+        private Wire createWire() {
             return new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
+        }
+
+        protected Branch createBranch() {
+            return createWire();
         }
     }
 
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ResistorNode child = new ResistorNode( model, new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1.5, 1 ) );
-            child.scale( 40 );//todo choose scale based on insets?
+            ComponentNode child = new ComponentNode( model, createResistor(), CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
+            child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
         protected Branch createBranch() {
+            return createResistor();
+        }
+
+        private Resistor createResistor() {
             return new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
+        }
+    }
+
+    class BatteryMaker extends BranchMaker {
+        public BatteryMaker() {
+            super( "Battery" );
+            ComponentNode child = new ComponentNode( model, createBattery(), CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createBattery();
+        }
+
+        private Battery createBattery() {
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
         }
     }
 }

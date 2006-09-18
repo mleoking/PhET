@@ -1,10 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.Circuit;
-import edu.colorado.phet.cck.model.CircuitListener;
-import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -60,7 +57,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             }
         };
         junction.addObserver( observer );
-        circuitListener = new CircuitListener() {
+        circuitListener = new CircuitListenerAdapter() {
 
             public void junctionRemoved( Junction junction ) {
                 changed();
@@ -68,24 +65,6 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
 
             public void branchRemoved( Branch branch ) {
                 changed();
-            }
-
-            public void junctionsMoved() {
-            }
-
-            public void branchesMoved( Branch[] branches ) {
-            }
-
-            public void junctionAdded( Junction junction ) {
-            }
-
-            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
-            }
-
-            public void junctionsSplit( Junction old, Junction[] j ) {
-            }
-
-            public void branchAdded( Branch branch ) {
             }
 
         };

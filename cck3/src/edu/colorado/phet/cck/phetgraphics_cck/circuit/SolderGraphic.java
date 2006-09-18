@@ -1,10 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.Circuit;
-import edu.colorado.phet.cck.model.CircuitListener;
-import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -43,26 +40,12 @@ public class SolderGraphic extends PhetShapeGraphic {
             }
         };
         junction.addObserver( simpleObserver );
-        circuitListener = new CircuitListener() {
-
-            public void junctionRemoved( Junction junction ) {
-            }
+        circuitListener = new CircuitListenerAdapter() {
 
             public void branchRemoved( Branch branch ) {
                 if( branch.hasJunction( junction ) ) {
                     changeVisiblity();
                 }
-            }
-
-            public void junctionsMoved() {
-
-            }
-
-            public void branchesMoved( Branch[] branches ) {
-
-            }
-
-            public void junctionAdded( Junction junction ) {
             }
 
             public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
@@ -75,9 +58,6 @@ public class SolderGraphic extends PhetShapeGraphic {
                 if( junction == old || Arrays.asList( j ).contains( junction ) ) {
                     changeVisiblity();
                 }
-            }
-
-            public void branchAdded( Branch branch ) {
             }
 
         };

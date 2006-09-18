@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListener;
-import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -109,9 +109,7 @@ public abstract class ComponentEditor extends JDialog {
             public void windowLostFocus( WindowEvent e ) {
             }
         } );
-        circuitListener = new CircuitListener() {
-            public void junctionRemoved( Junction junction ) {
-            }
+        circuitListener = new CircuitListenerAdapter() {
 
             public void branchRemoved( Branch branch ) {
                 if( branch == element ) {
@@ -119,26 +117,6 @@ public abstract class ComponentEditor extends JDialog {
                     dispose();
                 }
             }
-
-            public void junctionsMoved() {
-            }
-
-            public void branchesMoved( Branch[] branches ) {
-            }
-
-            public void junctionAdded( Junction junction ) {
-            }
-
-            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
-            }
-
-            public void junctionsSplit( Junction old, Junction[] j ) {
-            }
-
-            public void branchAdded( Branch branch ) {
-            }
-
-
         };
         circuit.addCircuitListener( circuitListener );
         pack();

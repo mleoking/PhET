@@ -33,4 +33,7 @@ public class CircuitListenerAdapter implements CircuitListener {
 
     public void branchAdded( Branch branch ) {
     }
+
+    public void selectionChanged() {
+    }
 }
