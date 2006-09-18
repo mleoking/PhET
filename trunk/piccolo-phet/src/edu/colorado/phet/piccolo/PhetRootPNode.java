@@ -11,6 +11,7 @@
 package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -151,6 +152,10 @@ public class PhetRootPNode extends PNode {
      */
     public void globalToWorld( Point2D point ) {
         worldNode.globalToLocal( point );
+    }
+
+    public void globalToWorld( PDimension d ) {
+        worldNode.globalToLocal( d );
     }
 
     public void worldToScreen( Point2D pt ) {
