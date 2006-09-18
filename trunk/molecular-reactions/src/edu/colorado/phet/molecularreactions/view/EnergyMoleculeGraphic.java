@@ -55,7 +55,14 @@ public class EnergyMoleculeGraphic extends PNode implements SimpleObserver {
         }
     }
 
+    /**
+     * Checks to see if the molecule we are representing has become part of
+     * a composite, or left one
+     */
     public void update() {
+
+        // Check to see if the molecule we are representing has become part of
+        // a composite, or left one
         boolean recreateChildren = false;
         if( showComposite && !molecule.isPartOfComposite() ) {
             this.removeAllChildren();
@@ -67,7 +74,6 @@ public class EnergyMoleculeGraphic extends PNode implements SimpleObserver {
             recreateChildren = true;
             showComposite = true;
         }
-
 
         if( recreateChildren ) {
             createChildNodes();
