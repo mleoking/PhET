@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -57,6 +58,9 @@ public class HAModule extends PiccoloModule {
     private static final Dimension BLACK_BOX_SIZE = new Dimension( 475, 475 );
     private static final double BLACK_BOX_DEPTH = 10;
     
+    private static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
+    private static final double BOX_OF_HYDROGEN_DEPTH = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -75,6 +79,8 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _spectrometerCheckBox;
     private PNode _spectrometerCheckBoxNode;
     
+    private BoxOfHydrogen _boxOfHydrogen;
+    private BeamNode _beamNode;
     private BlackBox _blackBox;
     
     private ExperimentAtomNode _experimentAtomNode;
@@ -143,6 +149,18 @@ public class HAModule extends PiccoloModule {
         {
             _atomicModelSelector = new AtomicModelSelector();
             _rootNode.addChild( _atomicModelSelector );
+        }
+        
+        // Box of Hydrogen
+        {
+            _boxOfHydrogen = new BoxOfHydrogen( BOX_OF_HYDROGEN_SIZE.width, BOX_OF_HYDROGEN_SIZE.height, BOX_OF_HYDROGEN_DEPTH );
+            _rootNode.addChild( _boxOfHydrogen );
+        }
+        
+        // Beam
+        {
+            _beamNode = new BeamNode( BOX_OF_HYDROGEN_SIZE.width, 100 );
+            _rootNode.addChild( _beamNode );
         }
         
         // Gun
@@ -317,7 +335,7 @@ public class HAModule extends PiccoloModule {
         {
             PBounds ab = _atomicModelSelector.getFullBounds();
             x = ab.getX() + ab.getWidth() + xSpacing;
-            y = 190;//XXX
+            y = 350;//XXX
             _gunNode.setOffset( x, y );
         }
         
@@ -337,6 +355,21 @@ public class HAModule extends PiccoloModule {
             x = ab.getX() + ab.getWidth() + xSpacing;
             y = bb.getY() + bb.getHeight() + ySpacing;
             _gunControlPanel.setOffset( x, y );
+        }
+        
+        // Box of Hydrogen
+        {
+            PBounds gb = _gunNode.getFullBounds();
+            PBounds ab = _atomicModelSelector.getFullBounds();
+            PBounds bb = _boxOfHydrogen.getFullBounds();
+            x = ab.getX() + ab.getWidth() + bb.getWidth() + 40;//XXX
+            y = gb.getY() - 75; //XXX
+            _boxOfHydrogen.setOffset( x, y );
+        }
+        
+        // Beam
+        {
+            _beamNode.setOffset( _boxOfHydrogen.getOffset() );
         }
         
         // "Drawings are not to scale" note, centered above black box.
@@ -466,6 +499,23 @@ public class HAModule extends PiccoloModule {
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 _energyDiagramCheckBoxNode.setVisible( true );
                 _solarSystemEnergyDiagram.setVisible( _energyDiagramCheckBox.isSelected() );
+            }
+        }
+    }
+    
+    public void updateBeam() {
+        final boolean isOn = _gunNode.isOn();
+        _beamNode.setVisible( isOn );
+        if ( isOn ) {
+            if ( _gunControlPanel.getGunTypeControl().isLightSelected() ) {
+                Color color = _gunControlPanel.getWavelengthControl().getWavelengthColor();
+                int intensity = _gunControlPanel.getLightIntensityControl().getValue();
+                _beamNode.setColor( color, intensity );
+            }
+            else {
+                Color color = _gunControlPanel.getAlphaParticlesIntensityControl().getColor();
+                int intensity = _gunControlPanel.getAlphaParticlesIntensityControl().getValue();
+                _beamNode.setColor( color, intensity ); 
             }
         }
     }

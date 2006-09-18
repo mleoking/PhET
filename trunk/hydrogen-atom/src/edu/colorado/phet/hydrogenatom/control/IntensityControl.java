@@ -92,6 +92,10 @@ public class IntensityControl extends JPanel {
         _slider.setColor( color );
     }
     
+    public Color getColor() {
+        return _slider.getColor();
+    }
+    
     public void setValue( int value ) {
         _slider.setValue( value );
         updateTextField();

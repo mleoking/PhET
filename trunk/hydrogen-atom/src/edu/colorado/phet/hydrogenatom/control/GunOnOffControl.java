@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class GunOnOffControl extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 33, 72 );
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 73, 82 );
     
     //----------------------------------------------------------------------------
     // Instance data
