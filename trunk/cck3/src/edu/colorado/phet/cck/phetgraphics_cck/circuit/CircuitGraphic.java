@@ -75,33 +75,15 @@ public class CircuitGraphic extends CompositeGraphic {
 
         solderLayer = new CompositePhetGraphic( this.apparatusPanel );
         solderLayer.setVisible( true );
-        module.getCircuit().addCircuitListener( new CircuitListener() {
+        module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void junctionRemoved( Junction junction ) {
                 deleteSolderGraphic( junction );
-            }
-
-            public void branchRemoved( Branch branch ) {
-            }
-
-            public void junctionsMoved() {
-            }
-
-            public void branchesMoved( Branch[] branches ) {
             }
 
             public void junctionAdded( Junction junction ) {
                 deleteSolderGraphic( junction );
                 SolderGraphic sg = new SolderGraphic( module.getApparatusPanel(), junction, transform, circuit, CircuitGraphic.this );
                 solderLayer.addGraphic( sg );
-            }
-
-            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
-            }
-
-            public void junctionsSplit( Junction old, Junction[] j ) {
-            }
-
-            public void branchAdded( Branch branch ) {
             }
 
         } );

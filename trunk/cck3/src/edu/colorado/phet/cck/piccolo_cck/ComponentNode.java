@@ -1,17 +1,21 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.components.Resistor;
+import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -20,41 +24,54 @@ import java.awt.geom.AffineTransform;
  * Copyright (c) Sep 17, 2006 by Sam Reid
  */
 
-public class ResistorNode extends PhetPNode {
-    private PImage pImage;
+public class ComponentNode extends PhetPNode {
     private CCKModel model;
-    private Resistor resistor;
+    private PImage pImage;
+    private CircuitComponent resistor;
     private CircuitInteractionModel circuitInteractionModel;
+    private PPath highlightNode;
 
-    public ResistorNode( final CCKModel model, final Resistor resistor ) {
+    public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image ) {
         this.model = model;
-        this.resistor = resistor;
+        this.resistor = circuitComponent;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
-        pImage = new PImage( CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
+
+        highlightNode = new PPath();
+        highlightNode.setStrokePaint( Color.yellow );
+        highlightNode.setStroke( new BasicStroke( 3f ) );
+        addChild( highlightNode );
+
+        pImage = new PImage( image );
         addChild( pImage );
+
         update();
-        resistor.addObserver( new SimpleObserver() {
+        circuitComponent.addObserver( new SimpleObserver() {
             public void update() {
-                ResistorNode.this.update();
+                ComponentNode.this.update();
             }
         } );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                circuitInteractionModel.translate( resistor, event.getPositionRelativeTo( ResistorNode.this.getParent() ) );
+                circuitInteractionModel.translate( circuitComponent, event.getPositionRelativeTo( ComponentNode.this.getParent() ) );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                circuitInteractionModel.dropBranch( resistor );
+                circuitInteractionModel.dropBranch( circuitComponent );
             }
 
             public void mousePressed( PInputEvent event ) {
-                model.getCircuit().setSelection( resistor );
+                model.getCircuit().setSelection( circuitComponent );
             }
         } );
     }
 
     private void update() {
+        Rectangle2D aShape = new Rectangle2D.Double( 0, 0, pImage.getFullBounds().getWidth(), pImage.getFullBounds().getHeight() );
+        aShape = RectangleUtils.expand( aShape, 2, 2 );
+        highlightNode.setPathTo( aShape );
+        highlightNode.setVisible( resistor.isSelected() );
+
         double resistorLength = resistor.getStartPoint().distance( resistor.getEndPoint() );
         double imageLength = pImage.getFullBounds().getWidth();
         double scale = resistorLength / imageLength;

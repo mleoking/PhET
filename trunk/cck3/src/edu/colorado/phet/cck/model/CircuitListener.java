@@ -24,4 +24,6 @@ public interface CircuitListener {
     void junctionsSplit( Junction old, Junction[] j );
 
     void branchAdded( Branch branch );
+
+    void selectionChanged();
 }

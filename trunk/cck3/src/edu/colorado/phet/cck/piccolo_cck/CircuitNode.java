@@ -1,9 +1,11 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
@@ -63,7 +65,10 @@ public class CircuitNode extends PhetPNode {
             return new WireNode( cckModel, (Wire)branch );
         }
         else if( branch instanceof Resistor ) {
-            return new ResistorNode( cckModel, (Resistor)branch );
+            return new ComponentNode( cckModel, (Resistor)branch, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
+        }
+        else if( branch instanceof Battery ) {
+            return new ComponentNode( cckModel, (Battery)branch, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );

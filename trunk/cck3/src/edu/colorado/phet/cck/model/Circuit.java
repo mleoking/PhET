@@ -401,11 +401,20 @@ public class Circuit {
     public void setSelection( Branch branch ) {
         clearSelection();
         branch.setSelected( true );
+        notifySelectionChanged();
     }
 
     public void setSelection( Junction junction ) {
         clearSelection();
         junction.setSelected( true );
+        notifySelectionChanged();
+    }
+
+    private void notifySelectionChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            CircuitListener circuitListener = (CircuitListener)listeners.get( i );
+            circuitListener.selectionChanged();
+        }
     }
 
     public void clearSelection() {
