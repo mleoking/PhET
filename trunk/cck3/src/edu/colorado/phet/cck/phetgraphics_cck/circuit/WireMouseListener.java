@@ -29,8 +29,8 @@ public class WireMouseListener extends MouseInputAdapter {
     private BranchGraphic branchGraphic;
     private Branch branch;
     private Circuit circuit;
-    private CircuitGraphic.DragMatch startMatch;
-    private CircuitGraphic.DragMatch endMatch;
+    private Circuit.DragMatch startMatch;
+    private Circuit.DragMatch endMatch;
 
     public WireMouseListener( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic ) {
         this.circuitGraphic = circuitGraphic;
@@ -94,8 +94,8 @@ public class WireMouseListener extends MouseInputAdapter {
             //how about removing any junctions in start and end that share a branch?
             //Is this sufficient to keep from dropping wires directly on other wires?
 
-            startMatch = circuitGraphic.getBestDragMatch( startSources, startDX );
-            endMatch = circuitGraphic.getBestDragMatch( endSources, endDX );
+            startMatch = circuitGraphic.getCircuit().getBestDragMatch( startSources, startDX );
+            endMatch = circuitGraphic.getCircuit().getBestDragMatch( endSources, endDX );
 
             if( startMatch != null && endMatch != null ) {
                 for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -120,7 +120,7 @@ public class WireMouseListener extends MouseInputAdapter {
         return (Junction[])list.toArray( new Junction[0] );
     }
 
-    private void apply( Branch[] sc, Vector2D dx, Junction junction, CircuitGraphic.DragMatch match ) {
+    private void apply( Branch[] sc, Vector2D dx, Junction junction, Circuit.DragMatch match ) {
         if( match == null ) {
             BranchSet bs = new BranchSet( circuit, sc );
             bs.addJunction( junction );

@@ -588,4 +588,93 @@ public class Circuit {
         fireJunctionsCollapsed( j1, j2, replacement );
     }
 
+    public DragMatch getBestDragMatch( Branch[] sc, Vector2D dx ) {
+        return getBestDragMatch( Circuit.getJunctions( sc ), dx );
+    }
+
+    public static class DragMatch {
+        Junction source;
+        Junction target;
+
+        public DragMatch( Junction source, Junction target ) {
+            this.source = source;
+            this.target = target;
+        }
+
+        public Junction getSource() {
+            return source;
+        }
+
+        public Junction getTarget() {
+            return target;
+        }
+
+        public double getDistance() {
+            return source.getDistance( target );
+        }
+
+        public String toString() {
+            return "match, source=" + source + ", dest=" + target + ", dist=" + getDistance();
+        }
+
+        public Vector2D getVector() {
+            return new Vector2D.Double( source.getPosition(), target.getPosition() );
+        }
+    }
+
+    public DragMatch getBestDragMatch( Junction[] sources, Vector2D dx ) {
+        Junction[] all = getJunctions();
+        ArrayList rema = new ArrayList();
+        rema.addAll( Arrays.asList( all ) );
+        rema.removeAll( Arrays.asList( sources ) );
+        //now we have all the junctions that are moving,
+        //and all the junctions that aren't moving, so we can look for a best match.
+        Junction[] remaining = (Junction[])rema.toArray( new Junction[0] );
+        DragMatch best = null;
+        for( int i = 0; i < sources.length; i++ ) {
+            Junction source = sources[i];
+            Point2D loc = dx.getDestination( source.getPosition() );
+            Junction bestForHim = getBestDragMatch( source, loc, remaining );
+            if( bestForHim != null ) {
+                DragMatch dm = new DragMatch( source, bestForHim );
+                if( best == null || dm.getDistance() < best.getDistance() ) {
+                    best = dm;
+                }
+            }
+        }
+//        System.out.println( "best = " + best );
+        return best;
+    }
+
+    public Junction getBestDragMatch( Junction dragging, Point2D loc, Junction[] targets ) {
+        Branch[] strong = getStrongConnections( dragging );
+        Junction closestJunction = null;
+        double closestValue = Double.POSITIVE_INFINITY;
+        for( int i = 0; i < targets.length; i++ ) {
+            Junction target = targets[i];
+            double dist = loc.distance( target.getPosition() );
+            if( target != dragging && !hasBranch( dragging, target ) &&
+                !wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
+                if( closestJunction == null || dist < closestValue ) {
+                    boolean legal = !contains( strong, target );
+                    double STICKY_THRESHOLD = 1;
+                    if( dist <= STICKY_THRESHOLD && legal ) {
+                        closestValue = dist;
+                        closestJunction = target;
+                    }
+                }
+            }
+        }
+        return closestJunction;
+    }
+
+    private boolean contains( Branch[] strong, Junction j ) {
+        for( int i = 0; i < strong.length; i++ ) {
+            Branch branch = strong[i];
+            if( branch.hasJunction( j ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
