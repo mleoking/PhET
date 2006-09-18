@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -18,7 +18,7 @@ public class TotalComponentGraphic {
     private HasJunctionGraphic interactiveJunctionGraphic1;
     private HasJunctionGraphic interactiveJunctionGraphic2;
 
-    public TotalComponentGraphic( CircuitGraphic circuitGraphic, final CircuitComponent branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, IComponentGraphic bg, double junctionRadius, CCKModule module ) {
+    public TotalComponentGraphic( CircuitGraphic circuitGraphic, final CircuitComponent branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, IComponentGraphic bg, double junctionRadius, CCKPhetgraphicsModule module ) {
         interactiveBranchGraphic = new CircuitComponentInteractiveGraphic( bg, circuitGraphic );
 
         JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );

@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
 import edu.colorado.phet.cck.model.components.Battery;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 public class ACVoltageSourceMenu extends CircuitComponentInteractiveGraphic.BatteryJMenu {
 
-    public ACVoltageSourceMenu( Battery branch, CCKModule module ) {
+    public ACVoltageSourceMenu( Battery branch, CCKPhetgraphicsModule module ) {
         super( branch, module );
     }
 

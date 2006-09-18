@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.Electron;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.model.components.PathBranch;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -31,11 +31,11 @@ import java.awt.image.BufferedImage;
 public class ElectronGraphic extends PhetImageGraphic {
     private Electron electron;
     private ModelViewTransform2D transform;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private TransformListener transformListener;
     private SimpleObserver electronObserver;
 
-    public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCKModule module ) {
+    public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCKPhetgraphicsModule module ) {
         super( parent, image, createTransformStatic( electron, transform, image ) );
         this.electron = electron;
         this.transform = transform;

@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKApparatusPanel;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -50,7 +50,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private ModelViewTransform2D transform;
     private ApparatusPanel apparatusPanel;
     private double STICKY_THRESHOLD;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private ArrayList listeners = new ArrayList();
     private Hashtable readoutMap = new Hashtable();
     private boolean lifelike = true;
@@ -60,7 +60,7 @@ public class CircuitGraphic extends CompositeGraphic {
     public static final boolean GRAPHICAL_DEBUG = false;
 
 
-    public CircuitGraphic( final CCKModule module, CCKApparatusPanel apparatusPanel ) throws IOException {
+    public CircuitGraphic( final CCKPhetgraphicsModule module, CCKApparatusPanel apparatusPanel ) throws IOException {
         this.apparatusPanel = apparatusPanel;
         graphicSource = new Lifelike();
         lifelike = true;
@@ -159,7 +159,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
     }
 
-    private ReadoutGraphic createReadoutGraphic( CircuitComponent branch, CCKModule module ) {
+    private ReadoutGraphic createReadoutGraphic( CircuitComponent branch, CCKPhetgraphicsModule module ) {
         if( branch instanceof ACVoltageSource ) {
             return new ACReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
         }
@@ -509,7 +509,7 @@ public class CircuitGraphic extends CompositeGraphic {
         return null;
     }
 
-    public CCKModule getModule() {
+    public CCKPhetgraphicsModule getModule() {
         return module;
     }
 

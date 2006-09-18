@@ -69,6 +69,14 @@ public class ToolboxNode extends PhetPNode {
         }
     }
 
+    public void setBackground( Paint paint ) {
+        toolboxBounds.setPaint( paint );
+    }
+
+    public Color getBackgroundColor() {
+        return (Color)toolboxBounds.getPaint();
+    }
+
     abstract class BranchMaker extends PComposite {//tricky way of circumventing children's behaviors
         private PText label;
         private Branch createdBranch;

@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.controls.LookAndFeelMenu;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
@@ -87,7 +87,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     static class CCKPhetGraphicModuleAdapter extends Module {
-        private CCKModule cckModule;
+        private CCKPhetgraphicsModule cckModule;
 
         /* Aspect ratio panel used in single-module setups*/
         private AspectRatioPanel aspectRatioPanel;
@@ -95,7 +95,7 @@ public class CCKApplication extends PiccoloPhetApplication {
         public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
             super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
 
-            cckModule = new CCKModule( args );
+            cckModule = new CCKPhetgraphicsModule( args );
             aspectRatioPanel = new AspectRatioPanel( cckModule.getCCKApparatusPanel(), 5, 5, 1.2 );
             cckModule.initControlPanel( this );
 //            setSimulationPanel( cckModule.getCCKApparatusPanel() );

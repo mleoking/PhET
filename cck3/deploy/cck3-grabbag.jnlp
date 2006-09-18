@@ -41,7 +41,7 @@ information.
         <jar href="../sharedlib/cck-help.jar" download="lazy"/>
     </resources>
 
-    <application-desc main-class="edu.colorado.phet.cck.phetgraphics_cck.CCKModule">
+    <application-desc main-class="edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule">
         <argument>-grabbag</argument>
         <argument>-virtuallab</argument>
     </application-desc>

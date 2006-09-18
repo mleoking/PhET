@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit.particles;
 
 import edu.colorado.phet.cck.model.Electron;
 import edu.colorado.phet.cck.model.ParticleSet;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 
 import java.awt.image.BufferedImage;
@@ -18,11 +18,11 @@ import java.util.Hashtable;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ParticleSetGraphic extends CompositeGraphic {
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private BufferedImage image;
     private Hashtable table = new Hashtable();
 
-    public ParticleSetGraphic( CCKModule module ) throws IOException {
+    public ParticleSetGraphic( CCKPhetgraphicsModule module ) throws IOException {
         this.module = module;
         this.image = module.getImageSuite().getParticleImage();
         this.module.getParticleSet().addListener( new ParticleSet.Listener() {

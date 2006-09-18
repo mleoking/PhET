@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.BranchSet;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -32,7 +32,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
     private MouseInputAdapter input;
 
     public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic junctionGraphic,
-                                           final ModelViewTransform2D transform, CCKModule module ) {
+                                           final ModelViewTransform2D transform, CCKPhetgraphicsModule module ) {
         super( junctionGraphic );
         final Circuit circuit = circuitGraphic.getCircuit();
         this.circuitGraphic = circuitGraphic;

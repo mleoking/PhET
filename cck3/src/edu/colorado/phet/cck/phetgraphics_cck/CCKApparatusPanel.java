@@ -62,9 +62,9 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
     private Area electronClip = new Area();
     private boolean initedLayout = false;
     private CCKModel cckmodel;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
 
-    public CCKApparatusPanel( CCKModule module, CCKModel cckmodel ) throws IOException {
+    public CCKApparatusPanel( CCKPhetgraphicsModule module, CCKModel cckmodel ) throws IOException {
         this.module = module;
         this.cckmodel = cckmodel;
         transform = new ModelViewTransform2D( cckmodel.getModelBounds(), new Rectangle( 100, 100 ) );

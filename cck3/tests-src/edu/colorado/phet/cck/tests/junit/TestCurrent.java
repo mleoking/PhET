@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.PhetApplication;
@@ -21,7 +21,7 @@ import junit.framework.TestCase;/*Test CVS Commit on mac*/
  * Copyright (c) Jul 8, 2004 by Sam Reid
  */
 public class TestCurrent extends TestCase {
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private SwingTimerClock clock;
     private PhetApplication app;
 
@@ -31,7 +31,7 @@ public class TestCurrent extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        module = new CCKModule( new String[0] );
+        module = new CCKPhetgraphicsModule( new String[0] );
         clock = new SwingTimerClock( 1, 30 );
         app = new PhetApplication( new ApplicationModel( "Title", "x", "x",
                                                          new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) ), module, clock ) );

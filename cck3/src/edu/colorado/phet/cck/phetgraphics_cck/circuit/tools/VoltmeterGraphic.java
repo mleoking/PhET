@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
@@ -39,7 +39,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
     private LeadGraphic blackLeadGraphic;
     private CableGraphic redCableGraphic;
     private CableGraphic blackCableGraphic;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
@@ -50,7 +50,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         unitGraphic.setVisible( visible );
     }
 
-    public VoltmeterGraphic( Voltmeter voltmeter, Component parent, CCKModule module ) throws IOException {
+    public VoltmeterGraphic( Voltmeter voltmeter, Component parent, CCKPhetgraphicsModule module ) throws IOException {
         this.transform = module.getTransform();
         this.voltmeter = voltmeter;
         this.module = module;
