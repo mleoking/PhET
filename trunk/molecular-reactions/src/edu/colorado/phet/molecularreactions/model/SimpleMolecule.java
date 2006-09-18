@@ -19,7 +19,7 @@ import java.util.EventListener;
 
 /**
  * SimpleMolecule
- * <p>
+ * <p/>
  * A molecule that is a single sphere.
  *
  * @author Ron LeMaster
@@ -48,14 +48,14 @@ public class SimpleMolecule extends Molecule implements Selectable {
     }
 
     public SimpleMolecule[] getComponentMolecules() {
-        return new SimpleMolecule[]{ this };
+        return new SimpleMolecule[]{this};
     }
 
     public Rectangle2D getBoundingBox() {
         boundingBox.setRect( getPosition().getX() - radius,
                              getPosition().getY() - radius,
                              radius * 2,
-                             radius * 2);
+                             radius * 2 );
         return boundingBox;
     }
 

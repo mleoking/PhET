@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -42,8 +43,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;
-    private EnergySimpleMoleculeGraphic selectedMoleculeGraphic;
-    private EnergySimpleMoleculeGraphic nearestToSelectedMoleculeGraphic;
+//    private EnergySimpleMoleculeGraphic selectedMoleculeGraphic;
+    private EnergyMoleculeGraphic selectedMoleculeGraphic;
+//    private EnergySimpleMoleculeGraphic nearestToSelectedMoleculeGraphic;
+    private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
 
     private PNode cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
@@ -160,10 +163,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 direction = -1;
             }
             else {
-                throw new RuntimeException( "internal error");
+                throw new RuntimeException( "internal error" );
             }
 
-
+            // Position the molecule graphicsw
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 100;
@@ -217,6 +220,13 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------
 
+    /**
+     * Sets the graphics that are shown to be those for the selected molecule and
+     * the nearestToSelectedMolecule. If one of them is part of a composite, the
+     * graphic for the composite is used.
+     *
+     * @param molecule
+     */
     public void selectionStatusChanged
             ( SimpleMolecule
                     molecule ) {
@@ -225,7 +235,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
             }
             selectedMolecule = molecule;
-            selectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
+            selectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
+//            selectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
             moleculeLayer.addChild( selectedMoleculeGraphic );
 
         }
@@ -234,7 +245,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
-            nearestToSelectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
+//            nearestToSelectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
         }
         update();

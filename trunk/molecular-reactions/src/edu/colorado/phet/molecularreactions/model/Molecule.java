@@ -55,7 +55,7 @@ abstract public class Molecule extends Body implements Collidable {
     //--------------------------------------------------------------------------------------------------
 
     private CollidableAdapter collidableAdapter;
-    private Molecule parentComposite;
+    private CompositeMolecule parentComposite;
 
     protected Molecule() {
         this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
@@ -111,11 +111,11 @@ abstract public class Molecule extends Body implements Collidable {
         return parentComposite != null;
     }
 
-    public Molecule getParentComposite() {
+    public CompositeMolecule getParentComposite() {
         return parentComposite;
     }
 
-    public void setParentComposite( Molecule parentComposite ) {
+    public void setParentComposite( CompositeMolecule parentComposite ) {
         this.parentComposite = parentComposite;
         classListenerProxy.statusChanged( this );
     }
