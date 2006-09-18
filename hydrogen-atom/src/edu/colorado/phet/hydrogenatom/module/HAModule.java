@@ -159,7 +159,7 @@ public class HAModule extends PiccoloModule {
         
         // Beam
         {
-            _beamNode = new BeamNode( BOX_OF_HYDROGEN_SIZE.width, 100 );
+            _beamNode = new BeamNode( .75 * BOX_OF_HYDROGEN_SIZE.width, 100 );
             _rootNode.addChild( _beamNode );
         }
         
