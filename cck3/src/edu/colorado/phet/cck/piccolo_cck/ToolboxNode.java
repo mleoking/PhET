@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
@@ -34,10 +35,12 @@ public class ToolboxNode extends PhetPNode {
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 50;
     private static final double BETWEEN_INSET = 20;
+    CircuitInteractionModel circuitInteractionModel;
 
     public ToolboxNode( PhetPCanvas canvas, CCKModel model ) {
         this.canvas = canvas;
         this.model = model;
+        this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
         this.toolboxBounds = new PPath( new Rectangle( 100, 600 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
@@ -75,7 +78,6 @@ public class ToolboxNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    super.mouseDragged( event );
                     // If we haven't created the branch yet
                     if( !branchDragging ) {
                         branch = createBranch();
@@ -84,12 +86,13 @@ public class ToolboxNode extends PhetPNode {
                         model.getCircuit().addBranch( branch );
                         branchDragging = true;
                         branch.setSelected( true );
+                        setBranchLocationFromEvent( event );
                     }
                     // else, we're dragging a branch that we created.
                     else {
-                        setBranchLocationFromEvent( event );
-//                        event.getDeltaRelativeTo( WireNode.this );
-//                        branch.translate( event.getCanvasDelta().get);
+                        PDimension d = event.getCanvasDelta();
+                        canvas.getPhetRootNode().globalToWorld( d );
+                        circuitInteractionModel.translate( branch, d.width, d.height );
                     }
                 }
 
@@ -99,17 +102,22 @@ public class ToolboxNode extends PhetPNode {
             } );
         }
 
+        public Point2D getWorldLocation( PInputEvent event ) {
+            Point2D location = new Point2D.Double( event.getCanvasPosition().getX(),
+                                                   event.getCanvasPosition().getY() );
+            canvas.getPhetRootNode().globalToWorld( location );
+            return location;
+        }
+
         //This assumes the branch is always centered on the mouse.
         private void setBranchLocationFromEvent( PInputEvent event ) {
-            Point2D worldLoc = new Point2D.Double( event.getCanvasPosition().getX(),
-                                                   event.getCanvasPosition().getY() );
-            canvas.getPhetRootNode().globalToWorld( worldLoc );
+            Point2D location = getWorldLocation( event );
             double dx = branch.getEndPoint().getX() - branch.getStartPoint().getX();
             double dy = branch.getEndPoint().getY() - branch.getStartPoint().getY();
-            branch.getStartJunction().setPosition( worldLoc.getX() - dx / 2,
-                                                   worldLoc.getY() - dy / 2 );
-            branch.getEndJunction().setPosition( worldLoc.getX() + dx / 2,
-                                                 worldLoc.getY() + dy / 2 );
+            branch.getStartJunction().setPosition( location.getX() - dx / 2,
+                                                   location.getY() - dy / 2 );
+            branch.getEndJunction().setPosition( location.getX() + dx / 2,
+                                                 location.getY() + dy / 2 );
         }
 
         protected abstract Branch createBranch();

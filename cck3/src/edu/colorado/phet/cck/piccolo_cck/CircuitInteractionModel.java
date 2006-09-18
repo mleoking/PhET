@@ -3,7 +3,10 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.Point2D;
 
@@ -36,6 +39,16 @@ public class CircuitInteractionModel {
         }
     }
 
+    private CircuitComponent getSoleComponent( Junction j ) {
+        if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent )
+        {
+            return (CircuitComponent)circuit.getAdjacentBranches( j )[0];
+        }
+        else {
+            return null;
+        }
+    }
+
     private boolean allWires( Branch[] adjacentBranches ) {
         for( int i = 0; i < adjacentBranches.length; i++ ) {
             if( !( adjacentBranches[i] instanceof Wire ) ) {
@@ -46,11 +59,24 @@ public class CircuitInteractionModel {
     }
 
     public void dragJunction( Junction junction, Point2D target ) {
-        stickyTarget = getStickyTarget( junction, target.getX(), target.getY() );
-        if( stickyTarget != null ) {
-            target = stickyTarget.getPosition();
+        junction.setPosition( getDestination( junction, target ) );
+    }
+
+    private Point2D getDestination( Junction junction, Point2D target ) {
+        if( getSoleComponent( junction ) != null ) {
+            CircuitComponent cc = getSoleComponent( junction );
+            Junction opposite = cc.opposite( junction );
+            AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
+            vec = vec.getInstanceOfMagnitude( cc.getComponentLength() );
+            return vec.getDestination( opposite.getPosition() );
         }
-        junction.setPosition( target );
+        else {
+            stickyTarget = getStickyTarget( junction, target.getX(), target.getY() );
+            if( stickyTarget != null ) {
+                target = stickyTarget.getPosition();
+            }
+            return target;
+        }
     }
 
     public Junction getStickyTarget( Junction junction, double x, double y ) {
