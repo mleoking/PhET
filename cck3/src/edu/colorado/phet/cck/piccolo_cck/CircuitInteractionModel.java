@@ -34,10 +34,6 @@ public class CircuitInteractionModel {
         this.circuit = circuit;
     }
 
-//    public void translate( Branch branch, double dx, double dy ) {
-//        branch.translate( dx, dy );
-//    }
-
     public void translate( Branch branch, Point2D dragPt ) {
         if( !isDragging ) {
             isDragging = true;
@@ -99,6 +95,27 @@ public class CircuitInteractionModel {
     }
 
     public void dropBranch( Branch branch ) {
+        if( branch instanceof CircuitComponent ) {
+            isDragging = false;
+            if( match != null ) {
+                getCircuit().collapseJunctions( match.getSource(), match.getTarget() );
+            }
+            match = null;
+            //todo, need bumpAway implementation
+//        circuitGraphic.bumpAway( branchGraphic.getCircuitComponent() );
+        }
+        else {
+            isDragging = false;
+            if( startMatch != null ) {
+                getCircuit().collapseJunctions( startMatch.getSource(), startMatch.getTarget() );
+            }
+            if( endMatch != null ) {
+                getCircuit().collapseJunctions( endMatch.getSource(), endMatch.getTarget() );
+            }
+            //todo need bumpaway implementation
+//            circuitGraphic.bumpAway( branch );
+        }
+
     }
 
     private CircuitComponent getSoleComponent( Junction j ) {
