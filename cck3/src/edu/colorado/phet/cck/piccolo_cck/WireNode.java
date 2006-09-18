@@ -2,9 +2,9 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Sep 14, 2006 by Sam Reid
  */
 
-public class WireNode extends PhetPNode {
+public class WireNode extends BranchNode {
     private CCKModel cckModel;
     private Wire wire;
     private PPath wirePPath;
@@ -87,4 +87,7 @@ public class WireNode extends PhetPNode {
         wirePPath.setPathTo( wireShape );
     }
 
+    public Branch getBranch() {
+        return wire;
+    }
 }

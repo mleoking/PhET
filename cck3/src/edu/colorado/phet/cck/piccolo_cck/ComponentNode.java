@@ -1,11 +1,11 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Sep 17, 2006 by Sam Reid
  */
 
-public class ComponentNode extends PhetPNode {
+public class ComponentNode extends BranchNode {
     private CCKModel model;
     private PImage pImage;
     private CircuitComponent resistor;
@@ -83,4 +83,7 @@ public class ComponentNode extends PhetPNode {
         translate( 0, -pImage.getFullBounds().getHeight() / 2 );
     }
 
+    public Branch getBranch() {
+        return resistor;
+    }
 }
