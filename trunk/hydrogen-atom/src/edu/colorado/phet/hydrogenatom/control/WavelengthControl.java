@@ -269,22 +269,32 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /**
-     * Gets the color that corresponds to the current wavelength.
+     * Gets the color that corresponds to a specified wavelength.
      * 
-     * @return
+     * @param wavelength the wavelength, in nanometers
+     * @return Color
      */
-    public Color getColor() {
+    public Color getWavelengthColor( double wavelength ) {
         Color color = null;
-        if ( _wavelength < VisibleColor.MIN_WAVELENGTH ) {
+        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             color = _uvColor;
         }
-        else if ( _wavelength > VisibleColor.MAX_WAVELENGTH ) {
+        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
             color = _irColor;
         }
         else {
-            color = VisibleColor.wavelengthToColor( _wavelength );
+            color = VisibleColor.wavelengthToColor( wavelength );
         }
         return color;
+    }
+    
+    /**
+     * Gets the color that corresponds to the selected wavelength.
+     * 
+     * @return Color
+     */
+    public Color getWavelengthColor( ) {
+        return getWavelengthColor( _wavelength );
     }
     
     /**
@@ -293,7 +303,7 @@ public class WavelengthControl extends PhetPNode {
      * 
      * @param color
      */
-    public void setValueColors( Color foreground, Color background ) {
+    public void setTextFieldColors( Color foreground, Color background ) {
         _valueDisplay.getFormattedTextField().setForeground( foreground );
         _valueDisplay.getFormattedTextField().setBackground( background );
     }
@@ -384,7 +394,7 @@ public class WavelengthControl extends PhetPNode {
         final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
         
         // Knob color
-        Color wavelengthColor = getColor();
+        Color wavelengthColor = getWavelengthColor();
         _knob.setPaint( wavelengthColor );
         _cursor.setPaint( wavelengthColor );
     
@@ -527,9 +537,9 @@ public class WavelengthControl extends PhetPNode {
                 // UV label is centered in the UV track
                 uvLabel.setOffset( uvTrack.getFullBounds().getX() + ( ( uvTrack.getFullBounds().getWidth() -  uvLabel.getFullBounds().getWidth() ) / 2 ), 
                         ( uvTrack.getFullBounds().getHeight() - uvLabel.getFullBounds().getHeight() ) / 2 );
-                // If the UV track isn't wide enough to contain the UV label, make the UV label invisible
+                // Remove the UV label if the UV track isn't wide enough to contain it
                 if ( uvTrack.getFullBounds().getWidth() < uvLabel.getFullBounds().getWidth() ) {
-                    uvLabel.setVisible( false );
+                    removeChild( uvLabel );
                 }
                 // Spectrum track is to the right of the UV track
                 spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
@@ -541,9 +551,9 @@ public class WavelengthControl extends PhetPNode {
                 // IR label is centered in the UV track
                 irLabel.setOffset( irTrack.getFullBounds().getX() + ( ( irTrack.getFullBounds().getWidth() -  irLabel.getFullBounds().getWidth() ) / 2 ), 
                         ( irTrack.getFullBounds().getHeight() - irLabel.getFullBounds().getHeight() ) / 2 );
-                // If the IR track isn't wide enough to contain the IR label, make the IR label invisible
+                // Remove the IR label if the IR track isn't wide enough to contain it
                 if ( irTrack.getFullBounds().getWidth() < irLabel.getFullBounds().getWidth() ) {
-                    irLabel.setVisible( false );
+                    removeChild( irLabel );
                 }
             }
         }

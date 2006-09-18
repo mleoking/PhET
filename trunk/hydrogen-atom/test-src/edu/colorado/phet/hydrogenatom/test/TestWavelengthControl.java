@@ -62,6 +62,8 @@ public class TestWavelengthControl extends JFrame {
         
         // UV & IR with specified colors
         WavelengthControl c4 = new WavelengthControl( canvas, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        c4.setUnitsForeground( Color.BLUE );
+        c4.setTextFieldColors( Color.RED, Color.BLACK );
         canvas.getLayer().addChild( c4 );
         c4.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
