@@ -29,6 +29,7 @@ public class CircuitInteractionModel {
     private ImmutableVector2D.Double toEnd;
     private Circuit.DragMatch startMatch;
     private Circuit.DragMatch endMatch;
+    private Circuit.DragMatch dragMatch;
 
     public CircuitInteractionModel( Circuit circuit ) {
         this.circuit = circuit;
@@ -129,44 +130,38 @@ public class CircuitInteractionModel {
     }
 
     public void dragJunction( Junction junction, Point2D target ) {
-        junction.setPosition( getDestination( junction, target ) );
+        drag( junction, target );
     }
 
-    private Point2D getDestination( Junction junction, Point2D target ) {
+    private void drag( Junction junction, Point2D target ) {
         if( getSoleComponent( junction ) != null ) {
             CircuitComponent branch = getSoleComponent( junction );
             Junction opposite = branch.opposite( junction );
             AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
             vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );
             Point2D dst = vec.getDestination( opposite.getPosition() );
-//            junction.setPosition( dst.getX(), dst.getY() );
-            return dst;
-//            branch.notifyObservers();
-//            cg.getCircuit().fireJunctionsMoved();
-//            CircuitComponent cc = getSoleComponent( junction );
-//            Junction opposite = cc.opposite( junction );
-//            AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
-//            vec = vec.getInstanceOfMagnitude( cc.getComponentLength() );
-//            return vec.getDestination( opposite.getPosition() );
+            junction.setPosition( dst.getX(), dst.getY() );
         }
         else {
-            stickyTarget = getStickyTarget( junction, target.getX(), target.getY() );
-            if( stickyTarget != null ) {
-                target = stickyTarget.getPosition();
+            //find a potential match.
+            Branch[] sc = circuit.getStrongConnections( junction );
+            Junction[] j = Circuit.getJunctions( sc );
+            ArrayList ju = new ArrayList( Arrays.asList( j ) );
+            if( !ju.contains( junction ) ) {
+                ju.add( junction );
             }
-            return target;
-        }
-    }
 
-    private CircuitComponent getCircuitComponent( Junction junction ) {
-        Branch[]b = circuit.getAdjacentBranches( junction );
-        for( int i = 0; i < b.length; i++ ) {
-            Branch branch = b[i];
-            if( branch instanceof CircuitComponent ) {
-                return (CircuitComponent)branch;
+            Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
+            Vector2D dx = new Vector2D.Double( junction.getPosition(), target );
+            dragMatch = getCircuit().getBestDragMatch( jx, dx );
+            if( dragMatch != null ) {
+                dx = dragMatch.getVector();
             }
+
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( junction );
+            bs.translate( dx );
         }
-        return null;
     }
 
     public Junction getStickyTarget( Junction junction, double x, double y ) {

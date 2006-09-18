@@ -138,13 +138,13 @@ public class ToolboxNode extends PhetPNode {
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ResistorNode child = new ResistorNode( model, new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1, 1 ) );
+            ResistorNode child = new ResistorNode( model, new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1.5, 1 ) );
             child.scale( 40 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
         protected Branch createBranch() {
-            return new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1, 1 );
+            return new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
         }
     }
 }
