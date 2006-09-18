@@ -4,7 +4,6 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 
@@ -27,17 +26,18 @@ public class CircuitInteractionModel {
 
     public void translate( Branch branch, double dx, double dy ) {
         branch.translate( dx, dy );
+//        BranchSet branchSet=new BranchSet( circuit, );
     }
 
-    public void translate( Junction junction, double dx, double dy ) {
-        if( allWires( circuit.getAdjacentBranches( junction ) ) ) {
-            junction.translate( dx, dy );
-        }
-        Branch[]b = circuit.getAdjacentBranches( junction );
-        if( b.length == 1 && b[0]instanceof Wire ) {
-            junction.translate( dx, dy );
-        }
-    }
+//    public void translate( Junction junction, double dx, double dy ) {
+//        if( allWires( circuit.getAdjacentBranches( junction ) ) ) {
+//            junction.translate( dx, dy );
+//        }
+//        Branch[]b = circuit.getAdjacentBranches( junction );
+//        if( b.length == 1 && b[0]instanceof Wire ) {
+//            junction.translate( dx, dy );
+//        }
+//    }
 
     private CircuitComponent getSoleComponent( Junction j ) {
         if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent )
@@ -49,14 +49,14 @@ public class CircuitInteractionModel {
         }
     }
 
-    private boolean allWires( Branch[] adjacentBranches ) {
-        for( int i = 0; i < adjacentBranches.length; i++ ) {
-            if( !( adjacentBranches[i] instanceof Wire ) ) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean allWires( Branch[] adjacentBranches ) {
+//        for( int i = 0; i < adjacentBranches.length; i++ ) {
+//            if( !( adjacentBranches[i] instanceof Wire ) ) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public void dragJunction( Junction junction, Point2D target ) {
         junction.setPosition( getDestination( junction, target ) );

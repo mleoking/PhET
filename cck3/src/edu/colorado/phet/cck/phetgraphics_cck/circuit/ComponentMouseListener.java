@@ -25,7 +25,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
     private CircuitGraphic circuitGraphic;
     private IComponentGraphic branchGraphic;
     private Circuit circuit;
-    private CircuitGraphic.DragMatch match;
+    private Circuit.DragMatch match;
 
     public ComponentMouseListener( final CircuitGraphic circuitGraphic, final IComponentGraphic branchGraphic ) {
         this.circuitGraphic = circuitGraphic;
@@ -67,7 +67,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
             CircuitComponent component = branchGraphic.getCircuitComponent();
             Vector2D dx = new Vector2D.Double( component.getStartJunction().getPosition(), newStartPosition );
             Branch[] sc = circuit.getStrongConnections( branchGraphic.getCircuitComponent().getStartJunction() );
-            match = circuitGraphic.getBestDragMatch( sc, dx );
+            match = circuitGraphic.getCircuit().getBestDragMatch( sc, dx );
             if( match == null ) {
                 BranchSet branchSet = new BranchSet( circuit, sc );
                 branchSet.translate( dx );

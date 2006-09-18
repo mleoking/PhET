@@ -14,8 +14,8 @@ import java.util.ArrayList;
  * Copyright (c) Jun 13, 2004 by Sam Reid
  */
 public class BranchSet {
-    ArrayList branches = new ArrayList();
-    ArrayList junctions = new ArrayList();
+    private ArrayList branches = new ArrayList();
+    private ArrayList junctions = new ArrayList();
     private Circuit circuit;
 
     public BranchSet( Circuit circuit, Branch[] branchs ) {

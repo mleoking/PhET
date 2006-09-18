@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.CCKApparatusPanel;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
@@ -23,7 +22,6 @@ import edu.colorado.phet.common_cck.view.util.CachingImageLoader;
 
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
@@ -428,97 +426,6 @@ public class CircuitGraphic extends CompositeGraphic {
             }
         }
         return null;
-    }
-
-
-    public DragMatch getBestDragMatch( Branch[] sc, Vector2D dx ) {
-        Junction[] sources = Circuit.getJunctions( sc );
-        return getBestDragMatch( sources, dx );
-    }
-
-    public DragMatch getBestDragMatch( Junction[] sources, Vector2D dx ) {
-        Junction[] all = circuit.getJunctions();
-        ArrayList rema = new ArrayList();
-        rema.addAll( Arrays.asList( all ) );
-        rema.removeAll( Arrays.asList( sources ) );
-        //now we have all the junctions that are moving,
-        //and all the junctions that aren't moving, so we can look for a best match.
-        Junction[] remaining = (Junction[])rema.toArray( new Junction[0] );
-        DragMatch best = null;
-        for( int i = 0; i < sources.length; i++ ) {
-            Junction source = sources[i];
-            Point2D loc = dx.getDestination( source.getPosition() );
-            Junction bestForHim = getBestDragMatch( source, loc, remaining );
-            if( bestForHim != null ) {
-                DragMatch dm = new DragMatch( source, bestForHim );
-                if( best == null || dm.getDistance() < best.getDistance() ) {
-                    best = dm;
-                }
-            }
-        }
-//        System.out.println( "best = " + best );
-        return best;
-    }
-
-    public static class DragMatch {
-        Junction source;
-        Junction target;
-
-        public DragMatch( Junction source, Junction target ) {
-            this.source = source;
-            this.target = target;
-        }
-
-        public Junction getSource() {
-            return source;
-        }
-
-        public Junction getTarget() {
-            return target;
-        }
-
-        public double getDistance() {
-            return source.getDistance( target );
-        }
-
-        public String toString() {
-            return "match, source=" + source + ", dest=" + target + ", dist=" + getDistance();
-        }
-
-        public Vector2D getVector() {
-            return new Vector2D.Double( source.getPosition(), target.getPosition() );
-        }
-    }
-
-    public Junction getBestDragMatch( Junction dragging, Point2D loc, Junction[] targets ) {
-        Branch[] strong = circuit.getStrongConnections( dragging );
-        Junction closestJunction = null;
-        double closestValue = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < targets.length; i++ ) {
-            Junction target = targets[i];
-            double dist = loc.distance( target.getPosition() );
-            if( target != dragging && !getCircuit().hasBranch( dragging, target ) &&
-                !getCircuit().wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
-                if( closestJunction == null || dist < closestValue ) {
-                    boolean legal = !contains( strong, target );
-                    if( dist <= STICKY_THRESHOLD && legal ) {
-                        closestValue = dist;
-                        closestJunction = target;
-                    }
-                }
-            }
-        }
-        return closestJunction;
-    }
-
-    private boolean contains( Branch[] strong, Junction j ) {
-        for( int i = 0; i < strong.length; i++ ) {
-            Branch branch = strong[i];
-            if( branch.hasJunction( j ) ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void convertToComponentGraphic( Junction junction, CircuitComponent branch ) {

@@ -28,7 +28,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
     private CircuitGraphic circuitGraphic;
     private JunctionGraphic junctionGraphic;
     private ModelViewTransform2D transform;
-    private CircuitGraphic.DragMatch dragMatch;
+    private Circuit.DragMatch dragMatch;
     private MouseInputAdapter input;
 
     public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic junctionGraphic,
@@ -57,7 +57,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
 
                 Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
                 Vector2D dx = new Vector2D.Double( getJunction().getPosition(), pt );
-                dragMatch = circuitGraphic.getBestDragMatch( jx, dx );
+                dragMatch = circuitGraphic.getCircuit().getBestDragMatch( jx, dx );
                 if( dragMatch != null ) {
                     dx = dragMatch.getVector();
                 }
