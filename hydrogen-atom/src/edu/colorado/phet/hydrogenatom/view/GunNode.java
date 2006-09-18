@@ -54,7 +54,8 @@ public class GunNode extends PhetPNode {
         
         // Layout
         _gunOnOffControl.setOffset( 0, 0 );
-        cableNode.setOffset( 13, 175 );
+        cableNode.setOffset( ( _gunOnOffControl.getFullBounds().getWidth() / 2 ) - 20, 
+                _gunOnOffControl.getFullBounds().getHeight() / 2 );
     }
     
     //----------------------------------------------------------------------------
@@ -63,5 +64,9 @@ public class GunNode extends PhetPNode {
     
     public GunOnOffControl getGunOnOffControl() {
         return _gunOnOffControl;
+    }
+    
+    public boolean isOn() {
+        return _gunOnOffControl.isOn();
     }
 }

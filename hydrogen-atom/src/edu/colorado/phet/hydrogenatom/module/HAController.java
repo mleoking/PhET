@@ -81,6 +81,12 @@ public class HAController {
            }
         });
         
+        _gunNode.getGunOnOffControl().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                handleGunOnOffChange();
+            }
+        } );
+        
         _gunControlPanel.getGunTypeControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleGunTypeChange();
@@ -166,24 +172,28 @@ public class HAController {
         _module.updateEnergyDiagram();
     }
     
+    private void handleGunOnOffChange() {
+        _module.updateBeam();
+    }
+    
     private void handleGunTypeChange() {
-        //XXX
+        _module.updateBeam();
     }
     
     private void handleLightTypeChange() {
-        //XXX
+        _module.updateBeam();
     }
     
     private void handleLightIntensityChange() {
-        //XXX
+        _module.updateBeam();
     }
     
     private void handleLightWavelengthChange() {
-        //XXX
+        _module.updateBeam();
     }
     
     private void handleAlphaParticleIntensityChange() {
-        //XXX
+        _module.updateBeam();
     }
     
     private void handleEnergyDiagramSelection() {

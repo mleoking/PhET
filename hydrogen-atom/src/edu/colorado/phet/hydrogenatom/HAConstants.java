@@ -34,6 +34,12 @@ public class HAConstants {
     private HAConstants() {}
     
     //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
+    
+    public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
+    
+    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     
@@ -115,6 +121,7 @@ public class HAConstants {
     public static final String IMAGE_BILLIARD_BALL = IMAGES_DIRECTORY + "billiardBall.png";
     public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
     public static final String IMAGE_BOHR_BUTTON = IMAGES_DIRECTORY + "bohrButton.png";
+    public static final String IMAGE_BOX_OF_HYDROGEN = IMAGES_DIRECTORY + "boxOfHydrogen.png";
     public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
