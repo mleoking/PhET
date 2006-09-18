@@ -32,7 +32,6 @@ LOW PRIORITY:
 - add ability to set dimensions of wavelength control
 - add ability to set knob size of wavelength control
 - add ability to set font for wavelength control
-- add ability to set color of UV/IR labels in wavelength control
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
