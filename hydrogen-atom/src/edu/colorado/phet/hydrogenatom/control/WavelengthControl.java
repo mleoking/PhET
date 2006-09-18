@@ -52,7 +52,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * WavelengthControl is the control used for setting wavelength.
+ * WavelengthControl is a control used for setting wavelength.
  * It handles visible wavelengths, plus optional UV and IR wavelengths.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -75,12 +75,13 @@ public class WavelengthControl extends PhetPNode {
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
     private static final Color CURSOR_COLOR = Color.BLACK;
     
-    private static final String UV_STRING = "< UV";
-    private static final String IR_STRING = "IR >";
-    private static final Color UV_LABEL_COLOR = Color.WHITE;
-    private static final Color IR_LABEL_COLOR = Color.WHITE;
-    private static final Font UV_IR_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 12 );
-    private static final double UV_IR_LABEL_MARGIN = 3;
+    private static final String UV_STRING = "UV";
+    private static final String IR_STRING = "IR";
+    private static final Font UV_IR_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Color DEFAULT_UV_TRACK_COLOR = Color.LIGHT_GRAY;
+    private static final Color DEFAULT_UV_LABEL_COLOR = Color.BLACK;
+    private static final Color DEFAULT_IR_TRACK_COLOR = DEFAULT_UV_TRACK_COLOR;
+    private static final Color DEFAULT_IR_LABEL_COLOR = DEFAULT_UV_LABEL_COLOR;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -113,22 +114,47 @@ public class WavelengthControl extends PhetPNode {
     
     /**
      * Creates a wavelength control for the visible spectrum.
+     * 
+     * @param canvas used by PSwing to wrap Swing components
      */
     public WavelengthControl( PSwingCanvas canvas ) {
-        this( canvas, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, Color.BLACK, Color.BLACK );
+        this( canvas, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, 
+                DEFAULT_UV_TRACK_COLOR, DEFAULT_UV_LABEL_COLOR,
+                DEFAULT_IR_TRACK_COLOR, DEFAULT_IR_LABEL_COLOR );
     }
     
     /**
-     * Creates a wavelength control for a range of wavelengths,
-     * including wavelengths outside the visible spectrum.
+     * Creates a wavelength control for a specified range of wavelengths.
+     * Default colors are used for UV and IR ranges.
      * 
-     * @param canvas
+     * @param canvas used by PSwing to wrap Swing components
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
-     * @param uvColor color used for UV
-     * @param irColor color used for IR
      */
-    public WavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
+    public WavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength ) {
+        this( canvas, minWavelength, maxWavelength, 
+                DEFAULT_UV_TRACK_COLOR, DEFAULT_UV_LABEL_COLOR,
+                DEFAULT_IR_TRACK_COLOR, DEFAULT_IR_LABEL_COLOR );
+    }
+    
+    /**
+     * Creates a wavelength control for a specified range of wavelengths.
+     * Specified colors are used for UV and IR ranges.
+     * 
+     * @param canvas used by PSwing to wrap Swing components
+     * @param minWavelength minimum wavelength, in nanometers
+     * @param maxWavelength maximum wavelength, in nanometers
+     * @param uvTrackColor color used for UV label
+     * @param uvLabelColor color used for UV track
+     * @param irTrackColor color used for IR label
+     * @param irLabelColor color used for IR track
+     * @throws IllegalArgumentException if minWavelength >= maxWavelength
+     * @throws UnsupportedOperationException if the entire visible spectrum is not included in wavelength range
+     */
+    public WavelengthControl( PSwingCanvas canvas, 
+            double minWavelength, double maxWavelength, 
+            Color uvTrackColor, Color uvLabelColor, 
+            Color irTrackColor, Color irLabelColor ) {
         super();
         
         if ( minWavelength >= maxWavelength ) {
@@ -142,16 +168,27 @@ public class WavelengthControl extends PhetPNode {
         _minWavelength = minWavelength;
         _maxWavelength = maxWavelength;
         _wavelength = _minWavelength - 1; // any value outside the range
-        _uvColor = uvColor;
-        _irColor = irColor;
+        _uvColor = uvTrackColor;
+        _irColor = irTrackColor;
         _listenerList = new EventListenerList();
         
         _knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
-        _track = new Track( minWavelength, maxWavelength, uvColor, irColor );
+        _track = new Track( minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         _valueDisplay = new ValueDisplay( _canvas );
         _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
         
+        /* 
+         * Put a border around the track.
+         * We don't stroke the track itself because stroking the track will affect its bounds, 
+         * and will thus affect the drag handle behavior.
+         */
+        PPath trackBorder = new PPath();
+        trackBorder.setPathTo( new Rectangle2D.Double( 0, 0, _track.getFullBounds().getWidth(), _track.getFullBounds().getHeight() ) );
+        trackBorder.setStroke( new BasicStroke( 1f ) );
+        trackBorder.setStrokePaint( Color.BLACK );
+        
         addChild( _track );
+        addChild( trackBorder );
         addChild( _knob );
         addChild( _valueDisplay );
         addChild( _cursor );
@@ -251,26 +288,20 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /**
-     * Sets the foreground color of text field used to display the current value.
+     * Sets the foreground and background colors of the 
+     * text field used to display the current value.
      * 
      * @param color
      */
-    public void setValueForeground( Color color ) {
-        _valueDisplay.getFormattedTextField().setForeground( color );
-    }
-    
-    /**
-     * Sets the background color of text field used to display the current value.
-     * 
-     * @param color
-     */
-    public void setValueBackground( Color color ) {
-        _valueDisplay.getFormattedTextField().setBackground( color );
+    public void setValueColors( Color foreground, Color background ) {
+        _valueDisplay.getFormattedTextField().setForeground( foreground );
+        _valueDisplay.getFormattedTextField().setBackground( background );
     }
     
     /**
      * Sets the foreground color of the units label that appears to
      * the right of the text field that displays the current value.
+     * The background is transparent.
      * 
      * @param color
      */
@@ -333,7 +364,6 @@ public class WavelengthControl extends PhetPNode {
      * Handles a mouse click on the track.
      */
     private void handleTrackClick( Point2D trackPoint ) {
-        System.out.println( trackPoint );//XXX
         final double bandwidth = _maxWavelength - _minWavelength;
         final double trackWidth = _track.getFullBounds().getWidth();
         final double wavelength = _minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
@@ -427,7 +457,9 @@ public class WavelengthControl extends PhetPNode {
     private static class Track extends PComposite {
         
         /* Constructor */
-        public Track( double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
+        public Track( double minWavelength, double maxWavelength,  
+                Color uvTrackColor, Color uvLabelColor, 
+                Color irTrackColor, Color irLabelColor ) {
             super();
             
             /* Portion of the track that represents visible wavelengths */
@@ -446,60 +478,73 @@ public class WavelengthControl extends PhetPNode {
             
             /* Portion of the track that represents ultra-violet (UV) wavelengths */
             PPath uvTrack = null;
-            PText uvText = null;
+            PText uvLabel = null;
             if ( hasUV ) {
                 
                 uvTrack = new PPath();
                 uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, spectrumTrackHeight ) );
-                uvTrack.setPaint( uvColor );
+                uvTrack.setPaint( uvTrackColor );
                 uvTrack.setStroke( null );
                 
-                uvText = new PText( UV_STRING );
-                uvText.setFont( UV_IR_FONT );
-                uvText.setTextPaint( UV_LABEL_COLOR );
+                uvLabel = new PText( UV_STRING );
+                uvLabel.setFont( UV_IR_FONT );
+                uvLabel.setTextPaint( uvLabelColor );
             }
             
             /* Portion of the track that represents infra-red (IR) wavelengths */
             PPath irTrack = null;
-            PText irText = null;
+            PText irLabel = null;
             if ( hasIR ) {
-                
                 irTrack = new PPath();
                 irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, spectrumTrackHeight ) );
-                irTrack.setPaint( irColor );
+                irTrack.setPaint( irTrackColor );
                 irTrack.setStroke( null );
 
-                irText = new PText( IR_STRING );
-                irText.setFont( UV_IR_FONT );
-                irText.setTextPaint( IR_LABEL_COLOR );
+                irLabel = new PText( IR_STRING );
+                irLabel.setFont( UV_IR_FONT );
+                irLabel.setTextPaint( irLabelColor );
             }
             
             // Layering
             if ( hasUV ) {
                 addChild( uvTrack );
-                addChild( uvText );
+                addChild( uvLabel );
             }
             if ( hasIR ) {
                 addChild( irTrack );
-                addChild( irText );
+                addChild( irLabel );
             }
             addChild( spectrumTrack );
 
             // Positioning
-            if ( hasUV ) {
-                uvTrack.setOffset( 0, 0 );
-                spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
-                uvText.setOffset( spectrumTrack.getFullBounds().getX() - uvText.getFullBounds().getWidth() - UV_IR_LABEL_MARGIN, 
-                        ( spectrumTrack.getFullBounds().getHeight() - uvText.getFullBounds().getHeight() ) / 2 );
-            }
-            else {
+            if ( !hasUV ) {
+                // If there is no UV, the spectrum is at the far left.
                 spectrumTrack.setOffset( 0, 0 );
             }
-            
+            else {
+                // UV track is at the far left
+                uvTrack.setOffset( 0, 0 );
+                // UV label is centered in the UV track
+                uvLabel.setOffset( uvTrack.getFullBounds().getX() + ( ( uvTrack.getFullBounds().getWidth() -  uvLabel.getFullBounds().getWidth() ) / 2 ), 
+                        ( uvTrack.getFullBounds().getHeight() - uvLabel.getFullBounds().getHeight() ) / 2 );
+                // If the UV track isn't wide enough to contain the UV label, make the UV label invisible
+                if ( uvTrack.getFullBounds().getWidth() < uvLabel.getFullBounds().getWidth() ) {
+                    uvLabel.setVisible( false );
+                }
+                // Spectrum track is to the right of the UV track
+                spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
+            }
+
             if ( hasIR ) {
+                // IR track is to the right of the spectrum track
                 irTrack.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth(), 0 );
-                irText.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth() + UV_IR_LABEL_MARGIN, 
-                        ( spectrumTrack.getFullBounds().getHeight() - irText.getFullBounds().getHeight() ) / 2 );
+                // IR label is centered in the UV track
+                irLabel.setOffset( irTrack.getFullBounds().getX() + ( ( irTrack.getFullBounds().getWidth() -  irLabel.getFullBounds().getWidth() ) / 2 ), 
+                        ( irTrack.getFullBounds().getHeight() - irLabel.getFullBounds().getHeight() ) / 2 );
+                // If the IR track isn't wide enough to contain the IR label, make the IR label invisible
+                if ( irTrack.getFullBounds().getWidth() < irLabel.getFullBounds().getWidth() ) {
+                    irLabel.setVisible( false );
+                }
             }
         }
     }

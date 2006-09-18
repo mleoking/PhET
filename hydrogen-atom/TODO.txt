@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change UV and IR label on wavelength control, center them in their area
 - when the gun is in "continuous fire" mode, what determines when the next shot is fired?
 - when the gun is in "single shot" mode, what determines when it's OK to shoot again?
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
@@ -31,9 +32,12 @@ LOW PRIORITY:
 - add ability to set dimensions of wavelength control
 - add ability to set knob size of wavelength control
 - add ability to set font for wavelength control
+- add ability to set color of UV/IR labels in wavelength control
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/18/06) - test harness for WavelengthControl
+(9/18/06) - lots of fixes/enhancements to WavelengthControl
 (9/14/06) - change canvas background to black
 (9/14/06) - move spectrometer checkbox above right of spectrometer
 (9/14/06) - tag code with hydrogenatom-sandbox-2006-09-14

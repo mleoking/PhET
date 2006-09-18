@@ -79,7 +79,8 @@ public class GunControlPanel extends PhetPNode {
         _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );
         _wavelengthControl = new WavelengthControl( canvas,
                 HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
-                HAConstants.UV_COLOR, HAConstants.IR_COLOR );
+                HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR, 
+                HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
         
         _alphaParticleControls = new PhetPNode();
         _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );

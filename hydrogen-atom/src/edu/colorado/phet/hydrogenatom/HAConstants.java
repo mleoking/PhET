@@ -88,11 +88,13 @@ public class HAConstants {
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Colors used for wavelengths outside the visible spectrum
-    public static final Color UV_COLOR = Color.GRAY;
-    public static final Color IR_COLOR = Color.GRAY;
+    public static final Color UV_TRACK_COLOR = Color.GRAY;
+    public static final Color UV_LABEL_COLOR = Color.WHITE;
+    public static final Color IR_TRACK_COLOR = Color.GRAY;
+    public static final Color IR_LABEL_COLOR = Color.WHITE;
     
     // Color used for alpha particle intensity slider
-    public static final Color ALPHA_PARTICLES_COLOR = UV_COLOR;
+    public static final Color ALPHA_PARTICLES_COLOR = UV_TRACK_COLOR;
     
     //----------------------------------------------------------------------------
     // Borders
