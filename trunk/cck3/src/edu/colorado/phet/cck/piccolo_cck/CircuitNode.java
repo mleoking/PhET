@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 
@@ -25,13 +24,16 @@ public class CircuitNode extends PhetPNode {
     private CCKModel cckModel;
     private Circuit circuit;
     private ArrayList junctionGraphics = new ArrayList();
+    private ArrayList branchGraphics = new ArrayList();
 
     public CircuitNode( CCKModel cckModel, Circuit circuit ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
-                addChild( createNode( branch ) );
+                BranchNode branchNode = createNode( branch );
+                branchGraphics.add( branchNode );
+                addChild( branchNode );
             }
 
             public void junctionAdded( Junction junction ) {
@@ -48,6 +50,18 @@ public class CircuitNode extends PhetPNode {
                     }
                 }
             }
+
+            public void selectionChanged() {
+                for( int i = 0; i < branchGraphics.size(); i++ ) {
+                    BranchNode pNode = (BranchNode)branchGraphics.get( i );
+                    if( pNode.getBranch().isSelected() ) {
+                        pNode.moveToFront();
+                    }
+                }
+                for( int i = 0; i < junctionGraphics.size(); i++ ) {
+                    ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
+                }
+            }
         } );
     }
 
@@ -60,7 +74,7 @@ public class CircuitNode extends PhetPNode {
         return new JunctionNode( cckModel, junction, this );
     }
 
-    public PNode createNode( Branch branch ) {
+    public BranchNode createNode( Branch branch ) {
         if( branch instanceof Wire ) {
             return new WireNode( cckModel, (Wire)branch );
         }
