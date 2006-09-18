@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.test;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -38,7 +39,7 @@ public class TestWavelengthControl extends JFrame {
         
         PhetPCanvas canvas = new PhetPCanvas();
 
-        final double xOffset = 50;
+        final double xOffset = 100;
         double yOffset = 50;
         final double ySpacing = 100;
         
@@ -60,10 +61,14 @@ public class TestWavelengthControl extends JFrame {
         c3.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
         
-        // UV & IR with specified colors
+        // UV & IR with custom colors, fonts, etc
         WavelengthControl c4 = new WavelengthControl( canvas, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
-        c4.setUnitsForeground( Color.BLUE );
+        c4.setWavelength( 300 );
         c4.setTextFieldColors( Color.RED, Color.BLACK );
+        c4.setUnitsForeground( Color.BLUE );
+        c4.setTextFieldFont( new Font( "Lucida Sans", Font.PLAIN, 20 ) );
+        c4.setUnitsFont( new Font( "Lucida Sans", Font.ITALIC, 14 ) );
+        c4.setTextFieldColumns( 5 );
         canvas.getLayer().addChild( c4 );
         c4.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
@@ -87,7 +92,7 @@ public class TestWavelengthControl extends JFrame {
         yOffset += ySpacing;
         
         getContentPane().add( canvas );
-        setSize( 500, (int)yOffset );
+        setSize( 600, (int)yOffset );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
 

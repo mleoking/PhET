@@ -68,8 +68,11 @@ public class WavelengthControl extends PhetPNode {
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
+    private static final Font VALUE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     private static final double VALUE_Y_OFFSET = 2;
+    
     private static final String UNITS_LABEL = "nm";
+    private static final Font UNITS_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     
     private static final double CURSOR_WIDTH = 3;
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
@@ -223,7 +226,6 @@ public class WavelengthControl extends PhetPNode {
 
             // Adjust the knob's drag bounds if this control's bounds are changed.
             addPropertyChangeListener( new PropertyChangeListener() {
-
                 public void propertyChange( PropertyChangeEvent event ) {
                     if ( PNode.PROPERTY_FULL_BOUNDS.equals( event.getPropertyName() ) ) {
                         updateDragBounds();
@@ -254,7 +256,7 @@ public class WavelengthControl extends PhetPNode {
         
         if ( wavelength != _wavelength ) {
             _wavelength = wavelength;
-            updateUI( wavelength );
+            updateUI();
             fireChangeEvent( new ChangeEvent( this ) );
         }
     }
@@ -309,6 +311,28 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /**
+     * Sets the font of the text field used to display the current value.
+     * 
+     * @param font
+     */
+    public void setTextFieldFont( Font font ) {
+        _valueDisplay.getFormattedTextField().setFont( font );
+        _valueDisplay.computeBounds();
+        updateUI();
+        System.out.println( "setTextFieldFont " + _valueDisplay.getFullBounds() );
+    }
+    
+    /**
+     * Set the number of columns in the editable text field.
+     * @param columns
+     */
+    public void setTextFieldColumns( int columns ) {
+        _valueDisplay.getFormattedTextField().setColumns( columns );
+        _valueDisplay.computeBounds();
+        updateUI();
+    }
+    
+    /**
      * Sets the foreground color of the units label that appears to
      * the right of the text field that displays the current value.
      * The background is transparent.
@@ -317,6 +341,18 @@ public class WavelengthControl extends PhetPNode {
      */
     public void setUnitsForeground( Color color ) {
         _valueDisplay.getUnitsLabel().setForeground( color );
+    }
+    
+    /**
+     * Sets the font of the units label that appears to
+     * the right of the text field that displays the current value.
+     * 
+     * @param font
+     */
+    public void setUnitsFont( Font font ) {
+        _valueDisplay.getUnitsLabel().setFont( font );
+        _valueDisplay.computeBounds();
+        updateUI();
     }
     
     /**
@@ -381,9 +417,9 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /*
-     * Updates the UI to match a specified wavelength.
+     * Updates the UI to match a the current wavelength.
      */
-    private void updateUI( double wavelength ) {
+    private void updateUI() {
         
         final double bandwidth = _maxWavelength - _minWavelength;
         
@@ -392,6 +428,7 @@ public class WavelengthControl extends PhetPNode {
         final double cursorWidth = _cursor.getFullBounds().getWidth();
         final double valueDisplayWidth = _valueDisplay.getFullBounds().getWidth();
         final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
+        System.out.println( "WavelengthControl.updateUI: " + _wavelength + " " + valueDisplayWidth + " " + valueDisplayHeight );//XXX
         
         // Knob color
         Color wavelengthColor = getWavelengthColor();
@@ -401,12 +438,12 @@ public class WavelengthControl extends PhetPNode {
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();
         final double trackWidth = trackBounds.getWidth();
-        final double knobX = trackX + ( trackWidth * ( ( wavelength - _minWavelength ) / bandwidth ) ) - ( knobWidth / 2 );
+        final double knobX = trackX + ( trackWidth * ( ( _wavelength - _minWavelength ) / bandwidth ) ) - ( knobWidth / 2 );
         final double knobY = trackBounds.getHeight();
         _knob.setOffset( knobX, knobY );
     
         // Value display: above the track, centered above the knob
-        _valueDisplay.setValue( wavelength );
+        _valueDisplay.setValue( _wavelength );
         final double valueX = knobX + ( knobWidth / 2 ) - ( valueDisplayWidth / 2 );
         final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
         _valueDisplay.setOffset( valueX, valueY );
@@ -566,6 +603,7 @@ public class WavelengthControl extends PhetPNode {
         
         private JFormattedTextField _formattedTextField;
         private JLabel _unitsLabel;
+        private PSwing _pswing;
         
         /* Constructor */
         public ValueDisplay( PSwingCanvas canvas ) {
@@ -573,10 +611,11 @@ public class WavelengthControl extends PhetPNode {
             
             /* units label, appears to the right of the text field */
             _unitsLabel = new JLabel( UNITS_LABEL );
-            _unitsLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            _unitsLabel.setFont( UNITS_FONT );
             
             /* editable text field */
             _formattedTextField = new JFormattedTextField();
+            _formattedTextField.setFont( VALUE_FONT );
             _formattedTextField.setColumns( 3 );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             
@@ -619,8 +658,8 @@ public class WavelengthControl extends PhetPNode {
             _unitsLabel.setOpaque( false );
             
             // Piccolo wrapper
-            PSwing pswing = new PSwing( canvas, panel );
-            addChild( pswing );
+            _pswing = new PSwing( canvas, panel );
+            addChild( _pswing );
         }
         
         /* Sets the value displayed by the text field. */
@@ -657,6 +696,11 @@ public class WavelengthControl extends PhetPNode {
         /* Selects the entire text field */
         public void selectAll() {
             _formattedTextField.selectAll();
+        }
+        
+        /* Call this after doing something that changes the size of a Swing component */
+        public void computeBounds() {
+            _pswing.computeBounds();
         }
     }
     
