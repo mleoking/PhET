@@ -134,11 +134,20 @@ public class CircuitInteractionModel {
 
     private Point2D getDestination( Junction junction, Point2D target ) {
         if( getSoleComponent( junction ) != null ) {
-            CircuitComponent cc = getSoleComponent( junction );
-            Junction opposite = cc.opposite( junction );
+            CircuitComponent branch = getSoleComponent( junction );
+            Junction opposite = branch.opposite( junction );
             AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
-            vec = vec.getInstanceOfMagnitude( cc.getComponentLength() );
-            return vec.getDestination( opposite.getPosition() );
+            vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );
+            Point2D dst = vec.getDestination( opposite.getPosition() );
+//            junction.setPosition( dst.getX(), dst.getY() );
+            return dst;
+//            branch.notifyObservers();
+//            cg.getCircuit().fireJunctionsMoved();
+//            CircuitComponent cc = getSoleComponent( junction );
+//            Junction opposite = cc.opposite( junction );
+//            AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), target );
+//            vec = vec.getInstanceOfMagnitude( cc.getComponentLength() );
+//            return vec.getDestination( opposite.getPosition() );
         }
         else {
             stickyTarget = getStickyTarget( junction, target.getX(), target.getY() );
@@ -147,6 +156,17 @@ public class CircuitInteractionModel {
             }
             return target;
         }
+    }
+
+    private CircuitComponent getCircuitComponent( Junction junction ) {
+        Branch[]b = circuit.getAdjacentBranches( junction );
+        for( int i = 0; i < b.length; i++ ) {
+            Branch branch = b[i];
+            if( branch instanceof CircuitComponent ) {
+                return (CircuitComponent)branch;
+            }
+        }
+        return null;
     }
 
     public Junction getStickyTarget( Junction junction, double x, double y ) {
