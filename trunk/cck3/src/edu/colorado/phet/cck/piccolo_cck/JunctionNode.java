@@ -29,11 +29,13 @@ public class JunctionNode extends PhetPNode {
     private CircuitNode circuitNode;
     private PPath shapePNode;
     private PPath highlightPNode;
+    private CircuitInteractionModel circuitInteractionModel;
 
     public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode ) {
         this.cckModel = cckModel;
         this.junction = junction;
         this.circuitNode = circuitNode;
+        this.circuitInteractionModel = new CircuitInteractionModel( getCircuit() );
         shapePNode = new PPath();
         shapePNode.setStroke( shapeStroke );
         highlightPNode = new PPath();
@@ -51,16 +53,11 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setStrokePaint( Color.red );
         shapePNode.setPaint( new Color( 0, 0, 0, 0 ) );
         addInputEventListener( new PBasicInputEventHandler() {
-            Junction stickyTarget = null;
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D pt = event.getPositionRelativeTo( JunctionNode.this );
                 Point2D target = new Point2D.Double( pt.getX(), pt.getY() );
-                stickyTarget = circuitNode.getStickyTarget( junction, target.getX(), target.getY() );
-                if( stickyTarget != null ) {
-                    target = stickyTarget.getPosition();
-                }
-                junction.setPosition( target );
+                circuitInteractionModel.dragJunction( junction, target );
             }
 
             public void mousePressed( PInputEvent event ) {
@@ -68,10 +65,7 @@ public class JunctionNode extends PhetPNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                if( stickyTarget != null ) {
-                    getCircuit().collapseJunctions( junction, stickyTarget );
-                }
-                stickyTarget = null;
+                circuitInteractionModel.dropJunction( junction );
             }
         } );
 

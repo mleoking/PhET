@@ -45,7 +45,6 @@ public class ToolboxNode extends PhetPNode {
 
         addBranchMaker( new WireMaker() );
         addBranchMaker( new ResistorMaker() );
-        addBranchMaker( new WireMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {

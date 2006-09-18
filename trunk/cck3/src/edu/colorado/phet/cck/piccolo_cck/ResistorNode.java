@@ -25,10 +25,12 @@ public class ResistorNode extends PhetPNode {
     private PImage pImage;
     private CCKModel model;
     private Resistor resistor;
+    private CircuitInteractionModel circuitInteractionModel;
 
     public ResistorNode( final CCKModel model, final Resistor resistor ) {
         this.model = model;
         this.resistor = resistor;
+        this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
         pImage = new PImage( CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
         addChild( pImage );
         update();
@@ -41,7 +43,7 @@ public class ResistorNode extends PhetPNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( ResistorNode.this.getParent() );
-                resistor.translate( delta.width, delta.height );
+                circuitInteractionModel.translate( resistor, delta.width, delta.height );
             }
 
             public void mousePressed( PInputEvent event ) {

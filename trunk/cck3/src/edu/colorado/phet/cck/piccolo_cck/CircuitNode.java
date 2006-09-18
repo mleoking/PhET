@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -71,26 +70,7 @@ public class CircuitNode extends PhetPNode {
         }
     }
 
-    public Junction getStickyTarget( Junction junction, double x, double y ) {
-        double bestDist = Double.POSITIVE_INFINITY;
-        double STICKY_DIST = 2;
-        Junction best = null;
-        for( int i = 0; i < junctionGraphics.size(); i++ ) {
-            //todo see circuitGraphic line 502 for handling strong components
-            JunctionNode junctionNode = (JunctionNode)junctionGraphics.get( i );
-            if( junctionNode.getJunction() != junction && !getCircuit().hasBranch( junction, junctionNode.getJunction() ) && !getCircuit().wouldConnectionCauseOverlappingBranches( junction, junctionNode.getJunction() ) )
-            {
-                double dist = new Point2D.Double( x, y ).distance( junctionNode.getJunction().getX(), junctionNode.getJunction().getY() );
-                if( dist < STICKY_DIST && dist < bestDist ) {
-                    best = junctionNode.getJunction();
-                    bestDist = dist;
-                }
-            }
-        }
-        return best;
-    }
-
-    private Circuit getCircuit() {
+    public Circuit getCircuit() {
         return cckModel.getCircuit();
     }
 }

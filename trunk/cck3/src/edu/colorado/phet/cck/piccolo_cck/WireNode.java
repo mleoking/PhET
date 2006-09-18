@@ -26,10 +26,12 @@ public class WireNode extends PhetPNode {
     private Wire wire;
     private PPath wirePPath;
     private PPath wireHighlightPPath;
+    private CircuitInteractionModel circuitInteractionModel;
 
     public WireNode( final CCKModel cckModel, final Wire wire ) {
         this.cckModel = cckModel;
         this.wire = wire;
+        this.circuitInteractionModel = new CircuitInteractionModel( cckModel.getCircuit() );
 
         wireHighlightPPath = new PPath();
         wireHighlightPPath.setPaint( CCKLookAndFeel.HIGHLIGHT_COLOR );
@@ -44,7 +46,8 @@ public class WireNode extends PhetPNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( WireNode.this );
-                wire.translate( delta.width, delta.height );
+//                wire.translate( delta.width, delta.height );
+                circuitInteractionModel.translate( wire, delta.width, delta.height );
             }
 
             public void mousePressed( PInputEvent event ) {
