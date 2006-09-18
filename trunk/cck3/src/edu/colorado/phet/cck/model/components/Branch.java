@@ -48,13 +48,12 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
-        setStartJunction( startJunction );
-        setEndJunction( endJunction );
-//        this.startJunction = startJunction;
-//        this.endJunction = endJunction;
-//
-//        startJunction.addObserver( so );
-//        endJunction.addObserver( so );
+//        setStartJunction( startJunction );
+//        setEndJunction( endJunction );
+        this.startJunction = startJunction;
+        this.endJunction = endJunction;
+        startJunction.addObserver( so );
+        endJunction.addObserver( so );
     }
 
     //todo this could be awkward

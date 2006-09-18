@@ -43,7 +43,6 @@ public class WireNode extends PhetPNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
                 PDimension delta = event.getDeltaRelativeTo( WireNode.this );
                 wire.translate( delta.width, delta.height );
             }

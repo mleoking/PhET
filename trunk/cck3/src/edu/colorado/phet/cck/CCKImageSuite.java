@@ -89,4 +89,14 @@ public class CCKImageSuite {
     public BufferedImage getInductorImage() {
         return inductorImage;
     }
+
+    public static CCKImageSuite getInstance() {
+        try {
+            return new CCKImageSuite();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
 }

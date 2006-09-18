@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -61,6 +62,9 @@ public class CircuitNode extends PhetPNode {
     public PNode createNode( Branch branch ) {
         if( branch instanceof Wire ) {
             return new WireNode( cckModel, (Wire)branch );
+        }
+        else if( branch instanceof Resistor ) {
+            return new ResistorNode( cckModel, (Resistor)branch );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
