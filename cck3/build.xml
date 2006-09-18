@@ -72,6 +72,7 @@
             </fileset>
             <fileset dir="phetcommon-cck/data"/>
             <fileset dir="phetcommon-dir/data"/>
+            <fileset dir="piccolo-phet-dir/data"/>
             <!--<fileset dir="piccolo-phet-dir/data"/>-->
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
