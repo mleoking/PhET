@@ -435,6 +435,13 @@ public class CircuitGraphic extends CompositeGraphic {
         junctionLayer.addGraphic( ij );
     }
 
+    /**
+     * Deprecated, used only in phetcommon_cck.  Newer versions should use Circuit.collapseJunctions.
+     *
+     * @param j1
+     * @param j2
+     * @deprecated Deprecated, used only in phetcommon_cck.  Newer versions should use Circuit.collapseJunctions.
+     */
     public void collapseJunctions( Junction j1, Junction j2 ) {
         if( !j1.getPosition().equals( j2.getPosition() ) ) {
             throw new RuntimeException( "Juncitons Not at same coordinates." );

@@ -68,8 +68,7 @@ public class ToolboxNode extends PhetPNode {
 
     abstract class BranchMaker extends PComposite {//tricky way of circumventing children's behaviors
         private PText label;
-        private boolean branchDragging;
-        private Branch branch;
+        private Branch createdBranch;
 
         public BranchMaker( String name ) {
             label = new PText( name );
@@ -78,23 +77,19 @@ public class ToolboxNode extends PhetPNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     // If we haven't created the branch yet
-                    if( !branchDragging ) {
-                        branch = createBranch();
+                    if( createdBranch == null ) {
+                        createdBranch = createBranch();
                         // Position the branch so it's centered on the mouse event.
                         setBranchLocationFromEvent( event );
-                        model.getCircuit().addBranch( branch );
-                        branchDragging = true;
-                        branch.setSelected( true );
-                        setBranchLocationFromEvent( event );
+                        model.getCircuit().addBranch( createdBranch );
+                        createdBranch.setSelected( true );
                     }
-                    // else, we're dragging a branch that we created.
-                    else {
-                        circuitInteractionModel.translate( branch, getWorldLocation( event ) );
-                    }
+                    circuitInteractionModel.translate( createdBranch, getWorldLocation( event ) );
                 }
 
                 public void mouseReleased( PInputEvent event ) {
-                    branchDragging = false;
+                    circuitInteractionModel.dropBranch( createdBranch );
+                    createdBranch = null;
                 }
             } );
         }
@@ -109,12 +104,12 @@ public class ToolboxNode extends PhetPNode {
         //This assumes the branch is always centered on the mouse.
         private void setBranchLocationFromEvent( PInputEvent event ) {
             Point2D location = getWorldLocation( event );
-            double dx = branch.getEndPoint().getX() - branch.getStartPoint().getX();
-            double dy = branch.getEndPoint().getY() - branch.getStartPoint().getY();
-            branch.getStartJunction().setPosition( location.getX() - dx / 2,
-                                                   location.getY() - dy / 2 );
-            branch.getEndJunction().setPosition( location.getX() + dx / 2,
-                                                 location.getY() + dy / 2 );
+            double dx = createdBranch.getEndPoint().getX() - createdBranch.getStartPoint().getX();
+            double dy = createdBranch.getEndPoint().getY() - createdBranch.getStartPoint().getY();
+            createdBranch.getStartJunction().setPosition( location.getX() - dx / 2,
+                                                          location.getY() - dy / 2 );
+            createdBranch.getEndJunction().setPosition( location.getX() + dx / 2,
+                                                        location.getY() + dy / 2 );
         }
 
         protected abstract Branch createBranch();

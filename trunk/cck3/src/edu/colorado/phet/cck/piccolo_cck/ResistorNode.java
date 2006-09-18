@@ -10,10 +10,8 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -43,9 +41,11 @@ public class ResistorNode extends PhetPNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( ResistorNode.this.getParent() );
-                Point2D dragPt = event.getPositionRelativeTo( ResistorNode.this.getParent() );
-                circuitInteractionModel.translate( resistor, dragPt );
+                circuitInteractionModel.translate( resistor, event.getPositionRelativeTo( ResistorNode.this.getParent() ) );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                circuitInteractionModel.dropBranch( resistor );
             }
 
             public void mousePressed( PInputEvent event ) {
