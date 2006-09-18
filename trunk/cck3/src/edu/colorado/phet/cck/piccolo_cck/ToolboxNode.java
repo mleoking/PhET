@@ -92,6 +92,7 @@ public class ToolboxNode extends PhetPNode {
                     else {
                         PDimension d = event.getCanvasDelta();
                         canvas.getPhetRootNode().globalToWorld( d );
+//                        circuitInteractionModel.translate( branch, getWorldLocation( event ) );
                         circuitInteractionModel.translate( branch, d.width, d.height );
                     }
                 }

@@ -9,10 +9,10 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -45,9 +45,9 @@ public class WireNode extends PhetPNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( WireNode.this );
+                Point2D pt = event.getPositionRelativeTo( WireNode.this.getParent() );
 //                wire.translate( delta.width, delta.height );
-                circuitInteractionModel.translate( wire, delta.width, delta.height );
+                circuitInteractionModel.translate( wire, pt );
             }
 
             public void mousePressed( PInputEvent event ) {

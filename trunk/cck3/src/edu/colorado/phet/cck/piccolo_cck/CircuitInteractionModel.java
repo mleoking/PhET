@@ -1,13 +1,17 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.model.BranchSet;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -19,6 +23,12 @@ import java.awt.geom.Point2D;
 public class CircuitInteractionModel {
     private Circuit circuit;
     private Junction stickyTarget;
+    private ImmutableVector2D.Double toStart;
+    private boolean isDragging = false;
+    private Circuit.DragMatch match;
+    private ImmutableVector2D.Double toEnd;
+    private Circuit.DragMatch startMatch;
+    private Circuit.DragMatch endMatch;
 
     public CircuitInteractionModel( Circuit circuit ) {
         this.circuit = circuit;
@@ -26,18 +36,68 @@ public class CircuitInteractionModel {
 
     public void translate( Branch branch, double dx, double dy ) {
         branch.translate( dx, dy );
-//        BranchSet branchSet=new BranchSet( circuit, );
     }
 
-//    public void translate( Junction junction, double dx, double dy ) {
-//        if( allWires( circuit.getAdjacentBranches( junction ) ) ) {
-//            junction.translate( dx, dy );
-//        }
-//        Branch[]b = circuit.getAdjacentBranches( junction );
-//        if( b.length == 1 && b[0]instanceof Wire ) {
-//            junction.translate( dx, dy );
-//        }
-//    }
+    public void translate( Branch branch, Point2D dragPt ) {
+        if( !isDragging ) {
+            isDragging = true;
+            toStart = new ImmutableVector2D.Double( dragPt, branch.getStartJunction().getPosition() );
+            toEnd = new ImmutableVector2D.Double( dragPt, branch.getEndJunction().getPosition() );
+        }
+        else {
+            if( branch instanceof CircuitComponent ) {
+                CircuitComponent cc = (CircuitComponent)branch;
+
+                if( !isDragging ) {
+                    isDragging = true;
+                    Point2D startJ = cc.getStartJunction().getPosition();
+                    toStart = new ImmutableVector2D.Double( dragPt, startJ );
+                }
+                Point2D newStartPosition = toStart.getDestination( dragPt );
+//                CircuitComponent component = branchGraphic.getCircuitComponent();
+                Vector2D dx = new Vector2D.Double( cc.getStartJunction().getPosition(), newStartPosition );
+                Branch[] sc = circuit.getStrongConnections( cc.getStartJunction() );
+                match = getCircuit().getBestDragMatch( sc, dx );
+                if( match == null ) {
+                    BranchSet branchSet = new BranchSet( circuit, sc );
+                    branchSet.translate( dx );
+                }
+                else {
+                    Vector2D vector = match.getVector();
+                    BranchSet branchSet = new BranchSet( circuit, sc );
+                    branchSet.translate( vector );
+                }
+            }
+            else {//branch was just a wire
+                Point2D newStartPosition = toStart.getDestination( dragPt );
+                Point2D newEndPosition = toEnd.getDestination( dragPt );
+                Branch[] scStart = circuit.getStrongConnections( branch.getStartJunction() );
+                Branch[] scEnd = circuit.getStrongConnections( branch.getEndJunction() );
+                Vector2D startDX = new Vector2D.Double( branch.getStartJunction().getPosition(), newStartPosition );
+                Vector2D endDX = new Vector2D.Double( branch.getEndJunction().getPosition(), newEndPosition );
+                Junction[] startSources = getSources( scStart, branch.getStartJunction() );
+                Junction[] endSources = getSources( scEnd, branch.getEndJunction() );
+                //how about removing any junctions in start and end that share a branch?
+                //Is this sufficient to keep from dropping wires directly on other wires?
+
+                startMatch = getCircuit().getBestDragMatch( startSources, startDX );
+                endMatch = getCircuit().getBestDragMatch( endSources, endDX );
+
+                if( startMatch != null && endMatch != null ) {
+                    for( int i = 0; i < circuit.numBranches(); i++ ) {
+                        Branch b = circuit.branchAt( i );
+                        if( b.hasJunction( startMatch.getTarget() ) && branch.hasJunction( endMatch.getTarget() ) ) {
+                            startMatch = null;
+                            endMatch = null;
+                            break;
+                        }
+                    }
+                }
+                apply( scStart, startDX, branch.getStartJunction(), startMatch );
+                apply( scEnd, endDX, branch.getEndJunction(), endMatch );
+            }
+        }
+    }
 
     private CircuitComponent getSoleComponent( Junction j ) {
         if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent )
@@ -48,15 +108,6 @@ public class CircuitInteractionModel {
             return null;
         }
     }
-
-//    private boolean allWires( Branch[] adjacentBranches ) {
-//        for( int i = 0; i < adjacentBranches.length; i++ ) {
-//            if( !( adjacentBranches[i] instanceof Wire ) ) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
     public void dragJunction( Junction junction, Point2D target ) {
         junction.setPosition( getDestination( junction, target ) );
@@ -108,5 +159,28 @@ public class CircuitInteractionModel {
             getCircuit().collapseJunctions( junction, stickyTarget );
         }
         stickyTarget = null;
+    }
+
+    private Junction[] getSources( Branch[] sc, Junction j ) {
+        ArrayList list = new ArrayList( Arrays.asList( Circuit.getJunctions( sc ) ) );
+        if( !list.contains( j ) ) {
+            list.add( j );
+        }
+        return (Junction[])list.toArray( new Junction[0] );
+    }
+
+    private void apply( Branch[] sc, Vector2D dx, Junction junction, Circuit.DragMatch match ) {
+        if( match == null ) {
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( junction );
+            bs.translate( dx );
+        }
+        else {
+            BranchSet bs = new BranchSet( circuit, sc );
+            AbstractVector2D vec = match.getVector();
+            bs.addJunction( junction );
+            bs.translate( vec );
+        }
+//        System.out.println( "match = " + match );
     }
 }
