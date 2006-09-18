@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -25,7 +25,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
     private CircuitGraphic circuitGraphic;
     private Branch branch;
 
-    public InteractiveComponentJunctionGraphic( final CircuitGraphic cg, final JunctionGraphic junctionGraphic, final CircuitComponent branch, CCKModule module ) {
+    public InteractiveComponentJunctionGraphic( final CircuitGraphic cg, final JunctionGraphic junctionGraphic, final CircuitComponent branch, CCKPhetgraphicsModule module ) {
         super( junctionGraphic );
         this.circuitGraphic = cg;
         this.branch = branch;

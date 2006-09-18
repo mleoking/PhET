@@ -2,7 +2,7 @@ package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.controls.LookAndFeelMenu;
 import edu.colorado.phet.cck.controls.OptionsMenu;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.ApplicationModel;
 import edu.colorado.phet.common_cck.application.Module;
@@ -33,7 +33,7 @@ public class CCKApplication_orig {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
     private PhetApplication application;
-    private CCKModule cckModule;
+    private CCKPhetgraphicsModule cckModule;
 
     public CCKApplication_orig( String[]args ) throws IOException {
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
@@ -44,8 +44,8 @@ public class CCKApplication_orig {
             System.out.println( "debugMode = " + debugMode );
         }
 
-        cckModule = new CCKModule( args );
-        Module cckModule2 = new CCKModule( args );
+        cckModule = new CCKPhetgraphicsModule( args );
+        Module cckModule2 = new CCKPhetgraphicsModule( args );
         cckModule2.setName( "mod 2" );
 
         Module[] modules = new Module[]{cckModule, cckModule2};
@@ -89,8 +89,8 @@ public class CCKApplication_orig {
         application.startApplication();
         cckModule.getApparatusPanel().requestFocus();
         for( int i = 0; i < application.numModules(); i++ ) {
-            if( application.moduleAt( i )instanceof CCKModule ) {
-                CCKModule module = (CCKModule)application.moduleAt( i );
+            if( application.moduleAt( i )instanceof CCKPhetgraphicsModule ) {
+                CCKPhetgraphicsModule module = (CCKPhetgraphicsModule)application.moduleAt( i );
                 module.applicationStarted();
             }
         }

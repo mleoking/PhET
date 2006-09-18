@@ -68,4 +68,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private void addTestElement() {
         model.getCircuit().addBranch( new Wire( model.getCircuitChangeListener(), new Junction( 5, 5 ), new Junction( 8, 5 ) ) );
     }
+
+    public void setToolboxBackgroundColor( Color color ) {
+        toolboxNode.setBackground( color );
+    }
+
+    public Color getToolboxBackgroundColor() {
+        return toolboxNode.getBackgroundColor();
+    }
 }

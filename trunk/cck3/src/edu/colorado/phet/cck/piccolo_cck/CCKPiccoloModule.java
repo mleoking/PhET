@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -26,6 +27,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     private String[] args;
     private CCKModel model;
     private CCKParameters cckParameters;
+    private CCKSimulationPanel cckSimulationPanel;
 
     public CCKPiccoloModule( String[] args ) {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
@@ -34,7 +36,8 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
-        setSimulationPanel( new CCKSimulationPanel( model ) );
+        cckSimulationPanel = new CCKSimulationPanel( model );
+        setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );
 
         addModelElement( new ModelElement() {
@@ -141,5 +144,21 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void desolderSelection() {
+    }
+
+    public Color getMyBackground() {
+        return getSimulationPanel().getBackground();
+    }
+
+    public void setMyBackground( Color color ) {
+        getSimulationPanel().setBackground( color );
+    }
+
+    public void setToolboxBackgroundColor( Color color ) {
+        cckSimulationPanel.setToolboxBackgroundColor( color );
+    }
+
+    public Color getToolboxBackgroundColor() {
+        return cckSimulationPanel.getToolboxBackgroundColor();
     }
 }

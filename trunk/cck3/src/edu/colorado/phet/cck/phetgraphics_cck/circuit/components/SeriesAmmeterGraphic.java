@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.model.components.SeriesAmmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.IComponentGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private SeriesAmmeter component;
     private ModelViewTransform2D transform;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
@@ -52,12 +52,12 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private PhetTransformGraphic textTX;
     private PhetTextGraphic textGraphic;
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCKModule module, String fixedMessage ) {
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCKPhetgraphicsModule module, String fixedMessage ) {
         this( parent, component, transform, module );
         this.fixedMessage = fixedMessage;
     }
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCKModule module ) {
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCKPhetgraphicsModule module ) {
         super( parent );
         highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;

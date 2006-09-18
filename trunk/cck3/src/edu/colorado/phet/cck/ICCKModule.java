@@ -73,4 +73,12 @@ public interface ICCKModule {
     void deleteSelection();
 
     void desolderSelection();
+
+    Color getMyBackground();
+
+    void setMyBackground( Color color );
+
+    void setToolboxBackgroundColor( Color color );
+
+    Color getToolboxBackgroundColor();
 }

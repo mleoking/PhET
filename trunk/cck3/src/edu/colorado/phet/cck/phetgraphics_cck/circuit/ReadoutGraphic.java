@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
  */
 public class ReadoutGraphic implements Graphic {
     PhetMultiLineTextGraphic textGraphic;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     Branch branch;
     private ModelViewTransform2D transform;
     private ApparatusPanel panel;
@@ -39,7 +39,7 @@ public class ReadoutGraphic implements Graphic {
     private SimpleObserver observer;
     private TransformListener transformListener;
 
-    public ReadoutGraphic( CCKModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
+    public ReadoutGraphic( CCKPhetgraphicsModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
         this.module = module;
         this.branch = branch;
         this.transform = transform;
@@ -168,7 +168,7 @@ public class ReadoutGraphic implements Graphic {
 
     public static class BatteryReadout extends ReadoutGraphic {
 
-        public BatteryReadout( CCKModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
+        public BatteryReadout( CCKPhetgraphicsModule module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
             super( module, branch, transform, panel, decimalFormatter );
         }
 

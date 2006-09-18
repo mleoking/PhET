@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.common.RepaintyMenu;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class JunctionPopupMenu extends RepaintyMenu {
     private JunctionSplitter splitter;
     private JMenuItem splitItem;
 
-    public JunctionPopupMenu( Junction junction, CircuitGraphic circuitGraphic, CCKModule module ) {
+    public JunctionPopupMenu( Junction junction, CircuitGraphic circuitGraphic, CCKPhetgraphicsModule module ) {
         super( module.getApparatusPanel() );
         this.junction = junction;
         this.circuitGraphic = circuitGraphic;

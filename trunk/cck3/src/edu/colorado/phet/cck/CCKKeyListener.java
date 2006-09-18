@@ -2,7 +2,6 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.model.analysis.ModifiedNodalAnalysis_Orig;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ import java.awt.event.KeyListener;
 public class CCKKeyListener implements KeyListener {
     ICCKModule cck;
 
-    public CCKKeyListener( CCKModule cck ) {
+    public CCKKeyListener( ICCKModule cck ) {
         this.cck = cck;
     }
 

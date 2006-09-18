@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
@@ -85,7 +85,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             core.setShape( transform.createTransformedShape( coreshape ) );
 
             if( debugText != null ) {
-                CCKModule module = null;
+                CCKPhetgraphicsModule module = null;
                 String text = "r=" + branch.getResistance();
                 if( module.getParticleSet() != null ) {
                     text += ", n=" + module.getParticleSet().getParticles( branch ).length;

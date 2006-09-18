@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Time: 1:27:42 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class CCKModule extends Module implements ICCKModule {
+public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     /**
      * General module data
      */
@@ -67,7 +67,7 @@ public class CCKModule extends Module implements ICCKModule {
      */
     private PNode stopwatch;
 
-    public CCKModule( String[] args ) throws IOException {
+    public CCKPhetgraphicsModule( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         this.parameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
@@ -277,6 +277,22 @@ public class CCKModule extends Module implements ICCKModule {
                 getCircuitGraphic().split( junction );
             }
         }
+    }
+
+    public Color getMyBackground() {
+        return getApparatusPanel().getMyBackground();
+    }
+
+    public void setMyBackground( Color color ) {
+        getApparatusPanel().setMyBackground( color );
+    }
+
+    public void setToolboxBackgroundColor( Color color ) {
+        getToolbox().setBackgroundColor( color );
+    }
+
+    public Color getToolboxBackgroundColor() {
+        return getToolbox().getBackgroundColor();
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {

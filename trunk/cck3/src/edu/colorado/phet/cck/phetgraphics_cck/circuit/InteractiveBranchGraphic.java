@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.common.RepaintyMenu;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
@@ -29,9 +29,9 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
     private Junction startTarget;
     private Junction endTarget;
     private BranchGraphic branchGraphic;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
 
-    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform, CCKModule module ) {
+    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform, CCKPhetgraphicsModule module ) {
         super( branchGraphic );
         this.branchGraphic = branchGraphic;
         this.module = module;
@@ -59,7 +59,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
         private Circuit circuit;
         private Branch branch;
 
-        public BranchPopupMenu( final Circuit circuit, final Branch branch, final CCKModule module ) {
+        public BranchPopupMenu( final Circuit circuit, final Branch branch, final CCKPhetgraphicsModule module ) {
             super( module.getApparatusPanel() );
             this.circuit = circuit;
             this.branch = branch;

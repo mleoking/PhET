@@ -28,10 +28,10 @@ public class InteractiveVoltmeter extends CompositeGraphic {
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
     private VoltmeterGraphic voltmeterGraphic;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     private boolean dragAll;
 
-    public InteractiveVoltmeter( final VoltmeterGraphic voltmeterGraphic, final CCKModule module ) {
+    public InteractiveVoltmeter( final VoltmeterGraphic voltmeterGraphic, final CCKPhetgraphicsModule module ) {
         super.setVisible( false );
         this.module = module;
         this.voltmeterGraphic = voltmeterGraphic;

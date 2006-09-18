@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.model.components.ACVoltageSource;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.ReadoutGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.math.MathUtil;
@@ -34,7 +34,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
 public abstract class ComponentEditor extends JDialog {
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
     protected CircuitComponent element;
     private Component parent;
     private Circuit circuit;
@@ -42,7 +42,7 @@ public abstract class ComponentEditor extends JDialog {
     protected JPanel contentPane;
     private CircuitListener circuitListener;
 
-    public ComponentEditor( final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
+    public ComponentEditor( final CCKPhetgraphicsModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if( startvalue > max ) {
@@ -174,7 +174,7 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BatteryEditor extends ComponentEditor {
-        public BatteryEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
+        public BatteryEditor( CCKPhetgraphicsModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
             super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
@@ -221,7 +221,7 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class ResistorEditor extends ComponentEditor {
-        public ResistorEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
+        public ResistorEditor( CCKPhetgraphicsModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.ResistorResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.ResistorResistanceName" ),
                    SimStrings.get( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
@@ -237,7 +237,7 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BulbResistanceEditor extends ComponentEditor {
-        public BulbResistanceEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
+        public BulbResistanceEditor( CCKPhetgraphicsModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BulbResistanceName" ),
                    SimStrings.get( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
@@ -255,7 +255,7 @@ public abstract class ComponentEditor extends JDialog {
     public static class BatteryResistanceEditor extends ComponentEditor {
         private Battery battery;
 
-        public BatteryResistanceEditor( CCKModule module, Battery element, Component parent, Circuit circuit ) {
+        public BatteryResistanceEditor( CCKPhetgraphicsModule module, Battery element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BatteryResistanceName" ),
                    SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
@@ -281,7 +281,7 @@ public abstract class ComponentEditor extends JDialog {
     public static class ACVoltageSourceEditor extends ComponentEditor {
         private ACVoltageSource branch;
 
-        public ACVoltageSourceEditor( CCKModule module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
+        public ACVoltageSourceEditor( CCKPhetgraphicsModule module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
             super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
             this.branch = branch;
         }

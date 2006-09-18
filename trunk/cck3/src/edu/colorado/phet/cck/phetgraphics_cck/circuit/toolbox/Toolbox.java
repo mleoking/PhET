@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.CCKModule;
+import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.*;
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -35,7 +35,7 @@ public class Toolbox extends CompositeGraphic {
     private Rectangle2D modelRect;
     private ApparatusPanel parent;
     private ModelViewTransform2D transform;
-    private CCKModule module;
+    private CCKPhetgraphicsModule module;
 
     private Color backgroundColor;
 
@@ -51,7 +51,7 @@ public class Toolbox extends CompositeGraphic {
     private BranchSource.ACSource acSource;
     private BranchSource.InductorSource inductorSource;
 
-    public Toolbox( Rectangle2D modelRect, CCKModule module, Color backgroundColor ) {
+    public Toolbox( Rectangle2D modelRect, CCKPhetgraphicsModule module, Color backgroundColor ) {
         this.module = module;
         this.backgroundColor = backgroundColor;
         this.modelRect = new Rectangle2D.Double( modelRect.getX(), modelRect.getY(), modelRect.getWidth(), modelRect.getHeight() );
