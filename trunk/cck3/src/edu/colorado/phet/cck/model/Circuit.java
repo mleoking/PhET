@@ -564,6 +564,9 @@ public class Circuit {
             Branch br = branchAt( 0 );
             removeBranch( br );
         }
+        while( numJunctions() > 0 ) {
+            removeJunction( junctionAt( 0 ) );
+        }
     }
 
     public boolean wouldConnectionCauseOverlappingBranches( Junction a, Junction b ) {

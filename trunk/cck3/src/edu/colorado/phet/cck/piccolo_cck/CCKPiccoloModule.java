@@ -105,6 +105,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void clear() {
+        model.clear();
     }
 
     public ResistivityManager getResistivityManager() {

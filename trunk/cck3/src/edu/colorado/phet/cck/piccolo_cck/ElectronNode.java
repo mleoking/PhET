@@ -19,7 +19,6 @@ import java.io.IOException;
 public class ElectronNode extends PhetPNode {
     private Electron electron;
     private PImage pImage;
-    private double scale;
     private static BufferedImage image = null;
 
     static {
@@ -41,16 +40,14 @@ public class ElectronNode extends PhetPNode {
             }
         } );
 //        scale( 1.0 / 80.0 );
-        scale = 1.0 / 160.0;
-        scale( scale );
-        update();
+        scale( 1.0 / 160.0 );
         setPickable( false );
         setChildrenPickable( false );
+        update();
     }
 
     private void update() {
         setOffset( electron.getPosition() );
-//        translate( -pImage.getFullBounds().getWidth() / 2.0 * scale, -pImage.getFullBounds().getHeight() / 2.0 * scale );
         translate( -pImage.getFullBounds().getWidth() / 2.0, -pImage.getFullBounds().getHeight() / 2.0 );
     }
 

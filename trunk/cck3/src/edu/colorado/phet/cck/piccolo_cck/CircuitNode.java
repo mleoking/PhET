@@ -65,9 +65,25 @@ public class CircuitNode extends PhetPNode {
                 }
                 electronNode.moveToFront();
             }
+
+            public void branchRemoved( Branch branch ) {
+                for( int i = 0; i < branchGraphics.size(); i++ ) {
+                    BranchNode branchNode = (BranchNode)branchGraphics.get( i );
+                    if( branchNode.getBranch() == branch ) {
+                        removeBranchGraphic( branchNode );
+                        i--;
+                    }
+                }
+            }
+
         } );
         electronNode = new ElectronSetNode( cckModel );
         addChild( electronNode );
+    }
+
+    private void removeBranchGraphic( BranchNode branchNode ) {
+        branchGraphics.remove( branchNode );
+        removeChild( branchNode );
     }
 
     private void removeJunctionGraphic( JunctionNode junctionNode ) {
