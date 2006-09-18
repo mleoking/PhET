@@ -20,16 +20,16 @@ public class ParticleSet implements ModelElement {
     private double time = 0;
     private Storage storage = new Storage();
     private Circuit circuit;
-
-    public double getDensity( Branch branch ) {
-        Electron[] e = getParticles( branch );
-        double density = e.length / branch.getLength();
-        return density;
-    }
+    private ArrayList listeners = new ArrayList();
 
     public ParticleSet( Circuit circuit ) {
         propagator = new ConstantDensityPropagator( this, circuit );
         this.circuit = circuit;
+    }
+
+    public double getDensity( Branch branch ) {
+        Electron[] e = getParticles( branch );
+        return e.length / branch.getLength();
     }
 
     public void addParticle( Electron e ) {
@@ -70,7 +70,6 @@ public class ParticleSet implements ModelElement {
         return (Electron[])all.toArray( new Electron[0] );
     }
 
-    private ArrayList listeners = new ArrayList();
 
     public static interface Listener {
         void particlesRemoved( Electron[]electrons );

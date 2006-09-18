@@ -10,6 +10,7 @@ import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 
 import java.awt.geom.Rectangle2D;
@@ -31,11 +32,16 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckParameters = new CCKParameters( this, args );
         this.args = args;
         setModel( new BaseModel() );
-//        setSimulationPanel( new JLabel( "Simulation panel" ) );
+
         this.model = new CCKModel();
         setSimulationPanel( new CCKSimulationPanel( model ) );
-
         setControlPanel( new CCKControlPanel( this, this ) );
+
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                model.stepInTime( dt );
+            }
+        } );
     }
 
     public void activate() {
