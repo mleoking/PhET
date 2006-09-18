@@ -319,7 +319,6 @@ public class WavelengthControl extends PhetPNode {
         _valueDisplay.getFormattedTextField().setFont( font );
         _valueDisplay.computeBounds();
         updateUI();
-        System.out.println( "setTextFieldFont " + _valueDisplay.getFullBounds() );
     }
     
     /**
@@ -428,7 +427,6 @@ public class WavelengthControl extends PhetPNode {
         final double cursorWidth = _cursor.getFullBounds().getWidth();
         final double valueDisplayWidth = _valueDisplay.getFullBounds().getWidth();
         final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
-        System.out.println( "WavelengthControl.updateUI: " + _wavelength + " " + valueDisplayWidth + " " + valueDisplayHeight );//XXX
         
         // Knob color
         Color wavelengthColor = getWavelengthColor();
