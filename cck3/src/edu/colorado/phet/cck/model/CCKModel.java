@@ -99,6 +99,7 @@ public class CCKModel {
         if( getCircuit().isDynamic() || modelChanged ) {
             getCircuit().stepInTime( dt );
             circuitSolver.apply( getCircuit() );
+            modelChanged = false;
         }
         particleSet.stepInTime( dt );
     }

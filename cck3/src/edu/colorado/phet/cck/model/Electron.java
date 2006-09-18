@@ -49,7 +49,6 @@ public class Electron extends SimpleObservableDebug {
 
     public class Observer implements SimpleObserver {
         public void update() {
-
             if( deleted ) {
                 new RuntimeException( "Update called on deleted electron." ).printStackTrace();
             }

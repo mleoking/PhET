@@ -10,6 +10,7 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class CircuitNode extends PhetPNode {
     private Circuit circuit;
     private ArrayList junctionGraphics = new ArrayList();
     private ArrayList branchGraphics = new ArrayList();
+    private PNode electronNode;
 
     public CircuitNode( CCKModel cckModel, Circuit circuit ) {
         this.cckModel = cckModel;
@@ -61,8 +63,11 @@ public class CircuitNode extends PhetPNode {
                 for( int i = 0; i < junctionGraphics.size(); i++ ) {
                     ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
                 }
+                electronNode.moveToFront();
             }
         } );
+        electronNode = new ElectronSetNode( cckModel );
+        addChild( electronNode );
     }
 
     private void removeJunctionGraphic( JunctionNode junctionNode ) {
