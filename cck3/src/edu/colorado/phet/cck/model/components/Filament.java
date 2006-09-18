@@ -86,6 +86,9 @@ public class Filament extends PathBranch {
     }
 
     public void recompute() {
+        if( tailJunction == null || shellJunction == null ) {
+            return;
+        }
         double tilt = BulbComponentGraphic.determineTilt();
         if( !connectAtRight ) {
             tilt = -tilt;

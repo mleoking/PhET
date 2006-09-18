@@ -4,6 +4,7 @@ import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -43,7 +44,7 @@ public class ToolboxNode extends PhetPNode {
         addChild( toolboxBounds );
 
         addBranchMaker( new WireMaker() );
-        addBranchMaker( new WireMaker() );
+        addBranchMaker( new ResistorMaker() );
         addBranchMaker( new WireMaker() );
     }
 
@@ -99,6 +100,7 @@ public class ToolboxNode extends PhetPNode {
             } );
         }
 
+        //This assumes the branch is always centered on the mouse.
         private void setBranchLocationFromEvent( PInputEvent event ) {
             Point2D worldLoc = new Point2D.Double( event.getCanvasPosition().getX(),
                                                    event.getCanvasPosition().getY() );
@@ -126,12 +128,24 @@ public class ToolboxNode extends PhetPNode {
             super( "Wire" );
             WireNode child = new WireNode( model, new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) ) );
             child.scale( 40 );//todo choose scale based on insets?
-            //child.setNonInteractive();//todo how to make this node use graphic code, but different interaction model?  Could use PComposite, see above.
             setDisplayGraphic( child );
         }
 
         protected Branch createBranch() {
             return new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
+        }
+    }
+
+    class ResistorMaker extends BranchMaker {
+        public ResistorMaker() {
+            super( "Resistor" );
+            ResistorNode child = new ResistorNode( model, new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1, 1 ) );
+            child.scale( 40 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ), 1, 1 );
         }
     }
 }
