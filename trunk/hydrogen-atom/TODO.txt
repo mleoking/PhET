@@ -31,7 +31,6 @@ LOW PRIORITY:
 - generate spectrum instead of using an image file
 - add ability to set dimensions of wavelength control
 - add ability to set knob size of wavelength control
-- add ability to set font for wavelength control
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
