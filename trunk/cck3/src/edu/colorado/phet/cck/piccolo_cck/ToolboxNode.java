@@ -163,7 +163,9 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Resistor createResistor() {
-            return new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
+            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
+            resistor.setResistance( 10.0 );
+            return resistor;
         }
     }
 
