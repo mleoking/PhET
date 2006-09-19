@@ -370,7 +370,7 @@ public class HAModule extends PiccoloModule {
             PBounds gb = _gunNode.getFullBounds();
             PBounds ab = _atomicModelSelector.getFullBounds();
             PBounds bb = _boxOfHydrogen.getFullBounds();
-            x = ab.getX() + ab.getWidth() + ( bb.getWidth() / 2 ) + 30;//XXX
+            x = ab.getX() + ab.getWidth() + ( bb.getWidth() / 2 ) + 35;//XXX
             y = gb.getY() - 75; //XXX
             _boxOfHydrogen.setOffset( x, y );
            
