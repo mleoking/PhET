@@ -213,7 +213,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
         return affineTransform.createTransformedShape( lbg.getCoverShape() );
     }
 
-    interface IntensityChangeListener {
+    public interface IntensityChangeListener {
         public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity );
     }
 

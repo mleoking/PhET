@@ -29,7 +29,7 @@ public class PhetPPath extends PPath {
         setPaint( fill );
     }
 
-    public PhetPPath( BasicStroke basicStroke, Paint strokePaint ) {
+    public PhetPPath( Stroke basicStroke, Paint strokePaint ) {
         setStroke( basicStroke );
         setStrokePaint( strokePaint );
     }

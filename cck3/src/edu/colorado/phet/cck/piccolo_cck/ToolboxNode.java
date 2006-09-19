@@ -4,6 +4,7 @@ import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -15,6 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -186,8 +188,8 @@ public class ToolboxNode extends PhetPNode {
     class BulbMaker extends BranchMaker {
         public BulbMaker() {
             super( "Light Bulb" );
-            ComponentNode child = new BulbComponentNode( model, createBulb() );
-            child.scale( 60 );//todo choose scale based on insets?
+            PNode child = new BulbNode( createBulb() );
+            child.transformBy( AffineTransform.getScaleInstance( 50, 75 ) );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
@@ -196,7 +198,11 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Bulb createBulb() {
-            return new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
+            Bulb dummyBulb = new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
+            double tilt = BulbComponentNode.getTiltValue( dummyBulb );
+            Bulb bulb = new Bulb( new Point(), Vector2D.Double.parseAngleAndMagnitude( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
+            bulb.flip( null );
+            return bulb;
         }
     }
 }

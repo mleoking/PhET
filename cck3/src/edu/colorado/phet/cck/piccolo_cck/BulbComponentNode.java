@@ -52,6 +52,12 @@ public class BulbComponentNode extends ComponentNode {
         return -Math.atan2( w, h );
     }
 
+    public static double getTiltValue( Bulb bulb ) {
+        double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth() / 2;
+        double h = new BulbNode( bulb ).getCoverShape().getBounds().getHeight();
+        return -Math.atan2( w, h );
+    }
+
     private void updateIntensity() {
         double power = Math.abs( bulb.getCurrent() * bulb.getVoltageDrop() );
         double maxPower = 60;
@@ -67,68 +73,92 @@ public class BulbComponentNode extends ComponentNode {
 //        }
     }
 
-    private void updateTransform() {
-        double sign = 1;
-        if( !bulb.isConnectAtRight() ) {
-            sign = -1;
-        }
-        setTransform( createTransform( sign * getTilt() ) );
-    }
+//    private void updateTransform() {
+//
+//        
+//    }
 
-    ModelSlider a = new ModelSlider( "dx", "", -1, 1, 0 );
-    ModelSlider b = new ModelSlider( "dy", "", -1, 1, 0 );
-
-    static {
-
-    }
+    ModelSlider dxSlider = new ModelSlider( "dx", "", -10, 10, 0 );
+    ModelSlider dySlider = new ModelSlider( "dy", "", -10, 10, 0 );
+    ModelSlider sxSlider = new ModelSlider( "sx", "", 0, 3, 1 );
+    ModelSlider sySlider = new ModelSlider( "sy", "", 0, 3, 1 );
+    ModelSlider dThetaSlider = new ModelSlider( "dTheta", "", -Math.PI * 2, Math.PI * 2, 0 );
 
     private void runParamTest() {
         JFrame frame = new JFrame();
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
-        contentPane.add( a );
 
-        contentPane.add( b );
-        a.addChangeListener( new ChangeListener() {
+        ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
             }
-        } );
-        b.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                update();
-            }
-        } );
+        };
+        contentPane.add( dxSlider );
+        contentPane.add( dySlider );
+        contentPane.add( sxSlider );
+        contentPane.add( sySlider );
+        contentPane.add( dThetaSlider );
+        dxSlider.addChangeListener( changeListener );
+        dySlider.addChangeListener( changeListener );
+        sxSlider.addChangeListener( changeListener );
+        sySlider.addChangeListener( changeListener );
+        dThetaSlider.addChangeListener( changeListener );
+
         frame.setContentPane( contentPane );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        frame.setVisible( true );
+        frame.setVisible( true );
     }
 
-    private AffineTransform createTransform( double theta ) {
+//        private AffineTransform createTransform( double theta ) {
+//        Point2D srcpt = bulb.getStartPoint();
+//        Point2D endpt = bulb.getEndPoint();
+//        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() - Math.PI / 2;
+//
+//        angle += theta;
+//        AffineTransform transform = new AffineTransform();
+//
+//        transform.rotate( angle, srcpt.getX(), srcpt.getY() );
+//        transform.translate( srcpt.getX(), srcpt.getY() );
+////        transform.translate( -1.2, 0.8 );
+////        transform.translate( a.getValue(), b.getValue() );
+//        transform.translate( -0.94, -0.55 );
+////        transform.translate( -bulb.getWidth() / 2, -bulb.getHeight() * .93 );//TODO .93 is magick!
+//        transform.scale( 0.5, 0.6 );
+////        trf.scale( bulb.getWidth() / width, bulb.getHeight() / height );
+//
+//        return transform;
+//    }
+
+    private AffineTransform createTransform() {
+        double sign = 1;
+        if( !bulb.isConnectAtRight() ) {
+            sign = -1;
+        }
+        double theta = sign * getTilt();
         Point2D srcpt = bulb.getStartPoint();
         Point2D endpt = bulb.getEndPoint();
-        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() - Math.PI / 2;
-
-        angle += theta;
         AffineTransform transform = new AffineTransform();
 
+//        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() + dThetaSlider.getValue() + theta;
+//        transform.rotate( angle, srcpt.getX(), srcpt.getY() );
+//        transform.translate( srcpt.getX(), srcpt.getY() );
+//        transform.scale( sxSlider.getValue(), sySlider.getValue() );
+//        transform.translate( dxSlider.getValue(), dySlider.getValue() );//todo magic numbers
+
+        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() + 0.3 + theta;
         transform.rotate( angle, srcpt.getX(), srcpt.getY() );
         transform.translate( srcpt.getX(), srcpt.getY() );
-//        transform.translate( -1.2, 0.8 );
-//        transform.translate( a.getValue(), b.getValue() );
-        transform.translate( -0.94, -0.55 );
-//        transform.translate( -bulb.getWidth() / 2, -bulb.getHeight() * .93 );//TODO .93 is magick!
-        transform.scale( 0.5, 0.6 );
-//        trf.scale( bulb.getWidth() / width, bulb.getHeight() / height );
+        transform.scale( 0.74, 0.79 );
+        transform.translate( -1.0, -2.3 );//todo magic numbers
+
 
         return transform;
     }
 
     protected void update() {
-        setTransform( new AffineTransform() );
         super.update();
         bulbNode.update();
-//        rotate( getTilt() );
-        updateTransform();
+        setTransform( createTransform() );
     }
 }
