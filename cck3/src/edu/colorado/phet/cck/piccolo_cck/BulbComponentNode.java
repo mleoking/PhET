@@ -107,7 +107,7 @@ public class BulbComponentNode extends ComponentNode {
         frame.setContentPane( contentPane );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
+//        frame.setVisible( true );
     }
 
 //        private AffineTransform createTransform( double theta ) {

@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
+import edu.colorado.phet.cck.ResetDynamicsMenuItem;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.common.RepaintyMenu;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
