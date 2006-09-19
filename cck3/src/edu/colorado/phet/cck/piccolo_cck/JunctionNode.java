@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.event.PopupMenuHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,14 +28,16 @@ public class JunctionNode extends PhetPNode {
     private CCKModel cckModel;
     private Junction junction;
     private CircuitNode circuitNode;
+    private Component component;
     private PPath shapePNode;
     private PPath highlightPNode;
     private CircuitInteractionModel circuitInteractionModel;
 
-    public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode ) {
+    public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode, Component component ) {
         this.cckModel = cckModel;
         this.junction = junction;
         this.circuitNode = circuitNode;
+        this.component = component;
         this.circuitInteractionModel = new CircuitInteractionModel( getCircuit() );
         shapePNode = new PPath();
         shapePNode.setStroke( shapeStroke );
@@ -68,7 +71,8 @@ public class JunctionNode extends PhetPNode {
                 circuitInteractionModel.dropJunction( junction );
             }
         } );
-
+        JunctionNodePopupMenu menu = new JunctionNodePopupMenu( cckModel, junction );
+        addInputEventListener( new PopupMenuHandler( component, menu ) );
         addInputEventListener( new CursorHandler() );
         update();
     }

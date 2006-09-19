@@ -224,6 +224,8 @@ public class Circuit {
         fireJunctionsMoved();
         circuitChangeListener.circuitChanged();
         fireJunctionsSplit( junction, newJunctions );
+
+
         return newJunctions;
     }
 

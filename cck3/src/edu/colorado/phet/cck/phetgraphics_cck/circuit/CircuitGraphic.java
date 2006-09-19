@@ -452,19 +452,12 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public InteractiveWireJunctionGraphic newJunctionGraphic( Junction junction ) {
-        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() ), getTransform(), module );
-        return j;
+        return new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() ), getTransform(), module );
     }
 
     public void split( Junction junction ) {
-        Junction[] newJ = circuit.split( junction );
-        ArrayList branches = new ArrayList();
-        for( int i = 0; i < newJ.length; i++ ) {
-            Junction junction1 = newJ[i];
-            branches.addAll( Arrays.asList( circuit.getAdjacentBranches( junction1 ) ) );
-        }
-        Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
-        module.layoutElectrons( bo );
+        Junction[]newJ = module.getCCKModel().split( junction );
+
         for( int i = 0; i < newJ.length; i++ ) {
             Junction junction1 = newJ[i];
             Branch connection = circuit.getAdjacentBranches( junction1 )[0];

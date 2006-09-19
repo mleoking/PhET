@@ -35,7 +35,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         toolboxNode = new ToolboxNode( this, model );
         addScreenChild( toolboxNode );
 
-        circuitNode = new CircuitNode( model, model.getCircuit() );
+        circuitNode = new CircuitNode( model, model.getCircuit(), this );
         addWorldChild( circuitNode );
 
         messageNode = new MessageNode();

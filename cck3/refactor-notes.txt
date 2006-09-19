@@ -6,3 +6,4 @@
 
 make sure both junctions can't stick to same destination junction.
 
+do junctions need to be always in front?  are they?
