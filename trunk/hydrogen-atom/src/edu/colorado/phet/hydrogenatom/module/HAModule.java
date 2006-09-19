@@ -14,10 +14,12 @@ package edu.colorado.phet.hydrogenatom.module;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -26,7 +28,10 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.*;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
+import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
+import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -42,6 +47,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -81,6 +87,7 @@ public class HAModule extends PiccoloModule {
     private BeamNode _beamNode;
     private AnimationBox _animationBox, _tinyBox;
     private ZoomIndicatorNode _zoomIndicatorNode;
+    private PClip _animationClippingNode;
     
     private ExperimentAtomNode _experimentAtomNode;
     private BilliardBallAtomNode _billiardBallAtomNode;
@@ -223,6 +230,30 @@ public class HAModule extends PiccoloModule {
             _spectrometerSnapshots = new ArrayList();
         }
         
+        // Animation Box
+        {
+           _animationBox = new AnimationBox( ANIMATION_BOX_SIZE ); 
+           _rootNode.addChild( _animationBox );
+           
+           _tinyBox = new AnimationBox( TINY_BOX_SIZE );
+           _rootNode.addChild( _tinyBox );
+        }
+        
+        // Animation clipping path
+        {
+            _animationClippingNode = new PClip();
+            Shape clip = new Rectangle2D.Double( 0, 0, ANIMATION_BOX_SIZE.width, ANIMATION_BOX_SIZE.height );
+            _animationClippingNode.setPathTo( clip );
+            _animationClippingNode.setPaint(  HAConstants.COLOR_TRANSPARENT );
+            _rootNode.addChild( _animationClippingNode );
+        }
+        
+        // Zoom indicator
+        {
+            _zoomIndicatorNode = new ZoomIndicatorNode();
+            _rootNode.addChild( _zoomIndicatorNode );
+        }
+        
         // Atom representations
         {
             _experimentAtomNode = new ExperimentAtomNode();
@@ -233,28 +264,13 @@ public class HAModule extends PiccoloModule {
             _schrodingerAtomNode = new SchrodingerAtomNode();
             _solarSystemAtomNode = new SolarSystemAtomNode();
             
-//            _rootNode.addChild( _experimentAtomNode );
-//            _rootNode.addChild( _billiardBallAtomNode );
-//            _rootNode.addChild( _bohrAtomNode );
-//            _rootNode.addChild( _deBroglieAtomNode );
-//            _rootNode.addChild( _plumPuddingAtomNode );
-//            _rootNode.addChild( _schrodingerAtomNode );
-//            _rootNode.addChild( _solarSystemAtomNode );
-        }
-        
-        // Animation Box
-        {
-           _animationBox = new AnimationBox( ANIMATION_BOX_SIZE ); 
-           _rootNode.addChild( _animationBox );
-           
-           _tinyBox = new AnimationBox( TINY_BOX_SIZE );
-           _rootNode.addChild( _tinyBox );
-        }
-        
-        // Zoom indicator
-        {
-            _zoomIndicatorNode = new ZoomIndicatorNode();
-            _rootNode.addChild( _zoomIndicatorNode );
+            _animationClippingNode.addChild( _experimentAtomNode );
+            _animationClippingNode.addChild( _billiardBallAtomNode );
+            _animationClippingNode.addChild( _bohrAtomNode );
+            _animationClippingNode.addChild( _deBroglieAtomNode );
+            _animationClippingNode.addChild( _plumPuddingAtomNode );
+            _animationClippingNode.addChild( _schrodingerAtomNode );
+            _animationClippingNode.addChild( _solarSystemAtomNode );
         }
         
         //----------------------------------------------------------------------------
@@ -354,6 +370,8 @@ public class HAModule extends PiccoloModule {
             x = gb.getX() + gb.getWidth() + xSpacing;
             y = 10 + ntsb.getHeight() + 10;
             _animationBox.setOffset( x, y );
+            
+            _animationClippingNode.setOffset( x, y );
         }
         
         // Gun control panel
@@ -435,11 +453,16 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
         }
         
-        //XXX temporary
+        // Animation nodes
         {
-            x = 300;
-            y = 135;
+            PBounds ab = _animationClippingNode.getFullBounds();
+            
+            x = ( ab.getWidth() - _experimentAtomNode.getFullBounds().getWidth() ) / 2;
+            y = ( ab.getHeight() - _experimentAtomNode.getFullBounds().getHeight() ) / 2;
             _experimentAtomNode.setOffset( x, y );
+            
+            x = ab.getWidth() / 2;
+            y = ab.getHeight() / 2;
             _billiardBallAtomNode.setOffset( x, y );
             _bohrAtomNode.setOffset( x, y );
             _deBroglieAtomNode.setOffset( x, y );

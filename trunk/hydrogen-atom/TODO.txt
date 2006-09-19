@@ -27,6 +27,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/19/06) - added "view" representations of each atomic model, no animation
 (9/19/06) - set pickable flag = false for all non-interactive nodes and their children
 (9/19/06) - combine gun on/off control into GunNode
 (9/19/06) - make gun nozzle smaller
