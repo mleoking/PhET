@@ -1,16 +1,17 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.event.PopupMenuHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -71,8 +72,11 @@ public class JunctionNode extends PhetPNode {
                 circuitInteractionModel.dropJunction( junction );
             }
         } );
-        JunctionNodePopupMenu menu = new JunctionNodePopupMenu( cckModel, junction );
-        addInputEventListener( new PopupMenuHandler( component, menu ) );
+        addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {
+            public JPopupMenu createPopupMenu() {
+                return new JunctionNodePopupMenu( cckModel, junction );
+            }
+        } ) );
         addInputEventListener( new CursorHandler() );
         update();
     }
