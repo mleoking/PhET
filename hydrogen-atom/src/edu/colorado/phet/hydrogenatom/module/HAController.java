@@ -162,7 +162,6 @@ public class HAController {
     
     private void handleModeChange() {
         _module.updateAtomicModelSelector();
-        _module.updateBlackBox();
         _module.updateAtomicModel();
         _module.updateEnergyDiagram();
     }
