@@ -102,6 +102,9 @@ public class HAConstants {
     // Color used for alpha particle intensity slider
     public static final Color ALPHA_PARTICLES_COLOR = UV_TRACK_COLOR;
     
+    // Color of the animation area
+    public static final Color ANIMATION_AREA_COLOR = Color.DARK_GRAY;
+    
     //----------------------------------------------------------------------------
     // Borders
     //----------------------------------------------------------------------------

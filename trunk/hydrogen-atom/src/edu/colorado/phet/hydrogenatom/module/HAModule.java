@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -55,8 +56,8 @@ public class HAModule extends PiccoloModule {
     
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
     
-    private static final Dimension BLACK_BOX_SIZE = new Dimension( 475, 475 );
-    private static final double BLACK_BOX_DEPTH = 10;
+    private static final Dimension ANIMATION_BOX_SIZE = new Dimension( 475, 475 );
+    private static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
     
     private static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
     private static final double BOX_OF_HYDROGEN_DEPTH = 10;
@@ -81,7 +82,8 @@ public class HAModule extends PiccoloModule {
     
     private BoxOfHydrogen _boxOfHydrogen;
     private BeamNode _beamNode;
-    private BlackBox _blackBox;
+    private AnimationBox _animationBox, _tinyBox;
+    private ZoomIndicatorNode _zoomIndicatorNode;
     
     private ExperimentAtomNode _experimentAtomNode;
     private BilliardBallAtomNode _billiardBallAtomNode;
@@ -241,11 +243,19 @@ public class HAModule extends PiccoloModule {
 //            _rootNode.addChild( _solarSystemAtomNode );
         }
         
-        // Magic Box
+        // Animation Box
         {
-           _blackBox = new BlackBox( BLACK_BOX_SIZE.width, BLACK_BOX_SIZE.height, BLACK_BOX_DEPTH ); 
-           _rootNode.addChild( _blackBox.getBackNode() );
-           _rootNode.addChild( _blackBox.getFrontNode() );
+           _animationBox = new AnimationBox( ANIMATION_BOX_SIZE ); 
+           _rootNode.addChild( _animationBox );
+           
+           _tinyBox = new AnimationBox( TINY_BOX_SIZE );
+           _rootNode.addChild( _tinyBox );
+        }
+        
+        // Zoom indicator
+        {
+            _zoomIndicatorNode = new ZoomIndicatorNode();
+            _rootNode.addChild( _zoomIndicatorNode );
         }
         
         //----------------------------------------------------------------------------
@@ -287,7 +297,6 @@ public class HAModule extends PiccoloModule {
     private void reset() {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
-        _blackBox.open();
         _gunNode.getGunOnOffControl().setOn( false );
         _gunControlPanel.getGunTypeControl().setLightSelected();
         _gunControlPanel.getLightTypeControl().setMonochromaticSelected();
@@ -339,19 +348,19 @@ public class HAModule extends PiccoloModule {
             _gunNode.setOffset( x, y );
         }
         
-        // Black box
+        // Animation box
         {
             PBounds gb = _gunNode.getFullBounds();
             PBounds ntsb = _notToScaleLabel.getFullBounds();
             x = gb.getX() + gb.getWidth() + xSpacing;
             y = 10 + ntsb.getHeight() + 10;
-            _blackBox.setOffset( x, y );
+            _animationBox.setOffset( x, y );
         }
         
         // Gun control panel
         {
             PBounds ab = _atomicModelSelector.getFullBounds();
-            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            PBounds bb = _animationBox.getFullBounds();
             x = ab.getX() + ab.getWidth() + xSpacing;
             y = bb.getY() + bb.getHeight() + ySpacing;
             _gunControlPanel.setOffset( x, y );
@@ -365,6 +374,19 @@ public class HAModule extends PiccoloModule {
             x = ab.getX() + ab.getWidth() + bb.getWidth() + 40;//XXX
             y = gb.getY() - 75; //XXX
             _boxOfHydrogen.setOffset( x, y );
+           
+            // Tiny box
+            y = y - ( ( BOX_OF_HYDROGEN_SIZE.height - TINY_BOX_SIZE.height ) / 2 );
+            _tinyBox.setOffset( x, y );
+        }
+        
+        // Zoom Indicator
+        {
+            PBounds tb = _tinyBox.getFullBounds();
+            PBounds ab = _animationBox.getFullBounds();
+            Point2D tp = new Point2D.Double( tb.getX(), tb.getY() );
+            Point2D ap = new Point2D.Double( ab.getX(), ab.getY() );
+            _zoomIndicatorNode.update( tp, TINY_BOX_SIZE, ap, ANIMATION_BOX_SIZE );
         }
         
         // Beam
@@ -374,7 +396,7 @@ public class HAModule extends PiccoloModule {
         
         // "Drawings are not to scale" note, centered above black box.
         {
-            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            PBounds bb = _animationBox.getFullBounds();
             x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
             y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
             _notToScaleLabel.setOffset( x, y );
@@ -382,7 +404,7 @@ public class HAModule extends PiccoloModule {
         
         // Energy Diagram, to the right of the black box.
         {
-            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            PBounds bb = _animationBox.getFullBounds();
             x = bb.getX() + bb.getHeight() + 10;
             y = yMargin;
             _energyDiagramCheckBoxNode.setOffset( x, y );
@@ -400,7 +422,7 @@ public class HAModule extends PiccoloModule {
         // Spectrometer
         {
             // Spectrometer in bottom right corner.
-            PBounds bb = _blackBox.getBackNode().getFullBounds();
+            PBounds bb = _animationBox.getFullBounds();
             PBounds gb = _gunControlPanel.getFullBounds();
             final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
             x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometer.getFullBounds().getWidth() - xMargin );
@@ -426,10 +448,6 @@ public class HAModule extends PiccoloModule {
             _schrodingerAtomNode.setOffset( x, y );
             _solarSystemAtomNode.setOffset( x, y );
         }
-    }
-    
-    public void updateBlackBox() {
-        _blackBox.setOpen( _modeSwitch.isPredictionSelected() );
     }
     
     public void updateAtomicModelSelector() {
