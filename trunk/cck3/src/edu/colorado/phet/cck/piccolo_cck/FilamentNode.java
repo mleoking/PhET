@@ -1,0 +1,53 @@
+package edu.colorado.phet.cck.piccolo_cck;
+
+import edu.colorado.phet.cck.model.components.Filament;
+import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+
+/**
+ * User: Sam Reid
+ * Date: Sep 19, 2006
+ * Time: 1:50:04 PM
+ * Copyright (c) Sep 19, 2006 by Sam Reid
+ */
+
+public class FilamentNode extends PhetPNode {
+    private Filament fil;
+    private Color color = Color.black;
+    private Stroke stroke = new BasicStroke( 8 / 80.0f );
+    private BulbComponentGraphic.IntensityChangeListener intensityListener;
+
+    public FilamentNode( Filament fil ) {
+        this.fil = fil;
+        intensityListener = new BulbComponentGraphic.IntensityChangeListener() {
+            public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
+                color = new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) );
+            }
+        };
+
+        fil.addObserver( new SimpleObserver() {
+            public void update() {
+                FilamentNode.this.update();
+            }
+        } );
+        update();
+    }
+
+    private void update() {
+        GeneralPath p = fil.getPath();
+//        Shape x = AffineTransform.getTranslateInstance( -p.getBounds().x, -p.getBounds().y ).createTransformedShape( p );
+        PPath path = new PhetPPath( p, stroke, color );
+        removeAllChildren();
+        addChild( path );
+    }
+
+    public Filament getFilament() {
+        return fil;
+    }
+
+}

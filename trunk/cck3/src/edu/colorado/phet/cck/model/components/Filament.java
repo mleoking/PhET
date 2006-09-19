@@ -68,8 +68,7 @@ public class Filament extends PathBranch {
     private AbstractVector2D getVector( double east, double north ) {
         AbstractVector2D e = eastDir.getScaledInstance( east );
         AbstractVector2D n = northDir.getScaledInstance( north );
-        AbstractVector2D sum = e.getAddedInstance( n );
-        return sum;
+        return e.getAddedInstance( n );
     }
 
     public GeneralPath getPath() {
