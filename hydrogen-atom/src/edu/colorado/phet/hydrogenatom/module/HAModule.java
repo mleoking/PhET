@@ -26,10 +26,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
-import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
-import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
-import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
+import edu.colorado.phet.hydrogenatom.control.*;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -167,7 +164,7 @@ public class HAModule extends PiccoloModule {
         
         // Gun
         {
-            _gunNode = new GunNode( _canvas );
+            _gunNode = new GunNode();
             _rootNode.addChild( _gunNode );
             
             _gunControlPanel = new GunControlPanel( _canvas );
@@ -297,7 +294,7 @@ public class HAModule extends PiccoloModule {
     private void reset() {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
-        _gunNode.getGunOnOffControl().setOn( false );
+        _gunNode.setOn( false );
         _gunControlPanel.getGunTypeControl().setLightSelected();
         _gunControlPanel.getLightTypeControl().setMonochromaticSelected();
         _gunControlPanel.getLightIntensityControl().setValue( 100 );
@@ -343,7 +340,7 @@ public class HAModule extends PiccoloModule {
         // Gun
         {
             PBounds ab = _atomicModelSelector.getFullBounds();
-            x = ab.getX() + ab.getWidth() + xSpacing;
+            x = ab.getX() + ab.getWidth() + xSpacing;//XXX
             y = 350;//XXX
             _gunNode.setOffset( x, y );
         }
@@ -371,7 +368,7 @@ public class HAModule extends PiccoloModule {
             PBounds gb = _gunNode.getFullBounds();
             PBounds ab = _atomicModelSelector.getFullBounds();
             PBounds bb = _boxOfHydrogen.getFullBounds();
-            x = ab.getX() + ab.getWidth() + bb.getWidth() + 40;//XXX
+            x = ab.getX() + ab.getWidth() + ( bb.getWidth() / 2 ) + 30;//XXX
             y = gb.getY() - 75; //XXX
             _boxOfHydrogen.setOffset( x, y );
            

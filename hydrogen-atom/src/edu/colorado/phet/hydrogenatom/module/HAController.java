@@ -81,7 +81,7 @@ public class HAController {
            }
         });
         
-        _gunNode.getGunOnOffControl().addChangeListener( new ChangeListener() {
+        _gunNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 handleGunOnOffChange();
             }
