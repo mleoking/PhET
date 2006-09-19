@@ -4,10 +4,7 @@ import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.Battery;
-import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -50,6 +47,7 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new WireMaker() );
         addBranchMaker( new ResistorMaker() );
         addBranchMaker( new BatteryMaker() );
+        addBranchMaker( new BulbMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -153,7 +151,7 @@ public class ToolboxNode extends PhetPNode {
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ComponentNode child = new ComponentNode( model, createResistor(), CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
+            ComponentNode child = new ComponentImageNode.ResistorNode( model, createResistor() );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -172,7 +170,7 @@ public class ToolboxNode extends PhetPNode {
     class BatteryMaker extends BranchMaker {
         public BatteryMaker() {
             super( "Battery" );
-            ComponentNode child = new ComponentNode( model, createBattery(), CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
+            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery() );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -183,6 +181,23 @@ public class ToolboxNode extends PhetPNode {
 
         private Battery createBattery() {
             return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
+        }
+    }
+
+    class BulbMaker extends BranchMaker {
+        public BulbMaker() {
+            super( "Light Bulb" );
+            ComponentNode child = new ComponentImageNode( model, createBulb(), CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createBulb();
+        }
+
+        private Bulb createBulb() {
+            return new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
         }
     }
 }
