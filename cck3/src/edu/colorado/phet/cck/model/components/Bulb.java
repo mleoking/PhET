@@ -22,6 +22,7 @@ public class Bulb extends CircuitComponent {
     private double width;
     private boolean isSchematic = false;
     private boolean connectAtRight = true;
+    private static double myHeightScale = 1.0;
 
     public Bulb( Point2D start, AbstractVector2D dir,
                  double distBetweenJunctions,
@@ -48,9 +49,14 @@ public class Bulb extends CircuitComponent {
         setSchematic( schematic, null );
     }
 
+    public static void setHeightScale( double heightScale ) {
+        myHeightScale = heightScale;
+    }
+
     private void init( CircuitChangeListener kl ) {
         double height = super.getHeight();
-        filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * .25, width * .8, height * .061 );
+//        filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * .25, width * .8, height * .061 );
+        filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * 0.5, width * .8, height * .061 );
         so = new SimpleObserver() {
             public void update() {
                 filament.recompute();
