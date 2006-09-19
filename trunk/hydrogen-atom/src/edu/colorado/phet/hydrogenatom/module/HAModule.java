@@ -526,7 +526,13 @@ public class HAModule extends PiccoloModule {
         _beamNode.setVisible( isOn );
         if ( isOn ) {
             if ( _gunControlPanel.getGunTypeControl().isLightSelected() ) {
-                Color color = _gunControlPanel.getWavelengthControl().getWavelengthColor();
+                Color color = null;
+                if ( _gunControlPanel.getLightTypeControl().isWhiteSelected() ) {
+                    color = Color.WHITE;
+                }
+                else {
+                    color = _gunControlPanel.getWavelengthControl().getWavelengthColor();
+                }
                 int intensity = _gunControlPanel.getLightIntensityControl().getValue();
                 _beamNode.setColor( color, intensity );
             }
