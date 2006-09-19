@@ -35,27 +35,6 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
     private CircuitComponent component;
     private CircuitComponentImageGraphic switchGraphic;
 
-    private static Cursor rotate;
-
-    static {
-        BufferedImage image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
-            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.get( "InteractiveLever.CursorName" ) );
-        }
-        catch( IOException e ) {
-            throw new RuntimeException( e );
-        }
-    }
-
-    public CircuitComponent getComponent() {
-        return component;
-    }
-
-    public void delete() {
-        leverGraphic.delete();
-    }
-
     public InteractiveLever( final ModelViewTransform2D transform, final ApparatusPanel apparatusPanel,
                              final LeverGraphic leverGraphic ) {
         super( leverGraphic );
@@ -88,6 +67,14 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
         addMouseInputListener( mil );
     }
 
+    public CircuitComponent getComponent() {
+        return component;
+    }
+
+    public void delete() {
+        leverGraphic.delete();
+    }
+
     private Shape getHandleShape() {
         double x = 0;
         double y = 0;
@@ -105,4 +92,16 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
         return sh;
     }
 
+    private static Cursor rotate;
+
+    static {
+        BufferedImage image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
+            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.get( "InteractiveLever.CursorName" ) );
+        }
+        catch( IOException e ) {
+            throw new RuntimeException( e );
+        }
+    }
 }
