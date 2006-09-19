@@ -1,48 +1,47 @@
-/** Sam Reid*/
-package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
+package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.common.RoundGradientPaint;
+import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common_cck.view.graphics.Graphic;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
 
 /**
  * User: Sam Reid
- * Date: May 27, 2004
- * Time: 9:13:28 PM
- * Copyright (c) May 27, 2004 by Sam Reid
+ * Date: Sep 19, 2006
+ * Time: 1:03:35 AM
+ * Copyright (c) Sep 19, 2006 by Sam Reid
  */
-public class LightBulbGraphic implements Graphic {
-    private Rectangle2D bounds;
-    private Ellipse2D.Double bulb;
+
+public class BulbNode extends ComponentNode {
+    private Bulb bulb;
+    private double intensity = Double.NaN;
+    private ArrayList brighties = new ArrayList();
+    private BasicStroke brightyStroke;
+    private Color brightyColor;
+    private Ellipse2D.Double bulbShape;
+    private Point2D pin;
+    private Point2D.Double rad;
     private Paint paint;
     private Rectangle2D.Double conductor;
-    private Stroke baseStroke = new BasicStroke( 3 );
-    private Stroke linestroke = new BasicStroke( 1 );
-    private ArrayList spiralLines;
-    private Point2D rad;
-    private Point2D pin;
-    private Stroke bulboutline = new BasicStroke( 1 );
-    private ArrayList brighties = new ArrayList();
-    private Color brightyColor;
-    private BasicStroke brightyStroke;
     private Ellipse2D.Double insulator;
-    private Color insulatorColor = Color.white;
     private Rectangle2D.Double tip;
-    private Color tipColor = Color.lightGray;
-    private Stroke tipStroke = new BasicStroke( 2 );
-    private double intensity = -1;//SO WE GET an initialization call.
+    private ArrayList spiralLines;
+    private Stroke tipStroke = new BasicStroke( 2 / 40.0f );
+    private Color insulatorColor = Color.white;
+    private Stroke baseStroke = new BasicStroke( 1 / 40.0f );
+    private Stroke linestroke = new BasicStroke( 1 / 90.0f );
 
-    public LightBulbGraphic( Rectangle2D bounds ) {
-        this.bounds = bounds;
+    public BulbNode( CCKModel cckModel, Bulb bulb ) {
+        super( cckModel, bulb );
+        this.bulb = bulb;
 
+        Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0, 1, 1 );
         //reserve the top part for the bulb.
         double fracInsulator = .1;
         double fracTip = .04;
@@ -74,9 +73,9 @@ public class LightBulbGraphic implements Graphic {
         double tipX = bounds.getX() + ( bounds.getWidth() - tipWidth ) / 2;
         double tipY = insulatorY + insulatorHeight;
 
-        bulb = new Ellipse2D.Double( bulbX, bulbY, bulbWidth, bulbHeight + fracBulbOverlap * bounds.getHeight() );
+        bulbShape = new Ellipse2D.Double( bulbX, bulbY, bulbWidth, bulbHeight + fracBulbOverlap * bounds.getHeight() );
 
-        pin = getPin( bulb );
+        pin = getPin( bulbShape );
         rad = new Point2D.Double( bounds.getWidth() / 2, bounds.getHeight() / 2 );
         paint = new RoundGradientPaint( pin.getX(), pin.getY(), Color.white, rad, Color.yellow );
         conductor = new Rectangle2D.Double( conductorX, conductorY, conductorWidth, conductorHeight );
@@ -97,61 +96,78 @@ public class LightBulbGraphic implements Graphic {
             Line2D.Double line = new Line2D.Double( x1, y1, x2, y2 );
             spiralLines.add( line );
         }
-        setIntensity( 0 );
+        setIntensity( 0.5 );
+        update();
+
+    }
+
+    public Bulb getBulb() {
+        return bulb;
+    }
+
+    protected void update() {
+        super.update();
+        removeAllChildren();//todo violates contract with parent; removes highlight
+        updateRays();
+        updateTip();
+        updateBulbShape();
+        updateInsulator();
+        updateConductor();
+        updateSpiralLines();
+
+        setTransform( new AffineTransform() );
+        setOffset( bulb.getStartJunction().getPosition() );
+        translate( 0, -bulbShape.getHeight() );
+    }
+
+    private void updateSpiralLines() {
+        for( int i = 0; i < spiralLines.size(); i++ ) {
+            Line2D.Double aDouble = (Line2D.Double)spiralLines.get( i );
+            PPath path = new PhetPPath( aDouble, linestroke, Color.black );
+            addChild( path );
+        }
+    }
+
+    private void updateConductor() {
+        PPath conductorPath = new PhetPPath( conductor, Color.lightGray, baseStroke, Color.black );
+        addChild( conductorPath );
+    }
+
+    private void updateInsulator() {
+        PPath insulatorPath = new PhetPPath( insulator, insulatorColor );
+        addChild( insulatorPath );
+    }
+
+    private void updateBulbShape() {
+        PPath bulbShape = new PhetPPath( this.bulbShape, new BasicStroke( 1.0f / 40.0f ), Color.black );
+        if( intensity > 0 ) {
+            bulbShape.setPaint( paint );
+        }
+        addChild( bulbShape );
+    }
+
+    private void updateTip() {
+        PPath tipNode = new PPath();
+        tipNode.setPaint( Color.black );
+        tipNode.setStroke( tipStroke );
+        tipNode.setPathTo( tip );
+        addChild( tipNode );
+    }
+
+    private void updateRays() {
+        for( int i = 0; i < brighties.size(); i++ ) {
+            PPath pPath = new PPath( (Shape)brighties.get( i ) );
+            pPath.setStrokePaint( brightyColor );
+//            pPath.setStroke( new BasicStroke( 0.1f ) );
+            pPath.setStroke( brightyStroke );
+            addChild( pPath );
+        }
     }
 
     private Point2D getPin( Ellipse2D.Double bulb ) {
         double fracX = .2;
         double fracY = .3;
         return new Point2D.Double( bulb.getX() + bulb.getWidth() * fracX, bulb.getY() + bulb.getHeight() * fracY );
-    }
-
-    public void paint( Graphics2D g ) {
-        Stroke origStroke = g.getStroke();
-        g.setColor( brightyColor );
-        g.setStroke( brightyStroke );
-
-        for( int i = 0; i < brighties.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)brighties.get( i );
-            g.draw( aDouble );
-        }
-
-        g.setColor( Color.black );
-        g.setStroke( tipStroke );
-        g.draw( tip );
-        g.setColor( tipColor );
-        g.fill( tip );
-
-        g.setStroke( bulboutline );
-        g.setColor( Color.black );
-        g.draw( bulb );
-
-//        System.out.println( "intensity = " + intensity );
-        if( intensity > 0 ) {
-            g.setPaint( paint );
-            g.fill( bulb );
-        }
-
-        g.setColor( insulatorColor );
-        g.fill( insulator );
-
-        g.setColor( Color.black );
-        g.setStroke( baseStroke );
-        g.draw( conductor );
-        g.setColor( Color.lightGray );
-        g.fill( conductor );
-
-        g.setStroke( linestroke );
-        g.setColor( Color.black );
-        for( int i = 0; i < spiralLines.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)spiralLines.get( i );
-            g.draw( aDouble );
-        }
-        g.setStroke( origStroke );
-    }
-
-    static Point2D center( Ellipse2D r ) {
-        return new Point2D.Double( r.getX() + r.getWidth() / 2, r.getY() + r.getHeight() / 2 );
     }
 
     public void setIntensity( double intensity ) {
@@ -163,7 +179,7 @@ public class LightBulbGraphic implements Graphic {
         Color yellow = Color.yellow;
         Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
         Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
-        paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
+        Paint paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
 
         int maxBrighties = 40;
         int numBrighties = (int)( intensity * maxBrighties );
@@ -178,7 +194,7 @@ public class LightBulbGraphic implements Graphic {
         double dTheta = Math.abs( endAngle - startAngle ) / ( numBrighties - 1 );
 
         double angle = startAngle;
-        Point2D origin = center( bulb );
+        Point2D origin = center( bulbShape );
         double maxStrokeWidth = 3.5;
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
@@ -186,32 +202,18 @@ public class LightBulbGraphic implements Graphic {
             AbstractVector2D vec = ImmutableVector2D.Double.parseAngleAndMagnitude( distance0, angle );
             AbstractVector2D vec1 = ImmutableVector2D.Double.parseAngleAndMagnitude( distance + distance0, angle );
 
-//            System.out.println( "angle = " + angle );
-//            System.out.println("angle/Math.PI/2 = " + angle / Math.PI / 2);
             Point2D end = vec.getDestination( origin );
             Point2D end2 = vec1.getDestination( origin );
             Line2D.Double line = new Line2D.Double( end, end2 );
             brighties.add( line );
             angle += dTheta;
         }
-        this.brightyStroke = new BasicStroke( (float)strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        this.brightyStroke = new BasicStroke( (float)strokeWidth / 40.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         this.brightyColor = backgroundColor;
+        update();
     }
 
-    public Shape getCoverShape() {
-        return conductor;
-    }
-
-    public Rectangle2D getFullShape() {
-        Rectangle2D fullShape = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
-        for( int i = 0; i < brighties.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)brighties.get( i );
-            fullShape = fullShape.createUnion( aDouble.getBounds2D() );
-        }
-        return fullShape;
-    }
-
-    public Rectangle2D getBounds() {
-        return new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+    static Point2D center( Ellipse2D r ) {
+        return new Point2D.Double( r.getX() + r.getWidth() / 2, r.getY() + r.getHeight() / 2 );
     }
 }
