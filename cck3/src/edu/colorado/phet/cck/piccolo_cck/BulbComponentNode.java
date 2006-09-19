@@ -6,7 +6,6 @@ import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,11 +29,6 @@ public class BulbComponentNode extends ComponentNode {
         this.bulb = bulb;
         bulbNode = new BulbNode( bulb );
         addChild( bulbNode );
-        bulb.addObserver( new SimpleObserver() {
-            public void update() {
-                BulbComponentNode.this.update();
-            }
-        } );
         CircuitSolutionListener circuitSolutionListener = new CircuitSolutionListener() {
             public void circuitSolverFinished() {
                 updateIntensity();
@@ -110,26 +104,6 @@ public class BulbComponentNode extends ComponentNode {
 //        frame.setVisible( true );
     }
 
-//        private AffineTransform createTransform( double theta ) {
-//        Point2D srcpt = bulb.getStartPoint();
-//        Point2D endpt = bulb.getEndPoint();
-//        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() - Math.PI / 2;
-//
-//        angle += theta;
-//        AffineTransform transform = new AffineTransform();
-//
-//        transform.rotate( angle, srcpt.getX(), srcpt.getY() );
-//        transform.translate( srcpt.getX(), srcpt.getY() );
-////        transform.translate( -1.2, 0.8 );
-////        transform.translate( a.getValue(), b.getValue() );
-//        transform.translate( -0.94, -0.55 );
-////        transform.translate( -bulb.getWidth() / 2, -bulb.getHeight() * .93 );//TODO .93 is magick!
-//        transform.scale( 0.5, 0.6 );
-////        trf.scale( bulb.getWidth() / width, bulb.getHeight() / height );
-//
-//        return transform;
-//    }
-
     private AffineTransform createTransform() {
         double sign = 1;
         if( !bulb.isConnectAtRight() ) {
@@ -158,7 +132,7 @@ public class BulbComponentNode extends ComponentNode {
 
     protected void update() {
         super.update();
-        bulbNode.update();
+//        bulbNode.update();
         setTransform( createTransform() );
     }
 }

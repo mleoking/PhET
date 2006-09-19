@@ -108,7 +108,7 @@ public class BulbNode extends PhetPNode {
     }
 
     protected void update() {
-        removeAllChildren();//todo violates contract with parent; removes highlight
+        removeAllChildren();
         updateRays();
         updateTip();
         updateBulbShape();
