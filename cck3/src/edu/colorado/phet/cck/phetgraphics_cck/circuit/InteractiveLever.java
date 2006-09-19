@@ -79,16 +79,12 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
         double y = 0;
         double w = leverGraphic.getImage().getWidth() * .35;//.4
         double h = leverGraphic.getImage().getHeight();
-//        int pixelsWidth = 6;int pixelsHeight = 6;
-//        int pixelsWidth = 60;
-//        int pixelsHeight = 60;
 
         double dw = w * .28;
         double dh = h * .28;
         Rectangle2D r = new Rectangle2D.Double( x, y, w, h );
         r = RectangleUtils.expand( r, dw, dh );
-        Shape sh = leverGraphic.getTransform().createTransformedShape( r );
-        return sh;
+        return leverGraphic.getTransform().createTransformedShape( r );
     }
 
     private static Cursor rotate;
