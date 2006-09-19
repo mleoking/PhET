@@ -71,7 +71,6 @@ public class CircuitNode extends PhetPNode {
                     }
                 }
             }
-
         } );
         electronNode = new ElectronSetNode( cckModel );
         addChild( electronNode );
@@ -102,7 +101,7 @@ public class CircuitNode extends PhetPNode {
             return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch );
         }
         else if( branch instanceof Bulb ) {
-            return new BulbGraphic( cckModel, (Bulb)branch );
+            return new BulbNode( cckModel, (Bulb)branch );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
