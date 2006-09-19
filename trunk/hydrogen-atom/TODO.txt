@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - with new layout, what do I see when a photon is emitted? where is it emitted to?
 - layout of canvas is kludgy
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
-- make current black box a 2D rectangle that is a zoomed in view of part of tiny black box
 - add x-axis ticks and labels to spectrometer
 - specify dimensions of spectrometer
 
