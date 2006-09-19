@@ -18,6 +18,9 @@ public class JunctionNodePopupMenu extends JPopupMenu {
     public JunctionNodePopupMenu( final CCKModel cckModel, final Junction junction ) {
         JMenuItem splitItem = new JMenuItem( "Split Junction" );
         add( splitItem );
+        if( cckModel.getCircuit().getAdjacentBranches( junction ).length <= 1 ) {
+            splitItem.setEnabled( false );
+        }
         splitItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 cckModel.split( junction );
