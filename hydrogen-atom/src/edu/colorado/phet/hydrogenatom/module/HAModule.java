@@ -108,6 +108,9 @@ public class HAModule extends PiccoloModule {
     private HAClockControlPanel _clockControlPanel;
     private int _spectrumSnapshotCounter; // incremented each time a spectrometer snapshot is taken
     
+    private PhotonNode _samplePhotonNode;
+    private AlphaParticleNode _sampleAlphaParticleNode;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -271,6 +274,14 @@ public class HAModule extends PiccoloModule {
             _animationClippingNode.addChild( _plumPuddingAtomNode );
             _animationClippingNode.addChild( _schrodingerAtomNode );
             _animationClippingNode.addChild( _solarSystemAtomNode );
+        }
+        
+        // Sample nodes
+        {
+            _samplePhotonNode = new PhotonNode();
+            _sampleAlphaParticleNode = new AlphaParticleNode();
+            _animationClippingNode.addChild( _samplePhotonNode );
+            _animationClippingNode.addChild( _sampleAlphaParticleNode );
         }
         
         //----------------------------------------------------------------------------
@@ -469,6 +480,16 @@ public class HAModule extends PiccoloModule {
             _plumPuddingAtomNode.setOffset( x, y );
             _schrodingerAtomNode.setOffset( x, y );
             _solarSystemAtomNode.setOffset( x, y );
+        }
+        
+        // Sample nodes
+        {
+            PBounds ab = _animationClippingNode.getFullBounds();
+            
+            x = ab.getWidth() - 50;
+            y = ab.getHeight() - 100;
+            _samplePhotonNode.setOffset( x, y );
+            _sampleAlphaParticleNode.setOffset( x - 100, y );
         }
     }
     
