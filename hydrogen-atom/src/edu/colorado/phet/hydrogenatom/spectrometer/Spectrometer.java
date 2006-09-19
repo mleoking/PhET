@@ -146,6 +146,10 @@ public class Spectrometer extends PhetPNode {
             buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 15, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
         }
         
+        setPickable( false );
+        spectrometerImage.setPickable( false );
+        titleNode.setPickable( false );
+        
         _startStopButton.addActionListener( new ActionListener() {
            public void actionPerformed( ActionEvent event ) {
                _isRunning = !_isRunning;

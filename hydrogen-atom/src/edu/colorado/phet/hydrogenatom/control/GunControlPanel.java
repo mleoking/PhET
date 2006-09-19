@@ -150,8 +150,10 @@ public class GunControlPanel extends PhetPNode {
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
         
-        // Event handlers
+        // Event handling
         {
+            panel.setPickable( false );
+            
             // Gun type
             _gunTypeControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {

@@ -43,6 +43,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
     public AbstractEnergyDiagram() {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         // Background
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
         backgroundNode.setPaint( BACKGROUND_COLOR );

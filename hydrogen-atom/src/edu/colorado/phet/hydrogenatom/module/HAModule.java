@@ -176,6 +176,8 @@ public class HAModule extends PiccoloModule {
             _notToScaleLabel = new PText( SimStrings.get( "label.notToScale" ) );
             _notToScaleLabel.setTextPaint( HAConstants.CANVAS_LABELS_COLOR );
             _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            _notToScaleLabel.setPickable( false );
+            _notToScaleLabel.setChildrenPickable( false );
             _rootNode.addChild( _notToScaleLabel );
         }
         

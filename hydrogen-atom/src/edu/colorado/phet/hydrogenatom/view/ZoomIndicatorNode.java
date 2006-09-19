@@ -29,6 +29,8 @@ public class ZoomIndicatorNode extends PhetPNode {
     
     public ZoomIndicatorNode() {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
     }
     
     public void update( Point2D smallBoxOrigin, Dimension smallBoxSize, Point2D bigBoxOrigin, Dimension bigBoxSize ) {
