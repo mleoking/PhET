@@ -35,6 +35,6 @@ public class SolarSystemAtomNode extends AbstractAtomNode {
         }
 
         neutronNode.setOffset( 0, 0 );
-        electronNode.setOffset( 100, 100 );
+        electronNode.setOffset( 100, -100 );
     }
 }
