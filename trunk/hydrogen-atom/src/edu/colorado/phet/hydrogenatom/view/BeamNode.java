@@ -34,6 +34,9 @@ public class BeamNode extends PhetPNode {
     public BeamNode( double width, double height ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         GeneralPath path = new GeneralPath();
         float headWidth = (float)( width / 2 );
         float tailWidth = (float)( headWidth * TAIL_TO_HEAD_RATIO );

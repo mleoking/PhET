@@ -30,6 +30,9 @@ public class AnimationBox extends PhetPNode {
     public AnimationBox( Dimension size ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         PPath pathNode = new PPath( new Rectangle2D.Double( 0, 0, size.width, size.height ) );
         pathNode.setPaint( HAConstants.ANIMATION_AREA_COLOR );
         pathNode.setStroke( STROKE );
