@@ -8,6 +8,7 @@ import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -20,13 +21,15 @@ import java.util.ArrayList;
 public class CircuitNode extends PhetPNode {
     private CCKModel cckModel;
     private Circuit circuit;
+    private Component component;
     private ArrayList junctionGraphics = new ArrayList();
     private ArrayList branchGraphics = new ArrayList();
     private PNode electronNode;
 
-    public CircuitNode( CCKModel cckModel, Circuit circuit ) {
+    public CircuitNode( CCKModel cckModel, Circuit circuit, Component component ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
+        this.component = component;
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
@@ -87,7 +90,7 @@ public class CircuitNode extends PhetPNode {
     }
 
     public JunctionNode createNode( Junction junction ) {
-        return new JunctionNode( cckModel, junction, this );
+        return new JunctionNode( cckModel, junction, this, component );
     }
 
     public BranchNode createNode( Branch branch ) {

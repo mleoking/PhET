@@ -17,6 +17,8 @@ import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * CCKModel
@@ -206,5 +208,17 @@ public class CCKModel {
         getCircuit().clear();
         getCircuit().clearSelection();
         getParticleSet().clear();
+    }
+
+    public Junction[] split( Junction junction ) {
+        Junction[] newJunctions = circuit.split( junction );
+        ArrayList branches = new ArrayList();
+        for( int i = 0; i < newJunctions.length; i++ ) {
+            Junction j = newJunctions[i];
+            branches.addAll( Arrays.asList( circuit.getAdjacentBranches( j ) ) );
+        }
+        Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
+        layoutElectrons( bo );
+        return newJunctions;
     }
 }

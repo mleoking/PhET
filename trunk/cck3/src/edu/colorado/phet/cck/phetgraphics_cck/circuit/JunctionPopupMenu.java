@@ -22,11 +22,11 @@ public class JunctionPopupMenu extends RepaintyMenu {
     private JunctionSplitter splitter;
     private JMenuItem splitItem;
 
-    public JunctionPopupMenu( Junction junction, CircuitGraphic circuitGraphic, CCKPhetgraphicsModule module ) {
+    public JunctionPopupMenu( Junction junction, CircuitGraphic circuit, CCKPhetgraphicsModule module ) {
         super( module.getApparatusPanel() );
         this.junction = junction;
-        this.circuitGraphic = circuitGraphic;
-        splitter = new JunctionSplitter( junction, circuitGraphic, module );
+        this.circuitGraphic = circuit;
+        splitter = new JunctionSplitter( junction, circuit, module );
         splitItem = splitter.toJMenuItem();
         add( splitItem );
     }
