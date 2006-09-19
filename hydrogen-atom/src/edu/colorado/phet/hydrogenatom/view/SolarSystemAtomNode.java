@@ -11,16 +11,30 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class SolarSystemAtomNode extends PhetPNode {
+public class SolarSystemAtomNode extends AbstractAtomNode {
 
     public SolarSystemAtomNode() {
-        PImage image = PImageFactory.create( HAConstants.IMAGE_SOLAR_SYSTEM_ATOM );
-        addChild( image );
+        super();
+        
+        NeutronNode neutronNode = new NeutronNode();
+        ElectronNode electronNode = new ElectronNode();
+       
+        addChild( neutronNode );
+        addChild( electronNode );
+          
+        OriginNode originNode = new OriginNode( Color.GREEN );
+        if ( HAConstants.SHOW_ORIGIN_NODES ) {
+            addChild( originNode );
+        }
+
+        neutronNode.setOffset( 0, 0 );
+        electronNode.setOffset( 100, 100 );
     }
 }

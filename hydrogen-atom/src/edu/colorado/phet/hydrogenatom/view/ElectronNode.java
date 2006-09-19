@@ -11,17 +11,20 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class SchrodingerAtomNode extends AbstractAtomNode {
+public class ElectronNode extends PhetPNode {
 
-    public SchrodingerAtomNode() {
+    public ElectronNode() {
         super();
-        
-        PImage imageNode = PImageFactory.create( HAConstants.IMAGE_SCHRODINGER_ATOM );
+
+        PImage imageNode = PImageFactory.create( HAConstants.IMAGE_ELECTRON );
         addChild( imageNode );
         
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );

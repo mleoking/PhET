@@ -11,16 +11,25 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class ExperimentAtomNode extends PhetPNode {
 
+    private static final Font FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 200 );
+    private static final Color COLOR = Color.WHITE;
+    
     public ExperimentAtomNode() {
-        PImage image = PImageFactory.create( HAConstants.IMAGE_EXPERIMENT_ATOM );
-        addChild( image );
+        super();
+        
+        PText questionMarkText = new PText( "?" );
+        questionMarkText.setFont( FONT );
+        questionMarkText.setTextPaint( COLOR );
+        addChild( questionMarkText );
     }
 }
