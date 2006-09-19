@@ -199,7 +199,7 @@ public class ToolboxNode extends PhetPNode {
 
         private Bulb createBulb() {
             Bulb dummyBulb = new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
-            double tilt = BulbComponentNode.getTiltValue( dummyBulb );
+            double tilt = BulbComponentNode.getTiltValue( dummyBulb ) - 0.3;
             Bulb bulb = new Bulb( new Point(), Vector2D.Double.parseAngleAndMagnitude( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
             bulb.flip( null );
             return bulb;

@@ -8,6 +8,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
@@ -50,6 +51,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void activate() {
         super.activate();
         getSimulationPanel().requestFocus();
+        Bulb.setHeightScale( 0.5 );
     }
 
     public Circuit getCircuit() {

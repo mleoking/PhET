@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.controls.LookAndFeelMenu;
+import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
@@ -107,6 +108,11 @@ public class CCKApplication extends PiccoloPhetApplication {
                     cckModule.getCCKApparatusPanel().synchronizeImmediately();
                 }
             } );
+        }
+
+        public void activate() {
+            super.activate();
+            Bulb.setHeightScale( 0.25 );
         }
     }
 
