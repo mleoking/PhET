@@ -1,14 +1,17 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.common.RoundGradientPaint;
-import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +21,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class BulbNode extends ComponentNode {
+public class BulbNode extends PhetPNode {
     private Bulb bulb;
     private double intensity = Double.NaN;
     private ArrayList brighties = new ArrayList();
@@ -37,8 +40,7 @@ public class BulbNode extends ComponentNode {
     private Stroke baseStroke = new BasicStroke( 1 / 40.0f );
     private Stroke linestroke = new BasicStroke( 1 / 90.0f );
 
-    public BulbNode( CCKModel cckModel, Bulb bulb ) {
-        super( cckModel, bulb );
+    public BulbNode( Bulb bulb ) {
         this.bulb = bulb;
 
         Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0, 1, 1 );
@@ -96,7 +98,7 @@ public class BulbNode extends ComponentNode {
             Line2D.Double line = new Line2D.Double( x1, y1, x2, y2 );
             spiralLines.add( line );
         }
-        setIntensity( 0.5 );
+//        setIntensity( 0.5 );
         update();
 
     }
@@ -106,7 +108,6 @@ public class BulbNode extends ComponentNode {
     }
 
     protected void update() {
-        super.update();
         removeAllChildren();//todo violates contract with parent; removes highlight
         updateRays();
         updateTip();
@@ -114,10 +115,6 @@ public class BulbNode extends ComponentNode {
         updateInsulator();
         updateConductor();
         updateSpiralLines();
-
-        setTransform( new AffineTransform() );
-        setOffset( bulb.getStartJunction().getPosition() );
-        translate( 0, -bulbShape.getHeight() );
     }
 
     private void updateSpiralLines() {
@@ -142,6 +139,9 @@ public class BulbNode extends ComponentNode {
         PPath bulbShape = new PhetPPath( this.bulbShape, new BasicStroke( 1.0f / 40.0f ), Color.black );
         if( intensity > 0 ) {
             bulbShape.setPaint( paint );
+        }
+        else {
+            bulbShape.setPaint( new Color( 0, 0, 0, 0 ) );
         }
         addChild( bulbShape );
     }
@@ -215,5 +215,9 @@ public class BulbNode extends ComponentNode {
 
     static Point2D center( Ellipse2D r ) {
         return new Point2D.Double( r.getX() + r.getWidth() / 2, r.getY() + r.getHeight() / 2 );
+    }
+
+    public Shape getCoverShape() {
+        return conductor;
     }
 }

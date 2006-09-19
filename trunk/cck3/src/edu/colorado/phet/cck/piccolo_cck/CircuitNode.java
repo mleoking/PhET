@@ -101,7 +101,7 @@ public class CircuitNode extends PhetPNode {
             return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch );
         }
         else if( branch instanceof Bulb ) {
-            return new BulbNode( cckModel, (Bulb)branch );
+            return new BulbComponentNode( cckModel, (Bulb)branch );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );

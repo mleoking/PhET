@@ -1,6 +1,5 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
@@ -187,7 +186,7 @@ public class ToolboxNode extends PhetPNode {
     class BulbMaker extends BranchMaker {
         public BulbMaker() {
             super( "Light Bulb" );
-            ComponentNode child = new ComponentImageNode( model, createBulb(), CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
+            ComponentNode child = new BulbComponentNode( model, createBulb() );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
