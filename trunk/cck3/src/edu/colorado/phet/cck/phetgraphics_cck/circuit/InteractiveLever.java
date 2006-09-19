@@ -48,8 +48,7 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
                 //only allowed to move the handle.  This will make it easier to move the base when the switch is closed.
                 //let's assume this is the leftmost 30% of this lever
                 Shape sh = getHandleShape();
-                boolean cont = sh.contains( x, y );
-                return cont;
+                return sh.contains( x, y );
             }
         };
         setBoundary( mybounds );
