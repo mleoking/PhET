@@ -27,6 +27,8 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 
 DONE:
+(9/19/06) - bugfix: beam should be white when "white" light type is selected
+(9/19/06) - make beam straight, no fan-out
 (9/18/06) - show a zoomed-in view of a little section of the box of hydrogen
 (9/18/06) - delete BlackBox
 (9/18/06) - make gun shoots a beam, color is white or monochromatic color (for light), or gray (for alpha particle)

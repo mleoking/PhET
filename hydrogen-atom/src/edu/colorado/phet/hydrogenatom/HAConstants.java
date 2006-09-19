@@ -103,7 +103,7 @@ public class HAConstants {
     public static final Color ALPHA_PARTICLES_COLOR = UV_TRACK_COLOR;
     
     // Color of the animation area
-    public static final Color ANIMATION_AREA_COLOR = Color.DARK_GRAY;
+    public static final Color ANIMATION_AREA_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Borders

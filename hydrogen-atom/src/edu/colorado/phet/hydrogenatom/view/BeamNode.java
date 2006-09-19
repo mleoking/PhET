@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class BeamNode extends PhetPNode {
 
-    private static final double TAIL_TO_HEAD_RATIO = 0.5;
+    private static final double TAIL_TO_HEAD_RATIO = 1.0;
     
     private PPath _pathNode;
     private int _r, _g, _b;
