@@ -53,19 +53,23 @@ public class ToolboxNode extends PhetPNode {
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
-        double y = getYForNextItem();
+        double y = getYForNextItem( branchMaker );
         branchMaker.setOffset( toolboxBounds.getFullBounds().getWidth() / 2 - branchMaker.getFullBounds().getWidth() / 2, y );
         addChild( branchMaker );
         branchMakers.add( branchMaker );
     }
 
-    private double getYForNextItem() {
+    private double getYForNextItem( BranchMaker nextItem ) {
         if( branchMakers.size() == 0 ) {
             return TOP_INSET;
         }
         else {
-            BranchMaker maker = (BranchMaker)branchMakers.get( branchMakers.size() - 1 );
-            return maker.getFullBounds().getMaxY() + BETWEEN_INSET;
+            BranchMaker prev = (BranchMaker)branchMakers.get( branchMakers.size() - 1 );
+            double val = prev.getFullBounds().getMaxY() + BETWEEN_INSET;
+            if( nextItem.getFullBounds().getMinY() < 0 ) {
+                val -= nextItem.getFullBounds().getMinY();
+            }
+            return val;
         }
     }
 
