@@ -38,7 +38,7 @@ public class HAConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
-    public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
+    public static final boolean SHOW_ORIGIN_NODES = true; // set to true for debugging
     
     //----------------------------------------------------------------------------
     // Dimensions
@@ -53,6 +53,8 @@ public class HAConstants {
 
     public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
     public static final double BOX_OF_HYDROGEN_DEPTH = 10;
+    
+    public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
     
     //----------------------------------------------------------------------------
     // Localization

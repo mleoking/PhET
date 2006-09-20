@@ -42,7 +42,7 @@ public class GunNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( 32, 82 );
-    private static final Point2D CABLE_OFFSET = new Point2D.Double( 36, 82 );
+    private static final Point2D CABLE_OFFSET = new Point2D.Double( 40, 140 );
     
     //----------------------------------------------------------------------------
     // Instance data

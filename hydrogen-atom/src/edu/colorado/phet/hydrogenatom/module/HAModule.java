@@ -39,11 +39,10 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -68,7 +67,6 @@ public class HAModule extends PiccoloModule {
     // Box/beam/gun
     private PNode _boxBeamGunParent;
     private BoxOfHydrogenNode _boxOfHydrogenNode;
-    private AnimationRegionNode _tinyBoxNode;
     private BeamNode _beamNode;
     private GunNode _gunNode;
 
@@ -93,6 +91,7 @@ public class HAModule extends PiccoloModule {
     // Energy Diagrams
     private JCheckBox _energyDiagramCheckBox;
     private PSwing _energyDiagramCheckBoxNode;
+    private PhetPNode _energyDiagramParent;
     private BohrEnergyDiagram _bohrEnergyDiagram;
     private DeBroglieEnergyDiagram _deBroglieEnergyDiagram;
     private SchrodingerEnergyDiagram _schrodingerEnergyDiagram;
@@ -128,7 +127,6 @@ public class HAModule extends PiccoloModule {
             setSimulationPanel( _canvas );
 
             _canvas.addComponentListener( new ComponentAdapter() {
-
                 public void componentResized( ComponentEvent e ) {
                     // update the layout when the canvas is resized
                     updateCanvasLayout();
@@ -137,50 +135,52 @@ public class HAModule extends PiccoloModule {
         }
 
         // Root of our scene graph
-        {
-            _rootNode = new PNode();
-            _canvas.addWorldChild( _rootNode );
-        }
+        _rootNode = new PNode();
+        _canvas.addWorldChild( _rootNode );
 
         // Mode switch (experiment/prediction)
-        {
-            _modeSwitch = new ModeSwitch();
-            _rootNode.addChild( _modeSwitch );
-        }
+        _modeSwitch = new ModeSwitch();
 
         // Atomic Model selector
-        {
-            _atomicModelSelector = new AtomicModelSelector();
-            _rootNode.addChild( _atomicModelSelector );
-        }
+        _atomicModelSelector = new AtomicModelSelector();
 
         //  Box of Hydrogen / Beam / Gun
         {
             // Parent node, used for layout
             _boxBeamGunParent = new PNode();
-            _rootNode.addChild( _boxBeamGunParent );
 
-            _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE.width, HAConstants.BOX_OF_HYDROGEN_SIZE.height, HAConstants.BOX_OF_HYDROGEN_DEPTH );
-            _tinyBoxNode = new AnimationRegionNode( HAConstants.TINY_BOX_SIZE, HAConstants.ANIMATION_REGION_COLOR );
-            _beamNode = new BeamNode( .75 * HAConstants.BOX_OF_HYDROGEN_SIZE.width, 100 );
+            _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE, HAConstants.TINY_BOX_SIZE, HAConstants.ANIMATION_REGION_COLOR );
+            _beamNode = new BeamNode( HAConstants.BEAM_SIZE );
             _gunNode = new GunNode();
 
             // Layering order
             _boxBeamGunParent.addChild( _beamNode );
             _boxBeamGunParent.addChild( _boxOfHydrogenNode );
-            _boxBeamGunParent.addChild( _tinyBoxNode );
             _boxBeamGunParent.addChild( _gunNode );
+            
+            // Positioning
+            final double gunCenterOffset = 28;
+            final double boxWidth = _boxOfHydrogenNode.getFullBounds().getWidth();
+            final double gunWidth = _gunNode.getFullBounds().getWidth();
+            if ( boxWidth > gunWidth ) {
+                _boxOfHydrogenNode.setOffset( 0, 0 );
+                _beamNode.setOffset( ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfHydrogenNode.getFullBounds().getMaxY() );
+                _gunNode.setOffset( ( ( boxWidth - gunWidth ) / 2 ) + gunCenterOffset, _beamNode.getFullBounds().getMaxY() );
+            }
+            else {
+                _boxOfHydrogenNode.setOffset( ( ( gunWidth - boxWidth ) / 2 ) - gunCenterOffset, 0 );
+                _beamNode.setOffset( _boxOfHydrogenNode.getFullBounds().getX() + ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfHydrogenNode.getFullBounds().getMaxY() );
+                _gunNode.setOffset( 0, _beamNode.getFullBounds().getMaxY() );
+            }
         }
 
         // Animation region
         {
             // animation box
             _animationRegionNode = new AnimationRegionNode( HAConstants.ANIMATION_REGION_SIZE, HAConstants.ANIMATION_REGION_COLOR );
-            _rootNode.addChild( _animationRegionNode );
 
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();
-            _rootNode.addChild( _zoomIndicatorNode );
 
             // atoms
             _experimentAtomNode = new ExperimentAtomNode();
@@ -199,13 +199,35 @@ public class HAModule extends PiccoloModule {
             _animationRegionNode.addChild( _plumPuddingAtomNode );
             _animationRegionNode.addChild( _schrodingerAtomNode );
             _animationRegionNode.addChild( _solarSystemAtomNode );
+            
+            // positioning, centered in region
+            {
+                PBounds ab = _animationRegionNode.getFullBounds();
+                double x, y;
+                
+                x = ( ab.getWidth() - _experimentAtomNode.getFullBounds().getWidth() ) / 2;
+                y = ( ab.getHeight() - _experimentAtomNode.getFullBounds().getHeight() ) / 2;
+                _experimentAtomNode.setOffset( x, y );
+
+                x = ab.getWidth() / 2;
+                y = ab.getHeight() / 2;
+                _billiardBallAtomNode.setOffset( x, y );
+                _bohrAtomNode.setOffset( x, y );
+                _deBroglieAtomNode.setOffset( x, y );
+                _plumPuddingAtomNode.setOffset( x, y );
+                _schrodingerAtomNode.setOffset( x, y );
+                _solarSystemAtomNode.setOffset( x, y );
+            }
+            
+            //XXX sample photon and alpha particle
+            _samplePhotonNode = new PhotonNode();
+            _sampleAlphaParticleNode = new AlphaParticleNode();
+            _animationRegionNode.addChild( _samplePhotonNode );
+            _animationRegionNode.addChild( _sampleAlphaParticleNode );
         }
 
         // Gun control panel
-        {
-            _gunControlPanel = new GunControlPanel( _canvas );
-            _rootNode.addChild( _gunControlPanel );
-        }
+        _gunControlPanel = new GunControlPanel( _canvas );
 
         // Spectrometer
         {
@@ -215,12 +237,10 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _spectrometerCheckBox.setFont( HAConstants.CONTROL_FONT );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
-            _rootNode.addChild( _spectrometerCheckBoxNode );
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
             _spectrometerNode = new SpectrometerNode( _canvas, title, false /* isaSnapshot */);
-            _rootNode.addChild( _spectrometerNode );
 
             // List of snapshots
             _spectrometerSnapshots = new ArrayList();
@@ -234,18 +254,19 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _energyDiagramCheckBox.setFont( HAConstants.CONTROL_FONT );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
-            _rootNode.addChild( _energyDiagramCheckBoxNode );
 
             // diagrams
             _bohrEnergyDiagram = new BohrEnergyDiagram();
             _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram();
             _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram();
             _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram();
-
-            _rootNode.addChild( _bohrEnergyDiagram );
-            _rootNode.addChild( _deBroglieEnergyDiagram );
-            _rootNode.addChild( _schrodingerEnergyDiagram );
-            _rootNode.addChild( _solarSystemEnergyDiagram );
+            
+            // parent node for all diagrams
+            _energyDiagramParent = new PhetPNode();
+            _energyDiagramParent.addChild( _bohrEnergyDiagram );
+            _energyDiagramParent.addChild( _deBroglieEnergyDiagram );
+            _energyDiagramParent.addChild( _schrodingerEnergyDiagram );
+            _energyDiagramParent.addChild( _solarSystemEnergyDiagram );
         }
 
         // "Not to scale" label
@@ -255,17 +276,23 @@ public class HAModule extends PiccoloModule {
             _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
             _notToScaleLabel.setPickable( false );
             _notToScaleLabel.setChildrenPickable( false );
+        }
+
+        // Layering order on the canvas (back-to-front)
+        {
+            _rootNode.addChild( _modeSwitch );
+            _rootNode.addChild( _atomicModelSelector );
+            _rootNode.addChild( _boxBeamGunParent );
+            _rootNode.addChild( _animationRegionNode );
+            _rootNode.addChild( _zoomIndicatorNode );
+            _rootNode.addChild( _gunControlPanel );
+            _rootNode.addChild( _spectrometerCheckBoxNode );
+            _rootNode.addChild( _spectrometerNode );
+            _rootNode.addChild( _energyDiagramCheckBoxNode );
+            _rootNode.addChild( _energyDiagramParent );
             _rootNode.addChild( _notToScaleLabel );
         }
-
-        // XXX Sample nodes
-        {
-            _samplePhotonNode = new PhotonNode();
-            _sampleAlphaParticleNode = new AlphaParticleNode();
-            _animationRegionNode.addChild( _samplePhotonNode );
-            _animationRegionNode.addChild( _sampleAlphaParticleNode );
-        }
-
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -318,11 +345,6 @@ public class HAModule extends PiccoloModule {
 
     public void updateCanvasLayout() {
 
-        // Determine the visible bounds in world coordinates
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-
         // margins and spacing
         final double xMargin = 20;
         final double yMargin = 10;
@@ -349,116 +371,77 @@ public class HAModule extends PiccoloModule {
 
         // Box of Hydrogen / Beam / Gun
         {
+            // to the left of the atomic model selector, top aligned
             PBounds ab = _atomicModelSelector.getFullBounds();
-            x = ab.getX() + ab.getWidth() + xSpacing;//XXX
-            y = 350;//XXX
-            _gunNode.setOffset( x, y );
+            _boxBeamGunParent.setOffset( ab.getMaxX() + xSpacing, ab.getY() );
         }
-
-        // Animation box
+        
+        // Animation Region
         {
-            PBounds gb = _gunNode.getFullBounds();
+            // to the right of the box/beam/gun, below the "not to scale" label
+            PBounds bb = _boxBeamGunParent.getFullBounds();
             PBounds ntsb = _notToScaleLabel.getFullBounds();
-            x = gb.getX() + gb.getWidth() + xSpacing;
-            y = 10 + ntsb.getHeight() + 10;
+            x = bb.getMaxX() + xSpacing;
+            y = yMargin + ntsb.getHeight() + ySpacing;
             _animationRegionNode.setOffset( x, y );
         }
-
-        // Gun control panel
+        
+        // "Drawings are not to scale" note
         {
-            PBounds ab = _atomicModelSelector.getFullBounds();
-            PBounds bb = _animationRegionNode.getFullBounds();
-            x = ab.getX() + ab.getWidth() + xSpacing;
-            y = bb.getY() + bb.getHeight() + ySpacing;
-            _gunControlPanel.setOffset( x, y );
-        }
-
-        // Box of Hydrogen
-        {
-            PBounds gb = _gunNode.getFullBounds();
-            PBounds ab = _atomicModelSelector.getFullBounds();
-            PBounds bb = _boxOfHydrogenNode.getFullBounds();
-            x = ab.getX() + ab.getWidth() + ( bb.getWidth() / 2 ) + 35;//XXX
-            y = gb.getY() - 75; //XXX
-            _boxOfHydrogenNode.setOffset( x, y );
-
-            // Tiny box
-            y = y - ( ( HAConstants.BOX_OF_HYDROGEN_SIZE.height - HAConstants.TINY_BOX_SIZE.height ) / 2 );
-            _tinyBoxNode.setOffset( x, y );
-        }
-
-        // Zoom Indicator
-        {
-            PBounds tb = _tinyBoxNode.getFullBounds();
-            PBounds ab = _animationRegionNode.getFullBounds();
-            Point2D tp = new Point2D.Double( tb.getX(), tb.getY() );
-            Point2D ap = new Point2D.Double( ab.getX(), ab.getY() );
-            _zoomIndicatorNode.update( tp, HAConstants.TINY_BOX_SIZE, ap, HAConstants.ANIMATION_REGION_SIZE );
-        }
-
-        // Beam
-        {
-            _beamNode.setOffset( _boxOfHydrogenNode.getOffset() );
-        }
-
-        // "Drawings are not to scale" note, centered above black box.
-        {
+            // centered above animation region
             PBounds bb = _animationRegionNode.getFullBounds();
             x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
             y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
             _notToScaleLabel.setOffset( x, y );
         }
 
-        // Energy Diagram, to the right of the black box.
+        // Gun control panel
         {
-            PBounds bb = _animationRegionNode.getFullBounds();
-            x = bb.getX() + bb.getHeight() + 10;
+            // to the right of atomic model selector, below gun
+            x = _atomicModelSelector.getFullBounds().getMaxX() + xSpacing;
+            y = _boxBeamGunParent.getFullBounds().getMaxY(); // no vertical spacing!
+            _gunControlPanel.setOffset( x, y );
+        }
+        
+        // Adjust gun and gun control panel locations so they don't overlap animation region 
+        double overlap = ( _animationRegionNode.getFullBounds().getMaxY() + ySpacing ) - _gunControlPanel.getFullBounds().getY();
+        if ( overlap > 0 ) {
+            _boxBeamGunParent.setOffset( _boxBeamGunParent.getFullBounds().getX(), _boxBeamGunParent.getFullBounds().getY() + overlap );
+            _gunControlPanel.setOffset( _gunControlPanel.getFullBounds().getX(), _gunControlPanel.getFullBounds().getY() + overlap );
+        }
+
+        // Zoom Indicator
+        {
+            PBounds tb = _boxOfHydrogenNode.getTinyBoxGlobalBounds();
+            Point2D tp = _rootNode.globalToLocal( tb.getOrigin() );
+            PBounds ab = _animationRegionNode.getFullBounds();
+            _zoomIndicatorNode.update( tp, HAConstants.TINY_BOX_SIZE, ab.getOrigin(), HAConstants.ANIMATION_REGION_SIZE );
+        }
+
+        // Energy Diagram
+        {
+            // checkbox to the right of the black box, at top of canvas
+            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
             y = yMargin;
             _energyDiagramCheckBoxNode.setOffset( x, y );
 
-            // Diagram is below checkbox, left aligned.
-            PBounds b = _energyDiagramCheckBoxNode.getFullBounds();
-            x = b.getX();
-            y = b.getY() + b.getHeight() + 10;
-            _bohrEnergyDiagram.setOffset( x, y );
-            _deBroglieEnergyDiagram.setOffset( x, y );
-            _schrodingerEnergyDiagram.setOffset( x, y );
-            _solarSystemEnergyDiagram.setOffset( x, y );
+            // diagram below checkbox, left aligned.
+            x = _energyDiagramCheckBoxNode.getFullBounds().getX();
+            y = _energyDiagramCheckBoxNode.getFullBounds().getMaxY() + ySpacing;
+            _energyDiagramParent.setOffset( x, y );
         }
 
         // Spectrometer
         {
-            // Spectrometer in bottom right corner.
-            PBounds bb = _animationRegionNode.getFullBounds();
-            PBounds gb = _gunControlPanel.getFullBounds();
-            final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
-            x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometerNode.getFullBounds().getWidth() - xMargin );
-            y = bb.getY() + bb.getHeight() + ySpacing;
+            // spectrometer below animation region, to the right of gun control panel
+            x = _gunControlPanel.getFullBounds().getMaxX() + xSpacing;
+            y = _animationRegionNode.getFullBounds().getMaxY() + ySpacing;
             _spectrometerNode.setOffset( x, y );
 
-            // Checkbox above right of spectrometer
-            PBounds sb = _spectrometerNode.getFullBounds();
-            x = _energyDiagramCheckBoxNode.getFullBounds().getX();
-            y = sb.getY() - _spectrometerCheckBoxNode.getFullBounds().getHeight() - 15;
-            _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
-        }
-
-        // Animation nodes
-        {
-            PBounds ab = _animationRegionNode.getFullBounds();
-
-            x = ( ab.getWidth() - _experimentAtomNode.getFullBounds().getWidth() ) / 2;
-            y = ( ab.getHeight() - _experimentAtomNode.getFullBounds().getHeight() ) / 2;
-            _experimentAtomNode.setOffset( x, y );
-
-            x = ab.getWidth() / 2;
-            y = ab.getHeight() / 2;
-            _billiardBallAtomNode.setOffset( x, y );
-            _bohrAtomNode.setOffset( x, y );
-            _deBroglieAtomNode.setOffset( x, y );
-            _plumPuddingAtomNode.setOffset( x, y );
-            _schrodingerAtomNode.setOffset( x, y );
-            _solarSystemAtomNode.setOffset( x, y );
+            // checkbox at lower right of animation region
+            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
+            y = _animationRegionNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
+            _spectrometerCheckBoxNode.setOffset( x, y );
         }
 
         // Sample nodes
@@ -609,5 +592,15 @@ public class HAModule extends PiccoloModule {
             _rootNode.removeChild( spectrometer );
             _spectrometerSnapshots.remove( spectrometer );
         }
+    }
+    
+    /**
+     * Determines the visible bounds of the canvas in world coordinates.
+     */ 
+    public Dimension getWorldSize() {
+        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
+        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        return worldSize;
     }
 }
