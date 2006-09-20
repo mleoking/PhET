@@ -23,19 +23,21 @@ import java.awt.event.KeyEvent;
 
 public class CCKSimulationPanel extends PhetPCanvas {
     private CCKModel model;
+    private ICCKModule module;
     private ToolboxNode toolboxNode;
     private CircuitNode circuitNode;
     private MessageNode messageNode;
 
-    public CCKSimulationPanel( CCKModel model ) {
+    public CCKSimulationPanel( CCKModel model, ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
+        this.module = module;
         setBackground( ICCKModule.BACKGROUND_COLOR );
 
-        toolboxNode = new ToolboxNode( this, model );
+        toolboxNode = new ToolboxNode( this, model, module );
         addScreenChild( toolboxNode );
 
-        circuitNode = new CircuitNode( model, model.getCircuit(), this );
+        circuitNode = new CircuitNode( model, model.getCircuit(), this, module );
         addWorldChild( circuitNode );
 
         messageNode = new MessageNode();

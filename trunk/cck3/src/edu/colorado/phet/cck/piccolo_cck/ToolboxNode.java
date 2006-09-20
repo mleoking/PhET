@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
@@ -35,8 +36,10 @@ public class ToolboxNode extends PhetPNode {
     private static final int TOP_INSET = 50;
     private static final double BETWEEN_INSET = 20;
     private CircuitInteractionModel circuitInteractionModel;
+    private ICCKModule module;
 
-    public ToolboxNode( PhetPCanvas canvas, CCKModel model ) {
+    public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module ) {
+        this.module = module;
         this.canvas = canvas;
         this.model = model;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
@@ -160,7 +163,7 @@ public class ToolboxNode extends PhetPNode {
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ComponentNode child = new ResistorNode( model, createResistor(), canvas );
+            ComponentNode child = new ResistorNode( model, createResistor(), canvas, module );
             child.scale( 80 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }

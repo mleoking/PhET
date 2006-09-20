@@ -37,7 +37,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
-        cckSimulationPanel = new CCKSimulationPanel( model );
+        cckSimulationPanel = new CCKSimulationPanel( model, this );
         setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );
 
@@ -162,5 +162,16 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
 
     public Color getToolboxBackgroundColor() {
         return cckSimulationPanel.getToolboxBackgroundColor();
+    }
+
+    public CCKModel getCCKModel() {
+        return model;
+    }
+
+    public boolean isReadoutVisible( Branch branch ) {
+        return true;
+    }
+
+    public void setReadoutVisible( Branch branch, boolean selected ) {
     }
 }
