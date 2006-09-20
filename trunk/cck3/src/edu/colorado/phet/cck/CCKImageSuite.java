@@ -1,7 +1,6 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
@@ -43,7 +42,8 @@ public class CCKImageSuite {
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
         capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
-        acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );
+//        acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );//todo used in phetgraphics implementation
+        acImage = ImageLoader.loadBufferedImage( acImageLoc );
         inductorImage = ImageLoader.loadBufferedImage( inductorImageLoc );
 //        capacitorImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null,capacitorImage, 50);
     }
@@ -82,7 +82,7 @@ public class CCKImageSuite {
         return imageLoader;
     }
 
-    public BufferedImage getACImage() {
+    public BufferedImage getACVoltageSourceImage() {
         return acImage;
     }
 
