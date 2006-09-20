@@ -23,10 +23,10 @@ public class SolarSystemAtomNode extends AbstractAtomNode {
     public SolarSystemAtomNode() {
         super();
         
-        NeutronNode neutronNode = new NeutronNode();
+        ProtonNode protonNode = new ProtonNode();
         ElectronNode electronNode = new ElectronNode();
        
-        addChild( neutronNode );
+        addChild( protonNode );
         addChild( electronNode );
           
         OriginNode originNode = new OriginNode( Color.GREEN );
@@ -34,7 +34,7 @@ public class SolarSystemAtomNode extends AbstractAtomNode {
             addChild( originNode );
         }
 
-        neutronNode.setOffset( 0, 0 );
+        protonNode.setOffset( 0, 0 );
         electronNode.setOffset( 100, -100 );
     }
 }

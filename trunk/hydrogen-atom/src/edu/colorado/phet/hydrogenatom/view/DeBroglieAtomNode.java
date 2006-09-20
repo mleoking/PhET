@@ -30,7 +30,7 @@ public class DeBroglieAtomNode extends AbstractAtomNode {
     public DeBroglieAtomNode() {
         super();
         
-        NeutronNode neutronNode = new NeutronNode();
+        ProtonNode protonNode = new ProtonNode();
         PPath o1 = createOrbitNode( 1 * GROUND_ORBIT_RADIUS );
         PPath o2 = createExcitedNode( 4 * GROUND_ORBIT_RADIUS );
         PPath o3 = createOrbitNode( 9 * GROUND_ORBIT_RADIUS );
@@ -42,14 +42,14 @@ public class DeBroglieAtomNode extends AbstractAtomNode {
         addChild( o3 );
         addChild( o4 );
         addChild( o5 );
-        addChild( neutronNode );
+        addChild( protonNode );
         
         OriginNode originNode = new OriginNode( Color.GREEN );
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
             addChild( originNode );
         }
         
-        neutronNode.setOffset( 0, 0 );
+        protonNode.setOffset( 0, 0 );
     }
     
     private PPath createOrbitNode( double diameter ) {
