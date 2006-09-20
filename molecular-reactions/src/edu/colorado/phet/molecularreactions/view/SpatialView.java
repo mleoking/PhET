@@ -16,6 +16,8 @@ import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.BoxGraphic;
 import edu.colorado.phet.molecularreactions.view.CompositeMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.collision.Box2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -33,13 +35,20 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class SpatialView extends PNode {
-    Color background = new Color( 255, 255, 200 );
+    Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
     PNode moleculeLayer = new PNode();
     PNode bondLayer = new PNode();
     PNode boxLayer = new PNode();
 
-    public SpatialView( MRModel model, PSwingCanvas pSwingCanvas, Dimension size ) {
-        PPath canvas = new PPath( new Rectangle2D.Double( 0,0, size.getWidth(), size.getHeight()), new BasicStroke( 1 ));
+    /**
+     *
+     * @param module
+     * @param size
+     */
+    public SpatialView( MRModule module, Dimension size ) {
+        MRModel model = module.getMRModel();
+        PSwingCanvas pSwingCanvas = (PSwingCanvas)module.getSimulationPanel();
+        PPath canvas = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ), new BasicStroke( 1 ) );
         canvas.setPaint( background );
         addChild( canvas );
 
@@ -57,6 +66,29 @@ public class SpatialView extends PNode {
         megm.scanModel();
 
         // Molecule counters
+        createMoleculeCounters( canvas, pSwingCanvas, model );
+
+        // Temperature control
+        createTemperatureControl( model, pSwingCanvas );
+
+        // Pump
+        PumpGraphic pumpGraphic = new PumpGraphic( module );
+        pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
+                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
+        addChild( pumpGraphic );
+    }
+
+    private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
+        TemperatureControl tempCtrl = new TemperatureControl( model );
+        model.addModelElement( tempCtrl );
+        TemperatureControlGraphic tempCtrlGraphic = new TemperatureControlGraphic( pSwingCanvas, tempCtrl );
+        tempCtrlGraphic.setOffset( 200, 200 );
+        addChild( tempCtrlGraphic );
+        tempCtrlGraphic.setOffset( ( model.getBox().getMaxX() + model.getBox().getMinX() ) / 2,
+                                   model.getBox().getMaxY() + 30 );
+    }
+
+    private void createMoleculeCounters( PPath canvas, PSwingCanvas pSwingCanvas, MRModel model ) {
         int xSpacing = (int)canvas.getWidth() / 5;
         MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
         aCounter.setOffset( 1 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
@@ -74,15 +106,6 @@ public class SpatialView extends PNode {
         cCounter.setOffset( 4 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
                             canvas.getHeight() );
         addChild( cCounter );
-
-        // Temperature control
-        TemperatureControl tempCtrl = new TemperatureControl( model );
-        model.addModelElement( tempCtrl );
-        TemperatureControlGraphic tempCtrlGraphic = new TemperatureControlGraphic( pSwingCanvas, tempCtrl );
-        tempCtrlGraphic.setOffset( 200, 200 );
-        addChild( tempCtrlGraphic );
-        tempCtrlGraphic.setOffset( (model.getBox().getMaxX() + model.getBox().getMinX()) / 2,
-                                   model.getBox().getMaxY() + 30 );
     }
 
 
@@ -104,7 +127,7 @@ public class SpatialView extends PNode {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new SpatialSimpleMoleculeGraphic( (SimpleMolecule)modelElement ) ;
+            return new SpatialSimpleMoleculeGraphic( (SimpleMolecule)modelElement );
         }
     }
 
@@ -115,7 +138,7 @@ public class SpatialView extends PNode {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new BoxGraphic( (Box2D)modelElement ) ;
+            return new BoxGraphic( (Box2D)modelElement );
         }
     }
 
@@ -126,9 +149,9 @@ public class SpatialView extends PNode {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new ProvisionalBondGraphic( (ProvisionalBond)modelElement ) ;
+            return new ProvisionalBondGraphic( (ProvisionalBond)modelElement );
         }
     }
 
-    
+
 }

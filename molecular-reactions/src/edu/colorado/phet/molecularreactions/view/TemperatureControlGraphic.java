@@ -115,7 +115,8 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
                                           SimStrings.get( "Control.Heat_Control" ) );
         stovePanel.setBorder( border );
         stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
-        Color background = new Color( 240, 230, 255 );
+        Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
+//        Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
 

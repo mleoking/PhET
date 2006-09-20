@@ -1,0 +1,197 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+package edu.colorado.phet.molecularreactions.view;
+
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * PumpGraphic
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
+public class PumpGraphic extends PNode {
+    private PImage pumpBodyPI;
+    private PImage pumpHandlePI;
+    private int initHandleYLoc = -15;
+    private Point2D pumpBaseLocation;
+    private Class currentMoleculeType;
+    private MRModel model;
+
+    /**
+     *
+     */
+    public PumpGraphic( MRModule module ) {
+
+        model = module.getMRModel();
+
+        // Pump Handle
+        pumpHandlePI = PImageFactory.create( MRConfig.PUMP_HANDLE_IMAGE_FILE );
+        pumpHandlePI.setOffset( 48, initHandleYLoc );
+        addChild( pumpHandlePI );
+        pumpHandlePI.addInputEventListener( new PumpHandleMouseHandler() );
+
+        // The pump body and hose
+        pumpBodyPI = PImageFactory.create( MRConfig.PUMP_BODY_IMAGE_FILE );
+        addChild( pumpBodyPI );
+
+        // Molecule selector
+        PSwing moleculeSelector = new PSwing( (PSwingCanvas)module.getSimulationPanel(),
+                                              new MoleculeTypeSelector() );
+
+        moleculeSelector.setOffset( pumpBodyPI.getWidth() / 2, pumpBodyPI.getHeight() );
+        addChild( moleculeSelector );
+
+        pumpBaseLocation = new Point2D.Double( 0, pumpBodyPI.getHeight() );
+    }
+
+    public Point2D getPumpBaseLocation() {
+        return pumpBaseLocation;
+    }
+
+    private class PumpHandleMouseHandler extends PBasicInputEventHandler {
+        double yStart;
+        double dySinceLastMolecule;
+
+        public void mouseEntered( PInputEvent event ) {
+            PhetUtilities.getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+
+        public void mouseExited( PInputEvent event ) {
+            PhetUtilities.getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        }
+
+        public void mousePressed( PInputEvent event ) {
+            yStart = event.getPosition().getY();
+        }
+
+        /**
+         * Moves the pump handle graphic and adds molecules to the model
+         *
+         * @param event
+         */
+        public void mouseDragged( PInputEvent event ) {
+            double dy = event.getDelta().getHeight();
+            double yLoc = pumpHandlePI.getOffset().getY() + dy;
+            if( yLoc <= initHandleYLoc
+                && yLoc > initHandleYLoc - pumpHandlePI.getFullBounds().getHeight() / 2 ) {
+                pumpHandlePI.setOffset( pumpHandlePI.getOffset().getX(), yLoc );
+
+                // Add molecules to the model
+                if( dy > 0 ) {
+                    if( dySinceLastMolecule > 20 ) {
+                        Molecule newMolecule = createMolecule();
+                        model.addModelElement( newMolecule );
+                        // If the molecule create is a composite, add its components
+                        if( newMolecule instanceof CompositeMolecule ) {
+                            CompositeMolecule cm = (CompositeMolecule)newMolecule;
+                            SimpleMolecule[] aSm = cm.getComponentMolecules();
+                            for( int i = 0; i < aSm.length; i++ ) {
+                                model.addModelElement( aSm[i] );
+                            }
+                        }
+                        dySinceLastMolecule = 0;
+                    }
+                    else {
+                        dySinceLastMolecule += dy;
+                        System.out.println( "dySinceLastMolecule = " + dySinceLastMolecule );
+
+                    }
+                }
+            }
+        }
+
+        private Molecule createMolecule() {
+            double x = model.getBox().getMaxX() - 20;
+            double y = model.getBox().getMaxY() - 100;
+            Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
+            Molecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
+                                                                   new RandomMoleculeParamGenerator( creationBounds,
+                                                                                                     3 ) );
+            return newMolecule;
+        }
+    }
+
+    private class MoleculeTypeSelector extends JPanel {
+        private JRadioButton aRB;
+        private JRadioButton cRB;
+        private JRadioButton abRB;
+        private JRadioButton bcRB;
+
+        public MoleculeTypeSelector() {
+
+            setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
+
+            ButtonGroup bg = new ButtonGroup();
+            aRB = new JRadioButton( "A" );
+            cRB = new JRadioButton( "C" );
+            abRB = new JRadioButton( "AB" );
+            bcRB = new JRadioButton( "BC" );
+            bg.add( aRB );
+            bg.add( cRB );
+            bg.add( abRB );
+            bg.add( bcRB );
+
+            aRB.addActionListener( new MoleculeSelectorRBAction() );
+            cRB.addActionListener( new MoleculeSelectorRBAction() );
+            abRB.addActionListener( new MoleculeSelectorRBAction() );
+            bcRB.addActionListener( new MoleculeSelectorRBAction() );
+
+            aRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
+            cRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
+            abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
+            bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
+
+            setLayout( new GridLayout( 4, 1 ) );
+            add( aRB );
+            add( cRB );
+            add( abRB );
+            add( bcRB );
+
+            aRB.setSelected( true );
+            currentMoleculeType = MoleculeA.class;
+        }
+
+        private class MoleculeSelectorRBAction extends AbstractAction {
+
+            public void actionPerformed( ActionEvent e ) {
+                if( aRB.isSelected() ) {
+                    currentMoleculeType = MoleculeA.class;
+                }
+                if( cRB.isSelected() ) {
+                    currentMoleculeType = MoleculeC.class;
+                }
+                if( abRB.isSelected() ) {
+                    currentMoleculeType = MoleculeAB.class;
+                }
+                if( bcRB.isSelected() ) {
+                    currentMoleculeType = MoleculeBC.class;
+                }
+            }
+        }
+    }
+}
