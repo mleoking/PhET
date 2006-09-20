@@ -28,6 +28,7 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 
 DONE:
+***** CVS tag hydrogenatom-sandbox-2006-09-20
 (9/20/06) - bugfix: couldn't drag spectrometer snapshots (pickable was set to false)
 (9/20/06) - make all font sizes configurable via SimStrings file
 (9/20/06) - configure animation region size in SimStrings file
