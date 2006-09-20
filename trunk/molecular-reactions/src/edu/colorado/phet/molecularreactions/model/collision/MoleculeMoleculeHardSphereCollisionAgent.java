@@ -166,7 +166,6 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         if( model.getReaction().areCriteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
-            Bond bond = null;
 
             if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
                 simpleMolecule = (SimpleMolecule)bodyA;

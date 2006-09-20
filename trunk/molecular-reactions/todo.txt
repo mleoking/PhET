@@ -19,7 +19,8 @@ Collision Issues
 Bugs
 ====
 - Provisional bonds show up between bound molecules that they shouldn't
-Spring collision
+- Hard collision in reaction isn't conservative
+- Spring collision
     - Force must be infinite on contact
     - Collisions aren't conservative
     - Angular velocity shouldn't acrue in simple test. Should there be a floor on r?
