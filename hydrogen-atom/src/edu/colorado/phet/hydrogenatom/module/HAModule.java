@@ -36,7 +36,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
-import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -67,8 +67,8 @@ public class HAModule extends PiccoloModule {
 
     // Box/beam/gun
     private PNode _boxBeamGunParent;
-    private BoxOfHydrogen _boxOfHydrogen;
-    private AnimationRegionNode _tinyBox;
+    private BoxOfHydrogenNode _boxOfHydrogenNode;
+    private AnimationRegionNode _tinyBoxNode;
     private BeamNode _beamNode;
     private GunNode _gunNode;
 
@@ -86,7 +86,7 @@ public class HAModule extends PiccoloModule {
     // Spectrometer
     private JCheckBox _spectrometerCheckBox;
     private PSwing _spectrometerCheckBoxNode;
-    private Spectrometer _spectrometer;
+    private SpectrometerNode _spectrometerNode;
     private ArrayList _spectrometerSnapshots; // list of Spectrometer
     private int _spectrumSnapshotCounter; // incremented each time a spectrometer snapshot is taken
 
@@ -160,15 +160,15 @@ public class HAModule extends PiccoloModule {
             _boxBeamGunParent = new PNode();
             _rootNode.addChild( _boxBeamGunParent );
 
-            _boxOfHydrogen = new BoxOfHydrogen( HAConstants.BOX_OF_HYDROGEN_SIZE.width, HAConstants.BOX_OF_HYDROGEN_SIZE.height, HAConstants.BOX_OF_HYDROGEN_DEPTH );
-            _tinyBox = new AnimationRegionNode( HAConstants.TINY_BOX_SIZE, HAConstants.ANIMATION_REGION_COLOR );
+            _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE.width, HAConstants.BOX_OF_HYDROGEN_SIZE.height, HAConstants.BOX_OF_HYDROGEN_DEPTH );
+            _tinyBoxNode = new AnimationRegionNode( HAConstants.TINY_BOX_SIZE, HAConstants.ANIMATION_REGION_COLOR );
             _beamNode = new BeamNode( .75 * HAConstants.BOX_OF_HYDROGEN_SIZE.width, 100 );
             _gunNode = new GunNode();
 
             // Layering order
             _boxBeamGunParent.addChild( _beamNode );
-            _boxBeamGunParent.addChild( _boxOfHydrogen );
-            _boxBeamGunParent.addChild( _tinyBox );
+            _boxBeamGunParent.addChild( _boxOfHydrogenNode );
+            _boxBeamGunParent.addChild( _tinyBoxNode );
             _boxBeamGunParent.addChild( _gunNode );
         }
 
@@ -219,8 +219,8 @@ public class HAModule extends PiccoloModule {
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometer = new Spectrometer( _canvas, title, false /* isaSnapshot */);
-            _rootNode.addChild( _spectrometer );
+            _spectrometerNode = new SpectrometerNode( _canvas, title, false /* isaSnapshot */);
+            _rootNode.addChild( _spectrometerNode );
 
             // List of snapshots
             _spectrometerSnapshots = new ArrayList();
@@ -276,7 +276,7 @@ public class HAModule extends PiccoloModule {
 
         _controller = new HAController( this, _modeSwitch, _atomicModelSelector, 
                 _gunNode, _gunControlPanel, _energyDiagramCheckBox, 
-                _spectrometer, _spectrometerCheckBox );
+                _spectrometerNode, _spectrometerCheckBox );
 
         //----------------------------------------------------------------------------
         // Help
@@ -377,19 +377,19 @@ public class HAModule extends PiccoloModule {
         {
             PBounds gb = _gunNode.getFullBounds();
             PBounds ab = _atomicModelSelector.getFullBounds();
-            PBounds bb = _boxOfHydrogen.getFullBounds();
+            PBounds bb = _boxOfHydrogenNode.getFullBounds();
             x = ab.getX() + ab.getWidth() + ( bb.getWidth() / 2 ) + 35;//XXX
             y = gb.getY() - 75; //XXX
-            _boxOfHydrogen.setOffset( x, y );
+            _boxOfHydrogenNode.setOffset( x, y );
 
             // Tiny box
             y = y - ( ( HAConstants.BOX_OF_HYDROGEN_SIZE.height - HAConstants.TINY_BOX_SIZE.height ) / 2 );
-            _tinyBox.setOffset( x, y );
+            _tinyBoxNode.setOffset( x, y );
         }
 
         // Zoom Indicator
         {
-            PBounds tb = _tinyBox.getFullBounds();
+            PBounds tb = _tinyBoxNode.getFullBounds();
             PBounds ab = _animationRegionNode.getFullBounds();
             Point2D tp = new Point2D.Double( tb.getX(), tb.getY() );
             Point2D ap = new Point2D.Double( ab.getX(), ab.getY() );
@@ -398,7 +398,7 @@ public class HAModule extends PiccoloModule {
 
         // Beam
         {
-            _beamNode.setOffset( _boxOfHydrogen.getOffset() );
+            _beamNode.setOffset( _boxOfHydrogenNode.getOffset() );
         }
 
         // "Drawings are not to scale" note, centered above black box.
@@ -432,12 +432,12 @@ public class HAModule extends PiccoloModule {
             PBounds bb = _animationRegionNode.getFullBounds();
             PBounds gb = _gunControlPanel.getFullBounds();
             final double gunRightEdge = gb.getX() + gb.getWidth() + xSpacing;
-            x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometer.getFullBounds().getWidth() - xMargin );
+            x = Math.max( gunRightEdge, worldSize.getWidth() - _spectrometerNode.getFullBounds().getWidth() - xMargin );
             y = bb.getY() + bb.getHeight() + ySpacing;
-            _spectrometer.setOffset( x, y );
+            _spectrometerNode.setOffset( x, y );
 
             // Checkbox above right of spectrometer
-            PBounds sb = _spectrometer.getFullBounds();
+            PBounds sb = _spectrometerNode.getFullBounds();
             x = _energyDiagramCheckBoxNode.getFullBounds().getX();
             y = sb.getY() - _spectrometerCheckBoxNode.getFullBounds().getHeight() - 15;
             _spectrometerCheckBoxNode.setOffset( x + 10, y + 5 );
@@ -568,10 +568,10 @@ public class HAModule extends PiccoloModule {
 
     public void updateSpectrometer() {
         final boolean visible = _spectrometerCheckBox.isSelected();
-        _spectrometer.setVisible( visible );
+        _spectrometerNode.setVisible( visible );
         Iterator i = _spectrometerSnapshots.iterator();
         while ( i.hasNext() ) {
-            Spectrometer spectrometer = (Spectrometer) i.next();
+            SpectrometerNode spectrometer = (SpectrometerNode) i.next();
             spectrometer.setVisible( visible );
         }
     }
@@ -589,20 +589,20 @@ public class HAModule extends PiccoloModule {
             title += SimStrings.get( "title.spectrometer.experiment" );
         }
 
-        final Spectrometer spectrometer = new Spectrometer( _canvas, title, true /* isaSnapshot */);
+        final SpectrometerNode spectrometer = new SpectrometerNode( _canvas, title, true /* isaSnapshot */);
 
         _rootNode.addChild( spectrometer );
         _controller.addSpectrometerListener( spectrometer );
         _spectrometerSnapshots.add( spectrometer );
 
-        PBounds sb = _spectrometer.getFullBounds();
+        PBounds sb = _spectrometerNode.getFullBounds();
         double x = sb.getX();
         double y = sb.getY() - spectrometer.getFullBounds().getHeight() - ( 10 * _spectrometerSnapshots.size() );
         spectrometer.setOffset( x, y );
     }
 
-    public void deleteSpectrometerSnapshot( Spectrometer spectrometer ) {
-        if ( spectrometer == _spectrometer ) {
+    public void deleteSpectrometerSnapshot( SpectrometerNode spectrometer ) {
+        if ( spectrometer == _spectrometerNode ) {
             _spectrometerCheckBox.setSelected( false );
         }
         else {

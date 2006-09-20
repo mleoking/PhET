@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 
-public class BoxOfHydrogen extends PhetPNode {
+public class BoxOfHydrogenNode extends PhetPNode {
 
     private static final Paint BOX_FRONT_PAINT = Color.GRAY;
 
@@ -38,7 +38,7 @@ public class BoxOfHydrogen extends PhetPNode {
     
     private static final Font LABEL_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
     
-    public BoxOfHydrogen( double width, double height, double depth  ) {
+    public BoxOfHydrogenNode( double width, double height, double depth  ) {
         super();
         
         setPickable( false );

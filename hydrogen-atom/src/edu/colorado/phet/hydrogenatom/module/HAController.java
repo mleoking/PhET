@@ -21,7 +21,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
 import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
-import edu.colorado.phet.hydrogenatom.spectrometer.Spectrometer;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener.SpectrometerAdapter;
 import edu.colorado.phet.hydrogenatom.view.GunNode;
@@ -35,7 +35,7 @@ public class HAController {
     private GunNode _gunNode;
     private GunControlPanel _gunControlPanel;
     private JCheckBox _energyDiagramCheckBox;
-    private Spectrometer _spectrometer;
+    private SpectrometerNode _spectrometer;
     private JCheckBox _spectrometerCheckBox;
     private SpectrometerListener _spectrometerListener;
     
@@ -46,7 +46,7 @@ public class HAController {
             GunNode gunNode,
             GunControlPanel gunControlPanel,
             JCheckBox energyDiagramCheckBox,
-            Spectrometer spectrometer,
+            SpectrometerNode spectrometer,
             JCheckBox spectrometerCheckBox )
     {
         _module = module;
@@ -125,7 +125,7 @@ public class HAController {
         
         _spectrometerListener = new SpectrometerAdapter() {
             public void close( SpectrometerEvent event ) {
-                handleSpectrometerClose( (Spectrometer)event.getSource() );
+                handleSpectrometerClose( (SpectrometerNode)event.getSource() );
             }
             public void snapshot( SpectrometerEvent event ) {
                 handleSpectrometerSnapshot();
@@ -144,11 +144,11 @@ public class HAController {
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void addSpectrometerListener( Spectrometer spectrometer ) {
+    public void addSpectrometerListener( SpectrometerNode spectrometer ) {
         spectrometer.addSpectrometerListener( _spectrometerListener );
     }
     
-    public void removeSpectrometerListener( Spectrometer spectrometer ) {
+    public void removeSpectrometerListener( SpectrometerNode spectrometer ) {
         spectrometer.removeSpectrometerListener( _spectrometerListener );
     }
     
@@ -207,7 +207,7 @@ public class HAController {
         _module.createSpectrometerSnapshot();
     }
     
-    private void handleSpectrometerClose( Spectrometer spectrometer ) {
+    private void handleSpectrometerClose( SpectrometerNode spectrometer ) {
         if ( spectrometer != _spectrometer ) {
             removeSpectrometerListener( spectrometer );
         }
