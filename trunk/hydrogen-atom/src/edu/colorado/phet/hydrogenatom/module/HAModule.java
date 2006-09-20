@@ -246,7 +246,8 @@ public class HAModule extends PiccoloModule {
         {
             // Checkbox
             _spectrometerCheckBox = new JCheckBox( SimStrings.get( "label.showSpectrometer" ) );
-            _spectrometerCheckBox.setOpaque( false );
+//            _spectrometerCheckBox.setOpaque( false ); //XXX preferrable to setting background, but looks lousy on Windows
+            _spectrometerCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _spectrometerCheckBox.setFont( jComponentFont );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
@@ -263,7 +264,8 @@ public class HAModule extends PiccoloModule {
         {
             // checkbox
             _energyDiagramCheckBox = new JCheckBox( SimStrings.get( "label.showEnergyDiagram" ) );
-            _energyDiagramCheckBox.setOpaque( false );
+//            _energyDiagramCheckBox.setOpaque( false );//XXX preferrable to setting background, but looks lousy on Windows
+            _energyDiagramCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _energyDiagramCheckBox.setFont( jComponentFont );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
