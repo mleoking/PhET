@@ -52,7 +52,7 @@ public class CapacitorNode extends ComponentNode {
         addChild( rightPlate );
         addChild( leftPlate );
         addChild( leftWire );
-
+        getHighlightNode().setStroke( new BasicStroke( 0.09f ) );
         update();
     }
 
@@ -77,6 +77,7 @@ public class CapacitorNode extends ComponentNode {
         rightPlate.setPlateShape( capacitor3DShapeSet.getPlate2Shape() );
         leftWire.setWireStubShape( capacitor3DShapeSet.getPlate1Wire() );
         rightWire.setWireStubShape( capacitor3DShapeSet.getPlate2Wire() );
+        getHighlightNode().setPathTo( capacitor3DShapeSet.getPlateArea() );
     }
 
     class PlateNode extends PhetPNode {

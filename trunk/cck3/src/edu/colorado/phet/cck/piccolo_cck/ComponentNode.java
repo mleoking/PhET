@@ -56,6 +56,7 @@ public class ComponentNode extends BranchNode {
     }
 
     protected void update() {
+        highlightNode.setVisible( circuitComponent.isSelected() );
     }
 
     public Branch getBranch() {
@@ -64,5 +65,9 @@ public class ComponentNode extends BranchNode {
 
     public PPath getHighlightNode() {
         return highlightNode;
+    }
+
+    public CircuitComponent getCircuitComponent() {
+        return circuitComponent;
     }
 }

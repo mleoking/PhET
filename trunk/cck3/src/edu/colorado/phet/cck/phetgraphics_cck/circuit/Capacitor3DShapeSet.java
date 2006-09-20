@@ -155,4 +155,10 @@ public class Capacitor3DShapeSet {
         return length;
     }
 
+    public Area getPlateArea() {
+        Area a = new Area();
+        a.add( new Area( getPlate1Shape() ) );
+        a.add( new Area( getPlate2Shape() ) );
+        return a;
+    }
 }
