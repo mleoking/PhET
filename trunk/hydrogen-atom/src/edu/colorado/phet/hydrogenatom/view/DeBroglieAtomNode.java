@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class DeBroglieAtomNode extends AbstractAtomNode {
     
+    private static final double GROUND_ORBIT_RADIUS = 20;
     private static final Color ORBIT_COLOR = Color.WHITE;
     private static final Stroke ORBIT_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
@@ -30,11 +31,11 @@ public class DeBroglieAtomNode extends AbstractAtomNode {
         super();
         
         NeutronNode neutronNode = new NeutronNode();
-        PPath o1 = createOrbitNode( 100 );
-        PPath o2 = createExcitedNode( 200 );
-        PPath o3 = createOrbitNode( 300 );
-        PPath o4 = createOrbitNode( 400 );
-        PPath o5 = createOrbitNode( 500 );
+        PPath o1 = createOrbitNode( 1 * GROUND_ORBIT_RADIUS );
+        PPath o2 = createExcitedNode( 4 * GROUND_ORBIT_RADIUS );
+        PPath o3 = createOrbitNode( 9 * GROUND_ORBIT_RADIUS );
+        PPath o4 = createOrbitNode( 16 * GROUND_ORBIT_RADIUS );
+        PPath o5 = createOrbitNode( 25 * GROUND_ORBIT_RADIUS );
        
         addChild( o1 );
         addChild( o2 );
