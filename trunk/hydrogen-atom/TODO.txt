@@ -14,7 +14,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
-- show compresses UV and IR range in spectrometer (like in Discharge Lamps)
+- show compressed UV and IR range in spectrometer (like in Discharge Lamps)
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - canvas layout
 - get model details from Sam McKagan & Mike Dubson
