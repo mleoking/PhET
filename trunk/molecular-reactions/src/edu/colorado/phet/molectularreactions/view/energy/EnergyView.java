@@ -168,7 +168,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 80;
-            double yOffset = 20;
+            double yOffset = 35;
             double xOffset = 20;
 
             double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, edgeDist );
