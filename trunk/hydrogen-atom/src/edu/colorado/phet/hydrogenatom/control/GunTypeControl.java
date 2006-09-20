@@ -99,7 +99,7 @@ public class GunTypeControl extends PhetPNode {
         panel.setBackground( Color.DARK_GRAY );
         panel.setBorder( new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 0, 0, 0, 5 ) ); // top,left,bottom,right
+        layout.setInsets( new Insets( 0, 0, 0, 20 ) ); // top,left,bottom,right
         panel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
