@@ -64,6 +64,9 @@ public class MRControlPanel extends JPanel {
             }
         } );
 
+        // Legend
+        Legend legend = new Legend();
+
         // Button to pause and select a molecule
         JButton selectMoleculeBtn = new JButton( "<html><center>Select molecule<br>to track");
         selectMoleculeBtn.addActionListener( new SelectMoleculeAction( module.getClock(), model ) );
@@ -74,6 +77,8 @@ public class MRControlPanel extends JPanel {
 
 
 //        add( thresholdEnergySlider, gbc );
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add( legend, gbc );
         add( selectMoleculeBtn, gbc );
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
         add( moleculeInstanceControlPanel, gbc );
