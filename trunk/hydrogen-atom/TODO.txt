@@ -28,6 +28,7 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 
 DONE:
+(9/20/06) - configure animation region size in SimStrings file
 (9/20/06) - major work on canvas layout code
 (9/20/06) - move some constants out of module and into HAConstants
 (9/20/06) - cleanup module code

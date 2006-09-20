@@ -48,7 +48,7 @@ public class HAConstants {
 
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
 
-    public static final Dimension ANIMATION_REGION_SIZE = new Dimension( 475, 475 );
+    public static final Dimension DEFAULT_ANIMATION_REGION_SIZE = new Dimension( 475, 475 );
     public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
 
     public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );

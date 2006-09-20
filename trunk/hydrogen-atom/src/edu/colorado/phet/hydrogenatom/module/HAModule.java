@@ -176,8 +176,23 @@ public class HAModule extends PiccoloModule {
 
         // Animation region
         {
+            // Load the region dimensions from the localization file
+            Dimension size = null;
+            try {
+                String sWidth = SimStrings.get( "animationRegion.width" );
+                String sHeight = SimStrings.get( "animationRegion.height" );
+                int width = Integer.parseInt( sWidth );
+                int height = Integer.parseInt( sHeight );
+                size = new Dimension( width, height );
+            }
+            catch ( Exception e ) {
+                size = HAConstants.DEFAULT_ANIMATION_REGION_SIZE;
+                System.out.println( "Using default dimensions for animation region: " + size );
+                e.printStackTrace();
+            }
+            
             // animation box
-            _animationRegionNode = new AnimationRegionNode( HAConstants.ANIMATION_REGION_SIZE, HAConstants.ANIMATION_REGION_COLOR );
+            _animationRegionNode = new AnimationRegionNode( size, HAConstants.ANIMATION_REGION_COLOR );
 
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();
@@ -414,8 +429,9 @@ public class HAModule extends PiccoloModule {
         {
             PBounds tb = _boxOfHydrogenNode.getTinyBoxGlobalBounds();
             Point2D tp = _rootNode.globalToLocal( tb.getOrigin() );
+            Dimension2D td = _rootNode.globalToLocal( tb.getSize() );
             PBounds ab = _animationRegionNode.getFullBounds();
-            _zoomIndicatorNode.update( tp, HAConstants.TINY_BOX_SIZE, ab.getOrigin(), HAConstants.ANIMATION_REGION_SIZE );
+            _zoomIndicatorNode.update( tp, td, ab.getOrigin(), ab.getSize() );
         }
 
         // Energy Diagram
