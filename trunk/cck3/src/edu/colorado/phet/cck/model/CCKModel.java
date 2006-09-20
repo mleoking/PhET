@@ -217,8 +217,9 @@ public class CCKModel {
             Junction j = newJunctions[i];
             branches.addAll( Arrays.asList( circuit.getAdjacentBranches( j ) ) );
         }
-        Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
-        layoutElectrons( bo );
+//        Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
+//        layoutElectrons( bo );
+        layoutElectrons( getCircuit().getBranches() );//todo should we relayout all electrons, or just adjacent
         return newJunctions;
     }
 }

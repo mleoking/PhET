@@ -7,3 +7,13 @@
 make sure both junctions can't stick to same destination junction.
 
 do junctions need to be always in front?  are they?
+
+component menus
+component dimensions
+improve component constructor interface
+
+grab bag items
+
+schematic?
+
+remove extra "phet" logos from right hand side

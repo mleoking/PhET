@@ -160,7 +160,7 @@ public class ToolboxNode extends PhetPNode {
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ComponentNode child = new ComponentImageNode.ResistorNode( model, createResistor() );
+            ComponentNode child = new ResistorNode( model, createResistor() );
             child.scale( 80 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
