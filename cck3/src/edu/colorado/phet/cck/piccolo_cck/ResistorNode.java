@@ -17,8 +17,8 @@ import java.awt.*;
 public class ResistorNode extends ComponentImageNode {
     private Resistor resistor;
 
-    public ResistorNode( CCKModel model, Resistor resistor ) {
-        super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
+    public ResistorNode( CCKModel model, Resistor resistor, Component component ) {
+        super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage(), component );
         this.resistor = resistor;
         addChild( new ColorBandsGraphic( this, resistor ) );
     }

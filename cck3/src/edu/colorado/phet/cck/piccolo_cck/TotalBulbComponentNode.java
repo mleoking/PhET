@@ -4,6 +4,8 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Sep 19, 2006
@@ -16,12 +18,12 @@ public class TotalBulbComponentNode extends BranchNode {
     private FilamentNode filamentNode;
     private BulbComponentNode bulbComponentNode;
 
-    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb ) {
+    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, Component component ) {
+        this.bulb = bulb;
         filamentNode = new FilamentNode( bulb.getFilament() );
-        bulbComponentNode = new BulbComponentNode( cckModel, bulb );
+        bulbComponentNode = new BulbComponentNode( cckModel, bulb, component );
         addChild( bulbComponentNode );
         addChild( filamentNode );
-        this.bulb = bulb;
     }
 
     public Branch getBranch() {

@@ -8,6 +8,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -22,8 +23,8 @@ import java.awt.image.BufferedImage;
 public class ComponentImageNode extends ComponentNode {
     private PImage pImage;
 
-    public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image ) {
-        super( model, circuitComponent );
+    public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image, Component component ) {
+        super( model, circuitComponent, component );
         pImage = new PImage( image );
         addChild( pImage );
         update();
@@ -53,8 +54,8 @@ public class ComponentImageNode extends ComponentNode {
     public static class BatteryNode extends ComponentImageNode {
         private Battery battery;
 
-        public BatteryNode( CCKModel model, Battery battery ) {
-            super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage() );
+        public BatteryNode( CCKModel model, Battery battery, Component component ) {
+            super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component );
             this.battery = battery;
         }
     }

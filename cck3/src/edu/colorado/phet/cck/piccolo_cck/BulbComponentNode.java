@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -24,8 +25,8 @@ public class BulbComponentNode extends ComponentNode {
     private BulbNode bulbNode;
     private Bulb bulb;
 
-    public BulbComponentNode( CCKModel model, Bulb bulb ) {
-        super( model, bulb );
+    public BulbComponentNode( CCKModel model, Bulb bulb, Component component ) {
+        super( model, bulb, component );
         this.bulb = bulb;
         bulbNode = new BulbNode( bulb );
         addChild( bulbNode );
@@ -118,7 +119,7 @@ public class BulbComponentNode extends ComponentNode {
 //        transform.rotate( angle, srcpt.getX(), srcpt.getY() );
 //        transform.translate( srcpt.getX(), srcpt.getY() );
 //        transform.scale( sxSlider.getValue(), sySlider.getValue() );
-//        transform.translate( dxSlider.getValue(), dySlider.getValue() );//todo magic numbers
+//        transform.translate( dxSlider.getValue(), dySlider.getValue() );//todo magic numbers       
 
         double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() + 0.3 + theta;
         transform.rotate( angle, srcpt.getX(), srcpt.getY() );
@@ -126,13 +127,11 @@ public class BulbComponentNode extends ComponentNode {
         transform.scale( 0.74, 0.79 );
         transform.translate( -1.0, -2.3 );//todo magic numbers
 
-
         return transform;
     }
 
     protected void update() {
         super.update();
-//        bulbNode.update();
         setTransform( createTransform() );
     }
 }
