@@ -160,7 +160,7 @@ public class ToolboxNode extends PhetPNode {
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
             super( "Resistor" );
-            ComponentNode child = new ResistorNode( model, createResistor() );
+            ComponentNode child = new ResistorNode( model, createResistor(), canvas );
             child.scale( 80 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -179,7 +179,7 @@ public class ToolboxNode extends PhetPNode {
     class BatteryMaker extends BranchMaker {
         public BatteryMaker() {
             super( "Battery" );
-            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery() );
+            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery(), canvas );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -217,7 +217,7 @@ public class ToolboxNode extends PhetPNode {
     class SwitchMaker extends BranchMaker {
         public SwitchMaker() {
             super( "Switch" );
-            SwitchNode child = new SwitchNode( model, createSwitch() );
+            SwitchNode child = new SwitchNode( model, createSwitch(), canvas );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -234,7 +234,7 @@ public class ToolboxNode extends PhetPNode {
     class ACVoltageMaker extends BranchMaker {
         public ACVoltageMaker() {
             super( "AC Voltage" );
-            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch() );
+            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch(), canvas );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -251,7 +251,7 @@ public class ToolboxNode extends PhetPNode {
     class CapacitorMaker extends BranchMaker {
         public CapacitorMaker() {
             super( "Capacitor" );
-            CapacitorNode child = new CapacitorNode( model, createCapacitor() );
+            CapacitorNode child = new CapacitorNode( model, createCapacitor(), canvas );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -268,7 +268,7 @@ public class ToolboxNode extends PhetPNode {
     class InductorMaker extends BranchMaker {
         public InductorMaker() {
             super( "Inductor" );
-            InductorNode child = new InductorNode( model, createInductor() );
+            InductorNode child = new InductorNode( model, createInductor(), canvas );
             child.scale( 30 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }

@@ -4,6 +4,8 @@ import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Sep 20, 2006
@@ -12,7 +14,7 @@ import edu.colorado.phet.cck.model.components.ACVoltageSource;
  */
 
 public class ACVoltageSourceNode extends ComponentImageNode {
-    public ACVoltageSourceNode( CCKModel model, ACVoltageSource acVoltageSource ) {
-        super( model, acVoltageSource, CCKImageSuite.getInstance().getACVoltageSourceImage() );
+    public ACVoltageSourceNode( CCKModel model, ACVoltageSource acVoltageSource, Component component ) {
+        super( model, acVoltageSource, CCKImageSuite.getInstance().getACVoltageSourceImage(), component );
     }
 }

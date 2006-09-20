@@ -98,25 +98,25 @@ public class CircuitNode extends PhetPNode {
             return new WireNode( cckModel, (Wire)branch, component );
         }
         else if( branch instanceof Resistor ) {
-            return new ResistorNode( cckModel, (Resistor)branch );
+            return new ResistorNode( cckModel, (Resistor)branch, component );
         }
         else if( branch instanceof ACVoltageSource ) {
-            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch );
+            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component );
         }
         else if( branch instanceof Battery ) {
-            return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch );
+            return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch, component );
         }
         else if( branch instanceof Bulb ) {
-            return new TotalBulbComponentNode( cckModel, (Bulb)branch );
+            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component );
         }
         else if( branch instanceof Switch ) {
-            return new SwitchNode( cckModel, (Switch)branch );
+            return new SwitchNode( cckModel, (Switch)branch, component );
         }
         else if( branch instanceof Capacitor ) {
-            return new CapacitorNode( cckModel, (Capacitor)branch );
+            return new CapacitorNode( cckModel, (Capacitor)branch, component );
         }
         else if( branch instanceof Inductor ) {
-            return new InductorNode( cckModel, (CircuitComponent)branch );
+            return new InductorNode( cckModel, (CircuitComponent)branch, component );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );

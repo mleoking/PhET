@@ -4,6 +4,8 @@ import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Sep 20, 2006
@@ -12,7 +14,7 @@ import edu.colorado.phet.cck.model.components.CircuitComponent;
  */
 
 public class InductorNode extends ComponentImageNode {
-    public InductorNode( CCKModel model, CircuitComponent circuitComponent ) {
-        super( model, circuitComponent, CCKImageSuite.getInstance().getInductorImage() );
+    public InductorNode( CCKModel model, CircuitComponent circuitComponent, Component component ) {
+        super( model, circuitComponent, CCKImageSuite.getInstance().getInductorImage(), component );
     }
 }

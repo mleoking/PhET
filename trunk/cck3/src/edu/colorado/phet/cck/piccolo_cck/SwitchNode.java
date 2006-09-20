@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +27,8 @@ import java.awt.image.BufferedImage;
 public class SwitchNode extends SwitchBodyNode {
     private Switch s;
 
-    public SwitchNode( CCKModel model, Switch s ) {
-        super( model, s );
+    public SwitchNode( CCKModel model, Switch s, Component component ) {
+        super( model, s, component );
         this.s = s;
         SwitchLeverNode switchLeverNode = new SwitchLeverNode();//so the transform on switchBodyNode won't interfere
         addChild( switchLeverNode );
