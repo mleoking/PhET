@@ -25,8 +25,12 @@ LOW PRIORITY:
 - add ability to set dimensions of wavelength control
 - add ability to set knob size of wavelength control
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
+- animate opening/closing of Atomic Model selection panel
 
 DONE:
+(9/20/06) - move some constants out of module and into HAConstants
+(9/20/06) - cleanup module code
+(9/20/06) - use one node to draw animation box and perform clipping
 (9/19/06) - add "view" representation of photon and alpha particle
 (9/19/06) - added "view" representations of each atomic model, no animation
 (9/19/06) - set pickable flag = false for all non-interactive nodes and their children

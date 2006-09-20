@@ -13,6 +13,7 @@ package edu.colorado.phet.hydrogenatom;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
@@ -40,11 +41,18 @@ public class HAConstants {
     public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
     
     //----------------------------------------------------------------------------
-    // Application
+    // Dimensions
     //----------------------------------------------------------------------------
     
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
+    public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
+
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
+
+    public static final Dimension ANIMATION_REGION_SIZE = new Dimension( 475, 475 );
+    public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
+
+    public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
+    public static final double BOX_OF_HYDROGEN_DEPTH = 10;
     
     //----------------------------------------------------------------------------
     // Localization
@@ -103,7 +111,7 @@ public class HAConstants {
     public static final Color ALPHA_PARTICLES_COLOR = UV_TRACK_COLOR;
     
     // Color of the animation area
-    public static final Color ANIMATION_AREA_COLOR = Color.BLACK;
+    public static final Color ANIMATION_REGION_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Borders
