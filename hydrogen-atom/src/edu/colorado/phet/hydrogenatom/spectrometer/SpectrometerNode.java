@@ -55,7 +55,6 @@ public class SpectrometerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -73,7 +72,7 @@ public class SpectrometerNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SpectrometerNode( PSwingCanvas canvas, String title, boolean isaSnapshot ) {
+    public SpectrometerNode( PSwingCanvas canvas, String title, Font font, boolean isaSnapshot ) {
         
         _isRunning = false;
         _listenerList = new EventListenerList();
@@ -100,13 +99,15 @@ public class SpectrometerNode extends PhetPNode {
         }
         
         PText titleNode = new PText( title );
-        titleNode.setFont( TITLE_FONT );
+        titleNode.setFont( font );
         titleNode.setTextPaint( TITLE_COLOR );
         
         _closeButton = new JButton( closeIcon );
         _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         _startStopButton = new JButton( SimStrings.get( "button.spectrometer.start" ) );
+        _startStopButton.setFont( font );
         _resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
+        _resetButton.setFont( font );
         _snapshotButton = new JButton( cameraIcon );
         _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
         
@@ -144,11 +145,7 @@ public class SpectrometerNode extends PhetPNode {
         titleNode.setOffset( b.getX() + 15, b.getY() + 12 );
         if ( !isaSnapshot ) {
             buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 15, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
-        }
-        
-        setPickable( false );
-        spectrometerImage.setPickable( false );
-        titleNode.setPickable( false );
+        }        
         
         _startStopButton.addActionListener( new ActionListener() {
            public void actionPerformed( ActionEvent event ) {

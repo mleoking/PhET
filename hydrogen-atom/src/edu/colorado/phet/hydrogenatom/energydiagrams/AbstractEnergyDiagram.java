@@ -46,6 +46,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         setPickable( false );
         setChildrenPickable( false );
         
+        // Fonts
+        int fontSize = SimStrings.getInt( "energyDiagram.font.size", HAConstants.ENERGY_DIAGRAM_FONT_SIZE );
+        Font font = new Font( HAConstants.FONT_NAME, Font.BOLD, fontSize );
+        
         // Background
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
         backgroundNode.setPaint( BACKGROUND_COLOR );
@@ -71,7 +75,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         
         // Y-axis label
         PText axisLabelNode = new PText( SimStrings.get( "label.energyDiagram.yAxis" ) );
-        axisLabelNode.setFont( new Font( HAConstants.FONT_NAME, Font.BOLD, 14 ) );
+        axisLabelNode.setFont( font );
         axisLabelNode.setTextPaint( AXIS_LABEL_COLOR );
         axisLabelNode.rotate( Math.toRadians( -90 ) );
 

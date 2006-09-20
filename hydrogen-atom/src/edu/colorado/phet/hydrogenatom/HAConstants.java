@@ -83,8 +83,17 @@ public class HAConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
-    public static final Font CONTROL_FONT = new Font( FONT_NAME, Font.PLAIN, 16 );
-    public static final Font TITLE_FONT = new Font( FONT_NAME, Font.BOLD, 20 );
+    
+    // Default font sizes, also configurable via SimStrings file
+    public static final int MODE_SWITCH_FONT_SIZE = 20;
+    public static final int ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE = 20;
+    public static final int ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE = 16;
+    public static final int ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE = 16;
+    public static final int BOX_OF_HYDROGEN_FONT_SIZE = 16;
+    public static final int GUN_CONTROLS_FONT_SIZE = 16;
+    public static final int SPECTROMETER_FONT_SIZE = 16;
+    public static final int ENERGY_DIAGRAM_FONT_SIZE = 16;
+    public static final int JCOMPONENT_FONT_SIZE = 16;
     
     //----------------------------------------------------------------------------
     // Strokes

@@ -101,6 +101,8 @@ public class HAModule extends PiccoloModule {
 
     private PhotonNode _samplePhotonNode;
     private AlphaParticleNode _sampleAlphaParticleNode;
+    
+    private Font _spectrometerFont;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -112,6 +114,12 @@ public class HAModule extends PiccoloModule {
         // hide the PhET logo
         setLogoPanel( null );
 
+        // Fonts
+        int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", HAConstants.JCOMPONENT_FONT_SIZE );
+        Font jComponentFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, jComponentFontSize );
+        int spectrometerFontSize = SimStrings.getInt( "spectrometer.font.size", HAConstants.SPECTROMETER_FONT_SIZE );
+        _spectrometerFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, spectrometerFontSize );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -177,19 +185,9 @@ public class HAModule extends PiccoloModule {
         // Animation region
         {
             // Load the region dimensions from the localization file
-            Dimension size = null;
-            try {
-                String sWidth = SimStrings.get( "animationRegion.width" );
-                String sHeight = SimStrings.get( "animationRegion.height" );
-                int width = Integer.parseInt( sWidth );
-                int height = Integer.parseInt( sHeight );
-                size = new Dimension( width, height );
-            }
-            catch ( Exception e ) {
-                size = HAConstants.DEFAULT_ANIMATION_REGION_SIZE;
-                System.out.println( "Using default dimensions for animation region: " + size );
-                e.printStackTrace();
-            }
+            int width = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
+            int height = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+            Dimension size = new Dimension( width, height );
             
             // animation box
             _animationRegionNode = new AnimationRegionNode( size, HAConstants.ANIMATION_REGION_COLOR );
@@ -250,12 +248,12 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBox = new JCheckBox( SimStrings.get( "label.showSpectrometer" ) );
             _spectrometerCheckBox.setOpaque( false );
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
-            _spectrometerCheckBox.setFont( HAConstants.CONTROL_FONT );
+            _spectrometerCheckBox.setFont( jComponentFont );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometerNode = new SpectrometerNode( _canvas, title, false /* isaSnapshot */);
+            _spectrometerNode = new SpectrometerNode( _canvas, title, _spectrometerFont, false /* isaSnapshot */);
 
             // List of snapshots
             _spectrometerSnapshots = new ArrayList();
@@ -267,7 +265,7 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBox = new JCheckBox( SimStrings.get( "label.showEnergyDiagram" ) );
             _energyDiagramCheckBox.setOpaque( false );
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
-            _energyDiagramCheckBox.setFont( HAConstants.CONTROL_FONT );
+            _energyDiagramCheckBox.setFont( jComponentFont );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
 
             // diagrams
@@ -588,8 +586,8 @@ public class HAModule extends PiccoloModule {
             title += SimStrings.get( "title.spectrometer.experiment" );
         }
 
-        final SpectrometerNode spectrometer = new SpectrometerNode( _canvas, title, true /* isaSnapshot */);
-
+        final SpectrometerNode spectrometer = new SpectrometerNode( _canvas, title, _spectrometerFont, true /* isaSnapshot */);
+        
         _rootNode.addChild( spectrometer );
         _controller.addSpectrometerListener( spectrometer );
         _spectrometerSnapshots.add( spectrometer );

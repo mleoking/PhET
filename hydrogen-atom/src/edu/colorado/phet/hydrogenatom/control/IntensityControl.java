@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 
@@ -59,10 +60,12 @@ public class IntensityControl extends JPanel {
         _formattedTextField.addKeyListener( listener );
         
         _units = new JLabel( "%" );
-        _units.setFont( HAConstants.CONTROL_FONT );
         
         // Fonts
-        _formattedTextField.setFont( HAConstants.CONTROL_FONT );
+        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
+        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        _formattedTextField.setFont( font );
+        _units.setFont( font );
         
         // Opacity
         setOpaque( false );

@@ -52,14 +52,9 @@ public class AtomicModelSelector extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font TITLE_FONT = new Font( HAConstants.FONT_NAME, Font.BOLD, 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
-    
-    private static final Font CONTINUUM_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Color CONTINUUM_CLASSICAL_COLOR = Color.WHITE;
     private static final Color CONTINUUM_QUANTUM_COLOR = Color.BLACK;
-    
-    private static final Font BUTTON_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Color BUTTON_SELECTED_COLOR = Color.WHITE;
     private static final Color BUTTON_DESELECTED_COLOR = Color.LIGHT_GRAY;
     
@@ -108,51 +103,59 @@ public class AtomicModelSelector extends PhetPNode {
         // PNodes in this list are used to determine the height of the panel
         ArrayList heightNodes = new ArrayList();
         
+        // Fonts
+        Font titleFont = new Font( HAConstants.FONT_NAME, Font.BOLD, 
+                SimStrings.getInt( "atomicModelSelector.title.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE ) );
+        Font continuumFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, 
+                SimStrings.getInt( "atomicModelSelector.continuum.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE ) ); 
+        Font buttonFont = new Font( HAConstants.FONT_NAME, Font.PLAIN,
+                SimStrings.getInt( "atomicModelSelector.button.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE ) );
+        
         // Panel
         PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
         
         // Labels
         HTMLNode atomicModelLabel = new HTMLNode( SimStrings.get( "label.atomicModel" ) );
-        atomicModelLabel.setFont( TITLE_FONT );
+        atomicModelLabel.setFont( titleFont );
         atomicModelLabel.setHTMLColor( TITLE_COLOR );
         widthNodes.add( atomicModelLabel );
         heightNodes.add( atomicModelLabel );
         
         PText classicalLabel = new PText( SimStrings.get( "label.classical" ) );
-        classicalLabel.setFont( CONTINUUM_FONT );
+        classicalLabel.setFont( continuumFont );
         classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // yes, this is correct
         
         PText quantumLabel = new PText( SimStrings.get( "label.quantum" ) );
-        quantumLabel.setFont( CONTINUUM_FONT );
+        quantumLabel.setFont( continuumFont );
         quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
         
         _billiardBallLabel = new HTMLNode( SimStrings.get( "label.billardBall" ) );
-        _billiardBallLabel.setFont( BUTTON_FONT );
+        _billiardBallLabel.setFont( buttonFont );
         widthNodes.add( _billiardBallLabel );
         heightNodes.add( _billiardBallLabel );
 
         _plumPuddingLabel = new HTMLNode( SimStrings.get( "label.plumPudding" ) );
-        _plumPuddingLabel.setFont( BUTTON_FONT );
+        _plumPuddingLabel.setFont( buttonFont );
         widthNodes.add( _plumPuddingLabel );
         heightNodes.add( _plumPuddingLabel );
         
         _solarSystemLabel = new HTMLNode( SimStrings.get( "label.solarSystem" ) );
-        _solarSystemLabel.setFont( BUTTON_FONT );
+        _solarSystemLabel.setFont( buttonFont );
         widthNodes.add( _solarSystemLabel );
         heightNodes.add( _solarSystemLabel );
         
         _bohrLabel = new HTMLNode( SimStrings.get( "label.bohr" ) );
-        _bohrLabel.setFont( BUTTON_FONT );
+        _bohrLabel.setFont( buttonFont );
         widthNodes.add( _bohrLabel );
         heightNodes.add( _bohrLabel );
         
         _deBroglieLabel = new HTMLNode( SimStrings.get( "label.deBroglie" ) );
-        _deBroglieLabel.setFont( BUTTON_FONT );
+        _deBroglieLabel.setFont( buttonFont );
         widthNodes.add( _deBroglieLabel );
         heightNodes.add( _deBroglieLabel );
         
         _schrodingerLabel = new HTMLNode( SimStrings.get( "label.schrodinger" ) );
-        _schrodingerLabel.setFont( BUTTON_FONT );
+        _schrodingerLabel.setFont( buttonFont );
         widthNodes.add( _schrodingerLabel );
         heightNodes.add( _schrodingerLabel );
         
@@ -437,7 +440,7 @@ public class AtomicModelSelector extends PhetPNode {
     
     private void setOffsetCentered( PNode node, PNode nodeAbove, PNode panel, PNode continuumNode, double spacing ) {
         double x = ( panel.getFullBounds().getWidth() - continuumNode.getFullBounds().getHeight() - CONTINUUM_SPACING - node.getFullBounds().getWidth() ) / 2;
-        double y = nodeAbove.getFullBounds().getY() + nodeAbove.getFullBounds().getHeight() + spacing;
+        double y = nodeAbove.getFullBounds().getMaxY() + spacing;
         node.setOffset( x, y );
     }
     
