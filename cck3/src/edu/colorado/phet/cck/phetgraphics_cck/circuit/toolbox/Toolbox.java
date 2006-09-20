@@ -18,6 +18,7 @@ import edu.colorado.phet.common_cck.view.CompositeGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -244,7 +245,7 @@ public class Toolbox extends CompositeGraphic {
 
         ACVoltageSource ac = new ACVoltageSource( new Point2D.Double( componentX, y ), dir,
                                                   componentWidth, acToolHeight, module.getCircuitChangeListener(), module.isInternalResistanceOn() );
-        CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), parent, ac, transform );
+        CircuitComponentImageGraphic lifelike = new CircuitComponentImageGraphic( BufferedImageUtils.flipY( module.getImageSuite().getACVoltageSourceImage() ), parent, ac, transform );
 //        SchematicOscillateGraphic schematic = new SchematicOscillateGraphic( parent, batt, transform, schematicWireThickness );
         SchematicOscillateGraphic schematic = new SchematicACGraphic( parent, ac, transform, schematicWireThickness );
         acSource = new BranchSource.ACSource( lifelike, schematic, module.getCircuitGraphic(),

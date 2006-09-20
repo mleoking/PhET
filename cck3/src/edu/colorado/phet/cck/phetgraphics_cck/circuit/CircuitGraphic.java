@@ -777,7 +777,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addACGraphic( ACVoltageSource acVoltageSource ) {
-            CircuitComponentImageGraphic graphic = new CircuitComponentImageGraphic( module.getImageSuite().getACImage(), apparatusPanel, acVoltageSource, transform );
+            CircuitComponentImageGraphic graphic = new CircuitComponentImageGraphic( BufferedImageUtils.flipY( module.getImageSuite().getACVoltageSourceImage() ), apparatusPanel, acVoltageSource, transform );
             CircuitGraphic.this.addGraphic( acVoltageSource, graphic );
         }
 

@@ -50,6 +50,8 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new BatteryMaker() );
         addBranchMaker( new BulbMaker() );
         addBranchMaker( new SwitchMaker() );
+        addBranchMaker( new ACVoltageMaker() );
+        addBranchMaker( new CapacitorMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -225,6 +227,40 @@ public class ToolboxNode extends PhetPNode {
 
         private Switch createSwitch() {
             return new Switch( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), false, 1, 1 );
+        }
+    }
+
+    class ACVoltageMaker extends BranchMaker {
+        public ACVoltageMaker() {
+            super( "AC Voltage" );
+            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createSwitch();
+        }
+
+        private ACVoltageSource createSwitch() {
+            return new ACVoltageSource( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, false );
+        }
+    }
+
+    class CapacitorMaker extends BranchMaker {
+        public CapacitorMaker() {
+            super( "Capacitor" );
+            CapacitorNode child = new CapacitorNode( model, createSwitch() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createSwitch();
+        }
+
+        private Capacitor createSwitch() {
+            return new Capacitor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
         }
     }
 }
