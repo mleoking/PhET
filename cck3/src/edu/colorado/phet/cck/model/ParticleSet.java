@@ -25,6 +25,11 @@ public class ParticleSet implements ModelElement {
     public ParticleSet( Circuit circuit ) {
         propagator = new ConstantDensityPropagator( this, circuit );
         this.circuit = circuit;
+        circuit.addCircuitListener( new CircuitListenerAdapter() {
+            public void branchRemoved( Branch branch ) {
+                removeParticles( branch );
+            }
+        } );
     }
 
     public double getDensity( Branch branch ) {

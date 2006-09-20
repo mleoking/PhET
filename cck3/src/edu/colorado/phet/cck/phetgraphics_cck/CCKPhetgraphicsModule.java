@@ -192,8 +192,8 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         getCircuit().removeBranch( branch );
 
         //see if the adjacent junctions are free.
-        testRemove( branch.getStartJunction() );
-        testRemove( branch.getEndJunction() );
+        removeAdjacentBranches( branch.getStartJunction() );
+        removeAdjacentBranches( branch.getEndJunction() );
 
         //see if the adjacent junctions remain, and should be converted to component ends (for rotation)
         //if the junction remains, and it has exactly one connection, which is of type CircuitComponent.
@@ -204,12 +204,12 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         getApparatusPanel().repaint();
     }
 
-    private void testRemove( Junction st ) {
+    private void removeAdjacentBranches( Junction st ) {
         Branch[] out = getCircuit().getAdjacentBranches( st );
         if( out.length == 0 ) {
             getCircuitGraphic().removeGraphic( st );
-            getCircuit().removeJunction( st );
         }
+        getCircuit().removedUnusedJunctions( st );
     }
 
     public BufferedImage loadBufferedImage( String s ) throws IOException {

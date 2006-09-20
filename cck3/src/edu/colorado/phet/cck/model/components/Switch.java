@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
 public class Switch extends CircuitComponent {
     boolean closed;
     public static final double OPEN_RESISTANCE = Double.parseDouble( "10E10" );
+    private double handleAngle;
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
@@ -50,5 +51,14 @@ public class Switch extends CircuitComponent {
 //            fireKirkhoffChange();
 //            System.out.println( "switch.getResistance() = " + getResistance() );
         }
+    }
+
+    public void setHandleAngle( double angle ) {
+        this.handleAngle = angle;
+        notifyObservers();
+    }
+
+    public double getHandleAngle() {
+        return handleAngle;
     }
 }

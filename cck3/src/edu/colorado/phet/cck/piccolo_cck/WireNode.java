@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.event.PopupMenuHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -28,7 +29,7 @@ public class WireNode extends BranchNode {
     private PPath wireHighlightPPath;
     private CircuitInteractionModel circuitInteractionModel;
 
-    public WireNode( final CCKModel cckModel, final Wire wire ) {
+    public WireNode( final CCKModel cckModel, final Wire wire, Component component ) {
         this.cckModel = cckModel;
         this.wire = wire;
         this.circuitInteractionModel = new CircuitInteractionModel( cckModel.getCircuit() );
@@ -74,6 +75,7 @@ public class WireNode extends BranchNode {
             }
         } );
         update();
+        addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
     }
 
     private void update() {

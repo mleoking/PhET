@@ -606,6 +606,13 @@ public class Circuit {
         return getBestDragMatch( Circuit.getJunctions( sc ), dx );
     }
 
+    public void removedUnusedJunctions( Junction st ) {
+        Branch[] out = getAdjacentBranches( st );
+        if( out.length == 0 ) {
+            removeJunction( st );
+        }
+    }
+
     public static class DragMatch {
         Junction source;
         Junction target;
