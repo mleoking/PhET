@@ -40,7 +40,7 @@ public class ToolboxNode extends PhetPNode {
         this.canvas = canvas;
         this.model = model;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
-        this.toolboxBounds = new PPath( new Rectangle( 100, 600 ) );
+        this.toolboxBounds = new PPath( new Rectangle( 100, 800 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
         addChild( toolboxBounds );
@@ -269,7 +269,7 @@ public class ToolboxNode extends PhetPNode {
         public InductorMaker() {
             super( "Inductor" );
             InductorNode child = new InductorNode( model, createInductor() );
-            child.scale( 60 );//todo choose scale based on insets?
+            child.scale( 30 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
