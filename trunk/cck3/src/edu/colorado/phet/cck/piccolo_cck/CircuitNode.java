@@ -95,7 +95,7 @@ public class CircuitNode extends PhetPNode {
 
     public BranchNode createNode( Branch branch ) {
         if( branch instanceof Wire ) {
-            return new WireNode( cckModel, (Wire)branch );
+            return new WireNode( cckModel, (Wire)branch, component );
         }
         else if( branch instanceof Resistor ) {
             return new ComponentImageNode.ResistorNode( cckModel, (Resistor)branch );
@@ -105,6 +105,9 @@ public class CircuitNode extends PhetPNode {
         }
         else if( branch instanceof Bulb ) {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch );
+        }
+        else if( branch instanceof Switch ) {
+            return new SwitchNode( cckModel, (Switch)branch );
         }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );

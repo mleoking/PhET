@@ -49,6 +49,7 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new ResistorMaker() );
         addBranchMaker( new BatteryMaker() );
         addBranchMaker( new BulbMaker() );
+        addBranchMaker( new SwitchMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -135,7 +136,7 @@ public class ToolboxNode extends PhetPNode {
     class WireMaker extends BranchMaker {
         public WireMaker() {
             super( "Wire" );
-            WireNode child = new WireNode( model, createWire() );
+            WireNode child = new WireNode( model, createWire(), canvas );
             child.scale( 40 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -203,6 +204,23 @@ public class ToolboxNode extends PhetPNode {
             Bulb bulb = new Bulb( new Point(), Vector2D.Double.parseAngleAndMagnitude( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
             bulb.flip( null );
             return bulb;
+        }
+    }
+
+    class SwitchMaker extends BranchMaker {
+        public SwitchMaker() {
+            super( "Switch" );
+            SwitchNode child = new SwitchNode( model, createSwitch() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createSwitch();
+        }
+
+        private Switch createSwitch() {
+            return new Switch( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), false, 1, 1 );
         }
     }
 }
