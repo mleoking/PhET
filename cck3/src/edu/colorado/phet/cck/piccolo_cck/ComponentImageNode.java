@@ -4,7 +4,6 @@ import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -49,15 +48,6 @@ public class ComponentImageNode extends ComponentNode {
         setOffset( getBranch().getStartPoint() );
         rotate( angle );
         translate( 0, -pImage.getFullBounds().getHeight() / 2 );
-    }
-
-    public static class ResistorNode extends ComponentImageNode {
-        private Resistor resistor;
-
-        public ResistorNode( CCKModel model, Resistor resistor ) {
-            super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage() );
-            this.resistor = resistor;
-        }
     }
 
     public static class BatteryNode extends ComponentImageNode {
