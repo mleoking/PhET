@@ -32,6 +32,7 @@ public class ComponentImageNode extends ComponentNode {
 
     protected void update() {
         super.update();
+
         Rectangle2D aShape = new Rectangle2D.Double( 0, 0, pImage.getFullBounds().getWidth(), pImage.getFullBounds().getHeight() );
         aShape = RectangleUtils.expand( aShape, 2, 2 );
         getHighlightNode().setPathTo( aShape );

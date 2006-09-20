@@ -2,7 +2,6 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -24,25 +23,19 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class SwitchNode extends BranchNode {
+public class SwitchNode extends SwitchBodyNode {
     private Switch s;
 
     public SwitchNode( CCKModel model, Switch s ) {
+        super( model, s );
         this.s = s;
-        SwitchBodyNode switchBodyNode = new SwitchBodyNode( model, s );
-        addChild( switchBodyNode );
         SwitchLeverNode switchLeverNode = new SwitchLeverNode();//so the transform on switchBodyNode won't interfere
         addChild( switchLeverNode );
-    }
-
-    public Branch getBranch() {
-        return s;
     }
 
     class SwitchLeverNode extends PhetPNode {
         private PNode imagePNode;
         private BufferedImage knifeHandleImage;
-
 
         public SwitchLeverNode() {
             addInputEventListener( new CursorHandler() );
@@ -64,12 +57,29 @@ public class SwitchNode extends BranchNode {
                         origGrabAngle = getAngle( event );
                         origLeverAngle = s.getHandleAngle();
                     }
-                    System.out.println( "event.getPosition() = " + event.getPosition() );
-                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this) = " + event.getPositionRelativeTo( SwitchNode.this ) );
-                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this.getParent) = " + event.getPositionRelativeTo( SwitchNode.this.getParent() ) );
+//                    System.out.println( "event.getPosition() = " + event.getPosition() );
+//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this) = " + event.getPositionRelativeTo( SwitchNode.this ) );
+//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this.getParent) = " + event.getPositionRelativeTo( SwitchNode.this.getParent() ) );
                     double angle = getAngle( event );
                     double dTheta = angle - origGrabAngle;
-                    s.setHandleAngle( origLeverAngle + dTheta );
+                    double desiredAngle = origLeverAngle + dTheta;
+                    while( desiredAngle < 0 ) {
+                        desiredAngle += Math.PI * 2;
+                    }
+                    while( desiredAngle > Math.PI * 2 ) {
+                        desiredAngle -= Math.PI * 2;
+                    }
+                    if( desiredAngle < Math.PI ) {
+                        desiredAngle = Math.PI;
+                    }
+                    else if( desiredAngle > 5 ) {
+                        desiredAngle = 5;
+                    }
+                    else if( desiredAngle < 0.6 ) {
+                        desiredAngle = Math.PI;
+                    }
+
+                    s.setHandleAngle( desiredAngle );
                     event.setHandled( true );
                 }
 
@@ -91,10 +101,6 @@ public class SwitchNode extends BranchNode {
 
         private void update() {
             imagePNode.setTransform( new AffineTransform() );
-            imagePNode.setScale( 0.01 );
-            imagePNode.setOffset( getBranch().getStartPoint() );
-//            Vector2D.Double vector = new Vector2D.Double( event.getPositionRelativeTo( SwitchNode.this.getParent() ) );
-//            double angle = vector.getAngle();
             imagePNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, knifeHandleImage.getWidth(), knifeHandleImage.getHeight() / 2 );
         }
     }
