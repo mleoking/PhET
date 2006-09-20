@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- with new layout, what do I see when a photon is emitted? where is it emitted to?
+- fix electron, proton and neutron images
 - layout of canvas is kludgy
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - add x-axis ticks and labels to spectrometer
