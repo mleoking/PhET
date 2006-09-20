@@ -60,11 +60,14 @@ public class SpatialView extends PNode {
         MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
         aCounter.setOffset( 20, canvas.getHeight() );
         addChild( aCounter );
-        MoleculeCounterPNode bCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeB.class );
-        bCounter.setOffset( 80, canvas.getHeight() );
-        addChild( bCounter );
+        MoleculeCounterPNode abCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeAB.class );
+        abCounter.setOffset( 80, canvas.getHeight() );
+        addChild( abCounter );
+        MoleculeCounterPNode bcCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeBC.class );
+        bcCounter.setOffset( 140, canvas.getHeight() );
+        addChild( bcCounter );
         MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
-        cCounter.setOffset( 140, canvas.getHeight() );
+        cCounter.setOffset( 200, canvas.getHeight() );
         addChild( cCounter );
 
         // Temperature control

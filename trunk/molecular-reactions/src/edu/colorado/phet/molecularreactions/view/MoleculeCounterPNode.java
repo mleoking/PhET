@@ -15,10 +15,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.PublishingModel;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.model.ModelElement;
 
+import javax.swing.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.*;
 
@@ -28,45 +28,45 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounterPNode extends PNode /*implements PublishingModel.ModelListener */{
-//    private PText readout;
-    private Class moleculeClass;
+public class MoleculeCounterPNode extends PNode {
 
     public MoleculeCounterPNode( PSwingCanvas canvas, MRModel model, Class moleculeClass ) {
-        this.moleculeClass = moleculeClass;
-        PPath outerBackground = new PPath( new RoundRectangle2D.Double( 0, 0, 40, 30, 5, 5 ) );
+
+        // Spinners
+        PPath outerBackground = new PPath( new RoundRectangle2D.Double( 0, 0, 50, 50, 5, 5 ) );
         outerBackground.setPaint( new Color( 50, 30, 10 ) );
         addChild( outerBackground );
-        PPath innerBackground = new PPath( new RoundRectangle2D.Double( 5, 5, 30, 20, 5, 5 ) );
+        PPath innerBackground = new PPath( new RoundRectangle2D.Double( 5, 20, 40, 20, 5, 5 ) );
         innerBackground.setPaint( Color.white );
         addChild( innerBackground );
 
-        MoleculeCounter moleculeCounter = new MoleculeCounter( 2,
-                                                               moleculeClass,
-                                                               model );
+        MoleculeCounter moleculeCounter = new MoleculeCounter( moleculeClass, model );
         moleculeCounter.setBorder( null );
         PSwing readout = new PSwing( canvas, moleculeCounter );
-//        readout = new PText( "0" );
-//        readout = new PText( "0" );
-//        readout.setPaint( Color.white );
-//        readout.setBounds( 0, 0, 30, 15 );
-        readout.setOffset( 10, 8 );
+        readout.setOffset( 10, 23 );
         addChild( readout );
 
-//        model.addListener( this );
+        // Labels
+        String s = null;
+        if( moleculeClass == MoleculeA.class ) {
+            s = "A";
+        }
+        if( moleculeClass == MoleculeAB.class ) {
+            s = "AB";
+        }
+        if( moleculeClass == MoleculeBC.class ) {
+            s = "BC";
+        }
+        if( moleculeClass == MoleculeC.class ) {
+            s = "C";
+        }
+        JLabel label = new JLabel( s );
+        label.setHorizontalAlignment( SwingConstants.CENTER );
+        PSwing labelPSwing = new PSwing( canvas, label );
+        labelPSwing.setOffset( 25, 3 );
+        PPath labelBackground = new PPath( new RoundRectangle2D.Double( 5, 3, 40, 15, 5, 5 ) );
+        labelBackground.setPaint( Color.white );
+        addChild( labelBackground );
+        addChild( labelPSwing );
     }
-
-//    public void modelElementAdded( ModelElement element ) {
-//        if( moleculeClass.isInstance( element ) ) {
-//            int cnt = Integer.parseInt( readout.getText() );
-//            readout.setText( Integer.toString( ++cnt ) );
-//        }
-//    }
-//
-//    public void modelElementRemoved( ModelElement element ) {
-//        if( moleculeClass.isInstance( element ) ) {
-//            int cnt = Integer.parseInt( readout.getText() );
-//            readout.setText( Integer.toString( --cnt ) );
-//        }
-//    }
 }

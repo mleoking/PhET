@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.controller.ResetAllAction;
@@ -30,9 +31,11 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TestControlPanel extends JPanel {
+//public class TestControlPanel extends ControlPanel {
+public class MRControlPanel extends JPanel {
+    private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
 
-    public TestControlPanel( MRModule module ) {
+    public MRControlPanel( MRModule module ) {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();
@@ -43,10 +46,10 @@ public class TestControlPanel extends JPanel {
                                                          new Insets( 0,0,0,0),0,0 );
 
         final ModelSlider thresholdEnergySlider = new ModelSlider( "Threshold energy",
-                                                             "",
-                                                             0,
-                                                             MRConfig.MAX_REACTION_THRESHOLD,
-                                                             model.getEnergyProfile().getPeakLevel() );
+                                                                   "",
+                                                                   0,
+                                                                   MRConfig.MAX_REACTION_THRESHOLD,
+                                                                   model.getEnergyProfile().getPeakLevel() );
         thresholdEnergySlider.setNumMajorTicks( 0 );
         thresholdEnergySlider.setNumMinorTicks( 0 );
         thresholdEnergySlider.addChangeListener( new ChangeListener() {
@@ -70,8 +73,13 @@ public class TestControlPanel extends JPanel {
         resetBtn.addActionListener( new ResetAllAction( model ) );
 
 
-        add( thresholdEnergySlider, gbc );
+//        add( thresholdEnergySlider, gbc );
         add( selectMoleculeBtn, gbc );
-        add( new MoleculeInstanceControlPanel( model ), gbc );
+        moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
+        add( moleculeInstanceControlPanel, gbc );
+    }
+
+    public MoleculeInstanceControlPanel getMoleculeInstanceControlPanel() {
+        return moleculeInstanceControlPanel;
     }
 }
