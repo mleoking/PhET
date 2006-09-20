@@ -16,7 +16,6 @@ MEDIUM PRIORITY:
 - port spectrometer from Discharge Lamps sim
 - show compressed UV and IR range in spectrometer (like in Discharge Lamps)
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
-- canvas layout
 - get model details from Sam McKagan & Mike Dubson
 - ignore spectral line table entries with node>5 or wavelength outside [90,700] nm
 
