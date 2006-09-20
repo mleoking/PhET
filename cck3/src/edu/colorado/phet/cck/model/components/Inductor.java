@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 
 public class Inductor extends CircuitComponent implements DynamicBranch {
-//    private static final double DEFAULT_INDUCTANCE = 1.0;
     private static final double DEFAULT_INDUCTANCE = 10.0;
     private ArrayList listeners = new ArrayList();
     private double inductance = DEFAULT_INDUCTANCE;

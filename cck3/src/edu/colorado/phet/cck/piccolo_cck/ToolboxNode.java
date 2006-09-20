@@ -52,6 +52,7 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new SwitchMaker() );
         addBranchMaker( new ACVoltageMaker() );
         addBranchMaker( new CapacitorMaker() );
+        addBranchMaker( new InductorMaker() );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -160,7 +161,7 @@ public class ToolboxNode extends PhetPNode {
         public ResistorMaker() {
             super( "Resistor" );
             ComponentNode child = new ComponentImageNode.ResistorNode( model, createResistor() );
-            child.scale( 60 );//todo choose scale based on insets?
+            child.scale( 80 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
@@ -169,7 +170,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Resistor createResistor() {
-            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
+            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( CCKModel.RESISTOR_DIMENSION.getLength(), 0 ), CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 );
             resistor.setResistance( 10.0 );
             return resistor;
         }
@@ -261,6 +262,23 @@ public class ToolboxNode extends PhetPNode {
 
         private Capacitor createCapacitor() {
             return new Capacitor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
+        }
+    }
+
+    class InductorMaker extends BranchMaker {
+        public InductorMaker() {
+            super( "Inductor" );
+            InductorNode child = new InductorNode( model, createInductor() );
+            child.scale( 60 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createInductor();
+        }
+
+        private Inductor createInductor() {
+            return new Inductor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 0.4 );
         }
     }
 }

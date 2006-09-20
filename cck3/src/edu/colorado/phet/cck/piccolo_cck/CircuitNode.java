@@ -115,6 +115,9 @@ public class CircuitNode extends PhetPNode {
         else if( branch instanceof Capacitor ) {
             return new CapacitorNode( cckModel, (Capacitor)branch );
         }
+        else if( branch instanceof Inductor ) {
+            return new InductorNode( cckModel, (CircuitComponent)branch );
+        }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
         }

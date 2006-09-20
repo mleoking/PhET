@@ -40,10 +40,12 @@ public class ComponentImageNode extends ComponentNode {
 
         double resistorLength = getBranch().getStartPoint().distance( getBranch().getEndPoint() );
         double imageLength = pImage.getFullBounds().getWidth();
-        double scale = resistorLength / imageLength;
+        double sx = resistorLength / imageLength;
+        double sy = getCircuitComponent().getHeight() / pImage.getFullBounds().getHeight();
         double angle = new Vector2D.Double( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
         setTransform( new AffineTransform() );
-        setScale( scale );
+        setScale( sx );
+//        transformBy( AffineTransform.getScaleInstance( sx,sy));
         setOffset( getBranch().getStartPoint() );
         rotate( angle );
         translate( 0, -pImage.getFullBounds().getHeight() / 2 );
