@@ -90,8 +90,6 @@ public abstract class ComponentEditor extends JDialog {
                                 bo = true;
                             }
                         }
-//                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)module.getCircuitGraphic().getGraphic( element );
-//                    System.out.println( "ccig.getClass() = " + ccig.getClass() );
                         boolean r = module.isReadoutGraphicsVisible() || bo;
                         if( r ) {
                             setReadoutVisible( true );
