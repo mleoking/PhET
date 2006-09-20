@@ -105,6 +105,12 @@ public class SimStrings {
         return localizedLocale;
     }
 
+    /**
+     * Gets a string value from the localization resource file.
+     * If key's value is null, then key is returned.
+     * @param key
+     * @return String
+     */
     public static String get( String key ) {
         if( localizedStrings == null ) {
 
@@ -125,10 +131,50 @@ public class SimStrings {
         }
 
         if( value == null ) {
-            System.err.println( "SimStrings: key not found, key = \"" + key + "\"" );
+            System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
             value = key;
         }
 
+        return value;
+    }
+    
+    /**
+     * Gets an integer value from the localization resource file.
+     * If key's value is not an integer, the specified default value is returned.
+     * @param key
+     * @param defaultValue
+     * @return int
+     */
+    public static int getInt( String key, int defaultValue ) {
+        String s = get( key );
+        int value = 0;
+        try {
+            value = Integer.parseInt( s );
+        }
+        catch( NumberFormatException nfe ) {
+            System.err.println( "SimStrings: " + key + " is not an int: " + s );
+            value = defaultValue;
+        }
+        return value;
+    }
+    
+    /**
+     * Gets a double value from the localization resource file.
+     * If key's value is not an integer, the specified default value is returned.
+     * @param key
+     * @param defaultValue
+     * @return double
+     */
+    public static double getDouble( String key, double defaultValue ) {
+        String s = get( key );
+        double value = 0;
+        try {
+            value = Double.parseDouble( s );
+        }
+        catch( NumberFormatException nfe ) {
+            System.err.println( "SimStrings: " + key + " is not a double: " + s );
+            value = defaultValue;
+        }
         return value;
     }
 }
