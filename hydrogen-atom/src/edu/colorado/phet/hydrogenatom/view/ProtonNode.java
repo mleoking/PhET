@@ -19,14 +19,14 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class NeutronNode extends PhetPNode {
+public class ProtonNode extends PhetPNode {
 
     private static final double DESIRED_DIAMETER = 11;
     
-    public NeutronNode() {
+    public ProtonNode() {
         super();
 
-        PImage imageNode = PImageFactory.create( HAConstants.IMAGE_NEUTRON );
+        PImage imageNode = PImageFactory.create( HAConstants.IMAGE_PROTON );
         addChild( imageNode );
         
         double imageDiameter = imageNode.getFullBounds().getWidth();

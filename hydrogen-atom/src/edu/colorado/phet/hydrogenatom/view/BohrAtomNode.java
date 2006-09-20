@@ -34,7 +34,7 @@ public class BohrAtomNode extends AbstractAtomNode {
     public BohrAtomNode() {
         super();
         
-        NeutronNode neutronNode = new NeutronNode();
+        ProtonNode protonNode = new ProtonNode();
         ElectronNode electronNode = new ElectronNode(); 
         PPath o1 = createOrbitNode( 1 * GROUND_ORBIT_RADIUS );
         PPath o2 = createOrbitNode( 4 * GROUND_ORBIT_RADIUS );
@@ -47,7 +47,7 @@ public class BohrAtomNode extends AbstractAtomNode {
         addChild( o3 );
         addChild( o4 );
         addChild( o5 );
-        addChild( neutronNode );
+        addChild( protonNode );
         addChild( electronNode );
         
         OriginNode originNode = new OriginNode( Color.GREEN );
@@ -55,7 +55,7 @@ public class BohrAtomNode extends AbstractAtomNode {
             addChild( originNode );
         }
         
-        neutronNode.setOffset( 0, 0 );
+        protonNode.setOffset( 0, 0 );
         electronNode.setOffset( o2.getFullBounds().getWidth() / 2, 0 );
     }
     
