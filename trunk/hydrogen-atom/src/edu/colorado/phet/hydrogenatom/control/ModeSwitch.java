@@ -51,8 +51,6 @@ public class ModeSwitch extends PhetPNode {
     // This controls whether "Experiment" or "Prediction" is at the top position.
     private static final boolean EXPERIMENT_IS_AT_TOP = true;
     
-    private static final Font BIG_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 20 );
-    private static final Font LITTLE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     private static final Color ON_COLOR = Color.WHITE;
     private static final Color OFF_COLOR = Color.LIGHT_GRAY;
     private static final Stroke LINE_STROKE = new BasicStroke( 2f );
@@ -80,6 +78,11 @@ public class ModeSwitch extends PhetPNode {
     public ModeSwitch() {
         super();
         
+        // Font size 
+        int fontSize = SimStrings.getInt( "modeSwitch.font.size", HAConstants.MODE_SWITCH_FONT_SIZE );
+        Font bigFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        Font smallFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, (int)( 0.7 * fontSize ) );
+        
         PImage panel = PImageFactory.create( HAConstants.IMAGE_MODE_PANEL );
         _switchUpNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );
         _switchDownNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
@@ -96,10 +99,10 @@ public class ModeSwitch extends PhetPNode {
             _bottomTitleNode = new PText( SimStrings.get( "label.experiment") );
             _bottomSubtitleNode = new PText( SimStrings.get( "label.whatReallyHappens") );
         }
-        _topTitleNode.setFont( BIG_FONT );
-        _topSubtitleNode.setFont( LITTLE_FONT );
-        _bottomTitleNode.setFont( BIG_FONT );
-        _bottomSubtitleNode.setFont( LITTLE_FONT );
+        _topTitleNode.setFont( bigFont );
+        _topSubtitleNode.setFont( smallFont );
+        _bottomTitleNode.setFont( bigFont );
+        _bottomSubtitleNode.setFont( smallFont );
         
         _topLineNode = new PPath();
         _topLineNode.setPathTo( new Line2D.Double( 0, 0, LINE_LENGTH, 0 ) );

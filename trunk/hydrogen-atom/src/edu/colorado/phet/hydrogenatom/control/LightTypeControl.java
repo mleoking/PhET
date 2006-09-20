@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -80,8 +81,11 @@ public class LightTypeControl extends JPanel {
         layout.addComponent( _monochromaticButton, row, col );
         
         // Fonts
-        _whiteButton.setFont( HAConstants.CONTROL_FONT );
-        _monochromaticButton.setFont( HAConstants.CONTROL_FONT );
+        // Fonts
+        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
+        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        _whiteButton.setFont( font );
+        _monochromaticButton.setFont( font );
         
         // Opacity
         setOpaque( false );

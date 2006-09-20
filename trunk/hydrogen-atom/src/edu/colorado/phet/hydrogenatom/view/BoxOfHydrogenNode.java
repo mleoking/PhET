@@ -44,7 +44,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
     private static final float BACK_DEPTH = 10f;
     private static final float BACK_OFFSET = 0.15f;
     
-    private static final Font LABEL_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 16 );
+    private static final int DEFAULT_FONT_SIZE = 16;
     private static final double Y_SPACING = 5;
     
     //----------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
         
         setPickable( false );
         setChildrenPickable( false );
-
+        
         // Box, origin in upper-left corner of bounds
         PNode boxNode = new PNode();
         {
@@ -94,9 +94,10 @@ public class BoxOfHydrogenNode extends PhetPNode {
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();
         labelNode.setHTML( SimStrings.get( "label.boxOfHydrogen" ) );
-//        labelNode.setHTML( "<html>Really<br>really<br>tall<br>label on the box of hydrogen" );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-        labelNode.setFont( LABEL_FONT );
+        int fontSize = SimStrings.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
+        Font labelFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        labelNode.setFont( labelFont );
         
         // Layering
         addChild( boxNode );

@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @version $Revision$
  */
 public class GunTypeControl extends PhetPNode {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -110,8 +111,10 @@ public class GunTypeControl extends PhetPNode {
         addChild( pswing );
         
         // Fonts
-        _lightButton.setFont( HAConstants.CONTROL_FONT );
-        _alphaParticlesButton.setFont( HAConstants.CONTROL_FONT );
+        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
+        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        _lightButton.setFont( font );
+        _alphaParticlesButton.setFont( font );
         
         // Opacity
         panel.setOpaque( false );

@@ -13,11 +13,13 @@ package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -149,6 +151,12 @@ public class GunControlPanel extends PhetPNode {
         _lightIntensityControl.setUnitsForeground( LABEL_COLOR );
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
+        
+        // Fonts
+        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
+        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        _wavelengthControl.setTextFieldFont( font );
+        _wavelengthControl.setUnitsFont( font );
         
         // Event handling
         {
