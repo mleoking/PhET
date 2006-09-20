@@ -63,7 +63,8 @@ public class PumpGraphic extends PNode {
         PSwing moleculeSelector = new PSwing( (PSwingCanvas)module.getSimulationPanel(),
                                               new MoleculeTypeSelector() );
 
-        moleculeSelector.setOffset( pumpBodyPI.getWidth() / 2, pumpBodyPI.getHeight() );
+        moleculeSelector.setOffset( 15 + pumpBodyPI.getWidth() / 2 - moleculeSelector.getWidth() / 2,
+                                    10 + pumpBodyPI.getHeight() );
         addChild( moleculeSelector );
 
         pumpBaseLocation = new Point2D.Double( 0, pumpBodyPI.getHeight() );
@@ -166,7 +167,7 @@ public class PumpGraphic extends PNode {
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
-            setLayout( new GridLayout( 4, 1 ) );
+            setLayout( new GridLayout( 2, 2 ) );
             add( aRB );
             add( cRB );
             add( abRB );
