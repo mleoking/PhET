@@ -107,8 +107,8 @@ public class HAApplication extends PiccoloPhetApplication {
                 String version = HAVersion.NUMBER;
 
                 // Frame setup
-                int width = HAConstants.APP_FRAME_WIDTH;
-                int height = HAConstants.APP_FRAME_HEIGHT;
+                int width = HAConstants.APP_FRAME_SIZE.width;
+                int height = HAConstants.APP_FRAME_SIZE.height;
                 FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
                 // Create the application.
