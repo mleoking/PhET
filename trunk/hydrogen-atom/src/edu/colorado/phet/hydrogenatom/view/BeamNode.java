@@ -12,7 +12,8 @@
 package edu.colorado.phet.hydrogenatom.view;
 
 import java.awt.Color;
-import java.awt.geom.GeneralPath;
+import java.awt.Dimension;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,32 +26,20 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class BeamNode extends PhetPNode {
 
-    private static final double TAIL_TO_HEAD_RATIO = 1.0;
-    
     private PPath _pathNode;
     private int _r, _g, _b;
     private int _intensity;
     
-    public BeamNode( double width, double height ) {
+    public BeamNode( Dimension size ) {
         super();
         
         setPickable( false );
         setChildrenPickable( false );
         
-        GeneralPath path = new GeneralPath();
-        float headWidth = (float)( width / 2 );
-        float tailWidth = (float)( headWidth * TAIL_TO_HEAD_RATIO );
-        path.moveTo( -headWidth, 0 );
-        path.lineTo( +headWidth, 0 );
-        path.lineTo( +tailWidth, (float)height );
-        path.lineTo( -tailWidth, (float)height );
-        path.closePath();
-        
-        _pathNode = new PPath();
-        addChild( _pathNode );
-        _pathNode.setPathTo( path );
+        _pathNode = new PPath( new Rectangle2D.Double( 0, 0, size.width, size.height ) );
         _pathNode.setStroke( null );
-        
+        addChild( _pathNode );
+
         _r = 255;
         _g = 255;
         _b = 255;
