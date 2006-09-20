@@ -43,12 +43,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * Spectrometer
+ * SpectrometerNode
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Spectrometer extends PhetPNode {
+public class SpectrometerNode extends PhetPNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -73,7 +73,7 @@ public class Spectrometer extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Spectrometer( PSwingCanvas canvas, String title, boolean isaSnapshot ) {
+    public SpectrometerNode( PSwingCanvas canvas, String title, boolean isaSnapshot ) {
         
         _isRunning = false;
         _listenerList = new EventListenerList();
