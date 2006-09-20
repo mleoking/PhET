@@ -96,6 +96,7 @@ public class GunTypeControl extends PhetPNode {
         
         // Layout
         JPanel panel = new JPanel();
+        panel.setBackground( Color.DARK_GRAY );
         panel.setBorder( new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         layout.setInsets( new Insets( 0, 0, 0, 5 ) ); // top,left,bottom,right
@@ -117,7 +118,6 @@ public class GunTypeControl extends PhetPNode {
         _alphaParticlesButton.setFont( font );
         
         // Opacity
-        panel.setOpaque( false );
         _lightButton.setOpaque( false );
         _alphaParticlesButton.setOpaque( false );
         
