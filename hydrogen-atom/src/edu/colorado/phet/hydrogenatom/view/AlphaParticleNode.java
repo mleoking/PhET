@@ -25,7 +25,6 @@ public class AlphaParticleNode extends PhetPNode {
         PImage imageNode = PImageFactory.create( HAConstants.IMAGE_ALPHA_PARTICLE );
         addChild( imageNode );
         
-        imageNode.rotate( Math.toRadians( -90 ) );
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
     }
 }

@@ -21,12 +21,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class NeutronNode extends PhetPNode {
 
+    private static final double DESIRED_DIAMETER = 11;
+    
     public NeutronNode() {
         super();
 
         PImage imageNode = PImageFactory.create( HAConstants.IMAGE_NEUTRON );
         addChild( imageNode );
         
-        imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
+        double imageDiameter = imageNode.getFullBounds().getWidth();
+        double scale = DESIRED_DIAMETER / imageDiameter;
+        double x = scale * -( imageNode.getFullBounds().getWidth() / 2 );
+        double y = scale * -( imageNode.getFullBounds().getHeight() / 2 );
+        imageNode.translate( x, y );
+        imageNode.scale( scale );
     }
 }
