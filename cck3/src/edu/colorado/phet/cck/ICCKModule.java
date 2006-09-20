@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck;
 
+import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ResistivityManager;
@@ -81,4 +82,10 @@ public interface ICCKModule {
     void setToolboxBackgroundColor( Color color );
 
     Color getToolboxBackgroundColor();
+
+    CCKModel getCCKModel();
+
+    boolean isReadoutVisible( Branch branch );
+
+    void setReadoutVisible( Branch branch, boolean selected );
 }

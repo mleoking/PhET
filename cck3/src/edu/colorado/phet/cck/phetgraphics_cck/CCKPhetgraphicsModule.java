@@ -409,6 +409,15 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         return model;
     }
 
+    public boolean isReadoutVisible( Branch branch ) {
+        //todo not supported in phetgraphics module
+        return true;
+    }
+
+    public void setReadoutVisible( Branch branch, boolean selected ) {
+        //todo not supported in phetgraphics module
+    }
+
     public void setResistivityEnabled( boolean selected ) {
         model.setResistivityEnabled( selected );
     }

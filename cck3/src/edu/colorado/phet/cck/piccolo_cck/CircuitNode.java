@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
@@ -22,14 +23,16 @@ public class CircuitNode extends PhetPNode {
     private CCKModel cckModel;
     private Circuit circuit;
     private Component component;
+    private ICCKModule module;
     private ArrayList junctionGraphics = new ArrayList();
     private ArrayList branchGraphics = new ArrayList();
     private PNode electronNode;
 
-    public CircuitNode( CCKModel cckModel, Circuit circuit, Component component ) {
+    public CircuitNode( CCKModel cckModel, Circuit circuit, Component component, ICCKModule module ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
+        this.module = module;
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
@@ -98,7 +101,7 @@ public class CircuitNode extends PhetPNode {
             return new WireNode( cckModel, (Wire)branch, component );
         }
         else if( branch instanceof Resistor ) {
-            return new ResistorNode( cckModel, (Resistor)branch, component );
+            return new ResistorNode( cckModel, (Resistor)branch, component, module );
         }
         else if( branch instanceof ACVoltageSource ) {
             return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component );

@@ -1,11 +1,15 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKImageSuite;
+import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.ResistorColors;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -16,18 +20,37 @@ import java.awt.*;
  */
 public class ResistorNode extends ComponentImageNode {
     private Resistor resistor;
+    private ColorBandNode colorBandNode;
 
-    public ResistorNode( CCKModel model, Resistor resistor, Component component ) {
+    public ResistorNode( CCKModel model, final Resistor resistor, Component component, final ICCKModule module ) {
         super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage(), component );
         this.resistor = resistor;
-        addChild( new ColorBandsGraphic( this, resistor ) );
+        colorBandNode = new ColorBandNode( this, resistor );
+        addChild( colorBandNode );
+        addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {
+            public JPopupMenu createPopupMenu() {
+                return new ComponentMenu.ResistorMenu( resistor, module ).getMenuComponent();
+            }
+        } ) );
+        resistor.addObserver( new SimpleObserver() {
+            public void update() {
+                ResistorNode.this.update();
+            }
+        } );
     }
 
-    public class ColorBandsGraphic extends PhetPNode {
+    protected void update() {
+        super.update();
+        if( colorBandNode != null ) {
+            colorBandNode.update();
+        }
+    }
+
+    public class ColorBandNode extends PhetPNode {
         private ComponentImageNode node;
         private Resistor resistor;
 
-        public ColorBandsGraphic( ComponentImageNode node, Resistor resistor ) {
+        public ColorBandNode( ComponentImageNode node, Resistor resistor ) {
             this.node = node;
             this.resistor = resistor;
             update();
