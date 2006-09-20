@@ -27,6 +27,7 @@ public class TestModule extends MRModule {
     private Dimension size = new Dimension( 600, 500 );
 
     public TestModule() {
+        super( "Test" );
 
         // Test
 //        testM( (MRModel)getModel() );

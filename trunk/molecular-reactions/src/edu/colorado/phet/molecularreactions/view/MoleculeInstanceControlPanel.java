@@ -42,12 +42,12 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel abLabel = new JLabel( "AB" );
         JLabel bcLabel = new JLabel( "BC" );
 
-        JTextField aTF = new MoleculeCounter( 2, MoleculeA.class, model );
-        JTextField bTF = new MoleculeCounter( 2, MoleculeB.class, model );
-        bTF.setEditable( false );
-        JTextField cTF = new MoleculeCounter( 2, MoleculeC.class, model );
-        JTextField abTF = new MoleculeCounter( 2, MoleculeAB.class, model );
-        JTextField bcTF = new MoleculeCounter( 2, MoleculeBC.class, model );
+        MoleculeCounter aTF = new MoleculeCounter( 2, MoleculeA.class, model );
+        MoleculeCounter bTF = new MoleculeCounter( 2, MoleculeB.class, model );
+        bTF.setEnabled( false );
+        MoleculeCounter cTF = new MoleculeCounter( 2, MoleculeC.class, model );
+        MoleculeCounter abTF = new MoleculeCounter( 2, MoleculeAB.class, model );
+        MoleculeCounter bcTF = new MoleculeCounter( 2, MoleculeBC.class, model );
 
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,

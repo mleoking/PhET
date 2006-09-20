@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.modules.TestModule;
+import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.io.IOException;
@@ -33,7 +34,11 @@ public class MRApplication extends PhetApplication {
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 600 ) );
 
+        SimpleModule simpleModule = new SimpleModule();
+        addModule( simpleModule );
         addModule( new TestModule() );
+
+        setActiveModule( simpleModule );
     }
 
 

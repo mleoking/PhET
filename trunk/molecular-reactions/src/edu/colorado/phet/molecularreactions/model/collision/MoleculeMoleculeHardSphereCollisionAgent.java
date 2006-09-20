@@ -168,11 +168,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             CompositeMolecule compositeMolecule = null;
             Bond bond = null;
 
-            //  todo: This should never happen. Take out
-            if( bodyA instanceof SimpleMolecule && bodyB instanceof SimpleMolecule ) {
-                throw new RuntimeException( "internal error" );
-            }
-            else if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
+            if( bodyA instanceof SimpleMolecule && bodyB instanceof CompositeMolecule ) {
                 simpleMolecule = (SimpleMolecule)bodyA;
                 compositeMolecule = (CompositeMolecule)bodyB;
             }

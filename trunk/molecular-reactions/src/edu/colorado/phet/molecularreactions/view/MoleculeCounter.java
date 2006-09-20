@@ -15,6 +15,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
@@ -30,7 +32,8 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener,
+public class MoleculeCounter extends JSpinner implements PublishingModel.ModelListener,
+//public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener,
                                                            Molecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
@@ -46,7 +49,7 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
      * @param model
      */
     public MoleculeCounter( int columns, final Class moleculeClass, final MRModel model ) {
-        super( columns );
+//        super( columns );
         this.moleculeClass = moleculeClass;
         this.model = model;
         model.addListener( this );
@@ -58,12 +61,14 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
         moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5 );
-        setText( "0" );
+        setValue( new Integer( 0 ) );
+//        setText( "0" );
 
-        this.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        this.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 selfUpdating = true;
-                int diff = Integer.parseInt( getText() ) - cnt;
+                int diff = ((Integer)getValue()).intValue() - cnt;
+//                int diff = Integer.parseInt( getText() ) - cnt;
 
                 for( int i = 0; i < Math.abs( diff ); i++ ) {
 
@@ -92,13 +97,54 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
                         }
                         // We need to set the value in the text field in case we were asked to remove a
                         // molecule that couldn't be removed
-                        setText( Integer.toString( cnt ) );
+                        setValue( new Integer( cnt ) );
+//                        setText( Integer.toString( cnt ) );
                     }
                 }
 
                 selfUpdating = false;
             }
         } );
+
+//        this.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                selfUpdating = true;
+//                int diff = Integer.parseInt( getText() ) - cnt;
+//
+//                for( int i = 0; i < Math.abs( diff ); i++ ) {
+//
+//                    // Do we need to add molecules?
+//                    if( diff > 0 ) {
+//                        Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
+//                                                        model.getBox().getMinY() + 120 );
+//                        Vector2D v = new Vector2D.Double( 2, 2 );
+//                        Molecule m = MoleculeFactory.createMolecule( moleculeClass,
+//                                                                     moleculeParamGenerator );
+//                        addMoleculeToModel( m, model );
+//                        cnt++;
+//                    }
+//
+//                    // Do we need to remove molecules?
+//                    else if( diff < 0 ) {
+//                        List modelElements = model.getModelElements();
+//                        for( int j = modelElements.size() - 1; j >= 0; j-- ) {
+//                            Object o = modelElements.get( j );
+//                            if( moleculeClass.isInstance( o ) && !( (Molecule)o ).isPartOfComposite() ) {
+//                                Molecule molecule = (Molecule)o;
+//                                removeMoleculeFromModel( molecule, model );
+//                                cnt--;
+//                                break;
+//                            }
+//                        }
+//                        // We need to set the value in the text field in case we were asked to remove a
+//                        // molecule that couldn't be removed
+//                        setText( Integer.toString( cnt ) );
+//                    }
+//                }
+//
+//                selfUpdating = false;
+//            }
+//        } );
     }
 
     private void addMoleculeToModel( Molecule m, MRModel model ) {
@@ -133,7 +179,8 @@ public class MoleculeCounter extends JTextField implements PublishingModel.Model
             }
         }
         cnt = n;
-        setText( Integer.toString( n ) );
+        setValue( new Integer( n ) );
+//        setText( Integer.toString( n ) );
     }
 
     //--------------------------------------------------------------------------------------------------
