@@ -57,17 +57,22 @@ public class SpatialView extends PNode {
         megm.scanModel();
 
         // Molecule counters
+        int xSpacing = (int)canvas.getWidth() / 5;
         MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
-        aCounter.setOffset( 20, canvas.getHeight() );
+        aCounter.setOffset( 1 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+                            canvas.getHeight() );
         addChild( aCounter );
         MoleculeCounterPNode abCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeAB.class );
-        abCounter.setOffset( 80, canvas.getHeight() );
+        abCounter.setOffset( 2 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+                             canvas.getHeight() );
         addChild( abCounter );
         MoleculeCounterPNode bcCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeBC.class );
-        bcCounter.setOffset( 140, canvas.getHeight() );
+        bcCounter.setOffset( 3 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+                             canvas.getHeight() );
         addChild( bcCounter );
         MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
-        cCounter.setOffset( 200, canvas.getHeight() );
+        cCounter.setOffset( 4 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+                            canvas.getHeight() );
         addChild( cCounter );
 
         // Temperature control
