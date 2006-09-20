@@ -19,8 +19,8 @@ public class TotalBulbComponentNode extends BranchNode {
     public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb ) {
         filamentNode = new FilamentNode( bulb.getFilament() );
         bulbComponentNode = new BulbComponentNode( cckModel, bulb );
-        addChild( filamentNode );
         addChild( bulbComponentNode );
+        addChild( filamentNode );
         this.bulb = bulb;
     }
 

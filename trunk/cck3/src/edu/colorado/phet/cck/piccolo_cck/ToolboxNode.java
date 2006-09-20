@@ -250,16 +250,16 @@ public class ToolboxNode extends PhetPNode {
     class CapacitorMaker extends BranchMaker {
         public CapacitorMaker() {
             super( "Capacitor" );
-            CapacitorNode child = new CapacitorNode( model, createSwitch() );
+            CapacitorNode child = new CapacitorNode( model, createCapacitor() );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
         protected Branch createBranch() {
-            return createSwitch();
+            return createCapacitor();
         }
 
-        private Capacitor createSwitch() {
+        private Capacitor createCapacitor() {
             return new Capacitor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1 );
         }
     }

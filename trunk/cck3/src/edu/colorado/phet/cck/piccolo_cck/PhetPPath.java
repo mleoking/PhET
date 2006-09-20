@@ -40,4 +40,10 @@ public class PhetPPath extends PPath {
         setStroke( stroke );
         setStrokePaint( strokePaint );
     }
+
+    public PhetPPath( Paint fill, BasicStroke stroke, Paint strokePaint ) {
+        setPaint( fill );
+        setStroke( stroke );
+        setStrokePaint( strokePaint );
+    }
 }
