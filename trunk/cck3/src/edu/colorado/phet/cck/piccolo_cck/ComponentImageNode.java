@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKImageSuite;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -8,6 +9,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -53,10 +55,16 @@ public class ComponentImageNode extends ComponentNode {
 
     public static class BatteryNode extends ComponentImageNode {
         private Battery battery;
+        private ICCKModule module;
 
-        public BatteryNode( CCKModel model, Battery battery, Component component ) {
+        public BatteryNode( CCKModel model, Battery battery, Component component, ICCKModule module ) {
             super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component );
             this.battery = battery;
+            this.module = module;
+        }
+
+        protected JPopupMenu createPopupMenu() {
+            return new ComponentMenu.BatteryJMenu( battery, module ).getMenuComponent();
         }
     }
 }

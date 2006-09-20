@@ -182,7 +182,7 @@ public class ToolboxNode extends PhetPNode {
     class BatteryMaker extends BranchMaker {
         public BatteryMaker() {
             super( "Battery" );
-            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery(), canvas );
+            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery(), canvas, module );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }

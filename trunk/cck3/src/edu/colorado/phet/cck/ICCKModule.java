@@ -88,4 +88,6 @@ public interface ICCKModule {
     boolean isReadoutVisible( Branch branch );
 
     void setReadoutVisible( Branch branch, boolean selected );
+
+    boolean isReadoutGraphicsVisible();
 }

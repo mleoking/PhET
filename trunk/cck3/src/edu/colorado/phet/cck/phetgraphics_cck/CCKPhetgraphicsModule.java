@@ -10,6 +10,7 @@ import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
+import edu.colorado.phet.cck.phetgraphics_cck.circuit.ReadoutGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
@@ -414,8 +415,22 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         return true;
     }
 
-    public void setReadoutVisible( Branch branch, boolean selected ) {
-        //todo not supported in phetgraphics module
+    public void setReadoutVisible( Branch branch, boolean visible ) {
+        ReadoutGraphic rg = getCircuitGraphic().getReadoutGraphic( branch );
+        if( rg == null ) {
+//            throw new RuntimeException( "Null ReadoutGRaphic for component: "+element.getClass()+", element="+element );
+            //maybe it was already removed...
+            if( visible ) {
+                throw new RuntimeException( "Null ReadoutGRaphic for component: " + branch.getClass() + ", element=" + branch );
+            }
+        }
+        else {
+            rg.setVisible( visible );
+        }
+    }
+
+    public boolean isReadoutGraphicsVisible() {
+        return getCircuitGraphic().isReadoutGraphicsVisible();
     }
 
     public void setResistivityEnabled( boolean selected ) {

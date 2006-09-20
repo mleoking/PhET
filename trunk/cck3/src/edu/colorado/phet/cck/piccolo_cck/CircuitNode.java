@@ -107,7 +107,7 @@ public class CircuitNode extends PhetPNode {
             return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component );
         }
         else if( branch instanceof Battery ) {
-            return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch, component );
+            return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch, component, module );
         }
         else if( branch instanceof Bulb ) {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch, component );

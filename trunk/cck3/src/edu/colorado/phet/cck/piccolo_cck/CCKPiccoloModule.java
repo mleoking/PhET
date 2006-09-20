@@ -174,4 +174,8 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
 
     public void setReadoutVisible( Branch branch, boolean selected ) {
     }
+
+    public boolean isReadoutGraphicsVisible() {
+        return true;
+    }
 }
