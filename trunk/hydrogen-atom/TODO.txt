@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - add x-axis ticks and labels to spectrometer
 - specify dimensions of spectrometer
+- specify dimensions of wavelength control
 
 MEDIUM PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
