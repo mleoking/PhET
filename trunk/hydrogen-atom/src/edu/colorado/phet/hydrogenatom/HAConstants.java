@@ -38,7 +38,7 @@ public class HAConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
-    public static final boolean SHOW_ORIGIN_NODES = true; // set to true for debugging
+    public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
     
     //----------------------------------------------------------------------------
     // Dimensions
