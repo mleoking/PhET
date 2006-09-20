@@ -11,25 +11,22 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.math.Vector2D;
 
 import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * MoleculeInstanceControlPanel
- * <p>
+ * <p/>
  * Panel that shows the number of each type of molecule
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class MoleculeInstanceControlPanel extends JPanel {
+    private List counters = new ArrayList( );
 
     public MoleculeInstanceControlPanel( MRModel model ) {
         super( new GridBagLayout() );
@@ -42,12 +39,18 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel abLabel = new JLabel( "AB" );
         JLabel bcLabel = new JLabel( "BC" );
 
-        MoleculeCounter aTF = new MoleculeCounter( 2, MoleculeA.class, model );
-        MoleculeCounter bTF = new MoleculeCounter( 2, MoleculeB.class, model );
-        bTF.setEnabled( false );
-        MoleculeCounter cTF = new MoleculeCounter( 2, MoleculeC.class, model );
-        MoleculeCounter abTF = new MoleculeCounter( 2, MoleculeAB.class, model );
-        MoleculeCounter bcTF = new MoleculeCounter( 2, MoleculeBC.class, model );
+        MoleculeCounter aTF = new MoleculeCounter( MoleculeA.class, model );
+        counters.add( aTF );
+        MoleculeCounter bTF = new MoleculeCounter( MoleculeB.class, model );
+//        counters.add( aTF );
+        MoleculeCounter cTF = new MoleculeCounter( MoleculeC.class, model );
+        counters.add( cTF );
+        MoleculeCounter abTF = new MoleculeCounter( MoleculeAB.class, model );
+        counters.add( abTF );
+        MoleculeCounter bcTF = new MoleculeCounter( MoleculeBC.class, model );
+        counters.add( bcTF );
+
+        bTF.setEditable( false );
 
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
@@ -68,7 +71,14 @@ public class MoleculeInstanceControlPanel extends JPanel {
         add( aTF, gbc );
         add( bTF, gbc );
         add( cTF, gbc );
-        add(abTF, gbc );
-        add(bcTF, gbc );
+        add( abTF, gbc );
+        add( bcTF, gbc );
+    }
+
+    public void setCountersEditable( boolean editable ) {
+        for( int i = 0; i < counters.size(); i++ ) {
+            MoleculeCounter moleculeCounter = (MoleculeCounter)counters.get( i );
+            moleculeCounter.setEditable( editable );
+        }
     }
 }

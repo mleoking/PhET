@@ -11,7 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
@@ -29,6 +29,7 @@ import java.awt.*;
 public class MRModule extends Module {
 
     private Dimension size = new Dimension( 600, 500 );
+    private MRControlPanel mrControlPanel;
 
     public MRModule( String name ) {
         super( name, new SwingClock( 40, 1 ) );
@@ -38,7 +39,9 @@ public class MRModule extends Module {
         setModel( model );
 
         // create the control panel
-        setControlPanel( new TestControlPanel( this ) );
+        setControlPanel( new ControlPanel() );
+        mrControlPanel = new MRControlPanel( this );
+        getControlPanel().addControl( mrControlPanel );
 
         // Create the basic graphics
         PhetPCanvas canvas = new PhetPCanvas( size );
@@ -63,4 +66,14 @@ public class MRModule extends Module {
                               insets.top );
         canvas.addScreenChild( energyView );
     }
+
+    protected MRControlPanel getMRControlPanel() {
+        return mrControlPanel;
+    }
+
+    public void setCountersEditable( boolean editable ) {
+        MRControlPanel controlPanel = (MRControlPanel)getMRControlPanel();
+        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
+    }
+
 }

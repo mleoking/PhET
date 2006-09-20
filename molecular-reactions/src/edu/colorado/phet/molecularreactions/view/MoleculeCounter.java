@@ -21,11 +21,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.util.List;
 
 /**
  * MoleculeCounter
- * <p>
+ * <p/>
  * Listens to the model to detect when molecules are added and removed to the model,
  * and listens
  *
@@ -33,8 +34,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class MoleculeCounter extends JSpinner implements PublishingModel.ModelListener,
-//public class MoleculeCounter extends JTextField implements PublishingModel.ModelListener,
-                                                           Molecule.ClassListener {
+                                                         Molecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
     private int cnt;
@@ -44,12 +44,14 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
     private MoleculeParamGenerator moleculeParamGenerator;
 
     /**
-     * @param columns
      * @param moleculeClass
      * @param model
      */
-    public MoleculeCounter( int columns, final Class moleculeClass, final MRModel model ) {
-//        super( columns );
+    public MoleculeCounter( final Class moleculeClass, final MRModel model ) {
+
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
+        tf.setColumns(2);
+
         this.moleculeClass = moleculeClass;
         this.model = model;
         model.addListener( this );
@@ -62,14 +64,12 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                                                               r.getHeight() - 40 );
         moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5 );
         setValue( new Integer( 0 ) );
-//        setText( "0" );
 
+        // Respond to changes in the spinner
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 selfUpdating = true;
-                int diff = ((Integer)getValue()).intValue() - cnt;
-//                int diff = Integer.parseInt( getText() ) - cnt;
-
+                int diff = ( (Integer)getValue() ).intValue() - cnt;
                 for( int i = 0; i < Math.abs( diff ); i++ ) {
 
                     // Do we need to add molecules?
@@ -98,53 +98,26 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                         // We need to set the value in the text field in case we were asked to remove a
                         // molecule that couldn't be removed
                         setValue( new Integer( cnt ) );
-//                        setText( Integer.toString( cnt ) );
                     }
                 }
 
                 selfUpdating = false;
             }
         } );
+    }
 
-//        this.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                selfUpdating = true;
-//                int diff = Integer.parseInt( getText() ) - cnt;
-//
-//                for( int i = 0; i < Math.abs( diff ); i++ ) {
-//
-//                    // Do we need to add molecules?
-//                    if( diff > 0 ) {
-//                        Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
-//                                                        model.getBox().getMinY() + 120 );
-//                        Vector2D v = new Vector2D.Double( 2, 2 );
-//                        Molecule m = MoleculeFactory.createMolecule( moleculeClass,
-//                                                                     moleculeParamGenerator );
-//                        addMoleculeToModel( m, model );
-//                        cnt++;
-//                    }
-//
-//                    // Do we need to remove molecules?
-//                    else if( diff < 0 ) {
-//                        List modelElements = model.getModelElements();
-//                        for( int j = modelElements.size() - 1; j >= 0; j-- ) {
-//                            Object o = modelElements.get( j );
-//                            if( moleculeClass.isInstance( o ) && !( (Molecule)o ).isPartOfComposite() ) {
-//                                Molecule molecule = (Molecule)o;
-//                                removeMoleculeFromModel( molecule, model );
-//                                cnt--;
-//                                break;
-//                            }
-//                        }
-//                        // We need to set the value in the text field in case we were asked to remove a
-//                        // molecule that couldn't be removed
-//                        setText( Integer.toString( cnt ) );
-//                    }
-//                }
-//
-//                selfUpdating = false;
-//            }
-//        } );
+    /**
+     * Sets both the spinner and the text field, and make the text field look like
+     * a normal text field when it's not editable.
+     *
+     * @param editable
+     */
+    public void setEditable( boolean editable ) {
+        setEnabled( editable );
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
+        tf.setEnabled( true );
+        tf.setEditable( editable );
+        tf.setForeground( Color.black );
     }
 
     private void addMoleculeToModel( Molecule m, MRModel model ) {
@@ -180,7 +153,6 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
         }
         cnt = n;
         setValue( new Integer( n ) );
-//        setText( Integer.toString( n ) );
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -43,9 +43,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;
-//    private EnergySimpleMoleculeGraphic selectedMoleculeGraphic;
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
-//    private EnergySimpleMoleculeGraphic nearestToSelectedMoleculeGraphic;
     private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
 
     private PNode cursor;
@@ -169,7 +167,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
-            double maxSeparation = 100;
+            double maxSeparation = 80;
             double yOffset = 20;
             double xOffset = 20;
 
