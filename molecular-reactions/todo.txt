@@ -1,3 +1,12 @@
+- Add "Temperature Control" label
+- Change "Add" and "Remove" to "Raise" and "Lower" on temperature control
+- Molecule counters should be spinners
+- Simple Module
+    - Molecule counters not editable
+- Add complex module
+    - Pump
+    - Molecule counters editable
+
 Collision Issues
 ================
 - Energy isn't conserved
@@ -9,10 +18,11 @@ Collision Issues
 ====
 Bugs
 ====
+- Provisional bonds show up between bound molecules that they shouldn't
 Spring collision
     - Force must be infinite on contact
     - Collisions aren't conservative
-    - Angular velocity shouldn't acrue in simple test. Should there be a floor on r?            
+    - Angular velocity shouldn't acrue in simple test. Should there be a floor on r?
 - Amount of energy needed to get to reaction is delta from floor, not absolute value
 - Should kinetic energy increase if compound molecule has lower floor?
 - How should selection/higlighting work? Use CM instead of halo.
@@ -22,7 +32,7 @@ Spring collision
 Internal
 ==========
 - Some objects that listen to SimpleMolecule.Listener.selectionStatusChanged() should
-    listen instead to the SelectedMoleculeTracker. 
+    listen instead to the SelectedMoleculeTracker.
 - HardBodyCollision takes Molecules. It should take Body. Can't because it uses bounding box
     overlap test.
 - Look at todo in CompositeMolecule.releaseSimpleMolecule()

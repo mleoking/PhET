@@ -30,9 +30,8 @@ public class MRModule extends Module {
 
     private Dimension size = new Dimension( 600, 500 );
 
-    public MRModule() {
-        super( SimStrings.get( "Module-1.title" ),
-               new SwingClock( 40, 1 ) );
+    public MRModule( String name ) {
+        super( name, new SwingClock( 40, 1 ) );
 
         // Create the model
         MRModel model = new MRModel( getClock() );
