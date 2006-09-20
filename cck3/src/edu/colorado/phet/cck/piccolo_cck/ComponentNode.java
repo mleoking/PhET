@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -9,6 +10,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -53,6 +55,16 @@ public class ComponentNode extends BranchNode {
                 model.getCircuit().setSelection( circuitComponent );
             }
         } );
+
+        addInputEventListener( new DynamicPopupMenuHandler( parent, new DynamicPopupMenuHandler.JPopupMenuFactory() {
+            public JPopupMenu createPopupMenu() {
+                return ComponentNode.this.createPopupMenu();
+            }
+        } ) );
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new JPopupMenu();
     }
 
     protected void update() {
