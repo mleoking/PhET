@@ -13,8 +13,8 @@ package edu.colorado.phet.hydrogenatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -33,7 +33,7 @@ public class ZoomIndicatorNode extends PhetPNode {
         setChildrenPickable( false );
     }
     
-    public void update( Point2D smallBoxOrigin, Dimension smallBoxSize, Point2D bigBoxOrigin, Dimension bigBoxSize ) {
+    public void update( Point2D smallBoxOrigin, Dimension2D smallBoxSize, Point2D bigBoxOrigin, Dimension2D bigBoxSize ) {
         
         removeAllChildren();
         
