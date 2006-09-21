@@ -1,3 +1,6 @@
+3.03.02 (9-20-2006)
+Partial completion of translation to Piccolo.
+
 3.02.02 (9-3-2006)
 Added local jnlp file implementation.
 Switched to Windows look and feel preferred over Ocean.

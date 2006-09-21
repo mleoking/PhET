@@ -108,6 +108,7 @@ public class CCKApplication extends PiccoloPhetApplication {
                     cckModule.getCCKApparatusPanel().synchronizeImmediately();
                 }
             } );
+            setLogoPanel( null );
         }
 
         public void activate() {

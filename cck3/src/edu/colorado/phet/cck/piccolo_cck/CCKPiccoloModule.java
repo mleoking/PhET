@@ -46,6 +46,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
                 model.stepInTime( dt );
             }
         } );
+        setLogoPanel( null );
     }
 
     public void activate() {

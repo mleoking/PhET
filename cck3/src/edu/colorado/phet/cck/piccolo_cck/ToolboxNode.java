@@ -120,14 +120,10 @@ public class ToolboxNode extends PhetPNode {
 
         private Font createFont() {
             return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( "Lucida Sans", Font.PLAIN, 16 ) : new Font( "Lucida Sans", Font.PLAIN, 12 );
-//            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( "Lucida Sans", Font.PLAIN, 16 ) : new Font( "Lucida Sans", Font.PLAIN, 16 );
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {
-            Point2D location = new Point2D.Double( event.getCanvasPosition().getX(),
-                                                   event.getCanvasPosition().getY() );
-            canvas.getPhetRootNode().globalToWorld( location );
-            return location;
+            return event.getPositionRelativeTo( ToolboxNode.this.getParent() );
         }
 
         //This assumes the branch is always centered on the mouse.
