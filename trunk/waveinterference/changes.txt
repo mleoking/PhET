@@ -1,3 +1,6 @@
+New in 1.00.02 (9-21-2006)
+Changed "Up" to "This End Up"
+
 New in 1.00.01 (8-23-2006) 
 Rearrange the controls so that the option of one or two drips/speakers/lights is before the Barrier options.  This way on a low resolution screen the tops of the controls can be seen and a user will not miss options. In the Sound panel the Audio box will move up with the one or two speaker controls.
 Added Reset All.

@@ -21,7 +21,7 @@ public class ThisSideUpGraphic extends PhetPNode {
     private double origHeight;
 
     public ThisSideUpGraphic() {
-        PText textNode = new PText( "Up" );
+        PText textNode = new PText( "This End Up" );
         addChild( textNode );
         PPath arrowNode = new PPath( new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, -100 ), 30, 30, 15 ).getShape() );
         arrowNode.setPaint( Color.yellow );
