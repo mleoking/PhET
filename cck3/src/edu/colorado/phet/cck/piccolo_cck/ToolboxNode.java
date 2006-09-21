@@ -19,6 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -33,8 +34,8 @@ public class ToolboxNode extends PhetPNode {
     private PhetPCanvas canvas;
     private CCKModel model;
     private ArrayList branchMakers = new ArrayList();
-    private static final int TOP_INSET = 50;
-    private static final double BETWEEN_INSET = 20;
+    private static final int TOP_INSET = 30;
+    private static final double BETWEEN_INSET = 6;
     private CircuitInteractionModel circuitInteractionModel;
     private ICCKModule module;
 
@@ -43,7 +44,7 @@ public class ToolboxNode extends PhetPNode {
         this.canvas = canvas;
         this.model = model;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
-        this.toolboxBounds = new PPath( new Rectangle( 100, 800 ) );
+        this.toolboxBounds = new PPath( new Rectangle( 100, 100 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
         addChild( toolboxBounds );
@@ -56,11 +57,12 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new ACVoltageMaker() );
         addBranchMaker( new CapacitorMaker() );
         addBranchMaker( new InductorMaker() );
+        toolboxBounds.setPathTo( new Rectangle2D.Double( 0, 0, 100, getYForNextItem( new ResistorMaker() ) ) );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
         double y = getYForNextItem( branchMaker );
-        branchMaker.setOffset( toolboxBounds.getFullBounds().getWidth() / 2 - branchMaker.getFullBounds().getWidth() / 2, y );
+        branchMaker.setOffset( toolboxBounds.getFullBounds().getCenterX() - branchMaker.getFullBounds().getWidth() / 2 - branchMaker.getFullBounds().getMinX(), y );
         addChild( branchMaker );
         branchMakers.add( branchMaker );
     }
@@ -93,7 +95,8 @@ public class ToolboxNode extends PhetPNode {
 
         public BranchMaker( String name ) {
             label = new PText( name );
-            label.setFont( new Font( "Lucida Sans", Font.PLAIN, 11 ) );
+            label.setFont( createFont() );
+//            label.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
@@ -113,6 +116,11 @@ public class ToolboxNode extends PhetPNode {
                     createdBranch = null;
                 }
             } );
+        }
+
+        private Font createFont() {
+            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( "Lucida Sans", Font.PLAIN, 16 ) : new Font( "Lucida Sans", Font.PLAIN, 12 );
+//            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? new Font( "Lucida Sans", Font.PLAIN, 16 ) : new Font( "Lucida Sans", Font.PLAIN, 16 );
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {
@@ -173,7 +181,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Resistor createResistor() {
-            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( CCKModel.RESISTOR_DIMENSION.getLength(), 0 ), CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 );
+            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, 0 ), CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 );
             resistor.setResistance( 10.0 );
             return resistor;
         }
