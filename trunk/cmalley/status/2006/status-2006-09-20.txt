@@ -1,0 +1,33 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Sept 12 - Sept 20, 2006 (Tue-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - design of interface was changed
+  - redo graphics and layout
+  - make everything work on a black background (was white)
+  - Spanish translations to check layout behavior
+  - make font sizes and animation region dimensions configurable in localization file
+  
+  Common code:
+  - investigate PSwing problem on Windows, transparent Swing components look horrible
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - October 8-19
+  
+--
