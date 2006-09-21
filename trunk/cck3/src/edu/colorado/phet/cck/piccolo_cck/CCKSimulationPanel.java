@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -35,7 +36,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
         setBackground( ICCKModule.BACKGROUND_COLOR );
 
         toolboxNode = new ToolboxNode( this, model, module );
-        addScreenChild( toolboxNode );
+        toolboxNode.scale( 1.0 / 80.0 );
+        addWorldChild( toolboxNode );
 
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module );
         addWorldChild( circuitNode );
@@ -63,8 +65,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private void relayout() {
-        double toolboxInsetX = 15;
-        toolboxNode.setOffset( getWidth() - toolboxNode.getFullBounds().getWidth() - toolboxInsetX, getHeight() / 2 - toolboxNode.getFullBounds().getHeight() / 2 );
+        Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, getWidth(), getHeight() );
+        toolboxNode.getParent().globalToLocal( screenRect );
+        double toolboxInsetX = 15 / 80.0;
+        double toolboxInsetY = 10 / 80.0;
+//        double toolboxInsetX = 0;
+        toolboxNode.setOffset( screenRect.getWidth() - toolboxNode.getFullBounds().getWidth() - toolboxInsetX, screenRect.getHeight() - toolboxNode.getFullBounds().getHeight() - toolboxInsetY );
     }
 
     private void addTestElement() {
