@@ -13,6 +13,8 @@ package edu.colorado.phet.dischargelamps;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
@@ -83,6 +85,15 @@ public class SingleAtomModule extends DischargeLampModule {
         // Add the indicator for what energy an electron will have when it hits the atom
         collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
         elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
+
+        // Add text that labels the ground state
+        PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
+                                                                        DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+                                                                        SimStrings.get("Misc.groundState" ),
+                                                                        Color.black,
+                                                                        110,
+                                                                        270 );
+        elmp.getElmp().addGraphic( groundStateTextGraphic, -1);
 
         // Put the current slider in a set of controls with the Fire button
         final CurrentSlider currentSlider = getCurrentSlider();
