@@ -96,7 +96,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
         labelNode.setHTML( SimStrings.get( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
         int fontSize = SimStrings.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
-        Font labelFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        Font labelFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
         labelNode.setFont( labelFont );
         
         // Layering

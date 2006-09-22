@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 public class ExperimentAtomNode extends PhetPNode {
 
-    private static final Font FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 200 );
+    private static final Font FONT = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, 200 );
     private static final Color COLOR = Color.WHITE;
     
     public ExperimentAtomNode() {

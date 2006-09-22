@@ -52,7 +52,7 @@ public class ModeSwitch extends PhetPNode {
     private static final boolean EXPERIMENT_IS_AT_TOP = true;
     
     private static final Color ON_COLOR = Color.WHITE;
-    private static final Color OFF_COLOR = Color.LIGHT_GRAY;
+    private static final Color OFF_COLOR = Color.BLACK;
     private static final Stroke LINE_STROKE = new BasicStroke( 2f );
     private static final double LINE_LENGTH = 20;
     private static final double MARGIN = 10;
@@ -80,8 +80,8 @@ public class ModeSwitch extends PhetPNode {
         
         // Font size 
         int fontSize = SimStrings.getInt( "modeSwitch.font.size", HAConstants.MODE_SWITCH_FONT_SIZE );
-        Font bigFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
-        Font smallFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, (int)( 0.7 * fontSize ) );
+        Font bigFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
+        Font smallFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, (int)( 0.7 * fontSize ) );
         
         PImage panel = PImageFactory.create( HAConstants.IMAGE_MODE_PANEL );
         _switchUpNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );

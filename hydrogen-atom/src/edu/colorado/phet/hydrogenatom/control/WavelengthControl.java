@@ -68,11 +68,9 @@ public class WavelengthControl extends PhetPNode {
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
-    private static final Font VALUE_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     private static final double VALUE_Y_OFFSET = 2;
     
     private static final String UNITS_LABEL = "nm";
-    private static final Font UNITS_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 );
     
     private static final double CURSOR_WIDTH = 3;
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
@@ -80,7 +78,6 @@ public class WavelengthControl extends PhetPNode {
     
     private static final String UV_STRING = "UV";
     private static final String IR_STRING = "IR";
-    private static final Font UV_IR_FONT = new Font( HAConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color DEFAULT_UV_TRACK_COLOR = Color.LIGHT_GRAY;
     private static final Color DEFAULT_UV_LABEL_COLOR = Color.BLACK;
     private static final Color DEFAULT_IR_TRACK_COLOR = DEFAULT_UV_TRACK_COLOR;
@@ -532,7 +529,6 @@ public class WavelengthControl extends PhetPNode {
                 uvTrack.setStroke( null );
                 
                 uvLabel = new PText( UV_STRING );
-                uvLabel.setFont( UV_IR_FONT );
                 uvLabel.setTextPaint( uvLabelColor );
             }
             
@@ -546,7 +542,6 @@ public class WavelengthControl extends PhetPNode {
                 irTrack.setStroke( null );
 
                 irLabel = new PText( IR_STRING );
-                irLabel.setFont( UV_IR_FONT );
                 irLabel.setTextPaint( irLabelColor );
             }
             
@@ -609,11 +604,9 @@ public class WavelengthControl extends PhetPNode {
             
             /* units label, appears to the right of the text field */
             _unitsLabel = new JLabel( UNITS_LABEL );
-            _unitsLabel.setFont( UNITS_FONT );
             
             /* editable text field */
             _formattedTextField = new JFormattedTextField();
-            _formattedTextField.setFont( VALUE_FONT );
             _formattedTextField.setColumns( 3 );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             

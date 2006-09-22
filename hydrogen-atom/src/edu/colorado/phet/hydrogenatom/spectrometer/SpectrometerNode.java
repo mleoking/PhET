@@ -141,8 +141,8 @@ public class SpectrometerNode extends PhetPNode {
         
         PBounds b = spectrometerImage.getFullBounds();
         PBounds cb = closeButtonNode.getFullBounds();
-        closeButtonNode.setOffset( b.getX() + b.getWidth() - cb.getWidth() - 15, b.getY() + 8 );
-        titleNode.setOffset( b.getX() + 15, b.getY() + 12 );
+        closeButtonNode.setOffset( b.getX() + b.getWidth() - cb.getWidth() - 15, b.getY() + 6 );
+        titleNode.setOffset( b.getX() + 15, b.getY() + 7 );
         if ( !isaSnapshot ) {
             buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 15, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
         }        

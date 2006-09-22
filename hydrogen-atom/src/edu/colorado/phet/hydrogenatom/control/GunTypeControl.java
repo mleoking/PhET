@@ -113,7 +113,7 @@ public class GunTypeControl extends PhetPNode {
         
         // Fonts
         int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
         _lightButton.setFont( font );
         _alphaParticlesButton.setFont( font );
         

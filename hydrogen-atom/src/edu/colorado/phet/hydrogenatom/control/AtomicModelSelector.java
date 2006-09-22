@@ -56,12 +56,13 @@ public class AtomicModelSelector extends PhetPNode {
     private static final Color CONTINUUM_CLASSICAL_COLOR = Color.WHITE;
     private static final Color CONTINUUM_QUANTUM_COLOR = Color.BLACK;
     private static final Color BUTTON_SELECTED_COLOR = Color.WHITE;
-    private static final Color BUTTON_DESELECTED_COLOR = Color.LIGHT_GRAY;
+    private static final Color BUTTON_DESELECTED_COLOR = Color.BLACK;
     
-    // margin around edges of panel
-    private static final double MARGIN = 10;
+    // margins around edges of panel
+    private static final double X_MARGIN = 8;
+    private static final double Y_MARGIN = 5;
     // space between buttons
-    private static final double BUTTON_SPACING = 15;
+    private static final double BUTTON_SPACING = 10;
     // space between a button and its label
     private static final double LABEL_SPACING = 4;
     // space between buttons and the continuum label
@@ -104,11 +105,11 @@ public class AtomicModelSelector extends PhetPNode {
         ArrayList heightNodes = new ArrayList();
         
         // Fonts
-        Font titleFont = new Font( HAConstants.FONT_NAME, Font.BOLD, 
+        Font titleFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.BOLD, 
                 SimStrings.getInt( "atomicModelSelector.title.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE ) );
-        Font continuumFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, 
+        Font continuumFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, 
                 SimStrings.getInt( "atomicModelSelector.continuum.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE ) ); 
-        Font buttonFont = new Font( HAConstants.FONT_NAME, Font.PLAIN,
+        Font buttonFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN,
                 SimStrings.getInt( "atomicModelSelector.button.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE ) );
         
         // Panel
@@ -196,14 +197,14 @@ public class AtomicModelSelector extends PhetPNode {
                 panelHeight += node.getFullBounds().getHeight();
             }
             panelHeight += ( 6 * LABEL_SPACING );
-            panelHeight += ( 6 * BUTTON_SPACING );
-            panelHeight += ( 2 * MARGIN );
+            panelHeight += ( 7 * BUTTON_SPACING );
+            panelHeight += ( 2 * Y_MARGIN );
             
             // Width and height of continuum (dependent on panel height)
             double w1 = classicalLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
             double w2 = quantumLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
             continuumWidth = Math.max( w1, w2 ) + 2;
-            continuumHeight = panelHeight - atomicModelLabel.getFullBounds().getHeight() - ( 2 * MARGIN ) - BUTTON_SPACING;
+            continuumHeight = panelHeight - atomicModelLabel.getFullBounds().getHeight() - ( 2 * Y_MARGIN ) - ( 2 * BUTTON_SPACING );
             
             // Width of the panel (dependent on continuum width)
             double panelWidth = 0;
@@ -218,7 +219,7 @@ public class AtomicModelSelector extends PhetPNode {
             panelWidth += maxNodeWidth;
             panelWidth += CONTINUUM_SPACING;
             panelWidth += continuumWidth;
-            panelWidth += ( 2 * MARGIN );
+            panelWidth += ( 2 * X_MARGIN );
             
             // Scale the panel
             PBounds pb = panel.getFullBounds();
@@ -232,7 +233,7 @@ public class AtomicModelSelector extends PhetPNode {
         // Selection indicator
         {
             _selectionIndicator = new PPath();
-            double w = panel.getFullBounds().getWidth() - continuumWidth - CONTINUUM_SPACING - ( 2 * MARGIN );
+            double w = panel.getFullBounds().getWidth() - continuumWidth - CONTINUUM_SPACING - ( 2 * X_MARGIN );
             double h = _billiardBallButton.getFullBounds().getHeight() + 4; // Assumes that all buttons are the same size!
             _selectionIndicator.setPathTo( new Rectangle2D.Double( 0, 0, w, h ) );
             _selectionIndicator.setPaint( BUTTON_SELECTED_COLOR );
@@ -285,7 +286,7 @@ public class AtomicModelSelector extends PhetPNode {
             panel.setOffset( 0, 0 );
             double panelWidth = panel.getFullBounds().getWidth();
             
-            atomicModelLabel.setOffset( ( panelWidth - atomicModelLabel.getFullBounds().getWidth() ) / 2, MARGIN );
+            atomicModelLabel.setOffset( ( panelWidth - atomicModelLabel.getFullBounds().getWidth() ) / 2, Y_MARGIN );
             
             setOffsetCentered( _billiardBallLabel, atomicModelLabel, panel, continuumNode, BUTTON_SPACING );
             setOffsetCentered( _billiardBallButton, _billiardBallLabel, panel, continuumNode, LABEL_SPACING );
@@ -302,7 +303,7 @@ public class AtomicModelSelector extends PhetPNode {
             
             PBounds pb = panel.getFullBounds();
             AffineTransform xform = new AffineTransform();
-            xform.translate( pb.getWidth() - continuumNode.getFullBounds().getHeight() - MARGIN, _billiardBallLabel.getFullBounds().getY() );
+            xform.translate( pb.getWidth() - continuumNode.getFullBounds().getHeight() - X_MARGIN, _billiardBallLabel.getFullBounds().getY() );
             xform.rotate( Math.toRadians( 90 ) );
             xform.translate( 0, -continuumNode.getFullBounds().getHeight() );
             continuumNode.setTransform( xform );

@@ -116,9 +116,9 @@ public class HAModule extends PiccoloModule {
 
         // Fonts
         int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", HAConstants.JCOMPONENT_FONT_SIZE );
-        Font jComponentFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, jComponentFontSize );
+        Font jComponentFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, jComponentFontSize );
         int spectrometerFontSize = SimStrings.getInt( "spectrometer.font.size", HAConstants.SPECTROMETER_FONT_SIZE );
-        _spectrometerFont = new Font( HAConstants.FONT_NAME, Font.PLAIN, spectrometerFontSize );
+        _spectrometerFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, spectrometerFontSize );
         
         //----------------------------------------------------------------------------
         // Model
@@ -288,7 +288,7 @@ public class HAModule extends PiccoloModule {
         {
             _notToScaleLabel = new HTMLNode( SimStrings.get( "label.notToScale" ) );
             _notToScaleLabel.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-            _notToScaleLabel.setFont( new Font( HAConstants.FONT_NAME, Font.PLAIN, 14 ) );
+            _notToScaleLabel.setFont( new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, 14 ) );
             _notToScaleLabel.setPickable( false );
             _notToScaleLabel.setChildrenPickable( false );
         }

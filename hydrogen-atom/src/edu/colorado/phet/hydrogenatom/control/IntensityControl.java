@@ -63,7 +63,7 @@ public class IntensityControl extends JPanel {
         
         // Fonts
         int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
         _formattedTextField.setFont( font );
         _units.setFont( font );
         
@@ -74,7 +74,7 @@ public class IntensityControl extends JPanel {
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 0, 0, 0, 0 ) ); // top, left, bottom, right
+        layout.setInsets( new Insets( 0, 0, 0, 3 ) ); // top, left, bottom, right
         this.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
