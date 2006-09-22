@@ -8,19 +8,19 @@ HIGH PRIORITY:
 - distort orbits so that 6 orbits fit in animation region
 - generalize creating a "panel" node to fit under a collection of nodes
 - fix electron, proton and neutron images
-- all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
+- "Box of Hydrogen" HTMLNode looks lousy on Windows
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
 - fix spectrometer layout
 - add SpectrometerNode.setSize(Dimension)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
-- add WavelengthControl.setFont(Font) to set all fonts to the same size
-- add WavelengthControl.setTrackFont(Font) to set "UV" and "IR" font in track
+- size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
 - design code to accommodate zoom controls on animation region (possible feature)
 - create layout nodes
+- rewrite AtomicModelSelector to use inner classes, or layout node
 - port spectrometer from Discharge Lamps sim
 - show compressed UV and IR range in spectrometer (like in Discharge Lamps)
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
