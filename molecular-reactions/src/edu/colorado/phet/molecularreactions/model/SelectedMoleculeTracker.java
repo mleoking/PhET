@@ -112,6 +112,7 @@ public class SelectedMoleculeTracker implements ModelElement,
                     prevClosetMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
                 }
                 closestMolecule.setSelectionStatus( Selectable.NEAREST_TO_SELECTED );
+                listenerProxy.closestMoleculeChanged( closestMolecule, prevClosetMolecule );
             }
         }
     }
@@ -149,6 +150,7 @@ public class SelectedMoleculeTracker implements ModelElement,
     //--------------------------------------------------------------------------------------------------
     public interface Listener extends EventListener {
         void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule );
+        void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule );
     }
 
     private EventChannel listenerEventChannel = new EventChannel( Listener.class );

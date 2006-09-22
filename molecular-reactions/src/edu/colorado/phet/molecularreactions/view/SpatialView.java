@@ -65,18 +65,10 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new BondGraphicFactory( bondLayer ) );
         megm.scanModel();
 
-        // Molecule counters
-//        createMoleculeCounters( canvas, pSwingCanvas, model );
-
         // Temperature control
         createTemperatureControl( model, pSwingCanvas );
-
-//        // Pump
-//        PumpGraphic pumpGraphic = new PumpGraphic( module );
-//        pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
-//                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
-//        addChild( pumpGraphic );
     }
+
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
         TemperatureControl tempCtrl = new TemperatureControl( model );

@@ -1,4 +1,5 @@
--  Icons images are truncated on right and bottom
+- no markings on the molecules in Simple module 
+- Icons images are truncated on right and bottom
 - Move GraphicFactory classes out of SpatialView.
 - Clean up CompositeMoleculeGraphic. It doesn't handle the bond anymore
 - Put bonds on the energy view

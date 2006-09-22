@@ -12,8 +12,11 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
-import java.awt.*;
+import javax.swing.*;
 
 /**
  * MRModule
@@ -25,15 +28,22 @@ public class SimpleModule extends MRModule {
 
     public SimpleModule() {
         super( "Simple");
-        testL( (MRModel)getModel() );
+        setInitialConditions( (MRModel)getModel() );
+
+        // Add Manual Control button
+        JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));
+        manualCtrlBtn.addActionListener( new ManualControlAction( this ) );
+        PSwing ctrlBtnPSwing = new PSwing( getPCanvas(), manualCtrlBtn );
+        ctrlBtnPSwing.setOffset( 50, 50 );
+        getSpatialView().addChild( ctrlBtnPSwing );
     }
 
     /**
-     * Multiple molecules
+     *
      *
      * @param model
      */
-    void testL( MRModel model ) {
+    void setInitialConditions( MRModel model ) {
         {
             model.setReaction( new A_AB_BC_C_Reaction( model ) );
             {

@@ -46,7 +46,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
     private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
 
-    private PNode cursor;
+    private EnergyCursor cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
     private Dimension curveAreaSize;
 
@@ -98,7 +98,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the cursor
-        cursor = new EnergyCursor( curveAreaSize.getHeight() );
+        cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
         cursorLayer.addChild( cursor );
 
         return curvePane;
@@ -263,6 +263,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
         }
         update();
+    }
+
+    public void setManualControl( boolean manualControl ) {
+        cursor.setManualControlEnabled( manualControl );
     }
 
     //--------------------------------------------------------------------------------------------------

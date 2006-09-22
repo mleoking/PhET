@@ -45,6 +45,10 @@ public class SelectMoleculeAction extends AbstractAction {
                 clock.start();
                 model.addSelectedMoleculeTrackerListener( listener );
             }
+
+            public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
+                // noop
+            }
         };
         model.addSelectedMoleculeTrackerListener( listener );
 
