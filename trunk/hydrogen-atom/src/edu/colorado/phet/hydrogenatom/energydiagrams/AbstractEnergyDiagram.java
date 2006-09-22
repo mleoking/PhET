@@ -48,7 +48,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         
         // Fonts
         int fontSize = SimStrings.getInt( "energyDiagram.font.size", HAConstants.ENERGY_DIAGRAM_FONT_SIZE );
-        Font font = new Font( HAConstants.FONT_NAME, Font.BOLD, fontSize );
+        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.BOLD, fontSize );
         
         // Background
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );

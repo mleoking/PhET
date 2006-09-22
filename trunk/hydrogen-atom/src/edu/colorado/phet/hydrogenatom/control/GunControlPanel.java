@@ -117,7 +117,7 @@ public class GunControlPanel extends PhetPNode {
            PBounds ltb = lightTypeControlWrapper.getFullBounds();
            lightIntensityControlWrapper.setOffset( ltb.getX(), ltb.getY() + ltb.getHeight() + Y_SPACING );
            PBounds lib = lightIntensityControlWrapper.getFullBounds();
-           double yFudge = 20; // fudge factor for text field above wavelength slider
+           double yFudge = 25; // fudge factor for text field above wavelength slider
            _wavelengthControl.setOffset( lib.getX(), lib.getY() + lib.getHeight() + Y_SPACING + yFudge );
            
            _alphaParticleControls.setOffset( gtb.getX(), gtb.getY() + gtb.getHeight() + Y_SPACING );
@@ -154,7 +154,7 @@ public class GunControlPanel extends PhetPNode {
         
         // Fonts
         int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.FONT_NAME, Font.PLAIN, fontSize );
+        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
         _wavelengthControl.setTextFieldFont( font );
         _wavelengthControl.setUnitsFont( font );
         

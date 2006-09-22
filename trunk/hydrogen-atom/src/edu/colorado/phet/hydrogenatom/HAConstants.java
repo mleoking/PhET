@@ -14,9 +14,10 @@ package edu.colorado.phet.hydrogenatom;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -82,7 +83,8 @@ public class HAConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = "Lucida Sans";
+    // Default font name used for JLabels
+    public static final String JLABEL_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
     
     // Default font sizes, also configurable via SimStrings file
     public static final int MODE_SWITCH_FONT_SIZE = 20;
