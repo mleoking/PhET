@@ -10,10 +10,12 @@ HIGH PRIORITY:
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - add x-axis ticks and labels to spectrometer
 - specify dimensions of spectrometer
+- specify dimensions of spectrometer knob
 - specify dimensions of wavelength control
+- add WavelengthControl.setFont to set all fonts to the same size
+- add WavelengthControl.setTrackFont to set "UV" and "IR" font in track
 
 MEDIUM PRIORITY:
-- bug: spectrometer buttons are fully transparent on Win98
 - port spectrometer from Discharge Lamps sim
 - show compressed UV and IR range in spectrometer (like in Discharge Lamps)
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
@@ -23,10 +25,9 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
-- add ability to set dimensions of wavelength control
-- add ability to set knob size of wavelength control
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - animate opening/closing of Atomic Model selection panel
+- bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
 (9/22/06) - PSwing changes with Sam Reid to resolve problem with drawing transparent JComponents
