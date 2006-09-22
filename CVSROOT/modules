@@ -89,6 +89,9 @@ collision-dir collision
 mechanics-module mechanics
 mechanics-dir mechanics
 
+# Assets - Images and other non-code resources used by multiple simulations
+assets assets
+
 #============================================================================
 # Chris Malley's simulations
 #============================================================================
