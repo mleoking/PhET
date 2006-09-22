@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.piccolo;
 
+import edu.colorado.phet.common.view.LogoPanel;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 
 public class PhetTabbedPane extends JPanel {
 
-    public static final String IMAGE_PHET_LOGO = "images/phetlogo.png";
+    public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
     private TabPane tabPane;
     /**
@@ -97,6 +98,10 @@ public class PhetTabbedPane extends JPanel {
             }
         };
         addComponentListener( relayoutHandler );
+    }
+
+    public void setLogoVisible( boolean logoVisible ) {
+        tabPane.setLogoVisible( logoVisible );
     }
 
     /**
@@ -323,6 +328,10 @@ public class PhetTabbedPane extends JPanel {
      */
     public String getTitleAt( int i ) {
         return getTab( i ).getText();
+    }
+
+    public boolean getLogoVisible() {
+        return tabPane.getLogoVisible();
     }
 
     /**
@@ -822,6 +831,14 @@ public class PhetTabbedPane extends JPanel {
                 tabNode.setSelectedTabColor( color );
             }
             tabBase.setSelectedTabColor( color );
+        }
+
+        public void setLogoVisible( boolean logoVisible ) {
+            logo.setVisible( logoVisible );
+        }
+
+        public boolean getLogoVisible() {
+            return logo.getVisible();
         }
     }
 
