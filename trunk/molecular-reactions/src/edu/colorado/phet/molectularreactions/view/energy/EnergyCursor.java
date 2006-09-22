@@ -104,19 +104,22 @@ class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.
             // Move them so they are as far from touching as the cursor is from the center of its
             // motion range
             double d = ( minX + maxX ) / 2 - energyCursor.getOffset().getX();
-
-            dm.scale( dx * MathUtil.getSign( d ) );
+            Point2D midPt = new Point2D.Double( ( moleculeBeingTracked.getPosition().getX() + closestToTracked.getPosition().getX() ) / 2,
+                                                ( moleculeBeingTracked.getPosition().getY() + closestToTracked.getPosition().getY() ) / 2 );
+            dm.scale( d / 2 );
             if( moleculeBeingTracked.isPartOfComposite() ) {
-                moleculeBeingTracked.getParentComposite().translate( dm.getX(), dm.getY() );
+                moleculeBeingTracked.getParentComposite().translate( (midPt.getX() - dm.getX()) - moleculeBeingTracked.getCM().getX(),
+                                                                     (midPt.getY() - dm.getY()) - moleculeBeingTracked.getCM().getY());
             }
             else {
-                moleculeBeingTracked.translate( dm.getX(), dm.getY() );
+                moleculeBeingTracked.setPosition( midPt.getX() - dm.getX(), midPt.getY() - dm.getY() );
             }
             if( closestToTracked.isPartOfComposite() ) {
-                closestToTracked.getParentComposite().translate( -dm.getX(), -dm.getY() );
+                closestToTracked.getParentComposite().translate( (midPt.getX() - dm.getX()) - closestToTracked.getCM().getX(),
+                                                                 (midPt.getY() - dm.getY()) - closestToTracked.getCM().getY() );
             }
             else {
-                closestToTracked.translate( -dm.getX(), -dm.getY() );
+                closestToTracked.setPosition( midPt.getX() + dm.getX(), midPt.getY() + dm.getY() );
             }
         }
     }

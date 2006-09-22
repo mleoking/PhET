@@ -273,7 +273,7 @@ abstract public class CompositeMolecule extends Molecule {
 
     public void translate( double dx, double dy ) {
         Molecule[] components = getComponentMolecules();
-        for( int i = 0; i < components.length; i++ ) {
+        for( int i = 0; components != null && i < components.length; i++ ) {
             Molecule component = components[i];
             component.translate( dx, dy );
         }
