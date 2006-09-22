@@ -17,6 +17,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molectularreactions.view.energy.EnergyView;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 
@@ -31,6 +33,7 @@ public class MRModule extends Module {
     private Dimension size = new Dimension( 600, 600 );
     private MRControlPanel mrControlPanel;
     private SpatialView spatialView;
+    private EnergyView energyView;
 
     public MRModule( String name ) {
         super( name, new SwingClock( 40, 1 ) );
@@ -64,7 +67,7 @@ public class MRModule extends Module {
         canvas.addScreenChild( spatialView );
 
         // Create energy view
-        EnergyView energyView = new EnergyView( model );
+        energyView = new EnergyView( model );
         energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
                               insets.top );
         canvas.addScreenChild( energyView );
@@ -78,6 +81,10 @@ public class MRModule extends Module {
         return spatialView;
     }
 
+    protected PSwingCanvas getPCanvas() {
+        return (PSwingCanvas)getSimulationPanel();
+    }
+
     public MRModel getMRModel() {
         return (MRModel)getModel();
     }
@@ -85,5 +92,10 @@ public class MRModule extends Module {
     public void setCountersEditable( boolean editable ) {
         MRControlPanel controlPanel = (MRControlPanel)getMRControlPanel();
         controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
+    }
+
+    public void setManualControl( boolean manualControl ) {
+        getClock().pause();
+        energyView.setManualControl( true );
     }
 }

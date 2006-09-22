@@ -12,6 +12,9 @@ package edu.colorado.phet.molectularreactions.view.energy;
 
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -28,45 +31,105 @@ import java.awt.Cursor;
  * @author Ron LeMaster
  * @version $Revision$
  */
-class EnergyCursor extends PNode {
+class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.Listener {
     private double width = 10;
+    private MouseHandler mouseHandler;
+    private SimpleMolecule moleculeBeingTracked;
+    private SimpleMolecule closestToTracked;
+    private double minX;
+    private double maxX;
 
-    EnergyCursor( double height ) {
-        Rectangle2D cursorShape = new Rectangle2D.Double( -width / 2, 0, width, height );
+    EnergyCursor( double height, double minX, double maxX, MRModel model ) {
+        this.minX = minX;
+        this.maxX = maxX;
+        setRegistrationPoint( width / 2, 0 );
+        Rectangle2D cursorShape = new Rectangle2D.Double( 0, 0, width, height );
         PPath cursorPPath = new PPath( cursorShape );
         cursorPPath.setStroke( new BasicStroke( 1 ) );
         cursorPPath.setStrokePaint( new Color( 200, 200, 200 ) );
         cursorPPath.setPaint( new Color( 200, 200, 200, 200 ) );
         addChild( cursorPPath );
-        this.addInputEventListener( new MouseHandler( this ) );
+        mouseHandler = new MouseHandler( this );
+
+        model.addSelectedMoleculeTrackerListener( this );
+
+        setManualControlEnabled( true );
+
+    }
+
+    public void setManualControlEnabled( boolean manualControlEnabled ) {
+        if( manualControlEnabled ) {
+            // Remove the mouse handler first, to make sure it isn't added more than once.
+            removeInputEventListener( mouseHandler );
+            addInputEventListener( mouseHandler );
+        }
+        else {
+            removeInputEventListener( mouseHandler );
+        }
     }
 
     /**
      * Handles mousing on the cursor
      */
-    private static class MouseHandler extends PBasicInputEventHandler {
+    private class MouseHandler extends PBasicInputEventHandler {
         EnergyCursor energyCursor;
 
         public MouseHandler( EnergyCursor energyCursor ) {
             this.energyCursor = energyCursor;
         }
 
-        public void mouseEntered( PInputEvent event) {
-            PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-            ppc.setCursor(new Cursor( Cursor.W_RESIZE_CURSOR));
+        public void mouseEntered( PInputEvent event ) {
+            PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+            ppc.setCursor( new Cursor( Cursor.W_RESIZE_CURSOR ) );
         }
 
-        public void mouseExited(PInputEvent event) {
-            PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-            ppc.setCursor( Cursor.getDefaultCursor());
+        public void mouseExited( PInputEvent event ) {
+            PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+            ppc.setCursor( Cursor.getDefaultCursor() );
         }
 
-        public void mouseDragged(PInputEvent event) {
+        public void mouseDragged( PInputEvent event ) {
             double dx = event.getDelta().getWidth();
-            System.out.println( "dx = " + dx );
-            Point2D p = energyCursor.getOffset();
-            energyCursor.setOffset( energyCursor.getOffset().getX() + dx,
-                                    energyCursor.getOffset().getY() );
+            double x = energyCursor.getOffset().getX() + dx;
+            x = Math.max( x, minX );
+            x = Math.min( x, maxX );
+            energyCursor.setOffset( x, energyCursor.getOffset().getY() );
+
+            // Move the tracked and closestToTracked molecules
+
+            // Get the unit vector between them
+            Vector2D dm = new Vector2D.Double( moleculeBeingTracked.getPosition(),
+                                               closestToTracked.getPosition() ).normalize();
+
+            // Move them so they are as far from touching as the cursor is from the center of its
+            // motion range
+            double d = ( minX + maxX ) / 2 - energyCursor.getOffset().getX();
+
+            dm.scale( dx * MathUtil.getSign( d ) );
+            if( moleculeBeingTracked.isPartOfComposite() ) {
+                moleculeBeingTracked.getParentComposite().translate( dm.getX(), dm.getY() );
+            }
+            else {
+                moleculeBeingTracked.translate( dm.getX(), dm.getY() );
+            }
+            if( closestToTracked.isPartOfComposite() ) {
+                closestToTracked.getParentComposite().translate( -dm.getX(), -dm.getY() );
+            }
+            else {
+                closestToTracked.translate( -dm.getX(), -dm.getY() );
+            }
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of SelectedMoleculeTracker.Listener
+    //--------------------------------------------------------------------------------------------------
+
+    public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule ) {
+        moleculeBeingTracked = newTrackedMolecule;
+    }
+
+    public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
+        closestToTracked = newClosestMolecule;
     }
 }
