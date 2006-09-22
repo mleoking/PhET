@@ -33,32 +33,22 @@ import java.util.HashMap;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, CompositeMolecule.Listener {
+public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
 
     private CompositeMolecule compositeMolecule;
     private PPath cmNode;
-    private PNode bondsLayer = new PNode();
-//    private PNode simpleMoleculeLayer = new PNode();
-//    private HashMap simpleMoleculeToGraphicMap = new HashMap();
-    private HashMap bondToGraphicMap = new HashMap();
     private PPath boundingBox;
 
     /**
      * @param compositeMolecule
      */
     public CompositeMoleculeGraphic( CompositeMolecule compositeMolecule ) {
-        compositeMolecule.addListener( this );
         this.compositeMolecule = compositeMolecule;
-//        compositeMolecule.addObserver( this );
-
-        addChild( bondsLayer );
 
         if( DebugFlags.SHOW_BOUNDING_BOX ) {
             boundingBox = new PPath( compositeMolecule.getBoundingBox() );
             addChild( boundingBox );
         }
-
-        createBondGraphics( compositeMolecule.getBonds() );
 
         if( DebugFlags.SHOW_CM ) {
             double r = 2;
@@ -67,21 +57,7 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
             addChild( cmNode );
             update();
         }
-
         compositeMolecule.addObserver( this );
-    }
-
-    private void createBondGraphics( Bond[] bonds ) {
-        for( int i = 0; i < bonds.length; i++ ) {
-            Bond bond = bonds[i];
-            createBondGraphic( bond );
-        }
-    }
-
-    private void createBondGraphic( Bond bond ) {
-        PNode bondGraphic = new BondGraphic( bond );
-        bondToGraphicMap.put( bond, bondGraphic );
-        bondsLayer.addChild( bondGraphic );
     }
 
     public void update() {
@@ -94,21 +70,5 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver, C
             }
             cmNode.setOffset( compositeMolecule.getCM() );
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of CompositeMolecule.Listener
-    //--------------------------------------------------------------------------------------------------
-
-    public void componentAdded( SimpleMolecule component, Bond bond ) {
-//        createComponentGraphics( component );
-        createBondGraphic( bond );
-    }
-
-    public void componentRemoved( SimpleMolecule component, Bond bond ) {
-//        PNode moleculeGraphic = (PNode)simpleMoleculeToGraphicMap.get( component );
-//        simpleMoleculeLayer.removeChild( moleculeGraphic );
-        PNode bondGraphic = (PNode)bondToGraphicMap.get( bond );
-        bondsLayer.removeChild( bondGraphic );
     }
 }

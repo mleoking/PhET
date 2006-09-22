@@ -41,7 +41,6 @@ public class SpatialView extends PNode {
     PNode boxLayer = new PNode();
 
     /**
-     *
      * @param module
      * @param size
      */
@@ -53,8 +52,8 @@ public class SpatialView extends PNode {
         addChild( canvas );
 
         // Add the layers to the canvas in their z order
-        addChild( bondLayer );
         addChild( moleculeLayer );
+        addChild( bondLayer );
         addChild( boxLayer );
 
         // Create the graphic manager and add required factories to it
@@ -63,19 +62,20 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new BoxGraphicFactory() );
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
         megm.addGraphicFactory( new ProvisionalBondGraphicFactory() );
+        megm.addGraphicFactory( new BondGraphicFactory( bondLayer ) );
         megm.scanModel();
 
         // Molecule counters
-        createMoleculeCounters( canvas, pSwingCanvas, model );
+//        createMoleculeCounters( canvas, pSwingCanvas, model );
 
         // Temperature control
         createTemperatureControl( model, pSwingCanvas );
 
-        // Pump
-        PumpGraphic pumpGraphic = new PumpGraphic( module );
-        pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
-                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
-        addChild( pumpGraphic );
+//        // Pump
+//        PumpGraphic pumpGraphic = new PumpGraphic( module );
+//        pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
+//                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
+//        addChild( pumpGraphic );
     }
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
@@ -108,6 +108,9 @@ public class SpatialView extends PNode {
         addChild( cCounter );
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Graphic factory classes
+    //--------------------------------------------------------------------------------------------------
 
     private class CompositeMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
@@ -116,7 +119,12 @@ public class SpatialView extends PNode {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new CompositeMoleculeGraphic( (CompositeMolecule)modelElement );
+            if( modelElement instanceof CompositeMolecule ) {
+                return new CompositeMoleculeGraphic( (CompositeMolecule)modelElement );
+            }
+            else {
+                return null;
+            }
         }
     }
 

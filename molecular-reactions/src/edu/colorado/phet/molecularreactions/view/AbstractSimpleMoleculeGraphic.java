@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.DebugFlags;
@@ -43,31 +44,44 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     //--------------------------------------------------------------------------------------------------
 
     private static double BOND_OFFSET = 0;
-//    private static double BOND_OFFSET = 2;
     private static HashMap moleculeTypeToColor = new HashMap();
+    private static HashMap moleculeTypeToAnnotation = new HashMap();
     private static Color moleculeAColor = new Color( 240, 240, 0 );
     private static Color moleculeBColor = new Color( 0, 200, 0 );
-    private static Color moleculeCColor = new Color( 160, 0, 160 );
+    private static Color moleculeCColor = new Color( 100, 100, 240 );
     private static Color defaultMoleculeColor = new Color( 100, 100, 100 );
     private static Stroke defaultStroke = new BasicStroke( 1 );
     private static Stroke selectedStroke = new BasicStroke( 2 );
     private static Stroke nearestToSelectedStroke = new BasicStroke( 2 );
     private static Paint defaultStrokePaint = Color.black;
-    private static Paint selectedStrokePaint = Color.red;
+    private static Paint selectedStrokePaint = Color.magenta;
+    private static Paint cmPaint = Color.magenta;
     private static Paint nearestToSelectedStrokePaint = new Color( 255, 0, 255 );
 
     static {
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeB.class, AbstractSimpleMoleculeGraphic.moleculeBColor );
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeC.class, AbstractSimpleMoleculeGraphic.moleculeCColor );
+
+        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeA.class, "A" );
+        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeB.class, "B" );
+        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeC.class, "C" );
     }
 
     private static Color getColor( SimpleMolecule molecule ) {
-        Color color = (Color)AbstractSimpleMoleculeGraphic.moleculeTypeToColor.get( molecule.getClass() );
+        Color color = (Color)moleculeTypeToColor.get( molecule.getClass() );
         if( color == null ) {
-            color = AbstractSimpleMoleculeGraphic.defaultMoleculeColor;
+            color = defaultMoleculeColor;
         }
         return color;
+    }
+
+    private static String getAnnotation( SimpleMolecule molecule ) {
+        String annotation = (String)moleculeTypeToAnnotation.get( molecule.getClass() );
+        if( annotation == null ) {
+            annotation = "";
+        }
+        return annotation;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -78,13 +92,21 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private PPath pPath;
     private boolean showCM;
     private PPath cmNode;
-    private double r = 2;
-
+    private double r = 3;
 
     /**
+     *
      * @param molecule
      */
     public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule ) {
+        this( molecule, false );
+    }
+
+    /**
+     * @param molecule
+     * @param annotate
+     */
+    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, boolean annotate ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         molecule.addListener( this );
@@ -101,8 +123,17 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
         // The CM marker
         cmNode = new PPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
-        cmNode.setPaint( Color.red );
+        cmNode.setPaint( cmPaint);
         addChild( cmNode );
+
+        // Add annotation, if required
+        if( annotate ) {
+            PText annotation = new PText( getAnnotation( molecule ));
+            RegisterablePNode rNode = new RegisterablePNode( annotation );
+            rNode.setRegistrationPoint( annotation.getWidth() / 2,
+                                        annotation.getHeight() / 2);
+            addChild( rNode );
+        }
 
         // Catch mouse clicks that select this graphic's molecule
         if( molecule instanceof MoleculeA || molecule instanceof MoleculeC ) {
@@ -135,9 +166,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
-            showCM = true;
-//            pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
-//            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
+//            showCM = true;
+            pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
+            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
         }
         else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
             showCM = true;
