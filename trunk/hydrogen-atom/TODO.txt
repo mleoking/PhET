@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix layout of label in continuum panel, they are not vertically centered
 - fix electron, proton and neutron images
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - add x-axis ticks and labels to spectrometer
@@ -32,6 +31,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/22/06) - vertically center labels in AtomicModelSelector's continuum subpanel
 (9/22/06) - PSwing changes with Sam Reid to resolve problem with drawing transparent JComponents
 ***** CVS tag hydrogenatom-0-00-01-2006-09-21
 (9/21/06) - Sam McKagan requested that I start publishing dev versions
