@@ -159,7 +159,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     public static final String PSWING_PROPERTY = "PSwing";
     private static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
-    private static boolean highQualityRender = false;
 
     /**
      * The cutoff at which the Swing component is rendered greek
@@ -272,9 +271,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Renders to a buffered image, then draws that to the screen.
+     * Renders to a buffered image, then draws that image to the
+     * drawing surface associated with g2 (usually the screen).
      *
-     * @param g2 The graphics on which to render the JComponent.
+     * @param g2 graphics context for rendering the JComponent
      */
     public void paint( Graphics2D g2 ) {
         if( component.getBounds().isEmpty() ) {
@@ -285,32 +285,29 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
         manager.lockRepaint( component );
 
+        Graphics2D bufferedGraphics = null;
         if( !isBufferValid() ) {
-            buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            // Get the graphics context associated with a new buffered image.
+            // Use TYPE_INT_ARGB_PRE so that transparent components look good on Windows.
+            buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+            bufferedGraphics = buffer.createGraphics();
         }
         else {
-            Graphics2D bufferedGraphics = buffer.createGraphics();
+            // Use the graphics context associated with the existing buffered image
+            bufferedGraphics = buffer.createGraphics();
+            // Clear the buffered image to prevent artifacts on Macintosh
             bufferedGraphics.setBackground( BUFFER_BACKGROUND_COLOR);
             bufferedGraphics.clearRect( 0, 0, component.getWidth(), component.getHeight() );
         }
-        Graphics2D bufferedGraphics = buffer.createGraphics();
 
-        //optionally prepare buffered graphics for better rendering.
-        if( highQualityRender ) {
-            bufferedGraphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            bufferedGraphics.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        }
+        // Start with the rendering hints from the provided graphics context
+        bufferedGraphics.setRenderingHints( g2.getRenderingHints() );
 
+        // Draw the component to the buffer
         component.paint( bufferedGraphics );
-        Object origHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
-        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+
+        // Draw the buffer to g2's associated drawing surface
         g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
-        if( origHint != null ) {
-            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, origHint );
-        }
-        else {
-            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-        }
 
         manager.unlockRepaint( component );
     }
@@ -418,14 +415,5 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         init( component );
-    }
-
-    /**
-     * Set high quality buffer rendering.
-     *
-     * @param highQuality
-     */
-    public static void setHighQualityRender( boolean highQuality ) {
-        highQualityRender = highQuality;
     }
 }
