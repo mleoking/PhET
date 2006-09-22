@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- distort orbits so that 6 orbits fit in animation region
+- generalize creating a "panel" node to fit under a collection of nodes
 - fix electron, proton and neutron images
 - all Piccolo text (PText, HTMLNode, PSwing) looks horrible on Windows
 - add x-axis ticks and labels to spectrometer
@@ -17,6 +19,8 @@ HIGH PRIORITY:
 - add WavelengthControl.setTrackFont(Font) to set "UV" and "IR" font in track
 
 MEDIUM PRIORITY:
+- design code to accommodate zoom controls on animation region (possible feature)
+- create layout nodes
 - port spectrometer from Discharge Lamps sim
 - show compressed UV and IR range in spectrometer (like in Discharge Lamps)
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
@@ -31,6 +35,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/22/06) - add separate resources for ModeSwitch big and small font size
 (9/22/06) - vertically center labels in AtomicModelSelector's continuum subpanel
 (9/22/06) - PSwing changes with Sam Reid to resolve problem with drawing transparent JComponents
 ***** CVS tag hydrogenatom-0-00-01-2006-09-21
