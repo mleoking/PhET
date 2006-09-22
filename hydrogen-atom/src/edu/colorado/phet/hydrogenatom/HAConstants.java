@@ -87,7 +87,8 @@ public class HAConstants {
     public static final String JLABEL_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
     
     // Default font sizes, also configurable via SimStrings file
-    public static final int MODE_SWITCH_FONT_SIZE = 20;
+    public static final int MODE_SWITCH_BIG_FONT_SIZE = 20;
+    public static final int MODE_SWITCH_SMALL_FONT_SIZE = 14;
     public static final int ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE = 20;
     public static final int ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE = 16;
     public static final int ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE = 16;
