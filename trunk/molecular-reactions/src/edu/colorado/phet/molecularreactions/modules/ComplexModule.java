@@ -11,8 +11,10 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,13 @@ public class ComplexModule extends MRModule {
 
     public ComplexModule() {
         super( "Experiments" );
+
+        // Add the pump
+        MRModel model = getMRModel();
+        PumpGraphic pumpGraphic = new PumpGraphic( this );
+        pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
+                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
+        getSpatialView().addChild( pumpGraphic );
 
         // Create controls
         createControls();

@@ -22,10 +22,12 @@ import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * edu.colorado.phet.molecularreactions.MRApplication
@@ -33,8 +35,8 @@ import java.awt.event.ComponentEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MRApplication extends PhetApplication {
-//public class MRApplication extends PiccoloPhetApplication {
+//public class MRApplication extends PhetApplication {
+public class MRApplication extends PiccoloPhetApplication {
 
     public MRApplication( String[] args ) {
         super( args, SimStrings.get( "Application.title" ),
@@ -51,24 +53,27 @@ public class MRApplication extends PhetApplication {
     }
 
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
 
-        // Standard initializations
-        SimStrings.init( args, MRConfig.LOCALIZATION_BUNDLE );
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.initLookAndFeel();
+                // Standard initializations
+                SimStrings.init( args, MRConfig.LOCALIZATION_BUNDLE );
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.initLookAndFeel();
+                MRApplication application = new MRApplication( args );
 
-        MRApplication application = new MRApplication( args );
+                // Set the iconized logo for the simulation
+                try {
+                    PhetUtilities.getPhetFrame().setIconImage( ImageLoader.loadBufferedImage( "images/Phet-logo-24x24.gif" ) );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                // Let 'er rip
+                application.startApplication();
+            }
+        } );
 
-        // Set the iconized logo for the simulation
-        try {
-            PhetUtilities.getPhetFrame().setIconImage( ImageLoader.loadBufferedImage( "images/Phet-logo-24x24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        // Let 'er rip
-        application.startApplication();
     }
 }

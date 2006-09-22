@@ -137,6 +137,16 @@ public class PumpGraphic extends PNode {
         }
     }
 
+//    private Icon createMoleculeIcon( Class moleculeClass ) {
+//        if( moleculeClass == MoleculeA.class ) {
+//            PNode imageNode = new AbstractSimpleMoleculeGraphic( new MoleculeA(), true );
+//        }
+//    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
     private class MoleculeTypeSelector extends JPanel {
         private JRadioButton aRB;
         private JRadioButton cRB;
@@ -148,10 +158,16 @@ public class PumpGraphic extends PNode {
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();
-            aRB = new JRadioButton( "A" );
-            cRB = new JRadioButton( "C" );
-            abRB = new JRadioButton( "AB" );
-            bcRB = new JRadioButton( "BC" );
+            aRB = new JRadioButton( new AbstractAction( "A", new MoleculeIcon( MoleculeA.class ) ) {
+                public void actionPerformed( ActionEvent e ) {
+
+                }
+            } );
+//            aRB = new JRadioButton( new SimpleMoleculeIcon( MoleculeA.class ) );
+            aRB = new JRadioButton();
+            cRB = new JRadioButton();
+            abRB = new JRadioButton();
+            bcRB = new JRadioButton();
             bg.add( aRB );
             bg.add( cRB );
             bg.add( abRB );
@@ -167,11 +183,28 @@ public class PumpGraphic extends PNode {
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
-            setLayout( new GridLayout( 2, 2 ) );
-            add( aRB );
-            add( cRB );
-            add( abRB );
-            add( bcRB );
+//            setLayout( new GridLayout( 4, 2 ) );
+            setLayout( new GridBagLayout() );
+            int rbAnchor = GridBagConstraints.CENTER;
+            int iconAnchor = GridBagConstraints.CENTER;
+            Insets insets = new Insets( 3, 3, 3, 3 );
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                             1, 1, 1, 1,
+                                                             rbAnchor,
+                                                             GridBagConstraints.HORIZONTAL,
+                                                             insets, 0, 0 );
+            add( aRB, gbc );
+            add( cRB, gbc );
+            add( abRB, gbc );
+            add( bcRB, gbc );
+            gbc.gridy = 0;
+            gbc.gridy = GridBagConstraints.RELATIVE;
+            gbc.gridx = 1;
+            gbc.anchor = iconAnchor;
+            add( new JLabel( new MoleculeIcon( MoleculeA.class ) ), gbc );
+            add( new JLabel( new MoleculeIcon( MoleculeAB.class ) ), gbc );
+            add( new JLabel( new MoleculeIcon( MoleculeBC.class ) ), gbc );
+            add( new JLabel( new MoleculeIcon( MoleculeC.class ) ), gbc );
 
             aRB.setSelected( true );
             currentMoleculeType = MoleculeA.class;

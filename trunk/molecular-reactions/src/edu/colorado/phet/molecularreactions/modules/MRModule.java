@@ -28,8 +28,9 @@ import java.awt.*;
  */
 public class MRModule extends Module {
 
-    private Dimension size = new Dimension( 600, 500 );
+    private Dimension size = new Dimension( 600, 600 );
     private MRControlPanel mrControlPanel;
+    private SpatialView spatialView;
 
     public MRModule( String name ) {
         super( name, new SwingClock( 40, 1 ) );
@@ -51,12 +52,14 @@ public class MRModule extends Module {
         Insets insets = new Insets( 10, 10, 10, 10 );
 
         // Create spatial view
-        Dimension spatialViewSize = new Dimension( 520, 450 );
+        Dimension spatialViewSize = new Dimension( 520, 500 );
+        Dimension boxSize = new Dimension( (int)spatialViewSize.getWidth() - 140,
+                                           (int)spatialViewSize.getHeight() - 200 );
         model.getBox().setBounds( model.getBox().getBounds().getMinX(),
                                   model.getBox().getBounds().getMinY(),
-                                  spatialViewSize.getWidth() - 140,
-                                  spatialViewSize.getHeight() - 100 );
-        SpatialView spatialView = new SpatialView( this, spatialViewSize );
+                                  boxSize.getWidth(),
+                                  boxSize.getHeight() );
+        spatialView = new SpatialView( this, spatialViewSize );
         spatialView.setOffset( insets.left, insets.top );
         canvas.addScreenChild( spatialView );
 
@@ -69,6 +72,10 @@ public class MRModule extends Module {
 
     protected MRControlPanel getMRControlPanel() {
         return mrControlPanel;
+    }
+
+    protected SpatialView getSpatialView() {
+        return spatialView;
     }
 
     public MRModel getMRModel() {
