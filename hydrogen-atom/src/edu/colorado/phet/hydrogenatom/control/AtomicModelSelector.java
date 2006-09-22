@@ -256,11 +256,11 @@ public class AtomicModelSelector extends PhetPNode {
             continuumNode.addChild( quantumLabel );
             
             final double xmargin = 5;
-            final double ymargin = 2;
-            
             track.setOffset( 0, 0 );
-            classicalLabel.setOffset( xmargin, ymargin );
-            quantumLabel.setOffset( track.getFullBounds().getWidth() - quantumLabel.getFullBounds().getWidth() - xmargin, ymargin );
+            classicalLabel.setOffset( xmargin, 
+                    ( track.getFullBounds().getHeight() - classicalLabel.getFullBounds().getHeight() ) / 2 );
+            quantumLabel.setOffset( track.getFullBounds().getWidth() - quantumLabel.getFullBounds().getWidth() - xmargin, 
+                    ( track.getFullBounds().getHeight() - quantumLabel.getFullBounds().getHeight() ) / 2 );
         }
         
         // Layout, front to back
