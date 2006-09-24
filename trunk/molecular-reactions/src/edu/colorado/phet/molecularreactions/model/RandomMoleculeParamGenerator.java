@@ -29,10 +29,22 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
 
     private Rectangle2D bounds;
     private double maxSpeed;
+    private double minTheta;
+    private double maxTheta;
 
-    public RandomMoleculeParamGenerator( Rectangle2D bounds, double maxSpeed ) {
+    /**
+     * Generates a Params object for a molecule.
+     *
+     * @param bounds    The bounds within which the molecule's CM lies
+     * @param maxSpeed  Max initial speed
+     * @param minTheta  Min angle of the molecule's initial velocity
+     * @param maxTheta  Max angle of the molecule's initial velocity
+     */
+    public RandomMoleculeParamGenerator( Rectangle2D bounds, double maxSpeed, double minTheta, double maxTheta ) {
         this.bounds = bounds;
         this.maxSpeed = maxSpeed;
+        this.minTheta = minTheta;
+        this.maxTheta = maxTheta;
     }
 
     public Params generate() {
@@ -42,9 +54,9 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
         Point2D p = new Point2D.Double( x, y );
 
         // Generate velocity
-        double theta = Math.PI * 2 * random.nextDouble();
+        double phi = ( maxTheta - minTheta ) * random.nextDouble() + minTheta;
         double speed = maxSpeed * random.nextDouble();
-        Vector2D v = new Vector2D.Double( speed, 0).rotate( theta );
+        Vector2D v = new Vector2D.Double( speed, 0).rotate( phi );
 
         return new Params( p, v );
     }

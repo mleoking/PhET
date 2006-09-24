@@ -132,16 +132,12 @@ public class PumpGraphic extends PNode {
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
             Molecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
                                                                    new RandomMoleculeParamGenerator( creationBounds,
-                                                                                                     3 ) );
+                                                                                                     3,
+                                                                                                     Math.PI * 3 / 4 ,
+                                                                                                     Math.PI * 5 / 4 ) );
             return newMolecule;
         }
     }
-
-//    private Icon createMoleculeIcon( Class moleculeClass ) {
-//        if( moleculeClass == MoleculeA.class ) {
-//            PNode imageNode = new AbstractSimpleMoleculeGraphic( new MoleculeA(), true );
-//        }
-//    }
 
     //--------------------------------------------------------------------------------------------------
     // Inner classes
@@ -158,12 +154,6 @@ public class PumpGraphic extends PNode {
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();
-            aRB = new JRadioButton( new AbstractAction( "A", new MoleculeIcon( MoleculeA.class ) ) {
-                public void actionPerformed( ActionEvent e ) {
-
-                }
-            } );
-//            aRB = new JRadioButton( new SimpleMoleculeIcon( MoleculeA.class ) );
             aRB = new JRadioButton();
             cRB = new JRadioButton();
             abRB = new JRadioButton();
@@ -183,7 +173,6 @@ public class PumpGraphic extends PNode {
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
-//            setLayout( new GridLayout( 4, 2 ) );
             setLayout( new GridBagLayout() );
             int rbAnchor = GridBagConstraints.CENTER;
             int iconAnchor = GridBagConstraints.CENTER;
@@ -194,9 +183,9 @@ public class PumpGraphic extends PNode {
                                                              GridBagConstraints.HORIZONTAL,
                                                              insets, 0, 0 );
             add( aRB, gbc );
-            add( cRB, gbc );
             add( abRB, gbc );
             add( bcRB, gbc );
+            add( cRB, gbc );
             gbc.gridy = 0;
             gbc.gridy = GridBagConstraints.RELATIVE;
             gbc.gridx = 1;
