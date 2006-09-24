@@ -14,6 +14,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -30,6 +31,13 @@ public class SimpleModule extends MRModule {
     public SimpleModule() {
         super( "Simple");
         setInitialConditions( (MRModel)getModel() );
+
+        // create the control panel
+//        setControlPanel( new ControlPanel() );
+        setControlPanel( new SimpleMRControlPanel( this ));
+//        setControlPanel( new ControlPanel() );
+//        mrControlPanel = new MRControlPanel( this );
+//        getControlPanel().addControl( mrControlPanel );
 
         // Add Manual Control button
         JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));

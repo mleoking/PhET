@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.controller.ResetAllAction;
-import edu.colorado.phet.molecularreactions.view.Legend;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
+import edu.colorado.phet.molecularreactions.controller.ResetAllAction;
+import edu.colorado.phet.common.view.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -32,10 +30,10 @@ import java.awt.*;
  * @version $Revision$
  */
 //public class TestControlPanel extends ControlPanel {
-public class MRControlPanel extends JPanel {
+public class ComplexMRControlPanel extends JPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
 
-    public MRControlPanel( MRModule module ) {
+    public ComplexMRControlPanel( MRModule module ) {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();

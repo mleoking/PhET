@@ -11,15 +11,15 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molectularreactions.view.energy.EnergyView;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -31,7 +31,7 @@ import java.awt.*;
 public class MRModule extends Module {
 
     private Dimension size = new Dimension( 600, 600 );
-    private MRControlPanel mrControlPanel;
+    private ControlPanel mrControlPanel;
     private SpatialView spatialView;
     private EnergyView energyView;
 
@@ -42,10 +42,10 @@ public class MRModule extends Module {
         MRModel model = new MRModel( getClock() );
         setModel( model );
 
-        // create the control panel
-        setControlPanel( new ControlPanel() );
-        mrControlPanel = new MRControlPanel( this );
-        getControlPanel().addControl( mrControlPanel );
+//        // create the control panel
+//        setControlPanel( new ControlPanel() );
+//        mrControlPanel = new MRControlPanel( this );
+//        getControlPanel().addControl( mrControlPanel );
 
         // Create the basic graphics
         PhetPCanvas canvas = new PhetPCanvas( size );
@@ -73,7 +73,7 @@ public class MRModule extends Module {
         canvas.addScreenChild( energyView );
     }
 
-    protected MRControlPanel getMRControlPanel() {
+    protected JPanel getMRControlPanel() {
         return mrControlPanel;
     }
 
@@ -89,11 +89,11 @@ public class MRModule extends Module {
         return (MRModel)getModel();
     }
 
-    public void setCountersEditable( boolean editable ) {
-        MRControlPanel controlPanel = (MRControlPanel)getMRControlPanel();
-        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
-    }
-
+//    public void setCountersEditable( boolean editable ) {
+//        SimpleMRControlPanel controlPanel = (SimpleMRControlPanel)getMRControlPanel();
+//        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
+//    }
+//
     public void setManualControl( boolean manualControl ) {
         getClock().pause();
         energyView.setManualControl( true );

@@ -38,8 +38,9 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
+        setControlPanel( new ComplexMRControlPanel( this ));
         // Create controls
-        createControls();
+//        createControls();
     }
 
     private void createControls() {
@@ -48,6 +49,14 @@ public class ComplexModule extends MRModule {
 
         getControlPanel().addControl( setupGoBtn );
     }
+
+
+    public void setCountersEditable( boolean editable ) {
+        ComplexMRControlPanel controlPanel = (ComplexMRControlPanel)getMRControlPanel();
+        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
+    }
+
+
 
     /**
      * Cycles through the labels on the button, and sets the state
@@ -62,7 +71,7 @@ public class ComplexModule extends MRModule {
         String stopText = "<html><center>Stop<br>Experiment";
         private IClock clock;
         private MRModel model;
-        private MRModule module;
+        private ComplexModule module;
 
         public SetupGoAction( JButton btn, ComplexModule module ) {
             this.module = module;
@@ -137,7 +146,6 @@ public class ComplexModule extends MRModule {
             }
             setText();
         }
-
     }
 }
 

@@ -41,16 +41,12 @@ public class MoleculeInstanceControlPanel extends JPanel {
 
         MoleculeCounter aTF = new MoleculeCounter( MoleculeA.class, model );
         counters.add( aTF );
-        MoleculeCounter bTF = new MoleculeCounter( MoleculeB.class, model );
-//        counters.add( aTF );
         MoleculeCounter cTF = new MoleculeCounter( MoleculeC.class, model );
         counters.add( cTF );
         MoleculeCounter abTF = new MoleculeCounter( MoleculeAB.class, model );
         counters.add( abTF );
         MoleculeCounter bcTF = new MoleculeCounter( MoleculeBC.class, model );
         counters.add( bcTF );
-
-        bTF.setEditable( false );
 
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
@@ -69,7 +65,6 @@ public class MoleculeInstanceControlPanel extends JPanel {
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.WEST;
         add( aTF, gbc );
-        add( bTF, gbc );
         add( cTF, gbc );
         add( abTF, gbc );
         add( bcTF, gbc );
