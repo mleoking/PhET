@@ -13,6 +13,7 @@ package edu.colorado.phet.molectularreactions.view.energy;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -49,11 +50,11 @@ class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.
         cursorPPath.setStrokePaint( new Color( 200, 200, 200 ) );
         cursorPPath.setPaint( new Color( 200, 200, 200, 200 ) );
         addChild( cursorPPath );
-        mouseHandler = new MouseHandler( this );
+        mouseHandler = new MouseHandler( this, model.getReaction() );
 
         model.addSelectedMoleculeTrackerListener( this );
 
-        setManualControlEnabled( true );
+        setManualControlEnabled( false );
 
     }
 
@@ -73,9 +74,11 @@ class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.
      */
     private class MouseHandler extends PBasicInputEventHandler {
         EnergyCursor energyCursor;
+        private Reaction reaction;
 
-        public MouseHandler( EnergyCursor energyCursor ) {
+        public MouseHandler( EnergyCursor energyCursor, Reaction reaction ) {
             this.energyCursor = energyCursor;
+            this.reaction = reaction;
         }
 
         public void mouseEntered( PInputEvent event ) {
@@ -96,31 +99,24 @@ class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.
             energyCursor.setOffset( x, energyCursor.getOffset().getY() );
 
             // Move the tracked and closestToTracked molecules
+            setMoleculePositions();
+        }
 
-            // Get the unit vector between them
-            Vector2D dm = new Vector2D.Double( moleculeBeingTracked.getPosition(),
-                                               closestToTracked.getPosition() ).normalize();
+        private void setMoleculePositions() {
 
-            // Move them so they are as far from touching as the cursor is from the center of its
-            // motion range
-            double d = ( minX + maxX ) / 2 - energyCursor.getOffset().getX();
-            Point2D midPt = new Point2D.Double( ( moleculeBeingTracked.getPosition().getX() + closestToTracked.getPosition().getX() ) / 2,
-                                                ( moleculeBeingTracked.getPosition().getY() + closestToTracked.getPosition().getY() ) / 2 );
-            dm.scale( d / 2 );
-            if( moleculeBeingTracked.isPartOfComposite() ) {
-                moleculeBeingTracked.getParentComposite().translate( (midPt.getX() - dm.getX()) - moleculeBeingTracked.getCM().getX(),
-                                                                     (midPt.getY() - dm.getY()) - moleculeBeingTracked.getCM().getY());
-            }
-            else {
-                moleculeBeingTracked.setPosition( midPt.getX() - dm.getX(), midPt.getY() - dm.getY() );
-            }
-            if( closestToTracked.isPartOfComposite() ) {
-                closestToTracked.getParentComposite().translate( (midPt.getX() - dm.getX()) - closestToTracked.getCM().getX(),
-                                                                 (midPt.getY() - dm.getY()) - closestToTracked.getCM().getY() );
-            }
-            else {
-                closestToTracked.setPosition( midPt.getX() + dm.getX(), midPt.getY() + dm.getY() );
-            }
+            // One of the molecules must be a composite, and the other a simple one. Get references to them, and
+            // get a reference to the B molecule in the composite
+            CompositeMolecule cm = moleculeBeingTracked.isPartOfComposite()
+                                   ? moleculeBeingTracked.getParentComposite()
+                                   : closestToTracked.getParentComposite();
+            SimpleMolecule sm = !moleculeBeingTracked.isPartOfComposite()
+                                ? moleculeBeingTracked
+                                : closestToTracked;
+            Vector2D v = reaction.getCollisionVector( cm, sm );
+            double d = Math.abs( ( minX + maxX ) / 2 - energyCursor.getOffset().getX() );
+            double dx = ( d - v.getMagnitude() ) / 2;
+            cm.translate( -dx, 0 );
+            sm.translate( dx, 0 );
         }
     }
 
