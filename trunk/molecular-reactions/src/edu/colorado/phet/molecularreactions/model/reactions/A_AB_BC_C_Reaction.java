@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 
 /**
  * A_AB_BC_C_Reaction
@@ -156,6 +157,63 @@ public class A_AB_BC_C_Reaction extends Reaction {
         return moleculeToKeep;
     }
 
+    public double getCollisionDistance( Molecule mA, Molecule mB ) {
+        Vector2D v = getCollisionVector( mA, mB );
+        return v == null ? Double.NaN : v.getMagnitude();
+    }
+
+    public Vector2D getCollisionVector( Molecule mA, Molecule mB ) {
+        Vector2D v = null;
+        if( moleculesAreProperTypes( mA, mB ) ) {
+
+            // One of the molecules must be a composite, and the other a simple one. Get references to them, and
+            // get a reference to the B molecule in the composite
+            CompositeMolecule cm = mA instanceof CompositeMolecule
+                                   ? (CompositeMolecule)mA
+                                   : (CompositeMolecule)mB;
+            SimpleMolecule sm = mB instanceof CompositeMolecule
+                                ? (SimpleMolecule)mA
+                                : (SimpleMolecule)mB;
+            SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
+                                cm.getComponentMolecules()[0] :
+                                cm.getComponentMolecules()[1];
+
+            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
+            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
+            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
+            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
+
+            int sign = ( mA == cm ) ? -1 : 1;
+            v = new Vector2D.Double( sign * ( pcx - psx ), sign * ( pcy - psy ) );
+        }
+        return v;
+    }
+
+//    public void setCollisionDistance( Molecule mA, Molecule mB ) {
+//        if( moleculesAreProperTypes( mA, mB )) {
+//
+//            // One of the molecules must be a composite, and the other a simple one. Get references to them, and
+//            // get a reference to the B molecule in the composite
+//            CompositeMolecule cm = mA instanceof CompositeMolecule
+//                                   ? (CompositeMolecule)mA
+//                                   : (CompositeMolecule)mB;
+//            SimpleMolecule sm = mB instanceof CompositeMolecule
+//                                ? (SimpleMolecule)mA
+//                                : (SimpleMolecule)mB;
+//            SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
+//                                cm.getComponentMolecules()[0] :
+//                                cm.getComponentMolecules()[1];
+//
+//            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
+//            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
+//            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
+//            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
+//            Vector2D v = new Vector2D.Double( pcx - psx, pcy - psy );
+//            result = v.getMagnitude();
+//        }
+//
+//    }
+
     /**
      * The ReactionCriteria for this Reaction class
      */
@@ -202,7 +260,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
                     de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
                 }
                 else {
-                    throw new IllegalArgumentException( "internal error ");
+                    throw new IllegalArgumentException( "internal error " );
                 }
                 result = getRelKE( m1, m2 ) > de;
             }
@@ -254,7 +312,6 @@ public class A_AB_BC_C_Reaction extends Reaction {
 
             return secondClassificationCriterionMet;
         }
-
 
         private static double getRelKE( Molecule m1, Molecule m2 ) {
             // Determine the kinetic energy in the collision. We consider this to be the

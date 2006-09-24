@@ -76,6 +76,13 @@ abstract public class Reaction {
 
     abstract public double getThresholdEnergy( Molecule mA, Molecule mB );
 
+    // The distance between the points on two molecules that can react that are closest to each other
+    abstract public double getCollisionDistance( Molecule mA, Molecule mB );
+
+    // The vector between the points on two molecules that can react that are closest to each other, directed
+    // from the first parameter molecule to the second
+    abstract public Vector2D getCollisionVector( Molecule mA, Molecule mB );
+
     //--------------------------------------------------------------------------------------------------
     // Reaction criteria
     //--------------------------------------------------------------------------------------------------

@@ -49,11 +49,14 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     private EnergyCursor cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
     private Dimension curveAreaSize;
+    private MRModel model;
 
     /**
      *
      */
     public EnergyView( MRModel model ) {
+
+        this.model = model;
 
         // The pane that has the molecules
         PPath moleculePane = createMoleculePane();
@@ -166,7 +169,13 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
 
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
-            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
+            double edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+            // In the middle of the reaction, the collision distance is underfined
+            if( Double.isNaN( edgeDist ) ) {
+//                edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+                edgeDist = 0;
+            }
+//            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 80;
             double yOffset = 35;
             double xOffset = 20;
