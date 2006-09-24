@@ -62,7 +62,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                                                               r.getMinY() + 20,
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
-        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5 );
+        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds, 5, 0, Math.PI * 2 );
         setValue( new Integer( 0 ) );
 
         // Respond to changes in the spinner
