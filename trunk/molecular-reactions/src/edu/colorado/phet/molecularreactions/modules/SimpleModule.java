@@ -14,6 +14,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
@@ -33,9 +34,11 @@ public class SimpleModule extends MRModule {
         // Add Manual Control button
         JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));
         manualCtrlBtn.addActionListener( new ManualControlAction( this ) );
-        PSwing ctrlBtnPSwing = new PSwing( getPCanvas(), manualCtrlBtn );
-        ctrlBtnPSwing.setOffset( 50, 50 );
-        getSpatialView().addChild( ctrlBtnPSwing );
+        RegisterablePNode ctrlBtnNode = new RegisterablePNode( new PSwing( getPCanvas(), manualCtrlBtn ));
+        double btnX = ( getMRModel().getBox().getMaxX() + getSpatialView().getFullBounds().getWidth() ) / 2;
+        ctrlBtnNode.setOffset( btnX, 50 );
+        ctrlBtnNode.setRegistrationPoint( ctrlBtnNode.getFullBounds().getWidth() / 2, 0 );
+        getSpatialView().addChild( ctrlBtnNode );
     }
 
     /**
