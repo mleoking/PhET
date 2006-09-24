@@ -74,3 +74,6 @@ Done
 09-06-06 - add/remove molecules
 09-06-06 - randomize adding molecules
 09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+
+09-24-06 - Removed B counter from control panel
+09-24-06 - Molecules appear in the right place in the energy view, and are controlled by cursor bar
