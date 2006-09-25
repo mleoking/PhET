@@ -99,7 +99,7 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener
                                           p4, mirrorColor, false );
 
         mirrorBI = new BufferedImage( (int)bounds.getWidth(), (int)( bounds.getHeight() + outlineStrokeWidth ),
-                                      BufferedImage.TYPE_INT_ARGB );
+                                      BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g = (Graphics2D)mirrorBI.getGraphics();
         GraphicsUtil.setAntiAliasingOn( g );
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );

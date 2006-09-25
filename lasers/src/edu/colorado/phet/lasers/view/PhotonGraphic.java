@@ -88,7 +88,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     static {
         int bwThreshold = 180;
         s_IRphotonGraphic = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(),
-                                               BufferedImage.TYPE_INT_ARGB );
+                                               BufferedImage.TYPE_INT_ARGB_PRE );
         ColorModel cm = s_particleImage.getColorModel();
         for( int x = 0; x < s_particleImage.getWidth(); x++ ) {
             for( int y = 0; y < s_particleImage.getHeight(); y++ ) {
@@ -188,7 +188,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         // A buffered image for generating the image data
         BufferedImage img = new BufferedImage( s_imgLength,
                                                s_imgHeight,
-                                               BufferedImage.TYPE_INT_ARGB );
+                                               BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2d = img.createGraphics();
         int kPrev = s_imgHeight / 2;
         int iPrev = 0;
@@ -336,7 +336,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             bi = (BufferedImage)s_colorToImage.get( wavelength );
             if( bi == null ) {
                 BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
-                bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+                bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
                 op.filter( s_particleImage, bi );
                 s_colorToImage.put( wavelength, bi );
             }
@@ -396,7 +396,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             for( int i = 0; i < numImgs; i++ ) {
                 double phaseAngle = phaseAngleIncr * i;
                 BufferedImage buffImg = computeGeneratorImage( photon.getWavelength(), phaseAngle );
-                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
+                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB_PRE );
                 animationFrame = xformOp.filter( buffImg, null );
 
                 // todo: this may not be right at all. I don't understand the original line
