@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add Options menu to menubar, with "deBroglie wave view" choices
 - distort orbits so that 6 orbits fit in animation region
 - generalize creating a "panel" node to fit under a collection of nodes
 - "Box of Hydrogen" HTMLNode looks lousy on Windows
@@ -35,6 +34,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/25/06) - add Options menu to menubar, with "deBroglie wave view" choices
 (9/25/06) - change gun control panel color to match purple gun
 (9/25/06) - lighten ModeSwitch and AtomicModelSelector panels
 (9/25/06) - shorten the horizontal lines on ModeSwitch
