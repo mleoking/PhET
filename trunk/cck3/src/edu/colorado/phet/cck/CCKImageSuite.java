@@ -34,7 +34,9 @@ public class CCKImageSuite {
     }
 
     public BufferedImage getParticleImage() throws IOException {
-        return imageLoader.loadImage( "images/electron9.gif" );
+//        return imageLoader.loadImage( "images/electron9.gif" );
+        return imageLoader.loadImage( "images/electron10.png" );
+//        return imageLoader.loadImage( "images/electron-2.png" );
     }
 
     private void loadImages() throws IOException {
