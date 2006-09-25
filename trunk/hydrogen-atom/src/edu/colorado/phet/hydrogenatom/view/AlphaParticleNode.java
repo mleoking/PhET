@@ -23,21 +23,15 @@ import edu.umd.cs.piccolo.PNode;
 public class AlphaParticleNode extends PhetPNode {
 
     private static final double OVERLAP = 0.333;
-    private static final Stroke STROKE = new BasicStroke( 0.5f );
-    private static final Color STROKE_COLOR = Color.BLACK;
     
-    public AlphaParticleNode( boolean outline ) {
+    public AlphaParticleNode() {
         super();
         
         PNode parent = new PNode();
         ProtonNode p1 = new ProtonNode();
-        p1.setStroke( STROKE, STROKE_COLOR );
         ProtonNode p2 = new ProtonNode();
-        p2.setStroke( STROKE, STROKE_COLOR );
         NeutronNode n1 = new NeutronNode();
-        n1.setStroke( STROKE, STROKE_COLOR );
         NeutronNode n2 = new NeutronNode();
-        n2.setStroke( STROKE, STROKE_COLOR );
         
         addChild( parent );
         parent.addChild( p2 );
