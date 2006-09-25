@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -95,9 +94,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
     private SimpleMolecule molecule;
     private PPath pPath;
-    private boolean showCM;
     private PPath cmNode;
-    private double r = 3;
+    private double cmRad = 3;
 
     /**
      * @param molecule
@@ -126,8 +124,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         addChild( pPath );
 
         // The CM marker
-        cmNode = new PPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
+        cmNode = new PPath( new Ellipse2D.Double( -cmRad, -cmRad, cmRad * 2, cmRad * 2 ) );
         cmNode.setPaint( cmPaint );
+        cmNode.setVisible( false );
         addChild( cmNode );
 
         // Add annotation, if required
@@ -156,14 +155,10 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         return molecule;
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Template methods
-    //--------------------------------------------------------------------------------------------------
-
     public void update() {
-        cmNode.setVisible( ( DebugFlags.SHOW_CM || showCM ) && cmNode != null );
+        // noop
     }
-
+    
     //--------------------------------------------------------------------------------------------------
     // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------
@@ -171,20 +166,23 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     public void selectionStatusChanged( SimpleMolecule molecule ) {
         if( MARK_SELECTED_MOLECULE ) {
             if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
-//            showCM = true;
                 pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
                 pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
             }
             else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
-                showCM = true;
+                cmNode.setVisible( true );
 //            pPath.setStroke( AbstractSimpleMoleculeGraphic.nearestToSelectedStroke );
 //            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.nearestToSelectedStrokePaint );
             }
             else {
-                showCM = false;
+                cmNode.setVisible( false );
                 pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
                 pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
             }
         }
+
+        // for debugging
+        cmNode.setVisible( DebugFlags.SHOW_CM );
+
     }
 }
