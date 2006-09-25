@@ -14,6 +14,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.ReadoutGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
+import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.Module;
@@ -479,5 +480,9 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     public void applicationStarted() {
+    }
+
+    public VoltmeterModel getVoltmeterModel() {
+        return null;
     }
 }
