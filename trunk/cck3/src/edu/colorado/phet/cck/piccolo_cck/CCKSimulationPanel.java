@@ -28,6 +28,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private ToolboxNode toolboxNode;
     private CircuitNode circuitNode;
     private MessageNode messageNode;
+    private MeasurementToolSetNode measurementToolSetNode;
 
     public CCKSimulationPanel( CCKModel model, ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
@@ -41,6 +42,10 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module );
         addWorldChild( circuitNode );
+
+        VoltmeterModel voltmeterModel = new VoltmeterModel();
+        measurementToolSetNode = new MeasurementToolSetNode( voltmeterModel );
+        addWorldChild( measurementToolSetNode );
 
         messageNode = new MessageNode();
         addScreenChild( messageNode );
@@ -83,5 +88,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public Color getToolboxBackgroundColor() {
         return toolboxNode.getBackgroundColor();
+    }
+
+    public void setVoltmeterVisible( boolean visible ) {
+        measurementToolSetNode.setVoltmeterVisible( visible );
     }
 }
