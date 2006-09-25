@@ -13,6 +13,7 @@ package edu.colorado.phet.molectularreactions.view.energy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
@@ -66,8 +67,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         PPath curvePane = createCurvePane( moleculePane, model );
         addChild( curvePane );
 
+        // Listen for molecules to be added and removed from the model
         model.addListener( this );
-        model.addModelElement( new MoleculeTracker() );
         update();
     }
 
@@ -220,18 +221,14 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     // Implementation of MRModel.Listener
     //--------------------------------------------------------------------------------------------------
 
-    public void modelElementAdded
-            ( ModelElement
-                    element ) {
+    public void modelElementAdded( ModelElement element ) {
         if( element instanceof SimpleMolecule ) {
             SimpleMolecule molecule = (SimpleMolecule)element;
             molecule.addListener( this );
         }
     }
 
-    public void modelElementRemoved
-            ( ModelElement
-                    element ) {
+    public void modelElementRemoved( ModelElement element ) {
         if( element instanceof SimpleMolecule ) {
             SimpleMolecule molecule = (SimpleMolecule)element;
             molecule.removeListener( this );
@@ -253,9 +250,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
      *
      * @param molecule
      */
-    public void selectionStatusChanged
-            ( SimpleMolecule
-                    molecule ) {
+    public void selectionStatusChanged( SimpleMolecule molecule ) {
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
@@ -264,6 +259,11 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             selectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
             moleculeLayer.addChild( selectedMoleculeGraphic );
 
+            molecule.addObserver( new SimpleObserver() {
+                public void update() {
+                    EnergyView.this.update();
+                }
+            } );
         }
         else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
             nearestToSelectedMolecule = molecule;
@@ -272,21 +272,17 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             }
             nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+
+            molecule.addObserver( new SimpleObserver() {
+                public void update() {
+                    EnergyView.this.update();
+                }
+            } );
         }
         update();
     }
 
     public void setManualControl( boolean manualControl ) {
         cursor.setManualControlEnabled( manualControl );
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Model element to track distance between molecules of interest
-    //--------------------------------------------------------------------------------------------------
-    private class MoleculeTracker implements ModelElement {
-
-        public void stepInTime( double dt ) {
-            update();
-        }
     }
 }
