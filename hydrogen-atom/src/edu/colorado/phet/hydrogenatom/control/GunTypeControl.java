@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -29,6 +26,8 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.view.AlphaParticleNode;
+import edu.colorado.phet.hydrogenatom.view.PhotonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -59,20 +58,18 @@ public class GunTypeControl extends PhetPNode {
         
         _listenerList = new EventListenerList();
         
-        // Images
-        Icon photonIcon = null;
-        Icon alphaParticleIcon = null;
-        try {
-            BufferedImage photonImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_PHOTON );
-            photonIcon = new ImageIcon( photonImage );
-            BufferedImage alphaParticleImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_ALPHA_PARTICLE );
-            alphaParticleIcon = new ImageIcon( alphaParticleImage );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        // Photon icon
+        PhotonNode photonNode = new PhotonNode();
+        photonNode.rotate( Math.toRadians( 90 ) );
+        Image photonImage = photonNode.toImage();
+        Icon photonIcon = new ImageIcon( photonImage );
         
-        // Radio buttons
+        // Alpha Particle icon
+        AlphaParticleNode alphaParticleNode = new AlphaParticleNode();
+        Image alphaParticleImage = alphaParticleNode.toImage();
+        Icon alphaParticleIcon = new ImageIcon( alphaParticleImage );
+        
+        // Photons radio button
         RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.get( "button.light" ), photonIcon );
         _lightButton = photonsControl.getRadioButton();
         _lightButton.setHorizontalTextPosition( SwingConstants.RIGHT );
@@ -82,6 +79,7 @@ public class GunTypeControl extends PhetPNode {
             }      
         });
         
+        // Alpha Particles radio button
         RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.get( "button.alphaParticles" ), alphaParticleIcon );
         _alphaParticlesButton = alphaParticleControl.getRadioButton();
         _alphaParticlesButton.setHorizontalTextPosition( SwingConstants.RIGHT );
@@ -90,6 +88,8 @@ public class GunTypeControl extends PhetPNode {
                 fireChangeEvent( new ChangeEvent( this ) );
             }
         });
+        
+        // Button group
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _lightButton );
         buttonGroup.add( _alphaParticlesButton );
