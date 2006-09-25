@@ -346,7 +346,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // A buffered image for generating the image data
         BufferedImage img = new BufferedImage( actualLength + 2 * arrowHeight,
                                                height,
-                                               BufferedImage.TYPE_INT_ARGB );
+                                               BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2d = img.createGraphics();
         int kPrev = height / 2;
         int iPrev = 0;
@@ -448,7 +448,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Look for the image in the cache
         BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
         if( atomImg == null ) {
-            atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
             MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
             op.filter( baseSphereImg, atomImg );
             colorToAtomImage.put( color, atomImg );

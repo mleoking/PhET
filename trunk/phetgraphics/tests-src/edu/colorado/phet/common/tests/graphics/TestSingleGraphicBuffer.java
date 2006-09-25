@@ -77,7 +77,7 @@ public class TestSingleGraphicBuffer extends JFrame {
 //            Paint paint=Color.blue;
             Paint paint = new Color( 255, 255, 255, 0 );
             GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
-            final PhetGraphic buffered = BufferedPhetGraphic2.createBuffer( pg, graphicsSetup, BufferedImage.TYPE_INT_ARGB, paint );
+            final PhetGraphic buffered = BufferedPhetGraphic2.createBuffer( pg, graphicsSetup, BufferedImage.TYPE_INT_ARGB_PRE, paint );
 //            pg=buffered;
             buffered.setCursorHand();
             buffered.addMouseInputListener( new MouseInputAdapter() {

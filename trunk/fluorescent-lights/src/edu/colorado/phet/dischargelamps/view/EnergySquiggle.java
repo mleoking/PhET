@@ -68,7 +68,7 @@ public class EnergySquiggle extends PhetImageGraphic {
 
         BufferedImage img = new BufferedImage( actualLength + 2 * arrowHeight,
                                                height,
-                                               BufferedImage.TYPE_INT_ARGB );
+                                               BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2d = img.createGraphics();
         int kPrev = height / 2;
         int iPrev = 0;

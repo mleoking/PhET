@@ -387,7 +387,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Look for the image in the cache
         BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
         if( atomImg == null ) {
-            atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            atomImg = new BufferedImage( baseSphereImg.getWidth(),
+                                         baseSphereImg.getHeight(),
+                                         BufferedImage.TYPE_INT_ARGB_PRE );
             MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
             op.filter( baseSphereImg, atomImg );
             colorToAtomImage.put( color, atomImg );
