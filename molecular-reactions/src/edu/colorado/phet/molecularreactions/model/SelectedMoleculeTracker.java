@@ -52,6 +52,10 @@ public class SelectedMoleculeTracker implements ModelElement,
         return moleculeTracked;
     }
 
+    public SimpleMolecule getClosestMolecule() {
+        return closestMolecule;
+    }
+
     public void stepInTime( double dt ) {
         List modelElements = model.getModelElements();
 

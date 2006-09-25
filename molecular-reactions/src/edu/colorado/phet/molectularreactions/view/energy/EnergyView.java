@@ -31,7 +31,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyView extends PNode implements PublishingModel.ModelListener, SimpleMolecule.Listener {
+public class EnergyView extends PNode implements SimpleObserver {
 
     private int width = 300;
     private Dimension moleculePaneSize = new Dimension( 150, width );
@@ -67,8 +67,8 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         PPath curvePane = createCurvePane( moleculePane, model );
         addChild( curvePane );
 
-        // Listen for molecules to be added and removed from the model
-        model.addListener( this );
+        // Listen for changes in the selected molecule and the molecule closest to it
+        model.addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
         update();
     }
 
@@ -126,7 +126,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
     /**
      * Updates the positions of the graphics
      */
-    private void update() {
+    public void update() {
         if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
 
             // Which side of the profile the molecules show up on depends on their type
@@ -217,32 +217,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of MRModel.Listener
-    //--------------------------------------------------------------------------------------------------
-
-    public void modelElementAdded( ModelElement element ) {
-        if( element instanceof SimpleMolecule ) {
-            SimpleMolecule molecule = (SimpleMolecule)element;
-            molecule.addListener( this );
-        }
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        if( element instanceof SimpleMolecule ) {
-            SimpleMolecule molecule = (SimpleMolecule)element;
-            molecule.removeListener( this );
-
-            if( molecule == this.selectedMolecule ) {
-                molecule.setSelectionStatus( Selectable.NOT_SELECTED );
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimpleMolecule.Listener
-    //--------------------------------------------------------------------------------------------------
-
     /**
      * Sets the graphics that are shown to be those for the selected molecule and
      * the nearestToSelectedMolecule. If one of them is part of a composite, the
@@ -250,7 +224,7 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
      *
      * @param molecule
      */
-    public void selectionStatusChanged( SimpleMolecule molecule ) {
+    private void selectionStatusChanged( SimpleMolecule molecule ) {
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
@@ -265,24 +239,43 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 }
             } );
         }
-        else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
-            nearestToSelectedMolecule = molecule;
-            if( nearestToSelectedMoleculeGraphic != null ) {
-                moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
-            }
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
-            moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
-
-            molecule.addObserver( new SimpleObserver() {
-                public void update() {
-                    EnergyView.this.update();
-                }
-            } );
-        }
         update();
     }
 
     public void setManualControl( boolean manualControl ) {
         cursor.setManualControlEnabled( manualControl );
+    }
+
+    private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener {
+        public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
+                                                 SimpleMolecule prevTrackedMolecule ) {
+            if( selectedMolecule != null ) {
+                selectedMolecule.removeObserver( EnergyView.this );
+            }
+            selectedMolecule = newTrackedMolecule;
+            if( selectedMoleculeGraphic != null ) {
+                moleculeLayer.removeChild( selectedMoleculeGraphic );
+            }
+            selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
+            moleculeLayer.addChild( selectedMoleculeGraphic );
+
+            newTrackedMolecule.addObserver( EnergyView.this );
+        }
+
+        public void closestMoleculeChanged( SimpleMolecule newClosestMolecule,
+                                            SimpleMolecule prevClosestMolecule ) {
+            if( nearestToSelectedMolecule != null ) {
+                nearestToSelectedMolecule.removeObserver( EnergyView.this );
+            }
+            nearestToSelectedMolecule = newClosestMolecule;
+            if( nearestToSelectedMoleculeGraphic != null ) {
+                moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
+            }
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule );
+            moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+
+            newClosestMolecule.addObserver( EnergyView.this );
+            update();
+        }
     }
 }
