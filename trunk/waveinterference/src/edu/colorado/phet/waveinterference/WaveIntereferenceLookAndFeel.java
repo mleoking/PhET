@@ -14,7 +14,10 @@ import java.awt.*;
  */
 
 public class WaveIntereferenceLookAndFeel extends PhetLookAndFeel {
+    private static Color backgroundColor = new Color( 200, 240, 200 );  // light green
+
     public WaveIntereferenceLookAndFeel() {
+        setBackgroundColor( backgroundColor );
         setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
         updateDefaults();//todo is this necessary?
     }
