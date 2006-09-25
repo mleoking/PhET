@@ -55,6 +55,7 @@ public class SpectrometerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Color TITLE_COLOR = Color.WHITE;
+    private static final Color SNAPSHOT_TITLE_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -100,7 +101,7 @@ public class SpectrometerNode extends PhetPNode {
         
         PText titleNode = new PText( title );
         titleNode.setFont( font );
-        titleNode.setTextPaint( TITLE_COLOR );
+        titleNode.setTextPaint( isaSnapshot ? SNAPSHOT_TITLE_COLOR : TITLE_COLOR );
         
         _closeButton = new JButton( closeIcon );
         _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
