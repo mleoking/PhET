@@ -28,12 +28,11 @@ public class VoltmeterModel {
         return new Point2D.Double( unit.x, unit.y );
     }
 
-    public void translateBody( double x, double y ) {
-        unit.x += x;
-        unit.y += y;
+    public void translateBody( double dx, double dy ) {
+        unit.x += dx;
+        unit.y += dy;
         notifyListeners();
     }
-
 
     public static interface Listener {
         void voltmeterChanged();

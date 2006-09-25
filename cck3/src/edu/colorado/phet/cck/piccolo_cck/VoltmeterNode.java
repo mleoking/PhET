@@ -6,9 +6,9 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 
 /**
@@ -29,8 +29,8 @@ public class VoltmeterNode extends PhetPNode {
 
         try {
             unitImageNode = new PImage( ImageLoader.loadBufferedImage( "images/vm3.gif" ) );
-            unitImageNode.scale( 1.0 / 80.0 );
-            addChild( unitImageNode );
+//            unitImageNode.scale( 1.0 / 80.0 );
+//            addChild( unitImageNode );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -43,14 +43,17 @@ public class VoltmeterNode extends PhetPNode {
         update();
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                Point2D pt = event.getPositionRelativeTo( VoltmeterNode.this.getParent() );
-                voltmeterModel.translateBody( pt.getX(), pt.getY() );
+                PDimension pt = event.getDeltaRelativeTo( VoltmeterNode.this.getParent().getParent() );
+                System.out.println( "pt = " + pt );
+                voltmeterModel.translateBody( pt.width, pt.height );
             }
         } );
     }
 
     private void update() {
+        System.out.println( "voltmeterModel.getUnitOffset() = " + voltmeterModel.getUnitOffset() );
+        System.out.println( "getGlobalFullBounds() = " + getGlobalFullBounds() );
         setVisible( voltmeterModel.isVisible() );
-        unitImageNode.setOffset( voltmeterModel.getUnitOffset() );
+        setOffset( voltmeterModel.getUnitOffset() );
     }
 }
