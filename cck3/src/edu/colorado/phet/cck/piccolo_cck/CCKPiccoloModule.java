@@ -75,6 +75,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setVoltmeterVisible( boolean visible ) {
+        cckSimulationPanel.setVoltmeterVisible( visible );
     }
 
     public void setVirtualAmmeterVisible( boolean selected ) {
