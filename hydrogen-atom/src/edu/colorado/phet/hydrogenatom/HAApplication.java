@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -67,6 +66,10 @@ public class HAApplication extends PiccoloPhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar() {
+        
+        // Options menu
+        OptionsMenu optionsMenu = new OptionsMenu();
+        getPhetFrame().addMenu( optionsMenu );
     }
     
     //----------------------------------------------------------------------------
