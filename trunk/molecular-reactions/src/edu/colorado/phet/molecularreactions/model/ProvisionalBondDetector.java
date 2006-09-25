@@ -68,7 +68,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
             if( o instanceof SimpleMolecule ) {
                 SimpleMolecule sm1 = (SimpleMolecule)o;
 
-                for( int j = 0; j < modelElements.size(); j++ ) {
+                for( int j = i + 1; j < modelElements.size(); j++ ) {
+//                for( int j = 0; j < modelElements.size(); j++ ) {
                     Object o1 = modelElements.get( j );
 
                     // If the second model element is a composite molecule, see if the simple molecule

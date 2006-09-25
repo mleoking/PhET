@@ -235,6 +235,10 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
         if( element instanceof SimpleMolecule ) {
             SimpleMolecule molecule = (SimpleMolecule)element;
             molecule.removeListener( this );
+
+            if( molecule == this.selectedMolecule ) {
+                molecule.setSelectionStatus( Selectable.NOT_SELECTED );
+            }
         }
     }
 
@@ -258,7 +262,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
             }
             selectedMolecule = molecule;
             selectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
-//            selectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
             moleculeLayer.addChild( selectedMoleculeGraphic );
 
         }
@@ -268,7 +271,6 @@ public class EnergyView extends PNode implements PublishingModel.ModelListener, 
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
             nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
-//            nearestToSelectedMoleculeGraphic = new EnergySimpleMoleculeGraphic( molecule );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
         }
         update();

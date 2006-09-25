@@ -57,6 +57,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private static Paint selectedStrokePaint = Color.magenta;
     private static Paint cmPaint = Color.magenta;
     private static Paint nearestToSelectedStrokePaint = new Color( 255, 0, 255 );
+    private static boolean MARK_SELECTED_MOLECULE = false;
 
     static {
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
@@ -84,6 +85,10 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         return annotation;
     }
 
+    public static void setMARK_SELECTED_MOLECULE( boolean mark ) {
+        AbstractSimpleMoleculeGraphic.MARK_SELECTED_MOLECULE = mark;
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -95,7 +100,6 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private double r = 3;
 
     /**
-     *
      * @param molecule
      */
     public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule ) {
@@ -123,15 +127,15 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
         // The CM marker
         cmNode = new PPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
-        cmNode.setPaint( cmPaint);
+        cmNode.setPaint( cmPaint );
         addChild( cmNode );
 
         // Add annotation, if required
         if( annotate ) {
-            PText annotation = new PText( getAnnotation( molecule ));
+            PText annotation = new PText( getAnnotation( molecule ) );
             RegisterablePNode rNode = new RegisterablePNode( annotation );
             rNode.setRegistrationPoint( annotation.getWidth() / 2,
-                                        annotation.getHeight() / 2);
+                                        annotation.getHeight() / 2 );
             addChild( rNode );
         }
 
@@ -165,20 +169,22 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     //--------------------------------------------------------------------------------------------------
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {
-        if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
+        if( MARK_SELECTED_MOLECULE ) {
+            if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
 //            showCM = true;
-            pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
-            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
-        }
-        else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
-            showCM = true;
+                pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
+                pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
+            }
+            else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
+                showCM = true;
 //            pPath.setStroke( AbstractSimpleMoleculeGraphic.nearestToSelectedStroke );
 //            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.nearestToSelectedStrokePaint );
-        }
-        else {
-            showCM = false;
-            pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
-            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+            }
+            else {
+                showCM = false;
+                pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
+                pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+            }
         }
     }
 }

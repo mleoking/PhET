@@ -39,14 +39,14 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel abLabel = new JLabel( "AB" );
         JLabel bcLabel = new JLabel( "BC" );
 
-        MoleculeCounter aTF = new MoleculeCounter( MoleculeA.class, model );
-        counters.add( aTF );
-        MoleculeCounter cTF = new MoleculeCounter( MoleculeC.class, model );
-        counters.add( cTF );
-        MoleculeCounter abTF = new MoleculeCounter( MoleculeAB.class, model );
-        counters.add( abTF );
-        MoleculeCounter bcTF = new MoleculeCounter( MoleculeBC.class, model );
-        counters.add( bcTF );
+        MoleculeCounter aMC = new MoleculeCounter( MoleculeA.class, model );
+        counters.add( aMC );
+        MoleculeCounter cMC = new MoleculeCounter( MoleculeC.class, model );
+        counters.add( cMC );
+        MoleculeCounter abMC = new MoleculeCounter( MoleculeAB.class, model );
+        counters.add( abMC );
+        MoleculeCounter bcMC = new MoleculeCounter( MoleculeBC.class, model );
+        counters.add( bcMC );
 
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
@@ -56,18 +56,17 @@ public class MoleculeInstanceControlPanel extends JPanel {
                                                          insets,
                                                          0, 0 );
         add( aLabel, gbc );
-        add( bLabel, gbc );
-        add( cLabel, gbc );
         add( abLabel, gbc );
         add( bcLabel, gbc );
+        add( cLabel, gbc );
 
         gbc.gridx = 1;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.WEST;
-        add( aTF, gbc );
-        add( cTF, gbc );
-        add( abTF, gbc );
-        add( bcTF, gbc );
+        add( aMC, gbc );
+        add( abMC, gbc );
+        add( bcMC, gbc );
+        add( cMC, gbc );
     }
 
     public void setCountersEditable( boolean editable ) {
