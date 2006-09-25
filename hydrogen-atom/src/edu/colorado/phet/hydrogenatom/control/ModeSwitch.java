@@ -54,7 +54,7 @@ public class ModeSwitch extends PhetPNode {
     private static final Color ON_COLOR = Color.WHITE;
     private static final Color OFF_COLOR = Color.BLACK;
     private static final Stroke LINE_STROKE = new BasicStroke( 2f );
-    private static final double LINE_LENGTH = 20;
+    private static final double LINE_LENGTH = 10;
     private static final double MARGIN = 10;
     
     //----------------------------------------------------------------------------
