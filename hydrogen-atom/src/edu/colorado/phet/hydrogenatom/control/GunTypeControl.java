@@ -12,18 +12,16 @@
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.view.AlphaParticleNode;
@@ -41,6 +39,13 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 public class GunTypeControl extends PhetPNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color PANEL_BACKGROUND = new Color( 30, 30, 30 );
+    private static final Border PANEL_BORDER = new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK );
+        
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -96,8 +101,8 @@ public class GunTypeControl extends PhetPNode {
         
         // Layout
         JPanel panel = new JPanel();
-        panel.setBackground( Color.DARK_GRAY );
-        panel.setBorder( new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK ) );
+        panel.setBackground( PANEL_BACKGROUND );
+        panel.setBorder( PANEL_BORDER );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         layout.setInsets( new Insets( 0, 0, 0, 20 ) ); // top,left,bottom,right
         panel.setLayout( layout );
