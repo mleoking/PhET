@@ -36,7 +36,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
-(9/22/06) - create proton, neutron, electron images programmatically
+(9/25/06) - create proton, neutron, electron images programmatically
 (9/22/06) - add separate resources for ModeSwitch big and small font size
 (9/22/06) - vertically center labels in AtomicModelSelector's continuum subpanel
 (9/22/06) - PSwing changes with Sam Reid to resolve problem with drawing transparent JComponents
