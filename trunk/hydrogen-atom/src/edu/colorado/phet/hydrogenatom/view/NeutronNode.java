@@ -18,29 +18,32 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
-public class ElectronNode extends PhetPNode {
+public class NeutronNode extends PhetPNode {
 
-    private static final double DIAMETER = 8;
-    private static final Color COLOR = new Color( 70, 70, 255 );
-    private static final Color HILITE_COLOR = new Color( 140, 140, 255 );
+    private static final double DIAMETER = 11;
+    private static final Color COLOR = new Color( 128, 128, 128 );
+    private static final Color HILITE_COLOR = new Color( 175, 175, 175 );
     private static final Paint ROUND_GRADIENT = new RoundGradientPaint( 0, DIAMETER/6, HILITE_COLOR, new Point2D.Double( DIAMETER/4, DIAMETER/4 ), COLOR );
     
     private PPath _pathNode;
     
-    public ElectronNode() {
+    public NeutronNode() {
         super();
 
         Shape shape = new Ellipse2D.Double( -DIAMETER/2, -DIAMETER/2, DIAMETER, DIAMETER );
-        PPath pathNode = new PPath( shape );
-        pathNode.setPaint( ROUND_GRADIENT );
-        pathNode.setStroke( null );   
+        _pathNode = new PPath( shape );
+        _pathNode.setPaint( ROUND_GRADIENT );
+        _pathNode.setStroke( null );   
         
-        addChild( pathNode );
+        addChild( _pathNode );
     }
     
     public void setStroke( Stroke stroke, Color color ) {
