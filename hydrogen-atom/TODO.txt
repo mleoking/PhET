@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - lighten ModeSwitch and AtomicModelSelector panels
-- add "deBroglie wave view" menu to menubar
+- add Options menu to menubar, with "deBroglie wave view" choices
 - distort orbits so that 6 orbits fit in animation region
 - generalize creating a "panel" node to fit under a collection of nodes
 - "Box of Hydrogen" HTMLNode looks lousy on Windows
