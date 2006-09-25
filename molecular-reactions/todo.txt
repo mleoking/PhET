@@ -1,3 +1,5 @@
+- CM marker isn't shown for nearest-to-selected molecule
+- Molecules in energy view don't move under manual control
 - When the selected molecule is removed from the Complex module, the energy view still tracks it
 - Icons images are truncated on right and bottom
 - Move GraphicFactory classes out of SpatialView.

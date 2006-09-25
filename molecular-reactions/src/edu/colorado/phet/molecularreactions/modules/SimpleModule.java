@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
+import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -20,6 +21,8 @@ import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * MRModule
@@ -39,20 +42,40 @@ public class SimpleModule extends MRModule {
         AbstractSimpleMoleculeGraphic.setMARK_SELECTED_MOLECULE( false );
 
         // create the control panel
-//        setControlPanel( new ControlPanel() );
         setControlPanel( new SimpleMRControlPanel( this ));
-//        setControlPanel( new ControlPanel() );
-//        mrControlPanel = new MRControlPanel( this );
-//        getControlPanel().addControl( mrControlPanel );
 
-        // Add Manual Control button
-        JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));
+        // Add Manual and Run Control buttons
+        final JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));
         manualCtrlBtn.addActionListener( new ManualControlAction( this ) );
         RegisterablePNode ctrlBtnNode = new RegisterablePNode( new PSwing( getPCanvas(), manualCtrlBtn ));
         double btnX = ( getMRModel().getBox().getMaxX() + getSpatialView().getFullBounds().getWidth() ) / 2;
         ctrlBtnNode.setOffset( btnX, 50 );
         ctrlBtnNode.setRegistrationPoint( ctrlBtnNode.getFullBounds().getWidth() / 2, 0 );
         getSpatialView().addChild( ctrlBtnNode );
+
+        final JButton runBtn = new JButton( SimStrings.get( "Control.run"));
+        runBtn.addActionListener( new RunAction( this ));
+        RegisterablePNode runBtnNode = new RegisterablePNode( new PSwing( getPCanvas(), runBtn ));
+        runBtnNode.setOffset( btnX, 120 );
+        runBtnNode.setRegistrationPoint( runBtnNode.getFullBounds().getWidth() / 2, 0);
+        getSpatialView().addChild( runBtnNode );
+
+        // Add listeners that will enable/disable the buttons appropriately
+        manualCtrlBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                runBtn.setEnabled( true );
+                manualCtrlBtn.setEnabled( false );
+            }
+        } );
+
+        runBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                runBtn.setEnabled( false );
+                manualCtrlBtn.setEnabled( true );
+            }
+        } );
+        runBtn.setEnabled( false );
+        manualCtrlBtn.setEnabled( true );
     }
 
     /**
