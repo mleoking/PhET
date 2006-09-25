@@ -19,12 +19,35 @@ import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
+/**
+ * RoundGradientPaint creates a round, or radial, gradient.
+ * This gradient defines a color at a point; the gradient blends into another 
+ * color as a function of the distance from that point. 
+ * The end result is a big, fuzzy spot.
+ * <p>
+ * Adapted from an example in Chapter 4 of "Java 2D Graphics" by Jonathan Knudsen.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class RoundGradientPaint implements Paint {
 
-    protected Point2D _point;
-    protected Point2D _radius;
-    protected Color _pointColor, _backgroundColor;
+    private Point2D _point;
+    private Point2D _radius;
+    private Color _pointColor, _backgroundColor;
 
+    /**
+     * Constructor accepts a point and a color that describe the center of 
+     * the gradient, a radius, and a background color. The gradient blends
+     * color from the center point to the background color over the length
+     * of the radius.
+     * 
+     * @param x
+     * @param y
+     * @param pointColor
+     * @param radius
+     * @param backgroundColor
+     */
     public RoundGradientPaint( double x, double y, Color pointColor, Point2D radius, Color backgroundColor ) {
         if ( radius.distance( 0, 0 ) <= 0 )
             throw new IllegalArgumentException( "Radius must be greater than 0." );
@@ -34,23 +57,32 @@ public class RoundGradientPaint implements Paint {
         _backgroundColor = backgroundColor;
     }
 
+    /**
+     * See Paint.createContext
+     */
     public PaintContext createContext( ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints ) {
         Point2D transformedPoint = xform.transform( _point, null );
         Point2D transformedRadius = xform.deltaTransform( _radius, null );
         return new RoundGradientContext( transformedPoint, _pointColor, transformedRadius, _backgroundColor );
     }
 
+    /**
+     * See Transparency.getTransparency
+     */
     public int getTransparency() {
         int a1 = _pointColor.getAlpha();
         int a2 = _backgroundColor.getAlpha();
         return ( ( ( a1 & a2 ) == 0xff ) ? OPAQUE : TRANSLUCENT );
     }
 
-    public static class RoundGradientContext implements PaintContext {
+    /**
+     * RoundGradientContext is the PaintContext used by a RoundGradientPaint.
+     */
+    private static class RoundGradientContext implements PaintContext {
 
-        protected Point2D _point;
-        protected Point2D _radius;
-        protected Color _color1, _color2;
+        private Point2D _point;
+        private Point2D _radius;
+        private Color _color1, _color2;
 
         public RoundGradientContext( Point2D p, Color color1, Point2D r, Color color2 ) {
             _point = p;
