@@ -158,7 +158,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     public void update() {
         // noop
     }
-    
+
     //--------------------------------------------------------------------------------------------------
     // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------

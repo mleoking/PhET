@@ -131,9 +131,7 @@ public class SelectedMoleculeTracker implements ModelElement,
         }
     }
 
-    public void modelElementRemoved
-            ( ModelElement
-                    element ) {
+    public void modelElementRemoved( ModelElement element ) {
         if( element instanceof SimpleMolecule ) {
             ( (SimpleMolecule)element ).removeListener( this );
         }
@@ -154,6 +152,7 @@ public class SelectedMoleculeTracker implements ModelElement,
     //--------------------------------------------------------------------------------------------------
     public interface Listener extends EventListener {
         void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule );
+
         void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule );
     }
 
