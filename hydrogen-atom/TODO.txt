@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- lighten ModeSwitch and AtomicModelSelector panels
 - add Options menu to menubar, with "deBroglie wave view" choices
 - distort orbits so that 6 orbits fit in animation region
 - generalize creating a "panel" node to fit under a collection of nodes
@@ -36,6 +35,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/25/06) - lighten ModeSwitch and AtomicModelSelector panels
+(9/25/06) - shorten the horizontal lines on ModeSwitch
 (9/25/06) - delete electron, proton and alphaParticle image files
 (9/25/06) - generate Swing icons using ProtonNode and AlphaParticleNode
 (9/25/06) - collapse ProtonNode, NeutronNode, ElectronNode into one superclass
