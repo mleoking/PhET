@@ -141,7 +141,6 @@ public class HAConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
-    public static final String IMAGE_ALPHA_PARTICLE = IMAGES_DIRECTORY + "alphaParticle.png";
     public static final String IMAGE_ATOMIC_MODEL_PANEL = IMAGES_DIRECTORY + "atomicModelPanel.png";
     public static final String IMAGE_BILLIARD_BALL = IMAGES_DIRECTORY + "billiardBall.png";
     public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
@@ -151,7 +150,6 @@ public class HAConstants {
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
     public static final String IMAGE_DEBROGLIE_BUTTON = IMAGES_DIRECTORY + "deBroglieButton.png";
-    public static final String IMAGE_ELECTRON = IMAGES_DIRECTORY + "electron.png";
     public static final String IMAGE_EXPERIMENT_ATOM = IMAGES_DIRECTORY + "experimentAtom.png";
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
@@ -161,7 +159,6 @@ public class HAConstants {
     public static final String IMAGE_MODE_PANEL = IMAGES_DIRECTORY + "modePanel.png";
     public static final String IMAGE_MODE_SWITCH_DOWN = IMAGES_DIRECTORY + "modeSwitchDown.png";
     public static final String IMAGE_MODE_SWITCH_UP = IMAGES_DIRECTORY + "modeSwitchUp.png";
-    public static final String IMAGE_PROTON = IMAGES_DIRECTORY + "proton.png";
     public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon.png";
     public static final String IMAGE_PLUM_PUDDING = IMAGES_DIRECTORY + "plumPudding.png";
     public static final String IMAGE_PLUM_PUDDING_BUTTON = IMAGES_DIRECTORY + "plumPuddingButton.png";
