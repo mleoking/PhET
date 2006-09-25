@@ -15,11 +15,15 @@ public class VoltmeterModel {
     private Point2D.Double unit = new Point2D.Double();
     private ArrayList listeners = new ArrayList();
 
+    public VoltmeterModel() {
+    }
+
     public boolean isVisible() {
         return visible;
     }
 
     public void setVisible( boolean visible ) {
+        System.out.println( "visible = " + visible );
         this.visible = visible;
         notifyListeners();
     }

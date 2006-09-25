@@ -29,9 +29,12 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     private CCKModel model;
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
+    private MeasurementToolSet measurementToolSet;
 
     public CCKPiccoloModule( String[] args ) {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
+
+        this.measurementToolSet = new MeasurementToolSet();
         cckParameters = new CCKParameters( this, args );
         this.args = args;
         setModel( new BaseModel() );
@@ -75,7 +78,11 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setVoltmeterVisible( boolean visible ) {
-        cckSimulationPanel.setVoltmeterVisible( visible );
+        getVoltmeterModel().setVisible( visible );
+    }
+
+    public VoltmeterModel getVoltmeterModel() {
+        return measurementToolSet.getVoltmeterModel();
     }
 
     public void setVirtualAmmeterVisible( boolean selected ) {
@@ -180,4 +187,5 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public boolean isReadoutGraphicsVisible() {
         return true;
     }
+
 }

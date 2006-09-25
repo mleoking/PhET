@@ -1,15 +1,12 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -21,20 +18,18 @@ import java.io.IOException;
 public class VoltmeterNode extends PhetPNode {
     private VoltmeterModel voltmeterModel;
     private PImage unitImageNode;
+    private PImage blackProbe;
+    private PImage redProbe;
+    private PPath redCable;
+    private PPath blackCable;
 
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
-        PPath path = new PhetPPath( new Rectangle( 1, 1 ), Color.blue );
-        addChild( path );
-
-        try {
-            unitImageNode = new PImage( ImageLoader.loadBufferedImage( "images/vm3.gif" ) );
-//            unitImageNode.scale( 1.0 / 80.0 );
-//            addChild( unitImageNode );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        unitImageNode = PImageFactory.create( "images/vm3.gif" );
+        redProbe = PImageFactory.create( "images/probeRed.gif" );
+        blackProbe = PImageFactory.create( "images/probeBlack.gif" );
+        unitImageNode.scale( 1.0 / 80.0 );
+        addChild( unitImageNode );
         voltmeterModel.addListener( new VoltmeterModel.Listener() {
             public void voltmeterChanged() {
                 update();
@@ -43,16 +38,13 @@ public class VoltmeterNode extends PhetPNode {
         update();
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension pt = event.getDeltaRelativeTo( VoltmeterNode.this.getParent().getParent() );
-                System.out.println( "pt = " + pt );
+                PDimension pt = event.getDeltaRelativeTo( VoltmeterNode.this.getParent() );
                 voltmeterModel.translateBody( pt.width, pt.height );
             }
         } );
     }
 
     private void update() {
-        System.out.println( "voltmeterModel.getUnitOffset() = " + voltmeterModel.getUnitOffset() );
-        System.out.println( "getGlobalFullBounds() = " + getGlobalFullBounds() );
         setVisible( voltmeterModel.isVisible() );
         setOffset( voltmeterModel.getUnitOffset() );
     }

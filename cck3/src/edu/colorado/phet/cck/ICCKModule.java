@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,4 +91,6 @@ public interface ICCKModule {
     void setReadoutVisible( Branch branch, boolean selected );
 
     boolean isReadoutGraphicsVisible();
+
+    VoltmeterModel getVoltmeterModel();
 }
