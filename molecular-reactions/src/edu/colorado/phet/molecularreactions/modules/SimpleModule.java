@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
+import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
@@ -30,7 +31,12 @@ public class SimpleModule extends MRModule {
 
     public SimpleModule() {
         super( "Simple");
+
+        // Set up the model
         setInitialConditions( (MRModel)getModel() );
+
+        // Disable marking of the selected molecule and its nearest neighbor
+        AbstractSimpleMoleculeGraphic.setMARK_SELECTED_MOLECULE( false );
 
         // create the control panel
 //        setControlPanel( new ControlPanel() );
