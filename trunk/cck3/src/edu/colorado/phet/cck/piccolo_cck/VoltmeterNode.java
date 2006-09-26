@@ -11,9 +11,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 
 /**
  * User: Sam Reid
@@ -155,8 +153,7 @@ public class VoltmeterNode extends PhetPNode {
             this.leadModel = leadModel;
 
             imageNode = PImageFactory.create( imageLocation );
-            imageNode.scale( SCALE );
-            imageNode.rotate( leadModel.getAngle() );
+
             addChild( imageNode );
             leadModel.addListener( new VoltmeterModel.LeadModel.Listener() {
                 public void leadModelChanged() {
@@ -179,8 +176,16 @@ public class VoltmeterNode extends PhetPNode {
         }
 
         private void updateLead() {
+            imageNode.setTransform( new AffineTransform() );
+            imageNode.rotateAboutPoint( leadModel.getAngle(), leadModel.getTipLocation().getX() - imageNode.getWidth() / 2 * SCALE, leadModel.getTipLocation().getY() );
             imageNode.setOffset( leadModel.getTipLocation().getX() - imageNode.getWidth() / 2 * SCALE, leadModel.getTipLocation().getY() );
-            tipPath.setPathTo( leadModel.getTipShape() );
+//            imageNode.rotateAboutPoint( leadModel.getAngle(), leadModel.getTipLocation() );
+
+
+            imageNode.scale( SCALE );
+
+//            tipPath.setPathTo( leadModel.getTipShape() );
+            tipPath.setPathTo( new Rectangle2D.Double( leadModel.getTipLocation().getX(), leadModel.getTipLocation().getY(), 0.5, 0.5 ) );
         }
 
         public Point2D getTailLocation() {
