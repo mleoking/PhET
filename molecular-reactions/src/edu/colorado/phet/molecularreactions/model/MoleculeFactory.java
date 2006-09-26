@@ -37,6 +37,7 @@ public class MoleculeFactory {
         MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
         Point2D position = params.getPosition();
         Vector2D velocity = params.getVelocity();
+        double angularVelocity = params.getAngularVelocity();
         if( moleculeClass == MoleculeAB.class ) {
             SimpleMolecule mA = new MoleculeA();
             mA.setPosition( position.getX() - mA.getRadius(), position.getY() );
@@ -46,6 +47,7 @@ public class MoleculeFactory {
             mB.setVelocity( velocity );
             molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB},
                                        new Bond[]{new Bond( mA, mB )} );
+            molecule.setOmega( angularVelocity );
         }
         else if( moleculeClass == MoleculeBC.class ) {
             SimpleMolecule mC = new MoleculeC();
@@ -56,6 +58,7 @@ public class MoleculeFactory {
             mB.setVelocity( velocity );
             molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB},
                                        new Bond[]{new Bond( mC, mB )} );
+            molecule.setOmega( angularVelocity );
         }
         else {
             try {

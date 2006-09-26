@@ -28,11 +28,13 @@ public interface MoleculeParamGenerator {
 
     public static class Params {
         private Point2D position;
+        private double angularVelocity;
         private Vector2D velocity;
 
-        public Params( Point2D position, Vector2D velocity ) {
+        public Params( Point2D position, Vector2D velocity, double angularVelocity ) {
             this.velocity = velocity;
             this.position = position;
+            this.angularVelocity = angularVelocity;
         }
 
         public Point2D getPosition() {
@@ -41,6 +43,10 @@ public interface MoleculeParamGenerator {
 
         public Vector2D getVelocity() {
             return velocity;
+        }
+
+        public double getAngularVelocity() {
+            return angularVelocity;
         }
     }
 }

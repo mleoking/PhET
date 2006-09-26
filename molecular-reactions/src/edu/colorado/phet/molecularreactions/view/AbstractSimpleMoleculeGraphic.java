@@ -115,18 +115,39 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         molecule.addObserver( this );
         molecule.addListener( this );
 
-        PImage pi = null;
+        PImage moleculeNode = null;
+        PImage labelNode = null;
         if( molecule instanceof MoleculeA ) {
-            pi = PImageFactory.create( "images/glass-molecule-A.png" );
+            moleculeNode = PImageFactory.create( "images/glass-molecule-A.png",
+                                                 new Dimension( (int)new MoleculeA().getRadius() * 2,
+                                                                (int)new MoleculeA().getRadius() * 2));
+            if( annotate ) {
+                labelNode = PImageFactory.create( "images/molecule-label-A.png");
+            }
         }
         if( molecule instanceof MoleculeB ) {
-            pi = PImageFactory.create( "images/glass-molecule-B.png" );
+            moleculeNode = PImageFactory.create( "images/glass-molecule-B.png",
+                                                 new Dimension( (int)new MoleculeB().getRadius() * 2,
+                                                                (int)new MoleculeB().getRadius() * 2));
+            if( annotate ) {
+                labelNode = PImageFactory.create( "images/molecule-label-B.png");
+            }
         }
         if( molecule instanceof MoleculeC ) {
-            pi = PImageFactory.create( "images/glass-molecule-C.png" );
+            moleculeNode = PImageFactory.create( "images/glass-molecule-C.png",
+                                                 new Dimension( (int)new MoleculeC().getRadius() * 2,
+                                                                (int)new MoleculeC().getRadius() * 2));
+            if( annotate ) {
+                labelNode = PImageFactory.create( "images/molecule-label-C.png");
+            }
         }
-        pi.setOffset( -pi.getImage().getWidth( null ) / 2, -pi.getImage().getHeight( null ) / 2 );
-        addChild( pi );
+        moleculeNode.setOffset( -moleculeNode.getImage().getWidth( null ) / 2, -moleculeNode.getImage().getHeight( null ) / 2 );
+        addChild( moleculeNode );
+        if( labelNode != null ) {
+            labelNode.setOffset( -labelNode.getFullBounds().getWidth() / 2,
+                                 -labelNode.getFullBounds().getHeight() / 2);
+            addChild( labelNode );
+        }
         if( true ) return;
 
 
