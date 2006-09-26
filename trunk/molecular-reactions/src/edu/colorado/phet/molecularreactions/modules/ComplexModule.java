@@ -38,8 +38,9 @@ public class ComplexModule extends MRModule {
         // Add the pump
         MRModel model = getMRModel();
         PumpGraphic pumpGraphic = new PumpGraphic( this );
+        // 15 is the wall thickness of the box graphic
         pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
-                               model.getBox().getMinY() + model.getBox().getHeight() - pumpGraphic.getPumpBaseLocation().getY() );
+                               model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
         setControlPanel( new ComplexMRControlPanel( this ));
