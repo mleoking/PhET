@@ -76,7 +76,6 @@ abstract public class CompositeMolecule extends Molecule {
     //--------------------------------------------------------------------------------------------------
 
     private SimpleMolecule[] components;
-    private Bond[] bonds;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
 
@@ -94,8 +93,8 @@ abstract public class CompositeMolecule extends Molecule {
      *
      * @param molecules
      */
-    public CompositeMolecule( SimpleMolecule[] molecules, Bond[] bonds ) {
-        setComponents( molecules, bonds );
+    public CompositeMolecule( SimpleMolecule[] molecules ) {
+        setComponents( molecules );
     }
 
     /**
@@ -103,8 +102,7 @@ abstract public class CompositeMolecule extends Molecule {
      *
      * @param components
      */
-    protected void setComponents( SimpleMolecule[] components, Bond[] bonds ) {
-        this.bonds = bonds;
+    protected void setComponents( SimpleMolecule[] components ) {
         this.components = components;
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
@@ -132,33 +130,6 @@ abstract public class CompositeMolecule extends Molecule {
         components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
         molecule.setParentComposite( null );
 
-        // Remove the bond from our list of bonds
-        // Find the bonds that the component participates in. If there is more than one,
-        // throw an exception
-        Bond bond = null;
-        for( int i = 0; i < getBonds().length && bond == null; i++ ) {
-            Bond testBond = getBonds()[i];
-            if( testBond.getParticipants()[0] == molecule ) {
-                if( bond != null ) {
-                    throw new RuntimeException( "attempt to remove an inner component" );
-                }
-                else {
-                    bond = testBond;
-                }
-            }
-            if( testBond.getParticipants()[1] == molecule ) {
-                if( bond != null ) {
-                    throw new RuntimeException( "attempt to remove an inner component" );
-                }
-                else {
-                    bond = testBond;
-                }
-            }
-        }
-        List bondList = new ArrayList( Arrays.asList( bonds ) );
-        bondList.remove( bond );
-        bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
-
         // Compute composite properties
         computeKinematicsFromComponents( components );
 
@@ -168,8 +139,6 @@ abstract public class CompositeMolecule extends Molecule {
         this.setMomentum( this.getMomentum().add( molecule.getMomentum() ) );
         molecule.setVelocity( 0, 0 );
         collision.detectAndDoCollision( this, molecule );
-
-        listenerProxy.componentRemoved( molecule, bond );
     }
 
     /**
@@ -183,11 +152,6 @@ abstract public class CompositeMolecule extends Molecule {
 
         // Determine which component molecule is staying in the composite
         SimpleMolecule moleculeRemaining = reaction.getMoleculeToKeep( this, moleculeAdded );
-
-        // Add the bond to the list of bonds
-        List bondList = new ArrayList( Arrays.asList( bonds ) );
-        bondList.add( bond );
-        bonds = (Bond[])bondList.toArray( new Bond[bondList.size()] );
 
         // Tell the new component that it is part of a composite, and set its position
         moleculeAdded.setParentComposite( this );
@@ -283,9 +247,9 @@ abstract public class CompositeMolecule extends Molecule {
         return components;
     }
 
-    public Bond[] getBonds() {
-        return bonds;
-    }
+//    public Bond[] getBonds() {
+//        return bonds;
+//    }
 
     public Rectangle2D getBoundingBox() {
         boundingBox.setRect( components[0].getBoundingBox() );

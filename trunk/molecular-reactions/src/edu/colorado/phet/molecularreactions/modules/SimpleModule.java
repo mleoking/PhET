@@ -97,8 +97,7 @@ public class SimpleModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                       new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0 );
                 cm.setVelocity( 0, 0 );
                 model.addModelElement( cm );

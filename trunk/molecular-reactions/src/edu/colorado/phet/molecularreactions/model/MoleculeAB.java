@@ -20,8 +20,8 @@ package edu.colorado.phet.molecularreactions.model;
  */
 public class MoleculeAB extends CompositeMolecule {
 
-    public MoleculeAB( SimpleMolecule[] components, Bond[] bonds ) {
-        super( components, bonds );
+    public MoleculeAB( SimpleMolecule[] components ) {
+        super( components );
         if( getMoleculeB() == null || getMoleculeA() == null ) {
             throw new RuntimeException( "internal error" );
         }

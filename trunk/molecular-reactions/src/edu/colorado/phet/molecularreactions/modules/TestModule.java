@@ -59,8 +59,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0 );
                 cm.setVelocity( 0, 0 );
                 model.addModelElement( cm );
@@ -92,8 +91,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0 );
                 cm.setVelocity( 0, 0 );
                 model.addModelElement( cm );
@@ -126,8 +124,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0 );
                 cm.setVelocity( 0, 0 );
                 model.addModelElement( cm );
@@ -158,8 +155,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
                 cm.setOmega( 0.1 );
                 cm.setVelocity( 0, 4 );
                 model.addModelElement( cm );
@@ -179,8 +175,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
                 cm.setOmega( 0.1 );
                 cm.setVelocity( 0, -0.4 );
                 model.addModelElement( cm );
@@ -212,8 +207,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
             cm.setOmega( 0.1 );
             cm.setVelocity( 0, -0.4);
                 model.addModelElement( cm );
@@ -233,8 +227,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                              new Bond[]{new Bond( m1, m1a )} );
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
             cm.setOmega( 0.1 );
             cm.setVelocity( 0, -0.4);
                 model.addModelElement( cm );
@@ -278,8 +271,7 @@ public class TestModule extends MRModule {
             m1a.setPosition( 180 + m1a.getRadius() * 2, 60 );
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
-            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
 
             cm.setOmega( 0.1 );
             cm.setVelocity( 0, -0.4 );
@@ -306,8 +298,7 @@ public class TestModule extends MRModule {
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
 
-            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
             cm.setOmega( -0.1 );
 
             model.addModelElement( cm );
@@ -332,8 +323,7 @@ public class TestModule extends MRModule {
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
 
-            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
 
             model.addModelElement( cm );
 
@@ -363,8 +353,7 @@ public class TestModule extends MRModule {
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
 
-            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
 
             model.addModelElement( cm );
 
@@ -385,8 +374,7 @@ public class TestModule extends MRModule {
             m1a.setVelocity( 0, 0 );
             model.addModelElement( m1a );
 
-            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a},
-                                                          new Bond[]{new Bond( m1, m1a )} );
+            CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
             model.addModelElement( cm );
 
             SimpleMolecule m2 = new MoleculeA();
