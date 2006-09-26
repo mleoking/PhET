@@ -65,7 +65,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
         List modelElements = model.getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
-            if( o instanceof SimpleMolecule ) {
+            if( o instanceof SimpleMolecule && !((SimpleMolecule)o).isPartOfComposite() ) {
                 SimpleMolecule sm1 = (SimpleMolecule)o;
 
                 for( int j = i + 1; j < modelElements.size(); j++ ) {
@@ -82,8 +82,9 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                         if( reaction.moleculesAreProperTypes( sm1, cm ) ) {
                             SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
-                            double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
-                            if( moleculeSeparation <= provisionalBondMaxLength ) {
+                            double moleculeSeparation = reaction.getCollisionDistance( sm1, cm );
+//                            double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
+                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
 
                                 // If no provisional bond exists for either of these two simple molecules, create one
                                 if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains( sm2 ) ) {

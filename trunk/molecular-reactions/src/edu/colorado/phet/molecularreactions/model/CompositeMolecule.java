@@ -50,6 +50,10 @@ abstract public class CompositeMolecule extends Molecule {
         return n;
     }
 
+    public Bond[] getBonds() {
+        return new Bond[]( {new Bond( getComponentMolecules()[0], getComponentMolecules()[1] ) );
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
