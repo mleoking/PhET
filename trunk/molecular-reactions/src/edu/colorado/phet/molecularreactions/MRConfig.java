@@ -33,7 +33,9 @@ public class MRConfig {
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
 
     // Colors
-    public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 200 );
+    public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 225 );
+//    public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 200 );
+    public static final Color MOLECULE_PANE_BACKGROUND = new Color( 237, 252, 255 );
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";

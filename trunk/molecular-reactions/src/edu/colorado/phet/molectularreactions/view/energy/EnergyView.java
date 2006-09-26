@@ -18,6 +18,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -37,7 +38,7 @@ public class EnergyView extends PNode implements SimpleObserver {
     private int width = 300;
     private Dimension moleculePaneSize = new Dimension(  width, 150 );
     private Dimension curvePaneSize = new Dimension( width, 300 );
-    private Color moleculePaneBackgroundColor = new Color( 240, 230, 180 );
+    private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;
 
