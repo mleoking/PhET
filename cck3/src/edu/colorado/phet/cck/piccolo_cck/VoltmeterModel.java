@@ -80,6 +80,8 @@ public class VoltmeterModel {
         private Point2D.Double tailLocation;
         private ArrayList listeners = new ArrayList();
         private double angle;
+        private double tipWidth = 0.1 * 0.35;
+        private double tipHeight = 0.3 * 1.25;
 
         public LeadModel( double angle ) {
             this( new Point2D.Double(), angle );
@@ -101,7 +103,7 @@ public class VoltmeterModel {
         }
 
         public Shape getTipShape() {
-            Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x, tipLocation.y, 0.1, 0.5 );
+            Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x - tipWidth / 2, tipLocation.y, tipWidth, tipHeight );
             Shape sh = AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
             return sh;
         }

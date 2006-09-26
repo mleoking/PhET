@@ -10,7 +10,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -152,7 +154,8 @@ public class VoltmeterNode extends PhetPNode {
             this.leadModel = leadModel;
 
             imageNode = PImageFactory.create( imageLocation );
-
+            imageNode.rotateAboutPoint( leadModel.getAngle(), 0.1, 0.1 );
+            imageNode.scale( SCALE );
             addChild( imageNode );
             leadModel.addListener( new VoltmeterModel.LeadModel.Listener() {
                 public void leadModelChanged() {
@@ -168,21 +171,19 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addInputEventListener( new CursorHandler() );
 
-            tipPath = new PhetPPath( Color.blue );
+            tipPath = new PhetPPath( Color.lightGray );
             addChild( tipPath );
 
             updateLead();
         }
 
         private void updateLead() {
-            imageNode.setTransform( new AffineTransform() );
-            imageNode.rotateAboutPoint( leadModel.getAngle(), 0.1, 0.1 );
-            imageNode.scale( SCALE );
-            Point2D offset = computeOffsets( leadModel.getAngle(), imageNode.getImage().getWidth( null ), imageNode.getImage().getHeight( null ) );
+            double dx = imageNode.getImage().getWidth( null ) * SCALE * Math.cos( leadModel.getAngle() ) / 2;
+            double dy = imageNode.getImage().getWidth( null ) * SCALE * Math.sin( leadModel.getAngle() ) / 2;
+            imageNode.setOffset( leadModel.getTipLocation().getX() - dx, leadModel.getTipLocation().getY() - dy );
 
-//            imageNode.setOffset(offset.getX()+leadModel.getTipLocation().getX(),offset.getY()+leadModel.getTipLocation().getY());
-            imageNode.setOffset( offset.getX(), offset.getY() );
-            tipPath.setPathTo( new Rectangle2D.Double( leadModel.getTipLocation().getX(), leadModel.getTipLocation().getY(), 0.5, 0.5 ) );
+//            tipPath.setPathTo( new Rectangle2D.Double( leadModel.getTipLocation().getX(), leadModel.getTipLocation().getY(), 0.5, 0.5 ) );
+            tipPath.setPathTo( leadModel.getTipShape() );
         }
 
         public Point2D getTailLocation() {
