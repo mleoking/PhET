@@ -2,7 +2,6 @@
 - When the selected molecule is removed from the Complex module, the energy view still tracks it
 - Icons images are truncated on right and bottom
 - Move GraphicFactory classes out of SpatialView.
-- Clean up CompositeMoleculeGraphic. It doesn't handle the bond anymore
 - Put bonds on the energy view
 - Add "Temperature Control" label
 - Change "Add" and "Remove" to "Raise" and "Lower" on temperature control
@@ -18,8 +17,8 @@ Collision Issues
 ====
 Bugs
 ====
+- Provisional bonds aren't appearing between 
 - Provisional bonds should be based on the collision distance
-- Provisional bonds show up between bound molecules that they shouldn't
 - Hard collision in reaction isn't conservative
 - Spring collision
     - Force must be infinite on contact
@@ -38,7 +37,6 @@ Internal
 - HardBodyCollision takes Molecules. It should take Body. Can't because it uses bounding box
     overlap test.
 - Look at todo in CompositeMolecule.releaseSimpleMolecule()
-- Is Bond[] needed in CompositeMolecule?
 
 
 ==============
@@ -61,18 +59,18 @@ Model questions
 =======
 Done
 =======
+09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+09-06-06 - add/remove molecules
+09-06-06 - randomize adding molecules
+09-08-06 - temperature control
 09-11-06 - Provisional bonds fade in and out
 09-11-06 - Don't allow user to add B molecules
 09-11-06 - Allow user to add/remove AB and BC molecules
-09-06-06 - add/remove molecules
-09-06-06 - randomize adding molecules
-09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
-09-08-06 - temperature control
-
 09-18-06 - Molecule counters should be spinners
-
 09-24-06 - Removed B counter from control panel
 09-24-06 - Molecules appear in the right place in the energy view, and are controlled by cursor bar
 09-24-06 - Pump molecules into box with constrained directions of travel
 09-25-06 - no markings on the molecules in Simple module
 09-25-06 - Molecules in energy view don't move under manual control
+09-25-06 - Removed Bond[] from CompositeMolecule?
+09-25-06 - Provisional bonds show up between bound molecules that they shouldn't

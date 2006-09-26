@@ -132,6 +132,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                 SimpleMolecule component = components[j];
                 model.addModelElement( component );
             }
+            Bond[] bonds = ((CompositeMolecule)m).getBonds();
         }
     }
 
