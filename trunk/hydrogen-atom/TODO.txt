@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- create and animate photons and alpha particles
+- write "orb of light" photon in Java 2D
 - generalize creating a "panel" node to fit under a collection of nodes
 - "Box of Hydrogen" HTMLNode looks lousy on Windows
 - add x-axis ticks and labels to spectrometer
