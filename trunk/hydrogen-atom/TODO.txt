@@ -33,6 +33,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/26/06) - encapsulate "Drawings are not to scale" in its own class
 (9/26/06) - distort orbits so that 6 orbits fit in animation region
 (9/26/06) - factor common code out of Bohr and deBroglie nodes
 (9/26/06) - update Spanish translations to include new stuff
