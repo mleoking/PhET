@@ -45,4 +45,42 @@ public class AffineTransformUtil {
         trf.scale( newLength / initWidth, newHeight / initHeight );
         return trf;
     }
+
+    /**
+     * Computes the offsets that must be applied to the buffered image's location so that it's head is
+     * at the location of the photon
+     *
+     * @param theta
+     */
+    public Point2D computeOffsets( double theta, double baseImageWidth, double baseImageHeight ) {
+        // Normalize theta to be between 0 and PI*2
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
+
+        double xOffset = 0;
+        double yOffset = 0;
+        double alpha = 0;
+        double w = baseImageWidth;
+        double h = baseImageHeight;
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
+            yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
+        }
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            alpha = theta - Math.PI / 2;
+            xOffset = ( h / 2 ) * Math.cos( alpha );
+            yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+        }
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            alpha = theta - Math.PI;
+            xOffset = ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
+        }
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            alpha = Math.PI * 2 - theta;
+            xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
+        }
+        return new Point2D.Double( xOffset, yOffset );
+    }
+
 }

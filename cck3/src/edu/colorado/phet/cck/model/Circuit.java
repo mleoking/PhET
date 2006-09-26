@@ -395,7 +395,7 @@ public class Circuit {
         return junctions.contains( junction );
     }
 
-    public double getVoltage( VoltageCalculation.Connection a, VoltageCalculation.Connection b ) {
+    public double getVoltage( Connection a, Connection b ) {
         VoltageCalculation vc = new VoltageCalculation( this );
         return vc.getVoltage( a, b );
     }

@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -7,12 +8,14 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -68,17 +71,28 @@ public class VoltmeterNode extends PhetPNode {
 
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
+        private PText textNode;
+        private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
+        private final String UNKNOWN_VOLTS = SimStrings.get( "VoltmeterGraphic.UnknownVolts" );
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
             this.voltmeterModel = voltmeterModel;
             scale( SCALE );
+            voltmeterModel.addListener( new VoltmeterModel.Listener() {
+                public void voltmeterChanged() {
+                    update();
+                }
+            } );
             voltmeterModel.getUnitModel().addListener( new VoltmeterModel.UnitModel.Listener() {
                 public void unitModelChanged() {
                     update();
                 }
             } );
             addChild( PImageFactory.create( "images/vm3.gif" ) );
-
+            textNode = new PText();
+            textNode.setFont( new Font( "Dialog", Font.PLAIN, 20 ) );
+            textNode.setOffset( 15, 20 );
+            addChild( textNode );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension pt = event.getDeltaRelativeTo( UnitNode.this.getParent() );
@@ -91,6 +105,12 @@ public class VoltmeterNode extends PhetPNode {
 
         private void update() {
             setOffset( voltmeterModel.getUnitModel().getLocation() );
+            if( Double.isNaN( voltmeterModel.getVoltage() ) ) {
+                textNode.setText( UNKNOWN_VOLTS );
+            }
+            else {
+                textNode.setText( decimalFormat.format( voltmeterModel.getVoltage() ) );
+            }
         }
     }
 
@@ -182,7 +202,6 @@ public class VoltmeterNode extends PhetPNode {
             double dy = imageNode.getImage().getWidth( null ) * SCALE * Math.sin( leadModel.getAngle() ) / 2;
             imageNode.setOffset( leadModel.getTipLocation().getX() - dx, leadModel.getTipLocation().getY() - dy );
 
-//            tipPath.setPathTo( new Rectangle2D.Double( leadModel.getTipLocation().getX(), leadModel.getTipLocation().getY(), 0.5, 0.5 ) );
             tipPath.setPathTo( leadModel.getTipShape() );
         }
 
@@ -194,40 +213,4 @@ public class VoltmeterNode extends PhetPNode {
         }
     }
 
-    /**
-     * Computes the offsets that must be applied to the buffered image's location so that it's head is
-     * at the location of the photon
-     *
-     * @param theta
-     */
-    public Point2D computeOffsets( double theta, double baseImageWidth, double baseImageHeight ) {
-        // Normalize theta to be between 0 and PI*2
-        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
-
-        double xOffset = 0;
-        double yOffset = 0;
-        double alpha = 0;
-        double w = baseImageWidth;
-        double h = baseImageHeight;
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
-            xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
-            yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
-        }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            alpha = theta - Math.PI / 2;
-            xOffset = ( h / 2 ) * Math.cos( alpha );
-            yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
-        }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            alpha = theta - Math.PI;
-            xOffset = ( h / 2 ) * Math.sin( alpha );
-            yOffset = ( h / 2 ) * Math.cos( alpha );
-        }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            alpha = Math.PI * 2 - theta;
-            xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
-            yOffset = ( h / 2 ) * Math.cos( alpha );
-        }
-        return new Point2D.Double( xOffset, yOffset );
-    }
 }

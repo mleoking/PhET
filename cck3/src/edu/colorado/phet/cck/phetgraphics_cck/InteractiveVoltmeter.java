@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck;
 
 import edu.colorado.phet.cck.common.RepaintyMenu;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
+import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -46,8 +46,8 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 //if the leads are on the circuit, only the DVM goes.
 //                Branch a = voltmeterGraphic.getRedLeadGraphic().detectBranch( module.getCircuitGraphic() );
 //                Branch b = voltmeterGraphic.getBlackLeadGraphic().detectBranch( module.getCircuitGraphic() );
-                VoltageCalculation.Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
-                VoltageCalculation.Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
+                Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
+                Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
                 if( a == null && b == null ) {
                     dragAll = true;
                 }
