@@ -34,8 +34,8 @@ public class VoltmeterNode extends PhetPNode {
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
         unitImageNode = new UnitNode( voltmeterModel );
-        redProbe = new LeadNode( "images/probeRed.gif", voltmeterModel.getRedLeadModel(), Math.PI / 8 );
-        blackProbe = new LeadNode( "images/probeBlack.gif", voltmeterModel.getBlackLeadModel(), -Math.PI / 8 );
+        redProbe = new LeadNode( "images/probeRed.gif", voltmeterModel.getRedLeadModel() );
+        blackProbe = new LeadNode( "images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
 
         addChild( unitImageNode );
 
@@ -149,14 +149,15 @@ public class VoltmeterNode extends PhetPNode {
     private class LeadNode extends RegisterablePNode {
         private VoltmeterModel.LeadModel leadModel;
         private PImage imageNode;
+        private PhetPPath tipPath;
 
-        public LeadNode( String imageLocation, final VoltmeterModel.LeadModel leadModel, double angle ) {
+        public LeadNode( String imageLocation, final VoltmeterModel.LeadModel leadModel ) {
             this.leadModel = leadModel;
-            scale( SCALE );
-            rotate( leadModel.getAngle() );
+
             imageNode = PImageFactory.create( imageLocation );
+            imageNode.scale( SCALE );
+            imageNode.rotate( leadModel.getAngle() );
             addChild( imageNode );
-            setRegistrationPoint( imageNode.getWidth() / 2, 0 );
             leadModel.addListener( new VoltmeterModel.LeadModel.Listener() {
                 public void leadModelChanged() {
                     updateLead();
@@ -170,11 +171,16 @@ public class VoltmeterNode extends PhetPNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
+
+            tipPath = new PhetPPath( Color.blue );
+            addChild( tipPath );
+
             updateLead();
         }
 
         private void updateLead() {
-            setOffset( leadModel.getTipLocation() );
+            imageNode.setOffset( leadModel.getTipLocation().getX() - imageNode.getWidth() / 2 * SCALE, leadModel.getTipLocation().getY() );
+            tipPath.setPathTo( leadModel.getTipShape() );
         }
 
         public Point2D getTailLocation() {
