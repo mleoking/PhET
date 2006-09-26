@@ -44,7 +44,6 @@ Internal
 ==============
 Features
 ==============
-- temperature control
 
 ==============
 Model features
@@ -68,6 +67,7 @@ Done
 09-06-06 - add/remove molecules
 09-06-06 - randomize adding molecules
 09-05-06 - MoleculeMoleculeCollisionAgent.createBond() is bad. It always uses the same molecule in the composite to bond to.
+09-08-06 - temperature control
 
 09-18-06 - Molecule counters should be spinners
 

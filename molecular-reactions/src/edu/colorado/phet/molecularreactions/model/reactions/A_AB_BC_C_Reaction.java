@@ -84,7 +84,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
-        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC}, new Bond[]{new Bond( mB, mC )} );
+        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
         doReactionII( mAB, mBC, mA );
     }
 
@@ -92,7 +92,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
         MoleculeC mC = mBC.getMoleculeC();
-        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA}, new Bond[]{new Bond( mB, mA )} );
+        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
         doReactionII( mBC, mAB, mC );
     }
 

@@ -45,8 +45,7 @@ public class MoleculeFactory {
             SimpleMolecule mB = new MoleculeB();
             mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
-            molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB},
-                                       new Bond[]{new Bond( mA, mB )} );
+            molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB} );
             molecule.setOmega( angularVelocity );
         }
         else if( moleculeClass == MoleculeBC.class ) {
@@ -56,8 +55,7 @@ public class MoleculeFactory {
             SimpleMolecule mB = new MoleculeB();
             mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
-            molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB},
-                                       new Bond[]{new Bond( mC, mB )} );
+            molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB} );
             molecule.setOmega( angularVelocity );
         }
         else {
