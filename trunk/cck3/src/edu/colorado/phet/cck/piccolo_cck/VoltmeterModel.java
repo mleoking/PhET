@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.model.Circuit;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -19,11 +21,27 @@ public class VoltmeterModel {
     private ArrayList listeners = new ArrayList();
     private LeadModel redLead;
     private LeadModel blackLead;
+    private double voltage = 0.0;
+    private Circuit circuit;
 
-    public VoltmeterModel() {
+    public VoltmeterModel( Circuit circuit ) {
+        this.circuit = circuit;
         redLead = new LeadModel( new Point2D.Double( 0, 0 ), Math.PI / 8 );
         blackLead = new LeadModel( new Point2D.Double( 1, 0 ), -Math.PI / 8 );
+        LeadModel.Listener listener = new LeadModel.Listener() {
+            public void leadModelChanged() {
+                updateVoltage();
+            }
+        };
+        redLead.addListener( listener );
+        blackLead.addListener( listener );
         unitModel = new UnitModel();
+    }
+
+    private void updateVoltage() {
+        //todo only notify when there is a change
+//        this.voltage = new VoltageCalculation( circuit ).getVoltage( module.getCircuitGraphic(), redLead.getTipShape(), blackLead.getTipShape() );
+//        notifyListeners();
     }
 
     public boolean isVisible() {
@@ -57,7 +75,20 @@ public class VoltmeterModel {
     }
 
     private boolean getLeadsShouldTranslateWithBody() {
+
+//        Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
+//        Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
+//        if( a == null && b == null ) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
         return true;
+    }
+
+    public double getVoltage() {
+        return voltage;
     }
 
     public static interface Listener {
@@ -104,8 +135,7 @@ public class VoltmeterModel {
 
         public Shape getTipShape() {
             Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x - tipWidth / 2, tipLocation.y, tipWidth, tipHeight );
-            Shape sh = AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
-            return sh;
+            return AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
         }
 
         public double getAngle() {
@@ -115,7 +145,6 @@ public class VoltmeterModel {
         static interface Listener {
             void leadModelChanged();
         }
-
 
         public void addListener( Listener listener ) {
             listeners.add( listener );

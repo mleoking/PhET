@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.model.CCKModel;
+
 /**
  * MeasurementToolSet
  *
@@ -19,8 +21,8 @@ package edu.colorado.phet.cck.piccolo_cck;
 public class MeasurementToolSet {
     private VoltmeterModel voltmeterModel;
 
-    public MeasurementToolSet() {
-        this.voltmeterModel = new VoltmeterModel();
+    public MeasurementToolSet( CCKModel model ) {
+        this.voltmeterModel = new VoltmeterModel( model.getCircuit() );
     }
 
     public VoltmeterModel getVoltmeterModel() {

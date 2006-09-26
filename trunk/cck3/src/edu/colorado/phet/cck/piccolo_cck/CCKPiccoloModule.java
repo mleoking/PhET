@@ -34,12 +34,13 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public CCKPiccoloModule( String[] args ) {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
 
-        this.measurementToolSet = new MeasurementToolSet();
+
         cckParameters = new CCKParameters( this, args );
         this.args = args;
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
+        this.measurementToolSet = new MeasurementToolSet( model );
         cckSimulationPanel = new CCKSimulationPanel( model, this );
         setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );

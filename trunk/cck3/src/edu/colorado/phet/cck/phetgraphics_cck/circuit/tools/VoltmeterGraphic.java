@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck.phetgraphics_cck.circuit.tools;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
+import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
@@ -155,7 +156,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
             changed();
         }
 
-        public VoltageCalculation.Connection getConnection( CircuitGraphic circuitGraphic ) {
+        public Connection getConnection( CircuitGraphic circuitGraphic ) {
             return new VoltageCalculation( circuitGraphic.getCircuit() ).detectConnection( circuitGraphic, getTipShape() );
         }
     }
