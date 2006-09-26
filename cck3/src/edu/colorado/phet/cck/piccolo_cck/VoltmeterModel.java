@@ -97,7 +97,7 @@ public class VoltmeterModel {
         }
 
         public Point2D getTipLocation() {
-            return tipLocation;
+            return new Point2D.Double( tipLocation.x, tipLocation.y );
         }
 
         public Shape getTipShape() {
