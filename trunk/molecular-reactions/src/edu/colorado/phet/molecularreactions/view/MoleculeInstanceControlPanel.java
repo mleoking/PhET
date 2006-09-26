@@ -33,11 +33,15 @@ public class MoleculeInstanceControlPanel extends JPanel {
 
         Insets insets = new Insets( 2, 2, 2, 2 );
 
-        JLabel aLabel = new JLabel( "A" );
-        JLabel bLabel = new JLabel( "B" );
-        JLabel cLabel = new JLabel( "C" );
-        JLabel abLabel = new JLabel( "AB" );
-        JLabel bcLabel = new JLabel( "BC" );
+        JLabel aLabel = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+        JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class )  );
+        JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
+        JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
+//        JLabel aLabel = new JLabel( "A" );
+//        JLabel cLabel = new JLabel( "C" );
+//        JLabel abLabel = new JLabel( "AB" );
+//        JLabel bcLabel = new JLabel( "BC" );
+
 
         MoleculeCounter aMC = new MoleculeCounter( MoleculeA.class, model );
         counters.add( aMC );
@@ -51,7 +55,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.EAST,
+                                                         GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
                                                          insets,
                                                          0, 0 );
