@@ -1,6 +1,9 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -95,6 +98,12 @@ public class VoltmeterModel {
 
         public Point2D getTipLocation() {
             return tipLocation;
+        }
+
+        public Shape getTipShape() {
+            Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x, tipLocation.y, 0.1, 0.5 );
+            Shape sh = AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
+            return sh;
         }
 
         public double getAngle() {
