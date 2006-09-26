@@ -133,6 +133,7 @@ public class PumpGraphic extends PNode {
             Molecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
                                                                    new RandomMoleculeParamGenerator( creationBounds,
                                                                                                      3,
+                                                                                                     .1,
                                                                                                      Math.PI * 3 / 4 ,
                                                                                                      Math.PI * 5 / 4 ) );
             return newMolecule;

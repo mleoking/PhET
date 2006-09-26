@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
@@ -31,20 +32,27 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
     private double maxSpeed;
     private double minTheta;
     private double maxTheta;
+    private double maxAlpha;
 
     /**
      * Generates a Params object for a molecule.
      *
      * @param bounds    The bounds within which the molecule's CM lies
      * @param maxSpeed  Max initial speed
+     * @param maxAlpha  Max angular velocity
      * @param minTheta  Min angle of the molecule's initial velocity
      * @param maxTheta  Max angle of the molecule's initial velocity
      */
-    public RandomMoleculeParamGenerator( Rectangle2D bounds, double maxSpeed, double minTheta, double maxTheta ) {
+    public RandomMoleculeParamGenerator( Rectangle2D bounds,
+                                         double maxSpeed,
+                                         double maxAlpha,
+                                         double minTheta,
+                                         double maxTheta ) {
         this.bounds = bounds;
         this.maxSpeed = maxSpeed;
         this.minTheta = minTheta;
         this.maxTheta = maxTheta;
+        this.maxAlpha = maxAlpha;
     }
 
     public Params generate() {
@@ -58,6 +66,9 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
         double speed = maxSpeed * random.nextDouble();
         Vector2D v = new Vector2D.Double( speed, 0).rotate( phi );
 
-        return new Params( p, v );
+        // Generate angular velocity
+        double a = maxAlpha * random.nextDouble() * MathUtil.nextRandomSign();
+
+        return new Params( p, v, a );
     }
 }
