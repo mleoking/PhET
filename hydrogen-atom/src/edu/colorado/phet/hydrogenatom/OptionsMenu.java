@@ -40,7 +40,7 @@ public class OptionsMenu extends JMenu {
         // "Wave View" menu
         {
             JMenu waveViewMenu = new JMenu( SimStrings.get( "menu.option.waveView" ) );
-            waveViewMenu.setMnemonic( SimStrings.get( "menu.option.waveView.mnemonic" ).charAt( 0 ) );
+            waveViewMenu.setMnemonic( SimStrings.getChar( "menu.option.waveView.mnemonic" ) );
             add( waveViewMenu );
             
             _brightness1MenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.option.brightness1" ) );

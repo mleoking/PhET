@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- put a legend where the energy diagram is
 
 HIGH PRIORITY:
 - distort orbits so that 6 orbits fit in animation region
@@ -34,6 +35,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/26/06) - add a legend to both play area and Help menu
+(9/26/06) - add SimStrings.getChar, use it to get menu item mnemonics
 (9/25/06) - darken gun type panel background
 (9/25/06) - lighten Spectrometer snapshot panels
 (9/25/06) - add Options menu to menubar, with "deBroglie wave view" choices
