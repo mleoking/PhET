@@ -95,7 +95,7 @@ public class LegendPanel extends JPanel {
         // Layout
         setBackground( PANEL_COLOR );
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 5, 0, 5, 5 ) ); // top,left,bottom,right
+        layout.setInsets( new Insets( 8, 8, 8, 8 ) ); // top,left,bottom,right
         setLayout( layout );
         int row = 0;
         int col = 0;
