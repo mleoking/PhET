@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -611,6 +612,10 @@ public class Circuit {
         if( out.length == 0 ) {
             removeJunction( st );
         }
+    }
+
+    public Connection detectConnection( Shape shape ) {
+        return null;
     }
 
     public static class DragMatch {

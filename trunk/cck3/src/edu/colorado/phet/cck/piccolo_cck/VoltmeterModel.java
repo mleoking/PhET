@@ -76,9 +76,8 @@ public class VoltmeterModel {
     }
 
     private boolean getLeadsShouldTranslateWithBody() {
-
-        Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
-        Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
+        Connection a = redLead.getConnection();
+        Connection b = blackLead.getConnection();
         if( a == null && b == null ) {
             return true;
         }
@@ -113,9 +112,11 @@ public class VoltmeterModel {
         private double angle;
         private double tipWidth = 0.1 * 0.35;
         private double tipHeight = 0.3 * 1.25;
+        private Circuit circuit;
 
-        public LeadModel( double angle ) {
+        public LeadModel( Circuit circuit, double angle ) {
             this( new Point2D.Double(), angle );
+            this.circuit = circuit;
         }
 
         public LeadModel( Point2D.Double tipLocation, double angle ) {
@@ -140,6 +141,10 @@ public class VoltmeterModel {
 
         public double getAngle() {
             return angle;
+        }
+
+        public Connection getConnection() {
+            return new PiccoloVoltageCalculation( circuit ).detectConnection( getTipShape() );
         }
 
         static interface Listener {
