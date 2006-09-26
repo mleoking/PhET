@@ -21,6 +21,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.view.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -78,11 +79,15 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         axisLabelNode.setFont( font );
         axisLabelNode.setTextPaint( AXIS_LABEL_COLOR );
         axisLabelNode.rotate( Math.toRadians( -90 ) );
+        
+        // Electron
+        ElectronNode electronNode = new ElectronNode();
 
         addChild( backgroundNode );
         addChild( axisNode );
         addChild( arrowNode );
         addChild( axisLabelNode );
+        addChild( electronNode );
         
         backgroundNode.setOffset( 0, 0 );
         PBounds bb = backgroundNode.getFullBounds();
@@ -91,5 +96,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         alb = axisLabelNode.getFullBounds();
         axisNode.setOffset( alb.getX() + alb.getWidth() + 5, MARGIN );
         arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), MARGIN );
+        electronNode.setOffset( bb.getX() + 50, bb.getMaxY() - 20 );
     }
 }
