@@ -53,7 +53,7 @@ public class MoleculeIcon extends ImageIcon {
             pNode = new PNode();
             pNode.addChild( bNode );
             pNode.addChild( cNode );
-            bNode.setOffset( bNode.getFullBounds().getWidth(), 0 );
+            cNode.setOffset( bNode.getFullBounds().getWidth(), 0 );
         }
         image = pNode.toImage();
         this.setImage( image );

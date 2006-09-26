@@ -67,6 +67,13 @@ public class SpatialView extends PNode {
 
         // Temperature control
         createTemperatureControl( model, pSwingCanvas );
+
+        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black );
+//        reactionGraphic.setOffset( 20, 100 );
+        reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
+                                   canvas.getHeight() - reactionGraphic.getHeight() - 20 );
+        canvas.addChild( reactionGraphic );
+
     }
 
 

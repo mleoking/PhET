@@ -115,24 +115,21 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         molecule.addObserver( this );
         molecule.addListener( this );
 
+        PImage pi = null;
         if( molecule instanceof MoleculeA ) {
-            PImage pi = PImageFactory.create( "images/glass-molecule-A.png" );
-            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
-            addChild( pi );
-            return;
+            pi = PImageFactory.create( "images/glass-molecule-A.png" );
         }
         if( molecule instanceof MoleculeB ) {
-            PImage pi = PImageFactory.create( "images/glass-molecule-B.png" );
-            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
-            addChild( pi );
-            return;
+            pi = PImageFactory.create( "images/glass-molecule-B.png" );
         }
         if( molecule instanceof MoleculeC ) {
-            PImage pi = PImageFactory.create( "images/glass-molecule-C.png" );
-            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
-            addChild( pi );
-            return;
+            pi = PImageFactory.create( "images/glass-molecule-C.png" );
         }
+        pi.setOffset( -pi.getImage().getWidth( null ) / 2, -pi.getImage().getHeight( null ) / 2 );
+        addChild( pi );
+        if( true ) return;
+
+
         double radius = molecule.getRadius() - BOND_OFFSET;
         Shape s = new Ellipse2D.Double( -radius,
                                         -radius,
@@ -184,7 +181,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     //--------------------------------------------------------------------------------------------------
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {
-        if( true ) return;
+        if( true ) {
+            return;
+        }
 
         if( MARK_SELECTED_MOLECULE ) {
             if( molecule.getSelectionStatus() == Selectable.SELECTED ) {

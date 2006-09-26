@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -34,8 +35,8 @@ import java.awt.geom.Point2D;
 public class EnergyView extends PNode implements SimpleObserver {
 
     private int width = 300;
-    private Dimension moleculePaneSize = new Dimension( 150, width );
-    private Dimension curvePaneSize = new Dimension( 300, width );
+    private Dimension moleculePaneSize = new Dimension(  width, 150 );
+    private Dimension curvePaneSize = new Dimension( width, 300 );
     private Color moleculePaneBackgroundColor = new Color( 240, 230, 180 );
     private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;
@@ -66,6 +67,15 @@ public class EnergyView extends PNode implements SimpleObserver {
         // The pane that has the curve and cursor
         PPath curvePane = createCurvePane( moleculePane, model );
         addChild( curvePane );
+
+        // The graphic that shows the reaction mechanics
+        PPath legendNode = new PPath( new Rectangle2D.Double( 0,0, width, 50 ));
+        legendNode.setPaint( Color.black );
+        legendNode.setOffset( 0, moleculePaneSize.getHeight() + curvePaneSize.getHeight() );
+        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white );
+        legendNode.addChild( reactionGraphic );
+        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
+        addChild( legendNode );
 
         // Listen for changes in the selected molecule and the molecule closest to it
         model.addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
@@ -115,8 +125,8 @@ public class EnergyView extends PNode implements SimpleObserver {
      */
     private PPath createMoleculePane() {
         PPath moleculePane = new PPath( new Rectangle2D.Double( 0, 0,
-                                                                moleculePaneSize.getHeight(),
-                                                                moleculePaneSize.getWidth() ) );
+                                                                moleculePaneSize.getWidth(),
+                                                                moleculePaneSize.getHeight() ) );
         moleculePane.setPaint( moleculePaneBackgroundColor );
         moleculeLayer.setOffset( insets.left, 0 );
         moleculePane.addChild( moleculeLayer );
