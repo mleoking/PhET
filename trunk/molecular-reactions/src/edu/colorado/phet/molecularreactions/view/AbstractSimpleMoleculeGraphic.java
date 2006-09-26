@@ -15,10 +15,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.DebugFlags;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 
 import java.util.HashMap;
 import java.awt.*;
@@ -113,6 +115,24 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         molecule.addObserver( this );
         molecule.addListener( this );
 
+        if( molecule instanceof MoleculeA ) {
+            PImage pi = PImageFactory.create( "images/glass-molecule-A.png" );
+            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
+            addChild( pi );
+            return;
+        }
+        if( molecule instanceof MoleculeB ) {
+            PImage pi = PImageFactory.create( "images/glass-molecule-B.png" );
+            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
+            addChild( pi );
+            return;
+        }
+        if( molecule instanceof MoleculeC ) {
+            PImage pi = PImageFactory.create( "images/glass-molecule-C.png" );
+            pi.setOffset( pi.getWidth() / 2, pi.getHeight() / 2 );
+            addChild( pi );
+            return;
+        }
         double radius = molecule.getRadius() - BOND_OFFSET;
         Shape s = new Ellipse2D.Double( -radius,
                                         -radius,
@@ -164,6 +184,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     //--------------------------------------------------------------------------------------------------
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {
+        if( true ) return;
+
         if( MARK_SELECTED_MOLECULE ) {
             if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
                 pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
@@ -182,7 +204,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         }
 
         // for debugging
-        cmNode.setVisible( DebugFlags.SHOW_CM );
+        if( cmNode != null ) {
+            cmNode.setVisible( DebugFlags.SHOW_CM );
+        }
 
     }
 }
