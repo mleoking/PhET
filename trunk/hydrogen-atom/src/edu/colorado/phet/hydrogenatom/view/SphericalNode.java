@@ -41,5 +41,9 @@ public class SphericalNode extends PhetPNode {
         _pathNode.setStrokePaint( strokePaint );
         
         addChild( _pathNode );
-    }   
+    }
+    
+    public double getDiameter() {
+        return getFullBounds().getWidth();
+    }
 }
