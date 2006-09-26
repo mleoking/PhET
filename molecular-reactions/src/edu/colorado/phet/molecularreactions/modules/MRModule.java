@@ -57,7 +57,7 @@ public class MRModule extends Module {
         // Create spatial view
         Dimension spatialViewSize = new Dimension( 520, 500 );
         Dimension boxSize = new Dimension( (int)spatialViewSize.getWidth() - 140,
-                                           (int)spatialViewSize.getHeight() - 200 );
+                                           (int)spatialViewSize.getHeight() - 170 );
         model.getBox().setBounds( model.getBox().getBounds().getMinX(),
                                   model.getBox().getBounds().getMinY(),
                                   boxSize.getWidth(),
