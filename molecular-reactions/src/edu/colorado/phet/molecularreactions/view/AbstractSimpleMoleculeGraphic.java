@@ -99,6 +99,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private PPath cmNode;
     private double cmRad = 3;
 
+    private boolean glassMolecules = true;
+
     /**
      * @param molecule
      */
@@ -115,65 +117,67 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         molecule.addObserver( this );
         molecule.addListener( this );
 
-        PImage moleculeNode = null;
-        PImage labelNode = null;
-        if( molecule instanceof MoleculeA ) {
-            moleculeNode = PImageFactory.create( "images/glass-molecule-A.png",
-                                                 new Dimension( (int)new MoleculeA().getRadius() * 2,
-                                                                (int)new MoleculeA().getRadius() * 2));
-            if( annotate ) {
-                labelNode = PImageFactory.create( "images/molecule-label-A.png");
+        if( glassMolecules ) {
+            PImage moleculeNode = null;
+            PImage labelNode = null;
+            if( molecule instanceof MoleculeA ) {
+                moleculeNode = PImageFactory.create( "images/glass-molecule-A.png",
+                                                     new Dimension( (int)new MoleculeA().getRadius() * 2,
+                                                                    (int)new MoleculeA().getRadius() * 2 ) );
+                if( annotate ) {
+                    labelNode = PImageFactory.create( "images/molecule-label-A.png" );
+                }
             }
-        }
-        if( molecule instanceof MoleculeB ) {
-            moleculeNode = PImageFactory.create( "images/glass-molecule-B.png",
-                                                 new Dimension( (int)new MoleculeB().getRadius() * 2,
-                                                                (int)new MoleculeB().getRadius() * 2));
-            if( annotate ) {
-                labelNode = PImageFactory.create( "images/molecule-label-B.png");
+            if( molecule instanceof MoleculeB ) {
+                moleculeNode = PImageFactory.create( "images/glass-molecule-B.png",
+                                                     new Dimension( (int)new MoleculeB().getRadius() * 2,
+                                                                    (int)new MoleculeB().getRadius() * 2 ) );
+                if( annotate ) {
+                    labelNode = PImageFactory.create( "images/molecule-label-B.png" );
+                }
             }
-        }
-        if( molecule instanceof MoleculeC ) {
-            moleculeNode = PImageFactory.create( "images/glass-molecule-C.png",
-                                                 new Dimension( (int)new MoleculeC().getRadius() * 2,
-                                                                (int)new MoleculeC().getRadius() * 2));
-            if( annotate ) {
-                labelNode = PImageFactory.create( "images/molecule-label-C.png");
+            if( molecule instanceof MoleculeC ) {
+                moleculeNode = PImageFactory.create( "images/glass-molecule-C.png",
+                                                     new Dimension( (int)new MoleculeC().getRadius() * 2,
+                                                                    (int)new MoleculeC().getRadius() * 2 ) );
+                if( annotate ) {
+                    labelNode = PImageFactory.create( "images/molecule-label-C.png" );
+                }
             }
+            moleculeNode.setOffset( -moleculeNode.getImage().getWidth( null ) / 2, -moleculeNode.getImage().getHeight( null ) / 2 );
+            addChild( moleculeNode );
+            if( labelNode != null ) {
+                labelNode.setOffset( -labelNode.getFullBounds().getWidth() / 2,
+                                     -labelNode.getFullBounds().getHeight() / 2 );
+                addChild( labelNode );
+            }
+
         }
-        moleculeNode.setOffset( -moleculeNode.getImage().getWidth( null ) / 2, -moleculeNode.getImage().getHeight( null ) / 2 );
-        addChild( moleculeNode );
-        if( labelNode != null ) {
-            labelNode.setOffset( -labelNode.getFullBounds().getWidth() / 2,
-                                 -labelNode.getFullBounds().getHeight() / 2);
-            addChild( labelNode );
-        }
-        if( true ) return;
+        else {
+            double radius = molecule.getRadius() - BOND_OFFSET;
+            Shape s = new Ellipse2D.Double( -radius,
+                                            -radius,
+                                            radius * 2,
+                                            radius * 2 );
+            pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
+            pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
+            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+            addChild( pPath );
 
+            // The CM marker
+            cmNode = new PPath( new Ellipse2D.Double( -cmRad, -cmRad, cmRad * 2, cmRad * 2 ) );
+            cmNode.setPaint( cmPaint );
+            cmNode.setVisible( false );
+            addChild( cmNode );
 
-        double radius = molecule.getRadius() - BOND_OFFSET;
-        Shape s = new Ellipse2D.Double( -radius,
-                                        -radius,
-                                        radius * 2,
-                                        radius * 2 );
-        pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
-        pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
-        pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
-        addChild( pPath );
-
-        // The CM marker
-        cmNode = new PPath( new Ellipse2D.Double( -cmRad, -cmRad, cmRad * 2, cmRad * 2 ) );
-        cmNode.setPaint( cmPaint );
-        cmNode.setVisible( false );
-        addChild( cmNode );
-
-        // Add annotation, if required
-        if( annotate ) {
-            PText annotation = new PText( getAnnotation( molecule ) );
-            RegisterablePNode rNode = new RegisterablePNode( annotation );
-            rNode.setRegistrationPoint( annotation.getWidth() / 2,
-                                        annotation.getHeight() / 2 );
-            addChild( rNode );
+            // Add annotation, if required
+            if( annotate ) {
+                PText annotation = new PText( getAnnotation( molecule ) );
+                RegisterablePNode rNode = new RegisterablePNode( annotation );
+                rNode.setRegistrationPoint( annotation.getWidth() / 2,
+                                            annotation.getHeight() / 2 );
+                addChild( rNode );
+            }
         }
 
         // Catch mouse clicks that select this graphic's molecule

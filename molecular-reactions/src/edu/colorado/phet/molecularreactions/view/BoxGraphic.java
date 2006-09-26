@@ -27,26 +27,30 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class BoxGraphic extends RegisterablePNode {
-
+    private boolean glassBox = true;
     private float wallThickness = 15;
     private Stroke stroke = new BasicStroke( wallThickness );
 
     public BoxGraphic( Box2D box ) {
-//        Rectangle2D rect = new Rectangle2D.Double( 0,
-//                                                   0,
-//                                                   box.getWidth() + wallThickness,
-//                                                   box.getHeight() + wallThickness );
-//        PPath pPath = new PPath( rect, stroke );
-//        addChild( pPath );
-//
-//        setOffset( box.getMinX() - wallThickness / 2,
-//                   box.getMinY() - wallThickness / 2 );
 
-
-        Dimension imageSize = new Dimension( (int)(box.getWidth() + 2 * wallThickness),
-                                             (int)(box.getHeight() + 2 * wallThickness));
-        PImage imageNode = PImageFactory.create( "images/glass-box-B.png", imageSize );
-        addChild( imageNode );
-        setRegistrationPoint( wallThickness, wallThickness );                
+        if( glassBox ) {
+            Dimension imageSize = new Dimension( (int)( box.getWidth() + 2 * wallThickness ),
+                                                 (int)( box.getHeight() + 2 * wallThickness ) );
+            PImage imageNode = PImageFactory.create( "images/glass-box-B.png", imageSize );
+            addChild( imageNode );
+            setRegistrationPoint( wallThickness, wallThickness );
+            setPickable( false );
+            setChildrenPickable( false );
+        }
+        else {
+            Rectangle2D rect = new Rectangle2D.Double( 0,
+                                                       0,
+                                                       box.getWidth() + wallThickness,
+                                                       box.getHeight() + wallThickness );
+            PPath pPath = new PPath( rect, stroke );
+            addChild( pPath );
+            setOffset( box.getMinX() - wallThickness / 2,
+                       box.getMinY() - wallThickness / 2 );
+        }
     }
 }
