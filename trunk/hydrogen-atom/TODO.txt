@@ -33,6 +33,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/26/06) - try using new photon image
 (9/26/06) - add an electron to the energy diagrams
 (9/26/06) - encapsulate "Drawings are not to scale" in its own class
 (9/26/06) - distort orbits so that 6 orbits fit in animation region
