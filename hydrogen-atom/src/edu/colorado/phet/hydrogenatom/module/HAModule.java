@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -40,7 +38,6 @@ import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
-import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -101,7 +98,7 @@ public class HAModule extends PiccoloModule {
     private SchrodingerEnergyDiagram _schrodingerEnergyDiagram;
     private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
 
-    private HTMLNode _notToScaleLabel;
+    private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
 
     private PhotonNode _samplePhotonNode;
@@ -290,13 +287,7 @@ public class HAModule extends PiccoloModule {
         }
 
         // "Not to scale" label
-        {
-            _notToScaleLabel = new HTMLNode( SimStrings.get( "label.notToScale" ) );
-            _notToScaleLabel.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-            _notToScaleLabel.setFont( new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, 14 ) );
-            _notToScaleLabel.setPickable( false );
-            _notToScaleLabel.setChildrenPickable( false );
-        }
+        _notToScaleLabel = new NotToScaleNode();
         
         // Legend
         _legendNode = new LegendNode( _canvas );

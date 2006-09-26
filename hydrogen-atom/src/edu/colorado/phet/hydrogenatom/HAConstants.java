@@ -86,7 +86,7 @@ public class HAConstants {
     // Default font name used for JLabels
     public static final String JLABEL_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
     
-    // Default font sizes, also configurable via SimStrings file
+    // Default font sizes, configurable (and overridden by) entries in the SimStrings file
     public static final int MODE_SWITCH_BIG_FONT_SIZE = 20;
     public static final int MODE_SWITCH_SMALL_FONT_SIZE = 14;
     public static final int ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE = 20;
@@ -98,6 +98,7 @@ public class HAConstants {
     public static final int ENERGY_DIAGRAM_FONT_SIZE = 16;
     public static final int JCOMPONENT_FONT_SIZE = 16;
     public static final int LEGEND_FONT_SIZE = 16;
+    public static final int NOT_TO_SCALE_FONT_SIZE = 14;
     
     //----------------------------------------------------------------------------
     // Strokes
