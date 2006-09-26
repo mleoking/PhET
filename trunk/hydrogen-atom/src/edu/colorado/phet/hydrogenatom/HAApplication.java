@@ -11,14 +11,23 @@
 
 package edu.colorado.phet.hydrogenatom;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
+import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 /**
@@ -29,6 +38,12 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
  */
 public class HAApplication extends PiccoloPhetApplication {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private JDialog _legendDialog;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -66,10 +81,51 @@ public class HAApplication extends PiccoloPhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar() {
+
+        final PhetFrame frame = getPhetFrame();
         
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
-        getPhetFrame().addMenu( optionsMenu );
+        frame.addMenu( optionsMenu );
+
+        // Help menu additions
+        {
+            HelpMenu helpMenu = frame.getHelpMenu();
+            
+            JMenuItem legendMenuItem = new JMenuItem( SimStrings.get( "menu.help.legend" ) );
+            legendMenuItem.setMnemonic( SimStrings.getChar( "menu.help.legend.mnemonic" ) );
+            legendMenuItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleLegendDialog();
+                }
+            } );
+            helpMenu.add( legendMenuItem );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    /*
+     * If the legend dialog exists, pop it to the front.
+     * Otherwise create a new one and show it.
+     * When the legend dialog is closed, it removes itself.
+     */
+    private void handleLegendDialog() {
+        if ( _legendDialog != null ) {
+            _legendDialog.toFront();
+        }
+        else {
+            PhetFrame frame = getPhetFrame();
+            _legendDialog = new LegendDialog( frame );
+            _legendDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosed( WindowEvent event ) {
+                    _legendDialog = null;
+                }
+            } );
+            _legendDialog.show();
+        }
     }
     
     //----------------------------------------------------------------------------

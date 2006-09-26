@@ -97,6 +97,7 @@ public class HAConstants {
     public static final int SPECTROMETER_FONT_SIZE = 16;
     public static final int ENERGY_DIAGRAM_FONT_SIZE = 16;
     public static final int JCOMPONENT_FONT_SIZE = 16;
+    public static final int LEGEND_FONT_SIZE = 16;
     
     //----------------------------------------------------------------------------
     // Strokes

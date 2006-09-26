@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -38,6 +40,8 @@ import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
+import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
+import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -98,6 +102,7 @@ public class HAModule extends PiccoloModule {
     private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
 
     private HTMLNode _notToScaleLabel;
+    private LegendNode _legendNode;
 
     private PhotonNode _samplePhotonNode;
     private AlphaParticleNode _sampleAlphaParticleNode;
@@ -292,6 +297,9 @@ public class HAModule extends PiccoloModule {
             _notToScaleLabel.setPickable( false );
             _notToScaleLabel.setChildrenPickable( false );
         }
+        
+        // Legend
+        _legendNode = new LegendNode( _canvas );
 
         // Layering order on the canvas (back-to-front)
         {
@@ -303,6 +311,7 @@ public class HAModule extends PiccoloModule {
             _rootNode.addChild( _gunControlPanel );
             _rootNode.addChild( _spectrometerCheckBoxNode );
             _rootNode.addChild( _spectrometerNode );
+            _rootNode.addChild( _legendNode );
             _rootNode.addChild( _energyDiagramCheckBoxNode );
             _rootNode.addChild( _energyDiagramParent );
             _rootNode.addChild( _notToScaleLabel );
@@ -445,6 +454,13 @@ public class HAModule extends PiccoloModule {
             x = _energyDiagramCheckBoxNode.getFullBounds().getX();
             y = _energyDiagramCheckBoxNode.getFullBounds().getMaxY() + ySpacing;
             _energyDiagramParent.setOffset( x, y );
+        }
+        
+        // Legend
+        {
+            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
+            y = _animationRegionNode.getFullBounds().getY() + ( ( _animationRegionNode.getFullBounds().getHeight() -  _legendNode.getFullBounds().getHeight() ) / 2 );
+            _legendNode.setOffset( x, y );
         }
 
         // Spectrometer
