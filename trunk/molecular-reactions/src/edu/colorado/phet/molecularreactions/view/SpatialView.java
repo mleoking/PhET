@@ -10,15 +10,12 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.molecularreactions.view.BoxGraphic;
-import edu.colorado.phet.molecularreactions.view.CompositeMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -145,7 +142,9 @@ public class SpatialView extends PNode {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new BoxGraphic( (Box2D)modelElement );
+            BoxGraphic boxGraphic = new BoxGraphic( (Box2D)modelElement );
+            boxGraphic.setOffset( ((Box2D)modelElement).getPosition() );
+            return boxGraphic;
         }
     }
 
