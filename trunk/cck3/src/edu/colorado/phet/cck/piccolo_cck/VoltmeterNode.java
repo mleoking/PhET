@@ -2,7 +2,6 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -144,7 +143,7 @@ public class VoltmeterNode extends PhetPNode {
         }
     }
 
-    private class LeadNode extends RegisterablePNode {
+    private class LeadNode extends PhetPNode {
         private VoltmeterModel.LeadModel leadModel;
         private PImage imageNode;
         private PhetPPath tipPath;
@@ -177,14 +176,12 @@ public class VoltmeterNode extends PhetPNode {
 
         private void updateLead() {
             imageNode.setTransform( new AffineTransform() );
-            imageNode.rotateAboutPoint( leadModel.getAngle(), leadModel.getTipLocation().getX() - imageNode.getWidth() / 2 * SCALE, leadModel.getTipLocation().getY() );
-            imageNode.setOffset( leadModel.getTipLocation().getX() - imageNode.getWidth() / 2 * SCALE, leadModel.getTipLocation().getY() );
-//            imageNode.rotateAboutPoint( leadModel.getAngle(), leadModel.getTipLocation() );
-
-
+            imageNode.rotateAboutPoint( leadModel.getAngle(), 0.1, 0.1 );
             imageNode.scale( SCALE );
+            Point2D offset = computeOffsets( leadModel.getAngle(), imageNode.getImage().getWidth( null ), imageNode.getImage().getHeight( null ) );
 
-//            tipPath.setPathTo( leadModel.getTipShape() );
+//            imageNode.setOffset(offset.getX()+leadModel.getTipLocation().getX(),offset.getY()+leadModel.getTipLocation().getY());
+            imageNode.setOffset( offset.getX(), offset.getY() );
             tipPath.setPathTo( new Rectangle2D.Double( leadModel.getTipLocation().getX(), leadModel.getTipLocation().getY(), 0.5, 0.5 ) );
         }
 
@@ -194,5 +191,42 @@ public class VoltmeterNode extends PhetPNode {
             localToParent( pt );
             return new Point2D.Double( pt.getX(), pt.getY() );
         }
+    }
+
+    /**
+     * Computes the offsets that must be applied to the buffered image's location so that it's head is
+     * at the location of the photon
+     *
+     * @param theta
+     */
+    public Point2D computeOffsets( double theta, double baseImageWidth, double baseImageHeight ) {
+        // Normalize theta to be between 0 and PI*2
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
+
+        double xOffset = 0;
+        double yOffset = 0;
+        double alpha = 0;
+        double w = baseImageWidth;
+        double h = baseImageHeight;
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
+            yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
+        }
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            alpha = theta - Math.PI / 2;
+            xOffset = ( h / 2 ) * Math.cos( alpha );
+            yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+        }
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            alpha = theta - Math.PI;
+            xOffset = ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
+        }
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            alpha = Math.PI * 2 - theta;
+            xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
+        }
+        return new Point2D.Double( xOffset, yOffset );
     }
 }
