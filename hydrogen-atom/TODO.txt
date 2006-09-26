@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- distort orbits so that 6 orbits fit in animation region
 - generalize creating a "panel" node to fit under a collection of nodes
 - "Box of Hydrogen" HTMLNode looks lousy on Windows
 - add x-axis ticks and labels to spectrometer
@@ -34,6 +33,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/26/06) - distort orbits so that 6 orbits fit in animation region
+(9/26/06) - factor common code out of Bohr and deBroglie nodes
 (9/26/06) - update Spanish translations to include new stuff
 (9/26/06) - add a legend to both play area and Help menu
 (9/26/06) - add SimStrings.getChar, use it to get menu item mnemonics
