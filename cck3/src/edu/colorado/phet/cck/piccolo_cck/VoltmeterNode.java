@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -10,6 +11,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -31,9 +33,9 @@ public class VoltmeterNode extends PhetPNode {
 
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
-        unitImageNode = new UnitNode( voltmeterModel.getUnitModel() );
-        redProbe = new LeadNode( "images/probeRed.gif", voltmeterModel.getRedLeadModel() );
-        blackProbe = new LeadNode( "images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
+        unitImageNode = new UnitNode( voltmeterModel );
+        redProbe = new LeadNode( "images/probeRed.gif", voltmeterModel.getRedLeadModel(), Math.PI / 8 );
+        blackProbe = new LeadNode( "images/probeBlack.gif", voltmeterModel.getBlackLeadModel(), -Math.PI / 8 );
 
         addChild( unitImageNode );
 
@@ -66,12 +68,12 @@ public class VoltmeterNode extends PhetPNode {
     }
 
     static class UnitNode extends PhetPNode {
-        private VoltmeterModel.UnitModel unitModel;
+        private VoltmeterModel voltmeterModel;
 
-        public UnitNode( final VoltmeterModel.UnitModel unitModel ) {
-            this.unitModel = unitModel;
+        public UnitNode( final VoltmeterModel voltmeterModel ) {
+            this.voltmeterModel = voltmeterModel;
             scale( SCALE );
-            unitModel.addListener( new VoltmeterModel.UnitModel.Listener() {
+            voltmeterModel.getUnitModel().addListener( new VoltmeterModel.UnitModel.Listener() {
                 public void unitModelChanged() {
                     update();
                 }
@@ -81,15 +83,15 @@ public class VoltmeterNode extends PhetPNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension pt = event.getDeltaRelativeTo( UnitNode.this.getParent() );
-                    unitModel.translateBody( pt.width, pt.height );
+                    voltmeterModel.bodyDragged( pt.width, pt.height );
                 }
             } );
-
+            addInputEventListener( new CursorHandler() );
             update();
         }
 
         private void update() {
-            setOffset( unitModel.getLocation() );
+            setOffset( voltmeterModel.getUnitModel().getLocation() );
         }
     }
 
@@ -133,16 +135,26 @@ public class VoltmeterNode extends PhetPNode {
                                                            unitModel.getLocation().getY() + unitConnectionOffset.getY() );
             path.setPathTo( new Line2D.Double( leadConnectionPt,
                                                unitConnectionPt ) );
+
+            double dx = unitConnectionPt.getX();
+            double dy = unitConnectionPt.getY();
+            double cx = leadConnectionPt.getX();
+            double cy = leadConnectionPt.getY();
+            float dcy = (float)( 100 * SCALE );
+            CubicCurve2D.Double cableCurve = new CubicCurve2D.Double( cx, cy, cx, cy + dcy, ( 2 * dx + cx ) / 3, dy, dx, dy );
+            path.setPathTo( cableCurve );
         }
     }
 
     private class LeadNode extends RegisterablePNode {
         private VoltmeterModel.LeadModel leadModel;
+        private PImage imageNode;
 
-        public LeadNode( String imageLocation, final VoltmeterModel.LeadModel leadModel ) {
+        public LeadNode( String imageLocation, final VoltmeterModel.LeadModel leadModel, double angle ) {
             this.leadModel = leadModel;
             scale( SCALE );
-            PImage imageNode = PImageFactory.create( imageLocation );
+            rotate( leadModel.getAngle() );
+            imageNode = PImageFactory.create( imageLocation );
             addChild( imageNode );
             setRegistrationPoint( imageNode.getWidth() / 2, 0 );
             leadModel.addListener( new VoltmeterModel.LeadModel.Listener() {
@@ -157,7 +169,7 @@ public class VoltmeterNode extends PhetPNode {
                     leadModel.translate( pt.width, pt.height );
                 }
             } );
-
+            addInputEventListener( new CursorHandler() );
             updateLead();
         }
 
@@ -166,9 +178,10 @@ public class VoltmeterNode extends PhetPNode {
         }
 
         public Point2D getTailLocation() {
-            System.out.println( "getFullBounds().getHeight() = " + getFullBounds().getHeight() );
-            return new Point2D.Double( getOffset().getX(),
-                                       getOffset().getY() + getFullBounds().getHeight() );
+            Point2D pt = new Point2D.Double( imageNode.getWidth() / 2, imageNode.getHeight() );
+            imageNode.localToParent( pt );
+            localToParent( pt );
+            return new Point2D.Double( pt.getX(), pt.getY() );
         }
     }
 }

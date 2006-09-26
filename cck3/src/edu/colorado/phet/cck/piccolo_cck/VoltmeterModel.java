@@ -18,8 +18,8 @@ public class VoltmeterModel {
     private LeadModel blackLead;
 
     public VoltmeterModel() {
-        redLead = new LeadModel( new Point2D.Double( 0, 0 ) );
-        blackLead = new LeadModel( new Point2D.Double( 1, 0 ) );
+        redLead = new LeadModel( new Point2D.Double( 0, 0 ), Math.PI / 8 );
+        blackLead = new LeadModel( new Point2D.Double( 1, 0 ), -Math.PI / 8 );
         unitModel = new UnitModel();
     }
 
@@ -45,6 +45,18 @@ public class VoltmeterModel {
         return unitModel;
     }
 
+    public void bodyDragged( double dx, double dy ) {
+        unitModel.bodyDragged( dx, dy );
+        if( getLeadsShouldTranslateWithBody() ) {
+            redLead.translate( dx, dy );
+            blackLead.translate( dx, dy );
+        }
+    }
+
+    private boolean getLeadsShouldTranslateWithBody() {
+        return true;
+    }
+
     public static interface Listener {
         void voltmeterChanged();
     }
@@ -63,13 +75,16 @@ public class VoltmeterModel {
     public static class LeadModel {
         private Point2D.Double tipLocation;
         private Point2D.Double tailLocation;
+        private ArrayList listeners = new ArrayList();
+        private double angle;
 
-        public LeadModel() {
-            this( new Point2D.Double() );
+        public LeadModel( double angle ) {
+            this( new Point2D.Double(), angle );
         }
 
-        public LeadModel( Point2D.Double tipLocation ) {
+        public LeadModel( Point2D.Double tipLocation, double angle ) {
             this.tipLocation = new Point2D.Double( tipLocation.getX(), tipLocation.getY() );
+            this.angle = angle;
         }
 
         public void translate( double dx, double dy ) {
@@ -82,11 +97,14 @@ public class VoltmeterModel {
             return tipLocation;
         }
 
+        public double getAngle() {
+            return angle;
+        }
+
         static interface Listener {
             void leadModelChanged();
         }
 
-        ArrayList listeners = new ArrayList();
 
         public void addListener( Listener listener ) {
             listeners.add( listener );
@@ -102,12 +120,13 @@ public class VoltmeterModel {
 
     public static class UnitModel {
         private Point2D.Double location = new Point2D.Double();
+        private ArrayList listeners = new ArrayList();
 
         public Point2D getLocation() {
             return new Point2D.Double( location.x, location.y );
         }
 
-        public void translateBody( double dx, double dy ) {
+        public void bodyDragged( double dx, double dy ) {
             location.x += dx;
             location.y += dy;
             notifyListeners();
@@ -116,8 +135,6 @@ public class VoltmeterModel {
         static interface Listener {
             void unitModelChanged();
         }
-
-        ArrayList listeners = new ArrayList();
 
         public void addListener( Listener listener ) {
             listeners.add( listener );
