@@ -177,4 +177,14 @@ public class SimStrings {
         }
         return value;
     }
+    
+    /**
+     * Gets a char value from the localization file.
+     * 
+     * @param key
+     * @return char
+     */
+    public static char getChar( String key ) {
+        return get( key ).charAt( 0 );
+    }
 }
