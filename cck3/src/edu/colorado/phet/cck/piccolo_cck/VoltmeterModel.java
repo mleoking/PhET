@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.model.Connection;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -76,15 +77,14 @@ public class VoltmeterModel {
 
     private boolean getLeadsShouldTranslateWithBody() {
 
-//        Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
-//        Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
-//        if( a == null && b == null ) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
-        return true;
+        Connection a = voltmeterGraphic.getRedLeadGraphic().getConnection( module.getCircuitGraphic() );
+        Connection b = voltmeterGraphic.getBlackLeadGraphic().getConnection( module.getCircuitGraphic() );
+        if( a == null && b == null ) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public double getVoltage() {
