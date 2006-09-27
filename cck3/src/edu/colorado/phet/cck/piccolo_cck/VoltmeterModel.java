@@ -22,7 +22,7 @@ public class VoltmeterModel {
     private ArrayList listeners = new ArrayList();
     private LeadModel redLead;
     private LeadModel blackLead;
-    private double voltage = 0.0;
+    private double voltage = Double.NaN;
     private Circuit circuit;
 
     public VoltmeterModel( Circuit circuit ) {

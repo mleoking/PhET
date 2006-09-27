@@ -109,7 +109,7 @@ public class VoltmeterNode extends PhetPNode {
                 textNode.setText( UNKNOWN_VOLTS );
             }
             else {
-                textNode.setText( decimalFormat.format( voltmeterModel.getVoltage() ) );
+                textNode.setText( decimalFormat.format( voltmeterModel.getVoltage() ) + " V" );
             }
         }
     }

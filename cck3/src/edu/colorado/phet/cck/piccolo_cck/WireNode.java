@@ -12,7 +12,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -79,14 +78,11 @@ public class WireNode extends BranchNode {
     }
 
     private void update() {
-        Line2D.Double wireLine = new Line2D.Double( wire.getStartPoint(), wire.getEndPoint() );
-
         wireHighlightPPath.setVisible( wire.isSelected() );
-        Shape highlightShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wireLine );
+        Shape highlightShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
         wireHighlightPPath.setPathTo( highlightShape );
 
-        Shape wireShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wireLine );
-        wirePPath.setPathTo( wireShape );
+        wirePPath.setPathTo( wire.getShape() );
     }
 
     public Branch getBranch() {
