@@ -52,6 +52,10 @@ public class BondGraphic extends PPath implements SimpleObserver {
         m1.addObserver( this );
     }
 
+    protected Line2D getBondLine() {
+        return bondLine;
+    }
+
     public void update() {
         bondLine.setLine( m0.getPosition().getX(),
                           m0.getPosition().getY(),

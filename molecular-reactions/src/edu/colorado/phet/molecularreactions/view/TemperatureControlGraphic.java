@@ -46,6 +46,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
     private PImage stoveGraphic;
     private PImage flamesGraphic;
     private PImage iceGraphic;
+    private double stoveOffsetY = 25;
 
     public TemperatureControlGraphic( PSwingCanvas canvas, TemperatureControl tempCtrl ) {
         this.canvas = canvas;
@@ -53,7 +54,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         tempCtrl.addChangeListener( this );
 
         // The stove graphic
-        createImages();
+        createImages( stoveOffsetY );
 
         // The slider
         PNode sliderNode = createSlider();
@@ -62,38 +63,47 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         setRegistrationPoint( stoveGraphic.getWidth() / 2, 0 );
     }
 
-    private void createImages() {
+    private void createImages( double baseOffsetY ) {
         // Set up the stove, flames, and ice
         flamesGraphic = PImageFactory.create( MRConfig.FLAMES_IMAGE_FILE );
         addChild( flamesGraphic );
         iceGraphic = PImageFactory.create( MRConfig.ICE_IMAGE_FILE );
         addChild( iceGraphic );
         stoveGraphic = PImageFactory.create( MRConfig.STOVE_IMAGE_FILE );
-        stoveGraphic.setOffset( 0, 0 );
+        stoveGraphic.setOffset( 0, baseOffsetY );
         addChild( stoveGraphic );
-        iceGraphic.setOffset( ( stoveGraphic.getWidth() - iceGraphic.getWidth() ) / 2, 0 );
-        flamesGraphic.setOffset( ( stoveGraphic.getWidth() - flamesGraphic.getWidth() ) / 2, 0 );
+        iceGraphic.setOffset( ( stoveGraphic.getWidth() - iceGraphic.getWidth() ) / 2, baseOffsetY );
+        flamesGraphic.setOffset( ( stoveGraphic.getWidth() - flamesGraphic.getWidth() ) / 2, baseOffsetY );
+    }
 
-        // Add a rectangle that will mask the ice and flames when they are behind the stove
+    class MyJLabel extends JLabel {
+        public MyJLabel( String text ) {
+            super( text );
+        }
+
+        public Dimension getPreferredSize() {
+            return super.getPreferredSize();
+        }
     }
 
     private PNode createSlider() {
         JPanel stovePanel = new JPanel();
         int maxStoveSliderValue = 40;
+
         stoveSlider = new JSlider( JSlider.VERTICAL, -maxStoveSliderValue,
                                    maxStoveSliderValue, 0 );
         stoveSlider.setMajorTickSpacing( maxStoveSliderValue );
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( SimStrings.get( "Control.Remove" ) ) );
         labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Control.0" ) ) );
-        labelTable.put( new Integer( 40 ), new JLabel( SimStrings.get( "Control.Add" ) ) );
+        labelTable.put( new Integer( -40 ), new MyJLabel( SimStrings.get( "Control.Lower" ) ) );
+        labelTable.put( new Integer( 40 ), new MyJLabel( SimStrings.get( "Control.Raise" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
         stoveSlider.setPaintLabels( true );
-        stoveSlider.setPreferredSize( new Dimension( 120, 60 ) );
+        stoveSlider.setPreferredSize( new Dimension( 100, 60 ) );
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 temperatureControl.setSetting( stoveSlider.getValue() );
@@ -115,30 +125,25 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
 //                                                            Color.black ),
 //                                          SimStrings.get( "Control.Heat_Control" ) );
 //        stovePanel.setBorder( border );
-        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.Heat_Control" )) );
-//        stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
+        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.Heat_Control" ) ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
-//        Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
 
         stovePanel.add( stoveSlider );
-        PSwing sliderNode = new PSwing( canvas, stovePanel);
-//        PSwing sliderNode = new PSwing( canvas, stoveSlider );
-        sliderNode.setOffset( stoveGraphic.getWidth() + 5, -10 );
+        PSwing sliderNode = new PSwing( canvas, stovePanel );
+        sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 
         return sliderNode;
     }
 
     public void settingChanged( double setting ) {
         stoveSlider.setValue( (int)setting );
-
-        int baseFlameHeight = 0;
-        int flameHeight = baseFlameHeight - (int)setting;
-        int iceHeight = baseFlameHeight + (int)setting;
+        double flameHeight = stoveOffsetY - setting;
+        double iceHeight = stoveOffsetY + setting;
         flamesGraphic.setOffset( flamesGraphic.getOffset().getX(),
-                                 (int)Math.min( (float)flameHeight, 0 ) );
+                                 (int)Math.min( flameHeight, stoveOffsetY ) );
         iceGraphic.setOffset( (int)iceGraphic.getOffset().getX(),
-                              (int)Math.min( (float)iceHeight, 0 ) );
+                              (int)Math.min( iceHeight, stoveOffsetY ) );
     }
 }
