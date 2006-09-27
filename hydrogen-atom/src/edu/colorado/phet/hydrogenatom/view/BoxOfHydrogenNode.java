@@ -57,7 +57,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BoxOfHydrogenNode( Dimension boxSize, Dimension tinyBoxSize, Color tinyBoxColor ) {
+    public BoxOfHydrogenNode( Dimension boxSize, Dimension tinyBoxSize ) {
         super();
         
         setPickable( false );
@@ -89,7 +89,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
         }
 
         // Tiny box
-        _tinyBoxNode = new AnimationRegionNode( tinyBoxSize, tinyBoxColor );
+        _tinyBoxNode = new AnimationRegionNode( tinyBoxSize );
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();

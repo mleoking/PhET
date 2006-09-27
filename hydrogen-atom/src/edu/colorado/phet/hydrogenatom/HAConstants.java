@@ -128,6 +128,7 @@ public class HAConstants {
     
     // Color of the animation area
     public static final Color ANIMATION_REGION_COLOR = Color.BLACK;
+    public static final Color ANIMATION_REGION_STROKE_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Borders
