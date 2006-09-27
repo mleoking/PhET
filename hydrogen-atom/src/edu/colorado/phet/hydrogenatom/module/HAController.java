@@ -172,27 +172,27 @@ public class HAController {
     }
     
     private void handleGunOnOffChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleGunTypeChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleLightTypeChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleLightIntensityChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleLightWavelengthChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleAlphaParticleIntensityChange() {
-        _module.updateBeam();
+        _module.updateGun();
     }
     
     private void handleEnergyDiagramSelection() {

@@ -36,6 +36,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.model.PhotonGun;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
@@ -105,6 +106,8 @@ public class HAModule extends PiccoloModule {
     
     private Font _spectrometerFont;
 
+    private PhotonGun _photonGun;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -125,6 +128,18 @@ public class HAModule extends PiccoloModule {
         // Model
         //----------------------------------------------------------------------------
 
+        // Photon gun
+        {
+            Point2D position = new Point2D.Double( 0, 0 );
+            double orientation = -90; // degrees, pointing up
+            double beamWidth = 50;
+            double wavelength = VisibleColor.MIN_WAVELENGTH;
+            double intensity = 0.25;
+            _photonGun = new PhotonGun( position, orientation, beamWidth, wavelength, intensity );
+            _photonGun.setEnabled( true );
+            getClock().addClockListener( _photonGun );
+        }
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -551,7 +566,7 @@ public class HAModule extends PiccoloModule {
         }
     }
 
-    public void updateBeam() {
+    public void updateGun() {
         final boolean isOn = _gunNode.isOn();
         _beamNode.setVisible( isOn );
         if ( isOn ) {
