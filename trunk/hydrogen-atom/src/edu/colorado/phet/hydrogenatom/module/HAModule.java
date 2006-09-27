@@ -236,8 +236,8 @@ public class HAModule extends PiccoloModule {
             //XXX sample photons and alpha particle
             {
                 _samplePhotonNode1 = new PhotonNode( Color.RED );
-                _samplePhotonNode2 = new PhotonNode( Color.YELLOW );
-                _samplePhotonNode3 = new PhotonNode( Color.MAGENTA );
+                _samplePhotonNode2 = new PhotonNode( Color.GREEN );
+                _samplePhotonNode3 = new PhotonNode( Color.YELLOW );
                 _sampleAlphaParticleNode = new AlphaParticleNode();
                 _animationRegionNode.addChild( _samplePhotonNode1 );
                 _animationRegionNode.addChild( _samplePhotonNode2 );

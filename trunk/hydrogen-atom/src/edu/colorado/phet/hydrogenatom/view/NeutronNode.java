@@ -44,6 +44,6 @@ public class NeutronNode extends SphericalNode {
     private static final Paint STROKE_PAINT = Color.BLACK;
     
     public NeutronNode() {
-        super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT );
+        super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT, true /* convertToImage */ );
     }
 }

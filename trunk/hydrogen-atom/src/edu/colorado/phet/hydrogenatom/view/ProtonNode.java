@@ -41,7 +41,7 @@ public class ProtonNode extends SphericalNode {
     private static final Paint STROKE_PAINT = Color.BLACK;
     
     public ProtonNode() {
-        super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT );
+        super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT, true /* convertToImage */ );
     }
 
 }
