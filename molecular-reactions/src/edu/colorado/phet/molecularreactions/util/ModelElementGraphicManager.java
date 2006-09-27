@@ -207,10 +207,11 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
      * @param isVisible
      */
     public void setAllOfTypeVisible( Class graphicClass, boolean isVisible ) {
-        Iterator nodeIt = canvas.getAllNodes().iterator();
+        Iterator nodeIt = modelElementToGraphicMap.values().iterator();
         while( nodeIt.hasNext() ) {
-            PNode node = (PNode)nodeIt.next();
-            if( graphicClass.isInstance( node ) ) {
+            GraphicRecord graphicRecord = (GraphicRecord)nodeIt.next();
+            if( graphicClass.isInstance( graphicRecord.getGraphic() ) ) {
+                PNode node = (PNode)graphicRecord.getGraphic();
                 node.setVisible( isVisible );
             }
         }

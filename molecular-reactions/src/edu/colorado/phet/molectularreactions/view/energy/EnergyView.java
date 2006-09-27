@@ -36,7 +36,7 @@ import java.awt.geom.Point2D;
 public class EnergyView extends PNode implements SimpleObserver {
 
     private int width = 300;
-    private Dimension moleculePaneSize = new Dimension(  width, 150 );
+    private Dimension moleculePaneSize = new Dimension( width, 150 );
     private Dimension curvePaneSize = new Dimension( width, 300 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = Color.black;
@@ -70,7 +70,7 @@ public class EnergyView extends PNode implements SimpleObserver {
         addChild( curvePane );
 
         // The graphic that shows the reaction mechanics
-        PPath legendNode = new PPath( new Rectangle2D.Double( 0,0, width, 50 ));
+        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 50 ) );
         legendNode.setPaint( Color.black );
         legendNode.setOffset( 0, moleculePaneSize.getHeight() + curvePaneSize.getHeight() );
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white );
@@ -114,6 +114,7 @@ public class EnergyView extends PNode implements SimpleObserver {
 
         // Create the cursor
         cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
+        cursor.setVisible( false );
         cursorLayer.addChild( cursor );
 
         return curvePane;
@@ -267,10 +268,14 @@ public class EnergyView extends PNode implements SimpleObserver {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
             }
-            selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
-            moleculeLayer.addChild( selectedMoleculeGraphic );
 
-            newTrackedMolecule.addObserver( EnergyView.this );
+            if( newTrackedMolecule != null ) {
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
+                moleculeLayer.addChild( selectedMoleculeGraphic );
+                newTrackedMolecule.addObserver( EnergyView.this );
+            }
+
+            cursor.setVisible( selectedMolecule != null );
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule,

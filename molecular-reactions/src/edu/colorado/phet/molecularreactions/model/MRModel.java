@@ -90,6 +90,30 @@ public class MRModel extends PublishingModel {
         addModelElement( new ProvisionalBondDetector( this ) );
     }
 
+    public void addModelElement( ModelElement modelElement ) {
+        super.addModelElement( modelElement );
+        if( modelElement instanceof CompositeMolecule ) {
+            CompositeMolecule compositeMolecule = (CompositeMolecule)modelElement;
+            Bond[] bonds = compositeMolecule.getBonds();
+            for( int i = 0; i < bonds.length; i++ ) {
+                Bond bond = bonds[i];
+                addModelElement( bond );
+            }
+        }
+    }
+
+    public void removeModelElement( ModelElement modelElement ) {
+        super.removeModelElement( modelElement );
+        if( modelElement instanceof CompositeMolecule ) {
+            CompositeMolecule compositeMolecule = (CompositeMolecule)modelElement;
+            Bond[] bonds = compositeMolecule.getBonds();
+            for( int i = 0; i < bonds.length; i++ ) {
+                Bond bond = bonds[i];
+                removeModelElement( bond );
+            }
+        }
+    }
+
     public void setReaction( Reaction reaction ) {
         this.reaction = reaction;
     }

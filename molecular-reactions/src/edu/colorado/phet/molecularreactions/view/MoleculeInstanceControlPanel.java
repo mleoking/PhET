@@ -11,6 +11,8 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -29,9 +31,6 @@ public class MoleculeInstanceControlPanel extends JPanel {
     private List counters = new ArrayList( );
 
     public MoleculeInstanceControlPanel( MRModel model ) {
-        super( new GridBagLayout() );
-
-        Insets insets = new Insets( 2, 2, 2, 2 );
 
         JLabel aLabel = new JLabel( new MoleculeIcon( MoleculeA.class ) );
         JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class )  );
@@ -52,6 +51,11 @@ public class MoleculeInstanceControlPanel extends JPanel {
         MoleculeCounter bcMC = new MoleculeCounter( MoleculeBC.class, model );
         counters.add( bcMC );
 
+
+        // Lay out the controls
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get("Control.numMolecules")) );
+        setLayout( new GridBagLayout() );
+        Insets insets = new Insets( 2, 2, 2, 2 );
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,

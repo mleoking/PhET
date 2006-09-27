@@ -43,9 +43,7 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
-        setControlPanel( new ComplexMRControlPanel( this ));
-        // Create controls
-//        createControls();
+        getControlPanel().addControl( new ComplexMRControlPanel( this ));
     }
 
     private void createControls() {
