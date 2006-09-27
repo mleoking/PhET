@@ -26,6 +26,7 @@ public class CircuitNode extends PhetPNode {
     private ICCKModule module;
     private ArrayList junctionGraphics = new ArrayList();
     private ArrayList branchGraphics = new ArrayList();
+    private ReadoutSetNode readoutNode;
     private PNode electronNode;
 
     public CircuitNode( CCKModel cckModel, Circuit circuit, Component component, ICCKModule module ) {
@@ -38,12 +39,14 @@ public class CircuitNode extends PhetPNode {
                 BranchNode branchNode = createNode( branch );
                 branchGraphics.add( branchNode );
                 addChild( branchNode );
+                electronNode.moveToFront();
             }
 
             public void junctionAdded( Junction junction ) {
                 JunctionNode node = createNode( junction );
                 junctionGraphics.add( node );
                 addChild( node );
+                electronNode.moveToFront();
             }
 
             public void junctionRemoved( Junction junction ) {
@@ -53,6 +56,7 @@ public class CircuitNode extends PhetPNode {
                         removeJunctionGraphic( junctionNode );
                     }
                 }
+                electronNode.moveToFront();
             }
 
             public void selectionChanged() {
@@ -76,10 +80,14 @@ public class CircuitNode extends PhetPNode {
                         i--;
                     }
                 }
+                electronNode.moveToFront();
             }
         } );
         electronNode = new ElectronSetNode( cckModel );
         addChild( electronNode );
+
+        readoutNode = new ReadoutSetNode( module, circuit );
+        addChild( readoutNode );
     }
 
     private void removeBranchGraphic( BranchNode branchNode ) {

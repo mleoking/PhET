@@ -246,7 +246,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     public void setCircuit( Circuit newCircuit ) {
-        getCircuit().setCircuit( newCircuit );
+        getCircuit().setState( newCircuit );
         for( int i = 0; i < getCircuit().numBranches(); i++ ) {
             getCircuitGraphic().addGraphic( getCircuit().branchAt( i ) );
         }

@@ -418,12 +418,12 @@ public class Circuit {
 
     public void clearSelection() {
         for( int i = 0; i < branches.size(); i++ ) {
-            Branch branch1 = (Branch)branches.get( i );
-            branch1.setSelected( false );
+            Branch branch = (Branch)branches.get( i );
+            branch.setSelected( false );
         }
         for( int i = 0; i < junctions.size(); i++ ) {
-            Junction junction1 = (Junction)junctions.get( i );
-            junction1.setSelected( false );
+            Junction junction = (Junction)junctions.get( i );
+            junction.setSelected( false );
         }
     }
 
@@ -548,7 +548,7 @@ public class Circuit {
         return sum;
     }
 
-    public void setCircuit( Circuit newCircuit ) {
+    public void setState( Circuit newCircuit ) {
         clear();
         for( int i = 0; i < newCircuit.numJunctions(); i++ ) {
             addJunction( newCircuit.junctionAt( i ) );
