@@ -5,6 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change PhotonGun to "Gun" and make it capable of firing alpha particles, too
+- make stuff in view (beam, gun, etc) observers of PhotonGun
+- work out details of mapping between model and view coordinate systems
+- model for BoxOfHydrogen
 - create and animate photons and alpha particles
 - generalize creating a "panel" node to fit under a collection of nodes
 - "Box of Hydrogen" HTMLNode looks lousy on Windows
@@ -34,6 +38,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(9/27/06) - add StationaryObject, MovingObject, Photon, AlphaParticle, PhotonGun to model
 (9/27/06) - delete photon image and asset files
 (9/27/06) - revise photon look based on feedback
 ***** CVS tag hydrogenatom-0-00-03-2006-09-27
