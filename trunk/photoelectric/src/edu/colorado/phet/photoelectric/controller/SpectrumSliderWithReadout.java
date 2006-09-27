@@ -102,8 +102,9 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             this.baseLocation = baseLocation;
             this.minWavelength = minWavelength;
             this.maxWavelength = maxWavelength;
-            readout = new JTextField( 4 );
-            readout.setHorizontalAlignment( JTextField.CENTER );
+            readout = new JTextField( 5 );
+            readout.setHorizontalAlignment( JTextField.RIGHT );
+//            readout.setHorizontalAlignment( JTextField.CENTER );
             readout.setFont( VALUE_FONT );
             readout.addFocusListener( new FocusListener() {
                 public void focusGained( FocusEvent e ) {

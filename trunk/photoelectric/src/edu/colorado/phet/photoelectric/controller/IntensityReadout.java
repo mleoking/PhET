@@ -46,8 +46,8 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         beam.addRateChangeListener( this );
         this.beam = beam;
 
-        readout = new JTextField( 3 );
-        readout.setHorizontalAlignment( JTextField.HORIZONTAL );
+        readout = new JTextField( 4 );
+        readout.setHorizontalAlignment( JTextField.RIGHT );
         readout.setFont( VALUE_FONT );
         readout.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
