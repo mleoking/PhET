@@ -18,6 +18,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
+import edu.colorado.phet.molecularreactions.view.BondGraphic;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
@@ -48,6 +49,7 @@ public class EnergyView extends PNode implements SimpleObserver {
     private SimpleMolecule nearestToSelectedMolecule;
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
     private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
+    private MyBondGraphic bondGraphic;
 
     private EnergyCursor cursor;
     private Insets insets = new Insets( 20, 10, 10, 10 );
@@ -218,6 +220,11 @@ public class EnergyView extends PNode implements SimpleObserver {
                 nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
 
+            // Set the location of the bond graphic
+            if( bondGraphic != null ) {
+                bondGraphic.update( boundMolecule );
+            }
+
             // set location of cursor
             cursor.setOffset( midPoint.getX(), 0 );
         }
@@ -273,6 +280,13 @@ public class EnergyView extends PNode implements SimpleObserver {
                 selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
+//                if( bondGraphic != null ) {
+//                    removeChild( bondGraphic );
+//                }
+//                if( newTrackedMolecule.isPartOfComposite() ) {
+//                    bondGraphic = new MyBondGraphic( selectedMoleculeGraphic );
+//                    addChild( bondGraphic );
+//                }
             }
 
             cursor.setVisible( selectedMolecule != null );
@@ -291,7 +305,27 @@ public class EnergyView extends PNode implements SimpleObserver {
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
+//            if( bondGraphic != null ) {
+//                removeChild( bondGraphic );
+//            }
+//            if( nearestToSelectedMolecule.isPartOfComposite() ) {
+//                bondGraphic = new MyBondGraphic( nearestToSelectedMoleculeGraphic );
+//                addChild( bondGraphic );
+//            }
+
             update();
+        }
+    }
+
+    private class MyBondGraphic extends BondGraphic {
+        private EnergyMoleculeGraphic emg;
+
+        public MyBondGraphic( EnergyMoleculeGraphic emg ) {
+            super( new Bond( selectedMolecule, nearestToSelectedMolecule ) );
+            this.emg = emg;
+        }
+
+        public void update( SimpleMolecule sm ) {
         }
     }
 }

@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Hashtable;
 
 /**
  * TestControlPanel
@@ -42,13 +43,11 @@ public class SimpleMRControlPanel extends JPanel {
     public SimpleMRControlPanel( MRModule module ) {
         super( new GridBagLayout() );
 
-        final MRModel model = (MRModel)module.getModel();
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1,1,1,1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0,0,0,0),0,0 );
-
         add( new OptionsPanel( module ), gbc );
     }
 

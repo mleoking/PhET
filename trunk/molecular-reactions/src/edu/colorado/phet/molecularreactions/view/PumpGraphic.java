@@ -100,8 +100,10 @@ public class PumpGraphic extends PNode {
         public void mouseDragged( PInputEvent event ) {
             double dy = event.getDelta().getHeight();
             double yLoc = pumpHandlePI.getOffset().getY() + dy;
-            if( yLoc <= initHandleYLoc
-                && yLoc > initHandleYLoc - pumpHandlePI.getFullBounds().getHeight() / 2 ) {
+
+            // Constrain the motion of the handle to be within the bounds of the PNode containing
+            // the PumpGraphic, and the initial location of the handle.
+            if( yLoc <= initHandleYLoc && yLoc > -getOffset().getY() ) {
                 pumpHandlePI.setOffset( pumpHandlePI.getOffset().getX(), yLoc );
 
                 // Add molecules to the model
@@ -121,8 +123,6 @@ public class PumpGraphic extends PNode {
                     }
                     else {
                         dySinceLastMolecule += dy;
-                        System.out.println( "dySinceLastMolecule = " + dySinceLastMolecule );
-
                     }
                 }
             }

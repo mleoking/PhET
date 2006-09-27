@@ -122,7 +122,7 @@ public class ComplexMRControlPanel extends JPanel {
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
-            Insets insets = new Insets( 0, 20, 0, 0 );
+            Insets insets = new Insets( 0, 10, 0, 5 );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
