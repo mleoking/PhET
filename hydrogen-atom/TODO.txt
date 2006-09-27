@@ -34,6 +34,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+***** CVS tag hydrogenatom-0-00-03-2006-09-27
 (9/27/06) - convert some shape-based nodes to images for performance
 (9/27/06) - write "orb of light" photon in Java 2D
 ***** CVS tag hydrogenatom-0-00-02-2006-09-26
