@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Wire;
 
 /**
  * User: Sam Reid
@@ -30,7 +31,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
         if( enabled ) {
             for( int i = 0; i < getCircuit().numBranches(); i++ ) {
                 Branch b = getCircuit().branchAt( i );
-                if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
+                if( b instanceof Wire ) {//make sure it's not a component.
                     double resistance = getResistance( b );
                     b.setResistance( resistance );
                 }
@@ -65,6 +66,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
     }
 
     public void setResistivity( double resistivity ) {
+        System.out.println( "resistivity = " + resistivity );
         if( this.resistivity != resistivity ) {
             this.resistivity = resistivity;
             changed();
