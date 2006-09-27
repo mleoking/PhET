@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -27,11 +28,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class PhotonNode extends PhetPNode {
 
+    private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
+    
     private static final Color DEFAULT_COLOR = Color.MAGENTA;
     private static final double DEFAULT_DIAMETER = 30;
+    private static final double CROSSHAIRS_ANGLE = 18; // degrees
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
-    private static final int PHOTON_COLOR_ALPHA = 255;
+    private static final int PHOTON_COLOR_ALPHA = 130;
     
     public PhotonNode() {
         this( DEFAULT_COLOR );
@@ -49,6 +53,13 @@ public class PhotonNode extends PhetPNode {
         
         // Move origin to center
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
+        
+        if ( DEBUG_SHOW_FULL_DIAMETER ) {
+            PPath diameterNode = new PPath( new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter ) );
+            diameterNode.setStroke( new BasicStroke( 1f ) );
+            diameterNode.setStrokePaint( Color.WHITE );
+            addChild( diameterNode );
+        }
 
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
             OriginNode originNode = new OriginNode( Color.BLACK );
@@ -71,7 +82,7 @@ public class PhotonNode extends PhetPNode {
         outerOrb.setStroke( null );
         
         // Inner orb, saturated color with hilite in center
-        final double innerDiameter = 0.6 * diameter;
+        final double innerDiameter = 0.5 * diameter;
         Shape innerShape = new Ellipse2D.Double( -innerDiameter/2, -innerDiameter/2, innerDiameter, innerDiameter );
         Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
         Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
@@ -81,38 +92,43 @@ public class PhotonNode extends PhetPNode {
         innerOrb.setStroke( null );
 
         // Crosshairs
-        PNode bigCrosshairs = createCrosshairs( 0.75 * outerDiameter );
-        bigCrosshairs.rotate( Math.toRadians( 45 ) );
-        PNode smallCrosshairs = createCrosshairs( 0.75 * innerDiameter );
+        PNode crosshairs = new PNode();
+        {
+            PNode bigCrosshair = createCrosshair( 1.15 * innerDiameter );
+            PNode smallCrosshair = createCrosshair( 0.8 * innerDiameter );
+            smallCrosshair.rotate( Math.toRadians( 45 ) );
+            crosshairs.addChild( smallCrosshair );
+            crosshairs.addChild( bigCrosshair );
+        }
+        crosshairs.rotate( Math.toRadians( CROSSHAIRS_ANGLE ) );
 
         parentNode.addChild( outerOrb );
         parentNode.addChild( innerOrb );
-        parentNode.addChild( bigCrosshairs );
-        parentNode.addChild( smallCrosshairs );
+        parentNode.addChild( crosshairs );
         
         return new PImage( parentNode.toImage() );
     }
     
-    private static PNode createCrosshairs( double diameter ) {
+    private static PNode createCrosshair( double diameter ) {
 
         final double crosshairWidth = diameter;
         final double crosshairHeight = 0.15 * crosshairWidth;
         Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
 
-        PPath crosshair1 = new PPath();
-        crosshair1.setPathTo( crosshairShape );
-        crosshair1.setPaint( CROSSHAIRS_COLOR );
-        crosshair1.setStroke( null );
+        PPath horizontalPart = new PPath();
+        horizontalPart.setPathTo( crosshairShape );
+        horizontalPart.setPaint( CROSSHAIRS_COLOR );
+        horizontalPart.setStroke( null );
 
-        PPath crosshair2 = new PPath();
-        crosshair2.setPathTo( crosshairShape );
-        crosshair2.setPaint( CROSSHAIRS_COLOR );
-        crosshair2.setStroke( null );
-        crosshair2.rotate( Math.toRadians( 90 ) );
+        PPath verticalPart = new PPath();
+        verticalPart.setPathTo( crosshairShape );
+        verticalPart.setPaint( CROSSHAIRS_COLOR );
+        verticalPart.setStroke( null );
+        verticalPart.rotate( Math.toRadians( 90 ) );
 
         PNode crosshairs = new PNode();
-        crosshairs.addChild( crosshair1 );
-        crosshairs.addChild( crosshair2 );
+        crosshairs.addChild( horizontalPart );
+        crosshairs.addChild( verticalPart );
         
         return crosshairs;
     }
