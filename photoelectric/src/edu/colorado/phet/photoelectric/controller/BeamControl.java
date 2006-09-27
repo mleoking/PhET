@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -23,6 +24,7 @@ import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.model.PhotonSource;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -32,14 +34,14 @@ import java.awt.*;
  * BeamControl
  * <p/>
  * A wavelength slider and intensity slider for controlling a CollimatedBeam.
- * <p>
+ * <p/>
  * The intensity slider actaully controls the photon production rate of the beam.
  * It's range is 0 to beam.getMaxPhotonsPerSecond();
- * <p>
+ * <p/>
  * Next to the intensity slider is an editable text field that shows the percentage
  * of maximum production that the beam is set to. This control is an instance of
  * IntesityReadout.
- * <p>
+ * <p/>
  * Note that the slider works in photons per second, and the text field in percent.
  *
  * @author Ron LeMaster
@@ -108,19 +110,21 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
         wavelengthSlider.setKnobSize( new Dimension( 20, 20 ) ); // default is (20,30)
         wavelengthSlider.setSpectrumSize( spectrumSize ); // default is (200,25)
-        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
-        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 PhetUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        int value = wavelengthSlider.getValue();
-                        beam.setWavelength( (int)( value ) );
+                        int wavelength = (int)MathUtil.clamp( PhotoelectricConfig.MIN_WAVELENGTH,
+                                                              wavelengthSlider.getValue(),
+                                                              PhotoelectricConfig.MAX_WAVELENGTH );
+                        beam.setWavelength( (int)( wavelength ) );
                     }
                 } );
             }
         } );
+
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
+        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
     }
 
     private void addIntensitySlider( final Beam beam, double maximumRate ) {
@@ -139,6 +143,12 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new IntesitySliderChangeListener( beam ) );
         beam.setPhotonsPerSecond( intensitySlider.getValue() );
+        beam.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
+            public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
+                Color color = VisibleColor.wavelengthToColor( event.getWavelength() );
+                intensitySlider.setColor( color );
+            }
+        } );
     }
 
     public void setVisible( boolean visible ) {

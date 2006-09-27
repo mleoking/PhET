@@ -84,7 +84,7 @@ public class GraphPanel2 extends JPanel {
                                                                  2, 1, 0, 0,
                                                                  GridBagConstraints.NORTHWEST,
                                                                  GridBagConstraints.NONE,
-                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                 new Insets( 0, 0, 0, 25 ), 0, 0 );
         GridBagConstraints graphGbc = new GridBagConstraints( 1, 0,
                                                               1, 1, 0, 0,
                                                               GridBagConstraints.NORTHWEST,

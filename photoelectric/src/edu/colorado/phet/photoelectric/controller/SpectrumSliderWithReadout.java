@@ -15,10 +15,12 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.control.SpectrumSliderKnob;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,7 +44,6 @@ import java.text.DecimalFormat;
  */
 public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
     private Beam beam;
-    private Point location;
     private WavelengthReadout readout;
 
     public SpectrumSliderWithReadout( Component component,
@@ -53,9 +54,8 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
                                       Point location ) {
         super( component, minimumWavelength, maximumWavelength );
         this.beam = beam;
-        this.location = location;
         beam.addWavelengthChangeListener( new WavelengthChangeListener() );
-        readout = new WavelengthReadout( component, wrappedSliderWithSquareCursor.getKnob(), location );
+        readout = new WavelengthReadout( component, location, minimumWavelength, maximumWavelength );
 
         // We have to add the readout directly to the apparatus panel, otherwise we can't
         // get it to respond like a JComponent, and type into it
@@ -64,6 +64,10 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
 
         // Add a listener that will move the readout along with the knob
         addChangeListener( readout );
+    }
+
+    public void setValue( int value ) {
+        super.setValue( value );
     }
 
     //----------------------------------------------------------------
@@ -90,10 +94,14 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
         private JTextField readout;
         private PhetGraphic readoutGraphic;
         private Point baseLocation;
+        private double minWavelength;
+        private double maxWavelength;
 
-        public WavelengthReadout( final Component component, SpectrumSliderKnob knob, Point baseLocation ) {
+        public WavelengthReadout( final Component component, Point baseLocation, double minWavelength, double maxWavelength ) {
             super( component );
             this.baseLocation = baseLocation;
+            this.minWavelength = minWavelength;
+            this.maxWavelength = maxWavelength;
             readout = new JTextField( 4 );
             readout.setHorizontalAlignment( JTextField.CENTER );
             readout.setFont( VALUE_FONT );
@@ -114,7 +122,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             readoutGraphic = PhetJComponent.newInstance( component, readout );
             addGraphic( readoutGraphic, 1E9 );
 
-            update( 123 ); // dummy value
+            update( beam.getWavelength() ); // dummy value
         }
 
         private void update( final Component component ) {
@@ -124,12 +132,15 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
                 int nmLoc = text.indexOf( "nm" );
                 text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
                 wavelength = Double.parseDouble( text );
+                wavelength = MathUtil.clamp( minWavelength,
+                                             Double.parseDouble( text ),
+                                             maxWavelength );
                 beam.setWavelength( wavelength );
                 update( wavelength );
             }
             catch( NumberFormatException e1 ) {
                 JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                               SimStrings.get( "Wavelength.message"));
+                                               SimStrings.get( "Wavelength.message" ) );
                 setText( beam.getWavelength() );
             }
         }

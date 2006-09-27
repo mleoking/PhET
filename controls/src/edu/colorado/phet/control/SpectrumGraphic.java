@@ -51,9 +51,8 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
             PhetGraphic uvGraphicLabel = new PhetTextGraphic( component, font,
-//            PhetGraphic uvGraphicLabel = new PhetTextGraphic( component, DEFAULT_CONTROL_FONT,
-                                                              "< UV", Color.white );
-            uvGraphicLabel.setLocation( uvGraphicWidth - 40, 10 );
+                                                              "UV", Color.white );
+            uvGraphicLabel.setLocation( uvGraphicWidth / 2 - 10, 10 );
             uvGraphic = new CompositePhetGraphic( component );
             uvGraphic.addGraphic( uvGraphicBackground );
             uvGraphic.addGraphic( uvGraphicLabel );
@@ -69,9 +68,8 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
             PhetGraphic irGraphicLabel = new PhetTextGraphic( component, font,
-//            PhetGraphic irGraphicLabel = new PhetTextGraphic( component, DEFAULT_CONTROL_FONT,
-                                                              "IR >", Color.white );
-            irGraphicLabel.setLocation( 5, 10 );
+                                                              "IR", Color.white );
+            irGraphicLabel.setLocation( irGraphicWidth / 2 - 5, 10 );
             irGraphic = new CompositePhetGraphic( component );
             irGraphic.addGraphic( irGraphicBackground );
             irGraphic.addGraphic( irGraphicLabel );

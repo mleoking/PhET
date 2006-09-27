@@ -95,9 +95,9 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/dischargelamps/lasers/phetgraphics-module/src"/>
             <src path="${project_home}/dischargelamps/lasers/phetgraphics-module/phetcommon-module/src"/>
             <src path="${project_home}/dischargelamps/lasers/mechanics-module/src"/>
-            <src path="${project_home}/dischargelamps/lasers/collision-module/src"/>
-            <src path="${project_home}/dischargelamps/lasers/controls-module/src"/>
-            <src path="${project_home}/charts-module/src"/>
+            <src path="${project_home}/dischargelamps/lasers/collision-dir/src"/>
+            <src path="${project_home}/dischargelamps/lasers/controls-dir/src"/>
+            <src path="${project_home}/charts-dir/src"/>
         </javac>
     </target>
 
@@ -114,7 +114,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${project_home}/dischargelamps/data"/>
             <fileset dir="${project_home}/dischargelamps/lasers/data"/>
             <fileset dir="${project_home}/dischargelamps/lasers/phetgraphics-module/phetcommon-module/data"/>
-            <fileset dir="${project_home}/dischargelamps/lasers/controls-module/data"/>
+            <fileset dir="${project_home}/dischargelamps/lasers/controls-dir/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
