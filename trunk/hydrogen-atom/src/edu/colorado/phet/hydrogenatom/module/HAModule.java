@@ -100,7 +100,7 @@ public class HAModule extends PiccoloModule {
     private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
 
-    private PhotonOrbNode _samplePhotonNode;
+    private PhotonNode _samplePhotonNode1, _samplePhotonNode2, _samplePhotonNode3;
     private AlphaParticleNode _sampleAlphaParticleNode;
     
     private Font _spectrometerFont;
@@ -233,11 +233,24 @@ public class HAModule extends PiccoloModule {
                 _solarSystemAtomNode.setOffset( x, y );
             }
             
-            //XXX sample photon and alpha particle
-            _samplePhotonNode = new PhotonOrbNode( Color.RED );
-            _sampleAlphaParticleNode = new AlphaParticleNode();
-            _animationRegionNode.addChild( _samplePhotonNode );
-            _animationRegionNode.addChild( _sampleAlphaParticleNode );
+            //XXX sample photons and alpha particle
+            {
+                _samplePhotonNode1 = new PhotonNode( Color.RED );
+                _samplePhotonNode2 = new PhotonNode( Color.YELLOW );
+                _samplePhotonNode3 = new PhotonNode( Color.MAGENTA );
+                _sampleAlphaParticleNode = new AlphaParticleNode();
+                _animationRegionNode.addChild( _samplePhotonNode1 );
+                _animationRegionNode.addChild( _samplePhotonNode2 );
+                _animationRegionNode.addChild( _samplePhotonNode3 );
+                _animationRegionNode.addChild( _sampleAlphaParticleNode );
+
+                double x = 50;
+                double y =_animationRegionNode.getFullBounds().getMaxY() - 70;
+                _samplePhotonNode1.setOffset( x, y );
+                _samplePhotonNode2.setOffset( x + 100, y );
+                _samplePhotonNode3.setOffset( x + 200, y );
+                _sampleAlphaParticleNode.setOffset( x + 300, y );
+            }
         }
 
         // Gun control panel
@@ -464,16 +477,6 @@ public class HAModule extends PiccoloModule {
             x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
             y = _animationRegionNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
             _spectrometerCheckBoxNode.setOffset( x, y );
-        }
-
-        // Sample nodes
-        {
-            PBounds ab = _animationRegionNode.getFullBounds();
-
-            x = ab.getWidth() - 50;
-            y = ab.getHeight() - 100;
-            _samplePhotonNode.setOffset( x, y );
-            _sampleAlphaParticleNode.setOffset( x - 100, y );
         }
     }
 
