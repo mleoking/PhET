@@ -27,8 +27,8 @@ public class VoltmeterModel {
 
     public VoltmeterModel( Circuit circuit ) {
         this.circuit = circuit;
-        redLead = new LeadModel( new Point2D.Double( 0, 0 ), Math.PI / 8 );
-        blackLead = new LeadModel( new Point2D.Double( 1, 0 ), -Math.PI / 8 );
+        redLead = new LeadModel( circuit, new Point2D.Double( 0, 0 ), Math.PI / 8 );
+        blackLead = new LeadModel( circuit, new Point2D.Double( 1, 0 ), -Math.PI / 8 );
         LeadModel.Listener listener = new LeadModel.Listener() {
             public void leadModelChanged() {
                 updateVoltage();
@@ -41,8 +41,8 @@ public class VoltmeterModel {
 
     private void updateVoltage() {
         //todo only notify when there is a change
-//        this.voltage = new VoltageCalculation( circuit ).getVoltage( module.getCircuitGraphic(), redLead.getTipShape(), blackLead.getTipShape() );
-//        notifyListeners();
+        this.voltage = new PiccoloVoltageCalculation( circuit ).getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
+        notifyListeners();
     }
 
     public boolean isVisible() {
@@ -50,7 +50,6 @@ public class VoltmeterModel {
     }
 
     public void setVisible( boolean visible ) {
-        System.out.println( "visible = " + visible );
         this.visible = visible;
         notifyListeners();
     }
@@ -115,13 +114,13 @@ public class VoltmeterModel {
         private Circuit circuit;
 
         public LeadModel( Circuit circuit, double angle ) {
-            this( new Point2D.Double(), angle );
-            this.circuit = circuit;
+            this( circuit, new Point2D.Double(), angle );
         }
 
-        public LeadModel( Point2D.Double tipLocation, double angle ) {
+        public LeadModel( Circuit circuit, Point2D.Double tipLocation, double angle ) {
             this.tipLocation = new Point2D.Double( tipLocation.getX(), tipLocation.getY() );
             this.angle = angle;
+            this.circuit = circuit;
         }
 
         public void translate( double dx, double dy ) {

@@ -3,6 +3,8 @@ package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.common.SimpleObservableDebug;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -18,6 +20,7 @@ public class Junction extends SimpleObservableDebug {
     private static int nextLabel = 0;
     private boolean selected = false;
     private double voltage;//voltage relative to reference node.  To be used in computing potential drops, to avoid graph traversal.
+    public static final double RADIUS = .162;
 
     public Junction( double x, double y ) {
         this.x = x;
@@ -89,5 +92,15 @@ public class Junction extends SimpleObservableDebug {
 
     public void setPosition( Point2D location ) {
         setPosition( location.getX(), location.getY() );
+    }
+
+    public Shape getShape() {
+        return createCircle( CCKModel.JUNCTION_RADIUS * 1.1 );
+    }
+
+    public Ellipse2D createCircle( double radius ) {
+        Ellipse2D.Double circle = new Ellipse2D.Double();
+        circle.setFrameFromCenter( getX(), getY(), getX() + radius, getY() + radius );
+        return circle;
     }
 }
