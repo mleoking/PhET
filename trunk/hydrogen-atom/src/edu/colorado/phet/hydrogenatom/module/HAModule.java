@@ -158,7 +158,7 @@ public class HAModule extends PiccoloModule {
             // Parent node, used for layout
             _boxBeamGunParent = new PNode();
 
-            _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE, HAConstants.TINY_BOX_SIZE, HAConstants.ANIMATION_REGION_COLOR );
+            _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE, HAConstants.TINY_BOX_SIZE );
             _beamNode = new BeamNode( HAConstants.BEAM_SIZE );
             _gunNode = new GunNode();
 
@@ -191,7 +191,7 @@ public class HAModule extends PiccoloModule {
             Dimension size = new Dimension( width, height );
             
             // animation box
-            _animationRegionNode = new AnimationRegionNode( size, HAConstants.ANIMATION_REGION_COLOR );
+            _animationRegionNode = new AnimationRegionNode( size );
 
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();

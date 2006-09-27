@@ -25,12 +25,12 @@ public class AnimationRegionNode extends PClip {
     public static final Stroke STROKE = new BasicStroke( 2f );
     public static final Color STROKE_COLOR = Color.WHITE;
     
-    public AnimationRegionNode( Dimension size, Color background ) {
+    public AnimationRegionNode( Dimension size ) {
         super();
         Shape clip = new Rectangle2D.Double( 0, 0, size.width, size.height );
         setPathTo( clip );
-        setPaint(  background );
+        setPaint(  HAConstants.ANIMATION_REGION_COLOR );
         setStroke( STROKE );
-        setStrokePaint( STROKE_COLOR );
+        setStrokePaint( HAConstants.ANIMATION_REGION_STROKE_COLOR );
     }
 }
