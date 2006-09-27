@@ -22,7 +22,7 @@ public class MeasurementToolSet {
     private VoltmeterModel voltmeterModel;
 
     public MeasurementToolSet( CCKModel model ) {
-        this.voltmeterModel = new VoltmeterModel( model.getCircuit() );
+        this.voltmeterModel = new VoltmeterModel( model, model.getCircuit() );
     }
 
     public VoltmeterModel getVoltmeterModel() {

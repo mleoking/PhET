@@ -1,9 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.model.Circuit;
-import edu.colorado.phet.cck.model.CircuitListenerAdapter;
-import edu.colorado.phet.cck.model.Connection;
-import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.*;
+import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.Branch;
 
 import java.awt.*;
@@ -26,9 +24,11 @@ public class VoltmeterModel {
     private LeadModel redLead;
     private LeadModel blackLead;
     private double voltage = Double.NaN;
+    private CCKModel model;
     private Circuit circuit;
 
-    public VoltmeterModel( Circuit circuit ) {
+    public VoltmeterModel( CCKModel model, Circuit circuit ) {
+        this.model = model;
         this.circuit = circuit;
         redLead = new LeadModel( circuit, new Point2D.Double( -0.2, 0 ), Math.PI / 8 );
         blackLead = new LeadModel( circuit, new Point2D.Double( 1.7, 0 ), -Math.PI / 8 );
@@ -54,6 +54,11 @@ public class VoltmeterModel {
                 testUpdate();
             }
         } );
+        model.getCircuitSolver().addSolutionListener( new CircuitSolutionListener() {
+            public void circuitSolverFinished() {
+                testUpdate();
+            }
+        } );
     }
 
     private void testUpdate() {
@@ -63,9 +68,11 @@ public class VoltmeterModel {
     }
 
     private void updateVoltage() {
-        //todo only notify when there is a change
-        this.voltage = new PiccoloVoltageCalculation( circuit ).getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
-        notifyListeners();
+        double voltage = new PiccoloVoltageCalculation( circuit ).getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
+        if( voltage != this.voltage ) {
+            this.voltage = voltage;
+            notifyListeners();
+        }
     }
 
     public boolean isVisible() {

@@ -37,7 +37,6 @@ public class Circuit {
 
     public void addCircuitListener( CircuitListener listener ) {
         listeners.add( listener );
-        //        System.out.println( "Added " + listeners.size() + "th Circuit listener = " + listener );
     }
 
     public int numCircuitListeners() {
@@ -46,7 +45,6 @@ public class Circuit {
 
     public void removeCircuitListener( CircuitListener listener ) {
         listeners.remove( listener );
-        //        System.out.println( "Removed  " + listeners.size() + "th Circuit listener = " + listener );
     }
 
     public String toString() {
