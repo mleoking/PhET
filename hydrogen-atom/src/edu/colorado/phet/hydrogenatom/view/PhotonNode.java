@@ -17,6 +17,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -30,6 +31,7 @@ public class PhotonNode extends PhetPNode {
     private static final double DEFAULT_DIAMETER = 30;
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
+    private static final int PHOTON_COLOR_ALPHA = 255;
     
     public PhotonNode() {
         this( DEFAULT_COLOR );
@@ -41,9 +43,17 @@ public class PhotonNode extends PhetPNode {
     
     public PhotonNode( Color photonColor, final double diameter ) {
         super();
+        
         PImage imageNode = createPhotonImage( photonColor, diameter );
         addChild( imageNode );
         
+        // Move origin to center
+        imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
+
+        if ( HAConstants.SHOW_ORIGIN_NODES ) {
+            OriginNode originNode = new OriginNode( Color.BLACK );
+            addChild( originNode );
+        }
     }
     
     private static PImage createPhotonImage( Color photonColor, final double diameter )
@@ -63,7 +73,7 @@ public class PhotonNode extends PhetPNode {
         // Inner orb, saturated color with hilite in center
         final double innerDiameter = 0.6 * diameter;
         Shape innerShape = new Ellipse2D.Double( -innerDiameter/2, -innerDiameter/2, innerDiameter, innerDiameter );
-        Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 200 );
+        Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
         Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
         PPath innerOrb = new PPath();
         innerOrb.setPathTo( innerShape );
