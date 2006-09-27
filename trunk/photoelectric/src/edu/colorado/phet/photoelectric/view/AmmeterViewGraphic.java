@@ -37,15 +37,15 @@ public class AmmeterViewGraphic extends CompositePhetGraphic {
 
     public AmmeterViewGraphic( Component component, final Ammeter ammeter, final PhotoelectricModel model ) {
         background1 = new PhetShapeGraphic( component,
-                                           new Rectangle( 120, 20 ),
-                                           Color.white,
-                                           new BasicStroke( 1f ),
-                                           Color.black );
+                                            new Rectangle( 120, 20 ),
+                                            Color.white,
+                                            new BasicStroke( 1f ),
+                                            Color.black );
         background2 = new PhetShapeGraphic( component,
-                                           new Rectangle( 130, 30 ),
-                                           Color.yellow,
-                                           new BasicStroke( 1f ),
-                                           Color.black );
+                                            new Rectangle( 130, 30 ),
+                                            Color.yellow,
+                                            new BasicStroke( 1f ),
+                                            Color.black );
         background2.setRegistrationPoint( 5, 5 );
         currentLabel = new PhetTextGraphic( component, font, "Current: ", Color.black );
         currentLabel.setLocation( 5, 5 );
@@ -68,10 +68,14 @@ public class AmmeterViewGraphic extends CompositePhetGraphic {
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
                 double current = model.getCurrent();
+                // Do this to keep "-0.000" from being displayed  
+                if( current == 0 ) {
+                    current = 0;
+                }
                 currentTF.setText( format.format( current ) );
                 AmmeterViewGraphic.this.setBoundsDirty();
                 AmmeterViewGraphic.this.repaint();
             }
-        });
+        } );
     }
 }
