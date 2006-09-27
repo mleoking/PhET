@@ -129,4 +129,12 @@ public class CircuitNode extends PhetPNode {
     public Circuit getCircuit() {
         return cckModel.getCircuit();
     }
+
+    public boolean isElectronsVisible() {
+        return electronNode.getVisible();
+    }
+
+    public void setElectronsVisible( boolean b ) {
+        electronNode.setVisible( b );
+    }
 }

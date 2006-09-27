@@ -93,4 +93,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public void setVoltmeterVisible( boolean visible ) {
         measurementToolSetNode.setVoltmeterVisible( visible );
     }
+
+    public CircuitNode getCircuitNode() {
+        return circuitNode;
+    }
 }
