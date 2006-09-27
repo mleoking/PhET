@@ -13,6 +13,9 @@ public class SimpleObservable {
     private ArrayList observers = new ArrayList();
 
     public void addObserver( SimpleObserver so ) {
+        if( so == null ) {
+            throw new RuntimeException( "Null observer." );
+        }
         observers.add( so );
     }
 

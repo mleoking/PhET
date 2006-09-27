@@ -68,7 +68,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         }
 
         JPanel visualPanel = makeVisualPanel();
-        JPanel toolPanel = makeToolPanel();
+        JPanel toolPanel = null;
+        try {
+            toolPanel = makeToolPanel();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         JPanel sizePanel = makeSizePanel();
 
         JButton jb = new JButton( SimStrings.get( "CCK3ControlPanel.LocalHelpButton" ) );
@@ -125,8 +131,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             addControl( new ResetDynamicsButton( module ) );
         }
         addControl( Box.createVerticalStrut( 7 ) );
-//        addControl( Box.createVerticalBox( ));
-//        addControl( Box.createVerticalGlue( ));
         super.addControlFullWidth( new HelpPanel( m ) );
     }
 
@@ -169,8 +173,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         int insetX = 15;
         int insetY = 15;
         int x = module.getSimulationPanel().getWidth() - insetX - w;
-        int y = insetY;
-        grabBagButton.reshape( x, y, w, h );
+        grabBagButton.reshape( x, insetY, w, h );
     }
 
     private JPanel makeSizePanel() {
@@ -215,15 +218,15 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         return addBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel );
     }
 
-    private JPanel makeToolPanel() {
+    private JPanel makeToolPanel() throws IOException {
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout( new GridBagLayout() );
         GridBagConstraints lhs = new GridBagConstraints( 1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints rhs = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        ImageIcon voltIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/dvm-thumb.gif" ) );
-        ImageIcon nonContactAmmIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/va-thumb.gif" ) );
-        ImageIcon ammIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/ammeter60.gif" ) );
+        ImageIcon voltIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/dvm-thumb.gif" ) );
+        ImageIcon nonContactAmmIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/va-thumb.gif" ) );
+        ImageIcon ammIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ammeter60.gif" ) );
 
         final JCheckBox voltmeter = new JCheckBox( SimStrings.get( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
         voltmeter.addActionListener( new ActionListener() {
@@ -284,7 +287,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
                 e.printStackTrace();
             }
 
-            ImageIcon chartIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
+            ImageIcon chartIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
             JButton floatingChartButton = new JButton( CCKStrings.getString( "add.current.chart" ) );
             floatingChartButton.addActionListener( new ActionListener() {
@@ -296,7 +299,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             rhs.gridy++;
             lhs.gridy++;
 
-            ImageIcon voltageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/detector-thumb.gif" ) );
+            ImageIcon voltageIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
             JButton voltageChartButton = new JButton( CCKStrings.getString( "add.voltage" ) );
             voltageChartButton.addActionListener( new ActionListener() {

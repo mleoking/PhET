@@ -222,4 +222,13 @@ public class CCKModel {
         layoutElectrons( getCircuit().getBranches() );//todo should we relayout all electrons, or just adjacent
         return newJunctions;
     }
+
+    public void setCircuit( Circuit circuit ) {
+        this.circuit.setState( circuit );
+        layoutElectrons();
+    }
+
+    private void layoutElectrons() {
+        layoutElectrons( circuit.getBranches() );
+    }
 }
