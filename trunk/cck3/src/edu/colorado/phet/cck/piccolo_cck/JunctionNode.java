@@ -13,7 +13,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -88,21 +87,15 @@ public class JunctionNode extends PhetPNode {
     }
 
     private void update() {
-        shapePNode.setPathTo( createCircle( CCKModel.JUNCTION_RADIUS * 1.1 ) );
+        shapePNode.setPathTo( junction.getShape() );
         shapePNode.setStroke( createStroke( strokeWidthModelCoords * 2 ) );
 
-        highlightPNode.setPathTo( createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
+        highlightPNode.setPathTo( junction.createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
         highlightPNode.setStroke( new BasicStroke( (float)( 3.0 / 80.0 ) ) );
         highlightPNode.setVisible( junction.isSelected() );
     }
 
-    private Ellipse2D createCircle( double radius ) {
-        Ellipse2D.Double circle = new Ellipse2D.Double();
-        circle.setFrameFromCenter( junction.getX(), junction.getY(), junction.getX() + radius, junction.getY() + radius );
-        return circle;
-    }
-
-    Junction getJunction() {
+    public Junction getJunction() {
         return junction;
     }
 

@@ -1,10 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.model;
 
-import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.model.components.Capacitor;
-import edu.colorado.phet.cck.model.components.CircuitComponent;
-import edu.colorado.phet.cck.model.components.Inductor;
+import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CompositeCircuitChangeListener;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -12,6 +9,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -614,10 +612,6 @@ public class Circuit {
         }
     }
 
-    public Connection detectConnection( Shape shape ) {
-        return null;
-    }
-
     public static class DragMatch {
         Junction source;
         Junction target;
@@ -702,5 +696,64 @@ public class Circuit {
             }
         }
         return false;
+    }
+
+    public Connection detectConnection( Shape tipShape ) {
+        Branch branch = detectBranch( tipShape );
+        Junction junction = detectJunction( tipShape );
+        Connection result = null;
+        if( junction != null ) {
+            result = new Connection.JunctionConnection( junction );
+        }
+        else if( branch != null ) {
+            //could choose the closest junction
+            //but we want a potentiometer.
+            result = new Connection.JunctionConnection( branch.getStartJunction() );
+            Point2D tipCenterModel = new Point2D.Double( tipShape.getBounds2D().getCenterX(), tipShape.getBounds2D().getCenterY() );
+            Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
+            Vector2D vec = new Vector2D.Double( branchStartModel, tipCenterModel );
+            double dist = vec.getMagnitude();
+            result = new Connection.BranchConnection( branch, dist );
+        }
+        return result;
+    }
+
+    private Branch detectBranch( Shape tipShape ) {
+        Wire[]wires = getWires();
+        Wire connection = null;
+        for( int i = 0; i < wires.length; i++ ) {
+            Wire wire = wires[i];
+            Shape wireShape = wire.getShape();
+            Area area = new Area( tipShape );
+            area.intersect( new Area( wireShape ) );
+            if( !area.isEmpty() ) {
+                connection = wire;
+            }
+        }
+        return connection;
+    }
+
+    private Wire[] getWires() {
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch instanceof Wire ) {
+                list.add( branch );
+            }
+        }
+        return (Wire[])list.toArray( new Wire[0] );
+    }
+
+    private Junction detectJunction( Shape tipShape ) {
+        Junction[]junctions = getJunctions();
+        Junction detectedJunction = null;
+        for( int i = 0; i < junctions.length; i++ ) {
+            Area area = new Area( junctions[i].getShape() );
+            area.intersect( new Area( tipShape ) );
+            if( !area.isEmpty() ) {
+                detectedJunction = junctions[i];
+            }
+        }
+        return detectedJunction;
     }
 }
