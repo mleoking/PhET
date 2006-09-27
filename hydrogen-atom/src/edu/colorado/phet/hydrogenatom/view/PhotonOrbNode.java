@@ -19,34 +19,74 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
 public class PhotonOrbNode extends PhetPNode {
 
-    private static final double DIAMETER = 30;
+    private static final double DEFAULT_DIAMETER = 30;
+    private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 70 );
+    private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     
     public PhotonOrbNode( Color photonColor ) {
+        this( photonColor, DEFAULT_DIAMETER );
+    }
+    
+    public PhotonOrbNode( Color photonColor, final double diameter ) {
         super();
         
-        double outerDiameter = DIAMETER;
+        // Outer transparent ring
+        final double outerDiameter = diameter;
         Shape outerShape = new Ellipse2D.Double( -outerDiameter/2, -outerDiameter/2, outerDiameter, outerDiameter );
         Color outerColor = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 0 );
-        Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( .4 * outerDiameter, .4 * outerDiameter ), outerColor );
+        Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( 0.4 * outerDiameter, 0.4 * outerDiameter ), outerColor );
         PPath outerOrb = new PPath();
         outerOrb.setPathTo( outerShape );
         outerOrb.setPaint( outerPaint );
         outerOrb.setStroke( null );
         
-        double innerDiameter = .6 * DIAMETER;
+        // Inner orb, saturated color with hilite in center
+        final double innerDiameter = 0.6 * diameter;
         Shape innerShape = new Ellipse2D.Double( -innerDiameter/2, -innerDiameter/2, innerDiameter, innerDiameter );
-        Paint innerPaint = new RoundGradientPaint( 0, 0, new Color( 255, 255, 255, 180 ), new Point2D.Double( .25 * innerDiameter, .25 * innerDiameter ), photonColor );
+        Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColor );
         PPath innerOrb = new PPath();
         innerOrb.setPathTo( innerShape );
         innerOrb.setPaint( innerPaint );
         innerOrb.setStroke( null );
-        
+
+        // Crosshairs
+        PNode bigCrosshairs = createCrosshairs( 0.75 * outerDiameter );
+        bigCrosshairs.rotate( Math.toRadians( 45 ) );
+        PNode smallCrosshairs = createCrosshairs( 0.75 * innerDiameter );
+
         addChild( outerOrb );
         addChild( innerOrb );
+        addChild( bigCrosshairs );
+        addChild( smallCrosshairs );
+    }
+    
+    private static PNode createCrosshairs( double diameter ) {
+
+        final double crosshairWidth = diameter;
+        final double crosshairHeight = 0.15 * crosshairWidth;
+        Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
+
+        PPath crosshair1 = new PPath();
+        crosshair1.setPathTo( crosshairShape );
+        crosshair1.setPaint( CROSSHAIRS_COLOR );
+        crosshair1.setStroke( null );
+
+        PPath crosshair2 = new PPath();
+        crosshair2.setPathTo( crosshairShape );
+        crosshair2.setPaint( CROSSHAIRS_COLOR );
+        crosshair2.setStroke( null );
+        crosshair2.rotate( Math.toRadians( 90 ) );
+
+        PNode crosshairs = new PNode();
+        crosshairs.addChild( crosshair1 );
+        crosshairs.addChild( crosshair2 );
+        
+        return crosshairs;
     }
 }
