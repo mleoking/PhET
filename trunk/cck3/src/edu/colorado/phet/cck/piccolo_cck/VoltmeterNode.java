@@ -72,7 +72,7 @@ public class VoltmeterNode extends PhetPNode {
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
-        private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
+        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = SimStrings.get( "VoltmeterGraphic.UnknownVolts" );
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {

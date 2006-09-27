@@ -1,7 +1,10 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Connection;
+import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.components.Branch;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -27,8 +30,8 @@ public class VoltmeterModel {
 
     public VoltmeterModel( Circuit circuit ) {
         this.circuit = circuit;
-        redLead = new LeadModel( circuit, new Point2D.Double( 0, 0 ), Math.PI / 8 );
-        blackLead = new LeadModel( circuit, new Point2D.Double( 1, 0 ), -Math.PI / 8 );
+        redLead = new LeadModel( circuit, new Point2D.Double( -0.2, 0 ), Math.PI / 8 );
+        blackLead = new LeadModel( circuit, new Point2D.Double( 1.7, 0 ), -Math.PI / 8 );
         LeadModel.Listener listener = new LeadModel.Listener() {
             public void leadModelChanged() {
                 updateVoltage();
@@ -37,6 +40,26 @@ public class VoltmeterModel {
         redLead.addListener( listener );
         blackLead.addListener( listener );
         unitModel = new UnitModel();
+        this.bodyDragged( 3, 3 );
+        circuit.addCircuitListener( new CircuitListenerAdapter() {
+            public void branchesMoved( Branch[] branches ) {
+                testUpdate();
+            }
+
+            public void junctionsMoved() {
+                testUpdate();
+            }
+
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+                testUpdate();
+            }
+        } );
+    }
+
+    private void testUpdate() {
+        if( visible ) {
+            updateVoltage();
+        }
     }
 
     private void updateVoltage() {
@@ -51,6 +74,7 @@ public class VoltmeterModel {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+        updateVoltage();
         notifyListeners();
     }
 
