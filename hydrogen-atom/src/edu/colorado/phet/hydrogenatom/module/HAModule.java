@@ -42,7 +42,6 @@ import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -101,7 +100,7 @@ public class HAModule extends PiccoloModule {
     private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
 
-    private PhotonNode _samplePhotonNode;
+    private PhotonOrbNode _samplePhotonNode;
     private AlphaParticleNode _sampleAlphaParticleNode;
     
     private Font _spectrometerFont;
@@ -235,7 +234,7 @@ public class HAModule extends PiccoloModule {
             }
             
             //XXX sample photon and alpha particle
-            _samplePhotonNode = new PhotonNode();
+            _samplePhotonNode = new PhotonOrbNode( Color.RED );
             _sampleAlphaParticleNode = new AlphaParticleNode();
             _animationRegionNode.addChild( _samplePhotonNode );
             _animationRegionNode.addChild( _sampleAlphaParticleNode );
