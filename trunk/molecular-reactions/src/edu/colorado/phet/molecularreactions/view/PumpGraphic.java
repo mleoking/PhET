@@ -11,7 +11,9 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -64,7 +66,7 @@ public class PumpGraphic extends PNode {
                                               new MoleculeTypeSelector() );
 
         moleculeSelector.setOffset( 15 + pumpBodyPI.getWidth() / 2 - moleculeSelector.getWidth() / 2,
-                                    10 + pumpBodyPI.getHeight() );
+                                    2 + pumpBodyPI.getHeight() );
         addChild( moleculeSelector );
 
         pumpBaseLocation = new Point2D.Double( 0, pumpBodyPI.getHeight() );
@@ -152,7 +154,7 @@ public class PumpGraphic extends PNode {
         private JRadioButton bcRB;
 
         public MoleculeTypeSelector() {
-
+            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.moleculeType")) );
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();

@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.model.TemperatureControl;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -92,7 +93,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
         stoveSlider.setPaintLabels( true );
-        stoveSlider.setPreferredSize( new Dimension( 100, 60 ) );
+        stoveSlider.setPreferredSize( new Dimension( 120, 60 ) );
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 temperatureControl.setSetting( stoveSlider.getValue() );
@@ -109,19 +110,22 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
             }
         } );
 
-        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
-                                                            new Color( 40, 20, 255 ),
-                                                            Color.black ),
-                                          SimStrings.get( "Control.Heat_Control" ) );
-        stovePanel.setBorder( border );
-        stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
+//        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
+//                                                            new Color( 40, 20, 255 ),
+//                                                            Color.black ),
+//                                          SimStrings.get( "Control.Heat_Control" ) );
+//        stovePanel.setBorder( border );
+        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.Heat_Control" )) );
+//        stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
 //        Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
 
-        PSwing sliderNode = new PSwing( canvas, stoveSlider );
-        sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
+        stovePanel.add( stoveSlider );
+        PSwing sliderNode = new PSwing( canvas, stovePanel);
+//        PSwing sliderNode = new PSwing( canvas, stoveSlider );
+        sliderNode.setOffset( stoveGraphic.getWidth() + 5, -10 );
 
         return sliderNode;
     }

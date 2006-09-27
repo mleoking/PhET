@@ -29,8 +29,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class BondGraphic extends PPath implements SimpleObserver {
-    private Stroke bondStroke = new BasicStroke( 8 );
-    private Paint bondPaint = Color.gray;
+    private Stroke bondStroke = new BasicStroke( 3 );
+    private Paint bondPaint = new Color( 255, 0, 0, 180 );
     private Line2D bondLine;
     private SimpleMolecule m0;
     private SimpleMolecule m1;

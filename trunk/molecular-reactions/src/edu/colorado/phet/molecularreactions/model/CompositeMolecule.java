@@ -26,6 +26,10 @@ import java.util.*;
  * <p/>
  * A composite molecule is a molecule composed of other molecules. Its position is its
  * center of mass.
+ * <p>
+ * A CompsiteMolecule has an array of Bond instance. How they get added to the model is
+ * not the responsibility of the CompositeMolecule class. Currently (9/27/2006), the MRModel
+ * class does this itself when a CompositeMolecule is added to it.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -48,10 +52,6 @@ abstract public class CompositeMolecule extends Molecule {
             }
         }
         return n;
-    }
-
-    public Bond[] getBonds() {
-        return new Bond[]( {new Bond( getComponentMolecules()[0], getComponentMolecules()[1] ) );
     }
 
 
@@ -82,6 +82,7 @@ abstract public class CompositeMolecule extends Molecule {
     private SimpleMolecule[] components;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
+    private Bond[]bonds;
 
     /**
      * Default constructor is protected
@@ -99,6 +100,13 @@ abstract public class CompositeMolecule extends Molecule {
      */
     public CompositeMolecule( SimpleMolecule[] molecules ) {
         setComponents( molecules );
+    }
+
+    public Bond[] getBonds() {
+        if( bonds == null ) {
+            bonds = new Bond[]{new Bond( getComponentMolecules()[0], getComponentMolecules()[1] ) };
+        }
+        return bonds;
     }
 
     /**

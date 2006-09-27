@@ -42,7 +42,7 @@ public class SimpleModule extends MRModule {
         AbstractSimpleMoleculeGraphic.setMARK_SELECTED_MOLECULE( false );
 
         // create the control panel
-        setControlPanel( new SimpleMRControlPanel( this ));
+        getControlPanel().addControl( new SimpleMRControlPanel( this ));
 
         // Add Manual and Run Control buttons
         final JButton manualCtrlBtn = new JButton( SimStrings.get("Control.manualControl"));

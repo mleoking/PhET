@@ -36,6 +36,7 @@ public class SpatialView extends PNode {
     PNode moleculeLayer = new PNode();
     PNode bondLayer = new PNode();
     PNode boxLayer = new PNode();
+    private ModelElementGraphicManager megm;
 
     /**
      * @param module
@@ -54,7 +55,7 @@ public class SpatialView extends PNode {
         addChild( boxLayer );
 
         // Create the graphic manager and add required factories to it
-        ModelElementGraphicManager megm = new ModelElementGraphicManager( model, canvas );
+        megm = new ModelElementGraphicManager( model, canvas );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( moleculeLayer ) );
         megm.addGraphicFactory( new BoxGraphicFactory() );
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
@@ -65,14 +66,12 @@ public class SpatialView extends PNode {
         // Temperature control
         createTemperatureControl( model, pSwingCanvas );
 
+        // Graphic that shows the components of the reaction
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black );
-//        reactionGraphic.setOffset( 20, 100 );
         reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
                                    canvas.getHeight() - reactionGraphic.getHeight() - 20 );
         canvas.addChild( reactionGraphic );
-
     }
-
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
         TemperatureControl tempCtrl = new TemperatureControl( model );
@@ -82,6 +81,11 @@ public class SpatialView extends PNode {
         addChild( tempCtrlGraphic );
         tempCtrlGraphic.setOffset( ( model.getBox().getMaxX() + model.getBox().getMinX() ) / 2,
                                    model.getBox().getMaxY() + 30 );
+    }
+
+    public void setGraphicTypeVisible( boolean visible ) {
+        megm.setAllOfTypeVisible( BondGraphic.class, visible );
+        megm.setAllOfTypeVisible( ProvisionalBondGraphic.class, visible );
     }
 
     private void createMoleculeCounters( PPath canvas, PSwingCanvas pSwingCanvas, MRModel model ) {

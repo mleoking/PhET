@@ -42,8 +42,8 @@ public class MRModule extends Module {
         MRModel model = new MRModel( getClock() );
         setModel( model );
 
-//        // create the control panel
-//        setControlPanel( new ControlPanel() );
+        // create the control panel
+        setControlPanel( new ControlPanel() );
 //        mrControlPanel = new MRControlPanel( this );
 //        getControlPanel().addControl( mrControlPanel );
 
@@ -89,13 +89,12 @@ public class MRModule extends Module {
         return (MRModel)getModel();
     }
 
-//    public void setCountersEditable( boolean editable ) {
-//        SimpleMRControlPanel controlPanel = (SimpleMRControlPanel)getMRControlPanel();
-//        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
-//    }
-//
     public void setManualControl( boolean manualControl ) {
         getClock().pause();
         energyView.setManualControl( true );
+    }
+
+    public void setGraphicTypeVisible( boolean visible ) {
+        spatialView.setGraphicTypeVisible( visible );
     }
 }
