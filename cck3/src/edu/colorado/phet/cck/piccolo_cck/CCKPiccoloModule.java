@@ -128,10 +128,15 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public boolean isElectronsVisible() {
-        return false;
+        return getCircuitNode().isElectronsVisible();
+    }
+
+    private CircuitNode getCircuitNode() {
+        return cckSimulationPanel.getCircuitNode();
     }
 
     public void setElectronsVisible( boolean b ) {
+        getCircuitNode().setElectronsVisible( b );
     }
 
     public Rectangle2D getModelBounds() {
