@@ -162,7 +162,6 @@ public class HAConstants {
     public static final String IMAGE_MODE_PANEL = IMAGES_DIRECTORY + "modePanel.png";
     public static final String IMAGE_MODE_SWITCH_DOWN = IMAGES_DIRECTORY + "modeSwitchDown.png";
     public static final String IMAGE_MODE_SWITCH_UP = IMAGES_DIRECTORY + "modeSwitchUp.png";
-    public static final String IMAGE_PHOTON = IMAGES_DIRECTORY + "photon2.png";
     public static final String IMAGE_PLUM_PUDDING = IMAGES_DIRECTORY + "plumPudding.png";
     public static final String IMAGE_PLUM_PUDDING_BUTTON = IMAGES_DIRECTORY + "plumPuddingButton.png";
     public static final String IMAGE_SCHRODINGER_BUTTON = IMAGES_DIRECTORY + "schrodingerButton.png";
