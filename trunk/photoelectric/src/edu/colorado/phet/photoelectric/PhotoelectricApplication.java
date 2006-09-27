@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 import javax.swing.*;
@@ -65,7 +66,7 @@ public class PhotoelectricApplication extends PhetApplication {
         setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons
-        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.get( "Menu.PhotonView" ));
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.get( "Menu.PhotonView" ) );
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photoelectricModule.setPhotonViewEnabled( photonMI.isSelected() );
@@ -80,8 +81,13 @@ public class PhotoelectricApplication extends PhetApplication {
     }
 
 
-    public static void main( String[] args ) {
-        SimStrings.init( args, resourceBundleName );
-        new PhotoelectricApplication( args ).startApplication();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new PhetLookAndFeel().initLookAndFeel();
+                SimStrings.init( args, resourceBundleName );
+                new PhotoelectricApplication( args ).startApplication();
+            }
+        } );
     }
 }

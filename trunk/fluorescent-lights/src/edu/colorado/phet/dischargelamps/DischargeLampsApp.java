@@ -97,17 +97,20 @@ public class DischargeLampsApp extends PhetApplication {
     /**
      * @param args
      */
-    public static void main( String[] args ) {
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-//        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 64 ) );
-        phetLookAndFeel.initLookAndFeel();
-        // Tell SimStrings where the simulations-specific strings are
-        SimStrings.init( args, DischargeLampsConfig.localizedStringsPath );
-//        SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
-        SimStrings.setStrings( LaserConfig.localizedStringsPath );
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
 
-        DischargeLampsApp app = new DischargeLampsApp( args );
-        app.startApplication();
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.initLookAndFeel();
+                // Tell SimStrings where the simulations-specific strings are
+                SimStrings.init( args, DischargeLampsConfig.localizedStringsPath );
+                SimStrings.setStrings( LaserConfig.localizedStringsPath );
+
+                DischargeLampsApp app = new DischargeLampsApp( args );
+                app.startApplication();
+            }
+        } );
     }
 
 }
