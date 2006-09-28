@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add "Show reflection and transmission probabilities" feature
 
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
