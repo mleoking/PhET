@@ -30,7 +30,7 @@ public class HardSphereCollision implements Collision {
     private Vector2D angRel = new Vector2D.Double();
 
 
-    public void collide( Molecule moleculeA, Molecule moleculeB, MoleculeMoleculeCollisionSpec collisionSpec ) {
+    public void collide( AbstractMolecule moleculeA, AbstractMolecule moleculeB, MoleculeMoleculeCollisionSpec collisionSpec ) {
         Vector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 

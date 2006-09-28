@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeHardSphereCollisionAgent;
@@ -52,14 +51,14 @@ public class CollisionAgent implements ModelElement {
             Object o = modelElements.get( i );
 
             // Check every Molecule that is not part of a larger CompositeMolecule
-            if( o instanceof Molecule ) {
+            if( o instanceof AbstractMolecule ) {
                 boolean collidedWithMolecule = false;
-                Molecule moleculeA = (Molecule)o;
+                AbstractMolecule moleculeA = (AbstractMolecule)o;
                 if( !moleculeA.isPartOfComposite() ) {
                     for( int j = i - 1; j >= 0 && !collidedWithMolecule; j-- ) {
                         Object o2 = modelElements.get( j );
-                        if( o2 instanceof Molecule ) {
-                            Molecule moleculeB = (Molecule)o2;
+                        if( o2 instanceof AbstractMolecule ) {
+                            AbstractMolecule moleculeB = (AbstractMolecule)o2;
                             if( !moleculeB.isPartOfComposite() && moleculeA != moleculeB ) {
                                 collidedWithMolecule = moleculeMoleculeCollisionAgent.detectAndDoCollision( model,
                                                                                                             moleculeA,

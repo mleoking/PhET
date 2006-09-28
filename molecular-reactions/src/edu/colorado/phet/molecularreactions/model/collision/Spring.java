@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.molecularreactions.model.Molecule;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 
 /**
  * Spring
@@ -72,7 +72,7 @@ public class Spring {
     }
 
 
-    public void pushOnMolecule( Molecule molecule, double length, Vector2D loa ) {
+    public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2D loa ) {
 
         // NOrmalize the line of action vector
         loa.normalize();

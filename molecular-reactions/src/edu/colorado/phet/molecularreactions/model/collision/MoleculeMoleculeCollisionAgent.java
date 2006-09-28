@@ -11,15 +11,11 @@
 package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * MoleculeMoleculeCollisionAgent
@@ -61,8 +57,8 @@ public class MoleculeMoleculeCollisionAgent {
      */
     public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
-        Molecule moleculeA = (Molecule)bodyA;
-        Molecule moleculeB = (Molecule)bodyB;
+        AbstractMolecule moleculeA = (AbstractMolecule)bodyA;
+        AbstractMolecule moleculeB = (AbstractMolecule)bodyB;
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
@@ -100,8 +96,8 @@ public class MoleculeMoleculeCollisionAgent {
      * @return A CollisionSpec, if a collision occurs, otherwise return null
      */
     private MoleculeMoleculeCollisionSpec getCollisionSpec
-            ( Molecule
-                    moleculeA, Molecule
+            ( AbstractMolecule
+                    moleculeA, AbstractMolecule
                     moleculeB, double interactionDistance ) {
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
@@ -130,7 +126,7 @@ public class MoleculeMoleculeCollisionAgent {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
-                Molecule moleculeC = cmA.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmA.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeC, moleculeB, interactionDistance );
             }
             return cs;
@@ -139,7 +135,7 @@ public class MoleculeMoleculeCollisionAgent {
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
-                Molecule moleculeC = cmB.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmB.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeA, moleculeC, interactionDistance );
             }
             return cs;

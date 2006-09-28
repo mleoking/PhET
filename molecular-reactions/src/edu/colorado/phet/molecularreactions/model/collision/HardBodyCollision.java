@@ -12,16 +12,10 @@ package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
 
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * MoleculeMoleculeCollisionAgent
@@ -55,8 +49,8 @@ public class HardBodyCollision {
      */
     public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
-        Molecule moleculeA = (Molecule)bodyA;
-        Molecule moleculeB = (Molecule)bodyB;
+        AbstractMolecule moleculeA = (AbstractMolecule)bodyA;
+        AbstractMolecule moleculeB = (AbstractMolecule)bodyB;
         HardBodyCollision.CollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
@@ -77,7 +71,7 @@ public class HardBodyCollision {
     }
 
 
-    private HardBodyCollision.CollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
+    private HardBodyCollision.CollisionSpec getCollisionSpec( AbstractMolecule moleculeA, AbstractMolecule moleculeB ) {
         HardBodyCollision.CollisionSpec collisionSpec = null;
         if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
             SimpleMolecule rmA = (SimpleMolecule)moleculeA;
@@ -100,14 +94,14 @@ public class HardBodyCollision {
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             for( int j = 0; j < cmA.getComponentMolecules().length && collisionSpec == null; j++ ) {
-                Molecule moleculeC = cmA.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmA.getComponentMolecules()[j];
                 collisionSpec = getCollisionSpec( moleculeC, moleculeB );
             }
         }
         else if( moleculeB instanceof CompositeMolecule ) {
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
             for( int j = 0; j < cmB.getComponentMolecules().length && collisionSpec == null; j++ ) {
-                Molecule moleculeC = cmB.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmB.getComponentMolecules()[j];
                 collisionSpec = getCollisionSpec( moleculeA, moleculeC );
             }
         }

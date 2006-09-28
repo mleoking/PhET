@@ -26,9 +26,9 @@ import edu.colorado.phet.common.util.SimpleObserver;
  */
 public class EnergyMoleculeGraphic extends PNode implements SimpleObserver {
     private boolean showComposite;
-    private Molecule molecule;
+    private AbstractMolecule molecule;
 
-    public EnergyMoleculeGraphic( Molecule molecule ) {
+    public EnergyMoleculeGraphic( AbstractMolecule molecule ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         showComposite = molecule.isPartOfComposite();

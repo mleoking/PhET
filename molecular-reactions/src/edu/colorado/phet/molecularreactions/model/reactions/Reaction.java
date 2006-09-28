@@ -12,9 +12,7 @@ package edu.colorado.phet.molecularreactions.model.reactions;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
-import edu.colorado.phet.molecularreactions.MRConfig;
 
 /**
  * Reaction
@@ -46,7 +44,7 @@ abstract public class Reaction {
         return reactionCriteria;
     }
 
-    public boolean areCriteriaMet( Molecule bodyA, Molecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec ) {
+    public boolean areCriteriaMet( AbstractMolecule bodyA, AbstractMolecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec ) {
         boolean result = false;
         if( this.moleculesAreProperTypes( bodyA, bodyB ) ) {
             double energyThreshold = getThresholdEnergy( bodyA, bodyB );
@@ -66,7 +64,7 @@ abstract public class Reaction {
      * @param molecule2
      * @return true if the molecules are of the correct type for the reaction
      */
-    public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ) {
+    public boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 ) {
         return getReactionCriteria().moleculesAreProperTypes( molecule1, molecule2 );
     }
 
@@ -74,42 +72,42 @@ abstract public class Reaction {
 
     abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded );
 
-    abstract public double getThresholdEnergy( Molecule mA, Molecule mB );
+    abstract public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB );
 
     // The distance between the points on two molecules that can react that are closest to each other
-    abstract public double getCollisionDistance( Molecule mA, Molecule mB );
+    abstract public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB );
 
     // The vector between the points on two molecules that can react that are closest to each other, directed
     // from the first parameter molecule to the second
-    abstract public Vector2D getCollisionVector( Molecule mA, Molecule mB );
+    abstract public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB );
 
-    // Returns the potential energy of the reaction components 
-    abstract public double getPotentialEnergy( Molecule m1, Molecule m2 );
+    // Returns the potential energy of the reaction components
+    abstract public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 );
 
     //--------------------------------------------------------------------------------------------------
     // Reaction criteria
     //--------------------------------------------------------------------------------------------------
 
     public interface ReactionCriteria {
-        boolean criteriaMet( Molecule bodyA,
-                             Molecule bodyB,
+        boolean criteriaMet( AbstractMolecule bodyA,
+                             AbstractMolecule bodyB,
                              MoleculeMoleculeCollisionSpec collisionSpec,
                              double energyThreshold );
 
-        boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 );
+        boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 );
     }
 
     /**
      * Combines two simple molecules of different types into one compound molecule
      */
     class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold ) {
+        public boolean criteriaMet( AbstractMolecule m1, AbstractMolecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > energyProfile.getPeakLevel()
                    && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
                    && m1.getClass() != m2.getClass();
         }
 
-        public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ) {
+        public boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 ) {
             return true;
         }
     }
@@ -118,11 +116,11 @@ abstract public class Reaction {
      * Combines any two molecules together
      */
     class SimpleMoleculeReactionCriteria implements ReactionCriteria {
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold ) {
+        public boolean criteriaMet( AbstractMolecule m1, AbstractMolecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double energyThreshold ) {
             return m1.getKineticEnergy() + m2.getKineticEnergy() > energyProfile.getPeakLevel();
         }
 
-        public boolean moleculesAreProperTypes( Molecule molecule1, Molecule molecule2 ) {
+        public boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 ) {
             return true;
         }
     }

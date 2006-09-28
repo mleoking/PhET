@@ -31,9 +31,9 @@ public class MoleculeFactory {
      * @param moleculeParamGenerator
      * @return a molecule
      */
-    public static Molecule createMolecule( Class moleculeClass,
+    public static AbstractMolecule createMolecule( Class moleculeClass,
                                            MoleculeParamGenerator moleculeParamGenerator ) {
-        Molecule molecule = null;
+        AbstractMolecule molecule = null;
         MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
         Point2D position = params.getPosition();
         Vector2D velocity = params.getVelocity();
@@ -60,7 +60,7 @@ public class MoleculeFactory {
         }
         else {
             try {
-                molecule = (Molecule)moleculeClass.newInstance();
+                molecule = (AbstractMolecule)moleculeClass.newInstance();
             }
             catch( InstantiationException e ) {
                 e.printStackTrace();

@@ -47,7 +47,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
      * @param m2
      * @return
      */
-    public double getPotentialEnergy( Molecule m1, Molecule m2 ) {
+    public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 ) {
         double pe = 0;
         if( m1 instanceof MoleculeAB || m2 instanceof MoleculeAB ) {
             pe = getEnergyProfile().getLeftLevel();
@@ -69,7 +69,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
      * @param mB
      * @return
      */
-    public double getThresholdEnergy( Molecule mA, Molecule mB ) {
+    public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB ) {
         double thresholdEnergy = 0;
         if( mA instanceof MoleculeA && mB instanceof MoleculeBC ) {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
@@ -125,7 +125,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
      * @param mBC
      * @param mA
      */
-    private void doReactionII( Molecule mAB, Molecule mBC, Molecule mA ) {
+    private void doReactionII( AbstractMolecule mAB, AbstractMolecule mBC, AbstractMolecule mA ) {
         model.removeModelElement( mAB );
         model.addModelElement( mBC );
         mA.setParentComposite( null );
@@ -178,12 +178,12 @@ public class A_AB_BC_C_Reaction extends Reaction {
         return moleculeToKeep;
     }
 
-    public double getCollisionDistance( Molecule mA, Molecule mB ) {
+    public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB ) {
         Vector2D v = getCollisionVector( mA, mB );
         return v == null ? Double.NaN : v.getMagnitude();
     }
 
-    public Vector2D getCollisionVector( Molecule mA, Molecule mB ) {
+    public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
         Vector2D v = null;
         if( moleculesAreProperTypes( mA, mB ) ) {
 
@@ -246,7 +246,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
             this.energyProfile = energyProfile;
         }
 
-        public boolean criteriaMet( Molecule m1, Molecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double thresholdEnergy ) {
+        public boolean criteriaMet( AbstractMolecule m1, AbstractMolecule m2, MoleculeMoleculeCollisionSpec collisionSpec, double thresholdEnergy ) {
             boolean result = false;
 
             // The simple molecule must have collided with the B simple
@@ -296,7 +296,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
          * @param m2
          * @return true if the molecules are the proper type for the reaction
          */
-        public boolean moleculesAreProperTypes( Molecule m1, Molecule m2 ) {
+        public boolean moleculesAreProperTypes( AbstractMolecule m1, AbstractMolecule m2 ) {
 
             // We need to have one simple molecule and one composite molecule
             boolean firstClassificationCriterionMet = false;
@@ -334,7 +334,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
             return secondClassificationCriterionMet;
         }
 
-        private static double getRelKE( Molecule m1, Molecule m2 ) {
+        private static double getRelKE( AbstractMolecule m1, AbstractMolecule m2 ) {
             // Determine the kinetic energy in the collision. We consider this to be the
             // kinetic energy of an object whose mass is equal to the total masses of
             // the two molecules, moving at a speed equal to the magnitude of the

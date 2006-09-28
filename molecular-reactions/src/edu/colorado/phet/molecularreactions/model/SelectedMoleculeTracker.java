@@ -83,7 +83,7 @@ public class SelectedMoleculeTracker implements ModelElement,
             }
             if( moleculeTracked instanceof MoleculeB ) {
                 CompositeMolecule cm = (CompositeMolecule)moleculeTracked.getParentComposite();
-                Molecule[] components = cm.getComponentMolecules();
+                AbstractMolecule[] components = cm.getComponentMolecules();
                 if( components[0] == moleculeTracked ) {
                     nearestMoleculeType = components[1].getClass();
                 }

@@ -109,7 +109,7 @@ public class PumpGraphic extends PNode {
                 // Add molecules to the model
                 if( dy > 0 ) {
                     if( dySinceLastMolecule > 20 ) {
-                        Molecule newMolecule = createMolecule();
+                        AbstractMolecule newMolecule = createMolecule();
                         model.addModelElement( newMolecule );
                         // If the molecule create is a composite, add its components
                         if( newMolecule instanceof CompositeMolecule ) {
@@ -128,7 +128,7 @@ public class PumpGraphic extends PNode {
             }
         }
 
-        private Molecule createMolecule() {
+        private AbstractMolecule createMolecule() {
             double x = model.getBox().getMaxX() - 20;
             double y = model.getBox().getMaxY() - 100;
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
@@ -137,7 +137,7 @@ public class PumpGraphic extends PNode {
                                                                                                     .1,
                                                                                                     Math.PI * 3 / 4,
                                                                                                     Math.PI * 5 / 4 );
-            Molecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
+            AbstractMolecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
                                                                    moleculeParamGenerator );
             return newMolecule;
         }
