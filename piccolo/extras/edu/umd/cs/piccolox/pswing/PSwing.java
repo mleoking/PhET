@@ -302,6 +302,8 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
         // Start with the rendering hints from the provided graphics context
         bufferedGraphics.setRenderingHints( g2.getRenderingHints() );
+        
+        //PSwing sometimes causes JComponent text to render with "..." when fractional font metrics are enabled.  These are now always disabled for the offscreen buffer.
         bufferedGraphics.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
 
         // Draw the component to the buffer
