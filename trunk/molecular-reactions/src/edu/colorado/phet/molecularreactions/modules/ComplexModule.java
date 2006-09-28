@@ -15,7 +15,6 @@ import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -128,7 +127,7 @@ public class ComplexModule extends MRModule {
                 List modelElements = model.getModelElements();
                 for( int i = modelElements.size() - 1; i >= 0; i-- ) {
                     Object o = modelElements.get( i );
-                    if( o instanceof Molecule
+                    if( o instanceof AbstractMolecule
                         || o instanceof ProvisionalBond ) {
                         ModelElement modelElement = (ModelElement)o;
                         model.removeModelElement( modelElement );

@@ -34,19 +34,19 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class CompositeMolecule extends Molecule {
+abstract public class CompositeMolecule extends AbstractMolecule {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private static int numSimpleMolecules( Molecule molecule ) {
+    private static int numSimpleMolecules( AbstractMolecule molecule ) {
         int n = 0;
         if( molecule instanceof SimpleMolecule ) {
             n = 1;
         }
         else if( molecule instanceof CompositeMolecule ) {
-            Molecule[] components = ( (CompositeMolecule)molecule ).components;
+            AbstractMolecule[] components = ( (CompositeMolecule)molecule ).components;
             for( int i = 0; i < components.length; i++ ) {
                 n += numSimpleMolecules( components[i] );
             }
@@ -118,7 +118,7 @@ abstract public class CompositeMolecule extends Molecule {
         this.components = components;
         // Tell each of the components that they are now part of a composite
         for( int i = 0; i < components.length; i++ ) {
-            Molecule component = components[i];
+            AbstractMolecule component = components[i];
             component.setParentComposite( this );
         }
 
@@ -204,7 +204,7 @@ abstract public class CompositeMolecule extends Molecule {
      *
      * @param components
      */
-    private void computeKinematicsFromComponents( Molecule[] components ) {
+    private void computeKinematicsFromComponents( AbstractMolecule[] components ) {
 
         computeCM();
         double mass = 0;
@@ -213,7 +213,7 @@ abstract public class CompositeMolecule extends Molecule {
         Vector3D angularMomentum = new Vector3D();
         Vector2D compositeCmToComponentCm = new Vector2D.Double();
         for( int i = 0; i < components.length; i++ ) {
-            Molecule component = components[i];
+            AbstractMolecule component = components[i];
             mass += component.getMass();
             Vector2D momentum = new Vector2D.Double( component.getVelocity() ).scale( component.getMass() );
             compositeMomentum.add( momentum );
@@ -232,8 +232,8 @@ abstract public class CompositeMolecule extends Molecule {
         }
     }
 
-    protected Molecule getMoleculeOfType( Class moleculeType ) {
-        Molecule m = null;
+    protected AbstractMolecule getMoleculeOfType( Class moleculeType ) {
+        AbstractMolecule m = null;
         for( int i = 0; i < components.length && m == null; i++ ) {
             if( moleculeType.isInstance( components[i] ) ) {
                 m = components[i];
@@ -248,9 +248,9 @@ abstract public class CompositeMolecule extends Molecule {
     }
 
     public void translate( double dx, double dy ) {
-        Molecule[] components = getComponentMolecules();
+        AbstractMolecule[] components = getComponentMolecules();
         for( int i = 0; components != null && i < components.length; i++ ) {
-            Molecule component = components[i];
+            AbstractMolecule component = components[i];
             component.translate( dx, dy );
         }
     }
@@ -280,7 +280,7 @@ abstract public class CompositeMolecule extends Molecule {
         double ySum = 0;
         double massSum = 0;
         for( int i = 0; i < components.length; i++ ) {
-            Molecule component = components[i];
+            AbstractMolecule component = components[i];
             double mass = component.getMass();
             xSum += mass * component.getCM().getX();
             ySum += mass * component.getCM().getY();
@@ -293,7 +293,7 @@ abstract public class CompositeMolecule extends Molecule {
         double moi = 0;
         Point2D cm = this.getCM();
         for( int i = 0; i < components.length; i++ ) {
-            Molecule component = components[i];
+            AbstractMolecule component = components[i];
             double dist = cm.distance( component.getCM() );
             double mOfIComponent = component.getMomentOfInertia() + component.getMass()
                                                                     * dist * dist;

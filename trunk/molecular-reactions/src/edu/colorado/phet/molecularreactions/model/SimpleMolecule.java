@@ -25,7 +25,7 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimpleMolecule extends Molecule implements Selectable {
+public class SimpleMolecule extends AbstractMolecule implements Selectable {
 
     private double radius;
     private Rectangle2D boundingBox = new Rectangle2D.Double();

@@ -14,12 +14,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.Molecule;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.util.SimpleObserver;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
 import java.awt.*;
 
@@ -35,8 +34,8 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
     private Stroke lineStroke = new BasicStroke( 3 );
     private Paint linePaint = Color.red;
     private Dimension bounds;
-    private Molecule moleculeBeingTracked;
-    private Molecule nearestToMoleculeBeingTracked;
+    private AbstractMolecule moleculeBeingTracked;
+    private AbstractMolecule nearestToMoleculeBeingTracked;
     private Reaction reaction;
     private double scale;
 

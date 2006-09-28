@@ -58,8 +58,8 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
      */
     public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
-        Molecule moleculeA = (Molecule)bodyA;
-        Molecule moleculeB = (Molecule)bodyB;
+        AbstractMolecule moleculeA = (AbstractMolecule)bodyA;
+        AbstractMolecule moleculeB = (AbstractMolecule)bodyB;
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
@@ -93,7 +93,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
      * @param moleculeB
      * @return A CollisionSpec, if a collision occurs, otherwise return null
      */
-    private MoleculeMoleculeCollisionSpec getCollisionSpec( Molecule moleculeA, Molecule moleculeB ) {
+    private MoleculeMoleculeCollisionSpec getCollisionSpec( AbstractMolecule moleculeA, AbstractMolecule moleculeB ) {
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // If both the molecules are simple molecules, we can determine if they are colliding
@@ -122,7 +122,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
-                Molecule moleculeC = cmA.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmA.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeC, moleculeB );
             }
             return cs;
@@ -131,7 +131,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             CompositeMolecule cmB = (CompositeMolecule)moleculeB;
             MoleculeMoleculeCollisionSpec cs = null;
             for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
-                Molecule moleculeC = cmB.getComponentMolecules()[j];
+                AbstractMolecule moleculeC = cmB.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeA, moleculeC );
             }
             return cs;
@@ -163,7 +163,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Create a composite molecule if ReactionCriteria are met
-        if( model.getReaction().areCriteriaMet( (Molecule)bodyA, (Molecule)bodyB, collisionSpec ) ) {
+        if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA, (AbstractMolecule)bodyB, collisionSpec ) ) {
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
 

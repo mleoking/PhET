@@ -14,7 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
-import edu.colorado.phet.molecularreactions.model.Molecule;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 
@@ -44,11 +44,11 @@ public class MoleculeBoxCollisionAgent {
     public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
         Box2D box = null;
-        Molecule molecule;
+        AbstractMolecule molecule;
         if( bodyA instanceof Box2D ) {
             box = (Box2D)bodyA;
-            if( bodyB instanceof Molecule ) {
-                molecule = (Molecule)bodyB;
+            if( bodyB instanceof AbstractMolecule ) {
+                molecule = (AbstractMolecule)bodyB;
             }
             else {
                 throw new RuntimeException( "bad args" );
@@ -56,8 +56,8 @@ public class MoleculeBoxCollisionAgent {
         }
         else if( bodyB instanceof Box2D ) {
             box = (Box2D)bodyB;
-            if( bodyA instanceof Molecule ) {
-                molecule = (Molecule)bodyA;
+            if( bodyA instanceof AbstractMolecule ) {
+                molecule = (AbstractMolecule)bodyA;
             }
             else {
                 throw new RuntimeException( "bad args" );
@@ -79,16 +79,16 @@ public class MoleculeBoxCollisionAgent {
         }
     }
 
-    private boolean detectCollision( Molecule molecule, Vector2D velocity, Box2D box ) {
+    private boolean detectCollision( AbstractMolecule molecule, Vector2D velocity, Box2D box ) {
         boolean collisionDetected = false;
 
         velocity = molecule.getVelocity();
 
         if( molecule instanceof CompositeMolecule ) {
             CompositeMolecule compositeMolecule = (CompositeMolecule)molecule;
-            Molecule[] components = compositeMolecule.getComponentMolecules();
+            AbstractMolecule[] components = compositeMolecule.getComponentMolecules();
             for( int i = 0; i < components.length && !collisionDetected; i++ ) {
-                Molecule component = components[i];
+                AbstractMolecule component = components[i];
                 collisionDetected = detectCollision( component, velocity, box );
             }
         }
@@ -149,7 +149,7 @@ public class MoleculeBoxCollisionAgent {
     }
 
 
-    public void doCollision( Molecule molecule, Vector2D loa, Point2D.Double collisionPt ) {
+    public void doCollision( AbstractMolecule molecule, Vector2D loa, Point2D.Double collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = molecule.getKineticEnergy() /*+ bodyB.getKineticEnergy()*/;

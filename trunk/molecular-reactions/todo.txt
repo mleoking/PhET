@@ -1,3 +1,4 @@
+- Clean up code by using Molecule.useFull<xxx>
 - halo isn't shown for selected molecule
 - CM marker isn't shown for nearest-to-selected molecule
 - When the selected molecule is removed from the Complex module, the energy view still tracks it
@@ -18,7 +19,6 @@ Collision Issues
 ====
 Bugs
 ====
-- Provisional bonds aren't appearing between 
 - Provisional bonds should be based on the collision distance
 - Hard collision in reaction isn't conservative
 - Spring collision
@@ -28,7 +28,6 @@ Bugs
 - Amount of energy needed to get to reaction is delta from floor, not absolute value
 - Should kinetic energy increase if compound molecule has lower floor?
 - How should selection/higlighting work? Use CM instead of halo.
-- Composite molecules should have specified space between the components
 
 ==========
 Internal

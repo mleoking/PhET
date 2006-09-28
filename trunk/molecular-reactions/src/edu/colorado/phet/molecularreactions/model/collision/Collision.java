@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.molecularreactions.model.Molecule;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 
 /**
  * Collision
@@ -19,7 +19,7 @@ import edu.colorado.phet.molecularreactions.model.Molecule;
  * @version $Revision$
  */
 public interface Collision {
-    void collide( Molecule mA, Molecule mB, MoleculeMoleculeCollisionSpec collisionSpec );
+    void collide( AbstractMolecule mA, AbstractMolecule mB, MoleculeMoleculeCollisionSpec collisionSpec );
 
     double getInteractionDistance();
 }

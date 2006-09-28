@@ -34,7 +34,7 @@ public class SpringCollision implements Collision {
         this.spring = spring;
     }
 
-    public void collide( Molecule mA, Molecule mB, MoleculeMoleculeCollisionSpec collisionSpec ) {
+    public void collide( AbstractMolecule mA, AbstractMolecule mB, MoleculeMoleculeCollisionSpec collisionSpec ) {
 
         // If the edges of the body are closer than the max length of
         // the spring, the magnitude of the force will > 0
@@ -100,7 +100,7 @@ public class SpringCollision implements Collision {
         }
     }
 
-    private void doReaction( Molecule moleculeA, Molecule moleculeB, MoleculeMoleculeCollisionSpec collisionSpec ) {
+    private void doReaction( AbstractMolecule moleculeA, AbstractMolecule moleculeB, MoleculeMoleculeCollisionSpec collisionSpec ) {
         SimpleMolecule simpleMolecule = null;
         CompositeMolecule compositeMolecule = null;
 
@@ -177,7 +177,7 @@ public class SpringCollision implements Collision {
         }
 
 
-        public void pushOnMolecule( Molecule molecule, double length, Vector2D loa ) {
+        public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2D loa ) {
 
             // NOrmalize the line of action vector
             loa.normalize();

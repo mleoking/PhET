@@ -17,8 +17,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
@@ -34,7 +32,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class MoleculeCounter extends JSpinner implements PublishingModel.ModelListener,
-                                                         Molecule.ClassListener {
+                                                         AbstractMolecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
     private int cnt;
@@ -55,7 +53,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
         this.moleculeClass = moleculeClass;
         this.model = model;
         model.addListener( this );
-        Molecule.addClassListener( this );
+        AbstractMolecule.addClassListener( this );
 
         Rectangle2D r = model.getBox().getBounds();
         Rectangle2D generatorBounds = new Rectangle2D.Double( r.getMinX() + 20,
@@ -81,7 +79,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                         Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
                                                         model.getBox().getMinY() + 120 );
                         Vector2D v = new Vector2D.Double( 2, 2 );
-                        Molecule m = MoleculeFactory.createMolecule( moleculeClass,
+                        AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
                                                                      moleculeParamGenerator );
                         addMoleculeToModel( m, model );
                         cnt++;
@@ -92,8 +90,8 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
                         List modelElements = model.getModelElements();
                         for( int j = modelElements.size() - 1; j >= 0; j-- ) {
                             Object o = modelElements.get( j );
-                            if( moleculeClass.isInstance( o ) && !( (Molecule)o ).isPartOfComposite() ) {
-                                Molecule molecule = (Molecule)o;
+                            if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() ) {
+                                AbstractMolecule molecule = (AbstractMolecule)o;
                                 removeMoleculeFromModel( molecule, model );
                                 cnt--;
                                 break;
@@ -124,7 +122,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
         tf.setForeground( Color.black );
     }
 
-    private void addMoleculeToModel( Molecule m, MRModel model ) {
+    private void addMoleculeToModel( AbstractMolecule m, MRModel model ) {
         model.addModelElement( m );
         if( m instanceof CompositeMolecule ) {
             SimpleMolecule[] components = m.getComponentMolecules();
@@ -136,7 +134,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
         }
     }
 
-    private void removeMoleculeFromModel( Molecule molecule, MRModel model ) {
+    private void removeMoleculeFromModel( AbstractMolecule molecule, MRModel model ) {
         model.removeModelElement( molecule );
         if( molecule instanceof CompositeMolecule ) {
             SimpleMolecule[] components = molecule.getComponentMolecules();
@@ -152,7 +150,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
         int n = 0;
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
-            if( moleculeClass.isInstance( o ) && !( (Molecule)o ).isPartOfComposite() ) {
+            if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() ) {
                 n++;
             }
         }
@@ -180,7 +178,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
     // Implementation of Molecule.ClassListener
     //--------------------------------------------------------------------------------------------------
 
-    public void statusChanged( Molecule molecule ) {
+    public void statusChanged( AbstractMolecule molecule ) {
         setMoleculeCount();
     }
 }

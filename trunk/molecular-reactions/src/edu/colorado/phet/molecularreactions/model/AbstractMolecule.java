@@ -11,16 +11,12 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 
 import java.util.EventListener;
-import java.util.EventObject;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 
@@ -30,13 +26,13 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class Molecule extends Body implements Collidable {
+abstract public class AbstractMolecule extends Body implements Collidable {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     public static interface ClassListener extends EventListener {
-        void statusChanged( Molecule molecule );
+        void statusChanged( AbstractMolecule molecule );
     }
 
     public static EventChannel classEventChannel = new EventChannel( ClassListener.class );
@@ -57,12 +53,12 @@ abstract public class Molecule extends Body implements Collidable {
     private CollidableAdapter collidableAdapter;
     private CompositeMolecule parentComposite;
 
-    protected Molecule() {
+    protected AbstractMolecule() {
         this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
         collidableAdapter = new CollidableAdapter( this );
     }
 
-    protected Molecule( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    protected AbstractMolecule( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         collidableAdapter = new CollidableAdapter( this );
     }
