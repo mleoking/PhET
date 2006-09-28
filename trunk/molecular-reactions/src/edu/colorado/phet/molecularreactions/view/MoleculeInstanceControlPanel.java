@@ -65,16 +65,16 @@ public class MoleculeInstanceControlPanel extends JPanel {
                                                          insets,
                                                          0, 0 );
         add( aLabel, gbc );
-        add( abLabel, gbc );
         add( bcLabel, gbc );
+        add( abLabel, gbc );
         add( cLabel, gbc );
 
         gbc.gridx = 1;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.WEST;
         add( aMC, gbc );
-        add( abMC, gbc );
         add( bcMC, gbc );
+        add( abMC, gbc );
         add( cMC, gbc );
     }
 
