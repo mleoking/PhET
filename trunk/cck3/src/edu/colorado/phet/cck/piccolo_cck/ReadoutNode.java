@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -69,12 +70,33 @@ public class ReadoutNode extends PhetPNode {
         Shape shape = branch.getShape();
         Point2D pt = new Point2D.Double( shape.getBounds2D().getCenterX() - htmlNode.getFullBounds().getWidth() / 2,
                                          shape.getBounds2D().getY() - htmlNode.getFullBounds().getHeight() );
+        if( isVertical() ) {
+            pt = new Point2D.Double( shape.getBounds2D().getMaxX(), shape.getBounds2D().getCenterY() - htmlNode.getFullBounds().getHeight() / 2 );
+        }
         htmlNode.setOffset( pt );
         Point2D ctr = new Point2D.Double( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
         double distToCenter = pt.distance( ctr );
         linePNode.setVisible( distToCenter > 1.0 );
         Point2D textSource = new Point2D.Double( htmlNode.getFullBounds().getCenterX(), htmlNode.getFullBounds().getMaxY() );
+        if( isVertical() ) {
+            textSource = new Point2D.Double( htmlNode.getFullBounds().getX(), htmlNode.getFullBounds().getCenterY() );
+        }
         linePNode.setPathTo( new Line2D.Double( textSource, ctr ) );
+    }
+
+    private boolean isVertical() {
+        double angle = branch.getAngle();
+        while( angle < 0 ) {
+            angle += Math.PI * 2;
+        }
+        while( angle > Math.PI * 2 ) {
+            angle -= Math.PI * 2;
+        }
+//        System.out.println( "angle = " + angle );
+
+        boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
+        boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;
+        return up || down;
     }
 
     private String toHTML( String[] text ) {
@@ -93,6 +115,9 @@ public class ReadoutNode extends PhetPNode {
     }
 
     protected String[] getText() {
+        if( branch instanceof Battery ) {
+            return getBatteryText();
+        }
         double r = branch.getResistance();
         if( branch instanceof Switch ) {
             Switch swit = (Switch)branch;
@@ -109,6 +134,20 @@ public class ReadoutNode extends PhetPNode {
 
         String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
+    }
+
+    private String[] getBatteryText() {
+        boolean internal = module.isInternalResistanceOn();
+        double volts = Math.abs( branch.getVoltageDrop() );
+        String vol = formatter.format( volts );
+        String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
+        ArrayList text = new ArrayList();
+        text.add( str );
+        if( internal ) {
+            String s2 = formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
+            text.add( s2 );
+        }
+        return (String[])text.toArray( new String[0] );
     }
 
     protected String abs( String vol ) {
@@ -129,24 +168,24 @@ public class ReadoutNode extends PhetPNode {
         return abs( formatter.format( amplitude ) );
     }
 
-    public static class BatteryReadoutNode extends ReadoutNode {
-
-        public BatteryReadoutNode( ICCKModule module, Branch branch, JComponent panel, boolean visible, DecimalFormat decimalFormatter ) {
-            super( module, branch, panel, decimalFormatter );
-        }
-
-        protected String[] getText() {
-            boolean internal = module.isInternalResistanceOn();
-            double volts = Math.abs( branch.getVoltageDrop() );
-            String vol = formatter.format( volts );
-            String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
-            ArrayList text = new ArrayList();
-            text.add( str );
-            if( internal ) {
-                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
-                text.add( s2 );
-            }
-            return (String[])text.toArray( new String[0] );
-        }
-    }
+//    public static class BatteryReadoutNode extends ReadoutNode {
+//
+//        public BatteryReadoutNode( ICCKModule module, Branch branch, JComponent panel, boolean visible, DecimalFormat decimalFormatter ) {
+//            super( module, branch, panel, decimalFormatter );
+//        }
+//
+//        protected String[] getText() {
+//            boolean internal = module.isInternalResistanceOn();
+//            double volts = Math.abs( branch.getVoltageDrop() );
+//            String vol = formatter.format( volts );
+//            String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
+//            ArrayList text = new ArrayList();
+//            text.add( str );
+//            if( internal ) {
+//                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
+//                text.add( s2 );
+//            }
+//            return (String[])text.toArray( new String[0] );
+//        }
+//    }
 }
