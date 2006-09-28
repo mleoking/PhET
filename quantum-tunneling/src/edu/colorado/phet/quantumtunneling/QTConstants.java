@@ -168,7 +168,7 @@ public class QTConstants {
     public static final Range DEFAULT_PROBABILITY_DENSITY_RANGE = PROBABILITY_DENSITY_ZOOM_SPECS[ DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX ].getRange();
     
     // Position
-    public static final Range POSITION_RANGE = new Range( -4, 8 ); // nm
+    public static final Range POSITION_RANGE = new Range( -8, 12 ); // nm
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
