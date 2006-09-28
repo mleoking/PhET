@@ -44,4 +44,5 @@ public class MRConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_DIRECTORY + "ice.gif";
     public static final String PUMP_BODY_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
     public static final String PUMP_HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "pump-handle.gif";
+    public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;
 }

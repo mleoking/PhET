@@ -376,7 +376,15 @@ abstract public class CompositeMolecule extends Molecule {
         return numSimpleMolecules( this );
     }
 
-    public double getKineticEnergy() {
-        return super.getKineticEnergy();
+    public double getFullMass(){
+        return getMass();
+    };
+
+    public double getFullKineticEnergy(){
+        return getKineticEnergy();
+    }
+
+    public Point2D getFullCM() {
+        return getCM();
     }
 }

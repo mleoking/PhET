@@ -71,6 +71,36 @@ public class SimpleMolecule extends Molecule implements Selectable {
         return radius * radius * getMass() / 2;
     }
 
+    // Mass of molecule, or parent composite
+    public double getFullMass() {
+        if( isPartOfComposite() ) {
+            return getParentComposite().getMass();
+        }
+        else {
+            return getMass();
+        }
+    }
+
+    // Kinetic energy of molecule or parent composite
+    public double getFullKineticEnergy() {
+        if( isPartOfComposite() ) {
+            return getParentComposite().getKineticEnergy();
+        }
+        else {
+            return getKineticEnergy();
+        }
+    }
+
+    // CM of molecule or parent composite
+    public Point2D getFullCM() {
+        if( isPartOfComposite() ) {
+            return getParentComposite().getCM();
+        }
+        else {
+            return getCM();
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Implementation of Selectable
     //--------------------------------------------------------------------------------------------------
