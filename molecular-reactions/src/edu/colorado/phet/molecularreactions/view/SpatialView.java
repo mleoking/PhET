@@ -87,25 +87,25 @@ public class SpatialView extends PNode {
         megm.setAllOfTypeVisible( ProvisionalBondGraphic.class, visible );
     }
 
-    private void createMoleculeCounters( PPath canvas, PSwingCanvas pSwingCanvas, MRModel model ) {
-        int xSpacing = (int)canvas.getWidth() / 5;
-        MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
-        aCounter.setOffset( 1 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
-                            canvas.getHeight() );
-        addChild( aCounter );
-        MoleculeCounterPNode abCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeAB.class );
-        abCounter.setOffset( 2 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
-                             canvas.getHeight() );
-        addChild( abCounter );
-        MoleculeCounterPNode bcCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeBC.class );
-        bcCounter.setOffset( 3 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
-                             canvas.getHeight() );
-        addChild( bcCounter );
-        MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
-        cCounter.setOffset( 4 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
-                            canvas.getHeight() );
-        addChild( cCounter );
-    }
+//    private void createMoleculeCounters( PPath canvas, PSwingCanvas pSwingCanvas, MRModel model ) {
+//        int xSpacing = (int)canvas.getWidth() / 5;
+//        MoleculeCounterPNode aCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeA.class );
+//        aCounter.setOffset( 1 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+//                            canvas.getHeight() );
+//        addChild( aCounter );
+//        MoleculeCounterPNode abCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeAB.class );
+//        abCounter.setOffset( 2 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+//                             canvas.getHeight() );
+//        addChild( abCounter );
+//        MoleculeCounterPNode bcCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeBC.class );
+//        bcCounter.setOffset( 3 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+//                             canvas.getHeight() );
+//        addChild( bcCounter );
+//        MoleculeCounterPNode cCounter = new MoleculeCounterPNode( pSwingCanvas, model, MoleculeC.class );
+//        cCounter.setOffset( 4 * xSpacing - aCounter.getFullBounds().getWidth() / 2,
+//                            canvas.getHeight() );
+//        addChild( cCounter );
+//    }
 
     //--------------------------------------------------------------------------------------------------
     // Graphic factory classes
