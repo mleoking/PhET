@@ -302,6 +302,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
         // Start with the rendering hints from the provided graphics context
         bufferedGraphics.setRenderingHints( g2.getRenderingHints() );
+        bufferedGraphics.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
 
         // Draw the component to the buffer
         component.paint( bufferedGraphics );
