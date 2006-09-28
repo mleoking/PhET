@@ -52,18 +52,6 @@ public class StepSolver extends AbstractPlaneSolver {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the coefficient B, the amplitude of the reflected wave.
-     * 
-     * @return Complex
-     */
-    public Complex getB() {
-        if ( _B == null ) {
-            solve( 0, 0 );
-        }
-        return _B;
-    }
-    
-    /**
      * Solves the wave function.
      * 
      * @param x position, in nm
@@ -177,5 +165,17 @@ public class StepSolver extends AbstractPlaneSolver {
      */
     private static Complex getDenominator( Complex k1, Complex k2 ) {
         return k1.getAdd( k2 );
+    }
+    
+    /**
+     * Gets the coefficient B, the amplitude of the reflected wave.
+     * 
+     * @return Complex
+     */
+    public Complex getB() {
+        if ( _B == null ) {
+            solve( 0, 0 );
+        }
+        return _B;
     }
 }

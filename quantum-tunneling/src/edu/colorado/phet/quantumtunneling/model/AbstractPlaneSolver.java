@@ -140,12 +140,31 @@ public abstract class AbstractPlaneSolver {
     }
     
     /**
+     * Gets the reflection probability.
+     * 
+     * @return
+     */
+    public double getReflectionProbability() {
+        Complex B = getB();
+        return ( B.getReal() * B.getReal() ) + ( B.getImaginary() * B.getImaginary() );
+    }
+    
+    /**
+     * Gets the transmission probability.
+     * 
+     * @return
+     */
+    public double getTransmissionProbability() {
+        return 1 - getReflectionProbability();
+    }
+    
+    /**
      * Gets the coefficient B, the amplitude of the reflected wave.
      * This is used elsewhere to calculate the relection and transmission probabilities.
      * 
      * @return Complex
      */
-    public abstract Complex getB();
+    protected abstract Complex getB();
     
     /**
      * Gets the boundary position between two regions.
