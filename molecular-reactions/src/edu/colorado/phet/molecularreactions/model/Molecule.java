@@ -132,14 +132,6 @@ abstract public class Molecule extends Body implements Collidable {
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
-    //  Abstract methods
-    //--------------------------------------------------------------------------------------------------
-
-    abstract public SimpleMolecule[] getComponentMolecules();
-
-    abstract public Rectangle2D getBoundingBox();
-
     public void applyForce( Vector2D force, Point2D ptOfApplication ) {
 
         // Compute the torque
@@ -155,4 +147,21 @@ abstract public class Molecule extends Body implements Collidable {
         this.setAcceleration( force.getX() / this.getMass(),
                               force.getY() / this.getMass());
     }
+
+    //--------------------------------------------------------------------------------------------------
+    //  Abstract methods
+    //--------------------------------------------------------------------------------------------------
+
+    abstract public SimpleMolecule[] getComponentMolecules();
+
+    abstract public Rectangle2D getBoundingBox();
+
+    // Mass of molecule, or parent composite
+    abstract public double getFullMass();
+
+    // Kinetic energy of molecule or parent composite
+    abstract public double getFullKineticEnergy();
+
+    // CM of molecule or parent composite
+    abstract public Point2D getFullCM();
 }

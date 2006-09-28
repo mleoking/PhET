@@ -114,6 +114,14 @@ public class EnergyView extends PNode implements SimpleObserver {
                                                                               curveColor );
         curveLayer.addChild( energyProfileGraphic );
 
+        // Create the line that shows total energy
+        Rectangle2D curveAreaBounds = new Rectangle2D.Double( insets.left,
+                                                              insets.top,
+                                                              curveAreaSize.getWidth(),
+                                                              curveAreaSize.getHeight());
+        TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model );
+        curveLayer.addChild( totalEnergyLine );
+
         // Create the cursor
         cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
         cursor.setVisible( false );

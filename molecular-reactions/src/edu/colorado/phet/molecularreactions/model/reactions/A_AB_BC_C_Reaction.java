@@ -41,6 +41,27 @@ public class A_AB_BC_C_Reaction extends Reaction {
     }
 
     /**
+     * Returns the potential energy of the reaction components
+     *
+     * @param m1
+     * @param m2
+     * @return
+     */
+    public double getPotentialEnergy( Molecule m1, Molecule m2 ) {
+        double pe = 0;
+        if( m1 instanceof MoleculeAB || m2 instanceof MoleculeAB ) {
+            pe = getEnergyProfile().getLeftLevel();
+        }
+        else if( m1 instanceof MoleculeBC || m2 instanceof MoleculeBC ) {
+            pe = getEnergyProfile().getRightLevel();
+        }
+        else {
+            throw new RuntimeException( "internal error" );
+        }
+        return pe;
+    }
+
+    /**
      * Returns the energy between the floor associated with the composite molecule in
      * a potential reaction, and the reaction's threshold peak
      *

@@ -83,6 +83,9 @@ abstract public class Reaction {
     // from the first parameter molecule to the second
     abstract public Vector2D getCollisionVector( Molecule mA, Molecule mB );
 
+    // Returns the potential energy of the reaction components 
+    abstract public double getPotentialEnergy( Molecule m1, Molecule m2 );
+
     //--------------------------------------------------------------------------------------------------
     // Reaction criteria
     //--------------------------------------------------------------------------------------------------
