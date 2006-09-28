@@ -460,6 +460,7 @@ public class QTControlPanel extends AbstractControlPanel {
      */
     public void setRtpSelected( boolean selected ) {
         _rtpCheckBox.setSelected( selected );
+        handleRtpSelection();
     }
     
     /**
