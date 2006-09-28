@@ -73,6 +73,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private QTModule _module;
     private PotentialComboBox _potentialComboBox;
     private JCheckBox _showValuesCheckBox;
+    private JCheckBox _rtpCheckBox; // rtp = refection & transmission probability
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
     private JPanel _irPanel;
@@ -127,6 +128,22 @@ public class QTControlPanel extends AbstractControlPanel {
             layout.addComponent( _showValuesCheckBox, 2, 1 );
             energyPanel.setLayout( new BorderLayout() );
             energyPanel.add( innerPanel, BorderLayout.WEST );
+        }
+        
+        // Probability
+        JPanel probabilityPanel = new JPanel();
+        {
+            _rtpCheckBox = new JCheckBox( SimStrings.get( "label.rtProbability" ) );
+            
+            // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, INDENTATION );
+            layout.addComponent( _rtpCheckBox, 0, 1 );
+            probabilityPanel.setLayout( new BorderLayout() );
+            probabilityPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Wave Function View 
@@ -326,6 +343,9 @@ public class QTControlPanel extends AbstractControlPanel {
             addControlFullWidth( energyPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
+            addControlFullWidth( probabilityPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
             addControlFullWidth( viewPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
@@ -348,6 +368,7 @@ public class QTControlPanel extends AbstractControlPanel {
             _listener = new EventListener();
             _potentialComboBox.addItemListener( _listener );
             _showValuesCheckBox.addActionListener( _listener );
+            _rtpCheckBox.addActionListener( _listener );
             _realCheckBox.addActionListener( _listener );
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
@@ -431,6 +452,22 @@ public class QTControlPanel extends AbstractControlPanel {
      */
     public boolean isShowValuesSelected() {
         return _showValuesCheckBox.isSelected();
+    }
+    
+    /**
+     * Determines whether the "reflection and transmission probability" checkbox is checked.
+     * @param selected
+     */
+    public void setRtpSelected( boolean selected ) {
+        _rtpCheckBox.setSelected( selected );
+    }
+    
+    /**
+     * Is the "reflection and transmission probability" checkbox is checked?
+     * @return true or false
+     */
+    public boolean isRtpSelected() {
+        return _rtpCheckBox.isSelected();
     }
     
     /**
@@ -628,28 +665,33 @@ public class QTControlPanel extends AbstractControlPanel {
 
         public void actionPerformed( ActionEvent event ) {
 
-            if ( event.getSource() == _showValuesCheckBox ) {
+            Object source = event.getSource();
+            
+            if ( source == _showValuesCheckBox ) {
                 handleShowValuesSelection();
             }
-            else if ( event.getSource() == _realCheckBox ) {
+            else if ( source == _rtpCheckBox ) {
+                handleRtpSelection();
+            }
+            else if ( source == _realCheckBox ) {
                 handleRealSelection();
             }
-            else if ( event.getSource() == _imaginaryCheckBox ) {
+            else if ( source == _imaginaryCheckBox ) {
                 handleImaginarySelection();
             }
-            else if ( event.getSource() == _magnitudeCheckBox ) {
+            else if ( source == _magnitudeCheckBox ) {
                 handleMagnitudeSelection();
             }
-            else if ( event.getSource() == _phaseCheckBox ) {
+            else if ( source == _phaseCheckBox ) {
                 handlePhaseSelection();
             }
-            else if ( event.getSource() == _separateRadioButton || event.getSource() == _sumRadioButton ) {
+            else if ( source == _separateRadioButton || source == _sumRadioButton ) {
                 handleIRViewSelection();
             }
-            else if ( event.getSource() == _leftToRightRadioButton || event.getSource() == _rightToLeftRadioButton ) {
+            else if ( source == _leftToRightRadioButton || source == _rightToLeftRadioButton ) {
                 handleDirectionSelection();
             }
-            else if ( event.getSource() == _planeWaveRadioButton || event.getSource() == _wavePacketRadioButton ) {
+            else if ( source == _planeWaveRadioButton || source == _wavePacketRadioButton ) {
                 handleWaveTypeSelection();
             }
             else {
@@ -658,10 +700,11 @@ public class QTControlPanel extends AbstractControlPanel {
         }
         
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _widthSlider ) {
+            Object source = event.getSource();
+            if ( source == _widthSlider ) {
                 handleWidthSlider();
             }
-            else if ( event.getSource() == _centerSlider ) {
+            else if ( source == _centerSlider ) {
                 handleCenterSlider();
             }
             else {
@@ -747,5 +790,9 @@ public class QTControlPanel extends AbstractControlPanel {
     private void handleCenterSlider() {
         double center = _centerSlider.getValue();
         _module.setWavePacketCenter( center );
+    }
+    
+    private void handleRtpSelection() {
+        _module.setRtpVisible( _rtpCheckBox.isSelected() );
     }
 }
