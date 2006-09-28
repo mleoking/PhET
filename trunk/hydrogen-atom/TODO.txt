@@ -5,6 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- use bold for all text
+- change magenta photons in GunTypeControl and LegendPanel to some visible color
+- lighten blue electron
+- add a wiggle me to the gun on/off button
+- check how photon looks with UV color
 - change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 - make stuff in view (beam, gun, etc) observers of PhotonGun
 - work out details of mapping between model and view coordinate systems
