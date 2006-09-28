@@ -11,17 +11,13 @@
 
 package edu.colorado.phet.piccolo.nodes;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
-import javax.swing.JLabel;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
-
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.View;
+import java.awt.*;
 
 /**
  * HTMLNode is a Piccolo node for rendering HTML text.
@@ -34,14 +30,14 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
     private static final Color DEFAULT_HTML_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private String html;
     private Font font;
     private Color htmlColor;
@@ -52,11 +48,11 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public HTMLNode() {
         this( "", DEFAULT_FONT, DEFAULT_HTML_COLOR );
     }
-    
+
     public HTMLNode( String html ) {
         this( html, DEFAULT_FONT, DEFAULT_HTML_COLOR );
     }
@@ -72,10 +68,10 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the HTML string.
-     * 
+     *
      * @return HTML string
      */
     public String getHTML() {
@@ -84,17 +80,19 @@ public class HTMLNode extends PNode {
 
     /**
      * Sets the HMTL string.
-     * 
+     *
      * @param html
      */
     public void setHTML( String html ) {
-        this.html = html;
-        update();
+        if( !this.html.equals( html ) ) {
+            this.html = html;
+            update();
+        }
     }
-    
+
     /**
      * Gets the font.
-     * 
+     *
      * @return the font
      */
     public Font getFont() {
@@ -103,7 +101,7 @@ public class HTMLNode extends PNode {
 
     /**
      * Sets the font.
-     * 
+     *
      * @param font
      */
     public void setFont( Font font ) {
@@ -114,17 +112,17 @@ public class HTMLNode extends PNode {
     /**
      * Gets the color used to render the HTML.
      * If you want to get the paint used for the node, use getPaint.
-     * 
+     *
      * @return
      */
     public Color getHTMLColor() {
         return htmlColor;
     }
-    
+
     /**
      * Sets the color used to render the HTML.
      * If you want to set the paint used for the node, use setPaint.
-     * 
+     *
      * @param color
      */
     public void setHTMLColor( Color color ) {
@@ -135,11 +133,11 @@ public class HTMLNode extends PNode {
     //----------------------------------------------------------------------------
     // Update handler
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Updates everything that is involved in rendering the HTML string.
-     * This method is called when one the HTML-related properties is modified.
-     */
+    * Updates everything that is involved in rendering the HTML string.
+    * This method is called when one the HTML-related properties is modified.
+    */
     private void update() {
         htmlLabel.setText( html );
         htmlLabel.setFont( font );
@@ -150,17 +148,17 @@ public class HTMLNode extends PNode {
         setBounds( htmlLabel.getBounds() );
         repaint();
     }
-    
+
     //----------------------------------------------------------------------------
     // PNode overrides
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Paints the node.
-     * The HTML string is painted last, so it appears on top of any child nodes.
-     * 
-     * @param paintContext
-     */
+    * Paints the node.
+    * The HTML string is painted last, so it appears on top of any child nodes.
+    * 
+    * @param paintContext
+    */
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
         if( htmlLabel.getWidth() == 0 || htmlLabel.getHeight() == 0 ) {
