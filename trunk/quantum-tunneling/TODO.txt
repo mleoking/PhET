@@ -16,6 +16,8 @@ LOW PRIORITY:
 
 
 DONE:
+1.06.01...
+(9/27/06) - change position range to [-8,12] nm
 (8/24/06) - remove AbstractModule.setHelpEnabled override, problem was fixed by PhetFrameWorkaround
 (7/27/06) - remove special chars from Spanish JNLP file, causes JDOM SAX parser to throw exception
 (7/12/06) - change codebase tag in JNLP files to work with PhET installer
