@@ -140,6 +140,14 @@ public abstract class AbstractPlaneSolver {
     }
     
     /**
+     * Gets the coefficient B, the amplitude of the reflected wave.
+     * This is used elsewhere to calculate the relection and transmission probabilities.
+     * 
+     * @return Complex
+     */
+    public abstract Complex getB();
+    
+    /**
      * Gets the boundary position between two regions.
      * <p>
      * If the wave direction is right-to-left, flip the region indicies.

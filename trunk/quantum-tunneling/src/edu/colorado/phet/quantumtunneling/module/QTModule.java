@@ -12,7 +12,6 @@
 package edu.colorado.phet.quantumtunneling.module;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.RenderingHints;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -43,6 +42,8 @@ import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTModuleConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
+import edu.colorado.phet.quantumtunneling.view.AbstractProbabilityNode.ReflectionProbabilityNode;
+import edu.colorado.phet.quantumtunneling.view.AbstractProbabilityNode.TransmissionProbabilityNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -93,6 +94,8 @@ public class QTModule extends AbstractModule implements Observer {
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
     private QTRegionMarkerManager _regionMarkerManager;
+    private ReflectionProbabilityNode _reflectionProbabilityNode;
+    private TransmissionProbabilityNode _transmissionProbabilityNode;
     
     // Plots
     private EnergyPlot _energyPlot;
@@ -260,6 +263,12 @@ public class QTModule extends AbstractModule implements Observer {
         _regionMarkerManager.addPlot( _energyPlot );
         _regionMarkerManager.addPlot( _waveFunctionPlot );
         _regionMarkerManager.addPlot( _probabilityDensityPlot );
+        
+        // Reflection and transmission probability displays
+        _reflectionProbabilityNode = new ReflectionProbabilityNode();
+        _parentNode.addChild( _reflectionProbabilityNode );
+        _transmissionProbabilityNode = new TransmissionProbabilityNode();
+        _parentNode.addChild( _transmissionProbabilityNode );
         
         //----------------------------------------------------------------------------
         // Control
@@ -517,6 +526,9 @@ public class QTModule extends AbstractModule implements Observer {
             transform.translate( 0, 0 ); // registration point = upper left
             _probabilityDensityZoomControl.setTransform( transform );
         }
+        
+        // Reflection and transmission probabilities
+        updateRtp();
     }
     
     //----------------------------------------------------------------------------
@@ -928,6 +940,7 @@ public class QTModule extends AbstractModule implements Observer {
         resetClock();
         _planeWave.setNotifyEnabled( true );
         _wavePacket.setNotifyEnabled( true );
+        updateRtp();
     }
     
     /**
@@ -1017,6 +1030,9 @@ public class QTModule extends AbstractModule implements Observer {
         _legend.setColorScheme( colorScheme );
         // Region markers...
         _regionMarkerManager.setMarkerColor( colorScheme.getRegionMarkerColor() );
+        // Reflection and transmission probabilities...
+        _reflectionProbabilityNode.setColorScheme( colorScheme );
+        _transmissionProbabilityNode.setColorScheme( colorScheme );
     }
     
     /**
@@ -1061,7 +1077,47 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setRtpVisible( boolean selected ) {
-        System.out.println( "setRTPVisible " + selected );
+        _reflectionProbabilityNode.setVisible( selected );
+        _transmissionProbabilityNode.setVisible( selected );
+    }
+    
+    /*
+     * Updates the display of reflection and transmission probabilities.
+     */
+    private void updateRtp()
+    {
+        Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
+        
+        Direction direction = _planeWave.getDirection();
+        
+        AbstractProbabilityNode leftNode = null;
+        AbstractProbabilityNode rightNode = null;
+        if ( direction == Direction.LEFT_TO_RIGHT ) {
+            leftNode = _reflectionProbabilityNode;
+            rightNode = _transmissionProbabilityNode;
+        }
+        else {
+            leftNode = _transmissionProbabilityNode; 
+            rightNode = _reflectionProbabilityNode;
+        }
+        
+        double x, y;
+        final double margin = 15;
+        final double yFudge = 10;
+        
+        AffineTransform leftTransform = new AffineTransform();
+        x = probabilityDensityPlotBounds.getX() + margin;
+        y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
+        leftTransform.translate( x, y );
+        leftTransform.translate( 0, 0 ); // registration point = upper left
+        leftNode.setTransform( leftTransform );
+        
+        AffineTransform rightTransform = new AffineTransform();
+        x = probabilityDensityPlotBounds.getX() + probabilityDensityPlotBounds.getWidth() - margin;
+        y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
+        rightTransform.translate( x, y );
+        rightTransform.translate( -rightNode.getFullBounds().getWidth(), 0 ); // registration point = upper right
+        rightNode.setTransform( rightTransform );
     }
     
     //----------------------------------------------------------------------------

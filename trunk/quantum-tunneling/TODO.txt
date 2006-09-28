@@ -17,9 +17,12 @@ LOW PRIORITY:
 
 
 DONE:
-(9/28/06) - add RT probabilites to Save/Load feature
-(9/28/06) - add RT probabilites to Reset All feature
-(9/28/06) - add "Show RT probabilities" checkbox to control panel
+(9/28/06) - add nodes for RTP, position properly, wire to visibilty and direction controls
+(9/28/06) - add getB() method to all plane wave solvers, for RTP support
+(9/28/06) - add RTP support to Save/Load feature
+(9/28/06) - add RTP support to Reset All feature
+(9/28/06) - add RTP checkbox to control panel
+(9/28/06) - start work on RTP (reflection and transmission probabilities) feature
 1.06.01...
 (9/27/06) - change position range to [-8,12] nm
 (8/24/06) - remove AbstractModule.setHelpEnabled override, problem was fixed by PhetFrameWorkaround

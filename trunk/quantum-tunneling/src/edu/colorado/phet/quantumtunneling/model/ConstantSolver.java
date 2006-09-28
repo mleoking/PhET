@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
@@ -42,6 +43,16 @@ public class ConstantSolver extends AbstractPlaneSolver {
     //----------------------------------------------------------------------------
     // AbstractPlaneSolver implementation
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the coefficient B, the amplitude of the reflected wave.
+     * This coefficient is always zero for constant potentials.
+     * 
+     * @return Complex
+     */
+    public Complex getB() {
+        return Complex.ZERO;
+    }
     
     /**
      * Solves the wave function.
