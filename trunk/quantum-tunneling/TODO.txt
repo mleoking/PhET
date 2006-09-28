@@ -3,9 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
+- set RTP values correctly for plane waves and wave packets
 
 HIGH PRIORITY:
-- add "Show reflection and transmission probabilities" feature
+- add RTP (reflection and transmission probabilities) feature
 
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
