@@ -2,17 +2,17 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Switch;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ public class ReadoutNode extends PhetPNode {
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 
     protected DecimalFormat formatter;
+    private PPath linePNode;
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;
@@ -46,45 +47,34 @@ public class ReadoutNode extends PhetPNode {
         htmlNode.setPaint( foregroundColor );
         htmlNode.setShadowColor( backgroundColor );
         htmlNode.setShadowOffset( 1, 1 );
-//            panel, text, font, out.x, out.y, foregroundColor, dx, dy, backgroundColor );
-        htmlNode.setVisible( false );
+        htmlNode.setScale( 1.0 / 80.0 );
+
+        branch.addObserver( new SimpleObserver() {
+            public void update() {
+                recompute();
+            }
+        } );
+        addChild( htmlNode );
+        setPickable( false );
+        setChildrenPickable( false );
+
+        linePNode = new PhetPPath( new BasicStroke( 1.0f / 60.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f / 80.0f, new float[]{5.0f / 60.0f, 5.0f / 60.0f}, 0 ), Color.blue );
+        addChild( linePNode );
 
         recompute();
-        setVisible( false );
     }
 
     public void recompute() {
-        String[] text = getText();
-        //For debugging,
-        //text+=" V=" + vol;
-        AbstractVector2D vec = new Vector2D.Double( branch.getStartJunction().getPosition(),
-                                                    branch.getEndJunction().getPosition() );
-        vec = vec.getScaledInstance( .5 );
-        Point2D pt = vec.getDestination( branch.getStartJunction().getPosition() );
-        double angle = branch.getAngle();
-        while( angle < 0 ) {
-            angle += Math.PI * 2;
-        }
-        while( angle > Math.PI * 2 ) {
-            angle -= Math.PI * 2;
-        }
-//        System.out.println( "angle = " + angle );
-
-        boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
-        boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;
-        if( up || down ) {
-            pt = new Point2D.Double( pt.getX() + CCKModel.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
-        }
-        else {
-            pt = new Point2D.Double( pt.getX(), pt.getY() + CCKModel.BATTERY_DIMENSION.getHeight() * .3 );
-        }
-        pt = new Point2D.Double( pt.getX() + CCKModel.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
-
-        htmlNode.setHtml( toHTML( text ) );
-//        Rectangle2D bounds = textGraphic.getFullBounds();
-        htmlNode.setOffset( branch.getEndPoint() );
-//        out = new Point( (int)( out.getX() - bounds.getWidth() ), (int)( out.getY() - bounds.getHeight() ) );
-//        textGraphic.setPosition( out.x, out.y );
+        htmlNode.setHtml( toHTML( getText() ) );
+        Shape shape = branch.getShape();
+        Point2D pt = new Point2D.Double( shape.getBounds2D().getCenterX() - htmlNode.getFullBounds().getWidth() / 2,
+                                         shape.getBounds2D().getY() - htmlNode.getFullBounds().getHeight() );
+        htmlNode.setOffset( pt );
+        Point2D ctr = new Point2D.Double( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
+        double distToCenter = pt.distance( ctr );
+        linePNode.setVisible( distToCenter > 1.0 );
+        Point2D textSource = new Point2D.Double( htmlNode.getFullBounds().getCenterX(), htmlNode.getFullBounds().getMaxY() );
+        linePNode.setPathTo( new Line2D.Double( textSource, ctr ) );
     }
 
     private String toHTML( String[] text ) {
@@ -117,7 +107,6 @@ public class ReadoutNode extends PhetPNode {
         cur = abs( cur );
         vol = abs( vol );
 
-//        String text = "R=" + res + " I=" + cur;
         String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }

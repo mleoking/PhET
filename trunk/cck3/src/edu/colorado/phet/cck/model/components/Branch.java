@@ -9,6 +9,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -294,4 +295,6 @@ public abstract class Branch extends SimpleObservableDebug {
     public void setKirkhoffEnabled( boolean kirkhoffEnabled ) {
         this.kirkhoffEnabled = kirkhoffEnabled;
     }
+
+    public abstract Shape getShape();
 }
