@@ -114,6 +114,7 @@ class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.
                                 : closestToTracked;
             Vector2D v = reaction.getCollisionVector( cm, sm );
             double d = Math.abs( ( minX + maxX ) / 2 - energyCursor.getOffset().getX() );
+//            double d = Math.abs( ( minX + maxX ) / 2 - energyCursor.getOffset().getX() );
             double dx = ( d - v.getMagnitude() ) / 2;
             cm.translate( -dx, 0 );
             sm.translate( dx, 0 );

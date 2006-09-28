@@ -108,6 +108,34 @@ public class SimpleModule extends MRModule {
                 model.addModelElement( m2 );
 
                 m2.setSelectionStatus( Selectable.SELECTED );
+                /*
+                SimpleMolecule m1 = new MoleculeC();
+                double yLoc = model.getBox().getMinY() + 80;
+                double xLoc = model.getBox().getMinX() + model.getBox().getWidth() / 2;
+                m1.setPosition( xLoc, yLoc );
+//                m1.setPosition( 180, yLoc );
+                m1.setVelocity( 0, 0 );
+                model.addModelElement( m1 );
+                SimpleMolecule m1a = new MoleculeB();
+                m1a.setPosition( xLoc, m1.getPosition().getY()+ m1.getRadius() + m1a.getRadius() );
+//                m1a.setPosition( m1.getPosition().getX() + m1.getRadius() + m1a.getRadius(), yLoc );
+                m1a.setVelocity( 0, 0 );
+                model.addModelElement( m1a );
+
+                CompositeMolecule cm = new MoleculeBC( new SimpleMolecule[]{m1, m1a} );
+                cm.setOmega( 0 );
+                cm.setVelocity( 0, 0 );
+                model.addModelElement( cm );
+
+                SimpleMolecule m2 = new MoleculeA();
+                m2.setPosition( xLoc, model.getBox().getMaxY() - 50 );
+//                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setVelocity( 0, -4 );
+                model.addModelElement( m2 );
+
+                m2.setSelectionStatus( Selectable.SELECTED );
+                */
+
             }
         }
     }

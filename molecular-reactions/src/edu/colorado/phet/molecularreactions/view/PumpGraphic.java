@@ -187,16 +187,16 @@ public class PumpGraphic extends PNode {
                                                              GridBagConstraints.HORIZONTAL,
                                                              insets, 0, 0 );
             add( aRB, gbc );
-            add( abRB, gbc );
             add( bcRB, gbc );
+            add( abRB, gbc );
             add( cRB, gbc );
             gbc.gridy = 0;
             gbc.gridy = GridBagConstraints.RELATIVE;
             gbc.gridx = 1;
             gbc.anchor = iconAnchor;
             add( new JLabel( new MoleculeIcon( MoleculeA.class ) ), gbc );
-            add( new JLabel( new MoleculeIcon( MoleculeAB.class ) ), gbc );
             add( new JLabel( new MoleculeIcon( MoleculeBC.class ) ), gbc );
+            add( new JLabel( new MoleculeIcon( MoleculeAB.class ) ), gbc );
             add( new JLabel( new MoleculeIcon( MoleculeC.class ) ), gbc );
 
             aRB.setSelected( true );

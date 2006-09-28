@@ -25,6 +25,9 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MoleculeIcon extends ImageIcon {
+    // The amount the second component of a composite molecule icon needs
+    // to be offset in order for it to look like it's touching the other component
+    private int contactOffset = -2;
 
     public MoleculeIcon( Class moleculeClass ) {
         PNode pNode = null;
@@ -45,7 +48,7 @@ public class MoleculeIcon extends ImageIcon {
             pNode = new PNode();
             pNode.addChild( aNode );
             pNode.addChild( bNode );
-            bNode.setOffset( aNode.getFullBounds().getWidth(), 0 );
+            bNode.setOffset( aNode.getFullBounds().getWidth() + contactOffset, 0 );
         }
         if( moleculeClass == MoleculeBC.class ) {
             PNode bNode = new IconGraphic( new MoleculeB() );
@@ -53,7 +56,7 @@ public class MoleculeIcon extends ImageIcon {
             pNode = new PNode();
             pNode.addChild( bNode );
             pNode.addChild( cNode );
-            cNode.setOffset( bNode.getFullBounds().getWidth(), 0 );
+            cNode.setOffset( bNode.getFullBounds().getWidth() + contactOffset, 0 );
         }
         image = pNode.toImage();
         this.setImage( image );

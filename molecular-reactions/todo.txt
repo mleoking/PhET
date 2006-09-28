@@ -68,11 +68,16 @@ Done
 09-11-06 - Don't allow user to add B molecules
 09-11-06 - Allow user to add/remove AB and BC molecules
 09-18-06 - Molecule counters should be spinners
+09-23-06 - Created glass molecule graphics and box
 09-24-06 - Removed B counter from control panel
 09-24-06 - Molecules appear in the right place in the energy view, and are controlled by cursor bar
 09-24-06 - Pump molecules into box with constrained directions of travel
-09-26-06 - no markings on the molecules in Simple module
+09-25-06 - no markings on the molecules in Simple module
+09-25-06 - Bonds shown on all composite molecules
 09-26-06 - Molecules in energy view don't move under manual control
 09-26-06 - Removed Bond[] from CompositeMolecule?
 09-26-06 - Provisional bonds show up between bound molecules that they shouldn't
+09-26-06 - Added reaction legends to bottom of panels
+09-27-06 - Added borders around molecule type selection panels
 09-27-06 - Added option to show/hide bonds
+09-27-06 - Plugged memory leak on ProvisionalBond
