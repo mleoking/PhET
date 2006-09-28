@@ -113,7 +113,7 @@ public class HTMLNode extends PNode {
      * Gets the color used to render the HTML.
      * If you want to get the paint used for the node, use getPaint.
      *
-     * @return
+     * @return the color used to render the HTML.
      */
     public Color getHTMLColor() {
         return htmlColor;
