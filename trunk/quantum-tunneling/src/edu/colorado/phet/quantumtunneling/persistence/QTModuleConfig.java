@@ -45,6 +45,7 @@ public class QTModuleConfig implements QTSerializable {
     // Control properties
     private String _potentialTypeName;
     private boolean _showValuesSelected;
+    private boolean _rtpSelected;
     private boolean _realSelected;
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
@@ -69,7 +70,7 @@ public class QTModuleConfig implements QTSerializable {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public void setClockRunning( boolean clockRunning ) {
         _clockRunning = clockRunning;
     }
@@ -228,6 +229,14 @@ public class QTModuleConfig implements QTSerializable {
     
     public void setShowValuesSelected( boolean showValuesSelected ) {
         _showValuesSelected = showValuesSelected;
+    }
+    
+    public boolean isRtpSelected() {
+        return _rtpSelected;
+    }
+
+    public void setRtpSelected( boolean rtpSelected ) {
+        _rtpSelected = rtpSelected;
     }
     
     //----------------------------------------------------------------------------

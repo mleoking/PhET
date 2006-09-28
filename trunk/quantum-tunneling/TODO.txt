@@ -17,6 +17,9 @@ LOW PRIORITY:
 
 
 DONE:
+(9/28/06) - add RT probabilites to Save/Load feature
+(9/28/06) - add RT probabilites to Reset All feature
+(9/28/06) - add "Show RT probabilities" checkbox to control panel
 1.06.01...
 (9/27/06) - change position range to [-8,12] nm
 (8/24/06) - remove AbstractModule.setHelpEnabled override, problem was fixed by PhetFrameWorkaround

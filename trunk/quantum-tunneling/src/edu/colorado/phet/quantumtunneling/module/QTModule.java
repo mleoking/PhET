@@ -546,6 +546,7 @@ public class QTModule extends AbstractModule implements Observer {
         {
             _controlPanel.setPotentialType( PotentialType.SINGLE_BARRIER );
             _controlPanel.setShowValuesSelected( false );
+            _controlPanel.setRtpSelected( false );
             _controlPanel.setRealSelected( true );
             _controlPanel.setImaginarySelected( false );
             _controlPanel.setMagnitudeSelected( false );
@@ -582,6 +583,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Control panel
         config.savePotentialType( _controlPanel.getPotentialType() );
         config.setShowValuesSelected( _controlPanel.isShowValuesSelected() );
+        config.setRtpSelected( _controlPanel.isRtpSelected() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
@@ -624,6 +626,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Control panel
         _controlPanel.setPotentialType( config.loadPotentialType() );
         _controlPanel.setShowValuesSelected( config.isShowValuesSelected() );
+        _controlPanel.setRtpSelected( config.isRtpSelected() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
@@ -1055,6 +1058,10 @@ public class QTModule extends AbstractModule implements Observer {
             richardsonSolver = (RichardsonSolver) solver;
         }
         return richardsonSolver;
+    }
+    
+    public void setRtpVisible( boolean selected ) {
+        System.out.println( "setRTPVisible " + selected );
     }
     
     //----------------------------------------------------------------------------
