@@ -45,16 +45,6 @@ public class ConstantSolver extends AbstractPlaneSolver {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the coefficient B, the amplitude of the reflected wave.
-     * This coefficient is always zero for constant potentials.
-     * 
-     * @return Complex
-     */
-    public Complex getB() {
-        return Complex.ZERO;
-    }
-    
-    /**
      * Solves the wave function.
      * <p>
      * The closed-form solution is:
@@ -85,5 +75,15 @@ public class ConstantSolver extends AbstractPlaneSolver {
      */
     protected void updateCoefficients() {
         // constant solution has no coefficients      
+    }
+    
+    /**
+     * Gets the coefficient B, the amplitude of the reflected wave.
+     * This coefficient is always zero for constant potentials.
+     * 
+     * @return Complex
+     */
+    protected Complex getB() {
+        return Complex.ZERO;
     }
 }
