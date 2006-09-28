@@ -20,6 +20,7 @@ LOW PRIORITY:
 DONE:
 (9/28/06) - add nodes for RTP, position properly, wire to visibilty and direction controls
 (9/28/06) - add getB() method to all plane wave solvers, for RTP support
+(9/28/06) - add RTP support to Color Scheme feature, uses annotation color
 (9/28/06) - add RTP support to Save/Load feature
 (9/28/06) - add RTP support to Reset All feature
 (9/28/06) - add RTP checkbox to control panel
