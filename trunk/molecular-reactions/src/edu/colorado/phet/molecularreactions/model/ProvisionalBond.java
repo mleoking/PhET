@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
@@ -27,7 +28,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ProvisionalBond implements ModelElement {
+public class ProvisionalBond extends SimpleObservable implements ModelElement {
     SimpleMolecule[] molecules;
     private double maxBondLength;
     private MRModel model;
@@ -48,6 +49,7 @@ public class ProvisionalBond implements ModelElement {
         if( dist > maxBondLength ) {
             model.removeModelElement( this );
         }
+        notifyObservers();
     }
 
     /**
