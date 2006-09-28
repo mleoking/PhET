@@ -106,6 +106,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setAllReadoutsVisible( boolean r ) {
+        getCircuitNode().setAllReadoutsVisible( r );
     }
 
     public void setCircuit( Circuit circuit ) {

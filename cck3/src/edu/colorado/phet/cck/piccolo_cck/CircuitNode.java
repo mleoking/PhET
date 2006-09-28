@@ -40,6 +40,7 @@ public class CircuitNode extends PhetPNode {
                 branchGraphics.add( branchNode );
                 addChild( branchNode );
                 electronNode.moveToFront();
+                readoutNode.moveToFront();
             }
 
             public void junctionAdded( Junction junction ) {
@@ -47,6 +48,7 @@ public class CircuitNode extends PhetPNode {
                 junctionGraphics.add( node );
                 addChild( node );
                 electronNode.moveToFront();
+                readoutNode.moveToFront();
             }
 
             public void junctionRemoved( Junction junction ) {
@@ -57,6 +59,7 @@ public class CircuitNode extends PhetPNode {
                     }
                 }
                 electronNode.moveToFront();
+                readoutNode.moveToFront();
             }
 
             public void selectionChanged() {
@@ -70,6 +73,7 @@ public class CircuitNode extends PhetPNode {
                     ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
                 }
                 electronNode.moveToFront();
+                readoutNode.moveToFront();
             }
 
             public void branchRemoved( Branch branch ) {
@@ -81,12 +85,14 @@ public class CircuitNode extends PhetPNode {
                     }
                 }
                 electronNode.moveToFront();
+                readoutNode.moveToFront();
             }
         } );
         electronNode = new ElectronSetNode( cckModel );
         addChild( electronNode );
 
         readoutNode = new ReadoutSetNode( module, circuit );
+        readoutNode.setVisible( false );
         addChild( readoutNode );
     }
 
@@ -144,5 +150,9 @@ public class CircuitNode extends PhetPNode {
 
     public void setElectronsVisible( boolean b ) {
         electronNode.setVisible( b );
+    }
+
+    public void setAllReadoutsVisible( boolean visible ) {
+        readoutNode.setVisible( visible );
     }
 }

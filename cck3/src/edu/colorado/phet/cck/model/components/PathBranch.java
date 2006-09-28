@@ -1,11 +1,15 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.model.components;
 
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -26,6 +30,19 @@ public class PathBranch extends Branch {
     public Point2D getPosition( double x ) {
         Location seg = getLocation( x );
         return seg.getPoint2D();
+    }
+
+    public Shape getShape() {
+        return new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
+    }
+
+    public GeneralPath getPath() {
+        DoubleGeneralPath path = new DoubleGeneralPath( startPoint );
+        for( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment)segments.get( i );
+            path.lineTo( segment.getEnd() );
+        }
+        return path.getGeneralPath();
     }
 
     public class Location {

@@ -5,6 +5,8 @@ import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -54,4 +56,9 @@ public abstract class CircuitComponent extends Branch {
         this.height = height;
     }
 
+    public Shape getShape() {
+        Line2D.Double line = new Line2D.Double( getStartPoint(), getEndPoint() );
+        Stroke stroke = new BasicStroke( (float)( height / 2.0 ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+        return stroke.createStrokedShape( line );
+    }
 }
