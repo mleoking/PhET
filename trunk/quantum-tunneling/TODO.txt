@@ -3,10 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
-- set RTP values correctly for plane waves and wave packets
 
 HIGH PRIORITY:
-- add RTP (reflection and transmission probabilities) feature
 
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
@@ -18,6 +16,11 @@ LOW PRIORITY:
 
 
 DONE:
+(9/29/06) - when wave function solution is zero, set R=? T=?
+(9/29/06) - if wave packet's initial position is in last region, R=0 and T=1
+(9/29/06) - if wave packet's initial position is not in first/last region, set R=?, T=?
+(9/29/06) - change AbstractProbabilityNode to observe AbstractWave
+(9/29/06) - rewrite RTP model, put interface in AbstractWave
 (9/29/06) - hook up RTP view to model
 (9/28/06) - add AbstractPlaneWaveSolver.getReflectionProbabity and getTransmissionProbability
 (9/28/06) - add nodes for RTP, position properly, wire to visibilty and direction controls

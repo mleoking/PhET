@@ -47,6 +47,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double _saveCenter;
     private double _saveWidth;
     private double _saveTotalEnergy;
+    private AbstractPlaneSolver _planeSolver; // used to calculate reflection probability
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,6 +69,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _saveCenter = _center;
         _saveWidth = _width;
         _saveTotalEnergy = 0; // don't care what this value is
+        _planeSolver = null;
     }
     
     /**
@@ -95,6 +97,56 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
      */
     public boolean isInitialized() {
         return ( _te != null && _pe != null );
+    }
+    
+    /**
+     * Gets the reflection probability.
+     * A return value < 0 indicates that reflection probability
+     * doesn't make sense for the state of the wave.
+     * <p>
+     * Wave packet uses a plane wave to determine the reflection probability.
+     * The solution is the same for a plane wave and wave packet.
+     * (This is sort of a hack, but was necessary since this feature
+     * was added many months after the sim was release.)
+     * 
+     * @return double
+     */
+    public double getReflectionProbability() {
+        double R = -1;
+        
+        if ( _planeSolver != null ) {
+            
+            double E = _te.getEnergy();
+            double V = _pe.getEnergyAt( _center );
+            boolean isSolutionZero = ( E < V );
+            
+            if ( !isSolutionZero ) {
+
+                // Determine if wave is in first or last region.
+                boolean inFirstRegion;
+                boolean inLastRegion;
+                if ( _direction == Direction.LEFT_TO_RIGHT ) {
+                    inFirstRegion = ( _pe.isInFirstRegion( _center ) );
+                    inLastRegion = ( _pe.isInLastRegion( _center ) );
+                }
+                else {
+                    // Reverse first & last, potential energy numbers regions from left-to-right.
+                    inFirstRegion = ( _pe.isInLastRegion( _center ) );
+                    inLastRegion = ( _pe.isInFirstRegion( _center ) );
+                }
+
+                if ( inFirstRegion ) {
+                    // If the wave is in the first region, then get R from plane wave solver.
+                    R = _planeSolver.getReflectionProbability();
+                }
+                else if ( inLastRegion ) {
+                    // If the wave is in the last region, then R=0.
+                    R = 0;
+                }
+            }
+        }
+        
+        return R;
     }
     
     //----------------------------------------------------------------------------
@@ -209,6 +261,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _te = te;
         _te.addObserver( this );
+        updatePlaneSolver();
         update();
     }
 
@@ -232,6 +285,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _pe = pe;
         _pe.addObserver( this );
+        updatePlaneSolver();
         update();
     }
 
@@ -251,6 +305,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
      */
     public void setDirection( Direction direction ) {
         _direction = direction;
+        updatePlaneSolver();
         update();
     }
 
@@ -345,6 +400,12 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         return center;
     }
     
+    private void updatePlaneSolver() {
+        if ( isInitialized() ) {
+            _planeSolver = SolverFactory.createSolver( _te, _pe, _direction );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -365,6 +426,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
      * Resets the solver.
      */
     private void update() {
+        if ( _planeSolver != null ) {
+            _planeSolver.update();
+        }
         _solver.update();
         notifyObservers();
     }

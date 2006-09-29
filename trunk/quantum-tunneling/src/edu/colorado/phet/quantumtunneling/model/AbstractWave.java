@@ -28,4 +28,29 @@ public abstract class AbstractWave extends QTObservable {
     public AbstractWave() {}
     
     public abstract boolean isInitialized();
+    
+    /**
+     * Gets the reflection probability.
+     * A return value < 0 indicates that reflection probability
+     * doesn't make sense for the state of the wave.
+     * 
+     * @return double
+     */
+    public abstract double getReflectionProbability();
+    
+    /**
+     * Gets the transmission probability.
+     * A return value < 0 indicates that transmission probability
+     * doesn't make sense for the state of the wave.
+     * 
+     * @return double
+     */
+    public double getTransmissionProbability() {
+        double T = -1;
+        double R = getReflectionProbability();
+        if ( R >= 0 ) {
+           T = 1 - R;
+        }
+        return T;
+    }
 }

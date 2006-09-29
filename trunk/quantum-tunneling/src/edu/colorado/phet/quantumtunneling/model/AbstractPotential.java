@@ -22,6 +22,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * The space is finite; it has non-infinite beginning and end positions.
  * The regions in the space are guaranteed to be contiguous; there are no gaps
  * between the regions, and the regions do not overlap.
+ * Regions are indexed from left to right, starting at zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -414,6 +415,28 @@ public abstract class AbstractPotential extends QTObservable {
         
         // return the lower of the two sides of the well
         return Math.min( leftEnergy, rightEnergy );
+    }
+    
+    /**
+     * Determines if a position is located in the first (left-most) region.
+     * 
+     * @param position
+     * @return true or false
+     */
+    public boolean isInFirstRegion( double position ) {
+        int index = getRegionIndexAt( position );
+        return ( index == 0 );
+    }
+    
+    /**
+     * Determines if a position is located in the last (right-most) region.
+     * 
+     * @param position
+     * @return true or false
+     */
+    public boolean isInLastRegion( double position ) {
+        int index = getRegionIndexAt( position );
+        return ( index == getNumberOfRegions() - 1 );
     }
     
     //----------------------------------------------------------------------------
