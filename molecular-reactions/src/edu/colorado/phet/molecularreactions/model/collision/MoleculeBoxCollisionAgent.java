@@ -35,11 +35,11 @@ public class MoleculeBoxCollisionAgent {
 
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
-     * to avoid allocating a new Vector2D on every invocation.
+     * to avoid allocating A new Vector2D on every invocation.
      *
      * @param bodyA
      * @param bodyB
-     * @return true if a collision occurred
+     * @return true if A collision occurred
      */
     public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
@@ -137,7 +137,7 @@ public class MoleculeBoxCollisionAgent {
                 collisionDetected = true;
             }
 
-            // Are we hitting in a corner?
+            // Are we hitting in A corner?
             if( collisionDetected ) {
                 if( loa.getX() != 0 && loa.getY() != 0 ) {
                     loa.scale( Math.sin( Math.PI / 4 ) );

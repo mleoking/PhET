@@ -15,10 +15,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.modules.TestModule;
-import edu.colorado.phet.molecularreactions.modules.SimpleModule;
-import edu.colorado.phet.molecularreactions.modules.ComplexModule;
+import edu.colorado.phet.molecularreactions.modules.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
@@ -45,11 +42,13 @@ public class MRApplication extends PiccoloPhetApplication {
                new FrameSetup.CenteredWithSize( 1000, 700 ) );
 
         SimpleModule simpleModule = new SimpleModule();
+        SpringTestModule springTestModule = new SpringTestModule();
+        addModule( springTestModule );
         addModule( simpleModule );
         addModule( new ComplexModule() );
         addModule( new TestModule() );
 
-        setActiveModule( simpleModule );
+        setActiveModule( springTestModule );
     }
 
 

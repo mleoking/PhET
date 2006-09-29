@@ -1,3 +1,4 @@
+- Add axes to energy view
 - Clean up code by using Molecule.useFull<xxx>
 - halo isn't shown for selected molecule
 - CM marker isn't shown for nearest-to-selected molecule

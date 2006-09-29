@@ -19,8 +19,8 @@ import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 /**
  * SpringCollision
  * <p/>
- * Models the collision of two molecules as compressing a spring, unless the molecules get close
- * enough together and are of the correct types for a reaction to occur.
+ * Models the collision of two molecules as compressing A spring, unless the molecules get close
+ * enough together and are of the correct types for A reaction to occur.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -164,7 +164,7 @@ public class SpringCollision implements Collision {
         }
 
         /**
-         * Returns the stored energy in the spring if it is at a specified length
+         * Returns the stored energy in the spring if it is at A specified length
          * @param length
          * @return the energy stored in the spring
          */

@@ -13,6 +13,9 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
+import edu.colorado.phet.molecularreactions.view.factories.CompositeMoleculeGraphicFactory;
+import edu.colorado.phet.molecularreactions.view.factories.ProvisionalBondGraphicFactory;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
@@ -58,8 +61,8 @@ public class SpatialView extends PNode {
         megm = new ModelElementGraphicManager( model, canvas );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( moleculeLayer ) );
         megm.addGraphicFactory( new BoxGraphicFactory() );
-        megm.addGraphicFactory( new CompositeMoleculeGraphicFactory() );
-        megm.addGraphicFactory( new ProvisionalBondGraphicFactory() );
+        megm.addGraphicFactory( new CompositeMoleculeGraphicFactory( bondLayer ) );
+        megm.addGraphicFactory( new ProvisionalBondGraphicFactory( bondLayer ) );
         megm.addGraphicFactory( new BondGraphicFactory( bondLayer ) );
         megm.scanModel();
 
@@ -111,33 +114,6 @@ public class SpatialView extends PNode {
     // Graphic factory classes
     //--------------------------------------------------------------------------------------------------
 
-    private class CompositeMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
-
-        protected CompositeMoleculeGraphicFactory() {
-            super( CompositeMolecule.class, bondLayer );
-        }
-
-        public PNode createGraphic( ModelElement modelElement ) {
-            if( modelElement instanceof CompositeMolecule ) {
-                return new CompositeMoleculeGraphic( (CompositeMolecule)modelElement );
-            }
-            else {
-                return null;
-            }
-        }
-    }
-
-    private class SimpleMoleculeGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
-
-        protected SimpleMoleculeGraphicFactory( PNode moleculeLayer ) {
-            super( SimpleMolecule.class, moleculeLayer );
-        }
-
-        public PNode createGraphic( ModelElement modelElement ) {
-            return new SpatialSimpleMoleculeGraphic( (SimpleMolecule)modelElement );
-        }
-    }
-
     private class BoxGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
 
         protected BoxGraphicFactory() {
@@ -150,17 +126,5 @@ public class SpatialView extends PNode {
             return boxGraphic;
         }
     }
-
-    private class ProvisionalBondGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
-
-        protected ProvisionalBondGraphicFactory() {
-            super( ProvisionalBond.class, bondLayer );
-        }
-
-        public PNode createGraphic( ModelElement modelElement ) {
-            return new ProvisionalBondGraphic( (ProvisionalBond)modelElement );
-        }
-    }
-
 
 }

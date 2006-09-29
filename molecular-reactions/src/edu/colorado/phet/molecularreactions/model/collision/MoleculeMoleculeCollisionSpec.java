@@ -18,11 +18,11 @@ import java.awt.geom.Point2D;
 /**
  * CollisionSpec
  * <p/>
- * A data structure that holds the important parameters of a molecule-molecule
+ * A data structure that holds the important parameters of A molecule-molecule
  * collision.
  * <p>
  * The spec contains references to the two simple molecules involved in the collision.
- * Note that if there is a composite molecule involved in the collision, one of its
+ * Note that if there is A composite molecule involved in the collision, one of its
  * component simple molecules is the one hitting the other molecule in the collision.
  *
  * @author Ron LeMaster

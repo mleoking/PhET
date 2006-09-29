@@ -50,11 +50,11 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
-     * to avoid allocating a new Vector2D on every invocation.
+     * to avoid allocating A new Vector2D on every invocation.
      *
      * @param bodyA
      * @param bodyB
-     * @return true if a collision occured
+     * @return true if A collision occured
      */
     public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
@@ -71,7 +71,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 //        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
 //                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
+        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of A
         // composite
         if( boundingBoxesOverlap
             && !moleculeA.isPartOfComposite()
@@ -91,7 +91,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
      *
      * @param moleculeA
      * @param moleculeB
-     * @return A CollisionSpec, if a collision occurs, otherwise return null
+     * @return A CollisionSpec, if A collision occurs, otherwise return null
      */
     private MoleculeMoleculeCollisionSpec getCollisionSpec( AbstractMolecule moleculeA, AbstractMolecule moleculeB ) {
         MoleculeMoleculeCollisionSpec collisionSpec = null;
@@ -116,8 +116,8 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             }
         }
 
-        // If one of the molecules is a componsite molecule, recursively descend through it
-        // to get down to the simple molecules before we can determine if there is a collision
+        // If one of the molecules is A componsite molecule, recursively descend through it
+        // to get down to the simple molecules before we can determine if there is A collision
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;
@@ -162,7 +162,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // Create a composite molecule if ReactionCriteria are met
+        // Create A composite molecule if ReactionCriteria are met
         if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA, (AbstractMolecule)bodyB, collisionSpec ) ) {
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
@@ -195,7 +195,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 //            compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
         }
 
-        // Otherwise, do a perfectly elastic collision
+        // Otherwise, do A perfectly elastic collision
         else {
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),
@@ -211,7 +211,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             n.normalize();
 
             // If the relative velocity show the points moving apart, then there is no collision.
-            // This is a key check to solve otherwise sticky collision problems
+            // This is A key check to solve otherwise sticky collision problems
             vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
             vRel.subtract( bodyB.getVelocity() );
             if( vRel.dot( n ) <= 0 ) {
@@ -377,14 +377,14 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 //    }
 //
 //    /**
-//     * If a simple molecule hits a compound molecule, combines
+//     * If A simple molecule hits A compound molecule, combines
 //     */
 //    class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
 //        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
 //
 //            // Determine the kinetic energy in the collision. We consider this to be the
 //            // kinetic energy of an object whose mass is equal to the total masses of
-//            // the two molecules, moving at a speed equal to the magnitude of the
+//            // the two molecules, moving at A speed equal to the magnitude of the
 //            // relative velocity of the two molecules
 //            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
 //                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
@@ -419,8 +419,8 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 //                }
 //            }
 //
-//            // One of the molecules must be a composite molecule whose components
-//            // are two simple molecules, and the other molecule must be a simple molecule
+//            // One of the molecules must be A composite molecule whose components
+//            // are two simple molecules, and the other molecule must be A simple molecule
 //            if( cm.numSimpleMolecules() == 2
 //                && cm.getType() == CompositeMolecule.BB
 //                && sm instanceof MoleculeA
