@@ -84,6 +84,21 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         return ( _te != null && _pe != null && _solver != null );
     }
     
+    /**
+     * Gets the reflection probability.
+     * A return value < 0 indicates that reflection probability
+     * doesn't make sense for the state of the wave.
+     * 
+     * @return double
+     */
+    public double getReflectionProbability() {
+        double R = -1;
+        if ( _solver != null ) {
+            R = _solver.getReflectionProbability();
+        }
+        return R;
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------

@@ -141,21 +141,18 @@ public abstract class AbstractPlaneSolver {
     
     /**
      * Gets the reflection probability.
+     * A return value < 0 indicates that reflection probability
+     * doesn't make sense for the state of the wave.
      * 
-     * @return
+     * @return double
      */
     public double getReflectionProbability() {
-        Complex B = getB();
-        return ( B.getReal() * B.getReal() ) + ( B.getImaginary() * B.getImaginary() );
-    }
-    
-    /**
-     * Gets the transmission probability.
-     * 
-     * @return
-     */
-    public double getTransmissionProbability() {
-        return 1 - getReflectionProbability();
+        double R = -1;
+        if ( !isSolutionZero() ) {
+            Complex B = getB();
+            R = ( B.getReal() * B.getReal() ) + ( B.getImaginary() * B.getImaginary() );
+        }
+        return R;
     }
     
     /**

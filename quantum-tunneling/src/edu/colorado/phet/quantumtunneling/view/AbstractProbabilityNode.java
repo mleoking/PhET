@@ -26,9 +26,14 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * AbstractProbabilityNode is the base class for ReflectionProbabilityNode and TransmissionProbabilityNode.
- * It creates its own AbstractPlaneWaveSolver, and uses it to update the displayed probability value. 
- * Updates occur when the total energy, potential energy, or direction of the wave changes.
+ * AbstractProbabilityNode is the base class for ReflectionProbabilityNode 
+ * and TransmissionProbabilityNode.
+ * <p>
+ * Updates to this node occur when the the associated wave changes.
+ * This is a bit wasteful, since what we really care about is changes to the total energy,
+ * potential energy, or wave direction.  But it simplifies the implementation and the 
+ * performance hit is negligible -- the calculation is trivial and we only update the 
+ * node's text if the value actually changes.
  * <p>
  * ReflectionProbabilityNode is used to display the reflection probability.
  * <p>
@@ -51,10 +56,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPlaneSolver _solver;
-    private TotalEnergy _totalEnergy;
-    private AbstractPotential _potentialEnergy;
-    private Direction _direction;
+    private AbstractWave _wave;
     private String _label;
     private double _value;
     
@@ -80,14 +82,10 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the display whenever the total energy or total energy changes.
-     * Direction is set explicitly via setDirection.
+     * Updates the display whenever the wave changes.
      */
     public void update( Observable o, Object arg ) {
-        if ( _solver != null ) {
-            _solver.update();
-            update();
-        }
+        update();
     }
     
     //----------------------------------------------------------------------------
@@ -100,44 +98,17 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public abstract void update();
     
     /**
-     * Sets the total energy, registers this node as an observer.
-     * Results in the creation of a new solver.
+     * Sets the wave, registers this node as an observer.
      * 
      * @param totalEnergy
      */
-    public void setTotalEnergy( TotalEnergy totalEnergy ) {
-        if ( _totalEnergy != null ) {
-            _totalEnergy.deleteObserver( this );
+    public void setWave( AbstractWave wave ) {
+        if ( _wave != null ) {
+            _wave.deleteObserver( this );
         }
-        _totalEnergy = totalEnergy;
-        _totalEnergy.addObserver( this );
-        updateSolver();
-    }
-    
-    /**
-     * Sets the potential energy, registers this node as an observer.
-     * Results in the creation of a new solver.
-     * 
-     * @param potentialEnergy
-     */
-    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
-        if ( _potentialEnergy != null ) {
-            _potentialEnergy.deleteObserver( this );
-        }
-        _potentialEnergy = potentialEnergy;
-        _potentialEnergy.addObserver( this );
-        updateSolver();
-    }
-    
-    /**
-     * Sets the direction.
-     * Results in the creation of a new solver.
-     * 
-     * @param direction
-     */
-    public void setDirection( Direction direction ) {
-        _direction = direction;
-        updateSolver();
+        _wave = wave;
+        _wave.addObserver( this );
+        update();
     }
 
     /**
@@ -158,7 +129,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if ( visible ) {
+        if ( visible && isInitialized() ) {
             update();
         }
     }
@@ -168,40 +139,27 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     //----------------------------------------------------------------------------
     
     /*
+     * Gets the wave.
+     */
+    protected AbstractWave getWave() {
+        return _wave;
+    }
+    
+    /*
      * Sets the value and rebuild's the node's text.
      */
     protected void setValue( double value ) {
         if ( value != _value ) {
             _value = value;
-            String s = _label + "=" + FORMAT.format( _value );
+            String s = null;
+            if ( _value < 0 ) {
+                s = _label + "=?";
+            }
+            else {
+                s = _label + "=" + FORMAT.format( _value );
+            }
             setText( s );
         }
-    }
-    
-    /*
-     * Gets the reflection probability value from the solver.
-     * Implemented in the base class so that subclasses don't need 
-     * to know about the solver.
-     */
-    protected double getReflectionProbability() {
-        double value = -1;
-        if ( _solver != null ) {
-            value = _solver.getReflectionProbability();
-        }
-        return value;
-    }
-    
-    /*
-     * Gets the transmission probability value from the solver.
-     * Implemented in the base class so that subclasses don't need 
-     * to know about the solver.
-     */
-    protected double getTransmissionProbability() {
-        double value = -1;
-        if ( _solver != null ) {
-            value = _solver.getTransmissionProbability();
-        }
-        return value;
     }
     
     //----------------------------------------------------------------------------
@@ -214,19 +172,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
      * not capable of displaying a valid value.
      */
     private boolean isInitialized() {
-        return ( _totalEnergy != null && _potentialEnergy != null && _direction != null );
-    }
-    
-    /*
-     * Updates the solver to correspond to the instances of total energy,
-     * potential energy and direction that are associated with this node.
-     */
-    private void updateSolver() {
-        if ( isInitialized() ) {
-            _solver = SolverFactory.createSolver( _totalEnergy, _potentialEnergy, _direction );
-            _solver.update();
-            update();
-        }
+        return ( _wave != null );
     }
     
     //----------------------------------------------------------------------------
@@ -244,7 +190,8 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
 
         public void update() {
             if ( getVisible() ) {
-                setValue( getReflectionProbability() );
+                double value = getWave().getReflectionProbability();
+                setValue( value );
             }
         }
     }
@@ -260,7 +207,8 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
 
         public void update() {
             if ( getVisible() ) {
-                setValue( getTransmissionProbability() );
+                double value = getWave().getTransmissionProbability();
+                setValue( value );
             }
         }
     }

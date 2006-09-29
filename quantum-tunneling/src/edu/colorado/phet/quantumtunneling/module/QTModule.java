@@ -781,9 +781,6 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
             _planeWave.setPotentialEnergy( _potentialEnergy );
             _wavePacket.setPotentialEnergy( _potentialEnergy );
-            
-            _reflectionProbabilityNode.setPotentialEnergy( _potentialEnergy );
-            _transmissionProbabilityNode.setPotentialEnergy( _potentialEnergy );
         }
         
         resetClock();
@@ -859,9 +856,6 @@ public class QTModule extends AbstractModule implements Observer {
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
         _wavePacket.setTotalEnergy( _totalEnergy );
-        
-        _reflectionProbabilityNode.setTotalEnergy( _totalEnergy );
-        _transmissionProbabilityNode.setTotalEnergy( _totalEnergy );
     }
     
     /**
@@ -893,12 +887,16 @@ public class QTModule extends AbstractModule implements Observer {
             _wavePacket.setEnabled( false );
             _energyPlot.showPlaneWave();
             _waveFunctionPlot.setWave( _planeWave );
+            _reflectionProbabilityNode.setWave( _planeWave );
+            _transmissionProbabilityNode.setWave( _planeWave );
         }
         else {
             _planeWave.setEnabled( false );
             _wavePacket.setEnabled( true );
             _energyPlot.showWavePacket();
             _waveFunctionPlot.setWave( _wavePacket );
+            _reflectionProbabilityNode.setWave( _wavePacket );
+            _transmissionProbabilityNode.setWave( _wavePacket );
         }
     }
     
@@ -946,9 +944,6 @@ public class QTModule extends AbstractModule implements Observer {
         resetClock();
         _planeWave.setNotifyEnabled( true );
         _wavePacket.setNotifyEnabled( true );
-        
-        _reflectionProbabilityNode.setDirection( direction );
-        _transmissionProbabilityNode.setDirection( direction );
         updateRtpLayout();
     }
     
@@ -1113,21 +1108,16 @@ public class QTModule extends AbstractModule implements Observer {
         
         double x, y;
         final double margin = 15;
+        final double xFudge = 60;
         final double yFudge = 10;
         
-        AffineTransform leftTransform = new AffineTransform();
         x = probabilityDensityPlotBounds.getX() + margin;
         y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
-        leftTransform.translate( x, y );
-        leftTransform.translate( 0, 0 ); // registration point = upper left
-        leftNode.setTransform( leftTransform );
+        leftNode.setOffset( x, y );
         
-        AffineTransform rightTransform = new AffineTransform();
-        x = probabilityDensityPlotBounds.getX() + probabilityDensityPlotBounds.getWidth() - margin;
+        x = probabilityDensityPlotBounds.getX() + probabilityDensityPlotBounds.getWidth() - xFudge - margin;
         y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
-        rightTransform.translate( x, y );
-        rightTransform.translate( -rightNode.getFullBounds().getWidth(), 0 ); // registration point = upper right
-        rightNode.setTransform( rightTransform );
+        rightNode.setOffset( x, y );
     }
     
     //----------------------------------------------------------------------------
