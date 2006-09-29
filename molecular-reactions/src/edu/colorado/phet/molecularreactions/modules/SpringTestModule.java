@@ -82,6 +82,7 @@ public class SpringTestModule extends Module {
             }
         };
         mA.setPosition( spring.getFreeEnd().getX() - 150, 200 );
+        mA.setVelocity( 15, 0 );
         model.addModelElement( mA );
         spring.attachBody( mA );
         PPath refLine = new PPath( new Line2D.Double( spring.getFixedEnd().getX() - spring.getRestingLength(),

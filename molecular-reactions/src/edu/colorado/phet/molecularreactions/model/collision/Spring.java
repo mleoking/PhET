@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.mechanics.Body;
@@ -67,10 +68,18 @@ public class Spring extends SimpleObservable implements ModelElement {
 
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
-        // todo: the next line assumes v0 = 0
-        A = getElongation();
-        // todo: determine phase properly. Assumes v0 = 0
-        phi = Math.PI / 2;
+
+        // A and phi depend on the initial elongation of the spring and the initial
+        // velocity of the attached body
+        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
+        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+        double c = getElongation() * omega / v0;
+        double rad = Math.sqrt( 1 / ( c * c + 1));
+        phi = Math.acos( rad * MathUtil.getSign( body.getVelocity().dot( vSpring) ) );
+        A = getElongation() / Math.sin(phi);
+
+//        A = getElongation() + v0 / omega;
+//        phi = Math.asin( getElongation() / A );
     }
 
     /**
@@ -86,8 +95,8 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     public Vector2D getAcceleration() {
-        double aMag = -(omega*omega) * A * Math.sin( omega * t + phi );
-        Vector2D a = new Vector2D.Double( aMag, 0);
+        double aMag = -( omega * omega ) * A * Math.sin( omega * t + phi );
+        Vector2D a = new Vector2D.Double( aMag, 0 );
         a.rotate( angle );
         return a;
     }
@@ -96,8 +105,6 @@ public class Spring extends SimpleObservable implements ModelElement {
         t += dt;
         if( attachedBody != null ) {
             freeEnd.setLocation( attachedBody.getCM() );
-//            Vector2D a = getAcceleration();
-//            attachedBody.setAcceleration( a );
             Vector2D v = getVelocity();
             attachedBody.setVelocity( v );
         }
@@ -105,7 +112,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     private Vector2D getVelocity() {
-        Vector2D v = new Vector2D.Double( omega * A * Math.cos( omega * t + phi ), 0);
+        Vector2D v = new Vector2D.Double( omega * A * Math.cos( omega * t + phi ), 0 );
         v.rotate( angle );
         return v;
     }
