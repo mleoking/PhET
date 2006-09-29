@@ -49,11 +49,11 @@ public class MoleculeMoleculeCollisionAgent {
 
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
-     * to avoid allocating a new Vector2D on every invocation.
+     * to avoid allocating A new Vector2D on every invocation.
      *
      * @param bodyA
      * @param bodyB
-     * @return true if a collision occured
+     * @return true if A collision occured
      */
     public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
@@ -68,7 +68,7 @@ public class MoleculeMoleculeCollisionAgent {
 //        boundingBoxesOverlap = dx <= moleculeA.getBoundingBox().getWidth() + moleculeB.getBoundingBox().getWidth()
 //                               && dy < moleculeA.getBoundingBox().getHeight() + moleculeB.getBoundingBox().getHeight();
 
-        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of a
+        // Don't go farther if the bounding boxes overlap, or either of the molecules is part of A
         // composite
         if( !moleculeA.isPartOfComposite()
             && !moleculeB.isPartOfComposite() ) {
@@ -93,7 +93,7 @@ public class MoleculeMoleculeCollisionAgent {
      *
      * @param moleculeA
      * @param moleculeB
-     * @return A CollisionSpec, if a collision occurs, otherwise return null
+     * @return A CollisionSpec, if A collision occurs, otherwise return null
      */
     private MoleculeMoleculeCollisionSpec getCollisionSpec
             ( AbstractMolecule
@@ -120,8 +120,8 @@ public class MoleculeMoleculeCollisionAgent {
             }
         }
 
-        // If one of the molecules is a componsite molecule, recursively descend through it
-        // to get down to the simple molecules before we can determine if there is a collision
+        // If one of the molecules is A componsite molecule, recursively descend through it
+        // to get down to the simple molecules before we can determine if there is A collision
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;

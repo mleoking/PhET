@@ -44,7 +44,7 @@ public class HardSphereCollision implements Collision {
         double totalEnergy0 = moleculeA.getKineticEnergy() + moleculeB.getKineticEnergy();
 
 
-        // Otherwise, do a perfectly elastic collision
+        // Otherwise, do A perfectly elastic collision
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - moleculeA.getPosition().getX(),
                                                collisionPt.getY() - moleculeA.getPosition().getY() );
@@ -59,7 +59,7 @@ public class HardSphereCollision implements Collision {
             n.normalize();
 
             // If the relative velocity show the points moving apart, then there is no collision.
-            // This is a key check to solve otherwise sticky collision problems
+            // This is A key check to solve otherwise sticky collision problems
             vRel.setComponents( moleculeA.getVelocity().getX(), moleculeA.getVelocity().getY() );
             vRel.subtract( moleculeB.getVelocity() );
             if( vRel.dot( n ) <= 0 ) {

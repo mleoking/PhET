@@ -41,11 +41,11 @@ public class HardBodyCollision {
 
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
-     * to avoid allocating a new Vector2D on every invocation.
+     * to avoid allocating A new Vector2D on every invocation.
      *
      * @param bodyA
      * @param bodyB
-     * @return true if a collision occured
+     * @return true if A collision occured
      */
     public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
@@ -139,7 +139,7 @@ public class HardBodyCollision {
         n.normalize();
 
         // If the relative velocity show the points moving apart, then there is no collision.
-        // This is a key check to solve otherwise sticky collision problems
+        // This is A key check to solve otherwise sticky collision problems
         vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
         vRel.subtract( bodyB.getVelocity() );
         if( vRel.dot( n ) <= 0 ) {

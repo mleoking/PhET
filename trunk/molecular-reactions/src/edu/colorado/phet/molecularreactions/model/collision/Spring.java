@@ -10,9 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.mechanics.Body;
+
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Spring
@@ -20,18 +24,28 @@ import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Spring {
+public class Spring extends SimpleObservable implements ModelElement {
 
     double k;
+    double omega;
+    double phi;
+    double A;
     double restingLength;
+    private Point2D fixedEnd;
+    private double angle;
+    private Point2D freeEnd;
+    Line2D extent;
+    Body attachedBody;
+    double t;
 
-    public Spring( double k, double restingLength ) {
+    public Spring( double k, double restingLength, Point2D fixedEnd, double angle ) {
         this.k = k;
         this.restingLength = restingLength;
-    }
-
-    public double getRestingLength() {
-        return restingLength;
+        this.fixedEnd = fixedEnd;
+        this.angle = angle;
+        this.freeEnd = new Point2D.Double( fixedEnd.getX() + restingLength * Math.cos( angle ),
+                                           fixedEnd.getY() + restingLength * Math.sin( angle ) );
+        extent = new Line2D.Double();
     }
 
     public void setK( double k ) {
@@ -42,66 +56,79 @@ public class Spring {
         return k;
     }
 
+    private double getElongation() {
+        return fixedEnd.distance( freeEnd ) - restingLength;
+    }
+
+    public void attachBody( Body body ) {
+        this.attachedBody = body;
+        freeEnd.setLocation( body.getCM() );
+        angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
+
+        t = 0;
+        omega = Math.sqrt( k / body.getMass() );
+        // todo: the next line assumes v0 = 0
+        A = getElongation();
+        // todo: determine phase properly. Assumes v0 = 0
+        phi = Math.PI / 2;
+    }
+
     /**
      * Gets the magnitude of the force exerted by the spring.
      *
-     * @param length
      * @return the force exerted by the spring
      */
-    public double getForce( double length ) {
-        int sign = MathUtil.getSign( length - restingLength );
-        double f = ( restingLength - length ) * k;
-        if( length == 0 ) {
-            System.out.println( "SpringCollision$Spring.getForce" );
-        }
+    public Vector2D getForce() {
+        double fMag = -getElongation() * k;
+        Vector2D f = new Vector2D.Double( fMag, 0 );
+        f.rotate( angle );
         return f;
     }
 
-    /**
-     * Returns the stored energy in the spring if it is at a specified length
-     *
-     * @param springLength
-     * @return the energy stored in the spring
-     */
-    public double getEnergy( double springLength ) {
-        double energy = ( ( getRestingLength() - springLength ) * getForce( springLength ) / 2 );
-        if( energy < 0 ) {
-            System.out.println( "SpringCollision$Spring.getEnergy" );
-        }
-        return energy;
+    public Vector2D getAcceleration() {
+        double aMag = -(omega*omega) * A * Math.sin( omega * t + phi );
+        Vector2D a = new Vector2D.Double( aMag, 0);
+        a.rotate( angle );
+        return a;
     }
 
-
-    public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2D loa ) {
-
-        // NOrmalize the line of action vector
-        loa.normalize();
-
-        // Determine the amount the molecule has moved in the direction of the
-        // spring in its last time step
-        Vector2D dl = new Vector2D.Double( molecule.getPositionPrev(), molecule.getPosition() );
-        double ds = dl.dot( loa );
-
-        // Compute the change in potential energy in the spring during that last
-        // time step
-        double dPe = ds * k;
-
-        // Reduce the molecule's velocity in the direction that the spring pushes
-        // on it by an amount that corresponds to the change in the spring's potential
-        // energy. If the change in potential is greater than the kinetic energy the molecule
-        // has in that direction, reverse the molecule's direction of travel.
-        double ss = molecule.getVelocity().dot( loa );
-        double keS = ss * ss * molecule.getMass() / 2;
-
-//            if( keS > dPe ) {
-        keS -= dPe;
-
-        if( keS < 0 ) {
-            System.out.println( "SpringCollision$Spring.pushOnMolecule" );
+    public void stepInTime( double dt ) {
+        t += dt;
+        if( attachedBody != null ) {
+            freeEnd.setLocation( attachedBody.getCM() );
+//            Vector2D a = getAcceleration();
+//            attachedBody.setAcceleration( a );
+            Vector2D v = getVelocity();
+            attachedBody.setVelocity( v );
         }
-        int sign = MathUtil.getSign( keS );
-        double deltaS = sign * Math.sqrt( 2 * ( keS * sign ) / molecule.getMass() ) - ss;
-        molecule.getVelocity().add( loa.scale( deltaS ) );
-//            }
+        notifyObservers();
+    }
+
+    private Vector2D getVelocity() {
+        Vector2D v = new Vector2D.Double( omega * A * Math.cos( omega * t + phi ), 0);
+        v.rotate( angle );
+        return v;
+    }
+
+    public double getRestingLength() {
+        return restingLength;
+    }
+
+    public Point2D getFixedEnd() {
+        return fixedEnd;
+    }
+
+    public Point2D getFreeEnd() {
+        return freeEnd;
+    }
+
+    public Line2D getExtent() {
+        extent.setLine( fixedEnd, freeEnd );
+        return extent;
+    }
+
+    public double getPotentialEnergy() {
+        double dl = restingLength - freeEnd.distance( fixedEnd );
+        return 0.5 * k * dl * dl;
     }
 }
