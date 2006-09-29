@@ -71,10 +71,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
         setFont( FONT );
         setTextPaint( DEFAULT_COLOR );
         _label = label;
-        
-        // Initialize a value so that layout code will have valid bounds for the node
-        _value = -1; // force an update by setting an invalid probabilty
-        setValue( 0 );
+        setValue( -1 );
     }
     
     //----------------------------------------------------------------------------
@@ -152,7 +149,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
         if ( value != _value ) {
             _value = value;
             String s = null;
-            if ( _value < 0 ) {
+            if ( _value < 0  ) {
                 s = _label + "=?";
             }
             else {
@@ -160,6 +157,13 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
             }
             setText( s );
         }
+    }
+    
+    /*
+     * Gets the value.
+     */
+    protected double getValue() {
+        return _value;
     }
     
     //----------------------------------------------------------------------------
