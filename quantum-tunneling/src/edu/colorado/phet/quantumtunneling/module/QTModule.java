@@ -47,6 +47,7 @@ import edu.colorado.phet.quantumtunneling.view.AbstractProbabilityNode.Transmiss
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -1092,6 +1093,7 @@ public class QTModule extends AbstractModule implements Observer {
     private void updateRtpLayout()
     {
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
+        PBounds pdZoomControlBounds = _probabilityDensityZoomControl.getFullBounds();
         
         Direction direction = _planeWave.getDirection();
         
@@ -1107,16 +1109,15 @@ public class QTModule extends AbstractModule implements Observer {
         }
         
         double x, y;
-        final double margin = 15;
+        final double xmargin = 15;
+        final double ymargin = 15;
         final double xFudge = 60;
-        final double yFudge = 10;
         
-        x = probabilityDensityPlotBounds.getX() + margin;
-        y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
+        x = pdZoomControlBounds.getMaxX() + xmargin;
+        y = probabilityDensityPlotBounds.getY() + ymargin;
         leftNode.setOffset( x, y );
         
-        x = probabilityDensityPlotBounds.getX() + probabilityDensityPlotBounds.getWidth() - xFudge - margin;
-        y = probabilityDensityPlotBounds.getY() + ( probabilityDensityPlotBounds.getHeight() / 2 ) + yFudge;
+        x = probabilityDensityPlotBounds.getX() + probabilityDensityPlotBounds.getWidth() - xFudge - xmargin;
         rightNode.setOffset( x, y );
     }
     
