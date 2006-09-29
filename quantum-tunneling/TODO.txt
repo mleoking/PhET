@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 
 DONE:
+(9/29/06) - hook up RTP view to model
 (9/28/06) - add AbstractPlaneWaveSolver.getReflectionProbabity and getTransmissionProbability
 (9/28/06) - add nodes for RTP, position properly, wire to visibilty and direction controls
 (9/28/06) - add getB() method to all plane wave solvers, for RTP support
