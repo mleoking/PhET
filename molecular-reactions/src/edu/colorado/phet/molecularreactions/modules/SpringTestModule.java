@@ -36,19 +36,16 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SpringTestModule extends Module {
-    private MoleculeA mA;
-    private Spring spring;
-//public class SpringTestModule extends MRModule {
 
     public SpringTestModule() {
         super( "Spring Test", new SwingClock( 40, 1 ), true );
 
         MRModel model = new MRModel( getClock() ) {
             protected void stepInTime( double dt ) {
-                double e0 = spring.getPotentialEnergy() + mA.getKineticEnergy();
+//                double e0 = spring.getPotentialEnergy() + mA.getKineticEnergy();
                 super.stepInTime( dt );
-                double e1 = spring.getPotentialEnergy() + mA.getKineticEnergy();
-                System.out.println( "e0 = " + e0 + "\te1 = " + e1 );
+//                double e1 = spring.getPotentialEnergy() + mA.getKineticEnergy();
+//                System.out.println( "e0 = " + e0 + "\te1 = " + e1 );
             }
         };
 
@@ -63,40 +60,69 @@ public class SpringTestModule extends Module {
         model.addListener( megm );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
 
-        // Make the spring
-        Point2D fixedPt = new Point2D.Double( 500, 200 );
-        double restingLength = 100;
-        spring = new Spring( 1, restingLength, fixedPt, Math.PI );
-        model.addModelElement( spring );
-        SpringGraphic springGraphic = new SpringGraphic( spring );
-        canvas.addChild( springGraphic );
+        {
+            // Make the spring
+            Point2D fixedPt = new Point2D.Double( 500, 200 );
+            double restingLength = 100;
+            Spring spring = new Spring( 1, restingLength, fixedPt, Math.PI );
+            model.addModelElement( spring );
+            SpringGraphic springGraphic = new SpringGraphic( spring );
+            canvas.addChild( springGraphic );
 
-        // Make the molecule and attach it to the spring
-        mA = new MoleculeA() {
-            double prevX;
-            public void stepInTime( double dt ) {
-                Vector2D v0 = new Vector2D.Double( getVelocity() );
-                super.stepInTime( dt );
-                Vector2D v1 = new Vector2D.Double( getVelocity() );
-                prevX = v1.getX();
-            }
-        };
-        mA.setPosition( spring.getFreeEnd().getX() - 150, 200 );
-        mA.setVelocity( 15, 0 );
-        model.addModelElement( mA );
-        spring.attachBody( mA );
-        PPath refLine = new PPath( new Line2D.Double( spring.getFixedEnd().getX() - spring.getRestingLength(),
-                                                      0,
-                                                      spring.getFixedEnd().getX() - spring.getRestingLength(),
-                                                      500 ) );
-        refLine.setPaint( Color.blue );
-        canvas.addChild( refLine );
-        PPath refLine2 = new PPath( new Line2D.Double( spring.getFixedEnd().getX() + spring.getRestingLength(),
-                                                      0,
-                                                      spring.getFixedEnd().getX() + spring.getRestingLength(),
-                                                      500 ) );
-        refLine.setPaint( Color.blue );
-        canvas.addChild( refLine2 );
+            // Make the molecule and attach it to the spring
+            MoleculeA mA = new MoleculeA() {
+                double prevX;
+
+                public void stepInTime( double dt ) {
+                    Vector2D v0 = new Vector2D.Double( getVelocity() );
+                    super.stepInTime( dt );
+                    Vector2D v1 = new Vector2D.Double( getVelocity() );
+                    prevX = v1.getX();
+                }
+            };
+            mA.setPosition( spring.getFreeEnd().getX() - 150, 200 );
+            mA.setVelocity( 15, 0 );
+            model.addModelElement( mA );
+            spring.attachBody( mA );
+            PPath refLine = new PPath( new Line2D.Double( spring.getFixedEnd().getX() - spring.getRestingLength(),
+                                                          0,
+                                                          spring.getFixedEnd().getX() - spring.getRestingLength(),
+                                                          500 ) );
+            refLine.setPaint( Color.blue );
+            canvas.addChild( refLine );
+            PPath refLine2 = new PPath( new Line2D.Double( spring.getFixedEnd().getX() + spring.getRestingLength(),
+                                                           0,
+                                                           spring.getFixedEnd().getX() + spring.getRestingLength(),
+                                                           500 ) );
+            refLine.setPaint( Color.blue );
+            canvas.addChild( refLine2 );
+        }
+
+        {
+            // Make the spring
+            Point2D fixedPt = new Point2D.Double( 500, 300 );
+            double restingLength = 20;
+            Spring spring = new Spring( .2, restingLength, fixedPt, Math.PI );
+            model.addModelElement( spring );
+            SpringGraphic springGraphic = new SpringGraphic( spring );
+            canvas.addChild( springGraphic );
+
+            // Make the molecule and attach it to the spring
+            MoleculeA mA = new MoleculeA() {
+                double prevX;
+
+                public void stepInTime( double dt ) {
+                    Vector2D v0 = new Vector2D.Double( getVelocity() );
+                    super.stepInTime( dt );
+                    Vector2D v1 = new Vector2D.Double( getVelocity() );
+                    prevX = v1.getX();
+                }
+            };
+            mA.setPosition( spring.getFreeEnd().getX() - 30, fixedPt.getY() );
+            mA.setVelocity( -5, 0 );
+            model.addModelElement( mA );
+            spring.attachBody( mA );
+        }
     }
 
 
@@ -119,7 +145,7 @@ public class SpringTestModule extends Module {
             Point2D fixedEnd = spring.getExtent().getP1();
             fixedEndNode = new PPath( new Ellipse2D.Double( fixedEnd.getX() - 2,
                                                             fixedEnd.getY() - 2,
-                                                            4, 4 ));
+                                                            4, 4 ) );
             fixedEndNode.setPaint( Color.red );
             addChild( fixedEndNode );
 
