@@ -52,13 +52,29 @@ public class ShadowHTMLGraphic extends PNode {
         updateBuffer();
     }
 
+    /**
+     * Sets the HTML of this node from a set of lines, adding linebreaks.
+     *
+     * @param text
+     */
+    public void setHtml( String[]text ) {
+        String str = "<html>";
+        for( int i = 0; i < text.length; i++ ) {
+            str += text[i];
+            if( i < text.length - 1 ) {
+                str += "<br>";
+            }
+        }
+        setHtml( str );
+    }
+
     public void setHtml( String html ) {
         htmlGraphic.setHTML( html );
         shadow.setHTML( html );
         updateBuffer();
     }
 
-    public void setShadowOffset( int dx, int dy ) {
+    public void setShadowOffset( double dx, double dy ) {
         shadow.setOffset( dx, dy );
     }
 
