@@ -23,8 +23,8 @@ import java.awt.*;
  */
 public class LogoPanel extends JPanel {
 
-    public static final String IMAGE_PHET_LOGO = "images/Phet-Flatirons-logo-3-small.gif";
-    
+    public static final String IMAGE_PHET_LOGO = PhetLookAndFeel.PHET_LOGO_120x50;
+
     private ImageIcon imageIcon;
     private JLabel titleLabel;
 

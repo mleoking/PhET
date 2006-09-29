@@ -152,7 +152,7 @@ public class ControlPanel {
         private JLabel titleLabel;
 
         public TitlePanel() {
-            imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
+            imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/phet-logo-120x50.jpg" ) );
             titleLabel = ( new JLabel( imageIcon ) );
             titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
             add( titleLabel );

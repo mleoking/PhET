@@ -2,6 +2,7 @@
 package edu.colorado.phet.common_cck.view.phetgraphics;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common_cck.model.clock.AbstractClock;
 import edu.colorado.phet.common_cck.model.clock.ClockTickListener;
 import edu.colorado.phet.common_cck.model.clock.SwingTimerClock;
@@ -53,7 +54,7 @@ public class TestPhetGraphics {
             }
         } );
 
-        final PhetImageGraphic imageGraphic = new PhetImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ) );
+        final PhetImageGraphic imageGraphic = new PhetImageGraphic( panel, ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
         imageGraphic.setVisible( true );
         DefaultInteractiveGraphic imageInteraction = new DefaultInteractiveGraphic( imageGraphic );
         imageInteraction.addCursorHandBehavior();

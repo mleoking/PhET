@@ -288,7 +288,7 @@ public class ModulePanel extends JPanel {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
+            ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) );
             JButton logoButton = new JButton( logo );
             logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
             logoButton.addActionListener( new ActionListener() {

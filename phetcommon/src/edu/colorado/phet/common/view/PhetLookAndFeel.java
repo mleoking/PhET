@@ -47,7 +47,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class PhetLookAndFeel {
-
+    public static final String PHET_LOGO_120x50 = "images/phet-logo-120x50.jpg";
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
