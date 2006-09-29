@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 
+
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
 
@@ -16,6 +17,8 @@ LOW PRIORITY:
 
 
 DONE:
+(9/29/06) - move R= and T= toward top of chart so that they're obscured by prob curve less often
+(9/29/06) - bugfix: with plane wave, some situations result in R=1.00 T=? (eg, R precision errors make R=1.0000000002)
 (9/29/06) - when wave function solution is zero, set R=? T=?
 (9/29/06) - if wave packet's initial position is in last region, R=0 and T=1
 (9/29/06) - if wave packet's initial position is not in first/last region, set R=?, T=?
