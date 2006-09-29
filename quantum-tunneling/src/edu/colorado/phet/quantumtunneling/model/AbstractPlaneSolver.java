@@ -151,6 +151,7 @@ public abstract class AbstractPlaneSolver {
         if ( !isSolutionZero() ) {
             Complex B = getB();
             R = ( B.getReal() * B.getReal() ) + ( B.getImaginary() * B.getImaginary() );
+            R = Math.min( 1d, R ); // Workaround for precision error that sometimes makes R slightly > 1
         }
         return R;
     }
