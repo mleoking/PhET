@@ -45,7 +45,7 @@ public class GPLAboutPanel extends JPanel {
         add( info, BorderLayout.CENTER );
 
         try {
-            JLabel icon = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) ) );
+            JLabel icon = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
             add( icon, BorderLayout.NORTH );
         }
         catch( IOException e ) {

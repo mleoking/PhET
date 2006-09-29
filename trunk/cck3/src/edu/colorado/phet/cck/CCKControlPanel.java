@@ -10,6 +10,7 @@ import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.HelpPanel;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -52,7 +53,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
+        JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
         titleLabel.setToolTipText( SimStrings.get( "CCK3ControlPanel.PhETToolTip" ) );
         titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );

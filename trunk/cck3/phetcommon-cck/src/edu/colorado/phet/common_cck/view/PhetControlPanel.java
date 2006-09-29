@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.common_cck.view;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.view.help.HelpPanel;
 import edu.colorado.phet.common_cck.view.util.FractionSpring;
@@ -37,7 +38,7 @@ public class PhetControlPanel extends JPanel {
         this.controlPane = controlPane;
         layout = new SpringLayout();
         this.setLayout( layout );
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        URL resource = getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );
@@ -75,7 +76,7 @@ public class PhetControlPanel extends JPanel {
         this.module = module;
         layout = new SpringLayout();
         this.setLayout( layout );
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        URL resource = getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );

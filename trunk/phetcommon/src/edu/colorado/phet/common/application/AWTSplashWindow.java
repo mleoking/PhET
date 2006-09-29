@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.common.application;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -42,11 +43,12 @@ import java.text.MessageFormat;
 public class AWTSplashWindow extends Window {
 
     private static Color defaultBackground = Color.white;
+
     public static void setDefaultBackground( Color color ) {
         AWTSplashWindow.defaultBackground = color;
     }
 
-    private static final String LOGO_RESOURCE_NAME = "images/Phet-Flatirons-logo-3-small.gif";
+    private static final String LOGO_RESOURCE_NAME = PhetLookAndFeel.PHET_LOGO_120x50;
 
     private boolean done = false; // flag that tells the animation thread to stop
     private Panel panel; // panel that contains all the UI components

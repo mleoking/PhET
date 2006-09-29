@@ -1,6 +1,7 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common_cck.view;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common_cck.view.util.ImageLoader;
 import edu.colorado.phet.common_cck.view.util.SimStrings;
 
@@ -25,7 +26,7 @@ public class BasicPhetPanel extends JPanel {
 
     static {
         try {
-            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
+            phetLogo = new ImageLoader().loadImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         }
         catch( IOException e ) {
             e.printStackTrace();

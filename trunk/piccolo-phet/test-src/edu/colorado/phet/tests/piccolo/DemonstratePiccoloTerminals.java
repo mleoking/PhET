@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PCanvas;
@@ -47,7 +48,7 @@ public class DemonstratePiccoloTerminals {
         piccoloCanvas.getLayer().addChild( path );
 
         //PImage is the image primitive
-        PImage image = new PImage( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
+        PImage image = new PImage( ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
         image.setOffset( 100, 50 );
         image.rotateInPlace( Math.PI / 16 );
         piccoloCanvas.getLayer().addChild( image );

@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common.application;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -47,7 +48,7 @@ public class SplashWindow extends JDialog {
         // Phet logo
         BufferedImage image = null;
         try {
-            image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
+            image = ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         }
         catch( IOException e ) {
             e.printStackTrace();
