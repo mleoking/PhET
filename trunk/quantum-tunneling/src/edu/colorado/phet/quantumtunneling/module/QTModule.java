@@ -385,7 +385,7 @@ public class QTModule extends AbstractModule implements Observer {
         //----------------------------------------------------------------------------
        
         reset();
-        layoutCanvas();
+        updateCanvasLayout();
         _canvas.addComponentListener( listener );
         getClock().start();
     }
@@ -408,10 +408,10 @@ public class QTModule extends AbstractModule implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Lays out nodes on the canvas.
+     * Update the layout of nodes on the canvas.
      * This is called whenever the canvas size changes.
      */
-    private void layoutCanvas() {
+    private void updateCanvasLayout() {
         
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
@@ -528,7 +528,7 @@ public class QTModule extends AbstractModule implements Observer {
         }
         
         // Reflection and transmission probabilities
-        updateRtp();
+        updateRtpLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -665,7 +665,7 @@ public class QTModule extends AbstractModule implements Observer {
          */
         public void componentResized( ComponentEvent event ) {
             if ( event.getSource() == _canvas ) {
-                layoutCanvas();
+                updateCanvasLayout();
             }
         }
         
@@ -775,12 +775,15 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergy = potentialEnergy;
             _potentialEnergy.addObserver( this );
 
-            _energyPlot.setPotentialEnergy( potentialEnergy );
+            _energyPlot.setPotentialEnergy( _potentialEnergy );
             _regionMarkerManager.setPotentialEnergy( _potentialEnergy );
             _controlPanel.setPotentialEnergy( _potentialEnergy );
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
             _planeWave.setPotentialEnergy( _potentialEnergy );
-            _wavePacket.setPotentialEnergy( potentialEnergy );
+            _wavePacket.setPotentialEnergy( _potentialEnergy );
+            
+            _reflectionProbabilityNode.setPotentialEnergy( _potentialEnergy );
+            _transmissionProbabilityNode.setPotentialEnergy( _potentialEnergy );
         }
         
         resetClock();
@@ -855,7 +858,10 @@ public class QTModule extends AbstractModule implements Observer {
         _energyPlot.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
-        _wavePacket.setTotalEnergy( totalEnergy );
+        _wavePacket.setTotalEnergy( _totalEnergy );
+        
+        _reflectionProbabilityNode.setTotalEnergy( _totalEnergy );
+        _transmissionProbabilityNode.setTotalEnergy( _totalEnergy );
     }
     
     /**
@@ -940,7 +946,10 @@ public class QTModule extends AbstractModule implements Observer {
         resetClock();
         _planeWave.setNotifyEnabled( true );
         _wavePacket.setNotifyEnabled( true );
-        updateRtp();
+        
+        _reflectionProbabilityNode.setDirection( direction );
+        _transmissionProbabilityNode.setDirection( direction );
+        updateRtpLayout();
     }
     
     /**
@@ -1082,9 +1091,10 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     /*
-     * Updates the display of reflection and transmission probabilities.
+     * Updates the layout (on the canvas) of reflection and transmission probabilities.
+     * This happens when either the canvas size or wave direction is changed.
      */
-    private void updateRtp()
+    private void updateRtpLayout()
     {
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
         
