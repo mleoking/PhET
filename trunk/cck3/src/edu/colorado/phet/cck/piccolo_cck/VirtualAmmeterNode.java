@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 14, 2004 by Sam Reid
  */
 public class VirtualAmmeterNode extends PhetPNode {
-    private TargetReadoutToolNode trt;
+    private TargetReadoutToolNode targetReadoutToolNode;
     private Component panel;
     private ICCKModule module;
     private Circuit circuit;
@@ -33,12 +33,12 @@ public class VirtualAmmeterNode extends PhetPNode {
     }
 
     public VirtualAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final ICCKModule module ) {
-        this.trt = targetReadoutTool;
+        this.targetReadoutToolNode = targetReadoutTool;
         this.panel = panel;
         this.module = module;
         this.circuit = circuit;
-        trt.scale( 1.0 / 60.0 );
-        trt.setOffset( 1, 1 );
+        targetReadoutToolNode.scale( 1.0 / 60.0 );
+        targetReadoutToolNode.setOffset( 1, 1 );
         addChild( targetReadoutTool );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -51,11 +51,6 @@ public class VirtualAmmeterNode extends PhetPNode {
                     recompute();
                 }
             }
-//            if( module.getCCKModel().getcontains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) )
-//                        {
-//                            trt.translate( (int)dx, (int)dy );
-//                            recompute();
-//                        }
         } );
         resetText();
         setVisible( false );
@@ -63,13 +58,16 @@ public class VirtualAmmeterNode extends PhetPNode {
 
     public void recompute() {
         Point2D target = new Point2D.Double();
+        targetReadoutToolNode.localToGlobal( target );
+        globalToLocal( target );
+        localToParent( target );
         //check for intersect with circuit.
         Branch branch = circuit.getBranch( target );
         if( branch != null ) {
             double current = branch.getCurrent();
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
-            trt.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
+            targetReadoutToolNode.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
             return;
         }
         resetText();
@@ -80,7 +78,7 @@ public class VirtualAmmeterNode extends PhetPNode {
                 SimStrings.get( "VirtualAmmeter.HelpString1" ),
                 SimStrings.get( "VirtualAmmeter.HelpString2" )
         };
-        trt.setText( text );
+        targetReadoutToolNode.setText( text );
     }
 
 }
