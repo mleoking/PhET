@@ -17,3 +17,5 @@ grab bag items
 schematic?
 
 remove extra "phet" logos from right hand side
+
+virtual ammeter performance is terrible (until you zoom in or out by a tiny fraction).
