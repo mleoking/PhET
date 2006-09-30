@@ -98,6 +98,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setStopwatchVisible( boolean selected ) {
+        cckSimulationPanel.setStopwatchVisible( selected );
     }
 
     public void addCurrentChart() {

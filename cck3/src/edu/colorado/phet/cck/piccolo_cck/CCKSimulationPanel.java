@@ -100,4 +100,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public void setVirtualAmmeterVisible( boolean selected ) {
         measurementToolSetNode.setVirtualAmmeterVisible( selected );
     }
+
+    public void setStopwatchVisible( boolean selected ) {
+        measurementToolSetNode.setStopwatchVisible( selected );
+    }
 }
