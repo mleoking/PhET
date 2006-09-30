@@ -28,4 +28,5 @@ public class MeasurementToolSet {
     public VoltmeterModel getVoltmeterModel() {
         return voltmeterModel;
     }
+
 }

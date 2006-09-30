@@ -17,7 +17,7 @@ public class TargetReadoutToolNode extends PhetPNode {
     private int crosshairRadius = 15;
     private int readoutWidth = 140;
     private int readoutHeight = 50;
-    private Point location = new Point();
+//    private Point location = new Point();
     private int width = crosshairRadius * 2 + readoutWidth + 30;
     private int height = readoutHeight + 20;
     private Font font = new Font( "dialog", Font.BOLD, 14 );
@@ -56,8 +56,8 @@ public class TargetReadoutToolNode extends PhetPNode {
 
     public void changed() {
         // Compute the locations of things
-        location.setLocation( (int)location.getX(), (int)location.getY() );
-        Point upperLeft = new Point( location.x - crosshairRadius, location.y - crosshairRadius );
+//        location.setLocation( (int)location.getX(), (int)location.getY() );
+        Point upperLeft = new Point( - crosshairRadius, - crosshairRadius );
         Point readoutLocation = new Point( upperLeft.x + crosshairRadius * 2 + 10,
                                            upperLeft.y + crosshairRadius - readoutHeight / 2 );
         bounds = new RoundRectangle2D.Double( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
@@ -86,21 +86,6 @@ public class TargetReadoutToolNode extends PhetPNode {
         readoutShapeGraphic.setPathTo( new Rectangle2D.Double( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight ) );
         textGraphic.setHtml( text );
         textGraphic.setOffset( readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 - textGraphic.getFullBounds().getHeight() / 2 );
-    }
-
-    public void setLocation( int x, int y ) {
-        if( this.location.x != x || this.location.y != y ) {
-            this.location.setLocation( x, y );
-            changed();
-        }
-    }
-
-    public void translate( int dx, int dy ) {
-        setLocation( location.x + dx, location.y + dy );
-    }
-
-    public Point getPoint() {
-        return new Point( location );
     }
 
     public void setText( String[] text ) {

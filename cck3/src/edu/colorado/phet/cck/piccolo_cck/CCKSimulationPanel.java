@@ -44,9 +44,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
         addWorldChild( circuitNode );
 
 //        VoltmeterModel voltmeterModel = new VoltmeterModel();
-        measurementToolSetNode = new MeasurementToolSetNode( module.getVoltmeterModel() );
+        measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel() );
         addWorldChild( measurementToolSetNode );
-
         messageNode = new MessageNode();
         addScreenChild( messageNode );
 
@@ -96,5 +95,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public CircuitNode getCircuitNode() {
         return circuitNode;
+    }
+
+    public void setVirtualAmmeterVisible( boolean selected ) {
+        measurementToolSetNode.setVirtualAmmeterVisible( selected );
     }
 }

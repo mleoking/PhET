@@ -83,7 +83,7 @@ public class PiccoloVoltageCalculation {
     }
 
     public Connection detectConnection( Shape leftTip ) {
-        return circuit.detectConnection( leftTip );
+        return circuit.getConnection( leftTip );
     }
 
 //    private Branch detectBranch( Shape tipShape ) {
