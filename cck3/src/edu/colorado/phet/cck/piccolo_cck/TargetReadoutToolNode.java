@@ -17,10 +17,8 @@ public class TargetReadoutToolNode extends PhetPNode {
     private int crosshairRadius = 15;
     private int readoutWidth = 140;
     private int readoutHeight = 50;
-//    private Point location = new Point();
     private int width = crosshairRadius * 2 + readoutWidth + 30;
     private int height = readoutHeight + 20;
-    private Font font = new Font( "dialog", Font.BOLD, 14 );
     private Stroke crossHairStroke = new BasicStroke( 1f );
     private Stroke holeStroke = new BasicStroke( 2f );
     private int boundsStrokeWidth = 2;
@@ -56,7 +54,6 @@ public class TargetReadoutToolNode extends PhetPNode {
 
     public void changed() {
         // Compute the locations of things
-//        location.setLocation( (int)location.getX(), (int)location.getY() );
         Point upperLeft = new Point( - crosshairRadius, - crosshairRadius );
         Point readoutLocation = new Point( upperLeft.x + crosshairRadius * 2 + 10,
                                            upperLeft.y + crosshairRadius - readoutHeight / 2 );
