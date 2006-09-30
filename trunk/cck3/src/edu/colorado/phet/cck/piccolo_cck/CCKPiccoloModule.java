@@ -87,6 +87,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setVirtualAmmeterVisible( boolean selected ) {
+        cckSimulationPanel.setVirtualAmmeterVisible( selected );
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {

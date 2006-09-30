@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -696,7 +697,11 @@ public class Circuit {
         return false;
     }
 
-    public Connection detectConnection( Shape tipShape ) {
+    public Branch getBranch( Point2D pt ) {
+        return detectBranch( new Rectangle2D.Double( pt.getX(), pt.getY(), 0.001, 0.001 ) );
+    }
+
+    public Connection getConnection( Shape tipShape ) {
         Branch branch = detectBranch( tipShape );
         Junction junction = detectJunction( tipShape );
         Connection result = null;
