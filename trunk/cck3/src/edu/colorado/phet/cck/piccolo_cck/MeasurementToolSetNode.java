@@ -1,9 +1,17 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.StopwatchDecorator;
+import edu.colorado.phet.cck.chart.CCKTime;
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -15,12 +23,23 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class MeasurementToolSetNode extends PhetPNode {
     private VoltmeterNode voltmeterNode;
     private VirtualAmmeterNode virtualAmmeterNode;
+    private PSwing stopwatchNode;
 
     public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, ICCKModule module, VoltmeterModel voltmeterModel ) {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
         addChild( voltmeterNode );
         this.virtualAmmeterNode = new VirtualAmmeterNode( model.getCircuit(), pSwingCanvas, module );
         addChild( virtualAmmeterNode );
+
+        SwingClock clock = new SwingClock( 30, 1 );
+        clock.start();
+        stopwatchNode = new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) );
+        stopwatchNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        stopwatchNode.addInputEventListener( new PDragEventHandler() );
+        stopwatchNode.setVisible( false );
+        stopwatchNode.scale( 1.0 / 60.0 );
+        stopwatchNode.translate( 2, 2 );
+        addChild( stopwatchNode );
     }
 
     public void setVoltmeterVisible( boolean visible ) {
@@ -29,5 +48,9 @@ public class MeasurementToolSetNode extends PhetPNode {
 
     public void setVirtualAmmeterVisible( boolean selected ) {
         virtualAmmeterNode.setVisible( selected );
+    }
+
+    public void setStopwatchVisible( boolean selected ) {
+        stopwatchNode.setVisible( selected );
     }
 }
