@@ -50,10 +50,10 @@ public class A_AB_BC_C_Reaction extends Reaction {
     public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 ) {
         double pe = 0;
         if( m1 instanceof MoleculeAB || m2 instanceof MoleculeAB ) {
-            pe = getEnergyProfile().getLeftLevel();
+            pe = getEnergyProfile().getRightLevel();
         }
         else if( m1 instanceof MoleculeBC || m2 instanceof MoleculeBC ) {
-            pe = getEnergyProfile().getRightLevel();
+            pe = getEnergyProfile().getLeftLevel();
         }
         else {
             throw new RuntimeException( "internal error" );
