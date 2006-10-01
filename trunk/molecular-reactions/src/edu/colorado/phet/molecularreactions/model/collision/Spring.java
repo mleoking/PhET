@@ -65,7 +65,6 @@ public class Spring extends SimpleObservable implements ModelElement {
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
         angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
-
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
@@ -73,13 +72,10 @@ public class Spring extends SimpleObservable implements ModelElement {
         // velocity of the attached body
         Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
         double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
-        double c = getElongation() * omega / v0;
-        double rad = Math.sqrt( 1 / ( c * c + 1));
-        phi = Math.acos( rad * MathUtil.getSign( body.getVelocity().dot( vSpring) ) );
-        A = getElongation() / Math.sin(phi);
-
-//        A = getElongation() + v0 / omega;
-//        phi = Math.asin( getElongation() / A );
+        double x0 = getElongation();
+        double rad = ( v0 * v0 ) / ( ( x0 * x0 * omega * omega ) + ( v0 * v0 ) );
+        phi = Math.acos( Math.sqrt( rad ) );
+        A = v0 / ( omega * Math.cos( phi ) );
     }
 
     /**
@@ -106,6 +102,7 @@ public class Spring extends SimpleObservable implements ModelElement {
         if( attachedBody != null ) {
             freeEnd.setLocation( attachedBody.getCM() );
             Vector2D v = getVelocity();
+            System.out.println( "v = " + v );
             attachedBody.setVelocity( v );
         }
         notifyObservers();
