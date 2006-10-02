@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add a wiggle me to the gun on/off button
+
 - change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 - make stuff in view (beam, gun, etc) observers of PhotonGun
 - work out details of mapping between model and view coordinate systems
@@ -22,6 +22,7 @@ HIGH PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
+- wiggle me's position should be set after layout has been done
 - design code to accommodate zoom controls on animation region (possible feature)
 - create layout nodes
 - rewrite AtomicModelSelector to use inner classes, or layout node
@@ -39,6 +40,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/2/06) - add a wiggle me to the gun on/off button
 (10/2/06) - remove all specific default for font sizes from HAConstants, rely on SimStrings
 (10/2/06) - use bold for all text, specify as HAConstants.DEFAULT_FONT_STYLE
 (10/2/06) - lighten blue electron, increase size by 1 pixel
