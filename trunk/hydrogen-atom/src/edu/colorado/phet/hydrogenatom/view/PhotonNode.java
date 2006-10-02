@@ -30,7 +30,7 @@ public class PhotonNode extends PhetPNode {
 
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
     
-    private static final Color DEFAULT_COLOR = Color.MAGENTA;
+    private static final Color DEFAULT_COLOR = Color.GREEN;
     private static final double DEFAULT_DIAMETER = 30;
     private static final double CROSSHAIRS_ANGLE = 18; // degrees
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
