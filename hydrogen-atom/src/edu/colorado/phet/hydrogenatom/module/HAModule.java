@@ -35,6 +35,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.model.PhotonGun;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
@@ -44,6 +45,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -355,6 +358,21 @@ public class HAModule extends PiccoloModule {
             //XXX add help items to the help pane
 //            HelpPane helpPane = getDefaultHelpPane();
         }
+        
+        // Wiggle Me
+        String wiggleMeString = SimStrings.get( "wiggleMe.gun" );
+        final HAWiggleMe wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
+        _rootNode.addChild( wiggleMe );
+        wiggleMe.setOffset( 275, -50 );
+        wiggleMe.animateTo( 275, 425 );
+        _canvas.addInputEventListener( new PBasicInputEventHandler() {
+            // Clicking on the canvas makes the wiggle me go away.
+            public void mousePressed( PInputEvent event ) {
+                wiggleMe.setEnabled( false );
+                _rootNode.removeChild( wiggleMe );
+                _canvas.removeInputEventListener( this );
+            }
+        } );
 
         //----------------------------------------------------------------------------
         // Initialze the module state
