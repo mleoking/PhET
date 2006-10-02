@@ -12,7 +12,9 @@ package edu.colorado.phet.molectularreactions.view.energy;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
@@ -27,33 +29,33 @@ import java.awt.geom.Point2D;
  * <p/>
  * A view of the MRModel that shows the potential energy of two individual molecules,
  * or their composite molecule. This is a fairly abstract view.
+ * <p/>
+ * -------------------------------------------
+ * |                                         |
+ * |                                         |
+ * |           moleculePane                  |
+ * |                                         |
+ * |                                         |
+ * -------------------------------------------
+ * |          curvePane                      |
+ * |  .....................................  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .       curveArea                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .                                   .  |
+ * |  .....................................  |
+ * |  .       legendPane                  .  |
+ * |  .....................................  |
+ * -------------------------------------------
  *
- *      -------------------------------------------
- *      |                                         |
- *      |                                         |
- *      |           moleculePane                  |
- *      |                                         |
- *      |                                         |
- *      -------------------------------------------
- *      |          curvePane                      |
- *      |  .....................................  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .       curveArea                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .                                   .  |
- *      |  .....................................  |
- *      |  .       legendPane                  .  |
- *      |  .....................................  |
- *      -------------------------------------------
-  *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -78,6 +80,7 @@ public class EnergyView extends PNode implements SimpleObserver {
     private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
     private Dimension curveAreaSize;
     private MRModel model;
+    private ResizingArrow separationIndicatorArrow;
 
     /**
      *
@@ -139,7 +142,7 @@ public class EnergyView extends PNode implements SimpleObserver {
         Rectangle2D curveAreaBounds = new Rectangle2D.Double( curveAreaInsets.left,
                                                               curveAreaInsets.top,
                                                               curveAreaSize.getWidth(),
-                                                              curveAreaSize.getHeight());
+                                                              curveAreaSize.getHeight() );
         TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model );
         curveLayer.addChild( totalEnergyLine );
 
@@ -149,15 +152,19 @@ public class EnergyView extends PNode implements SimpleObserver {
         cursorLayer.addChild( cursor );
 
         // Add axes
-        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( "Reaction coordinate", 200, Color.white, AxisNode.HORIZONTAL, AxisNode.BOTTOM ));
-        xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0);
-        xAxis.setOffset( curvePane.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2, 
+        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get("EnergyView.ReactionCoordinate") ,
+                                                                       200,
+                                                                       Color.white,
+                                                                       AxisNode.HORIZONTAL,
+                                                                       AxisNode.BOTTOM ) );
+        xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0 );
+        xAxis.setOffset( curvePane.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2,
                          curvePane.getHeight() - 25 );
         curvePane.addChild( xAxis );
 
-        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200, Color.white, AxisNode.VERTICAL, AxisNode.TOP ));
+        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200, Color.white, AxisNode.VERTICAL, AxisNode.TOP ) );
         yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
-                                    -yAxis.getFullBounds().getHeight() / 2);
+                                    -yAxis.getFullBounds().getHeight() / 2 );
         yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
         curvePane.addChild( yAxis );
 
@@ -176,6 +183,16 @@ public class EnergyView extends PNode implements SimpleObserver {
         moleculePane.setPaint( moleculePaneBackgroundColor );
         moleculeLayer.setOffset( curveAreaInsets.left, 0 );
         moleculePane.addChild( moleculeLayer );
+
+        // Axis
+        separationIndicatorArrow = new ResizingArrow( Color.black );
+        moleculePane.addChild( separationIndicatorArrow );
+        PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ));
+        siaLabel.rotate( -Math.PI / 2);
+        siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
+                            moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
+        moleculePane.addChild( siaLabel);
+
         return moleculePane;
     }
 
@@ -261,6 +278,12 @@ public class EnergyView extends PNode implements SimpleObserver {
                 selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
                 nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
+
+            // Set the size of the separation indicator arrow
+            separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2 + 10, yMin,
+                                                   curveAreaInsets.left / 2 + 10, yMax );
+//            separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2, midPoint.getY() - edgeDist / 2,
+//                                                   curveAreaInsets.left / 2, midPoint.getY() + edgeDist / 2 );
 
             // Set the location of the bond graphic
             if( bondGraphic != null ) {
