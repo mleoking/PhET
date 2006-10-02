@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - model for BoxOfHydrogen
 - create and animate photons and alpha particles
 - generalize creating a "panel" node to fit under a collection of nodes
-- "Box of Hydrogen" HTMLNode looks lousy on Windows
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
 - fix spectrometer layout
@@ -22,7 +21,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - design code to accommodate zoom controls on animation region (possible feature)
-- create layout nodes
+- create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - port spectrometer from Discharge Lamps sim
 - show compressed UV and IR range in spectrometer (like in Discharge Lamps)
