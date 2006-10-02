@@ -3,9 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
+- make GunControlPanel a ChangeListener of its subpanels, set Gun properties
+- make GunControlPanel an Observer of Gun, set subpanels
 
 HIGH PRIORITY:
-- change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 - make stuff in view (beam, gun, etc) observers of PhotonGun
 - work out details of mapping between model and view coordinate systems
 - model for BoxOfHydrogen
@@ -37,6 +38,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/2/06) - make GunNode and BeamNode observers of Gun model
+(10/2/06) - change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 (10/2/06) - config wiggle me's position in SimStrings file
 (10/2/06) - add a wiggle me to the gun on/off button
 (10/2/06) - remove all specific default for font sizes from HAConstants, rely on SimStrings

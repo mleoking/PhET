@@ -81,42 +81,6 @@ public class HAController {
            }
         });
         
-        _gunNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleGunOnOffChange();
-            }
-        } );
-        
-        _gunControlPanel.getGunTypeControl().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleGunTypeChange();
-            }
-        } );
-        
-        _gunControlPanel.getLightTypeControl().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleLightTypeChange();
-            }
-        } );
-        
-        _gunControlPanel.getLightIntensityControl().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleLightIntensityChange();
-            }
-        } );
-        
-        _gunControlPanel.getWavelengthControl().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleLightWavelengthChange();
-            }
-        } );
-        
-        _gunControlPanel.getAlphaParticlesIntensityControl().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleAlphaParticleIntensityChange();
-            }
-        } );
-        
         _energyDiagramCheckBox.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
                 handleEnergyDiagramSelection();
@@ -169,30 +133,6 @@ public class HAController {
     private void handleAtomicModelChange() {
         _module.updateAtomicModel();
         _module.updateEnergyDiagram();
-    }
-    
-    private void handleGunOnOffChange() {
-        _module.updateGun();
-    }
-    
-    private void handleGunTypeChange() {
-        _module.updateGun();
-    }
-    
-    private void handleLightTypeChange() {
-        _module.updateGun();
-    }
-    
-    private void handleLightIntensityChange() {
-        _module.updateGun();
-    }
-    
-    private void handleLightWavelengthChange() {
-        _module.updateGun();
-    }
-    
-    private void handleAlphaParticleIntensityChange() {
-        _module.updateGun();
     }
     
     private void handleEnergyDiagramSelection() {
