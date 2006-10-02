@@ -15,9 +15,10 @@ import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
- * NextLowestEnergyEmissionStrategy
+ * HydrogenEnergyEmissionStrategy
  * <p/>
- * Always sets the atom to the next lower state down from its current state
+ * If the atom is in the level just above the ground state, go to the ground state.
+ * Otherwise, go to the level just above the ground state.
  *
  * @author Ron LeMaster
  * @version $Revision$
