@@ -35,7 +35,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
  * @version $Revision$
  */
 public class LightTypeControl extends JPanel {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -48,19 +48,21 @@ public class LightTypeControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LightTypeControl() {
+    public LightTypeControl( Font font ) {
         super();
         
         _listenerList = new EventListenerList();
         
         // Radio buttons
         _whiteButton = new JRadioButton( SimStrings.get( "button.white" ) );
+        _whiteButton.setFont( font );
         _whiteButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireChangeEvent( new ChangeEvent( this ) );
             }      
         });
         _monochromaticButton = new JRadioButton( SimStrings.get( "button.monochromatic" ) );
+        _monochromaticButton.setFont( font );
         _monochromaticButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireChangeEvent( new ChangeEvent( this ) );
@@ -79,13 +81,6 @@ public class LightTypeControl extends JPanel {
         int col = 0;
         layout.addComponent( _whiteButton, row, col++ );
         layout.addComponent( _monochromaticButton, row, col );
-        
-        // Fonts
-        // Fonts
-        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
-        _whiteButton.setFont( font );
-        _monochromaticButton.setFont( font );
         
         // Opacity
         setOpaque( false );

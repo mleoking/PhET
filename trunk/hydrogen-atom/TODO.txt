@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- use bold for all text
 - add a wiggle me to the gun on/off button
 - change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 - make stuff in view (beam, gun, etc) observers of PhotonGun
@@ -40,6 +39,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/2/06) - remove all specific default for font sizes from HAConstants, rely on SimStrings
+(10/2/06) - use bold for all text, specify as HAConstants.DEFAULT_FONT_STYLE
 (10/2/06) - lighten blue electron, increase size by 1 pixel
 (10/2/06) - check how photon looks with UV color (good)
 (10/2/06) - change magenta photons in GunTypeControl and LegendPanel to some visible color (green)

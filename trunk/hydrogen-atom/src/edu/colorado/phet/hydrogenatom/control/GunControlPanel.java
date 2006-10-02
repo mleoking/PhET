@@ -41,6 +41,11 @@ public class GunControlPanel extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
+    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final String FONT_SIZE_RESOURCE = "gunControls.font.size";
+    
     private static final double X_MARGIN = 40;
     private static final double Y_MARGIN = 10;
     private static final double Y_SPACING = 5;
@@ -72,20 +77,24 @@ public class GunControlPanel extends PhetPNode {
     public GunControlPanel( PSwingCanvas canvas ) {
         super();
         
+        // Font
+        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
+        
         PImage panel = PImageFactory.create( HAConstants.IMAGE_GUN_PANEL );
         
-        _gunTypeControl = new GunTypeControl( canvas );
+        _gunTypeControl = new GunTypeControl( canvas, font );
         
         _lightControls = new PhetPNode();
-        _lightTypeControl = new LightTypeControl();
-        _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );
+        _lightTypeControl = new LightTypeControl( font );
+        _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _wavelengthControl = new WavelengthControl( canvas,
                 HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
                 HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR, 
                 HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
         
         _alphaParticleControls = new PhetPNode();
-        _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE );
+        _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _alphaParticlesIntensityControl.setColor( HAConstants.ALPHA_PARTICLES_COLOR );
 
         // Wrappers for Swing components
@@ -127,6 +136,8 @@ public class GunControlPanel extends PhetPNode {
         // Scale the panel background image
         {
             _wavelengthControl.setWavelength( HAConstants.MAX_WAVELENGTH );
+            _wavelengthControl.setTextFieldFont( font );
+            _wavelengthControl.setUnitsFont( font );
             
             PBounds pb = panel.getFullBounds();
             PBounds gtb = _gunTypeControl.getFullBounds();
@@ -151,12 +162,6 @@ public class GunControlPanel extends PhetPNode {
         _lightIntensityControl.setUnitsForeground( LABEL_COLOR );
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
-        
-        // Fonts
-        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
-        _wavelengthControl.setTextFieldFont( font );
-        _wavelengthControl.setUnitsFont( font );
         
         // Event handling
         {
