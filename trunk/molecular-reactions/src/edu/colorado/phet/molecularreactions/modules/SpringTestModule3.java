@@ -17,9 +17,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
+import edu.colorado.phet.molecularreactions.model.collision.CompoundSpring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.mechanics.Body;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -29,19 +31,19 @@ import java.awt.geom.Ellipse2D;
 import java.awt.*;
 
 /**
- * SpringTestModule
- * <p>
- * Tests
+ * SpringTestModule3
+ * <p/>
+ * Tests springs that conformto the energy profile of the reaction
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SpringTestModule2 extends Module {
+public class SpringTestModule3 extends Module {
 
-    public SpringTestModule2() {
+    public SpringTestModule3() {
         super( "Spring Test2", new SwingClock( 40, 1 ), true );
 
-        MRModel model = new MRModel( getClock() ) {
+        final MRModel model = new MRModel( getClock() ) {
             protected void stepInTime( double dt ) {
 //                double e0 = spring.getPotentialEnergy() + mA.getKineticEnergy();
                 super.stepInTime( dt );
@@ -60,11 +62,17 @@ public class SpringTestModule2 extends Module {
                                                                           simPanel.getPhetRootNode() );
         model.addListener( megm );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
-        megm.addGraphicFactory( new SpringGraphicFactory( Spring.class, canvas ));
+        megm.addGraphicFactory( new SpringTestModule3.SpringGraphicFactory( Spring.class, canvas ) );
+
+        // Make springs that conform to the thresholds of the energy profile
+        final EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
+        final double leftDPE = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+        final double rightDPE = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
 
         {
+            double v0 = 0;
             // Make a couple of molecules
-            MoleculeA mA = new MoleculeA() {
+            final MoleculeA mA = new MoleculeA() {
                 double prevX;
 
                 public void stepInTime( double dt ) {
@@ -83,65 +91,50 @@ public class SpringTestModule2 extends Module {
                 }
             };
             mA.setPosition( 300, 200 );
-            mA.setVelocity( 15, 0 );
+            mA.setVelocity( v0, 0 );
             model.addModelElement( mA );
 
 
-            MoleculeB mB = new MoleculeB();
-            mB.setPosition( mA.getPosition().getX() + 200, mA.getPosition().getY() );
+            final MoleculeB mB = new MoleculeB();
+            mB.setPosition( mA.getPosition().getX() + 2 * energyProfile.getThresholdWidth() / 2 + 50, mA.getPosition().getY() );
+//            mB.setPosition( mA.getPosition().getX() + 200, mA.getPosition().getY() );
             model.addModelElement( mB );
-            mB.setVelocity( -15, 0 );
+            mB.setVelocity( -v0, 0 );
 
-            MoleculeC mC = new MoleculeC();
+            final MoleculeC mC = new MoleculeC();
             mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
                             mA.getPosition().getY() );
             model.addModelElement( mC );
-            mC.setVelocity( -15, 0 );
+            mC.setVelocity( -v0, 0 );
 
-            MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
+            final MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
             model.addModelElement( mBC );
 
             CompositeBody cb = new CompositeBody();
             cb.addBody( mA );
             cb.addBody( mBC );
 
-            Point2D fixedPt = cb.getCM();
-            Spring sA = new Spring( 3,
-                                    fixedPt.distance( mA.getPosition() ),
-                                    fixedPt,
-                                    Math.PI );
-            model.addModelElement( sA );
-            sA.attachBody( mA );
+            // A model element that will create a spring when the molecules are close enough to each other
+            model.addModelElement( new ModelElement() {
+                CompoundSpring cs = null;
 
-            Spring sBC = new Spring( 3,
-                                     fixedPt.distance( mBC.getPosition()),
-                                     fixedPt,
-                                     0 );
-            model.addModelElement( sBC );
-            sBC.attachBody( mBC );
+                public void stepInTime( double dt ) {
+                    double d = mA.getPosition().distance( mB.getPosition() );
+                    if( cs == null ) {
+//                    if( cs == null && d <= 2 * energyProfile.getThresholdWidth() / 2 ) {
+                        cs = new CompoundSpring( leftDPE ,
+                                                 2 * energyProfile.getThresholdWidth() / 2,
+                                                 2 * energyProfile.getThresholdWidth() / 2,
+                                                 new Body[]{mA, mBC} );
+                        model.addModelElement( cs );
 
-            // Make the spring
-//            Point2D fixedPt = new Point2D.Double( 500, 200 );
-//            double restingLength = 100;
-//            Spring spring = new Spring( 1, restingLength, fixedPt, Math.PI );
-//            model.addModelElement( spring );
-//            SpringTestModule2.SpringGraphic springGraphic = new SpringTestModule2.SpringGraphic( spring );
-//            canvas.addChild( springGraphic );
-//
-//            // Make the molecule and attach it to the spring
-//            spring.attachBody( mA );
-//            PPath refLine = new PPath( new Line2D.Double( spring.getFixedEnd().getX() - spring.getRestingLength(),
-//                                                          0,
-//                                                          spring.getFixedEnd().getX() - spring.getRestingLength(),
-//                                                          500 ) );
-//            refLine.setPaint( Color.blue );
-//            canvas.addChild( refLine );
-//            PPath refLine2 = new PPath( new Line2D.Double( spring.getFixedEnd().getX() + spring.getRestingLength(),
-//                                                           0,
-//                                                           spring.getFixedEnd().getX() + spring.getRestingLength(),
-//                                                           500 ) );
-//            refLine.setPaint( Color.blue );
-//            canvas.addChild( refLine2 );
+                    }
+//                    if( cs != null && d > 2 * energyProfile.getThresholdWidth() / 2 ) {
+//                        model.removeModelElement( cs );
+//                        cs = null;
+//                    }
+                }
+            } );
         }
 
     }
@@ -187,7 +180,7 @@ public class SpringTestModule2 extends Module {
         }
 
         public PNode createGraphic( ModelElement modelElement ) {
-            return new SpringGraphic( (Spring)modelElement );
+            return new SpringTestModule3.SpringGraphic( (Spring)modelElement );
         }
     }
 }

@@ -12,14 +12,11 @@ package edu.colorado.phet.molectularreactions.view.energy;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.view.EnergySimpleMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.view.EnergyMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
-import edu.colorado.phet.molecularreactions.view.BondGraphic;
+import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -31,6 +28,32 @@ import java.awt.geom.Point2D;
  * A view of the MRModel that shows the potential energy of two individual molecules,
  * or their composite molecule. This is a fairly abstract view.
  *
+ *      -------------------------------------------
+ *      |                                         |
+ *      |                                         |
+ *      |           moleculePane                  |
+ *      |                                         |
+ *      |                                         |
+ *      -------------------------------------------
+ *      |          curvePane                      |
+ *      |  .....................................  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .       curveArea                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .                                   .  |
+ *      |  .....................................  |
+ *      |  .       legendPane                  .  |
+ *      |  .....................................  |
+ *      -------------------------------------------
+  *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -52,7 +75,7 @@ public class EnergyView extends PNode implements SimpleObserver {
     private MyBondGraphic bondGraphic;
 
     private EnergyCursor cursor;
-    private Insets insets = new Insets( 20, 10, 10, 10 );
+    private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
     private Dimension curveAreaSize;
     private MRModel model;
 
@@ -67,18 +90,17 @@ public class EnergyView extends PNode implements SimpleObserver {
         PPath moleculePane = createMoleculePane();
         addChild( createMoleculePane() );
 
-        // The pane that has the curve and cursor
-        PPath curvePane = createCurvePane( moleculePane, model );
-        addChild( curvePane );
-
         // The graphic that shows the reaction mechanics
-        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 50 ) );
+        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 40 ) );
         legendNode.setPaint( Color.black );
         legendNode.setOffset( 0, moleculePaneSize.getHeight() + curvePaneSize.getHeight() );
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white );
         legendNode.addChild( reactionGraphic );
-        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
+        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 10 );
         addChild( legendNode );
+
+        // The pane that has the curve and cursor
+        addChild( createCurvePane( moleculePane, model ) );
 
         // Listen for changes in the selected molecule and the molecule closest to it
         model.addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
@@ -93,30 +115,29 @@ public class EnergyView extends PNode implements SimpleObserver {
      */
     private PPath createCurvePane( PPath moleculePane, MRModel model ) {
         PNode curveLayer = new PNode();
-        curveLayer.setOffset( insets.left, insets.top );
+        curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         PNode cursorLayer = new PNode();
-        cursorLayer.setOffset( insets.left, insets.top );
+        cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         PPath curvePane = new PPath( new Rectangle2D.Double( 0,
                                                              0,
                                                              curvePaneSize.getWidth(),
                                                              curvePaneSize.getHeight() ) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
-
         curvePane.addChild( curveLayer );
         curvePane.addChild( cursorLayer );
 
         // Create the curve
-        curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - insets.left - insets.right,
-                                       (int)curvePaneSize.getHeight() - insets.top - insets.bottom );
+        curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
+                                       (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
         EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
                                                                               curveAreaSize,
                                                                               curveColor );
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
-        Rectangle2D curveAreaBounds = new Rectangle2D.Double( insets.left,
-                                                              insets.top,
+        Rectangle2D curveAreaBounds = new Rectangle2D.Double( curveAreaInsets.left,
+                                                              curveAreaInsets.top,
                                                               curveAreaSize.getWidth(),
                                                               curveAreaSize.getHeight());
         TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model );
@@ -126,6 +147,19 @@ public class EnergyView extends PNode implements SimpleObserver {
         cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
         cursor.setVisible( false );
         cursorLayer.addChild( cursor );
+
+        // Add axes
+        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( "Reaction coordinate", 200, Color.white, AxisNode.HORIZONTAL, AxisNode.BOTTOM ));
+        xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0);
+        xAxis.setOffset( curvePane.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2, 
+                         curvePane.getHeight() - 25 );
+        curvePane.addChild( xAxis );
+
+        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200, Color.white, AxisNode.VERTICAL, AxisNode.TOP ));
+        yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
+                                    -yAxis.getFullBounds().getHeight() / 2);
+        yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
+        curvePane.addChild( yAxis );
 
         return curvePane;
     }
@@ -140,7 +174,7 @@ public class EnergyView extends PNode implements SimpleObserver {
                                                                 moleculePaneSize.getWidth(),
                                                                 moleculePaneSize.getHeight() ) );
         moleculePane.setPaint( moleculePaneBackgroundColor );
-        moleculeLayer.setOffset( insets.left, 0 );
+        moleculeLayer.setOffset( curveAreaInsets.left, 0 );
         moleculePane.addChild( moleculeLayer );
         return moleculePane;
     }
