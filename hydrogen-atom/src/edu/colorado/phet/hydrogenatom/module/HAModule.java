@@ -136,7 +136,7 @@ public class HAModule extends PiccoloModule {
             double wavelength = VisibleColor.MIN_WAVELENGTH;
             double intensity = 0.25;
             _photonGun = new PhotonGun( position, orientation, beamWidth, wavelength, intensity );
-            _photonGun.setEnabled( true );
+            _photonGun.setEnabled( false );
             getClock().addClockListener( _photonGun );
         }
         
@@ -251,8 +251,8 @@ public class HAModule extends PiccoloModule {
             //XXX sample photons and alpha particle
             {
                 _samplePhotonNode1 = new PhotonNode( Color.RED );
-                _samplePhotonNode2 = new PhotonNode( Color.GREEN );
-                _samplePhotonNode3 = new PhotonNode( Color.YELLOW );
+                _samplePhotonNode2 = new PhotonNode( Color.YELLOW);
+                _samplePhotonNode3 = new PhotonNode( HAConstants.UV_COLOR );
                 _sampleAlphaParticleNode = new AlphaParticleNode();
                 _animationRegionNode.addChild( _samplePhotonNode1 );
                 _animationRegionNode.addChild( _samplePhotonNode2 );

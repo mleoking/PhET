@@ -6,10 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use bold for all text
-- change magenta photons in GunTypeControl and LegendPanel to some visible color
 - lighten blue electron
 - add a wiggle me to the gun on/off button
-- check how photon looks with UV color
 - change PhotonGun to "Gun" and make it capable of firing alpha particles, too
 - make stuff in view (beam, gun, etc) observers of PhotonGun
 - work out details of mapping between model and view coordinate systems
@@ -43,6 +41,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/2/06) - check how photon looks with UV color (good)
+(10/2/06) - change magenta photons in GunTypeControl and LegendPanel to some visible color (green)
 (9/27/06) - add StationaryObject, MovingObject, Photon, AlphaParticle, PhotonGun to model
 (9/27/06) - delete photon image and asset files
 (9/27/06) - revise photon look based on feedback
