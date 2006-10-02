@@ -28,9 +28,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ElectronNode extends SphericalNode {
 
-    private static final double DIAMETER = 8;
+    private static final double DIAMETER = 9;
+    private static final Color COLOR = new Color( 120, 120, 255 );
     
-    private static final Color COLOR = new Color( 70, 70, 255 );
     private static final Color HILITE_COLOR = new Color( 140, 140, 255 );
     private static final Paint ROUND_GRADIENT = new RoundGradientPaint( 0, DIAMETER/6, HILITE_COLOR, new Point2D.Double( DIAMETER/4, DIAMETER/4 ), COLOR );
     private static final Stroke STROKE = new BasicStroke( 0.5f );
@@ -38,5 +38,9 @@ public class ElectronNode extends SphericalNode {
 
     public ElectronNode() {
         super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT, true /* convertToImage */ );
+    }
+    
+    public static final Color getColor() {
+        return COLOR;
     }
 }

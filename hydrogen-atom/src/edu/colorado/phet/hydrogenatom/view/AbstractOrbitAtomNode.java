@@ -32,7 +32,7 @@ public abstract class AbstractOrbitAtomNode extends AbstractAtomNode {
     private static final Color ORBIT_COLOR = Color.WHITE;
     private static final Stroke ORBIT_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
-    private static final Paint EXCITED_PAINT = Color.BLUE;
+    private static final Paint EXCITED_PAINT = ElectronNode.getColor();
     private static final Stroke EXCITED_STROKE = new BasicStroke( 6f );
     private static final double PROTON_ELECTRON_SPACING = 2;
     
