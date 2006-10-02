@@ -359,12 +359,14 @@ public class HAModule extends PiccoloModule {
 //            HelpPane helpPane = getDefaultHelpPane();
         }
         
-        // Wiggle Me
+        // Wiggle Me -- location is controlled in SimStrings file
         String wiggleMeString = SimStrings.get( "wiggleMe.gun" );
+        final int x = SimStrings.getInt( "wiggleMe.x", 200 );
+        final int y = SimStrings.getInt( "wiggleMe.y", 400 );
         final HAWiggleMe wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
         _rootNode.addChild( wiggleMe );
-        wiggleMe.setOffset( 275, -50 );
-        wiggleMe.animateTo( 275, 425 );
+        wiggleMe.setOffset( x, -100 );
+        wiggleMe.animateTo( x, y );
         _canvas.addInputEventListener( new PBasicInputEventHandler() {
             // Clicking on the canvas makes the wiggle me go away.
             public void mousePressed( PInputEvent event ) {
@@ -402,7 +404,7 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-
+    
     public void updateCanvasLayout() {
 
         // margins and spacing
