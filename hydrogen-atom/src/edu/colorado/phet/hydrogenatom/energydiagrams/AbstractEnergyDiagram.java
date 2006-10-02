@@ -30,6 +30,15 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public abstract class AbstractEnergyDiagram extends PhetPNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
+    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
+    
     private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 380 );
     private static final double MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
@@ -41,6 +50,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
     private static final Color ARROW_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public AbstractEnergyDiagram() {
         super();
         
@@ -48,8 +61,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         setChildrenPickable( false );
         
         // Fonts
-        int fontSize = SimStrings.getInt( "energyDiagram.font.size", HAConstants.ENERGY_DIAGRAM_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.BOLD, fontSize );
+        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         // Background
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );

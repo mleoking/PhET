@@ -44,8 +44,11 @@ public class BoxOfHydrogenNode extends PhetPNode {
     private static final float BACK_DEPTH = 10f;
     private static final float BACK_OFFSET = 0.15f;
     
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = Font.BOLD;
     private static final int DEFAULT_FONT_SIZE = 16;
-    private static final double Y_SPACING = 5;
+    
+    private static final double Y_SPACING = 5;  // space between label and box
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -96,7 +99,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
         labelNode.setHTML( SimStrings.get( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
         int fontSize = SimStrings.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
-        Font labelFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
+        Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize );
         labelNode.setFont( labelFont );
         
         // Layering

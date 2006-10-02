@@ -27,11 +27,24 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
  */
 public class NotToScaleNode extends PhetPNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
+    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final String FONT_SIZE_RESOURCE = "notToScale.font.size";
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public NotToScaleNode() {
         super();
         
-        int fontSize = SimStrings.getInt( "notToScale.font.size", HAConstants.NOT_TO_SCALE_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
+        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         HTMLNode htmlNode = new HTMLNode( SimStrings.get( "label.notToScale" ) );
         htmlNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );

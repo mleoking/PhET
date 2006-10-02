@@ -105,12 +105,12 @@ public class AtomicModelSelector extends PhetPNode {
         ArrayList heightNodes = new ArrayList();
         
         // Fonts
-        Font titleFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.BOLD, 
-                SimStrings.getInt( "atomicModelSelector.title.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE ) );
-        Font continuumFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, 
-                SimStrings.getInt( "atomicModelSelector.continuum.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE ) ); 
-        Font buttonFont = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN,
-                SimStrings.getInt( "atomicModelSelector.button.font.size", HAConstants.ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE ) );
+        Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
+                SimStrings.getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+        Font continuumFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 
+                SimStrings.getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) ); 
+        Font buttonFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
+                SimStrings.getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
         
         // Panel
         PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );

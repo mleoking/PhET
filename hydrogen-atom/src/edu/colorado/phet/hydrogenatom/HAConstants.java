@@ -14,9 +14,9 @@ package edu.colorado.phet.hydrogenatom;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -83,22 +83,11 @@ public class HAConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font name used for JLabels
-    public static final String JLABEL_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
-    
-    // Default font sizes, configurable (and overridden by) entries in the SimStrings file
-    public static final int MODE_SWITCH_BIG_FONT_SIZE = 20;
-    public static final int MODE_SWITCH_SMALL_FONT_SIZE = 14;
-    public static final int ATOMIC_MODEL_SELECTOR_TITLE_FONT_SIZE = 20;
-    public static final int ATOMIC_MODEL_SELECTOR_BUTTON_FONT_SIZE = 16;
-    public static final int ATOMIC_MODEL_SELECTOR_CONTINUUM_FONT_SIZE = 16;
-    public static final int BOX_OF_HYDROGEN_FONT_SIZE = 16;
-    public static final int GUN_CONTROLS_FONT_SIZE = 16;
-    public static final int SPECTROMETER_FONT_SIZE = 16;
-    public static final int ENERGY_DIAGRAM_FONT_SIZE = 16;
-    public static final int JCOMPONENT_FONT_SIZE = 16;
-    public static final int LEGEND_FONT_SIZE = 16;
-    public static final int NOT_TO_SCALE_FONT_SIZE = 14;
+    // Default font properties
+    public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
+    public static final int DEFAULT_FONT_STYLE = Font.BOLD;
+    public static final int DEFAULT_FONT_SIZE = 16;
+    // NOTE: font sizes are configurable in the SimStrings file!
     
     //----------------------------------------------------------------------------
     // Strokes

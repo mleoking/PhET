@@ -43,6 +43,11 @@ public class LegendPanel extends JPanel {
     private static final Color PANEL_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.WHITE;
 
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
+    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final String FONT_SIZE_RESOURCE = "legend.font.size";
+    
     //----------------------------------------------------------------------------
     // Constructors data
     //----------------------------------------------------------------------------
@@ -50,8 +55,8 @@ public class LegendPanel extends JPanel {
     public LegendPanel() {
         super();
 
-        int fontSize = SimStrings.getInt( "legend.font.size", HAConstants.LEGEND_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
+        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         PhotonNode photonNode = new PhotonNode();
         photonNode.rotate( Math.toRadians( 90 ) );

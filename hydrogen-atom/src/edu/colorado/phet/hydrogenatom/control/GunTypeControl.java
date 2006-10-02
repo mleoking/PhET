@@ -45,7 +45,7 @@ public class GunTypeControl extends PhetPNode {
     
     private static final Color PANEL_BACKGROUND = new Color( 30, 30, 30 );
     private static final Border PANEL_BORDER = new SoftBevelBorder( BevelBorder.LOWERED, Color.GRAY, Color.BLACK );
-        
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public class GunTypeControl extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GunTypeControl( PSwingCanvas canvas ) {
+    public GunTypeControl( PSwingCanvas canvas, Font font ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -117,8 +117,6 @@ public class GunTypeControl extends PhetPNode {
         addChild( pswing );
         
         // Fonts
-        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
         _lightButton.setFont( font );
         _alphaParticlesButton.setFont( font );
         

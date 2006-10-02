@@ -19,6 +19,9 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -29,7 +32,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 
 
 public class IntensityControl extends JPanel {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -43,7 +46,7 @@ public class IntensityControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntensityControl( Dimension size ) {
+    public IntensityControl( Dimension size, Font font ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -53,6 +56,7 @@ public class IntensityControl extends JPanel {
         _slider.addChangeListener( listener );
         
         _formattedTextField = new JFormattedTextField();
+        _formattedTextField.setFont( font );
         _formattedTextField.setColumns( 3 );
         _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
         _formattedTextField.addActionListener( listener );
@@ -60,11 +64,6 @@ public class IntensityControl extends JPanel {
         _formattedTextField.addKeyListener( listener );
         
         _units = new JLabel( "%" );
-        
-        // Fonts
-        int fontSize = SimStrings.getInt( "gunControls.font.size", HAConstants.GUN_CONTROLS_FONT_SIZE );
-        Font font = new Font( HAConstants.JLABEL_FONT_NAME, Font.PLAIN, fontSize );
-        _formattedTextField.setFont( font );
         _units.setFont( font );
         
         // Opacity
