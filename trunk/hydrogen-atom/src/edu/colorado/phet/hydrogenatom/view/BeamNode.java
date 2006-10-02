@@ -14,7 +14,10 @@ package edu.colorado.phet.hydrogenatom.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
 
+import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -24,14 +27,24 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BeamNode extends PhetPNode {
+public class BeamNode extends PhetPNode implements Observer {
 
-    private PPath _pathNode;
-    private int _r, _g, _b;
-    private int _intensity;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
-    public BeamNode( Dimension size ) {
+    private Gun _gun;
+    private PPath _pathNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public BeamNode( Dimension size, Gun gun ) {
         super();
+        
+        _gun = gun;
+        _gun.addObserver( this );
         
         setPickable( false );
         setChildrenPickable( false );
@@ -40,26 +53,21 @@ public class BeamNode extends PhetPNode {
         _pathNode.setStroke( null );
         addChild( _pathNode );
 
-        _r = 255;
-        _g = 255;
-        _b = 255;
-        _intensity = 100;
-        updateColor();
+        update();
     }
+
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
-    public void setColor( Color hue, int intensity ) {
-        if ( intensity < 0 || intensity > 100 ) {
-            throw new IllegalArgumentException( "intensity out of range: " + intensity );
+    public void update( Observable o, Object arg ) {
+        if ( o == _gun ) {
+            update();
         }
-        _r = hue.getRed();
-        _g = hue.getGreen();
-        _b = hue.getBlue();
-        _intensity = intensity;
-        updateColor();
     }
     
-    private void updateColor() {
-        int a = (int)( ( _intensity / 100d ) * 255 );
-        _pathNode.setPaint( new Color( _r, _g, _b, a ) );
+    private void update() {
+        setVisible( _gun.isEnabled() );
+        _pathNode.setPaint( _gun.getBeamColor() );
     }
 }

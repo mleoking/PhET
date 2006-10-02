@@ -37,7 +37,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
-import edu.colorado.phet.hydrogenatom.model.PhotonGun;
+import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
@@ -109,7 +109,7 @@ public class HAModule extends PiccoloModule {
     
     private Font _spectrometerFont;
 
-    private PhotonGun _photonGun;
+    private Gun _gun;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -134,13 +134,10 @@ public class HAModule extends PiccoloModule {
         // Photon gun
         {
             Point2D position = new Point2D.Double( 0, 0 );
-            double orientation = -90; // degrees, pointing up
+            double orientation = -90; // degrees, pointing straight up
             double beamWidth = 50;
-            double wavelength = VisibleColor.MIN_WAVELENGTH;
-            double intensity = 0.25;
-            _photonGun = new PhotonGun( position, orientation, beamWidth, wavelength, intensity );
-            _photonGun.setEnabled( false );
-            getClock().addClockListener( _photonGun );
+            _gun = new Gun( position, orientation, beamWidth );
+            getClock().addClockListener( _gun );
         }
         
         //----------------------------------------------------------------------------
@@ -177,8 +174,8 @@ public class HAModule extends PiccoloModule {
             _boxBeamGunParent = new PNode();
 
             _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE, HAConstants.TINY_BOX_SIZE );
-            _beamNode = new BeamNode( HAConstants.BEAM_SIZE );
-            _gunNode = new GunNode();
+            _beamNode = new BeamNode( HAConstants.BEAM_SIZE, _gun );
+            _gunNode = new GunNode( _gun );
 
             // Layering order
             _boxBeamGunParent.addChild( _beamNode );
@@ -389,9 +386,16 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private void reset() {
+        
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
-        _gunNode.setOn( false );
+        
+        _gun.setEnabled( true );
+        _gun.setMode( Gun.MODE_PHOTONS );
+        _gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
+        _gun.setLightIntensity( 1 );
+        _gun.setAlphaParticlesIntensity( 1 );
+        
         _gunControlPanel.getGunTypeControl().setLightSelected();
         _gunControlPanel.getLightTypeControl().setMonochromaticSelected();
         _gunControlPanel.getLightIntensityControl().setValue( 100 );
@@ -582,29 +586,6 @@ public class HAModule extends PiccoloModule {
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 _energyDiagramCheckBoxNode.setVisible( true );
                 _solarSystemEnergyDiagram.setVisible( _energyDiagramCheckBox.isSelected() );
-            }
-        }
-    }
-
-    public void updateGun() {
-        final boolean isOn = _gunNode.isOn();
-        _beamNode.setVisible( isOn );
-        if ( isOn ) {
-            if ( _gunControlPanel.getGunTypeControl().isLightSelected() ) {
-                Color color = null;
-                if ( _gunControlPanel.getLightTypeControl().isWhiteSelected() ) {
-                    color = Color.WHITE;
-                }
-                else {
-                    color = _gunControlPanel.getWavelengthControl().getWavelengthColor();
-                }
-                int intensity = _gunControlPanel.getLightIntensityControl().getValue();
-                _beamNode.setColor( color, intensity );
-            }
-            else {
-                Color color = _gunControlPanel.getAlphaParticlesIntensityControl().getColor();
-                int intensity = _gunControlPanel.getAlphaParticlesIntensityControl().getValue();
-                _beamNode.setColor( color, intensity );
             }
         }
     }

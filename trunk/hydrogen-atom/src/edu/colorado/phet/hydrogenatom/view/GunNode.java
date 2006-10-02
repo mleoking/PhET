@@ -11,17 +11,12 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -35,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunNode extends PhetPNode {
+public class GunNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -48,15 +43,18 @@ public class GunNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Gun _gun;
     private PImage _onButton, _offButton;
-    private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GunNode() {
+    public GunNode( Gun gun ) {
         super();
+        
+        _gun = gun;
+        _gun.addObserver( this );
         
         // Nodes
         PImage gunNode = PImageFactory.create( HAConstants.IMAGE_GUN );
@@ -78,14 +76,12 @@ public class GunNode extends PhetPNode {
         
         // Event handling
         {
-            _listenerList = new EventListenerList();
-
             gunNode.setPickable( false );
             cableNode.setPickable( false );
             
             PBasicInputEventHandler buttonHandler = new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    setOn( !isOn() );
+                    _gun.setEnabled( !_gun.isEnabled() );
                 }
             };
             _onButton.addInputEventListener( buttonHandler );
@@ -94,59 +90,43 @@ public class GunNode extends PhetPNode {
             _offButton.addInputEventListener( new CursorHandler() );
         }
         
-        // Default state
-        setOn( false );
+//         Default state
+//        setEnabled( _gun.isEnabled() );
+        update();
     }
     
     //----------------------------------------------------------------------------
-    // Mutators
+    // Private
     //----------------------------------------------------------------------------
-    
-    public void setOn( boolean on ) {
-        _onButton.setVisible( on );
-        _onButton.setPickable( _onButton.getVisible() );
-        _offButton.setVisible( !on );
-        _offButton.setPickable( _offButton.getVisible() );
-        fireChangeEvent( new ChangeEvent( this ) );
-    }
-    
-    public boolean isOn() {
-        return _onButton.getVisible();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
+//    
+//    private void setEnabled( boolean enabled ) {
+//        _onButton.setVisible( enabled );
+//        _onButton.setPickable( _onButton.getVisible() );
+//        _offButton.setVisible( !enabled );
+//        _offButton.setPickable( _offButton.getVisible() );
+//        _gun.setEnabled( enabled );
+//    }
+//    
+//    private boolean isEnabled() {
+//        return _onButton.getVisible();
+//    }
 
-    /**
-     * Adds a ChangeListener.
-     *
-     * @param listener the listener
-     */
-    public void addChangeListener( ChangeListener listener ) {
-        _listenerList.add( ChangeListener.class, listener );
-    }
-
-    /**
-     * Removes a ChangeListener.
-     *
-     * @param listener the listener
-     */
-    public void removeChangeListener( ChangeListener listener ) {
-        _listenerList.remove( ChangeListener.class, listener );
-    }
-
-    /**
-     * Fires a ChangeEvent.
-     *
-     * @param event the event
-     */
-    private void fireChangeEvent( ChangeEvent event ) {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
-            }
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _gun && arg == Gun.PROPERTY_ENABLED ) {
+//            setEnabled( _gun.isEnabled() );
+            update();
         }
+    }
+    
+    public void update() {
+        boolean enabled = _gun.isEnabled();
+        _onButton.setVisible( enabled );
+        _onButton.setPickable( _onButton.getVisible() );
+        _offButton.setVisible( !enabled );
+        _offButton.setPickable( _offButton.getVisible() );
     }
 }
