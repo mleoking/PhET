@@ -39,6 +39,18 @@ public class Spring extends SimpleObservable implements ModelElement {
     Body attachedBody;
     double t;
 
+    /**
+     *
+     * @param pe    The amount of energy stored in the spring when it's deformed by a specified length
+     * @param dl    The specified length of deformation
+     * @param restingLength
+     * @param fixedEnd
+     * @param angle
+     */
+    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, double angle ) {
+        this( 2 * pe / (dl * dl), restingLength, fixedEnd, angle);
+    }
+
     public Spring( double k, double restingLength, Point2D fixedEnd, double angle ) {
         this.k = k;
         this.restingLength = restingLength;
@@ -76,6 +88,8 @@ public class Spring extends SimpleObservable implements ModelElement {
         double rad = ( v0 * v0 ) / ( ( x0 * x0 * omega * omega ) + ( v0 * v0 ) );
         phi = Math.acos( Math.sqrt( rad ) );
         A = v0 / ( omega * Math.cos( phi ) );
+
+        A = x0 / Math.sin( phi );
     }
 
     /**
