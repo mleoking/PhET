@@ -101,6 +101,9 @@ public class CircuitInteractionModel {
 
             startMatch = getCircuit().getBestDragMatch( startSources, startDX );
             endMatch = getCircuit().getBestDragMatch( endSources, endDX );
+            if( endMatch != null && startMatch != null && endMatch.getTarget() == startMatch.getTarget() ) {
+                endMatch = null;
+            }
 
             if( startMatch != null && endMatch != null ) {
                 for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -124,17 +127,10 @@ public class CircuitInteractionModel {
             }
             Point2D newStartPosition = toStart.getDestination( dragPt );
             Vector2D dx = new Vector2D.Double( cc.getStartJunction().getPosition(), newStartPosition );
-            Branch[] sc = circuit.getStrongConnections( cc.getStartJunction() );
-            branchDragMatch = getCircuit().getBestDragMatch( sc, dx );
-            if( branchDragMatch == null ) {
-                BranchSet branchSet = new BranchSet( circuit, sc );
-                branchSet.translate( dx );
-            }
-            else {
-                Vector2D vector = branchDragMatch.getVector();
-                BranchSet branchSet = new BranchSet( circuit, sc );
-                branchSet.translate( vector );
-            }
+            Branch[] strongComponent = circuit.getStrongConnections( cc.getStartJunction() );
+            branchDragMatch = getCircuit().getBestDragMatch( strongComponent, dx );
+            BranchSet branchSet = new BranchSet( circuit, strongComponent );
+            branchSet.translate( branchDragMatch == null ? dx : branchDragMatch.getVector() );
         }
 
         public void dropBranch( Branch branch ) {

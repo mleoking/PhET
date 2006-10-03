@@ -612,8 +612,8 @@ public class Circuit {
     }
 
     public static class DragMatch {
-        Junction source;
-        Junction target;
+        private Junction source;
+        private Junction target;
 
         public DragMatch( Junction source, Junction target ) {
             this.source = source;
@@ -672,8 +672,8 @@ public class Circuit {
         for( int i = 0; i < targets.length; i++ ) {
             Junction target = targets[i];
             double dist = loc.distance( target.getPosition() );
-            if( target != dragging && !hasBranch( dragging, target ) &&
-                !wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
+            if( target != dragging && !hasBranch( dragging, target ) && !wouldConnectionCauseOverlappingBranches( dragging, target ) )
+            {
                 if( closestJunction == null || dist < closestValue ) {
                     boolean legal = !contains( strong, target );
                     double STICKY_THRESHOLD = 1;

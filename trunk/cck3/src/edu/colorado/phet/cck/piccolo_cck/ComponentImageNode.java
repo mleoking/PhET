@@ -46,7 +46,9 @@ public class ComponentImageNode extends ComponentNode {
         double sy = getCircuitComponent().getHeight() / pImage.getFullBounds().getHeight();
         double angle = new Vector2D.Double( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
         setTransform( new AffineTransform() );
-        setScale( sx );
+        if( Math.abs( sx ) > 1E-4 ) {
+            setScale( sx );
+        }
 //        transformBy( AffineTransform.getScaleInstance( sx,sy));
         setOffset( getBranch().getStartPoint() );
         rotate( angle );

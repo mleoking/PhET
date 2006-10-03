@@ -45,9 +45,17 @@ public class Junction extends SimpleObservableDebug {
         return y;
     }
 
-    public void translate( double dx, double dy ) {
+    public void translateNoNotify( double dx, double dy ) {
         x += dx;
         y += dy;
+    }
+
+    public void notifyChanged() {
+        notifyObservers();
+    }
+
+    public void translate( double dx, double dy ) {
+        translateNoNotify( dx, dy );
         notifyObservers();
     }
 
@@ -103,4 +111,5 @@ public class Junction extends SimpleObservableDebug {
         circle.setFrameFromCenter( getX(), getY(), getX() + radius, getY() + radius );
         return circle;
     }
+
 }
