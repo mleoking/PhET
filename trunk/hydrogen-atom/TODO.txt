@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add wavelength range to Gun model
 - work out details of mapping between model and view coordinate systems
 - make photons and alpha particles move
 - model for BoxOfHydrogen
@@ -38,6 +37,9 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/3/06) - use intensity to determine number of photons and alpha particles fired
+(10/3/06) - generate random wavelengths when creating photons for white light
+(10/3/06) - add wavelength range to Gun model
 (10/3/06) - make GunControlPanel a ChangeListener of its subpanels, set Gun properties
 (10/3/06) - make GunControlPanel an Observer of Gun, set subpanels
 (10/3/06) - fix Gun subpanels so that the ChangeEvent source is the subpanel, not the individual JComponents

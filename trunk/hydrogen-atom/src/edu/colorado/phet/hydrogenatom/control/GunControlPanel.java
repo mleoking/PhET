@@ -94,8 +94,8 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _lightTypeControl = new LightTypeControl( font );
         _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _wavelengthControl = new WavelengthControl( canvas,
-                HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH,
-                HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR, 
+                _gun.getMinWavelength(), _gun.getMaxWavelength(),
+                HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
                 HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
         
         _alphaParticleControls = new PhetPNode();
