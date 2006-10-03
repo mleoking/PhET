@@ -41,6 +41,7 @@ public class IntensityControl extends JPanel {
     private JFormattedTextField _formattedTextField;
     private JLabel _units;
     private EventListenerList _listenerList;
+    private Object _eventSource;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,6 +51,7 @@ public class IntensityControl extends JPanel {
         super();
         
         _listenerList = new EventListenerList();
+        _eventSource = this;
         EventHandler listener = new EventHandler();
         
         _slider = new ColorIntensitySlider( Color.RED, ColorIntensitySlider.HORIZONTAL, size );
@@ -208,7 +210,7 @@ public class IntensityControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
                 updateSlider();
-                fireChangeEvent( new ChangeEvent( this ) );
+                fireChangeEvent( new ChangeEvent( _eventSource ) );
             }
         }
         
@@ -216,7 +218,7 @@ public class IntensityControl extends JPanel {
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _slider ) {
                 updateTextField();
-                fireChangeEvent( new ChangeEvent( this ) );
+                fireChangeEvent( new ChangeEvent( _eventSource ) );
             }
         }
 

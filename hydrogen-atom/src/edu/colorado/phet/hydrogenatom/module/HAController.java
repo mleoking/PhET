@@ -32,8 +32,6 @@ public class HAController {
     private HAModule _module;
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
-    private GunNode _gunNode;
-    private GunControlPanel _gunControlPanel;
     private JCheckBox _energyDiagramCheckBox;
     private SpectrometerNode _spectrometer;
     private JCheckBox _spectrometerCheckBox;
@@ -43,8 +41,6 @@ public class HAController {
             HAModule module,
             ModeSwitch modeSwitch,
             AtomicModelSelector atomicModelSelector,
-            GunNode gunNode,
-            GunControlPanel gunControlPanel,
             JCheckBox energyDiagramCheckBox,
             SpectrometerNode spectrometer,
             JCheckBox spectrometerCheckBox )
@@ -52,8 +48,6 @@ public class HAController {
         _module = module;
         _modeSwitch = modeSwitch;
         _atomicModelSelector = atomicModelSelector;
-        _gunNode = gunNode;
-        _gunControlPanel = gunControlPanel;
         _energyDiagramCheckBox = energyDiagramCheckBox;
         _spectrometer = spectrometer;
         _spectrometerCheckBox = spectrometerCheckBox;

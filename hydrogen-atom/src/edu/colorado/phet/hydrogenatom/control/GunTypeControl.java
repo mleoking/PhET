@@ -50,7 +50,7 @@ public class GunTypeControl extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JRadioButton _lightButton;
+    private JRadioButton _photonsButton;
     private JRadioButton _alphaParticlesButton;
     private EventListenerList _listenerList;
     
@@ -75,28 +75,18 @@ public class GunTypeControl extends PhetPNode {
         Icon alphaParticleIcon = new ImageIcon( alphaParticleImage );
         
         // Photons radio button
-        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.get( "button.light" ), photonIcon );
-        _lightButton = photonsControl.getRadioButton();
-        _lightButton.setHorizontalTextPosition( SwingConstants.RIGHT );
-        _lightButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( this ) );
-            }      
-        });
+        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.get( "button.photons" ), photonIcon );
+        _photonsButton = photonsControl.getRadioButton();
+        _photonsButton.setHorizontalTextPosition( SwingConstants.RIGHT );
         
         // Alpha Particles radio button
         RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.get( "button.alphaParticles" ), alphaParticleIcon );
         _alphaParticlesButton = alphaParticleControl.getRadioButton();
         _alphaParticlesButton.setHorizontalTextPosition( SwingConstants.RIGHT );
-        _alphaParticlesButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( this ) );
-            }
-        });
         
         // Button group
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _lightButton );
+        buttonGroup.add( _photonsButton );
         buttonGroup.add( _alphaParticlesButton );
         
         // Layout
@@ -117,31 +107,44 @@ public class GunTypeControl extends PhetPNode {
         addChild( pswing );
         
         // Fonts
-        _lightButton.setFont( font );
+        _photonsButton.setFont( font );
         _alphaParticlesButton.setFont( font );
         
         // Opacity
-        _lightButton.setOpaque( false );
+        _photonsButton.setOpaque( false );
         _alphaParticlesButton.setOpaque( false );
         
+        // Event handling
+        final Object eventSource = this;
+        _photonsButton.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                fireChangeEvent( new ChangeEvent( eventSource ) );
+            }      
+        });
+        _alphaParticlesButton.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                fireChangeEvent( new ChangeEvent( eventSource ) );
+            }
+        });
+        
         // Default state
-        setLightSelected();
+        setPhotonsSelected( true );
     }
     
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void setLightSelected() {
-        _lightButton.setSelected( true );
+    public void setPhotonsSelected( boolean selected ) {
+        _photonsButton.setSelected( selected );
     }
     
-    public boolean isLightSelected() {
-        return _lightButton.isSelected();
+    public boolean isPhotonsSelected() {
+        return _photonsButton.isSelected();
     }
     
-    public void setAlphaParticlesSelected() {
-        _alphaParticlesButton.setSelected( true );
+    public void setAlphaParticlesSelected( boolean selected ) {
+        _alphaParticlesButton.setSelected( selected );
     }
     
     public boolean isAlphaParticlesSelected() {
@@ -149,7 +152,7 @@ public class GunTypeControl extends PhetPNode {
     }
     
     public void setLabelsForeground( Color color ) {
-        _lightButton.setForeground( color );
+        _photonsButton.setForeground( color );
         _alphaParticlesButton.setForeground( color );
     }
     

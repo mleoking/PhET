@@ -269,7 +269,7 @@ public class HAModule extends PiccoloModule {
         }
 
         // Gun control panel
-        _gunControlPanel = new GunControlPanel( _canvas );
+        _gunControlPanel = new GunControlPanel( _canvas, _gun );
 
         // Spectrometer
         {
@@ -344,8 +344,7 @@ public class HAModule extends PiccoloModule {
         setClockControlPanel( _clockControlPanel );
 
         _controller = new HAController( this, _modeSwitch, _atomicModelSelector, 
-                _gunNode, _gunControlPanel, _energyDiagramCheckBox, 
-                _spectrometerNode, _spectrometerCheckBox );
+                _energyDiagramCheckBox, _spectrometerNode, _spectrometerCheckBox );
 
         //----------------------------------------------------------------------------
         // Help
@@ -390,17 +389,13 @@ public class HAModule extends PiccoloModule {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         
-        _gun.setEnabled( true );
+        _gun.setEnabled( false );
         _gun.setMode( Gun.MODE_PHOTONS );
+        _gun.setLightType( Gun.LIGHT_TYPE_MONOCHROMATIC );
         _gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
         _gun.setLightIntensity( 1 );
         _gun.setAlphaParticlesIntensity( 1 );
         
-        _gunControlPanel.getGunTypeControl().setLightSelected();
-        _gunControlPanel.getLightTypeControl().setMonochromaticSelected();
-        _gunControlPanel.getLightIntensityControl().setValue( 100 );
-        _gunControlPanel.getWavelengthControl().setWavelength( VisibleColor.MIN_WAVELENGTH );
-        _gunControlPanel.getAlphaParticlesIntensityControl().setValue( 100 );
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
     }

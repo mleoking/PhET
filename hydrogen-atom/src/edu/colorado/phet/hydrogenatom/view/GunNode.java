@@ -54,7 +54,6 @@ public class GunNode extends PhetPNode implements Observer {
         super();
         
         _gun = gun;
-        _gun.addObserver( this );
         
         // Nodes
         PImage gunNode = PImageFactory.create( HAConstants.IMAGE_GUN );
@@ -89,27 +88,11 @@ public class GunNode extends PhetPNode implements Observer {
             _onButton.addInputEventListener( new CursorHandler() );
             _offButton.addInputEventListener( new CursorHandler() );
         }
-        
-//         Default state
-//        setEnabled( _gun.isEnabled() );
-        update();
+
+        // Sync with model
+        updateAll();
+        _gun.addObserver( this );
     }
-    
-    //----------------------------------------------------------------------------
-    // Private
-    //----------------------------------------------------------------------------
-//    
-//    private void setEnabled( boolean enabled ) {
-//        _onButton.setVisible( enabled );
-//        _onButton.setPickable( _onButton.getVisible() );
-//        _offButton.setVisible( !enabled );
-//        _offButton.setPickable( _offButton.getVisible() );
-//        _gun.setEnabled( enabled );
-//    }
-//    
-//    private boolean isEnabled() {
-//        return _onButton.getVisible();
-//    }
 
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -117,12 +100,11 @@ public class GunNode extends PhetPNode implements Observer {
     
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_ENABLED ) {
-//            setEnabled( _gun.isEnabled() );
-            update();
+            updateAll();
         }
     }
     
-    public void update() {
+    public void updateAll() {
         boolean enabled = _gun.isEnabled();
         _onButton.setVisible( enabled );
         _onButton.setPickable( _onButton.getVisible() );

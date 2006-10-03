@@ -44,7 +44,6 @@ public class BeamNode extends PhetPNode implements Observer {
         super();
         
         _gun = gun;
-        _gun.addObserver( this );
         
         setPickable( false );
         setChildrenPickable( false );
@@ -53,7 +52,8 @@ public class BeamNode extends PhetPNode implements Observer {
         _pathNode.setStroke( null );
         addChild( _pathNode );
 
-        update();
+        updateAll();
+        _gun.addObserver( this );
     }
 
     //----------------------------------------------------------------------------
@@ -62,11 +62,11 @@ public class BeamNode extends PhetPNode implements Observer {
     
     public void update( Observable o, Object arg ) {
         if ( o == _gun ) {
-            update();
+            updateAll();
         }
     }
     
-    private void update() {
+    private void updateAll() {
         setVisible( _gun.isEnabled() );
         _pathNode.setPaint( _gun.getBeamColor() );
     }

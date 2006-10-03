@@ -45,19 +45,23 @@ public class Gun extends StationaryObject implements ClockListener {
     public static final String PROPERTY_MODE = "mode";
     public static final String PROPERTY_ORIENTATION = "orientation";
     public static final String PROPERTY_NOZZLE_WIDTH = "nozzleWidth";
-    public static final String PROPERTY_WAVELENGTH = "waveLength";
+    public static final String PROPERTY_LIGHT_TYPE = "lightType";
     public static final String PROPERTY_LIGHT_INTENSITY = "lightIntensity";
+    public static final String PROPERTY_WAVELENGTH = "waveLength";
     public static final String PROPERTY_ALPHA_PARTICLES_INTENSITY = "alphaParticlesIntensity";
     
     public static final int MODE_PHOTONS = 0;
     public static final int MODE_ALPHA_PARTICLES = 1;
     
-    private static final int PHOTONS_PER_CLOCK_TICK = 1;
-    private static final int ALPHA_PARTICLES_PER_CLOCK_TICK = 1;
+    public static final int LIGHT_TYPE_WHITE = 0;
+    public static final int LIGHT_TYPE_MONOCHROMATIC = 1;
     
     private static final double DEFAULT_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
+    
+    private static final int PHOTONS_PER_CLOCK_TICK = 1;
+    private static final int ALPHA_PARTICLES_PER_CLOCK_TICK = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -67,8 +71,9 @@ public class Gun extends StationaryObject implements ClockListener {
     private int _mode; // is the gun firing photons or alpha particles?
     private double _orientation; // direction the gun points, in degrees
     private double _nozzleWidth; // width of the beam
-    private double _wavelength; // wavelength of the light
+    private int _lightType; // type of light (white or monochromatic)
     private double _lightIntensity; // intensity of the light, 0.0-1.0
+    private double _wavelength; // wavelength of the light
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
     
     private EventListenerList _listenerList;
@@ -88,8 +93,9 @@ public class Gun extends StationaryObject implements ClockListener {
         _mode = MODE_PHOTONS;
         _orientation = orientation;
         _nozzleWidth = nozzleWidth;
-        _wavelength = DEFAULT_WAVELENGTH;
+        _lightType = LIGHT_TYPE_MONOCHROMATIC;
         _lightIntensity = DEFAULT_LIGHT_INTENSITY;
+        _wavelength = DEFAULT_WAVELENGTH;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
         
         _listenerList = new EventListenerList();
@@ -148,19 +154,15 @@ public class Gun extends StationaryObject implements ClockListener {
     public double getNozzleWidth() {
         return _nozzleWidth;
     }
-    
-    public void setWavelength( double wavelength ) {
-        if ( wavelength < 0 ) {
-            throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
+
+    public void setLightType( int lightType ) {
+        if ( lightType != LIGHT_TYPE_WHITE && lightType != LIGHT_TYPE_MONOCHROMATIC ) {
+            throw new IllegalArgumentException( "invalid lightType: " + lightType );
         }
-        if ( wavelength != _wavelength ) {
-            _wavelength = wavelength;
-            notifyObservers( PROPERTY_WAVELENGTH );
+        if ( lightType != _lightType ) {
+            _lightType = lightType;
+            notifyObservers( PROPERTY_LIGHT_TYPE );
         }
-    }
-    
-    public double getWavelength() {
-        return _wavelength;
     }
     
     public void setLightIntensity( double lightIntensity ) {
@@ -177,6 +179,20 @@ public class Gun extends StationaryObject implements ClockListener {
         return _lightIntensity;
     }
 
+    public void setWavelength( double wavelength ) {
+        if ( wavelength < 0 ) {
+            throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
+        }
+        if ( wavelength != _wavelength ) {
+            _wavelength = wavelength;
+            notifyObservers( PROPERTY_WAVELENGTH );
+        }
+    }
+    
+    public double getWavelength() {
+        return _wavelength;
+    }
+    
     public void setAlphaParticlesIntensity( double alphaParticlesIntensity ) {
         if ( alphaParticlesIntensity < 0 || alphaParticlesIntensity > 1 ) {
             throw new IllegalArgumentException( "invalid alphaParticlesIntensity: " + alphaParticlesIntensity );
@@ -203,6 +219,15 @@ public class Gun extends StationaryObject implements ClockListener {
         return ( _mode == MODE_ALPHA_PARTICLES );
     }
     
+    public boolean isWhiteLightType() {
+        return ( _lightType == LIGHT_TYPE_WHITE );
+    }
+    
+    public boolean isMonochromaticLightType() {
+        return ( _lightType == LIGHT_TYPE_MONOCHROMATIC );   
+    }
+    
+    //TODO if lightType is white, randomly choose a wavelength!
     public Color getWavelengthColor() {
         Color wavelengthColor = null;
         if ( _enabled ) {
@@ -217,13 +242,23 @@ public class Gun extends StationaryObject implements ClockListener {
     }
     
     public Color getBeamColor() {
+        
         Color beamColor = null;
-        Color c = getWavelengthColor();
+        Color c = null;
+        
+        if ( _lightType == LIGHT_TYPE_WHITE ) {
+            c = Color.WHITE;
+        }
+        else {
+            c = getWavelengthColor();
+        }
+        
         if ( c != null ) {
             double intensity = ( _mode == MODE_PHOTONS ) ? _lightIntensity : _alphaParticlesIntensity;
             int a = (int) ( intensity * 255 );
             beamColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), a );
         }
+        
         return beamColor;
     }
     
@@ -271,6 +306,7 @@ public class Gun extends StationaryObject implements ClockListener {
             double y = getPositionRef().getY();
             Point2D position = new Point2D.Double( x, y );
             double direction = _orientation;
+            //XXX pick a random wavelength if _lightType is white!
             Photon photon = new Photon( position, direction, _wavelength );
             PhotonFiredEvent event = new PhotonFiredEvent( this, photon );
             firePhotonFiredEvent( event );
