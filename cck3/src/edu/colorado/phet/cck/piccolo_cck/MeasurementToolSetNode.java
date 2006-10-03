@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -23,7 +24,7 @@ import java.awt.*;
 public class MeasurementToolSetNode extends PhetPNode {
     private VoltmeterNode voltmeterNode;
     private VirtualAmmeterNode virtualAmmeterNode;
-    private PSwing stopwatchNode;
+    private PNode stopwatchNode;
 
     public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, ICCKModule module, VoltmeterModel voltmeterModel ) {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
@@ -34,7 +35,7 @@ public class MeasurementToolSetNode extends PhetPNode {
 
         SwingClock clock = new SwingClock( 30, 1 );
         clock.start();
-        stopwatchNode = new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) );
+        stopwatchNode = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
         stopwatchNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchNode.addInputEventListener( new PDragEventHandler() );
         stopwatchNode.setVisible( false );
