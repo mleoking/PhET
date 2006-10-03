@@ -15,6 +15,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.AffineTransform;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -36,7 +38,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GunControlPanel extends PhetPNode {
+public class GunControlPanel extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -58,13 +60,13 @@ public class GunControlPanel extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GunTypeControl _gunTypeControl;
+    private Gun _gun;
     
+    private GunTypeControl _gunTypeControl;
     private PhetPNode _lightControls;
     private LightTypeControl _lightTypeControl;
     private IntensityControl _lightIntensityControl;
     private WavelengthControl _wavelengthControl;
-    
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
     
@@ -75,8 +77,10 @@ public class GunControlPanel extends PhetPNode {
     /**
      * Constructor.
      */
-    public GunControlPanel( PSwingCanvas canvas ) {
+    public GunControlPanel( PSwingCanvas canvas, Gun gun ) {
         super();
+        
+        _gun = gun;
         
         // Font
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
@@ -168,92 +172,118 @@ public class GunControlPanel extends PhetPNode {
         {
             panel.setPickable( false );
             
-            // Gun type
-            _gunTypeControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleGunTypeChange();
-                }
-            } );
-            
-            // Light type control handler
-            _lightTypeControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleLightTypeChange();
-                }
-            } );
-
-            // Wavelength control handler
-            _wavelengthControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleWavelengthChange();
-                }
-            } );
+            GunChangeListener listener = new GunChangeListener();
+            _gunTypeControl.addChangeListener( listener );
+            _lightTypeControl.addChangeListener( listener );
+            _lightIntensityControl.addChangeListener( listener );
+            _wavelengthControl.addChangeListener( listener );
+            _alphaParticlesIntensityControl.addChangeListener( listener );
         }
         
-        // Default state
-        _gunTypeControl.setLightSelected();
-        _lightControls.setVisible( _gunTypeControl.isLightSelected() );
-        _alphaParticleControls.setVisible( _gunTypeControl.isAlphaParticlesSelected() );
-        _lightTypeControl.setMonochromaticSelected();
-        _lightIntensityControl.setValue( 100 );
-        _wavelengthControl.setWavelength( VisibleColor.MIN_WAVELENGTH );
-        _alphaParticlesIntensityControl.setValue( 100 );
+        // Sync with model
+        updateAll();
+        _gun.addObserver( this );
     }
     
     //----------------------------------------------------------------------------
-    // Mutators
+    // Event handling
     //----------------------------------------------------------------------------
     
-    public GunTypeControl getGunTypeControl() {
-        return _gunTypeControl;
+    private class GunChangeListener implements ChangeListener {
+
+        public void stateChanged( ChangeEvent event ) {
+            System.out.println( "GunControlPanel.stateChanged" );//XXX
+            Object source = event.getSource();
+            if ( source == _gunTypeControl ) {
+                handleGunTypeChange();
+            }
+            else if ( source == _lightTypeControl ) {
+                handleLightTypeChange();
+            }
+            else if ( source == _lightIntensityControl ) {
+                handleLightIntensityChange();
+            }
+            else if ( source == _wavelengthControl ) {
+                handleWavelengthChange();
+            }
+            else if ( source == _alphaParticlesIntensityControl ) {
+                handleAlphaParticlesIntensityChange();
+            }
+        }   
     }
     
-    public LightTypeControl getLightTypeControl() {
-        return _lightTypeControl;
-    }
-    
-    public IntensityControl getLightIntensityControl() {
-        return _lightIntensityControl;
-    }
-    
-    public WavelengthControl getWavelengthControl() {
-        return _wavelengthControl;
-    }
-    
-    public IntensityControl getAlphaParticlesIntensityControl() {
-        return _alphaParticlesIntensityControl;
-    }
-    
-    //----------------------------------------------------------------------------
-    // private
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Changes the controls based on the type of gun selected.
-     */
     private void handleGunTypeChange() {
-        _lightControls.setVisible( _gunTypeControl.isLightSelected() );
-        _alphaParticleControls.setVisible( _gunTypeControl.isAlphaParticlesSelected() );
+        System.out.println( "GunControlPanel.handleGunTypeChange" );//XXX
+        _lightControls.setVisible( _gun.isPhotonsMode() );
+        _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
+        int mode = ( _gunTypeControl.isPhotonsSelected() ? Gun.MODE_PHOTONS : Gun.MODE_ALPHA_PARTICLES );
+        _gun.setMode( mode );
     }
     
-    /*
-     * Changes visibility and color of controls to match the type of light.
-     */
     private void handleLightTypeChange() {
+        int lightType = 0;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
             _wavelengthControl.setVisible( true );
+            lightType = Gun.LIGHT_TYPE_MONOCHROMATIC;
         }
         else {
             _lightIntensityControl.setColor( Color.WHITE );
             _wavelengthControl.setVisible( false );
+            lightType = Gun.LIGHT_TYPE_WHITE;
+        }
+        _gun.setLightType( lightType );
+    }
+    
+    private void handleLightIntensityChange() {
+        double intensity = _lightIntensityControl.getValue() / 100d;
+        _gun.setLightIntensity( intensity );
+    }
+    
+    private void handleWavelengthChange() {
+        _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+        _gun.setWavelength( _wavelengthControl.getWavelength() );
+    }
+    
+    private void handleAlphaParticlesIntensityChange() {
+        double intensity = _alphaParticlesIntensityControl.getValue() / 100d;
+        _gun.setAlphaParticlesIntensity( intensity );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    public void update( Observable o, Object arg ) {
+        System.out.println( "GunControlPanel.update" );//XXX
+        if ( o == _gun ) {
+            if ( arg == Gun.PROPERTY_MODE ) {
+                _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
+            }
+            else if ( arg == Gun.PROPERTY_LIGHT_TYPE ) {
+                _lightTypeControl.setMonochromaticSelected( _gun.isMonochromaticLightType() );
+            }
+            else if ( arg == Gun.PROPERTY_WAVELENGTH ) {
+                _wavelengthControl.setWavelength( _gun.getWavelength() );
+            }
+            else if ( arg == Gun.PROPERTY_LIGHT_INTENSITY ) {
+                int i = (int)( 100 * _gun.getLightIntensity() );
+                _lightIntensityControl.setValue( i );
+            }
+            else if ( arg == Gun.PROPERTY_ALPHA_PARTICLES_INTENSITY ) {
+                int i = (int)( 100 * _gun.getAlphaParticlesIntensity() );
+                _alphaParticlesIntensityControl.setValue( i );
+            }
         }
     }
     
-    /*
-     * Changes the intensity control's color to match the wavelength.
-     */
-    private void handleWavelengthChange() {
-        _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+    private void updateAll() {
+        _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
+        _lightControls.setVisible( _gun.isPhotonsMode() );
+        _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
+        _lightTypeControl.setMonochromaticSelected( _gun.isMonochromaticLightType() );
+        _wavelengthControl.setWavelength( _gun.getWavelength() );
+        _lightIntensityControl.setValue( (int)( 100 * _gun.getLightIntensity() ) );
+        _alphaParticlesIntensityControl.setValue( (int)( 100 * _gun.getAlphaParticlesIntensity() ) );
     }
 }

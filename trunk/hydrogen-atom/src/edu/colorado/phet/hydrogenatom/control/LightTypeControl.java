@@ -56,18 +56,10 @@ public class LightTypeControl extends JPanel {
         // Radio buttons
         _whiteButton = new JRadioButton( SimStrings.get( "button.white" ) );
         _whiteButton.setFont( font );
-        _whiteButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( this ) );
-            }      
-        });
+
         _monochromaticButton = new JRadioButton( SimStrings.get( "button.monochromatic" ) );
         _monochromaticButton.setFont( font );
-        _monochromaticButton.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( this ) );
-            }      
-        });
+        
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _whiteButton );
         buttonGroup.add( _monochromaticButton );
@@ -87,24 +79,37 @@ public class LightTypeControl extends JPanel {
         _whiteButton.setOpaque( false );
         _monochromaticButton.setOpaque( false );
         
+        // Event handling
+        final Object eventSource = this;
+        _whiteButton.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                fireChangeEvent( new ChangeEvent( eventSource ) );
+            }      
+        });
+        _monochromaticButton.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                fireChangeEvent( new ChangeEvent( eventSource ) );
+            }      
+        });
+        
         // Default state
-        setWhiteSelected();
+        setWhiteSelected( true );
     }
     
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
     
-    public void setWhiteSelected() {
-        _whiteButton.setSelected( true );
+    public void setWhiteSelected( boolean selected ) {
+        _whiteButton.setSelected( selected );
     }
     
     public boolean isWhiteSelected() {
         return _whiteButton.isSelected();
     }
     
-    public void setMonochromaticSelected() {
-        _monochromaticButton.setSelected( true );
+    public void setMonochromaticSelected( boolean selected ) {
+        _monochromaticButton.setSelected( selected );
     }
     
     public boolean isMonochromaticSelected() {
