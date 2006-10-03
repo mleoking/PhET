@@ -24,7 +24,7 @@ import edu.colorado.phet.common.math.MathUtil;
  * @version $Revision$
  */
 public class A_AB_BC_C_Reaction extends Reaction {
-    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .9,
+    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
                                                                     50 );

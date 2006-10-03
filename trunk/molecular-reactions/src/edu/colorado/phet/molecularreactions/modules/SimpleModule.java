@@ -89,7 +89,7 @@ public class SimpleModule extends MRModule {
             {
                 SimpleMolecule m1 = new MoleculeB();
                 double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;
-                m1.setPosition( 180, yLoc );
+                m1.setPosition( 280, yLoc );
                 m1.setVelocity( 0, 0 );
                 model.addModelElement( m1 );
                 SimpleMolecule m1a = new MoleculeA();
@@ -103,7 +103,7 @@ public class SimpleModule extends MRModule {
                 model.addModelElement( cm );
 
                 SimpleMolecule m2 = new MoleculeC();
-                m2.setPosition( m1.getPosition().getX() - 130, m1.getPosition().getY() );
+                m2.setPosition( m1.getPosition().getX() -230, m1.getPosition().getY() );
                 m2.setVelocity( 4, 0 );
                 model.addModelElement( m2 );
 

@@ -81,12 +81,12 @@ public class CompoundSpring extends Body implements ModelElement {
         double rl1 = restingLength * bodies[0].getMass() / cb.getMass();
 
         // Compute the angles of the springs
-        double angle0 = new Vector2D.Double( fixedPt, bodies[0].getPosition() ).getAngle();
-        double angle1 = new Vector2D.Double( fixedPt, bodies[1].getPosition() ).getAngle();
+//        double angle0 = new Vector2D.Double( fixedPt, bodies[0].getPosition() ).getAngle();
+//        double angle1 = new Vector2D.Double( fixedPt, bodies[1].getPosition() ).getAngle();
 
         // Make the component springs
-        springs[0] = new Spring( k0, rl0, fixedPt, angle0 );
-        springs[1] = new Spring( k1, rl1, fixedPt, angle1 );
+        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );
+        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1]  );
 
         // Attache the bodies to the springs
         springs[0].attachBody( bodies[0] );

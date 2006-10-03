@@ -133,7 +133,7 @@ public class PumpGraphic extends PNode {
             double y = model.getBox().getMaxY() - 100;
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
             RandomMoleculeParamGenerator moleculeParamGenerator = new RandomMoleculeParamGenerator( creationBounds,
-                                                                                                    3,
+                                                                                                    MRConfig.MAX_SPEED,
                                                                                                     .1,
                                                                                                     Math.PI * 3 / 4,
                                                                                                     Math.PI * 5 / 4 );

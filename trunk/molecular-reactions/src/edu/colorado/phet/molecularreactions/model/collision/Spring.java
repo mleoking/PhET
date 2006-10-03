@@ -34,7 +34,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     double restingLength;
     private Point2D fixedEnd;
     private double angle;
-    private Point2D freeEnd;
+    private Point2D freeEnd = new Point2D.Double( );
     Line2D extent;
     Body attachedBody;
     double t;
@@ -51,14 +51,32 @@ public class Spring extends SimpleObservable implements ModelElement {
         this( 2 * pe / (dl * dl), restingLength, fixedEnd, angle);
     }
 
+    public Spring( double k, double restingLength, Point2D fixedEnd, Body body ) {
+        this( k, restingLength, fixedEnd );
+        attachBodyAtRestingLength( body );
+    }
+
+    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body ) {
+        this( 2 * pe / (dl * dl), restingLength, fixedEnd );
+        attachBodyAtRestingLength( body );
+    }
+
     public Spring( double k, double restingLength, Point2D fixedEnd, double angle ) {
+        this( k, restingLength, fixedEnd );
+        setAngle( angle, fixedEnd, restingLength );
+    }
+
+    public Spring( double k, double restingLength, Point2D fixedEnd ) {
         this.k = k;
         this.restingLength = restingLength;
         this.fixedEnd = fixedEnd;
+        extent = new Line2D.Double();
+    }
+
+    private void setAngle( double angle, Point2D fixedEnd, double restingLength ) {
         this.angle = angle;
         this.freeEnd = new Point2D.Double( fixedEnd.getX() + restingLength * Math.cos( angle ),
                                            fixedEnd.getY() + restingLength * Math.sin( angle ) );
-        extent = new Line2D.Double();
     }
 
     public void setK( double k ) {
@@ -71,6 +89,29 @@ public class Spring extends SimpleObservable implements ModelElement {
 
     private double getElongation() {
         return fixedEnd.distance( freeEnd ) - restingLength;
+    }
+
+    /**
+     * Assumes that the body is being attached to the spring at its resting length
+     * @param body
+     */
+    private void attachBodyAtRestingLength( Body body ) {
+        this.attachedBody = body;
+        freeEnd.setLocation( body.getCM() );
+        angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
+        t = 0;
+        omega = Math.sqrt( k / body.getMass() );
+
+        if( Double.isNaN( omega )) {
+            System.out.println( "Spring.attachBodyAtRestingLength" );
+        }
+
+        // A and phi depend on the initial elongation of the spring and the initial
+        // velocity of the attached body
+        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
+        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+        phi = 0;
+        A = v0 / ( omega * Math.cos( phi ) );
     }
 
     public void attachBody( Body body ) {
@@ -112,12 +153,18 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
+        Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
             freeEnd.setLocation( attachedBody.getCM() );
+//            freeEnd.setLocation( attachedBody.getCM() );
             Vector2D v = getVelocity();
-            System.out.println( "v = " + v );
-            attachedBody.setVelocity( v );
+            if( Double.isNaN(v.getX() )) {
+                System.out.println( "Spring.stepInTime" );
+                v = getVelocity();
+            }
+            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 )) );
+//            attachedBody.setVelocity( v );
         }
         notifyObservers();
     }

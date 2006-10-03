@@ -45,9 +45,9 @@ public class MRApplication extends PiccoloPhetApplication {
         SpringTestModule springTestModule = new SpringTestModule();
         SpringTestModule2 springTestModule2 = new SpringTestModule2();
         addModule( new SpringTestModule3() );
-        addModule( springTestModule2 );
-//        addModule( springTestModule );
         addModule( simpleModule );
+        addModule( springTestModule2 );
+        addModule( springTestModule );
         addModule( new ComplexModule() );
         addModule( new TestModule() );
 

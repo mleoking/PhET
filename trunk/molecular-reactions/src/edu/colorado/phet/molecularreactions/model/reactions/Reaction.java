@@ -72,6 +72,7 @@ abstract public class Reaction {
 
     abstract public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded );
 
+    // The energy needed to get from one of the flat portions of the profile to the top of the curve
     abstract public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB );
 
     // The distance between the points on two molecules that can react that are closest to each other
@@ -81,7 +82,8 @@ abstract public class Reaction {
     // from the first parameter molecule to the second
     abstract public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB );
 
-    // Returns the potential energy of the reaction components
+    // Returns the potential energy of the reaction components. This is the energy of one of the flat
+    // portion of the profile
     abstract public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 );
 
     //--------------------------------------------------------------------------------------------------
