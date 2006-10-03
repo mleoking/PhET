@@ -31,15 +31,14 @@ public class BranchSet {
 
     public void addBranches( Branch[] b ) {
         for( int i = 0; i < b.length; i++ ) {
-            Branch branche = b[i];
-            if( !branches.contains( branche ) ) {
-                branches.add( branche );
+            if( !branches.contains( b[i] ) ) {
+                branches.add( b[i] );
             }
         }
     }
 
     /**
-     * This makes sure the right comonents get the notification event.
+     * This makes sure the right components get the notification event.
      */
     public void translate( AbstractVector2D vector ) {
         ArrayList junctionSet = new ArrayList();
@@ -57,7 +56,7 @@ public class BranchSet {
         branchesToNotify.addAll( branches );
         for( int i = 0; i < junctionSet.size(); i++ ) {
             Junction junction = (Junction)junctionSet.get( i );
-            junction.translate( vector.getX(), vector.getY() );
+            junction.translateNoNotify( vector.getX(), vector.getY() );//can't do one-at-a-time, because intermediate notifications get inconsistent data.
             Branch[] neighbors = circuit.getAdjacentBranches( junction );
             for( int j = 0; j < neighbors.length; j++ ) {
                 Branch neighbor = neighbors[j];
@@ -65,6 +64,10 @@ public class BranchSet {
                     branchesToNotify.add( neighbor );
                 }
             }
+        }
+        for( int i = 0; i < junctionSet.size(); i++ ) {
+            Junction junction = (Junction)junctionSet.get( i );
+            junction.notifyChanged();
         }
         for( int i = 0; i < branchesToNotify.size(); i++ ) {
             Branch branch = (Branch)branchesToNotify.get( i );
