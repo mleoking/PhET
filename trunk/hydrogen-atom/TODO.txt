@@ -8,6 +8,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add wavelength range to Gun model
 - work out details of mapping between model and view coordinate systems
+- make photons and alpha particles move
 - model for BoxOfHydrogen
 - create and animate photons and alpha particles
 - generalize creating a "panel" node to fit under a collection of nodes
