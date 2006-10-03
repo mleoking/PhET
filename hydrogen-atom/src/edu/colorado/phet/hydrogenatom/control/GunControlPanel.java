@@ -192,7 +192,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private class GunChangeListener implements ChangeListener {
 
         public void stateChanged( ChangeEvent event ) {
-            System.out.println( "GunControlPanel.stateChanged" );//XXX
             Object source = event.getSource();
             if ( source == _gunTypeControl ) {
                 handleGunTypeChange();
@@ -213,7 +212,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
     }
     
     private void handleGunTypeChange() {
-        System.out.println( "GunControlPanel.handleGunTypeChange" );//XXX
         _lightControls.setVisible( _gun.isPhotonsMode() );
         _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
         int mode = ( _gunTypeControl.isPhotonsSelected() ? Gun.MODE_PHOTONS : Gun.MODE_ALPHA_PARTICLES );
@@ -255,7 +253,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
 
     public void update( Observable o, Object arg ) {
-        System.out.println( "GunControlPanel.update" );//XXX
         if ( o == _gun ) {
             if ( arg == Gun.PROPERTY_MODE ) {
                 _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
