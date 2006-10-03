@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Sam Reid
  */
-public class TargetReadoutToolNode extends PhetPNode {
+public class TargetReadoutToolNode extends PComposite {
     private RoundRectangle2D.Double bounds;
     private int crosshairRadius = 15;
     private int readoutWidth = 140;
@@ -34,25 +34,29 @@ public class TargetReadoutToolNode extends PhetPNode {
 
     public TargetReadoutToolNode() {
         background = new PhetPPath( new Color( 255, 255, 255, 128 ) );
-        addChild( background );
+//        background = new PhetPPath( new Color( 255, 255, 255) );
+
         roundRect = new PhetPPath( boundsStroke, Color.black );
-        addChild( roundRect );
         portHole = new PhetPPath( holeStroke, Color.black );
-        addChild( portHole );
         rightCrossHairGraphic = new PhetPPath( crossHairStroke, Color.black );
-        addChild( rightCrossHairGraphic );
-        upCrossHairGraphic = new PhetPPath( new Area(), crossHairStroke, Color.black );
-        addChild( upCrossHairGraphic );
-        readoutShapeGraphic = new PhetPPath( new Area(), Color.white, crossHairStroke, Color.black );
-        addChild( readoutShapeGraphic );
+        upCrossHairGraphic = new PhetPPath( crossHairStroke, Color.black );
+        readoutShapeGraphic = new PhetPPath( Color.white, crossHairStroke, Color.black );
         textGraphic = new ShadowHTMLGraphic( "HELLO" );
         textGraphic.setShadowColor( Color.lightGray );
         textGraphic.setShadowOffset( 0.5, 0.5 );
+
+        addChild( background );
+        addChild( roundRect );
+        addChild( portHole );
+        addChild( rightCrossHairGraphic );
+        addChild( upCrossHairGraphic );
+        addChild( readoutShapeGraphic );
         addChild( textGraphic );
-        changed();
+
+        update();
     }
 
-    public void changed() {
+    private void update() {
         // Compute the locations of things
         Point upperLeft = new Point( - crosshairRadius, - crosshairRadius );
         Point readoutLocation = new Point( upperLeft.x + crosshairRadius * 2 + 10,
@@ -88,7 +92,7 @@ public class TargetReadoutToolNode extends PhetPNode {
     public void setText( String[] text ) {
         if( !Arrays.asList( text ).equals( Arrays.asList( this.text ) ) ) {
             this.text = text;
-            changed();
+            update();
         }
     }
 
