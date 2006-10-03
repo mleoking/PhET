@@ -82,6 +82,14 @@ public class StationaryObject extends HAObservable {
         return _position;
     }
     
+    public double getX() {
+        return _position.getX();
+    }
+    
+    public double getY() {
+        return _position.getY();
+    }
+    
     /**
      * Sets the position.
      * @param x
