@@ -126,7 +126,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         updateTextBackground();
     }
 
-    private void updateTextBackground() {
+    protected void updateTextBackground() {
         textReadout.updateBackground();
     }
 

@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jul 6, 2006 by Sam Reid
  */
 
-public class SingleTerminalFloatingChart extends AbstractFloatingChart {
+public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart {
     private ValueReader valueReader;
     private CrosshairGraphic crosshairGraphic;
     private PhetPCanvas pSwingCanvas;
@@ -44,28 +44,15 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
     public void update() {
         super.update();
         if( crosshairGraphic != null && valueReader != null ) {
-            //get the coordinate in the wavefunctiongraphic.
-
-            Point2D location = crosshairGraphic.getGlobalTranslation();
-            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
-
-//            Point2D location = crosshairGraphic.getOffset();
-//            location = crosshairGraphic.localToGlobal( location );
-//            pSwingCanvas.getPhetRootNode().globalToWorld( location );
-
-//            System.out.println( "location = " + location );
-//            location = crosshairGraphic.localToParent( location );
-//            System.out.println( "location1 = " + location );
-//            location = crosshairGraphic.getParent().localToParent( location );
-//            System.out.println( "location2 = " + location );
-
-//            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+            Point2D location = getLocation();
             double value = valueReader.getValue( location.getX(), location.getY() );
             CCKTime cckTime = new CCKTime();
             double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
     }
+
+    protected abstract Point2D getLocation();
 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
@@ -80,4 +67,32 @@ public class SingleTerminalFloatingChart extends AbstractFloatingChart {
         return crosshairGraphic;
     }
 
+    protected PhetPCanvas getPhetPCanvas() {
+        return pSwingCanvas;
+    }
+
+    public static class Piccolo extends SingleTerminalFloatingChart {
+        public Piccolo( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
+            super( pSwingCanvas, title, valueReader, clock );
+        }
+
+        protected Point2D getLocation() {
+            Point2D location = getCrosshairGraphic().getGlobalTranslation();
+            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+            return location;
+        }
+    }
+
+
+    public static class Phetgraphics extends SingleTerminalFloatingChart {
+        public Phetgraphics( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
+            super( pSwingCanvas, title, valueReader, clock );
+        }
+
+        protected Point2D getLocation() {
+            Point2D location = getCrosshairGraphic().getGlobalTranslation();
+            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+            return location;
+        }
+    }
 }

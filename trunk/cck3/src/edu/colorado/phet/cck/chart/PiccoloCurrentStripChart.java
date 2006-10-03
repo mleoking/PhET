@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-public class PiccoloCurrentStripChart extends SingleTerminalFloatingChart {
+public class PiccoloCurrentStripChart extends SingleTerminalFloatingChart.Piccolo {
     private Circuit circuit;
 
     public PiccoloCurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit ) {
@@ -31,20 +31,16 @@ public class PiccoloCurrentStripChart extends SingleTerminalFloatingChart {
     public class CurrentReader implements ValueReader {
         public double getValue( double x, double y ) {
             Point2D target = new Point2D.Double( x, y );
-            System.out.println( "target = " + target );
-            //check for intersect with circuit.
             Branch[]branches = circuit.getBranches();
             for( int i = 0; i < branches.length; i++ ) {
-
                 Branch branch = branches[i];
                 Shape shape = branch.getShape();
-                System.out.println( "branch.getShape().getBounds2D() = " + branch.getShape().getBounds2D() );
                 if( shape.contains( target ) ) {
                     return branch.getCurrent();
                 }
-
             }
             return Double.NaN;
         }
     }
+
 }

@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-public class CurrentStripChart extends SingleTerminalFloatingChart {
+public class CurrentStripChart extends SingleTerminalFloatingChart.Phetgraphics {
     private CircuitGraphic circuitGraphic;
 
     public CurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
