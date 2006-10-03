@@ -37,6 +37,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/3/06) - generate random start location for photons and alpha particles along nozzle of gun
 (10/3/06) - use intensity to determine number of photons and alpha particles fired
 (10/3/06) - generate random wavelengths when creating photons for white light
 (10/3/06) - add wavelength range to Gun model
