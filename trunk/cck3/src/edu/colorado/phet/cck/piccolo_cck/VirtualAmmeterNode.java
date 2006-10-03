@@ -3,14 +3,12 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common.util.QuickProfiler;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -56,15 +54,6 @@ public class VirtualAmmeterNode extends PhetPNode {
         } );
         addInputEventListener( new CursorHandler() );
         update();
-    }
-
-    public void fullPaint( PPaintContext paintContext ) {
-        QuickProfiler quickProfiler = new QuickProfiler( "FullPaint" );
-//        System.out.println( "paintContext.getGraphics().getRenderingHints() = " + paintContext.getGraphics().getRenderingHints() );
-//        System.out.println( "paintContext.getGraphics().getComposite() = " + paintContext.getGraphics().getComposite() );
-//        System.out.println( "paintContext.getGraphics().getTransform() = " + paintContext.getGraphics().getTransform() );
-        super.fullPaint( paintContext );
-        System.out.println( quickProfiler );
     }
 
     public void update() {

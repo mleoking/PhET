@@ -11,7 +11,7 @@ package edu.colorado.phet.cck.tests;
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ public class TestFloatingChart {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        PSwingCanvas contentPane = new PSwingCanvas();
+        PhetPCanvas contentPane = new PhetPCanvas();
         clock = new SwingClock( 30, 1 );
         AbstractFloatingChart floatingChart = new SingleTerminalFloatingChart( contentPane, "floating chart test", new AbstractFloatingChart.ValueReader() {
             public double getValue( double x, double y ) {

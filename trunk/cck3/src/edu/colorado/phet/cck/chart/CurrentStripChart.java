@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
 public class CurrentStripChart extends SingleTerminalFloatingChart {
     private CircuitGraphic circuitGraphic;
 
-    public CurrentStripChart( PSwingCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
+    public CurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
         super( pSwingCanvas, title, new ValueReader() {
             public double getValue( double x, double y ) {
                 return 0;
