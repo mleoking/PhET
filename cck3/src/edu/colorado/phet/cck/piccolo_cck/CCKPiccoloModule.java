@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.CCKParameters;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.PiccoloCurrentStripChart;
+import edu.colorado.phet.cck.chart.PiccoloVoltageStripChart;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
@@ -123,6 +124,19 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void addVoltageChart() {
+        stripChartClock.start();
+        final PiccoloVoltageStripChart chart = new PiccoloVoltageStripChart( cckSimulationPanel, "Current", stripChartClock, getCircuit() );
+//        chart.setOffset( 250, 400 );
+//        chart.setOffset( 250, 400 );
+        chart.translate( 4, 4 );
+        chart.scale( 1.0 / 70.0 );
+
+        cckSimulationPanel.addWorldChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
+            public void chartClosing() {
+                cckSimulationPanel.removeScreenChild( chart );
+            }
+        } );
     }
 
     public void setAllReadoutsVisible( boolean r ) {

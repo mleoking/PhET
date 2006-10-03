@@ -643,12 +643,12 @@ public class Circuit {
 
     public DragMatch getBestDragMatch( Junction[] sources, Vector2D dx ) {
         Junction[] all = getJunctions();
-        ArrayList rema = new ArrayList();
-        rema.addAll( Arrays.asList( all ) );
-        rema.removeAll( Arrays.asList( sources ) );
+        ArrayList potentialMatches = new ArrayList();
+        potentialMatches.addAll( Arrays.asList( all ) );
+        potentialMatches.removeAll( Arrays.asList( sources ) );
         //now we have all the junctions that are moving,
         //and all the junctions that aren't moving, so we can look for a best match.
-        Junction[] remaining = (Junction[])rema.toArray( new Junction[0] );
+        Junction[] remaining = (Junction[])potentialMatches.toArray( new Junction[0] );
         DragMatch best = null;
         for( int i = 0; i < sources.length; i++ ) {
             Junction source = sources[i];

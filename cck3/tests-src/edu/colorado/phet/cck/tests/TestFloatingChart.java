@@ -25,7 +25,7 @@ public class TestFloatingChart {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
         clock = new SwingClock( 30, 1 );
-        AbstractFloatingChart floatingChart = new SingleTerminalFloatingChart( contentPane, "floating chart test", new AbstractFloatingChart.ValueReader() {
+        AbstractFloatingChart floatingChart = new SingleTerminalFloatingChart.Piccolo( contentPane, "floating chart test", new AbstractFloatingChart.ValueReader() {
             public double getValue( double x, double y ) {
                 double v = y;
 //                System.out.println( "v = " + v );

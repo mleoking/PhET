@@ -1,9 +1,10 @@
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -16,14 +17,16 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Jul 6, 2006 by Sam Reid
  */
 
-public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
+public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart {
     private CrosshairGraphic leftCrosshairGraphic;
     private CrosshairGraphic rightCrosshairGraphic;
     private TwoTerminalValueReader valueReader;
+    private PhetPCanvas phetPCanvas;
 
-    public DoubleTerminalFloatingChart( PSwingCanvas pSwingCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
-        super( pSwingCanvas, title, clock );
+    public DoubleTerminalFloatingChart( PhetPCanvas phetPCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+        super( phetPCanvas, title, clock );
         this.valueReader = valueReader;
+        this.phetPCanvas = phetPCanvas;
 
         leftCrosshairGraphic = new CrosshairGraphic( this, 10, 15 );
         rightCrosshairGraphic = new CrosshairGraphic( this, 10, 15 );
@@ -55,37 +58,16 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         super.update();
         if( leftCrosshairGraphic != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
-            Shape left = getLeftShape();
-            Shape right = getRightShape();
-//            Point2D location = leftCrosshairGraphic.getGlobalTranslation();
-//            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
-//
-//            Point2D locRight = rightCrosshairGraphic.getGlobalTranslation();
-//            locRight.setLocation( locRight.getX() + 1, locRight.getY() + 1 );
-
-            double value = valueReader.getValue( left, right );
+            double value = valueReader.getValue( getLeftShape(), getRightShape() );
             CCKTime cckTime = new CCKTime();
-//            System.out.println( "getClock().getSimulationTime() = " + getClock().getSimulationTime() );
             double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
     }
 
-    private Shape getRightShape() {
-        return getShape( rightCrosshairGraphic );
-    }
+    protected abstract Shape getRightShape();
 
-    private Shape getLeftShape() {
-        return getShape( leftCrosshairGraphic );
-    }
-
-    private Shape getShape( CrosshairGraphic leftCrosshairGraphic ) {
-        Point2D location = leftCrosshairGraphic.getGlobalTranslation();
-        location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
-        double w = 2.0;
-        double h = 2.0;
-        return new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
-    }
+    protected abstract Shape getLeftShape();
 
     public void setValueReader( TwoTerminalValueReader valueReader ) {
         this.valueReader = valueReader;
@@ -101,4 +83,50 @@ public class DoubleTerminalFloatingChart extends AbstractFloatingChart {
         }
     }
 
+    public static class Phetgraphics extends DoubleTerminalFloatingChart {
+
+        public Phetgraphics( PhetPCanvas pSwingCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+            super( pSwingCanvas, title, valueReader, clock );
+        }
+
+        protected Shape getRightShape() {
+            return getShape( getRightCrosshairGraphic() );
+        }
+
+        protected Shape getLeftShape() {
+            return getShape( getLeftCrosshairGraphic() );
+        }
+
+        private Shape getShape( CrosshairGraphic leftCrosshairGraphic ) {
+            Point2D location = leftCrosshairGraphic.getGlobalTranslation();
+            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
+            double w = 2.0;
+            double h = 2.0;
+            return new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
+        }
+    }
+
+    public static class Piccolo extends DoubleTerminalFloatingChart {
+        public Piccolo( PhetPCanvas pSwingCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+            super( pSwingCanvas, title, valueReader, clock );
+        }
+
+        protected Shape getRightShape() {
+            return getShape( getRightCrosshairGraphic() );
+        }
+
+        private Shape getShape( PNode node ) {
+            Point2D location = node.getGlobalTranslation();
+            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+            return new Rectangle2D.Double( location.getX(), location.getY(), 0.01, 0.01 );
+        }
+
+        protected Shape getLeftShape() {
+            return getShape( getLeftCrosshairGraphic() );
+        }
+    }
+
+    protected PhetPCanvas getPhetPCanvas() {
+        return phetPCanvas;
+    }
 }
