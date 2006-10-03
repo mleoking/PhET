@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -30,6 +31,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * Gun is the model of a gun that can fire either photons or alpha particles.
  * It is located at a point in space with a specific orientation and it 
  * has a nozzle with a specific width.
+ * The gun's local origin is at the center of its nozzle.
  * When firing photons, it shoots a beam of light that wavelength and intensity.
  * When firing photons, it shoots alpha particles with some intensity.
  *
@@ -85,6 +87,14 @@ public class Gun extends StationaryObject implements ClockListener {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor
+     * @param position
+     * @param orientation degrees
+     * @param nozzleWidth
+     * @param minWavelength nm
+     * @param maxWavelength nm
+     */
     public Gun( Point2D position, double orientation, double nozzleWidth, double minWavelength, double maxWavelength ) {
         super( position );
         
@@ -225,24 +235,40 @@ public class Gun extends StationaryObject implements ClockListener {
     // Convenience accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Is the gun in the mode to fire photons (light)?
+     * 
+     * @return true or false
+     */
     public boolean isPhotonsMode() {
         return ( _mode == MODE_PHOTONS );
     }
     
+    /**
+     * Is the gun in the mode to fire alpha particles?
+     * 
+     * @return true or false
+     */
     public boolean isAlphaParticlesMode() {
         return ( _mode == MODE_ALPHA_PARTICLES );
     }
     
+    /**
+     * Is the gun configured to fire white light?
+     * 
+     * @return true or false
+     */
     public boolean isWhiteLightType() {
         return ( _lightType == LIGHT_TYPE_WHITE );
     }
     
+    /**
+     * Is the gun configured to fire monochromatic light?
+     * 
+     * @return true or false
+     */
     public boolean isMonochromaticLightType() {
         return ( _lightType == LIGHT_TYPE_MONOCHROMATIC );   
-    }
-    
-    private double getRandomWavelength() {
-        return ( _random.nextDouble() * ( _maxWavelength - _minWavelength ) ) + _minWavelength;
     }
     
     /**
@@ -293,9 +319,64 @@ public class Gun extends StationaryObject implements ClockListener {
     }
     
     //----------------------------------------------------------------------------
+    // private
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets a random wavelength in the gun's wavelength range.
+     * 
+     * @return double
+     */
+    private double getRandomWavelength() {
+        return ( _random.nextDouble() * ( _maxWavelength - _minWavelength ) ) + _minWavelength;
+    }
+    
+    /*
+     * Gets a random point along the gun's nozzle.
+     * This is based on the nozzle width, gun position, and gun orientation.
+     * 
+     * @return Point2D
+     */
+    private Point2D getRandomNozzlePoint() {
+        
+        // Start with the gun's origin at zero, gun pointing to the right
+        double x = 0;
+        double y = _random.nextDouble() * _nozzleWidth;
+
+        if ( _orientation == 0 || ( _orientation % 180 == 0 ) ) {
+            // do nothing
+        }
+        else if ( _orientation % 90 == 0 ) {
+            // swap x & y
+            double tmp = x;
+            x = y;
+            y = tmp;
+        }
+        else {
+            // rotate x & y
+            Point2D p1 = new Point2D.Double( x, y );
+            AffineTransform t = new AffineTransform();
+            t.rotate( Math.toRadians( _orientation ) );
+            Point2D p2 = t.transform( p1, null );
+            x = p2.getX();
+            y = p2.getY();
+        }
+        
+        // Translate by the gun's position
+        x += getX();
+        y += getY();
+        
+        return new Point2D.Double( x, y );
+    }
+    
+    //----------------------------------------------------------------------------
     // ClockListener implementation
     //----------------------------------------------------------------------------
 
+    /*
+     * Fires photons or alpha particles each time the clock ticks.
+     * If the gun is disabled, do nothing.
+     */
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         if ( _enabled ) {
             if ( _mode == MODE_PHOTONS && _lightIntensity > 0 ) {
@@ -319,9 +400,14 @@ public class Gun extends StationaryObject implements ClockListener {
     // Fire photons and alpha particles
     //----------------------------------------------------------------------------
     
+    /*
+     * Fires photons.
+     * The number of photons fired is based on clock ticks and intensity.
+     * Each photon is fired from a random location along the gun's nozzle.
+     */
     private void firePhotons( ClockEvent clockEvent ) {
         
-        //XXX Determine how many photons to fire.
+        // Determine how many photons to fire.
         double ticks = clockEvent.getSimulationTimeChange();
         int numberOfPhotons = (int) ( _lightIntensity * ticks * PHOTONS_PER_CLOCK_TICK );
         if ( numberOfPhotons == 0 && _lightIntensity > 0 ) {
@@ -332,10 +418,8 @@ public class Gun extends StationaryObject implements ClockListener {
         System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
         for ( int i = 0; i < numberOfPhotons; i++ ) {
             
-            //XXX pick a randon location along the gun's nozzle width
-            double x = getPositionRef().getX();
-            double y = getPositionRef().getY();
-            Point2D position = new Point2D.Double( x, y );
+            // Pick a randon location along the gun's nozzle width
+            Point2D position = getRandomNozzlePoint();
             
             // Direction of photon is same as gun's orientation.
             double direction = _orientation;
@@ -355,9 +439,14 @@ public class Gun extends StationaryObject implements ClockListener {
         }
     }
     
+    /*
+     * Fires alpha particles.
+     * The number of alpha particles fired is based on clock ticks and intensity.
+     * Each alpha particle is fired from a random location along the gun's nozzle.
+     */
     private void fireAlphaParticles( ClockEvent clockEvent ) {
         
-        //XXX Determine how many alpha particles to fire.
+        // Determine how many alpha particles to fire.
         double ticks = clockEvent.getSimulationTimeChange();
         int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * ticks * ALPHA_PARTICLES_PER_CLOCK_TICK );
         if ( numberOfAlphaParticles == 0 && _alphaParticlesIntensity > 0 ) {
@@ -365,13 +454,11 @@ public class Gun extends StationaryObject implements ClockListener {
         }
 
         // Fire alpha particles
-//        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
+        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
         for ( int i = 0; i < numberOfAlphaParticles; i++ ) {
             
-            //XXX pick a randon location along the gun's nozzle width
-            double x = getPositionRef().getX();
-            double y = getPositionRef().getY();
-            Point2D position = new Point2D.Double( x, y );
+            // Pick a randon location along the gun's nozzle width
+            Point2D position = getRandomNozzlePoint();
             
             // Direction of alpha particle is same as gun's orientation.
             double direction = _orientation;
@@ -432,7 +519,7 @@ public class Gun extends StationaryObject implements ClockListener {
         _listenerList.remove( PhotonFiredListener.class, listener );
     }
 
-    /**
+    /*
      * Fires a PhotonFiredEvent.
      *
      * @param event the event
@@ -493,7 +580,7 @@ public class Gun extends StationaryObject implements ClockListener {
         _listenerList.remove( AlphaParticleFiredListener.class, listener );
     }
 
-    /**
+    /*
      * Fires a PhotonFiredEvent.
      *
      * @param event the event
