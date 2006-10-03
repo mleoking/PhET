@@ -28,12 +28,15 @@ public class CircuitNode extends PhetPNode {
     private ArrayList branchGraphics = new ArrayList();
     private ReadoutSetNode readoutNode;
     private PNode electronNode;
+    private PNode solderBackground;
 
-    public CircuitNode( CCKModel cckModel, Circuit circuit, Component component, ICCKModule module ) {
+    public CircuitNode( CCKModel cckModel, final Circuit circuit, Component component, ICCKModule module ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
         this.module = module;
+        solderBackground = new PNode();
+        addChild( solderBackground );
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
@@ -44,6 +47,8 @@ public class CircuitNode extends PhetPNode {
             }
 
             public void junctionAdded( Junction junction ) {
+                SolderNode solderNode = new SolderNode( circuit, junction, Color.gray );
+                solderBackground.addChild( solderNode );
                 JunctionNode node = createNode( junction );
                 junctionGraphics.add( node );
                 addChild( node );
@@ -52,6 +57,13 @@ public class CircuitNode extends PhetPNode {
             }
 
             public void junctionRemoved( Junction junction ) {
+                for( int i = 0; i < solderBackground.getChildrenCount(); i++ ) {
+                    SolderNode solderNode = (SolderNode)solderBackground.getChild( i );
+                    if( solderNode.getJunction() == junction ) {
+                        solderBackground.removeChild( solderNode );
+                        i = -1;
+                    }
+                }
                 for( int i = 0; i < junctionGraphics.size(); i++ ) {
                     JunctionNode junctionNode = (JunctionNode)junctionGraphics.get( i );
                     if( junctionNode.getJunction() == junction ) {
