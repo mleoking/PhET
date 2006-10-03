@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Random;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -60,8 +61,8 @@ public class Gun extends StationaryObject implements ClockListener {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    private static final int PHOTONS_PER_CLOCK_TICK = 1;
-    private static final int ALPHA_PARTICLES_PER_CLOCK_TICK = 1;
+    private static final int PHOTONS_PER_CLOCK_TICK = 50;
+    private static final int ALPHA_PARTICLES_PER_CLOCK_TICK = 50;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -74,7 +75,9 @@ public class Gun extends StationaryObject implements ClockListener {
     private int _lightType; // type of light (white or monochromatic)
     private double _lightIntensity; // intensity of the light, 0.0-1.0
     private double _wavelength; // wavelength of the light
+    private double _minWavelength, _maxWavelength; // range of wavelength
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
+    private Random _random; // random number generator, for white light wavelength
     
     private EventListenerList _listenerList;
     
@@ -82,7 +85,7 @@ public class Gun extends StationaryObject implements ClockListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Gun( Point2D position, double orientation, double nozzleWidth ) {
+    public Gun( Point2D position, double orientation, double nozzleWidth, double minWavelength, double maxWavelength ) {
         super( position );
         
         if ( nozzleWidth <= 0 ) {
@@ -96,7 +99,10 @@ public class Gun extends StationaryObject implements ClockListener {
         _lightType = LIGHT_TYPE_MONOCHROMATIC;
         _lightIntensity = DEFAULT_LIGHT_INTENSITY;
         _wavelength = DEFAULT_WAVELENGTH;
+        _minWavelength = minWavelength;
+        _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
+        _random = new Random();
         
         _listenerList = new EventListenerList();
     }
@@ -193,6 +199,14 @@ public class Gun extends StationaryObject implements ClockListener {
         return _wavelength;
     }
     
+    public double getMinWavelength() {
+        return _minWavelength;
+    }
+    
+    public double getMaxWavelength() {
+        return _maxWavelength;
+    }
+    
     public void setAlphaParticlesIntensity( double alphaParticlesIntensity ) {
         if ( alphaParticlesIntensity < 0 || alphaParticlesIntensity > 1 ) {
             throw new IllegalArgumentException( "invalid alphaParticlesIntensity: " + alphaParticlesIntensity );
@@ -227,36 +241,52 @@ public class Gun extends StationaryObject implements ClockListener {
         return ( _lightType == LIGHT_TYPE_MONOCHROMATIC );   
     }
     
-    //TODO if lightType is white, randomly choose a wavelength!
-    public Color getWavelengthColor() {
-        Color wavelengthColor = null;
-        if ( _enabled ) {
-            if ( _mode == MODE_PHOTONS ) {
-                wavelengthColor = ColorUtils.wavelengthToColor( _wavelength );
-            }
-            else {
-                wavelengthColor = HAConstants.ALPHA_PARTICLES_COLOR;
-            }
-        }
-        return wavelengthColor;
+    private double getRandomWavelength() {
+        return ( _random.nextDouble() * ( _maxWavelength - _minWavelength ) ) + _minWavelength;
     }
     
+    /**
+     * Gets the color assoociate with the gun's monochromatic wavelength.
+     * 
+     * @return Color
+     */
+    public Color getWavelengthColor() {
+        return ColorUtils.wavelengthToColor( _wavelength );
+    }
+    
+    /**
+     * Gets the color of the gun's beam.
+     * The alpha component of the Color returned corresponds to the intensity.
+     * If the gun is disabled, null is returned.
+     * If the gun is shooting alpha particles, HAConstants.ALPHA_PARTICLES_COLOR is returned.
+     * If the gun is shooting white light, Color.WHITE is returned.
+     * If the gun is shooting monochromatic light, a Color corresponding to the wavelength is returned.
+     * 
+     * @return Color
+     */
     public Color getBeamColor() {
         
         Color beamColor = null;
         Color c = null;
         
-        if ( _lightType == LIGHT_TYPE_WHITE ) {
-            c = Color.WHITE;
-        }
-        else {
-            c = getWavelengthColor();
-        }
-        
-        if ( c != null ) {
-            double intensity = ( _mode == MODE_PHOTONS ) ? _lightIntensity : _alphaParticlesIntensity;
-            int a = (int) ( intensity * 255 );
-            beamColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), a );
+        if ( _enabled ) {
+            if ( _mode == MODE_PHOTONS ) {
+                if ( _lightType == LIGHT_TYPE_WHITE ) {
+                    c = Color.WHITE;
+                }
+                else {
+                    c = getWavelengthColor();
+                }
+            }
+            else {
+                c = HAConstants.ALPHA_PARTICLES_COLOR;
+            }
+
+            if ( c != null ) {
+                double intensity = ( _mode == MODE_PHOTONS ) ? _lightIntensity : _alphaParticlesIntensity;
+                int a = (int) ( intensity * 255 );
+                beamColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), a );
+            }
         }
         
         return beamColor;
@@ -291,23 +321,35 @@ public class Gun extends StationaryObject implements ClockListener {
     
     private void firePhotons( ClockEvent clockEvent ) {
         
-        // Determine how many photons to fire.
+        //XXX Determine how many photons to fire.
         double ticks = clockEvent.getSimulationTimeChange();
-        int numberOfPhotons = (int) ( _lightIntensity * ticks / PHOTONS_PER_CLOCK_TICK );
+        int numberOfPhotons = (int) ( _lightIntensity * ticks * PHOTONS_PER_CLOCK_TICK );
         if ( numberOfPhotons == 0 && _lightIntensity > 0 ) {
             numberOfPhotons = 1;
         }
 
         // Fire photons
-//        System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
+        System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
         for ( int i = 0; i < numberOfPhotons; i++ ) {
+            
             //XXX pick a randon location along the gun's nozzle width
             double x = getPositionRef().getX();
             double y = getPositionRef().getY();
             Point2D position = new Point2D.Double( x, y );
+            
+            // Direction of photon is same as gun's orientation.
             double direction = _orientation;
-            //XXX pick a random wavelength if _lightType is white!
-            Photon photon = new Photon( position, direction, _wavelength );
+            
+            // For white light, assign a random wavelength to each photon.
+            double wavelength = _wavelength;
+            if ( _lightType == LIGHT_TYPE_WHITE ) {
+                wavelength = getRandomWavelength();
+            }
+            
+            // Create the photon
+            Photon photon = new Photon( position, direction, wavelength );
+            
+            // Fire the photon
             PhotonFiredEvent event = new PhotonFiredEvent( this, photon );
             firePhotonFiredEvent( event );
         }
@@ -315,9 +357,9 @@ public class Gun extends StationaryObject implements ClockListener {
     
     private void fireAlphaParticles( ClockEvent clockEvent ) {
         
-        // Determine how many alpha particles to fire.
+        //XXX Determine how many alpha particles to fire.
         double ticks = clockEvent.getSimulationTimeChange();
-        int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * ticks / ALPHA_PARTICLES_PER_CLOCK_TICK );
+        int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * ticks * ALPHA_PARTICLES_PER_CLOCK_TICK );
         if ( numberOfAlphaParticles == 0 && _alphaParticlesIntensity > 0 ) {
             numberOfAlphaParticles = 1;
         }
@@ -325,11 +367,19 @@ public class Gun extends StationaryObject implements ClockListener {
         // Fire alpha particles
 //        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
         for ( int i = 0; i < numberOfAlphaParticles; i++ ) {
+            
             //XXX pick a randon location along the gun's nozzle width
             double x = getPositionRef().getX();
             double y = getPositionRef().getY();
             Point2D position = new Point2D.Double( x, y );
-            AlphaParticle alphaParticle = new AlphaParticle( position, _orientation );
+            
+            // Direction of alpha particle is same as gun's orientation.
+            double direction = _orientation;
+            
+            // Create the alpha particle
+            AlphaParticle alphaParticle = new AlphaParticle( position, direction );
+            
+            // Fire the alpha particle
             AlphaParticleFiredEvent event = new AlphaParticleFiredEvent( this, alphaParticle );
             fireAlphaParticleFiredEvent( event );
         }

@@ -136,7 +136,7 @@ public class HAModule extends PiccoloModule {
             Point2D position = new Point2D.Double( 0, 0 );
             double orientation = -90; // degrees, pointing straight up
             double beamWidth = 50;
-            _gun = new Gun( position, orientation, beamWidth );
+            _gun = new Gun( position, orientation, beamWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
             getClock().addClockListener( _gun );
         }
         
