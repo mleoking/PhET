@@ -114,6 +114,10 @@ public class Spring extends SimpleObservable implements ModelElement {
         A = v0 / ( omega * Math.cos( phi ) );
     }
 
+    /**
+     * NOTE: THIS IS NOT WORKING PROPERLY
+     * @param body
+     */
     public void attachBody( Body body ) {
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
