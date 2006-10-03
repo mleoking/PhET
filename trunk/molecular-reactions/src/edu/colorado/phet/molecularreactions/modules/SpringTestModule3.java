@@ -104,8 +104,10 @@ public class SpringTestModule3 extends Module {
             mB.setVelocity( -v0, 0 );
 
             final MoleculeC mC = new MoleculeC();
-            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
-                            mA.getPosition().getY() );
+            mC.setPosition( mB.getPosition().getX(),
+                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
+//            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
+//                            mA.getPosition().getY() );
             model.addModelElement( mC );
             mC.setVelocity( -v0, 0 );
 
