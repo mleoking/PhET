@@ -1,5 +1,12 @@
+10/3/06
+-------
+- Springs in ProvidsionalBond are working, sort of, but base everything on the CM of
+    the components of the bond, which isn't right. I need to determine attachment
+    points, and base everything on them.        
+
+
 - Add axes to energy view
-- Clean up code by using Molecule.useFull<xxx>
+- Clean up code by using AbstractMolecule.useFull<xxx> and AbstractMolecule.getFullMolecule() 
 - halo isn't shown for selected molecule
 - CM marker isn't shown for nearest-to-selected molecule
 - When the selected molecule is removed from the Complex module, the energy view still tracks it

@@ -117,9 +117,23 @@ abstract public class AbstractMolecule extends Body implements Collidable {
     }
 
     /**
+     * Returns the largest molecule of which this one is a component, or
+     * this molecule, if it isn't
+     * @return an AbstractMolecule 
+     */
+    public AbstractMolecule getFullMolecule() {
+        if( this.isPartOfComposite() ) {
+            return getParentComposite().getFullMolecule();
+        }
+        else {
+            return this;
+        }
+    }
+
+    /**
      * If the molecule is part of a larger composite, there should be not stepInTime
      * behavior. It will be taken care of by the CompositeMolecule
-     * 
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -141,7 +155,7 @@ abstract public class AbstractMolecule extends Body implements Collidable {
 
         // Compute the acceleration
         this.setAcceleration( force.getX() / this.getMass(),
-                              force.getY() / this.getMass());
+                              force.getY() / this.getMass() );
     }
 
     //--------------------------------------------------------------------------------------------------

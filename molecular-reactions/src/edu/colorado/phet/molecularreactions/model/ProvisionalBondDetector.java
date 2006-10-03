@@ -58,7 +58,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
     public void stepInTime( double dt ) {
 
         // Determine how far apart two molecules can be and have a provisional bond
-        double provisionalBondMaxLength = model.getEnergyProfile().getThresholdWidth() / 2;
+        double provisionalBondMaxLength = 2 * model.getEnergyProfile().getThresholdWidth() / 2;
 
         // Look for SimpleMolecules that qualify for tentative bonds. If there is not a tentative bond
         // for a pair, then create one.
@@ -68,8 +68,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
             if( o instanceof SimpleMolecule && !((SimpleMolecule)o).isPartOfComposite() ) {
                 SimpleMolecule sm1 = (SimpleMolecule)o;
 
-                for( int j = i + 1; j < modelElements.size(); j++ ) {
-//                for( int j = 0; j < modelElements.size(); j++ ) {
+                for( int j = 0; j < modelElements.size(); j++ ) {
                     Object o1 = modelElements.get( j );
 
                     // If the second model element is a composite molecule, see if the simple molecule
@@ -82,7 +81,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                         if( reaction.moleculesAreProperTypes( sm1, cm ) ) {
                             SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
-                            double moleculeSeparation = reaction.getCollisionDistance( sm1, cm );
+                            double moleculeSeparation = sm1.getFullMolecule().getPosition().distance( cm.getFullMolecule().getPosition() );
+//                            double moleculeSeparation = reaction.getCollisionDistance( sm1, cm );
 //                            double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
                             if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
 

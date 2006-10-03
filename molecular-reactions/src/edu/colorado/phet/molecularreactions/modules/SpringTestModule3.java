@@ -41,7 +41,7 @@ import java.awt.*;
 public class SpringTestModule3 extends Module {
 
     public SpringTestModule3() {
-        super( "Spring Test2", new SwingClock( 40, 1 ), true );
+        super( "Spring Test 3", new SwingClock( 40, 1 ), true );
 
         final MRModel model = new MRModel( getClock() ) {
             protected void stepInTime( double dt ) {
@@ -66,11 +66,13 @@ public class SpringTestModule3 extends Module {
 
         // Make springs that conform to the thresholds of the energy profile
         final EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
-        final double leftDPE = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+        final double leftDPE = ( energyProfile.getPeakLevel() - energyProfile.getLeftLevel() ) * 10;
         final double rightDPE = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
 
         {
-            double v0 = 0;
+            double v0 = 2;
+            final double restingLength = 2 * energyProfile.getThresholdWidth() / 2;
+
             // Make a couple of molecules
             final MoleculeA mA = new MoleculeA() {
                 double prevX;
@@ -96,7 +98,7 @@ public class SpringTestModule3 extends Module {
 
 
             final MoleculeB mB = new MoleculeB();
-            mB.setPosition( mA.getPosition().getX() + 2 * energyProfile.getThresholdWidth() / 2 + 50, mA.getPosition().getY() );
+            mB.setPosition( mA.getPosition().getX() + restingLength * 4, mA.getPosition().getY() );
 //            mB.setPosition( mA.getPosition().getX() + 200, mA.getPosition().getY() );
             model.addModelElement( mB );
             mB.setVelocity( -v0, 0 );
@@ -119,20 +121,23 @@ public class SpringTestModule3 extends Module {
                 CompoundSpring cs = null;
 
                 public void stepInTime( double dt ) {
-                    double d = mA.getPosition().distance( mB.getPosition() );
-                    if( cs == null ) {
-//                    if( cs == null && d <= 2 * energyProfile.getThresholdWidth() / 2 ) {
-                        cs = new CompoundSpring( leftDPE ,
-                                                 2 * energyProfile.getThresholdWidth() / 2,
-                                                 2 * energyProfile.getThresholdWidth() / 2,
+//                    double d = model.getReaction().getCollisionDistance( mA.getFullMolecule(),
+//                                                                         mBC.getFullMolecule() );
+                    double d = mA.getPosition().distance( mBC.getPosition() );
+                    if( cs == null && d <= restingLength ) {
+//                    if( cs == null ) {
+                        cs = new CompoundSpring( leftDPE,
+                                                 restingLength,
+                                                 restingLength,
                                                  new Body[]{mA, mBC} );
-                        model.addModelElement( cs );
-
+//                        model.addModelElement( cs );
+                        System.out.println( "A" );
                     }
-//                    if( cs != null && d > 2 * energyProfile.getThresholdWidth() / 2 ) {
-//                        model.removeModelElement( cs );
-//                        cs = null;
-//                    }
+                    if( cs != null && d > restingLength ) {
+                        model.removeModelElement( cs );
+                        cs = null;
+                        System.out.println( "B" );
+                    }
                 }
             } );
         }

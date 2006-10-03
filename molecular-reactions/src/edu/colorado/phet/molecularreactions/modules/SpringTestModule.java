@@ -21,6 +21,7 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -61,13 +62,8 @@ public class SpringTestModule extends Module {
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
 
         {
-            // Make the spring
             Point2D fixedPt = new Point2D.Double( 500, 200 );
             double restingLength = 100;
-            Spring spring = new Spring( 1, restingLength, fixedPt, Math.PI );
-            model.addModelElement( spring );
-            SpringGraphic springGraphic = new SpringGraphic( spring );
-            canvas.addChild( springGraphic );
 
             // Make the molecule and attach it to the spring
             MoleculeA mA = new MoleculeA() {
@@ -80,10 +76,16 @@ public class SpringTestModule extends Module {
                     prevX = v1.getX();
                 }
             };
-            mA.setPosition( spring.getFreeEnd().getX() - 150, 200 );
-            mA.setVelocity( 15, 0 );
+            mA.setPosition( fixedPt.getX() - restingLength, 200 );
+            mA.setVelocity( MRConfig.MAX_SPEED, 0 );
             model.addModelElement( mA );
-            spring.attachBody( mA );
+
+            // Make the spring
+            Spring spring = new Spring( mA.getKineticEnergy(), restingLength, restingLength, fixedPt, mA );
+            model.addModelElement( spring );
+            SpringGraphic springGraphic = new SpringGraphic( spring );
+            canvas.addChild( springGraphic );
+//            spring.attachBody( mA );
             PPath refLine = new PPath( new Line2D.Double( spring.getFixedEnd().getX() - spring.getRestingLength(),
                                                           0,
                                                           spring.getFixedEnd().getX() - spring.getRestingLength(),

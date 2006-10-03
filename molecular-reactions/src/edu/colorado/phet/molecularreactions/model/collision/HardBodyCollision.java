@@ -196,10 +196,6 @@ public class HardBodyCollision {
         }
 
         Vector2D mTotal2 = new Vector2D.Double( bodyA.getMomentum()).add( bodyB.getMomentum() );
-        System.out.println( "HardBodyCollision.doCollision" );
-        System.out.println( "mTotal1 = " + mTotal1 );
-        System.out.println( "mTotal2 = " + mTotal2 );
-
     }
 
     //--------------------------------------------------------------------------------------------------
