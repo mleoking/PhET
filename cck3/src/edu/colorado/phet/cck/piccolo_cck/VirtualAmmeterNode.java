@@ -3,12 +3,14 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.common.util.QuickProfiler;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -40,23 +42,33 @@ public class VirtualAmmeterNode extends PhetPNode {
         targetReadoutToolNode.scale( 1.0 / 60.0 );
         targetReadoutToolNode.setOffset( 1, 1 );
         addChild( targetReadoutTool );
-        addInputEventListener( new CursorHandler() );
+
         addInputEventListener( new PBasicInputEventHandler() {
+
             public void mouseDragged( PInputEvent event ) {
                 PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
                 Rectangle2D.Double rect = getFullBounds();
                 Rectangle2D proposedBounds = AffineTransform.getTranslateInstance( pt.width, pt.height ).createTransformedShape( rect ).getBounds2D();
                 if( module.getCCKModel().getModelBounds().contains( proposedBounds ) ) {
                     translate( pt.width, pt.height );
-                    recompute();
+                    update();
                 }
             }
         } );
-        resetText();
-        setVisible( false );
+        addInputEventListener( new CursorHandler() );
+        update();
     }
 
-    public void recompute() {
+    public void fullPaint( PPaintContext paintContext ) {
+        QuickProfiler quickProfiler = new QuickProfiler( "FullPaint" );
+//        System.out.println( "paintContext.getGraphics().getRenderingHints() = " + paintContext.getGraphics().getRenderingHints() );
+//        System.out.println( "paintContext.getGraphics().getComposite() = " + paintContext.getGraphics().getComposite() );
+//        System.out.println( "paintContext.getGraphics().getTransform() = " + paintContext.getGraphics().getTransform() );
+        super.fullPaint( paintContext );
+        System.out.println( quickProfiler );
+    }
+
+    public void update() {
         Point2D target = new Point2D.Double();
         targetReadoutToolNode.localToGlobal( target );
         globalToLocal( target );
@@ -68,9 +80,10 @@ public class VirtualAmmeterNode extends PhetPNode {
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
             targetReadoutToolNode.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
-            return;
         }
-        resetText();
+        else {
+            resetText();
+        }
     }
 
     private void resetText() {

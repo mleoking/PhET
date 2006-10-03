@@ -5,10 +5,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Sep 19, 2006
- * Time: 1:36:09 AM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+ * PhetPPath provides convenient constructors for setting up a PPath all at once.
+ * <p/>
+ * That is, you can do PPath=new PhetPPath(myShape,fillPaint,stroke,strokePaint);
+ * instead of 4 lines of code (as supported by the piccolo API.
+ *
+ * @author Sam Reid
  */
 
 public class PhetPPath extends PPath {
@@ -29,8 +31,8 @@ public class PhetPPath extends PPath {
         setPaint( fill );
     }
 
-    public PhetPPath( Stroke basicStroke, Paint strokePaint ) {
-        setStroke( basicStroke );
+    public PhetPPath( Stroke stroke, Paint strokePaint ) {
+        setStroke( stroke );
         setStrokePaint( strokePaint );
     }
 
@@ -41,7 +43,7 @@ public class PhetPPath extends PPath {
         setStrokePaint( strokePaint );
     }
 
-    public PhetPPath( Paint fill, BasicStroke stroke, Paint strokePaint ) {
+    public PhetPPath( Paint fill, Stroke stroke, Paint strokePaint ) {
         setPaint( fill );
         setStroke( stroke );
         setStrokePaint( strokePaint );

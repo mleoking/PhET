@@ -29,6 +29,7 @@ public class MeasurementToolSetNode extends PhetPNode {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
         addChild( voltmeterNode );
         this.virtualAmmeterNode = new VirtualAmmeterNode( model.getCircuit(), pSwingCanvas, module );
+        virtualAmmeterNode.setVisible( false );
         addChild( virtualAmmeterNode );
 
         SwingClock clock = new SwingClock( 30, 1 );
