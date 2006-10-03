@@ -73,7 +73,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         this.parameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
-        model = new CCKModel();
+        model = new CCKModelPhetgraphics();
 
         imageSuite = new CCKImageSuite();
 

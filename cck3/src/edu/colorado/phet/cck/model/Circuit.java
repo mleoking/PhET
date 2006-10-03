@@ -315,9 +315,19 @@ public class Circuit {
 
     public void removeBranch( Branch branch ) {
         branches.remove( branch );
+        removeNeighborJunctions( branch );
         branch.delete();
         fireBranchRemoved( branch );
         fireKirkhoffChanged();
+    }
+
+    protected void removeNeighborJunctions( Branch branch ) {
+        if( getAdjacentBranches( branch.getStartJunction() ).length == 0 ) {
+            removeJunction( branch.getStartJunction() );
+        }
+        if( getAdjacentBranches( branch.getEndJunction() ).length == 0 ) {
+            removeJunction( branch.getEndJunction() );
+        }
     }
 
     public void setFireKirkhoffChanges( boolean fireKirkhoffChanges ) {
