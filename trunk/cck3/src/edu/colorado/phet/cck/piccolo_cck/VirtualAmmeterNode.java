@@ -44,7 +44,6 @@ public class VirtualAmmeterNode extends PhetPNode {
         addChild( targetReadoutTool );
 
         addInputEventListener( new PBasicInputEventHandler() {
-
             public void mouseDragged( PInputEvent event ) {
                 PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
                 Rectangle2D.Double rect = getFullBounds();
