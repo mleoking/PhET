@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add wavelength range to Gun model
-- make stuff in view (beam, gun, etc) observers of PhotonGun
 - work out details of mapping between model and view coordinate systems
 - model for BoxOfHydrogen
 - create and animate photons and alpha particles
