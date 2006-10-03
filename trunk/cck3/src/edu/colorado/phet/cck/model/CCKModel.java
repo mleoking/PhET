@@ -85,7 +85,7 @@ public class CCKModel {
             }
 
         };
-        this.circuit = new Circuit( circuitChangeListener );
+        this.circuit = createCircuit( circuitChangeListener );
         circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
@@ -93,6 +93,10 @@ public class CCKModel {
 
         this.resistivityManager = new ResistivityManager( getCircuit() );
         getCircuit().addCircuitListener( resistivityManager );
+    }
+
+    protected Circuit createCircuit( CircuitChangeListener circuitChangeListener ) {
+        return new Circuit( circuitChangeListener );
     }
 
 

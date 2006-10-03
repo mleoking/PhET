@@ -168,7 +168,7 @@ public class ToolboxNode extends PhetPNode {
         public ResistorMaker() {
             super( "Resistor" );
             ComponentNode child = new ResistorNode( model, createResistor(), canvas, module );
-            child.scale( 80 );//todo choose scale based on insets?
+            child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
@@ -177,7 +177,9 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Resistor createResistor() {
-            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, 0 ), CCKModel.RESISTOR_DIMENSION.getLength() * 1.3, CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 );
+            double L = CCKModel.RESISTOR_DIMENSION.getLength() * 1.3 * 1.3;
+            double H = CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 * 1.3;
+            Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, H );
             resistor.setResistance( 10.0 );
             return resistor;
         }
@@ -187,7 +189,7 @@ public class ToolboxNode extends PhetPNode {
         public BatteryMaker() {
             super( "Battery" );
             ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery(), canvas, module );
-            child.scale( 60 );//todo choose scale based on insets?
+            child.scale( 45 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
@@ -196,7 +198,8 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Battery createBattery() {
-            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
+            double L = 1.6;
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1, 0.01, true );
         }
     }
 

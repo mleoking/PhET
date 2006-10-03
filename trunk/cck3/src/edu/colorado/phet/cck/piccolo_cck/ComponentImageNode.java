@@ -63,6 +63,7 @@ public class ComponentImageNode extends ComponentNode {
             super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component );
             this.battery = battery;
             this.module = module;
+            update();
         }
 
         protected JPopupMenu createPopupMenu() {
