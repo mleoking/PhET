@@ -202,7 +202,6 @@ public class CircuitInteractionModel {
                 bs.addJunction( junction );
                 bs.translate( vec );
             }
-//        System.out.println( "match = " + match );
         }
     }
 

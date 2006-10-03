@@ -641,21 +641,21 @@ public class Circuit {
         }
     }
 
-    public DragMatch getBestDragMatch( Junction[] sources, Vector2D dx ) {
+    public DragMatch getBestDragMatch( Junction[] draggedJunctions, Vector2D dx ) {
         Junction[] all = getJunctions();
         ArrayList potentialMatches = new ArrayList();
         potentialMatches.addAll( Arrays.asList( all ) );
-        potentialMatches.removeAll( Arrays.asList( sources ) );
+        potentialMatches.removeAll( Arrays.asList( draggedJunctions ) );
         //now we have all the junctions that are moving,
         //and all the junctions that aren't moving, so we can look for a best match.
         Junction[] remaining = (Junction[])potentialMatches.toArray( new Junction[0] );
         DragMatch best = null;
-        for( int i = 0; i < sources.length; i++ ) {
-            Junction source = sources[i];
-            Point2D loc = dx.getDestination( source.getPosition() );
-            Junction bestForHim = getBestDragMatch( source, loc, remaining );
-            if( bestForHim != null ) {
-                DragMatch dm = new DragMatch( source, bestForHim );
+        for( int i = 0; i < draggedJunctions.length; i++ ) {
+            Junction draggedJunction = draggedJunctions[i];
+            Point2D loc = dx.getDestination( draggedJunction.getPosition() );
+            Junction bestForJunction = getBestDragMatch( draggedJunction, loc, remaining );
+            if( bestForJunction != null ) {
+                DragMatch dm = new DragMatch( draggedJunction, bestForJunction );
                 if( best == null || dm.getDistance() < best.getDistance() ) {
                     best = dm;
                 }
