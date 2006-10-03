@@ -4,8 +4,6 @@
         to be imagined, that will emerge as we go. 
 - Two model layers: one for topology, one for topography?
 
-make sure both junctions can't stick to same destination junction.
-
 do junctions need to be always in front?  are they?
 
 component menus
@@ -16,6 +14,5 @@ grab bag items
 
 schematic?
 
-remove extra "phet" logos from right hand side
-
-virtual ammeter performance is terrible (until you zoom in or out by a tiny fraction).
+Capacitor & Inductor need popup menus.
+Capacitor needs charges to be painted.
