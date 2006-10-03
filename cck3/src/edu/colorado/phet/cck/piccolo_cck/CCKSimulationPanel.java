@@ -43,7 +43,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module );
         addWorldChild( circuitNode );
 
-//        VoltmeterModel voltmeterModel = new VoltmeterModel();
         measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel() );
         addWorldChild( measurementToolSetNode );
         messageNode = new MessageNode();
@@ -73,7 +72,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
         toolboxNode.getParent().globalToLocal( screenRect );
         double toolboxInsetX = 15 / 80.0;
         double toolboxInsetY = 10 / 80.0;
-//        double toolboxInsetX = 0;
         toolboxNode.setOffset( screenRect.getWidth() - toolboxNode.getFullBounds().getWidth() - toolboxInsetX, screenRect.getHeight() - toolboxNode.getFullBounds().getHeight() - toolboxInsetY );
     }
 

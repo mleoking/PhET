@@ -3,6 +3,8 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.CCKControlPanel;
 import edu.colorado.phet.cck.CCKParameters;
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.chart.AbstractFloatingChart;
+import edu.colorado.phet.cck.chart.PiccoloCurrentStripChart;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
@@ -101,7 +103,23 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckSimulationPanel.setStopwatchVisible( selected );
     }
 
+    SwingClock stripChartClock = new SwingClock( 30, 1 );
+
     public void addCurrentChart() {
+        stripChartClock.start();
+        final PiccoloCurrentStripChart chart = new PiccoloCurrentStripChart( cckSimulationPanel, "Current (Amps)", stripChartClock, getCircuit() );
+
+//        chart.setOffset( 200, 200 );
+        chart.translate( 3, 3 );
+        chart.scale( 1.0 / 70.0 );
+
+        cckSimulationPanel.addWorldChild( chart );
+//        getApparatusPanel().addScreenChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
+            public void chartClosing() {
+                cckSimulationPanel.removeScreenChild( chart );
+            }
+        } );
     }
 
     public void addVoltageChart() {
