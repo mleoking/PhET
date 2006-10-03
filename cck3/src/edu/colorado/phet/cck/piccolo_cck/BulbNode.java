@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class BulbNode extends PhetPNode {
     private Bulb bulb;
-    private double intensity = Double.NaN;
+    private double intensity = 0.0;
     private ArrayList brighties = new ArrayList();
     private BasicStroke brightyStroke;
     private Color brightyColor;
@@ -47,8 +47,6 @@ public class BulbNode extends PhetPNode {
         //reserve the top part for the bulb.
         double fracInsulator = .1;
         double fracTip = .04;
-//        double fracConductor = .204;
-//        double fracConductor = .304;
         double fracConductor = .23504;
         double fracBulb = 1 - fracInsulator - fracTip - fracConductor;
         double fracConductorWidth = .5;
@@ -98,9 +96,7 @@ public class BulbNode extends PhetPNode {
             Line2D.Double line = new Line2D.Double( x1, y1, x2, y2 );
             spiralLines.add( line );
         }
-//        setIntensity( 0.5 );
         update();
-
     }
 
     public Bulb getBulb() {
@@ -136,8 +132,13 @@ public class BulbNode extends PhetPNode {
     }
 
     private void updateBulbShape() {
+//        System.out.println( "intensity = " + intensity );
         PPath bulbShape = new PhetPPath( this.bulbShape, new BasicStroke( 1.0f / 40.0f ), Color.black );
-        if( intensity > 0 ) {
+        if( intensity > 1E-2 ) {
+            Color yellow = Color.yellow;
+            Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
+            Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
+            paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
             bulbShape.setPaint( paint );
         }
         else {
@@ -171,6 +172,9 @@ public class BulbNode extends PhetPNode {
     }
 
     public void setIntensity( double intensity ) {
+        if( Double.isNaN( intensity ) ) {
+            throw new RuntimeException( "NaN intensity" );
+        }
         if( this.intensity == intensity ) {
             return;
         }

@@ -759,4 +759,29 @@ public class Circuit {
         }
         return detectedJunction;
     }
+
+    public void bumpAway( Junction junction ) {
+        for( int i = 0; i < 5; i++ ) {
+            bumpOnce( junction );
+        }
+    }
+
+    public void bumpOnce( Junction junction ) {
+        Branch[] branches = getBranches();
+        for( int i = 0; i < branches.length; i++ ) {
+            Branch branch = branches[i];
+            if( !branch.hasJunction( junction ) ) {
+                if( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
+                    AbstractVector2D vec = branch.getDirectionVector();
+                    vec = vec.getNormalVector();
+                    vec = vec.getNormalizedInstance().getScaledInstance( junction.getShape().getBounds2D().getWidth() );
+                    Branch[] sc = getStrongConnections( junction );
+                    BranchSet bs = new BranchSet( this, sc );
+                    bs.addJunction( junction );
+                    bs.translate( vec );
+                    break;
+                }
+            }
+        }
+    }
 }

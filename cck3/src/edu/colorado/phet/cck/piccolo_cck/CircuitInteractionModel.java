@@ -101,7 +101,11 @@ public class CircuitInteractionModel {
 
             startMatch = getCircuit().getBestDragMatch( startSources, startDX );
             endMatch = getCircuit().getBestDragMatch( endSources, endDX );
+
             if( endMatch != null && startMatch != null && endMatch.getTarget() == startMatch.getTarget() ) {
+                endMatch = null;
+            }
+            if( endMatch != null && startMatch != null && wouldCauseOverlap( wire, startMatch, endMatch ) ) {
                 endMatch = null;
             }
 
@@ -117,6 +121,20 @@ public class CircuitInteractionModel {
             }
             apply( scStart, startDX, wire.getStartJunction(), startMatch );
             apply( scEnd, endDX, wire.getEndJunction(), endMatch );
+        }
+
+        private boolean wouldCauseOverlap( Wire wire, Circuit.DragMatch startMatch, Circuit.DragMatch endMatch ) {
+            Junction[] neighbors = circuit.getNeighbors( startMatch.getTarget() );
+            ArrayList list = new ArrayList();
+            list.addAll( Arrays.asList( neighbors ) );
+            list.remove( wire.getStartJunction() );
+            list.remove( wire.getEndJunction() );
+            if( list.contains( endMatch.getTarget() ) ) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         private void translateCircuitComponent( CircuitComponent cc, Point2D dragPt ) {
@@ -154,8 +172,9 @@ public class CircuitInteractionModel {
                 //todo need bumpaway implementation
 //            circuitGraphic.bumpAway( branch );
             }
+            circuit.bumpAway( branch.getStartJunction() );
+            circuit.bumpAway( branch.getEndJunction() );
         }
-
 
         public Junction getStickyTarget( Junction junction, double x, double y ) {
             double bestDist = Double.POSITIVE_INFINITY;
@@ -261,6 +280,7 @@ public class CircuitInteractionModel {
                 getCircuit().collapseJunctions( junction, junctionDragMatch.getTarget() );
             }
             junctionDragMatch = null;
+            circuit.bumpAway( junction );
         }
     }
 
