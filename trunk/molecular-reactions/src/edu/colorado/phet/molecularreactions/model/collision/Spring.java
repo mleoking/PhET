@@ -122,9 +122,9 @@ public class Spring extends SimpleObservable implements ModelElement {
      * @param body
      */
     public void attachBody( Body body ) {
-        if( true ) {
-            throw new RuntimeException( "This method doesn't work properly, and shouldn't be used" );
-        }
+//        if( true ) {
+//            throw new RuntimeException( "This method doesn't work properly, and shouldn't be used" );
+//        }
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
         angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();

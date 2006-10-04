@@ -83,9 +83,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                         if( reaction.moleculesAreProperTypes( sm1, cm ) ) {
                             SimpleMolecule sm2 = reaction.getMoleculeToKeep( cm, sm1 );
 
-//                            double moleculeSeparation = sm1.getFullMolecule().getPosition().distance( cm.getFullMolecule().getPosition() );
+                            // Are the molecules within the provisional bonding distance?
                             double moleculeSeparation = reaction.getCollisionDistance( sm1, cm );
-//                            double moleculeSeparation = sm1.getPosition().distance( sm2.getPosition() ) - sm1.getRadius() - sm2.getRadius();
                             if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
 
                                 // If no provisional bond exists for either of these two simple molecules, create one

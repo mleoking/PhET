@@ -72,7 +72,6 @@ public class SpringTestModule3 extends Module {
         {
             double v0 = 6;
             final double restingLength = energyProfile.getThresholdWidth() / 2;
-//            final double restingLength = 2 * energyProfile.getThresholdWidth() / 2;
 
             // Make a couple of molecules
             mA = new MoleculeA() {
@@ -106,10 +105,10 @@ public class SpringTestModule3 extends Module {
             mB.setVelocity( -v0, 0 );
 
             mC = new MoleculeC();
-//            mC.setPosition( mB.getPosition().getX(),
-//                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
-            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
-                            mA.getPosition().getY() );
+            mC.setPosition( mB.getPosition().getX(),
+                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
+//            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
+//                            mA.getPosition().getY() );
             model.addModelElement( mC );
             mC.setVelocity( -v0, 0 );
 

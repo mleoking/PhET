@@ -38,7 +38,7 @@ import java.awt.geom.Ellipse2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.Listener {
+abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.ChangeListener {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods

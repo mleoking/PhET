@@ -114,6 +114,7 @@ abstract public class AbstractMolecule extends Body implements Collidable {
     public void setParentComposite( CompositeMolecule parentComposite ) {
         this.parentComposite = parentComposite;
         classListenerProxy.statusChanged( this );
+        changeListenerProxy.compositeStateChanged( this );
     }
 
     /**
@@ -131,7 +132,7 @@ abstract public class AbstractMolecule extends Body implements Collidable {
     }
 
     /**
-     * If the molecule is part of a larger composite, there should be not stepInTime
+     * If the molecule is part of a larger composite, there should be no stepInTime
      * behavior. It will be taken care of by the CompositeMolecule
      *
      * @param dt
@@ -174,4 +175,23 @@ abstract public class AbstractMolecule extends Body implements Collidable {
 
     // CM of molecule or parent composite
     abstract public Point2D getFullCM();
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface ChangeListener extends EventListener {
+        void compositeStateChanged( AbstractMolecule molecule );
+    }
+
+    private EventChannel listenerChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)listenerChannel.getListenerProxy();
+
+    public void addListener( ChangeListener listener ) {
+        listenerChannel.addListener( listener );
+    }
+
+    public void removeListener( ChangeListener listener ) {
+        listenerChannel.removeListener( listener );
+    }
+
 }

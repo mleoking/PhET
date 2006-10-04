@@ -39,11 +39,11 @@ public class ReactionSpring extends Body implements ModelElement {
     double phi;
     double A;
     double restingLength;
-    private double angle;
     Line2D extent;
     Body attachedBody;
     double t;
     private Spring[] componentSprings;
+    // The composite body formed by the two molecules attached to the spring
     private CompositeBody cb;
 
     /**
@@ -59,7 +59,6 @@ public class ReactionSpring extends Body implements ModelElement {
     public ReactionSpring( double k, double restingLength, SimpleMolecule[] bodies ) {
         this.k = k;
         this.restingLength = restingLength;
-        angle = new Vector2D.Double( bodies[0].getPosition(), bodies[1].getPosition() ).getAngle();
         extent = new Line2D.Double();
 
         // Create component springs
@@ -70,12 +69,19 @@ public class ReactionSpring extends Body implements ModelElement {
         return componentSprings;
     }
 
+    /**
+     * Creates the springs that attach to each of the molecules
+     * @param bodies
+     * @return two springs
+     */
     private Spring[] createComponentSprings( SimpleMolecule[] bodies ) {
         Spring[] springs = new Spring[2];
 
         // Find the CM of the bodies. This will be the fixed point
         // of the two springs
         cb = new CompositeBody();
+//        cb.addBody( bodies[0] );
+//        cb.addBody( bodies[1] );
         cb.addBody( bodies[0].getFullMolecule() );
         cb.addBody( bodies[1].getFullMolecule() );
         Point2D fixedPt = cb.getCM();
@@ -91,16 +97,7 @@ public class ReactionSpring extends Body implements ModelElement {
         // Make the component springs, with the bodies attached
         springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule() );
         springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule() );
-
         return springs;
-    }
-
-    public void setK( double k ) {
-        this.k = k;
-    }
-
-    public double getK() {
-        return k;
     }
 
     public void stepInTime( double dt ) {
@@ -109,18 +106,6 @@ public class ReactionSpring extends Body implements ModelElement {
             componentSprings[i].stepInTime( dt );
         }
         notifyObservers();
-    }
-
-    public double getRestingLength() {
-        return restingLength;
-    }
-
-    public double getPotentialEnergy() {
-        double pe = 0;
-        for( int i = 0; i < componentSprings.length; i++ ) {
-            pe += componentSprings[i].getPotentialEnergy();
-        }
-        return pe;
     }
 
     public Point2D getCM() {

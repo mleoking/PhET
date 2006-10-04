@@ -119,18 +119,18 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     //--------------------------------------------------------------------------------------------------
     // Events
     //--------------------------------------------------------------------------------------------------
-    private EventChannel eventChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+    private EventChannel eventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener listenerProxy = (ChangeListener)eventChannel.getListenerProxy();
 
-    public interface Listener extends EventListener {
+    public interface ChangeListener extends EventListener {
         void selectionStatusChanged( SimpleMolecule molecule );
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( ChangeListener listener ) {
         eventChannel.addListener( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( ChangeListener listener ) {
         eventChannel.removeListener( listener );
     }
 }
