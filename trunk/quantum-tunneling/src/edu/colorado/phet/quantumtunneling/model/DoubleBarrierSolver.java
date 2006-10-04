@@ -23,7 +23,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DoubleBarrierSolver extends AbstractPlaneSolver {
+public class DoubleBarrierSolver extends AbstractBarrierSolver {
 
     //----------------------------------------------------------------------------
     // Instance data
