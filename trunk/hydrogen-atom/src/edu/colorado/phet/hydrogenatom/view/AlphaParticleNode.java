@@ -85,6 +85,7 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
         double x = _alphaParticle.getX();
         double y = _alphaParticle.getY();
         //TODO map from model to view coordinates!
+        rotate( _alphaParticle.getOrientation() );
         setOffset( x, y );
     }
 }

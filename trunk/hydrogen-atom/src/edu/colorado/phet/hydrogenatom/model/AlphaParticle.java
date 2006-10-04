@@ -23,18 +23,18 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AlphaParticle extends MovingObject {
+public class AlphaParticle extends DynamicObject {
     
     private static final double DISTANCE_PER_DT = 1;
     
-    public AlphaParticle( Point2D position, double direction ) {
-        super( position, direction );
+    public AlphaParticle( Point2D position, double orientation ) {
+        super( position, orientation );
     }
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         double dt = clockEvent.getSimulationTimeChange();
         double distance = DISTANCE_PER_DT * dt;
-        double direction = getDirection();
+        double direction = getOrientation();
         double x = Math.cos( direction ) * distance;
         double y = Math.sin( direction ) * distance;
         setPosition( x, y );
@@ -43,7 +43,7 @@ public class AlphaParticle extends MovingObject {
     public String toString() {
         String s = "Photon ";
         s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
-        s += ( "direction=" + DebugUtils.format( Math.toDegrees( getDirection() ) ) + " " );
+        s += ( "orientation=" + DebugUtils.format( Math.toDegrees( getOrientation() ) ) + " " );
         return s;
     }
 }
