@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -58,14 +59,12 @@ public class LegendPanel extends JPanel {
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        PhotonNode photonNode = new PhotonNode();
-        photonNode.rotate( Math.toRadians( 90 ) );
-        JLabel photonImage = toJLabel( photonNode );
+        JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_COLOR ) );
         JLabel photonText = new JLabel( SimStrings.get( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
-        JLabel alphaParticleImage = toJLabel( new AlphaParticleNode() );
+        JLabel alphaParticleImage = toJLabel( AlphaParticleNode.createImage() );
         JLabel alphaParticleText = new JLabel( SimStrings.get( "label.alphaParticle" ) );
         alphaParticleText.setFont( font );
         alphaParticleText.setForeground( LABEL_COLOR );
@@ -121,6 +120,11 @@ public class LegendPanel extends JPanel {
         col = 0;
     }
 
+    private JLabel toJLabel( Image image ) {
+        Icon icon = new ImageIcon( image );
+        return new JLabel( icon );
+    }
+    
     private JLabel toJLabel( PNode node ) {
         Icon icon = new ImageIcon( node.toImage() );
         return new JLabel( icon );
