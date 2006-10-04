@@ -50,6 +50,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -107,8 +108,8 @@ public class HAModule extends PiccoloModule {
     private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
 
-    private PhotonNode _samplePhotonNode1, _samplePhotonNode2, _samplePhotonNode3;
-    private AlphaParticleNode _sampleAlphaParticleNode;
+    private PNode _samplePhotonNode1, _samplePhotonNode2, _samplePhotonNode3;
+    private PNode _sampleAlphaParticleNode;
     
     private Font _spectrometerFont;
 
@@ -264,10 +265,10 @@ public class HAModule extends PiccoloModule {
             
             //XXX sample photons and alpha particle
             {
-                _samplePhotonNode1 = new PhotonNode( Color.RED );
-                _samplePhotonNode2 = new PhotonNode( Color.YELLOW);
-                _samplePhotonNode3 = new PhotonNode( HAConstants.UV_COLOR );
-                _sampleAlphaParticleNode = new AlphaParticleNode();
+                _samplePhotonNode1 = new PImage( PhotonNode.createPhotonImage( Color.RED ) );
+                _samplePhotonNode2 = new PImage( PhotonNode.createPhotonImage( Color.YELLOW ) );
+                _samplePhotonNode3 = new PImage( PhotonNode.createPhotonImage( HAConstants.UV_COLOR ) );
+                _sampleAlphaParticleNode = new PImage( AlphaParticleNode.createImage() );
                 _animationRegionNode.addChild( _samplePhotonNode1 );
                 _animationRegionNode.addChild( _samplePhotonNode2 );
                 _animationRegionNode.addChild( _samplePhotonNode3 );

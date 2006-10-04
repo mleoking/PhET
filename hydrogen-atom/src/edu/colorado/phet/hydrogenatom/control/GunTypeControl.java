@@ -27,6 +27,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.view.AlphaParticleNode;
 import edu.colorado.phet.hydrogenatom.view.PhotonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -64,14 +65,11 @@ public class GunTypeControl extends PhetPNode {
         _listenerList = new EventListenerList();
         
         // Photon icon
-        PhotonNode photonNode = new PhotonNode();
-        photonNode.rotate( Math.toRadians( 90 ) );
-        Image photonImage = photonNode.toImage();
+        Image photonImage = PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_COLOR );
         Icon photonIcon = new ImageIcon( photonImage );
         
         // Alpha Particle icon
-        AlphaParticleNode alphaParticleNode = new AlphaParticleNode();
-        Image alphaParticleImage = alphaParticleNode.toImage();
+        Image alphaParticleImage = AlphaParticleNode.createImage();
         Icon alphaParticleIcon = new ImageIcon( alphaParticleImage );
         
         // Photons radio button

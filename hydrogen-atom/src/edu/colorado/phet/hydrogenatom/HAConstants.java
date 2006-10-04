@@ -123,6 +123,9 @@ public class HAConstants {
     public static final Color ANIMATION_REGION_COLOR = Color.BLACK;
     public static final Color ANIMATION_REGION_STROKE_COLOR = Color.WHITE;
     
+    // Color for photon used on controls & in legends
+    public static final Color PHOTON_ICON_COLOR =  Color.GREEN;
+    
     //----------------------------------------------------------------------------
     // Borders
     //----------------------------------------------------------------------------

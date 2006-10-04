@@ -34,6 +34,9 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/4/06) - add public interface for creating Image to PhotonNode and AlphaParticleNode
+(10/4/06) - make AlphaParticleNode observer of AlphaParticle
+(10/4/06) - make PhotonNode observer of Photon
 (10/3/06) - change model to use radians (instead of degrees) for direction and orientation
 (10/3/06) - add DebugUtils for looking at Photon and AlphaParticle properties
 (10/3/06) - model Space that things move in and interact in

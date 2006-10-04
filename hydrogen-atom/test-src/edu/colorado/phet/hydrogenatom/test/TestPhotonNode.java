@@ -11,13 +11,15 @@
 
 package edu.colorado.phet.hydrogenatom.test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
+import java.awt.Insets;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.hydrogenatom.view.PhotonNode;
-import edu.umd.cs.piccolo.PNode;
 
 
 public class TestPhotonNode extends JFrame {
@@ -63,8 +65,7 @@ public class TestPhotonNode extends JFrame {
     }
     
     private static JLabel createLabel( Color photonColor ) {
-        PNode photonNode = new PhotonNode( photonColor );
-        Image image = photonNode.toImage();
+        Image image = PhotonNode.createPhotonImage( photonColor );
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
         label.setOpaque( false );
