@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- change model to store direction and orientation in radians
 - work out details of mapping between model and view coordinate systems
 - make photons and alpha particles move
 - model for BoxOfHydrogen
@@ -37,6 +38,8 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/3/06) - add DebugUtils for looking at Photon and AlphaParticle properties
+(10/3/06) - model Space that things move in and interact in
 (10/3/06) - generate random start location for photons and alpha particles along nozzle of gun
 (10/3/06) - use intensity to determine number of photons and alpha particles fired
 (10/3/06) - generate random wavelengths when creating photons for white light

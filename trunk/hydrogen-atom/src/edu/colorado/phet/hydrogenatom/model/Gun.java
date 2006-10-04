@@ -18,7 +18,6 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.Random;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -63,8 +62,8 @@ public class Gun extends StationaryObject implements ClockListener {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    private static final int PHOTONS_PER_CLOCK_TICK = 50;
-    private static final int ALPHA_PARTICLES_PER_CLOCK_TICK = 50;
+    private static final int PHOTONS_PER_DT = 1;
+    private static final int ALPHA_PARTICLES_PER_DT = 50;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,7 +89,7 @@ public class Gun extends StationaryObject implements ClockListener {
     /**
      * Constructor
      * @param position
-     * @param orientation degrees
+     * @param orientation radians
      * @param nozzleWidth
      * @param minWavelength nm
      * @param maxWavelength nm
@@ -343,25 +342,14 @@ public class Gun extends StationaryObject implements ClockListener {
         double x = 0;
         double y = _random.nextDouble() * _nozzleWidth;
 
-        if ( _orientation == 0 || ( _orientation % 180 == 0 ) ) {
-            // do nothing
-        }
-        else if ( _orientation % 90 == 0 ) {
-            // swap x & y
-            double tmp = x;
-            x = y;
-            y = tmp;
-        }
-        else {
-            // rotate x & y
-            Point2D p1 = new Point2D.Double( x, y );
-            AffineTransform t = new AffineTransform();
-            t.rotate( Math.toRadians( _orientation ) );
-            Point2D p2 = t.transform( p1, null );
-            x = p2.getX();
-            y = p2.getY();
-        }
-        
+        // Rotate by gun's orientation
+        Point2D p1 = new Point2D.Double( x, y );
+        AffineTransform t = new AffineTransform();
+        t.rotate( _orientation );
+        Point2D p2 = t.transform( p1, null );
+        x = p2.getX();
+        y = p2.getY();
+
         // Translate by the gun's position
         x += getX();
         y += getY();
@@ -408,14 +396,14 @@ public class Gun extends StationaryObject implements ClockListener {
     private void firePhotons( ClockEvent clockEvent ) {
         
         // Determine how many photons to fire.
-        double ticks = clockEvent.getSimulationTimeChange();
-        int numberOfPhotons = (int) ( _lightIntensity * ticks * PHOTONS_PER_CLOCK_TICK );
+        double dt = clockEvent.getSimulationTimeChange();
+        int numberOfPhotons = (int) ( _lightIntensity * dt * PHOTONS_PER_DT );
         if ( numberOfPhotons == 0 && _lightIntensity > 0 ) {
             numberOfPhotons = 1;
         }
 
         // Fire photons
-        System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
+//        System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
         for ( int i = 0; i < numberOfPhotons; i++ ) {
             
             // Pick a randon location along the gun's nozzle width
@@ -447,14 +435,14 @@ public class Gun extends StationaryObject implements ClockListener {
     private void fireAlphaParticles( ClockEvent clockEvent ) {
         
         // Determine how many alpha particles to fire.
-        double ticks = clockEvent.getSimulationTimeChange();
-        int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * ticks * ALPHA_PARTICLES_PER_CLOCK_TICK );
+        double dt = clockEvent.getSimulationTimeChange();
+        int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * dt * ALPHA_PARTICLES_PER_DT );
         if ( numberOfAlphaParticles == 0 && _alphaParticlesIntensity > 0 ) {
             numberOfAlphaParticles = 1;
         }
 
         // Fire alpha particles
-        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
+//        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
         for ( int i = 0; i < numberOfAlphaParticles; i++ ) {
             
             // Pick a randon location along the gun's nozzle width
@@ -527,7 +515,7 @@ public class Gun extends StationaryObject implements ClockListener {
     private void firePhotonFiredEvent( PhotonFiredEvent event ) {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
+            if( listeners[i] == PhotonFiredListener.class ) {
                 ( (PhotonFiredListener)listeners[i + 1] ).photonFired( event );
             }
         }
@@ -588,7 +576,7 @@ public class Gun extends StationaryObject implements ClockListener {
     private void fireAlphaParticleFiredEvent( AlphaParticleFiredEvent event ) {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
+            if( listeners[i] == AlphaParticleFiredListener.class ) {
                 ( (AlphaParticleFiredListener)listeners[i + 1] ).alphaParticleFired( event );
             }
         }
