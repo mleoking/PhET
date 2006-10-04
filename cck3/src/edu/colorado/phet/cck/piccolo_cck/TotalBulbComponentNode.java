@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
@@ -20,10 +21,10 @@ public class TotalBulbComponentNode extends BranchNode {
     private FilamentNode filamentNode;
     private BulbComponentNode bulbComponentNode;
 
-    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, Component component ) {
+    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, Component component, ICCKModule module ) {
         this.bulb = bulb;
         filamentNode = new FilamentNode( bulb.getFilament(), this );
-        bulbComponentNode = new BulbComponentNode( cckModel, bulb, component );
+        bulbComponentNode = new BulbComponentNode( cckModel, bulb, component, module );
         addChild( bulbComponentNode );
         addChild( filamentNode );
     }

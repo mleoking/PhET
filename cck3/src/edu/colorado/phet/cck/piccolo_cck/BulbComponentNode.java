@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.Bulb;
@@ -24,10 +25,12 @@ import java.awt.geom.Point2D;
 public class BulbComponentNode extends ComponentNode {
     private BulbNode bulbNode;
     private Bulb bulb;
+    private ICCKModule module;
 
-    public BulbComponentNode( CCKModel model, Bulb bulb, Component component ) {
+    public BulbComponentNode( CCKModel model, Bulb bulb, Component component, ICCKModule module ) {
         super( model, bulb, component );
         this.bulb = bulb;
+        this.module = module;
         bulbNode = new BulbNode( bulb );
         addChild( bulbNode );
         CircuitSolutionListener circuitSolutionListener = new CircuitSolutionListener() {
@@ -132,6 +135,10 @@ public class BulbComponentNode extends ComponentNode {
         transform.translate( -1.0, -2.3 );//todo magic numbers
 
         return transform;
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new ComponentMenu.BulbMenu( bulb, module ).getMenuComponent();
     }
 
     protected void update() {

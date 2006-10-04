@@ -259,7 +259,7 @@ public class ToolboxNode extends PhetPNode {
     class ACVoltageMaker extends BranchMaker {
         public ACVoltageMaker() {
             super( "AC Voltage" );
-            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch(), canvas );
+            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch(), canvas, module );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -276,7 +276,7 @@ public class ToolboxNode extends PhetPNode {
     class CapacitorMaker extends BranchMaker {
         public CapacitorMaker() {
             super( "Capacitor" );
-            CapacitorNode child = new CapacitorNode( model, createCapacitor(), canvas );
+            CapacitorNode child = new CapacitorNode( model, createCapacitor(), canvas, module );
             child.scale( 60 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -293,7 +293,7 @@ public class ToolboxNode extends PhetPNode {
     class InductorMaker extends BranchMaker {
         public InductorMaker() {
             super( "Inductor" );
-            InductorNode child = new InductorNode( model, createInductor(), canvas );
+            InductorNode child = new InductorNode( model, createInductor(), canvas, module );
             child.scale( 42 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }

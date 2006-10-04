@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -149,6 +150,10 @@ public class SeriesAmmeterNode extends ComponentNode {
         textGraphic.scale( SCALE );
         textGraphic.setOffset( textLoc.getX(), textLoc.getY() );
         textGraphic.rotate( angle );
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new ComponentMenu.SeriesAmmeterMenu( component, module ).getMenuComponent();
     }
 
     public CircuitComponent getCircuitComponent() {

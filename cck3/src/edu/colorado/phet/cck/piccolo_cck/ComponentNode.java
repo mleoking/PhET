@@ -20,7 +20,7 @@ import java.awt.*;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class ComponentNode extends BranchNode {
+public abstract class ComponentNode extends BranchNode {
     private CCKModel model;
     private CircuitComponent circuitComponent;
     private CircuitInteractionModel circuitInteractionModel;
@@ -63,9 +63,7 @@ public class ComponentNode extends BranchNode {
         } ) );
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return new JPopupMenu();
-    }
+    protected abstract JPopupMenu createPopupMenu();
 
     protected void update() {
         highlightNode.setVisible( circuitComponent.isSelected() );

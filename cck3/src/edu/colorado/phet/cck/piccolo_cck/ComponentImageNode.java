@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Sep 17, 2006 by Sam Reid
  */
 
-public class ComponentImageNode extends ComponentNode {
+public abstract class ComponentImageNode extends ComponentNode {
     private PImage pImage;
 
     public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image, Component component ) {
