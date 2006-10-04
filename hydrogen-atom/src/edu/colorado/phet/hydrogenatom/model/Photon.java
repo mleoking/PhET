@@ -27,7 +27,7 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Photon extends MovingObject {
+public class Photon extends DynamicObject {
 
     private static final double DISTANCE_PER_DT = 1;
     
@@ -36,8 +36,8 @@ public class Photon extends MovingObject {
     private double _id;
     private double _wavelength;
     
-    public Photon( Point2D position, double direction, double wavelength ) {
-        super( position, direction );
+    public Photon( Point2D position, double orientation, double wavelength ) {
+        super( position, orientation );
         if ( wavelength < 0 ) {
             throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
         }
@@ -60,13 +60,13 @@ public class Photon extends MovingObject {
     }
     
     private void move( double distance ) {
-        double direction = getDirection();
+        double direction = getOrientation();
         double dx = Math.cos( direction ) * distance;
         double dy = Math.sin( direction ) * distance;
         double x = getX() + dx;
         double y = getY() + dy;
-        setPosition( x, y );
         System.out.println( "Photon.move distance=" + distance + " " + this );
+        setPosition( x, y );
     }
     
     public String toString() {
@@ -74,7 +74,7 @@ public class Photon extends MovingObject {
         s += ( "id=" + _id + " " );
         s += ( "wavelength=" + DebugUtils.format( _wavelength ) + " " );
         s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
-        s += ( "direction=" + DebugUtils.format( Math.toDegrees( getDirection() ) ) + " " );
+        s += ( "orientation=" + DebugUtils.format( Math.toDegrees( getOrientation() ) ) + " " );
         return s;
     }
 }

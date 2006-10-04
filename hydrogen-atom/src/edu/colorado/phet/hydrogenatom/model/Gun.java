@@ -37,7 +37,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Gun extends StationaryObject implements ClockListener {
+public class Gun extends DynamicObject implements ClockListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -71,7 +71,6 @@ public class Gun extends StationaryObject implements ClockListener {
     
     private boolean _enabled; // is the gun on or off?
     private int _mode; // is the gun firing photons or alpha particles?
-    private double _orientation; // direction the gun points, in degrees
     private double _nozzleWidth; // width of the beam
     private int _lightType; // type of light (white or monochromatic)
     private double _lightIntensity; // intensity of the light, 0.0-1.0
@@ -95,7 +94,7 @@ public class Gun extends StationaryObject implements ClockListener {
      * @param maxWavelength nm
      */
     public Gun( Point2D position, double orientation, double nozzleWidth, double minWavelength, double maxWavelength ) {
-        super( position );
+        super( position, orientation );
         
         if ( nozzleWidth <= 0 ) {
             throw new IllegalArgumentException( "invalid nozzleWidth: " + nozzleWidth );
@@ -103,7 +102,6 @@ public class Gun extends StationaryObject implements ClockListener {
         
         _enabled = false;
         _mode = MODE_PHOTONS;
-        _orientation = orientation;
         _nozzleWidth = nozzleWidth;
         _lightType = LIGHT_TYPE_MONOCHROMATIC;
         _lightIntensity = DEFAULT_LIGHT_INTENSITY;
@@ -143,17 +141,6 @@ public class Gun extends StationaryObject implements ClockListener {
     
     public int getMode() {
         return _mode;
-    }
-    
-    public void setOrientation( double orientation ) {
-        if ( orientation != _orientation ) {
-            _orientation = orientation;
-            notifyObservers( PROPERTY_ORIENTATION );
-        }
-    }
-    
-    public double getOrientation() {
-        return _orientation;
     }
     
     public void setNozzleWidth( double nozzleWidth ) {
@@ -345,7 +332,7 @@ public class Gun extends StationaryObject implements ClockListener {
         // Rotate by gun's orientation
         Point2D p1 = new Point2D.Double( x, y );
         AffineTransform t = new AffineTransform();
-        t.rotate( _orientation );
+        t.rotate( getOrientation() );
         Point2D p2 = t.transform( p1, null );
         x = p2.getX();
         y = p2.getY();
@@ -410,7 +397,7 @@ public class Gun extends StationaryObject implements ClockListener {
             Point2D position = getRandomNozzlePoint();
             
             // Direction of photon is same as gun's orientation.
-            double direction = _orientation;
+            double orientation = getOrientation();
             
             // For white light, assign a random wavelength to each photon.
             double wavelength = _wavelength;
@@ -419,7 +406,7 @@ public class Gun extends StationaryObject implements ClockListener {
             }
             
             // Create the photon
-            Photon photon = new Photon( position, direction, wavelength );
+            Photon photon = new Photon( position, orientation, wavelength );
             
             // Fire the photon
             PhotonFiredEvent event = new PhotonFiredEvent( this, photon );
@@ -449,10 +436,10 @@ public class Gun extends StationaryObject implements ClockListener {
             Point2D position = getRandomNozzlePoint();
             
             // Direction of alpha particle is same as gun's orientation.
-            double direction = _orientation;
+            double orientation = getOrientation();
             
             // Create the alpha particle
-            AlphaParticle alphaParticle = new AlphaParticle( position, direction );
+            AlphaParticle alphaParticle = new AlphaParticle( position, orientation );
             
             // Fire the alpha particle
             AlphaParticleFiredEvent event = new AlphaParticleFiredEvent( this, alphaParticle );
