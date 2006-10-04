@@ -3,7 +3,9 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -78,6 +80,23 @@ public class JunctionNode extends PhetPNode {
         } ) );
         addInputEventListener( new CursorHandler() );
         update();
+        circuitNode.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+                update();
+            }
+
+            public void junctionsSplit( Junction old, Junction[] j ) {
+                update();
+            }
+
+            public void branchRemoved( Branch branch ) {
+                update();
+            }
+
+            public void junctionRemoved( Junction junction ) {
+                update();
+            }
+        } );
     }
 
     private Stroke createStroke( double strokeWidth ) {
@@ -88,11 +107,16 @@ public class JunctionNode extends PhetPNode {
 
     private void update() {
         shapePNode.setPathTo( junction.getShape() );
-        shapePNode.setStroke( createStroke( strokeWidthModelCoords * 2 ) );
+        shapePNode.setStroke( createStroke( strokeWidthModelCoords * ( isConnected() ? 1.2 : 2 ) ) );
+        shapePNode.setStrokePaint( isConnected() ? Color.black : Color.red );
 
         highlightPNode.setPathTo( junction.createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
         highlightPNode.setStroke( new BasicStroke( (float)( 3.0 / 80.0 ) ) );
         highlightPNode.setVisible( junction.isSelected() );
+    }
+
+    private boolean isConnected() {
+        return getCircuit().getNeighbors( junction ).length > 1;
     }
 
     public Junction getJunction() {
