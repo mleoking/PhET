@@ -38,16 +38,19 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SpringTestModule3 extends Module {
+    private MoleculeA mA;
+    private MoleculeB mB;
+    private MoleculeC mC;
 
     public SpringTestModule3() {
         super( "Spring Test 3", new SwingClock( 40, 1 ), true );
 
         final MRModel model = new MRModel( getClock() ) {
             protected void stepInTime( double dt ) {
-//                double e0 = spring.getPotentialEnergy() + mA.getKineticEnergy();
+                double e0 = mA.getKineticEnergy() + mB.getKineticEnergy() + mC.getKineticEnergy();
                 super.stepInTime( dt );
-//                double e1 = spring.getPotentialEnergy() + mA.getKineticEnergy();
-//                System.out.println( "e0 = " + e0 + "\te1 = " + e1 );
+                double e1 = mA.getKineticEnergy() + mB.getKineticEnergy() + mC.getKineticEnergy();
+                System.out.println( "e0 = " + e0 + "\te1 = " + e1 );
             }
         };
 
@@ -67,12 +70,12 @@ public class SpringTestModule3 extends Module {
         final double rightDPE = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
 
         {
-            double v0 = 2;
+            double v0 = 6;
             final double restingLength = energyProfile.getThresholdWidth() / 2;
 //            final double restingLength = 2 * energyProfile.getThresholdWidth() / 2;
 
             // Make a couple of molecules
-            final MoleculeA mA = new MoleculeA() {
+            mA = new MoleculeA() {
                 double prevX;
 
                 public void stepInTime( double dt ) {
@@ -95,14 +98,14 @@ public class SpringTestModule3 extends Module {
             model.addModelElement( mA );
 
 
-            final MoleculeB mB = new MoleculeB();
+            mB = new MoleculeB();
 //            mB.setPosition( mA.getPosition().getX() + restingLength, mA.getPosition().getY() );
             mB.setPosition( mA.getPosition().getX() + restingLength * 2, mA.getPosition().getY() );
 //            mB.setPosition( mA.getPosition().getX() + 200, mA.getPosition().getY() );
             model.addModelElement( mB );
             mB.setVelocity( -v0, 0 );
 
-            final MoleculeC mC = new MoleculeC();
+            mC = new MoleculeC();
 //            mC.setPosition( mB.getPosition().getX(),
 //                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
             mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
@@ -116,6 +119,9 @@ public class SpringTestModule3 extends Module {
             CompositeBody cb = new CompositeBody();
             cb.addBody( mA );
             cb.addBody( mBC );
+
+//            ReactionSpring rs = new ReactionSpring( 10, 100, new SimpleMolecule[] {mA, mB} );
+//            model.addModelElement( rs );
 
             // A model element that will create a spring when the molecules are close enough to each other
 //            model.addModelElement( new ModelElement() {

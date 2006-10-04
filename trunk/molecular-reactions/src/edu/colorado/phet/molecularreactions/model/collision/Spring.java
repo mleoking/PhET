@@ -34,21 +34,20 @@ public class Spring extends SimpleObservable implements ModelElement {
     double restingLength;
     private Point2D fixedEnd;
     private double angle;
-    private Point2D freeEnd = new Point2D.Double( );
+    private Point2D freeEnd = new Point2D.Double();
     Line2D extent;
     Body attachedBody;
     double t;
 
     /**
-     *
-     * @param pe    The amount of energy stored in the spring when it's deformed by a specified length
-     * @param dl    The specified length of deformation
+     * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
+     * @param dl            The specified length of deformation
      * @param restingLength
      * @param fixedEnd
      * @param angle
      */
     public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, double angle ) {
-        this( 2 * pe / (dl * dl), restingLength, fixedEnd, angle);
+        this( 2 * pe / ( dl * dl ), restingLength, fixedEnd, angle );
     }
 
     public Spring( double k, double restingLength, Point2D fixedEnd, Body body ) {
@@ -57,7 +56,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body ) {
-        this( 2 * pe / (dl * dl), restingLength, fixedEnd );
+        this( 2 * pe / ( dl * dl ), restingLength, fixedEnd );
         attachBodyAtRestingLength( body );
     }
 
@@ -94,18 +93,18 @@ public class Spring extends SimpleObservable implements ModelElement {
     /**
      * Assumes that the body is being attached to the spring, and assume the spring is at its resting
      * length. A virtual strut is assumed to exist between the body's CM and the end of the spring.
+     *
      * @param body
      */
     private void attachBodyAtRestingLength( Body body ) {
         this.attachedBody = body;
-//        freeEnd.setLocation( body.getCM() );
 
-        angle = new Vector2D.Double( fixedEnd, body.getPosition()).getAngle();
-        freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ));
+        angle = new Vector2D.Double( fixedEnd, body.getPosition() ).getAngle();
+        freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ) );
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
-        if( Double.isNaN( omega )) {
+        if( Double.isNaN( omega ) ) {
             System.out.println( "Spring.attachBodyAtRestingLength" );
         }
 
@@ -119,9 +118,13 @@ public class Spring extends SimpleObservable implements ModelElement {
 
     /**
      * NOTE: THIS IS NOT WORKING PROPERLY
+     *
      * @param body
      */
     public void attachBody( Body body ) {
+        if( true ) {
+            throw new RuntimeException( "This method doesn't work properly, and shouldn't be used" );
+        }
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
         angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
@@ -163,18 +166,10 @@ public class Spring extends SimpleObservable implements ModelElement {
         Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
-            double l = restingLength + A * Math.sin( omega * t + phi );
-//            System.out.println( "l = " + l + "\t\tA = " + A);
-            freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ));
-//            freeEnd.setLocation( attachedBody.getCM() );
+            double l = restingLength - A * Math.sin( omega * t + phi );
+            freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );
             Vector2D v = getVelocity();
-            if( Double.isNaN(v.getX() )) {
-//                System.out.println( "Spring.stepInTime" );
-                v = getVelocity();
-            }
-            System.out.println( "freeEnd = " + freeEnd +"\tv = " + v );
-            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 )) );
-//            attachedBody.setVelocity( v );
+            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
         notifyObservers();
     }

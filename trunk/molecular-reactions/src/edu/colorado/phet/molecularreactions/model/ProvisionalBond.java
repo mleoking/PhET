@@ -36,7 +36,13 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
     private MRModel model;
     private ReactionSpring spring;
 
-
+    /**
+     *
+     * @param sm1
+     * @param sm2
+     * @param maxBondLength
+     * @param model
+     */
     public ProvisionalBond( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model ) {
         this.maxBondLength = maxBondLength;
 //        this.maxBondLength =  model.getReaction().getCollisionDistance( sm1.getFullMolecule(), sm2.getFullMolecule() );
@@ -48,6 +54,14 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
         model.addModelElement( spring );
     }
 
+    /**
+     *
+     * @param sm1
+     * @param sm2
+     * @param l
+     * @param model
+     * @return
+     */
     private ReactionSpring createSpring( SimpleMolecule sm1, SimpleMolecule sm2, double l, MRModel model ) {
         double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
         return new ReactionSpring( pe, l, l, new SimpleMolecule[]{ sm1, sm2 } );
@@ -66,22 +80,8 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
             model.removeModelElement( this );
             model.removeModelElement( spring );
         }
-        else {
-//            spring.stepInTime( dt );
-        }
         notifyObservers();
     }
-
-//    private void adjustMoleculeVelocity( double dPE, AbstractMolecule molecule ) {
-//        double v0 = molecule.getVelocity( ).getMagnitude();
-//        double v1 = Math.sqrt( Math.max( v0 * v0 - 2 * dPE / molecule.getMass(), 0 ) );
-//        if( v0 != 0 ) {
-//            molecule.setVelocity( molecule.getVelocity().getX().scale( v1 / v0 ));
-//        }
-//        else {
-//            molecule.setVelocity( molecule.getVelocityPrev().normalize().scale( v1 ));
-//        }
-//    }
 
     /**
      * Gets the molecules that participate in the bond
