@@ -57,14 +57,14 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     //----------------------------------------------------------------------------
     
     private AbstractWave _wave;
-    private String _label;
+    private char _label;
     private double _value;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    private AbstractProbabilityNode( String label ) {
+    private AbstractProbabilityNode( char label ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -189,7 +189,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class ReflectionProbabilityNode extends AbstractProbabilityNode {
 
         public ReflectionProbabilityNode() {
-            super( SimStrings.get( "label.reflectionProbability" ) );
+            super( SimStrings.getChar( "char.reflectionProbability" ) );
         }
 
         public void update() {
@@ -206,7 +206,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class TransmissionProbabilityNode extends AbstractProbabilityNode {
 
         public TransmissionProbabilityNode() {
-            super( SimStrings.get( "label.transmissionProbability" ) );
+            super( SimStrings.getChar( "char.transmissionProbability" ) );
         }
 
         public void update() {

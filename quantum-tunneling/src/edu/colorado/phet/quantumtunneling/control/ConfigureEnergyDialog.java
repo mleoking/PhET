@@ -79,7 +79,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
     /* How close the annotations are to the top and bottom of the chart */
-    private static final double ANNOTATION_MARGIN = 0.25;
+    private static final double ANNOTATION_MARGIN = 0.15;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -330,6 +330,7 @@ public class ConfigureEnergyDialog extends JDialog {
             }
 
             // Potential Energy for each region...
+            char peChar = SimStrings.getChar( "char.potentialEnergy" );
             {
                 JLabel peTitle = new JLabel( SimStrings.get( "label.potentialEnergy" ) );
                 leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
@@ -337,7 +338,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 int numberOfRegions = _potentialEnergy.getNumberOfRegions();
                 _peSpinners = new ArrayList();
                 for ( int i = 0; i < numberOfRegions; i++ ) {
-                    JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
+                    String s = String.valueOf( peChar ) + String.valueOf( i + 1 ) + ":";
+                    JLabel peLabel = new JLabel( s );
                     DoubleSpinner peSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                     peSpinner.addChangeListener( _listener );
                     _peSpinners.add( peSpinner );
@@ -365,6 +367,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Barriers...
             _widthSpinners = null;
             _positionSpinners = null;
+            char barrierChar = SimStrings.getChar( "char.barrier" );
             if ( _potentialEnergy instanceof BarrierPotential ) {
 
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
@@ -375,7 +378,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 rightLayout.addAnchoredComponent( positionTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
-                    JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
+                    String s = String.valueOf( barrierChar ) + String.valueOf( i + 1 ) + ":";
+                    JLabel positionLabel = new JLabel( s );
                     DoubleSpinner positionSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     positionSpinner.addChangeListener( _listener );
                     _positionSpinners.add( positionSpinner );
@@ -392,7 +396,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 rightLayout.addAnchoredComponent( widthTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
-                    JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
+                    String s = String.valueOf( barrierChar ) + String.valueOf( i + 1 ) + ":";
+                    JLabel widthLabel = new JLabel( s );
                     DoubleSpinner widthSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     widthSpinner.addChangeListener( _listener );
                     _widthSpinners.add( widthSpinner );
@@ -511,6 +516,9 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void updateMarkersAndAnnotations() {
 
+        char peChar = SimStrings.getChar( "char.potentialEnergy" );
+        char barrierChar = SimStrings.getChar( "char.barrier" );
+        
         boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
         
         double minY = _energyPlot.getRangeAxis().getRange().getLowerBound();
@@ -535,7 +543,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Annotation
             {
                 // Region annotation
-                String text = "R" + ( i + 1 );
+                String text = String.valueOf( peChar ) + String.valueOf( i + 1 );
                 double x = _potentialEnergy.getMiddle( i );
                 double y = maxY - ANNOTATION_MARGIN;
                 XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
@@ -547,7 +555,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 // Barrier annotation
                 if ( hasBarriers && BarrierPotential.isaBarrier( i ) ) {
                     int barrierIndex = BarrierPotential.toBarrierIndex( i );
-                    text = "B" + ( barrierIndex + 1 );
+                    text = String.valueOf( barrierChar ) + String.valueOf( barrierIndex + 1 );
                     y = minY + ANNOTATION_MARGIN;
                     annotation = new XYTextAnnotation( text, x, y );
                     annotation.setFont( ANNOTATION_FONT );
