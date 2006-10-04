@@ -57,6 +57,9 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new ACVoltageMaker() );
         addBranchMaker( new CapacitorMaker() );
         addBranchMaker( new InductorMaker() );
+        AmmeterMaker ammeterMaker = new AmmeterMaker();
+        addBranchMaker( ammeterMaker );
+
         toolboxBounds.setPathTo( new Rectangle2D.Double( 0, 0, 100, getYForNextItem( new ResistorMaker() ) ) );
     }
 
@@ -289,6 +292,24 @@ public class ToolboxNode extends PhetPNode {
 
         private Inductor createInductor() {
             return new Inductor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 0.4 );
+        }
+    }
+
+    class AmmeterMaker extends BranchMaker {
+        public AmmeterMaker() {
+            super( "Ammeter" );
+            SeriesAmmeterNode child = new SeriesAmmeterNode( canvas, createAmmeter(), module );
+            child.scale( 1.0 / 60.0 );//todo choose scale based on insets?
+            setDisplayGraphic( child );
+        }
+
+        protected Branch createBranch() {
+            return createAmmeter();
+        }
+
+        private SeriesAmmeter createAmmeter() {
+            double L = 1.5;
+            return new SeriesAmmeter( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 0.6 );
         }
     }
 }
