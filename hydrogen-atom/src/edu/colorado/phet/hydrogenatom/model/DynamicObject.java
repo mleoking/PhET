@@ -28,7 +28,6 @@ public class DynamicObject extends HAObservable implements ClockListener {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final String PROPERTY_ALIVE = "alive";
     public static final String PROPERTY_POSITION = "position";
     public static final String PROPERTY_ORIENTATION = "orientation";
     
@@ -37,7 +36,6 @@ public class DynamicObject extends HAObservable implements ClockListener {
     //----------------------------------------------------------------------------
     
     private long _id; // unique identifier
-    private boolean _isAlive; // is the object alive?
     private Point2D _position; // position, no specific units
     private double _orientation; // orientation, in radians
     
@@ -60,7 +58,6 @@ public class DynamicObject extends HAObservable implements ClockListener {
     public DynamicObject( Point2D position, double orientation ) {
         super();
         _id = System.currentTimeMillis();
-        _isAlive = true;
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
     }
@@ -153,24 +150,6 @@ public class DynamicObject extends HAObservable implements ClockListener {
             _orientation = direction;
             notifyObservers( PROPERTY_ORIENTATION );
         }
-    }
-    
-    /**
-     * Kills the object.
-     */
-    public void kill() {
-        if ( _isAlive ) {
-            _isAlive = false;
-            notifyObservers( PROPERTY_ALIVE );
-        }
-    }
-    
-    /**
-     * Is this object alive?
-     * @return true or false
-     */
-    public boolean isAlive() {
-        return _isAlive;
     }
 
     //----------------------------------------------------------------------------
