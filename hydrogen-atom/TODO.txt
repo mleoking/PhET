@@ -3,14 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- add/remove/animate photons and alpha particles in view, as in model
+- work out details of mapping between model and view coordinate systems
 
 HIGH PRIORITY:
-- change model to store direction and orientation in radians
-- work out details of mapping between model and view coordinate systems
-- make photons and alpha particles move
-- model for BoxOfHydrogen
-- create and animate photons and alpha particles
 - generalize creating a "panel" node to fit under a collection of nodes
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
@@ -38,6 +34,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/3/06) - change model to use radians (instead of degrees) for direction and orientation
 (10/3/06) - add DebugUtils for looking at Photon and AlphaParticle properties
 (10/3/06) - model Space that things move in and interact in
 (10/3/06) - generate random start location for photons and alpha particles along nozzle of gun
