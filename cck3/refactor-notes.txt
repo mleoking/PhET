@@ -18,5 +18,3 @@ Capacitor & Inductor need popup menus.
 Capacitor needs charges to be painted.
 
 flame graphics
-
-electron clips

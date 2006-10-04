@@ -3,6 +3,8 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 import java.awt.*;
 
@@ -20,7 +22,7 @@ public class TotalBulbComponentNode extends BranchNode {
 
     public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, Component component ) {
         this.bulb = bulb;
-        filamentNode = new FilamentNode( bulb.getFilament() );
+        filamentNode = new FilamentNode( bulb.getFilament(), this );
         bulbComponentNode = new BulbComponentNode( cckModel, bulb, component );
         addChild( bulbComponentNode );
         addChild( filamentNode );
@@ -36,5 +38,14 @@ public class TotalBulbComponentNode extends BranchNode {
 
     public Branch getBranch() {
         return bulb;
+    }
+
+    public Shape getClipShape( PNode frame ) {
+        Shape conductorShape = getBulbComponentNode().getBulbNode().getCoverShapeOnFilamentSide();
+        PAffineTransform a = getBulbComponentNode().getBulbNode().getLocalToGlobalTransform( null );
+        PAffineTransform b = frame.getGlobalToLocalTransform( null );
+        conductorShape = a.createTransformedShape( conductorShape );
+        conductorShape = b.createTransformedShape( conductorShape );
+        return conductorShape;
     }
 }

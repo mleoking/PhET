@@ -148,7 +148,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         textGraphic.setText( msg );
         textGraphic.scale( SCALE );
         textGraphic.setOffset( textLoc.getX(), textLoc.getY() );
-        textGraphic.rotateAboutPoint( angle, textLoc.getX(), textLoc.getY() );
+        textGraphic.rotate( angle );
     }
 
     public CircuitComponent getCircuitComponent() {
