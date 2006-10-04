@@ -46,6 +46,7 @@ abstract public class Reaction {
 
     public boolean areCriteriaMet( AbstractMolecule bodyA, AbstractMolecule bodyB, MoleculeMoleculeCollisionSpec collisionSpec ) {
         boolean result = false;
+
         if( this.moleculesAreProperTypes( bodyA, bodyB ) ) {
             double energyThreshold = getThresholdEnergy( bodyA, bodyB );
             result = reactionCriteria.criteriaMet( bodyA, bodyB, collisionSpec, energyThreshold );

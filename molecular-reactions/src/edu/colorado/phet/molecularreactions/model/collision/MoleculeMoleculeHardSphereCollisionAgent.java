@@ -78,7 +78,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             && !moleculeB.isPartOfComposite() ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
-                System.out.println( "MoleculeMoleculeHardSphereCollisionAgent.detectAndDoCollision" );
+//                System.out.println( "MoleculeMoleculeHardSphereCollisionAgent.detectAndDoCollision" );
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
             }
 
@@ -117,8 +117,8 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             }
         }
 
-        // If one of the molecules is A componsite molecule, recursively descend through it
-        // to get down to the simple molecules before we can determine if there is A collision
+        // If one of the molecules is a componsite molecule, recursively descend through it
+        // to get down to the simple molecules before we can determine if there is a collision
         else if( moleculeA instanceof CompositeMolecule ) {
             CompositeMolecule cmA = (CompositeMolecule)moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;
@@ -163,8 +163,17 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
-        // Create A composite molecule if ReactionCriteria are met
-        if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA, (AbstractMolecule)bodyB, collisionSpec ) ) {
+        // Create a composite molecule if ReactionCriteria are met
+        if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
+                                                         (AbstractMolecule)bodyB )) {
+//        if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA,
+//                                                (AbstractMolecule)bodyB,
+//                                                collisionSpec ) ) {
+
+            // Get rid of the provisional bond between the molecules
+//            ProvisionalBond.removeInstance( (AbstractMolecule)bodyA,
+//                                                         (AbstractMolecule)bodyB );
+
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
 
@@ -182,21 +191,9 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
 
             A_AB_BC_C_Reaction reaction = (A_AB_BC_C_Reaction)model.getReaction();
             reaction.doReaction( compositeMolecule, simpleMolecule );
-//            SimpleMolecule moleculeToRemove = model.getReaction().getMoleculeToRemove( compositeMolecule, simpleMolecule );
-//            if( compositeMolecule.getComponentMolecules()[0] == moleculeToRemove ){
-//                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[1] );
-//            }
-//            else if( compositeMolecule.getComponentMolecules()[1] == moleculeToRemove ) {
-//                bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
-//            }
-//            else {
-//                throw new RuntimeException( "internal error");
-//            }
-//            model.addModelElement( bond );
-//            compositeMolecule.addSimpleMolecule( simpleMolecule, bond, model.getReaction() );
         }
 
-        // Otherwise, do A perfectly elastic collision
+        // Otherwise, do a perfectly elastic collision
         else {
             // Get the vectors from the bodies' CMs to the point of contact
             Vector2D r1 = new Vector2D.Double( collisionPt.getX() - bodyA.getPosition().getX(),

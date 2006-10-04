@@ -29,7 +29,7 @@ import java.util.EventListener;
  */
 public class SelectedMoleculeTracker implements ModelElement,
                                                 PublishingModel.ModelListener,
-                                                SimpleMolecule.Listener {
+                                                SimpleMolecule.ChangeListener {
     private MRModel model;
     private SimpleMolecule moleculeTracked;
     private SimpleMolecule closestMolecule;

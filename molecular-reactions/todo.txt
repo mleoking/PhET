@@ -1,3 +1,7 @@
+10/4/06
+-------
+- Performance problem in A-BC-AB-C-Reaction.doReactionII
+
 10/3/06
 -------
 - Springs in ProvidsionalBond are working, sort of, but base everything on the CM of

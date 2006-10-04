@@ -13,6 +13,10 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
+import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * ProvisionalBond
@@ -31,13 +35,13 @@ import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
  * @version $Revision$
  */
 public class ProvisionalBond extends SimpleObservable implements ModelElement {
+
     SimpleMolecule[] molecules;
     private double maxBondLength;
     private MRModel model;
     private ReactionSpring spring;
 
     /**
-     *
      * @param sm1
      * @param sm2
      * @param maxBondLength
@@ -50,21 +54,13 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
         molecules = new SimpleMolecule[]{sm1, sm2};
 
         // create the spring
-        spring = createSpring( sm1, sm2, this.maxBondLength, model );
-        model.addModelElement( spring );
-    }
-
-    /**
-     *
-     * @param sm1
-     * @param sm2
-     * @param l
-     * @param model
-     * @return
-     */
-    private ReactionSpring createSpring( SimpleMolecule sm1, SimpleMolecule sm2, double l, MRModel model ) {
         double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-        return new ReactionSpring( pe, l, l, new SimpleMolecule[]{ sm1, sm2 } );
+        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
+        model.addModelElement( spring );
+
+        CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
+        sm1.addListener( compositeStateMonitor );
+        sm2.addListener( compositeStateMonitor );
     }
 
     /**
@@ -74,9 +70,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
      */
     public void stepInTime( double dt ) {
         double dist = model.getReaction().getCollisionDistance( molecules[0].getFullMolecule(), molecules[1].getFullMolecule() );
-        ;
         if( dist > maxBondLength ) {
-            System.out.println( "ProvisionalBond.stepInTime: removing" );
             model.removeModelElement( this );
             model.removeModelElement( spring );
         }
@@ -99,5 +93,19 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
      */
     public double getMaxBondLength() {
         return maxBondLength;
+    }
+
+    /**
+     * Removes a provisional bond from the model when a s
+     */
+    private class CompositeStateMonitor implements AbstractMolecule.ChangeListener {
+
+        public void compositeStateChanged( AbstractMolecule molecule ) {
+            if( molecule.isPartOfComposite() ) {
+                molecule.removeListener( this );
+                model.removeModelElement( ProvisionalBond.this );
+                model.removeModelElement( ProvisionalBond.this.spring );
+            }
+        }
     }
 }

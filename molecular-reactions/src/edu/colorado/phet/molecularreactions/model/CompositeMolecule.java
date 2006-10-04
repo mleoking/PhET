@@ -54,27 +54,6 @@ abstract public class CompositeMolecule extends AbstractMolecule {
         return n;
     }
 
-
-    //--------------------------------------------------------------------------------------------------
-    // Events and listeners
-    //--------------------------------------------------------------------------------------------------
-    public interface Listener extends EventListener {
-        void componentAdded( SimpleMolecule component, Bond bond );
-
-        void componentRemoved( SimpleMolecule component, Bond bond );
-    }
-
-    private EventChannel eventChannel = new EventChannel( Listener.class );
-    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
-
-    public void addListener( Listener listener ) {
-        eventChannel.addListener( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        eventChannel.removeListener( listener );
-    }
-
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -89,7 +68,6 @@ abstract public class CompositeMolecule extends AbstractMolecule {
      */
     protected CompositeMolecule() {
     }
-
 
     /**
      * Creates a CompositeMolecule from an array of molecules. The kinematic
@@ -386,5 +364,25 @@ abstract public class CompositeMolecule extends AbstractMolecule {
 
     public Point2D getFullCM() {
         return getCM();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface Listener extends EventListener {
+        void componentAdded( SimpleMolecule component, Bond bond );
+
+        void componentRemoved( SimpleMolecule component, Bond bond );
+    }
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
     }
 }
