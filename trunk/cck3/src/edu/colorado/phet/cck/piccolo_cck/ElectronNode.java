@@ -39,7 +39,6 @@ public class ElectronNode extends PhetPNode {
                 ElectronNode.this.update();
             }
         } );
-//        scale( 1.0 / 80.0 );
         scale( 1.0 / 160.0 );
         setPickable( false );
         setChildrenPickable( false );
