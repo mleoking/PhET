@@ -29,7 +29,6 @@ public class CircuitNode extends PhetPNode {
     private PNode branchLayer;
     private PNode junctionLayer;
     private ClipFactory clipFactory;
-//    private PNode aboveElectronLayer;
 
     public CircuitNode( final CCKModel cckModel, final Circuit circuit, final Component component, ICCKModule module ) {
         this.cckModel = cckModel;
@@ -45,7 +44,8 @@ public class CircuitNode extends PhetPNode {
                     TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
                     return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
                 }
-                else if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter ) {
+                else if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter )
+                {//todo: could extend this to electrons in neighboring branches
                     SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( electronNode.getElectron().getBranch() );
                     return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
                 }
@@ -70,10 +70,6 @@ public class CircuitNode extends PhetPNode {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
                 branchLayer.addChild( branchNode );
-//                PNode topLayer = createTopLayer( branch );
-//                if( topLayer != null ) {
-//                    aboveElectronLayer.addChild( topLayer );
-//                }
             }
 
             public void junctionAdded( Junction junction ) {
@@ -141,18 +137,6 @@ public class CircuitNode extends PhetPNode {
 
     public JunctionNode createNode( Junction junction ) {
         return new JunctionNode( cckModel, junction, this, component );
-    }
-
-    private PNode createTopLayer( Branch branch ) {
-        if( branch instanceof Bulb ) {
-            return new BulbTopLayer( cckModel, (Bulb)branch, component );
-        }
-        else if( branch instanceof SeriesAmmeter ) {
-            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
-        }
-        else {
-            return null;
-        }
     }
 
     protected BranchNode createNode( Branch branch ) {

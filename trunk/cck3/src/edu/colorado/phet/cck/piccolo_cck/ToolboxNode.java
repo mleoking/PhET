@@ -282,7 +282,7 @@ public class ToolboxNode extends PhetPNode {
         public InductorMaker() {
             super( "Inductor" );
             InductorNode child = new InductorNode( model, createInductor(), canvas );
-            child.scale( 30 );//todo choose scale based on insets?
+            child.scale( 42 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
@@ -299,7 +299,8 @@ public class ToolboxNode extends PhetPNode {
         public AmmeterMaker() {
             super( "Ammeter" );
             SeriesAmmeterNode child = new SeriesAmmeterNode( canvas, createAmmeter(), module );
-            child.scale( 1.0 / 60.0 );//todo choose scale based on insets?
+            child.scale( 30.0 );//todo choose scale based on insets?
+//            child.scale( );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
 
