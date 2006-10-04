@@ -78,6 +78,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             && !moleculeB.isPartOfComposite() ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
+                System.out.println( "MoleculeMoleculeHardSphereCollisionAgent.detectAndDoCollision" );
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
             }
 
