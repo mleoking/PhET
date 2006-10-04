@@ -102,4 +102,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public void setStopwatchVisible( boolean selected ) {
         measurementToolSetNode.setStopwatchVisible( selected );
     }
+
+    public void setSeriesAmmeterVisible( boolean selected ) {
+        toolboxNode.setSeriesAmmeterVisible( selected );
+    }
 }

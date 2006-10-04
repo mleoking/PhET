@@ -94,6 +94,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {
+        cckSimulationPanel.setSeriesAmmeterVisible( selected );
     }
 
     public boolean isStopwatchVisible() {
