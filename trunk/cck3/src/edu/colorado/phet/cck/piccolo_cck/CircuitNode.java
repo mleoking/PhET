@@ -10,7 +10,6 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,98 +23,91 @@ public class CircuitNode extends PhetPNode {
     private Circuit circuit;
     private Component component;
     private ICCKModule module;
-    private ArrayList junctionGraphics = new ArrayList();
-    private ArrayList branchGraphics = new ArrayList();
-    private ReadoutSetNode readoutNode;
-    private PNode electronNode;
-    private PNode solderBackground;
+    private ReadoutSetNode readoutLayer;
+    private PNode electronLayer;
+    private PNode solderLayer;
+    private PNode branchLayer;
+    private PNode junctionLayer;
 
     public CircuitNode( CCKModel cckModel, final Circuit circuit, Component component, ICCKModule module ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
         this.module = module;
-        solderBackground = new PNode();
-        addChild( solderBackground );
+        solderLayer = new PNode();
+        branchLayer = new PNode();
+        junctionLayer = new PNode();
+        electronLayer = new ElectronSetNode( cckModel );
+        readoutLayer = new ReadoutSetNode( module, circuit );
+        readoutLayer.setVisible( false );
+
+        addChild( solderLayer );
+        addChild( branchLayer );
+        addChild( junctionLayer );
+        addChild( electronLayer );
+        addChild( readoutLayer );
+
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
-                branchGraphics.add( branchNode );
-                addChild( branchNode );
-                electronNode.moveToFront();
-                readoutNode.moveToFront();
+                branchLayer.addChild( branchNode );
             }
 
             public void junctionAdded( Junction junction ) {
                 SolderNode solderNode = new SolderNode( circuit, junction, Color.gray );
-                solderBackground.addChild( solderNode );
+                solderLayer.addChild( solderNode );
+
                 JunctionNode node = createNode( junction );
-                junctionGraphics.add( node );
-                addChild( node );
-                electronNode.moveToFront();
-                readoutNode.moveToFront();
+                junctionLayer.addChild( node );
             }
 
             public void junctionRemoved( Junction junction ) {
-                for( int i = 0; i < solderBackground.getChildrenCount(); i++ ) {
-                    SolderNode solderNode = (SolderNode)solderBackground.getChild( i );
+                for( int i = 0; i < solderLayer.getChildrenCount(); i++ ) {
+                    SolderNode solderNode = (SolderNode)solderLayer.getChild( i );
                     if( solderNode.getJunction() == junction ) {
-                        solderBackground.removeChild( solderNode );
+                        solderLayer.removeChild( solderNode );
                         i = -1;
                     }
                 }
-                for( int i = 0; i < junctionGraphics.size(); i++ ) {
-                    JunctionNode junctionNode = (JunctionNode)junctionGraphics.get( i );
+                for( int i = 0; i < junctionLayer.getChildrenCount(); i++ ) {
+                    JunctionNode junctionNode = (JunctionNode)junctionLayer.getChild( i );
                     if( junctionNode.getJunction() == junction ) {
                         removeJunctionGraphic( junctionNode );
+                        i = -1;
                     }
                 }
-                electronNode.moveToFront();
-                readoutNode.moveToFront();
             }
 
             public void selectionChanged() {
-                for( int i = 0; i < branchGraphics.size(); i++ ) {
-                    BranchNode pNode = (BranchNode)branchGraphics.get( i );
+                for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+                    BranchNode pNode = (BranchNode)branchLayer.getChild( i );
                     if( pNode.getBranch().isSelected() ) {
                         pNode.moveToFront();
                     }
                 }
-                for( int i = 0; i < junctionGraphics.size(); i++ ) {
-                    ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
-                }
-                electronNode.moveToFront();
-                readoutNode.moveToFront();
+//                for( int i = 0; i < junctionLayer.getChildrenCount();i++ ) {
+//                    ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
+//                }
             }
 
             public void branchRemoved( Branch branch ) {
-                for( int i = 0; i < branchGraphics.size(); i++ ) {
-                    BranchNode branchNode = (BranchNode)branchGraphics.get( i );
+                for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+                    BranchNode branchNode = (BranchNode)branchLayer.getChild( i );
                     if( branchNode.getBranch() == branch ) {
                         removeBranchGraphic( branchNode );
                         i--;
                     }
                 }
-                electronNode.moveToFront();
-                readoutNode.moveToFront();
             }
         } );
-        electronNode = new ElectronSetNode( cckModel );
-        addChild( electronNode );
-
-        readoutNode = new ReadoutSetNode( module, circuit );
-        readoutNode.setVisible( false );
-        addChild( readoutNode );
     }
 
     private void removeBranchGraphic( BranchNode branchNode ) {
-        branchGraphics.remove( branchNode );
-        removeChild( branchNode );
+        branchLayer.removeChild( branchNode );
     }
 
     private void removeJunctionGraphic( JunctionNode junctionNode ) {
-        junctionGraphics.remove( junctionNode );
-        removeChild( junctionNode );
+        junctionLayer.removeChild( junctionNode );
     }
 
     public JunctionNode createNode( Junction junction ) {
@@ -147,6 +139,9 @@ public class CircuitNode extends PhetPNode {
         else if( branch instanceof Inductor ) {
             return new InductorNode( cckModel, (CircuitComponent)branch, component );
         }
+        else if( branch instanceof SeriesAmmeter ) {
+            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
+        }
         else {
             throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
         }
@@ -157,14 +152,14 @@ public class CircuitNode extends PhetPNode {
     }
 
     public boolean isElectronsVisible() {
-        return electronNode.getVisible();
+        return electronLayer.getVisible();
     }
 
     public void setElectronsVisible( boolean b ) {
-        electronNode.setVisible( b );
+        electronLayer.setVisible( b );
     }
 
     public void setAllReadoutsVisible( boolean visible ) {
-        readoutNode.setVisible( visible );
+        readoutLayer.setVisible( visible );
     }
 }
