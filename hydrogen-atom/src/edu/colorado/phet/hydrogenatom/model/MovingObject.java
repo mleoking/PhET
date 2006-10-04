@@ -13,6 +13,9 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+
 /**
  * MovingObject is any object that has a position and direction of motion.
  * Both the position and direction are mutable.
@@ -21,7 +24,7 @@ import java.awt.geom.Point2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MovingObject extends StationaryObject {
+public class MovingObject extends StationaryObject implements ClockListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -34,8 +37,7 @@ public class MovingObject extends StationaryObject {
     // Instance data
     //----------------------------------------------------------------------------
     
-    /* Stores the object's current direction, in degrees */
-    private double _direction;
+    private double _direction; // direction of motion, in radians
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,4 +66,18 @@ public class MovingObject extends StationaryObject {
             notifyObservers( PROPERTY_DIRECTION );
         }
     }
+
+    //----------------------------------------------------------------------------
+    // ClockListener implementation - does nothing by default
+    //----------------------------------------------------------------------------
+    
+    public void clockTicked( ClockEvent clockEvent ) {}
+
+    public void clockStarted( ClockEvent clockEvent ) {}
+
+    public void clockPaused( ClockEvent clockEvent ) {}
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }

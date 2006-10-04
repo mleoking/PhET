@@ -18,11 +18,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -36,8 +38,9 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
-import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.model.Gun;
+import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.model.Space;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
@@ -110,6 +113,7 @@ public class HAModule extends PiccoloModule {
     private Font _spectrometerFont;
 
     private Gun _gun;
+    private Space _space;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -131,13 +135,23 @@ public class HAModule extends PiccoloModule {
         // Model
         //----------------------------------------------------------------------------
 
+        IClock clock = getClock();
+        
         // Photon gun
         {
             Point2D position = new Point2D.Double( 0, 0 );
-            double orientation = -90; // degrees, pointing straight up
-            double beamWidth = 50;
-            _gun = new Gun( position, orientation, beamWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
-            getClock().addClockListener( _gun );
+            double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
+            double nozzleWidth = 50;
+            _gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
+            clock.addClockListener( _gun );
+        }
+        
+        // Space
+        {
+            double spaceWidth = _gun.getNozzleWidth();
+            double spaceHeight = 100;
+            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight, spaceWidth, spaceHeight );
+            _space = new Space( bounds, clock, _gun );
         }
         
         //----------------------------------------------------------------------------

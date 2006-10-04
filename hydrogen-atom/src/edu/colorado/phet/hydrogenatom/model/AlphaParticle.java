@@ -13,6 +13,9 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.hydrogenatom.util.DebugUtils;
+
 /**
  * AlphaParticle is the model of an alpha particle.
  * An alpha particle has a position and direction of motion.
@@ -22,7 +25,25 @@ import java.awt.geom.Point2D;
  */
 public class AlphaParticle extends MovingObject {
     
+    private static final double DISTANCE_PER_DT = 1;
+    
     public AlphaParticle( Point2D position, double direction ) {
         super( position, direction );
+    }
+    
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        double dt = clockEvent.getSimulationTimeChange();
+        double distance = DISTANCE_PER_DT * dt;
+        double direction = getDirection();
+        double x = Math.cos( direction ) * distance;
+        double y = Math.sin( direction ) * distance;
+        setPosition( x, y );
+    }
+    
+    public String toString() {
+        String s = "Photon ";
+        s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
+        s += ( "direction=" + DebugUtils.format( Math.toDegrees( getDirection() ) ) + " " );
+        return s;
     }
 }
