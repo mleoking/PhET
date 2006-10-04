@@ -17,6 +17,8 @@ LOW PRIORITY:
 
 
 DONE:
+(10/4/06) - increase hbar precision to 0.658212
+(10/4/06) - increase electron mass precision to 5.68563
 (10/4/06) - get single-char abbreviations (V,B,R,T) from SimStrings
 (10/4/06) - change R1,R1,... to V1,V2,... in Config Energy dialog
 (10/4/06) - remove (R) and (T) from RTP checkbox label

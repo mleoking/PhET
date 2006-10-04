@@ -193,8 +193,8 @@ public class QTConstants {
     // Wave Function constants
     //----------------------------------------------------------------------------
     
-    public static final double HBAR = 0.658;  // Planck's constant, in eV fs
-    public static final double MASS = 5.7;  // electron mass, in eV/c^2
+    public static final double HBAR = 0.658212;  // Planck's constant, in eV fs
+    public static final double MASS = 5.68563;  // electron mass, in eV/c^2
     
     //----------------------------------------------------------------------------
     // Precisions & Formats
