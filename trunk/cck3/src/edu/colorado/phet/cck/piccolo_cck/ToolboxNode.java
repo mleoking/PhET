@@ -38,6 +38,7 @@ public class ToolboxNode extends PhetPNode {
     private static final double BETWEEN_INSET = 6;
     private CircuitInteractionModel circuitInteractionModel;
     private ICCKModule module;
+    private AmmeterMaker ammeterMaker;
 
     public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module ) {
         this.module = module;
@@ -57,10 +58,11 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new ACVoltageMaker() );
         addBranchMaker( new CapacitorMaker() );
         addBranchMaker( new InductorMaker() );
-        AmmeterMaker ammeterMaker = new AmmeterMaker();
+        ammeterMaker = new AmmeterMaker();
         addBranchMaker( ammeterMaker );
 
         toolboxBounds.setPathTo( new Rectangle2D.Double( 0, 0, 100, getYForNextItem( new ResistorMaker() ) ) );
+        setSeriesAmmeterVisible( false );
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -92,6 +94,10 @@ public class ToolboxNode extends PhetPNode {
         return (Color)toolboxBounds.getPaint();
     }
 
+    public void setSeriesAmmeterVisible( boolean selected ) {
+        ammeterMaker.setVisible( selected );
+    }
+
     abstract class BranchMaker extends PComposite {//tricky way of circumventing children's behaviors
         private PText label;
         private Branch createdBranch;
@@ -119,6 +125,12 @@ public class ToolboxNode extends PhetPNode {
                     createdBranch = null;
                 }
             } );
+        }
+
+        public void setVisible( boolean isVisible ) {
+            super.setVisible( isVisible );
+            setPickable( isVisible );
+            setChildrenPickable( isVisible );
         }
 
         private Font createFont() {
