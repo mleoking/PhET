@@ -13,9 +13,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class ElectronSetNode extends PNode {
+    private CircuitNode circuitNode;
     private CCKModel model;
 
-    public ElectronSetNode( CCKModel model ) {
+    public ElectronSetNode( final CircuitNode circuitNode, CCKModel model ) {
+        this.circuitNode = circuitNode;
         this.model = model;
         model.getParticleSet().addListener( new ParticleSet.Listener() {
             public void particlesRemoved( Electron[]electrons ) {
@@ -32,9 +34,10 @@ public class ElectronSetNode extends PNode {
             }
 
             public void particleAdded( Electron e ) {
-                ElectronNode node = new ElectronNode( e );
+                ElectronNode node = new ElectronNode( e, circuitNode.getClipFactory() );
                 addChild( node );
             }
         } );
     }
+
 }

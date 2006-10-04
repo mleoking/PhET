@@ -308,7 +308,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private SeriesAmmeter createAmmeter() {
-            double L = 1.5;
+            double L = 2.0;
             return new SeriesAmmeter( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 0.6 );
         }
     }

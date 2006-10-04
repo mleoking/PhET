@@ -9,14 +9,15 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -37,11 +38,11 @@ public class SeriesAmmeterNode extends ComponentNode {
     private CircuitSolutionListener circuitSolutionListener;
     private int numWindows = 3;
 
-//    private PhetPPath highlightRegion;
     private PhetPPath blackGraphic;
     private PhetPPath[] windowGraphics = new PhetPPath[numWindows];
     private PhetPPath areaGraphic;
     private PText textGraphic;
+    private Area area;
 
     public SeriesAmmeterNode( Component parent, final SeriesAmmeter component, ICCKModule module, String fixedMessage ) {
         this( parent, component, module );
@@ -107,7 +108,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         double angle = new Vector2D.Double( start, end ).getAngle();
         Rectangle r = shape.getBounds();
 
-        Area area = new Area( shape );
+        area = new Area( shape );
         double windowHeightFraction = .3;
         double windowHeight = ( component.getHeight() * windowHeightFraction );
         double length = start.distance( end );
@@ -115,7 +116,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         double spacingWidth = ( length - windowWidth * numWindows ) / ( numWindows + 1 );
         double x = 0;
         north = north.getInstanceOfMagnitude( windowHeight / 2 ).getScaledInstance( 1 );
-        ArrayList windows = new ArrayList();
+//        ArrayList windows = new ArrayList();
         for( int i = 0; i < numWindows; i++ ) {
             x += spacingWidth;
             Point2D a = dir.getInstanceOfMagnitude( x ).getDestination( start );
@@ -124,7 +125,7 @@ public class SeriesAmmeterNode extends ComponentNode {
             Point2D b = dir.getInstanceOfMagnitude( x ).getDestination( start );
             b = north.getDestination( b );
             Shape seg = LineSegment.getSegment( a, b, windowHeight );
-            windows.add( seg );
+//            windows.add( seg );
             area.subtract( new Area( seg ) );
             windowGraphics[i].setPathTo( seg );
         }
@@ -136,8 +137,8 @@ public class SeriesAmmeterNode extends ComponentNode {
         areaGraphic.setPaint( new GradientPaint( a, startColor, b, endColor ) );
         areaGraphic.setPathTo( area );
 
-        Point2D textLoc = north.getScaledInstance( -2.9 ).getDestination( start );
-        textLoc = dir.getInstanceOfMagnitude( 2 ).getDestination( textLoc );
+        Point2D textLoc = north.getScaledInstance( -2.9 * SCALE ).getDestination( start );
+        textLoc = dir.getInstanceOfMagnitude( 2 * SCALE ).getDestination( textLoc );
 
         String msg = text;
         if( fixedMessage != null ) {
@@ -159,4 +160,13 @@ public class SeriesAmmeterNode extends ComponentNode {
         module.getCCKModel().getCircuitSolver().removeSolutionListener( circuitSolutionListener );
     }
 
+    public Shape getClipShape( PNode frame ) {
+        Shape clipShape = new Area( area );
+
+        PAffineTransform a = getLocalToGlobalTransform( null );
+        PAffineTransform b = frame.getGlobalToLocalTransform( null );
+        clipShape = a.createTransformedShape( clipShape );
+        clipShape = b.createTransformedShape( clipShape );
+        return clipShape;
+    }
 }
