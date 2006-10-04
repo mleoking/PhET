@@ -15,6 +15,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.CompositeBody;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
@@ -22,13 +24,15 @@ import java.awt.geom.Line2D;
 /**
  * CompoundSpring
  * <p/>
- * A spring that has bodies attached at both ends. It is modeled as two
- * simple springs whose fixed ends are at the CM of the two bodies.
+ * A spring that has SimpleMolecules attached at both ends. It is modeled as two
+ * simple springs whose fixed ends are at the closest points of the two molecules.
+ *
+ * todo: take account of initial compression of spring
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CompoundSpring extends Body implements ModelElement {
+public class ReactionSpring extends Body implements ModelElement {
 
     double k;
     double omega;
@@ -48,11 +52,11 @@ public class CompoundSpring extends Body implements ModelElement {
      * @param restingLength
      * @param bodies        An array of two Body instances
      */
-    public CompoundSpring( double pe, double dl, double restingLength, Body[] bodies ) {
+    public ReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies ) {
         this( 2 * pe / ( dl * dl ), restingLength, bodies );
     }
 
-    public CompoundSpring( double k, double restingLength, Body[] bodies ) {
+    public ReactionSpring( double k, double restingLength, SimpleMolecule[] bodies ) {
         this.k = k;
         this.restingLength = restingLength;
         angle = new Vector2D.Double( bodies[0].getPosition(), bodies[1].getPosition() ).getAngle();
@@ -62,35 +66,31 @@ public class CompoundSpring extends Body implements ModelElement {
         componentSprings = createComponentSprings( bodies );
     }
 
-    private Spring[] createComponentSprings( Body[] bodies ) {
+    public Spring[] getComponentSprings() {
+        return componentSprings;
+    }
+
+    private Spring[] createComponentSprings( SimpleMolecule[] bodies ) {
         Spring[] springs = new Spring[2];
 
         // Find the CM of the bodies. This will be the fixed point
         // of the two springs
         cb = new CompositeBody();
-        cb.addBody( bodies[0] );
-        cb.addBody( bodies[1] );
+        cb.addBody( bodies[0].getFullMolecule() );
+        cb.addBody( bodies[1].getFullMolecule() );
         Point2D fixedPt = cb.getCM();
 
         // Compute the spring constants for the two component springs
-        double k0 = k * cb.getMass() / bodies[1].getMass();
-        double k1 = k * cb.getMass() / bodies[0].getMass();
+        double k0 = k * cb.getMass() / bodies[1].getFullMolecule().getMass();
+        double k1 = k * cb.getMass() / bodies[0].getFullMolecule().getMass();
 
         // Compute the resting lengths of the springs
-        double rl0 = restingLength * bodies[1].getMass() / cb.getMass();
-        double rl1 = restingLength * bodies[0].getMass() / cb.getMass();
+        double rl0 = fixedPt.distance( bodies[0].getPosition() ) - bodies[0].getRadius();
+        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
-        // Compute the angles of the springs
-//        double angle0 = new Vector2D.Double( fixedPt, bodies[0].getPosition() ).getAngle();
-//        double angle1 = new Vector2D.Double( fixedPt, bodies[1].getPosition() ).getAngle();
-
-        // Make the component springs
-        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );
-        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1]  );
-
-        // Attache the bodies to the springs
-        springs[0].attachBody( bodies[0] );
-        springs[1].attachBody( bodies[1] );
+        // Make the component springs, with the bodies attached
+        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule() );
+        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule() );
 
         return springs;
     }

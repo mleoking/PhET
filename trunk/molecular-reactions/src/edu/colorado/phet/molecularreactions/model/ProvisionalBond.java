@@ -12,8 +12,7 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.molecularreactions.model.collision.CompoundSpring;
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 
 /**
  * ProvisionalBond
@@ -35,7 +34,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
     SimpleMolecule[] molecules;
     private double maxBondLength;
     private MRModel model;
-    private CompoundSpring spring;
+    private ReactionSpring spring;
 
 
     public ProvisionalBond( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model ) {
@@ -46,11 +45,12 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
 
         // create the spring
         spring = createSpring( sm1, sm2, this.maxBondLength, model );
+        model.addModelElement( spring );
     }
 
-    private CompoundSpring createSpring( SimpleMolecule sm1, SimpleMolecule sm2, double l, MRModel model ) {
+    private ReactionSpring createSpring( SimpleMolecule sm1, SimpleMolecule sm2, double l, MRModel model ) {
         double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-        return new CompoundSpring( pe, l, l, new Body[]{sm1.getFullMolecule(), sm2.getFullMolecule() } );
+        return new ReactionSpring( pe, l, l, new SimpleMolecule[]{ sm1, sm2 } );
     }
 
     /**
@@ -59,13 +59,15 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        double dist = model.getReaction().getCollisionDistance( molecules[0].getFullMolecule(), molecules[1].getFullMolecule() );;
+        double dist = model.getReaction().getCollisionDistance( molecules[0].getFullMolecule(), molecules[1].getFullMolecule() );
+        ;
         if( dist > maxBondLength ) {
             System.out.println( "ProvisionalBond.stepInTime: removing" );
             model.removeModelElement( this );
+            model.removeModelElement( spring );
         }
         else {
-            spring.stepInTime( dt );
+//            spring.stepInTime( dt );
         }
         notifyObservers();
     }

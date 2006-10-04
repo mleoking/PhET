@@ -92,13 +92,16 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     /**
-     * Assumes that the body is being attached to the spring at its resting length
+     * Assumes that the body is being attached to the spring, and assume the spring is at its resting
+     * length. A virtual strut is assumed to exist between the body's CM and the end of the spring.
      * @param body
      */
     private void attachBodyAtRestingLength( Body body ) {
         this.attachedBody = body;
-        freeEnd.setLocation( body.getCM() );
-        angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
+//        freeEnd.setLocation( body.getCM() );
+
+        angle = new Vector2D.Double( fixedEnd, body.getPosition()).getAngle();
+        freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ));
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
@@ -160,13 +163,16 @@ public class Spring extends SimpleObservable implements ModelElement {
         Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
-            freeEnd.setLocation( attachedBody.getCM() );
+            double l = restingLength + A * Math.sin( omega * t + phi );
+//            System.out.println( "l = " + l + "\t\tA = " + A);
+            freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ));
 //            freeEnd.setLocation( attachedBody.getCM() );
             Vector2D v = getVelocity();
             if( Double.isNaN(v.getX() )) {
-                System.out.println( "Spring.stepInTime" );
+//                System.out.println( "Spring.stepInTime" );
                 v = getVelocity();
             }
+            System.out.println( "freeEnd = " + freeEnd +"\tv = " + v );
             attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 )) );
 //            attachedBody.setVelocity( v );
         }
@@ -174,7 +180,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     private Vector2D getVelocity() {
-        Vector2D v = new Vector2D.Double( omega * A * Math.cos( omega * t + phi ), 0 );
+        Vector2D v = new Vector2D.Double( -omega * A * Math.cos( omega * t + phi ), 0 );
         v.rotate( angle );
         return v;
     }
