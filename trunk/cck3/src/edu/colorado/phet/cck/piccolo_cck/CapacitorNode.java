@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Capacitor;
@@ -7,6 +8,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -18,6 +20,7 @@ import java.awt.*;
 
 public class CapacitorNode extends ComponentNode {
     private CCKModel model;
+    private ICCKModule module;
     private Capacitor capacitor;
     private static final Color tan = new Color( 255, 220, 130 );
     private Color plate1Color = tan;
@@ -34,9 +37,10 @@ public class CapacitorNode extends ComponentNode {
     private WireStubNode rightWire;
     private WireStubNode leftWire;
 
-    public CapacitorNode( CCKModel model, Capacitor capacitor, Component component ) {
+    public CapacitorNode( CCKModel model, Capacitor capacitor, Component component, ICCKModule module ) {
         super( model, capacitor, component );
         this.model = model;
+        this.module = module;
         circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
         this.capacitor = capacitor;
         capacitor.addObserver( new SimpleObserver() {
@@ -67,6 +71,10 @@ public class CapacitorNode extends ComponentNode {
         public void setWireStubShape( Shape shape ) {
             path.setPathTo( shape );
         }
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new ComponentMenu.CapacitorMenu( capacitor, module ).getMenuComponent();
     }
 
     public void update() {

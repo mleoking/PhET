@@ -147,22 +147,22 @@ public class CircuitNode extends PhetPNode {
             return new ResistorNode( cckModel, (Resistor)branch, component, module );
         }
         else if( branch instanceof ACVoltageSource ) {
-            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component );
+            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
         }
         else if( branch instanceof Battery ) {
             return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch, component, module );
         }
         else if( branch instanceof Bulb ) {
-            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component );
+            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
         }
         else if( branch instanceof Switch ) {
             return new SwitchNode( cckModel, (Switch)branch, component );
         }
         else if( branch instanceof Capacitor ) {
-            return new CapacitorNode( cckModel, (Capacitor)branch, component );
+            return new CapacitorNode( cckModel, (Capacitor)branch, component, module );
         }
         else if( branch instanceof Inductor ) {
-            return new InductorNode( cckModel, (CircuitComponent)branch, component );
+            return new InductorNode( cckModel, (Inductor)branch, component, module );
         }
         else if( branch instanceof SeriesAmmeter ) {
             return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );

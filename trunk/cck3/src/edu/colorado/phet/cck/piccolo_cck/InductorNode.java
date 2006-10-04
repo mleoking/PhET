@@ -1,9 +1,11 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKImageSuite;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.components.CircuitComponent;
+import edu.colorado.phet.cck.model.components.Inductor;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,7 +16,16 @@ import java.awt.*;
  */
 
 public class InductorNode extends ComponentImageNode {
-    public InductorNode( CCKModel model, CircuitComponent circuitComponent, Component component ) {
-        super( model, circuitComponent, CCKImageSuite.getInstance().getInductorImage(), component );
+    private ICCKModule module;
+    private Inductor inductor;
+
+    public InductorNode( CCKModel model, Inductor inductor, Component component, ICCKModule module ) {
+        super( model, inductor, CCKImageSuite.getInstance().getInductorImage(), component );
+        this.module = module;
+        this.inductor = inductor;
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new ComponentMenu.InductorMenu( inductor, module ).getMenuComponent();
     }
 }

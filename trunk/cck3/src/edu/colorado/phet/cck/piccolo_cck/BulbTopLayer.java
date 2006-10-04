@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
@@ -22,9 +23,9 @@ public class BulbTopLayer extends PClip {
     private TotalBulbComponentNode totalBulbComponentNode;
 //    private PPath debugChild;
 
-    public BulbTopLayer( CCKModel cckModel, Bulb bulb, Component component ) {
+    public BulbTopLayer( CCKModel cckModel, Bulb bulb, Component component, ICCKModule module ) {
         this.bulb = bulb;
-        totalBulbComponentNode = new TotalBulbComponentNode( cckModel, bulb, component );
+        totalBulbComponentNode = new TotalBulbComponentNode( cckModel, bulb, component, module );
         totalBulbComponentNode.removeFilamentNode();
         totalBulbComponentNode.getBulbComponentNode().getBulbNode().setShowCoverOnly();
 

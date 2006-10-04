@@ -14,7 +14,6 @@ import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.math.MathUtil;
-import edu.colorado.phet.common_cck.view.ApparatusPanel;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.graphics.InteractiveGraphic;
@@ -273,7 +272,7 @@ public abstract class ComponentEditor extends JDialog {
     public static class ACVoltageSourceEditor extends ComponentEditor {
         private ACVoltageSource branch;
 
-        public ACVoltageSourceEditor( ICCKModule module, ACVoltageSource branch, ApparatusPanel apparatusPanel, Circuit circuit ) {
+        public ACVoltageSourceEditor( ICCKModule module, ACVoltageSource branch, JComponent apparatusPanel, Circuit circuit ) {
             super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
             this.branch = branch;
         }
