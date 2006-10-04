@@ -39,6 +39,7 @@ public class BulbNode extends PhetPNode {
     private Color insulatorColor = Color.white;
     private Stroke baseStroke = new BasicStroke( 1 / 40.0f );
     private Stroke linestroke = new BasicStroke( 1 / 90.0f );
+    private boolean showCoverOnly = false;
 
     public BulbNode( Bulb bulb ) {
         this.bulb = bulb;
@@ -105,12 +106,18 @@ public class BulbNode extends PhetPNode {
 
     protected void update() {
         removeAllChildren();
-        updateRays();
-        updateTip();
-        updateBulbShape();
-        updateInsulator();
-        updateConductor();
-        updateSpiralLines();
+        if( showCoverOnly ) {
+            updateConductor();
+            updateSpiralLines();
+        }
+        else {
+            updateRays();
+            updateTip();
+            updateBulbShape();
+            updateInsulator();
+            updateConductor();
+            updateSpiralLines();
+        }
     }
 
     private void updateSpiralLines() {
@@ -181,9 +188,9 @@ public class BulbNode extends PhetPNode {
         this.intensity = intensity;
 
         Color yellow = Color.yellow;
-        Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
+//        Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
         Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
-        Paint paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
+//        Paint paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
 
         int maxBrighties = 40;
         int numBrighties = (int)( intensity * maxBrighties );
@@ -223,5 +230,13 @@ public class BulbNode extends PhetPNode {
 
     public Shape getCoverShape() {
         return conductor;
+    }
+
+    public void setShowCoverOnly() {
+        showCoverOnly = true;
+    }
+
+    public Shape getCoverShapeOnFilamentSide() {
+        return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.63, conductor.getHeight() );
     }
 }

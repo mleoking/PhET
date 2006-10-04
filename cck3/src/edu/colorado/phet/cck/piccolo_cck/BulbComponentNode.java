@@ -41,6 +41,10 @@ public class BulbComponentNode extends ComponentNode {
         runParamTest();
     }
 
+    public BulbNode getBulbNode() {
+        return bulbNode;
+    }
+
     private double getTilt() {
         double w = bulbNode.getCoverShape().getBounds().getWidth() / 2;
         double h = bulbNode.getCoverShape().getBounds().getHeight();

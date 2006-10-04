@@ -26,6 +26,14 @@ public class TotalBulbComponentNode extends BranchNode {
         addChild( filamentNode );
     }
 
+    protected void removeFilamentNode() {
+        removeChild( filamentNode );
+    }
+
+    public BulbComponentNode getBulbComponentNode() {
+        return bulbComponentNode;
+    }
+
     public Branch getBranch() {
         return bulb;
     }

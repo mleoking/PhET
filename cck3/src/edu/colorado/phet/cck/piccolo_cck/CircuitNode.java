@@ -28,6 +28,7 @@ public class CircuitNode extends PhetPNode {
     private PNode solderLayer;
     private PNode branchLayer;
     private PNode junctionLayer;
+    private PNode aboveElectronLayer;
 
     public CircuitNode( CCKModel cckModel, final Circuit circuit, Component component, ICCKModule module ) {
         this.cckModel = cckModel;
@@ -40,17 +41,25 @@ public class CircuitNode extends PhetPNode {
         electronLayer = new ElectronSetNode( cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
         readoutLayer.setVisible( false );
-
+        aboveElectronLayer = new PNode();
         addChild( solderLayer );
         addChild( branchLayer );
+
         addChild( junctionLayer );
+
         addChild( electronLayer );
+        addChild( aboveElectronLayer );
+
         addChild( readoutLayer );
 
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
                 branchLayer.addChild( branchNode );
+                PNode topLayer = createTopLayer( branch );
+                if( topLayer != null ) {
+                    aboveElectronLayer.addChild( topLayer );
+                }
             }
 
             public void junctionAdded( Junction junction ) {
@@ -85,9 +94,6 @@ public class CircuitNode extends PhetPNode {
                         pNode.moveToFront();
                     }
                 }
-//                for( int i = 0; i < junctionLayer.getChildrenCount();i++ ) {
-//                    ( (JunctionNode)junctionGraphics.get( i ) ).moveToFront();
-//                }
             }
 
             public void branchRemoved( Branch branch ) {
@@ -114,7 +120,16 @@ public class CircuitNode extends PhetPNode {
         return new JunctionNode( cckModel, junction, this, component );
     }
 
-    public BranchNode createNode( Branch branch ) {
+    private PNode createTopLayer( Branch branch ) {
+        if( branch instanceof Bulb ) {
+            return new BulbTopLayer( cckModel, (Bulb)branch, component );
+        }
+        else {
+            return null;
+        }
+    }
+
+    protected BranchNode createNode( Branch branch ) {
         if( branch instanceof Wire ) {
             return new WireNode( cckModel, (Wire)branch, component );
         }
