@@ -28,9 +28,10 @@ public class CircuitNode extends PhetPNode {
     private PNode solderLayer;
     private PNode branchLayer;
     private PNode junctionLayer;
-    private PNode aboveElectronLayer;
+    private ClipFactory clipFactory;
+//    private PNode aboveElectronLayer;
 
-    public CircuitNode( CCKModel cckModel, final Circuit circuit, Component component, ICCKModule module ) {
+    public CircuitNode( final CCKModel cckModel, final Circuit circuit, final Component component, ICCKModule module ) {
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
@@ -38,28 +39,41 @@ public class CircuitNode extends PhetPNode {
         solderLayer = new PNode();
         branchLayer = new PNode();
         junctionLayer = new PNode();
-        electronLayer = new ElectronSetNode( cckModel );
+        clipFactory = new ClipFactory() {
+            public Shape getClip( ElectronNode electronNode ) {
+                if( electronNode.getElectron().getBranch() instanceof Bulb ) {
+                    TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
+                    return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
+                }
+                else if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter ) {
+                    SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( electronNode.getElectron().getBranch() );
+                    return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
+                }
+                else {
+                    return null;
+                }
+            }
+
+        };
+        electronLayer = new ElectronSetNode( this, cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
         readoutLayer.setVisible( false );
-        aboveElectronLayer = new PNode();
         addChild( solderLayer );
         addChild( branchLayer );
 
         addChild( junctionLayer );
 
         addChild( electronLayer );
-        addChild( aboveElectronLayer );
-
         addChild( readoutLayer );
 
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
                 branchLayer.addChild( branchNode );
-                PNode topLayer = createTopLayer( branch );
-                if( topLayer != null ) {
-                    aboveElectronLayer.addChild( topLayer );
-                }
+//                PNode topLayer = createTopLayer( branch );
+//                if( topLayer != null ) {
+//                    aboveElectronLayer.addChild( topLayer );
+//                }
             }
 
             public void junctionAdded( Junction junction ) {
@@ -108,6 +122,15 @@ public class CircuitNode extends PhetPNode {
         } );
     }
 
+    private PNode getNode( Branch branch ) {
+        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            if( ( (BranchNode)branchLayer.getChild( i ) ).getBranch() == branch ) {
+                return branchLayer.getChild( i );
+            }
+        }
+        return null;
+    }
+
     private void removeBranchGraphic( BranchNode branchNode ) {
         branchLayer.removeChild( branchNode );
     }
@@ -123,6 +146,9 @@ public class CircuitNode extends PhetPNode {
     private PNode createTopLayer( Branch branch ) {
         if( branch instanceof Bulb ) {
             return new BulbTopLayer( cckModel, (Bulb)branch, component );
+        }
+        else if( branch instanceof SeriesAmmeter ) {
+            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
         }
         else {
             return null;
@@ -176,5 +202,9 @@ public class CircuitNode extends PhetPNode {
 
     public void setAllReadoutsVisible( boolean visible ) {
         readoutLayer.setVisible( visible );
+    }
+
+    public ClipFactory getClipFactory() {
+        return clipFactory;
     }
 }
