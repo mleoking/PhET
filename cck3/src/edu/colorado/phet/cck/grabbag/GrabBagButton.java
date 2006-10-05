@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.HasCircuitGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_cck.view.util.BufferedImageUtils;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -29,6 +31,12 @@ public class GrabBagButton extends JButton {
 
     public GrabBagButton( ICCKModule module ) {
         super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
+        try {
+            setIcon( new ImageIcon( ImageLoader.loadBufferedImage( "images/bag.gif" ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         this.module = module;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

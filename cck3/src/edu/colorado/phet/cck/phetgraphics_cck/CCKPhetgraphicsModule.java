@@ -17,7 +17,6 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraph
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
@@ -492,28 +491,20 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     public void addGrabBag() {
+        grabBagButton = new GrabBagButton( this );
+        getSimulationPanel().setLayout( null );
+        getSimulationPanel().add( grabBagButton );
 
-        try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/bag.gif" );
-            grabBagButton = new GrabBagButton( this );
-            grabBagButton.setIcon( new ImageIcon( image ) );
-            getSimulationPanel().setLayout( null );
-            getSimulationPanel().add( grabBagButton );
+        getSimulationPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateButton();
+            }
 
-            getSimulationPanel().addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    updateButton();
-                }
-
-                public void componentShown( ComponentEvent e ) {
-                    updateButton();
-                }
-            } );
-            updateButton();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+            public void componentShown( ComponentEvent e ) {
+                updateButton();
+            }
+        } );
+        updateButton();
     }
 
     private void updateButton() {

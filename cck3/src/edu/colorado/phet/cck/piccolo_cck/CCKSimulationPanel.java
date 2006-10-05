@@ -2,16 +2,19 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.SimpleKeyEvent;
+import edu.colorado.phet.cck.grabbag.GrabBagButton;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
@@ -105,5 +108,31 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void setSeriesAmmeterVisible( boolean selected ) {
         toolboxNode.setSeriesAmmeterVisible( selected );
+    }
+
+    public void addGrabBag() {
+        GrabBagButton grabBagButton = new GrabBagButton( module );
+        final PSwing grabBagPSwing = new PSwing( this, grabBagButton );
+        addScreenChild( grabBagPSwing );
+        addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                updateButton();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                updateButton();
+            }
+
+            public void updateButton() {
+                int buttonInset = 4;
+                grabBagPSwing.setOffset( getWidth() - grabBagPSwing.getFullBounds().getWidth() - buttonInset, buttonInset );
+            }
+        } );
     }
 }
