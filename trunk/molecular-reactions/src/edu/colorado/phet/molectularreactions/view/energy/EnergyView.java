@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
@@ -63,7 +64,7 @@ public class EnergyView extends PNode implements SimpleObserver {
 
     private int width = 300;
     private Dimension moleculePaneSize = new Dimension( width, 150 );
-    private Dimension curvePaneSize = new Dimension( width, 300 );
+    private Dimension curvePaneSize = new Dimension( width, 310 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;
@@ -81,6 +82,7 @@ public class EnergyView extends PNode implements SimpleObserver {
     private Dimension curveAreaSize;
     private MRModel model;
     private ResizingArrow separationIndicatorArrow;
+    private Font axisFont = UIManager.getFont( "Label.font" );
 
     /**
      *
@@ -139,10 +141,6 @@ public class EnergyView extends PNode implements SimpleObserver {
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
-        Rectangle2D curveAreaBounds = new Rectangle2D.Double( curveAreaInsets.left,
-                                                              curveAreaInsets.top,
-                                                              curveAreaSize.getWidth(),
-                                                              curveAreaSize.getHeight() );
         TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model );
         curveLayer.addChild( totalEnergyLine );
 
@@ -152,7 +150,7 @@ public class EnergyView extends PNode implements SimpleObserver {
         cursorLayer.addChild( cursor );
 
         // Add axes
-        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get("EnergyView.ReactionCoordinate") ,
+        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
                                                                        200,
                                                                        Color.white,
                                                                        AxisNode.HORIZONTAL,
@@ -187,11 +185,12 @@ public class EnergyView extends PNode implements SimpleObserver {
         // Axis
         separationIndicatorArrow = new ResizingArrow( Color.black );
         moleculePane.addChild( separationIndicatorArrow );
-        PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ));
-        siaLabel.rotate( -Math.PI / 2);
+        PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
+        siaLabel.setFont( axisFont );
+        siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
                             moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
-        moleculePane.addChild( siaLabel);
+        moleculePane.addChild( siaLabel );
 
         return moleculePane;
     }

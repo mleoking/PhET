@@ -12,18 +12,20 @@ package edu.colorado.phet.molectularreactions.view.energy;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.model.ModelElement;
 
 import java.awt.geom.Line2D;
 import java.awt.*;
 
 /**
  * TotalEnergyLine
+ * <p>
+ * A line that indicates the total energy in the molecule being tracked, the molecule closest to it, and
+ * any provisional bond that may be between them.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -36,6 +38,7 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
     private Dimension bounds;
     private AbstractMolecule moleculeBeingTracked;
     private AbstractMolecule nearestToMoleculeBeingTracked;
+    private ProvisionalBond provisionalBond;
     private Reaction reaction;
     private double scale;
 
@@ -46,7 +49,12 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
     public TotalEnergyLine( Dimension bounds, MRModel model ) {
         this.bounds = bounds;
         reaction = model.getReaction();
+
+        // Add listeners to the model that we need to track the selected molecule and
+        // any provisional bond that it might be involved in
         model.addSelectedMoleculeTrackerListener( new SelectedMoleculeTracker() );
+        model.addListener( new ProvisionalBondMonitor() );
+
         line = new Line2D.Double();
         lineNode = new PPath( line );
         lineNode.setPaint( linePaint );
@@ -59,18 +67,32 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
 
     public void update() {
         if( moleculeBeingTracked != null && nearestToMoleculeBeingTracked != null ) {
+
             double ke = moleculeBeingTracked.getFullKineticEnergy()
                         + nearestToMoleculeBeingTracked.getFullKineticEnergy();
             double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getParentComposite(),
+
                                                      nearestToMoleculeBeingTracked.getParentComposite() );
             double te = ke + pe;
-            double y = Math.max( bounds.getHeight() - (te * scale), 0 );
+            if( provisionalBond != null ) {
+                te += provisionalBond.getPotentialEnergy();
+            }
+
+            double y = Math.max( bounds.getHeight() - ( te * scale ), 0 );
             line.setLine( 0, y, bounds.getWidth(), y );
             lineNode.setPathTo( line );
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    /**
+     * A listener that catches changes in the selected molecule or the molecule closest to it
+     */
     private class SelectedMoleculeTracker implements edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker.Listener {
+
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule ) {
             if( moleculeBeingTracked != null ) {
                 moleculeBeingTracked.removeObserver( TotalEnergyLine.this );
@@ -85,6 +107,37 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
             }
             nearestToMoleculeBeingTracked = newClosestMolecule;
             nearestToMoleculeBeingTracked.addObserver( TotalEnergyLine.this );
+        }
+    }
+
+
+    /**
+     * Recognizes when a provisional bond is created between the molecule being tracked and the nearest molecule to
+     * it, or that provisional bond is destroyed.
+     */
+    private class ProvisionalBondMonitor implements PublishingModel.ModelListener {
+        public void modelElementAdded( ModelElement element ) {
+            if( element instanceof ProvisionalBond ) {
+                ProvisionalBond bond = (ProvisionalBond)element;
+                if( ( bond.getMolecules()[0] == moleculeBeingTracked
+                      && bond.getMolecules()[1] == nearestToMoleculeBeingTracked )
+                    || ( bond.getMolecules()[1] == moleculeBeingTracked
+                         && bond.getMolecules()[0] == nearestToMoleculeBeingTracked ) ) {
+                    provisionalBond = bond;
+                }
+            }
+        }
+
+        public void modelElementRemoved( ModelElement element ) {
+            if( element instanceof ProvisionalBond ) {
+                ProvisionalBond bond = (ProvisionalBond)element;
+                if( ( bond.getMolecules()[0] == moleculeBeingTracked
+                      && bond.getMolecules()[1] == nearestToMoleculeBeingTracked )
+                    || ( bond.getMolecules()[1] == moleculeBeingTracked
+                         && bond.getMolecules()[0] == nearestToMoleculeBeingTracked ) ) {
+                    provisionalBond = null;
+                }
+            }
         }
     }
 }

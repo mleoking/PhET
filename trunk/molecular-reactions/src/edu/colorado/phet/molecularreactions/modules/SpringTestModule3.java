@@ -70,7 +70,7 @@ public class SpringTestModule3 extends Module {
         final double rightDPE = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
 
         {
-            double v0 = 6;
+            double v0 = 1;
             final double restingLength = energyProfile.getThresholdWidth() / 2;
 
             // Make a couple of molecules
@@ -105,10 +105,10 @@ public class SpringTestModule3 extends Module {
             mB.setVelocity( -v0, 0 );
 
             mC = new MoleculeC();
-            mC.setPosition( mB.getPosition().getX(),
-                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
-//            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
-//                            mA.getPosition().getY() );
+//            mC.setPosition( mB.getPosition().getX(),
+//                            mA.getPosition().getY() + mB.getRadius() + mC.getRadius() );
+            mC.setPosition( mB.getPosition().getX() + mB.getRadius() + mC.getRadius(),
+                            mA.getPosition().getY() );
             model.addModelElement( mC );
             mC.setVelocity( -v0, 0 );
 

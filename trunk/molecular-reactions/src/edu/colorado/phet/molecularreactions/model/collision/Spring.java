@@ -38,6 +38,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     Line2D extent;
     Body attachedBody;
     double t;
+    private double pe;
 
     /**
      * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
@@ -162,12 +163,28 @@ public class Spring extends SimpleObservable implements ModelElement {
         return a;
     }
 
+    /**
+     * Updates the length of the spring, the potential energy in the spring, and the velocity of the
+     * attached body
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
-            double l = restingLength - A * Math.sin( omega * t + phi );
+
+            // Compute the length of the spring
+            double dl = A * Math.sin( omega * t + phi );
+            double l = restingLength - dl;
+
+            // Compute the potential energy in the spring
+            pe = 0.5 * k * dl * dl;
+            System.out.println( "pe = " + pe );
+
+            // Compute the location of the free end
             freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );
+
+            // Update the velocity of the attached body
             Vector2D v = getVelocity();
             attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
@@ -198,7 +215,6 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     public double getPotentialEnergy() {
-        double dl = restingLength - freeEnd.distance( fixedEnd );
-        return 0.5 * k * dl * dl;
+        return pe;
     }
 }

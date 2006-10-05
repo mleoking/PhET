@@ -30,25 +30,22 @@ public class BondGraphic extends PPath implements SimpleObserver {
     private Stroke bondStroke = new BasicStroke( 3 );
     private Paint bondPaint = new Color( 0, 160, 0, 180 );
 //    private Paint bondPaint = new Color( 255, 0, 0, 180 );
-    private Line2D bondLine;
-    private SimpleMolecule m0;
-    private SimpleMolecule m1;
+    private Line2D bondLine = new Line2D.Double( );
+    private Bond bond;
 
     /**
      *
      * @param bond
      */
     public BondGraphic( Bond bond ) {
-        m0 = bond.getParticipants()[0];
-        m1 = bond.getParticipants()[1];
-        bondLine = new Line2D.Double( m0.getPosition().getX(),
-                                      m0.getPosition().getY(),
-                                      m1.getPosition().getX(),
-                                      m1.getPosition().getY() );
+        this.bond = bond;
+        SimpleMolecule m0 = bond.getParticipants()[0];
+        SimpleMolecule m1 = bond.getParticipants()[1];
         setStrokePaint( bondPaint );
         setStroke( bondStroke );
-        m0.addObserver( this );
-        m1.addObserver( this );
+        bond.addObserver( this );
+
+        update();
     }
 
     protected Line2D getBondLine() {
@@ -56,6 +53,8 @@ public class BondGraphic extends PPath implements SimpleObserver {
     }
 
     public void update() {
+        SimpleMolecule m0 = bond.getParticipants()[0];
+        SimpleMolecule m1 = bond.getParticipants()[1];
         bondLine.setLine( m0.getPosition().getX(),
                           m0.getPosition().getY(),
                           m1.getPosition().getX(),

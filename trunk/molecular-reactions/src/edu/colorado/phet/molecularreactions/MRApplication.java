@@ -40,14 +40,14 @@ public class MRApplication extends PiccoloPhetApplication {
                SimStrings.get( "Application.description" ),
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 700 ) );
-
+        
         SimpleModule simpleModule = new SimpleModule();
         SpringTestModule springTestModule = new SpringTestModule();
         SpringTestModule2 springTestModule2 = new SpringTestModule2();
-        addModule( new SpringTestModule3() );
+//        addModule( new SpringTestModule3() );
         addModule( simpleModule );
-        addModule( springTestModule2 );
-        addModule( springTestModule );
+//        addModule( springTestModule2 );
+//        addModule( springTestModule );
         addModule( new ComplexModule() );
         addModule( new TestModule() );
 

@@ -115,4 +115,8 @@ public class ReactionSpring extends Body implements ModelElement {
     public double getMomentOfInertia() {
         return cb.getMomentOfInertia();
     }
+
+    public double getPotentialEnergy() {
+        return componentSprings[0].getPotentialEnergy() + componentSprings[1].getPotentialEnergy();
+    }
 }
