@@ -1,3 +1,6 @@
+3.03.06 (10-5-2006)
+Piccolo version includes most tools, most functionality.
+
 3.03.02 (9-20-2006)
 Partial completion of translation to Piccolo.
 
