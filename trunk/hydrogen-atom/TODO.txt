@@ -25,6 +25,8 @@ MEDIUM PRIORITY:
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - get model details from Sam McKagan & Mike Dubson
 - ignore spectral line table entries with node>6
+- handle AlphaParticle orientation in AlphaParticleNode
+- handle Photon orientation in PhotonNode
 
 LOW PRIORITY:
 - make panel spacing and canvas spacing configurable via SimStrings file

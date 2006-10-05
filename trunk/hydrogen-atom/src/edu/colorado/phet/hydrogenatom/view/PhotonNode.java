@@ -135,7 +135,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     }
     
     private void update() {
-        rotate( _photon.getOrientation() );
+        //TODO deal with orientation
         setOffset( ModelViewTransform.translate( _photon.getPosition() ) );
     }
 }

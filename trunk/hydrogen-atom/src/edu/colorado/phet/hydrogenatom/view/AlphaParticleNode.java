@@ -13,6 +13,7 @@ package edu.colorado.phet.hydrogenatom.view;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,6 +22,7 @@ import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 
 public class AlphaParticleNode extends PhetPNode implements Observer {
@@ -82,7 +84,7 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
     }
     
     private void update() {
-        rotate( _alphaParticle.getOrientation() );
+        //TODO deal with orientation
         setOffset( ModelViewTransform.translate( _alphaParticle.getPosition() ) );
     }
 }
