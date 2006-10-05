@@ -541,6 +541,7 @@ public class HAModule extends PiccoloModule {
     private void initWiggleMe() {
         if ( !_wiggleMeInitialized ) {
             
+            // Create wiggle me, add to root node.
             String wiggleMeString = SimStrings.get( "wiggleMe.gun" );  
             _wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
             _rootNode.addChild( _wiggleMe );
