@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- rename AnimationrRegionNode -> AtomBox
 - handle model-view transform properly
+- with gun on low intensty, 1 photon in box; high intensity, 10 photons
 - incorporate intensity into firing of Gun model
 - add Developer menu for calibrating various internal settings
 - generalize creating a "panel" node to fit under a collection of nodes
@@ -38,6 +38,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/5/06) - set default clock speed index = 2
 (10/5/06) - attach wiggleme to gun's on/off button, remove wiggleme position from SimStrings
 ***** CVS tag hydrogenatom-0-00-04-2006-10-04
 (10/4/06) - center align icons in Legend
