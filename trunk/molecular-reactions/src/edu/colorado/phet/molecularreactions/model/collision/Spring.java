@@ -87,6 +87,14 @@ public class Spring extends SimpleObservable implements ModelElement {
         return k;
     }
 
+    public void setPhi( double phi ) {
+        this.phi = phi;
+    }
+
+    public double getA() {
+        return A;
+    }
+
     private double getElongation() {
         return fixedEnd.distance( freeEnd ) - restingLength;
     }
@@ -118,14 +126,53 @@ public class Spring extends SimpleObservable implements ModelElement {
     }
 
     /**
+     * Assumes that the body is being attached to the spring, and assume the spring is at its resting
+     * length. A virtual strut is assumed to exist between the body's CM and the end of the spring.
+     *
+     * @param body
+     */
+    public void attachBodyAtSpringLength( Body body, double length ) {
+        this.attachedBody = body;
+
+        angle = new Vector2D.Double( fixedEnd, body.getPosition() ).getAngle();
+        freeEnd.setLocation( fixedEnd.getX() + length * Math.cos( angle ), fixedEnd.getY() + length * Math.sin( angle ) );
+        t = 0;
+        omega = Math.sqrt( k / body.getMass() );
+
+        if( Double.isNaN( omega ) ) {
+            System.out.println( "Spring.attachBodyAtRestingLength" );
+        }
+
+        // A and phi depend on the initial elongation of the spring and the initial
+        // velocity of the attached body
+        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
+//        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+
+        double v0 = body.getVelocity().getMagnitude();
+        if( v0 != 0 ) {
+            v0 *= Math.cos( body.getVelocity().getAngle() - angle );
+        }
+        double dl = restingLength - length;
+        double dlSq = dl * dl;
+        double omSq = omega * omega;
+        double g = Math.sqrt( dlSq * omSq / ( v0*v0 + dlSq * omSq ));// * -MathUtil.getSign( dl );
+        phi = Math.asin( g );
+        if( Math.abs( phi % Math.PI /2 ) < Math.PI / 4  ) {
+            A = v0 / ( omega * Math.cos( phi ) );
+        }
+        else {
+            A = ( restingLength - length ) / Math.sin( phi );
+        }
+//        A = Math.abs( A );
+//        A = v0 / ( omega * Math.cos( phi ) );
+    }
+
+    /**
      * NOTE: THIS IS NOT WORKING PROPERLY
      *
      * @param body
      */
     public void attachBody( Body body ) {
-//        if( true ) {
-//            throw new RuntimeException( "This method doesn't work properly, and shouldn't be used" );
-//        }
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
         angle = new Vector2D.Double( fixedEnd, freeEnd ).getAngle();
@@ -186,6 +233,7 @@ public class Spring extends SimpleObservable implements ModelElement {
 
             // Update the velocity of the attached body
             Vector2D v = getVelocity();
+//            attachedBody.setVelocity( v );
             attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
         notifyObservers();

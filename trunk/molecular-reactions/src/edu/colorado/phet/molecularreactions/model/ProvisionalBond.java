@@ -55,6 +55,9 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
 
         // create the spring
         double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
+//        double initialLength = model.getReaction().getCollisionDistance( sm1.getFullMolecule(),
+//                                                                         sm2.getFullMolecule() ) - this.maxBondLength;
+//        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2}, initialLength );
         spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
         model.addModelElement( spring );
 

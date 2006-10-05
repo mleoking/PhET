@@ -24,8 +24,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.*;
 
@@ -37,12 +37,12 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SpringTestModule3 extends Module {
+public class SpringTestModule4 extends Module {
     private MoleculeA mA;
     private MoleculeB mB;
     private MoleculeC mC;
 
-    public SpringTestModule3() {
+    public SpringTestModule4() {
         super( "Spring Test 3", new SwingClock( 40, 1 ), true );
 
         final MRModel model = new MRModel( getClock() ) {
@@ -62,7 +62,7 @@ public class SpringTestModule3 extends Module {
         simPanel.addScreenChild( canvas );
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model, simPanel.getPhetRootNode() );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
-        megm.addGraphicFactory( new SpringTestModule3.SpringGraphicFactory( canvas ) );
+        megm.addGraphicFactory( new SpringTestModule4.SpringGraphicFactory( canvas ) );
 
         // Make springs that conform to the thresholds of the energy profile
         final EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
@@ -70,7 +70,7 @@ public class SpringTestModule3 extends Module {
         final double rightDPE = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
 
         {
-            double v0 = 2;
+            double v0 = 0;
             final double restingLength = energyProfile.getThresholdWidth() / 2;
 
             // Make a couple of molecules
@@ -99,7 +99,7 @@ public class SpringTestModule3 extends Module {
 
             mB = new MoleculeB();
 //            mB.setPosition( mA.getPosition().getX() + restingLength, mA.getPosition().getY() );
-            mB.setPosition( mA.getPosition().getX() + restingLength * 4, mA.getPosition().getY() );
+            mB.setPosition( mA.getPosition().getX() + mA.getRadius() + mB.getRadius() + 3, mA.getPosition().getY() );
 //            mB.setPosition( mA.getPosition().getX() + 200, mA.getPosition().getY() );
             model.addModelElement( mB );
             mB.setVelocity( -v0, 0 );
@@ -192,9 +192,9 @@ public class SpringTestModule3 extends Module {
         public PNode createGraphic( ModelElement modelElement ) {
             PNode pNode = new PNode();
             ReactionSpring cs = (ReactionSpring)modelElement;
-            SpringGraphic child0 = new SpringGraphic( cs.getComponentSprings()[0] );
+            SpringTestModule4.SpringGraphic child0 = new SpringTestModule4.SpringGraphic( cs.getComponentSprings()[0] );
             pNode.addChild( child0 );
-            SpringGraphic child1 = new SpringGraphic( cs.getComponentSprings()[1] );
+            SpringTestModule4.SpringGraphic child1 = new SpringTestModule4.SpringGraphic( cs.getComponentSprings()[1] );
             pNode.addChild( child1 );
             return pNode;
         }
