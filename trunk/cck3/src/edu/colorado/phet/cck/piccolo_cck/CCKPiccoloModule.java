@@ -90,6 +90,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void addGrabBag() {
+        cckSimulationPanel.addGrabBag();
     }
 
     public void setVirtualAmmeterVisible( boolean selected ) {
