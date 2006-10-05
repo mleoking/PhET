@@ -82,10 +82,7 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
     }
     
     private void update() {
-        double x = _alphaParticle.getX();
-        double y = _alphaParticle.getY();
-        //TODO map from model to view coordinates!
         rotate( _alphaParticle.getOrientation() );
-        setOffset( x, y );
+        setOffset( ModelViewTransform.translate( _alphaParticle.getPosition() ) );
     }
 }

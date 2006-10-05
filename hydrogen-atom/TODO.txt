@@ -34,6 +34,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/4/06) - add very kludgy ModelViewTransform, photons & alpha particles animating in atom box
 (10/4/06) - implement Model
 (10/4/06) - IModelObject marker interface for all objects that are part of the model
 (10/4/06) - PhotonNodeFactory for creating pnodes for photon model elements

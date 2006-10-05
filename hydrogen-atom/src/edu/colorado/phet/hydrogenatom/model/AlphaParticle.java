@@ -25,19 +25,26 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  */
 public class AlphaParticle extends DynamicObject implements IModelObject {
     
-    private static final double DISTANCE_PER_DT = 1;
+    private static final double DISTANCE_PER_DT = 5;
     
     public AlphaParticle( Point2D position, double orientation ) {
         super( position, orientation );
     }
     
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-        double dt = clockEvent.getSimulationTimeChange();
+    public void simulationTimeChanged( ClockEvent event ) {
+        double dt = event.getSimulationTimeChange();
         double distance = DISTANCE_PER_DT * dt;
+        move( distance );
+    }
+    
+    private void move( double distance ) {
         double direction = getOrientation();
-        double x = Math.cos( direction ) * distance;
-        double y = Math.sin( direction ) * distance;
+        double dx = Math.cos( direction ) * distance;
+        double dy = Math.sin( direction ) * distance;
+        double x = getX() + dx;
+        double y = getY() + dy;
         setPosition( x, y );
+//        System.out.println( "AlphaParticle.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
     }
     
     public String toString() {

@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.module;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -23,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JCheckBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -37,6 +38,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.hydrogenatom.factory.AlphaParticleNodeFactory;
 import edu.colorado.phet.hydrogenatom.factory.ModelViewManager;
 import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
@@ -53,7 +55,6 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -110,9 +111,6 @@ public class HAModule extends PiccoloModule {
 
     private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
-
-    private PNode _samplePhotonNode1, _samplePhotonNode2, _samplePhotonNode3;
-    private PNode _sampleAlphaParticleNode;
     
     private Font _spectrometerFont;
 
@@ -151,15 +149,15 @@ public class HAModule extends PiccoloModule {
         {
             Point2D position = new Point2D.Double( 0, 0 );
             double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
-            double nozzleWidth = 50;
+            double nozzleWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
             _gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
         }
         
         // Space
         {
             double spaceWidth = _gun.getNozzleWidth();
-            double spaceHeight = 200;
-            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight/2, spaceWidth, spaceHeight );
+            double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight, spaceWidth, spaceHeight );
             _space = new Space( bounds, _gun, _model );
         }
         
@@ -190,10 +188,22 @@ public class HAModule extends PiccoloModule {
 
         // Mode switch (experiment/prediction)
         _modeSwitch = new ModeSwitch();
+        _modeSwitch.addChangeListener( new ChangeListener() {
+           public void stateChanged( ChangeEvent event ) {
+               _space.removeAllAlphaParticles();
+               _space.removeAllPhotons();
+           }
+        });
 
         // Atomic Model selector
         _atomicModelSelector = new AtomicModelSelector();
-
+        _atomicModelSelector.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _space.removeAllAlphaParticles();
+                _space.removeAllPhotons();
+            }
+         });
+        
         //  Box of Hydrogen / Beam / Gun
         {
             // Parent node, used for layout
@@ -273,25 +283,6 @@ public class HAModule extends PiccoloModule {
                 _schrodingerAtomNode.setOffset( x, y );
                 _solarSystemAtomNode.setOffset( x, y );
             }
-            
-            //XXX sample photons and alpha particle
-            {
-                _samplePhotonNode1 = new PImage( PhotonNode.createPhotonImage( Color.RED ) );
-                _samplePhotonNode2 = new PImage( PhotonNode.createPhotonImage( Color.YELLOW ) );
-                _samplePhotonNode3 = new PImage( PhotonNode.createPhotonImage( HAConstants.UV_COLOR ) );
-                _sampleAlphaParticleNode = new PImage( AlphaParticleNode.createImage() );
-                _animationRegionNode.addChild( _samplePhotonNode1 );
-                _animationRegionNode.addChild( _samplePhotonNode2 );
-                _animationRegionNode.addChild( _samplePhotonNode3 );
-                _animationRegionNode.addChild( _sampleAlphaParticleNode );
-
-                double x = 50;
-                double y =_animationRegionNode.getFullBounds().getMaxY() - 70;
-                _samplePhotonNode1.setOffset( x, y );
-                _samplePhotonNode2.setOffset( x + 100, y );
-                _samplePhotonNode3.setOffset( x + 200, y );
-                _sampleAlphaParticleNode.setOffset( x + 300, y );
-            }
         }
 
         // Gun control panel
@@ -368,6 +359,8 @@ public class HAModule extends PiccoloModule {
         ModelViewManager modelViewManager = new ModelViewManager( _model );
         PhotonNodeFactory photonNodeFactory = new PhotonNodeFactory( _animationRegionNode );
         modelViewManager.addNodeFactory( photonNodeFactory );
+        AlphaParticleNodeFactory alphaParticleNodeFactory = new AlphaParticleNodeFactory( _animationRegionNode );
+        modelViewManager.addNodeFactory( alphaParticleNodeFactory );
         
         //----------------------------------------------------------------------------
         // Control
