@@ -234,4 +234,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         return true;
     }
 
+    public void applicationStarted() {
+        cckSimulationPanel.applicationStarted();
+    }
 }
