@@ -3,8 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
-- add/remove/animate photons and alpha particles in view, as in model
-- work out details of mapping between model and view coordinate systems
+- why don't PhotonNodes appear in the atom box?
+- work out details of mapping between model and view coordinate systems (currently 1:1)
 
 HIGH PRIORITY:
 - generalize creating a "panel" node to fit under a collection of nodes
