@@ -4,7 +4,7 @@ sometimes junctions bump off each other too easily?
 zoom (small med large)?
 
 bulb loaded incorrectly
-
+editing a component should show it's Readout value (by the component)
 improve component constructor interface
 
 Comments:
