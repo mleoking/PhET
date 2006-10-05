@@ -203,7 +203,7 @@ public class ToolboxNode extends PhetPNode {
     class BatteryMaker extends BranchMaker {
         public BatteryMaker() {
             super( "Battery" );
-            ComponentNode child = new ComponentImageNode.BatteryNode( model, createBattery(), canvas, module );
+            ComponentNode child = new BatteryNode( model, createBattery(), canvas, module );
             child.scale( 45 );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }

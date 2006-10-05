@@ -28,6 +28,7 @@ public class CircuitNode extends PhetPNode {
     private PNode electronLayer;
     private PNode solderLayer;
     private PNode branchLayer;
+    //    private PNode flameLayer = new PNode();
     private PNode junctionLayer;
     private ClipFactory clipFactory;
 
@@ -61,7 +62,7 @@ public class CircuitNode extends PhetPNode {
         readoutLayer.setVisible( false );
         addChild( solderLayer );
         addChild( branchLayer );
-
+//        addChild( flameLayer );
         addChild( junctionLayer );
 
         addChild( electronLayer );
@@ -71,6 +72,7 @@ public class CircuitNode extends PhetPNode {
             public void branchAdded( Branch branch ) {
                 BranchNode branchNode = createNode( branch );
                 branchLayer.addChild( branchNode );
+//                flameLayer.addChild( new FlameNode( branch ) );
             }
 
             public void junctionAdded( Junction junction ) {
@@ -154,7 +156,7 @@ public class CircuitNode extends PhetPNode {
             return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
         }
         else if( branch instanceof Battery ) {
-            return new ComponentImageNode.BatteryNode( cckModel, (Battery)branch, component, module );
+            return new BatteryNode( cckModel, (Battery)branch, component, module );
         }
         else if( branch instanceof Bulb ) {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );

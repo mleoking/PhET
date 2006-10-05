@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public abstract class Branch extends SimpleObservableDebug {
     double resistance = CCKModel.MIN_RESISTANCE;
-    double current;
+    private double current;
     double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
@@ -32,6 +32,8 @@ public abstract class Branch extends SimpleObservableDebug {
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
     private boolean kirkhoffEnabled = true;
+    private ArrayList flameListeners = new ArrayList();
+    private boolean isOnFire = false;
 
     protected Branch( CircuitChangeListener listener ) {
         label = toLabel( indexCounter++ );
@@ -72,6 +74,16 @@ public abstract class Branch extends SimpleObservableDebug {
     public void setSelected( boolean selected ) {
         isSelected = selected;
         notifyObservers();
+    }
+
+    public static interface FlameListener {
+        void flameStarted();
+
+        void flameFinished();
+    }
+
+    public void addFlameListener( FlameListener flameListener ) {
+        flameListeners.add( flameListener );
     }
 
     public void addCurrentVoltListener( CurrentVoltListener currentListener ) {
@@ -143,7 +155,24 @@ public abstract class Branch extends SimpleObservableDebug {
                 listener.currentOrVoltageChanged( this );
             }
         }
+        boolean shouldBeOnFire = Math.abs( current ) > 10.0;
+        if( shouldBeOnFire != isOnFire ) {
+            this.isOnFire = shouldBeOnFire;
+            if( isOnFire ) {
+                for( int i = 0; i < flameListeners.size(); i++ ) {
+                    FlameListener flameListener = (FlameListener)flameListeners.get( i );
+                    flameListener.flameFinished();
+                }
+            }
+            else {
+                for( int i = 0; i < flameListeners.size(); i++ ) {
+                    FlameListener flameListener = (FlameListener)flameListeners.get( i );
+                    flameListener.flameStarted();
+                }
+            }
+        }
     }
+
 
     public void setVoltageDrop( double voltageDrop ) {
         if( this.voltageDrop != voltageDrop ) {
@@ -297,4 +326,9 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public abstract Shape getShape();
+
+
+    public boolean isOnFire() {
+        return isOnFire;
+    }
 }
