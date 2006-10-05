@@ -118,6 +118,9 @@ public class HAModule extends PiccoloModule {
     private Gun _gun;
     private Space _space;
     
+    private HAWiggleMe _wiggleMe;
+    private boolean _wiggleMeInitialized = false;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -382,22 +385,7 @@ public class HAModule extends PiccoloModule {
 //            HelpPane helpPane = getDefaultHelpPane();
         }
         
-        // Wiggle Me -- location is controlled in SimStrings file
-        String wiggleMeString = SimStrings.get( "wiggleMe.gun" );
-        final int x = SimStrings.getInt( "wiggleMe.x", 200 );
-        final int y = SimStrings.getInt( "wiggleMe.y", 400 );
-        final HAWiggleMe wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
-        _rootNode.addChild( wiggleMe );
-        wiggleMe.setOffset( x, -100 );
-        wiggleMe.animateTo( x, y );
-        _canvas.addInputEventListener( new PBasicInputEventHandler() {
-            // Clicking on the canvas makes the wiggle me go away.
-            public void mousePressed( PInputEvent event ) {
-                wiggleMe.setEnabled( false );
-                _rootNode.removeChild( wiggleMe );
-                _canvas.removeInputEventListener( this );
-            }
-        } );
+        // See initWiggleMe for Wiggle Me initialization.
 
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -433,6 +421,13 @@ public class HAModule extends PiccoloModule {
     
     public void updateCanvasLayout() {
 
+        Dimension worldSize = getWorldSize();
+        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
+            // canvas hasn't been sized, blow off layout
+            return;
+        }
+        
         // margins and spacing
         final double xMargin = 20;
         final double yMargin = 10;
@@ -538,6 +533,37 @@ public class HAModule extends PiccoloModule {
             x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
             y = _animationRegionNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
             _spectrometerCheckBoxNode.setOffset( x, y );
+        }
+        
+        initWiggleMe();
+    }
+    
+    private void initWiggleMe() {
+        if ( !_wiggleMeInitialized ) {
+            
+            String wiggleMeString = SimStrings.get( "wiggleMe.gun" );  
+            _wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
+            _rootNode.addChild( _wiggleMe );
+            
+            // Animate from the upper-left to the gun button position
+            PNode gunButtonNode = _gunNode.getButtonNode();
+            Rectangle2D bounds = _rootNode.globalToLocal( gunButtonNode.getGlobalFullBounds() );
+            final double x = bounds.getX() + ( bounds.getWidth() / 2 );
+            final double y = bounds.getY();
+            _wiggleMe.setOffset( 0, -100 );
+            _wiggleMe.animateTo( x, y );
+            
+            // Clicking on the canvas makes the wiggle me go away.
+            _canvas.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    _wiggleMe.setEnabled( false );
+                    _rootNode.removeChild( _wiggleMe );
+                    _canvas.removeInputEventListener( this );
+                    _wiggleMe = null;
+                }
+            } );
+            
+            _wiggleMeInitialized = true;
         }
     }
 
