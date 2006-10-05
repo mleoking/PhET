@@ -23,7 +23,7 @@ import edu.colorado.phet.common.math.MathUtil;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class A_AB_BC_C_Reaction extends Reaction {
+public class A_BC_AB_C_Reaction extends Reaction {
     private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
@@ -36,7 +36,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
      *
      * @param model
      */
-    public A_AB_BC_C_Reaction( MRModel model ) {
+    public A_BC_AB_C_Reaction( MRModel model ) {
         super( energyProfile, new Criteria( energyProfile ) );
         this.model = model;
     }
@@ -122,18 +122,20 @@ public class A_AB_BC_C_Reaction extends Reaction {
      * Removes the old composite molecule from the model, adds the new one, and
      * sets the kinematics for the reaction products using a hard sphere collision
      *
-     * @param mAB
-     * @param mBC
-     * @param mA
+     * @param oldComposite
+     * @param newComposite
+     * @param newFreeMolecule
      */
-    private void doReactionII( AbstractMolecule mAB, AbstractMolecule mBC, AbstractMolecule mA ) {
-        model.removeModelElement( mAB );        
-        model.addModelElement( mBC );
-        mA.setParentComposite( null );
+    private void doReactionII( AbstractMolecule oldComposite,
+                               AbstractMolecule newComposite,
+                               AbstractMolecule newFreeMolecule ) {
+        model.removeModelElement( oldComposite );
+        model.addModelElement( newComposite );
+        newFreeMolecule.setParentComposite( null );
 
         // Compute the kinematics of the released molecule
         HardBodyCollision collision = new HardBodyCollision();
-        collision.detectAndDoCollision( mBC, mA );
+        collision.detectAndDoCollision( newComposite, newFreeMolecule );
     }
 
 
@@ -268,25 +270,27 @@ public class A_AB_BC_C_Reaction extends Reaction {
                 classificationCriterionMet = true;
             }
 
+            return classificationCriterionMet;
+
             // The relative kinetic energy of the collision must be above the
             // energy profile threshold
-            if( classificationCriterionMet ) {
-                CompositeMolecule cm = m1 instanceof CompositeMolecule
-                                       ? (CompositeMolecule)m1
-                                       : (CompositeMolecule)m2;
-                double de = 0;
-                if( cm instanceof MoleculeBC ) {
-                    de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
-                }
-                else if( cm instanceof MoleculeAB ) {
-                    de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
-                }
-                else {
-                    throw new IllegalArgumentException( "internal error " );
-                }
-                result = getRelKE( m1, m2 ) > de;
-            }
-            return result;
+//            if( classificationCriterionMet ) {
+//                CompositeMolecule cm = m1 instanceof CompositeMolecule
+//                                       ? (CompositeMolecule)m1
+//                                       : (CompositeMolecule)m2;
+//                double de = 0;
+//                if( cm instanceof MoleculeBC ) {
+//                    de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+//                }
+//                else if( cm instanceof MoleculeAB ) {
+//                    de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
+//                }
+//                else {
+//                    throw new IllegalArgumentException( "internal error " );
+//                }
+//                result = getRelKE( m1, m2 ) > de;
+//            }
+//            return result;
         }
 
         /**

@@ -76,16 +76,19 @@ public class PumpGraphic extends PNode {
         return pumpBaseLocation;
     }
 
+    /**
+     * Mouse handler
+     */
     private class PumpHandleMouseHandler extends PBasicInputEventHandler {
         double yStart;
         double dySinceLastMolecule;
 
         public void mouseEntered( PInputEvent event ) {
-            PhetUtilities.getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR));
         }
 
         public void mouseExited( PInputEvent event ) {
-            PhetUtilities.getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         }
 
         public void mousePressed( PInputEvent event ) {

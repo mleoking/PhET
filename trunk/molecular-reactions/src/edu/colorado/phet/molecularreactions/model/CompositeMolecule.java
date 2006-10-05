@@ -79,6 +79,11 @@ abstract public class CompositeMolecule extends AbstractMolecule {
      */
     public CompositeMolecule( SimpleMolecule[] molecules ) {
         setComponents( molecules );
+
+        if( components[0].getPosition().distance( components[1].getPosition()) > 30 ) {
+            System.out.println( "CompositeMolecule.stepInTime" );
+        }
+
     }
 
     public Bond[] getBonds() {
@@ -291,12 +296,9 @@ abstract public class CompositeMolecule extends AbstractMolecule {
     }
 
     public void stepInTime( double dt ) {
-
         double thetaOld = getOrientation();
         double omegaOld = getOmega();
         double alphaOld = getAlpha();
-
-
         double alpha = 0;
 
         // 1. Compute new orientation

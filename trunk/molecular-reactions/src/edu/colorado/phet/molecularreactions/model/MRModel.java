@@ -11,11 +11,10 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.mechanics.Body;
 
 import java.util.List;
@@ -64,7 +63,7 @@ public class MRModel extends PublishingModel {
         super( clock );
 
         // Create the reaction object;
-        reaction = new A_AB_BC_C_Reaction( this );
+        reaction = new A_BC_AB_C_Reaction( this );
 
         // Add a box
         box = new Box2D( new Point2D.Double( 30, 30 ),

@@ -33,6 +33,7 @@ import java.util.HashMap;
  */
 public class SpatialSimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
     private PPath boundingBox;
+    private PPath debugNode;
 
     public SpatialSimpleMoleculeGraphic( SimpleMolecule molecule ) {
         super( molecule );
@@ -53,5 +54,16 @@ public class SpatialSimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic 
             boundingBox.setOffset( -getMolecule().getPosition().getX(),
                                    -getMolecule().getPosition().getY() );
         }
+
+
+//        if( getMolecule().isPartOfComposite() && debugNode == null ) {
+//            debugNode = new PPath( new Ellipse2D.Double(0,0,4,4));
+//            debugNode.setPaint( Color.green);
+//            addChild( debugNode );
+//        }
+//        else if( !getMolecule().isPartOfComposite() && debugNode != null) {
+//            removeChild( debugNode );
+//            debugNode = null;
+//        }
     }
 }

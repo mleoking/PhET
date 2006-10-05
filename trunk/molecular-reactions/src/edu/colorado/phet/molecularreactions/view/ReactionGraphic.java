@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.common.view.graphics.Arrow;
@@ -34,7 +34,7 @@ import java.awt.*;
 public class ReactionGraphic extends RegisterablePNode {
 
     public ReactionGraphic( Reaction reaction, Color arrowColor ) {
-        if( reaction instanceof A_AB_BC_C_Reaction ) {
+        if( reaction instanceof A_BC_AB_C_Reaction ) {
             Insets insets = new Insets( 0, 3, 0, 3 );
             PNode aNode = new PImage( new MoleculeIcon( MoleculeA.class ).getImage() );
             PNode cNode = new PImage( new MoleculeIcon( MoleculeC.class ).getImage() );
