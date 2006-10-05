@@ -179,7 +179,7 @@ public class Spring extends SimpleObservable implements ModelElement {
 
             // Compute the potential energy in the spring
             pe = 0.5 * k * dl * dl;
-            System.out.println( "pe = " + pe );
+//            System.out.println( "pe = " + pe );
 
             // Compute the location of the free end
             freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );

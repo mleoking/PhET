@@ -16,6 +16,7 @@ import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeHardSphereCollisionAgent;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * CollisionAgent
@@ -35,7 +36,6 @@ public class CollisionAgent implements ModelElement {
 
         // todo: DEBUG. move elsewhere
         SpringCollision.Spring spring = new SpringCollision.Spring( 10, model.getReaction().getEnergyProfile().getThresholdWidth() / 2 );
-        SpringCollision springCollision = new SpringCollision( model, spring );
 
         moleculeMoleculeCollisionAgent = new MoleculeMoleculeHardSphereCollisionAgent( model );
 //        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model,
@@ -46,7 +46,9 @@ public class CollisionAgent implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        List modelElements = model.getModelElements();
+        // Make a copy of the model element list. We have to use a copy of the list
+        // because collisions will add/remove model elements from the model
+        List modelElements = new ArrayList( model.getModelElements() );
         for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             Object o = modelElements.get( i );
 

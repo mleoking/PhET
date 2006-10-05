@@ -95,6 +95,8 @@ public class ReactionSpring extends Body implements ModelElement {
         double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
         // Make the component springs, with the bodies attached
+//        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );
+//        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1] );
         springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule() );
         springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule() );
         return springs;

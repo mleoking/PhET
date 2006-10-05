@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Body;
@@ -164,11 +164,11 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Create a composite molecule if ReactionCriteria are met
-        if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                         (AbstractMolecule)bodyB )) {
-//        if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA,
-//                                                (AbstractMolecule)bodyB,
-//                                                collisionSpec ) ) {
+//        if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
+//                                                         (AbstractMolecule)bodyB )) {
+        if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA,
+                                                (AbstractMolecule)bodyB,
+                                                collisionSpec ) ) {
 
             // Get rid of the provisional bond between the molecules
 //            ProvisionalBond.removeInstance( (AbstractMolecule)bodyA,
@@ -189,7 +189,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
                 throw new RuntimeException( "unexpected situation" );
             }
 
-            A_AB_BC_C_Reaction reaction = (A_AB_BC_C_Reaction)model.getReaction();
+            A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
             reaction.doReaction( compositeMolecule, simpleMolecule );
         }
 

@@ -11,12 +11,11 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -85,7 +84,7 @@ public class SimpleModule extends MRModule {
      */
     void setInitialConditions( MRModel model ) {
         {
-            model.setReaction( new A_AB_BC_C_Reaction( model ) );
+            model.setReaction( new A_BC_AB_C_Reaction( model ) );
             {
                 SimpleMolecule m1 = new MoleculeB();
                 double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;

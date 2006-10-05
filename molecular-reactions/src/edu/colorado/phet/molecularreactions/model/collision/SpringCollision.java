@@ -13,7 +13,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 /**
@@ -116,7 +116,7 @@ public class SpringCollision implements Collision {
             throw new RuntimeException( "unexpected situation" );
         }
 
-        A_AB_BC_C_Reaction reaction = (A_AB_BC_C_Reaction)model.getReaction();
+        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
         reaction.doReaction( compositeMolecule, simpleMolecule );
     }
 
