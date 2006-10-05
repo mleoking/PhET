@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class GrabBag {
     ArrayList items = new ArrayList();
+    private static final double SCALE = 1.3;
 
     public GrabBag() {
         /*
@@ -33,13 +34,13 @@ Dog = infinite
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "hand.gif" ), SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 ) );
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "dog.gif" ), SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 ) );
 
-        add( new GrabBagItem( "dollarbill.gif", SimStrings.get( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 ) );
-        add( new GrabBagItem( "paperclip.gif", SimStrings.get( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 ) );
-        add( new GrabBagItem( "penny.gif", SimStrings.get( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 ) );
-        add( new GrabBagItem( "eraser.gif", SimStrings.get( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 ) );
-        add( new GrabBagItem( "pencil.gif", SimStrings.get( "GrabBag.PencilLead" ), 3000, 3.5 ) );
-        add( new GrabBagItem( "hand.gif", SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 ) );
-        add( new GrabBagItem( "dog.gif", SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 ) );
+        add( new GrabBagItem( "dollarbill.gif", SimStrings.get( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
+        add( new GrabBagItem( "paperclip.gif", SimStrings.get( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
+        add( new GrabBagItem( "penny.gif", SimStrings.get( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
+        add( new GrabBagItem( "eraser.gif", SimStrings.get( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
+        add( new GrabBagItem( "pencil.gif", SimStrings.get( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
+        add( new GrabBagItem( "hand.gif", SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
+        add( new GrabBagItem( "dog.gif", SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
     }
 
     private void add( GrabBagItem grabBagItem ) {
