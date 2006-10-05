@@ -1,17 +1,11 @@
-- Build second module for Piccolo version
-    - This will give us a stable PhetGraphics version for function and
-        performance comparisons, plus many other likely benefits, yet
-        to be imagined, that will emerge as we go. 
-- Two model layers: one for topology, one for topography?
-
-do junctions need to be always in front?  are they?
-
 component menus
 component dimensions
 improve component constructor interface
+flame graphics
+>>I'm ignoring bulb (already pretty exciting when current is high)
+>>Capacitor (maybe not realistic, also code wasn't trivial).
 
 schematic?
-flame graphics
 
 bulb loaded incorrectly
 sometimes junctions bump off each other too easily.

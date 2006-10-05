@@ -1,15 +1,12 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKImageSuite;
-import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.components.Battery;
+import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -24,11 +21,23 @@ import java.awt.image.BufferedImage;
 
 public abstract class ComponentImageNode extends ComponentNode {
     private PImage pImage;
+    private FlameNode flameNode;
 
     public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image, Component component ) {
         super( model, circuitComponent, component );
         pImage = new PImage( image );
         addChild( pImage );
+        flameNode = new FlameNode( getBranch() );
+        addChild( flameNode );
+        getBranch().addFlameListener( new Branch.FlameListener() {
+            public void flameStarted() {
+                update();
+            }
+
+            public void flameFinished() {
+                update();
+            }
+        } );
         update();
     }
 
@@ -49,25 +58,11 @@ public abstract class ComponentImageNode extends ComponentNode {
         if( Math.abs( sx ) > 1E-4 ) {
             setScale( sx );
         }
-//        transformBy( AffineTransform.getScaleInstance( sx,sy));
         setOffset( getBranch().getStartPoint() );
         rotate( angle );
         translate( 0, -pImage.getFullBounds().getHeight() / 2 );
+
+        flameNode.setOffset( 0, -flameNode.getFullBounds().getHeight() + pImage.getFullBounds().getHeight() / 2 );
     }
 
-    public static class BatteryNode extends ComponentImageNode {
-        private Battery battery;
-        private ICCKModule module;
-
-        public BatteryNode( CCKModel model, Battery battery, Component component, ICCKModule module ) {
-            super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component );
-            this.battery = battery;
-            this.module = module;
-            update();
-        }
-
-        protected JPopupMenu createPopupMenu() {
-            return new ComponentMenu.BatteryJMenu( battery, module ).getMenuComponent();
-        }
-    }
 }
