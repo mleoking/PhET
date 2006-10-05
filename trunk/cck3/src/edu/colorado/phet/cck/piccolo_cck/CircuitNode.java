@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
@@ -44,8 +45,8 @@ public class CircuitNode extends PhetPNode {
                     TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
                     return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
                 }
-                else if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter )
-                {//todo: could extend this to electrons in neighboring branches
+                else
+                if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter ) {//todo: could extend this to electrons in neighboring branches
                     SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( electronNode.getElectron().getBranch() );
                     return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
                 }
@@ -142,6 +143,9 @@ public class CircuitNode extends PhetPNode {
     protected BranchNode createNode( Branch branch ) {
         if( branch instanceof Wire ) {
             return new WireNode( cckModel, (Wire)branch, component );
+        }
+        else if( branch instanceof GrabBagResistor ) {
+            return new GrabBagResistorNode( cckModel, (GrabBagResistor)branch, component, module );
         }
         else if( branch instanceof Resistor ) {
             return new ResistorNode( cckModel, (Resistor)branch, component, module );

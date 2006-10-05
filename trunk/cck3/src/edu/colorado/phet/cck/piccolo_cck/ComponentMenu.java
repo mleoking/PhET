@@ -54,8 +54,7 @@ public abstract class ComponentMenu {
                 module.setReadoutVisible( branch, showValue.isSelected() );
             }
         } );
-        if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) )
-        {
+        if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
             if( module.getParameters().allowShowReadouts() ) {
                 menu.add( showValue );
             }

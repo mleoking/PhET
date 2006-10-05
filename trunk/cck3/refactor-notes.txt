@@ -17,3 +17,5 @@ flame graphics
 
 bulb loaded incorrectly
 sometimes junctions bump off each other too easily.
+wiggle me
+help
