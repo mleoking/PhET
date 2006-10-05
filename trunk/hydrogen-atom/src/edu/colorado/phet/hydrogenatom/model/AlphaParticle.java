@@ -23,7 +23,7 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AlphaParticle extends DynamicObject {
+public class AlphaParticle extends DynamicObject implements IModelObject {
     
     private static final double DISTANCE_PER_DT = 1;
     
@@ -42,6 +42,7 @@ public class AlphaParticle extends DynamicObject {
     
     public String toString() {
         String s = "Photon ";
+        s += ( "id=" + getId() + " " );
         s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
         s += ( "orientation=" + DebugUtils.format( Math.toDegrees( getOrientation() ) ) + " " );
         return s;

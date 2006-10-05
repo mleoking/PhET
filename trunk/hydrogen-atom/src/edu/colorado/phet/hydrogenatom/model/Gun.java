@@ -37,7 +37,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Gun extends DynamicObject implements ClockListener {
+public class Gun extends DynamicObject implements ClockListener, IModelObject {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -409,7 +409,7 @@ public class Gun extends DynamicObject implements ClockListener {
             Photon photon = new Photon( position, orientation, wavelength );
             
             // Fire the photon
-            PhotonFiredEvent event = new PhotonFiredEvent( this, photon );
+            GunFiredEvent event = new GunFiredEvent( this, photon );
             firePhotonFiredEvent( event );
         }
     }
@@ -442,7 +442,7 @@ public class Gun extends DynamicObject implements ClockListener {
             AlphaParticle alphaParticle = new AlphaParticle( position, orientation );
             
             // Fire the alpha particle
-            AlphaParticleFiredEvent event = new AlphaParticleFiredEvent( this, alphaParticle );
+            GunFiredEvent event = new GunFiredEvent( this, alphaParticle );
             fireAlphaParticleFiredEvent( event );
         }
     }
@@ -452,119 +452,92 @@ public class Gun extends DynamicObject implements ClockListener {
     //----------------------------------------------------------------------------
     
     /**
-     * PhotonFiredListener is the interface implemented by all listeners
-     * who wish to be informed when a photon is fired by the gun.
+     * GunFiredListener is the interface implemented by all listeners
+     * who wish to be informed when the gun is fired.
      */
-    public interface PhotonFiredListener extends EventListener {
-        public void photonFired( PhotonFiredEvent event );
+    public interface GunFiredListener extends EventListener {
+        public void photonFired( GunFiredEvent event );
+        public void alphaParticleFired( GunFiredEvent event );
+    }
+    
+    public class GunFiredAdapter {
+        public void photonFired( GunFiredEvent event ) {}
+        public void alphaParticleFired( GunFiredEvent event ) {}
     }
 
     /**
-     * PhotonFiredEvent indicates the a photon has been fired.
+     * GunFiredEvent indicates that the gun has been fired.
      */
-    public class PhotonFiredEvent extends EventObject {
+    public class GunFiredEvent extends EventObject {
 
         private Photon _photon;
+        private AlphaParticle _alphaParticle;
 
-        public PhotonFiredEvent( Object source, Photon photon ) {
+        public GunFiredEvent( Object source, Photon photon ) {
             super( source );
             _photon = photon;
+            _alphaParticle = null;
         }
 
+        public GunFiredEvent( Object source, AlphaParticle alphaParticle ) {
+            super( source );
+            _photon = null;
+            _alphaParticle = alphaParticle;
+        }
+        
         public Photon getPhoton() {
             return _photon;
         }
-    }
-    
-    /**
-     * Adds a PhotonFiredListener.
-     *
-     * @param listener the listener
-     */
-    public void addPhotonFiredListener( PhotonFiredListener listener ) {
-        _listenerList.add( PhotonFiredListener.class, listener );
-    }
-
-    /**
-     * Removes a PhotonFiredListener.
-     *
-     * @param listener the listener
-     */
-    public void removePhotonFiredListener( PhotonFiredListener listener ) {
-        _listenerList.remove( PhotonFiredListener.class, listener );
-    }
-
-    /*
-     * Fires a PhotonFiredEvent.
-     *
-     * @param event the event
-     */
-    private void firePhotonFiredEvent( PhotonFiredEvent event ) {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == PhotonFiredListener.class ) {
-                ( (PhotonFiredListener)listeners[i + 1] ).photonFired( event );
-            }
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // AlphaParticleFiredListener
-    //----------------------------------------------------------------------------
-    
-    /**
-     * AlphaParticleFiredListener is the interface implemented by all listeners
-     * who wish to be informed when an alpha particle is fired by the gun.
-     */
-    public interface AlphaParticleFiredListener extends EventListener {
-        public void alphaParticleFired( AlphaParticleFiredEvent event );
-    }
-
-    /**
-     * AlphaParticleFiredEvent indicates the an alpha particle has been fired.
-     */
-    public class AlphaParticleFiredEvent extends EventObject {
-
-        private AlphaParticle _alphaParticle;
-
-        public AlphaParticleFiredEvent( Object source, AlphaParticle alphaParticle ) {
-            super( source );
-            _alphaParticle = alphaParticle;
-        }
-
+        
         public AlphaParticle getAlphaParticle() {
             return _alphaParticle;
         }
     }
     
     /**
-     * Adds an AlphaParticleFiredListener.
+     * Adds a GunFiredListener.
      *
      * @param listener the listener
      */
-    public void addAlphaParticleFiredListener( AlphaParticleFiredListener listener ) {
-        _listenerList.add( AlphaParticleFiredListener.class, listener );
+    public void addGunFiredListener( GunFiredListener listener ) {
+        _listenerList.add( GunFiredListener.class, listener );
     }
 
     /**
-     * Removes an AlphaParticleFiredListener.
+     * Removes a GunFiredListener.
      *
      * @param listener the listener
      */
-    public void removeAlphaParticleFiredListener( AlphaParticleFiredListener listener ) {
-        _listenerList.remove( AlphaParticleFiredListener.class, listener );
+    public void removePhotonFiredListener( GunFiredListener listener ) {
+        _listenerList.remove( GunFiredListener.class, listener );
     }
 
     /*
-     * Fires a PhotonFiredEvent.
+     * Fires a GunFiredEvent when a photon is fired.
      *
      * @param event the event
      */
-    private void fireAlphaParticleFiredEvent( AlphaParticleFiredEvent event ) {
+    private void firePhotonFiredEvent( GunFiredEvent event ) {
+        assert( event.getPhoton() != null );
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == AlphaParticleFiredListener.class ) {
-                ( (AlphaParticleFiredListener)listeners[i + 1] ).alphaParticleFired( event );
+            if( listeners[i] == GunFiredListener.class ) {
+                ( (GunFiredListener)listeners[i + 1] ).photonFired( event );
+            }
+        }
+    }
+    
+    /*
+     * Fires a GunFiredEvent when an alpha particle is fired.
+     *
+     * @param event the event
+     */
+    private void fireAlphaParticleFiredEvent( GunFiredEvent event ) {
+        assert( event.getPhoton() != null );
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == GunFiredListener.class ) {
+                ( (GunFiredListener)listeners[i + 1] ).alphaParticleFired( event );
             }
         }
     }

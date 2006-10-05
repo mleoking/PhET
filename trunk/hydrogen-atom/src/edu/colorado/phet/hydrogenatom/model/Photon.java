@@ -27,13 +27,10 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Photon extends DynamicObject {
+public class Photon extends DynamicObject implements IModelObject {
 
     private static final double DISTANCE_PER_DT = 1;
     
-    private static int ID = 0;
-    
-    private double _id;
     private double _wavelength;
     
     public Photon( Point2D position, double orientation, double wavelength ) {
@@ -42,7 +39,6 @@ public class Photon extends DynamicObject {
             throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
         }
         _wavelength = wavelength;
-        _id = ID++;
     }
     
     public double getWavelength() {
@@ -65,13 +61,13 @@ public class Photon extends DynamicObject {
         double dy = Math.sin( direction ) * distance;
         double x = getX() + dx;
         double y = getY() + dy;
-        System.out.println( "Photon.move distance=" + distance + " " + this );
         setPosition( x, y );
+        System.out.println( "Photon.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
     }
     
     public String toString() {
         String s = "Photon ";
-        s += ( "id=" + _id + " " );
+        s += ( "id=" + getId() + " " );
         s += ( "wavelength=" + DebugUtils.format( _wavelength ) + " " );
         s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
         s += ( "orientation=" + DebugUtils.format( Math.toDegrees( getOrientation() ) ) + " " );

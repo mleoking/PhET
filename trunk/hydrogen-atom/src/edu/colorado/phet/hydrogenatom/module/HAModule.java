@@ -37,9 +37,12 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.hydrogenatom.factory.ModelViewManager;
+import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.colorado.phet.hydrogenatom.model.Space;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
@@ -113,6 +116,7 @@ public class HAModule extends PiccoloModule {
     
     private Font _spectrometerFont;
 
+    private Model _model;
     private Gun _gun;
     private Space _space;
     
@@ -138,22 +142,29 @@ public class HAModule extends PiccoloModule {
 
         IClock clock = getClock();
         
+        // Model
+        {
+            _model = new Model( clock );
+        }
+        
         // Photon gun
         {
             Point2D position = new Point2D.Double( 0, 0 );
             double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
             double nozzleWidth = 50;
             _gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
-            clock.addClockListener( _gun );
         }
         
         // Space
         {
             double spaceWidth = _gun.getNozzleWidth();
-            double spaceHeight = 100;
-            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight, spaceWidth, spaceHeight );
-            _space = new Space( bounds, clock, _gun );
+            double spaceHeight = 200;
+            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight/2, spaceWidth, spaceHeight );
+            _space = new Space( bounds, _gun, _model );
         }
+        
+        _model.addModelObject( _gun );
+        _model.addModelObject( _space );
         
         //----------------------------------------------------------------------------
         // View
@@ -349,6 +360,14 @@ public class HAModule extends PiccoloModule {
             _rootNode.addChild( _energyDiagramParent );
             _rootNode.addChild( _notToScaleLabel );
         }
+        
+        //----------------------------------------------------------------------------
+        // Model-View management
+        //----------------------------------------------------------------------------
+        
+        ModelViewManager modelViewManager = new ModelViewManager( _model );
+        PhotonNodeFactory photonNodeFactory = new PhotonNodeFactory( _animationRegionNode );
+        modelViewManager.addNodeFactory( photonNodeFactory );
         
         //----------------------------------------------------------------------------
         // Control
