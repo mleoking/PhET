@@ -61,13 +61,8 @@ public class BulbComponentNode extends ComponentNode {
     }
 
     private void updateIntensity() {
-        double power = Math.abs( bulb.getCurrent() * bulb.getVoltageDrop() );
-        double maxPower = 60;
-        if( power > maxPower ) {
-            power = maxPower;
-        }
-        double intensity = Math.pow( power / maxPower, 0.354 );
-        bulbNode.setIntensity( intensity );
+
+        bulbNode.setIntensity( bulb.getIntensity() );
         //todo notify filament graphic
 //        for( int i = 0; i < listeners.size(); i++ ) {
 //            IntensityChangeListener intensityChangeListener = (IntensityChangeListener)listeners.get( i );

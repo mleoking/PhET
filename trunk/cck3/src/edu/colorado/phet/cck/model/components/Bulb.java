@@ -202,4 +202,12 @@ public class Bulb extends CircuitComponent {
 
     }
 
+    public double getIntensity() {
+        double power = Math.abs( getCurrent() * getVoltageDrop() );
+        double maxPower = 60;
+        if( power > maxPower ) {
+            power = maxPower;
+        }
+        return Math.pow( power / maxPower, 0.354 );
+    }
 }

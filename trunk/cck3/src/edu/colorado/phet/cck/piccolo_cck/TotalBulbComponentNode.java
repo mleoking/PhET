@@ -49,4 +49,8 @@ public class TotalBulbComponentNode extends BranchNode {
         conductorShape = b.createTransformedShape( conductorShape );
         return conductorShape;
     }
+
+    public Bulb getBulb() {
+        return bulb;
+    }
 }

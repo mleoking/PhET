@@ -1,7 +1,8 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.model.CurrentVoltListener;
+import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Filament;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -9,7 +10,6 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
 
 /**
  * User: Sam Reid
@@ -21,19 +21,16 @@ import java.awt.geom.GeneralPath;
 public class FilamentNode extends PhetPNode {
     private Filament fil;
     private TotalBulbComponentNode totalBulbComponentNode;
-    private Color color = Color.black;
     private Stroke stroke = new BasicStroke( 8 / 80.0f );
-    private BulbComponentGraphic.IntensityChangeListener intensityListener;
 
     public FilamentNode( Filament fil, TotalBulbComponentNode totalBulbComponentNode ) {
         this.fil = fil;
         this.totalBulbComponentNode = totalBulbComponentNode;
-        intensityListener = new BulbComponentGraphic.IntensityChangeListener() {
-            public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
-                color = new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) );
+        totalBulbComponentNode.getBulb().addCurrentVoltListener( new CurrentVoltListener() {
+            public void currentOrVoltageChanged( Branch branch ) {
+                update();
             }
-        };
-
+        } );
         fil.addObserver( new SimpleObserver() {
             public void update() {
                 FilamentNode.this.update();
@@ -57,9 +54,8 @@ public class FilamentNode extends PhetPNode {
     }
 
     private void update() {
-        GeneralPath p = fil.getPath();
-//        Shape x = AffineTransform.getTranslateInstance( -p.getBounds().x, -p.getBounds().y ).createTransformedShape( p );
-        PPath path = new PhetPPath( p, stroke, color );
+        double intensity = totalBulbComponentNode.getBulb().getIntensity();
+        PPath path = new PhetPPath( fil.getPath(), stroke, new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) ) );
         removeAllChildren();
         addChild( path );
     }
