@@ -39,6 +39,8 @@ public class AxisNode extends PNode {
     }
     public static final Orientation HORIZONTAL = new Orientation();
     public static final Orientation VERTICAL = new Orientation();
+    public static final Font axisFont = UIManager.getFont( "Label.font" );
+
 
 
     public AxisNode( String label,
@@ -57,13 +59,16 @@ public class AxisNode extends PNode {
         addChild( arrowNode );
 
         PText labelNode = new PText( label );
+        labelNode.setFont( axisFont );
         labelNode.setTextPaint( color );
+        double labelOffsetY = 0;
         if( textVerticalAlignment == TOP ) {
             arrowNode.setOffset( 0, 20 );
         }
         else if( textVerticalAlignment == BOTTOM ) {
-            labelNode.setOffset( 0, 10 );
+            labelOffsetY = 10;
         }
+        labelNode.setOffset( (arrowNode.getFullBounds().getWidth() - labelNode.getFullBounds().getWidth()) / 2, labelOffsetY );
         addChild( labelNode );
 
         if( orientation == VERTICAL ) {

@@ -127,7 +127,7 @@ public class A_AB_BC_C_Reaction extends Reaction {
      * @param mA
      */
     private void doReactionII( AbstractMolecule mAB, AbstractMolecule mBC, AbstractMolecule mA ) {
-        model.removeModelElement( mAB );
+        model.removeModelElement( mAB );        
         model.addModelElement( mBC );
         mA.setParentComposite( null );
 

@@ -267,10 +267,10 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         }
     }
 
-    private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
-        Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
-        return bond;
-    }
+//    private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
+//        Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
+//        return bond;
+//    }
 
     private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {
         List molecules = new ArrayList();

@@ -12,15 +12,10 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Box2D;
-import edu.colorado.phet.collision.SphereBoxExpert;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionAgent;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.A_AB_BC_C_Reaction;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.mechanics.Body;
 
 import java.util.List;
@@ -88,30 +83,9 @@ public class MRModel extends PublishingModel {
 
         // Add an agent that will create provisional bonds when appropriate
         addModelElement( new ProvisionalBondDetector( this ) );
-    }
 
-    public void addModelElement( ModelElement modelElement ) {
-        super.addModelElement( modelElement );
-        if( modelElement instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)modelElement;
-            Bond[] bonds = compositeMolecule.getBonds();
-            for( int i = 0; i < bonds.length; i++ ) {
-                Bond bond = bonds[i];
-                addModelElement( bond );
-            }
-        }
-    }
-
-    public void removeModelElement( ModelElement modelElement ) {
-        super.removeModelElement( modelElement );
-        if( modelElement instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)modelElement;
-            Bond[] bonds = compositeMolecule.getBonds();
-            for( int i = 0; i < bonds.length; i++ ) {
-                Bond bond = bonds[i];
-                removeModelElement( bond );
-            }
-        }
+        // Add a listener that will take care of adding and removing bonds from the model
+        addListener( new CompositeMolecule.DependentModelElementMonitor( this ));
     }
 
     public void setReaction( Reaction reaction ) {

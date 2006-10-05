@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
@@ -26,7 +27,7 @@ import java.util.*;
  * <p/>
  * A composite molecule is a molecule composed of other molecules. Its position is its
  * center of mass.
- * <p>
+ * <p/>
  * A CompsiteMolecule has an array of Bond instance. How they get added to the model is
  * not the responsibility of the CompositeMolecule class. Currently (9/27/2006), the MRModel
  * class does this itself when a CompositeMolecule is added to it.
@@ -61,7 +62,7 @@ abstract public class CompositeMolecule extends AbstractMolecule {
     private SimpleMolecule[] components;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
     private double orientation;
-    private Bond[]bonds;
+    private Bond[] bonds;
 
     /**
      * Default constructor is protected
@@ -82,7 +83,7 @@ abstract public class CompositeMolecule extends AbstractMolecule {
 
     public Bond[] getBonds() {
         if( bonds == null ) {
-            bonds = new Bond[]{new Bond( getComponentMolecules()[0], getComponentMolecules()[1] ) };
+            bonds = new Bond[]{new Bond( getComponentMolecules()[0], getComponentMolecules()[1] )};
         }
         return bonds;
     }
@@ -354,11 +355,13 @@ abstract public class CompositeMolecule extends AbstractMolecule {
         return numSimpleMolecules( this );
     }
 
-    public double getFullMass(){
+    public double getFullMass() {
         return getMass();
-    };
+    }
 
-    public double getFullKineticEnergy(){
+    ;
+
+    public double getFullKineticEnergy() {
         return getKineticEnergy();
     }
 
@@ -384,5 +387,48 @@ abstract public class CompositeMolecule extends AbstractMolecule {
 
     public void removeListener( Listener listener ) {
         eventChannel.removeListener( listener );
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    /**
+     * Adds the bonds of a CompositeMolecule to the model when the CompositeMolecule is added to
+     * the model, and removes the bonds when the CompositeMolecule is removed from the model
+     */
+    public static class DependentModelElementMonitor implements PublishingModel.ModelListener {
+        private PublishingModel model ;
+
+        public DependentModelElementMonitor( PublishingModel model ) {
+            this.model = model;
+        }
+
+        public void modelElementAdded( ModelElement element ) {
+            if( element instanceof CompositeMolecule ) {
+                CompositeMolecule  cm = (CompositeMolecule)element;
+                Bond[] bonds = cm.getBonds();
+                for( int i = 0; i < bonds.length; i++ ) {
+                    Bond bond = bonds[i];
+                    if( !model.getModelElements().contains( bond )) {
+                        model.addModelElement( bond );
+                    }
+                }
+            }
+        }
+
+        public void modelElementRemoved( ModelElement element ) {
+            if( element instanceof CompositeMolecule ) {
+                CompositeMolecule  cm = (CompositeMolecule)element;
+                Bond[] bonds = cm.getBonds();
+                for( int i = 0; i < bonds.length; i++ ) {
+                    Bond bond = bonds[i];
+                    if( model.getModelElements().contains( bond )) {
+                        model.removeModelElement( bond );
+                    }
+                }
+            }
+        }
     }
 }

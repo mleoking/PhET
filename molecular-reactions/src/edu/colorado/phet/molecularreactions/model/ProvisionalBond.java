@@ -95,6 +95,10 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
         return maxBondLength;
     }
 
+    public double getPotentialEnergy() {
+        return spring.getPotentialEnergy();
+    }
+
     /**
      * Removes a provisional bond from the model when a s
      */
