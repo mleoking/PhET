@@ -119,7 +119,7 @@ public class DynamicObject extends HAObservable implements ClockListener {
      * @param y
      */
     public void setPosition( double x, double y ) {
-        if ( x != _position.getX() && y != _position.getY() ) {
+        if ( x != _position.getX() || y != _position.getY() ) {
             _position.setLocation( x, y );
             notifyObservers( PROPERTY_POSITION );   
         }
