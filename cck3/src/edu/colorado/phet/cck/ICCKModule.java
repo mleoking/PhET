@@ -93,4 +93,6 @@ public interface ICCKModule {
     boolean isReadoutGraphicsVisible();
 
     VoltmeterModel getVoltmeterModel();
+
+    void addGrabBag();
 }

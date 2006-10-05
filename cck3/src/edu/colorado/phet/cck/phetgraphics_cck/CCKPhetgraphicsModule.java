@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.CCKTime;
 import edu.colorado.phet.cck.chart.CurrentStripChart;
 import edu.colorado.phet.cck.chart.VoltageStripChart;
+import edu.colorado.phet.cck.grabbag.GrabBagButton;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolver;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -16,6 +17,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.particles.ParticleSetGraph
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.application.PhetApplication;
@@ -31,6 +33,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -54,7 +58,8 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     private boolean electronsVisible = true;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
-//    public static final Color toolboxColor = new Color( 241, 241, 241 );
+    //    public static final Color toolboxColor = new Color( 241, 241, 241 );
+    private GrabBagButton grabBagButton;
 
     /**
      * PhetGraphics-specific data
@@ -484,5 +489,40 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
 
     public VoltmeterModel getVoltmeterModel() {
         return null;
+    }
+
+    public void addGrabBag() {
+
+        try {
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/bag.gif" );
+            grabBagButton = new GrabBagButton( this );
+            grabBagButton.setIcon( new ImageIcon( image ) );
+            getSimulationPanel().setLayout( null );
+            getSimulationPanel().add( grabBagButton );
+
+            getSimulationPanel().addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    updateButton();
+                }
+
+                public void componentShown( ComponentEvent e ) {
+                    updateButton();
+                }
+            } );
+            updateButton();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateButton() {
+        int w = grabBagButton.getPreferredSize().width;
+        int h = grabBagButton.getPreferredSize().height;
+
+        int insetX = 15;
+        int insetY = 15;
+        int x = getSimulationPanel().getWidth() - insetX - w;
+        grabBagButton.reshape( x, insetY, w, h );
     }
 }

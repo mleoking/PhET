@@ -14,3 +14,5 @@ grab bag items
 schematic?
 Capacitor needs charges to be painted.
 flame graphics
+
+bulb loaded incorrectly

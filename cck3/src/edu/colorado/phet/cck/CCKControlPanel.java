@@ -4,7 +4,6 @@ package edu.colorado.phet.cck;
 import edu.colorado.phet.cck.common.AdvancedPanel;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.controls.ResetDynamicsButton;
-import edu.colorado.phet.cck.grabbag.GrabBagButton;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
@@ -47,7 +46,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     private ICCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
-    private GrabBagButton grabBagButton;
+
     private JPanel advancedPanel;
 
     public CCKControlPanel( final ICCKModule module, Module m ) {
@@ -144,37 +143,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void addGrabBag() {
-        try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/bag.gif" );
-            grabBagButton = new GrabBagButton( module );
-            grabBagButton.setIcon( new ImageIcon( image ) );
-            module.getSimulationPanel().setLayout( null );
-            module.getSimulationPanel().add( grabBagButton );
-
-            module.getSimulationPanel().addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    updateButton();
-                }
-
-                public void componentShown( ComponentEvent e ) {
-                    updateButton();
-                }
-            } );
-            updateButton();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateButton() {
-        int w = grabBagButton.getPreferredSize().width;
-        int h = grabBagButton.getPreferredSize().height;
-
-        int insetX = 15;
-        int insetY = 15;
-        int x = module.getSimulationPanel().getWidth() - insetX - w;
-        grabBagButton.reshape( x, insetY, w, h );
+        module.addGrabBag();
     }
 
     private JPanel makeSizePanel() {

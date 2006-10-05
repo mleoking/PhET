@@ -89,6 +89,9 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         return measurementToolSet.getVoltmeterModel();
     }
 
+    public void addGrabBag() {
+    }
+
     public void setVirtualAmmeterVisible( boolean selected ) {
         cckSimulationPanel.setVirtualAmmeterVisible( selected );
     }
