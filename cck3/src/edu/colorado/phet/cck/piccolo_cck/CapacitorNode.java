@@ -7,9 +7,13 @@ import edu.colorado.phet.cck.model.components.Capacitor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -36,6 +40,7 @@ public class CapacitorNode extends ComponentNode {
     private double scale = 1.0 / 80.0;
     private WireStubNode rightWire;
     private WireStubNode leftWire;
+    private int numToShow = 0;
 
     public CapacitorNode( CCKModel model, Capacitor capacitor, Component component, ICCKModule module ) {
         super( model, capacitor, component );
@@ -86,18 +91,30 @@ public class CapacitorNode extends ComponentNode {
         leftWire.setWireStubShape( capacitor3DShapeSet.getPlate1Wire() );
         rightWire.setWireStubShape( capacitor3DShapeSet.getPlate2Wire() );
         getHighlightNode().setPathTo( capacitor3DShapeSet.getPlateArea() );
+
+        updateChargeDisplay();
     }
 
     class PlateNode extends PhetPNode {
         private PhetPPath path;
+        private PhetPNode chargeLayer = new PhetPNode();
 
         public PlateNode() {
             path = new PhetPPath( tan, new BasicStroke( 1.0f / 60.0f ), Color.black );
             addChild( path );
+            addChild( chargeLayer );
         }
 
         public void setPlateShape( Shape shape ) {
             path.setPathTo( shape );
+        }
+
+        public void removeChargeGraphics() {
+            chargeLayer.removeAllChildren();
+        }
+
+        public void addChargeNode( PNode chargeNode ) {
+            chargeLayer.addChild( chargeNode );
         }
     }
 
@@ -111,5 +128,76 @@ public class CapacitorNode extends ComponentNode {
 
     public Branch getBranch() {
         return capacitor;
+    }
+
+    private interface ChargeGraphic {
+        Shape createGraphic( Point2D plus );
+    }
+
+    private void updateChargeDisplay() {
+        double maxCharge = 1;
+        double MAX_NUM_TO_SHOW = 100;
+        int numToShow = (int)Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
+                                       MAX_NUM_TO_SHOW );
+        setNumDisplayedCharges( numToShow );
+    }
+
+    private void setNumDisplayedCharges( int numToShow ) {
+        this.numToShow = numToShow;
+        leftPlate.removeChargeGraphics();
+        rightPlate.removeChargeGraphics();
+        ChargeGraphic plate1Graphic = new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                return !( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+            }
+        };
+        ChargeGraphic plate2Graphic = new ChargeGraphic() {
+            public Shape createGraphic( Point2D center ) {
+                return ( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+            }
+        };
+
+        Color plate1ChargeColor = !( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+        Color plate2ChargeColor = ( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+
+        double w = capacitor3DShapeSet.getWidth();
+        double L = capacitor3DShapeSet.getLength();
+        double alpha = Math.sqrt( numToShow / w / L );
+        int numAcross = (int)( w * alpha );
+        int numDown = (int)( L * alpha );
+        double dw = w / numAcross;
+        double dL = L / numDown;
+        double widthSpanInset = ( dw ) / 2.0;
+        double lengthSpanInset = ( dL ) / 2.0;
+        double offsetFromCenterW = 0;
+        double offsetFromCenterL = 0;
+        if( numAcross == 1 ) {
+            offsetFromCenterW = 5 * SCALE;
+            offsetFromCenterL = 0;
+        }
+        for( int i = 0; i < numAcross; i++ ) {
+            for( int j = 0; j < numDown; j++ ) {
+                double u = -w / 2.0 + i * dw + widthSpanInset + offsetFromCenterW;
+                double v = -L / 2.0 + j * dL + lengthSpanInset + offsetFromCenterL;
+                Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );
+                Point2D loc2 = capacitor3DShapeSet.getPlate2Location( u, v );
+                leftPlate.addChargeNode( new PhetPPath( plate1Graphic.createGraphic( loc ), plate1ChargeColor ) );
+                rightPlate.addChargeNode( new PhetPPath( plate2Graphic.createGraphic( loc2 ), plate2ChargeColor ) );
+            }
+        }
+    }
+
+    double SCALE = 1.0 / 60.0;
+
+    private Shape createPlusGraphic( Point2D loc ) {
+        double w = 2 * SCALE;
+        Area area = new Area( new Rectangle2D.Double( loc.getX() - w, loc.getY(), w * 2 + 1 * SCALE, 1 * SCALE ) );
+        area.add( new Area( new Rectangle2D.Double( loc.getX(), loc.getY() - w, 1 * SCALE, w * 2 + 1 * SCALE ) ) );
+        return area;
+    }
+
+    private Shape createMinusGraphic( Point2D loc ) {
+        double w = 2 * SCALE;
+        return new Area( new Rectangle2D.Double( loc.getX() - w, loc.getY(), w * 2 + 1 * SCALE, 1 * SCALE ) );
     }
 }
