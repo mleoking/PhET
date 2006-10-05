@@ -224,7 +224,6 @@ public class HAClockControlPanel extends JPanel {
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
         _clock.setSimulationTimeChange( HAConstants.CLOCK_STEPS[index] );
-        _clock.resetSimulationTime(); // so the clock display doesn't overflow
     }
     
     private void handlePlay() {
