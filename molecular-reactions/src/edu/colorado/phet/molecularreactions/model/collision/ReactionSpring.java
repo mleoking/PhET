@@ -35,9 +35,6 @@ import java.awt.geom.Line2D;
 public class ReactionSpring extends Body implements ModelElement {
 
     double k;
-    double omega;
-    double phi;
-    double A;
     double restingLength;
     Line2D extent;
     Body attachedBody;
@@ -45,6 +42,59 @@ public class ReactionSpring extends Body implements ModelElement {
     private Spring[] componentSprings;
     // The composite body formed by the two molecules attached to the spring
     private CompositeBody cb;
+
+    /**
+     * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
+     * @param dl            The specified length of deformation
+     * @param restingLength
+     * @param bodies        An array of two Body instances
+     */
+    public ReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies, double initialLength ) {
+//        this( 2 * pe / ( dl * dl ), restingLength, bodies );
+        // Find the CM of the bodies. This will be the fixed point
+        // of the two springs
+        cb = new CompositeBody();
+//        cb.addBody( bodies[0] );
+//        cb.addBody( bodies[1] );
+        cb.addBody( bodies[0].getFullMolecule() );
+        cb.addBody( bodies[1].getFullMolecule() );
+        Point2D fixedPt = cb.getCM();
+
+        double l0 = initialLength * bodies[1].getFullMass() / cb.getMass();
+        double l1 = initialLength * bodies[0].getFullMass() / cb.getMass();
+//        componentSprings[0].setPhi( initialLength * l0 / componentSprings[0].getA() );
+//        componentSprings[1].setPhi( initialLength * l1 / componentSprings[1].getA() );
+        this.k = 2 * pe / ( dl * dl );
+        this.restingLength = restingLength;
+        extent = new Line2D.Double();
+
+        // Create component springs
+//        componentSprings = createComponentSprings( bodies );
+        Spring[] springs = new Spring[2];
+
+        // Compute the spring constants for the two component springs
+        double k0 = k * cb.getMass() / bodies[1].getFullMolecule().getMass();
+        double k1 = k * cb.getMass() / bodies[0].getFullMolecule().getMass();
+
+        // Compute the resting lengths of the springs
+        double rl0 = restingLength * bodies[1].getFullMass() / cb.getMass();
+        double rl1 = restingLength * bodies[0].getFullMass() / cb.getMass();
+//        double rl0 = fixedPt.distance( bodies[0].getPosition() ) - bodies[0].getRadius();
+//        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
+
+        // Make the component springs, with the bodies attached
+//        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );
+//        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1] );
+        double alpha = new Vector2D.Double( bodies[0].getPosition(), bodies[1].getPosition()).getAngle();
+        double d0 = Math.max( 0, fixedPt.distance( bodies[0].getPosition() ) - bodies[0].getRadius() );
+        springs[0] = new Spring( k0, rl0, fixedPt, alpha );
+        springs[0].attachBodyAtSpringLength( bodies[0].getFullMolecule(),d0 );
+        double d1 = Math.max( 0, fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius() );
+        springs[1] = new Spring( k1, rl1, fixedPt, alpha + Math.PI );
+        springs[1].attachBodyAtSpringLength( bodies[1].getFullMolecule(), d1 );
+
+        componentSprings = springs;
+    }
 
     /**
      * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
@@ -91,8 +141,10 @@ public class ReactionSpring extends Body implements ModelElement {
         double k1 = k * cb.getMass() / bodies[0].getFullMolecule().getMass();
 
         // Compute the resting lengths of the springs
-        double rl0 = fixedPt.distance( bodies[0].getPosition() ) - bodies[0].getRadius();
-        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
+        double rl0 = restingLength * bodies[1].getFullMass() / cb.getMass();// - bodies[0].getRadius();
+        double rl1 = restingLength * bodies[0].getFullMass() / cb.getMass();//- bodies[1].getRadius();
+//        double rl0 = fixedPt.distance( bodies[0].getPosition() ) - bodies[0].getRadius();
+//        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
         // Make the component springs, with the bodies attached
 //        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );

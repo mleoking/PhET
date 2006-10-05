@@ -28,7 +28,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
 //                                                                    100 );
-                                                                    50 );
+50 );
     private MRModel model;
 
     /**
@@ -136,6 +136,24 @@ public class A_BC_AB_C_Reaction extends Reaction {
         // Compute the kinematics of the released molecule
         HardBodyCollision collision = new HardBodyCollision();
         collision.detectAndDoCollision( newComposite, newFreeMolecule );
+
+        // Add kinetic energy to the molecules equivalent to the difference in potential energy
+        // between the peak and the flat
+        double floorPE = 0;
+        if( newComposite instanceof MoleculeAB ) {
+            floorPE = getEnergyProfile().getRightLevel();
+        }
+        else {
+            floorPE = getEnergyProfile().getLeftLevel();
+        }
+        double dPE = getEnergyProfile().getPeakLevel() - floorPE;
+        double vC0 = newComposite.getSpeed();
+        double vC1 = Math.sqrt( 2 * ( dPE / 2 ) / newComposite.getMass() + vC0 * vC0 );
+        newComposite.setVelocity( newComposite.getVelocity().normalize().scale( vC1 ));
+        double vF0 = newFreeMolecule.getSpeed();
+        double vF1 = Math.sqrt( 2 * ( dPE / 2 ) / newFreeMolecule.getMass() + vF0 * vF0 );
+        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().normalize().scale( vF1 ));
+        
     }
 
 
