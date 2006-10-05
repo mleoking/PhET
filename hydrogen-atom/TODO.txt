@@ -3,10 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-- why don't PhotonNodes appear in the atom box?
-- work out details of mapping between model and view coordinate systems (currently 1:1)
 
 HIGH PRIORITY:
+- handle model-view transform properly
+- incorporate intensity into firing of Gun model
+- add zoom buttons to atom box so that it's supported
+- add Developer menu for calibrating various internal settings
 - generalize creating a "panel" node to fit under a collection of nodes
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
@@ -36,6 +38,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/4/06) - center align icons in Legend
 (10/4/06) - don't reset the clock when sim speed is changed
 (10/4/06) - add very kludgy ModelViewTransform, photons & alpha particles animating in atom box
 (10/4/06) - implement Model

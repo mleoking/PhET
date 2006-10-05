@@ -103,19 +103,19 @@ public class LegendPanel extends JPanel {
         setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.EAST );
+        layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.EAST );
+        layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( neutronImage, row, col++, 1, 1, GridBagConstraints.EAST );
+        layout.addComponent( neutronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( neutronText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( protonImage, row, col++, 1, 1, GridBagConstraints.EAST );
+        layout.addComponent( protonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( protonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( electronImage, row, col++, 1, 1, GridBagConstraints.EAST );
+        layout.addComponent( electronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( electronText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
     }
