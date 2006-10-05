@@ -11,10 +11,6 @@ component dimensions
 improve component constructor interface
 
 grab bag items
-
 schematic?
-
-Capacitor & Inductor need popup menus.
 Capacitor needs charges to be painted.
-
 flame graphics
