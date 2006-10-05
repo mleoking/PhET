@@ -65,7 +65,6 @@ public class Space implements GunFiredListener, Observer, ClockListener, IModelO
     //----------------------------------------------------------------------------
     
     public void removeAllPhotons() {
-        System.out.println( "Space.removeAllPhotons" );//XXX
         ArrayList a = new ArrayList( _photons );
         Iterator i = a.iterator();
         while ( i.hasNext() ) {
@@ -74,7 +73,6 @@ public class Space implements GunFiredListener, Observer, ClockListener, IModelO
     }
     
     public void removeAllAlphaParticles() {
-        System.out.println( "Space.removeAllAlphaParticles" );//XXX
         ArrayList a = new ArrayList( _alphaParticles );
         Iterator i = a.iterator();
         while ( i.hasNext() ) {
@@ -84,14 +82,12 @@ public class Space implements GunFiredListener, Observer, ClockListener, IModelO
     
     private void addPhoton( Photon photon ) {
         assert( photon != null );
-        System.out.println( "Space.addPhoton " + photon );//XXX
         _photons.add( photon );
         _model.addModelObject( photon );
     }
     
     private void removePhoton( Photon photon ) {
         assert( photon != null );
-        System.out.println( "Space.removePhoton " + photon );//XXX
         _photons.remove( photon );
         _model.removeModelObject( photon );
     }

@@ -85,15 +85,13 @@ public class ModelViewManager implements ModelListener {
      * @param event
      */
     public void modelObjectAdded( ModelEvent event ) {
-        
-        System.out.println( "ModelViewManager.modelObjectAdded " + event.getModelObject() );//XXX
 
+//        System.out.println( "ModelViewManager.modelObjectAdded " + event.getModelObject() );//XXX
+        
         IModelObject modelObject = event.getModelObject();
         Class modelObjectClass = modelObject.getClass();
         NodeFactory factory = (NodeFactory) _modelObjectClassToNodeFactoryMap.get( modelObjectClass );
 
-        System.out.println( "ModelViewManager.modelObjectAdded, factory=" + factory );//XXX
-        
         if ( factory != null ) {
             PNode node = factory.createNode( modelObject );
             PNode parent = factory.getParent();
@@ -111,14 +109,16 @@ public class ModelViewManager implements ModelListener {
      */
     public void modelObjectRemoved( ModelEvent event ) {
         
-        IModelObject modelElement = event.getModelObject();
-        NodeRecord nodeRecord = (NodeRecord) _modelObjectToNodeRecordMap.get( modelElement );
+//        System.out.println( "ModelViewManager.modelObjectRemoved " + event.getModelObject() );//XXX
+        
+        IModelObject modelObject = event.getModelObject();
+        NodeRecord nodeRecord = (NodeRecord) _modelObjectToNodeRecordMap.get( modelObject );
         
         if ( nodeRecord != null ) {
             PNode node = nodeRecord.getNode();
             PNode parent = nodeRecord.getParent();
             parent.removeChild( node );
-            _modelObjectToNodeRecordMap.remove( modelElement );
+            _modelObjectToNodeRecordMap.remove( modelObject );
         }
     }
     

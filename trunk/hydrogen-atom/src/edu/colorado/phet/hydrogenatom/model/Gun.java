@@ -63,7 +63,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
     private static final int PHOTONS_PER_DT = 1;
-    private static final int ALPHA_PARTICLES_PER_DT = 50;
+    private static final int ALPHA_PARTICLES_PER_DT = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -327,7 +327,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         
         // Start with the gun's origin at zero, gun pointing to the right
         double x = 0;
-        double y = _random.nextDouble() * _nozzleWidth;
+        double y = ( _random.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
 
         // Rotate by gun's orientation
         Point2D p1 = new Point2D.Double( x, y );
@@ -533,7 +533,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * @param event the event
      */
     private void fireAlphaParticleFiredEvent( GunFiredEvent event ) {
-        assert( event.getPhoton() != null );
+        assert( event.getAlphaParticle() != null );
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == GunFiredListener.class ) {

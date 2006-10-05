@@ -29,7 +29,7 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  */
 public class Photon extends DynamicObject implements IModelObject {
 
-    private static final double DISTANCE_PER_DT = 1;
+    private static final double DISTANCE_PER_DT = 5;
     
     private double _wavelength;
     
@@ -62,7 +62,7 @@ public class Photon extends DynamicObject implements IModelObject {
         double x = getX() + dx;
         double y = getY() + dy;
         setPosition( x, y );
-        System.out.println( "Photon.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
+//        System.out.println( "Photon.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
     }
     
     public String toString() {
