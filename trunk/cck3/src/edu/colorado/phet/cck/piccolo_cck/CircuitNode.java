@@ -197,4 +197,20 @@ public class CircuitNode extends PhetPNode {
     public ClipFactory getClipFactory() {
         return clipFactory;
     }
+
+    public int getNumJunctionNodes() {
+        return junctionLayer.getChildrenCount();
+    }
+
+    public JunctionNode getJunctionNode( int i ) {
+        return (JunctionNode)junctionLayer.getChild( i );
+    }
+
+    public int getNumBranchNodes() {
+        return branchLayer.getChildrenCount();
+    }
+
+    public BranchNode getBranchNode( int i ) {
+        return (BranchNode)branchLayer.getChild( i );
+    }
 }
