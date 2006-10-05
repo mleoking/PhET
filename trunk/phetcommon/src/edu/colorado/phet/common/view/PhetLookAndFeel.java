@@ -47,11 +47,13 @@ import java.util.List;
  * @version $Revision$
  */
 public class PhetLookAndFeel {
-    public static final String PHET_LOGO_120x50 = "images/phet-logo-120x50.jpg";
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
+    public static final String PHET_LOGO_120x50 = "images/phet-logo-120x50.jpg";
+    
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
             "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
