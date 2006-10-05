@@ -18,13 +18,11 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.hydrogenatom.model.Gun.AlphaParticleFiredEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.AlphaParticleFiredListener;
-import edu.colorado.phet.hydrogenatom.model.Gun.PhotonFiredEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.PhotonFiredListener;
+import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredEvent;
+import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
 
 /**
  * Space models the space that photons and alpha particles travel through,
@@ -33,15 +31,15 @@ import edu.colorado.phet.hydrogenatom.model.Gun.PhotonFiredListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Space implements PhotonFiredListener, AlphaParticleFiredListener, Observer {
+public class Space implements GunFiredListener, Observer, ClockListener, IModelObject {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Rectangle2D _bounds;
-    private IClock _clock;
     private Gun _gun;
+    private Model _model;
     private ArrayList _photons; // array of Photon
     private ArrayList _alphaParticles; // array of AlphaParticle
     
@@ -49,25 +47,17 @@ public class Space implements PhotonFiredListener, AlphaParticleFiredListener, O
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Space( Rectangle2D bounds, IClock clock, Gun gun ) {
+    public Space( Rectangle2D bounds, Gun gun, Model model ) {
         
         _bounds = new Rectangle2D.Double();
         _gun = gun;
-        _clock = clock;
+        _model = model;
         _bounds.setRect( bounds );
         _photons = new ArrayList();
         _alphaParticles = new ArrayList();
         
-        _clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                updatePhotons();
-                updateAlphaParticles();
-            }
-        });
-        
         _gun.addObserver( this );
-        _gun.addPhotonFiredListener( this );
-        _gun.addAlphaParticleFiredListener( this );
+        _gun.addGunFiredListener( this );
     }
     
     //----------------------------------------------------------------------------
@@ -93,29 +83,29 @@ public class Space implements PhotonFiredListener, AlphaParticleFiredListener, O
     }
     
     private void addPhoton( Photon photon ) {
+        assert( photon != null );
         System.out.println( "Space.addPhoton " + photon );//XXX
         _photons.add( photon );
-        _clock.addClockListener( photon );
-        //TODO add to view
+        _model.addModelObject( photon );
     }
     
     private void removePhoton( Photon photon ) {
+        assert( photon != null );
         System.out.println( "Space.removePhoton " + photon );//XXX
         _photons.remove( photon );
-        _clock.removeClockListener( photon );
-        //TODO remove from view
+        _model.removeModelObject( photon );
     }
     
     private void addAlphaParticle( AlphaParticle alphaParticle ) {
+        assert( alphaParticle != null );
         _alphaParticles.add( alphaParticle ); 
-        _clock.addClockListener( alphaParticle );
-        //TODO add to view
+        _model.addModelObject( alphaParticle );
     }
     
     private void removeAlphaParticle( AlphaParticle alphaParticle ) {
+        assert( alphaParticle != null );
         _alphaParticles.remove( alphaParticle );
-        _clock.removeClockListener( alphaParticle );
-        //TODO remove from view
+        _model.removeModelObject( alphaParticle );
     }
     
     // Remove photons that are outside the space.
@@ -145,18 +135,14 @@ public class Space implements PhotonFiredListener, AlphaParticleFiredListener, O
     }
     
     //----------------------------------------------------------------------------
-    // PhotonFiredListener implementation
+    // GunFiredListener implementation
     //----------------------------------------------------------------------------
     
-    public void photonFired( PhotonFiredEvent event ) {
+    public void photonFired( GunFiredEvent event ) {
         addPhoton( event.getPhoton() );
     }
-
-    //----------------------------------------------------------------------------
-    // AlphaParticleFiredListener implementation
-    //----------------------------------------------------------------------------
     
-    public void alphaParticleFired( AlphaParticleFiredEvent event ) {
+    public void alphaParticleFired( GunFiredEvent event ) {
         addAlphaParticle( event.getAlphaParticle() );
     }
     
@@ -176,4 +162,21 @@ public class Space implements PhotonFiredListener, AlphaParticleFiredListener, O
             }
         }
     }
+
+    //----------------------------------------------------------------------------
+    // ClockListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void clockTicked( ClockEvent clockEvent ) {
+        updateAlphaParticles();
+        updatePhotons();
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {}
+
+    public void clockPaused( ClockEvent clockEvent ) {}
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }

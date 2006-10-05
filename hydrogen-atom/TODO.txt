@@ -34,6 +34,10 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/4/06) - implement Model
+(10/4/06) - IModelObject marker interface for all objects that are part of the model
+(10/4/06) - PhotonNodeFactory for creating pnodes for photon model elements
+(10/4/06) - steal ModelViewManager concepts from molecular-reactions sim
 (10/4/06) - add public interface for creating Image to PhotonNode and AlphaParticleNode
 (10/4/06) - make AlphaParticleNode observer of AlphaParticle
 (10/4/06) - make PhotonNode observer of Photon
