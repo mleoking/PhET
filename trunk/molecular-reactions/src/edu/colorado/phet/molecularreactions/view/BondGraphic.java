@@ -28,8 +28,8 @@ import java.awt.*;
  */
 public class BondGraphic extends PPath implements SimpleObserver {
     private Stroke bondStroke = new BasicStroke( 3 );
-    private Paint bondPaint = new Color( 0, 160, 0, 180 );
-//    private Paint bondPaint = new Color( 255, 0, 0, 180 );
+//    private Paint bondPaint = new Color( 0, 160, 0, 180 );
+    private Paint bondPaint = new Color( 255, 0, 0, 180 );
     private Line2D bondLine = new Line2D.Double( );
     private Bond bond;
 
