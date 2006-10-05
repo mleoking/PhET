@@ -46,10 +46,10 @@ public class VirtualAmmeterNode extends PhetPNode {
                 PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
                 Rectangle2D.Double rect = getFullBounds();
                 Rectangle2D proposedBounds = AffineTransform.getTranslateInstance( pt.width, pt.height ).createTransformedShape( rect ).getBounds2D();
-                if( module.getCCKModel().getModelBounds().contains( proposedBounds ) ) {
-                    translate( pt.width, pt.height );
-                    update();
-                }
+//                if( module.getCCKModel().getModelBounds().contains( proposedBounds ) ) {
+                translate( pt.width, pt.height );
+                update();
+//                }
             }
         } );
         addInputEventListener( new CursorHandler() );

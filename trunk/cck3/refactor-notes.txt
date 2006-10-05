@@ -1,12 +1,10 @@
 To Do:
 Are we allowing schematic mode?  I remember hearing (informally) it wasn't too useful.
+sometimes junctions bump off each other too easily?
 
 bulb loaded incorrectly
-sometimes junctions bump off each other too easily.
-help
 zoom (small med large)
 
-component dimensions
 improve component constructor interface
 
 Comments:
