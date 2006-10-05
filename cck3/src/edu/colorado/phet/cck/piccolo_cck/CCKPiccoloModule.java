@@ -237,4 +237,9 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void applicationStarted() {
         cckSimulationPanel.applicationStarted();
     }
+
+    public void setHelpEnabled( boolean enabled ) {
+        super.setHelpEnabled( enabled );
+        cckSimulationPanel.setHelpEnabled( enabled );
+    }
 }

@@ -118,6 +118,11 @@ public class CCKApplication extends PiccoloPhetApplication {
             setLogoPanel( null );
         }
 
+        public void setHelpEnabled( boolean enabled ) {
+            super.setHelpEnabled( enabled );
+            cckModule.setHelpEnabled( enabled );
+        }
+
         public void activate() {
             super.activate();
             Bulb.setHeightScale( 0.25 );

@@ -1,13 +1,15 @@
-component menus
-component dimensions
-improve component constructor interface
-flame graphics
->>I'm ignoring bulb (already pretty exciting when current is high)
->>Capacitor (maybe not realistic, also code wasn't trivial).
-
-schematic?
+To Do:
+Are we allowing schematic mode?  I remember hearing (informally) it wasn't too useful.
 
 bulb loaded incorrectly
 sometimes junctions bump off each other too easily.
-wiggle me
 help
+zoom (small med large)
+
+component dimensions
+improve component constructor interface
+
+Comments:
+flame graphics
+>>I'm ignoring bulb (already pretty exciting when current is high)
+>>Capacitor (maybe not realistic, also code wasn't trivial).

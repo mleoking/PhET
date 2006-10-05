@@ -14,4 +14,9 @@ public class CCKStrings {
     public static String getString( String s ) {
         return SimStrings.get( s );
     }
+
+    public static String toHTML( String key ) {
+        String text = getString( key );
+        return "<html>" + text.replaceAll( "\n", "<br>" ) + "</html>";
+    }
 }

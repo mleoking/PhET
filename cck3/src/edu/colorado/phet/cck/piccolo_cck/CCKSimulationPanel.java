@@ -32,7 +32,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private CircuitNode circuitNode;
     private MessageNode messageNode;
     private MeasurementToolSetNode measurementToolSetNode;
-    private CCKHelpNode cckHelpNode;
+    private CCKHelpSuite cckHelpSuite;
 
     public CCKSimulationPanel( CCKModel model, ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
@@ -70,8 +70,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
-        cckHelpNode = new CCKHelpNode( this, module );
-        addScreenChild( cckHelpNode );
+        cckHelpSuite = new CCKHelpSuite( this, module );
+        addScreenChild( cckHelpSuite );
     }
 
     private void relayout() {
@@ -145,6 +145,10 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     public void applicationStarted() {
-        cckHelpNode.applicationStarted();
+        cckHelpSuite.applicationStarted();
+    }
+
+    public void setHelpEnabled( boolean enabled ) {
+        cckHelpSuite.setHelpEnabled( enabled );
     }
 }
