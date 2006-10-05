@@ -45,7 +45,6 @@ public class CCKHelpNode extends PhetPNode {
             this.cckSimulationPanel = cckSimulationPanel;
             this.module = module;
             pointAt( cckSimulationPanel.getToolboxNode(), cckSimulationPanel );
-            setFollowEnabled( true );
         }
     }
 
@@ -61,7 +60,6 @@ public class CCKHelpNode extends PhetPNode {
 
         private void updateFollow() {
             pointAt( followedBranch.getGlobalFullBounds().getCenter2D() );
-            setFollowEnabled( true );
         }
 
         public BranchHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
@@ -114,7 +112,6 @@ public class CCKHelpNode extends PhetPNode {
 
         private void updateFollow() {
             pointAt( followedJunction.getGlobalFullBounds().getCenter2D() );
-            setFollowEnabled( true );
         }
 
         public JunctionHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
