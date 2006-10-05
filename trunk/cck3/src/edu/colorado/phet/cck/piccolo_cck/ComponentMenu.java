@@ -106,7 +106,7 @@ public abstract class ComponentMenu {
         public ResistorMenu( Resistor res, ICCKModule module ) {
             super( res, module );
             this.res = res;
-            if( res instanceof GrabBagResistor ) {
+            if( res instanceof GrabBagResistor ) {//todo this should have a separate class, not reuse ResistorMenu
                 addRemoveButton( getMenu(), module, res );
             }
             else {

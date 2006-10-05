@@ -10,7 +10,6 @@ component menus
 component dimensions
 improve component constructor interface
 
-grab bag items
 schematic?
 Capacitor needs charges to be painted.
 flame graphics
