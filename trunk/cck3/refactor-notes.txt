@@ -1,9 +1,9 @@
 To Do:
 Are we allowing schematic mode?  I remember hearing (informally) it wasn't too useful.
 sometimes junctions bump off each other too easily?
+zoom (small med large)?
 
 bulb loaded incorrectly
-zoom (small med large)
 
 improve component constructor interface
 
