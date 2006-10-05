@@ -7,7 +7,10 @@ IN PROGRESS:
 HIGH PRIORITY:
 - handle model-view transform properly
 - with gun on low intensty, 1 photon in box; high intensity, 10 photons
-- add Developer menu for calibrating various internal settings
+- add Developer dialog for calibrating various internal settings
+- add photon velocity control to Developer dialog
+- add min/max photons control to Developer dialog
+- implement Billiard Ball atomic model
 - generalize creating a "panel" node to fit under a collection of nodes
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
@@ -18,6 +21,10 @@ HIGH PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
+- implement Solar System atomic model
+- implement Bohr atomic model
+- implement deBroglie atomic model
+- implement spectrometer model
 - design code to accommodate zoom controls on animation region (possible feature)
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
@@ -30,6 +37,9 @@ MEDIUM PRIORITY:
 - handle Photon orientation in PhotonNode
 
 LOW PRIORITY:
+- implement Plum Pudding atomic model
+- implement Schrodinger atomic model
+- implement energy diagrams, reuse Ron's stuff
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
