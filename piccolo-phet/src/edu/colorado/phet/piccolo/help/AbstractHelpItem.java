@@ -66,15 +66,6 @@ public abstract class AbstractHelpItem extends PNode {
     }
 
     /**
-     * Sets this help item to follow its target, if it has a target
-     */
-    protected void setFollowEnabled( boolean b ) {
-        if( _follower != null ) {
-            _follower.setFollowEnabled( b );
-        }
-    }
-
-    /**
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
