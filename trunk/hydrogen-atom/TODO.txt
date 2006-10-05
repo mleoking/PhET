@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- rename AnimationrRegionNode -> AtomBox
 - handle model-view transform properly
 - incorporate intensity into firing of Gun model
-- add zoom buttons to atom box so that it's supported
 - add Developer menu for calibrating various internal settings
 - generalize creating a "panel" node to fit under a collection of nodes
 - add x-axis ticks and labels to spectrometer
@@ -38,6 +38,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/5/06) - attach wiggleme to gun's on/off button, remove wiggleme position from SimStrings
 ***** CVS tag hydrogenatom-0-00-04-2006-10-04
 (10/4/06) - center align icons in Legend
 (10/4/06) - don't reset the clock when sim speed is changed
@@ -202,6 +203,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(10/5/06) - add zoom buttons to atom box so that it's supported (complicates implementation, unlikely feature)
 (9/14/06) - design a gun control that shoots either one-shot or continuous (intensity controls do this)
 (9/14/06) - delete intensity controls for gun (keep them)
 (9/14/06) - configurable gun nozzle size, make it match height of black box (interface was changed)

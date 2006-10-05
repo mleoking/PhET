@@ -20,6 +20,7 @@ import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -94,6 +95,18 @@ public class GunNode extends PhetPNode implements Observer {
         _gun.addObserver( this );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets a handle to the button, for the purposes of attaching a Wiggle Me.
+     * @return PNode
+     */
+    public PNode getButtonNode() {
+        return _offButton;
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
