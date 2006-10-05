@@ -1,4 +1,4 @@
-package edu.colorado.phet.molecularreactions;/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -8,6 +8,7 @@ package edu.colorado.phet.molecularreactions;/* Copyright 2003-2004, University 
  * Revision : $Revision$
  * Date modified : $Date$
  */
+package edu.colorado.phet.molecularreactions;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -40,7 +41,7 @@ public class MRApplication extends PiccoloPhetApplication {
                SimStrings.get( "Application.description" ),
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 700 ) );
-        
+
         SimpleModule simpleModule = new SimpleModule();
         SpringTestModule springTestModule = new SpringTestModule();
         SpringTestModule2 springTestModule2 = new SpringTestModule2();
