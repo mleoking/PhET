@@ -40,6 +40,8 @@ LOW PRIORITY:
 - implement Plum Pudding atomic model
 - implement Schrodinger atomic model
 - implement energy diagrams, reuse Ron's stuff
+- message for when atom has been ionized
+- message for when atom has been destroyed
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
