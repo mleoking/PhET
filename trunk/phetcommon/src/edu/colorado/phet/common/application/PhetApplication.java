@@ -202,6 +202,7 @@ public class PhetApplication {
 
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
+
 //        started = true;
     }
 

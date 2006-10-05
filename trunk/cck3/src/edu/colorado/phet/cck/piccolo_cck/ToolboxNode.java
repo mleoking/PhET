@@ -39,6 +39,7 @@ public class ToolboxNode extends PhetPNode {
     private CircuitInteractionModel circuitInteractionModel;
     private ICCKModule module;
     private AmmeterMaker ammeterMaker;
+    private ToolboxNode.WireMaker wireMaker;
 
     public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module ) {
         this.module = module;
@@ -50,7 +51,8 @@ public class ToolboxNode extends PhetPNode {
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
         addChild( toolboxBounds );
 
-        addBranchMaker( new WireMaker() );
+        wireMaker = new WireMaker();
+        addBranchMaker( wireMaker );
         addBranchMaker( new ResistorMaker() );
         addBranchMaker( new BatteryMaker() );
         addBranchMaker( new BulbMaker() );
@@ -324,5 +326,9 @@ public class ToolboxNode extends PhetPNode {
             double L = 2.0;
             return new SeriesAmmeter( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 0.6 );
         }
+    }
+
+    public WireMaker getWireMaker() {
+        return wireMaker;
     }
 }

@@ -29,12 +29,19 @@ import java.util.Arrays;
 public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
+    private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
+    private CCKPiccoloModule cckPiccoloModule;
 
-    public static String getSubTitle( String[]args ) {
+    public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
     }
 
-    public CCKApplication( String[]args ) throws IOException {
+    public void startApplication() {
+        super.startApplication();
+        cckPiccoloModule.applicationStarted();
+    }
+
+    public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
                SimStrings.get( "CCKApplication.description" ),
                readVersion() );
@@ -45,8 +52,8 @@ public class CCKApplication extends PiccoloPhetApplication {
             System.out.println( "debugMode = " + debugMode );
         }
 
-        CCKPhetGraphicModuleAdapter phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
-        CCKPiccoloModule cckPiccoloModule = new CCKPiccoloModule( args );
+        phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
+        cckPiccoloModule = new CCKPiccoloModule( args );
 //        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
         Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         setModules( modules );
@@ -93,7 +100,7 @@ public class CCKApplication extends PiccoloPhetApplication {
         /* Aspect ratio panel used in single-module setups*/
         private AspectRatioPanel aspectRatioPanel;
 
-        public CCKPhetGraphicModuleAdapter( String[]args ) throws IOException {
+        public CCKPhetGraphicModuleAdapter( String[] args ) throws IOException {
             super( "CCK-phetgraphics", new SwingClock( 30, 1 ) );
 
             cckModule = new CCKPhetgraphicsModule( args );
