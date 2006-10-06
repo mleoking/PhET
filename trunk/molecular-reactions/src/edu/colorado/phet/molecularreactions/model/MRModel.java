@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
@@ -19,6 +20,7 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.util.List;
 import java.util.EventListener;
+import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
 /**
@@ -53,6 +55,7 @@ public class MRModel extends PublishingModel {
     private Reaction reaction;
     private SelectedMoleculeTracker selectedMoleculeTracker;
     private double potentialEnergyStored;
+    private List potentialEnergySources = new ArrayList();
 
     /**
      * Constructor
@@ -62,12 +65,19 @@ public class MRModel extends PublishingModel {
     public MRModel( IClock clock ) {
         super( clock );
 
+        setInitialConditions();
+
+        // Add a listener that will take care of adding and removing bonds from the model
+        addListener( new CompositeMolecule.DependentModelElementMonitor( this ));
+    }
+
+    public void setInitialConditions() {
         // Create the reaction object;
         reaction = new A_BC_AB_C_Reaction( this );
 
         // Add a box
         box = new Box2D( new Point2D.Double( 30, 30 ),
-                         new Point2D.Double( 250, 350 ),
+                         new Point2D.Double( 380, 330 ),
                          0 );
         addModelElement( box );
 
@@ -82,9 +92,23 @@ public class MRModel extends PublishingModel {
 
         // Add an agent that will create provisional bonds when appropriate
         addModelElement( new ProvisionalBondDetector( this ) );
+    }
 
-        // Add a listener that will take care of adding and removing bonds from the model
-        addListener( new CompositeMolecule.DependentModelElementMonitor( this ));
+    public void addPotentialEnergySource( PotentialEnergySource peSource ) {
+        potentialEnergySources.add( peSource );
+    }
+
+    public void removePotentialEnergySource( PotentialEnergySource peSource ) {
+        potentialEnergySources.remove( peSource );
+    }
+
+    public double getPotentialEnergy() {
+        double pe = 0;
+        for( int i = 0; i < potentialEnergySources.size(); i++ ) {
+            PotentialEnergySource source = (PotentialEnergySource)potentialEnergySources.get( i );
+            pe += source.getPE();
+        }
+        return pe;
     }
 
     public void setReaction( Reaction reaction ) {

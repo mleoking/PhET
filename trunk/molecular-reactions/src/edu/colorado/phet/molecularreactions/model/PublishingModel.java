@@ -95,6 +95,15 @@ public class PublishingModel extends BaseModel {
         modelListenerProxy.modelElementRemoved( modelElement );
     }
 
+    /**
+     * Overrides parent behavior so that listeners will be notified
+     */
+    public void removeAllModelElements() {
+        while( modelElements.size() > 0 ) {
+            removeModelElement( (ModelElement)modelElements.get( 0 ));
+        }        
+    }
+
     public ArrayList getModelElements() {
         return modelElements;
     }

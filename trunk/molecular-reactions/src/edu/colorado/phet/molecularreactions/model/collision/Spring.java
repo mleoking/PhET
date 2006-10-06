@@ -265,4 +265,7 @@ public class Spring extends SimpleObservable implements ModelElement {
     public double getPotentialEnergy() {
         return pe;
     }
+
+    public void setLength( double v ) {
+    }
 }
