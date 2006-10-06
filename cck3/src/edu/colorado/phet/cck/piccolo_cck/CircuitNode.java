@@ -47,7 +47,11 @@ public class CircuitNode extends PhetPNode {
         branchLayer = new PNode();
         junctionLayer = new PNode();
         clipFactory = new ClipFactory() {
+
+
             public Shape getClip( ElectronNode electronNode ) {
+//                return null;
+
                 if( electronNode.getElectron().getBranch() instanceof Bulb ) {
                     TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
                     return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
