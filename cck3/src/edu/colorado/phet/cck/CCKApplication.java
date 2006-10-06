@@ -5,11 +5,13 @@ import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.piccolo.TabbedModulePanePiccolo;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -26,11 +28,12 @@ import java.util.Arrays;
  * Copyright (c) Jul 7, 2006 by Sam Reid
  */
 
-public class CCKApplication extends PiccoloPhetApplication {
+public class CCKApplication extends PhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
     private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
+    private ITabbedModulePane tabbedModulePane;
 
     public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
@@ -72,7 +75,11 @@ public class CCKApplication extends PiccoloPhetApplication {
 //            }
 //        } );
     }
-    
+
+    public ITabbedModulePane createTabbedPane() {
+        return new TabbedModulePanePiccolo( false );
+    }
+
     public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
     }
@@ -81,6 +88,7 @@ public class CCKApplication extends PiccoloPhetApplication {
         super.startApplication();
         cckPiccoloModule.applicationStarted();
     }
+
     private static String readVersion() {
         URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
         try {
