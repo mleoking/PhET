@@ -168,7 +168,7 @@ mazegame mazegame
 microwaves microwaves
 
 # Molecular-reactions
-molecular-reactions molecular-reactions &piccolo-phet-module &mechanics-dir &collision-dir
+molecular-reactions molecular-reactions &piccolo-phet-module &mechanics-dir &collision-dir &jfreechart-phet-module 
 
 # Motion 2D
 motion2d motion2d
