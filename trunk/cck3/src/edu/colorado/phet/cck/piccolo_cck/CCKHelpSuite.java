@@ -54,7 +54,7 @@ public class CCKHelpSuite extends PhetPNode {
     public void applicationStarted() {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                final PNode node = cckSimulationPanel.getToolboxNode().getWireMaker();
+                final PNode node = cckSimulationPanel.getWireMaker();
                 motionHelpBalloon.animateTo( node );
             }
         } );

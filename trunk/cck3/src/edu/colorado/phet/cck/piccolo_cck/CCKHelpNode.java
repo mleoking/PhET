@@ -44,7 +44,7 @@ public class CCKHelpNode extends PhetPNode {
             super( cckSimulationPanel, CCKStrings.toHTML( "CCKHelp.ToolboxHelp" ), RIGHT_BOTTOM, 30 );
             this.cckSimulationPanel = cckSimulationPanel;
             this.module = module;
-            pointAt( cckSimulationPanel.getToolboxNode(), cckSimulationPanel );
+            pointAt( cckSimulationPanel.getToolboxNodeSuite(), cckSimulationPanel );
         }
     }
 
