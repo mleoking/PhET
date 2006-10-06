@@ -8,6 +8,7 @@ import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.*;
+import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicBatteryNode;
 import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicResistorNode;
 import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicWireNode;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -170,7 +171,7 @@ public class CircuitNode extends PhetPNode {
             return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
         }
         else if( branch instanceof Battery ) {
-            return new BatteryNode( cckModel, (Battery)branch, component, module );
+            return new SchematicBatteryNode( cckModel, (Battery)branch, component, module );
         }
         else if( branch instanceof Bulb ) {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
@@ -179,7 +180,7 @@ public class CircuitNode extends PhetPNode {
             return new SwitchNode( cckModel, (Switch)branch, component );
         }
         else if( branch instanceof Capacitor ) {
-            return new CapacitorNode( cckModel, (Capacitor)branch, component, module );
+            return new SchematicCapacitorNode( cckModel, (Capacitor)branch, component, module );
         }
         else if( branch instanceof Inductor ) {
             return new InductorNode( cckModel, (Inductor)branch, component, module );
