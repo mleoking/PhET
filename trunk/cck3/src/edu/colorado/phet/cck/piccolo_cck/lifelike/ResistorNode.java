@@ -39,7 +39,7 @@ public class ResistorNode extends ComponentImageNode {
     }
 
     protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.ResistorMenu( resistor, module ).getMenuComponent();
+        return new ComponentMenu.ResistorMenu( resistor, module );
     }
 
     protected void update() {

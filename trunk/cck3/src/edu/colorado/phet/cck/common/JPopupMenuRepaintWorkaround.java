@@ -12,10 +12,10 @@ import java.awt.*;
  * Time: 3:57:52 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RepaintyMenu extends JPopupMenu {
+public class JPopupMenuRepaintWorkaround extends JPopupMenu {
     private Component target;
 
-    public RepaintyMenu( Component target ) {
+    public JPopupMenuRepaintWorkaround( Component target ) {
         this.target = target;
         addPopupMenuListener( new PopupMenuListener() {
             public void popupMenuCanceled( PopupMenuEvent e ) {

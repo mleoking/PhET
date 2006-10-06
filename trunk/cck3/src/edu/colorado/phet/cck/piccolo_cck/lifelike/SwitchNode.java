@@ -39,7 +39,7 @@ public class SwitchNode extends SwitchBodyNode {
     }
 
     protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.SwitchMenu( s, module ).getMenuComponent();
+        return new ComponentMenu.SwitchMenu( s, module );
     }
 
     class SwitchLeverNode extends PhetPNode {

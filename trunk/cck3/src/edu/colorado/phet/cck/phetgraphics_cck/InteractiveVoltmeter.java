@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck;
 
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Connection;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.tools.VoltmeterGraphic;
@@ -73,7 +73,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 setLeadsVertical( jcbmi.isSelected() );
             }
         } );
-        JPopupMenu jpm = new RepaintyMenu( module.getApparatusPanel() );
+        JPopupMenu jpm = new JPopupMenuRepaintWorkaround( module.getApparatusPanel() );
         jpm.add( jcbmi );
         unitInteraction.addPopupMenuBehavior( jpm );
         addGraphic( unitInteraction );

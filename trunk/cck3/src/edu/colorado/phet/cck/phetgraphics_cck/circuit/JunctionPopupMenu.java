@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 9:48:27 PM
  * Copyright (c) May 28, 2004 by Sam Reid
  */
-public class JunctionPopupMenu extends RepaintyMenu {
+public class JunctionPopupMenu extends JPopupMenuRepaintWorkaround {
     private Junction junction;
     private CircuitGraphic circuitGraphic;
     private JunctionSplitter splitter;
