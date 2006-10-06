@@ -1,5 +1,6 @@
 To Do:
-Schematic node.
+Schematic mode lever graphic.
+Schematic mode bulb graphic.
 sometimes junctions bump off each other too easily?
 zoom (small med large)?
 

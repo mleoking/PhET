@@ -120,10 +120,6 @@ public class SchematicOscillateNode extends ComponentNode {
         return -10 * Math.sin( ( x - dist * fracDistToStartSine ) * omega ) * SCALE;
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return null;
-    }
-
     public CircuitComponent getCircuitComponent() {
         return component;
     }
@@ -140,7 +136,4 @@ public class SchematicOscillateNode extends ComponentNode {
         return catPoint;
     }
 
-//    public boolean contains( int x, int y ) {
-//        return mouseArea.contains( x, y );
-//    }
 }
