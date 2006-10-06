@@ -10,3 +10,5 @@ improve component constructor interface
 Comments:
 For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
 and capacitor (maybe not realistic, also code wasn't free).
+
+capacitor clip for electrons (electrons should look like they enter and leave plates). 
