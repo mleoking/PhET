@@ -5,9 +5,7 @@ import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.*;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicBatteryNode;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicResistorNode;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicWireNode;
+import edu.colorado.phet.cck.piccolo_cck.schematic.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -52,7 +50,7 @@ public class BranchNodeFactory {
             return new SchematicResistorNode( cckModel, (Resistor)branch, component, module );
         }
         else if( branch instanceof ACVoltageSource ) {
-            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
+            return new SchematicACNode( cckModel, (ACVoltageSource)branch, component, module );
         }
         else if( branch instanceof Battery ) {
             return new SchematicBatteryNode( cckModel, (Battery)branch, component, module );
@@ -67,7 +65,7 @@ public class BranchNodeFactory {
             return new SchematicCapacitorNode( cckModel, (Capacitor)branch, component, module );
         }
         else if( branch instanceof Inductor ) {
-            return new InductorNode( cckModel, (Inductor)branch, component, module );
+            return new SchematicInductorNode( cckModel, (Inductor)branch, component, module );
         }
         else if( branch instanceof SeriesAmmeter ) {
             return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
