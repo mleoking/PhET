@@ -647,6 +647,8 @@ public class PhetTabbedPane extends JPanel {
         private PImage logo;
         private AbstractTabNode selectedTab;
         private static final int LEFT_TAB_INSET = 10;
+        private boolean logoObscured = false;
+        private boolean logoVisible = true;
 
         public TabPane( Color selectedTabColor ) {
             logo = PImageFactory.create( IMAGE_PHET_LOGO );
@@ -723,10 +725,12 @@ public class PhetTabbedPane extends JPanel {
             if( tabs.size() > 0 ) {
                 AbstractTabNode lastTab = (AbstractTabNode)tabs.get( tabs.size() - 1 );
                 if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
-                    logo.setVisible( false );
+                    logoObscured = true;
+                    updateLogoVisible();
                 }
                 else {
-                    logo.setVisible( true );
+                    logoObscured = false;
+                    updateLogoVisible();
                 }
             }
         }
@@ -834,12 +838,18 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public void setLogoVisible( boolean logoVisible ) {
-            logo.setVisible( logoVisible );
+            this.logoVisible = logoVisible;
+            updateLogoVisible();
         }
 
         public boolean getLogoVisible() {
-            return logo.getVisible();
+            return logoVisible;
         }
+
+        private void updateLogoVisible() {
+            logo.setVisible( logoVisible && !logoObscured );
+        }
+
     }
 
     /**
