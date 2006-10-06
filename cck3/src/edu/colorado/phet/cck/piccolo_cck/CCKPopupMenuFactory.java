@@ -28,7 +28,7 @@ public class CCKPopupMenuFactory {
             return new ComponentMenu.SeriesAmmeterMenu( (SeriesAmmeter)branch, module );
         }
         else if( branch instanceof ACVoltageSource ) {
-            return new PiccoloACVoltageSourceMenu( (Battery)branch, module );
+            return new ComponentMenu.ACVoltageSourceMenu( (Battery)branch, module );
         }
         else if( branch instanceof Battery ) {
             return new ComponentMenu.BatteryJMenu( (Battery)branch, module );

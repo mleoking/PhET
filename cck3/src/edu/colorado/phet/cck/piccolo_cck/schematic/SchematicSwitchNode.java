@@ -3,7 +3,6 @@ package edu.colorado.phet.cck.piccolo_cck.schematic;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Switch;
-import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.SwitchBodyNode;
 import edu.colorado.phet.common.math.Vector2D;
@@ -40,9 +39,9 @@ public class SchematicSwitchNode extends SwitchBodyNode {
         getpImage().setVisible( false );
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.SwitchMenu( s, module );
-    }
+//    protected JPopupMenu createPopupMenu() {
+//        return new ComponentMenu.SwitchMenu( s, module );
+//    }
 
     class SwitchLeverNode extends PhetPNode {
         private PNode imagePNode;
