@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public abstract class ComponentMenu extends AbstractComponentMenu {
+public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     private ICCKModule module;
     private Branch branch;
     private JCheckBoxMenuItem setVisibleItem;
@@ -28,22 +28,57 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         this.module = module;
     }
 
-    public boolean isVisiblityRequested() {
-        if( branch instanceof GrabBagResistor ) {
-            return false;
+    protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
+        final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
+        menu.addPopupMenuListener( new PopupMenuListener() {
+            public void popupMenuCanceled( PopupMenuEvent e ) {
+            }
+
+            public void popupMenuWillBecomeInvisible( PopupMenuEvent e ) {
+            }
+
+            public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
+                showValue.setSelected( module.isReadoutVisible( branch ) );
+            }
+        } );
+        showValue.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setReadoutVisible( branch, showValue.isSelected() );
+            }
+        } );
+        if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
+            if( module.getParameters().allowShowReadouts() ) {
+                menu.add( showValue );
+            }
+
         }
-        return setVisibleItem.isSelected();
+        return showValue;
     }
 
-//    protected void finish() {
-//        
-//    }
+    protected void addRemoveButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
+        JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
+        remove.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getCCKModel().getCircuit().removeBranch( branch );
+            }
+        } );
+        int num = menu.getComponentCount();
+        if( num > 0 ) {
+            menu.addSeparator();
+        }
+        menu.add( remove );
+    }
 
-    protected void initRemoveButton() {
+
+    protected JCheckBoxMenuItem getSetVisibleItem() {
+        return setVisibleItem;
+    }
+
+    protected void addRemoveButton() {
         addRemoveButton( this, module, branch );
     }
 
-    protected void initShowValueButton() {
+    protected void addShowValueButton() {
         setVisibleItem = createShowValueButton( this, module, branch );
     }
 
@@ -82,8 +117,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
                     }
                 } );
                 add( edit );
-                initShowValueButton();
-                initRemoveButton();
+                addShowValueButton();
+                addRemoveButton();
             }
         }
 
@@ -124,8 +159,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( edit );
             add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.inductor" ), inductor ) );
-            initShowValueButton();
-            initRemoveButton();
+            addShowValueButton();
+            addRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -161,8 +196,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( edit );
             add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
-            initShowValueButton();
-            initRemoveButton();
+            addShowValueButton();
+            addRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -222,8 +257,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
                 }
             } );
             add( flip );
-            initShowValueButton();
-            initRemoveButton();
+            addShowValueButton();
+            addRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -246,8 +281,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
 
         public DefaultComponentMenu( Branch branch, ICCKModule module ) {
             super( branch, module );
-            initShowValueButton();
-            initRemoveButton();
+            addShowValueButton();
+            addRemoveButton();
         }
     }
 
@@ -257,20 +292,17 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         }
     }
 
-    public static class BatteryJMenu extends AbstractComponentMenu {
+    public static class BatteryJMenu extends ComponentMenu {
         private Battery battery;
-        private ICCKModule module;
         private JMenuItem editInternal;
 
         public static final ArrayList instances = new ArrayList();
         private ComponentEditor.BatteryResistanceEditor resistanceEditor;
         private ComponentEditor editor;
-        private JCheckBoxMenuItem setVisibleItem;
 
         public BatteryJMenu( final Battery branch, ICCKModule module ) {
-            super( module.getSimulationPanel() );
+            super( branch, module );
             this.battery = branch;
-            this.module = module;
             JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
             editor = createVoltageEditor( branch );
             edit.addActionListener( new ActionListener() {
@@ -299,8 +331,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( reverse );
 
-            setVisibleItem = createShowValueButton( this, module, branch );
-            addRemoveButton( this, module, branch );
+            addShowValueButton();
+            addRemoveButton();
             instances.add( this );
         }
 
@@ -311,16 +343,12 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         protected void addOptionalItemsAfterEditor() {
         }
 
-        public ICCKModule getModule() {
-            return module;
-        }
-
         protected ComponentEditor createVoltageEditor( Battery branch ) {
-            return new ComponentEditor.BatteryEditor( module, branch, module.getSimulationPanel(), module.getCircuit() );
+            return new ComponentEditor.BatteryEditor( super.getModule(), branch, getModule().getSimulationPanel(), getModule().getCircuit() );
         }
 
         public void show( Component invoker, int x, int y ) {
-            editInternal.setEnabled( module.isInternalResistanceOn() );
+            editInternal.setEnabled( getModule().isInternalResistanceOn() );
             super.show( invoker, x, y );
         }
 
@@ -347,24 +375,25 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         }
 
         public boolean isVisiblityRequested() {
-            return setVisibleItem.isSelected();
+            return getSetVisibleItem().isSelected();
         }
 
         public void setVisibilityRequested( boolean b ) {
-            if( setVisibleItem.isSelected() != b ) {
-                setVisibleItem.doClick( 20 );
+            if( getSetVisibleItem().isSelected() != b ) {
+                getSetVisibleItem().doClick( 20 );
             }
         }
     }
 
+    protected ICCKModule getModule() {
+        return module;
+    }
 
     public static class GrabBagResistorMenu extends ComponentMenu {
-
         public GrabBagResistorMenu( GrabBagResistor res, ICCKModule module ) {
             super( res, module );
             addRemoveButton( getMenu(), module, res );
         }
-
     }
 }
 

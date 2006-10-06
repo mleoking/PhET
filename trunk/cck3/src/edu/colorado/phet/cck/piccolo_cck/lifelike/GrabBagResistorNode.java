@@ -4,7 +4,6 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
-import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;
@@ -30,8 +29,8 @@ public class GrabBagResistorNode extends ComponentImageNode {
         } );
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.ResistorMenu( resistor, module );//todo this should have a separate class, not reuse ResistorMenu
-    }
+//    protected JPopupMenu createPopupMenu() {
+//        return new ComponentMenu.ResistorMenu( resistor, module );//todo this should have a separate class, not reuse ResistorMenu
+//    }
 
 }
