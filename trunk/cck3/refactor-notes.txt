@@ -15,3 +15,5 @@ and capacitor (maybe not realistic, also code wasn't free).
 capacitor clip for electrons (electrons should look like they enter and leave plates).
  
  light bulb connect at left (from popup menu) broken
+ 
+ unconnected circuit with switch & ac had buggy electron flow
