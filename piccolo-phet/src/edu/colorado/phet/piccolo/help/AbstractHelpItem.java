@@ -277,6 +277,8 @@ public abstract class AbstractHelpItem extends PNode {
             Rectangle2D fullBounds = node.getFullBounds();
             // Get the node's global bounds - above the root node's transform, but below the canvas's view transform.
             Rectangle2D globalFullBounds = node.getParent().localToGlobal( fullBounds );
+            
+            //TODO: perhaps this code should transform this.globalToLocal(globalFullBounds) to identify the correct location.
             // Apply the canvas' view transform to get bounds in the canvas' coordinate system.
             PCamera camera = canvas.getCamera();
             PAffineTransform transform = camera.getViewTransformReference();
