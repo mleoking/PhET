@@ -13,7 +13,6 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -29,8 +28,8 @@ public class BulbComponentNode extends ComponentNode {
     private Bulb bulb;
     private ICCKModule module;
 
-    public BulbComponentNode( CCKModel model, Bulb bulb, Component component, ICCKModule module ) {
-        super( model, bulb, component );
+    public BulbComponentNode( CCKModel model, Bulb bulb, JComponent component, ICCKModule module ) {
+        super( model, bulb, component, module );
         this.bulb = bulb;
         this.module = module;
         bulbNode = new BulbNode( bulb );

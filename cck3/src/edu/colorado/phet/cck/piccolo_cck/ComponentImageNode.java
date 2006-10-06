@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
@@ -7,7 +8,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import java.awt.*;
+import javax.swing.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -23,8 +24,8 @@ public abstract class ComponentImageNode extends ComponentNode {
     private PImage pImage;
     private FlameNode flameNode;
 
-    public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image, Component component ) {
-        super( model, circuitComponent, component );
+    public ComponentImageNode( final CCKModel model, final CircuitComponent circuitComponent, BufferedImage image, JComponent component, ICCKModule module ) {
+        super( model, circuitComponent, component, module );
         pImage = new PImage( image );
         addChild( pImage );
         flameNode = new FlameNode( getBranch() );

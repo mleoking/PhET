@@ -1,8 +1,10 @@
 package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKImageSuite;
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Switch;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -12,7 +14,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import java.awt.*;
+import javax.swing.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -26,12 +28,18 @@ import java.awt.image.BufferedImage;
 
 public class SwitchNode extends SwitchBodyNode {
     private Switch s;
+    private ICCKModule module;
 
-    public SwitchNode( CCKModel model, Switch s, Component component ) {
-        super( model, s, component );
+    public SwitchNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
+        super( model, s, component, module );
         this.s = s;
+        this.module = module;
         SwitchLeverNode switchLeverNode = new SwitchLeverNode();//so the transform on switchBodyNode won't interfere
         addChild( switchLeverNode );
+    }
+
+    protected JPopupMenu createPopupMenu() {
+        return new ComponentMenu.SwitchMenu( s, module ).getMenuComponent();
     }
 
     class SwitchLeverNode extends PhetPNode {

@@ -1,7 +1,9 @@
 package edu.colorado.phet.cck.piccolo_cck.schematic;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Switch;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.SwitchBodyNode;
 import edu.colorado.phet.common.math.Vector2D;
@@ -27,17 +29,19 @@ import java.awt.geom.Rectangle2D;
 
 public class SchematicSwitchNode extends SwitchBodyNode {
     private Switch s;
+    private ICCKModule module;
 
-    public SchematicSwitchNode( CCKModel model, Switch s, Component component ) {
-        super( model, s, component );
+    public SchematicSwitchNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
+        super( model, s, component, module );
         this.s = s;
+        this.module = module;
         SchematicSwitchNode.SwitchLeverNode switchLeverNode = new SchematicSwitchNode.SwitchLeverNode();//so the transform on switchBodyNode won't interfere
         addChild( switchLeverNode );
         getpImage().setVisible( false );
     }
 
     protected JPopupMenu createPopupMenu() {
-        return null;
+        return new ComponentMenu.SwitchMenu( s, module ).getMenuComponent();
     }
 
     class SwitchLeverNode extends PhetPNode {

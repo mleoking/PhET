@@ -31,9 +31,9 @@ public class SchematicPlatedNode extends ComponentNode {
     private double scaleHeightRight;
     private PhetPPath path;
 
-    public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, Component component, ICCKModule module, double wireThickness, double fracDistToPlate,
+    public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, ICCKModule module, double wireThickness, double fracDistToPlate,
                                 double scaleHeightLeft, double scaleHeightRight ) {
-        super( cckModel, circuitComponent, component );
+        super( cckModel, circuitComponent, component, module );
         this.fracDistToPlate = fracDistToPlate;
         this.scaleHeightLeft = scaleHeightLeft;
         this.scaleHeightRight = scaleHeightRight;

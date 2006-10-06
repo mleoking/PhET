@@ -34,7 +34,7 @@ public class SchematicOscillateNode extends ComponentNode {
     private static final double SCALE = 1.0 / 60.0;
 
     public SchematicOscillateNode( CCKModel parent, CircuitComponent circuitComponent, JComponent jComponent, ICCKModule module, double wireThickness ) {
-        super( parent, circuitComponent, jComponent );
+        super( parent, circuitComponent, jComponent, module );
         this.component = circuitComponent;
         this.wireThickness = wireThickness;
         simpleObserver = new SimpleObserver() {

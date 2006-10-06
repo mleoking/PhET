@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.cck.piccolo_cck.PiccoloACVoltageSourceMenu;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -21,8 +20,8 @@ public class ACVoltageSourceNode extends ComponentImageNode {
     private ICCKModule module;
     private ACVoltageSource acVoltageSource;
 
-    public ACVoltageSourceNode( CCKModel model, ACVoltageSource acVoltageSource, Component component, ICCKModule module ) {
-        super( model, acVoltageSource, CCKImageSuite.getInstance().getACVoltageSourceImage(), component );
+    public ACVoltageSourceNode( CCKModel model, ACVoltageSource acVoltageSource, JComponent component, ICCKModule module ) {
+        super( model, acVoltageSource, CCKImageSuite.getInstance().getACVoltageSourceImage(), component, module );
         this.module = module;
         this.acVoltageSource = acVoltageSource;
     }

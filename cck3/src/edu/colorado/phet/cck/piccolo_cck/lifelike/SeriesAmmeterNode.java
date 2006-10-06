@@ -48,13 +48,13 @@ public class SeriesAmmeterNode extends ComponentNode {
     private PText textGraphic;
     private Area area;
 
-    public SeriesAmmeterNode( Component parent, final SeriesAmmeter component, ICCKModule module, String fixedMessage ) {
+    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, ICCKModule module, String fixedMessage ) {
         this( parent, component, module );
         this.fixedMessage = fixedMessage;
     }
 
-    public SeriesAmmeterNode( Component parent, final SeriesAmmeter component, final ICCKModule module ) {
-        super( module.getCCKModel(), component, parent );
+    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final ICCKModule module ) {
+        super( module.getCCKModel(), component, parent, module );
         this.component = component;
         this.module = module;
 

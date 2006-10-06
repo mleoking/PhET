@@ -8,6 +8,7 @@ import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.nodes.PClip;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -23,7 +24,7 @@ public class BulbTopLayer extends PClip {
     private TotalBulbComponentNode totalBulbComponentNode;
 //    private PPath debugChild;
 
-    public BulbTopLayer( CCKModel cckModel, Bulb bulb, Component component, ICCKModule module ) {
+    public BulbTopLayer( CCKModel cckModel, Bulb bulb, JComponent component, ICCKModule module ) {
         this.bulb = bulb;
         totalBulbComponentNode = new TotalBulbComponentNode( cckModel, bulb, component, module );
         totalBulbComponentNode.removeFilamentNode();

@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -23,12 +24,15 @@ import java.awt.*;
 public abstract class ComponentNode extends BranchNode {
     private CCKModel model;
     private CircuitComponent circuitComponent;
+    private ICCKModule module;
     private CircuitInteractionModel circuitInteractionModel;
     private PPath highlightNode;
+    private JComponent parent;
 
-    public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, Component parent ) {
+    public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, JComponent parent, ICCKModule module ) {
         this.model = model;
         this.circuitComponent = circuitComponent;
+        this.module = module;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
 
         highlightNode = new PPath();
@@ -61,9 +65,12 @@ public abstract class ComponentNode extends BranchNode {
                 return ComponentNode.this.createPopupMenu();
             }
         } ) );
+        this.parent = parent;
     }
 
-    protected abstract JPopupMenu createPopupMenu();
+    protected JPopupMenu createPopupMenu() {
+        return new CCKPopupMenuFactory( module ).createPopupMenu( circuitComponent );
+    }
 
     protected void update() {
         highlightNode.setVisible( circuitComponent.isSelected() );
@@ -79,5 +86,13 @@ public abstract class ComponentNode extends BranchNode {
 
     public CircuitComponent getCircuitComponent() {
         return circuitComponent;
+    }
+
+    public CCKModel getCCKModel() {
+        return model;
+    }
+
+    public JComponent getJComponent() {
+        return parent;
     }
 }
