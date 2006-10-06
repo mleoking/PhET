@@ -121,10 +121,6 @@ public class SchematicResistorNode extends ComponentNode {
         return catPoint;
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return null;
-    }
-
     public Branch getBranch() {
         return component;
     }

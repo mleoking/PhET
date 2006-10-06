@@ -50,10 +50,6 @@ public class SchematicPlatedNode extends ComponentNode {
         setVisible( true );
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return null;
-    }
-
     protected void update() {
         super.update();
         Point2D src = getBranch().getStartJunction().getPosition();

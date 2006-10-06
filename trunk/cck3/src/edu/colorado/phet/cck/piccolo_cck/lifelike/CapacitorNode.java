@@ -6,7 +6,6 @@ import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Capacitor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.Capacitor3DShapeSet;
 import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
-import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -80,10 +79,6 @@ public class CapacitorNode extends ComponentNode {
         public void setWireStubShape( Shape shape ) {
             path.setPathTo( shape );
         }
-    }
-
-    protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.CapacitorMenu( capacitor, module ).getMenuComponent();
     }
 
     public void update() {

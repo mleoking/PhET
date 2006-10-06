@@ -20,7 +20,4 @@ public class SwitchBodyNode extends ComponentImageNode {
         super( model, s, CCKImageSuite.getInstance().getKnifeBoardImage(), component, module );
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return null;
-    }
 }

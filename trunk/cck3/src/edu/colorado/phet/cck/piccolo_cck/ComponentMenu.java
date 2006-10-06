@@ -395,5 +395,37 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             addRemoveButton( getMenu(), module, res );
         }
     }
+
+    public static class ACVoltageSourceMenu extends ComponentMenu.BatteryJMenu {
+
+        public ACVoltageSourceMenu( Battery branch, ICCKModule module ) {
+            super( branch, module );
+        }
+
+        protected ComponentEditor createVoltageEditor( Battery branch ) {
+            return new ComponentEditor.ACVoltageSourceEditor( getModule(), (ACVoltageSource)branch, getModule().getSimulationPanel(), getModule().getCircuit() );
+        }
+
+        protected void addOptionalItemsAfterEditor() {
+            super.addOptionalItemsAfterEditor();
+            JMenuItem edit = new JMenuItem( "Frequency" );
+            final ComponentEditor editor = createFrequencyEditor( (ACVoltageSource)getBattery() );
+            edit.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    editor.setVisible( true );
+                }
+            } );
+            add( edit );
+        }
+
+        private ComponentEditor createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
+            return new ComponentEditor( getModule(), "AC Frequency", acVoltageSource, getModule().getSimulationPanel(),
+                                        "Frequency", "Hz", 0, 10, 1.0, getModule().getCircuit() ) {
+                protected void doChange( double value ) {
+                    acVoltageSource.setFrequency( value / 100.0 );
+                }
+            };
+        }
+    }
 }
 

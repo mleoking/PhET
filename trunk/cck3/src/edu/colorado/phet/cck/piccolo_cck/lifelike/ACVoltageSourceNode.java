@@ -5,7 +5,6 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.ACVoltageSource;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
-import edu.colorado.phet.cck.piccolo_cck.PiccoloACVoltageSourceMenu;
 
 import javax.swing.*;
 
@@ -26,7 +25,4 @@ public class ACVoltageSourceNode extends ComponentImageNode {
         this.acVoltageSource = acVoltageSource;
     }
 
-    protected JPopupMenu createPopupMenu() {
-        return new PiccoloACVoltageSourceMenu( acVoltageSource, module ).getMenuComponent();
-    }
 }

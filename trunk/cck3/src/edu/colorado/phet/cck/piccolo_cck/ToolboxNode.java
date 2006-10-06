@@ -164,7 +164,6 @@ public class ToolboxNode extends PhetPNode {
         //This assumes the branch is always centered on the mouse.
         private void setBranchLocationFromEvent( PInputEvent event ) {
             Point2D location = getWorldLocation( event );
-            System.out.println( "location = " + location );
             double dx = createdBranch.getEndPoint().getX() - createdBranch.getStartPoint().getX();
             double dy = createdBranch.getEndPoint().getY() - createdBranch.getStartPoint().getY();
             createdBranch.getStartJunction().setPosition( location.getX() - dx / 2,

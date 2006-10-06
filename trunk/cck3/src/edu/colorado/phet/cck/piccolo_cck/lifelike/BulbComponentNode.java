@@ -4,7 +4,6 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.Bulb;
-import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.ModelSlider;
@@ -131,10 +130,6 @@ public class BulbComponentNode extends ComponentNode {
         transform.translate( -1.0, -2.3 );//todo magic numbers
 
         return transform;
-    }
-
-    protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.BulbMenu( bulb, module ).getMenuComponent();
     }
 
     protected void update() {
