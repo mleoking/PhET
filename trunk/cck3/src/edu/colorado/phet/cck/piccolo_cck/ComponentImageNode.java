@@ -41,6 +41,10 @@ public abstract class ComponentImageNode extends ComponentNode {
         update();
     }
 
+    public PImage getpImage() {
+        return pImage;
+    }
+
     protected void update() {
         super.update();
 
