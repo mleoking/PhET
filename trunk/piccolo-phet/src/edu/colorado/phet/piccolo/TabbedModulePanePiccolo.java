@@ -19,6 +19,7 @@ import edu.colorado.phet.piccolo.PhetTabbedPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
@@ -89,5 +90,9 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
 
     public ModulePanel getModulePanel( int i ) {
         return (ModulePanel)getComponent( i );
+    }
+
+    public JComponent getComponent() {
+        return this;
     }
 }

@@ -87,4 +87,8 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
     public ModulePanel getModulePanel( int i ) {
         return (ModulePanel)getComponent( i );
     }
+
+    public JComponent getComponent() {
+        return this;
+    }
 }

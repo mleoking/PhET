@@ -32,15 +32,6 @@ public class CCKApplication extends PiccoloPhetApplication {
     private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
 
-    public static String getSubTitle( String[] args ) {
-        return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
-    }
-
-    public void startApplication() {
-        super.startApplication();
-        cckPiccoloModule.applicationStarted();
-    }
-
     public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
                SimStrings.get( "CCKApplication.description" ),
@@ -81,7 +72,15 @@ public class CCKApplication extends PiccoloPhetApplication {
 //            }
 //        } );
     }
+    
+    public static String getSubTitle( String[] args ) {
+        return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
+    }
 
+    public void startApplication() {
+        super.startApplication();
+        cckPiccoloModule.applicationStarted();
+    }
     private static String readVersion() {
         URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
         try {
@@ -136,7 +135,8 @@ public class CCKApplication extends PiccoloPhetApplication {
                 SimStrings.init( args, CCKApplication.localizedStringsPath );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
-                    new CCKApplication( args ).startApplication();
+                    CCKApplication cckApplication = new CCKApplication( args );
+                    cckApplication.startApplication();
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
