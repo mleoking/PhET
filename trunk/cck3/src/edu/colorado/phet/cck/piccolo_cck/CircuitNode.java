@@ -7,6 +7,9 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.*;
+import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicResistorNode;
+import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicWireNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -161,7 +164,7 @@ public class CircuitNode extends PhetPNode {
             return new GrabBagResistorNode( cckModel, (GrabBagResistor)branch, component, module );
         }
         else if( branch instanceof Resistor ) {
-            return new ResistorNode( cckModel, (Resistor)branch, component, module );
+            return new SchematicResistorNode( cckModel, (Resistor)branch, component, module );
         }
         else if( branch instanceof ACVoltageSource ) {
             return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
