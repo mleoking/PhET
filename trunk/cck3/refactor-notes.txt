@@ -14,6 +14,4 @@ and capacitor (maybe not realistic, also code wasn't free).
 
 capacitor clip for electrons (electrons should look like they enter and leave plates).
  
- when using a bulb, the grab bag button disappears
- 
  light bulb connect at left (from popup menu) broken

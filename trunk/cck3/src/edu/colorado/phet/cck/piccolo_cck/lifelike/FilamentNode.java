@@ -48,7 +48,6 @@ public class FilamentNode extends PhetPNode {
         Area area = new Area( origClip );
         area.subtract( new Area( totalBulbComponentNode.getClipShape( this ) ) );
         paintContext.pushClip( area );
-        paintContext.pushClip( area );
     }
 
     protected void paintAfterChildren( PPaintContext paintContext ) {
