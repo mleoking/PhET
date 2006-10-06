@@ -20,6 +20,7 @@ import edu.colorado.phet.common.model.ModelElement;
 
 import java.awt.geom.Line2D;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 /**
  * TotalEnergyLine
@@ -70,13 +71,19 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
 
             double ke = moleculeBeingTracked.getFullKineticEnergy()
                         + nearestToMoleculeBeingTracked.getFullKineticEnergy();
-            double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getParentComposite(),
-
-                                                     nearestToMoleculeBeingTracked.getParentComposite() );
+            double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getFullMolecule(),
+                                                     nearestToMoleculeBeingTracked.getFullMolecule() );
+//            double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getParentComposite(),
+//                                                     nearestToMoleculeBeingTracked.getParentComposite() );
             double te = ke + pe;
+
+            double pbe = 0;
             if( provisionalBond != null ) {
                 te += provisionalBond.getPotentialEnergy();
+                pbe = provisionalBond.getPotentialEnergy();
             }
+            DecimalFormat df = new DecimalFormat( "#.000");
+//            System.out.println( "te = " + df.format(te) + "\tke = " + df.format( ke ) + "\tpe = " + df.format( pe ) + "\tpbe = " + df.format( pbe) );
 
             double y = Math.max( bounds.getHeight() - ( te * scale ), 0 );
             line.setLine( 0, y, bounds.getWidth(), y );
@@ -119,10 +126,10 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
         public void modelElementAdded( ModelElement element ) {
             if( element instanceof ProvisionalBond ) {
                 ProvisionalBond bond = (ProvisionalBond)element;
-                if( ( bond.getMolecules()[0] == moleculeBeingTracked
-                      && bond.getMolecules()[1] == nearestToMoleculeBeingTracked )
-                    || ( bond.getMolecules()[1] == moleculeBeingTracked
-                         && bond.getMolecules()[0] == nearestToMoleculeBeingTracked ) ) {
+                if( ( bond.getMolecules()[0].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
+                      && bond.getMolecules()[1].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() )
+                    || ( bond.getMolecules()[1].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
+                         && bond.getMolecules()[0].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() ) ) {
                     provisionalBond = bond;
                 }
             }
@@ -131,10 +138,10 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
         public void modelElementRemoved( ModelElement element ) {
             if( element instanceof ProvisionalBond ) {
                 ProvisionalBond bond = (ProvisionalBond)element;
-                if( ( bond.getMolecules()[0] == moleculeBeingTracked
-                      && bond.getMolecules()[1] == nearestToMoleculeBeingTracked )
-                    || ( bond.getMolecules()[1] == moleculeBeingTracked
-                         && bond.getMolecules()[0] == nearestToMoleculeBeingTracked ) ) {
+                if( ( bond.getMolecules()[0].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
+                      && bond.getMolecules()[1].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() )
+                    || ( bond.getMolecules()[1].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
+                         && bond.getMolecules()[0].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() ) ) {
                     provisionalBond = null;
                 }
             }

@@ -69,7 +69,7 @@ public class MRApplication extends PiccoloPhetApplication {
 
                 // Set the iconized logo for the simulation
                 try {
-                    PhetUtilities.getPhetFrame().setIconImage( ImageLoader.loadBufferedImage( "images/Phet-logo-24x24.gif" ) );
+                    PhetUtilities.getPhetFrame().setIconImage( ImageLoader.loadBufferedImage( "images/logo-small.gif" ) );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();

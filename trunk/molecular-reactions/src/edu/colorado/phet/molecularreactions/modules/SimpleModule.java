@@ -16,6 +16,7 @@ import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -104,10 +105,11 @@ public class SimpleModule extends MRModule {
                 SimpleMolecule m2 = new MoleculeC();
                 m2.setPosition( m1.getPosition().getX() -230, m1.getPosition().getY() );
 //                m2.setVelocity( 1, 0 );
-                m2.setVelocity( 2.5, 0 );
+                m2.setVelocity( 1.5, 0 );
                 model.addModelElement( m2 );
 
                 m2.setSelectionStatus( Selectable.SELECTED );
+
                 /*
                 SimpleMolecule m1 = new MoleculeC();
                 double yLoc = model.getBox().getMinY() + 80;
