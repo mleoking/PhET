@@ -29,7 +29,6 @@ public class SchematicOscillateNode extends ComponentNode {
     private AbstractVector2D northDir;
     private Point2D anoPoint;
     private Point2D catPoint;
-    private Area mouseArea;
     private SimpleObserver simpleObserver;
     private PhetPPath path;
     private static final double SCALE = 1.0 / 60.0;
@@ -95,14 +94,14 @@ public class SchematicOscillateNode extends ComponentNode {
         }
 
         Shape shape = path.getGeneralPath();
-        BasicStroke stroke = new BasicStroke( (float)resistorThickness );
+        BasicStroke stroke = new BasicStroke( (float)resistorThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 );
 
         Shape sha = stroke.createStrokedShape( shape );
         Area area = new Area( sha );
         area.add( new Area( LineSegment.getSegment( srcpt, catPoint, viewThickness ) ) );
         area.add( new Area( LineSegment.getSegment( anoPoint, dstpt, viewThickness ) ) );
-        mouseArea = new Area( area );
-        mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
+//        mouseArea = new Area( area );
+//        mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
         this.path.setPathTo( area );
 
         getHighlightNode().setStroke( new BasicStroke( 0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f ) );
@@ -141,7 +140,7 @@ public class SchematicOscillateNode extends ComponentNode {
         return catPoint;
     }
 
-    public boolean contains( int x, int y ) {
-        return mouseArea.contains( x, y );
-    }
+//    public boolean contains( int x, int y ) {
+//        return mouseArea.contains( x, y );
+//    }
 }
