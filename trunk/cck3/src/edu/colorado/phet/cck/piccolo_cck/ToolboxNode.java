@@ -193,7 +193,9 @@ public class ToolboxNode extends PhetPNode {
         }
 
         protected Branch createBranch() {
-            return new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
+            Wire wire = new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
+            wire.setThickness( branchNodeFactory.isLifelike() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
+            return wire;
         }
     }
 
