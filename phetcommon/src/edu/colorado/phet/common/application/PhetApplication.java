@@ -229,12 +229,9 @@ public class PhetApplication {
     /**
      * Creates the tabbed pane for the modules in the application.
      *
-     * @param modules
      */
-    public JComponent createTabbedPane( Module[] modules ) {
-        ITabbedModulePane tabbedPane = new JTabbedModulePane();
-        tabbedPane.init( this, modules );
-        return (JComponent)tabbedPane;
+    public ITabbedModulePane createTabbedPane( ) {
+        return new JTabbedModulePane();
     }
 
     /**

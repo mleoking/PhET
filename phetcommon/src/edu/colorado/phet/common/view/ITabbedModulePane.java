@@ -15,6 +15,8 @@ import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 
+import javax.swing.*;
+
 /**
  * ITabbedModulePane
  * <p>
@@ -32,4 +34,5 @@ public interface ITabbedModulePane extends ModuleObserver {
     public int getTabCount();
     public void moduleRemoved( ModuleEvent event );
     public ModulePanel getModulePanel( int i );
+    public JComponent getComponent();
 }

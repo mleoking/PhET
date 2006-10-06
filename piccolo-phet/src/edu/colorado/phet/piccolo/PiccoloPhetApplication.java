@@ -42,15 +42,27 @@ public class PiccoloPhetApplication extends PhetApplication {
      * Enumeration class used to specify the type of tabbed panes the application is to use in
      * its Module instances
      */
-    public static class TabbedPaneType {
+    public abstract static class TabbedPaneType {
         private TabbedPaneType() {
         }
-    }
 
+        public abstract ITabbedModulePane createTabbedPane();
+    }
+            
     // Standard Swing JTabbedPanes
-    public static final TabbedPaneType JTABBED_PANE = new TabbedPaneType();
+    public static final TabbedPaneType JTABBED_PANE = new TabbedPaneType(){
+
+        public ITabbedModulePane createTabbedPane() {
+            return new JTabbedModulePane();
+        }
+    };
     // Graphical PhetTabbedPanes
-    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType();
+    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType(){
+
+        public ITabbedModulePane createTabbedPane() {
+            return new TabbedModulePanePiccolo();
+        }
+    };
     // The default TabbedModulePaneType
     private static final TabbedPaneType DEFAULT_TABBED_PANE_TYPE = PHET_TABBED_PANE;
 
@@ -114,18 +126,9 @@ public class PiccoloPhetApplication extends PhetApplication {
     /**
      * Overrides parent class behavior to provide the option of specifying what type of tabbed panes to use.
      *
-     * @param modules
      * @return a tabbed module pane
      */
-    public JComponent createTabbedPane( Module[] modules ) {
-        ITabbedModulePane tabbedPane = null;
-        if( tabbedPaneType == PHET_TABBED_PANE ) {
-            tabbedPane = new TabbedModulePanePiccolo();
-        }
-        else if( tabbedPaneType == JTABBED_PANE ) {
-            tabbedPane = new JTabbedModulePane();
-        }
-        tabbedPane.init( this, modules );
-        return (JComponent)tabbedPane;
+    public ITabbedModulePane createTabbedPane( ) {
+        return tabbedPaneType.createTabbedPane();
     }
 }
