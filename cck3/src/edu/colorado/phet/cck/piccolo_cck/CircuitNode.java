@@ -161,7 +161,7 @@ public class CircuitNode extends PhetPNode {
             return new SchematicWireNode( cckModel, (Wire)branch, component );
         }
         else if( branch instanceof GrabBagResistor ) {
-            return new GrabBagResistorNode( cckModel, (GrabBagResistor)branch, component, module );
+            return new SchematicResistorNode( cckModel, (GrabBagResistor)branch, component, module );
         }
         else if( branch instanceof Resistor ) {
             return new SchematicResistorNode( cckModel, (Resistor)branch, component, module );

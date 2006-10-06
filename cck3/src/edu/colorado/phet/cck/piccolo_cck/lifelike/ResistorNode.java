@@ -1,10 +1,13 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Resistor;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.ResistorColors;
+import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
+import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 

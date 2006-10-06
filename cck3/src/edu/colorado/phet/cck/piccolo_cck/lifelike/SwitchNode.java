@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.model.CCKModel;

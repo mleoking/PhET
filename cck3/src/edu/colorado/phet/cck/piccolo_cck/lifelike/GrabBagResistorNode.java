@@ -1,8 +1,10 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;

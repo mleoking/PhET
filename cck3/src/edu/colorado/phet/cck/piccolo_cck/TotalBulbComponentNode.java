@@ -4,6 +4,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbComponentNode;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.FilamentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
