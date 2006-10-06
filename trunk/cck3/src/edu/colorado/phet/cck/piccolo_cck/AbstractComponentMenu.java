@@ -27,7 +27,7 @@ public class AbstractComponentMenu extends JPopupMenuRepaintWorkaround {
         super( target );
     }
 
-    protected JCheckBoxMenuItem finish( final ICCKModule module, final Branch branch, JPopupMenuRepaintWorkaround menu ) {
+    protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
         final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
         menu.addPopupMenuListener( new PopupMenuListener() {
             public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -51,11 +51,10 @@ public class AbstractComponentMenu extends JPopupMenuRepaintWorkaround {
             }
 
         }
-        addRemoveButton( menu, module, branch );
         return showValue;
     }
 
-    void addRemoveButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
+    protected void addRemoveButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
         JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
         remove.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

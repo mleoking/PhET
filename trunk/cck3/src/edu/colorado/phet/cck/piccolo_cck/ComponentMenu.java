@@ -35,8 +35,16 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         return setVisibleItem.isSelected();
     }
 
-    protected void finish() {
-        setVisibleItem = finish( module, branch, getMenu() );
+//    protected void finish() {
+//        
+//    }
+
+    protected void initRemoveButton() {
+        addRemoveButton( this, module, branch );
+    }
+
+    protected void initShowValueButton() {
+        setVisibleItem = createShowValueButton( this, module, branch );
     }
 
     public JPopupMenuRepaintWorkaround getMenu() {
@@ -56,7 +64,7 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
     }
 
     public static class ResistorMenu extends ComponentMenu {
-        Resistor res;
+        private Resistor res;
         private ComponentEditor.ResistorEditor editor;
 
         public ResistorMenu( Resistor res, ICCKModule module ) {
@@ -74,7 +82,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
                     }
                 } );
                 add( edit );
-                finish();
+                initShowValueButton();
+                initRemoveButton();
             }
         }
 
@@ -115,7 +124,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( edit );
             add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.inductor" ), inductor ) );
-            finish();
+            initShowValueButton();
+            initRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -151,7 +161,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( edit );
             add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
-            finish();
+            initShowValueButton();
+            initRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -211,7 +222,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
                 }
             } );
             add( flip );
-            finish();
+            initShowValueButton();
+            initRemoveButton();
         }
 
         public JPopupMenu getMenuComponent() {
@@ -234,7 +246,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
 
         public DefaultComponentMenu( Branch branch, ICCKModule module ) {
             super( branch, module );
-            finish();
+            initShowValueButton();
+            initRemoveButton();
         }
     }
 
@@ -286,7 +299,8 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
             } );
             add( reverse );
 
-            setVisibleItem = finish( module, branch, this );
+            setVisibleItem = createShowValueButton( this, module, branch );
+            addRemoveButton( this, module, branch );
             instances.add( this );
         }
 
@@ -343,5 +357,14 @@ public abstract class ComponentMenu extends AbstractComponentMenu {
         }
     }
 
+
+    public static class GrabBagResistorMenu extends ComponentMenu {
+
+        public GrabBagResistorMenu( GrabBagResistor res, ICCKModule module ) {
+            super( res, module );
+            addRemoveButton( getMenu(), module, res );
+        }
+
+    }
 }
 
