@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.phetgraphics_cck.circuit.components;
 
 import edu.colorado.phet.cck.ResetDynamicsMenuItem;
 import edu.colorado.phet.cck.common.CCKStrings;
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
@@ -102,7 +102,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     }
 
     static abstract class ComponentMenu implements CCKMenu {
-        protected RepaintyMenu menu;
+        protected JPopupMenuRepaintWorkaround menu;
         private CCKPhetgraphicsModule module;
         Branch branch;
         private JCheckBoxMenuItem setVisibleItem;
@@ -110,7 +110,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public ComponentMenu( Branch branch, CCKPhetgraphicsModule module ) {
             this.branch = branch;
             this.module = module;
-            menu = new RepaintyMenu( module.getApparatusPanel() );
+            menu = new JPopupMenuRepaintWorkaround( module.getApparatusPanel() );
         }
 
         public boolean isVisiblityRequested() {
@@ -120,7 +120,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             return setVisibleItem.isSelected();
         }
 
-        public static JCheckBoxMenuItem finish( final CCKPhetgraphicsModule module, final Branch branch, RepaintyMenu menu ) {
+        public static JCheckBoxMenuItem finish( final CCKPhetgraphicsModule module, final Branch branch, JPopupMenuRepaintWorkaround menu ) {
             final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
             menu.addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -155,7 +155,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             return showValue;
         }
 
-        static void addRemoveButton( RepaintyMenu menu, final CCKPhetgraphicsModule module, final Branch branch ) {
+        static void addRemoveButton( JPopupMenuRepaintWorkaround menu, final CCKPhetgraphicsModule module, final Branch branch ) {
             JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
             remove.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -174,7 +174,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             setVisibleItem = finish( module, branch, getMenu() );
         }
 
-        public RepaintyMenu getMenu() {
+        public JPopupMenuRepaintWorkaround getMenu() {
             return menu;
         }
 
@@ -366,7 +366,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public SwitchMenu( Switch res, CCKPhetgraphicsModule module ) {
             super( res, module );
             this.res = res;
-            menu = new RepaintyMenu( module.getApparatusPanel() );
+            menu = new JPopupMenuRepaintWorkaround( module.getApparatusPanel() );
             finish();
         }
 
@@ -381,7 +381,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public SeriesAmmeterMenu( SeriesAmmeter res, CCKPhetgraphicsModule module ) {
             super( res, module );
             this.res = res;
-            menu = new RepaintyMenu( module.getApparatusPanel() );
+            menu = new JPopupMenuRepaintWorkaround( module.getApparatusPanel() );
             finish();
         }
 
@@ -390,7 +390,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
     }
 
-    public static class BatteryJMenu extends RepaintyMenu implements CCKMenu {
+    public static class BatteryJMenu extends JPopupMenuRepaintWorkaround implements CCKMenu {
         private Battery battery;
         private CCKPhetgraphicsModule module;
         private JMenuItem editInternal;

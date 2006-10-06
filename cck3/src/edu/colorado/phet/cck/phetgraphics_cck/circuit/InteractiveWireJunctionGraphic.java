@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.BranchSet;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
@@ -88,7 +88,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
         };
         addMouseInputListener( input );
-        RepaintyMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
+        JPopupMenuRepaintWorkaround menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
         addPopupMenuBehavior( menu );
     }
 

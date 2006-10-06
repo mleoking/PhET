@@ -21,13 +21,16 @@ public class CCKPopupMenuFactory {
 
     public JPopupMenu createPopupMenu( Branch branch ) {
         if( branch instanceof Switch ) {
-            return new ComponentMenu.SwitchMenu( (Switch)branch, module ).getMenuComponent();
+            return new ComponentMenu.SwitchMenu( (Switch)branch, module );
         }
         else if( branch instanceof SeriesAmmeter ) {
-            return new ComponentMenu.SeriesAmmeterMenu( (SeriesAmmeter)branch, module ).getMenuComponent();
+            return new ComponentMenu.SeriesAmmeterMenu( (SeriesAmmeter)branch, module );
         }
         else if( branch instanceof ACVoltageSource ) {
             return new PiccoloACVoltageSourceMenu( (Battery)branch, module );
+        }
+        else if( branch instanceof Battery ) {
+            return new ComponentMenu.BatteryJMenu( (Battery)branch, module );
         }
         else {
             System.out.println( "No popup menu found for component: " + branch );

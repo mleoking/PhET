@@ -31,7 +31,7 @@ public class GrabBagResistorNode extends ComponentImageNode {
     }
 
     protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.ResistorMenu( resistor, module ).getMenuComponent();//todo this should have a separate class, not reuse ResistorMenu
+        return new ComponentMenu.ResistorMenu( resistor, module );//todo this should have a separate class, not reuse ResistorMenu
     }
 
 }

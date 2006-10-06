@@ -156,7 +156,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     }
 
     protected JPopupMenu createPopupMenu() {
-        return new ComponentMenu.SeriesAmmeterMenu( component, module ).getMenuComponent();
+        return new ComponentMenu.SeriesAmmeterMenu( component, module );
     }
 
     public CircuitComponent getCircuitComponent() {

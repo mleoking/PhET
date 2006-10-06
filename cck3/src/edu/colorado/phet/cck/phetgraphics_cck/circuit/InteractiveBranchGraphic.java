@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck.circuit;
 
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -55,7 +55,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
         branchGraphic.delete();
     }
 
-    class BranchPopupMenu extends RepaintyMenu {
+    class BranchPopupMenu extends JPopupMenuRepaintWorkaround {
         private Circuit circuit;
         private Branch branch;
 

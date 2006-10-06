@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.ResetDynamicsMenuItem;
 import edu.colorado.phet.cck.common.CCKStrings;
-import edu.colorado.phet.cck.common.RepaintyMenu;
+import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
@@ -17,16 +17,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public abstract class ComponentMenu {
-    protected RepaintyMenu menu;
+public abstract class ComponentMenu extends AbstractComponentMenu {
     private ICCKModule module;
     private Branch branch;
     private JCheckBoxMenuItem setVisibleItem;
 
     public ComponentMenu( Branch branch, ICCKModule module ) {
+        super( module.getSimulationPanel() );
         this.branch = branch;
         this.module = module;
-        menu = new RepaintyMenu( module.getSimulationPanel() );
     }
 
     public boolean isVisiblityRequested() {
@@ -36,55 +35,12 @@ public abstract class ComponentMenu {
         return setVisibleItem.isSelected();
     }
 
-    public static JCheckBoxMenuItem finish( final ICCKModule module, final Branch branch, RepaintyMenu menu ) {
-        final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
-        menu.addPopupMenuListener( new PopupMenuListener() {
-            public void popupMenuCanceled( PopupMenuEvent e ) {
-            }
-
-            public void popupMenuWillBecomeInvisible( PopupMenuEvent e ) {
-            }
-
-            public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
-                showValue.setSelected( module.isReadoutVisible( branch ) );
-            }
-        } );
-        showValue.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setReadoutVisible( branch, showValue.isSelected() );
-            }
-        } );
-        if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
-            if( module.getParameters().allowShowReadouts() ) {
-                menu.add( showValue );
-            }
-
-        }
-        addRemoveButton( menu, module, branch );
-        return showValue;
-    }
-
-    static void addRemoveButton( RepaintyMenu menu, final ICCKModule module, final Branch branch ) {
-        JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
-        remove.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getCCKModel().getCircuit().removeBranch( branch );
-            }
-        } );
-        int num = menu.getComponentCount();
-        if( num > 0 ) {
-            menu.addSeparator();
-        }
-        menu.add( remove );
-    }
-
-
     protected void finish() {
         setVisibleItem = finish( module, branch, getMenu() );
     }
 
-    public RepaintyMenu getMenu() {
-        return menu;
+    public JPopupMenuRepaintWorkaround getMenu() {
+        return this;
     }
 
     public void delete() {
@@ -117,7 +73,7 @@ public abstract class ComponentMenu {
                         editor.setVisible( true );
                     }
                 } );
-                menu.add( edit );
+                add( edit );
                 finish();
             }
         }
@@ -157,8 +113,8 @@ public abstract class ComponentMenu {
                     editor.setVisible( true );
                 }
             } );
-            menu.add( edit );
-            menu.add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.inductor" ), inductor ) );
+            add( edit );
+            add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.inductor" ), inductor ) );
             finish();
         }
 
@@ -193,8 +149,8 @@ public abstract class ComponentMenu {
                     editor.setVisible( true );
                 }
             } );
-            menu.add( edit );
-            menu.add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
+            add( edit );
+            add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
             finish();
         }
 
@@ -225,14 +181,14 @@ public abstract class ComponentMenu {
                     editor.setVisible( true );
                 }
             } );
-            menu.add( edit );
+            add( edit );
             final JMenuItem flip = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     bulb.flip( module.getCircuit() );
                 }
             } );
-            menu.addPopupMenuListener( new PopupMenuListener() {
+            addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
                 }
 
@@ -254,12 +210,12 @@ public abstract class ComponentMenu {
                     }
                 }
             } );
-            menu.add( flip );
+            add( flip );
             finish();
         }
 
         public JPopupMenu getMenuComponent() {
-            return menu;
+            return this;
         }
 
         public void delete() {
@@ -268,37 +224,27 @@ public abstract class ComponentMenu {
         }
     }
 
-    public static class SwitchMenu extends ComponentMenu {
-        Switch res;
-
-        public SwitchMenu( Switch res, ICCKModule module ) {
-            super( res, module );
-            this.res = res;
-            menu = new RepaintyMenu( module.getSimulationPanel() );
-            finish();
-        }
-
-        public JPopupMenu getMenuComponent() {
-            return getMenu();
+    public static class SwitchMenu extends DefaultComponentMenu {
+        public SwitchMenu( Branch branch, ICCKModule module ) {
+            super( branch, module );
         }
     }
 
-    public static class SeriesAmmeterMenu extends ComponentMenu {
-        SeriesAmmeter res;
+    public static class DefaultComponentMenu extends ComponentMenu {
 
-        public SeriesAmmeterMenu( SeriesAmmeter res, ICCKModule module ) {
-            super( res, module );
-            this.res = res;
-            menu = new RepaintyMenu( module.getSimulationPanel() );
+        public DefaultComponentMenu( Branch branch, ICCKModule module ) {
+            super( branch, module );
             finish();
-        }
-
-        public JPopupMenu getMenuComponent() {
-            return getMenu();
         }
     }
 
-    public static class BatteryJMenu extends RepaintyMenu {
+    public static class SeriesAmmeterMenu extends DefaultComponentMenu {
+        public SeriesAmmeterMenu( Branch branch, ICCKModule module ) {
+            super( branch, module );
+        }
+    }
+
+    public static class BatteryJMenu extends AbstractComponentMenu {
         private Battery battery;
         private ICCKModule module;
         private JMenuItem editInternal;
@@ -340,7 +286,7 @@ public abstract class ComponentMenu {
             } );
             add( reverse );
 
-            setVisibleItem = ComponentMenu.finish( module, branch, this );
+            setVisibleItem = finish( module, branch, this );
             instances.add( this );
         }
 
