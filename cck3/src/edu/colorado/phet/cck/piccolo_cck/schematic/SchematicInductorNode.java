@@ -61,7 +61,4 @@ public class SchematicInductorNode extends SchematicOscillateNode {
         }
     }
 
-//    public boolean contains( int x, int y ) {
-//        return super.contains( x, y ) || leftBranch.getShape().contains( x, y ) || rightBranch.getShape().contains( x, y );
-//    }
 }
