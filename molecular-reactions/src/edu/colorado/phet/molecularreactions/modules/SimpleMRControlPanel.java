@@ -40,15 +40,24 @@ import java.util.Hashtable;
 public class SimpleMRControlPanel extends JPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
 
-    public SimpleMRControlPanel( MRModule module ) {
+    public SimpleMRControlPanel( final SimpleModule module ) {
         super( new GridBagLayout() );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1,1,1,1,
+                                                         1, 1, 1, 1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         add( new OptionsPanel( module ), gbc );
+
+        JButton resetBtn = new JButton( "Reset" );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.reset();
+            }
+        } );
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( resetBtn, gbc );
     }
 
     private class OptionsPanel extends JPanel {
@@ -58,8 +67,8 @@ public class SimpleMRControlPanel extends JPanel {
             this.module = module;
 
             ButtonGroup numDimensionsBG = new ButtonGroup();
-            final JRadioButton oneDRB = new JRadioButton( SimStrings.get("Control.oneDimension"));
-            final JRadioButton twoDRB = new JRadioButton( SimStrings.get("Control.twoDimensions"));
+            final JRadioButton oneDRB = new JRadioButton( SimStrings.get( "Control.oneDimension" ) );
+            final JRadioButton twoDRB = new JRadioButton( SimStrings.get( "Control.twoDimensions" ) );
             numDimensionsBG.add( oneDRB );
             numDimensionsBG.add( twoDRB );
             oneDRB.setSelected( true );

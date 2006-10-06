@@ -76,6 +76,10 @@ public class PumpGraphic extends PNode {
         return pumpBaseLocation;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
     /**
      * Mouse handler
      */
@@ -145,10 +149,6 @@ public class PumpGraphic extends PNode {
             return newMolecule;
         }
     }
-
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
-    //--------------------------------------------------------------------------------------------------
 
     private class MoleculeTypeSelector extends JPanel {
         private JRadioButton aRB;

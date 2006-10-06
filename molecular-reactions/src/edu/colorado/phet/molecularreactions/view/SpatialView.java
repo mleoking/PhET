@@ -35,10 +35,11 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class SpatialView extends PNode {
-    Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
-    PNode moleculeLayer = new PNode();
-    PNode bondLayer = new PNode();
-    PNode boxLayer = new PNode();
+    private Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
+    private PNode moleculeLayer = new PNode();
+    private PNode bondLayer = new PNode();
+    private PNode boxLayer = new PNode();
+    private PNode topLayer = new PNode();
     private ModelElementGraphicManager megm;
 
     /**
@@ -56,6 +57,7 @@ public class SpatialView extends PNode {
         addChild( moleculeLayer );
         addChild( bondLayer );
         addChild( boxLayer );
+        addChild( topLayer );
 
         // Create the graphic manager and add required factories to it
         megm = new ModelElementGraphicManager( model, canvas );
@@ -88,6 +90,14 @@ public class SpatialView extends PNode {
     public void setGraphicTypeVisible( boolean visible ) {
         megm.setAllOfTypeVisible( BondGraphic.class, visible );
         megm.setAllOfTypeVisible( ProvisionalBondGraphic.class, visible );
+    }
+
+    public void addGraphicFactory( ModelElementGraphicManager.GraphicFactory graphicFactory ) {
+        megm.addGraphicFactory( graphicFactory );
+    }
+
+    public PNode getTopLayer() {
+        return topLayer;
     }
 
 //    private void createMoleculeCounters( PPath canvas, PSwingCanvas pSwingCanvas, MRModel model ) {

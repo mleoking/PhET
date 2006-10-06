@@ -31,12 +31,13 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TotalEnergyLine extends PNode implements SimpleObserver {
+public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     private Line2D line;
     private PPath lineNode;
     private Stroke lineStroke = new BasicStroke( 3 );
     private Paint linePaint = Color.red;
     private Dimension bounds;
+    private MRModel model;
     private AbstractMolecule moleculeBeingTracked;
     private AbstractMolecule nearestToMoleculeBeingTracked;
     private ProvisionalBond provisionalBond;
@@ -49,6 +50,7 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
      */
     public TotalEnergyLine( Dimension bounds, MRModel model ) {
         this.bounds = bounds;
+        this.model = model;
         reaction = model.getReaction();
 
         // Add listeners to the model that we need to track the selected molecule and
@@ -64,6 +66,12 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
         scale = bounds.getHeight() / MRConfig.MAX_REACTION_THRESHOLD;
 
         addChild( lineNode );
+
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                update();
+            }
+        } );
     }
 
     public void update() {
@@ -85,6 +93,8 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
             DecimalFormat df = new DecimalFormat( "#.000");
 //            System.out.println( "te = " + df.format(te) + "\tke = " + df.format( ke ) + "\tpe = " + df.format( pe ) + "\tpbe = " + df.format( pbe) );
 
+            te += model.getPotentialEnergy();
+
             double y = Math.max( bounds.getHeight() - ( te * scale ), 0 );
             line.setLine( 0, y, bounds.getWidth(), y );
             lineNode.setPathTo( line );
@@ -102,18 +112,18 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
 
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule ) {
             if( moleculeBeingTracked != null ) {
-                moleculeBeingTracked.removeObserver( TotalEnergyLine.this );
+//                moleculeBeingTracked.removeObserver( TotalEnergyLine.this );
             }
             moleculeBeingTracked = newTrackedMolecule;
-            moleculeBeingTracked.addObserver( TotalEnergyLine.this );
+//            moleculeBeingTracked.addObserver( TotalEnergyLine.this );
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
             if( nearestToMoleculeBeingTracked != null ) {
-                nearestToMoleculeBeingTracked.removeObserver( TotalEnergyLine.this );
+//                nearestToMoleculeBeingTracked.removeObserver( TotalEnergyLine.this );
             }
             nearestToMoleculeBeingTracked = newClosestMolecule;
-            nearestToMoleculeBeingTracked.addObserver( TotalEnergyLine.this );
+//            nearestToMoleculeBeingTracked.addObserver( TotalEnergyLine.this );
         }
     }
 
