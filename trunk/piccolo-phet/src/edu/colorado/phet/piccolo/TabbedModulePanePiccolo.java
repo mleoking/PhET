@@ -35,7 +35,13 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     private PhetApplication application;
 
     public TabbedModulePanePiccolo() {
+        this(true);
     }
+
+    public TabbedModulePanePiccolo( boolean logoVisible ) {
+        this.setLogoVisible( logoVisible );
+    }
+
 
     public void init( final PhetApplication application, final Module[] modules  ) {
         this.application = application;
