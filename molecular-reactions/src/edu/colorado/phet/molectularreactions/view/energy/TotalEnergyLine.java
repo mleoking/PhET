@@ -124,7 +124,7 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
      */
     private class ProvisionalBondMonitor implements PublishingModel.ModelListener {
         public void modelElementAdded( ModelElement element ) {
-            if( element instanceof ProvisionalBond ) {
+            if( moleculeBeingTracked != null && element instanceof ProvisionalBond ) {
                 ProvisionalBond bond = (ProvisionalBond)element;
                 if( ( bond.getMolecules()[0].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
                       && bond.getMolecules()[1].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() )
@@ -136,7 +136,7 @@ public class TotalEnergyLine extends PNode implements SimpleObserver {
         }
 
         public void modelElementRemoved( ModelElement element ) {
-            if( element instanceof ProvisionalBond ) {
+            if( moleculeBeingTracked != null && element instanceof ProvisionalBond ) {
                 ProvisionalBond bond = (ProvisionalBond)element;
                 if( ( bond.getMolecules()[0].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
                       && bond.getMolecules()[1].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() )
