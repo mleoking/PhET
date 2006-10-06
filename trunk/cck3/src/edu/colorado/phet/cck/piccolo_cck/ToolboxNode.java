@@ -305,7 +305,8 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Inductor createInductor() {
-            return new Inductor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 0.4 );
+            double L = 1.2;
+            return new Inductor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 0.4 );
         }
     }
 

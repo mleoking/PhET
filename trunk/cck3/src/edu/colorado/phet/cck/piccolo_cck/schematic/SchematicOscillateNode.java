@@ -105,7 +105,7 @@ public class SchematicOscillateNode extends ComponentNode {
         mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
         this.path.setPathTo( area );
 
-        getHighlightNode().setStroke( new BasicStroke( 0.1f ) );
+        getHighlightNode().setStroke( new BasicStroke( 0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f ) );
         getHighlightNode().setPathTo( area );
     }
 
