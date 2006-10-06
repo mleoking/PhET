@@ -98,6 +98,11 @@ public class PhetFrame extends JFrame {
         this.lastAdded = module;
     }
 
+    /**
+     * Adds the specified module to the content pane, returning the new content pane.
+     * @param module the module to add.
+     * @return the new content pane.
+     */
     private JComponent addToContentPane( Module module ) {
         if( contentPanel == null ) {
             return module.getModulePanel();
