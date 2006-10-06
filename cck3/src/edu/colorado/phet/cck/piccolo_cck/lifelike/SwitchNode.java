@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class SwitchNode extends SwitchBodyNode {
+public class SwitchNode extends SwitchBodyImageNode {
     private Switch s;
     private ICCKModule module;
 

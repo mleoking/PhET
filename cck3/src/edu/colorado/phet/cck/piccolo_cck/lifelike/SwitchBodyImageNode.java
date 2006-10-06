@@ -15,9 +15,8 @@ import javax.swing.*;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class SwitchBodyNode extends ComponentImageNode {
-    public SwitchBodyNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
+public class SwitchBodyImageNode extends ComponentImageNode {
+    public SwitchBodyImageNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
         super( model, s, CCKImageSuite.getInstance().getKnifeBoardImage(), component, module );
     }
-
 }

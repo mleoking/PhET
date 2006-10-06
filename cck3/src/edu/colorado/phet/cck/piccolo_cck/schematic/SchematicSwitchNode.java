@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
-import edu.colorado.phet.cck.piccolo_cck.lifelike.SwitchBodyNode;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.SwitchBodyRectangleNode;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -26,7 +26,7 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Sep 19, 2006 by Sam Reid
  */
 
-public class SchematicSwitchNode extends SwitchBodyNode {
+public class SchematicSwitchNode extends SwitchBodyRectangleNode {
     private Switch s;
     private ICCKModule module;
 
@@ -36,29 +36,28 @@ public class SchematicSwitchNode extends SwitchBodyNode {
         this.module = module;
         SchematicSwitchNode.SwitchLeverNode switchLeverNode = new SchematicSwitchNode.SwitchLeverNode();//so the transform on switchBodyNode won't interfere
         addChild( switchLeverNode );
-        getpImage().setVisible( false );
+
+        int attachmentWidth = 40;
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, attachmentWidth, getDimension().getHeight() ), Color.black ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( getDimension().getWidth() - attachmentWidth, 0, attachmentWidth, getDimension().getHeight() ), Color.black ) );
     }
 
-//    protected JPopupMenu createPopupMenu() {
-//        return new ComponentMenu.SwitchMenu( s, module );
-//    }
-
-    class SwitchLeverNode extends PhetPNode {
-        private PNode imagePNode;
-        int leverWidth = 120;
-        int leverHeight = 35;
+    class SwitchLeverNode extends PhetPNode {//todo consolidate this code with lifelike version
+        private PNode pathNode;
+        double leverWidth = getDimension().getWidth();
+        double leverHeight = 20;
 
         public SwitchLeverNode() {
             addInputEventListener( new CursorHandler() );
-            imagePNode = new PhetPPath( new Rectangle2D.Double( 0, 0, leverWidth, leverHeight ), Color.black );
-            addChild( imagePNode );
+            pathNode = new PhetPPath( new Rectangle2D.Double( 0, 0, leverWidth, leverHeight ), Color.black );
+            addChild( pathNode );
             s.addObserver( new SimpleObserver() {
                 public void update() {
                     SchematicSwitchNode.SwitchLeverNode.this.update();
                 }
             } );
 
-            imagePNode.addInputEventListener( new PBasicInputEventHandler() {
+            pathNode.addInputEventListener( new PBasicInputEventHandler() {
                 private double origGrabAngle = Double.NaN;
                 private double origLeverAngle = Double.NaN;
 
@@ -67,9 +66,6 @@ public class SchematicSwitchNode extends SwitchBodyNode {
                         origGrabAngle = getAngle( event );
                         origLeverAngle = s.getHandleAngle();
                     }
-//                    System.out.println( "event.getPosition() = " + event.getPosition() );
-//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this) = " + event.getPositionRelativeTo( SwitchNode.this ) );
-//                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this.getParent) = " + event.getPositionRelativeTo( SwitchNode.this.getParent() ) );
                     double angle = getAngle( event );
                     double dTheta = angle - origGrabAngle;
                     double desiredAngle = origLeverAngle + dTheta;
@@ -95,7 +91,7 @@ public class SchematicSwitchNode extends SwitchBodyNode {
 
                 private double getAngle( PInputEvent event ) {
                     Point2D.Double pivotPoint = new Point2D.Double( leverWidth, leverHeight );
-                    imagePNode.localToGlobal( pivotPoint );
+                    pathNode.localToGlobal( pivotPoint );
                     SchematicSwitchNode.this.getParent().globalToLocal( pivotPoint );
                     Vector2D.Double vector = new Vector2D.Double( pivotPoint, event.getPositionRelativeTo( SchematicSwitchNode.this.getParent() ) );
                     return vector.getAngle();
@@ -110,8 +106,10 @@ public class SchematicSwitchNode extends SwitchBodyNode {
         }
 
         private void update() {
-            imagePNode.setTransform( new AffineTransform() );
-            imagePNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight / 2 );
+            pathNode.setTransform( new AffineTransform() );
+            pathNode.translate( 0, leverHeight );
+//            pathNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight / 2 );
+            pathNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight );
         }
     }
 }
