@@ -1,5 +1,5 @@
 To Do:
-Are we allowing schematic mode?  I remember hearing (informally) it wasn't too useful.
+Schematic node.
 sometimes junctions bump off each other too easily?
 zoom (small med large)?
 
@@ -8,6 +8,5 @@ editing a component should show it's Readout value (by the component)
 improve component constructor interface
 
 Comments:
-flame graphics
->>I'm ignoring bulb (already pretty exciting when current is high)
->>Capacitor (maybe not realistic, also code wasn't trivial).
+For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
+and capacitor (maybe not realistic, also code wasn't free).

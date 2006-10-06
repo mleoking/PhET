@@ -67,10 +67,11 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void setLifelike( boolean b ) {
+        cckSimulationPanel.setLifelike( b );
     }
 
     public boolean isLifelike() {
-        return false;
+        return cckSimulationPanel.isLifelike();
     }
 
     public CircuitChangeListener getCircuitChangeListener() {
