@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,11 +29,12 @@ import java.awt.geom.Rectangle2D;
 public class CCKSimulationPanel extends PhetPCanvas {
     private CCKModel model;
     private ICCKModule module;
-    private ToolboxNode toolboxNode;
     private CircuitNode circuitNode;
     private MessageNode messageNode;
     private MeasurementToolSetNode measurementToolSetNode;
     private CCKHelpSuite cckHelpSuite;
+    private BranchNodeFactory branchNodeFactory;
+    private ToolboxNodeSuite toolboxSuite;
 
     public CCKSimulationPanel( CCKModel model, ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
@@ -40,11 +42,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
         this.module = module;
         setBackground( ICCKModule.BACKGROUND_COLOR );
 
-        toolboxNode = new ToolboxNode( this, model, module );
-        toolboxNode.scale( 1.0 / 80.0 );
-        addWorldChild( toolboxNode );
+        branchNodeFactory = new BranchNodeFactory( model, this, module, true );
+        toolboxSuite = new ToolboxNodeSuite( model, module, this, branchNodeFactory );
 
-        circuitNode = new CircuitNode( model, model.getCircuit(), this, module );
+        addWorldChild( toolboxSuite );
+
+        circuitNode = new CircuitNode( model, model.getCircuit(), this, module, branchNodeFactory );
         addWorldChild( circuitNode );
 
         measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel() );
@@ -76,10 +79,10 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     private void relayout() {
         Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, getWidth(), getHeight() );
-        toolboxNode.getParent().globalToLocal( screenRect );
+        toolboxSuite.getParent().globalToLocal( screenRect );
         double toolboxInsetX = 15 / 80.0;
         double toolboxInsetY = 10 / 80.0;
-        toolboxNode.setOffset( screenRect.getWidth() - toolboxNode.getFullBounds().getWidth() - toolboxInsetX, screenRect.getHeight() - toolboxNode.getFullBounds().getHeight() - toolboxInsetY );
+        toolboxSuite.setOffset( screenRect.getWidth() - toolboxSuite.getFullBounds().getWidth() - toolboxInsetX, screenRect.getHeight() - toolboxSuite.getFullBounds().getHeight() - toolboxInsetY );
     }
 
     private void addTestElement() {
@@ -87,11 +90,11 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     public void setToolboxBackgroundColor( Color color ) {
-        toolboxNode.setBackground( color );
+        toolboxSuite.setBackground( color );
     }
 
     public Color getToolboxBackgroundColor() {
-        return toolboxNode.getBackgroundColor();
+        return toolboxSuite.getBackgroundColor();
     }
 
     public void setVoltmeterVisible( boolean visible ) {
@@ -111,7 +114,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {
-        toolboxNode.setSeriesAmmeterVisible( selected );
+        toolboxSuite.setSeriesAmmeterVisible( selected );
     }
 
     public void addGrabBag() {
@@ -140,8 +143,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
         } );
     }
 
-    public ToolboxNode getToolboxNode() {
-        return toolboxNode;
+    public ToolboxNodeSuite getToolboxNodeSuite() {
+        return toolboxSuite;
     }
 
     public void applicationStarted() {
@@ -158,5 +161,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void setLifelike( boolean lifelike ) {
         circuitNode.setLifelike( lifelike );
+    }
+
+    public PNode getWireMaker() {
+        return toolboxSuite.getWireMaker();
     }
 }

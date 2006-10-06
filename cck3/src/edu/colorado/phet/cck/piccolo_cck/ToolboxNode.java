@@ -5,7 +5,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
-import edu.colorado.phet.cck.piccolo_cck.lifelike.*;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbComponentNode;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbNode;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -34,6 +35,8 @@ public class ToolboxNode extends PhetPNode {
     private PPath toolboxBounds;
     private PhetPCanvas canvas;
     private CCKModel model;
+    private BranchNodeFactory branchNodeFactory;
+    private CCKSimulationPanel cckSimulationPanel;
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 30;
     private static final double BETWEEN_INSET = 6;
@@ -42,10 +45,12 @@ public class ToolboxNode extends PhetPNode {
     private AmmeterMaker ammeterMaker;
     private ToolboxNode.WireMaker wireMaker;
 
-    public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module ) {
+    public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel ) {
         this.module = module;
         this.canvas = canvas;
         this.model = model;
+        this.branchNodeFactory = branchNodeFactory;
+        this.cckSimulationPanel = cckSimulationPanel;
         this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
         this.toolboxBounds = new PPath( new Rectangle( 100, 100 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
@@ -104,8 +109,10 @@ public class ToolboxNode extends PhetPNode {
     abstract class BranchMaker extends PComposite {//tricky way of circumventing children's behaviors
         private PText label;
         private Branch createdBranch;
+        private double scale;
 
-        public BranchMaker( String name ) {
+        public BranchMaker( String name, double scale ) {
+            this.scale = scale;
             label = new PText( name );
             label.setFont( createFont() );
 //            label.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
@@ -128,6 +135,15 @@ public class ToolboxNode extends PhetPNode {
                     createdBranch = null;
                 }
             } );
+
+            setupNode( scale );
+        }
+
+        protected void setupNode( double scale ) {
+            PNode node = createNode( createBranch() );
+            node.scale( scale );//todo choose scale based on insets?
+//            PhetPPath node = new PhetPPath( new Rectangle( 50, 50 ), Color.blue );
+            setDisplayGraphic( node );
         }
 
         public void setVisible( boolean isVisible ) {
@@ -141,12 +157,14 @@ public class ToolboxNode extends PhetPNode {
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {
-            return event.getPositionRelativeTo( ToolboxNode.this.getParent() );
+//            System.out.println( "ToolboxNode.this.getParent().getParent() = " + ToolboxNode.this.getParent().getParent() );
+            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure
         }
 
         //This assumes the branch is always centered on the mouse.
         private void setBranchLocationFromEvent( PInputEvent event ) {
             Point2D location = getWorldLocation( event );
+            System.out.println( "location = " + location );
             double dx = createdBranch.getEndPoint().getX() - createdBranch.getStartPoint().getX();
             double dy = createdBranch.getEndPoint().getY() - createdBranch.getStartPoint().getY();
             createdBranch.getStartJunction().setPosition( location.getX() - dx / 2,
@@ -163,38 +181,28 @@ public class ToolboxNode extends PhetPNode {
             double labelInsetDY = 4;
             label.setOffset( child.getFullBounds().getWidth() / 2 - label.getFullBounds().getWidth() / 2, child.getFullBounds().getMaxY() + labelInsetDY );
         }
+
+        public PNode createNode( Branch branch ) {
+            return branchNodeFactory.createNode( branch );
+        }
     }
 
     class WireMaker extends BranchMaker {
         public WireMaker() {
-            super( "Wire" );
-            WireNode child = new WireNode( model, createWire(), canvas );
-            child.scale( 40 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
-        }
-
-        private Wire createWire() {
-            return new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
+            super( "Wire", 40 );
         }
 
         protected Branch createBranch() {
-            return createWire();
+            return new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
         }
     }
 
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
-            super( "Resistor" );
-            ComponentNode child = new ResistorNode( model, createResistor(), canvas, module );
-            child.scale( 60 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Resistor", 60 );
         }
 
         protected Branch createBranch() {
-            return createResistor();
-        }
-
-        private Resistor createResistor() {
             double L = CCKModel.RESISTOR_DIMENSION.getLength() * 1.3 * 1.3;
             double H = CCKModel.RESISTOR_DIMENSION.getHeight() * 1.3 * 1.3;
             Resistor resistor = new Resistor( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, H );
@@ -205,10 +213,7 @@ public class ToolboxNode extends PhetPNode {
 
     class BatteryMaker extends BranchMaker {
         public BatteryMaker() {
-            super( "Battery" );
-            ComponentNode child = new BatteryNode( model, createBattery(), canvas, module );
-            child.scale( 45 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Battery", 45 );
         }
 
         protected Branch createBranch() {
@@ -223,10 +228,14 @@ public class ToolboxNode extends PhetPNode {
 
     class BulbMaker extends BranchMaker {
         public BulbMaker() {
-            super( "Light Bulb" );
+            super( "Light Bulb", 1 );
             PNode child = new BulbNode( createBulb() );
+//            PNode child = branchNodeFactory.createNode( createBulb() );
             child.transformBy( AffineTransform.getScaleInstance( 50, 75 ) );//todo choose scale based on insets?
             setDisplayGraphic( child );
+        }
+
+        protected void setupNode( double scale ) {
         }
 
         protected Branch createBranch() {
@@ -244,10 +253,7 @@ public class ToolboxNode extends PhetPNode {
 
     class SwitchMaker extends BranchMaker {
         public SwitchMaker() {
-            super( "Switch" );
-            SwitchNode child = new SwitchNode( model, createSwitch(), canvas );
-            child.scale( 60 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Switch", 60 );
         }
 
         protected Branch createBranch() {
@@ -261,10 +267,7 @@ public class ToolboxNode extends PhetPNode {
 
     class ACVoltageMaker extends BranchMaker {
         public ACVoltageMaker() {
-            super( "AC Voltage" );
-            ACVoltageSourceNode child = new ACVoltageSourceNode( model, createSwitch(), canvas, module );
-            child.scale( 60 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "AC Voltage", 60 );
         }
 
         protected Branch createBranch() {
@@ -278,10 +281,7 @@ public class ToolboxNode extends PhetPNode {
 
     class CapacitorMaker extends BranchMaker {
         public CapacitorMaker() {
-            super( "Capacitor" );
-            CapacitorNode child = new CapacitorNode( model, createCapacitor(), canvas, module );
-            child.scale( 60 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Capacitor", 60 );
         }
 
         protected Branch createBranch() {
@@ -295,10 +295,7 @@ public class ToolboxNode extends PhetPNode {
 
     class InductorMaker extends BranchMaker {
         public InductorMaker() {
-            super( "Inductor" );
-            InductorNode child = new InductorNode( model, createInductor(), canvas, module );
-            child.scale( 42 );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Inductor", 42 );
         }
 
         protected Branch createBranch() {
@@ -312,11 +309,7 @@ public class ToolboxNode extends PhetPNode {
 
     class AmmeterMaker extends BranchMaker {
         public AmmeterMaker() {
-            super( "Ammeter" );
-            SeriesAmmeterNode child = new SeriesAmmeterNode( canvas, createAmmeter(), module );
-            child.scale( 30.0 );//todo choose scale based on insets?
-//            child.scale( );//todo choose scale based on insets?
-            setDisplayGraphic( child );
+            super( "Ammeter", 30 );
         }
 
         protected Branch createBranch() {

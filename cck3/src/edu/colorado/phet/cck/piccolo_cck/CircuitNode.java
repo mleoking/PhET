@@ -1,19 +1,19 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.*;
-import edu.colorado.phet.cck.piccolo_cck.lifelike.*;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicBatteryNode;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicResistorNode;
-import edu.colorado.phet.cck.piccolo_cck.schematic.SchematicWireNode;
+import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Bulb;
+import edu.colorado.phet.cck.model.components.SeriesAmmeter;
+import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.SeriesAmmeterNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -35,9 +35,10 @@ public class CircuitNode extends PhetPNode {
     private PNode branchLayer;
     private PNode junctionLayer;
     private ClipFactory clipFactory;
-    private boolean lifelike = true;
+    private BranchNodeFactory branchNodeFactory;
 
-    public CircuitNode( final CCKModel cckModel, final Circuit circuit, final Component component, ICCKModule module ) {
+    public CircuitNode( final CCKModel cckModel, final Circuit circuit, final JComponent component, ICCKModule module, BranchNodeFactory branchNodeFactory ) {
+        this.branchNodeFactory = branchNodeFactory;
         this.cckModel = cckModel;
         this.circuit = circuit;
         this.component = component;
@@ -127,6 +128,10 @@ public class CircuitNode extends PhetPNode {
         branchLayer.addChild( createNode( branch ) );
     }
 
+    private PNode createNode( Branch branch ) {
+        return branchNodeFactory.createNode( branch );
+    }
+
     private PNode getNode( Branch branch ) {
         for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
             if( ( (BranchNode)branchLayer.getChild( i ) ).getBranch() == branch ) {
@@ -146,87 +151,6 @@ public class CircuitNode extends PhetPNode {
 
     public JunctionNode createNode( Junction junction ) {
         return new JunctionNode( cckModel, junction, this, component );
-    }
-
-    protected BranchNode createNode( Branch branch ) {
-        if( lifelike ) {
-            return createLifelikeNode( branch );
-        }
-        else {
-            return createSchematicNode( branch );
-        }
-    }
-
-    private BranchNode createSchematicNode( final Branch branch ) {
-        if( branch instanceof Wire ) {
-            return new SchematicWireNode( cckModel, (Wire)branch, component );
-        }
-        else if( branch instanceof GrabBagResistor ) {
-            return new SchematicResistorNode( cckModel, (GrabBagResistor)branch, component, module );
-        }
-        else if( branch instanceof Resistor ) {
-            return new SchematicResistorNode( cckModel, (Resistor)branch, component, module );
-        }
-        else if( branch instanceof ACVoltageSource ) {
-            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
-        }
-        else if( branch instanceof Battery ) {
-            return new SchematicBatteryNode( cckModel, (Battery)branch, component, module );
-        }
-        else if( branch instanceof Bulb ) {
-            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
-        }
-        else if( branch instanceof Switch ) {
-            return new SwitchNode( cckModel, (Switch)branch, component );
-        }
-        else if( branch instanceof Capacitor ) {
-            return new SchematicCapacitorNode( cckModel, (Capacitor)branch, component, module );
-        }
-        else if( branch instanceof Inductor ) {
-            return new InductorNode( cckModel, (Inductor)branch, component, module );
-        }
-        else if( branch instanceof SeriesAmmeter ) {
-            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
-        }
-        else {
-            throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
-        }
-    }
-
-    private BranchNode createLifelikeNode( Branch branch ) {
-        if( branch instanceof Wire ) {
-            return new WireNode( cckModel, (Wire)branch, component );
-        }
-        else if( branch instanceof GrabBagResistor ) {
-            return new GrabBagResistorNode( cckModel, (GrabBagResistor)branch, component, module );
-        }
-        else if( branch instanceof Resistor ) {
-            return new ResistorNode( cckModel, (Resistor)branch, component, module );
-        }
-        else if( branch instanceof ACVoltageSource ) {
-            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
-        }
-        else if( branch instanceof Battery ) {
-            return new BatteryNode( cckModel, (Battery)branch, component, module );
-        }
-        else if( branch instanceof Bulb ) {
-            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
-        }
-        else if( branch instanceof Switch ) {
-            return new SwitchNode( cckModel, (Switch)branch, component );
-        }
-        else if( branch instanceof Capacitor ) {
-            return new CapacitorNode( cckModel, (Capacitor)branch, component, module );
-        }
-        else if( branch instanceof Inductor ) {
-            return new InductorNode( cckModel, (Inductor)branch, component, module );
-        }
-        else if( branch instanceof SeriesAmmeter ) {
-            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
-        }
-        else {
-            throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
-        }
     }
 
     public Circuit getCircuit() {
@@ -266,11 +190,11 @@ public class CircuitNode extends PhetPNode {
     }
 
     public boolean isLifelike() {
-        return lifelike;
+        return branchNodeFactory.isLifelike();
     }
 
     public void setLifelike( boolean lifelike ) {
-        this.lifelike = lifelike;
+        this.branchNodeFactory.setLifelike( lifelike );
         Branch[] orderedList = getBranchOrder();
         removeBranchGraphics();
         for( int i = 0; i < orderedList.length; i++ ) {
