@@ -173,10 +173,6 @@ public class PhetRootPNode extends PNode {
         updateWorldNodes();
     }
 
-    public PNode getWorldNode() {
-        return worldNode;
-    }
-
     private static class WrapperNode extends PNode {
         private PNode node;
 
