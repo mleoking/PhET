@@ -47,6 +47,9 @@ public class JunctionNode extends PhetPNode {
         highlightPNode.setStroke( new BasicStroke( (float)( 3 / 80.0 ) ) );
         highlightPNode.setStrokePaint( Color.yellow );
 
+        highlightPNode.setPickable( false );
+        highlightPNode.setChildrenPickable( false );
+
         addChild( shapePNode );
         addChild( highlightPNode );
 
