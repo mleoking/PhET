@@ -35,8 +35,8 @@ public class SchematicResistorNode extends ComponentNode {
     private SimpleObserver simpleObserver;
     private PhetPPath resistorPPath;
 
-    public SchematicResistorNode( CCKModel cckModel, Resistor resistor, Component component, ICCKModule module ) {
-        super( cckModel, resistor, component );
+    public SchematicResistorNode( CCKModel cckModel, Resistor resistor, JComponent component, ICCKModule module ) {
+        super( cckModel, resistor, component, module );
 
         resistorPPath = new PhetPPath( Color.black );
         this.component = resistor;

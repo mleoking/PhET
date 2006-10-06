@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -20,8 +19,8 @@ public class BatteryNode extends ComponentImageNode {
     private Battery battery;
     private ICCKModule module;
 
-    public BatteryNode( CCKModel model, Battery battery, Component component, ICCKModule module ) {
-        super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component );
+    public BatteryNode( CCKModel model, Battery battery, JComponent component, ICCKModule module ) {
+        super( model, battery, CCKImageSuite.getInstance().getLifelikeSuite().getBatteryImage(), component, module );
         this.battery = battery;
         this.module = module;
         update();

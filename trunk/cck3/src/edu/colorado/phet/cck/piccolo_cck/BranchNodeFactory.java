@@ -59,7 +59,7 @@ public class BranchNodeFactory {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
         }
         else if( branch instanceof Switch ) {
-            return new SchematicSwitchNode( cckModel, (Switch)branch, component );
+            return new SchematicSwitchNode( cckModel, (Switch)branch, component, module );
         }
         else if( branch instanceof Capacitor ) {
             return new SchematicCapacitorNode( cckModel, (Capacitor)branch, component, module );
@@ -95,7 +95,7 @@ public class BranchNodeFactory {
             return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
         }
         else if( branch instanceof Switch ) {
-            return new SwitchNode( cckModel, (Switch)branch, component );
+            return new SwitchNode( cckModel, (Switch)branch, component, module );
         }
         else if( branch instanceof Capacitor ) {
             return new CapacitorNode( cckModel, (Capacitor)branch, component, module );

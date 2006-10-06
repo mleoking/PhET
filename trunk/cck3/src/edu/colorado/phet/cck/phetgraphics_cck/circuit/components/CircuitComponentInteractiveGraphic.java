@@ -145,8 +145,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                     }
                 }
             } );
-            if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) )
-            {
+            if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
                 if( module.getParameters().allowShowReadouts() ) {
                     menu.add( showValue );
                 }
@@ -361,7 +360,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
     }
 
-    static class SwitchMenu extends ComponentMenu {
+    public static class SwitchMenu extends ComponentMenu {
         Switch res;
 
         public SwitchMenu( Switch res, CCKPhetgraphicsModule module ) {

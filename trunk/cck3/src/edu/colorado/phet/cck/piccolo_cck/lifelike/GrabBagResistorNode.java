@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -20,8 +19,8 @@ public class GrabBagResistorNode extends ComponentImageNode {
     private GrabBagResistor resistor;
     private ICCKModule module;
 
-    public GrabBagResistorNode( CCKModel model, final GrabBagResistor resistor, Component component, final ICCKModule module ) {
-        super( model, resistor, resistor.getItemInfo().getImage(), component );
+    public GrabBagResistorNode( CCKModel model, final GrabBagResistor resistor, JComponent component, final ICCKModule module ) {
+        super( model, resistor, resistor.getItemInfo().getImage(), component, module );
         this.resistor = resistor;
         this.module = module;
         resistor.addObserver( new SimpleObserver() {

@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -21,8 +20,8 @@ public class InductorNode extends ComponentImageNode {
     private ICCKModule module;
     private Inductor inductor;
 
-    public InductorNode( CCKModel model, Inductor inductor, Component component, ICCKModule module ) {
-        super( model, inductor, CCKImageSuite.getInstance().getInductorImage(), component );
+    public InductorNode( CCKModel model, Inductor inductor, JComponent component, ICCKModule module ) {
+        super( model, inductor, CCKImageSuite.getInstance().getInductorImage(), component, module );
         this.module = module;
         this.inductor = inductor;
     }

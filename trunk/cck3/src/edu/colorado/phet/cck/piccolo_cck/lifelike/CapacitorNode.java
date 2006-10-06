@@ -46,8 +46,8 @@ public class CapacitorNode extends ComponentNode {
     private WireStubNode leftWire;
     private int numToShow = 0;
 
-    public CapacitorNode( CCKModel model, Capacitor capacitor, Component component, ICCKModule module ) {
-        super( model, capacitor, component );
+    public CapacitorNode( CCKModel model, Capacitor capacitor, JComponent component, ICCKModule module ) {
+        super( model, capacitor, component, module );
         this.model = model;
         this.module = module;
         circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );

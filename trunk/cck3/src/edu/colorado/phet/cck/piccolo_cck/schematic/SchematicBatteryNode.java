@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Battery;
 
-import java.awt.*;
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -15,7 +15,7 @@ import java.awt.*;
 public class SchematicBatteryNode extends SchematicPlatedNode {
     private static double SCALE = 1.2;
 
-    public SchematicBatteryNode( CCKModel cckModel, Battery battery, Component component, ICCKModule module ) {
+    public SchematicBatteryNode( CCKModel cckModel, Battery battery, JComponent component, ICCKModule module ) {
         super( cckModel, battery, component, module, 0.1, 0.43, 3 * SCALE, 1.75 * SCALE );
     }
 }

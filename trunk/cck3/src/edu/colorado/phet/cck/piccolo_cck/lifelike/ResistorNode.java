@@ -25,8 +25,8 @@ public class ResistorNode extends ComponentImageNode {
     private ICCKModule module;
     private ColorBandNode colorBandNode;
 
-    public ResistorNode( CCKModel model, final Resistor resistor, Component component, final ICCKModule module ) {
-        super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage(), component );
+    public ResistorNode( CCKModel model, final Resistor resistor, JComponent component, final ICCKModule module ) {
+        super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage(), component, module );
         this.resistor = resistor;
         this.module = module;
         colorBandNode = new ColorBandNode( this, resistor );

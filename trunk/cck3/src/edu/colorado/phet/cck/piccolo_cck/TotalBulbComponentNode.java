@@ -9,6 +9,7 @@ import edu.colorado.phet.cck.piccolo_cck.lifelike.FilamentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -23,7 +24,7 @@ public class TotalBulbComponentNode extends BranchNode {
     private FilamentNode filamentNode;
     private BulbComponentNode bulbComponentNode;
 
-    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, Component component, ICCKModule module ) {
+    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, JComponent component, ICCKModule module ) {
         this.bulb = bulb;
         filamentNode = new FilamentNode( bulb.getFilament(), this );
         bulbComponentNode = new BulbComponentNode( cckModel, bulb, component, module );
