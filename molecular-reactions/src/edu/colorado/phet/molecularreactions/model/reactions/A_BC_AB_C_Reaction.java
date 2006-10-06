@@ -107,7 +107,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
-        doReactionII( mAB, mBC, mA );
+        doReactionII( mAB, mBC, mC, mA );
     }
 
     private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
@@ -115,7 +115,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         MoleculeB mB = mBC.getMoleculeB();
         MoleculeC mC = mBC.getMoleculeC();
         MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
-        doReactionII( mBC, mAB, mC );
+        doReactionII( mBC, mAB, mA, mC );
     }
 
     /**
@@ -128,6 +128,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     private void doReactionII( AbstractMolecule oldComposite,
                                AbstractMolecule newComposite,
+                               AbstractMolecule oldFreeMolecule,
                                AbstractMolecule newFreeMolecule ) {
         model.removeModelElement( oldComposite );
         model.addModelElement( newComposite );
@@ -136,6 +137,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
         // Compute the kinematics of the released molecule
         HardBodyCollision collision = new HardBodyCollision();
         collision.detectAndDoCollision( newComposite, newFreeMolecule );
+
+//        if( true ) return;
 
         // Add kinetic energy to the molecules equivalent to the difference in potential energy
         // between the peak and the flat
@@ -147,12 +150,23 @@ public class A_BC_AB_C_Reaction extends Reaction {
             floorPE = getEnergyProfile().getLeftLevel();
         }
         double dPE = getEnergyProfile().getPeakLevel() - floorPE;
-        double vC0 = newComposite.getSpeed();
-        double vC1 = Math.sqrt( 2 * ( dPE / 2 ) / newComposite.getMass() + vC0 * vC0 );
-        newComposite.setVelocity( newComposite.getVelocity().normalize().scale( vC1 ));
-        double vF0 = newFreeMolecule.getSpeed();
-        double vF1 = Math.sqrt( 2 * ( dPE / 2 ) / newFreeMolecule.getMass() + vF0 * vF0 );
-        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().normalize().scale( vF1 ));
+        Vector2D vKE = new Vector2D.Double( oldFreeMolecule.getPosition(), newFreeMolecule.getPosition() ).normalize();
+        double dFreeMoleculeKE = Math.sqrt( 2 * dPE / newFreeMolecule.getFullMass() ) / 2;
+        double dCompositeKE = Math.sqrt( 2 * dPE / newComposite.getFullMass() ) / 2;
+        Vector2D dVFree = new Vector2D.Double( vKE ).scale( dFreeMoleculeKE );
+        Vector2D dVComposite = new Vector2D.Double( vKE ).scale( -dCompositeKE );
+
+        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().add( dVFree ));
+        newComposite.setVelocity( newComposite.getVelocity().add( dVComposite ));
+
+        if( true) return;
+
+//        double vC0 = newComposite.getSpeed();
+//        double vC1 = Math.sqrt( 2 * ( dPE / 2 ) / newComposite.getMass() + vC0 * vC0 );
+//        newComposite.setVelocity( newComposite.getVelocity().normalize().scale( -vC1 ));
+//        double vF0 = newFreeMolecule.getSpeed();
+//        double vF1 = Math.sqrt( 2 * ( dPE / 2 ) / newFreeMolecule.getMass() + vF0 * vF0 );
+//        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().normalize().scale( vF1 ));
         
     }
 

@@ -58,12 +58,16 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
 //        double initialLength = model.getReaction().getCollisionDistance( sm1.getFullMolecule(),
 //                                                                         sm2.getFullMolecule() ) - this.maxBondLength;
 //        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2}, initialLength );
-        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
-        model.addModelElement( spring );
 
-        CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
-        sm1.addListener( compositeStateMonitor );
-        sm2.addListener( compositeStateMonitor );
+        // Don't create a spring if the molecules are moving apart
+        if( sm1.getPosition().distance( sm2.getPosition() )
+            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
+            spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
+            model.addModelElement( spring );
+            CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
+            sm1.addListener( compositeStateMonitor );
+            sm2.addListener( compositeStateMonitor );
+        }
     }
 
     /**
@@ -99,7 +103,11 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
     }
 
     public double getPotentialEnergy() {
-        return spring.getPotentialEnergy();
+        double e = 0;
+        if( spring != null ) {
+            e = spring.getPotentialEnergy();
+        }
+        return e;
     }
 
     /**
