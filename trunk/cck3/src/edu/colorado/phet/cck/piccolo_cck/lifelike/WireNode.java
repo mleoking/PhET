@@ -1,9 +1,12 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.cck.piccolo_cck.BranchNode;
+import edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel;
+import edu.colorado.phet.cck.piccolo_cck.WirePopupMenu;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.event.PopupMenuHandler;
@@ -26,6 +29,8 @@ public class WireNode extends BranchNode {
     private PPath wirePPath;
     private PPath wireHighlightPPath;
     private CircuitInteractionModel circuitInteractionModel;
+    public static final double DEFAULT_HIGHLIGHT_STROKE_WIDTH = CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE;
+    private double highlightStrokeWidth = DEFAULT_HIGHLIGHT_STROKE_WIDTH;
 
     public WireNode( final CCKModel cckModel, final Wire wire, Component component ) {
         this.cckModel = cckModel;
@@ -74,13 +79,19 @@ public class WireNode extends BranchNode {
         addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
     }
 
+    public void setHighlightStrokeWidth( double highlightStrokeWidth ) {
+        this.highlightStrokeWidth = highlightStrokeWidth;
+        update();
+    }
+
     public void setWirePaint( Color newPaint ) {
         wirePPath.setPaint( newPaint );
     }
 
     private void update() {
         wireHighlightPPath.setVisible( wire.isSelected() );
-        Shape highlightShape = new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
+
+        Shape highlightShape = new BasicStroke( (float)highlightStrokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
         wireHighlightPPath.setPathTo( highlightShape );
 
         wirePPath.setPathTo( wire.getShape() );

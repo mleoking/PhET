@@ -1,9 +1,11 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.CCKImageSuite;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Inductor;
+import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
 
 import javax.swing.*;
 import java.awt.*;

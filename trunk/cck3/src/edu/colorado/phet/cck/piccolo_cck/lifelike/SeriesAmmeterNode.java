@@ -1,10 +1,13 @@
-package edu.colorado.phet.cck.piccolo_cck;
+package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.LineSegment;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.model.components.SeriesAmmeter;
+import edu.colorado.phet.cck.piccolo_cck.ComponentMenu;
+import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
+import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.SimStrings;
