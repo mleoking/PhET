@@ -11,6 +11,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -28,9 +29,9 @@ public class CircuitNode extends PhetPNode {
     private PNode electronLayer;
     private PNode solderLayer;
     private PNode branchLayer;
-    //    private PNode flameLayer = new PNode();
     private PNode junctionLayer;
     private ClipFactory clipFactory;
+    private boolean lifelike = true;
 
     public CircuitNode( final CCKModel cckModel, final Circuit circuit, final Component component, ICCKModule module ) {
         this.cckModel = cckModel;
@@ -62,7 +63,6 @@ public class CircuitNode extends PhetPNode {
         readoutLayer.setVisible( false );
         addChild( solderLayer );
         addChild( branchLayer );
-//        addChild( flameLayer );
         addChild( junctionLayer );
 
         addChild( electronLayer );
@@ -70,9 +70,7 @@ public class CircuitNode extends PhetPNode {
 
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {
-                BranchNode branchNode = createNode( branch );
-                branchLayer.addChild( branchNode );
-//                flameLayer.addChild( new FlameNode( branch ) );
+                addBranchNode( branch );
             }
 
             public void junctionAdded( Junction junction ) {
@@ -121,6 +119,10 @@ public class CircuitNode extends PhetPNode {
         } );
     }
 
+    private void addBranchNode( Branch branch ) {
+        branchLayer.addChild( createNode( branch ) );
+    }
+
     private PNode getNode( Branch branch ) {
         for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
             if( ( (BranchNode)branchLayer.getChild( i ) ).getBranch() == branch ) {
@@ -143,6 +145,51 @@ public class CircuitNode extends PhetPNode {
     }
 
     protected BranchNode createNode( Branch branch ) {
+        if( lifelike ) {
+            return createLifelikeNode( branch );
+        }
+        else {
+            return createSchematicNode( branch );
+        }
+    }
+
+    private BranchNode createSchematicNode( final Branch branch ) {
+        if( branch instanceof Wire ) {
+            return new SchematicWireNode( cckModel, (Wire)branch, component );
+        }
+        else if( branch instanceof GrabBagResistor ) {
+            return new GrabBagResistorNode( cckModel, (GrabBagResistor)branch, component, module );
+        }
+        else if( branch instanceof Resistor ) {
+            return new ResistorNode( cckModel, (Resistor)branch, component, module );
+        }
+        else if( branch instanceof ACVoltageSource ) {
+            return new ACVoltageSourceNode( cckModel, (ACVoltageSource)branch, component, module );
+        }
+        else if( branch instanceof Battery ) {
+            return new BatteryNode( cckModel, (Battery)branch, component, module );
+        }
+        else if( branch instanceof Bulb ) {
+            return new TotalBulbComponentNode( cckModel, (Bulb)branch, component, module );
+        }
+        else if( branch instanceof Switch ) {
+            return new SwitchNode( cckModel, (Switch)branch, component );
+        }
+        else if( branch instanceof Capacitor ) {
+            return new CapacitorNode( cckModel, (Capacitor)branch, component, module );
+        }
+        else if( branch instanceof Inductor ) {
+            return new InductorNode( cckModel, (Inductor)branch, component, module );
+        }
+        else if( branch instanceof SeriesAmmeter ) {
+            return new SeriesAmmeterNode( component, (SeriesAmmeter)branch, module );
+        }
+        else {
+            throw new RuntimeException( "Unrecognized branch type: " + branch.getClass() );
+        }
+    }
+
+    private BranchNode createLifelikeNode( Branch branch ) {
         if( branch instanceof Wire ) {
             return new WireNode( cckModel, (Wire)branch, component );
         }
@@ -212,5 +259,42 @@ public class CircuitNode extends PhetPNode {
 
     public BranchNode getBranchNode( int i ) {
         return (BranchNode)branchLayer.getChild( i );
+    }
+
+    public boolean isLifelike() {
+        return lifelike;
+    }
+
+    public void setLifelike( boolean lifelike ) {
+        this.lifelike = lifelike;
+        Branch[] orderedList = getBranchOrder();
+        removeBranchGraphics();
+        for( int i = 0; i < orderedList.length; i++ ) {
+            Branch branch = orderedList[i];
+            if( branch instanceof Wire ) {
+                Wire wire = (Wire)branch;
+                wire.setThickness( lifelike ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
+            }
+            addBranchNode( branch );
+        }
+    }
+
+    private void removeBranchGraphics() {
+        while( getNumBranchNodes() > 0 ) {
+            removeBranchNode( 0 );
+        }
+    }
+
+    private void removeBranchNode( int i ) {
+        branchLayer.removeChild( i );
+        //todo detach listeners.
+    }
+
+    private Branch[] getBranchOrder() {//this is a workaround because there is no model-representation for layering.
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < getNumBranchNodes(); i++ ) {
+            list.add( getBranchNode( i ).getBranch() );
+        }
+        return (Branch[])list.toArray( new Branch[0] );
     }
 }

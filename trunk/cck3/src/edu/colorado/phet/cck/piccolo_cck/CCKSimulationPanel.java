@@ -151,4 +151,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public void setHelpEnabled( boolean enabled ) {
         cckHelpSuite.setHelpEnabled( enabled );
     }
+
+    public boolean isLifelike() {
+        return circuitNode.isLifelike();
+    }
+
+    public void setLifelike( boolean lifelike ) {
+        circuitNode.setLifelike( lifelike );
+    }
 }

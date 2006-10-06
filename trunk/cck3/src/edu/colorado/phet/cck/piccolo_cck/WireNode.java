@@ -12,7 +12,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -38,16 +37,14 @@ public class WireNode extends BranchNode {
         wireHighlightPPath.setStroke( null );
 
         wirePPath = new PPath();
-        wirePPath.setPaint( CCKLookAndFeel.COPPER );
+        setWirePaint( CCKLookAndFeel.COPPER );
         wirePPath.setStroke( null );
         addChild( wireHighlightPPath );
         addChild( wirePPath );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                Point2D pt = event.getPositionRelativeTo( WireNode.this.getParent() );
-//                wire.translate( delta.width, delta.height );
-                circuitInteractionModel.translate( wire, pt );
+                circuitInteractionModel.translate( wire, event.getPositionRelativeTo( WireNode.this.getParent() ) );
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -75,6 +72,10 @@ public class WireNode extends BranchNode {
         } );
         update();
         addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
+    }
+
+    public void setWirePaint( Color newPaint ) {
+        wirePPath.setPaint( newPaint );
     }
 
     private void update() {
