@@ -71,7 +71,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, TabbedPaneType tabbedPaneType ) {
         super( args, title, description, version );
-        super.setTabbedPaneType(PHET_TABBED_PANE);
+        super.setTabbedPaneType(tabbedPaneType );
     }
 
     /**
@@ -97,7 +97,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param tabbedPaneType
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        super( args, title, description, version, frameSetup,PHET_TABBED_PANE );
+        super( args, title, description, version, frameSetup,tabbedPaneType );
     }
 
 }
