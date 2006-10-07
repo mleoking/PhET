@@ -29,12 +29,13 @@ import java.awt.geom.Rectangle2D;
 public class SchematicSwitchNode extends SwitchBodyRectangleNode {
     private Switch s;
     private ICCKModule module;
+    private SwitchLeverNode switchLeverNode;
 
     public SchematicSwitchNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
         super( model, s, component, module );
         this.s = s;
         this.module = module;
-        SchematicSwitchNode.SwitchLeverNode switchLeverNode = new SchematicSwitchNode.SwitchLeverNode();//so the transform on switchBodyNode won't interfere
+        switchLeverNode = new SwitchLeverNode();
         addChild( switchLeverNode );
 
         int attachmentWidth = 40;
@@ -42,20 +43,26 @@ public class SchematicSwitchNode extends SwitchBodyRectangleNode {
         addChild( new PhetPPath( new Rectangle2D.Double( getDimension().getWidth() - attachmentWidth, 0, attachmentWidth, getDimension().getHeight() ), Color.black ) );
     }
 
+    public void delete() {
+        super.delete();
+        switchLeverNode.delete();
+    }
+
     class SwitchLeverNode extends PhetPNode {//todo consolidate this code with lifelike version
         private PNode pathNode;
         double leverWidth = getDimension().getWidth();
         double leverHeight = 20;
+        private SimpleObserver switchObserver = new SimpleObserver() {
+            public void update() {
+                SwitchLeverNode.this.update();
+            }
+        };
 
         public SwitchLeverNode() {
             addInputEventListener( new CursorHandler() );
             pathNode = new PhetPPath( new Rectangle2D.Double( 0, 0, leverWidth, leverHeight ), Color.black );
             addChild( pathNode );
-            s.addObserver( new SimpleObserver() {
-                public void update() {
-                    SchematicSwitchNode.SwitchLeverNode.this.update();
-                }
-            } );
+            s.addObserver( switchObserver );
 
             pathNode.addInputEventListener( new PBasicInputEventHandler() {
                 private double origGrabAngle = Double.NaN;
@@ -110,6 +117,10 @@ public class SchematicSwitchNode extends SwitchBodyRectangleNode {
             pathNode.translate( 0, leverHeight );
 //            pathNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight / 2 );
             pathNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, leverWidth, leverHeight );
+        }
+
+        public void delete() {
+            s.removeObserver( switchObserver );
         }
     }
 }

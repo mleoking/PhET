@@ -5,8 +5,6 @@ sometimes junctions bump off each other too easily?
 bulb loaded incorrectly one time
 improve component constructor interface
 
-switching back and forth between schematic & lifelike causes performance degradation; possibly because listeners are not removed.
-
 Comments:
 For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
 and capacitor (maybe not realistic, also code wasn't free).
@@ -21,6 +19,8 @@ add flame graphic on top (it went underneath images)
 
 readout graphics are not removed when component is removed
 editing a component should show it's Readout value (by the component)
+
+add delete key shortcut
 
 exception:
 

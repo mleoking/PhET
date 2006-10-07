@@ -88,6 +88,7 @@ public class SchematicPlatedNode extends ComponentNode {
     }
 
     public void delete() {
+        super.delete();
         getBranch().removeObserver( simpleObserver );
     }
 

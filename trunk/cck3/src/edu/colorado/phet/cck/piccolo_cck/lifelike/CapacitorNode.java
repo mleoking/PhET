@@ -44,6 +44,11 @@ public class CapacitorNode extends ComponentNode {
     private WireStubNode rightWire;
     private WireStubNode leftWire;
     private int numToShow = 0;
+    private SimpleObserver capacitorObserver = new SimpleObserver() {
+        public void update() {
+            CapacitorNode.this.update();
+        }
+    };
 
     public CapacitorNode( CCKModel model, Capacitor capacitor, JComponent component, ICCKModule module ) {
         super( model, capacitor, component, module );
@@ -51,11 +56,7 @@ public class CapacitorNode extends ComponentNode {
         this.module = module;
         circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
         this.capacitor = capacitor;
-        capacitor.addObserver( new SimpleObserver() {
-            public void update() {
-                CapacitorNode.this.update();
-            }
-        } );
+        capacitor.addObserver( capacitorObserver );
         leftPlate = new PlateNode();
         rightPlate = new PlateNode();
         rightWire = new WireStubNode();
@@ -66,6 +67,11 @@ public class CapacitorNode extends ComponentNode {
         addChild( leftWire );
         getHighlightNode().setStroke( new BasicStroke( 0.09f ) );
         update();
+    }
+
+    public void delete() {
+        super.delete();
+        capacitor.removeObserver( capacitorObserver );
     }
 
     class WireStubNode extends PhetPNode {

@@ -26,15 +26,21 @@ import java.awt.image.BufferedImage;
  */
 
 public class SwitchNode extends SwitchBodyImageNode {
-    private Switch s;
+    private Switch switch_;
     private ICCKModule module;
+    private SwitchLeverNode switchLeverNode;
 
     public SwitchNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
         super( model, s, component, module );
-        this.s = s;
+        this.switch_ = s;
         this.module = module;
-        SwitchLeverNode switchLeverNode = new SwitchLeverNode();//so the transform on switchBodyNode won't interfere
+        switchLeverNode = new SwitchLeverNode();
         addChild( switchLeverNode );
+    }
+
+    public void delete() {
+        super.delete();
+        switchLeverNode.delete();
     }
 
 //    protected JPopupMenu createPopupMenu() {
@@ -44,17 +50,18 @@ public class SwitchNode extends SwitchBodyImageNode {
     class SwitchLeverNode extends PhetPNode {
         private PNode imagePNode;
         private BufferedImage knifeHandleImage;
+        private SimpleObserver switchObserver = new SimpleObserver() {
+            public void update() {
+                SwitchLeverNode.this.update();
+            }
+        };
 
         public SwitchLeverNode() {
             addInputEventListener( new CursorHandler() );
             knifeHandleImage = CCKImageSuite.getInstance().getKnifeHandleImage();
             imagePNode = new PImage( knifeHandleImage );
             addChild( imagePNode );
-            s.addObserver( new SimpleObserver() {
-                public void update() {
-                    SwitchLeverNode.this.update();
-                }
-            } );
+            switch_.addObserver( switchObserver );
 
             imagePNode.addInputEventListener( new PBasicInputEventHandler() {
                 private double origGrabAngle = Double.NaN;
@@ -63,7 +70,7 @@ public class SwitchNode extends SwitchBodyImageNode {
                 public void mouseDragged( PInputEvent event ) {
                     if( Double.isNaN( origGrabAngle ) ) {
                         origGrabAngle = getAngle( event );
-                        origLeverAngle = s.getHandleAngle();
+                        origLeverAngle = switch_.getHandleAngle();
                     }
 //                    System.out.println( "event.getPosition() = " + event.getPosition() );
 //                    System.out.println( "event.getPositionRelativeTo( SwitchNode.this) = " + event.getPositionRelativeTo( SwitchNode.this ) );
@@ -87,7 +94,7 @@ public class SwitchNode extends SwitchBodyImageNode {
                         desiredAngle = Math.PI;
                     }
 
-                    s.setHandleAngle( desiredAngle );
+                    switch_.setHandleAngle( desiredAngle );
                     event.setHandled( true );
                 }
 
@@ -109,7 +116,11 @@ public class SwitchNode extends SwitchBodyImageNode {
 
         private void update() {
             imagePNode.setTransform( new AffineTransform() );
-            imagePNode.rotateAboutPoint( s.getHandleAngle() + Math.PI, knifeHandleImage.getWidth(), knifeHandleImage.getHeight() / 2 );
+            imagePNode.rotateAboutPoint( switch_.getHandleAngle() + Math.PI, knifeHandleImage.getWidth(), knifeHandleImage.getHeight() / 2 );
+        }
+
+        public void delete() {
+            switch_.removeObserver( switchObserver );
         }
     }
 }

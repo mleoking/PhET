@@ -22,22 +22,28 @@ import java.awt.geom.Rectangle2D;
 public abstract class RectangularComponentNode extends ComponentNode {
     private FlameNode flameNode;
     private PDimension dimension;
+    private Branch.FlameListener flameListener = new Branch.FlameListener() {
+        public void flameStarted() {
+            update();
+        }
+
+        public void flameFinished() {
+            update();
+        }
+    };
 
     public RectangularComponentNode( final CCKModel model, final CircuitComponent circuitComponent, double width, double height, JComponent component, ICCKModule module ) {
         super( model, circuitComponent, component, module );
         dimension = new PDimension( width, height );
         flameNode = new FlameNode( getBranch() );
         addChild( flameNode );
-        getBranch().addFlameListener( new Branch.FlameListener() {
-            public void flameStarted() {
-                update();
-            }
-
-            public void flameFinished() {
-                update();
-            }
-        } );
+        getBranch().addFlameListener( flameListener );
         update();
+    }
+
+    public void delete() {
+        super.delete();
+        getBranch().removeFlameListener( flameListener );
     }
 
     public PDimension getDimension() {
