@@ -5,10 +5,8 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.model.components.Bulb;
-import edu.colorado.phet.cck.model.components.SeriesAmmeter;
-import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.cck.model.components.*;
+import edu.colorado.phet.cck.piccolo_cck.lifelike.CapacitorNode;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.SeriesAmmeterNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -49,10 +47,8 @@ public class CircuitNode extends PhetPNode {
         junctionLayer = new PNode();
         clipFactory = new ClipFactory() {
 
-
+            //todo how come getClip doesn't fail when switching to the schematic graphics?
             public Shape getClip( ElectronNode electronNode ) {
-//                return null;
-
                 if( electronNode.getElectron().getBranch() instanceof Bulb ) {
                     TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
                     return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
@@ -61,6 +57,10 @@ public class CircuitNode extends PhetPNode {
                 if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter ) {//todo: could extend this to electrons in neighboring branches
                     SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( electronNode.getElectron().getBranch() );
                     return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
+                }
+                else if( electronNode.getElectron().getBranch() instanceof Capacitor ) {
+                    CapacitorNode capacitorNode = (CapacitorNode)getNode( electronNode.getElectron().getBranch() );
+                    return capacitorNode.getClipShape(electronLayer.getParent());
                 }
                 else {
                     return null;

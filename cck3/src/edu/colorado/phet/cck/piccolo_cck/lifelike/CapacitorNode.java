@@ -11,6 +11,7 @@ import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,6 +75,15 @@ public class CapacitorNode extends ComponentNode {
         capacitor.removeObserver( capacitorObserver );
     }
 
+    public Shape getClipShape( PNode parent ) {
+        Shape conductorShape = leftPlate.getPath().getPathReference();
+        PAffineTransform a = leftPlate.getPath().getLocalToGlobalTransform( null );
+        PAffineTransform b = parent.getGlobalToLocalTransform( null );
+        conductorShape = a.createTransformedShape( conductorShape );
+        conductorShape = b.createTransformedShape( conductorShape );
+        return conductorShape;
+    }
+
     class WireStubNode extends PhetPNode {
         private PhetPPath path;
 
@@ -120,6 +130,10 @@ public class CapacitorNode extends ComponentNode {
 
         public void addChargeNode( PNode chargeNode ) {
             chargeLayer.addChild( chargeNode );
+        }
+
+        public PhetPPath getPath() {
+            return path;
         }
     }
 
