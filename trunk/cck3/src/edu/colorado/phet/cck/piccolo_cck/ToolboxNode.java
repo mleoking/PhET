@@ -158,7 +158,12 @@ public class ToolboxNode extends PhetPNode {
 
         public Point2D getWorldLocation( PInputEvent event ) {
 //            System.out.println( "ToolboxNode.this.getParent().getParent() = " + ToolboxNode.this.getParent().getParent() );
-            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure
+            Point2D pt = event.getPositionRelativeTo( this );
+            this.localToGlobal( pt );
+            CCKPiccoloModule m = (CCKPiccoloModule)module;
+            m.getCckSimulationPanel().getCircuitNode().globalToLocal( pt );
+            return pt;
+//            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure
         }
 
         //This assumes the branch is always centered on the mouse.

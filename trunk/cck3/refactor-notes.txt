@@ -21,6 +21,8 @@ unconnected circuit with switch & ac had buggy electron flow
 
 add flame graphic on top (it went underneath images)
 
+readout graphics are not removed when component is removed
+
 exception:
 
 java.lang.RuntimeException: Juncitons Not at same coordinates.

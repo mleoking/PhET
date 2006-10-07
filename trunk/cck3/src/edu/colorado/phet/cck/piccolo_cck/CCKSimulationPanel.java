@@ -166,4 +166,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public PNode getWireMaker() {
         return toolboxSuite.getWireMaker();
     }
+
+    public void setZoom( double zoom ) {
+        circuitNode.setZoom( zoom );
+    }
 }
