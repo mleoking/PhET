@@ -69,7 +69,12 @@ public class JunctionNode extends PhetPNode {
             }
 
             public void mousePressed( PInputEvent event ) {
-                getCircuit().setSelection( junction );
+                if( event.isControlDown() ) {
+                    junction.setSelected( !junction.isSelected() );
+                }
+                else {
+                    getCircuit().setSelection( junction );
+                }
             }
 
             public void mouseReleased( PInputEvent event ) {

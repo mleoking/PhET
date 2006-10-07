@@ -194,15 +194,18 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public void selectAll() {
+        model.selectAll();
     }
 
     public void addTestCircuit() {
     }
 
-    public void deleteSelection() {
+    public void deleteSelectedBranches() {
+        model.deleteSelectedBranches();
     }
 
     public void desolderSelection() {
+        model.desolderSelectedJunctions();
     }
 
     public Color getMyBackground() {

@@ -235,4 +235,16 @@ public class CCKModel {
     private void layoutElectrons() {
         layoutElectrons( circuit.getBranches() );
     }
+
+    public void deleteSelectedBranches() {
+        circuit.deleteSelectedBranches();
+    }
+
+    public void selectAll() {
+        circuit.selectAll();
+    }
+
+    public void desolderSelectedJunctions() {
+        circuit.desolderSelectedJunctions();
+    }
 }

@@ -13,10 +13,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -36,7 +33,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private BranchNodeFactory branchNodeFactory;
     private ToolboxNodeSuite toolboxSuite;
 
-    public CCKSimulationPanel( CCKModel model, ICCKModule module ) {
+    public CCKSimulationPanel( CCKModel model, final ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
@@ -75,6 +72,24 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
         cckHelpSuite = new CCKHelpSuite( this, module );
         addScreenChild( cckHelpSuite );
+        requestFocus();
+        addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
+                    module.selectAll();
+                }
+                if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
+                    module.desolderSelection();
+                    module.deleteSelectedBranches();
+                }
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
     }
 
     private void relayout() {

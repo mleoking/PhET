@@ -5,6 +5,8 @@ import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.piccolo_cck.PhetPPath;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -41,6 +43,12 @@ public class BulbNode extends PhetPNode {
     private Stroke baseStroke = new BasicStroke( 1 / 40.0f );
     private Stroke linestroke = new BasicStroke( 1 / 90.0f );
     private boolean showCoverOnly = false;
+    private PhetPPath highlightNode = new PhetPPath( new BasicStroke( (float)( 2.0 / 60.0 ) ), Color.yellow );
+    private SimpleObserver bulbObserver = new SimpleObserver() {
+        public void update() {
+            BulbNode.this.update();
+        }
+    };
 
     public BulbNode( Bulb bulb ) {
         this.bulb = bulb;
@@ -98,6 +106,7 @@ public class BulbNode extends PhetPNode {
             Line2D.Double line = new Line2D.Double( x1, y1, x2, y2 );
             spiralLines.add( line );
         }
+        bulb.addObserver( bulbObserver );
         update();
     }
 
@@ -118,6 +127,16 @@ public class BulbNode extends PhetPNode {
             updateInsulator();
             updateConductor();
             updateSpiralLines();
+//            highlightNode.setPathTo( new Rectangle() );
+
+            if( bulb.isSelected() ) {
+                Rectangle2D rect = bulbShape.getBounds2D().createUnion( tip );
+                rect = RectangleUtils.expand( rect, 2 / 60.0, 2 / 60.0 );
+                highlightNode.setPathTo( rect );
+                addChild( highlightNode );
+            }
+//            highlightNode.setVisible( bulb.isSelected() );
+//            System.out.println( "bulbShape.getbou = " + bulbShape.getbou );
         }
     }
 
@@ -239,5 +258,13 @@ public class BulbNode extends PhetPNode {
 
     public Shape getCoverShapeOnFilamentSide() {
         return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.63, conductor.getHeight() );
+    }
+
+//    public void setHighlightVisible( boolean selected ) {
+//        highlightNode.setVisible( selected );
+//    }
+
+    public void delete() {
+        bulb.removeObserver( bulbObserver );
     }
 }

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -42,11 +43,13 @@ public class BulbComponentNode extends ComponentNode {
         bulbNode.transformBy( AffineTransform.getScaleInstance( 2, 2.5 ) );
         update();
         runParamTest();
+        getHighlightNode().setStroke( new BasicStroke( (float)( 1.0 / 60.0 ) ) );
     }
 
     public void delete() {
         super.delete();
         getCCKModel().getCircuitSolver().removeSolutionListener( circuitSolutionListener );
+        bulbNode.delete();
     }
 
     public BulbNode getBulbNode() {
@@ -60,7 +63,8 @@ public class BulbComponentNode extends ComponentNode {
     }
 
     public static double getTiltValue( Bulb bulb ) {
-        double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth() / 2;
+//        double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth() / 2;
+        double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth();
         double h = new BulbNode( bulb ).getCoverShape().getBounds().getHeight();
         return -Math.atan2( w, h );
     }
@@ -140,5 +144,8 @@ public class BulbComponentNode extends ComponentNode {
     protected void update() {
         super.update();
         setTransform( createTransform() );
+        getHighlightNode().setVisible( false );
+//        bulbNode.setHighlightVisible(bulb.isSelected());
     }
+
 }

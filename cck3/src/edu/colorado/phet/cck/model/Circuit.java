@@ -621,6 +621,28 @@ public class Circuit {
         }
     }
 
+    public void deleteSelectedBranches() {
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch.isSelected() ) {
+                removeBranch( branch );
+                i--;
+            }
+        }
+    }
+
+    public void desolderSelectedJunctions() {
+        ArrayList alreadySplit = new ArrayList();
+        for( int i = 0; i < junctions.size(); i++ ) {
+            Junction junction = (Junction)junctions.get( i );
+            if( !alreadySplit.contains( junction ) && junction.isSelected() && getNeighbors( junction ).length > 1 ) {
+                split( junction );
+                alreadySplit.add( junction );
+                i = -1;
+            }
+        }
+    }
+
     public static class DragMatch {
         private Junction source;
         private Junction target;
@@ -682,8 +704,7 @@ public class Circuit {
         for( int i = 0; i < targets.length; i++ ) {
             Junction target = targets[i];
             double dist = loc.distance( target.getPosition() );
-            if( target != dragging && !hasBranch( dragging, target ) && !wouldConnectionCauseOverlappingBranches( dragging, target ) )
-            {
+            if( target != dragging && !hasBranch( dragging, target ) && !wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
                 if( closestJunction == null || dist < closestValue ) {
                     boolean legal = !contains( strong, target );
                     double STICKY_THRESHOLD = 1;
@@ -732,7 +753,7 @@ public class Circuit {
     }
 
     private Branch detectBranch( Shape tipShape ) {
-        Wire[]wires = getWires();
+        Wire[] wires = getWires();
         Wire connection = null;
         for( int i = 0; i < wires.length; i++ ) {
             Wire wire = wires[i];
@@ -758,7 +779,7 @@ public class Circuit {
     }
 
     private Junction detectJunction( Shape tipShape ) {
-        Junction[]junctions = getJunctions();
+        Junction[] junctions = getJunctions();
         Junction detectedJunction = null;
         for( int i = 0; i < junctions.length; i++ ) {
             Area area = new Area( junctions[i].getShape() );

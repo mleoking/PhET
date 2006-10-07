@@ -72,7 +72,7 @@ public interface ICCKModule {
 
     void addTestCircuit();
 
-    void deleteSelection();
+    void deleteSelectedBranches();
 
     void desolderSelection();
 

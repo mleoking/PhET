@@ -29,7 +29,7 @@ public class CCKKeyListener implements KeyListener {
 
     public void keyReleased( KeyEvent e ) {
         if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
-            cck.deleteSelection();
+            cck.deleteSelectedBranches();
             cck.desolderSelection();
         }
         else if( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {

@@ -265,7 +265,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         return decimalFormat;
     }
 
-    public void deleteSelection() {
+    public void deleteSelectedBranches() {
         Branch[] sel = getCircuit().getSelectedBranches();
         for( int i = 0; i < sel.length; i++ ) {
             Branch branch = sel[i];
