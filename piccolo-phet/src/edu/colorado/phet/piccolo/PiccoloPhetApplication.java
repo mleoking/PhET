@@ -37,41 +37,17 @@ public class PiccoloPhetApplication extends PhetApplication {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods and inner classes
     //--------------------------------------------------------------------------------------------------
-
-    /**
-     * Enumeration class used to specify the type of tabbed panes the application is to use in
-     * its Module instances
-     */
-    public abstract static class TabbedPaneType {
-        private TabbedPaneType() {
-        }
-
-        public abstract ITabbedModulePane createTabbedPane();
-    }
             
-    // Standard Swing JTabbedPanes
-    public static final TabbedPaneType JTABBED_PANE = new TabbedPaneType(){
-
-        public ITabbedModulePane createTabbedPane() {
-            return new JTabbedModulePane();
-        }
-    };
     // Graphical PhetTabbedPanes
     public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType(){
-
         public ITabbedModulePane createTabbedPane() {
             return new TabbedModulePanePiccolo();
         }
     };
-    // The default TabbedModulePaneType
-    private static final TabbedPaneType DEFAULT_TABBED_PANE_TYPE = PHET_TABBED_PANE;
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
-
-    // The type to be used for tabbed module panes
-    private TabbedPaneType tabbedPaneType = DEFAULT_TABBED_PANE_TYPE;
 
     /**
      * @param args
@@ -81,6 +57,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version ) {
         super( args, title, description, version );
+        super.setTabbedPaneType(PHET_TABBED_PANE);
     }
 
     /**
@@ -94,7 +71,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, TabbedPaneType tabbedPaneType ) {
         super( args, title, description, version );
-        this.tabbedPaneType = tabbedPaneType;
+        super.setTabbedPaneType(PHET_TABBED_PANE);
     }
 
     /**
@@ -106,6 +83,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         super( args, title, description, version, frameSetup );
+        super.setTabbedPaneType(PHET_TABBED_PANE);
     }
 
     /**
@@ -119,16 +97,7 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param tabbedPaneType
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        super( args, title, description, version, frameSetup );
-        this.tabbedPaneType = tabbedPaneType;
+        super( args, title, description, version, frameSetup,PHET_TABBED_PANE );
     }
 
-    /**
-     * Overrides parent class behavior to provide the option of specifying what type of tabbed panes to use.
-     *
-     * @return a tabbed module pane
-     */
-    public ITabbedModulePane createTabbedPane( ) {
-        return tabbedPaneType.createTabbedPane();
-    }
 }
