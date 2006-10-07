@@ -35,4 +35,6 @@ public interface ITabbedModulePane extends ModuleObserver {
     public void moduleRemoved( ModuleEvent event );
     public ModulePanel getModulePanel( int i );
     public JComponent getComponent();
+    public void setLogoVisible(boolean logoVisible);
+    public boolean getLogoVisible();
 }

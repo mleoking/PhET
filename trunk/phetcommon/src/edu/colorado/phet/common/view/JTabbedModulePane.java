@@ -91,4 +91,12 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
     public JComponent getComponent() {
         return this;
     }
+
+    public void setLogoVisible( boolean logoVisible ) {
+        //no-op for JTabbedModulePane
+    }
+
+    public boolean getLogoVisible() {
+        return false;
+    }
 }
