@@ -10,8 +10,6 @@ unconnected circuit with switch & ac had buggy electron flow
 readout graphics are not removed when component is removed
 editing a component should show it's Readout value (by the component)
 
-add delete key shortcut
-
 exception:
 
 java.lang.RuntimeException: Juncitons Not at same coordinates.

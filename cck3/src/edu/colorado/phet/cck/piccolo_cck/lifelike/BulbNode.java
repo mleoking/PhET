@@ -127,16 +127,12 @@ public class BulbNode extends PhetPNode {
             updateInsulator();
             updateConductor();
             updateSpiralLines();
-//            highlightNode.setPathTo( new Rectangle() );
-
             if( bulb.isSelected() ) {
                 Rectangle2D rect = bulbShape.getBounds2D().createUnion( tip );
                 rect = RectangleUtils.expand( rect, 2 / 60.0, 2 / 60.0 );
                 highlightNode.setPathTo( rect );
                 addChild( highlightNode );
             }
-//            highlightNode.setVisible( bulb.isSelected() );
-//            System.out.println( "bulbShape.getbou = " + bulbShape.getbou );
         }
     }
 
