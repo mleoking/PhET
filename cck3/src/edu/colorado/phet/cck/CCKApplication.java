@@ -34,7 +34,6 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static final String localizedStringsPath = "localization/CCKStrings";
     private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
-    private ITabbedModulePane tabbedModulePane;
 
     public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
