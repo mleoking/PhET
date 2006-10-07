@@ -62,20 +62,15 @@ public class WireNode extends BranchNode {
             }
 
             public void mousePressed( PInputEvent event ) {
-                cckModel.getCircuit().setSelection( wire );
+                if( event.isControlDown() ) {
+                    wire.setSelected( !wire.isSelected() );
+                }
+                else {
+                    cckModel.getCircuit().setSelection( wire );
+                }
             }
         } );
         wire.addObserver( wireObserver );
-//        wire.getStartJunction().addObserver( new SimpleObserver() {
-//            public void update() {
-//                WireNode.this.update();
-//            }
-//        } );
-//        wire.getEndJunction().addObserver( new SimpleObserver() {
-//            public void update() {
-//                WireNode.this.update();
-//            }
-//        } );
         update();
         addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
     }
