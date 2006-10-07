@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.piccolo.TabbedModulePanePiccolo;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ import java.util.Arrays;
  * Copyright (c) Jul 7, 2006 by Sam Reid
  */
 
-public class CCKApplication extends PhetApplication {
+public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
     private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
@@ -76,9 +77,9 @@ public class CCKApplication extends PhetApplication {
 //        } );
     }
 
-    public ITabbedModulePane createTabbedPane() {
-        return new TabbedModulePanePiccolo( false );
-    }
+//    public ITabbedModulePane createTabbedPane() {
+//        return new TabbedModulePanePiccolo( false );
+//    }
 
     public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";

@@ -43,7 +43,7 @@ public class TestPiccoloPhetApplication {
                                                                  "Test App",
                                                                  "Test App Description",
                                                                  "0.00.01",
-                                                                 PiccoloPhetApplication.JTABBED_PANE );
+                                                                 PiccoloPhetApplication.JTABBED_PANE_TYPE );
         jtabbedPaneApp.setModules( new Module[]{ new ModuleA(), new ModuleB() } );
         jtabbedPaneApp.startApplication();
     }

@@ -52,6 +52,7 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
+    private TabbedPaneType tabbedPaneType;
 
     /**
      * Get the last created PhetApplication.
@@ -106,10 +107,13 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-
-        // Put up a dialog that lets the user know that the simulation is starting up
+        this(args,title,description,version,frameSetup, JTABBED_PANE_TYPE );
+    }
+    
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+                // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
-
+        this.tabbedPaneType=tabbedPaneType;
         latestInstance = this;
         phetApplications.add( this );
 
@@ -124,7 +128,6 @@ public class PhetApplication {
         // Handle command line arguments
         parseArgs( args );
     }
-
     /**
      * Creates the PhetFrame for the application
      * <p/>
@@ -228,10 +231,10 @@ public class PhetApplication {
 
     /**
      * Creates the tabbed pane for the modules in the application.
-     *
+     * @return a tabbed module pane
      */
     public ITabbedModulePane createTabbedPane( ) {
-        return new JTabbedModulePane();
+        return tabbedPaneType.createTabbedPane();
     }
 
     /**
@@ -426,4 +429,26 @@ public class PhetApplication {
         final String msg = getTitle() + "\n\n" + getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + getVersion() + "\n\n" + javaVersion + "\n";
         JOptionPane.showMessageDialog( getPhetFrame(), msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + getTitle(), JOptionPane.INFORMATION_MESSAGE );
     }
+
+    public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
+        this.tabbedPaneType=tabbedPaneType;
+    }
+
+    /**
+     * Enumeration class used to specify the type of tabbed panes the application is to use in
+     * its Module instances
+     */
+    public abstract static class TabbedPaneType {
+        protected TabbedPaneType() {
+        }
+
+        public abstract ITabbedModulePane createTabbedPane();
+    }
+    
+    // Standard Swing JTabbedPanes
+    public static final TabbedPaneType JTABBED_PANE_TYPE = new TabbedPaneType(){
+        public ITabbedModulePane createTabbedPane() {
+            return new JTabbedModulePane();
+        }
+    };
 }
