@@ -122,6 +122,20 @@ public class PhetFrame extends JFrame {
         }
     }
 
+    /**
+     * Returns the ITabbedModulePane for this PhetFrame, if it has one; otherwise null.  
+     * That means it must have been created, usually by adding more than one module. 
+     * @return
+     */
+    public ITabbedModulePane getTabbedModulePane() {
+        if( contentPanel instanceof ITabbedModulePane ) {
+            return (ITabbedModulePane)contentPanel;
+        }
+        else {
+            return null;
+        }
+    }
+
     private void removeModule( Module module ) {
         setContentPane( removeFromContentPane( module ) );
     }
