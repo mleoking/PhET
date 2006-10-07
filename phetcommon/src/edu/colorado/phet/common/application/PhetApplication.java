@@ -206,7 +206,25 @@ public class PhetApplication {
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
 
+         
+        updateLogoVisibility();
 //        started = true;
+    }
+
+    /**
+     * This is supposed hides the logo panel in the control panel if there is already a logo visible in the tabbed module pane,
+     * so that both aren't visible by default..
+     * <p/>
+     * This method appears to give the correct behavior in the test program: TestPiccoloPhetApplication
+     * 
+     * This method and functionality will be removed if is too awkward in practice (for example, too confusing to override this default).
+     */
+    protected void updateLogoVisibility() {
+        for( int i = 0; i < moduleManager.numModules(); i++ ) {
+            if (moduleAt( i).isLogoPanelVisible() &&phetFrame.getTabbedModulePane() != null &&phetFrame.getTabbedModulePane().getLogoVisible()){
+                moduleAt( i ).setLogoPanelVisible( false );
+            }
+        }
     }
 
     private void initializeModuleReferenceSizes() {
