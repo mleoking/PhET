@@ -157,7 +157,8 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         return false;
     }
 
-    public void setZoom( double scale ) {
+    public void setZoom( double zoom ) {
+        cckSimulationPanel.setZoom( zoom );
     }
 
     public void clear() {
@@ -242,5 +243,13 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void setHelpEnabled( boolean enabled ) {
         super.setHelpEnabled( enabled );
         cckSimulationPanel.setHelpEnabled( enabled );
+    }
+
+    public CCKParameters getCckParameters() {
+        return cckParameters;
+    }
+
+    public CCKSimulationPanel getCckSimulationPanel() {
+        return cckSimulationPanel;
     }
 }

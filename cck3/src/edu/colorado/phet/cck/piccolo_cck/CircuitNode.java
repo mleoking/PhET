@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -228,5 +229,21 @@ public class CircuitNode extends PhetPNode {
             list.add( getBranchNode( i ).getBranch() );
         }
         return (Branch[])list.toArray( new Branch[0] );
+    }
+
+    public void setZoom( double zoom ) {
+        double scale = 1.0 / zoom;
+        if( scale != this.getScale() ) {
+            AffineTransform preTx = getTransform();
+
+            //setup the desired final state, after zoom. 
+            setScale( scale );
+            translate( 5 / scale - getFullBounds().getX() / scale - getFullBounds().getWidth() / 2 / scale, 5 / scale - getFullBounds().getY() / scale - getFullBounds().getHeight() / 2 / scale );
+            AffineTransform postTx = getTransform();
+
+            //now go from start to finish
+            setTransform( preTx );
+            animateToTransform( postTx, 2000 );
+        }
     }
 }
