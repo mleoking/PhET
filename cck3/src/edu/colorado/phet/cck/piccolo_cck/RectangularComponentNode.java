@@ -72,6 +72,9 @@ public abstract class RectangularComponentNode extends ComponentNode {
         translate( 0, -dimension.getHeight() / 2 );
 
         flameNode.setOffset( 0, -flameNode.getFullBounds().getHeight() + dimension.getHeight() / 2 );
+        if( getParent() != null && getParent().getChildrenReference().indexOf( flameNode ) != getParent().getChildrenReference().size() - 1 ) {
+            flameNode.moveToFront();
+        }
     }
 
 }

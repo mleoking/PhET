@@ -15,8 +15,6 @@ capacitor clip for electrons (electrons should look like they enter and leave pl
  
 unconnected circuit with switch & ac had buggy electron flow
 
-add flame graphic on top (it went underneath images)
-
 readout graphics are not removed when component is removed
 editing a component should show it's Readout value (by the component)
 
