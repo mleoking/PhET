@@ -51,7 +51,7 @@ public class CCKApplication extends PiccoloPhetApplication {
 //        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
         Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         setModules( modules );
-        getPhetFrame().getTabbedModulePane().setLogoVisible( true );
+        getPhetFrame().getTabbedModulePane().setLogoVisible( false );
         getPhetFrame().addMenu( new LookAndFeelMenu() );
 //        getPhetFrame().addMenu( new OptionsMenu( th, cckModule ) );//todo options menu
 
