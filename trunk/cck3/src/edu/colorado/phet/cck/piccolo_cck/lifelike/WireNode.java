@@ -31,6 +31,11 @@ public class WireNode extends BranchNode {
     private CircuitInteractionModel circuitInteractionModel;
     public static final double DEFAULT_HIGHLIGHT_STROKE_WIDTH = CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE;
     private double highlightStrokeWidth = DEFAULT_HIGHLIGHT_STROKE_WIDTH;
+    private SimpleObserver wireObserver = new SimpleObserver() {
+        public void update() {
+            WireNode.this.update();
+        }
+    };
 
     public WireNode( final CCKModel cckModel, final Wire wire, Component component ) {
         this.cckModel = cckModel;
@@ -60,21 +65,17 @@ public class WireNode extends BranchNode {
                 cckModel.getCircuit().setSelection( wire );
             }
         } );
-        wire.addObserver( new SimpleObserver() {
-            public void update() {
-                WireNode.this.update();
-            }
-        } );
-        wire.getStartJunction().addObserver( new SimpleObserver() {
-            public void update() {
-                WireNode.this.update();
-            }
-        } );
-        wire.getEndJunction().addObserver( new SimpleObserver() {
-            public void update() {
-                WireNode.this.update();
-            }
-        } );
+        wire.addObserver( wireObserver );
+//        wire.getStartJunction().addObserver( new SimpleObserver() {
+//            public void update() {
+//                WireNode.this.update();
+//            }
+//        } );
+//        wire.getEndJunction().addObserver( new SimpleObserver() {
+//            public void update() {
+//                WireNode.this.update();
+//            }
+//        } );
         update();
         addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
     }
@@ -99,5 +100,9 @@ public class WireNode extends BranchNode {
 
     public Branch getBranch() {
         return wire;
+    }
+
+    public void delete() {
+        wire.removeObserver( wireObserver );
     }
 }

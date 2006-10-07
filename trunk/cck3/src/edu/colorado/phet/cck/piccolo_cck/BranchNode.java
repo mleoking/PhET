@@ -11,4 +11,6 @@ import edu.colorado.phet.piccolo.PhetPNode;
  */
 public abstract class BranchNode extends PhetPNode {
     public abstract Branch getBranch();
+
+    public abstract void delete();
 }

@@ -44,6 +44,11 @@ public class TotalBulbComponentNode extends BranchNode {
         return bulb;
     }
 
+    public void delete() {
+        filamentNode.delete();
+        bulbComponentNode.delete();
+    }
+
     public Shape getClipShape( PNode frame ) {
         Shape conductorShape = getBulbComponentNode().getBulbNode().getCoverShapeOnFilamentSide();
         PAffineTransform a = getBulbComponentNode().getBulbNode().getLocalToGlobalTransform( null );

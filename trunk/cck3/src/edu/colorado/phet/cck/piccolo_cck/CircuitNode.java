@@ -133,7 +133,7 @@ public class CircuitNode extends PhetPNode {
         branchLayer.addChild( createNode( branch ) );
     }
 
-    private PNode createNode( Branch branch ) {
+    private BranchNode createNode( Branch branch ) {
         return branchNodeFactory.createNode( branch );
     }
 
@@ -219,6 +219,8 @@ public class CircuitNode extends PhetPNode {
     }
 
     private void removeBranchNode( int i ) {
+        BranchNode node = (BranchNode)branchLayer.getChild( i );
+        node.delete();
         branchLayer.removeChild( i );
         //todo detach listeners.
     }

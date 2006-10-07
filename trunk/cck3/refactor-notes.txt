@@ -1,10 +1,8 @@
 To Do:
 Schematic mode bulb graphic.
 sometimes junctions bump off each other too easily?
-zoom (small med large)?
 
-bulb loaded incorrectly
-editing a component should show it's Readout value (by the component)
+bulb loaded incorrectly one time
 improve component constructor interface
 
 switching back and forth between schematic & lifelike causes performance degradation; possibly because listeners are not removed.
@@ -22,6 +20,7 @@ unconnected circuit with switch & ac had buggy electron flow
 add flame graphic on top (it went underneath images)
 
 readout graphics are not removed when component is removed
+editing a component should show it's Readout value (by the component)
 
 exception:
 

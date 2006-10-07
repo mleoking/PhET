@@ -210,4 +210,5 @@ public class Bulb extends CircuitComponent {
         }
         return Math.pow( power / maxPower, 0.354 );
     }
+
 }
