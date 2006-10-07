@@ -3,8 +3,6 @@ To Do:
 bulb loaded incorrectly one time
 improve component constructor interface
 
-capacitor clip for electrons (electrons should look like they enter and leave plates).
- 
 unconnected circuit with switch & ac had buggy electron flow
 
 readout graphics are not removed when component is removed
@@ -31,3 +29,5 @@ and capacitor (maybe not realistic, also code wasn't free); is this okay?
 
 light bulb connect at left (from popup menu) broken.  Should I add this back, or is it unnecessary?  (Not easy to add, since it involves 
 altering the underlying circuit model).
+
+is capacitor graphic performance too slow?

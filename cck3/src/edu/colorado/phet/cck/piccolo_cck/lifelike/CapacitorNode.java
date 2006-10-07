@@ -118,11 +118,7 @@ public class CapacitorNode extends ComponentNode {
         }
 
         public Shape getPathBoundExpanded() {
-//            path.setStroke( new BasicStroke( 0.05f * 3.5f * 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );
-//            Shape shape = path.getPathBoundsWithStroke();
-//            path.setStroke( new BasicStroke( 0.05f * 3.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );
             return clipPath.getPathBoundsWithStroke();
-//            return shape;
         }
     }
 
