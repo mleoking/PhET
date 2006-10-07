@@ -792,27 +792,38 @@ public class Circuit {
     }
 
     public void bumpAway( Junction junction ) {
-        for( int i = 0; i < 5; i++ ) {
+        for( int i = 0; i < 2; i++ ) {
             bumpOnce( junction );
         }
     }
 
     public void bumpOnce( Junction junction ) {
         Branch[] branches = getBranches();
+        Branch[] strongConnections = getStrongConnections( junction );
         for( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
+//            if( !branch.hasJunction( junction ) &&!contains(strongConnections,branch)) {
             if( !branch.hasJunction( junction ) ) {
                 if( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
                     AbstractVector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance( junction.getShape().getBounds2D().getWidth() );
-                    Branch[] sc = getStrongConnections( junction );
-                    BranchSet bs = new BranchSet( this, sc );
+                    BranchSet bs = new BranchSet( this, strongConnections );
                     bs.addJunction( junction );
                     bs.translate( vec );
                     break;
                 }
             }
         }
+    }
+
+    private boolean contains( Branch[] branches, Branch branch ) {
+        for( int i = 0; i < branches.length; i++ ) {
+            Branch b = branches[i];
+            if (b==branch){
+                return true;
+            }
+        }
+        return false;
     }
 }
