@@ -118,6 +118,16 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         add( toolPanel );
         add( sizePanel );
 
+        JButton testLifelikeSchematic = new JButton( "Test Lifelike/Schematic" );
+        testLifelikeSchematic.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                for( int i = 0; i < 100; i++ ) {
+                    module.setLifelike( !module.isLifelike() );
+                }
+            }
+        } );
+        add( testLifelikeSchematic );
+
         if( useAdvanced() ) {
             add( advancedPanel );
         }
@@ -294,6 +304,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         } );
         JRadioButton lifelike = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
         JRadioButton schematic = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SchematicRadioButton" ), false );
+
         ButtonGroup bg = new ButtonGroup();
         bg.add( lifelike );
         bg.add( schematic );

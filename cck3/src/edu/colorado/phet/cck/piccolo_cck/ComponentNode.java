@@ -28,6 +28,11 @@ public abstract class ComponentNode extends BranchNode {
     private CircuitInteractionModel circuitInteractionModel;
     private PPath highlightNode;
     private JComponent parent;
+    private SimpleObserver componentObserver = new SimpleObserver() {
+        public void update() {
+            ComponentNode.this.update();
+        }
+    };
 
     public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, JComponent parent, ICCKModule module ) {
         this.model = model;
@@ -40,11 +45,7 @@ public abstract class ComponentNode extends BranchNode {
         highlightNode.setStroke( new BasicStroke( 3f ) );
         addChild( highlightNode );
 
-        circuitComponent.addObserver( new SimpleObserver() {
-            public void update() {
-                ComponentNode.this.update();
-            }
-        } );
+        circuitComponent.addObserver( componentObserver );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
@@ -66,6 +67,10 @@ public abstract class ComponentNode extends BranchNode {
             }
         } ) );
         this.parent = parent;
+    }
+
+    public void delete() {
+        circuitComponent.removeObserver( componentObserver );
     }
 
     protected JPopupMenu createPopupMenu() {

@@ -90,6 +90,10 @@ public abstract class Branch extends SimpleObservableDebug {
         ivListeners.add( currentListener );
     }
 
+    public void removeCurrentVoltListener( CurrentVoltListener currentListener ) {
+        ivListeners.remove( currentListener );
+    }
+
     public void addKirkhoffListener( CircuitChangeListener circuitChangeListener ) {
         compositeKirkhoffListener.addKirkhoffListener( circuitChangeListener );
     }
