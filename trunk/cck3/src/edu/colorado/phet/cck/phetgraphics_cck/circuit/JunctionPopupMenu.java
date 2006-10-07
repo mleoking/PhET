@@ -41,6 +41,5 @@ public class JunctionPopupMenu extends JPopupMenuRepaintWorkaround {
             splitItem.setEnabled( false );
         }
         super.show( invoker, x, y );
-
     }
 }

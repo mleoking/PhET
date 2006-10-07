@@ -57,7 +57,12 @@ public abstract class ComponentNode extends BranchNode {
             }
 
             public void mousePressed( PInputEvent event ) {
-                model.getCircuit().setSelection( circuitComponent );
+                if( event.isControlDown() ) {
+                    circuitComponent.setSelected( !circuitComponent.isSelected() );
+                }
+                else {
+                    model.getCircuit().setSelection( circuitComponent );
+                }
             }
         } );
 
