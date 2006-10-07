@@ -1,5 +1,4 @@
 To Do:
-Schematic mode lever graphic.
 Schematic mode bulb graphic.
 sometimes junctions bump off each other too easily?
 zoom (small med large)?
@@ -7,6 +6,8 @@ zoom (small med large)?
 bulb loaded incorrectly
 editing a component should show it's Readout value (by the component)
 improve component constructor interface
+
+switching back and forth between schematic & lifelike causes performance degradation; possibly because listeners are not removed.
 
 Comments:
 For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
@@ -16,4 +17,15 @@ capacitor clip for electrons (electrons should look like they enter and leave pl
  
  light bulb connect at left (from popup menu) broken
  
- unconnected circuit with switch & ac had buggy electron flow
+unconnected circuit with switch & ac had buggy electron flow
+
+add flame graphic on top (it went underneath images)
+
+exception:
+
+java.lang.RuntimeException: Juncitons Not at same coordinates.
+	at edu.colorado.phet.cck.model.Circuit.collapseJunctions(Circuit.java:600)
+	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel$JunctionInteractionModel.dropJunction(CircuitInteractionModel.java:280)
+	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel.dropJunction(CircuitInteractionModel.java:41)
+	at edu.colorado.phet.cck.piccolo_cck.JunctionNode$2.mouseReleased(JunctionNode.java:76)
+	at edu.umd.cs.piccolo.event.PBasicInputEventHandler.processEvent(PBasicInputEventHandler.java:97)
