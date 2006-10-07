@@ -1,17 +1,11 @@
 To Do:
-Schematic mode bulb graphic.
-sometimes junctions bump off each other too easily?
 
 bulb loaded incorrectly one time
 improve component constructor interface
 
-Comments:
-For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
-and capacitor (maybe not realistic, also code wasn't free).
-
 capacitor clip for electrons (electrons should look like they enter and leave plates).
  
- light bulb connect at left (from popup menu) broken
+light bulb connect at left (from popup menu) broken
  
 unconnected circuit with switch & ac had buggy electron flow
 
@@ -28,3 +22,11 @@ java.lang.RuntimeException: Juncitons Not at same coordinates.
 	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel.dropJunction(CircuitInteractionModel.java:41)
 	at edu.colorado.phet.cck.piccolo_cck.JunctionNode$2.mouseReleased(JunctionNode.java:76)
 	at edu.umd.cs.piccolo.event.PBasicInputEventHandler.processEvent(PBasicInputEventHandler.java:97)
+	
+Issues/Questions
+
+Schematic mode bulb graphic?
+sometimes junctions bump off each other too easily?
+
+For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
+and capacitor (maybe not realistic, also code wasn't free); is this okay?
