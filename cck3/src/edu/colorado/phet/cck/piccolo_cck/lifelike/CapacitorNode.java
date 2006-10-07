@@ -76,8 +76,22 @@ public class CapacitorNode extends ComponentNode {
     }
 
     public Shape getClipShape( PNode parent ) {
-        Shape conductorShape = leftPlate.getPath().getPathReference();
-        PAffineTransform a = leftPlate.getPath().getLocalToGlobalTransform( null );
+        Shape leftClip = getPlateClipShape( leftPlate.getPath(), parent );
+        Shape rightClip = getPlateClipShape( rightPlate.getPath(), parent );
+        Area ax = new Area( leftClip );
+        ax.add( new Area( rightClip ) );
+        Shape leftWireShape = leftWire.getPathBoundExpanded();
+        PAffineTransform a = leftWire.getPath().getLocalToGlobalTransform( null );
+        PAffineTransform b = parent.getGlobalToLocalTransform( null );
+        leftWireShape = a.createTransformedShape( leftWireShape );
+        leftWireShape = b.createTransformedShape( leftWireShape );
+        ax.subtract( new Area( leftWireShape ) );
+        return ax;
+    }
+
+    private Shape getPlateClipShape( PhetPPath platePath, PNode parent ) {
+        Shape conductorShape = platePath.getPathReference();
+        PAffineTransform a = platePath.getLocalToGlobalTransform( null );
         PAffineTransform b = parent.getGlobalToLocalTransform( null );
         conductorShape = a.createTransformedShape( conductorShape );
         conductorShape = b.createTransformedShape( conductorShape );
@@ -86,14 +100,29 @@ public class CapacitorNode extends ComponentNode {
 
     class WireStubNode extends PhetPNode {
         private PhetPPath path;
-
+        private PhetPPath clipPath;
         public WireStubNode() {
-            path = new PhetPPath( new BasicStroke( 0.05f * 3.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), Color.black );
+            BasicStroke stroke = new BasicStroke( 0.05f * 3.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+            path = new PhetPPath( stroke, Color.black );
+            clipPath=new PhetPPath( new BasicStroke( 0.05f * 3.5f * 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ),Color.black );
             addChild( path );
         }
 
         public void setWireStubShape( Shape shape ) {
             path.setPathTo( shape );
+            clipPath.setPathTo( shape );
+        }
+
+        public PhetPPath getPath() {
+            return path;
+        }
+
+        public Shape getPathBoundExpanded() {
+//            path.setStroke( new BasicStroke( 0.05f * 3.5f * 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );
+//            Shape shape = path.getPathBoundsWithStroke();
+//            path.setStroke( new BasicStroke( 0.05f * 3.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ) );
+            return clipPath.getPathBoundsWithStroke();
+//            return shape;
         }
     }
 
