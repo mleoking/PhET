@@ -23,6 +23,11 @@ public class ResistorNode extends ComponentImageNode {
     private Resistor resistor;
     private ICCKModule module;
     private ColorBandNode colorBandNode;
+    private SimpleObserver resistorObserver = new SimpleObserver() {
+        public void update() {
+            ResistorNode.this.update();
+        }
+    };
 
     public ResistorNode( CCKModel model, final Resistor resistor, JComponent component, final ICCKModule module ) {
         super( model, resistor, CCKImageSuite.getInstance().getLifelikeSuite().getResistorImage(), component, module );
@@ -30,11 +35,12 @@ public class ResistorNode extends ComponentImageNode {
         this.module = module;
         colorBandNode = new ColorBandNode( this, resistor );
         addChild( colorBandNode );
-        resistor.addObserver( new SimpleObserver() {
-            public void update() {
-                ResistorNode.this.update();
-            }
-        } );
+        resistor.addObserver( resistorObserver );
+    }
+
+    public void delete() {
+        super.delete();
+        resistor.removeObserver( resistorObserver );
     }
 
 //    protected JPopupMenu createPopupMenu() {

@@ -76,6 +76,10 @@ public abstract class Branch extends SimpleObservableDebug {
         notifyObservers();
     }
 
+    public void removeFlameListener( FlameListener flameListener ) {
+        flameListeners.remove( flameListener );
+    }
+
     public static interface FlameListener {
         void flameStarted();
 

@@ -16,6 +16,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 28, 2004 by Sam Reid
  */
 public class Resistor extends CircuitComponent {
+//    private int count;
+
     public Resistor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
@@ -36,6 +38,14 @@ public class Resistor extends CircuitComponent {
         setResistance( resistance );
         setKirkhoffEnabled( true );
     }
+
+//    public void addObserver( SimpleObserver so ) {
+//        super.addObserver( so );
+//        count++;
+//        if (count>300){
+//            System.out.println( "count="+count+", so = " + so );
+//        }
+//    }
 
     public void addAttributes( IXMLElement xml ) {
         xml.setAttribute( "resistance", getResistance() + "" );

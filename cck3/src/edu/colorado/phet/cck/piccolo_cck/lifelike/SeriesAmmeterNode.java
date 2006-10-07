@@ -159,6 +159,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     }
 
     public void delete() {
+        super.delete();
         component.removeObserver( simpleObserver );
         module.getCCKModel().getCircuitSolver().removeSolutionListener( circuitSolutionListener );
     }

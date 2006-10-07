@@ -110,6 +110,7 @@ public class SchematicResistorNode extends ComponentNode {
     }
 
     public void delete() {
+        super.delete();
         component.removeObserver( simpleObserver );
     }
 

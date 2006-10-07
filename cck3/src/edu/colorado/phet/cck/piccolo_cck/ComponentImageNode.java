@@ -2,7 +2,6 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
-import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -23,15 +22,6 @@ public abstract class ComponentImageNode extends RectangularComponentNode {
         super( model, circuitComponent, image.getWidth(), image.getHeight(), component, module );
         pImage = new PImage( image );
         addChild( pImage );
-        getBranch().addFlameListener( new Branch.FlameListener() {
-            public void flameStarted() {
-                update();
-            }
-
-            public void flameFinished() {
-                update();
-            }
-        } );
         update();
     }
 

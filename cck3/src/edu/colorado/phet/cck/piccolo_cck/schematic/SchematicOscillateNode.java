@@ -125,6 +125,7 @@ public class SchematicOscillateNode extends ComponentNode {
     }
 
     public void delete() {
+        super.delete();
         component.removeObserver( simpleObserver );
     }
 

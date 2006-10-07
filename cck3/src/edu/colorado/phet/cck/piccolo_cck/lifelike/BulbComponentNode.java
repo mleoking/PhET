@@ -26,6 +26,11 @@ public class BulbComponentNode extends ComponentNode {
     private BulbNode bulbNode;
     private Bulb bulb;
     private ICCKModule module;
+    private CircuitSolutionListener circuitSolutionListener = new CircuitSolutionListener() {
+        public void circuitSolverFinished() {
+            updateIntensity();
+        }
+    };
 
     public BulbComponentNode( CCKModel model, Bulb bulb, JComponent component, ICCKModule module ) {
         super( model, bulb, component, module );
@@ -33,15 +38,15 @@ public class BulbComponentNode extends ComponentNode {
         this.module = module;
         bulbNode = new BulbNode( bulb );
         addChild( bulbNode );
-        CircuitSolutionListener circuitSolutionListener = new CircuitSolutionListener() {
-            public void circuitSolverFinished() {
-                updateIntensity();
-            }
-        };
         model.getCircuitSolver().addSolutionListener( circuitSolutionListener );
         bulbNode.transformBy( AffineTransform.getScaleInstance( 2, 2.5 ) );
         update();
         runParamTest();
+    }
+
+    public void delete() {
+        super.delete();
+        getCCKModel().getCircuitSolver().removeSolutionListener( circuitSolutionListener );
     }
 
     public BulbNode getBulbNode() {

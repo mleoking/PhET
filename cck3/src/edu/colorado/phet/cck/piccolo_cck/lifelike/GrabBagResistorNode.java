@@ -17,16 +17,22 @@ import javax.swing.*;
 public class GrabBagResistorNode extends ComponentImageNode {
     private GrabBagResistor resistor;
     private ICCKModule module;
+    private SimpleObserver resistorObserver = new SimpleObserver() {
+        public void update() {
+            GrabBagResistorNode.this.update();
+        }
+    };
 
     public GrabBagResistorNode( CCKModel model, final GrabBagResistor resistor, JComponent component, final ICCKModule module ) {
         super( model, resistor, resistor.getItemInfo().getImage(), component, module );
         this.resistor = resistor;
         this.module = module;
-        resistor.addObserver( new SimpleObserver() {
-            public void update() {
-                GrabBagResistorNode.this.update();
-            }
-        } );
+        resistor.addObserver( resistorObserver );
+    }
+
+    public void delete() {
+        super.delete();
+        resistor.removeObserver( resistorObserver );
     }
 
 //    protected JPopupMenu createPopupMenu() {
