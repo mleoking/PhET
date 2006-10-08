@@ -34,6 +34,7 @@ public class CircuitNode extends PhetPNode {
     private PNode junctionLayer;
     private ClipFactory clipFactory;
     private BranchNodeFactory branchNodeFactory;
+    private boolean changingLifelike;
 
     public CircuitNode( final CCKModel cckModel, final Circuit circuit, final JComponent component, ICCKModule module, BranchNodeFactory branchNodeFactory ) {
         this.branchNodeFactory = branchNodeFactory;
@@ -46,31 +47,21 @@ public class CircuitNode extends PhetPNode {
         junctionLayer = new PNode();
         clipFactory = new ClipFactory() {
             public Shape getClip( ElectronNode electronNode ) {
-                Branch branch = electronNode.getElectron().getBranch();
-                BranchNode node = getNode( branch );
-                if( node == null ) {
-                    new RuntimeException( "Null node for branch: " + branch ).printStackTrace();
-                    return null;
+                if( !changingLifelike ) {
+                    Branch branch = electronNode.getElectron().getBranch();
+                    BranchNode node = getNode( branch );
+                    if( node == null ) {
+                        new RuntimeException( "Null node for branch: " + branch ).printStackTrace();
+                        //during the schematic/lifelike switch, this code is called sometimes
+                        return null;
+                    }
+                    else {
+                        return node.getClipShape( electronLayer.getParent() );
+                    }
                 }
                 else {
-                    return node.getClipShape( electronLayer.getParent() );
+                    return null;
                 }
-//                if( branch instanceof Bulb ) {
-//                    TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( branch );
-//                    return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
-//                }
-//                else
-//                if( branch instanceof SeriesAmmeter ) {//todo: could extend this to electrons in neighboring branches
-//                    SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( branch );
-//                    return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
-//                }
-//                else if( branch instanceof Capacitor ) {
-//                    CapacitorNode capacitorNode = (CapacitorNode)getNode( branch );
-//                    return capacitorNode.getClipShape(electronLayer.getParent());
-//                }
-//                else {
-//                    return null;
-//                }
             }
 
         };
@@ -205,6 +196,7 @@ public class CircuitNode extends PhetPNode {
     }
 
     public void setLifelike( boolean lifelike ) {
+        changingLifelike = true;//disable clip computations while some nodes may not have graphics.
         this.branchNodeFactory.setLifelike( lifelike );
         Branch[] orderedList = getBranchOrder();
         removeBranchGraphics();
@@ -215,6 +207,11 @@ public class CircuitNode extends PhetPNode {
                 wire.setThickness( lifelike ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
             }
             addBranchNode( branch );
+        }
+        changingLifelike = false;
+        for( int i = 0; i < electronLayer.getChildrenCount(); i++ ) {//notify electrons to recompute their clips
+            ElectronNode electronNode = (ElectronNode)electronLayer.getChild( i );
+            electronNode.update();
         }
     }
 
