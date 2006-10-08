@@ -30,6 +30,7 @@ public class SchematicPlatedNode extends ComponentNode {
     private double scaleHeightLeft;
     private double scaleHeightRight;
     private PhetPPath path;
+    private Shape clipShape;
 
     public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, ICCKModule module, double wireThickness, double fracDistToPlate,
                                 double scaleHeightLeft, double scaleHeightRight ) {
@@ -75,12 +76,20 @@ public class SchematicPlatedNode extends ComponentNode {
         area.add( new Area( LineSegment.getSegment( ano, dst, viewThickness ) ) );
         area.add( new Area( LineSegment.getSegment( catHat, cattail, thickness ) ) );
         area.add( new Area( LineSegment.getSegment( anoHat, anotail, thickness ) ) );
+
+        clipShape=LineSegment.getSegment( cat,ano, viewThickness*10 );
+        
         mouseArea = new Area( area );
         mouseArea.add( new Area( LineSegment.getSegment( src, dst, viewThickness ) ) );
         path.setPathTo( area );
         getHighlightNode().setStroke( new BasicStroke( 0.1f ) );
         getHighlightNode().setPathTo( area );
         notifyChanged();
+    }
+
+    protected Shape getClipShape() {
+//        return path.getPathReference();
+        return clipShape;
     }
 
     private void notifyChanged() {
