@@ -1,24 +1,10 @@
-10/4/06
--------
-- Performance problem in A-BC-AB-C-Reaction.doReactionII
-
-10/3/06
--------
-- Springs in ProvidsionalBond are working, sort of, but base everything on the CM of
-    the components of the bond, which isn't right. I need to determine attachment
-    points, and base everything on them.        
-
-
-- Add axes to energy view
-- Clean up code by using AbstractMolecule.useFull<xxx> and AbstractMolecule.getFullMolecule() 
+- Clean up code by using AbstractMolecule.useFull<xxx> and AbstractMolecule.getFullMolecule()
 - halo isn't shown for selected molecule
 - CM marker isn't shown for nearest-to-selected molecule
 - When the selected molecule is removed from the Complex module, the energy view still tracks it
 - Icons images are truncated on right and bottom
 - Move GraphicFactory classes out of SpatialView.
 - Put bonds on the energy view
-- Add "Temperature Control" label
-- Change "Add" and "Remove" to "Raise" and "Lower" on temperature control
 
 Collision Issues
 ================
@@ -37,7 +23,6 @@ Bugs
     - Force must be infinite on contact
     - Collisions aren't conservative
     - Angular velocity shouldn't acrue in simple test. Should there be a floor on r?
-- Amount of energy needed to get to reaction is delta from floor, not absolute value
 - Should kinetic energy increase if compound molecule has lower floor?
 - How should selection/higlighting work? Use CM instead of halo.
 
@@ -85,6 +70,8 @@ Done
 09-24-06 - Pump molecules into box with constrained directions of travel
 09-25-06 - no markings on the molecules in Simple module
 09-25-06 - Bonds shown on all composite molecules
+- Add "Temperature Control" label
+- Change "Add" and "Remove" to "Raise" and "Lower" on temperature control
 09-26-06 - Molecules in energy view don't move under manual control
 09-26-06 - Removed Bond[] from CompositeMolecule?
 09-26-06 - Provisional bonds show up between bound molecules that they shouldn't
@@ -92,3 +79,9 @@ Done
 09-27-06 - Added borders around molecule type selection panels
 09-27-06 - Added option to show/hide bonds
 09-27-06 - Plugged memory leak on ProvisionalBond
+10-03-06 - Springs in ProvidsionalBond are working, sort of, but base everything on the CM of
+            the components of the bond, which isn't right. I need to determine attachment
+            points, and base everything on them.
+10-04-06 - Performance problem in A-BC-AB-C-Reaction.doReactionII
+10-04-06 - Add axes to energy view
+10-06-06 - Add launcher
