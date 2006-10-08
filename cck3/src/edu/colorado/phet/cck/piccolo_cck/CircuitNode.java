@@ -45,7 +45,7 @@ public class CircuitNode extends PhetPNode {
         solderLayer = new PNode();
         branchLayer = new PNode();
         junctionLayer = new PNode();
-        clipFactory = new ClipFactory() {
+        clipFactory = new ClipFactory() {//clips are used instead of drawing the component on top of the electron because that obscures the junction graphics
             public Shape getClip( ElectronNode electronNode ) {
                 if( !changingLifelike ) {
                     Branch branch = electronNode.getElectron().getBranch();
