@@ -12,14 +12,18 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * LauncherGraphic
@@ -34,6 +38,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
     public LauncherGraphic( Launcher launcher ) {
         this.launcher = launcher;
         plungerNode = PImageFactory.create( "images/launcher-plunger.png" );
+        plungerNode.scale( .7 );
         addChild( plungerNode );
         setRegistrationPoint( getFullBounds().getWidth() / 2, 0 );
 
@@ -46,6 +51,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
     public void update() {
         plungerNode.setOffset( launcher.getTipLocation() );
+        this.rotateAboutPoint( launcher.getTheta() - this.getRotation(), launcher.getRestingTipLocation() );
     }
 
 
@@ -57,7 +63,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
         double dySinceLastMolecule;
 
         public void mouseEntered( PInputEvent event ) {
-            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
         }
 
         public void mouseExited( PInputEvent event ) {
@@ -85,6 +91,18 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
             // the PumpGraphic, and the initial location of the handle.
             if( yLoc >= launcher.getRestingTipLocation().getY() ) {
                 launcher.translate( 0, dy );
+            }
+
+            // Rotate the plunger if the  mouse move left or right
+            double dx = event.getDelta().getWidth();
+            if( dx != 0 ) {
+                Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
+//                System.out.println( "px = " + (p.getX() - launcher.getRestingTipLocation().getX()) );
+//                System.out.println( "py = " + (p.getY() - launcher.getRestingTipLocation().getY()) );
+                double r = getFullBounds().getHeight();
+                double dTheta = Math.asin( -dx / r );
+                double theta = launcher.getTheta() + dTheta;
+                launcher.setTheta( theta );
             }
         }
     }

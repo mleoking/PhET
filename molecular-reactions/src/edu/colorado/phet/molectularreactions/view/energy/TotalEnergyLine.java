@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.awt.*;
@@ -43,6 +44,7 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     private ProvisionalBond provisionalBond;
     private Reaction reaction;
     private double scale;
+    private CompositeBody compositeBody = new CompositeBody();
 
     /**
      * @param bounds The bounds within which this line is to be drawn
@@ -77,8 +79,22 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     public void update() {
         if( moleculeBeingTracked != null && nearestToMoleculeBeingTracked != null ) {
 
-            double ke = moleculeBeingTracked.getFullKineticEnergy()
-                        + nearestToMoleculeBeingTracked.getFullKineticEnergy();
+//            double ke = moleculeBeingTracked.getFullKineticEnergy()
+//                        + nearestToMoleculeBeingTracked.getFullKineticEnergy();
+            // Get the kinetic energy of the molecules being watched, relative to their combined CM
+            Vector2D vA = new Vector2D.Double( moleculeBeingTracked.getPosition(), compositeBody.getCM()).normalize();
+            double sA = moleculeBeingTracked.getVelocity().dot(  vA );
+            double keA = 0.5 * sA * sA  * moleculeBeingTracked.getFullMass();
+            Vector2D vB = new Vector2D.Double( nearestToMoleculeBeingTracked.getPosition(), compositeBody.getCM()).normalize();
+            double sB = moleculeBeingTracked.getVelocity().dot(  vB );
+            double keB = 0.5 * sB * sB * nearestToMoleculeBeingTracked.getFullMass();
+            double ke = keA + keB;
+
+//            DecimalFormat df = new DecimalFormat( "#.000");
+//            System.out.println( "sA = " + df.format( sA ) + "\tsB = " + df.format( sB ) );
+//            System.out.println( "keA = " + df.format( keA ) + "\tkeB = " + df.format( keB ) );
+
+
             double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getFullMolecule(),
                                                      nearestToMoleculeBeingTracked.getFullMolecule() );
 //            double pe = reaction.getPotentialEnergy( moleculeBeingTracked.getParentComposite(),
@@ -90,7 +106,7 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
                 te += provisionalBond.getPotentialEnergy();
                 pbe = provisionalBond.getPotentialEnergy();
             }
-            DecimalFormat df = new DecimalFormat( "#.000");
+//            DecimalFormat df = new DecimalFormat( "#.000");
 //            System.out.println( "te = " + df.format(te) + "\tke = " + df.format( ke ) + "\tpe = " + df.format( pe ) + "\tpbe = " + df.format( pbe) );
 
             te += model.getPotentialEnergy();
@@ -111,19 +127,15 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     private class SelectedMoleculeTracker implements edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker.Listener {
 
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule, SimpleMolecule prevTrackedMolecule ) {
-            if( moleculeBeingTracked != null ) {
-//                moleculeBeingTracked.removeObserver( TotalEnergyLine.this );
-            }
+            compositeBody.removeBody( prevTrackedMolecule );
+            compositeBody.addBody( newTrackedMolecule );
             moleculeBeingTracked = newTrackedMolecule;
-//            moleculeBeingTracked.addObserver( TotalEnergyLine.this );
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
-            if( nearestToMoleculeBeingTracked != null ) {
-//                nearestToMoleculeBeingTracked.removeObserver( TotalEnergyLine.this );
-            }
+            compositeBody.removeBody( prevClosestMolecule );
+            compositeBody.addBody( newClosestMolecule );
             nearestToMoleculeBeingTracked = newClosestMolecule;
-//            nearestToMoleculeBeingTracked.addObserver( TotalEnergyLine.this );
         }
     }
 

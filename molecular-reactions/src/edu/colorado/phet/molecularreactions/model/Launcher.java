@@ -42,6 +42,7 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
         if( bodyToLaunch != null ) {
             double s = Math.sqrt( 2 * getPE() / bodyToLaunch.getMass() );
             Vector2D v = new Vector2D.Double( 0, -s );
+            v.rotate( getTheta() );
             bodyToLaunch.setVelocity( v );
         }
         setTipLocation( restingTipLocation );
@@ -55,6 +56,11 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
 
     public Point2D getTipLocation() {
         return getPosition();
+    }
+
+    public void setTheta( double theta ) {
+        super.setTheta( theta );
+        notifyObservers();
     }
 
     public void stepInTime( double dt ) {
