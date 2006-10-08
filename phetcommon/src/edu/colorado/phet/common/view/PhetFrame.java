@@ -17,11 +17,14 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -36,6 +39,8 @@ public class PhetFrame extends JFrame {
     private Container contentPanel;
     private Module lastAdded;
 
+    public static final String PHET_LOGO_WINDOW_ICON = "images/phet-logo-24x24.jpg";
+    
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
@@ -79,8 +84,21 @@ public class PhetFrame extends JFrame {
             }
 
         } );
+        try {
+            setIconImage( addBorder( ImageLoader.loadBufferedImage( PHET_LOGO_WINDOW_ICON ) ));
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
-
+    private static BufferedImage addBorder( BufferedImage image){
+        Graphics2D g2=image.createGraphics();
+        g2.setStroke( new BasicStroke( 1) );
+        g2.setPaint( Color.darkGray );
+        g2.draw(new Rectangle(1,1,image.getWidth( )-2,image.getHeight( )-2 ) );
+//        g2.draw(new Rectangle(0,0,image.getWidth( ),image.getHeight( ) ) );
+        return image;
+    }
     /**
      * Sets the <code>contentPane</code> property.
      *
