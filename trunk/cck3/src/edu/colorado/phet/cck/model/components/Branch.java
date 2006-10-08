@@ -107,7 +107,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public String toString() {
-        return "Branch_" + label + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "]";
+        return "Branch_" + label + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <"+getClass()+">";
     }
 
     public AbstractVector2D getDirectionVector() {

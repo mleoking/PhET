@@ -5,9 +5,8 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.cck.model.components.*;
-import edu.colorado.phet.cck.piccolo_cck.lifelike.CapacitorNode;
-import edu.colorado.phet.cck.piccolo_cck.lifelike.SeriesAmmeterNode;
+import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -46,25 +45,32 @@ public class CircuitNode extends PhetPNode {
         branchLayer = new PNode();
         junctionLayer = new PNode();
         clipFactory = new ClipFactory() {
-
-            //todo how come getClip doesn't fail when switching to the schematic graphics?
             public Shape getClip( ElectronNode electronNode ) {
-                if( electronNode.getElectron().getBranch() instanceof Bulb ) {
-                    TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( electronNode.getElectron().getBranch() );
-                    return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
-                }
-                else
-                if( electronNode.getElectron().getBranch() instanceof SeriesAmmeter ) {//todo: could extend this to electrons in neighboring branches
-                    SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( electronNode.getElectron().getBranch() );
-                    return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
-                }
-                else if( electronNode.getElectron().getBranch() instanceof Capacitor ) {
-                    CapacitorNode capacitorNode = (CapacitorNode)getNode( electronNode.getElectron().getBranch() );
-                    return capacitorNode.getClipShape(electronLayer.getParent());
-                }
-                else {
+                Branch branch = electronNode.getElectron().getBranch();
+                BranchNode node = getNode( branch );
+                if( node == null ) {
+                    new RuntimeException( "Null node for branch: " + branch ).printStackTrace();
                     return null;
                 }
+                else {
+                    return node.getClipShape( electronLayer.getParent() );
+                }
+//                if( branch instanceof Bulb ) {
+//                    TotalBulbComponentNode totalBulbComponentNode = (TotalBulbComponentNode)getNode( branch );
+//                    return totalBulbComponentNode.getClipShape( electronLayer.getParent() );
+//                }
+//                else
+//                if( branch instanceof SeriesAmmeter ) {//todo: could extend this to electrons in neighboring branches
+//                    SeriesAmmeterNode seriesAmmeterNode = (SeriesAmmeterNode)getNode( branch );
+//                    return seriesAmmeterNode.getClipShape( electronLayer.getParent() );
+//                }
+//                else if( branch instanceof Capacitor ) {
+//                    CapacitorNode capacitorNode = (CapacitorNode)getNode( branch );
+//                    return capacitorNode.getClipShape(electronLayer.getParent());
+//                }
+//                else {
+//                    return null;
+//                }
             }
 
         };
@@ -137,10 +143,10 @@ public class CircuitNode extends PhetPNode {
         return branchNodeFactory.createNode( branch );
     }
 
-    private PNode getNode( Branch branch ) {
+    private BranchNode getNode( Branch branch ) {
         for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
             if( ( (BranchNode)branchLayer.getChild( i ) ).getBranch() == branch ) {
-                return branchLayer.getChild( i );
+                return (BranchNode)branchLayer.getChild( i );
             }
         }
         return null;
