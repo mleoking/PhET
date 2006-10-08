@@ -53,7 +53,7 @@ public class ElectronNode extends PhetPNode {
         update();
     }
 
-    private void update() {
+    public void update() {
         pImage.setOffset( electron.getPosition() );
         pImage.translate( -pImage.getFullBounds().getWidth() / 2.0 / SCALE, -pImage.getFullBounds().getHeight() / 2.0 / SCALE );
         this.clip = clipFactory.getClip( this );
