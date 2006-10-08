@@ -31,12 +31,19 @@ public class CompositeBody extends Body {
         setMass( getMass() + body.getMass() );
     }
 
+    public void removeBody( Body body ) {
+        if( bodies.contains( body ) ) {
+            bodies.remove( body );
+            setMass( getMass() - body.getMass() );
+        }
+    }
+
     public Point2D getCM() {
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get(i);
+            Body body = (Body)bodies.get( i );
             double mass = body.getMass();
             xSum += mass * body.getCM().getX();
             ySum += mass * body.getCM().getY();
