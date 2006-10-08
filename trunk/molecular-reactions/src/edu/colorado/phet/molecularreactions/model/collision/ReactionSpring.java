@@ -130,8 +130,6 @@ public class ReactionSpring extends Body implements ModelElement {
         // Find the CM of the bodies. This will be the fixed point
         // of the two springs
         cb = new CompositeBody();
-//        cb.addBody( bodies[0] );
-//        cb.addBody( bodies[1] );
         cb.addBody( bodies[0].getFullMolecule() );
         cb.addBody( bodies[1].getFullMolecule() );
         Point2D fixedPt = cb.getCM();
@@ -147,18 +145,30 @@ public class ReactionSpring extends Body implements ModelElement {
 //        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
         // Make the component springs, with the bodies attached
-//        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0] );
-//        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1] );
         springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule() );
         springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule() );
         return springs;
     }
 
+    /**
+     * Incorporates code to check for energy being conserved
+     * @param dt
+     */
     public void stepInTime( double dt ) {
+
         super.stepInTime( dt );
+        double pe0  = getPotentialEnergy();
+        double ke0 = 0;
+        double ke1 = 0;
         for( int i = 0; i < componentSprings.length; i++ ) {
+            ke0 += componentSprings[i].getAttachedBody().getKineticEnergy();
             componentSprings[i].stepInTime( dt );
+            ke1 += componentSprings[i].getAttachedBody().getKineticEnergy();
         }
+        double pe1 = getPotentialEnergy();
+        double de =  pe1 + ke1 - (pe0 + ke0 );
+        System.out.println( "de = " + de );
+
         notifyObservers();
     }
 

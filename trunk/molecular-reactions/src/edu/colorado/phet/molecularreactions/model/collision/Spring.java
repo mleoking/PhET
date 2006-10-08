@@ -266,6 +266,10 @@ public class Spring extends SimpleObservable implements ModelElement {
         return pe;
     }
 
+    public Body getAttachedBody() {
+        return attachedBody;
+    }
+
     public void setLength( double v ) {
     }
 }
