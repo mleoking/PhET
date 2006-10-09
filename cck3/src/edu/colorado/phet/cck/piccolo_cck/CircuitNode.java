@@ -242,19 +242,26 @@ public class CircuitNode extends PhetPNode {
         return (Branch[])list.toArray( new Branch[0] );
     }
 
-    public void setZoom( double zoom ) {
+    public java.awt.geom.AffineTransform getTransformForZoom( double zoom ) {
         double scale = 1.0 / zoom;
-        if( scale != this.getScale() ) {
-            AffineTransform preTx = getTransform();
+        AffineTransform preTx = getTransform();
 
-            //setup the desired final state, after zoom. 
-            setScale( scale );
-            translate( 5 / scale - getFullBounds().getX() / scale - getFullBounds().getWidth() / 2 / scale, 5 / scale - getFullBounds().getY() / scale - getFullBounds().getHeight() / 2 / scale );
-            AffineTransform postTx = getTransform();
-
-            //now go from start to finish
-            setTransform( preTx );
-            animateToTransform( postTx, 2000 );
-        }
+        //setup the desired final state, after zoom. 
+        setScale( scale );
+        translate( 5 / scale - getFullBounds().getX() / scale - getFullBounds().getWidth() / 2 / scale, 5 / scale - getFullBounds().getY() / scale - getFullBounds().getHeight() / 2 / scale );
+        AffineTransform postTx = getTransform();
+        //now go from start to finish
+        setTransform( preTx );
+        return postTx;
     }
+
+    public void animateToTx(AffineTransform at){
+        animateToTransform( at, 2000 );
+    }
+//    public void setZoom( double zoom ) {
+//        double scale = 1.0 / zoom;
+//        if( scale != this.getScale() ) {
+//            animateToTransform( getTransformForZoom( zoom ), 2000 );
+//        }
+//    }
 }

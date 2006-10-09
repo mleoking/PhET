@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.chart;
 
+import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -72,19 +73,24 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
     }
 
     public static class Piccolo extends SingleTerminalFloatingChart {
-        public Piccolo( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
-            super( pSwingCanvas, title, valueReader, clock );
+        private CCKSimulationPanel cckSimulationPanel;
+
+        public Piccolo( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock, CCKSimulationPanel cckSimulationPanel ) {
+            super( pSwingCanvas, title, valueReader, clock);
+            this.cckSimulationPanel = cckSimulationPanel;
         }
 
         protected Point2D getLocation() {
             Point2D location = getCrosshairGraphic().getGlobalTranslation();
-            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+            cckSimulationPanel.getCircuitNode().globalToLocal( location );
+//            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
             return location;
         }
     }
 
 
     public static class Phetgraphics extends SingleTerminalFloatingChart {
+
         public Phetgraphics( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
             super( pSwingCanvas, title, valueReader, clock );
         }

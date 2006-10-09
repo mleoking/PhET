@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
@@ -94,6 +95,10 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckSimulationPanel.addGrabBag();
     }
 
+//    public void circuitViewTransformed( AffineTransform postTx ) {
+//        cckSimulationPanel.circuitViewTransformed(postTx);
+//    }
+
     public void setVirtualAmmeterVisible( boolean selected ) {
         cckSimulationPanel.setVirtualAmmeterVisible( selected );
     }
@@ -110,39 +115,14 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckSimulationPanel.setStopwatchVisible( selected );
     }
 
-    SwingClock stripChartClock = new SwingClock( 30, 1 );
+    
 
     public void addCurrentChart() {
-        stripChartClock.start();
-        final PiccoloCurrentStripChart chart = new PiccoloCurrentStripChart( cckSimulationPanel, "Current (Amps)", stripChartClock, getCircuit() );
-
-//        chart.setOffset( 200, 200 );
-        chart.translate( 3, 3 );
-        chart.scale( 1.0 / 70.0 );
-
-        cckSimulationPanel.addWorldChild( chart );
-//        getApparatusPanel().addScreenChild( chart );
-        chart.addListener( new AbstractFloatingChart.Listener() {
-            public void chartClosing() {
-                cckSimulationPanel.removeScreenChild( chart );
-            }
-        } );
+        cckSimulationPanel.addCurrentChart();
     }
 
     public void addVoltageChart() {
-        stripChartClock.start();
-        final PiccoloVoltageStripChart chart = new PiccoloVoltageStripChart( cckSimulationPanel, "Current", stripChartClock, getCircuit() );
-//        chart.setOffset( 250, 400 );
-//        chart.setOffset( 250, 400 );
-        chart.translate( 4, 4 );
-        chart.scale( 1.0 / 70.0 );
-
-        cckSimulationPanel.addWorldChild( chart );
-        chart.addListener( new AbstractFloatingChart.Listener() {
-            public void chartClosing() {
-                cckSimulationPanel.removeScreenChild( chart );
-            }
-        } );
+        cckSimulationPanel.addVoltageChart();
     }
 
     public void setAllReadoutsVisible( boolean r ) {

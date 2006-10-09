@@ -2,6 +2,7 @@ package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
@@ -18,12 +19,12 @@ import java.awt.geom.Point2D;
 public class PiccoloCurrentStripChart extends SingleTerminalFloatingChart.Piccolo {
     private Circuit circuit;
 
-    public PiccoloCurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit ) {
+    public PiccoloCurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit, CCKSimulationPanel cckSimulationPanel ) {
         super( pSwingCanvas, title, new ValueReader() {
             public double getValue( double x, double y ) {
                 return 0;
             }
-        }, clock );
+        }, clock, cckSimulationPanel );
         this.circuit = circuit;
         super.setValueReader( new PiccoloCurrentStripChart.CurrentReader() );
     }
@@ -31,7 +32,7 @@ public class PiccoloCurrentStripChart extends SingleTerminalFloatingChart.Piccol
     public class CurrentReader implements ValueReader {
         public double getValue( double x, double y ) {
             Point2D target = new Point2D.Double( x, y );
-            Branch[]branches = circuit.getBranches();
+            Branch[] branches = circuit.getBranches();
             for( int i = 0; i < branches.length; i++ ) {
                 Branch branch = branches[i];
                 Shape shape = branch.getShape();

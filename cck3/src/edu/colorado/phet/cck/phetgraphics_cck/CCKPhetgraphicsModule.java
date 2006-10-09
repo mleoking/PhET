@@ -35,6 +35,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -506,6 +507,9 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
         } );
         updateButton();
     }
+
+//    public void circuitViewTransformed( AffineTransform postTx ) {
+//    }
 
     private void updateButton() {
         int w = grabBagButton.getPreferredSize().width;
