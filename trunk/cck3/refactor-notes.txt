@@ -6,10 +6,6 @@ unconnected circuit with switch & ac had buggy electron flow
 
 improve component constructor interface
 
-bug: can't read from circuit after zooming in/out
-
-need readout when simulation speed is reduced.
-
 exception:
 
 java.lang.RuntimeException: Juncitons Not at same coordinates.

@@ -24,7 +24,7 @@ public class ConstantDensityPropagator implements ModelElement {
     private double scale;
     private SmoothData smoothData = new SmoothData( 30 );
     private double timeScalingPercentValue;
-    private String percent;
+    private String percent="100";
     private DecimalFormat decimalFormat = new DecimalFormat( "##" );
 
     public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {

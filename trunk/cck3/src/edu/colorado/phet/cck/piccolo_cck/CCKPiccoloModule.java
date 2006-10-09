@@ -60,6 +60,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void activate() {
         super.activate();
         getSimulationPanel().requestFocus();
+//        cckSimulationPanel.activate();
         Bulb.setHeightScale( 0.5 );
     }
 

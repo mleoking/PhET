@@ -16,6 +16,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -34,6 +36,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private BranchNodeFactory branchNodeFactory;
     private ToolboxNodeSuite toolboxSuite;
     private ChartSetNode chartSetNode;
+    private TimeScaleNode timeScaleNode;
 
     public CCKSimulationPanel( CCKModel model, final ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
@@ -69,7 +72,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
                 relayout();
             }
         } );
-        relayout();
+
         setZoomEventHandler( new PZoomEventHandler() );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
@@ -95,14 +98,46 @@ public class CCKSimulationPanel extends PhetPCanvas {
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        addTimeScaleListener();
+        relayout();
+    }
+
+    private void addTimeScaleListener() {
+        timeScaleNode = new TimeScaleNode( this, model );
+        addScreenChild( timeScaleNode );
+        timeScaleNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                relayout();
+            }
+        } );
     }
 
     private void relayout() {
+        if( getWidth() > 0 ) {
+            updateToolboxLayout();
+            updateTimeScaleNodeLayout();
+        }
+    }
+
+    private void updateToolboxLayout() {
         Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, getWidth(), getHeight() );
         toolboxSuite.getParent().globalToLocal( screenRect );
         double toolboxInsetX = 15 / 80.0;
         double toolboxInsetY = 10 / 80.0;
         toolboxSuite.setOffset( screenRect.getWidth() - toolboxSuite.getFullBounds().getWidth() - toolboxInsetX, screenRect.getHeight() - toolboxSuite.getFullBounds().getHeight() - toolboxInsetY );
+    }
+
+    private void updateTimeScaleNodeLayout() {
+        timeScaleNode.setScale( 1.0 );
+        double timeScaleGraphicRatio = timeScaleNode.getFullBounds().getWidth() / getWidth();
+        if( timeScaleGraphicRatio > 0.8 ) {
+            timeScaleNode.setScale( 0.8 / timeScaleGraphicRatio );
+        }
+        else {
+            timeScaleNode.setScale( 1.0 );
+        }
+        double timeScaleNodeY = getHeight() - 10 - timeScaleNode.getFullBounds().getHeight();
+        timeScaleNode.setOffset( 10, timeScaleNodeY );
     }
 
     private void addTestElement() {
@@ -202,4 +237,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
     public void addVoltageChart() {
         chartSetNode.addVoltageChart();
     }
+
+    public boolean getElectronsVisible() {
+        return circuitNode.isElectronsVisible();
+    }
+
+//    public void activate() {
+//        relayout();
+//    }
 }
