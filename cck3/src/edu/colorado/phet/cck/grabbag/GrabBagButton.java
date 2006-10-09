@@ -31,7 +31,7 @@ public class GrabBagButton extends JButton {
 
     public GrabBagButton( ICCKModule module ) {
         super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
-        setOpaque( false );
+//        setOpaque( false );
 
         try {
             setIcon( new ImageIcon( ImageLoader.loadBufferedImage( "images/bag.gif" ) ) );
