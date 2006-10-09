@@ -51,7 +51,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
     public void update() {
         plungerNode.setOffset( launcher.getTipLocation() );
-        this.rotateAboutPoint( launcher.getTheta() - this.getRotation(), launcher.getRestingTipLocation() );
+        this.rotateAboutPoint( launcher.getTheta() - this.getRotation(), launcher.getPivotPoint() );
     }
 
 
@@ -89,7 +89,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
             // Constrain the motion of the handle to be within the bounds of the PNode containing
             // the PumpGraphic, and the initial location of the handle.
-            if( yLoc >= launcher.getRestingTipLocation().getY() ) {
+            if( yLoc >= launcher.getPivotPoint().getY() ) {
                 launcher.translate( 0, dy );
             }
 

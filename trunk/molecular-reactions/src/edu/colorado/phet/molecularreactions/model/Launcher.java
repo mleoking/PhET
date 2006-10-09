@@ -26,14 +26,14 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
 
     private Point2D restingTipLocation;
     private double maxPlungerDraw;
-    private double springK = 0.3;
-    private Body bodyToLaunch;
+    private double springK = 1;
+    private SimpleMolecule bodyToLaunch;
 
     public Launcher( Point2D restingTipLocation ) {
         this.restingTipLocation = restingTipLocation;
     }
 
-    public void setBodyToLaunch( Body bodyToLaunch ) {
+    public void setBodyToLaunch( SimpleMolecule bodyToLaunch ) {
         this.bodyToLaunch = bodyToLaunch;
         bodyToLaunch.setVelocity( 0,0 );
     }
@@ -52,6 +52,16 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
         double dl = getTipLocation().distance( restingTipLocation );
         double pe = springK * dl * dl / 2;
         return pe;
+    }
+
+    public Point2D getPivotPoint() {
+        if( bodyToLaunch == null ) {
+            return getRestingTipLocation();
+        }
+        else {
+            return new Point2D.Double( getRestingTipLocation().getX() ,
+                                getRestingTipLocation().getY() - bodyToLaunch.getRadius() );
+        }
     }
 
     public Point2D getTipLocation() {
