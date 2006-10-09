@@ -35,6 +35,7 @@ public class CircuitNode extends PhetPNode {
     private ClipFactory clipFactory;
     private BranchNodeFactory branchNodeFactory;
     private boolean changingLifelike;
+    private ReadoutSetNode editingReadoutLayer;
 
     public CircuitNode( final CCKModel cckModel, final Circuit circuit, final JComponent component, ICCKModule module, BranchNodeFactory branchNodeFactory ) {
         this.branchNodeFactory = branchNodeFactory;
@@ -46,6 +47,7 @@ public class CircuitNode extends PhetPNode {
         branchLayer = new PNode();
         junctionLayer = new PNode();
         clipFactory = new ClipFactory() {//clips are used instead of drawing the component on top of the electron because that obscures the junction graphics
+
             public Shape getClip( ElectronNode electronNode ) {
                 if( !changingLifelike ) {
                     Branch branch = electronNode.getElectron().getBranch();
@@ -68,12 +70,16 @@ public class CircuitNode extends PhetPNode {
         electronLayer = new ElectronSetNode( this, cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
         readoutLayer.setVisible( false );
+
+        editingReadoutLayer = new EditingReadoutSetNode( module, circuit );
+
         addChild( solderLayer );
         addChild( branchLayer );
         addChild( junctionLayer );
 
         addChild( electronLayer );
         addChild( readoutLayer );
+        addChild( editingReadoutLayer );
 
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchAdded( Branch branch ) {

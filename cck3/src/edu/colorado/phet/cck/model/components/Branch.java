@@ -20,9 +20,9 @@ import java.util.ArrayList;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public abstract class Branch extends SimpleObservableDebug {
-    double resistance = CCKModel.MIN_RESISTANCE;
+    private double resistance = CCKModel.MIN_RESISTANCE;
     private double current;
-    double voltageDrop;
+    private double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
     private String label;
@@ -34,6 +34,7 @@ public abstract class Branch extends SimpleObservableDebug {
     private boolean kirkhoffEnabled = true;
     private ArrayList flameListeners = new ArrayList();
     private boolean isOnFire = false;
+    private boolean editing = false;
 
     protected Branch( CircuitChangeListener listener ) {
         label = toLabel( indexCounter++ );
@@ -107,7 +108,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public String toString() {
-        return "Branch_" + label + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <"+getClass()+">";
+        return "Branch_" + label + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <" + getClass() + ">";
     }
 
     public AbstractVector2D getDirectionVector() {
@@ -338,5 +339,16 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public boolean isOnFire() {
         return isOnFire;
+    }
+
+    public boolean isEditing() {
+        return editing;
+    }
+
+    public void setEditing( boolean editing ) {
+        if( this.editing != editing ) {
+            this.editing = editing;
+            notifyObservers();
+        }
     }
 }

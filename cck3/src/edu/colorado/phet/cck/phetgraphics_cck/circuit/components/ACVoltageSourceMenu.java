@@ -22,24 +22,24 @@ public class ACVoltageSourceMenu extends CircuitComponentInteractiveGraphic.Batt
         super( branch, module );
     }
 
-    protected ComponentEditor createVoltageEditor( Battery branch ) {
-        return new ComponentEditor.ACVoltageSourceEditor( getModule(), (ACVoltageSource)branch, getModule().getApparatusPanel(), getModule().getCircuit() );
+    protected ComponentEditorPhetgraphics createVoltageEditor( Battery branch ) {
+        return new ComponentEditorPhetgraphics.ACVoltageSourceEditorPhetgraphics( getModule(), (ACVoltageSource)branch, getModule().getApparatusPanel(), getModule().getCircuit() );
     }
 
     protected void addOptionalItemsAfterEditor() {
         super.addOptionalItemsAfterEditor();
         JMenuItem edit = new JMenuItem( "Frequency" );
-        final ComponentEditor editor = createFrequencyEditor( (ACVoltageSource)getBattery() );
+        final ComponentEditorPhetgraphics editorPhetgraphics = createFrequencyEditor( (ACVoltageSource)getBattery() );
         edit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                editor.setVisible( true );
+                editorPhetgraphics.setVisible( true );
             }
         } );
         add( edit );
     }
 
-    private ComponentEditor createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
-        return new ComponentEditor( getModule(), "AC Frequency", acVoltageSource, getModule().getApparatusPanel(),
+    private ComponentEditorPhetgraphics createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
+        return new ComponentEditorPhetgraphics( getModule(), "AC Frequency", acVoltageSource, getModule().getApparatusPanel(),
                                     "Frequency", "Hz", 0, 10, 1.0, getModule().getCircuit() ) {
             protected void doChange( double value ) {
                 acVoltageSource.setFrequency( value / 100.0 );
