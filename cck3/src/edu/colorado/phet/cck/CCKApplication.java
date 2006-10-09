@@ -119,6 +119,10 @@ public class CCKApplication extends PiccoloPhetApplication {
         }
     }
 
+    public void showAboutDialog() {
+        new CCKAboutDialog( this ).show();
+    }
+
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
