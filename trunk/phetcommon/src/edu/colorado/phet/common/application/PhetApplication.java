@@ -442,14 +442,24 @@ public class PhetApplication {
         return moduleManager.getModules();
     }
 
+    /**
+     * Displays an About Dialog for the simulation, including version information, license information and references.
+     */
     public void showAboutDialog() {
-        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        final String msg = getTitle() + "\n\n" + getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + getVersion() + "\n\n" + javaVersion + "\n";
-        JOptionPane.showMessageDialog( getPhetFrame(), msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + getTitle(), JOptionPane.INFORMATION_MESSAGE );
+        createPhetAboutDialog().show();
+    }
+
+    /**
+     * Creates the PhetAboutDialog which is used in showAboutDialog
+     *
+     * @return the Application's PhetAboutDialog
+     */
+    protected PhetAboutDialog createPhetAboutDialog() {
+        return new PhetAboutDialog( this );
     }
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
-        this.tabbedPaneType=tabbedPaneType;
+        this.tabbedPaneType = tabbedPaneType;
     }
 
     /**

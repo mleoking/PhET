@@ -16,8 +16,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
-import org.srr.localjnlp.ServiceSource;
-import org.srr.localjnlp.local.InputStreamFileContents;
+import edu.colorado.phet.common.util.services.PhetServiceManager;
+import edu.colorado.phet.common.util.services.InputStreamFileContents;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.FileContents;
@@ -334,8 +334,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void load() throws IOException, XMLException {
-        ServiceSource ss = new ServiceSource();
-        FileOpenService fos = ss.getFileOpenService( module.getSimulationPanel() );
+        FileOpenService fos = PhetServiceManager.getFileOpenService( module.getSimulationPanel() );
         FileContents open = fos.openFileDialog( SimStrings.get( "CCK3ControlPanel.OpenFileDialog" ),
                                                 new String[]{SimStrings.get( "CCK3ControlPanel.FileExtension" )} );
         if( open == null ) {
@@ -360,8 +359,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void save() throws IOException {
-        ServiceSource ss = new ServiceSource();
-        FileSaveService fos = ss.getFileSaveService( module.getSimulationPanel() );
+        FileSaveService fos = PhetServiceManager.getFileSaveService( module.getSimulationPanel() );
 
         XMLElement xml = CircuitXML.toXML( module.getCircuit() );
         StringWriter sw = new StringWriter();
@@ -376,8 +374,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     public void showHelpGIF() {
-        ServiceSource ss = new ServiceSource();
-        BasicService bs = ss.getBasicService();
+        BasicService bs = PhetServiceManager.getBasicService();
         URL url = null;
         try {
             url = new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpGifURL" ) );
@@ -605,8 +602,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void showPhetPage() {
-        ServiceSource ss = new ServiceSource();
-        BasicService bs = ss.getBasicService();
+        BasicService bs = PhetServiceManager.getBasicService();
         try {
             URL url = new URL( SimStrings.get( "CCK3ControlPanel.PhETURL" ) );
             bs.showDocument( url );
