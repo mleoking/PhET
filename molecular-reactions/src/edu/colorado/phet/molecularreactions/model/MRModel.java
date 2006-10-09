@@ -102,6 +102,20 @@ public class MRModel extends PublishingModel {
         addModelElement( new ProvisionalBondDetector( this ) );
     }
 
+    public void addModelElement( ModelElement modelElement ) {
+        super.addModelElement( modelElement );
+        if( modelElement instanceof PotentialEnergySource ) {
+            potentialEnergySources.add( modelElement );
+        }
+    }
+
+    public void removeModelElement( ModelElement modelElement ) {
+        super.removeModelElement( modelElement );
+        if( modelElement instanceof PotentialEnergySource ) {
+            potentialEnergySources.remove( modelElement );
+        }
+    }
+
     public void addPotentialEnergySource( PotentialEnergySource peSource ) {
         potentialEnergySources.add( peSource );
     }
@@ -196,14 +210,14 @@ public class MRModel extends PublishingModel {
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
             if( o instanceof PotentialEnergySource ) {
-                pe = ((PotentialEnergySource)o).getPE();
+                pe += ((PotentialEnergySource)o).getPE();
             }
             if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
                 ke += ((Body)o).getKineticEnergy();
             }
         }
         DecimalFormat df = new DecimalFormat( "#.000");
-        System.out.println( "te = " + df.format( pe + ke ) );
+        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) );
     }
 
     private void adjustKineticEnergy( double eFactor ) {

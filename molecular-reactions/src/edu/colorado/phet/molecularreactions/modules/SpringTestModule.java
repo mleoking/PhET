@@ -81,7 +81,7 @@ public class SpringTestModule extends Module {
             model.addModelElement( mA );
 
             // Make the spring
-            Spring spring = new Spring( mA.getKineticEnergy(), restingLength, restingLength, fixedPt, mA );
+            Spring spring = new Spring( mA.getKineticEnergy(), restingLength, restingLength, fixedPt, mA, mA.getVelocity() );
             model.addModelElement( spring );
             SpringGraphic springGraphic = new SpringGraphic( spring );
             canvas.addChild( springGraphic );

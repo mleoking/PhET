@@ -63,6 +63,10 @@ public class SimpleModule extends MRModule {
         setInitialConditions( model );
     }
 
+    public Launcher getLauncher() {
+        return launcher;
+    }
+
     private void createManualRunButtons() {
         final JButton manualCtrlBtn = new JButton( SimStrings.get( "Control.manualControl" ) );
         manualCtrlBtn.addActionListener( new ManualControlAction( this ) );
@@ -115,7 +119,6 @@ public class SimpleModule extends MRModule {
 //        Point2D launcherTipLocation = new Point2D.Double( model.getBox().getMinX() + 100, model.getBox().getMaxY() );
         launcher = new Launcher( launcherTipLocation );
         launcher.setTipLocation( launcherTipLocation );
-        model.addPotentialEnergySource( launcher );
         model.addModelElement( launcher );
 
         SimpleMolecule m2 = new MoleculeC();
@@ -124,6 +127,7 @@ public class SimpleModule extends MRModule {
 //                m2.setVelocity( 1.5, 0 );
         model.addModelElement( m2 );
         launcher.setBodyToLaunch( m2 );
+        launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
 
         SimpleMolecule m1 = new MoleculeB();
         double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;
@@ -141,6 +145,7 @@ public class SimpleModule extends MRModule {
         cm.setOmega( 0 );
         cm.setVelocity( 0, 0 );
         model.addModelElement( cm );
+
 
         m2.setSelectionStatus( Selectable.SELECTED );
     }

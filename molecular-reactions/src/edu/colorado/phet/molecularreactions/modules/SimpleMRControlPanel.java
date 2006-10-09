@@ -10,25 +10,16 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.controller.ResetAllAction;
-import edu.colorado.phet.molecularreactions.view.Legend;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.Launcher;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Hashtable;
 
 /**
  * TestControlPanel
@@ -61,14 +52,16 @@ public class SimpleMRControlPanel extends JPanel {
     }
 
     private class OptionsPanel extends JPanel {
-        private MRModule module;
+        private SimpleModule module;
+        private JRadioButton oneDRB;
+        private JRadioButton twoDRB;
 
-        public OptionsPanel( MRModule module ) {
+        public OptionsPanel( final SimpleModule module ) {
             this.module = module;
 
             ButtonGroup numDimensionsBG = new ButtonGroup();
-            final JRadioButton oneDRB = new JRadioButton( SimStrings.get( "Control.oneDimension" ) );
-            final JRadioButton twoDRB = new JRadioButton( SimStrings.get( "Control.twoDimensions" ) );
+            oneDRB = new JRadioButton( SimStrings.get( "Control.oneDimension" ) );
+            twoDRB = new JRadioButton( SimStrings.get( "Control.twoDimensions" ) );
             numDimensionsBG.add( oneDRB );
             numDimensionsBG.add( twoDRB );
             oneDRB.setSelected( true );
@@ -83,6 +76,22 @@ public class SimpleMRControlPanel extends JPanel {
                                                              insets, 0, 0 );
             add( oneDRB, gbc );
             add( twoDRB, gbc );
+
+            // Assign behaviors
+            oneDRB.addActionListener( new LauncherRBActionListener() );
+            twoDRB.addActionListener( new LauncherRBActionListener() );
+        }
+
+        private class LauncherRBActionListener implements ActionListener {
+
+            public void actionPerformed( ActionEvent e ) {
+                if( oneDRB.isSelected() ) {
+                    module.getLauncher().setMovementType( Launcher.ONE_DIMENSIONAL );
+                }
+                if( twoDRB.isSelected() ) {
+                    module.getLauncher().setMovementType( Launcher.TWO_DIMENSIONAL );
+                }
+            }
         }
     }
 }
