@@ -63,6 +63,10 @@ public class CCKApplication extends PiccoloPhetApplication {
 //        } );
     }
 
+//    protected PhetFrame createPhetFrame() {
+//        return new PhetFrameWorkaround( this );
+//    }
+
     public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
     }
