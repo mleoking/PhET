@@ -49,6 +49,8 @@ public class BulbNode extends PhetPNode {
             BulbNode.this.update();
         }
     };
+    //    private static final float SCALE = 0.75f;
+    private static final float SCALE = 0.35f;
 
     public BulbNode( Bulb bulb ) {
         this.bulb = bulb;
@@ -235,7 +237,7 @@ public class BulbNode extends PhetPNode {
             brighties.add( line );
             angle += dTheta;
         }
-        this.brightyStroke = new BasicStroke( (float)strokeWidth / 40.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        this.brightyStroke = new BasicStroke( (float)strokeWidth / 40.0f * SCALE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         this.brightyColor = backgroundColor;
         update();
     }

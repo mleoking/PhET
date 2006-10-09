@@ -12,11 +12,12 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * User: Sam Reid
- * Date: Sep 19, 2006
- * Time: 2:03:08 PM
- * Copyright (c) Sep 19, 2006 by Sam Reid
+/*
+To alter the bulb size,
+ 
+ See CCKPiccoloModule's Bulb.setHeightScale( 0.5*0.75 );
+ BulbComponentNode.scale
+ and BulbNode's brighty-line stroke width scale
  */
 
 public class TotalBulbComponentNode extends BranchNode {

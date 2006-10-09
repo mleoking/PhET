@@ -32,6 +32,7 @@ public class BulbComponentNode extends ComponentNode {
             updateIntensity();
         }
     };
+    private static final double SCALE = 0.75;
 
     public BulbComponentNode( CCKModel model, Bulb bulb, JComponent component, ICCKModule module ) {
         super( model, bulb, component, module );
@@ -41,6 +42,7 @@ public class BulbComponentNode extends ComponentNode {
         addChild( bulbNode );
         model.getCircuitSolver().addSolutionListener( circuitSolutionListener );
         bulbNode.transformBy( AffineTransform.getScaleInstance( 2, 2.5 ) );
+//        bulbNode.transformBy( AffineTransform.getScaleInstance( 2*SCALE, 2.5*SCALE ) );
         update();
         runParamTest();
         getHighlightNode().setStroke( new BasicStroke( (float)( 1.0 / 60.0 ) ) );
@@ -70,19 +72,8 @@ public class BulbComponentNode extends ComponentNode {
     }
 
     private void updateIntensity() {
-
         bulbNode.setIntensity( bulb.getIntensity() );
-        //todo notify filament graphic
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            IntensityChangeListener intensityChangeListener = (IntensityChangeListener)listeners.get( i );
-//            intensityChangeListener.intensityChanged( this, intensity );
-//        }
     }
-
-//    private void updateTransform() {
-//
-//        
-//    }
 
     ModelSlider dxSlider = new ModelSlider( "dx", "", -10, 10, 0 );
     ModelSlider dySlider = new ModelSlider( "dy", "", -10, 10, 0 );
@@ -126,16 +117,11 @@ public class BulbComponentNode extends ComponentNode {
         Point2D endpt = bulb.getEndPoint();
         AffineTransform transform = new AffineTransform();
 
-//        double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() + dThetaSlider.getValue() + theta;
-//        transform.rotate( angle, srcpt.getX(), srcpt.getY() );
-//        transform.translate( srcpt.getX(), srcpt.getY() );
-//        transform.scale( sxSlider.getValue(), sySlider.getValue() );
-//        transform.translate( dxSlider.getValue(), dySlider.getValue() );//todo magic numbers       
-
         double angle = new ImmutableVector2D.Double( srcpt, endpt ).getAngle() + 0.3 + theta;
         transform.rotate( angle, srcpt.getX(), srcpt.getY() );
         transform.translate( srcpt.getX(), srcpt.getY() );
-        transform.scale( 0.74, 0.79 );
+//        transform.scale( 0.74, 0.79 );
+        transform.scale( 0.74 * SCALE, 0.79 * SCALE * 1.15 );
         transform.translate( -1.0, -2.3 );//todo magic numbers
 
         return transform;
