@@ -28,15 +28,17 @@ import java.net.URL;
  */
 
 public class CCKAboutDialog extends JDialog {
-    private JPanel contentPanel;
+    private VerticalLayoutPanel contentPanel;
 
     public CCKAboutDialog( PhetApplication phetApplication ) throws HeadlessException {
         super( phetApplication.getPhetFrame(), SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle() );
         contentPanel = new VerticalLayoutPanel();
         JLabel iconLabel = null;
         try {
-            BufferedImage image = addBorder( ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
+            BufferedImage image = ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 );
             iconLabel = new JLabel( new ImageIcon( image ) );
+            iconLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
+            iconLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
             iconLabel.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
                     showPhetPage();
@@ -57,7 +59,7 @@ public class CCKAboutDialog extends JDialog {
         jTextArea.setEditable( false );
         jTextArea.setBorder( BorderFactory.createEtchedBorder() );
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        final String msg = phetApplication.getTitle() + "\n" + phetApplication.getDescription() + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
+        final String msg = phetApplication.getTitle() + " (" + phetApplication.getVersion() + ")\n" + phetApplication.getDescription() + "\n\n" + javaVersion + "\n";
         jTextArea.setText( msg );
 
         JPanel buttonPanel = new JPanel();
@@ -96,7 +98,9 @@ public class CCKAboutDialog extends JDialog {
         buttonPanel.add( close );
 
         addSpacing();
+        contentPanel.setFillNone();
         contentPanel.add( iconLabel );
+        contentPanel.setFillHorizontal();
         addSpacing();
         contentPanel.add( jTextArea );
         addSpacing();
