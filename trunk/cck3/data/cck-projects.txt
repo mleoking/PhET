@@ -1,0 +1,3 @@
+CCK is built using open source programs:
+(1) Piccolo
+(2) JFreeChart/JCommon
