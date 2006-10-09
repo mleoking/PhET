@@ -35,7 +35,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class CompositeMolecule extends AbstractMolecule {
+abstract public class CompositeMolecule extends AbstractMolecule implements PotentialEnergySource {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods

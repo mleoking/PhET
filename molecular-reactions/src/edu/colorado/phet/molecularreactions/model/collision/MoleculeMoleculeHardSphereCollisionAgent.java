@@ -164,16 +164,9 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Create a composite molecule if ReactionCriteria are met
-//        if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-//                                                         (AbstractMolecule)bodyB )) {
         if( model.getReaction().areCriteriaMet( (AbstractMolecule)bodyA,
                                                 (AbstractMolecule)bodyB,
                                                 collisionSpec ) ) {
-
-            // Get rid of the provisional bond between the molecules
-//            ProvisionalBond.removeInstance( (AbstractMolecule)bodyA,
-//                                                         (AbstractMolecule)bodyB );
-
             SimpleMolecule simpleMolecule = null;
             CompositeMolecule compositeMolecule = null;
 
@@ -186,7 +179,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
                 compositeMolecule = (CompositeMolecule)bodyA;
             }
             else {
-                throw new RuntimeException( "unexpected situation" );
+                throw new RuntimeException( "internal error" );
             }
 
             A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
@@ -267,69 +260,6 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
         }
     }
 
-//    private Bond createBond( SimpleMolecule simpleMolecule, CompositeMolecule compositeMolecule ) {
-//        Bond bond = new Bond( simpleMolecule, compositeMolecule.getComponentMolecules()[0] );
-//        return bond;
-//    }
-
-    private SimpleMolecule[] createArrayOfAllSimpleMolecules( Body bodyA, Body bodyB ) {
-        List molecules = new ArrayList();
-        if( bodyA instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)bodyA;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
-        }
-        else {
-            molecules.add( bodyA );
-        }
-        if( bodyB instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)bodyB;
-            molecules.addAll( Arrays.asList( compositeMolecule.getComponentMolecules() ) );
-        }
-        else {
-            molecules.add( bodyB );
-        }
-        SimpleMolecule[] ma = (SimpleMolecule[])molecules.toArray( new SimpleMolecule[ molecules.size()] );
-        return ma;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    //  Inner classes
-    //--------------------------------------------------------------------------------------------------
-
-//    public static class CollisionSpec {
-//
-//        private Vector2D loa;
-//        private Point2D.Double collisionPt;
-//        private SimpleMolecule moleculeA;
-//        private SimpleMolecule moleculeB;
-//
-//        public CollisionSpec( Vector2D loa,
-//                              Point2D.Double collisionPt,
-//                              SimpleMolecule moleculeA,
-//                              SimpleMolecule moleculeB ) {
-//            this.moleculeB = moleculeB;
-//            this.moleculeA = moleculeA;
-//            this.loa = loa;
-//            this.collisionPt = collisionPt;
-//        }
-//
-//        public Vector2D getLoa() {
-//            return loa;
-//        }
-//
-//        public Point2D.Double getCollisionPt() {
-//            return collisionPt;
-//        }
-//
-//        public SimpleMolecule getSimpleMoleculeA() {
-//            return moleculeA;
-//        }
-//
-//        public SimpleMolecule getSimpleMoleculeB() {
-//            return moleculeB;
-//        }
-//    }
-//
     //--------------------------------------------------------------------------------------------------
     // Implementation of MRModel.ModelListener
     //--------------------------------------------------------------------------------------------------
@@ -345,93 +275,4 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
     public void modelElementRemoved( ModelElement element ) {
         // noop
     }
-
-//    //--------------------------------------------------------------------------------------------------
-//    // Reaction criteria
-//    //--------------------------------------------------------------------------------------------------
-//
-//    interface ReactionCriteria {
-//        boolean criteriaMet( Molecule bodyA, Molecule bodyB );
-//    }
-//
-//    /**
-//     * Combines two simple molecules of different types into one compound molecule
-//     */
-//    class SimpleMoleculeSimpleMoleculeReactionCriteria implements ReactionCriteria {
-//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-//            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold
-//                   && m1 instanceof SimpleMolecule && m2 instanceof SimpleMolecule
-//                   && m1.getClass() != m2.getClass();
-//        }
-//    }
-//
-//    /**
-//     * Combines any two molecules together
-//     */
-//    class SimpleMoleculeReactionCriteria implements ReactionCriteria {
-//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-//            return m1.getKineticEnergy() + m2.getKineticEnergy() > reactionThreshold;
-//        }
-//    }
-//
-//    /**
-//     * If A simple molecule hits A compound molecule, combines
-//     */
-//    class SimpleMoleculeCompoundMoleculeCriteria implements ReactionCriteria {
-//        public boolean criteriaMet( Molecule m1, Molecule m2 ) {
-//
-//            // Determine the kinetic energy in the collision. We consider this to be the
-//            // kinetic energy of an object whose mass is equal to the total masses of
-//            // the two molecules, moving at A speed equal to the magnitude of the
-//            // relative velocity of the two molecules
-//            Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
-//                                                m2.getPosition().getY() - m1.getPosition().getY()).normalize();
-//            double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa), 0 );
-//            double ke = 0.5 * (m1.getMass() + m2.getMass() ) * sRel * sRel;
-//
-//            // Classify the two molecules. Note that there must be one and only one
-//            // simple molecule, and one and only one composite molecule
-//            CompositeMolecule cm = null;
-//            SimpleMolecule sm = null;
-//            if( m1 instanceof CompositeMolecule ) {
-//                cm = (CompositeMolecule)m1;
-//            }
-//            else {
-//                sm = (SimpleMolecule)m1;
-//            }
-//
-//            if( m2 instanceof CompositeMolecule ) {
-//                if( cm != null ) {
-//                    return false;
-//                }
-//                else {
-//                    cm = (CompositeMolecule)m2;
-//                }
-//            }
-//            else {
-//                if( sm != null ) {
-//                    return false;
-//                }
-//                else {
-//                    sm = (SimpleMolecule)m2;
-//                }
-//            }
-//
-//            // One of the molecules must be A composite molecule whose components
-//            // are two simple molecules, and the other molecule must be A simple molecule
-//            if( cm.numSimpleMolecules() == 2
-//                && cm.getType() == CompositeMolecule.BB
-//                && sm instanceof MoleculeA
-//                && ke >= reactionThreshold ) {
-//                return true;
-//            }
-//            if( cm.numSimpleMolecules() == 2
-//                && cm.getType() == CompositeMolecule.AB
-//                && sm instanceof MoleculeB
-//                && ke >= reactionThreshold ) {
-//                return true;
-//            }
-//            return false;
-//        }
-//    }
 }
