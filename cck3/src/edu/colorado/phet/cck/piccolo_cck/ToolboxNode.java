@@ -39,7 +39,7 @@ public class ToolboxNode extends PhetPNode {
     private CCKSimulationPanel cckSimulationPanel;
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 30;
-    private static final double BETWEEN_INSET = 6;
+    private double betweenInset = 6;
     private CircuitInteractionModel circuitInteractionModel;
     private ICCKModule module;
     private AmmeterMaker ammeterMaker;
@@ -56,21 +56,29 @@ public class ToolboxNode extends PhetPNode {
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
         addChild( toolboxBounds );
-
+        if( !getAllowsDynamics() ) {
+            betweenInset = 40;
+        }
         wireMaker = new WireMaker();
         addBranchMaker( wireMaker );
         addBranchMaker( new ResistorMaker() );
         addBranchMaker( new BatteryMaker() );
         addBranchMaker( new BulbMaker() );
         addBranchMaker( new SwitchMaker() );
-        addBranchMaker( new ACVoltageMaker() );
-        addBranchMaker( new CapacitorMaker() );
-        addBranchMaker( new InductorMaker() );
+        if( getAllowsDynamics() ) {
+            addBranchMaker( new ACVoltageMaker() );
+            addBranchMaker( new CapacitorMaker() );
+            addBranchMaker( new InductorMaker() );
+        }
         ammeterMaker = new AmmeterMaker();
         addBranchMaker( ammeterMaker );
 
         toolboxBounds.setPathTo( new Rectangle2D.Double( 0, 0, 100, getYForNextItem( new ResistorMaker() ) ) );
         setSeriesAmmeterVisible( false );
+    }
+
+    private boolean getAllowsDynamics() {
+        return module.getParameters().getAllowDynamics();
     }
 
     private void addBranchMaker( BranchMaker branchMaker ) {
@@ -86,7 +94,7 @@ public class ToolboxNode extends PhetPNode {
         }
         else {
             BranchMaker prev = (BranchMaker)branchMakers.get( branchMakers.size() - 1 );
-            double val = prev.getFullBounds().getMaxY() + BETWEEN_INSET;
+            double val = prev.getFullBounds().getMaxY() + betweenInset;
             if( nextItem.getFullBounds().getMinY() < 0 ) {
                 val -= nextItem.getFullBounds().getMinY();
             }

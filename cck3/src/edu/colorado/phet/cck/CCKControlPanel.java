@@ -47,6 +47,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private JPanel advancedPanel;
+    private boolean debugging = false;
 
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
@@ -126,7 +127,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
                 }
             }
         } );
-        add( testLifelikeSchematic );
+        if( debugging ) {
+            add( testLifelikeSchematic );
+        }
 
         if( useAdvanced() ) {
             add( advancedPanel );

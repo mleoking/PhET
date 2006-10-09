@@ -4,8 +4,6 @@ bulb loaded incorrectly one time
 
 unconnected circuit with switch & ac had buggy electron flow
 
-Add a decent about dialog.
-
 exception:
 java.lang.RuntimeException: Juncitons Not at same coordinates.
 	at edu.colorado.phet.cck.model.Circuit.collapseJunctions(Circuit.java:600)
@@ -29,6 +27,8 @@ altering the underlying circuit model).
 Is capacitor graphic performance too slow?
 
 Should I hide ohm readouts for wires?
+
+Should the about dialog discuss Hewlett, Kavli, NSF? 
 
 Internal:
 Improve component constructor interface?  Now there is basically support for cck data structure usage and for MNA usage.
