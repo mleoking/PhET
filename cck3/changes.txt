@@ -1,5 +1,6 @@
 3.04.01 (10-9-2006)
 Added a cursor hand to the phet logo, which links to main page.
+Added an improved about dialog, with license, projects, link to main page, and phet icon.
 
 3.04.00 (10-9-2006)
 Finished main body of piccolo translation, still needs thorough testing.
