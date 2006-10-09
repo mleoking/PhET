@@ -1,5 +1,7 @@
 To Do:
 
+Should I ensure the bulb comes out perfectly upright on creation (it comes out at slight angle)?
+
 bulb loaded incorrectly one time
 
 unconnected circuit with switch & ac had buggy electron flow
@@ -11,6 +13,13 @@ java.lang.RuntimeException: Juncitons Not at same coordinates.
 	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel.dropJunction(CircuitInteractionModel.java:41)
 	at edu.colorado.phet.cck.piccolo_cck.JunctionNode$2.mouseReleased(JunctionNode.java:76)
 	at edu.umd.cs.piccolo.event.PBasicInputEventHandler.processEvent(PBasicInputEventHandler.java:97)
+
+when creating a battery-bulb circuit:
+java.lang.NullPointerException
+	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel$BranchInteractionModel.dropBranch(CircuitInteractionModel.java:175)
+	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel.dropBranch(CircuitInteractionModel.java:57)
+	at edu.colorado.phet.cck.piccolo_cck.ToolboxNode$1.mouseReleased(ToolboxNode.java:142)
+	at edu.umd.cs.piccolo.event.PBasicInputEventHandler.processEvent(PBasicInputEventHandler.java:97)	
 	
 Issues/Questions:
 
@@ -33,3 +42,14 @@ Should the about dialog discuss Hewlett, Kavli, NSF?
 Internal:
 Improve component constructor interface?  Now there is basically support for cck data structure usage and for MNA usage.
 
+____
+- The default size of the bulb, the battery, the voltmeter, and the width of the light bulb brightness lines is quite a bit larger (~30%) than the default size in phet graphics. I prefer the phet graphics sizes as default. 
+
+-I ran into a couple bugs when trying to change the resistance of a light bulb in a 2 bulbs in series circuit. 
+        1. The 1st bulb I put into this circuit is the one on the left. When I right click on that the adjustment screen comes up quickly and with no Java logo at the bottom. 
+        2. The 2nd bulb is the one on the right (but in the circuit). When I right click on it, the window takes longer to come up and the Java logo strip stays as the bottom. When I do this however, it often causes the bulb to jump around when I right click on it. 
+        3. The 3rd bulb, the one not connected, when I right click on it, the window never finishes coming up (see screen shot below). 
+
+- When I switch between email and the sim, the whole screen does not redraw itself so everything except for where the electrons are moving is grey until I click on one of the light bulbs ... and then it will redraw that lightbulbs rectangle. I guess you just need to redraw the whole thing when the sim becomes the computers focus window again. 
+
+- One of the bulbs left behind it's little red dashed circle at one point, but I don't know how reproducible this is. 
