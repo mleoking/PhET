@@ -96,7 +96,7 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
             // Rotate the plunger if the  mouse move left or right
             double dx = event.getDelta().getWidth();
-            if( dx != 0 ) {
+            if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
                 Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
 //                System.out.println( "px = " + (p.getX() - launcher.getRestingTipLocation().getX()) );
 //                System.out.println( "py = " + (p.getY() - launcher.getRestingTipLocation().getY()) );

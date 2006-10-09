@@ -34,7 +34,7 @@ import java.util.HashMap;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ProvisionalBond extends SimpleObservable implements ModelElement {
+public class ProvisionalBond extends SimpleObservable implements ModelElement, PotentialEnergySource {
 
     SimpleMolecule[] molecules;
     private double maxBondLength;
@@ -80,6 +80,19 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
         if( dist > maxBondLength ) {
             model.removeModelElement( this );
             model.removeModelElement( spring );
+
+            // If there is some potential energy left in the spring, adjust the kinetic energies of the
+            // molecules
+            if( spring != null && spring.getPotentialEnergy() != 0 ) {
+                double peRes = spring.getPotentialEnergy();
+                double vM0i = getMolecules()[0].getFullMolecule().getVelocity().getMagnitude();
+                double vM0f = Math.sqrt( peRes / getMolecules()[0].getFullMass() + vM0i * vM0i );
+                getMolecules()[0].getFullMolecule().setVelocity( getMolecules()[0].getFullMolecule().getVelocity().normalize().scale( vM0f ) );
+
+                double vM1i = getMolecules()[1].getFullMolecule().getVelocity().getMagnitude();
+                double vM1f = Math.sqrt( peRes / getMolecules()[1].getFullMass() + vM1i * vM1i );
+                getMolecules()[1].getFullMolecule().setVelocity( getMolecules()[1].getFullMolecule().getVelocity().normalize().scale( vM1f ) );
+            }
         }
         notifyObservers();
     }
@@ -108,6 +121,10 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement {
             e = spring.getPotentialEnergy();
         }
         return e;
+    }
+
+    public double getPE() {
+        return getPotentialEnergy();
     }
 
     /**

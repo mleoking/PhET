@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.mechanics.DefaultBody;
 
 import java.awt.geom.Point2D;
 
@@ -22,13 +23,26 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Launcher extends Body implements ModelElement, PotentialEnergySource {
+public class Launcher extends DefaultBody implements ModelElement, PotentialEnergySource {
+
+    public static class MovementType {
+        private MovementType() {
+        }
+    }
+    public static MovementType ONE_DIMENSIONAL = new MovementType();
+    public static MovementType TWO_DIMENSIONAL = new MovementType();
+
 
     private Point2D restingTipLocation;
     private double maxPlungerDraw;
     private double springK = 1;
     private SimpleMolecule bodyToLaunch;
+    private MovementType movementType = TWO_DIMENSIONAL;
 
+    /**
+     *
+     * @param restingTipLocation
+     */
     public Launcher( Point2D restingTipLocation ) {
         this.restingTipLocation = restingTipLocation;
     }
@@ -75,15 +89,7 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
     }
 
     public void stepInTime( double dt ) {
-
-    }
-
-    public Point2D getCM() {
-        return null;
-    }
-
-    public double getMomentOfInertia() {
-        return 0;
+        // noop
     }
 
     public Point2D getRestingTipLocation() {
@@ -96,5 +102,13 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
 
     public void setTipLocation( double x, double y ) {
         setPosition( x, y );
+    }
+
+    public void setMovementType( MovementType movementType ) {
+        this.movementType = movementType;
+    }
+
+    public MovementType getMovementType() {
+        return movementType;
     }
 }

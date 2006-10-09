@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -51,14 +52,31 @@ public class Spring extends SimpleObservable implements ModelElement {
         this( 2 * pe / ( dl * dl ), restingLength, fixedEnd, angle );
     }
 
-    public Spring( double k, double restingLength, Point2D fixedEnd, Body body ) {
+    /**
+     *
+     * @param k
+     * @param restingLength
+     * @param fixedEnd
+     * @param body
+     * @param vRel  The velocity of the body relative to the fixed point of the spring
+     */
+    public Spring( double k, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( k, restingLength, fixedEnd );
-        attachBodyAtRestingLength( body );
+        attachBodyAtRestingLength( body, vRel );
     }
 
-    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body ) {
+    /**
+     *
+     * @param pe
+     * @param dl
+     * @param restingLength
+     * @param fixedEnd
+     * @param body
+     * @param vRel  The velocity of the body relative to the fixed point of the spring
+     */
+    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( 2 * pe / ( dl * dl ), restingLength, fixedEnd );
-        attachBodyAtRestingLength( body );
+        attachBodyAtRestingLength( body, vRel );
     }
 
     public Spring( double k, double restingLength, Point2D fixedEnd, double angle ) {
@@ -104,10 +122,14 @@ public class Spring extends SimpleObservable implements ModelElement {
      * length. A virtual strut is assumed to exist between the body's CM and the end of the spring.
      *
      * @param body
+     * @param vRel  The velocity of the body relative to the fixed point of the spring
      */
-    private void attachBodyAtRestingLength( Body body ) {
+    private void attachBodyAtRestingLength( Body body, Vector2D vRel ) {
         this.attachedBody = body;
 
+        if( body instanceof CompositeMolecule ) {
+            System.out.println( "Spring.attachBodyAtRestingLength" );
+        }
         angle = new Vector2D.Double( fixedEnd, body.getPosition() ).getAngle();
         freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ) );
         t = 0;
@@ -120,7 +142,8 @@ public class Spring extends SimpleObservable implements ModelElement {
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
         Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
-        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+        double v0 = MathUtil.getProjection( vRel, vSpring ).getMagnitude();
+//        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
         phi = 0;
         A = v0 / ( omega * Math.cos( phi ) );
     }
@@ -219,6 +242,10 @@ public class Spring extends SimpleObservable implements ModelElement {
         Vector2D v0 = getVelocity();
         t += dt;
         if( attachedBody != null ) {
+
+            if( attachedBody instanceof CompositeMolecule ) {
+                System.out.println( "Spring.stepInTime" );
+            }
 
             // Compute the length of the spring
             double dl = A * Math.sin( omega * t + phi );

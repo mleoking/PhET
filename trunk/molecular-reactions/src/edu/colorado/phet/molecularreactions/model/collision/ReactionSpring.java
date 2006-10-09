@@ -10,12 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.CompositeBody;
-import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
 import java.awt.geom.Point2D;
@@ -145,8 +143,10 @@ public class ReactionSpring extends Body implements ModelElement {
 //        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
         // Make the component springs, with the bodies attached
-        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule() );
-        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule() );
+        Vector2D vRel0 = new Vector2D.Double( bodies[0].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
+        springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule(), vRel0 );
+        Vector2D vRel1 = new Vector2D.Double( bodies[1].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
+        springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule(), vRel1 );
         return springs;
     }
 
@@ -167,7 +167,6 @@ public class ReactionSpring extends Body implements ModelElement {
         }
         double pe1 = getPotentialEnergy();
         double de =  pe1 + ke1 - (pe0 + ke0 );
-        System.out.println( "de = " + de );
 
         notifyObservers();
     }

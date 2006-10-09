@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
@@ -25,6 +26,7 @@ public class CompositeBody extends Body {
 
     private ArrayList bodies = new ArrayList();
     private Point2D.Double cm = new Point2D.Double();
+    private Vector2D velocity = new Vector2D.Double();
 
     public void addBody( Body body ) {
         bodies.add( body );
@@ -66,4 +68,16 @@ public class CompositeBody extends Body {
         return mOfI;
     }
 
+    public Vector2D getVelocity() {
+        velocity.setComponents( 0, 0 );
+        double vx = 0;
+        double vy = 0;
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            vx += velocity.getX() + ( body.getVelocity().getX() * body.getMass() / this.getMass() );
+            vy += velocity.getY() + ( body.getVelocity().getY() * body.getMass() / this.getMass() );
+        }
+        velocity.setComponents( vx, vy );
+        return velocity;
+    }
 }
