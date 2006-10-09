@@ -73,14 +73,6 @@ public class CCKAboutDialog extends JDialog {
         } );
         buttonPanel.add( copyrightAndLicenseInfo );
 
-//        JButton projectsButton = new JButton( "Projects" );
-//        projectsButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                showProjects();
-//            }
-//        } );
-//        buttonPanel.add( projectsButton );
-
         JButton phetHomepage = new JButton( "PhET homepage" );
         phetHomepage.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -110,10 +102,6 @@ public class CCKAboutDialog extends JDialog {
         pack();
         SwingUtils.centerDialogInParent( this );
     }
-
-//    private void showProjects() {
-//        JOptionPane.showMessageDialog( this, readText( "cck-projects.txt" ) );
-//    }
 
     private void showLicenseInfo() {
         String s = readText( "phet-license.txt" );
@@ -167,14 +155,6 @@ public class CCKAboutDialog extends JDialog {
         dispose();
     }
 
-    private static BufferedImage addBorder( BufferedImage image ) {
-        Graphics2D g2 = image.createGraphics();
-        g2.setStroke( new BasicStroke( 1 ) );
-        g2.setPaint( Color.black );
-        g2.draw( new Rectangle( 0, 0, image.getWidth() - 1, image.getHeight() - 1 ) );
-        return image;
-    }
-
     private void addSpacing() {
         contentPanel.add( Box.createVerticalStrut( 15 ) );
     }
@@ -191,41 +171,4 @@ public class CCKAboutDialog extends JDialog {
         }
     }
 
-    public static void main( String[] args ) {
-//        String s = readText( "phet-license.txt" );
-//        JTextArea jTextArea = new JTextArea( s );
-//        jTextArea.setFont( new Font( "Lucida Sans",Font.BOLD, 18) );
-//        jTextArea.setColumns( 45 );
-//        jTextArea.setLineWrap( true );
-//        jTextArea.setWrapStyleWord( true );
-//        jTextArea.setEditable( false );
-//        jTextArea.setBackground( Color.red );
-//
-//        JFrame frame = new JFrame();
-//        frame.setContentPane( jTextArea );
-//        frame.pack();
-//        frame.show();
-//        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//
-//        JOptionPane.showMessageDialog( frame, jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
-//        System.exit( 0 );
-        String s = readText( "phet-license.txt" );
-        JTextArea jTextArea = new JTextArea( s );
-        jTextArea.setColumns( 45 );
-        jTextArea.setLineWrap( true );
-        jTextArea.setWrapStyleWord( true );
-        jTextArea.setEditable( false );
-//        JOptionPane.showMessageDialog( new JFrame(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
-
-        JOptionPane optionPane = new JOptionPane( jTextArea );
-        JDialog dialog = optionPane.createDialog( null, "Some title" );
-
-        //This forces correct resizing
-        jTextArea.invalidate();
-        dialog.pack();
-
-        dialog.show();
-
-        System.exit( 0 );
-    }
 }
