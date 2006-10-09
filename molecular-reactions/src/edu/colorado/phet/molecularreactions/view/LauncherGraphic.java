@@ -100,7 +100,9 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
                 Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
 //                System.out.println( "px = " + (p.getX() - launcher.getRestingTipLocation().getX()) );
 //                System.out.println( "py = " + (p.getY() - launcher.getRestingTipLocation().getY()) );
-                double r = getFullBounds().getHeight();
+                double r = Math.sqrt( getFullBounds().getHeight() * getFullBounds().getHeight()
+                                      + getFullBounds().getWidth() * getFullBounds().getWidth() );
+//                double r = getFullBounds().getHeight();
                 double dTheta = Math.asin( -dx / r );
                 double theta = launcher.getTheta() + dTheta;
                 launcher.setTheta( theta );

@@ -79,12 +79,9 @@ public class SpatialView extends PNode {
     }
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
-        TemperatureControl tempCtrl = new TemperatureControl( model );
-        model.addModelElement( tempCtrl );
+        TemperatureControl tempCtrl = model.getTemperatureControl();
         TemperatureControlGraphic tempCtrlGraphic = new TemperatureControlGraphic( pSwingCanvas, tempCtrl );
         addChild( tempCtrlGraphic );
-        tempCtrlGraphic.setOffset( ( model.getBox().getMaxX() + model.getBox().getMinX() ) / 2,
-                                   model.getBox().getMaxY() + 15 );
     }
 
     public void setGraphicTypeVisible( boolean visible ) {

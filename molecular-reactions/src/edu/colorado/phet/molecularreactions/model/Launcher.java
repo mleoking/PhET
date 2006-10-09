@@ -44,6 +44,7 @@ public class Launcher extends Body implements ModelElement, PotentialEnergySourc
             Vector2D v = new Vector2D.Double( 0, -s );
             v.rotate( getTheta() );
             bodyToLaunch.setVelocity( v );
+            bodyToLaunch = null;
         }
         setTipLocation( restingTipLocation );
     }
