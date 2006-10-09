@@ -18,8 +18,8 @@ import java.awt.geom.Rectangle2D;
  */
 
 public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart {
-    private CrosshairGraphic leftCrosshairGraphic;
-    private CrosshairGraphic rightCrosshairGraphic;
+    private CrosshairNode leftCrosshairNode;
+    private CrosshairNode rightCrosshairNode;
     private TwoTerminalValueReader valueReader;
     private PhetPCanvas phetPCanvas;
 
@@ -28,35 +28,35 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         this.valueReader = valueReader;
         this.phetPCanvas = phetPCanvas;
 
-        leftCrosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        rightCrosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        CrosshairConnection leftCrosshairConnection = new CrosshairConnection( this, leftCrosshairGraphic );
+        leftCrosshairNode = new CrosshairNode( this, 10, 15 );
+        rightCrosshairNode = new CrosshairNode( this, 10, 15 );
+        CrosshairConnection leftCrosshairConnection = new CrosshairConnection( this, leftCrosshairNode );
         addChild( leftCrosshairConnection );
-        CrosshairConnection rightCrosshairConnection = new CrosshairConnection( this, rightCrosshairGraphic );
+        CrosshairConnection rightCrosshairConnection = new CrosshairConnection( this, rightCrosshairNode );
         addChild( rightCrosshairConnection );
 
-        addChild( leftCrosshairGraphic );
-        addChild( rightCrosshairGraphic );
+        addChild( leftCrosshairNode );
+        addChild( rightCrosshairNode );
         StripChartJFCNode stripChartJFCNode = super.getStripChartJFCNode();
-        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - leftCrosshairGraphic.getFullBounds().getWidth() / 2.0,
+        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - leftCrosshairNode.getFullBounds().getWidth() / 2.0,
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
-        double crosshairOffsetDX = leftCrosshairGraphic.getFullBounds().getWidth() * 1.25;
-        leftCrosshairGraphic.translate( crosshairOffsetDX, -30 );
-        rightCrosshairGraphic.translate( crosshairOffsetDX, 30 );
+        double crosshairOffsetDX = leftCrosshairNode.getFullBounds().getWidth() * 1.25;
+        leftCrosshairNode.translate( crosshairOffsetDX, -30 );
+        rightCrosshairNode.translate( crosshairOffsetDX, 30 );
         stripChartJFCNode.addInputEventListener( new DoubleTerminalFloatingChart.PairDragHandler() );
     }
 
-    public CrosshairGraphic getLeftCrosshairGraphic() {
-        return leftCrosshairGraphic;
+    public CrosshairNode getLeftCrosshairGraphic() {
+        return leftCrosshairNode;
     }
 
-    public CrosshairGraphic getRightCrosshairGraphic() {
-        return rightCrosshairGraphic;
+    public CrosshairNode getRightCrosshairGraphic() {
+        return rightCrosshairNode;
     }
 
     public void update() {
         super.update();
-        if( leftCrosshairGraphic != null && valueReader != null ) {
+        if( leftCrosshairNode != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
             double value = valueReader.getValue( getLeftShape(), getRightShape() );
             CCKTime cckTime = new CCKTime();
@@ -77,8 +77,8 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( leftCrosshairGraphic.isAttached() ) {
-                leftCrosshairGraphic.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
+            if( leftCrosshairNode.isAttached() ) {
+                leftCrosshairNode.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }
     }
@@ -97,8 +97,8 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
             return getShape( getLeftCrosshairGraphic() );
         }
 
-        private Shape getShape( CrosshairGraphic leftCrosshairGraphic ) {
-            Point2D location = leftCrosshairGraphic.getGlobalTranslation();
+        private Shape getShape( CrosshairNode leftCrosshairNode ) {
+            Point2D location = leftCrosshairNode.getGlobalTranslation();
             location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
             double w = 2.0;
             double h = 2.0;

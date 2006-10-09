@@ -20,7 +20,7 @@ import java.awt.geom.Rectangle2D;
  * Time: 8:38:51 PM
  * Copyright (c) Jul 6, 2006 by Sam Reid
  */
-public class CrosshairGraphic extends PComposite {
+public class CrosshairNode extends PComposite {
     private static final Paint CROSSHAIR_COLOR = Color.white;
     private BasicStroke CROSSHAIR_STROKE = new BasicStroke( 2 );
     private CrosshairDragHandler listener;
@@ -30,7 +30,7 @@ public class CrosshairGraphic extends PComposite {
     private PPath background;
     private PPath innerCircle;
 
-    public CrosshairGraphic( AbstractFloatingChart intensityReader, int innerRadius, int outerRadius ) {
+    public CrosshairNode( AbstractFloatingChart intensityReader, int innerRadius, int outerRadius ) {
         this.intensityReader = intensityReader;
         Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
         innerCircle = new PPath( aShape );

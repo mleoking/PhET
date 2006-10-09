@@ -1,7 +1,7 @@
 package edu.colorado.phet.cck.chart;
 
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
-import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
+import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.piccolo_cck.PiccoloVoltageCalculation;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
@@ -14,17 +14,15 @@ import java.awt.*;
  * Copyright (c) Jun 22, 2006 by Sam Reid
  */
 
-public class VoltageStripChart extends DoubleTerminalFloatingChart.Phetgraphics {
-    private CircuitGraphic circuitGraphic;
+public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
 
-    public VoltageStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, CircuitGraphic circuitGraphic ) {
+    public VoltageStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit ) {
         super( pSwingCanvas, title, new TwoTerminalValueReader() {
             public double getValue( Shape a, Shape b ) {
                 return 0;
             }
         }, clock );
-        this.circuitGraphic = circuitGraphic;
-        super.setValueReader( new VoltageReader( circuitGraphic ) );
+        super.setValueReader( new VoltageStripChart.VoltageReader( circuit ) );
         getStripChartJFCNode().setVerticalRange( -20, 20 );
         getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( "Voltage (V)" );
         getLeftCrosshairGraphic().setColor( Color.red );
@@ -32,14 +30,14 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart.Phetgraphics 
     }
 
     public class VoltageReader implements TwoTerminalValueReader {
-        private CircuitGraphic circuitGraphic;
+        private Circuit circuit;
 
-        public VoltageReader( CircuitGraphic circuitGraphic ) {
-            this.circuitGraphic = circuitGraphic;
+        public VoltageReader( Circuit circuit ) {
+            this.circuit = circuit;
         }
 
         public double getValue( Shape a, Shape b ) {
-            return new VoltageCalculation( circuitGraphic.getCircuit() ).getVoltage( circuitGraphic, a, b );
+            return new PiccoloVoltageCalculation( circuit ).getVoltage( a, b );
         }
     }
 }

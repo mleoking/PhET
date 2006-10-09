@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
 
 public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart {
     private ValueReader valueReader;
-    private CrosshairGraphic crosshairGraphic;
+    private CrosshairNode crosshairNode;
     private PhetPCanvas pSwingCanvas;
 
     public SingleTerminalFloatingChart( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
@@ -25,16 +25,16 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
         this.pSwingCanvas = pSwingCanvas;
         this.valueReader = valueReader;
 
-        crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        CrosshairConnection crosshairConnection = new CrosshairConnection( this, crosshairGraphic );
+        crosshairNode = new CrosshairNode( this, 10, 15 );
+        CrosshairConnection crosshairConnection = new CrosshairConnection( this, crosshairNode );
         addChild( crosshairConnection );
 
-        addChild( crosshairGraphic );
+        addChild( crosshairNode );
         StripChartJFCNode stripChartJFCNode = super.getStripChartJFCNode();
-        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairGraphic.getFullBounds().getWidth() / 2.0,
+        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairNode.getFullBounds().getWidth() / 2.0,
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
-        double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
-        crosshairGraphic.translate( crosshairOffsetDX, 0 );
+        double crosshairOffsetDX = crosshairNode.getFullBounds().getWidth() * 1.25;
+        crosshairNode.translate( crosshairOffsetDX, 0 );
         stripChartJFCNode.addInputEventListener( new PairDragHandler() );
     }
 
@@ -44,7 +44,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
 
     public void update() {
         super.update();
-        if( crosshairGraphic != null && valueReader != null ) {
+        if( crosshairNode != null && valueReader != null ) {
             Point2D location = getLocation();
             double value = valueReader.getValue( location.getX(), location.getY() );
             CCKTime cckTime = new CCKTime();
@@ -58,14 +58,14 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( crosshairGraphic.isAttached() ) {
-                crosshairGraphic.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
+            if( crosshairNode.isAttached() ) {
+                crosshairNode.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }
     }
 
-    public CrosshairGraphic getCrosshairGraphic() {
-        return crosshairGraphic;
+    public CrosshairNode getCrosshairGraphic() {
+        return crosshairNode;
     }
 
     protected PhetPCanvas getPhetPCanvas() {

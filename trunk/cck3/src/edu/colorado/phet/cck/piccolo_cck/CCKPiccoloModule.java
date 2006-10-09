@@ -3,9 +3,6 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.CCKControlPanel;
 import edu.colorado.phet.cck.CCKParameters;
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.chart.AbstractFloatingChart;
-import edu.colorado.phet.cck.chart.PiccoloCurrentStripChart;
-import edu.colorado.phet.cck.chart.PiccoloVoltageStripChart;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
@@ -19,7 +16,6 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
@@ -45,7 +41,7 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
 
         this.model = new CCKModel();
         this.measurementToolSet = new MeasurementToolSet( model );
-        cckSimulationPanel = new CCKSimulationPanel( model, this );
+        cckSimulationPanel = new CCKSimulationPanel( model, this, getClock() );
         setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );
 
@@ -116,7 +112,6 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckSimulationPanel.setStopwatchVisible( selected );
     }
 
-    
 
     public void addCurrentChart() {
         cckSimulationPanel.addCurrentChart();
