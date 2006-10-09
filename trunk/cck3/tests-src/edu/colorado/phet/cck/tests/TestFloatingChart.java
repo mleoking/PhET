@@ -31,7 +31,7 @@ public class TestFloatingChart {
 //                System.out.println( "v = " + v );
                 return v;
             }
-        }, clock );
+        }, clock ,null);//todo can't test without CCKSImulationpanel now
         floatingChart.setOffset( 100, 100 );
         contentPane.getLayer().addChild( floatingChart );
         contentPane.setPanEventHandler( null );

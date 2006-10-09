@@ -14,6 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -32,6 +33,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private CCKHelpSuite cckHelpSuite;
     private BranchNodeFactory branchNodeFactory;
     private ToolboxNodeSuite toolboxSuite;
+    private ChartSetNode chartSetNode;
 
     public CCKSimulationPanel( CCKModel model, final ICCKModule module ) {
         super( new Dimension( 10, 10 ) );
@@ -51,6 +53,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
         addWorldChild( measurementToolSetNode );
         messageNode = new MessageNode();
         addScreenChild( messageNode );
+
+        chartSetNode = new ChartSetNode( this, model.getCircuit() );
+        addScreenChild( chartSetNode );
 
         addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {
             public void invoke() {
@@ -183,6 +188,18 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     public void setZoom( double zoom ) {
-        circuitNode.setZoom( zoom );
+        AffineTransform desiredTx = circuitNode.getTransformForZoom( zoom );
+        int animateTime = 2000;
+        circuitNode.animateToTransform( desiredTx, animateTime );
+        measurementToolSetNode.animateToTransform( desiredTx, animateTime );
+//        chartSetNode.animateToTransform( desiredTx, animateTime );
+    }
+
+    public void addCurrentChart() {
+        chartSetNode.addCurrentChart();
+    }
+
+    public void addVoltageChart() {
+        chartSetNode.addVoltageChart();
     }
 }
