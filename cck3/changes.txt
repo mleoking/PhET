@@ -1,3 +1,8 @@
+3.04.02
+Reduced bulb size 75% to match previous version.
+Reduced battery size and fixed aspect ratio to match previous version.
+Reduced voltmeter size to match previous version.
+
 3.04.01 (10-9-2006)
 Added a cursor hand to the phet logo, which links to main page.
 Added an improved about dialog, with license, projects, link to main page, and phet icon.

@@ -31,7 +31,8 @@ public class VoltmeterNode extends PhetPNode {
     private LeadNode redProbe;
     private CableNode redCable;
     private CableNode blackCable;
-    private static final double SCALE = 1.0 / 80.0 * 1.2;
+    //    private static final double SCALE = 1.0 / 80.0 * 1.2;
+    private static final double SCALE = 1.0 / 80.0 * 1.2 * 0.725;
 
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;

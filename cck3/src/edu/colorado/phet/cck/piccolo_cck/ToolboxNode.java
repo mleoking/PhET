@@ -225,9 +225,12 @@ public class ToolboxNode extends PhetPNode {
         }
     }
 
+    private static double batteryScale = 0.75;
+
     class BatteryMaker extends BranchMaker {
+
         public BatteryMaker() {
-            super( "Battery", 45 );
+            super( "Battery", 45 / batteryScale );
         }
 
         protected Branch createBranch() {
@@ -235,8 +238,10 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Battery createBattery() {
-            double L = 1.6;
-            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1, 0.01, true );
+            double L = 1.6 * batteryScale;
+//            double L = 0.8;
+            double height = 1.8;
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.01, true );
         }
     }
 
