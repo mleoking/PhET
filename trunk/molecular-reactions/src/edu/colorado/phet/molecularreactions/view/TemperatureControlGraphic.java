@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
@@ -61,6 +62,8 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
 
         addChild( sliderNode );
         setRegistrationPoint( stoveGraphic.getWidth() / 2, 0 );
+
+        setOffset( tempCtrl.getPosition() );
     }
 
     private void createImages( double baseOffsetY ) {
@@ -137,6 +140,10 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         return sliderNode;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of TemperatureControl.ChangeListener
+    //--------------------------------------------------------------------------------------------------
+
     public void settingChanged( double setting ) {
         stoveSlider.setValue( (int)setting );
         double flameHeight = stoveOffsetY - setting;
@@ -145,5 +152,9 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
                                  (int)Math.min( flameHeight, stoveOffsetY ) );
         iceGraphic.setOffset( (int)iceGraphic.getOffset().getX(),
                               (int)Math.min( iceHeight, stoveOffsetY ) );
+    }
+
+    public void positionChanged( Point2D newPosition ) {
+        setOffset( newPosition );
     }
 }

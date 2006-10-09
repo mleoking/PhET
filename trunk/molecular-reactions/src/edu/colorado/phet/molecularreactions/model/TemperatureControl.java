@@ -12,9 +12,11 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.mechanics.DefaultBody;
 
 import java.util.EventListener;
 import java.util.List;
+import java.awt.geom.Point2D;
 
 /**
  * TemperatureControl
@@ -22,7 +24,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TemperatureControl implements ModelElement {
+public class TemperatureControl extends DefaultBody {
     private MRModel model;
     private double setting;
 
@@ -43,6 +45,16 @@ public class TemperatureControl implements ModelElement {
         }
     }
 
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+        changeListenerProxy.positionChanged( getPosition() );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
+        changeListenerProxy.positionChanged( getPosition() );
+    }
+
     public double getSetting() {
         return setting;
     }
@@ -58,6 +70,7 @@ public class TemperatureControl implements ModelElement {
 
     public interface ChangeListener extends EventListener {
         void settingChanged( double setting );
+        void positionChanged( Point2D newPosition );
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );

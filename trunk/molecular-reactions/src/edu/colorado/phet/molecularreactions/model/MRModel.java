@@ -56,6 +56,7 @@ public class MRModel extends PublishingModel {
     private SelectedMoleculeTracker selectedMoleculeTracker;
     private double potentialEnergyStored;
     private List potentialEnergySources = new ArrayList();
+    private TemperatureControl tempCtrl;
 
     /**
      * Constructor
@@ -68,7 +69,7 @@ public class MRModel extends PublishingModel {
         setInitialConditions();
 
         // Add a listener that will take care of adding and removing bonds from the model
-        addListener( new CompositeMolecule.DependentModelElementMonitor( this ));
+        addListener( new CompositeMolecule.DependentModelElementMonitor( this ) );
     }
 
     public void setInitialConditions() {
@@ -80,6 +81,12 @@ public class MRModel extends PublishingModel {
                          new Point2D.Double( 380, 330 ),
                          0 );
         addModelElement( box );
+
+        // Add the temperature control to the model
+        tempCtrl = new TemperatureControl( this );
+        tempCtrl.setPosition( ( getBox().getMaxX() + getBox().getMinX() ) / 2,
+                              getBox().getMaxY() + 15 );
+        addModelElement( tempCtrl );
 
         // Create collisions agents that will detect and handle collisions between molecules,
         // and between molecules and the box
@@ -125,6 +132,10 @@ public class MRModel extends PublishingModel {
 
     public Box2D getBox() {
         return box;
+    }
+
+    public TemperatureControl getTemperatureControl() {
+        return tempCtrl;
     }
 
     public SimpleMolecule getMoleculeBeingTracked() {
