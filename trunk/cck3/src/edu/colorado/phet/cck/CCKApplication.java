@@ -133,7 +133,6 @@ public class CCKApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 SimStrings.init( args, CCKApplication.localizedStringsPath );
-                SimStrings.init( args, "localization/CommonStrings" );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
                     CCKApplication cckApplication = new CCKApplication( args );

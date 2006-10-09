@@ -70,7 +70,7 @@
             <fileset dir="data">
                 <exclude name="**/*Thumbs.db"/>
             </fileset>
-            <fileset dir="phetcommon-cck/data"/>
+            <!--<fileset dir="phetcommon-cck/data"/>-->
             <fileset dir="phetcommon-dir/data"/>
             <fileset dir="piccolo-phet-dir/data"/>
             <!--<fileset dir="piccolo-phet-dir/data"/>-->
