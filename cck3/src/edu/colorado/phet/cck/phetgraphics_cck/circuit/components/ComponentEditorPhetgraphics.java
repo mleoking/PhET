@@ -42,7 +42,7 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
     private CircuitListener circuitListener;
 
     public ComponentEditorPhetgraphics( final ICCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
-                            double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
+                                        double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if( startvalue > max ) {
 
@@ -93,7 +93,7 @@ public abstract class ComponentEditorPhetgraphics extends JDialog {
                         }
                     }
                     setVisible( false );
-                    
+
                 }
             }
         } );

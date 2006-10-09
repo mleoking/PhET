@@ -7,7 +7,6 @@ import edu.colorado.phet.cck.model.DynamicBranch;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

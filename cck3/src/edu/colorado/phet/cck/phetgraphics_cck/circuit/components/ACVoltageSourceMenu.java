@@ -40,7 +40,7 @@ public class ACVoltageSourceMenu extends CircuitComponentInteractiveGraphic.Batt
 
     private ComponentEditorPhetgraphics createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
         return new ComponentEditorPhetgraphics( getModule(), "AC Frequency", acVoltageSource, getModule().getApparatusPanel(),
-                                    "Frequency", "Hz", 0, 10, 1.0, getModule().getCircuit() ) {
+                                                "Frequency", "Hz", 0, 10, 1.0, getModule().getCircuit() ) {
             protected void doChange( double value ) {
                 acVoltageSource.setFrequency( value / 100.0 );
             }

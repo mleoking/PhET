@@ -143,6 +143,7 @@ public class Electron extends SimpleObservableDebug {
 
     /**
      * For use in debugging.
+     *
      * @return
      */
     public boolean isDeleted() {

@@ -23,7 +23,7 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     public ACVoltageSource( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
         super( start, dir, length, height, kl, internalResistanceOn );
     }
-    
+
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
     }

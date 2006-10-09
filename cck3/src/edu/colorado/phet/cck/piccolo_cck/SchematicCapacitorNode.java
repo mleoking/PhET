@@ -25,7 +25,7 @@ public class SchematicCapacitorNode extends SchematicPlatedNode {
     }
 
     public Shape getClipShape( PNode parent ) {
-        Shape clip = getClipShape( );
+        Shape clip = getClipShape();
 //        Shape rightClip = getPlateClipShape( rightPlate.getPath(), parent );
 //        Area ax = new Area( leftClip );
 //        ax.add( new Area( rightClip ) );

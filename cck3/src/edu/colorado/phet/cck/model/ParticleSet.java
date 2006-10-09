@@ -46,7 +46,7 @@ public class ParticleSet implements ModelElement {
     }
 
     public void clear() {
-        Electron[]e = (Electron[])particles.toArray( new Electron[0] );
+        Electron[] e = (Electron[])particles.toArray( new Electron[0] );
         particles.clear();
         notifyElectronsRemoved( e );
     }
@@ -79,7 +79,7 @@ public class ParticleSet implements ModelElement {
 
 
     public static interface Listener {
-        void particlesRemoved( Electron[]electrons );
+        void particlesRemoved( Electron[] electrons );
 
         void particleAdded( Electron e );
     }
@@ -88,7 +88,7 @@ public class ParticleSet implements ModelElement {
         listeners.add( listener );
     }
 
-    public void notifyElectronsRemoved( Electron[]p ) {
+    public void notifyElectronsRemoved( Electron[] p ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particlesRemoved( p );

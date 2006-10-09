@@ -86,6 +86,7 @@ public class Junction extends SimpleObservableDebug {
 
     /**
      * This is for experimental use in MNA solution.
+     *
      * @param voltage
      */
     public void setVoltage( double voltage ) {

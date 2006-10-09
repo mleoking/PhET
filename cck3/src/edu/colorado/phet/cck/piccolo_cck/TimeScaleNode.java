@@ -42,8 +42,8 @@ public class TimeScaleNode extends PhetPNode {
         String percent = propagator.getPercentString();
         if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
             if( cckSimulationPanel.getElectronsVisible() ) {
-                if (percent.equals( "1")){
-                    percent="< 1";
+                if( percent.equals( "1" ) ) {
+                    percent = "< 1";
                 }
                 setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
                          + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );

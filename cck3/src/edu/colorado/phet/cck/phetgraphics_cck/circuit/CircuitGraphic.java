@@ -456,7 +456,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public void split( Junction junction ) {
-        Junction[]newJ = module.getCCKModel().split( junction );
+        Junction[] newJ = module.getCCKModel().split( junction );
 
         for( int i = 0; i < newJ.length; i++ ) {
             Junction junction1 = newJ[i];

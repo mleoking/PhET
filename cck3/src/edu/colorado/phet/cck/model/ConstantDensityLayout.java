@@ -3,9 +3,6 @@ package edu.colorado.phet.cck.model;
 
 import edu.colorado.phet.cck.model.components.Branch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * User: Sam Reid
  * Date: Jun 8, 2004

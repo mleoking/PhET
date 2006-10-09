@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -77,8 +76,8 @@ public class SchematicPlatedNode extends ComponentNode {
         area.add( new Area( LineSegment.getSegment( catHat, cattail, thickness ) ) );
         area.add( new Area( LineSegment.getSegment( anoHat, anotail, thickness ) ) );
 
-        clipShape=LineSegment.getSegment( cat,ano, viewThickness*10 );
-        
+        clipShape = LineSegment.getSegment( cat, ano, viewThickness * 10 );
+
         mouseArea = new Area( area );
         mouseArea.add( new Area( LineSegment.getSegment( src, dst, viewThickness ) ) );
         path.setPathTo( area );

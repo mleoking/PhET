@@ -20,7 +20,7 @@ public class FilamentGraphic implements Graphic {
     private ModelViewTransform2D transform;
     private BulbComponentGraphic bcg;
     private Color color = Color.black;
-//    private Stroke stroke = new BasicStroke( 8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    //    private Stroke stroke = new BasicStroke( 8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private Stroke stroke = new BasicStroke( 8 );
     private TransformListener transformListener;
     private BulbComponentGraphic.IntensityChangeListener intensityListener;

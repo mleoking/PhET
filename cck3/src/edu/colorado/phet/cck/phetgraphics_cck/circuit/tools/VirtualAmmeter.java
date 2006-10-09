@@ -45,8 +45,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
         addCursorHandBehavior();
         addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                if( module.getTransform().getViewBounds().contains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) )
-                {
+                if( module.getTransform().getViewBounds().contains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) ) {
                     trt.translate( (int)dx, (int)dy );
                     recompute();
                 }

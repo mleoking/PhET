@@ -3,7 +3,7 @@ package edu.colorado.phet.cck;
 import java.awt.*;
 
 public class CCKLookAndFeel {
-//    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
+    //    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
     public static final Color COPPER = new Color( 217, 135, 25 );
 
     private static Font font;

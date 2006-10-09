@@ -20,7 +20,7 @@ public class ElectronSetNode extends PNode {
         this.circuitNode = circuitNode;
         this.model = model;
         model.getParticleSet().addListener( new ParticleSet.Listener() {
-            public void particlesRemoved( Electron[]electrons ) {
+            public void particlesRemoved( Electron[] electrons ) {
                 for( int k = 0; k < electrons.length; k++ ) {
                     Electron electron = electrons[k];
                     for( int i = 0; i < getChildrenCount(); i++ ) {

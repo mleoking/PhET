@@ -237,8 +237,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             double min = 0;
             double max = 50;
             editorPhetgraphics = new ComponentEditorPhetgraphics( module, CCKStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
-                                          CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), min, max,
-                                          inductor.getInductance(), module.getCircuit() ) {
+                                                                  CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), min, max,
+                                                                  inductor.getInductance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
                     inductor.setInductance( value );
                 }

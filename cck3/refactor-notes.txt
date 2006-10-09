@@ -5,7 +5,6 @@ bulb loaded incorrectly one time
 unconnected circuit with switch & ac had buggy electron flow
 
 exception:
-
 java.lang.RuntimeException: Juncitons Not at same coordinates.
 	at edu.colorado.phet.cck.model.Circuit.collapseJunctions(Circuit.java:600)
 	at edu.colorado.phet.cck.piccolo_cck.CircuitInteractionModel$JunctionInteractionModel.dropJunction(CircuitInteractionModel.java:280)

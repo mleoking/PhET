@@ -215,8 +215,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
     public void applyRootSolver( final Circuit circuit ) {
         //when requiring numJunctions>2, a lone capacitor gets cleared.
 //        if( ( getCapacitorCount( circuit ) > 0 || getBatteries( circuit ).length > 0 ) && circuit.numJunctions() > 2 ) {
-        if( ( circuit.getCapacitorCount() > 0 || getBatteries( circuit ).length > 0 ) || circuit.getInductorCount() > 0 )
-        {
+        if( ( circuit.getCapacitorCount() > 0 || getBatteries( circuit ).length > 0 ) || circuit.getInductorCount() > 0 ) {
 //            System.out.println( "Applying root solver" );
             rootSolver.apply( circuit );
         }

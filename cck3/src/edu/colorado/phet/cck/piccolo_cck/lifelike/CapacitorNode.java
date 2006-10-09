@@ -101,10 +101,11 @@ public class CapacitorNode extends ComponentNode {
     class WireStubNode extends PhetPNode {
         private PhetPPath path;
         private PhetPPath clipPath;
+
         public WireStubNode() {
             BasicStroke stroke = new BasicStroke( 0.05f * 3.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
             path = new PhetPPath( stroke, Color.black );
-            clipPath=new PhetPPath( new BasicStroke( 0.05f * 3.5f * 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ),Color.black );
+            clipPath = new PhetPPath( new BasicStroke( 0.05f * 3.5f * 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), Color.black );
             addChild( path );
         }
 

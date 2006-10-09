@@ -26,7 +26,7 @@ public class ParticleSetGraphic extends CompositeGraphic {
         this.module = module;
         this.image = module.getImageSuite().getParticleImage();
         this.module.getParticleSet().addListener( new ParticleSet.Listener() {
-            public void particlesRemoved( Electron[]electrons ) {
+            public void particlesRemoved( Electron[] electrons ) {
                 removeGraphics( electrons );
             }
 
