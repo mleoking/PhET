@@ -73,13 +73,13 @@ public class CCKAboutDialog extends JDialog {
         } );
         buttonPanel.add( copyrightAndLicenseInfo );
 
-        JButton projectsButton = new JButton( "Projects" );
-        projectsButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                showProjects();
-            }
-        } );
-        buttonPanel.add( projectsButton );
+//        JButton projectsButton = new JButton( "Projects" );
+//        projectsButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                showProjects();
+//            }
+//        } );
+//        buttonPanel.add( projectsButton );
 
         JButton phetHomepage = new JButton( "PhET homepage" );
         phetHomepage.addActionListener( new ActionListener() {
@@ -111,15 +111,35 @@ public class CCKAboutDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
-    private void showProjects() {
-        JOptionPane.showMessageDialog( this, readText( "cck-projects.txt" ) );
-    }
+//    private void showProjects() {
+//        JOptionPane.showMessageDialog( this, readText( "cck-projects.txt" ) );
+//    }
 
     private void showLicenseInfo() {
-        JOptionPane.showMessageDialog( this, readText( "phet-license.txt" ) );
+        String s = readText( "phet-license.txt" );
+        s += System.getProperty( "line.separator" );
+        s += System.getProperty( "line.separator" );
+        s += readText( "cck-projects.txt" );
+        JTextArea jTextArea = new JTextArea( s );
+        jTextArea.setColumns( 45 );
+        jTextArea.setLineWrap( true );
+        jTextArea.setWrapStyleWord( true );
+        jTextArea.setEditable( false );
+        //this line fails due to this known sun bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4545951
+//        JOptionPane.showMessageDialog( getOwner(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
+
+        //so we use their recommended workaround.
+        JOptionPane optionPane = new JOptionPane( jTextArea, JOptionPane.INFORMATION_MESSAGE );
+        JDialog dialog = optionPane.createDialog( null, "License Information" );
+
+        //This forces correct resizing
+        jTextArea.invalidate();
+        dialog.pack();
+
+        dialog.show();
     }
 
-    private String readText( String textFilename ) {
+    private static String readText( String textFilename ) {
         String text = new String();
         try {
             URL url = Thread.currentThread().getContextClassLoader().getResource( textFilename );
@@ -169,5 +189,43 @@ public class CCKAboutDialog extends JDialog {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
+    }
+
+    public static void main( String[] args ) {
+//        String s = readText( "phet-license.txt" );
+//        JTextArea jTextArea = new JTextArea( s );
+//        jTextArea.setFont( new Font( "Lucida Sans",Font.BOLD, 18) );
+//        jTextArea.setColumns( 45 );
+//        jTextArea.setLineWrap( true );
+//        jTextArea.setWrapStyleWord( true );
+//        jTextArea.setEditable( false );
+//        jTextArea.setBackground( Color.red );
+//
+//        JFrame frame = new JFrame();
+//        frame.setContentPane( jTextArea );
+//        frame.pack();
+//        frame.show();
+//        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//
+//        JOptionPane.showMessageDialog( frame, jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
+//        System.exit( 0 );
+        String s = readText( "phet-license.txt" );
+        JTextArea jTextArea = new JTextArea( s );
+        jTextArea.setColumns( 45 );
+        jTextArea.setLineWrap( true );
+        jTextArea.setWrapStyleWord( true );
+        jTextArea.setEditable( false );
+//        JOptionPane.showMessageDialog( new JFrame(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
+
+        JOptionPane optionPane = new JOptionPane( jTextArea );
+        JDialog dialog = optionPane.createDialog( null, "Some title" );
+
+        //This forces correct resizing
+        jTextArea.invalidate();
+        dialog.pack();
+
+        dialog.show();
+
+        System.exit( 0 );
     }
 }
