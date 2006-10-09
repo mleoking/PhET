@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetAboutDialog;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -78,6 +79,10 @@ public class CCKApplication extends PiccoloPhetApplication {
         cckPiccoloModule.applicationStarted();
     }
 
+    protected PhetAboutDialog createPhetAboutDialog() {
+        return new CCKAboutDialog( this );
+    }
+
     private static String readVersion() {
         URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
         try {
@@ -123,10 +128,6 @@ public class CCKApplication extends PiccoloPhetApplication {
             super.activate();
             Bulb.setHeightScale( 0.25 );
         }
-    }
-
-    public void showAboutDialog() {
-        new CCKAboutDialog( this ).show();
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
