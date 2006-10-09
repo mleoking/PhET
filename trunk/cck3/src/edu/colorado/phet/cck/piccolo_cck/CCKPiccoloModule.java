@@ -93,10 +93,6 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         cckSimulationPanel.addGrabBag();
     }
 
-//    public void circuitViewTransformed( AffineTransform postTx ) {
-//        cckSimulationPanel.circuitViewTransformed(postTx);
-//    }
-
     public void setVirtualAmmeterVisible( boolean selected ) {
         cckSimulationPanel.setVirtualAmmeterVisible( selected );
     }

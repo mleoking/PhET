@@ -14,7 +14,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -38,6 +41,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private ToolboxNodeSuite toolboxSuite;
     private ChartSetNode chartSetNode;
     private TimeScaleNode timeScaleNode;
+    private PSwing grabBagPSwing;
 
     public CCKSimulationPanel( CCKModel model, final ICCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
@@ -117,6 +121,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
         if( getWidth() > 0 ) {
             updateToolboxLayout();
             updateTimeScaleNodeLayout();
+            if( grabBagPSwing != null ) {
+                updateButtonLayout();
+            }
         }
     }
 
@@ -175,28 +182,18 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void addGrabBag() {
         GrabBagButton grabBagButton = new GrabBagButton( module );
-        final PSwing grabBagPSwing = new PSwing( this, grabBagButton );
+        grabBagPSwing = new PSwing( this, grabBagButton );
         addScreenChild( grabBagPSwing );
-        addComponentListener( new ComponentListener() {
-            public void componentHidden( ComponentEvent e ) {
-            }
+    }
 
-            public void componentMoved( ComponentEvent e ) {
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                updateButton();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                updateButton();
-            }
-
-            public void updateButton() {
-                int buttonInset = 4;
-                grabBagPSwing.setOffset( getWidth() - grabBagPSwing.getFullBounds().getWidth() - buttonInset, buttonInset );
-            }
-        } );
+    public void updateButtonLayout() {
+        int buttonInset = 4;
+        grabBagPSwing.setOffset( getWidth() - grabBagPSwing.getFullBounds().getWidth() - buttonInset, buttonInset );
+        Rectangle2D toolboxBounds = toolboxSuite.getGlobalFullBounds();
+        getPhetRootNode().globalToScreen( toolboxBounds );
+        if( grabBagPSwing.getGlobalBounds().intersects( toolboxSuite.getGlobalFullBounds() ) ) {
+            grabBagPSwing.setOffset( toolboxBounds.getX() - grabBagPSwing.getWidth() - buttonInset, buttonInset );
+        }
     }
 
     public ToolboxNodeSuite getToolboxNodeSuite() {
