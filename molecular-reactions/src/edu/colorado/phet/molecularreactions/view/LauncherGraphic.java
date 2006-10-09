@@ -38,7 +38,8 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
     public LauncherGraphic( Launcher launcher ) {
         this.launcher = launcher;
         plungerNode = PImageFactory.create( "images/launcher-plunger.png" );
-        plungerNode.scale( .7 );
+        double scale = 100.0 / plungerNode.getImage().getHeight( null );
+        plungerNode.scale( scale );
         addChild( plungerNode );
         setRegistrationPoint( getFullBounds().getWidth() / 2, 0 );
 
