@@ -40,5 +40,12 @@ public class ReadoutSetNode extends PhetPNode {
     }
 
     private void removeBranchReadout( Branch branch ) {
+        for (int i=0;i<getChildrenCount();i++){
+            ReadoutNode child= (ReadoutNode)getChild( i );
+            if (child.getBranch()==branch){
+                removeChild( child );
+                i--;
+            }
+        }
     }
 }
