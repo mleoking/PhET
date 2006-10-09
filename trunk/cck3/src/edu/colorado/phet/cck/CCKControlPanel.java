@@ -46,17 +46,17 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     private ICCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
-
     private JPanel advancedPanel;
 
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
-        titleLabel.setToolTipText( SimStrings.get( "CCK3ControlPanel.PhETToolTip" ) );
-        titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
-        titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
-        titleLabel.addMouseListener( new MouseAdapter() {
+        JLabel logoLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
+        logoLabel.setToolTipText( SimStrings.get( "CCK3ControlPanel.PhETToolTip" ) );
+        logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
+        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
+        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        logoLabel.addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 showPhetPage();
             }
@@ -109,7 +109,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         } );
 
         JPanel titlePanel = new JPanel();
-        titlePanel.add( titleLabel );
+        titlePanel.add( logoLabel );
         add( titlePanel );
         add( filePanel );
         if( module.getParameters().isUseVisualControlPanel() ) {
