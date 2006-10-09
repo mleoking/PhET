@@ -1,17 +1,15 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.controls.LookAndFeelMenu;
+import edu.colorado.phet.cck.controls.OptionsMenu;
 import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
-import edu.colorado.phet.piccolo.TabbedModulePanePiccolo;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
@@ -48,12 +46,11 @@ public class CCKApplication extends PiccoloPhetApplication {
 
         phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
         cckPiccoloModule = new CCKPiccoloModule( args );
-//        Module[] modules = new Module[]{phetGraphicsCCKModule, cckPiccoloModule};
         Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         setModules( modules );
         getPhetFrame().getTabbedModulePane().setLogoVisible( false );
         getPhetFrame().addMenu( new LookAndFeelMenu() );
-//        getPhetFrame().addMenu( new OptionsMenu( th, cckModule ) );//todo options menu
+        getPhetFrame().addMenu( new OptionsMenu( this, cckPiccoloModule ) );//todo options menu
 
 //        this.cckModule.getApparatusPanel().addKeyListener( new CCKKeyListener( cckModule, new RepaintDebugGraphic( cckModule.getApparatusPanel(), clock ) ) );
 //        if( debugMode ) {
@@ -64,21 +61,7 @@ public class CCKApplication extends PiccoloPhetApplication {
 //                cckModule.clockTickFinished();
 //            }
 //        } );
-//        //todo this is buggy with user-set pause & play
-//        application.getApplicationView().getPhetFrame().addWindowListener( new WindowAdapter() {
-//            public void windowIconified( WindowEvent e ) {
-//                clock.setPaused( true );
-//            }
-//
-//            public void windowDeiconified( WindowEvent e ) {
-//                clock.setPaused( false );
-//            }
-//        } );
     }
-
-//    public ITabbedModulePane createTabbedPane() {
-//        return new TabbedModulePanePiccolo( false );
-//    }
 
     public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
@@ -139,7 +122,6 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-//                edu.colorado.phet.common_cck.view.util.SimStrings.init( args, CCKApplication_orig.localizedStringsPath );
                 SimStrings.init( args, CCKApplication.localizedStringsPath );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
