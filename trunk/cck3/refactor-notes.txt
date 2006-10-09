@@ -1,5 +1,9 @@
 To Do:
 
+However, the wiggle
+me flies in and lands behind the grab bag so you can't read the wiggle me. Is
+that what it is supposed to do.
+
 Grab bag should appear only in grab bag versions.
 
 Bulb brightness lines should not be draggable.
