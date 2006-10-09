@@ -154,9 +154,11 @@ public class PhetRootPNode extends PNode {
     public void globalToScreen( Point2D point ) {
         screenNode.globalToLocal( point );
     }
-    public void globalToScreen( Rectangle2D rect){
-        screenNode.globalToLocal( rect);
+
+    public void globalToScreen( Rectangle2D rect ) {
+        screenNode.globalToLocal( rect );
     }
+
     public void globalToScreen( PDimension d ) {
         screenNode.globalToLocal( d );
     }
