@@ -1,5 +1,7 @@
 To Do:
 
+Grab bag should appear only in grab bag versions.
+
 Bulb brightness lines should not be draggable.
 
 Zoom in/out when no circuit components are displayed causes poor behavior for model tools (voltmeter leaves the screen).
