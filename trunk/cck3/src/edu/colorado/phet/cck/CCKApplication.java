@@ -8,6 +8,8 @@ import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
@@ -63,9 +65,9 @@ public class CCKApplication extends PiccoloPhetApplication {
 //        } );
     }
 
-//    protected PhetFrame createPhetFrame() {
-//        return new PhetFrameWorkaround( this );
-//    }
+    protected PhetFrame createPhetFrame() {
+        return new PhetFrameWorkaround( this );
+    }
 
     public static String getSubTitle( String[] args ) {
         return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
