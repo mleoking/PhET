@@ -84,12 +84,14 @@ public class PhetFrame extends JFrame {
             }
 
         } );
-        try {
-            setIconImage( addBorder( ImageLoader.loadBufferedImage( PHET_LOGO_WINDOW_ICON ) ));
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+
+        // todo: put this back in if and when everyone decides on an acceptable logo
+//        try {
+//            setIconImage( addBorder( ImageLoader.loadBufferedImage( PHET_LOGO_WINDOW_ICON ) ));
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
     }
     private static BufferedImage addBorder( BufferedImage image){
         Graphics2D g2=image.createGraphics();
