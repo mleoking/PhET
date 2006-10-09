@@ -48,12 +48,20 @@ public abstract class ComponentNode extends BranchNode {
         circuitComponent.addObserver( componentObserver );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
+            public boolean dragging = false;
+
             public void mouseDragged( PInputEvent event ) {
-                circuitInteractionModel.translate( circuitComponent, event.getPositionRelativeTo( ComponentNode.this.getParent() ) );
+                if( event.isLeftMouseButton() ) {
+                    dragging = true;
+                    circuitInteractionModel.translate( circuitComponent, event.getPositionRelativeTo( ComponentNode.this.getParent() ) );
+                }
             }
 
             public void mouseReleased( PInputEvent event ) {
-                circuitInteractionModel.dropBranch( circuitComponent );
+                if( event.isLeftMouseButton() && dragging ) {
+                    circuitInteractionModel.dropBranch( circuitComponent );
+                    dragging = false;
+                }
             }
 
             public void mousePressed( PInputEvent event ) {
