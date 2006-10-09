@@ -146,6 +146,19 @@ public class PhetRootPNode extends PNode {
     }
 
     /**
+     * Converts the specified point global to screen coordinates.
+     *
+     * @param point
+     */
+    public void globalToScreen( Point2D point ) {
+        screenNode.globalToLocal( point );
+    }
+
+    public void globalToScreen( PDimension d ) {
+        screenNode.globalToLocal( d );
+    }
+
+    /**
      * Converts the specified point from global to world coordinates.
      *
      * @param point
