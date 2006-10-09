@@ -10,6 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.common.util.PhetUtilities;
+
 /**
  * MoleculeAB
  * <p>
@@ -33,5 +36,10 @@ public class MoleculeBC extends CompositeMolecule {
 
     public MoleculeB getMoleculeB() {
         return (MoleculeB)getMoleculeOfType( MoleculeB.class );
+    }
+
+    public double getPE() {
+        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)((MRModel)PhetUtilities.getActiveModule().getModel()).getReaction();
+        return reaction.getPotentialEnergy( this, this );
     }
 }

@@ -110,7 +110,7 @@ public class SimpleModule extends MRModule {
 
 
         // Add the launcher and its graphic
-        Point2D launcherTipLocation = new Point2D.Double( (model.getBox().getMinX() + model.getBox().getMaxX()) / 2, 
+        Point2D launcherTipLocation = new Point2D.Double( (model.getBox().getMinX() + model.getBox().getMaxX()) / 2,
                                                           model.getBox().getMaxY() );
 //        Point2D launcherTipLocation = new Point2D.Double( model.getBox().getMinX() + 100, model.getBox().getMaxY() );
         launcher = new Launcher( launcherTipLocation );

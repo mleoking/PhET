@@ -215,6 +215,8 @@ public class EnergyView extends PNode implements SimpleObserver {
                 freeMolecule = selectedMolecule;
             }
             else {
+                System.out.println( "selectedMolecule = " + selectedMolecule );
+                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );                        
                 throw new RuntimeException( "internal error" );
             }
 

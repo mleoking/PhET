@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.EventListener;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 /**
  * MRModel
@@ -183,6 +184,26 @@ public class MRModel extends PublishingModel {
 //        }
 //        double ke2 = getTotalKineticEnergy();
 //        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
+
+
+        monitorEnergy();
+    }
+
+    private void monitorEnergy() {
+        List modelElements = getModelElements();
+        double pe = 0;
+        double ke = 0;
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof PotentialEnergySource ) {
+                pe = ((PotentialEnergySource)o).getPE();
+            }
+            if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
+                ke += ((Body)o).getKineticEnergy();
+            }
+        }
+        DecimalFormat df = new DecimalFormat( "#.000");
+        System.out.println( "te = " + df.format( pe + ke ) );
     }
 
     private void adjustKineticEnergy( double eFactor ) {

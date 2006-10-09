@@ -138,8 +138,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
         HardBodyCollision collision = new HardBodyCollision();
         collision.detectAndDoCollision( newComposite, newFreeMolecule );
 
-//        if( true ) return;
-
         // Add kinetic energy to the molecules equivalent to the difference in potential energy
         // between the peak and the flat
         double floorPE = 0;
