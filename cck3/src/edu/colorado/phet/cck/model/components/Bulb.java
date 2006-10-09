@@ -34,13 +34,6 @@ public class Bulb extends CircuitComponent {
         setKirkhoffEnabled( true );
     }
 
-    public Bulb( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double width, double length, double height ) {
-        super( kl, startJunction, endjJunction, length, height );
-        this.width = width;
-        super.setHeight( height );
-        init( kl );
-    }
-
     public Bulb( CircuitChangeListener kl, Junction startJunction, Junction endJunction, double width, double length, double height, boolean schematic ) {
         super( kl, startJunction, endJunction, length, height );
         this.width = width;

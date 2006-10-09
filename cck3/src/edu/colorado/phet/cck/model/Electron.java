@@ -141,6 +141,10 @@ public class Electron extends SimpleObservableDebug {
         return "Electron, deleted=" + deleted + ", observers= " + Arrays.asList( getObservers() );
     }
 
+    /**
+     * For use in debugging.
+     * @return
+     */
     public boolean isDeleted() {
         return deleted;
     }

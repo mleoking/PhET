@@ -20,18 +20,10 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     private double amplitude = 10;
     private double frequency = 1.0 / 100.0;//hz
 
-    public ACVoltageSource( double voltage, double internalResistance ) {
-        super( voltage, internalResistance );
-    }
-
     public ACVoltageSource( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
         super( start, dir, length, height, kl, internalResistanceOn );
     }
-
-    public ACVoltageSource( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn ) {
-        super( start, dir, length, height, kl, internalResistance, internalResistanceOn );
-    }
-
+    
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
     }

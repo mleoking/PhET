@@ -71,10 +71,6 @@ public class CrosshairGraphic extends PComposite {
         return intensityReader.getStripChartJFCNode();
     }
 
-    public PPath getBackground() {
-        return background;
-    }
-
     private void attachCrosshair() {
         attached = true;
         setOffset( getStripChartJFCNode().getFullBounds().getCenterX() + originalDisplacement.getX() - getFullBounds().getWidth() / 2,
@@ -123,7 +119,4 @@ public class CrosshairGraphic extends PComposite {
         }
     }
 
-    public void drag( PInputEvent event ) {
-        listener.superdrag( event );
-    }
 }

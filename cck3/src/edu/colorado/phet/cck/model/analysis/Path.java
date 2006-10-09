@@ -74,7 +74,7 @@ public class Path {
         str += getStartJunction().getLabel();
         for( int i = 0; i < entries.size(); i++ ) {
             PathEntry pe = (PathEntry)entries.get( i );
-            str += " <" + pe.getBranch().getLabel() + "> " + pe.getJunction().getLabel();
+            str += " <" + pe.getBranch().getName() + "> " + pe.getJunction().getLabel();
         }
         return str;
     }

@@ -25,39 +25,42 @@ public abstract class Branch extends SimpleObservableDebug {
     private double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
-    private String label;
-    private static int indexCounter = 0;
-
-    private CompositeCircuitChangeListener compositeKirkhoffListener = new CompositeCircuitChangeListener();
+    private CompositeCircuitChangeListener circuitChangeListeners = new CompositeCircuitChangeListener();
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
     private boolean kirkhoffEnabled = true;
     private ArrayList flameListeners = new ArrayList();
     private boolean isOnFire = false;
     private boolean editing = false;
+    private String name;/*For purposes of debugging.*/
+
+    private static int indexCounter = 0;
 
     protected Branch( CircuitChangeListener listener ) {
-        label = toLabel( indexCounter++ );
+        name = toLabel( indexCounter++ );
         setResistance( CCKModel.MIN_RESISTANCE );
         addKirkhoffListener( listener );
     }
 
-    public int hashCode() {
-        return label.hashCode();
-    }
-
-    public void setDebugLabel( String label ) {
-        this.label = label;
-    }
-
     public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
-//        setStartJunction( startJunction );
-//        setEndJunction( endJunction );
         this.startJunction = startJunction;
         this.endJunction = endJunction;
         startJunction.addObserver( so );
         endJunction.addObserver( so );
+    }
+
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    /**
+     * Sets a name which could be used for debugging.
+     *
+     * @param label
+     */
+    public void setName( String label ) {
+        this.name = label;
     }
 
     //todo this could be awkward
@@ -100,7 +103,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void addKirkhoffListener( CircuitChangeListener circuitChangeListener ) {
-        compositeKirkhoffListener.addKirkhoffListener( circuitChangeListener );
+        circuitChangeListeners.addCircuitChangeListener( circuitChangeListener );
     }
 
     public void addObserver( SimpleObserver so ) {
@@ -108,7 +111,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public String toString() {
-        return "Branch_" + label + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <" + getClass() + ">";
+        return "Branch_" + name + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <" + getClass() + ">";
     }
 
     public AbstractVector2D getDirectionVector() {
@@ -196,7 +199,7 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public void fireKirkhoffChange() {
         if( kirkhoffEnabled ) {
-            compositeKirkhoffListener.circuitChanged();
+            circuitChangeListeners.circuitChanged();
         }
     }
 
@@ -310,8 +313,8 @@ public abstract class Branch extends SimpleObservableDebug {
         return out;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
     public boolean containsScalarLocation( double x ) {
@@ -328,6 +331,8 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public void delete() {
         removeAllObservers();
+        endJunction.removeObserver( so );
+        startJunction.removeObserver( so );
     }
 
     public void setKirkhoffEnabled( boolean kirkhoffEnabled ) {
@@ -335,7 +340,6 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public abstract Shape getShape();
-
 
     public boolean isOnFire() {
         return isOnFire;

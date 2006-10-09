@@ -20,13 +20,11 @@ public class Junction extends SimpleObservableDebug {
     private static int nextLabel = 0;
     private boolean selected = false;
     private double voltage;//voltage relative to reference node.  To be used in computing potential drops, to avoid graph traversal.
-    public static final double RADIUS = .162;
 
     public Junction( double x, double y ) {
         this.x = x;
         this.y = y;
         this.label = nextLabel++;
-//        new Throwable().printStackTrace( );
     }
 
     public String toString() {
@@ -69,10 +67,6 @@ public class Junction extends SimpleObservableDebug {
         return getPosition().distance( junction.getPosition() );
     }
 
-    public double getDistance( Point2D pt ) {
-        return pt.distance( getX(), getY() );
-    }
-
     public int getLabel() {
         return label;
     }
@@ -90,6 +84,10 @@ public class Junction extends SimpleObservableDebug {
         return selected;
     }
 
+    /**
+     * This is for experimental use in MNA solution.
+     * @param voltage
+     */
     public void setVoltage( double voltage ) {
         this.voltage = voltage;
     }

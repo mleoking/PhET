@@ -76,10 +76,6 @@ public class CCKImageSuite {
         return resistorImage;
     }
 
-    public BufferedImage getCapacitorImage() {
-        return capacitorImage;
-    }
-
     public ImageLoader getImageLoader() {
         return imageLoader;
     }

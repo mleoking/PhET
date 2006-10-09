@@ -49,20 +49,4 @@ public class FlameNode extends PhetPNode {
         }
     }
 
-    private ArrayList listeners = new ArrayList();
-
-    public static interface Listener {
-        void flameChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.flameChanged();
-        }
-    }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CompositeCircuitChangeListener implements CircuitChangeListener {
     ArrayList list = new ArrayList();
 
-    public void addKirkhoffListener( CircuitChangeListener kl ) {
+    public void addCircuitChangeListener( CircuitChangeListener kl ) {
         list.add( kl );
     }
 

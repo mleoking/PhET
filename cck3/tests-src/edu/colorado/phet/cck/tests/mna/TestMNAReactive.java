@@ -23,22 +23,22 @@ public class TestMNAReactive extends NodeAnalysisTest {
 
     private void start() {
         Resistor r2 = newResistor( 1 );
-        r2.setDebugLabel( "R2" );
+        r2.setName( "R2" );
 
         Capacitor c2 = newCapacitor( 2 );
-        c2.setDebugLabel( "C2" );
+        c2.setName( "C2" );
 
         Capacitor c1 = newCapacitor( 3 );
-        c1.setDebugLabel( "C1" );
+        c1.setName( "C1" );
 
         Inductor L1 = newInductor( 4 );
-        L1.setDebugLabel( "L1" );
+        L1.setName( "L1" );
 
         Resistor r1 = newResistor( 5 );
-        r1.setDebugLabel( "R1" );
+        r1.setName( "R1" );
 
         Battery bat = newBattery( 13 );
-        bat.setDebugLabel( "V1" );
+        bat.setName( "V1" );
 
         Circuit circuit = new Circuit( kl );
         circuit.addBranch( r2 );

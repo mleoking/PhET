@@ -102,7 +102,4 @@ public abstract class ComponentNode extends BranchNode {
         return model;
     }
 
-    public JComponent getJComponent() {
-        return parent;
-    }
 }
