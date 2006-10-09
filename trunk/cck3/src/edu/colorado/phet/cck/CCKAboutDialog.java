@@ -119,7 +119,8 @@ public class CCKAboutDialog extends JDialog {
         String text = new String();
         try {
             URL url = Thread.currentThread().getContextClassLoader().getResource( textFilename );
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( new FileInputStream( url.getFile() ) ) );
+            InputStream inputStream = url.openStream();
+            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
             String line = bufferedReader.readLine();
             while( line != null ) {
                 text += line;
