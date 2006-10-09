@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.grabbag.GrabBagButton;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Wire;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -38,7 +39,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private ChartSetNode chartSetNode;
     private TimeScaleNode timeScaleNode;
 
-    public CCKSimulationPanel( CCKModel model, final ICCKModule module ) {
+    public CCKSimulationPanel( CCKModel model, final ICCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
@@ -57,7 +58,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         messageNode = new MessageNode();
         addScreenChild( messageNode );
 
-        chartSetNode = new ChartSetNode( this, model.getCircuit() );
+        chartSetNode = new ChartSetNode( this, model.getCircuit(), clock );
         addScreenChild( chartSetNode );
 
         addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {

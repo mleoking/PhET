@@ -4,8 +4,8 @@ package edu.colorado.phet.cck.phetgraphics_cck;
 import edu.colorado.phet.cck.*;
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.CCKTime;
-import edu.colorado.phet.cck.chart.CurrentStripChart;
-import edu.colorado.phet.cck.chart.VoltageStripChart;
+import edu.colorado.phet.cck.phetgraphics_cck.chart.PhetgraphicsCurrentStripChart;
+import edu.colorado.phet.cck.phetgraphics_cck.chart.PhetgraphicsVoltageStripChart;
 import edu.colorado.phet.cck.grabbag.GrabBagButton;
 import edu.colorado.phet.cck.model.*;
 import edu.colorado.phet.cck.model.analysis.CircuitSolver;
@@ -35,7 +35,6 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -342,7 +341,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
 
     public void addCurrentChart() {
         stripChartClock.start();
-        final CurrentStripChart chart = new CurrentStripChart( getApparatusPanel(), "Current (Amps)", stripChartClock, getCircuitGraphic() );
+        final PhetgraphicsCurrentStripChart chart = new PhetgraphicsCurrentStripChart( getApparatusPanel(), "Current (Amps)", stripChartClock, getCircuitGraphic() );
         chart.setOffset( 200, 200 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {
@@ -354,7 +353,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
 
     public void addVoltageChart() {
         stripChartClock.start();
-        final VoltageStripChart chart = new VoltageStripChart( getApparatusPanel(), "Current", stripChartClock, getCircuitGraphic() );
+        final PhetgraphicsVoltageStripChart chart = new PhetgraphicsVoltageStripChart( getApparatusPanel(), "Current", stripChartClock, getCircuitGraphic() );
         chart.setOffset( 250, 400 );
         getApparatusPanel().addScreenChild( chart );
         chart.addListener( new AbstractFloatingChart.Listener() {

@@ -1,10 +1,10 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.chart.AbstractFloatingChart;
-import edu.colorado.phet.cck.chart.PiccoloCurrentStripChart;
-import edu.colorado.phet.cck.chart.PiccoloVoltageStripChart;
+import edu.colorado.phet.cck.chart.CurrentStripChart;
+import edu.colorado.phet.cck.chart.VoltageStripChart;
 import edu.colorado.phet.cck.model.Circuit;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPNode;
 
 /**
@@ -15,19 +15,20 @@ import edu.colorado.phet.piccolo.PhetPNode;
  */
 
 public class ChartSetNode extends PhetPNode {
-    private SwingClock stripChartClock = new SwingClock( 30, 1 );
+    //    private SwingClock stripChartClock = new SwingClock( 30, 1 );
     private CCKSimulationPanel cckSimulationPanel;
     private Circuit circuit;
+    private IClock clock;
 
-    public ChartSetNode( CCKSimulationPanel cckSimulationPanel, Circuit circuit ) {
+    public ChartSetNode( CCKSimulationPanel cckSimulationPanel, Circuit circuit, IClock clock ) {
         this.cckSimulationPanel = cckSimulationPanel;
         this.circuit = circuit;
-        stripChartClock.start();
+        this.clock = clock;
+//        stripChartClock.start();
     }
 
     public void addCurrentChart() {
-        final PiccoloCurrentStripChart chart = new PiccoloCurrentStripChart( cckSimulationPanel, "Current (Amps)", stripChartClock, getCircuit(), cckSimulationPanel );
-
+        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, "Current (Amps)", clock, getCircuit(), cckSimulationPanel );
         chart.translate( 3 * 70, 3 * 70 );
 
         addChild( chart );
@@ -43,7 +44,7 @@ public class ChartSetNode extends PhetPNode {
     }
 
     public void addVoltageChart() {
-        final PiccoloVoltageStripChart chart = new PiccoloVoltageStripChart( cckSimulationPanel, "Current", stripChartClock, getCircuit() );
+        final VoltageStripChart chart = new VoltageStripChart( cckSimulationPanel, "Current", clock, getCircuit() );
         chart.translate( 4 * 70, 4 * 70 );
 
         addChild( chart );
