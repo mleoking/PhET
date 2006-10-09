@@ -31,7 +31,7 @@ public class VoltmeterModel {
         this.model = model;
         this.circuit = circuit;
         redLead = new LeadModel( circuit, new Point2D.Double( -0.2, 0 ), Math.PI / 8 );
-        blackLead = new LeadModel( circuit, new Point2D.Double( 1.7, 0 ), -Math.PI / 8 );
+        blackLead = new LeadModel( circuit, new Point2D.Double( 1.7 * 0.72, 0 ), -Math.PI / 8 );
         LeadModel.Listener listener = new LeadModel.Listener() {
             public void leadModelChanged() {
                 updateVoltage();
@@ -141,7 +141,7 @@ public class VoltmeterModel {
         private ArrayList listeners = new ArrayList();
         private double angle;
         private double tipWidth = 0.1 * 0.35;
-        private double tipHeight = 0.3 * 1.25;
+        private double tipHeight = 0.3 * 1.25 * 0.75;
         private Circuit circuit;
 
         public LeadModel( Circuit circuit, double angle ) {

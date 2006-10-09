@@ -1,5 +1,7 @@
 To Do:
 
+Zoom in/out when no circuit components are displayed causes poor behavior for model tools (voltmeter leaves the screen).
+
 Should I ensure the bulb comes out perfectly upright on creation (it comes out at slight angle)?
 
 bulb loaded incorrectly one time
