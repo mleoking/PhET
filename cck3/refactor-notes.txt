@@ -49,11 +49,12 @@ Improve component constructor interface?  Now there is basically support for cck
 
 ____
 
-        2. The 2nd bulb is the one on the right (but in the circuit). When I right click on it, the window takes longer to come up and the Java logo strip stays as the bottom. 
-        When I do this however, it often causes the bulb to jump around when I right click on it. 
+        2. The 2nd bulb is the one on the right (but in the circuit). When I right click on it, the window takes longer to come up...
         3. The 3rd bulb, the one not connected, when I right click on it, the window never finishes coming up (see screen shot below).
+        
+        - When I switch between email and the sim, the whole screen does not redraw itself so everything except for where the electrons are moving is grey until I click on one of the light bulbs ... and then it will redraw that lightbulbs rectangle. I guess you just need to redraw the whole thing when the sim becomes the computers focus window again.
+        
             >>I couldn't reproduce this using a much more intensive test.  I can post a version for you that contains a potential workaround.
-
-- When I switch between email and the sim, the whole screen does not redraw itself so everything except for where the electrons are moving is grey until I click on one of the light bulbs ... and then it will redraw that lightbulbs rectangle. I guess you just need to redraw the whole thing when the sim becomes the computers focus window again. 
+            >>Posted a workaround test.
 
 - One of the bulbs left behind it's little red dashed circle at one point, but I don't know how reproducible this is. 
