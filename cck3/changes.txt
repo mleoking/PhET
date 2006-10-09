@@ -1,4 +1,7 @@
-3.04.02 (10-9-2006)
+3.04.04 (10-9-2006)
+Feasibility test for repainting problem workaround.
+
+3.04.03 (10-9-2006)
 Reduced bulb size 75% to match previous version.
 Reduced battery size and fixed aspect ratio to match previous version.
 Reduced voltmeter size to match previous version.
