@@ -77,6 +77,7 @@ public class CCKAboutDialog extends JDialog {
                 showProjects();
             }
         } );
+        buttonPanel.add( projectsButton );
 
         JButton phetHomepage = new JButton( "PhET homepage" );
         phetHomepage.addActionListener( new ActionListener() {
