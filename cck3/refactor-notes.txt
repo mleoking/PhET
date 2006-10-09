@@ -14,8 +14,9 @@ java.lang.RuntimeException: Juncitons Not at same coordinates.
 	
 Issues/Questions
 
-Schematic mode bulb graphic?
-sometimes junctions bump off each other too easily?
+Should we have a schematic mode bulb graphic?
+
+Do junctions sometimes bump off each other too easily?
 
 For flame graphics: I'm ignoring bulb (already pretty exciting when current is high)
 and capacitor (maybe not realistic, also code wasn't free); is this okay?
