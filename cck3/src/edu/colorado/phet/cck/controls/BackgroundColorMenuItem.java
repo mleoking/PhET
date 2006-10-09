@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.controls;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.ColorDialog;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common_cck.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class BackgroundColorMenuItem extends JMenuItem {
                     }
                 };
                 ColorDialog.showDialog( SimStrings.get( "OptionsMenu.BackgroundColorDialogTitle" ),
-                                        application.getApplicationView().getPhetFrame(), cck.getMyBackground(), listy );
+                                        application.getPhetFrame(), cck.getMyBackground(), listy );
             }
         } );
     }
