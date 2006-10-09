@@ -151,13 +151,13 @@ public class Circuit {
         }
     }
 
-    public boolean areNeighbors( Junction a, Junction b ) {
-        if( a == b ) {
-            return false;
-        }
-        Junction[] na = getNeighbors( a );
-        return Arrays.asList( na ).contains( b );
-    }
+//    public boolean areNeighbors( Junction a, Junction b ) {
+//        if( a == b ) {
+//            return false;
+//        }
+//        Junction[] na = getNeighbors( a );
+//        return Arrays.asList( na ).contains( b );
+//    }
 
     public void addBranch( Branch component ) {
         if( component == null ) {
@@ -171,21 +171,21 @@ public class Circuit {
         addJunction( component.getEndJunction() );
     }
 
-    public void notifyNeighbors( Branch b ) {
-        ArrayList alreadyNotified = new ArrayList();
-        Branch[] br1 = getAdjacentBranches( b.getStartJunction() );
-        Branch[] br2 = getAdjacentBranches( b.getEndJunction() );
-        ArrayList all = new ArrayList();
-        all.addAll( Arrays.asList( br1 ) );
-        all.addAll( Arrays.asList( br2 ) );
-        for( int i = 0; i < all.size(); i++ ) {
-            Branch branch = (Branch)all.get( i );
-            if( !alreadyNotified.contains( branch ) ) {
-                alreadyNotified.add( branch );
-                branch.notifyObservers();
-            }
-        }
-    }
+//    public void notifyNeighbors( Branch b ) {
+//        ArrayList alreadyNotified = new ArrayList();
+//        Branch[] br1 = getAdjacentBranches( b.getStartJunction() );
+//        Branch[] br2 = getAdjacentBranches( b.getEndJunction() );
+//        ArrayList all = new ArrayList();
+//        all.addAll( Arrays.asList( br1 ) );
+//        all.addAll( Arrays.asList( br2 ) );
+//        for( int i = 0; i < all.size(); i++ ) {
+//            Branch branch = (Branch)all.get( i );
+//            if( !alreadyNotified.contains( branch ) ) {
+//                alreadyNotified.add( branch );
+//                branch.notifyObservers();
+//            }
+//        }
+//    }
 
     public Junction[] split( Junction junction ) {
         Branch[] b = getAdjacentBranches( junction );
@@ -820,7 +820,7 @@ public class Circuit {
     private boolean contains( Branch[] branches, Branch branch ) {
         for( int i = 0; i < branches.length; i++ ) {
             Branch b = branches[i];
-            if (b==branch){
+            if( b == branch ) {
                 return true;
             }
         }

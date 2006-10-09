@@ -29,12 +29,7 @@ public class ImageSuite {
     }
 
     public double getBatteryImageAspectRatio() {
-        double w = batteryImage.getWidth();
-        double h = batteryImage.getHeight();
-        return w / h;
+        return ( (double)batteryImage.getWidth() ) / batteryImage.getHeight();
     }
 
-    public BufferedImage getSwitchImage() {
-        return switchImage;
-    }
 }

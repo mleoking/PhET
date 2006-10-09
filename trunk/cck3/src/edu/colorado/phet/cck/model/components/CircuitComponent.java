@@ -36,10 +36,6 @@ public abstract class CircuitComponent extends Branch {
         this.height = height;
     }
 
-    protected void setLength( double length ) {
-        this.length = length;
-    }
-
     public double getLength() {
         return length;
     }

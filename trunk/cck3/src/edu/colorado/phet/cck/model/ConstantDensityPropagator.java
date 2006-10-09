@@ -271,28 +271,28 @@ public class ConstantDensityPropagator implements ModelElement {
 
     static int cap = 0;
 
-    private double cap( double value, double max_step ) {
-        if( value > 0 ) {
-            if( value > max_step ) {
-                //                System.out.println( "CAP. value = " + value );
-                cap++;
-                return max_step;
-            }
-            else {
-                return value;
-            }
-        }
-        else {
-            if( value < -max_step ) {
-                //                System.out.println( "CAP: value = " + value );
-                cap++;
-                return -max_step;
-            }
-            else {
-                return value;
-            }
-        }
-    }
+//    private double cap( double value, double max_step ) {
+//        if( value > 0 ) {
+//            if( value > max_step ) {
+//                //                System.out.println( "CAP. value = " + value );
+//                cap++;
+//                return max_step;
+//            }
+//            else {
+//                return value;
+//            }
+//        }
+//        else {
+//            if( value < -max_step ) {
+//                //                System.out.println( "CAP: value = " + value );
+//                cap++;
+//                return -max_step;
+//            }
+//            else {
+//                return value;
+//            }
+//        }
+//    }
     //
     //    private boolean isInFireLoop( Branch branch ) {
     //        KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
@@ -334,18 +334,18 @@ public class ConstantDensityPropagator implements ModelElement {
             hashtable.put( object, new Double( value ) );
         }
 
-        public Object argMax() {
-            List list = new ArrayList( hashtable.keySet() );
-            Collections.sort( list, new Comparator() {
-                public int compare( Object o1, Object o2 ) {
-                    double k1 = get( o1 );
-                    double k2 = get( o2 );
-                    return Double.compare( k1, k2 );
-                }
-            } );
-            Object last = list.get( list.size() - 1 );
-            return last;
-        }
+//        public Object argMax() {
+//            List list = new ArrayList( hashtable.keySet() );
+//            Collections.sort( list, new Comparator() {
+//                public int compare( Object o1, Object o2 ) {
+//                    double k1 = get( o1 );
+//                    double k2 = get( o2 );
+//                    return Double.compare( k1, k2 );
+//                }
+//            } );
+//            Object last = list.get( list.size() - 1 );
+//            return last;
+//        }
 
         public double get( Object object ) {
             Double val = (Double)hashtable.get( object );

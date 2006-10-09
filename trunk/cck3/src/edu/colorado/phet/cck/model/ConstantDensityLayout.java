@@ -41,23 +41,23 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         return circuit;
     }
 
-    public void branchesMovedOrig( Branch[] branches ) {
-        ArrayList moved = new ArrayList( Arrays.asList( branches ) );
-        layoutElectrons( branches );
-        ArrayList branchesToRelayout = new ArrayList();
-        Branch[] all = getCircuit().getBranches();
-        for( int i = 0; i < all.length; i++ ) {
-            Branch branch = all[i];
-            if( branch.getCurrent() != 0 ) {
-                branchesToRelayout.add( branch );
-            }
-            else if( moved.contains( branch ) ) {
-                branchesToRelayout.add( branch );
-            }
-        }
-        Branch[] torelayout = (Branch[])branchesToRelayout.toArray( new Branch[0] );
-        layoutElectrons( torelayout );
-    }
+//    public void branchesMovedOrig( Branch[] branches ) {
+//        ArrayList moved = new ArrayList( Arrays.asList( branches ) );
+//        layoutElectrons( branches );
+//        ArrayList branchesToRelayout = new ArrayList();
+//        Branch[] all = getCircuit().getBranches();
+//        for( int i = 0; i < all.length; i++ ) {
+//            Branch branch = all[i];
+//            if( branch.getCurrent() != 0 ) {
+//                branchesToRelayout.add( branch );
+//            }
+//            else if( moved.contains( branch ) ) {
+//                branchesToRelayout.add( branch );
+//            }
+//        }
+//        Branch[] torelayout = (Branch[])branchesToRelayout.toArray( new Branch[0] );
+//        layoutElectrons( torelayout );
+//    }
 
     public void layoutElectrons( Branch[] branches ) {
         for( int i = 0; i < branches.length; i++ ) {

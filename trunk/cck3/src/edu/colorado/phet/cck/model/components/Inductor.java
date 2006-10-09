@@ -45,21 +45,17 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( true );
     }
 
-    public void addAttributes( IXMLElement xml ) {
-        xml.setAttribute( "resistance", getResistance() + "" );
-    }
-
     public void setInductance( double inductance ) {
         this.inductance = inductance;
         notifyObservers();
         fireKirkhoffChange();
-        notifyChargeChanged();
+//        notifyChargeChanged();
     }
 
-    public void setVoltageDrop( double voltageDrop ) {
-        super.setVoltageDrop( voltageDrop );
-        notifyChargeChanged();
-    }
+//    public void setVoltageDrop( double voltageDrop ) {
+//        super.setVoltageDrop( voltageDrop );
+////        notifyChargeChanged();
+//    }
 
     public void stepInTime( double dt ) {
     }
@@ -82,20 +78,20 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         resetDynamics();
     }
 
-    public static interface Listener {
-        public void chargeChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyChargeChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.chargeChanged();
-        }
-    }
+//    public static interface Listener {
+//        public void chargeChanged();
+//    }
+//
+//    public void addListener( Listener listener ) {
+//        listeners.add( listener );
+//    }
+//
+//    public void notifyChargeChanged() {
+//        for( int i = 0; i < listeners.size(); i++ ) {
+//            Listener listener = (Listener)listeners.get( i );
+//            listener.chargeChanged();
+//        }
+//    }
 
 //    ArrayList currentHistory = new ArrayList();
 //

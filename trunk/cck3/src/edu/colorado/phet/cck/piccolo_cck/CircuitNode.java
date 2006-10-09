@@ -255,9 +255,9 @@ public class CircuitNode extends PhetPNode {
         return postTx;
     }
 
-    public void animateToTx(AffineTransform at){
-        animateToTransform( at, 2000 );
-    }
+//    public void animateToTx(AffineTransform at){
+//        animateToTransform( at, 2000 );
+//    }
 //    public void setZoom( double zoom ) {
 //        double scale = 1.0 / zoom;
 //        if( scale != this.getScale() ) {

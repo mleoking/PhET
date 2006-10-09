@@ -530,20 +530,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
 
         public AdvancedControlPanel( final ICCKModule module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
-
-//            addListener( new Listener() {
-//                public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
-//                    module.setAdvancedEnabled( false );
-////                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
-//                }
-//
-//                public void advancedPanelShown( AdvancedPanel advancedPanel ) {
-//                    module.setAdvancedEnabled( true );
-////                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
-//                }
-//            } );
             this.module = module;
-//            setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
                                                 ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
@@ -598,6 +585,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             } );
         }
 
+        /* Shows the advanced controls in a dialog. */
         public void showDialog() {
             if( dialog == null ) {
                 Window parent = SwingUtilities.getWindowAncestor( module.getSimulationPanel() );

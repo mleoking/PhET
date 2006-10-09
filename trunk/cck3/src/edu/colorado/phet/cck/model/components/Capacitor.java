@@ -44,10 +44,6 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( true );
     }
 
-    public void addAttributes( IXMLElement xml ) {
-        xml.setAttribute( "resistance", getResistance() + "" );
-    }
-
     public double getCapacitance() {
         return capacitance;
     }

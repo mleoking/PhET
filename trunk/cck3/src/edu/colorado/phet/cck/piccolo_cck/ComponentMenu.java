@@ -28,6 +28,10 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         this.module = module;
     }
 
+    public JPopupMenu getMenuComponent() {
+        return this;
+    }
+
     protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
         final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
         menu.addPopupMenuListener( new PopupMenuListener() {
@@ -68,7 +72,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
         menu.add( remove );
     }
-
 
     protected JCheckBoxMenuItem getSetVisibleItem() {
         return setVisibleItem;
@@ -122,10 +125,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             }
         }
 
-        public JPopupMenu getMenuComponent() {
-            return getMenu();
-        }
-
         public void delete() {
             super.delete();
             if( editor != null ) {
@@ -163,10 +162,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             addRemoveButton();
         }
 
-        public JPopupMenu getMenuComponent() {
-            return getMenu();
-        }
-
         public void delete() {
             super.delete();
             if( editor != null ) {
@@ -198,10 +193,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             add( new ResetDynamicsMenuItem( CCKStrings.getString( "discharge.capacitor" ), capacitor ) );
             addShowValueButton();
             addRemoveButton();
-        }
-
-        public JPopupMenu getMenuComponent() {
-            return getMenu();
         }
 
         public void delete() {
@@ -259,10 +250,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             add( flip );
             addShowValueButton();
             addRemoveButton();
-        }
-
-        public JPopupMenu getMenuComponent() {
-            return this;
         }
 
         public void delete() {
@@ -363,10 +350,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             batt.setEndJunction( start );
             batt.notifyObservers();
             batt.fireKirkhoffChange();
-        }
-
-        public JPopupMenu getMenuComponent() {
-            return this;
         }
 
         public void delete() {

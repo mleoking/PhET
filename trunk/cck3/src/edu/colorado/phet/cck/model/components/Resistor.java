@@ -47,8 +47,8 @@ public class Resistor extends CircuitComponent {
 //        }
 //    }
 
-    public void addAttributes( IXMLElement xml ) {
-        xml.setAttribute( "resistance", getResistance() + "" );
-    }
+//    public void addAttributes( IXMLElement xml ) {
+//        xml.setAttribute( "resistance", getResistance() + "" );
+//    }
 
 }
