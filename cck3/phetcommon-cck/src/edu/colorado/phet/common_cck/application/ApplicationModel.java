@@ -32,13 +32,6 @@ public class ApplicationModel {
         SimStrings.setStrings( "localization/CommonStrings" );
     }
 
-    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
-        this( windowTitle, description, version, frameSetup );
-        setClock( clock );
-        setModules( m );
-        setInitialModule( m[0] );
-    }
-
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, AbstractClock clock ) {
         this( windowTitle, description, version, frameSetup );
         setClock( clock );
@@ -116,25 +109,6 @@ public class ApplicationModel {
 
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
-    }
-
-    public void setFrameCenteredSize( int width, int height ) {
-        setFrameSetup( new FrameSetup.CenteredWithSize( width, height ) );
-    }
-
-    public void setFrameCenteredInsets( int insetX, int insetY ) {
-        setFrameSetup( new FrameSetup.CenteredWithInsets( insetX, insetY ) );
-    }
-
-    /**
-     * The insets are a fallback-plan, when the frame is un-max-extented,
-     * the frame will be centered with these specified insets.
-     *
-     * @param insetX
-     * @param insetY
-     */
-    public void setFrameMaximized( int insetX, int insetY ) {
-        setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( insetX, insetY ) ) );
     }
 
     public String getName() {
