@@ -17,7 +17,9 @@ public abstract class BranchNode extends PhetPNode {
 
     public abstract void delete();
 
-    public Shape getClipShape( PNode parent ){
+    public Shape getClipShape( PNode parent ) {
         return null;
-    };
+    }
+
+    ;
 }

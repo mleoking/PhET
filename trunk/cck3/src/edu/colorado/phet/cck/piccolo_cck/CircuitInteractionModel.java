@@ -224,8 +224,7 @@ public class CircuitInteractionModel {
         private Circuit.DragMatch junctionDragMatch;
 
         private CircuitComponent getSoleComponent( Junction j ) {
-            if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent )
-            {
+            if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent ) {
                 return (CircuitComponent)circuit.getAdjacentBranches( j )[0];
             }
             else {

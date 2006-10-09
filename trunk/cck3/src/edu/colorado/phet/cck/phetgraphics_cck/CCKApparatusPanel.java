@@ -123,8 +123,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
             public void timeScaleChanged() {
                 ConstantDensityPropagator propagator = getCCKModel().getParticleSet().getPropagator();
                 String percent = propagator.getPercentString();
-                if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 )
-                {
+                if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
                     if( !module.getParameters().hideAllElectrons() ) {
                         module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
                                                               + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
@@ -151,16 +150,14 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         if( !initedLayout ) {
             init();
             initedLayout = true;
-            if( !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 )
-            {
+            if( !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 ) {
                 transform.setViewBounds( getViewBounds() );
                 getApparatusPanel().repaint();
                 getCircuit().updateAll();
             }
         }
 
-        if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 )
-        {
+        if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) && getViewBounds().width > 0 && getViewBounds().height > 0 ) {
             transform.setViewBounds( getViewBounds() );
             getApparatusPanel().repaint();
             getCircuit().updateAll();

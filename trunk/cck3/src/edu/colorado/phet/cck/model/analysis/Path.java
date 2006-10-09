@@ -98,8 +98,7 @@ public class Path {
                     return true;
                 }
             }
-            if( pathEntry.getBranch() instanceof Resistor )
-            {//todo workaround since Switch is getting mapped into Resistor somewhere
+            if( pathEntry.getBranch() instanceof Resistor ) {//todo workaround since Switch is getting mapped into Resistor somewhere
                 Resistor resistor = (Resistor)pathEntry.getBranch();
                 if( resistor.getResistance() == Switch.OPEN_RESISTANCE ) {
                     return true;
@@ -161,8 +160,7 @@ public class Path {
             Branch out = outs[i];
             Junction opposite = out.opposite( lastPathElement );
             if( !init.containsBranch( out ) ) {//don't cross the same branch twice.
-                if( init.containsJunction( opposite ) )
-                {//we found a loop, but we're only returning those that start the path.
+                if( init.containsJunction( opposite ) ) {//we found a loop, but we're only returning those that start the path.
                     if( init.getStartJunction() == opposite ) {
                         Path newPath = new Path( init, out, opposite );
                         if( isUniqueLoop( all, newPath ) ) {

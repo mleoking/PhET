@@ -10,7 +10,6 @@ import edu.colorado.phet.cck.piccolo_cck.VoltmeterModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid

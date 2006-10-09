@@ -18,7 +18,7 @@ public class MNASolver extends CircuitSolver {
     double dt = 0.01;
 //    private double capFudgeFactor = 4;//todo what's the cause of this fudge factor?
 //    private double capFudgeFactor = 3;//todo what's the cause of this fudge factor?
-//    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
+    //    private double capFudgeFactor = 2;//todo what's the cause of this fudge factor?
     private double capFudgeFactor = 2.5;//todo what's the cause of this fudge factor?
     private KirkhoffSolver.MatrixTable matrixTable;
 

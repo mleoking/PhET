@@ -7,7 +7,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid

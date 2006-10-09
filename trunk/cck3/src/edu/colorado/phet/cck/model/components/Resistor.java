@@ -5,7 +5,6 @@ import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
 

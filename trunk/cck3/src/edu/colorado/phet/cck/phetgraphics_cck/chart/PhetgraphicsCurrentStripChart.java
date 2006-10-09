@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck.phetgraphics_cck.chart;
 
+import edu.colorado.phet.cck.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.BranchGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.InteractiveBranchGraphic;
-import edu.colorado.phet.cck.chart.SingleTerminalFloatingChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common_cck.view.graphics.Graphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;

@@ -26,7 +26,7 @@ public class CCKImageSuite {
     private String acImageLoc = "images/ac.gif";
     private BufferedImage acImage;
     private BufferedImage inductorImage;
-//    private String inductorImageLoc="images/inductor1.jpg";
+    //    private String inductorImageLoc="images/inductor1.jpg";
     private String inductorImageLoc = "images/inductor2.gif";
 
     public CCKImageSuite() throws IOException {

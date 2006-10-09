@@ -117,7 +117,7 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic implements
             text.addGraphic( graphic );
         }
         for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
+            Point2D center = north.getInstanceOfMagnitude( -( i ) * 7 ).getDestination( root );
             PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
             text.addGraphic( graphic );
         }
@@ -130,7 +130,7 @@ public class SchematicCapacitorGraphic extends SchematicPlatedGraphic implements
             text.addGraphic( graphic );
         }
         for( int i = 0; i < numToShow - numToShow / 2; i++ ) {
-            Point2D center = north.getInstanceOfMagnitude( - ( i ) * 7 ).getDestination( root );
+            Point2D center = north.getInstanceOfMagnitude( -( i ) * 7 ).getDestination( root );
 
             PhetShapeGraphic graphic = new PhetShapeGraphic( getComponent(), cg.createGraphic( center ), plusMinusColor );
             text.addGraphic( graphic );

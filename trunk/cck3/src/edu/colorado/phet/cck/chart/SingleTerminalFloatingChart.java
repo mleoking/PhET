@@ -76,7 +76,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
         private CCKSimulationPanel cckSimulationPanel;
 
         public Piccolo( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock, CCKSimulationPanel cckSimulationPanel ) {
-            super( pSwingCanvas, title, valueReader, clock);
+            super( pSwingCanvas, title, valueReader, clock );
             this.cckSimulationPanel = cckSimulationPanel;
         }
 

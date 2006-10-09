@@ -58,7 +58,7 @@ public class TargetReadoutToolNode extends PComposite {
 
     private void update() {
         // Compute the locations of things
-        Point upperLeft = new Point( - crosshairRadius, - crosshairRadius );
+        Point upperLeft = new Point( -crosshairRadius, -crosshairRadius );
         Point readoutLocation = new Point( upperLeft.x + crosshairRadius * 2 + 10,
                                            upperLeft.y + crosshairRadius - readoutHeight / 2 );
         bounds = new RoundRectangle2D.Double( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
