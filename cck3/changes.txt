@@ -1,3 +1,6 @@
+3.04.01 (10-9-2006)
+Added a cursor hand to the phet logo, which links to main page.
+
 3.04.00 (10-9-2006)
 Finished main body of piccolo translation, still needs thorough testing.
 
