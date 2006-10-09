@@ -34,15 +34,18 @@ public class ReadoutSetNode extends PhetPNode {
         } );
     }
 
-    private void addBranchReadout( Branch branch ) {
-        ReadoutNode readoutNode = new ReadoutNode( module, branch, module.getSimulationPanel(), new DecimalFormat( "0.00" ) );
-        addChild( readoutNode );
+    private void addBranchReadout( final Branch branch ) {
+        addChild( createReadoutNode( branch ) );
+    }
+
+    protected ReadoutNode createReadoutNode( Branch branch ) {
+        return new ReadoutNode( module, branch, module.getSimulationPanel(), new DecimalFormat( "0.00" ) );
     }
 
     private void removeBranchReadout( Branch branch ) {
-        for (int i=0;i<getChildrenCount();i++){
-            ReadoutNode child= (ReadoutNode)getChild( i );
-            if (child.getBranch()==branch){
+        for( int i = 0; i < getChildrenCount(); i++ ) {
+            ReadoutNode child = (ReadoutNode)getChild( i );
+            if( child.getBranch() == branch ) {
                 removeChild( child );
                 i--;
             }

@@ -193,7 +193,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     static class ResistorMenu extends ComponentMenu {
         Resistor res;
-        private ComponentEditor.ResistorEditor editor;
+        private ComponentEditorPhetgraphics.ResistorEditorPhetgraphics editor;
 
         public ResistorMenu( Resistor res, CCKPhetgraphicsModule module ) {
             super( res, module );
@@ -202,7 +202,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 addRemoveButton( getMenu(), module, res );
             }
             else {
-                editor = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
+                editor = new ComponentEditorPhetgraphics.ResistorEditorPhetgraphics( module, res, module.getApparatusPanel(), module.getCircuit() );
                 JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
                 edit.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -229,14 +229,14 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     static class InductorMenu extends ComponentMenu {
         private Inductor inductor;
-        private ComponentEditor editor;
+        private ComponentEditorPhetgraphics editorPhetgraphics;
 
         public InductorMenu( final Inductor inductor, CCKPhetgraphicsModule module ) {
             super( inductor, module );
             this.inductor = inductor;
             double min = 0;
             double max = 50;
-            editor = new ComponentEditor( module, CCKStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
+            editorPhetgraphics = new ComponentEditorPhetgraphics( module, CCKStrings.getString( "inductance" ), inductor, module.getApparatusPanel(),
                                           CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), min, max,
                                           inductor.getInductance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
@@ -246,7 +246,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             JMenuItem edit = new JMenuItem( CCKStrings.getString( "edit.inductance" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    editor.setVisible( true );
+                    editorPhetgraphics.setVisible( true );
                 }
             } );
             menu.add( edit );
@@ -260,8 +260,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
         public void delete() {
             super.delete();
-            if( editor != null ) {
-                editor.delete();
+            if( editorPhetgraphics != null ) {
+                editorPhetgraphics.delete();
             }
         }
 
@@ -269,12 +269,12 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     static class CapacitorMenu extends ComponentMenu {
         private Capacitor capacitor;
-        private ComponentEditor editor;
+        private ComponentEditorPhetgraphics editorPhetgraphics;
 
         public CapacitorMenu( final Capacitor capacitor, CCKPhetgraphicsModule module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
-            editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
+            editorPhetgraphics = new ComponentEditorPhetgraphics( module, CCKStrings.getString( "capacitance" ), capacitor, module.getApparatusPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), 0, 0.05, Capacitor.DEFAULT_CAPACITANCE, module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitance( value );
                 }
@@ -282,7 +282,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             JMenuItem edit = new JMenuItem( CCKStrings.getString( "edit.capacitance" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    editor.setVisible( true );
+                    editorPhetgraphics.setVisible( true );
                 }
             } );
             menu.add( edit );
@@ -296,8 +296,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
         public void delete() {
             super.delete();
-            if( editor != null ) {
-                editor.delete();
+            if( editorPhetgraphics != null ) {
+                editorPhetgraphics.delete();
             }
         }
 
@@ -305,12 +305,12 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     static class BulbMenu extends ComponentMenu {
         CircuitComponent bulb;
-        private ComponentEditor.BulbResistanceEditor editor;
+        private ComponentEditorPhetgraphics.BulbResistanceEditorPhetgraphics editor;
 
         public BulbMenu( final Bulb bulb, final CCKPhetgraphicsModule module ) {
             super( bulb, module );
             this.bulb = bulb;
-            editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getApparatusPanel(), module.getCircuit() );
+            editor = new ComponentEditorPhetgraphics.BulbResistanceEditorPhetgraphics( module, bulb, module.getApparatusPanel(), module.getCircuit() );
             JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -396,8 +396,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         private JMenuItem editInternal;
 
         public static final ArrayList instances = new ArrayList();
-        private ComponentEditor.BatteryResistanceEditor resistanceEditor;
-        private ComponentEditor editor;
+        private ComponentEditorPhetgraphics.BatteryResistanceEditorPhetgraphics resistanceEditor;
+        private ComponentEditorPhetgraphics editorPhetgraphics;
         private JCheckBoxMenuItem setVisibleItem;
 
         public BatteryJMenu( final Battery branch, CCKPhetgraphicsModule module ) {
@@ -405,10 +405,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             this.battery = branch;
             this.module = module;
             JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
-            editor = createVoltageEditor( branch );
+            editorPhetgraphics = createVoltageEditor( branch );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    editor.setVisible( true );
+                    editorPhetgraphics.setVisible( true );
                 }
             } );
             add( edit );
@@ -416,7 +416,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
             editInternal = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.InternalResistanceMenuItem" ) );
             editInternal.setEnabled( false );
-            resistanceEditor = new ComponentEditor.BatteryResistanceEditor( module, battery, module.getApparatusPanel(), module.getCircuit() );
+            resistanceEditor = new ComponentEditorPhetgraphics.BatteryResistanceEditorPhetgraphics( module, battery, module.getApparatusPanel(), module.getCircuit() );
             editInternal.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resistanceEditor.setVisible( true );
@@ -447,8 +447,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             return module;
         }
 
-        protected ComponentEditor createVoltageEditor( Battery branch ) {
-            return new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
+        protected ComponentEditorPhetgraphics createVoltageEditor( Battery branch ) {
+            return new ComponentEditorPhetgraphics.BatteryEditorPhetgraphics( module, branch, module.getApparatusPanel(), module.getCircuit() );
         }
 
         public void show( Component invoker, int x, int y ) {
@@ -456,7 +456,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             super.show( invoker, x, y );
         }
 
-        public ComponentEditor.BatteryResistanceEditor getResistanceEditor() {
+        public ComponentEditorPhetgraphics.BatteryResistanceEditorPhetgraphics getResistanceEditor() {
             return resistanceEditor;
         }
 
@@ -475,7 +475,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
         public void delete() {
             resistanceEditor.delete();
-            editor.delete();
+            editorPhetgraphics.delete();
         }
 
         public boolean isVisiblityRequested() {

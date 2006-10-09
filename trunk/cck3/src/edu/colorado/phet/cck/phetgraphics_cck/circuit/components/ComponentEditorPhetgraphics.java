@@ -32,16 +32,16 @@ import java.text.DecimalFormat;
  * Time: 10:19:00 AM
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
-public abstract class ComponentEditor extends JDialog {
+public abstract class ComponentEditorPhetgraphics extends JDialog {
     private ICCKModule module;
-    protected CircuitComponent element;
+    private CircuitComponent circuitComponent;
     private Component parent;
     private Circuit circuit;
-    protected PhetSlider slider;
-    protected JPanel contentPane;
+    private PhetSlider slider;
+    private JPanel contentJPanel;
     private CircuitListener circuitListener;
 
-    public ComponentEditor( final ICCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
+    public ComponentEditorPhetgraphics( final ICCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if( startvalue > max ) {
@@ -54,17 +54,15 @@ public abstract class ComponentEditor extends JDialog {
             startvalue = min;
         }
         this.module = module;
-        this.element = element;
+        this.circuitComponent = element;
         this.parent = parent;
         this.circuit = circuit;
         DecimalFormat formatter = new DecimalFormat( "0.0##" );
         slider = new PhetSlider( name, units, min, max, startvalue, formatter );
         slider.setNumMajorTicks( 5 );
-        contentPane = new VerticalLayoutPanel();
-//        contentPane.setLayout( new BorderLayout() );
-//        contentPane.add( slider, BorderLayout.CENTER );
-        contentPane.add( slider );
-        setContentPane( contentPane );
+        contentJPanel = new VerticalLayoutPanel();
+        contentJPanel.add( slider );
+        setContentPane( contentJPanel );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double value = slider.getValue();
@@ -95,13 +93,14 @@ public abstract class ComponentEditor extends JDialog {
                         }
                     }
                     setVisible( false );
+                    
                 }
             }
         } );
         JPanel donePanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         donePanel.add( done, gbc );
-        contentPane.add( donePanel );
+        contentJPanel.add( donePanel );
         addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 slider.requestSliderFocus();
@@ -136,10 +135,38 @@ public abstract class ComponentEditor extends JDialog {
                 validateRepaint();
             }
         } );
+        addWindowListener( new WindowListener() {
+            public void windowActivated( WindowEvent e ) {
+            }
+
+            public void windowClosed( WindowEvent e ) {
+            }
+
+            public void windowClosing( WindowEvent e ) {
+                circuitComponent.setEditing( false );
+            }
+
+            public void windowDeactivated( WindowEvent e ) {
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+            }
+
+            public void windowIconified( WindowEvent e ) {
+            }
+
+            public void windowOpened( WindowEvent e ) {
+                circuitComponent.setEditing( true );
+            }
+        } );
+    }
+
+    protected PhetSlider getSlider() {
+        return slider;
     }
 
     private void setReadoutVisible( boolean visible ) {
-        module.setReadoutVisible( element, visible );
+        module.setReadoutVisible( circuitComponent, visible );
     }
 
     public void setVisible( boolean b ) {
@@ -150,6 +177,7 @@ public abstract class ComponentEditor extends JDialog {
             slider.requestSliderFocus();
         }
         validateRepaint();
+        circuitComponent.setEditing( b );
     }
 
     public void validateRepaint() {
@@ -164,8 +192,8 @@ public abstract class ComponentEditor extends JDialog {
         return (Frame)SwingUtilities.getWindowAncestor( parent );
     }
 
-    public static class BatteryEditor extends ComponentEditor {
-        public BatteryEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
+    public static class BatteryEditorPhetgraphics extends ComponentEditorPhetgraphics {
+        public BatteryEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
             super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
@@ -178,15 +206,12 @@ public abstract class ComponentEditor extends JDialog {
                         setHugeRange( hugeRange.isSelected() );
                     }
                 } );
-                super.contentPane.add( hugeRange );
+                super.getContentJPanel().add( hugeRange );
                 super.pack();
             }
 
         }
 
-        private PhetSlider getSlider() {
-            return super.slider;
-        }
 
         private void setHugeRange( boolean hugeRange ) {
             PhetSlider slider = getSlider();
@@ -206,13 +231,21 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            super.element.setVoltageDrop( value );
+            getCircuitComponent().setVoltageDrop( value );
         }
 
     }
 
-    public static class ResistorEditor extends ComponentEditor {
-        public ResistorEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
+    protected Branch getCircuitComponent() {
+        return circuitComponent;
+    }
+
+    protected JComponent getContentJPanel() {
+        return contentJPanel;
+    }
+
+    public static class ResistorEditorPhetgraphics extends ComponentEditorPhetgraphics {
+        public ResistorEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.ResistorResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.ResistorResistanceName" ),
                    SimStrings.get( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
@@ -222,13 +255,13 @@ public abstract class ComponentEditor extends JDialog {
             if( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-            super.element.setResistance( value );
+            getCircuitComponent().setResistance( value );
         }
 
     }
 
-    public static class BulbResistanceEditor extends ComponentEditor {
-        public BulbResistanceEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
+    public static class BulbResistanceEditorPhetgraphics extends ComponentEditorPhetgraphics {
+        public BulbResistanceEditorPhetgraphics( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BulbResistanceName" ),
                    SimStrings.get( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
@@ -238,15 +271,15 @@ public abstract class ComponentEditor extends JDialog {
             if( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-            super.element.setResistance( value );
+            getCircuitComponent().setResistance( value );
         }
 
     }
 
-    public static class BatteryResistanceEditor extends ComponentEditor {
+    public static class BatteryResistanceEditorPhetgraphics extends ComponentEditorPhetgraphics {
         private Battery battery;
 
-        public BatteryResistanceEditor( ICCKModule module, Battery element, Component parent, Circuit circuit ) {
+        public BatteryResistanceEditorPhetgraphics( ICCKModule module, Battery element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BatteryResistanceName" ),
                    SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
@@ -257,8 +290,6 @@ public abstract class ComponentEditor extends JDialog {
             if( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-//            super.element.setResistance( value );
-//            System.out.println( "set battery internal resistance= " + value );
             battery.setInternalResistance( value );
         }
     }
@@ -269,10 +300,10 @@ public abstract class ComponentEditor extends JDialog {
         dispose();
     }
 
-    public static class ACVoltageSourceEditor extends ComponentEditor {
+    public static class ACVoltageSourceEditorPhetgraphics extends ComponentEditorPhetgraphics {
         private ACVoltageSource branch;
 
-        public ACVoltageSourceEditor( ICCKModule module, ACVoltageSource branch, JComponent apparatusPanel, Circuit circuit ) {
+        public ACVoltageSourceEditorPhetgraphics( ICCKModule module, ACVoltageSource branch, JComponent apparatusPanel, Circuit circuit ) {
             super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, 10, circuit );
             this.branch = branch;
         }

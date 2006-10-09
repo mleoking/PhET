@@ -1,11 +1,10 @@
 To Do:
 
 bulb loaded incorrectly one time
+
 unconnected circuit with switch & ac had buggy electron flow
 
 improve component constructor interface
-
-editing a component should show it's Readout value (by the component)
 
 exception:
 

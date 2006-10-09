@@ -32,7 +32,7 @@ import java.text.DecimalFormat;
  */
 public abstract class ComponentEditor extends JDialog {
     private ICCKModule module;
-    protected CircuitComponent element;
+    protected CircuitComponent circuitComponent;
     private Component parent;
     private Circuit circuit;
     protected ModelSlider slider;
@@ -52,7 +52,7 @@ public abstract class ComponentEditor extends JDialog {
             startvalue = min;
         }
         this.module = module;
-        this.element = element;
+        this.circuitComponent = element;
         this.parent = parent;
         this.circuit = circuit;
         DecimalFormat formatter = new DecimalFormat( "0.0##" );
@@ -65,9 +65,7 @@ public abstract class ComponentEditor extends JDialog {
         setContentPane( contentPane );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double value = slider.getValue();
-                setReadoutVisible( true );
-                doChange( value );
+                doChange( slider.getValue() );
             }
         } );
         JButton done = new JButton( SimStrings.get( "ComponentEditor.DoneButton" ) );
@@ -106,6 +104,15 @@ public abstract class ComponentEditor extends JDialog {
             public void windowLostFocus( WindowEvent e ) {
             }
         } );
+        addWindowListener( new WindowAdapter() {
+            public void windowActivated( WindowEvent e ) {
+                circuitComponent.setEditing( true );
+            }
+
+            public void windowClosing( WindowEvent e ) {
+                circuitComponent.setEditing( false );
+            }
+        } );
         circuitListener = new CircuitListenerAdapter() {
 
             public void branchRemoved( Branch branch ) {
@@ -134,28 +141,14 @@ public abstract class ComponentEditor extends JDialog {
         } );
     }
 
-    private void setReadoutVisible( boolean visible ) {
-//        ReadoutNode rg = module.getReadoutGraphic( element );
-//        if( rg == null ) {
-////            throw new RuntimeException( "Null ReadoutGRaphic for component: "+element.getClass()+", element="+element );
-//            //maybe it was already removed...
-//            if( visible ) {
-//                throw new RuntimeException( "Null ReadoutGRaphic for component: " + element.getClass() + ", element=" + element );
-//            }
-//        }
-//        else {
-//            rg.setVisible( visible );
-//        }
-    }
-
     public void setVisible( boolean b ) {
         super.setVisible( b );
         //ensure that the editor value is visible.
-        setReadoutVisible( b );
         if( b ) {
             slider.requestSliderFocus();
         }
         validateRepaint();
+        circuitComponent.setEditing( b );
     }
 
     public void validateRepaint() {
@@ -212,7 +205,7 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            super.element.setVoltageDrop( value );
+            super.circuitComponent.setVoltageDrop( value );
         }
 
     }
@@ -228,7 +221,7 @@ public abstract class ComponentEditor extends JDialog {
             if( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-            super.element.setResistance( value );
+            super.circuitComponent.setResistance( value );
         }
 
     }
@@ -244,7 +237,7 @@ public abstract class ComponentEditor extends JDialog {
             if( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
-            super.element.setResistance( value );
+            super.circuitComponent.setResistance( value );
         }
 
     }
