@@ -26,8 +26,8 @@ public class EnergySkateParkApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new EC3LookAndFeel().initLookAndFeel();
         EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+        new EC3LookAndFeel().initLookAndFeel();
         new EnergySkateParkApplication( args ).start();
     }
 

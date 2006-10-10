@@ -156,23 +156,21 @@ public class FreeSplineMode extends ForceMode {
 
     private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-        double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
+        double allowedToModifyHeat = Math.abs( frictiveWork * 0.9 );
         model.addThermalEnergy( frictiveWork );
         double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
         double energyError = finalTotalEnergy1 - originalState.getTotalEnergy();
-        System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
+//        System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
 
-        double energyErrorSign = MathUtil.getSign( energyError );
         if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
-            System.out.println( "error was too large to fix only with heat" );
-            model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
+//            System.out.println( "error was too large to fix only with heat" );
+            model.addThermalEnergy( allowedToModifyHeat * MathUtil.getSign( energyError ) * -1 );
 
-            double origTotalEnergyAll = originalState.getMechanicalEnergy() + originalState.getHeat();
-            double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
+            double desiredMechEnergy = originalState.getMechanicalEnergy() + originalState.getHeat() - model.getThermalEnergy();
             new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
         }
         else {
-            System.out.println( "Error was okay to fix with heat only." );
+//            System.out.println( "Error was okay to fix with heat only." );
             model.addThermalEnergy( -energyError );
         }
     }
