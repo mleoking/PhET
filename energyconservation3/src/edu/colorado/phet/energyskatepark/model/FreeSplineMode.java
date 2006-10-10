@@ -29,6 +29,7 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
 
+
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
         this.body = body;
@@ -68,7 +69,18 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
+    private int errorCount = 0;
+
+    private void debugEnergy( String state, State originalState, EnergyConservationModel model, Body body ) {
+        double dE = new State( model, body ).getTotalEnergy() - originalState.getTotalEnergy();
+        if( Math.abs( dE ) > 1 ) {
+            System.out.println( state + ", dE = " + dE );
+            errorCount++;
+        }
+    }
+
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
+        startStep();
         State originalState = new State( model, body );
         Segment segment = getSegment( body );
         if( segment == null ) {
@@ -79,12 +91,14 @@ public class FreeSplineMode extends ForceMode {
         AbstractVector2D netForce = computeNetForce( model, segment );
         super.setNetForce( netForce );
         super.stepInTime( model, body, dt ); //apply newton's laws
+        debugEnergy( "RK4", originalState, model, body );
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
         }
         setupBounce( body, segment );
+        debugEnergy( "SetupBounce", originalState, model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
@@ -95,8 +109,10 @@ public class FreeSplineMode extends ForceMode {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-//            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
-//            setBottomAtZero( segment, body );
+            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+            debugEnergy( "rotatebody", originalState, model, body );
+            setBottomAtZero( segment, body );
+            debugEnergy( "setbottomatzero", originalState, model, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
@@ -108,6 +124,17 @@ public class FreeSplineMode extends ForceMode {
         }
         lastGrabState = grabbed;
         lastSegment = segment;
+        endStep();
+    }
+
+    private void startStep() {
+        errorCount = 0;
+    }
+
+    private void endStep() {
+        if( errorCount > 0 ) {
+            System.out.println( "-----Finished Step" );
+        }
     }
 
     private Segment getSegment( Body body ) {
