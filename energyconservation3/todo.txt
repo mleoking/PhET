@@ -2,9 +2,11 @@
 Remaining Work
 #######################################
 
-//1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
-    //2. If any 1 step destroys the total energy too much, roll it back.
-    //3 Redistribute the energy after each step
+    1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
+    2. If any 1 step destroys the total energy too much, roll it back.
+    3. Redistribute the energy after each step
+    4. Different number of segments in the cubic spline
+    5. Smaller time steps
 
 Bug: Wiggle me appears when K.P moves the slider.
 
