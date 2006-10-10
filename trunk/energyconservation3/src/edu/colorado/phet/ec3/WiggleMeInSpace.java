@@ -54,7 +54,7 @@ public class WiggleMeInSpace {
                 hintNode.setVisible( false );
             }
         } );
-        hintNode.start();
+//        hintNode.st
     }
 
     public void start() {
