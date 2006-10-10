@@ -18,6 +18,8 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,6 +55,21 @@ public class CCKApplication extends PiccoloPhetApplication {
 
         phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
         cckPiccoloModule = new CCKPiccoloModule( args );
+        cckPiccoloModule.getCckSimulationPanel().addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F1 ) {
+                    getPhetFrame().setSize( 1024, 768 );
+                    getPhetFrame().invalidate();
+                    getPhetFrame().validate();
+                }
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
         Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         setModules( modules );
         getPhetFrame().getTabbedModulePane().setLogoVisible( false );
