@@ -136,11 +136,8 @@ cck cck3 &antutil-dir &jfreechart-dir &jfreechart-phet-dir &phetcommon-dir &picc
 # Discharge lamps
 dischargelamps fluorescent-lights &lasers
 
-# Energy conservation
-energyconservation energyconservation
-
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
+energyskatepark energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
 
 # Forces 1D
 forces1d forces1d &phetcommon-module &charts-module
