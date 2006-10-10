@@ -97,8 +97,8 @@ public class FreeSplineMode extends ForceMode {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
         }
-        setupBounce( body, segment );
-        debugEnergy( "SetupBounce", originalState, model, body );
+//        setupBounce( body, segment );
+//        debugEnergy( "SetupBounce", originalState, model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
@@ -336,7 +336,7 @@ public class FreeSplineMode extends ForceMode {
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 getGravityForce( model ),
-                getNormalForce( model, segment ),
+                getNormalForce( model, segment ).getScaledInstance( 3 ),//todo this is a fudge
                 getThrustForce(),
                 getFrictionForce( model, segment )
         };
@@ -362,7 +362,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-        double fricMag = 2 * getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+        double fricMag = 2 * getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();//todo fudge
         return body.getVelocity().getInstanceOfMagnitude( -fricMag );
     }
 

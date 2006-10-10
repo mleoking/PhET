@@ -99,7 +99,9 @@ public abstract class AbstractSpline implements Cloneable {
     private SegmentPath constructSegmentPath() {
         Point2D[] interp = getInterpolationPoints();
         SegmentPath path = new SegmentPath();
+//        System.out.println( "ArrayList list=new ArrayList();");
         for( int i = 0; i < interp.length - 1; i++ ) {
+//            System.out.println( "list.add(new Line2D.Double("+interp[i].getX()+", "+interp[i].getY()+", "+interp[i+1].getX()+", "+interp[i+1].getY() +")");
             path.addSegment( new Segment( interp[i], interp[i + 1], SPLINE_THICKNESS ) );
         }
         return path;
