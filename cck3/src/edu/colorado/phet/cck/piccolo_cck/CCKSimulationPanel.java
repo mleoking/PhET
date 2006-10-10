@@ -127,12 +127,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private double getToolboxTopY() {
-        if( grabBagPSwing != null ) {
-            return grabBagPSwing.getFullBounds().getMaxY() + 15;
-        }
-        else {
-            return 15;
-        }
+        return grabBagPSwing == null ? 0 : grabBagPSwing.getFullBounds().getMaxY();
     }
 
     private void updateToolboxLayout() {
@@ -140,11 +135,12 @@ public class CCKSimulationPanel extends PhetPCanvas {
         Rectangle2D rect = toolboxSuite.getGlobalFullBounds();
         getPhetRootNode().globalToScreen( rect );
         int bottomInsetY = 5;
-        double distBetweenGrabBagAndToolbarTop = Toolkit.getDefaultToolkit().getScreenSize().getHeight() > 768 ? 50 : 15;
+        double distBetweenGrabBagAndToolbarTop = getHeight() > 600? 50 : 10;
         double availableHeightForToolbar = getHeight() - bottomInsetY - distBetweenGrabBagAndToolbarTop - getToolboxTopY();
         double sy = availableHeightForToolbar / rect.getHeight();
         toolboxSuite.scale( sy );
-        toolboxSuite.setOffset( getWidth() - toolboxSuite.getFullBounds().getWidth() - distBetweenGrabBagAndToolbarTop, getToolboxTopY() );
+        double insetX = 8;
+        toolboxSuite.setOffset( getWidth() - toolboxSuite.getFullBounds().getWidth() - insetX, getToolboxTopY() + distBetweenGrabBagAndToolbarTop );
     }
 
     private void updateTimeScaleNodeLayout() {
