@@ -34,7 +34,9 @@ public class EnergyConserver {
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
         double deTOT = getDE( model, body, desiredMechanicalEnergy );
         EC3Debug.debug( "dETOT=" + deTOT );
-        System.out.println( "deTOT = " + deTOT );
+        if( Math.abs( deTOT ) > 1E-4 ) {
+            System.out.println( "deTOT = " + deTOT );
+        }
     }
 
     private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
