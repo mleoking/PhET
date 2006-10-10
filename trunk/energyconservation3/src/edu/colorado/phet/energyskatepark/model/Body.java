@@ -72,7 +72,7 @@ public class Body {
 
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
-        int MAX = 5;
+        int MAX = 50;
         for( int i = 0; i < MAX; i++ ) {
             getMode().stepInTime( energyConservationModel, this, dt / MAX );
         }
