@@ -15,11 +15,11 @@ import java.awt.event.KeyEvent;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EC3Application extends PhetApplication {
+public class EnergySkaterApplication extends PhetApplication {
     private EC3Module module;
     private static final String VERSION = "1.02";
 
-    public EC3Application( String[] args ) {
+    public EnergySkaterApplication( String[] args ) {
         super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ), VERSION, new EC3FrameSetup() );
         module = new EC3Module( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
@@ -28,7 +28,7 @@ public class EC3Application extends PhetApplication {
     public static void main( final String[] args ) {
         new EC3LookAndFeel().initLookAndFeel();
         EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
-        new EC3Application( args ).start();
+        new EnergySkaterApplication( args ).start();
     }
 
     private void start() {
