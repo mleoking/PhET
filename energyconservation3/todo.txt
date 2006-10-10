@@ -2,6 +2,10 @@
 Remaining Work
 #######################################
 
+//1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
+    //2. If any 1 step destroys the total energy too much, roll it back.
+    //3 Redistribute the energy after each step
+
 Bug: Wiggle me appears when K.P moves the slider.
 
 I found a bug with the wiggle me for the jet pack. 
