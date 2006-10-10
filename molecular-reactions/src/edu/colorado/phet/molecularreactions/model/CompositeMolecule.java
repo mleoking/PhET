@@ -79,11 +79,6 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
      */
     public CompositeMolecule( SimpleMolecule[] molecules ) {
         setComponents( molecules );
-
-        if( components[0].getPosition().distance( components[1].getPosition()) > 30 ) {
-            System.out.println( "CompositeMolecule.stepInTime" );
-        }
-
     }
 
     public Bond[] getBonds() {

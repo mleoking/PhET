@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
@@ -207,6 +208,7 @@ public class MRModel extends PublishingModel {
         List modelElements = getModelElements();
         double pe = 0;
         double ke = 0;
+        Vector2D m = new Vector2D.Double( );
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
             if( o instanceof PotentialEnergySource ) {
@@ -215,9 +217,13 @@ public class MRModel extends PublishingModel {
             if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
                 ke += ((Body)o).getKineticEnergy();
             }
+
+            if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ((AbstractMolecule)o).isPartOfComposite() )) {
+                m.add(((Body)o).getMomentum());
+            }
         }
         DecimalFormat df = new DecimalFormat( "#.000");
-        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) );
+        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
     private void adjustKineticEnergy( double eFactor ) {

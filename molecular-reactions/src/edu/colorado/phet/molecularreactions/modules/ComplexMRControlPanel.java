@@ -38,7 +38,7 @@ import java.awt.event.ActionEvent;
 public class ComplexMRControlPanel extends JPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
 
-    public ComplexMRControlPanel( MRModule module ) {
+    public ComplexMRControlPanel( ComplexModule module ) {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();
@@ -108,15 +108,22 @@ public class ComplexMRControlPanel extends JPanel {
 
     private class OptionsPanel extends JPanel {
 
-        public OptionsPanel( final MRModule module ) {
+        public OptionsPanel( final ComplexModule module ) {
 
-            final JCheckBox showBondsCB = new JCheckBox( "Show bonds" );
+            final JCheckBox showBondsCB = new JCheckBox( SimStrings.get("Control.showbonds") );
             showBondsCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setGraphicTypeVisible( showBondsCB.isSelected() );
                 }
             } );
             showBondsCB.setSelected( true );
+
+            final JCheckBox showStripChartCB = new JCheckBox( SimStrings.get("Control.showStripChart"));
+            showStripChartCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setStripChartVisible( showStripChartCB.isSelected() );
+                }
+            } );
 
             final JCheckBox nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
@@ -128,6 +135,7 @@ public class ComplexMRControlPanel extends JPanel {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              insets, 0, 0 );
+            add( showStripChartCB, gbc );
             add( showBondsCB, gbc );
             add( nearestNeighborCB, gbc );
         }

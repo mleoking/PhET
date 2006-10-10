@@ -21,7 +21,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 
 /**
- * Molecule
+ * AbstractMolecule
+ * <p>
+ * The base class for all molecules, simple and composite.
+ * <p>
+ * If an AbstractMolecule is part of a composite, its stepInTime() method becomes a noop, and
+ * its kinematics are determined entirely by the stepInTime() method of the composite.
+ * <p>
+ * A set of methods named getFull<xxx>() return properties of the AbstractMolecule if it is not
+ * part of a composite, or the propertis of the composite if the AbstractMolecule is part one.
  *
  * @author Ron LeMaster
  * @version $Revision$
