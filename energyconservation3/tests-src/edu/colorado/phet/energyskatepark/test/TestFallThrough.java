@@ -1,6 +1,8 @@
 package edu.colorado.phet.energyskatepark.test;
 
+import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid
@@ -17,6 +19,8 @@ public class TestFallThrough {
     }
 
     public static void main( String[] args ) {
+        EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+        new EC3LookAndFeel().initLookAndFeel();
         new TestFallThrough( args ).start();
     }
 
