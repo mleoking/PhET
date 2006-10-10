@@ -33,5 +33,5 @@ information.
         <j2se version="1.4+"/>
         <jar href="dev/ec3/@VERSION@/ec3-pro.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.ec3.EnergySkaterApplication"/>
+    <application-desc main-class="edu.colorado.phet.energyskatepark.EnergySkateParkApplication"/>
 </jnlp>
