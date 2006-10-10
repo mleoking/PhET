@@ -340,22 +340,13 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-//        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-//        AbstractVector2D friction = segment.getUnitDirectionVector().getInstanceOfMagnitude( fricMag );
-//        if( friction.dot( body.getVelocity() ) < 0 ) {
-//            friction = friction.getScaledInstance( -1 );
-//        }
-//        return friction;
-        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-//        System.out.println( "body.getVelocity().getMagnitude() = " + body.getVelocity().getMagnitude() );
-        AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-        return friction;
+        double fricMag = 2 * getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+        return body.getVelocity().getInstanceOfMagnitude( -fricMag );
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
         if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {
-            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
-            return normalForce;
+            return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
         }
         else {
             return new ImmutableVector2D.Double();
