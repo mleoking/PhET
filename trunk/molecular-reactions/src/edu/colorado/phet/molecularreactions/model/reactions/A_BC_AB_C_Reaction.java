@@ -105,7 +105,9 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private void doReaction( MoleculeAB mAB, MoleculeC mC ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
+//        mB.setVelocity( mC.getVelocity() );
         MoleculeA mA = mAB.getMoleculeA();
+//        mA.setVelocity( mAB.getVelocity() );
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
         doReactionII( mAB, mBC, mC, mA );
     }
@@ -113,7 +115,9 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
+//        mB.setVelocity( mA.getVelocity() );
         MoleculeC mC = mBC.getMoleculeC();
+//        mC.setVelocity( mBC.getVelocity() );
         MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
         doReactionII( mBC, mAB, mA, mC );
     }
@@ -130,34 +134,47 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                AbstractMolecule newComposite,
                                AbstractMolecule oldFreeMolecule,
                                AbstractMolecule newFreeMolecule ) {
+
+        System.out.println( "A_BC_AB_C_Reaction.doReactionII -------------------------------------" );
+
         model.removeModelElement( oldComposite );
         model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
+
+        double vCompX = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getX() + oldComposite.getMass() * oldComposite.getVelocity().getX() )
+                        / newComposite.getMass();
+        double vCompY = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getY() + oldComposite.getMass() * oldComposite.getVelocity().getY() )
+                        / newComposite.getMass();
+        newComposite.setVelocity( vCompX, vCompY );
+        newFreeMolecule.setVelocity( 0, 0 );
 
         // Compute the kinematics of the released molecule
         HardBodyCollision collision = new HardBodyCollision();
         collision.detectAndDoCollision( newComposite, newFreeMolecule );
 
-        // Add kinetic energy to the molecules equivalent to the difference in potential energy
-        // between the peak and the flat
-        double floorPE = 0;
-        if( newComposite instanceof MoleculeAB ) {
-            floorPE = getEnergyProfile().getRightLevel();
-        }
-        else {
-            floorPE = getEnergyProfile().getLeftLevel();
-        }
-        double dPE = getEnergyProfile().getPeakLevel() - floorPE;
-        Vector2D vKE = new Vector2D.Double( oldFreeMolecule.getPosition(), newFreeMolecule.getPosition() ).normalize();
-        double dFreeMoleculeKE = Math.sqrt( 2 * dPE / newFreeMolecule.getFullMass() ) / 2;
-        double dCompositeKE = Math.sqrt( 2 * dPE / newComposite.getFullMass() ) / 2;
-        Vector2D dVFree = new Vector2D.Double( vKE ).scale( dFreeMoleculeKE );
-        Vector2D dVComposite = new Vector2D.Double( vKE ).scale( -dCompositeKE );
 
-        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().add( dVFree ));
-        newComposite.setVelocity( newComposite.getVelocity().add( dVComposite ));
+        if( false ) {
 
-        if( true) return;
+            // Add kinetic energy to the molecules equivalent to the difference in potential energy
+            // between the peak and the flat
+            double floorPE = 0;
+            if( newComposite instanceof MoleculeAB ) {
+                floorPE = getEnergyProfile().getRightLevel();
+            }
+            else {
+                floorPE = getEnergyProfile().getLeftLevel();
+            }
+            double dPE = getEnergyProfile().getPeakLevel() - floorPE;
+//        Vector2D vKE = new Vector2D.Double( oldFreeMolecule.getPosition(), newFreeMolecule.getPosition() ).normalize();
+//        double dFreeMoleculeKE = Math.sqrt( 2 * dPE / newFreeMolecule.getFullMass() ) / 2;
+//        double dCompositeKE = Math.sqrt( 2 * dPE / newComposite.getFullMass() ) / 2;
+//        Vector2D dVFree = new Vector2D.Double( vKE ).scale( dFreeMoleculeKE );
+//        Vector2D dVComposite = new Vector2D.Double( vKE ).scale( -dCompositeKE );
+//
+//        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().add( dVFree ));
+//        newComposite.setVelocity( newComposite.getVelocity().add( dVComposite ));
+//
+//        if( true) return;
 
 //        double vC0 = newComposite.getSpeed();
 //        double vC1 = Math.sqrt( 2 * ( dPE / 2 ) / newComposite.getMass() + vC0 * vC0 );
@@ -165,7 +182,27 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        double vF0 = newFreeMolecule.getSpeed();
 //        double vF1 = Math.sqrt( 2 * ( dPE / 2 ) / newFreeMolecule.getMass() + vF0 * vF0 );
 //        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().normalize().scale( vF1 ));
-        
+
+//        double vM0i = newFreeMolecule.getVelocity().getMagnitude();
+//        double vM0f = Math.sqrt( dPE / newFreeMolecule.getMass() + vM0i * vM0i );
+//        newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().normalize().scale( vM0f ) );
+//
+//        double vM1i = newComposite.getVelocity().getMagnitude();
+//        double vM1f = Math.sqrt( dPE / newComposite.getMass() + vM1i * vM1i );
+//        newComposite.setVelocity( newComposite.getVelocity().normalize().scale( vM1f ) );
+
+            double KE0 = newFreeMolecule.getKineticEnergy() + newComposite.getKineticEnergy();
+            double r = (1 + dPE / KE0) / 2;
+
+            newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().getX() * r, newFreeMolecule.getVelocity().getY() * r);
+            newComposite.setVelocity( newComposite.getVelocity().getX() * r, newComposite.getVelocity().getY() * r);
+
+//        System.out.println( "vM0i = " + vM0i );
+//        System.out.println( "vM0f = " + vM0f );
+//        System.out.println( "vM1i = " + vM1i );
+//        System.out.println( "vM1f = " + vM1f );
+
+        }
     }
 
 

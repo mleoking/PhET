@@ -13,12 +13,19 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
+
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.ChartPanel;
 
 /**
  * MRModule
@@ -27,6 +34,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
+    private PSwing stripChartNode;
 
     public ComplexModule() {
         super( "Experiments" );
@@ -42,7 +50,7 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
-        getControlPanel().addControl( new ComplexMRControlPanel( this ));
+        getControlPanel().addControl( new ComplexMRControlPanel( this ) );
     }
 
     private void createControls() {
@@ -58,6 +66,24 @@ public class ComplexModule extends MRModule {
         controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
     }
 
+    public void setStripChartVisible( boolean visible ) {
+        if( visible ) {
+            StripChart stripChart = new StripChart( SimStrings.get( "StripChart.title" ),
+                                                    new String[]{"A", "BC", "AB", "C"},
+                                                    SimStrings.get( "StripChart.time" ),
+                                                    SimStrings.get( "StripChart.num" ),
+                                                    PlotOrientation.VERTICAL,
+                                                    20, 0, 20 );
+            ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
+            chartPanel.setPreferredSize( new java.awt.Dimension( 500, 300 ) );
+            stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
+            ( (PhetPCanvas)getSimulationPanel() ).addScreenChild( stripChartNode );
+        }
+        else if( stripChartNode != null ) {
+            ( (PhetPCanvas)getSimulationPanel() ).removeScreenChild( stripChartNode );
+            stripChartNode = null;
+        }
+    }
 
 
     /**
