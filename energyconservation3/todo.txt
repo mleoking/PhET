@@ -7,6 +7,8 @@ Remaining Work
     3. Redistribute the energy after each step
     4. Different number of segments in the cubic spline
     5. Smaller time steps
+    
+    Added a test that shows jade fails for the energyskatepark type problem, see travoltage project
 
 Bug: Wiggle me appears when K.P moves the slider.
 
