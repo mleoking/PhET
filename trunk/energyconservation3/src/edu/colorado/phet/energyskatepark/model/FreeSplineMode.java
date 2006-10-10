@@ -95,8 +95,8 @@ public class FreeSplineMode extends ForceMode {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
-            setBottomAtZero( segment, body );
+//            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+//            setBottomAtZero( segment, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
