@@ -72,9 +72,11 @@ public class Body {
 
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
-        int MAX = 50;
-        for( int i = 0; i < MAX; i++ ) {
-            getMode().stepInTime( energyConservationModel, this, dt / MAX );
+//        int MAX = 50;
+//        int MAX = 1;
+        int NUM_STEPS_PER_UPDATE = 5;
+        for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
+            getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
         }
         if( !isFreeFallMode() && !isUserControlled() ) {
             facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
