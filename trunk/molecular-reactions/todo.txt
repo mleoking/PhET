@@ -1,3 +1,4 @@
+- Hard bonds not always going away
 - Temperature control will make model go crazy
 - molecules escaping box
 
@@ -88,3 +89,4 @@ Done
 10-04-06 - Performance problem in A-BC-AB-C-Reaction.doReactionII
 10-04-06 - Add axes to energy view
 10-06-06 - Add launcher
+10-11-06 - Provisional bonds not always going away.

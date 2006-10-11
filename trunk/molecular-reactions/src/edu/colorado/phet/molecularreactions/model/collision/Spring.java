@@ -128,7 +128,7 @@ public class Spring extends SimpleObservable implements ModelElement {
         this.attachedBody = body;
 
         if( body instanceof CompositeMolecule ) {
-            System.out.println( "Spring.attachBodyAtRestingLength" );
+//            System.out.println( "Spring.attachBodyAtRestingLength" );
         }
         angle = new Vector2D.Double( fixedEnd, body.getPosition() ).getAngle();
         freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ) );
@@ -136,7 +136,7 @@ public class Spring extends SimpleObservable implements ModelElement {
         omega = Math.sqrt( k / body.getMass() );
 
         if( Double.isNaN( omega ) ) {
-            System.out.println( "Spring.attachBodyAtRestingLength" );
+//            System.out.println( "Spring.attachBodyAtRestingLength" );
         }
 
         // A and phi depend on the initial elongation of the spring and the initial
@@ -244,7 +244,7 @@ public class Spring extends SimpleObservable implements ModelElement {
         if( attachedBody != null ) {
 
             if( attachedBody instanceof CompositeMolecule ) {
-                System.out.println( "Spring.stepInTime" );
+//                System.out.println( "Spring.stepInTime" );
             }
 
             // Compute the length of the spring

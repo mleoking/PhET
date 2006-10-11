@@ -11,8 +11,12 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.util.StripChart;
-import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
@@ -27,10 +31,38 @@ public class MoleculePopulationsStripChart extends StripChart {
     static String xAxisLabel = SimStrings.get( "StripChart.time" );
     static String yAxisLabel = SimStrings.get( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
+    private MoleculeCounter counterA;
+    private MoleculeCounter counterAB;
+    private MoleculeCounter counterBC;
+    private MoleculeCounter counterC;
+    private double updateInterval;
+    private double timeSinceLastUpdate;
 
-    public MoleculePopulationsStripChart( MRModel model, double xAxisRange, double minY, double maxY ) {
+    public MoleculePopulationsStripChart( MRModel model, IClock clock, double xAxisRange, double minY, double maxY,
+                                          double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY );
+        this.updateInterval = updateInterval;
 
-        model.addListener( new MoleculeCountSpinner() );
+        counterA = new MoleculeCounter( MoleculeA.class, model );
+        counterAB = new MoleculeCounter( MoleculeAB.class, model );
+        counterBC = new MoleculeCounter( MoleculeBC.class, model );
+        counterC = new MoleculeCounter( MoleculeC.class, model );
+
+        clock.addClockListener( new StripChartUpdater() );
+    }
+
+    private class StripChartUpdater extends ClockAdapter {
+
+        public void clockTicked( ClockEvent clockEvent ) {
+            timeSinceLastUpdate += clockEvent.getSimulationTimeChange();
+            if( timeSinceLastUpdate > updateInterval ) {
+                timeSinceLastUpdate = 0;
+                addData( 0, clockEvent.getSimulationTime(), counterA.getCnt() );
+                addData( 1, clockEvent.getSimulationTime(), counterAB.getCnt() );
+                addData( 2, clockEvent.getSimulationTime(), counterBC.getCnt() );
+                addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
+            }
+
+        }
     }
 }
