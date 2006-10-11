@@ -34,7 +34,7 @@ public class FreeSplineMode extends ForceMode {
         this.body = body;
     }
 
-    private static class State {
+    public static class State {
         private EnergyConservationModel model;
         private Body body;
 
@@ -68,8 +68,8 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    public void debug( String type, State originalState, EnergyConservationModel model, Body body ) {
-        double dE = new State( model, body ).getTotalEnergy() - originalState.getTotalEnergy();
+    public void debug( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
+        double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
         if( Math.abs( dE ) > 1 ) {
             System.out.println( type + ", dE = " + dE );
         }
@@ -80,72 +80,70 @@ public class FreeSplineMode extends ForceMode {
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
-            EC3Debug.debug( "Fly off surface!" );
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
         AbstractVector2D netForce = computeNetForce( model, segment );
         super.setNetForce( netForce );
         super.stepInTime( model, body, dt ); //apply newton's laws
-        debug( "newton's laws", originalState, model, body );
+        debug( "newton's laws", originalState.getTotalEnergy(), model, body );
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
         }
         setupBounce( body, segment );
-        debug( "setup bounce", originalState, model, body );
+        debug( "setup bounce", originalState.getTotalEnergy(), model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
             if( v > 0.01 ) {
-//                System.out.println( "v = " + new DecimalFormat( "0.000" ).format( v ) + ": flying off the track." );
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
             rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
             segment = getSegment( body );//need to find our new segment after rotation.
 
-            debug( "We just rotated body", originalState, model, body );
+            debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
             setBottomAtZero( segment, body );
-            debug( "set bottom to zero", originalState, model, body );
+            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-                new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );
+                new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
             else {
-                patchEnergyInclThermal( frictiveWork, model, body, originalState );
+                patchEnergyInclThermal( frictiveWork, model, body, originalState.getTotalEnergy() );
             }
         }
         lastGrabState = grabbed;
         lastSegment = segment;
     }
 
-    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
+    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, double desiredEnergy) {
+//        originalState=model.getDesiredEnergy(body);
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
         model.addThermalEnergy( frictiveWork );
-        debug( "Added thermal energy", originalState, model, body );
+        debug( "Added thermal energy", desiredEnergy, model, body );
         double finalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
-        double energyError = finalEnergy - originalState.getTotalEnergy();
+        double energyError = finalEnergy - desiredEnergy;
 
         double energyErrorSign = MathUtil.getSign( energyError );
         if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
             System.out.println( "error was too large to fix only with heat" );
             model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
-            double origTotalEnergyAll = originalState.getMechanicalEnergy() + originalState.getHeat();
-            double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
+            double desiredMechEnergy = desiredEnergy - model.getThermalEnergy();
             new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
-            debug( "FixEnergy", originalState, model, body );
+            debug( "FixEnergy", desiredEnergy, model, body );
             //This may be causing other problems
         }
         else {
             model.addThermalEnergy( -energyError );
-            debug( "AddThermalEnergy", originalState, model, body );
+            debug( "AddThermalEnergy", desiredEnergy, model, body );
         }
     }
 
@@ -175,7 +173,7 @@ public class FreeSplineMode extends ForceMode {
         for( int i = 0; i < segPath.numSegments(); i++ ) {
             Segment seg = segPath.segmentAt( i );
             double dist = attachPoint.distance( seg.getCenter2D() );
-            if( lastSegment != null ) {  //only pick a nearby segment
+            if( lastSegment != null ) {  //prefer a nearby segment
                 int indexOffset = Math.abs( seg.getID() - lastSegment.getID() );
                 if( indexOffset > 5 ) {
                     dist += indexOffset * 5.0;
