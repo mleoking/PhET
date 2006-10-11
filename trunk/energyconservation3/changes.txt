@@ -1,4 +1,4 @@
-1.02.02
+1.02.02 (10-11-2006)
 Bugfix: When he's stationary and the track is moved he doesn't fall.
 Bugfix: When he's oscillating on the track and I lift the track up the skater 
             can end up oscillating back and forth, as if a track was there, but 

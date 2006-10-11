@@ -2,13 +2,9 @@
 Remaining Work
 #######################################
 
-Bug: pressing go after playing back a sequence inverts the angle.
+Energy is not exactly conserved when friction is on and he moves between track and freefall.
 
-2. When I ignored the program for a bit and then went back to it, the 
-man was stopped and when I tried to grab him, all I could more around 
-was the little red dot, not the actual skater.
-   
-    Added a test that shows jade fails for the energyskatepark type problem, see travoltage project
+Bug: pressing go after playing back a sequence inverts the angle.
 
 Bug: Wiggle me appears when moving the slider.
 
@@ -17,18 +13,6 @@ When I go to space or set gravity to zero, if I don't use the arrows before I hi
 they don't work. For example, if you go to space and then hit Reset, the arrows work the far right slider.
 
 Jet pack isn't visible after reset.
-
-Energy Skate park
-
-So the set up is that the man is oscillating back and forth in on the 
-default track. You turn friction on and watch his velocity decline as 
-his thermal energy increases. She wanted to see him come to rest at 
-the bottom. The problem is that he never comes to rest as he should, 
-something keeps putting in pangs of a little velocity (if you graph 
-it) and he keeps jumping around just a little bit, and eventually he 
-falls through the track and speeds away with lots of speed.
-
-Can you look into this and see if you can fix the behavior?
 
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
@@ -44,13 +28,6 @@ have the interpretation incorrect?  Or did you create the functionality
 as you did for another reason?
 
 Secondly, if you use the space simulation, and change to gravity and back, sometimes (can't be sure how exactly) the thruster/jets don't show on the skater in space mode, though he does move as if they are firing.  Seems like the simulation of his jet pack is not quite getting reset.
-
-Ideas for energy conservation in the dynamics of this simulation.
-    1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
-    2. If any 1 step destroys the total energy too much, roll it back.
-    3. Redistribute the energy after each step
-    4. Different number of segments in the cubic spline
-    5. Smaller time steps
 
 #################################################################
 Low Priority
