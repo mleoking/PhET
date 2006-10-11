@@ -29,7 +29,8 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
-    private static boolean debug = false;
+    //    private static boolean debug = false;
+    private static boolean debug = true;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -108,7 +109,6 @@ public class FreeSplineMode extends ForceMode {
                 return;
             }
 
-
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
@@ -117,6 +117,14 @@ public class FreeSplineMode extends ForceMode {
             }
         }
         debug2( "after everything", originalState.getTotalEnergy(), model, body );
+        //we want the total energy to be origState.getTotalEnergy().
+        //currently the energy is new State(model,body).getTotalEnergy().
+        //we can easily edit the mechanical energy...
+
+        if( Math.abs( originalState.getTotalEnergy() - new State( model, body ).getTotalEnergy() ) > 0 ) {
+            new EnergyConserver().fixEnergy( model, body, originalState.getTotalEnergy() - new State( model, body ).getHeat() );
+        }
+        debug2( "after everything2", originalState.getTotalEnergy(), model, body );
 
         lastGrabState = grabbed;
         lastSegment = segment;
@@ -149,7 +157,7 @@ public class FreeSplineMode extends ForceMode {
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.2 );
 
         debug( "Added thermal energy", origState, model, body );
-        double finalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+        double finalEnergy = model.getMechanicalEnergy( body ) + model.getThermalEnergy();
         double energyError = finalEnergy - desiredEnergy;
 
         double energyErrorSign = MathUtil.getSign( energyError );

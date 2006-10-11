@@ -61,10 +61,10 @@ public class PieChartIndicator extends PNode {
 
     private double getTotalEnergy( Body body ) {
         if( ignoreThermal ) {
-            return getModel().getTotalMechanicalEnergy( body );
+            return getModel().getMechanicalEnergy( body );
         }
         else {
-            return getModel().getTotalMechanicalEnergy( body ) + getModel().getThermalEnergy();
+            return getModel().getMechanicalEnergy( body ) + getModel().getThermalEnergy();
         }
     }
 

@@ -26,7 +26,7 @@ public class HistoryPoint {
         this.time = model.getTime();
         this.ke = body.getKineticEnergy();
         this.pe = model.getPotentialEnergy( body );
-        this.totalEnergy = model.getTotalMechanicalEnergy( body );
+        this.totalEnergy = model.getMechanicalEnergy( body );
     }
 
     public double getX() {

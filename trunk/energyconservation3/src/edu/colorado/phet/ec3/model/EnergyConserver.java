@@ -24,9 +24,13 @@ public class EnergyConserver {
             else {
             }
         }
-        if( model.getGravity() > 1.0 ) {
-            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+        for( int i = 0; i < 3; i++ ) {
+            if( Math.abs( model.getGravity() ) > 1.0 ) {
+                conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+            }
         }
+//        double mechEnergy = model.getMechanicalEnergy( body );
+//        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
     }
 
     private void conserveEnergyViaV( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
@@ -39,12 +43,13 @@ public class EnergyConserver {
     }
 
     private double getDE( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
-        return model.getTotalMechanicalEnergy( body ) - desiredMechanicalEnergy;
+        return model.getMechanicalEnergy( body ) - desiredMechanicalEnergy;
     }
 
     private void conserveEnergyViaH( EnergyConservationModel model, Body body, double desiredMechEnergy ) {
         double dE = getDE( model, body, desiredMechEnergy );
         double dh = dE / body.getMass() / model.getGravity();
         body.translate( 0, dh );
+//        System.out.println( "------->requested mechEnergy = " + desiredMechEnergy+ ", obtained me=" + model.getMechanicalEnergy( body ));
     }
 }
