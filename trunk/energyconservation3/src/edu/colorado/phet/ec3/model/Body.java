@@ -47,6 +47,8 @@ public class Body {
     public Body( double width, double height ) {
         this.width = width;
         this.height = height;
+//        attachmentPointRotation=-Math.PI;
+        cmRotation = Math.PI;
     }
 
     public Body copyState() {
@@ -301,9 +303,9 @@ public class Body {
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
-//        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
-//            throw new RuntimeException( "exception" );
-//        }
+        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
+            throw new RuntimeException( "exception" );
+        }
         return transform;
     }
 
@@ -324,7 +326,11 @@ public class Body {
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
+//        Point2D origLocation=new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY( ));
         attachmentPoint.setLocation( x, y );
+//        if (attachmentPoint.distance( origLocation )>1){
+//            new RuntimeException( "too far: "+attachmentPoint+", "+origLocation).printStackTrace( );
+//        }
     }
 
     public void setCMRotation( double angle ) {
