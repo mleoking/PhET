@@ -2,8 +2,8 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
+import edu.colorado.phet.ec3.common.LucidaSansFont;
 
 import javax.swing.*;
 import java.awt.*;
