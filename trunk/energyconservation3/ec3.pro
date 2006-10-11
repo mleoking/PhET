@@ -4,6 +4,7 @@
 -injars 'jfreechart-dir\lib\jfreechart-1.0.0.jar'
 -injars 'jfreechart-dir\lib\junit.jar'
 -injars 'jfreechart-dir\lib\servlet.jar'
+-injars 'phetcommon-dir\lib\jnlp.jar'
 -outjars ant_output\jars\ec3-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
