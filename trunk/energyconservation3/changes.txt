@@ -1,3 +1,6 @@
+1.02.01 (10-11-2006)
+Revision of dynamics to address problem at the bottom of a potential well.
+
 1.02 (7-10-2006)
 Made the grid overlay x-axis match the Energy-Position plot's x-axis.
 
