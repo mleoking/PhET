@@ -42,12 +42,9 @@ public class EnergyConserver {
         return model.getTotalMechanicalEnergy( body ) - desiredMechanicalEnergy;
     }
 
-    private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double dE = getDE( model, body, origTotalEnergy );
-        EC3Debug.debug( "dE = " + dE );
+    private void conserveEnergyViaH( EnergyConservationModel model, Body body, double desiredMechEnergy ) {
+        double dE = getDE( model, body, desiredMechEnergy );
         double dh = dE / body.getMass() / model.getGravity();
         body.translate( 0, dh );
-        double dEMod = getDE( model, body, origTotalEnergy );
-        EC3Debug.debug( "dEModH = " + dEMod );
     }
 }

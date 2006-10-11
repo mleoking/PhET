@@ -39,7 +39,7 @@ public class Floor {
         if( b.getMinY() < y ) {
             double origEnergy = model.getTotalMechanicalEnergy( b );
             double overshoot = b.getMinY() - y;
-            b.setPosition( b.getX(), b.getY() - overshoot );
+            b.setAttachmentPointPosition( b.getX(), b.getY() - overshoot );
             AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), Math.abs( b.getVelocity().getY() ) );
             b.setVelocity( scaledInstance );
             new EnergyConserver().fixEnergy( model, b, origEnergy );//todo add friction to floor
