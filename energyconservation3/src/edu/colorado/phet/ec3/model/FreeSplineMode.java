@@ -10,6 +10,7 @@ import edu.colorado.phet.ec3.model.spline.SegmentPath;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -29,8 +30,8 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
-    //    private static boolean debug = false;
-    private static boolean debug = true;
+    private static boolean debug = false;
+//    private static boolean debug = true;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -66,9 +67,22 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
+    ArrayList speedHistory = new ArrayList();
+
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         stepStarted();
         State originalState = new State( model, body );
+        speedHistory.add( new Double( body.getSpeed() ) );
+        if( speedHistory.size() > 30 ) {
+            speedHistory.remove( 0 );
+        }
+        if( okayToStop( body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
+            double ke = body.getKineticEnergy();
+            body.setVelocity( new Vector2D.Double( 0, 0 ) );
+            model.addThermalEnergy( ke );
+            return;
+        }
+
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
@@ -103,6 +117,9 @@ public class FreeSplineMode extends ForceMode {
                 debug( "We just rotated body", originalState, model, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
                 debug( "set bottom to zero", originalState, model, body );
+//                if( body.getVelocity().getMagnitude() < 1 && originalState.getBody().getSpeed() < 1 && new State( model, body ).getTotalEnergy() - originalState.getTotalEnergy() > 0 ) {
+//                    body.setAttachmentPointPosition( body.getAttachPoint().getX(), originalState.getBody().getAttachPoint().getY() );
+//                }
             }
             segment = getSegment( body );//need to find our new segment after rotation.
             if( segment == null ) {
@@ -129,6 +146,21 @@ public class FreeSplineMode extends ForceMode {
         lastGrabState = grabbed;
         lastSegment = segment;
         stepFinished();
+    }
+
+    private boolean okayToStop( Body body ) {
+        double sum = 0;
+//        double L1Speed = 0;
+        for( int i = 0; i < speedHistory.size(); i++ ) {
+            java.lang.Double aDouble = (java.lang.Double)speedHistory.get( i );
+            sum += aDouble.doubleValue();
+//            L1Speed += Math.abs( aDouble.doubleValue() );
+        }
+        double avgSpeed = 1.0 / speedHistory.size() * sum;
+//        System.out.println( "avgSpeed = " + avgSpeed );
+//        System.out.println( "L1Speed = " + L1Speed );
+        //min moon speed is 0.064
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.05;
     }
 
     public void init( EnergyConservationModel model, Body body ) {
