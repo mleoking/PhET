@@ -72,7 +72,7 @@ public class BodyGraphic extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );
                 boolean okToTranslate = true;
-                if( getBody().getLocatedShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
+                if( getBody().getShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
                     okToTranslate = false;
                 }
                 PBounds b = getFullBounds();
@@ -134,7 +134,7 @@ public class BodyGraphic extends PNode {
     }
 
     public void update() {
-        boundsDebugPPath.setPathTo( body.getLocatedShape() );
+        boundsDebugPPath.setPathTo( body.getShape() );
 
         pImage.setTransform( createSkaterTransform() );
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );

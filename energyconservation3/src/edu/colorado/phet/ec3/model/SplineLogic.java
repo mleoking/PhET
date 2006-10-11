@@ -56,7 +56,7 @@ public class SplineLogic {
 
     public ArrayList getOverlappingSegments( AbstractSpline spline ) {
         SegmentPath segmentPath = spline.getSegmentPath();
-        Shape bodyShape = body.getLocatedShape();
+        Shape bodyShape = body.getShape();
         //find all segments that overlap.
         ArrayList overlap = new ArrayList();
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {
@@ -89,7 +89,7 @@ public class SplineLogic {
 
     public double guessPositionAlongSpline( AbstractSpline spline, double lastScalarPosition ) throws NullIntersectionException {
         SegmentPath segmentPath = spline.getSegmentPath();
-        Shape bodyShape = body.getLocatedShape();
+        Shape bodyShape = body.getShape();
         //find all segments that overlap.
         ArrayList overlap = new ArrayList();
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {
