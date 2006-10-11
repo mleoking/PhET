@@ -65,6 +65,10 @@ public class MRModule extends Module {
         canvas.addScreenChild( energyView );
     }
 
+    protected void reset() {
+        energyView.reset();
+    }
+    
     protected JPanel getMRControlPanel() {
         return mrControlPanel;
     }

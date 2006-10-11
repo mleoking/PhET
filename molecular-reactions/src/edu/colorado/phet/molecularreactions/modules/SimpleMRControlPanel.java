@@ -66,6 +66,21 @@ public class SimpleMRControlPanel extends JPanel {
             numDimensionsBG.add( twoDRB );
             oneDRB.setSelected( true );
 
+            // Add a listener to the launcher that will set the proper radio button if
+            // the launcher's state is programatically changed
+            module.getLauncher().addChangeListener( new Launcher.ChangeListener() {
+                public void stateChanged( Launcher launcher ) {
+                    if( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL
+                        && !oneDRB.isSelected() ) {
+                        oneDRB.setSelected( true );
+                    }
+                    if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL
+                        && !twoDRB.isSelected() ) {
+                        twoDRB.setSelected( true );
+                    }
+                }
+            } );
+
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
             Insets insets = new Insets( 0, 20, 0, 0 );

@@ -32,8 +32,11 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class LauncherGraphic extends RegisterablePNode implements SimpleObserver {
+    private double minTheta = -Math.PI / 3;
+    private double maxTheta = Math.PI / 3;
     private Launcher launcher;
     private PImage plungerNode;
+
 
     public LauncherGraphic( Launcher launcher ) {
         this.launcher = launcher;
@@ -98,13 +101,10 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
             double dx = event.getDelta().getWidth();
             if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
                 Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
-//                System.out.println( "px = " + (p.getX() - launcher.getRestingTipLocation().getX()) );
-//                System.out.println( "py = " + (p.getY() - launcher.getRestingTipLocation().getY()) );
                 double r = Math.sqrt( getFullBounds().getHeight() * getFullBounds().getHeight()
                                       + getFullBounds().getWidth() * getFullBounds().getWidth() );
-//                double r = getFullBounds().getHeight();
                 double dTheta = Math.asin( -dx / r );
-                double theta = launcher.getTheta() + dTheta;
+                double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta));
                 launcher.setTheta( theta );
             }
         }

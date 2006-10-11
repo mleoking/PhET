@@ -46,12 +46,6 @@ public class SimpleModule extends MRModule {
         // Disable marking of the selected molecule and its nearest neighbor
         AbstractSimpleMoleculeGraphic.setMARK_SELECTED_MOLECULE( false );
 
-        // create the control panel
-        getControlPanel().addControl( new SimpleMRControlPanel( this ) );
-
-        // Add Manual and Run Control buttons
-//        createManualRunButtons();
-
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {
             public PNode createGraphic( ModelElement modelElement ) {
@@ -59,8 +53,18 @@ public class SimpleModule extends MRModule {
             }
         } );
 
+        
         // Set up the molecules
         setInitialConditions( model );
+
+        // create the control panel
+        getControlPanel().addControl( new SimpleMRControlPanel( this ) );
+
+        // Add Manual and Run Control buttons
+//        createManualRunButtons();
+
+//        // Set up the molecules
+//        setInitialConditions( model );
     }
 
     public Launcher getLauncher() {
@@ -151,6 +155,7 @@ public class SimpleModule extends MRModule {
     }
 
     public void reset() {
+        super.reset();
         getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
         setInitialConditions( (MRModel)getModel() );
