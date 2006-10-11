@@ -259,17 +259,18 @@ public class FreeSplineMode extends ForceMode {
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-    private void setupBounce2( Body body, Segment segment ) {
-        this.bounced = false;
-        this.grabbed = false;
-
-        double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
-        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
-        body.setVelocity( newVelocity );
-    }
+//    private void setupBounce( Body body, Segment segment ) {
+//        this.bounced = false;
+//        this.grabbed = false;
+//
+//        double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
+//        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
+//        body.setVelocity( newVelocity );
+//    }
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
+
     private void setupBounce( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
 //        double bounceThreshold = 30;
@@ -338,7 +339,7 @@ public class FreeSplineMode extends ForceMode {
         double numTimeSteps = timeToReturnToThisHeight / dt;
         double dTheta = Math.PI * 2 / numTimeSteps / dt;
         if( timeToReturnToThisHeight > flipTimeThreshold ) {
-            body.setFreeFallRotation( dTheta );
+            body.setFreeFallRotationalVelocity( dTheta );
         }
         else {
             double rot = lastDA;
@@ -348,7 +349,7 @@ public class FreeSplineMode extends ForceMode {
             if( rot < -getMaxRotDTheta( dt ) ) {
                 rot = -getMaxRotDTheta( dt );
             }
-            body.setFreeFallRotation( rot );
+            body.setFreeFallRotationalVelocity( rot );
         }
         body.setFreeFallMode( model );
         super.setNetForce( new Vector2D.Double( 0, 0 ) );
