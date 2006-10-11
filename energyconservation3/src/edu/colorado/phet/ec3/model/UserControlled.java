@@ -13,8 +13,8 @@ public class UserControlled implements UpdateMode {
     }
 
     public void init( EnergyConservationModel model, Body body ) {
-        body.setAttachmentPointRotation( Math.PI );
         body.setCMRotation( 0 );
+        body.setAttachmentPointRotation( Math.PI );
     }
 
 }
