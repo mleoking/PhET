@@ -95,7 +95,7 @@ public class FreeSplineMode extends ForceMode {
         super.stepInTime( model, body, dt ); //apply newton's laws
 //        double emergentSpeed=(body.getPositionVector().getMagnitude()-originalState.getBody().getPositionVector().getMagnitude())/dt;
 //        System.out.println( "emergentSpeed = " + emergentSpeed +", speed="+body.getSpeed());
-        
+
 //        if( getFrictionForce( model, segment ).getMagnitude() > 0 &&body.getVelocity().getMagnitude()<2) {
 //            convertVelocityToThermal( model, originalState, body );
 //        }
@@ -121,8 +121,11 @@ public class FreeSplineMode extends ForceMode {
             }
             rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
             segment = getSegment( body );//need to find our new segment after rotation.
+            if( segment == null ) {
+                return;
+            }
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
-            
+
 //            State beforeZero = new State( model, body );
             setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
 //            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
@@ -130,7 +133,7 @@ public class FreeSplineMode extends ForceMode {
 //                body.setPosition( body.getX(), beforeZero.getBody().getY() );
 //                debug( "After correcting position", originalState.getTotalEnergy(), model, body );
 //            }            
-            
+
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
@@ -156,7 +159,7 @@ public class FreeSplineMode extends ForceMode {
 //        originalState=model.getDesiredEnergy(body);
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.2 );
-        
+
         debug( "Added thermal energy", desiredEnergy, model, body );
         double finalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
         double energyError = finalEnergy - desiredEnergy;
@@ -215,7 +218,7 @@ public class FreeSplineMode extends ForceMode {
             }
         }
 
-        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {//too far away
+        if( bestDist > body.getWidth() / 2.0 ) {//too far away
             return null;
         }
         return bestSeg;

@@ -39,7 +39,7 @@ public class EC3Canvas extends PhetPCanvas {
     private double matchThresholdWorldCoordinates = 1.5;
 
     //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
-//    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 15;
+    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 15;
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 16;
 //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 75;
 
@@ -85,7 +85,7 @@ public class EC3Canvas extends PhetPCanvas {
             public void mouseReleased( MouseEvent e ) {
             }
         } );
-        
+
     }
 
     public void paintComponent( Graphics g ) {
@@ -179,7 +179,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void addSkater() {
-        Body body = new Body( Body.createDefaultBodyRect() );
+        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight() );
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
 
@@ -364,6 +364,6 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void debugBody( Body body ) {
-        addScreenChild( new AttachmentPointNode(this, ec3Model.bodyAt( 0)));
+        addScreenChild( new AttachmentPointNode( this, ec3Model.bodyAt( 0 ) ) );
     }
 }

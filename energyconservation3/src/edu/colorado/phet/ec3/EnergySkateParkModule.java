@@ -160,7 +160,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void init() {
-        final Body body = new Body( Body.createDefaultBodyRect() );
+        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight() );
         body.setPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
@@ -173,7 +173,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
-        energyCanvas.debugBody(body);
+        energyCanvas.debugBody( body );
 //        getClock().addClockListener( new ClockAdapter() {
 //            public void simulationTimeChanged( ClockEvent clockEvent ) {
 //                super.simulationTimeChanged( clockEvent );
