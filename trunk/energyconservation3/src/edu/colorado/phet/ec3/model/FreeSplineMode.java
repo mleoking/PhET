@@ -91,6 +91,7 @@ public class FreeSplineMode extends ForceMode {
 //        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
         stepStarted();
         State originalState = new State( model, body );
+        body.setCMRotation( 0.0 );
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
@@ -305,7 +306,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
-        double bodyAngle = body.getAngle();
+        double bodyAngle = body.getAttachmentPointRotation();
         double dA = segment.getAngle() - bodyAngle;
         if( dA > Math.PI ) {
             dA -= Math.PI * 2;

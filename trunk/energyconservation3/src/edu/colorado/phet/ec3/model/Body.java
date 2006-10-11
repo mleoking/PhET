@@ -25,7 +25,7 @@ public class Body {
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double mass = 75.0;//kg
-    private double angle = Math.PI;
+    private double attachmentPointRotation = Math.PI;
 
     private boolean facingRight;
 
@@ -42,6 +42,7 @@ public class Body {
     private double totalSystemEnergy;
     private double width;
     private double height;
+    private double cmRotation = Math.PI;
 
     public Body( double width, double height ) {
         this.width = width;
@@ -54,7 +55,7 @@ public class Body {
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
         copy.mass = mass;
-        copy.angle = angle;
+        copy.attachmentPointRotation = attachmentPointRotation;
         copy.mode = freeFall;//todo get the mode switch correct.
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
@@ -76,7 +77,7 @@ public class Body {
             getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
         }
         if( !isFreeFallMode() && !isUserControlled() ) {
-            facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
+            facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
         }
         EnergyDebugger.stepFinished( energyConservationModel, this );
     }
@@ -87,11 +88,6 @@ public class Body {
 
     public double getY() {
         return getCenterOfMass().getY();
-    }
-
-    public void setPosition( double x, double y ) {
-        attachmentPoint.x = x;
-        attachmentPoint.y = y;
     }
 
     public double getX() {
@@ -197,24 +193,24 @@ public class Body {
     }
 
     void fixAngle() {
-        while( angle < 0 ) {
-            angle += Math.PI * 2;
+        while( attachmentPointRotation < 0 ) {
+            attachmentPointRotation += Math.PI * 2;
         }
-        while( angle > Math.PI * 2 ) {
-            angle -= Math.PI * 2;
+        while( attachmentPointRotation > Math.PI * 2 ) {
+            attachmentPointRotation -= Math.PI * 2;
         }
     }
 
-    public void setAngle( double angle ) {
-        this.angle = angle;
+    public void setAttachmentPointRotation( double attachmentPointRotation ) {
+        this.attachmentPointRotation = attachmentPointRotation;
     }
 
     public double getSpeed() {
         return getVelocity().getMagnitude();
     }
 
-    public void setPosition( Point2D point2D ) {
-        setPosition( point2D.getX(), point2D.getY() );
+    public void setAttachmentPointPosition( Point2D point2D ) {
+        setAttachmentPointPosition( point2D.getX(), point2D.getY() );
     }
 
     public AbstractVector2D getPositionVector() {
@@ -225,12 +221,12 @@ public class Body {
         return 0.5 * getMass() * getSpeed() * getSpeed();
     }
 
-    public double getAngle() {
-        return angle;
+    public double getAttachmentPointRotation() {
+        return attachmentPointRotation;
     }
 
     public void rotate( double dA ) {
-        angle += dA;
+        attachmentPointRotation += dA;
         fixAngle();
     }
 
@@ -300,7 +296,8 @@ public class Body {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
-        transform.rotate( angle, getWidth() / 2, dy );
+        transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
+        transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
         return transform;
     }
 
@@ -322,6 +319,14 @@ public class Body {
 
     public void setAttachmentPointPosition( double x, double y ) {
         attachmentPoint.setLocation( x, y );
+    }
+
+    public void setCMRotation( double angle ) {
+        this.cmRotation = angle;
+    }
+
+    public double getCMRotation() {
+        return cmRotation;
     }
 
     public static interface Listener {
