@@ -42,13 +42,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
 //        JLabel bcLabel = new JLabel( "BC" );
 
 
-        MoleculeCounter aMC = new MoleculeCounter( MoleculeA.class, model );
+        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model );
         counters.add( aMC );
-        MoleculeCounter cMC = new MoleculeCounter( MoleculeC.class, model );
+        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model );
         counters.add( cMC );
-        MoleculeCounter abMC = new MoleculeCounter( MoleculeAB.class, model );
+        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model );
         counters.add( abMC );
-        MoleculeCounter bcMC = new MoleculeCounter( MoleculeBC.class, model );
+        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model );
         counters.add( bcMC );
 
 
@@ -80,7 +80,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
 
     public void setCountersEditable( boolean editable ) {
         for( int i = 0; i < counters.size(); i++ ) {
-            MoleculeCounter moleculeCounter = (MoleculeCounter)counters.get( i );
+            MoleculeCountSpinner moleculeCounter = (MoleculeCountSpinner)counters.get( i );
             moleculeCounter.setEditable( editable );
         }
     }

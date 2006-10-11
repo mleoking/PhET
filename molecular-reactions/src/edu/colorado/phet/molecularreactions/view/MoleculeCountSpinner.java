@@ -31,7 +31,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounter extends JSpinner implements PublishingModel.ModelListener,
+public class MoleculeCountSpinner extends JSpinner implements PublishingModel.ModelListener,
                                                          AbstractMolecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
@@ -45,7 +45,7 @@ public class MoleculeCounter extends JSpinner implements PublishingModel.ModelLi
      * @param moleculeClass
      * @param model
      */
-    public MoleculeCounter( final Class moleculeClass, final MRModel model ) {
+    public MoleculeCountSpinner( final Class moleculeClass, final MRModel model ) {
 
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
         tf.setColumns(2);
