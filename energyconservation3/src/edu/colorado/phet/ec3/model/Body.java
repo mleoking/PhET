@@ -320,7 +320,6 @@ public class Body {
         this.totalSystemEnergy=totalEnergy;
     }
 
-
     public double getTotalSystemEnergy() {
         return totalSystemEnergy;
     }
