@@ -11,12 +11,10 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
 import java.awt.geom.RoundRectangle2D;
@@ -40,7 +38,7 @@ public class MoleculeCounterPNode extends PNode {
         innerBackground.setPaint( Color.white );
         addChild( innerBackground );
 
-        MoleculeCounter moleculeCounter = new MoleculeCounter( moleculeClass, model );
+        MoleculeCountSpinner moleculeCounter = new MoleculeCountSpinner( moleculeClass, model );
         moleculeCounter.setBorder( null );
         PSwing readout = new PSwing( canvas, moleculeCounter );
         readout.setOffset( 10, 23 );

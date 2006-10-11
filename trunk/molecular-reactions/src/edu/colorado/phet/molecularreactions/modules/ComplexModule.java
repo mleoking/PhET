@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -35,6 +36,7 @@ import org.jfree.chart.ChartPanel;
  */
 public class ComplexModule extends MRModule {
     private PSwing stripChartNode;
+    private JDialog stripChartDlg;
 
     public ComplexModule() {
         super( "Experiments" );
@@ -75,13 +77,23 @@ public class ComplexModule extends MRModule {
                                                     PlotOrientation.VERTICAL,
                                                     20, 0, 20 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
-            chartPanel.setPreferredSize( new java.awt.Dimension( 500, 300 ) );
+            chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
-            ( (PhetPCanvas)getSimulationPanel() ).addScreenChild( stripChartNode );
+//            ( (PhetPCanvas)getSimulationPanel() ).addScreenChild( stripChartNode );
+
+            stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            PhetPCanvas stripChartCanvas = new PhetPCanvas();
+            stripChartCanvas.addScreenChild( stripChartNode );
+            stripChartCanvas.setPreferredSize( chartPanel.getPreferredSize() );
+            stripChartDlg.getContentPane().add( stripChartCanvas );
+            stripChartDlg.pack();
+            stripChartDlg.setVisible( true );
+
         }
         else if( stripChartNode != null ) {
             ( (PhetPCanvas)getSimulationPanel() ).removeScreenChild( stripChartNode );
             stripChartNode = null;
+            stripChartDlg.setVisible( false );
         }
     }
 
