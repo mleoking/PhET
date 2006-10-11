@@ -240,12 +240,52 @@ public class FreeSplineMode extends ForceMode {
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-    private void setupBounce( Body body, Segment segment ) {
+    private void setupBounce2( Body body, Segment segment ) {
         this.bounced = false;
         this.grabbed = false;
 
         double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
         AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
+        body.setVelocity( newVelocity );
+    }
+
+    //just kill the perpendicular part of velocity, if it is through the track.
+    // this should be lost to friction or to a bounce.
+    private void setupBounce( Body body, Segment segment ) {
+        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
+//        double bounceThreshold = 30;
+
+        this.bounced = false;
+        this.grabbed = false;
+//        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
+        double originalPerpVel = origVector.getPerpendicular();
+        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
+            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
+                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
+                bounced = true;
+            }
+            else {//grab
+                origVector.setPerpendicular( 0.0 );
+                grabbed = true;
+            }
+        }
+        if( !lastGrabState && grabbed ) {
+            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
+                //to make up for it all in dHeight.
+                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
+            }
+            else if( origVector.getParallel() < 0 ) {
+                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
+            }
+        }
+
+        Vector2D.Double newVelocity = origVector.toCartesianVector();
+
+        if( newVelocity.getMagnitude() == 0.0 ) {
+            System.out.println( "newVelocity = " + newVelocity );
+        }
+
+        EC3Debug.debug( "newVelocity = " + newVelocity );
         body.setVelocity( newVelocity );
     }
 

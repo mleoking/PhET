@@ -63,10 +63,6 @@ public class Body {
         return copy;
     }
 
-//    public void setBounds( Shape bounds ) {
-//        this.bounds = bounds;
-//    }
-
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
@@ -74,13 +70,7 @@ public class Body {
             setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
         }
         time += dt;
-//        System.out.println( "getSpeed() = " + getSpeed() + ", time=" + time + ", y=" + getAttachPoint().getY() + ", man's height=" + getHeight() );
-
-//        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
-//        int MAX = 50;
-//        int MAX = 1;
-//        int NUM_STEPS_PER_UPDATE = 5;
         int NUM_STEPS_PER_UPDATE = 5;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
