@@ -36,7 +36,7 @@ public class AttachedSplineMode implements UpdateMode {
 
     private double guessPositionAlongSpline( AbstractSpline spline ) {
         SegmentPath segmentPath = spline.getSegmentPath();
-        Shape bodyShape = body.getLocatedShape();
+        Shape bodyShape = body.getShape();
         //find all segments that overlap.
         ArrayList overlap = new ArrayList();
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {

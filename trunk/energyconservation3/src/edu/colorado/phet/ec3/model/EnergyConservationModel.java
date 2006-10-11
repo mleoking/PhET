@@ -207,13 +207,13 @@ public class EnergyConservationModel {
     }
 
     boolean intersectsOrig( AbstractSpline spline, Body body ) {
-        Area area = new Area( body.getLocatedShape() );
+        Area area = new Area( body.getShape() );
         area.intersect( spline.getArea() );
         return !area.isEmpty();
     }
 
     private double getGrabScore( AbstractSpline spline, Body body ) {
-        if( spline.intersects( body.getLocatedShape() ) ) {
+        if( spline.intersects( body.getShape() ) ) {
 //            System.out.println( "intersected" );
             double position = 0;
             try {
@@ -256,7 +256,7 @@ public class EnergyConservationModel {
     public void addBody( Body body ) {
         bodies.add( body );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
-            zeroPointPotentialY = body.getLocatedShape().getBounds2D().getHeight() / 2;
+            zeroPointPotentialY = body.getShape().getBounds2D().getHeight() / 2;
             initZeroPointPotentialY = zeroPointPotentialY;
         }
     }

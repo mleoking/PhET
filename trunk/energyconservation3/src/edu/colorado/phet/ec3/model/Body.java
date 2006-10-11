@@ -140,16 +140,16 @@ public class Body {
     }
 
     public double getMinY() {
-        return getLocatedShape().getBounds2D().getMinY();
+        return getShape().getBounds2D().getMinY();
     }
 
     public double getMaxY() {
-        return getLocatedShape().getBounds2D().getMaxY();
+        return getShape().getBounds2D().getMaxY();
     }
 
-    public Shape getShape() {
-        return new Rectangle2D.Double( 0, 0, width, height );
-    }
+//    private Shape getShape() {
+//        return new Rectangle2D.Double( 0, 0, width, height );
+//    }
 
     public double getHeight() {
         return height;
@@ -297,17 +297,16 @@ public class Body {
         return new Point2D.Double( position.getX(), position.getY() );
     }
 
-    public Shape getLocatedShape() {
+    public Shape getShape() {
         AffineTransform transform = getTransform();
-        return transform.createTransformedShape( getShape() );
+        return transform.createTransformedShape( new Rectangle2D.Double( 0, 0, width, height ) );
     }
 
     public AffineTransform getTransform() {
-//        Rectangle2D b = bounds.getBounds2D();
         AffineTransform transform = new AffineTransform();
-        transform.translate( getX() - getWidth() / 2, getY() - getHeight() / 2 );
-        transform.rotate( angle, getWidth() / 2, getHeight() / 2 );
-//        transform.rotate( angle, b.getWidth() / 2, b.getHeight() );
+        double dy = getHeight();
+        transform.translate( getX() - getWidth() / 2, getY() - dy );
+        transform.rotate( angle, getWidth() / 2, dy );
         return transform;
     }
 
