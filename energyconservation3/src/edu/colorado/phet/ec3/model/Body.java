@@ -185,7 +185,7 @@ public class Body {
         mode.init( model, this );
     }
 
-    public void setFreeFallRotation( double dA ) {
+    public void setFreeFallRotationalVelocity( double dA ) {
         freeFall.setRotationalVelocity( dA );
     }
 
@@ -299,9 +299,9 @@ public class Body {
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
-//        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
-//            throw new RuntimeException( "exception" );
-//        }
+        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
+            throw new RuntimeException( "exception" );
+        }
         return transform;
     }
 
@@ -336,27 +336,35 @@ public class Body {
     boolean freefall = true;
 
     public void convertToFreefall() {
-        if( !freefall ) {
-            this.freefall = true;
-            Point2D center = getCenterOfMass();
-            double attachmentPointRotation = getAttachmentPointRotation();
-            setAttachmentPointRotation( 0 );
-            setCMRotation( attachmentPointRotation );
-            Point2D tempCenter = getCenterOfMass();
-            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+//        if( !freefall ) {
+        this.freefall = true;
+        Point2D center = getCenterOfMass();
+        double attachmentPointRotation = getAttachmentPointRotation();
+        setAttachmentPointRotation( 0 );
+        setCMRotation( attachmentPointRotation );
+        Point2D tempCenter = getCenterOfMass();
+        translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+        Point2D newCenter = getCenterOfMass();
+        if( newCenter.distance( center ) > 1E-6 ) {
+            System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
         }
+//        }
     }
 
     public void convertToSpline() {
-        if( freefall ) {
-            freefall = false;
-            Point2D center = getCenterOfMass();
-            double origCMRotation = getCMRotation();
-            setCMRotation( 0 );
-            setAttachmentPointRotation( origCMRotation );
-            Point2D tempCenter = getCenterOfMass();
-            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+//        if( freefall ) {
+        freefall = false;
+        Point2D center = getCenterOfMass();
+        double origCMRotation = getCMRotation();
+        setCMRotation( 0 );
+        setAttachmentPointRotation( origCMRotation );
+        Point2D tempCenter = getCenterOfMass();
+        translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+        Point2D newCenter = getCenterOfMass();
+        if( newCenter.distance( center ) > 1E-6 ) {
+            System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
         }
+//        }
     }
 
     public static interface Listener {
