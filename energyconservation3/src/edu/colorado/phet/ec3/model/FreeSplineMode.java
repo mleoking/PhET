@@ -83,8 +83,7 @@ public class FreeSplineMode extends ForceMode {
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
-        AbstractVector2D netForce = computeNetForce( model, segment );
-        super.setNetForce( netForce );
+        setNetForce( computeNetForce( model, segment ) );
         super.stepInTime( model, body, dt ); //apply newton's laws
         debug( "newton's laws", originalState.getTotalEnergy(), model, body );
         segment = getSegment( body );
@@ -107,7 +106,21 @@ public class FreeSplineMode extends ForceMode {
             segment = getSegment( body );//need to find our new segment after rotation.
 
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
-            setBottomAtZero( segment, body );
+//            if( body.getSpeed() > 5 ) {
+            setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
+            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
+            if( originalState.getTotalEnergy() - model.getTotalEnergy( body ) > 0 ) {
+
+            }
+//            }
+//            else {
+//                fixBottom( model, segment, body, originalState.getTotalEnergy() );
+//                debug( "fixBottom2", originalState.getTotalEnergy(), model, body );
+//            }
+            // for example, (maybe just for low speeds), find another nearby point that is on the segment, but has the same height? 
+//            if( segment != getSegment( body ) ) {
+//                throw new RuntimeException( "Different segment!!!!" );
+//            }
             debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
@@ -122,7 +135,26 @@ public class FreeSplineMode extends ForceMode {
         lastSegment = segment;
     }
 
-    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, double desiredEnergy) {
+    private void fixBottom( EnergyConservationModel model, Segment segment, Body body, double totalEnergy ) {
+        Point2D origPosition = body.getPosition();//how is attachpoint different from position?  Is this discrepancy a problem?
+        Point2D best = null;
+        double bestScore = 0;
+        for( double dx = -5; dx < 5; dx += 0.1 ) {
+            for( double dy = -5; dy < 5; dy += 0.1 ) {
+                body.setPosition( origPosition.getX() + dx, origPosition.getY() + dy );
+                double dE = Math.abs( model.getTotalEnergy( body ) - totalEnergy );
+                double offsetInSpline = Math.abs( getOvershootInSegment( segment, body ) );
+                double score = dE + offsetInSpline;
+                if( best == null || score < bestScore ) {
+                    best = new Point2D.Double( dx, dy );
+                    bestScore = score;
+                }
+            }
+        }
+        body.setPosition( origPosition.getX() + best.getX(), origPosition.getY() + best.getY() );
+    }
+
+    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, double desiredEnergy ) {
 //        originalState=model.getDesiredEnergy(body);
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
@@ -165,6 +197,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     //maybe problem is from discontinuity here
+    //this assumes all segments are the same size
     private Segment getAttachmentSegment( Body body ) {
         Point2D.Double attachPoint = body.getAttachPoint();
         SegmentPath segPath = spline.getSegmentPath();
@@ -224,15 +257,12 @@ public class FreeSplineMode extends ForceMode {
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
         double bodyAngle = body.getAngle();
         double dA = segment.getAngle() - bodyAngle;
-//        System.out.println( "seg=" + segment.getAngle() + ", body=" + bodyAngle + ", da=" + dA );
-
         if( dA > Math.PI ) {
             dA -= Math.PI * 2;
         }
         else if( dA < -Math.PI ) {
             dA += Math.PI * 2;
         }
-//        double maxRotationDTheta = Math.PI / 16 * dt / 0.2;
         if( dA > maxRotationDTheta ) {
             dA = maxRotationDTheta;
         }
@@ -248,16 +278,13 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private void flyOffSurface( Body body, EnergyConservationModel model, double dt, double origTotalEnergy ) {
-//        System.out.println( "FreeSplineMode.flyOffSurface" );
         double vy = body.getVelocity().getY();
         double timeToReturnToThisHeight = model.getGravity() != 0 ? Math.abs( 2 * vy / model.getGravity() ) : 1000;
 
         double numTimeSteps = timeToReturnToThisHeight / dt;
         double dTheta = Math.PI * 2 / numTimeSteps / dt;
-//        System.out.println( "timeToReturnToThisHeight = " + timeToReturnToThisHeight );
         if( timeToReturnToThisHeight > flipTimeThreshold ) {
             body.setFreeFallRotation( dTheta );
-//            System.out.println( "Flipping!: dTheta=" + dTheta );
         }
         else {
             double rot = lastDA;
@@ -276,26 +303,14 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
-        double overshoot = getWolfDepthInSegment( segment, body );
-        if( Math.abs( overshoot ) > 1E-4 ) {
-            System.out.println( "overshoot = " + overshoot );
-        }
-        double scale = 1.0;
-//        if (body.getVelocity().getMagnitude()<0.1){
-//            scale=0.00001;
-//        }
-        AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( -overshoot * scale );
+        double overshoot = getOvershootInSegment( segment, body );
+        AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( -overshoot );
         body.translate( tx.getX(), tx.getY() );
     }
 
-    private double getWolfDepthInSegment( Segment segment, Body body ) {
-        Point2D p1 = segment.getP0();
-        Point2D p2 = segment.getP1();
-        Line2D l = new Line2D.Double( p1, p2 );
-        Point2D p0 = body.getAttachPoint();
-        double dist = l.ptLineDist( p0 );
-
-        Vector2D.Double x = new Vector2D.Double( segment.getMidpoint(), p0 );
+    private double getOvershootInSegment( Segment segment, Body body ) {
+        double dist = new Line2D.Double( segment.getP0(), segment.getP1() ).ptLineDist( body.getAttachPoint() );
+        Vector2D.Double x = new Vector2D.Double( segment.getMidpoint(), body.getAttachPoint() );
         dist *= MathUtil.getSign( x.dot( segment.getUnitNormalVector() ) );
         return dist;
     }
