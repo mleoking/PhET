@@ -40,18 +40,20 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public static void debug( String type, State origState, EnergyConservationModel model, Body body ) {
-        double dE = new State( model, body ).getTotalEnergy() - origState.getTotalEnergy();
-        if( Math.abs( dE ) > 0.1 ) {
-            if( !errorYetThisStep ) {
-                errorYetThisStep = true;
-                debug( "Step Started---------" );
+        if( debug ) {
+            double dE = new State( model, body ).getTotalEnergy() - origState.getTotalEnergy();
+            if( Math.abs( dE ) > 0.1 ) {
+                if( !errorYetThisStep ) {
+                    errorYetThisStep = true;
+                    debug( "Step Started---------" );
+                }
+                debug( type + ", dE = " + dE );
             }
-            debug( type + ", dE = " + dE );
-        }
-        double dx = body.getCenterOfMass().distance( origState.getBody().getCenterOfMass() );
-        if( dx > 1 ) {
-            debug( "CM Moved: " + dx );
-            new RuntimeException( "CM Moved: " + dx ).printStackTrace();
+            double dx = body.getCenterOfMass().distance( origState.getBody().getCenterOfMass() );
+            if( dx > 1 ) {
+                debug( "CM Moved: " + dx );
+                new RuntimeException( "CM Moved: " + dx ).printStackTrace();
+            }
         }
     }
 
@@ -62,9 +64,11 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public void debug2( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
-        double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
-        if( Math.abs( dE ) > 1E-6 ) {
-            System.out.println( type + ", dE = " + dE );
+        if( debug ) {
+            double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
+            if( Math.abs( dE ) > 1E-6 ) {
+                System.out.println( type + ", dE = " + dE );
+            }
         }
     }
 
@@ -157,8 +161,9 @@ public class FreeSplineMode extends ForceMode {
             sum += aDouble.doubleValue();
         }
         double avgSpeed = 1.0 / speedHistory.size() * sum;
+//        System.out.println( "avgSpeed="+avgSpeed+", getnetforce.getm="+getNetForce().getMagnitude() );
 //        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
-        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.05 && getNetForce().getMagnitude() < 100;
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 1 && getNetForce().getMagnitude() < 100;
     }
 
     public void init( EnergyConservationModel model, Body body ) {
