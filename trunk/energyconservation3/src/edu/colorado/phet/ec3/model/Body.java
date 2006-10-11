@@ -5,10 +5,10 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ public class Body {
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double mass = 75.0;//kg
     private double angle = Math.PI;
-    private Shape bounds;
 
     private boolean facingRight;
 
@@ -41,13 +40,16 @@ public class Body {
     private double coefficientOfRestitution = 1.0;
     private ArrayList listeners = new ArrayList();
     private double totalSystemEnergy;
+    private double width;
+    private double height;
 
-    public Body( Shape bounds ) {
-        this.bounds = bounds;
+    public Body( double width, double height ) {
+        this.width = width;
+        this.height = height;
     }
 
     public Body copyState() {
-        Body copy = new Body( new Area( bounds ) );//todo better deep copy of bounds?
+        Body copy = new Body( width, height );//todo better deep copy of bounds?
         copy.position.setLocation( position );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
@@ -61,14 +63,14 @@ public class Body {
         return copy;
     }
 
-    public void setBounds( Shape bounds ) {
-        this.bounds = bounds;
-    }
+//    public void setBounds( Shape bounds ) {
+//        this.bounds = bounds;
+//    }
 
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
-        if( isUserControlled() ||getMode()==freeFall) {
+        if( isUserControlled() || getMode() == freeFall ) {
             setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
         }
         time += dt;
@@ -146,11 +148,11 @@ public class Body {
     }
 
     public Shape getShape() {
-        return bounds;
+        return new Rectangle2D.Double( 0, 0, width, height );
     }
 
     public double getHeight() {
-        return bounds.getBounds2D().getHeight();
+        return height;
     }
 
     public Point2D.Double getPosition() {
@@ -242,8 +244,8 @@ public class Body {
         return mode instanceof FreeFall;
     }
 
-    public static Rectangle2D.Double createDefaultBodyRect() {
-        return new Rectangle2D.Double( 0, 0, 1.3, 1.8 );
+    public static PDimension createDefaultBodyRect() {
+        return new PDimension( 1.3, 1.8 );
     }
 
     public boolean isFacingRight() {
@@ -292,22 +294,19 @@ public class Body {
     }
 
     public Point2D.Double getAttachPoint() {
-        AffineTransform transform = getTransform();
-        Point2D.Double botCenter = new Point2D.Double( bounds.getBounds2D().getX() + bounds.getBounds2D().getWidth() / 2, bounds.getBounds2D().getHeight() );
-        transform.transform( botCenter, botCenter );
-        return botCenter;
+        return new Point2D.Double( position.getX(), position.getY() );
     }
 
     public Shape getLocatedShape() {
         AffineTransform transform = getTransform();
-        return transform.createTransformedShape( bounds.getBounds2D() );
+        return transform.createTransformedShape( getShape() );
     }
 
     public AffineTransform getTransform() {
-        Rectangle2D b = bounds.getBounds2D();
+//        Rectangle2D b = bounds.getBounds2D();
         AffineTransform transform = new AffineTransform();
-        transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
-        transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
+        transform.translate( getX() - getWidth() / 2, getY() - getHeight() / 2 );
+        transform.rotate( angle, getWidth() / 2, getHeight() / 2 );
 //        transform.rotate( angle, b.getWidth() / 2, b.getHeight() );
         return transform;
     }
@@ -317,11 +316,15 @@ public class Body {
     }
 
     public void setTotalSystemEnergy( double totalEnergy ) {
-        this.totalSystemEnergy=totalEnergy;
+        this.totalSystemEnergy = totalEnergy;
     }
 
     public double getTotalSystemEnergy() {
         return totalSystemEnergy;
+    }
+
+    public double getWidth() {
+        return width;
     }
 
     public static interface Listener {

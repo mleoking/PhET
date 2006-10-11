@@ -34,14 +34,14 @@ public class BodyGraphic extends PNode {
     private PPath boundsDebugPPath;
     private PImage pImage;
     private PPath centerDebugger;
-//    private JetPackGraphic jetPackGraphic;
+    //    private JetPackGraphic jetPackGraphic;
     //    private boolean debugCenter = true;
     protected boolean debugCenter = false;
 
     public BodyGraphic( final EnergySkateParkModule ec3Module, Body body ) {
         this.ec3Module = ec3Module;
         this.body = body;
-        boundsDebugPPath = new PPath( body.getShape() );
+        boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
         boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
 //        jetPackGraphic = new JetPackGraphic( this );
@@ -171,11 +171,11 @@ public class BodyGraphic extends PNode {
     }
 
     public double getBodyModelHeight() {
-        return body.getShape().getBounds2D().getHeight();
+        return body.getHeight();
     }
 
     public double getBodyModelWidth() {
-        return body.getShape().getBounds2D().getWidth();
+        return body.getWidth();
     }
 
 //    private void updateFlames() {
