@@ -175,7 +175,7 @@ public class FreeSplineMode extends ForceMode {
         for( int i = 0; i < segPath.numSegments(); i++ ) {
             Segment seg = segPath.segmentAt( i );
             double dist = attachPoint.distance( seg.getCenter2D() );
-            if( lastSegment != null ) {
+            if( lastSegment != null ) {  //only pick a nearby segment
                 int indexOffset = Math.abs( seg.getID() - lastSegment.getID() );
                 if( indexOffset > 5 ) {
                     dist += indexOffset * 5.0;
@@ -187,8 +187,7 @@ public class FreeSplineMode extends ForceMode {
             }
         }
 
-//        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {
-        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {
+        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {//too far away
             return null;
         }
         return bestSeg;

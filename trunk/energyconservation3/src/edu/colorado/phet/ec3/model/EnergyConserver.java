@@ -18,7 +18,7 @@ public class EnergyConserver {
 
         EC3Debug.debug( "body.getSpeed() = " + body.getSpeed() );
         EnergyDebugger.stepFinished( model, body );
-        double speedThreshold = 0.01;//reduced from 20.
+        double speedThreshold = 1;//reduced from 20.
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
                 conserveEnergyViaV( model, body, desiredMechanicalEnergy );
@@ -39,20 +39,17 @@ public class EnergyConserver {
 //        }
     }
 
-    private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double dE = getDE( model, body, origTotalEnergy );
-        EC3Debug.debug( "dE = " + dE );
-        //how can we put this change in energy back in the system?
+    private void conserveEnergyViaV( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
+        double dE = getDE( model, body, desiredMechanicalEnergy );
+        //alter the velocity to account for this difference.
+//        double dv = dE / body.getMass() / body.getSpeed();
         double dv = dE / body.getMass() / body.getSpeed();
         AbstractVector2D dvVector = body.getVelocity().getInstanceOfMagnitude( -dv );
         body.setVelocity( dvVector.getAddedInstance( body.getVelocity() ) );
-
-        double dEMod = getDE( model, body, origTotalEnergy );
-        EC3Debug.debug( "dEModV = " + dEMod );
     }
 
-    private double getDE( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        return model.getTotalMechanicalEnergy( body ) - origTotalEnergy;
+    private double getDE( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
+        return model.getTotalMechanicalEnergy( body ) - desiredMechanicalEnergy;
     }
 
     private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
