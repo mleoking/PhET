@@ -106,21 +106,10 @@ public class FreeSplineMode extends ForceMode {
             segment = getSegment( body );//need to find our new segment after rotation.
 
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
-//            if( body.getSpeed() > 5 ) {
             setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
             debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
             if( originalState.getTotalEnergy() - model.getTotalEnergy( body ) > 0 ) {
-
             }
-//            }
-//            else {
-//                fixBottom( model, segment, body, originalState.getTotalEnergy() );
-//                debug( "fixBottom2", originalState.getTotalEnergy(), model, body );
-//            }
-            // for example, (maybe just for low speeds), find another nearby point that is on the segment, but has the same height? 
-//            if( segment != getSegment( body ) ) {
-//                throw new RuntimeException( "Different segment!!!!" );
-//            }
             debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
