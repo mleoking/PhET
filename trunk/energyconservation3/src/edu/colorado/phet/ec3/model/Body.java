@@ -40,6 +40,7 @@ public class Body {
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
     private ArrayList listeners = new ArrayList();
+    private double totalSystemEnergy;
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -67,6 +68,9 @@ public class Body {
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
+        if( isUserControlled() ||getMode()==freeFall) {
+            setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
+        }
         time += dt;
 //        System.out.println( "getSpeed() = " + getSpeed() + ", time=" + time + ", y=" + getAttachPoint().getY() + ", man's height=" + getHeight() );
 
@@ -74,6 +78,7 @@ public class Body {
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
 //        int MAX = 50;
 //        int MAX = 1;
+//        int NUM_STEPS_PER_UPDATE = 5;
         int NUM_STEPS_PER_UPDATE = 5;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
@@ -90,17 +95,11 @@ public class Body {
 
     public double getY() {
         return position.y;
-//        return getAttachPoint().getY();
     }
 
     public void setPosition( double x, double y ) {
-        Point2D origLoc = new Point2D.Double( position.getX(), position.getY() );
         position.x = x;
         position.y = y;
-//        System.out.println( "Body.setPosition" );
-        if( origLoc.distance( position ) > 100 ) {
-//            System.out.println( "manual translation" );
-        }
     }
 
     public double getX() {
@@ -112,13 +111,8 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-        Point2D origLoc = new Point2D.Double( position.getX(), position.getY() );
         position.x += dx;
         position.y += dy;
-//        System.out.println( "Body.translate" );
-        if( origLoc.distance( position ) > 0.30 ) {
-            EC3Debug.debug( "Body.location jumped by: " + origLoc.distance( position ) );
-        }
     }
 
     public void setVelocity( AbstractVector2D vector2D ) {
@@ -127,9 +121,6 @@ public class Body {
 
     public void setVelocity( double vx, double vy ) {
         velocity.setComponents( vx, vy );
-//        if( getSpeed() == 0.0 ) {
-//            System.out.println( "Zero speed." );
-//        }
     }
 
     public boolean isUserControlled() {
@@ -322,6 +313,15 @@ public class Body {
 
     public void resetMode() {
         freeFall.reset();
+    }
+
+    public void setTotalSystemEnergy( double totalEnergy ) {
+        this.totalSystemEnergy=totalEnergy;
+    }
+
+
+    public double getTotalSystemEnergy() {
+        return totalSystemEnergy;
     }
 
     public static interface Listener {
