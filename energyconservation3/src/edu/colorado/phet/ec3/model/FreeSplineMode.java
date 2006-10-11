@@ -77,6 +77,9 @@ public class FreeSplineMode extends ForceMode {
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         stepStarted();
         State originalState = new State( model, body );
+        if( body.isUserControlled() ) {
+            speedHistory.clear();
+        }
         speedHistory.add( new Double( body.getSpeed() ) );
         if( speedHistory.size() > 30 ) {
             speedHistory.remove( 0 );
@@ -122,7 +125,8 @@ public class FreeSplineMode extends ForceMode {
             }
             if( getSegment( body ) != getCollisionSegment( body ) ) {
 //                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
-                rotateBody( body, segment, dt, Math.PI / 64 );
+//                rotateBody( body, segment, dt, Math.PI / 64 );
+                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
                 debug( "We just rotated body", originalState, model, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
                 debug( "set bottom to zero", originalState, model, body );
@@ -163,7 +167,8 @@ public class FreeSplineMode extends ForceMode {
         double avgSpeed = 1.0 / speedHistory.size() * sum;
 //        System.out.println( "avgSpeed="+avgSpeed+", getnetforce.getm="+getNetForce().getMagnitude() );
 //        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
-        return body.getFrictionCoefficient() > 0 && avgSpeed < 1 && getNetForce().getMagnitude() < 100;
+//        return body.getFrictionCoefficient() > 0 && avgSpeed < 1 && getNetForce().getMagnitude() < 100&&speedHistory.size()==30;
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && getNetForce().getMagnitude() < 100 && speedHistory.size() == 30;
     }
 
     public void init( EnergyConservationModel model, Body body ) {
