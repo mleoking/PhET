@@ -2,7 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid

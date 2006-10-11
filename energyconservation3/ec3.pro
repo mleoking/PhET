@@ -15,7 +15,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.energyskatepark.EC3Application {
+-keepclasseswithmembers public class edu.colorado.phet.ec3.EC3Application {
     public static void main(java.lang.String[]);
 }
 
