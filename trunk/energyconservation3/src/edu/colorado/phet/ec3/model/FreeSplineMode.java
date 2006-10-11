@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
@@ -76,14 +77,17 @@ public class FreeSplineMode extends ForceMode {
         if( speedHistory.size() > 30 ) {
             speedHistory.remove( 0 );
         }
-        if( okayToStop( body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
+
+
+        Segment segment = getSegment( body );
+
+        if( okayToStop( model, segment, body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
             double ke = body.getKineticEnergy();
             body.setVelocity( new Vector2D.Double( 0, 0 ) );
             model.addThermalEnergy( ke );
             return;
         }
 
-        Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
@@ -117,9 +121,6 @@ public class FreeSplineMode extends ForceMode {
                 debug( "We just rotated body", originalState, model, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
                 debug( "set bottom to zero", originalState, model, body );
-//                if( body.getVelocity().getMagnitude() < 1 && originalState.getBody().getSpeed() < 1 && new State( model, body ).getTotalEnergy() - originalState.getTotalEnergy() > 0 ) {
-//                    body.setAttachmentPointPosition( body.getAttachPoint().getX(), originalState.getBody().getAttachPoint().getY() );
-//                }
             }
             segment = getSegment( body );//need to find our new segment after rotation.
             if( segment == null ) {
@@ -148,19 +149,15 @@ public class FreeSplineMode extends ForceMode {
         stepFinished();
     }
 
-    private boolean okayToStop( Body body ) {
+    private boolean okayToStop( EnergyConservationModel model, Segment segment, Body body ) {
         double sum = 0;
-//        double L1Speed = 0;
         for( int i = 0; i < speedHistory.size(); i++ ) {
             java.lang.Double aDouble = (java.lang.Double)speedHistory.get( i );
             sum += aDouble.doubleValue();
-//            L1Speed += Math.abs( aDouble.doubleValue() );
         }
         double avgSpeed = 1.0 / speedHistory.size() * sum;
-//        System.out.println( "avgSpeed = " + avgSpeed );
-//        System.out.println( "L1Speed = " + L1Speed );
-        //min moon speed is 0.064
-        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.05;
+        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.05 && getNetForce().getMagnitude() < 100;
     }
 
     public void init( EnergyConservationModel model, Body body ) {
@@ -246,7 +243,8 @@ public class FreeSplineMode extends ForceMode {
             }
         }
 
-        if( bestDist > body.getWidth() / 2.0 ) {//too far away
+        if( bestDist > body.getWidth() / 2 ) {//too far away
+//        if( bestDist > body.getWidth() / 6) {//too far away
             return null;
         }
         return bestSeg;
@@ -396,6 +394,9 @@ public class FreeSplineMode extends ForceMode {
             AbstractVector2D force = forces[i];
             sum.add( force );
         }
+        if( Double.isNaN( sum.getX() ) ) {
+            System.out.println( "nan" );
+        }
         return sum;
     }
 
@@ -413,7 +414,12 @@ public class FreeSplineMode extends ForceMode {
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
         double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-        return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );
+        if( body.getVelocity().getMagnitude() > 0 ) {
+            return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );
+        }
+        else {
+            return new ImmutableVector2D.Double( 0, 0 );
+        }
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
