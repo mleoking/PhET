@@ -69,7 +69,11 @@ public class Segment {
     }
 
     public Point2D getCenter2D() {
-        return new PBounds( toLine2D().getBounds2D() ).getCenter2D();
+      Point2D orig=new PBounds( toLine2D().getBounds2D() ).getCenter2D();
+        if (!orig.equals( getMidpoint( ))){
+            throw new RuntimeException( "orig!=midPoint, "+orig+", "+getMidpoint());
+        }
+        return getMidpoint();
     }
 
     public double getAngle() {

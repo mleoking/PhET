@@ -2,7 +2,6 @@
 package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
@@ -92,14 +91,12 @@ public class FreeSplineMode extends ForceMode {
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
-            EC3Debug.debug( "Fly off surface2!" );
             return;
         }
         setupBounce( body, segment );
         debug( "setup bounce", originalState, model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
-            EC3Debug.debug( "FreeSplineMode.stepInTime::handle bounce and fly" );
         }
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
@@ -109,6 +106,8 @@ public class FreeSplineMode extends ForceMode {
                 return;
             }
             rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+            segment = getSegment( body );//need to find our new segment after rotation.
+
             debug( "We just rotated body", originalState, model, body );
             setBottomAtZero( segment, body );
             debug( "set bottom to zero", originalState, model, body );
@@ -123,6 +122,31 @@ public class FreeSplineMode extends ForceMode {
         }
         lastGrabState = grabbed;
         lastSegment = segment;
+    }
+
+    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
+        //modify the frictive work slightly so we don't have to account for all error energy in V and H.
+        double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
+        model.addThermalEnergy( frictiveWork );
+        debug( "Added thermal energy", originalState, model, body );
+        double finalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+        double energyError = finalEnergy - originalState.getTotalEnergy();
+
+        double energyErrorSign = MathUtil.getSign( energyError );
+        if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
+            System.out.println( "error was too large to fix only with heat" );
+            model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
+
+            double origTotalEnergyAll = originalState.getMechanicalEnergy() + originalState.getHeat();
+            double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
+            new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
+            debug( "FixEnergy", originalState, model, body );
+            //This may be causing other problems
+        }
+        else {
+            model.addThermalEnergy( -energyError );
+            debug( "AddThermalEnergy", originalState, model, body );
+        }
     }
 
     private Segment getSegment( Body body ) {
@@ -142,6 +166,7 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
+    //maybe problem is from discontinuity here
     private Segment getAttachmentSegment( Body body ) {
         Point2D.Double attachPoint = body.getAttachPoint();
         SegmentPath segPath = spline.getSegmentPath();
@@ -169,29 +194,6 @@ public class FreeSplineMode extends ForceMode {
         return bestSeg;
     }
 
-    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
-        //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-        double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
-        model.addThermalEnergy( frictiveWork );
-        double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
-        double energyError = finalTotalEnergy1 - originalState.getTotalEnergy();
-//        System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
-
-        double energyErrorSign = MathUtil.getSign( energyError );
-        if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
-//            System.out.println( "error was too large to fix only with heat" );
-            model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
-
-            double origTotalEnergyAll = originalState.getMechanicalEnergy() + originalState.getHeat();
-            double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
-            new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
-        }
-        else {
-//            System.out.println( "Error was okay to fix with heat only." );
-            model.addThermalEnergy( -energyError );
-        }
-    }
-
     private void handleBounceAndFlyOff( Body body, EnergyConservationModel model, double dt, State originalState ) {
 //        System.out.println( "DIDBOUNCE" );
         //coeff of restitution
@@ -214,50 +216,12 @@ public class FreeSplineMode extends ForceMode {
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
     private void setupBounce( Body body, Segment segment ) {
-        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-//        double bounceThreshold = 30;
-
         this.bounced = false;
         this.grabbed = false;
 
-//        AbstractVector2D vel = ;
         double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
         AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
-//        if (body.getVelocity().dot( segment.getUnitDirectionVector())<0){
-//            newVelocity=new
-//        }
         body.setVelocity( newVelocity );
-
-////        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
-//        double originalPerpVel = origVector.getPerpendicular();
-//        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
-//            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
-//                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
-//                bounced = true;
-//            }
-//            else {//grab
-//                origVector.setPerpendicular( 0.0 );
-//                grabbed = true;
-//            }
-//        }
-//        if( !lastGrabState && grabbed ) {
-//            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
-//                //to make up for it all in dHeight.
-//                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
-//            }
-//            else if( origVector.getParallel() < 0 ) {
-//                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
-//            }
-//        }
-//
-//        Vector2D.Double newVelocity = origVector.toCartesianVector();
-//
-//        if( newVelocity.getMagnitude() == 0.0 ) {
-//            System.out.println( "newVelocity = " + newVelocity );
-//        }
-//
-//        EC3Debug.debug( "newVelocity = " + newVelocity );
-//        body.setVelocity( newVelocity );
     }
 
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
@@ -319,7 +283,11 @@ public class FreeSplineMode extends ForceMode {
         if( Math.abs( overshoot ) > 1E-4 ) {
             System.out.println( "overshoot = " + overshoot );
         }
-        AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( -overshoot );
+        double scale = 1.0;
+//        if (body.getVelocity().getMagnitude()<0.1){
+//            scale=0.00001;
+//        }
+        AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( -overshoot * scale );
         body.translate( tx.getX(), tx.getY() );
     }
 
@@ -351,8 +319,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getGravityForce( EnergyConservationModel model ) {
-        AbstractVector2D gravityForce = new Vector2D.Double( 0, getFGy( model ) );
-        return gravityForce;
+        return new Vector2D.Double( 0, getFGy( model ) );
     }
 
     private AbstractVector2D getThrustForce() {
@@ -369,12 +336,12 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
-        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {
-            return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
-        }
-        else {
-            return new ImmutableVector2D.Double();
-        }
+//        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
+        return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
+//        }
+//        else {
+//            return new ImmutableVector2D.Double();
+//        }
     }
 
     private double getFrictionCoefficient() {

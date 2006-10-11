@@ -32,11 +32,11 @@ public class EnergyConserver {
 //        }
 //        System.out.println( "postH: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
-        double deTOT = getDE( model, body, desiredMechanicalEnergy );
-        EC3Debug.debug( "dETOT=" + deTOT );
-        if( Math.abs( deTOT ) > 1E-4 ) {
-            System.out.println( "deTOT = " + deTOT );
-        }
+//        double deTOT = getDE( model, body, desiredMechanicalEnergy );
+//        EC3Debug.debug( "dETOT=" + deTOT );
+//        if( Math.abs( deTOT ) > 1E-4 ) {
+//            System.out.println( "deTOT = " + deTOT );
+//        }
     }
 
     private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
@@ -52,8 +52,7 @@ public class EnergyConserver {
     }
 
     private double getDE( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double finalTotalEnergy = model.getTotalMechanicalEnergy( body );
-        return finalTotalEnergy - origTotalEnergy;
+        return model.getTotalMechanicalEnergy( body ) - origTotalEnergy;
     }
 
     private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
