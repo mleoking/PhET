@@ -117,7 +117,8 @@ public class FreeSplineMode extends ForceMode {
                 return;
             }
             if( getSegment( body ) != getCollisionSegment( body ) ) {
-                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+//                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+                rotateBody( body, segment, dt, Math.PI / 64 );
                 debug( "We just rotated body", originalState, model, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
                 debug( "set bottom to zero", originalState, model, body );
@@ -156,7 +157,7 @@ public class FreeSplineMode extends ForceMode {
             sum += aDouble.doubleValue();
         }
         double avgSpeed = 1.0 / speedHistory.size() * sum;
-        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
+//        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
         return body.getFrictionCoefficient() > 0 && avgSpeed < 0.05 && getNetForce().getMagnitude() < 100;
     }
 
