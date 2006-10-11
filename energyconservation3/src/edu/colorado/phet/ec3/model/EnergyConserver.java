@@ -27,9 +27,9 @@ public class EnergyConserver {
             }
         }
 //        System.out.println( "post:vel- getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
-//        if( model.getGravity() != 0.0 ) {
-//            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
-//        }
+        if( model.getGravity() != 0.0 ) {
+            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+        }
 //        System.out.println( "postH: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
 //        double deTOT = getDE( model, body, desiredMechanicalEnergy );
