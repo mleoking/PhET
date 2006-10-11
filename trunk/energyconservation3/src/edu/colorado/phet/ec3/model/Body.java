@@ -25,7 +25,7 @@ public class Body {
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double mass = 75.0;//kg
-    private double attachmentPointRotation = Math.PI;
+    private double attachmentPointRotation = 0;//Math.PI;
 
     private boolean facingRight;
 
@@ -226,7 +226,7 @@ public class Body {
         return attachmentPointRotation;
     }
 
-    public void rotate( double dA ) {
+    public void rotateAboutAttachmentPoint( double dA ) {
         attachmentPointRotation += dA;
         fixAngle();
     }
@@ -299,6 +299,9 @@ public class Body {
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
+//        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
+//            throw new RuntimeException( "exception" );
+//        }
         return transform;
     }
 
@@ -338,7 +341,7 @@ public class Body {
             Point2D center = getCenterOfMass();
             double attachmentPointRotation = getAttachmentPointRotation();
             setAttachmentPointRotation( 0 );
-            setCMRotation( attachmentPointRotation - Math.PI );
+            setCMRotation( attachmentPointRotation );
             Point2D tempCenter = getCenterOfMass();
             translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
         }
@@ -350,8 +353,7 @@ public class Body {
             Point2D center = getCenterOfMass();
             double origCMRotation = getCMRotation();
             setCMRotation( 0 );
-//        setAttachmentPointRotation( srcRotation-Math.PI);//eh?
-            setAttachmentPointRotation( origCMRotation + Math.PI );//eh?
+            setAttachmentPointRotation( origCMRotation );
             Point2D tempCenter = getCenterOfMass();
             translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
         }

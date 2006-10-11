@@ -323,7 +323,7 @@ public class FreeSplineMode extends ForceMode {
         else if( dA < -maxRotationDTheta ) {
             dA = -maxRotationDTheta;
         }
-        body.rotate( dA );
+        body.rotateAboutAttachmentPoint( dA );
         this.lastDA = dA;
     }
 
