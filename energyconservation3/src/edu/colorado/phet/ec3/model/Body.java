@@ -308,6 +308,7 @@ public class Body {
         AffineTransform transform = new AffineTransform();
         transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
         transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
+//        transform.rotate( angle, b.getWidth() / 2, b.getHeight() );
         return transform;
     }
 

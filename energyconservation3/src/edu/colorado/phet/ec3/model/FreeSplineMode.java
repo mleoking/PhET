@@ -90,7 +90,7 @@ public class FreeSplineMode extends ForceMode {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
         }
-        rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
+//        rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
         setNetForce( computeNetForce( model, segment ) );
         super.stepInTime( model, body, dt ); //apply newton's laws
 //        double emergentSpeed=(body.getPositionVector().getMagnitude()-originalState.getBody().getPositionVector().getMagnitude())/dt;
@@ -119,7 +119,7 @@ public class FreeSplineMode extends ForceMode {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+//            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
             segment = getSegment( body );//need to find our new segment after rotation.
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
             
