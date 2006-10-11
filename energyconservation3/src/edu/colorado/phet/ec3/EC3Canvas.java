@@ -40,7 +40,9 @@ public class EC3Canvas extends PhetPCanvas {
 
     //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
     //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 15;
-    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 16;
+    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 16;
+    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
+    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 18;
 //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 75;
 
     public EC3Canvas( EnergySkateParkModule ec3Module ) {

@@ -279,14 +279,14 @@ public class EnergyConservationModel {
     }
 
     public double getTotalEnergy( Body body ) {
-        return getTotalMechanicalEnergy( body ) + getThermalEnergy();
+        return getMechanicalEnergy( body ) + getThermalEnergy();
     }
 
-    public double getTotalMechanicalEnergy( Body body ) {
-        double ke = body.getKineticEnergy();
-        double pe = getPotentialEnergy( body );
-        return ke + pe;
-    }
+//    public double getTotalMechanicalEnergy( Body body ) {
+//        double ke = body.getKineticEnergy();
+//        double pe = getPotentialEnergy( body );
+//        return ke + pe;
+//    }
 
     public double getGravity() {
         return gravity;

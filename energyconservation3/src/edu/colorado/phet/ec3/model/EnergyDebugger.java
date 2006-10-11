@@ -31,13 +31,13 @@ public class EnergyDebugger {
             if( !frame.isVisible() ) {
                 frame.setVisible( true );
             }
-            origEnergy = model.getTotalMechanicalEnergy( body );
+            origEnergy = model.getMechanicalEnergy( body );
             orig.setText( "orig=" + origEnergy );
         }
     }
 
     public static void stepFinished( EnergyConservationModel model, Body body ) {
-        double finalEnergy = model.getTotalMechanicalEnergy( body );
+        double finalEnergy = model.getMechanicalEnergy( body );
         double dE = finalEnergy - origEnergy;
     }
 

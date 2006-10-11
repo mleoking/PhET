@@ -27,7 +27,7 @@ public class FreeFall extends ForceMode implements Derivable {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        double origEnergy = model.getTotalMechanicalEnergy( body );
+        double origEnergy = model.getMechanicalEnergy( body );
         setNetForce( getTotalForce( body, model ) );
         super.stepInTime( model, body, dt );
         body.setCMRotation( body.getCMRotation() + rotationalVelocity * dt );

@@ -34,7 +34,7 @@ public class State {
     }
 
     public double getTotalEnergy() {
-        return model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+        return model.getMechanicalEnergy( body ) + model.getThermalEnergy();
     }
 
     public double getHeat() {
