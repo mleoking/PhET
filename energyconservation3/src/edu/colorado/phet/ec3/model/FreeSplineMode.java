@@ -319,7 +319,6 @@ public class FreeSplineMode extends ForceMode {
         if( Math.abs( overshoot ) > 1E-4 ) {
             System.out.println( "overshoot = " + overshoot );
         }
-
         AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( -overshoot );
         body.translate( tx.getX(), tx.getY() );
     }
@@ -334,16 +333,6 @@ public class FreeSplineMode extends ForceMode {
         Vector2D.Double x = new Vector2D.Double( segment.getMidpoint(), p0 );
         dist *= MathUtil.getSign( x.dot( segment.getUnitNormalVector() ) );
         return dist;
-//        if( p0.getY() > ( p1.getY() + p2.getY() /2 ))
-//
-//
-//        double a = ( p2.getX() - p1.getX() ) * ( p1.getY() - p0.getY() );
-//        double b = ( p1.getX() - p0.getX() ) * ( p2.getY() - p1.getY() );
-////        double num = Math.abs( a - b );
-//        double num = a - b;
-//        double den = p1.distance( p2 );
-//        return num / den;
-//        return 0;
     }
 
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
@@ -375,23 +364,13 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-//        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-//        AbstractVector2D friction = segment.getUnitDirectionVector().getInstanceOfMagnitude( fricMag );
-//        if( friction.dot( body.getVelocity() ) < 0 ) {
-//            friction = friction.getScaledInstance( -1 );
-//        }
-//        return friction;
         double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-//        System.out.println( "body.getVelocity().getMagnitude() = " + body.getVelocity().getMagnitude() );
-//        AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-        AbstractVector2D friction = body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );
-        return friction;
+        return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
         if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {
-            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
-            return normalForce;
+            return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
         }
         else {
             return new ImmutableVector2D.Double();
