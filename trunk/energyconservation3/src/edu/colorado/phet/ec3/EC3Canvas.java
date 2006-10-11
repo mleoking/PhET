@@ -85,6 +85,7 @@ public class EC3Canvas extends PhetPCanvas {
             public void mouseReleased( MouseEvent e ) {
             }
         } );
+        
     }
 
     public void paintComponent( Graphics g ) {
@@ -362,4 +363,7 @@ public class EC3Canvas extends PhetPCanvas {
         return rootNode.isZeroPointVisible();
     }
 
+    public void debugBody( Body body ) {
+        addScreenChild( new AttachmentPointNode(this, ec3Model.bodyAt( 0)));
+    }
 }

@@ -83,7 +83,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-
+        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
         State originalState = new State( model, body );
         Segment segment = getSegment( body );
         if( segment == null ) {
@@ -93,7 +93,8 @@ public class FreeSplineMode extends ForceMode {
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
         setNetForce( computeNetForce( model, segment ) );
         super.stepInTime( model, body, dt ); //apply newton's laws
-        
+//        double emergentSpeed=(body.getPositionVector().getMagnitude()-originalState.getBody().getPositionVector().getMagnitude())/dt;
+//        System.out.println( "emergentSpeed = " + emergentSpeed +", speed="+body.getSpeed());
         
 //        if( getFrictionForce( model, segment ).getMagnitude() > 0 &&body.getVelocity().getMagnitude()<2) {
 //            convertVelocityToThermal( model, originalState, body );
@@ -107,6 +108,7 @@ public class FreeSplineMode extends ForceMode {
         setupBounce( body, segment );
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+        model.addThermalEnergy( frictiveWork );
         debug( "setup bounce", originalState.getTotalEnergy(), model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
@@ -121,13 +123,13 @@ public class FreeSplineMode extends ForceMode {
             segment = getSegment( body );//need to find our new segment after rotation.
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
             
-            State beforeZero = new State( model, body );
+//            State beforeZero = new State( model, body );
             setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
-            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
-            if( model.getTotalEnergy( body ) - originalState.getTotalEnergy() > 0 ) {
-                body.setPosition( body.getX(), beforeZero.getBody().getY() );
-                debug( "After correcting position", originalState.getTotalEnergy(), model, body );
-            }            
+//            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
+//            if( model.getTotalEnergy( body ) - originalState.getTotalEnergy() > 0 ) {
+//                body.setPosition( body.getX(), beforeZero.getBody().getY() );
+//                debug( "After correcting position", originalState.getTotalEnergy(), model, body );
+//            }            
             
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
