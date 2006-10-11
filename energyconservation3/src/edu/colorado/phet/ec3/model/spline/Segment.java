@@ -3,7 +3,6 @@ package edu.colorado.phet.ec3.model.spline;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -69,11 +68,7 @@ public class Segment {
     }
 
     public Point2D getCenter2D() {
-      Point2D orig=new PBounds( toLine2D().getBounds2D() ).getCenter2D();
-        if (!orig.equals( getMidpoint( ))){
-            throw new RuntimeException( "orig!=midPoint, "+orig+", "+getMidpoint());
-        }
-        return getMidpoint();
+        return new Point2D.Double( ( x1 + x0 ) / 2, ( y1 + y0 ) / 2 );
     }
 
     public double getAngle() {
@@ -108,7 +103,7 @@ public class Segment {
         return new Point2D.Double( x1, y1 );
     }
 
-    public Point2D getMidpoint() {
-        return new Point2D.Double( (x1+x0)/2,(y1+y0)/2); 
-    }
+//    public Point2D getMidpoint() {
+//        return new Point2D.Double( (x1+x0)/2,(y1+y0)/2); 
+//    }
 }
