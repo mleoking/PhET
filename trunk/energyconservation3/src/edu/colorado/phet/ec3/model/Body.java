@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 
 public class Body {
-    private Point2D.Double position = new Point2D.Double();
+    private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double mass = 75.0;//kg
@@ -50,7 +50,7 @@ public class Body {
 
     public Body copyState() {
         Body copy = new Body( width, height );//todo better deep copy of bounds?
-        copy.position.setLocation( position );
+        copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
         copy.mass = mass;
@@ -86,16 +86,20 @@ public class Body {
     }
 
     public double getY() {
-        return position.y;
+        return getCenterOfMass().getY();
     }
 
     public void setPosition( double x, double y ) {
-        position.x = x;
-        position.y = y;
+        attachmentPoint.x = x;
+        attachmentPoint.y = y;
     }
 
     public double getX() {
-        return position.x;
+        return getCenterOfMass().getX();
+    }
+
+    private Point2D getCenterOfMass() {
+        return getTransform().transform( new Point2D.Double( width / 2, height / 2 ), null );
     }
 
     public AbstractVector2D getVelocity() {
@@ -103,8 +107,8 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-        position.x += dx;
-        position.y += dy;
+        attachmentPoint.x += dx;
+        attachmentPoint.y += dy;
     }
 
     public void setVelocity( AbstractVector2D vector2D ) {
@@ -146,7 +150,7 @@ public class Body {
     }
 
     public Point2D.Double getPosition() {
-        return new Point2D.Double( position.getX(), position.getY() );
+        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
 //        return position;
     }
 
@@ -161,8 +165,8 @@ public class Body {
     public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
         this.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         this.velocity.setComponents( velocity.getX(), velocity.getY() );
-        this.position.x = newPosition.getX();
-        this.position.y = newPosition.getY();
+        this.attachmentPoint.x = newPosition.getX();
+        this.attachmentPoint.y = newPosition.getY();
     }
 
     public void setSplineMode( AbstractSpline spline ) {
@@ -284,7 +288,7 @@ public class Body {
     }
 
     public Point2D.Double getAttachPoint() {
-        return new Point2D.Double( position.getX(), position.getY() );
+        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
     }
 
     public Shape getShape() {
@@ -295,7 +299,7 @@ public class Body {
     public AffineTransform getTransform() {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
-        transform.translate( getX() - getWidth() / 2, getY() - dy );
+        transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( angle, getWidth() / 2, dy );
         return transform;
     }
@@ -314,6 +318,10 @@ public class Body {
 
     public double getWidth() {
         return width;
+    }
+
+    public void setAttachmentPointPosition( double x, double y ) {
+        attachmentPoint.setLocation( x, y );
     }
 
     public static interface Listener {

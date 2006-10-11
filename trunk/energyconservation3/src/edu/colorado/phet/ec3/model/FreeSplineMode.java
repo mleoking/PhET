@@ -28,6 +28,7 @@ public class FreeSplineMode extends ForceMode {
     private Segment lastSegment;
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
+    private static boolean errorYetThisStep = false;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -68,9 +69,13 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    public void debug( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
+    public static void debug( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
         double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
         if( Math.abs( dE ) > 0.1 ) {
+            if( !errorYetThisStep ) {
+                errorYetThisStep = true;
+                System.out.println( "Step Started---------" );
+            }
             System.out.println( type + ", dE = " + dE );
         }
     }
@@ -84,6 +89,7 @@ public class FreeSplineMode extends ForceMode {
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
 //        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
+        stepStarted();
         State originalState = new State( model, body );
         Segment segment = getSegment( body );
         if( segment == null ) {
@@ -140,6 +146,15 @@ public class FreeSplineMode extends ForceMode {
 
         lastGrabState = grabbed;
         lastSegment = segment;
+        stepFinished();
+    }
+
+    private void stepFinished() {
+        errorYetThisStep = false;
+    }
+
+    private void stepStarted() {
+        errorYetThisStep = false;
     }
 
 //    private void convertVelocityToThermal( EnergyConservationModel model, State originalState, Body body ) {
