@@ -20,6 +20,7 @@ import java.awt.geom.Point2D;
 public class AttachmentPointNode extends PhetPNode {
     private EC3Canvas ec3Canvas;
     private Body body;
+    private Timer timer;
 
     public AttachmentPointNode( EC3Canvas ec3Canvas, Body body ) {
         this.ec3Canvas = ec3Canvas;
@@ -28,7 +29,7 @@ public class AttachmentPointNode extends PhetPNode {
         child.setStroke( null );
         child.setPaint( Color.red );
         addChild( child );
-        Timer timer = new Timer( 5, new ActionListener() {
+        timer = new Timer( 5, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();
             }
@@ -40,5 +41,9 @@ public class AttachmentPointNode extends PhetPNode {
         Point2D attachPoint2D = body.getAttachPoint();
         ec3Canvas.getPhetRootNode().worldToScreen( attachPoint2D );
         setOffset( attachPoint2D );
+    }
+
+    public void delete() {
+        timer.stop();
     }
 }

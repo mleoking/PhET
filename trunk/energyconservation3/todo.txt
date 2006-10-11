@@ -4,29 +4,13 @@ Remaining Work
 
 Bug: pressing go after playing back a sequence inverts the angle.
 
-One quick bug find ... now when he's stationary and the track is 
-moved he doesn't fall.
-
-When he's oscillating on the track and I lift the track up the skater 
-can end up oscillating back and forth, as if a track was there, but 
-it's not really there.
-
-1. Reset doesn't work any more ... the skater is just frozen (and the 
-red dot doesn't go with him).
-
 2. When I ignored the program for a bit and then went back to it, the 
 man was stopped and when I tried to grab him, all I could more around 
 was the little red dot, not the actual skater.
-
-    1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
-    2. If any 1 step destroys the total energy too much, roll it back.
-    3. Redistribute the energy after each step
-    4. Different number of segments in the cubic spline
-    5. Smaller time steps
-    
+   
     Added a test that shows jade fails for the energyskatepark type problem, see travoltage project
 
-Bug: Wiggle me appears when K.P moves the slider.
+Bug: Wiggle me appears when moving the slider.
 
 I found a bug with the wiggle me for the jet pack. 
 When I go to space or set gravity to zero, if I don't use the arrows before I hit RESET, 
@@ -60,6 +44,13 @@ have the interpretation incorrect?  Or did you create the functionality
 as you did for another reason?
 
 Secondly, if you use the space simulation, and change to gravity and back, sometimes (can't be sure how exactly) the thruster/jets don't show on the skater in space mode, though he does move as if they are firing.  Seems like the simulation of his jet pack is not quite getting reset.
+
+Ideas for energy conservation in the dynamics of this simulation.
+    1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
+    2. If any 1 step destroys the total energy too much, roll it back.
+    3. Redistribute the energy after each step
+    4. Different number of segments in the cubic spline
+    5. Smaller time steps
 
 #################################################################
 Low Priority

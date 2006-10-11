@@ -68,6 +68,14 @@ public class BodyGraphic extends PNode {
                 update();
             }
         } );
+        body.addListener( new Body.Listener() {
+            public void thrustChanged() {
+            }
+
+            public void doRepaint() {
+                update();
+            }
+        } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );

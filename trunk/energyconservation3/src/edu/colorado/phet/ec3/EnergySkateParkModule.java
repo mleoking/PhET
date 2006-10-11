@@ -149,9 +149,10 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void resetSkater( Body body ) {
-        body.setAttachmentPointPosition( getDefaultBodyPosition() );
+        body.setFreeFallMode( energyModel );
         body.setAttachmentPointRotation( 0.0 );
         body.setCMRotation( getDefaultBodyAngle() );
+        body.setAttachmentPointPosition( getDefaultBodyPosition() );
         body.resetMode();
         body.setVelocity( 0, 0 );
     }
@@ -174,7 +175,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
-        energyCanvas.debugBody( body );
+        energyCanvas.removeAllAttachmentPointGraphics();
+        energyCanvas.addAttachmentPointGraphic( body );
 //        getClock().addClockListener( new ClockAdapter() {
 //            public void simulationTimeChanged( ClockEvent clockEvent ) {
 //                super.simulationTimeChanged( clockEvent );

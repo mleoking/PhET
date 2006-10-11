@@ -53,6 +53,9 @@ public class WiggleMeInSpace {
             public void thrustChanged() {
                 hintNode.setVisible( false );
             }
+
+            public void doRepaint() {
+            }
         } );
 //        hintNode.st
     }
