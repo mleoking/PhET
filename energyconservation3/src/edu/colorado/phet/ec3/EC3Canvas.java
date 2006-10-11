@@ -360,7 +360,22 @@ public class EC3Canvas extends PhetPCanvas {
         return rootNode.isZeroPointVisible();
     }
 
-    public void debugBody( Body body ) {
-        addScreenChild( new AttachmentPointNode( this, ec3Model.bodyAt( 0 ) ) );
+    ArrayList attachmentPointGraphics = new ArrayList();
+
+    public void addAttachmentPointGraphic( Body body ) {
+        AttachmentPointNode pointNode = new AttachmentPointNode( this, ec3Model.bodyAt( 0 ) );
+        attachmentPointGraphics.add( pointNode );
+        addScreenChild( pointNode );
+    }
+
+    public void removeAllAttachmentPointGraphics() {
+        while( attachmentPointGraphics.size() > 0 ) {
+            removeAttachmentPointGraphic( (AttachmentPointNode)attachmentPointGraphics.get( 0 ) );
+        }
+    }
+
+    private void removeAttachmentPointGraphic( AttachmentPointNode o ) {
+        removeScreenChild( o );
+        o.delete();
     }
 }

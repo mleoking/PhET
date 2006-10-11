@@ -94,6 +94,16 @@ public class EnergyConservationModel {
         return false;
     }
 
+    public void splineTranslated( SplineSurface splineGraphic, double dx, double dy ) {
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if( body.isOnSpline( splineGraphic ) ) {
+                body.translate( dx, dy );
+                body.notifyObservers();
+            }
+        }
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 

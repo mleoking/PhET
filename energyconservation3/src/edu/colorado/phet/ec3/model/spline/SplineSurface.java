@@ -19,8 +19,7 @@ public class SplineSurface {
     }
 
     public SplineSurface copy() {
-        SplineSurface copy = new SplineSurface( top.copySpline() );
-        return copy;
+        return new SplineSurface( top.copySpline() );
     }
 
     public boolean isUserControlled() {
@@ -58,5 +57,9 @@ public class SplineSurface {
 
     public boolean isInteractive() {
         return interactive;
+    }
+
+    public boolean contains( AbstractSpline spline ) {
+        return top == spline || bottom == spline;
     }
 }

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
@@ -177,10 +178,8 @@ public class Body {
             }
         }
         if( !same ) {
-//            setMode( new AttachedSplineMode( spline, this ) );
             setMode( model, new FreeSplineMode( spline, this ) );
         }
-
     }
 
     private void setMode( EnergyConservationModel model, UpdateMode mode ) {
@@ -237,6 +236,10 @@ public class Body {
 
     public boolean isFreeFallMode() {
         return mode instanceof FreeFall;
+    }
+
+    public boolean isSplineMode() {
+        return mode instanceof FreeSplineMode;
     }
 
     public static PDimension createDefaultBodyRect() {
@@ -303,9 +306,9 @@ public class Body {
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
-        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
-            throw new RuntimeException( "exception" );
-        }
+//        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
+//            throw new RuntimeException( "exception" );
+//        }
         return transform;
     }
 
@@ -391,8 +394,25 @@ public class Body {
         }
     }
 
+    public boolean isOnSpline( SplineSurface splineSurface ) {
+        if( mode instanceof FreeSplineMode ) {
+            FreeSplineMode sm = (FreeSplineMode)mode;
+            return splineSurface.contains( sm.getSpline() );
+        }
+        return false;
+    }
+
+    public void notifyObservers() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.doRepaint();
+        }
+    }
+
     public static interface Listener {
         void thrustChanged();
+
+        void doRepaint();
     }
 
     public void addListener( Listener listener ) {
