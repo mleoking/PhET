@@ -38,12 +38,7 @@ public class EC3Canvas extends PhetPCanvas {
     private EC3RootNode rootNode;
     private double matchThresholdWorldCoordinates = 1.5;
 
-    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
-    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 15;
-    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 16;
-    //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
-    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 18;
-//    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 75;
+    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 20;
 
     public EC3Canvas( EnergySkateParkModule ec3Module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
