@@ -119,13 +119,13 @@ public class Body {
         return mode == userMode;
     }
 
-    public void setUserControlled( boolean userControlled ) {
+    public void setUserControlled( EnergyConservationModel model, boolean userControlled ) {
         if( userControlled ) {
-            setMode( userMode );
+            setMode( model, userMode );
         }
         else {
             freeFall.setRotationalVelocity( 0.0 );
-            setMode( freeFall );
+            setMode( model, freeFall );
         }
     }
 
@@ -165,7 +165,7 @@ public class Body {
         this.attachmentPoint.y = newPosition.getY();
     }
 
-    public void setSplineMode( AbstractSpline spline ) {
+    public void setSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         boolean same = false;
         if( mode instanceof FreeSplineMode ) {
             FreeSplineMode sm = (FreeSplineMode)mode;
@@ -175,21 +175,22 @@ public class Body {
         }
         if( !same ) {
 //            setMode( new AttachedSplineMode( spline, this ) );
-            setMode( new FreeSplineMode( spline, this ) );
+            setMode( model, new FreeSplineMode( spline, this ) );
         }
 
     }
 
-    private void setMode( UpdateMode mode ) {
+    private void setMode( EnergyConservationModel model, UpdateMode mode ) {
         this.mode = mode;
+        mode.init( model, this );
     }
 
     public void setFreeFallRotation( double dA ) {
         freeFall.setRotationalVelocity( dA );
     }
 
-    public void setFreeFallMode() {
-        setMode( freeFall );
+    public void setFreeFallMode( EnergyConservationModel model ) {
+        setMode( model, freeFall );
     }
 
     void fixAngle() {
@@ -254,11 +255,11 @@ public class Body {
         return new ImmutableVector2D.Double( xThrust, yThrust );
     }
 
-    public void splineRemoved( AbstractSpline spline ) {
+    public void splineRemoved( EnergyConservationModel model, AbstractSpline spline ) {
         if( mode instanceof FreeSplineMode ) {
             FreeSplineMode spm = (FreeSplineMode)mode;
             if( spm.getSpline() == spline ) {
-                setFreeFallMode();
+                setFreeFallMode( model );
             }
         }
     }
@@ -327,6 +328,33 @@ public class Body {
 
     public double getCMRotation() {
         return cmRotation;
+    }
+
+    boolean freefall = true;
+
+    public void convertToFreefall() {
+        if( !freefall ) {
+            this.freefall = true;
+            Point2D center = getCenterOfMass();
+            double attachmentPointRotation = getAttachmentPointRotation();
+            setAttachmentPointRotation( 0 );
+            setCMRotation( attachmentPointRotation - Math.PI );
+            Point2D tempCenter = getCenterOfMass();
+            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+        }
+    }
+
+    public void convertToSpline() {
+        if( freefall ) {
+            freefall = false;
+            Point2D center = getCenterOfMass();
+            double origCMRotation = getCMRotation();
+            setCMRotation( 0 );
+//        setAttachmentPointRotation( srcRotation-Math.PI);//eh?
+            setAttachmentPointRotation( origCMRotation + Math.PI );//eh?
+            Point2D tempCenter = getCenterOfMass();
+            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+        }
     }
 
     public static interface Listener {

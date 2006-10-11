@@ -151,6 +151,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void resetSkater( Body body ) {
         body.setAttachmentPointPosition( getDefaultBodyPosition() );
         body.setAttachmentPointRotation( getDefaultBodyAngle() );
+        body.setCMRotation( 0.0 );
         body.resetMode();
         body.setVelocity( 0, 0 );
     }

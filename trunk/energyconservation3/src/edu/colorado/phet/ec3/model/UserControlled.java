@@ -11,4 +11,10 @@ package edu.colorado.phet.ec3.model;
 public class UserControlled implements UpdateMode {
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
     }
+
+    public void init( EnergyConservationModel model, Body body ) {
+        body.setAttachmentPointRotation( Math.PI );
+        body.setCMRotation( 0 );
+    }
+
 }

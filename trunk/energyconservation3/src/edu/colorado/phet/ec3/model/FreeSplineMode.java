@@ -91,7 +91,6 @@ public class FreeSplineMode extends ForceMode {
 //        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
         stepStarted();
         State originalState = new State( model, body );
-        body.setCMRotation( 0.0 );
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
@@ -148,6 +147,10 @@ public class FreeSplineMode extends ForceMode {
         lastGrabState = grabbed;
         lastSegment = segment;
         stepFinished();
+    }
+
+    public void init( EnergyConservationModel model, Body body ) {
+        body.convertToSpline();
     }
 
     private void stepFinished() {
@@ -347,7 +350,7 @@ public class FreeSplineMode extends ForceMode {
             }
             body.setFreeFallRotation( rot );
         }
-        body.setFreeFallMode();
+        body.setFreeFallMode( model );
         super.setNetForce( new Vector2D.Double( 0, 0 ) );
         super.stepInTime( model, body, dt );
         new EnergyConserver().fixEnergy( model, body, origTotalEnergy );

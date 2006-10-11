@@ -13,9 +13,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) Sep 28, 2005 by Sam Reid
  */
 
-public class ForceMode implements UpdateMode, Derivable {
+public abstract class ForceMode implements UpdateMode, Derivable {
     private Vector2D.Double netForce;
-//    private double t = 0.0;
 
     public ForceMode() {
         this.netForce = new Vector2D.Double();
@@ -23,7 +22,6 @@ public class ForceMode implements UpdateMode, Derivable {
 
     public void setNetForce( AbstractVector2D netForce ) {
         this.netForce = new Vector2D.Double( netForce );
-//        System.out.println( "netForce = " + netForce );
     }
 
     protected Vector2D.Double getNetForce() {
@@ -31,17 +29,7 @@ public class ForceMode implements UpdateMode, Derivable {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-//        updateTechRK( model, body, dt );
-//        updateFlanRK( model, body, dt );
-//        updateJSCiRK4( model, body, dt );
-//        updateJSCILeapfrog( model, body, dt );
-//        System.out.println( "model.getTotalEnergy( body ) = " + model.getTotalEnergy( body ) );
-
         updateRK4( model, body, dt );
-//        int num=4;
-//        for( int i = 0; i < num; i++ ) {
-//            updateEuler( model, body, dt/num);
-//        }
     }
 
     private void updateRK4( final EnergyConservationModel model, final Body body, double dt ) {

@@ -10,4 +10,6 @@ package edu.colorado.phet.ec3.model;
 
 public interface UpdateMode {
     void stepInTime( EnergyConservationModel model, Body body, double dt );
+
+    void init( EnergyConservationModel model, Body body );
 }

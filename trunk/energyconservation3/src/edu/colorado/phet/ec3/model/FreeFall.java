@@ -31,7 +31,6 @@ public class FreeFall extends ForceMode implements Derivable {
         setNetForce( getTotalForce( body, model ) );
         super.stepInTime( model, body, dt );
         body.setCMRotation( body.getCMRotation() + rotationalVelocity * dt );
-//        body.setCMRotation( body.getAttachmentPointRotation() + Math.PI/16* dt );
         new EnergyConserver().fixEnergy( model, body, origEnergy );
     }
 
@@ -41,5 +40,11 @@ public class FreeFall extends ForceMode implements Derivable {
 
     public void reset() {
         rotationalVelocity = 0.0;
+    }
+
+    public void init( EnergyConservationModel model, Body body ) {
+        //going from spline to freefall mode
+//        FreeSplineMode.State state = new FreeSplineMode.State( model, body );
+        body.convertToFreefall();
     }
 }
