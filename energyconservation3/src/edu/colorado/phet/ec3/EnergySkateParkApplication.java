@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -26,9 +27,13 @@ public class EnergySkateParkApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) {
-        EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
-        new EC3LookAndFeel().initLookAndFeel();
-        new EnergySkateParkApplication( args ).start();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+                new EC3LookAndFeel().initLookAndFeel();
+                new EnergySkateParkApplication( args ).start();
+            }
+        } );
     }
 
     public EnergySkateParkModule getModule() {

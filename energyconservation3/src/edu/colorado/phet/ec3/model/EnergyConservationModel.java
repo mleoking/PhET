@@ -202,7 +202,7 @@ public class EnergyConservationModel {
         }
 //        System.out.println( "set spline mode: "+bestSpline );
         if( bestSpline != null ) {
-            body.setSplineMode( bestSpline );
+            body.setSplineMode( this, bestSpline );
         }
     }
 
@@ -301,7 +301,7 @@ public class EnergyConservationModel {
     private void notifyBodiesSplineRemoved( AbstractSpline spline ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            body.splineRemoved( spline );
+            body.splineRemoved( this, spline );
         }
     }
 

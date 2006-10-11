@@ -94,16 +94,16 @@ public class BodyGraphic extends PNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                getBody().setUserControlled( true );
+                getBody().setUserControlled( ec3Module.getEnergyConservationModel(), true );
                 getBody().setVelocity( 0, 0 );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                getBody().setUserControlled( false );
+                getBody().setUserControlled( ec3Module.getEnergyConservationModel(), false );
             }
 
             public void mouseDragged( PInputEvent event ) {
-                getBody().setUserControlled( true );
+                getBody().setUserControlled( ec3Module.getEnergyConservationModel(), true );
                 getBody().setVelocity( 0, 0 );
             }
         } );
