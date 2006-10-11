@@ -112,6 +112,15 @@ public class EnergyView extends PNode implements SimpleObserver {
         update();
     }
 
+    public void reset() {
+        selectedMolecule = null;
+        nearestToSelectedMolecule = null;
+
+        selectedMoleculeGraphic = null;
+        nearestToSelectedMoleculeGraphic = null;
+    }
+
+
     /**
      * Creates the pane that has the energy curve and cursor
      *

@@ -1,3 +1,5 @@
+- Radio buttons don't always properly reflect movement type of launcher after a reset
+- After reset, selected molecule isn't right.
 - Hard bonds not always going away
 - Temperature control will make model go crazy
 - molecules escaping box
