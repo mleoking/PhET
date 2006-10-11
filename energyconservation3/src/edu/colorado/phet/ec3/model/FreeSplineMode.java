@@ -94,6 +94,7 @@ public class FreeSplineMode extends ForceMode {
         setNetForce( computeNetForce( model, segment ) );
         super.stepInTime( model, body, dt ); //apply newton's laws
         
+        
 //        if( getFrictionForce( model, segment ).getMagnitude() > 0 &&body.getVelocity().getMagnitude()<2) {
 //            convertVelocityToThermal( model, originalState, body );
 //        }
@@ -104,6 +105,8 @@ public class FreeSplineMode extends ForceMode {
             return;
         }
         setupBounce( body, segment );
+        AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
+        double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
         debug( "setup bounce", originalState.getTotalEnergy(), model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
@@ -124,10 +127,8 @@ public class FreeSplineMode extends ForceMode {
             if( model.getTotalEnergy( body ) - originalState.getTotalEnergy() > 0 ) {
                 body.setPosition( body.getX(), beforeZero.getBody().getY() );
                 debug( "After correcting position", originalState.getTotalEnergy(), model, body );
-            }
-
-            AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
-            double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+            }            
+            
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
