@@ -70,7 +70,7 @@ public class FreeSplineMode extends ForceMode {
 
     public void debug( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
         double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
-        if( Math.abs( dE ) > 1 ) {
+        if( Math.abs( dE ) > 0.1 ) {
             System.out.println( type + ", dE = " + dE );
         }
     }
@@ -106,11 +106,14 @@ public class FreeSplineMode extends ForceMode {
             segment = getSegment( body );//need to find our new segment after rotation.
 
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
+            State beforeZero=new State( model, body );
             setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
             debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
-            if( originalState.getTotalEnergy() - model.getTotalEnergy( body ) > 0 ) {
+            if(  model.getTotalEnergy( body )-originalState.getTotalEnergy() > 0 ) {
+                body.setPosition( body.getX(), beforeZero.getBody().getY() );
+                debug( "After correcting position",originalState.getTotalEnergy(), model, body );
             }
-            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
+            
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
@@ -120,33 +123,15 @@ public class FreeSplineMode extends ForceMode {
                 patchEnergyInclThermal( frictiveWork, model, body, originalState.getTotalEnergy() );
             }
         }
+        debug( "after everything",originalState.getTotalEnergy(), model, body );
         lastGrabState = grabbed;
         lastSegment = segment;
-    }
-
-    private void fixBottom( EnergyConservationModel model, Segment segment, Body body, double totalEnergy ) {
-        Point2D origPosition = body.getPosition();//how is attachpoint different from position?  Is this discrepancy a problem?
-        Point2D best = null;
-        double bestScore = 0;
-        for( double dx = -5; dx < 5; dx += 0.1 ) {
-            for( double dy = -5; dy < 5; dy += 0.1 ) {
-                body.setPosition( origPosition.getX() + dx, origPosition.getY() + dy );
-                double dE = Math.abs( model.getTotalEnergy( body ) - totalEnergy );
-                double offsetInSpline = Math.abs( getOvershootInSegment( segment, body ) );
-                double score = dE + offsetInSpline;
-                if( best == null || score < bestScore ) {
-                    best = new Point2D.Double( dx, dy );
-                    bestScore = score;
-                }
-            }
-        }
-        body.setPosition( origPosition.getX() + best.getX(), origPosition.getY() + best.getY() );
     }
 
     private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, double desiredEnergy ) {
 //        originalState=model.getDesiredEnergy(body);
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-        double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
+        double allowedToModifyHeat = Math.abs( frictiveWork * 0.2 );
         model.addThermalEnergy( frictiveWork );
         debug( "Added thermal energy", desiredEnergy, model, body );
         double finalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
@@ -154,7 +139,6 @@ public class FreeSplineMode extends ForceMode {
 
         double energyErrorSign = MathUtil.getSign( energyError );
         if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
-            System.out.println( "error was too large to fix only with heat" );
             model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
             double desiredMechEnergy = desiredEnergy - model.getThermalEnergy();
