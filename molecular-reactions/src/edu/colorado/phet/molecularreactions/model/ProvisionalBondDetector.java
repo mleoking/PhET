@@ -65,6 +65,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
         // Look for SimpleMolecules that qualify for tentative bonds. If there is not a tentative bond
         // for a pair, then create one.
         List modelElements = model.getModelElements();
+        List newBondList = new ArrayList();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
             if( o instanceof SimpleMolecule && !((SimpleMolecule)o).isPartOfComposite() ) {
@@ -90,7 +91,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                                 // If no provisional bond exists for either of these two simple molecules, create one
                                 if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains( sm2 ) ) {
                                     ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
-                                    model.addModelElement( bond );
+                                    newBondList.add( bond );
+//                                    model.addModelElement( bond );
                                     bondedMolecules.add( sm1 );
                                     bondedMolecules.add( sm2 );
                                 }
@@ -99,6 +101,11 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
                     }
                 }
             }
+        }
+
+        for( int i = 0; i < newBondList.size(); i++ ) {
+            ProvisionalBond bond = (ProvisionalBond)newBondList.get( i );
+            model.addModelElement( bond );
         }
     }
 

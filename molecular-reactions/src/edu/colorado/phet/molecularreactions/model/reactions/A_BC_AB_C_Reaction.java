@@ -135,18 +135,20 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                AbstractMolecule oldFreeMolecule,
                                AbstractMolecule newFreeMolecule ) {
 
-        System.out.println( "A_BC_AB_C_Reaction.doReactionII -------------------------------------" );
+//        System.out.println( "A_BC_AB_C_Reaction.doReactionII -------------------------------------" );
 
         model.removeModelElement( oldComposite );
         model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
 
-        double vCompX = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getX() + oldComposite.getMass() * oldComposite.getVelocity().getX() )
-                        / newComposite.getMass();
-        double vCompY = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getY() + oldComposite.getMass() * oldComposite.getVelocity().getY() )
-                        / newComposite.getMass();
-        newComposite.setVelocity( vCompX, vCompY );
-        newFreeMolecule.setVelocity( 0, 0 );
+        // assign velocities to the reaction products
+//        setReactionProductVelocities( oldFreeMolecule, oldComposite, newComposite, newFreeMolecule );
+//        double vCompX = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getX() + oldComposite.getMass() * oldComposite.getVelocity().getX() )
+//                        / newComposite.getMass();
+//        double vCompY = ( oldFreeMolecule.getMass() * oldFreeMolecule.getVelocity().getY() + oldComposite.getMass() * oldComposite.getVelocity().getY() )
+//                        / newComposite.getMass();
+//        newComposite.setVelocity( vCompX, vCompY );
+//        newFreeMolecule.setVelocity( 0, 0 );
 
         // Compute the kinematics of the released molecule
         HardBodyCollision collision = new HardBodyCollision();
@@ -164,7 +166,17 @@ public class A_BC_AB_C_Reaction extends Reaction {
             else {
                 floorPE = getEnergyProfile().getLeftLevel();
             }
+
             double dPE = getEnergyProfile().getPeakLevel() - floorPE;
+            double KEi = newComposite.getKineticEnergy() + newFreeMolecule.getKineticEnergy();
+            double r2 = ( dPE + KEi ) / KEi;
+            newComposite.setVelocity( newComposite.getVelocity().scale( r2 ) );
+            newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().scale( r2 ) );
+
+            if( true ) {
+                return;
+            }
+
 //        Vector2D vKE = new Vector2D.Double( oldFreeMolecule.getPosition(), newFreeMolecule.getPosition() ).normalize();
 //        double dFreeMoleculeKE = Math.sqrt( 2 * dPE / newFreeMolecule.getFullMass() ) / 2;
 //        double dCompositeKE = Math.sqrt( 2 * dPE / newComposite.getFullMass() ) / 2;
@@ -192,10 +204,10 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        newComposite.setVelocity( newComposite.getVelocity().normalize().scale( vM1f ) );
 
             double KE0 = newFreeMolecule.getKineticEnergy() + newComposite.getKineticEnergy();
-            double r = (1 + dPE / KE0) / 2;
+            double r = ( 1 + dPE / KE0 ) / 2;
 
-            newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().getX() * r, newFreeMolecule.getVelocity().getY() * r);
-            newComposite.setVelocity( newComposite.getVelocity().getX() * r, newComposite.getVelocity().getY() * r);
+            newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().getX() * r, newFreeMolecule.getVelocity().getY() * r );
+            newComposite.setVelocity( newComposite.getVelocity().getX() * r, newComposite.getVelocity().getY() * r );
 
 //        System.out.println( "vM0i = " + vM0i );
 //        System.out.println( "vM0f = " + vM0f );
@@ -203,6 +215,44 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        System.out.println( "vM1f = " + vM1f );
 
         }
+    }
+
+    private void setReactionProductVelocities( AbstractMolecule a, AbstractMolecule bc, AbstractMolecule ab, AbstractMolecule c ) {
+        // Get initial kinetic energy
+        double kei = a.getKineticEnergy() + bc.getKineticEnergy();
+
+        // Get the initial momentum
+        Vector2D Pi = new Vector2D.Double( a.getMomentum() ).add( bc.getMomentum() );
+        double pix = Pi.getX();
+        double piy = Pi.getY();
+
+        double vaix = a.getVelocity().getX();
+        double vbcix = bc.getVelocity().getX();
+        double vaiy = a.getVelocity().getY();
+        double vbciy = bc.getVelocity().getY();
+
+        double ma = a.getMass();
+        double mbc = bc.getMass();
+        double mab = ab.getMass();
+        double mc = c.getMass();
+
+        double qa = mc * mc / mab + mc;
+        double qbx = -( 2 * pix * mc / mab );
+        double qcx = ( pix * pix / mab ) - 2 * kei;
+        double[] rootsX = MathUtil.quadraticRoots( qa, qbx, qcx );
+        double qby = -( 2 * piy * mc / mab );
+        double qcy = ( piy * piy / mab ) - 2 * kei;
+        double[] rootsY = MathUtil.quadraticRoots( qa, qby, qcy );
+
+        Vector2D vcf = new Vector2D.Double( rootsX[1], rootsY[1] );
+        c.setVelocity( vcf );
+
+        double vabfx = ( pix - mc * vcf.getX() ) / mab;
+        double vabfy = ( piy - mc * vcf.getY() ) / mab;
+
+        Vector2D vabf = new Vector2D.Double( vabfx, vabfy );
+        ab.setVelocity( vabf );
+
     }
 
 
@@ -248,9 +298,20 @@ public class A_BC_AB_C_Reaction extends Reaction {
         return moleculeToKeep;
     }
 
+    /**
+     * If the molecules aren't the proper type for the reaction, returns POSITIVE_INFINITY.
+     *
+     * @param mA
+     * @param mB
+     * @return
+     */
     public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB ) {
-        Vector2D v = getCollisionVector( mA, mB );
-        return v == null ? Double.NaN : v.getMagnitude();
+        if( moleculesAreProperTypes( mA, mB ) ) {
+            return getCollisionVector( mA, mB ).getMagnitude();
+        }
+        else {
+            return Double.POSITIVE_INFINITY;
+        }
     }
 
     public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {

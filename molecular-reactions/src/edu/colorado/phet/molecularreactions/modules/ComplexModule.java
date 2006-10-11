@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
@@ -70,16 +71,10 @@ public class ComplexModule extends MRModule {
 
     public void setStripChartVisible( boolean visible ) {
         if( visible ) {
-            StripChart stripChart = new StripChart( SimStrings.get( "StripChart.title" ),
-                                                    new String[]{"A", "BC", "AB", "C"},
-                                                    SimStrings.get( "StripChart.time" ),
-                                                    SimStrings.get( "StripChart.num" ),
-                                                    PlotOrientation.VERTICAL,
-                                                    20, 0, 20 );
+            StripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 100, 0, 20, 1 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
             chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
-//            ( (PhetPCanvas)getSimulationPanel() ).addScreenChild( stripChartNode );
 
             stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
             PhetPCanvas stripChartCanvas = new PhetPCanvas();

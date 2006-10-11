@@ -50,7 +50,7 @@ public class SimpleModule extends MRModule {
         getControlPanel().addControl( new SimpleMRControlPanel( this ) );
 
         // Add Manual and Run Control buttons
-        createManualRunButtons();
+//        createManualRunButtons();
 
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {

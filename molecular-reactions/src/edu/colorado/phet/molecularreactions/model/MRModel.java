@@ -201,7 +201,7 @@ public class MRModel extends PublishingModel {
 //        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
 
 
-        monitorEnergy();
+//        monitorEnergy();
     }
 
     private void monitorEnergy() {

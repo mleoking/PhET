@@ -73,5 +73,9 @@ public class ProvisionalBondGraphic extends PNode implements SimpleObserver {
         int colorIdx = (int)( numColors * ( d / bond.getMaxBondLength() )) - 1;
         colorIdx = Math.max( 0, Math.min( colorIdx, colors.length - 1 ));
         linePath.setStrokePaint( colors[ colorIdx ]);
+
+        if( p1.distance( p2 ) > 100 ) {
+            System.out.println( "ProvisionalBondGraphic.update" );
+        }
     }
 }

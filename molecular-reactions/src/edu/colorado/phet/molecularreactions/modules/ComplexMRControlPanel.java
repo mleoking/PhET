@@ -110,7 +110,7 @@ public class ComplexMRControlPanel extends JPanel {
 
         public OptionsPanel( final ComplexModule module ) {
 
-            final JCheckBox showBondsCB = new JCheckBox( SimStrings.get("Control.showbonds") );
+            final JCheckBox showBondsCB = new JCheckBox( SimStrings.get("Control.showBonds") );
             showBondsCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setGraphicTypeVisible( showBondsCB.isSelected() );

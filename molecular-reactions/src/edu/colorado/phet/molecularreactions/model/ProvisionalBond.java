@@ -94,6 +94,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
                 getMolecules()[1].getFullMolecule().setVelocity( getMolecules()[1].getFullMolecule().getVelocity().normalize().scale( vM1f ) );
             }
         }
+
         notifyObservers();
     }
 

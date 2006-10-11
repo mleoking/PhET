@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -37,6 +38,17 @@ public class StripChart {
     private double xAxisRange;
     private int rangeDefSeriesNum;
 
+    /**
+     *
+     * @param title
+     * @param seriesNames
+     * @param xAxisLabel
+     * @param yAxisLabel
+     * @param orienation
+     * @param xAxisRange
+     * @param minY
+     * @param maxY
+     */
     public StripChart( String title,
                        String[] seriesNames,
                        String xAxisLabel,
@@ -74,6 +86,9 @@ public class StripChart {
         );
 
         XYPlot plot = (XYPlot)chart.getPlot();
+//        plot.getDomainAxis().setRange( 0, xAxisRange );
+        plot.getRangeAxis().setRange( minY, maxY );
+
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         for( int i = 0; i < series.length; i++ ) {
             renderer.setSeriesLinesVisible( i, true );
@@ -98,6 +113,10 @@ public class StripChart {
         if( seriesNum != rangeDefSeriesNum && series[rangeDefSeriesNum].getItemCount() > 0 ) {
             addData( rangeDefSeriesNum, x, y );
         }
+
+        XYPlot plot = (XYPlot)chart.getPlot();
+        plot.getDomainAxis().setRange( x - xAxisRange, x );
+
     }
 
     public JFreeChart getChart() {
