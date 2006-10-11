@@ -36,14 +36,14 @@ public class JetPackGraphic extends BodyGraphic {
             Body b = origBody.copyState();
 //            b.translate( );
             double dist = 0.3;
-            AbstractVector2D vec = AbstractVector2D.Double.parseAngleAndMagnitude( dist, origBody.getAngle() + Math.PI / 2 );
+            AbstractVector2D vec = AbstractVector2D.Double.parseAngleAndMagnitude( dist, origBody.getAttachmentPointRotation() + Math.PI / 2 );
 //            b.translate( 0,1);
             b.translate( -vec.getX(), -vec.getY() );
 
             AbstractVector2D thrust = b.getThrust();
             setVisible( thrust.getMagnitude() != 0 );
 //            double angle = System.currentTimeMillis() / 1000.0 * 0.5;
-            b.setAngle( thrust.getAngle() + Math.PI / 2 );
+            b.setAttachmentPointRotation( thrust.getAngle() + Math.PI / 2 );
             super.setBodyNoUpdate( b );
             super.update();
         }

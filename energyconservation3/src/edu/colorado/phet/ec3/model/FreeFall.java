@@ -30,7 +30,8 @@ public class FreeFall extends ForceMode implements Derivable {
         double origEnergy = model.getTotalMechanicalEnergy( body );
         setNetForce( getTotalForce( body, model ) );
         super.stepInTime( model, body, dt );
-        body.setAngle( body.getAngle() + rotationalVelocity * dt );
+        body.setCMRotation( body.getCMRotation() + rotationalVelocity * dt );
+//        body.setCMRotation( body.getAttachmentPointRotation() + Math.PI/16* dt );
         new EnergyConserver().fixEnergy( model, body, origEnergy );
     }
 

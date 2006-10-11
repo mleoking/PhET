@@ -149,8 +149,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void resetSkater( Body body ) {
-        body.setPosition( getDefaultBodyPosition() );
-        body.setAngle( getDefaultBodyAngle() );
+        body.setAttachmentPointPosition( getDefaultBodyPosition() );
+        body.setAttachmentPointRotation( getDefaultBodyAngle() );
         body.resetMode();
         body.setVelocity( 0, 0 );
     }
@@ -161,7 +161,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     private void init() {
         final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight() );
-        body.setPosition( getDefaultBodyPosition() );
+        body.setAttachmentPointPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
 
