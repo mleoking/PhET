@@ -42,7 +42,7 @@ public class Body {
     private double totalSystemEnergy;
     private double width;
     private double height;
-    private double cmRotation = Math.PI;
+    private double cmRotation = 0;
 
     public Body( double width, double height ) {
         this.width = width;
