@@ -130,6 +130,7 @@ public class SplineGraphic extends PNode {
             testAttach( numControlPointGraphics() - 1 );//can't do two at once.
         }
         initDragSpline = null;
+        spline.setUserControlled( false );
     }
 
     private boolean testAttach( int index ) {
@@ -142,6 +143,7 @@ public class SplineGraphic extends PNode {
     }
 
     private void initDragSpline() {
+        spline.setUserControlled( true );
         initDragSpline = new Point2D.Double[spline.getControlPoints().length];
         for( int i = 0; i < initDragSpline.length; i++ ) {
             initDragSpline[i] = new Point2D.Double( spline.controlPointAt( i ).getX(), spline.controlPointAt( i ).getY() );
@@ -238,11 +240,13 @@ public class SplineGraphic extends PNode {
         controlCircle.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 initDragControlPoint( index );
+                spline.setUserControlled( true );
                 event.setHandled( true );
             }
 
             public void mouseReleased( PInputEvent event ) {
                 finishDragControlPoint( index );
+                spline.setUserControlled( false );
                 event.setHandled( true );
             }
 

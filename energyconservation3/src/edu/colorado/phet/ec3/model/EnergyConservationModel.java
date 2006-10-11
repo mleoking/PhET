@@ -84,6 +84,16 @@ public class EnergyConservationModel {
         listeners.remove( energyModelListener );
     }
 
+    public boolean isSplineUserControlled() {
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+            if( splineSurface.isUserControlled() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 

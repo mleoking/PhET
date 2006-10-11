@@ -23,6 +23,10 @@ public class SplineSurface {
         return copy;
     }
 
+    public boolean isUserControlled() {
+        return top.isUserControlled() || bottom.isUserControlled();
+    }
+
     public AbstractSpline getTop() {
         return top;
     }
