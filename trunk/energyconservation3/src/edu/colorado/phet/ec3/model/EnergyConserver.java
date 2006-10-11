@@ -27,8 +27,8 @@ public class EnergyConserver {
             else {
             }
         }
-        for( int i = 0; i < 3; i++ ) {
-            if( Math.abs( model.getGravity() ) > 1.0 ) {
+        if( Math.abs( model.getGravity() ) > 1.0 ) {
+            for( int i = 0; i < 3; i++ ) {
                 boolean done = conserveEnergyViaH( model, body, desiredMechanicalEnergy );
                 if( done ) {
                     break;

@@ -85,9 +85,7 @@ public class FreeSplineMode extends ForceMode {
             speedHistory.remove( 0 );
         }
 
-
         Segment segment = getSegment( body );
-
         if( okayToStop( model, segment, body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
             double ke = body.getKineticEnergy();
             body.setVelocity( new Vector2D.Double( 0, 0 ) );
@@ -101,7 +99,7 @@ public class FreeSplineMode extends ForceMode {
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
         setNetForce( computeNetForce( model, segment ) );
-        super.stepInTime( model, body, dt ); //apply newton's laws
+        super.stepInTime( model, body, dt ); //apply newton's laws       
 
         segment = getSegment( body );
         if( segment == null ) {
@@ -123,7 +121,7 @@ public class FreeSplineMode extends ForceMode {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-            if( getSegment( body ) != getCollisionSegment( body ) ) {
+            if( getSegment( body ) != getCollisionSegment( body ) || model.isSplineUserControlled() ) {
 //                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
 //                rotateBody( body, segment, dt, Math.PI / 64 );
                 rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
@@ -168,7 +166,7 @@ public class FreeSplineMode extends ForceMode {
 //        System.out.println( "avgSpeed="+avgSpeed+", getnetforce.getm="+getNetForce().getMagnitude() );
 //        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
 //        return body.getFrictionCoefficient() > 0 && avgSpeed < 1 && getNetForce().getMagnitude() < 100&&speedHistory.size()==30;
-        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && getNetForce().getMagnitude() < 100 && speedHistory.size() == 30;
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && getNetForce().getMagnitude() < 100 && speedHistory.size() == 30 && !body.isUserControlled() && !model.isSplineUserControlled();
     }
 
     public void init( EnergyConservationModel model, Body body ) {

@@ -4,6 +4,20 @@ Remaining Work
 
 Bug: pressing go after playing back a sequence inverts the angle.
 
+One quick bug find ... now when he's stationary and the track is 
+moved he doesn't fall.
+
+When he's oscillating on the track and I lift the track up the skater 
+can end up oscillating back and forth, as if a track was there, but 
+it's not really there.
+
+1. Reset doesn't work any more ... the skater is just frozen (and the 
+red dot doesn't go with him).
+
+2. When I ignored the program for a bit and then went back to it, the 
+man was stopped and when I tried to grab him, all I could more around 
+was the little red dot, not the actual skater.
+
     1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
     2. If any 1 step destroys the total energy too much, roll it back.
     3. Redistribute the energy after each step

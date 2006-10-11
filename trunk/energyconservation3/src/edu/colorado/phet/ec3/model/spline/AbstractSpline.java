@@ -32,6 +32,7 @@ public abstract class AbstractSpline implements Cloneable {
     private Area area = null;
 
     public static final float SPLINE_THICKNESS = 0.25f;//meters
+    private boolean userControlled = false;
 //    private AbstractSpline reverseSpline = null;
 
     public boolean equals( Object obj ) {
@@ -212,5 +213,14 @@ public abstract class AbstractSpline implements Cloneable {
         else {
             return false;
         }
+    }
+
+    public void setUserControlled( boolean userControlled ) {
+        this.userControlled = userControlled;
+    }
+
+
+    public boolean isUserControlled() {
+        return userControlled;
     }
 }
