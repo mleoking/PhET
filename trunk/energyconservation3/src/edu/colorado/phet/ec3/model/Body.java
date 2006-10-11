@@ -98,7 +98,7 @@ public class Body {
         return getCenterOfMass().getX();
     }
 
-    private Point2D getCenterOfMass() {
+    public Point2D getCenterOfMass() {
         return getTransform().transform( new Point2D.Double( width / 2, height / 2 ), null );
     }
 

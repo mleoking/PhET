@@ -274,7 +274,7 @@ public class EnergyConservationModel {
     }
 
     public double getPotentialEnergy( Body body ) {
-        double h = zeroPointPotentialY - body.getAttachPoint().getY();
+        double h = zeroPointPotentialY - body.getCenterOfMass().getY();
         return body.getMass() * gravity * h;
     }
 
