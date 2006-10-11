@@ -119,7 +119,7 @@ public class FreeSplineMode extends ForceMode {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-//            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+            rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
             segment = getSegment( body );//need to find our new segment after rotation.
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
             
