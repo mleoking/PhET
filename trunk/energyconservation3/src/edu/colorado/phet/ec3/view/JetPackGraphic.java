@@ -43,7 +43,7 @@ public class JetPackGraphic extends BodyGraphic {
             AbstractVector2D thrust = b.getThrust();
             setVisible( thrust.getMagnitude() != 0 );
 //            double angle = System.currentTimeMillis() / 1000.0 * 0.5;
-            b.setAttachmentPointRotation( thrust.getAngle() + Math.PI / 2 );//todo this looks like a bug
+//            b.setAttachmentPointRotation( thrust.getAngle() + Math.PI / 2 );//todo this looks like a bug
             super.setBodyNoUpdate( b );
             super.update();
         }
