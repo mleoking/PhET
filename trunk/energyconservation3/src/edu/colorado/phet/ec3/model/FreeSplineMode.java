@@ -83,14 +83,14 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
+//        System.out.println( "body.getAttachPoint() = " + body.getAttachPoint() );
         State originalState = new State( model, body );
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             return;
         }
-//        rotateBody( body, segment, dt, getMaxRotDTheta( dt ) * 2 );
+        rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
         setNetForce( computeNetForce( model, segment ) );
         super.stepInTime( model, body, dt ); //apply newton's laws
 //        double emergentSpeed=(body.getPositionVector().getMagnitude()-originalState.getBody().getPositionVector().getMagnitude())/dt;
@@ -99,7 +99,7 @@ public class FreeSplineMode extends ForceMode {
 //        if( getFrictionForce( model, segment ).getMagnitude() > 0 &&body.getVelocity().getMagnitude()<2) {
 //            convertVelocityToThermal( model, originalState, body );
 //        }
-        debug( "newton's laws", originalState.getTotalEnergy(), model, body );
+
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
@@ -109,7 +109,8 @@ public class FreeSplineMode extends ForceMode {
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
         model.addThermalEnergy( frictiveWork );
-        debug( "setup bounce", originalState.getTotalEnergy(), model, body );
+//                debug( "newton's laws", originalState.getTotalEnergy(), model, body );
+        debug( "newton or maybe setup bounce", originalState.getTotalEnergy(), model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
@@ -125,14 +126,8 @@ public class FreeSplineMode extends ForceMode {
                 return;
             }
             debug( "We just rotated body", originalState.getTotalEnergy(), model, body );
-
-//            State beforeZero = new State( model, body );
             setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
-//            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
-//            if( model.getTotalEnergy( body ) - originalState.getTotalEnergy() > 0 ) {
-//                body.setPosition( body.getX(), beforeZero.getBody().getY() );
-//                debug( "After correcting position", originalState.getTotalEnergy(), model, body );
-//            }            
+            debug( "set bottom to zero", originalState.getTotalEnergy(), model, body );
 
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
@@ -310,7 +305,7 @@ public class FreeSplineMode extends ForceMode {
 
     private double getOvershootInSegment( Segment segment, Body body ) {
         double dist = new Line2D.Double( segment.getP0(), segment.getP1() ).ptLineDist( body.getAttachPoint() );
-        Vector2D.Double x = new Vector2D.Double( segment.getMidpoint(), body.getAttachPoint() );
+        Vector2D.Double x = new Vector2D.Double( segment.getCenter2D(), body.getAttachPoint() );
         dist *= MathUtil.getSign( x.dot( segment.getUnitNormalVector() ) );
         return dist;
     }
