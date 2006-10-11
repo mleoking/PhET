@@ -26,16 +26,8 @@ public class EnergyConserver {
             else {
             }
         }
-//        System.out.println( "post:vel- getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
-        if( model.getGravity() != 0.0 ) {
-            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
-        }
-//        System.out.println( "postH: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
-//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
-//        double deTOT = getDE( model, body, desiredMechanicalEnergy );
-//        EC3Debug.debug( "dETOT=" + deTOT );
-//        if( Math.abs( deTOT ) > 1E-4 ) {
-//            System.out.println( "deTOT = " + deTOT );
+//        if( model.getGravity() != 0.0 ) {
+//            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
 //        }
     }
 

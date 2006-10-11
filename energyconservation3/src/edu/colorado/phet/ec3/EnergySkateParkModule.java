@@ -173,7 +173,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
-
+        energyCanvas.debugBody(body);
 //        getClock().addClockListener( new ClockAdapter() {
 //            public void simulationTimeChanged( ClockEvent clockEvent ) {
 //                super.simulationTimeChanged( clockEvent );
