@@ -184,6 +184,7 @@ public class EC3RootNode extends PhetRootPNode {
     public void reset() {
         bodyGraphics.removeAllChildren();
         splineGraphics.removeAllChildren();
+        jetPackGraphics.removeAllChildren();
         clearBuses();
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );

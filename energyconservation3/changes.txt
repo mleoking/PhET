@@ -5,6 +5,7 @@ Found an instance of unconserved energy and remedied it.
 Bugfix: pressing go after playing back a sequence inverts the angle.
 Bugfix: When I go to space or set gravity to zero, if I don't use the arrows before I hit RESET, the arrow keys don't work. 
         For example, if you go to space and then hit Reset, the arrows work the far right slider.
+Bugfix: Jet pack isn't visible after reset.
 
 1.02.02 (10-11-2006)
 Bugfix: When he's stationary and the track is moved he doesn't fall.
