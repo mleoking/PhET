@@ -15,6 +15,10 @@ motion is damped and KE goes to zero (over a long period of time).  Do I
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
 
+	Now when I make a loop and have the skater roll into it, as soon as
+he moves upside down, he immediately accelerates and shoots off the screen.
+This is very reproducible.
+
 Write automated tests for the dynamics.
 
 Add friction for bounces, when friction is turned on.

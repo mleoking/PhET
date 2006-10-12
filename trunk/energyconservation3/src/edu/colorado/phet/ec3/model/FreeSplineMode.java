@@ -131,8 +131,9 @@ public class FreeSplineMode extends ForceMode {
             }
             if( getSegment( body ) != getCollisionSegment( body ) || model.isSplineUserControlled() ) {
                 //todo choose whether this smoothness is desired for the simulation, or if Double.POSITIVE_INFINITY is better
-                rotateBody( body, segment, dt, Math.PI / 64 );
-//                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+//                rotateBody( body, segment, dt, Math.PI / 64 );
+//                rotateBody( body, segment, dt, Math.PI / 64 );
+                rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
                 debug( "We just rotated body", originalState, model, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
                 debug( "set bottom to zero", originalState, model, body );
