@@ -64,8 +64,10 @@ public class MRModule extends Module {
                               insets.top );
         canvas.addScreenChild( energyView );
     }
-
+    
     protected void reset() {
+        getModel().removeAllModelElements();
+        ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
     }
     
