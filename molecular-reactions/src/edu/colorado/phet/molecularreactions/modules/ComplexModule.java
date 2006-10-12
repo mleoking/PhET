@@ -39,6 +39,7 @@ public class ComplexModule extends MRModule {
     private PSwing stripChartNode;
     private JDialog stripChartDlg;
     private ComplexMRControlPanel controlPanel;
+    private PumpGraphic pumpGraphic;
 
     public ComplexModule() {
         super( "Experiments" );
@@ -48,7 +49,7 @@ public class ComplexModule extends MRModule {
 
         // Add the pump
         MRModel model = getMRModel();
-        PumpGraphic pumpGraphic = new PumpGraphic( this );
+        pumpGraphic = new PumpGraphic( this );
         // 15 is the wall thickness of the box graphic
         pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
@@ -61,7 +62,8 @@ public class ComplexModule extends MRModule {
     public void reset() {
         super.reset();
         setInitialConditions();
-        controlPanel.reset();        
+        controlPanel.reset();
+        pumpGraphic.reset();
     }
 
     private void setInitialConditions() {
@@ -83,7 +85,7 @@ public class ComplexModule extends MRModule {
 
     public void setStripChartVisible( boolean visible ) {
         if( visible ) {
-            StripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 100, 0, 20, 1 );
+            StripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
             chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
@@ -97,7 +99,6 @@ public class ComplexModule extends MRModule {
             stripChartDlg.setVisible( true );
         }
         else if( stripChartNode != null ) {
-            ( (PhetPCanvas)getSimulationPanel() ).removeScreenChild( stripChartNode );
             stripChartNode = null;
             stripChartDlg.setVisible( false );
         }
