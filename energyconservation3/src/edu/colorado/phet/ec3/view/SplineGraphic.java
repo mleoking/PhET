@@ -160,7 +160,7 @@ public class SplineGraphic extends PNode {
     private boolean proposeMatchTrunk( int index ) {
         SplineMatch match = getTrunkMatch( index );
         if( match != null ) {
-            System.out.println( "match=" + match );
+//            System.out.println( "match=" + match );
             spline.controlPointAt( index ).setLocation( match.getTarget().getFullBounds().getCenter2D() );
             updateAll();
             return true;

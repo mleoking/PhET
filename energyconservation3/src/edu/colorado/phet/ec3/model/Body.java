@@ -185,6 +185,7 @@ public class Body {
     private void setMode( EnergyConservationModel model, UpdateMode mode ) {
         this.mode = mode;
         mode.init( model, this );
+//        System.out.println( "Mode="+mode.getClass() );
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
