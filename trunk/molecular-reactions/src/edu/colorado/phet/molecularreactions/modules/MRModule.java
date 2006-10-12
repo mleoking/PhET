@@ -59,7 +59,7 @@ public class MRModule extends Module {
         canvas.addScreenChild( spatialView );
 
         // Create energy view
-        energyView = new EnergyView( model );
+        energyView = new EnergyView( this );
         energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
                               insets.top );
         canvas.addScreenChild( energyView );

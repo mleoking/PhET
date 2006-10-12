@@ -18,6 +18,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
 import javax.swing.*;
@@ -60,7 +62,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyView extends PNode implements SimpleObserver {
+public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
     private int width = 300;
     private Dimension moleculePaneSize = new Dimension( width, 150 );
@@ -78,19 +80,18 @@ public class EnergyView extends PNode implements SimpleObserver {
     private EnergyCursor cursor;
     private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
     private Dimension curveAreaSize;
-    private MRModel model;
-//    private ResizingArrow separationIndicatorArrow;
     private Font axisFont = UIManager.getFont( "Label.font" );
     private PNode moleculePaneAxisNode;
     private PNode moleculeLayer;
     private ResizingArrow separationIndicatorArrow;
+    private MRModule module;
 
     /**
      *
      */
-    public EnergyView( MRModel model ) {
-
-        this.model = model;
+    public EnergyView( MRModule module ) {
+        this.module = module;
+        MRModel model = module.getMRModel();
 
         // The pane that has the molecules
         PPath moleculePane = createMoleculePane();
@@ -114,11 +115,17 @@ public class EnergyView extends PNode implements SimpleObserver {
     }
 
     public void reset() {
+
         selectedMolecule = null;
         nearestToSelectedMolecule = null;
 
+        moleculeLayer.removeChild( selectedMoleculeGraphic );
+        moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
         selectedMoleculeGraphic = null;
         nearestToSelectedMoleculeGraphic = null;
+
+        // Listen for changes in the selected molecule and the molecule closest to it
+        module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
     }
 
 
@@ -261,7 +268,7 @@ public class EnergyView extends PNode implements SimpleObserver {
 
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
-            double edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+            double edgeDist = module.getMRModel().getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
             // In the middle of the reaction, the collision distance is underfined
             if( Double.isNaN( edgeDist ) ) {
 //                edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
