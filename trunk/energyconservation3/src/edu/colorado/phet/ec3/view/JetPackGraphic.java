@@ -31,6 +31,7 @@ public class JetPackGraphic extends BodyGraphic {
             e.printStackTrace();
         }
         update();
+
     }
 
     public void update() {
@@ -45,7 +46,15 @@ public class JetPackGraphic extends BodyGraphic {
             AbstractVector2D thrust = b.getThrust();
             setVisible( thrust.getMagnitude() != 0 );
 //            double angle = System.currentTimeMillis() / 1000.0 * 0.5;
-//            b.setAttachmentPointRotation( thrust.getAngle() + Math.PI / 2 );//todo this looks like a bug
+            if( origBody.isFreeFallMode() ) {
+                b.setAttachmentPointRotation( 0 );//todo this looks like a bug
+                b.setCMRotation( thrust.getAngle() + Math.PI / 2 );
+            }
+            else if( origBody.isSplineMode() ) {
+                b.setAttachmentPointRotation( thrust.getAngle() + Math.PI / 2 );//todo this looks like a bug
+                b.setCMRotation( 0.0 );
+            }
+
             super.setBodyNoUpdate( b );
             super.update();
         }
