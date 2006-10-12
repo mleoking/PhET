@@ -15,7 +15,7 @@ public class EnergyConserver {
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
-        EnergyDebugger.stepFinished( model, body );
+//        EnergyDebugger.stepFinished( model, body );
         double speedThreshold = 1;//reduced from 20.
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {

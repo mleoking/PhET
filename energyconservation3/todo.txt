@@ -33,6 +33,8 @@ Secondly, if you use the space simulation, and change to gravity and back, somet
 falls off.  I can have him practically stop at the top when he's upside down
 and he doesn't fall off.  
 
+Write automated tests for the dynamics.
+ 
 #################################################################
 Low Priority
 #######################################
