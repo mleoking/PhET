@@ -14,7 +14,7 @@ public class State {
 
     public State( EnergyConservationModel model, Body body ) {
         this.model = model.copyState();
-        this.body = body.copyState();
+        this.body = body.copyState( model );
     }
 
     public EnergyConservationModel getModel() {
