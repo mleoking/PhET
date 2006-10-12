@@ -50,6 +50,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     private double springK = 1;
     private SimpleMolecule bodyToLaunch;
     private MovementType movementType = TWO_DIMENSIONAL;
+    private boolean enabled;
 
     /**
      *
@@ -62,6 +63,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     public void setBodyToLaunch( SimpleMolecule bodyToLaunch ) {
         this.bodyToLaunch = bodyToLaunch;
         bodyToLaunch.setVelocity( 0,0 );
+        setEnabled( true );
     }
 
     public void release() {
@@ -71,8 +73,17 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
             v.rotate( getTheta() );
             bodyToLaunch.setVelocity( v );
             bodyToLaunch = null;
+            enabled = false;
         }
         setTipLocation( restingTipLocation );
+    }
+
+    private void setEnabled( boolean enabled ) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public double getPE() {

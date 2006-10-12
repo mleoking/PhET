@@ -63,23 +63,33 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
      * Mouse handler
      */
     private class PlungerMouseHandler extends PBasicInputEventHandler {
-        double yStart;
         double dySinceLastMolecule;
 
         public void mouseEntered( PInputEvent event ) {
-            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
+            if( launcher.isEnabled() ) {
+                if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
+                }
+                else if( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL ) {
+                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+                }
+            }
         }
 
         public void mouseExited( PInputEvent event ) {
-            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            if( launcher.isEnabled() ) {
+                PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            }
         }
 
         public void mousePressed( PInputEvent event ) {
-            yStart = launcher.getTipLocation().getY();
         }
 
         public void mouseReleased( PInputEvent event ) {
-            launcher.release();
+            if( launcher.isEnabled() ) {
+                launcher.release();
+                PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            }
         }
 
         /**
@@ -88,24 +98,26 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
          * @param event
          */
         public void mouseDragged( PInputEvent event ) {
-            double dy = event.getDelta().getHeight();
-            double yLoc = plungerNode.getOffset().getY() + dy;
+            if( launcher.isEnabled() ) {
+                double dy = event.getDelta().getHeight();
+                double yLoc = plungerNode.getOffset().getY() + dy;
 
-            // Constrain the motion of the handle to be within the bounds of the PNode containing
-            // the PumpGraphic, and the initial location of the handle.
-            if( yLoc >= launcher.getPivotPoint().getY() ) {
-                launcher.translate( 0, dy );
-            }
+                // Constrain the motion of the handle to be within the bounds of the PNode containing
+                // the PumpGraphic, and the initial location of the handle.
+                if( yLoc >= launcher.getPivotPoint().getY() ) {
+                    launcher.translate( 0, dy );
+                }
 
-            // Rotate the plunger if the  mouse move left or right
-            double dx = event.getDelta().getWidth();
-            if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
-                double r = Math.sqrt( getFullBounds().getHeight() * getFullBounds().getHeight()
-                                      + getFullBounds().getWidth() * getFullBounds().getWidth() );
-                double dTheta = Math.asin( -dx / r );
-                double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta));
-                launcher.setTheta( theta );
+                // Rotate the plunger if the  mouse move left or right
+                double dx = event.getDelta().getWidth();
+                if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                    Point2D p = event.getPositionRelativeTo( LauncherGraphic.this );
+                    double r = Math.sqrt( getFullBounds().getHeight() * getFullBounds().getHeight()
+                                          + getFullBounds().getWidth() * getFullBounds().getWidth() );
+                    double dTheta = Math.asin( -dx / r );
+                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
+                    launcher.setTheta( theta );
+                }
             }
         }
     }
