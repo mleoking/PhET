@@ -15,12 +15,11 @@ motion is damped and KE goes to zero (over a long period of time).  Do I
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
 
-Secondly, if you use the space simulation, and change to gravity and back, sometimes (can't be sure how exactly) the thruster/jets don't show on the skater in space mode, though he does move as if they are firing.  
-Seems like the simulation of his jet pack is not quite getting reset. 
-
 Write automated tests for the dynamics.
 
 Add friction for bounces, when friction is turned on.
+
+Jetpack is shown in an incorrect position when the character is on the track.
          
 #################################################################
 Low Priority
