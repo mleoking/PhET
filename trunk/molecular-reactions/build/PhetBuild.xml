@@ -44,6 +44,9 @@ ignorepath      (those elements of the ant classpath that should not be
     <!-- Set up child directories, for during the build.  -->
     <property name="src" location="${development}/src"/>
     <property name="data" location="${development}/data"/>
+    <property name="jfreechart-lib" location="${project_home}/jfreechart-phet-module/jfreechart-module/lib"/>
+
+    <property name="addl-classpath" value="${project_home}/piccolo-phet-module/phetcommon-module/lib/jnlp.jar;${jfreechart-lib}/gnujaxp.jar;${jfreechart-lib}/jcommon-1.0.0.jar;${jfreechart-lib}/jfreechart-1.0.0.jar"/>
 
     <description>
         Build File.
@@ -97,6 +100,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/piccolo-phet-module/piccolo-module/extras"/>
             <src path="${project_home}/piccolo-phet-module/phetcommon-module/src"/>
             <exclude name="edu/umd/cs/piccolox/swt/**"/>
+            <classpath path="${addl-classpath}"/>
         </javac>
     </target>
 
@@ -112,6 +116,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${data}"/>
             <fileset dir="${project_home}/piccolo-phet-module/phetcommon-module/data"/>
             <fileset dir="${project_home}/piccolo-phet-module/data"/>
+            <!--<fileset dir="${addl-classpath}"/>-->
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
