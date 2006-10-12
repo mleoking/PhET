@@ -50,15 +50,12 @@ public class EnergySkateParkApplication extends PhetApplication {
                     int id = e.getID();
                     switch( id ) {
                         case KeyEvent.KEY_PRESSED:
-//                            System.out.println( "KEY_PRESSED" );
                             c.keyPressed( e );
                             break;
                         case KeyEvent.KEY_RELEASED:
-//                            System.out.println( "KEY_RELEASED" );
                             c.keyReleased( e );
                             break;
                         case KeyEvent.KEY_TYPED:
-//                            System.out.println( "KEY_TYPED" );
                             c.keyTyped( e );
                             break;
                         default:
@@ -70,6 +67,5 @@ public class EnergySkateParkApplication extends PhetApplication {
                 return false;
             }
         } );
-//        PDebug.debugRegionManagement=true;
     }
 }
