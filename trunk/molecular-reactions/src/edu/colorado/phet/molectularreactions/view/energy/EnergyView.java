@@ -69,8 +69,6 @@ public class EnergyView extends PNode implements SimpleObserver {
     private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;
 
-    private PNode moleculeLayer = new PNode();
-
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
@@ -81,8 +79,11 @@ public class EnergyView extends PNode implements SimpleObserver {
     private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
     private Dimension curveAreaSize;
     private MRModel model;
-    private ResizingArrow separationIndicatorArrow;
+//    private ResizingArrow separationIndicatorArrow;
     private Font axisFont = UIManager.getFont( "Label.font" );
+    private PNode moleculePaneAxisNode;
+    private PNode moleculeLayer;
+    private ResizingArrow separationIndicatorArrow;
 
     /**
      *
@@ -188,21 +189,25 @@ public class EnergyView extends PNode implements SimpleObserver {
                                                                 moleculePaneSize.getWidth(),
                                                                 moleculePaneSize.getHeight() ) );
         moleculePane.setPaint( moleculePaneBackgroundColor );
+        moleculeLayer = new PNode();
         moleculeLayer.setOffset( curveAreaInsets.left, 0 );
         moleculePane.addChild( moleculeLayer );
 
-        // Arrow that shows separation of molecules
-        separationIndicatorArrow = new ResizingArrow( Color.black );
-        moleculePane.addChild( separationIndicatorArrow );
-        separationIndicatorArrow.setVisible( false );
 
-        // Axis
+        // Axis: An arrow that shows separation of molecules and text label
+        // They are grouped in a single node so that they can be made visible or
+        // invisible as necessary
+        moleculePaneAxisNode = new PNode();
+        separationIndicatorArrow = new ResizingArrow( Color.black );
+        moleculePaneAxisNode.addChild( separationIndicatorArrow );
         PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
         siaLabel.setFont( axisFont );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
                             moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
-        moleculePane.addChild( siaLabel );
+        moleculePaneAxisNode.addChild( siaLabel );
+        moleculePaneAxisNode.setVisible( false );
+        moleculePane.addChild( moleculePaneAxisNode );
 
         return moleculePane;
     }
@@ -365,10 +370,10 @@ public class EnergyView extends PNode implements SimpleObserver {
 //                    bondGraphic = new MyBondGraphic( selectedMoleculeGraphic );
 //                    addChild( bondGraphic );
 //                }
-                separationIndicatorArrow.setVisible( true );
+                moleculePaneAxisNode.setVisible( true );
             }
             else {
-                separationIndicatorArrow.setVisible( false );
+                moleculePaneAxisNode.setVisible( false );
             }
 
             cursor.setVisible( selectedMolecule != null );

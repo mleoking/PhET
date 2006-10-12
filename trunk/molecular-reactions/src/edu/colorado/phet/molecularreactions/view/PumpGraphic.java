@@ -14,6 +14,7 @@ import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -36,13 +37,14 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PumpGraphic extends PNode {
+public class PumpGraphic extends PNode implements Resetable {
     private PImage pumpBodyPI;
     private PImage pumpHandlePI;
     private int initHandleYLoc = -15;
     private Point2D pumpBaseLocation;
     private Class currentMoleculeType;
     private MRModel model;
+    private PumpGraphic.MoleculeTypeSelector moleculeTypeSelector;
 
     /**
      *
@@ -62,8 +64,9 @@ public class PumpGraphic extends PNode {
         addChild( pumpBodyPI );
 
         // Molecule selector
+        moleculeTypeSelector = new MoleculeTypeSelector();
         PSwing moleculeSelector = new PSwing( (PSwingCanvas)module.getSimulationPanel(),
-                                              new MoleculeTypeSelector() );
+                                              moleculeTypeSelector );
 
         moleculeSelector.setOffset( 15 + pumpBodyPI.getWidth() / 2 - moleculeSelector.getWidth() / 2,
                                     2 + pumpBodyPI.getHeight() );
@@ -88,7 +91,7 @@ public class PumpGraphic extends PNode {
         double dySinceLastMolecule;
 
         public void mouseEntered( PInputEvent event ) {
-            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR));
+            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         }
 
         public void mouseExited( PInputEvent event ) {
@@ -145,19 +148,19 @@ public class PumpGraphic extends PNode {
                                                                                                     Math.PI * 3 / 4,
                                                                                                     Math.PI * 5 / 4 );
             AbstractMolecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
-                                                                   moleculeParamGenerator );
+                                                                           moleculeParamGenerator );
             return newMolecule;
         }
     }
 
-    private class MoleculeTypeSelector extends JPanel {
+    private class MoleculeTypeSelector extends JPanel implements Resetable {
         private JRadioButton aRB;
         private JRadioButton cRB;
         private JRadioButton abRB;
         private JRadioButton bcRB;
 
         public MoleculeTypeSelector() {
-            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.moleculeType")) );
+            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.moleculeType" ) ) );
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();
@@ -223,5 +226,14 @@ public class PumpGraphic extends PNode {
                 }
             }
         }
+
+        public void reset() {
+            aRB.setSelected( true );
+            currentMoleculeType = MoleculeA.class;
+        }
+    }
+
+    public void reset() {
+        moleculeTypeSelector.reset();
     }
 }
