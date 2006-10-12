@@ -23,6 +23,9 @@ import java.util.EventListener;
  * Instances of the SelectedMoleculeTracker find the coleset molecule to the
  * *selected molecule* that could react with it. These two molecules are then
  * represented on the EnergyView.
+ * <p>
+ * Instances of the class attach themselves as listeners to all instances of SimpleMolecule,
+ * and listener for changes in their selection status.
  *
  * @author Ron LeMaster
  * @version $Revision$
