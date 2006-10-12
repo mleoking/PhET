@@ -15,7 +15,6 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -36,7 +35,6 @@ public class StripChart {
     private XYSeries[] series;
     private JFreeChart chart;
     private double xAxisRange;
-    private int rangeDefSeriesNum;
 
     /**
      *
@@ -66,14 +64,6 @@ public class StripChart {
             dataset.addSeries( series[i] );
         }
 
-        // Add an extra series that will make the plot the proper width
-        // before any real data has been added to it
-        rangeDefSeriesNum = series.length - 1;
-        series[rangeDefSeriesNum] = new XYSeries( "range definition" );
-        series[rangeDefSeriesNum].add( 0, minY );
-        series[rangeDefSeriesNum].add( xAxisRange, maxY );
-        dataset.addSeries( series[rangeDefSeriesNum] );
-
         chart = ChartFactory.createXYLineChart(
                 title,
                 xAxisLabel,
@@ -86,7 +76,6 @@ public class StripChart {
         );
 
         XYPlot plot = (XYPlot)chart.getPlot();
-//        plot.getDomainAxis().setRange( 0, xAxisRange );
         plot.getRangeAxis().setRange( minY, maxY );
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
@@ -109,14 +98,9 @@ public class StripChart {
             series[seriesNum].remove( 0 );
         }
 
-        // Clear away data in the range definition series
-        if( seriesNum != rangeDefSeriesNum && series[rangeDefSeriesNum].getItemCount() > 0 ) {
-            addData( rangeDefSeriesNum, x, y );
-        }
-
         XYPlot plot = (XYPlot)chart.getPlot();
-        plot.getDomainAxis().setRange( x - xAxisRange, x );
-
+        double xOrigin = series[seriesNum].getX( 0 ).doubleValue();
+        plot.getDomainAxis().setRange( xOrigin, xOrigin + xAxisRange );
     }
 
     public JFreeChart getChart() {
