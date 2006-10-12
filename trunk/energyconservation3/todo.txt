@@ -4,8 +4,6 @@ Remaining Work
 
 Bug: Wiggle me appears when moving the slider.
 
-Jet pack isn't visible after reset.
-
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
 constant, perhaps, but increases a little if you hold down the down 
