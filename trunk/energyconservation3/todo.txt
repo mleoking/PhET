@@ -2,8 +2,6 @@
 Remaining Work
 #######################################
 
-Energy is not exactly conserved when friction is on and he moves between track and freefall.
-
 Bug: pressing go after playing back a sequence inverts the angle.
 
 Bug: Wiggle me appears when moving the slider.

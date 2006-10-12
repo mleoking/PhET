@@ -17,10 +17,12 @@ import java.io.IOException;
 
 public class JetPackGraphic extends BodyGraphic {
     private Body origBody;
+    private EnergySkateParkModule module;
 
     public JetPackGraphic( EnergySkateParkModule ec3Module, Body body ) {
         super( ec3Module, body );
         this.origBody = body;
+        this.module = ec3Module;
         debugCenter = true;
         try {
             setImage( ImageLoader.loadBufferedImage( "images/rocket5.png" ) );
@@ -33,7 +35,7 @@ public class JetPackGraphic extends BodyGraphic {
 
     public void update() {
         if( origBody != null ) {
-            Body b = origBody.copyState();
+            Body b = origBody.copyState( module.getEnergyConservationModel() );
 //            b.translate( );
             double dist = 0.3;
             AbstractVector2D vec = AbstractVector2D.Double.parseAngleAndMagnitude( dist, origBody.getAttachmentPointRotation() + Math.PI / 2 );

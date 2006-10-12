@@ -118,7 +118,7 @@ public class EnergyConservationModel {
         EnergyConservationModel copy = new EnergyConservationModel( zeroPointPotentialY );
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            copy.bodies.add( body.copyState() );
+            copy.bodies.add( body.copyState( this ) );
         }
         for( int i = 0; i < floors.size(); i++ ) {
             Floor floor = (Floor)floors.get( i );
@@ -140,7 +140,7 @@ public class EnergyConservationModel {
         floors.clear();
         splineSurfaces.clear();
         for( int i = 0; i < model.bodies.size(); i++ ) {
-            bodies.add( model.bodyAt( i ).copyState() );
+            bodies.add( model.bodyAt( i ).copyState( this ) );
         }
         for( int i = 0; i < model.splineSurfaces.size(); i++ ) {
             splineSurfaces.add( model.splineSurfaceAt( i ).copy() );

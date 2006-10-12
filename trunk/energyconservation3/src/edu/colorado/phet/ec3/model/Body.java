@@ -25,8 +25,8 @@ public class Body {
     private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
-    private double mass = 75.0;//kg
-    private double attachmentPointRotation = 0;//Math.PI;
+    private double mass = 75.0;
+    private double attachmentPointRotation = 0;
 
     private boolean facingRight;
 
@@ -40,7 +40,6 @@ public class Body {
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
     private ArrayList listeners = new ArrayList();
-    //    private double totalSystemEnergy;
     private double width;
     private double height;
     private double cmRotation = 0;
@@ -48,19 +47,24 @@ public class Body {
     public Body( double width, double height ) {
         this.width = width;
         this.height = height;
-//        attachmentPointRotation=-Math.PI;
         cmRotation = Math.PI;
     }
 
-    public Body copyState() {
-        Body copy = new Body( width, height );//todo better deep copy of bounds?
+    public Body copyState( EnergyConservationModel model ) {
+        Body copy = new Body( width, height );
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-        copy.mode = freeFall;//todo get the mode switch correct.
+        if( this.mode == freeFall ) {
+            copy.mode = copy.freeFall;
+        }
+        else if( this.mode instanceof FreeSplineMode ) {
+            copy.mode = new FreeSplineMode( ( (FreeSplineMode)this.mode ).getSpline(), copy );
+        }
+
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
@@ -71,9 +75,6 @@ public class Body {
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
-//        if( isUserControlled() || getMode() == freeFall ) {
-//            setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
-//        }
         time += dt;
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         int NUM_STEPS_PER_UPDATE = 5;
