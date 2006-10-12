@@ -38,6 +38,15 @@ public class MoleculePopulationsStripChart extends StripChart {
     private double updateInterval;
     private double timeSinceLastUpdate;
 
+    /**
+     *
+     * @param model
+     * @param clock
+     * @param xAxisRange
+     * @param minY
+     * @param maxY
+     * @param updateInterval
+     */
     public MoleculePopulationsStripChart( MRModel model, IClock clock, double xAxisRange, double minY, double maxY,
                                           double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY );
@@ -62,7 +71,6 @@ public class MoleculePopulationsStripChart extends StripChart {
                 addData( 2, clockEvent.getSimulationTime(), counterBC.getCnt() );
                 addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
             }
-
         }
     }
 }

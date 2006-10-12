@@ -16,6 +16,8 @@ import java.util.List;
 
 /**
  * MoleculeCounter
+ * <p>
+ * Monitors an MRModel to keep track of the number of molecules of a specified type
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -29,9 +31,23 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
     private int cnt;
     private MRModel model;
 
+    /**
+     *
+     * @param moleculeClass
+     * @param model
+     */
     public MoleculeCounter( Class moleculeClass, MRModel model ) {
         this.moleculeClass = moleculeClass;
         this.model = model;
+
+        // Initialize the counter to number of existing molecules
+        List modelElements = model.getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( moleculeClass.isInstance( o )) {
+                cnt++;
+            }
+        }
 
         model.addListener( this );
         AbstractMolecule.addClassListener( this );
@@ -40,6 +56,7 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
     public int getCnt() {
         return cnt;
     }
+
     //--------------------------------------------------------------------------------------------------
     // Implementation of PublishingModel.Listener
     //--------------------------------------------------------------------------------------------------
