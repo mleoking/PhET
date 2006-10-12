@@ -191,9 +191,12 @@ public class EnergyView extends PNode implements SimpleObserver {
         moleculeLayer.setOffset( curveAreaInsets.left, 0 );
         moleculePane.addChild( moleculeLayer );
 
-        // Axis
+        // Arrow that shows separation of molecules
         separationIndicatorArrow = new ResizingArrow( Color.black );
         moleculePane.addChild( separationIndicatorArrow );
+        separationIndicatorArrow.setVisible( false );
+
+        // Axis
         PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
         siaLabel.setFont( axisFont );
         siaLabel.rotate( -Math.PI / 2 );
@@ -225,7 +228,7 @@ public class EnergyView extends PNode implements SimpleObserver {
             }
             else {
                 System.out.println( "selectedMolecule = " + selectedMolecule );
-                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );                        
+                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
                 throw new RuntimeException( "internal error" );
             }
 
@@ -362,6 +365,10 @@ public class EnergyView extends PNode implements SimpleObserver {
 //                    bondGraphic = new MyBondGraphic( selectedMoleculeGraphic );
 //                    addChild( bondGraphic );
 //                }
+                separationIndicatorArrow.setVisible( true );
+            }
+            else {
+                separationIndicatorArrow.setVisible( false );
             }
 
             cursor.setVisible( selectedMolecule != null );

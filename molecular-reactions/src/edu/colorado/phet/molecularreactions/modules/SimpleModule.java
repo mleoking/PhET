@@ -36,6 +36,7 @@ import java.awt.geom.Point2D;
  */
 public class SimpleModule extends MRModule {
     private Launcher launcher;
+    private SimpleMRControlPanel controlPanel;
 
     public SimpleModule() {
         super( "Simple" );
@@ -53,12 +54,13 @@ public class SimpleModule extends MRModule {
             }
         } );
 
-        
+
         // Set up the molecules
         setInitialConditions( model );
 
         // create the control panel
-        getControlPanel().addControl( new SimpleMRControlPanel( this ) );
+        controlPanel = new SimpleMRControlPanel( this );
+        getControlPanel().addControl( controlPanel );
 
         // Add Manual and Run Control buttons
 //        createManualRunButtons();
@@ -156,8 +158,9 @@ public class SimpleModule extends MRModule {
 
     public void reset() {
         super.reset();
-        getModel().removeAllModelElements();
+//        getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
         setInitialConditions( (MRModel)getModel() );
+        controlPanel.reset();
     }
 }

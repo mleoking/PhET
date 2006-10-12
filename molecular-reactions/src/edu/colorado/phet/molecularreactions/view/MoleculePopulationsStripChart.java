@@ -19,6 +19,8 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import org.jfree.chart.plot.PlotOrientation;
 
+import java.awt.*;
+
 /**
  * MoleculePopulationsStripChart
  *
@@ -50,13 +52,23 @@ public class MoleculePopulationsStripChart extends StripChart {
     public MoleculePopulationsStripChart( MRModel model, IClock clock, double xAxisRange, double minY, double maxY,
                                           double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY );
+
         this.updateInterval = updateInterval;
 
+        // Create counters for each of the molecule types
         counterA = new MoleculeCounter( MoleculeA.class, model );
         counterAB = new MoleculeCounter( MoleculeAB.class, model );
         counterBC = new MoleculeCounter( MoleculeBC.class, model );
         counterC = new MoleculeCounter( MoleculeC.class, model );
 
+        // Set graphic attributes
+        setStroke( new BasicStroke( 2.0f ) );
+        setSeriesPaint( 0, new Color( 180, 180, 0 ));
+        setSeriesPaint( 1, new Color( 180, 80, 100 ));
+        setSeriesPaint( 2, new Color( 60, 180, 120 ));
+        setSeriesPaint( 3, new Color( 60, 10, 180 ));
+
+        // Hook up to the clock
         clock.addClockListener( new StripChartUpdater() );
     }
 

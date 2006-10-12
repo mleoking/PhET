@@ -23,6 +23,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * edu.colorado.phet.molecularreactions.util.StripChart
@@ -35,6 +36,7 @@ public class StripChart {
     private XYSeries[] series;
     private JFreeChart chart;
     private double xAxisRange;
+    private XYLineAndShapeRenderer renderer;
 
     /**
      *
@@ -78,7 +80,7 @@ public class StripChart {
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setRange( minY, maxY );
 
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        renderer = new XYLineAndShapeRenderer();
         for( int i = 0; i < series.length; i++ ) {
             renderer.setSeriesLinesVisible( i, true );
             renderer.setSeriesShapesVisible( i, false );
@@ -90,6 +92,14 @@ public class StripChart {
         plot.setRenderer( renderer );
 
 
+    }
+
+    public void setSeriesPaint( int seriesNum, Paint paint ) {
+        renderer.setSeriesPaint( seriesNum, paint );    
+    }
+
+    public void setStroke( Stroke stroke ) {
+        renderer.setStroke( stroke );
     }
 
     public void addData( int seriesNum, double x, double y ) {

@@ -38,6 +38,7 @@ import org.jfree.chart.ChartPanel;
 public class ComplexModule extends MRModule {
     private PSwing stripChartNode;
     private JDialog stripChartDlg;
+    private ComplexMRControlPanel controlPanel;
 
     public ComplexModule() {
         super( "Experiments" );
@@ -53,7 +54,19 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
-        getControlPanel().addControl( new ComplexMRControlPanel( this ) );
+        controlPanel = new ComplexMRControlPanel( this );
+        getControlPanel().addControl( controlPanel );
+    }
+
+    public void reset() {
+        super.reset();
+        setInitialConditions();
+        controlPanel.reset();        
+    }
+
+    private void setInitialConditions() {
+        setStripChartVisible( false );
+
     }
 
     private void createControls() {
@@ -62,7 +75,6 @@ public class ComplexModule extends MRModule {
 
         getControlPanel().addControl( setupGoBtn );
     }
-
 
     public void setCountersEditable( boolean editable ) {
         ComplexMRControlPanel controlPanel = (ComplexMRControlPanel)getMRControlPanel();
@@ -83,7 +95,6 @@ public class ComplexModule extends MRModule {
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
             stripChartDlg.setVisible( true );
-
         }
         else if( stripChartNode != null ) {
             ( (PhetPCanvas)getSimulationPanel() ).removeScreenChild( stripChartNode );

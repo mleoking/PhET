@@ -15,10 +15,9 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.controller.ResetAllAction;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -35,10 +34,11 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 //public class ComplexMRControlPanel extends ControlPanel {
-public class ComplexMRControlPanel extends JPanel {
+public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
+    private OptionsPanel optionsPanel;
 
-    public ComplexMRControlPanel( ComplexModule module ) {
+    public ComplexMRControlPanel( final ComplexModule module ) {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();
@@ -46,7 +46,7 @@ public class ComplexMRControlPanel extends JPanel {
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                         new Insets( 10, 0, 0, 0 ), 0, 0 );
 
 //        final ModelSlider thresholdEnergySlider = createThresholdEnergySlider( model );
 
@@ -61,11 +61,16 @@ public class ComplexMRControlPanel extends JPanel {
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
 
         // Options
-        JComponent options = new OptionsPanel( module );
+        optionsPanel = new OptionsPanel( module );
 
         // Reset button
-        JButton resetBtn = new JButton( "Reset All" );
-        resetBtn.addActionListener( new ResetAllAction( model ) );
+        JButton resetBtn = new JButton( SimStrings.get( "Control.reset") );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.reset();
+            }
+        } );
+//        resetBtn.addActionListener( new ResetAllAction( model ) );
 
         // Lay out the controls
         add( selectMoleculeBtn, gbc );
@@ -73,7 +78,9 @@ public class ComplexMRControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 //        add( legend, gbc );
         add( moleculeInstanceControlPanel, gbc );
-        add( options, gbc );
+        add( optionsPanel, gbc );
+        gbc.fill = GridBagConstraints.NONE;
+        add( resetBtn, gbc );
     }
 
     private ModelSlider createThresholdEnergySlider( final MRModel model ) {
@@ -102,15 +109,24 @@ public class ComplexMRControlPanel extends JPanel {
         return moleculeInstanceControlPanel;
     }
 
+    public void reset() {
+        optionsPanel.reset();
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
-    private class OptionsPanel extends JPanel {
+    private class OptionsPanel extends JPanel implements Resetable {
+        private JCheckBox showBondsCB;
+        private JCheckBox showStripChartCB;
+        private JCheckBox nearestNeighborCB;
+        private ComplexModule module;
 
         public OptionsPanel( final ComplexModule module ) {
+            this.module = module;
 
-            final JCheckBox showBondsCB = new JCheckBox( SimStrings.get("Control.showBonds") );
+            showBondsCB = new JCheckBox( SimStrings.get("Control.showBonds") );
             showBondsCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setGraphicTypeVisible( showBondsCB.isSelected() );
@@ -118,14 +134,14 @@ public class ComplexMRControlPanel extends JPanel {
             } );
             showBondsCB.setSelected( true );
 
-            final JCheckBox showStripChartCB = new JCheckBox( SimStrings.get("Control.showStripChart"));
+            showStripChartCB = new JCheckBox( SimStrings.get("Control.showStripChart"));
             showStripChartCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartVisible( showStripChartCB.isSelected() );
                 }
             } );
 
-            final JCheckBox nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
+            nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
@@ -138,6 +154,15 @@ public class ComplexMRControlPanel extends JPanel {
             add( showStripChartCB, gbc );
             add( showBondsCB, gbc );
             add( nearestNeighborCB, gbc );
+        }
+
+        public void reset() {
+            showStripChartCB.setSelected( false );
+            showBondsCB.setSelected( true  );
+            nearestNeighborCB.setSelected( false );
+
+            module.setStripChartVisible( showStripChartCB.isSelected() );
+            module.setGraphicTypeVisible( showBondsCB.isSelected() );
         }
     }
 

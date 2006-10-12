@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 
@@ -28,8 +29,9 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 //public class TestControlPanel extends ControlPanel {
-public class SimpleMRControlPanel extends JPanel {
+public class SimpleMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
+    private SimpleMRControlPanel.OptionsPanel optionsPanel;
 
     public SimpleMRControlPanel( final SimpleModule module ) {
         super( new GridBagLayout() );
@@ -38,10 +40,11 @@ public class SimpleMRControlPanel extends JPanel {
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( new OptionsPanel( module ), gbc );
+                                                         new Insets( 10, 0, 0, 0 ), 0, 0 );
+        optionsPanel = new OptionsPanel( module );
+        add( optionsPanel, gbc );
 
-        JButton resetBtn = new JButton( "Reset" );
+        JButton resetBtn = new JButton( SimStrings.get( "Control.reset") );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -51,7 +54,12 @@ public class SimpleMRControlPanel extends JPanel {
         add( resetBtn, gbc );
     }
 
-    private class OptionsPanel extends JPanel {
+    public void reset() {
+        optionsPanel.reset();
+    }
+
+
+    private class OptionsPanel extends JPanel implements  Resetable {
         private SimpleModule module;
         private JRadioButton oneDRB;
         private JRadioButton twoDRB;
@@ -107,6 +115,11 @@ public class SimpleMRControlPanel extends JPanel {
                     module.getLauncher().setMovementType( Launcher.TWO_DIMENSIONAL );
                 }
             }
+        }
+
+        public void reset() {
+            oneDRB.setSelected( true );
+            module.getLauncher().setMovementType( Launcher.ONE_DIMENSIONAL );
         }
     }
 }
