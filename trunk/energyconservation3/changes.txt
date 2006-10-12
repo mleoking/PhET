@@ -2,6 +2,7 @@
 Added smoothing for spline traversal (to smooth out jerkiness e.g. at bottom of parabola)
 Added code so the skater can fall off of spline when his velocity dotted with the unit normal of the segment is positive.
 Found an instance of unconserved energy and remedied it.
+Bugfix: pressing go after playing back a sequence inverts the angle.
 
 1.02.02 (10-11-2006)
 Bugfix: When he's stationary and the track is moved he doesn't fall.
