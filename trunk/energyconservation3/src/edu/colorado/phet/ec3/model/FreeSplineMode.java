@@ -32,6 +32,7 @@ public class FreeSplineMode extends ForceMode {
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
     private static boolean debug = false;
+    private boolean debugState = false;
 //    private static boolean debug = true;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
@@ -90,11 +91,13 @@ public class FreeSplineMode extends ForceMode {
             double ke = body.getKineticEnergy();
             body.setVelocity( new Vector2D.Double( 0, 0 ) );
             model.addThermalEnergy( ke );
+            debugState( "Stopping" );
             return;
         }
 
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            debugState( "Fly off surface1" );
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
@@ -104,6 +107,7 @@ public class FreeSplineMode extends ForceMode {
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            debugState( "Fly off surface 2" );
             return;
         }
         setupBounce( body, segment );
@@ -113,12 +117,17 @@ public class FreeSplineMode extends ForceMode {
         debug( "newton or maybe setup bounce", originalState, model, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
+            debugState( "Handle bounce & Fly off" );
             return;
         }
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
             if( v > 0.01 ) {
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+                if( getCollisionSegment( body ) != null ) {
+                    body.setSplineMode( model, spline );
+                }
+                debugState( "Fly off surface 3" );
                 return;
             }
             if( getSegment( body ) != getCollisionSegment( body ) || model.isSplineUserControlled() ) {
@@ -154,6 +163,12 @@ public class FreeSplineMode extends ForceMode {
         lastGrabState = grabbed;
         lastSegment = segment;
         stepFinished();
+    }
+
+    private void debugState( String s ) {
+        if( debugState ) {
+            System.out.println( s );
+        }
     }
 
     private boolean okayToStop( EnergyConservationModel model, Segment segment, Body body ) {
@@ -432,12 +447,12 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
-//        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
-        return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
-//        }
-//        else {
-//            return new ImmutableVector2D.Double();
-//        }
+        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
+            return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
+        }
+        else {
+            return new ImmutableVector2D.Double();
+        }
     }
 
     private double getFrictionCoefficient() {
