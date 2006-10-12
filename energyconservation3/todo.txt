@@ -2,8 +2,6 @@
 Remaining Work
 #######################################
 
-Bug: pressing go after playing back a sequence inverts the angle.
-
 Bug: Wiggle me appears when moving the slider.
 
 I found a bug with the wiggle me for the jet pack. 
