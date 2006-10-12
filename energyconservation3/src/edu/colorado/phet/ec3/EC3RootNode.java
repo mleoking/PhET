@@ -300,11 +300,11 @@ public class EC3RootNode extends PhetRootPNode {
         return (JetPackGraphic)jetPackGraphics.getChild( i );
     }
 
-    private void removeJetPackGraphic( JetPackGraphic bodyGraphic ) {
+    private void removeJetPackGraphic( PNode bodyGraphic ) {
         jetPackGraphics.removeChild( bodyGraphic );
     }
 
-    private void addJetPackGraphic( JetPackGraphic jetPackGraphic ) {
+    private void addJetPackGraphic( PNode jetPackGraphic ) {
         jetPackGraphics.addChild( jetPackGraphic );
     }
 

@@ -377,5 +377,6 @@ public class EC3Canvas extends PhetPCanvas {
     private void removeAttachmentPointGraphic( AttachmentPointNode o ) {
         removeScreenChild( o );
         o.delete();
+        attachmentPointGraphics.remove( o );
     }
 }
