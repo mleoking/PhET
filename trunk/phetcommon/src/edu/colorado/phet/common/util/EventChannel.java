@@ -25,6 +25,9 @@ import java.util.List;
  * It eliminates the need for clients to manage lists of listeners, and iterate those lists
  * and cast their elements when clients want to send events to those listeners.
  * <p/>
+ * EventChannel is concurrency-safe in that clients can add and remove listeners from the channel
+ * while the channel is processing an event.
+ * <p/>
  * Some oddities in this class' use are due to the way the Proxy and InvocationHandler
  * classes work.
  * <p/>
@@ -194,12 +197,10 @@ public class EventChannel implements InvocationHandler {
             // If anyone tried to add or remove a listener while we were invoking
             // targets, add/remove them now
             if( !listenersToAdd.isEmpty() ) {
-//                System.out.println( "listenersToAdd = " + listenersToAdd.size() );
                 targets.addAll( listenersToAdd );
                 listenersToAdd.clear();
             }
             if( !listenersToRemove.isEmpty() ) {
-//                System.out.println( "listenersToRemove = " + listenersToRemove.size() );
                 targets.removeAll( listenersToRemove );
                 listenersToRemove.clear();
             }
