@@ -65,5 +65,7 @@ public class GravitySlider extends ModelSlider {
 
         getUnitsReadout().setBackground( EC3LookAndFeel.backgroundColor );
         getUnitsReadout().setBorder( null );
+        setFocusable( false );
+        getSlider().setFocusable( false );
     }
 }
