@@ -40,7 +40,7 @@ public class Body {
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
     private ArrayList listeners = new ArrayList();
-    private double totalSystemEnergy;
+    //    private double totalSystemEnergy;
     private double width;
     private double height;
     private double cmRotation = 0;
@@ -71,14 +71,20 @@ public class Body {
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
-        if( isUserControlled() || getMode() == freeFall ) {
-            setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
-        }
+//        if( isUserControlled() || getMode() == freeFall ) {
+//            setTotalSystemEnergy( energyConservationModel.getTotalEnergy( this ) );
+//        }
         time += dt;
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         int NUM_STEPS_PER_UPDATE = 5;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
+            double ei = new State( energyConservationModel, this ).getTotalEnergy();
             getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
+            double ef = new State( energyConservationModel, this ).getTotalEnergy();
+            double err = Math.abs( ef - ei );
+            if( err > 1E-6 ) {
+                System.out.println( "err=" + err + ", i=" + i );
+            }
         }
         if( !isFreeFallMode() && !isUserControlled() ) {
             facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
@@ -317,13 +323,13 @@ public class Body {
         freeFall.reset();
     }
 
-    public void setTotalSystemEnergy( double totalEnergy ) {
-        this.totalSystemEnergy = totalEnergy;
-    }
+//    public void setTotalSystemEnergy( double totalEnergy ) {
+//        this.totalSystemEnergy = totalEnergy;
+//    }
 
-    public double getTotalSystemEnergy() {
-        return totalSystemEnergy;
-    }
+//    public double getTotalSystemEnergy() {
+//        return totalSystemEnergy;
+//    }
 
     public double getWidth() {
         return width;

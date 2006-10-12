@@ -32,6 +32,10 @@ public class FreeFall extends ForceMode implements Derivable {
         super.stepInTime( model, body, dt );
         body.setCMRotation( body.getCMRotation() + rotationalVelocity * dt );
         new EnergyConserver().fixEnergy( model, body, origEnergy );
+        double DE = Math.abs( model.getMechanicalEnergy( body ) - origEnergy );
+        if( DE > 1E-6 ) {
+            System.out.println( "energy conservation error in free fall: " + DE );
+        }
     }
 
     private Vector2D.Double getTotalForce( Body body, EnergyConservationModel model ) {

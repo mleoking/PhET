@@ -27,18 +27,21 @@ public class EnergyDebugger {
     }
 
     public static void stepStarted( EnergyConservationModel model, Body body, double dt ) {
+        origEnergy = new State( model, body ).getTotalEnergy();
         if( showEnergy ) {
             if( !frame.isVisible() ) {
                 frame.setVisible( true );
             }
-            origEnergy = model.getMechanicalEnergy( body );
+
             orig.setText( "orig=" + origEnergy );
         }
     }
 
     public static void stepFinished( EnergyConservationModel model, Body body ) {
-        double finalEnergy = model.getMechanicalEnergy( body );
-        double dE = finalEnergy - origEnergy;
+        double dE = new State( model, body ).getTotalEnergy() - origEnergy;
+        if( Math.abs( dE ) > 10E-6 ) {
+            System.out.println( "STEP FINISHED dE = " + dE + ", totalEnergy=" + new State( model, body ).getTotalEnergy() );
+        }
     }
 
     public static void postProcessed( EnergyConservationModel model, Body body, double dt, String name ) {

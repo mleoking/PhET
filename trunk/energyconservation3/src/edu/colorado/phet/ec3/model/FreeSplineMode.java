@@ -33,7 +33,6 @@ public class FreeSplineMode extends ForceMode {
     private static boolean errorYetThisStep = false;
     private static boolean debug = false;
     private boolean debugState = false;
-//    private static boolean debug = true;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -123,7 +122,7 @@ public class FreeSplineMode extends ForceMode {
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
             if( v > 0.01 ) {
-                flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+                flyOffSurface( body, model, dt, originalState.getTotalEnergy() );
                 if( getCollisionSegment( body ) != null ) {
                     body.setSplineMode( model, spline );
                 }
@@ -144,7 +143,7 @@ public class FreeSplineMode extends ForceMode {
             }
 
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-                new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
+                new EnergyConserver().fixEnergy( model, body, originalState.getTotalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
             else {
                 patchEnergyInclThermal( frictiveWork, model, body, originalState.getTotalEnergy(), originalState );
