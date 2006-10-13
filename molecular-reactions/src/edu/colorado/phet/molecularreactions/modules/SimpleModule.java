@@ -45,7 +45,7 @@ public class SimpleModule extends MRModule {
         MRModel model = (MRModel)getModel();
 
         // Disable marking of the selected molecule and its nearest neighbor
-        AbstractSimpleMoleculeGraphic.setMARK_SELECTED_MOLECULE( false );
+        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( false );
 
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {
