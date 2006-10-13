@@ -188,6 +188,12 @@ public abstract class Simulation implements SimContainer {
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
+    /**
+     * Checks to see that all the required resources are available and logs the time as the last time this
+     * simulation was launched.
+     * 
+     * @throws LaunchException
+     */
     public void launch() throws LaunchException {
         // Check to see that all the resources are available
         for( int i = 0; i < resources.size(); i++ ) {
