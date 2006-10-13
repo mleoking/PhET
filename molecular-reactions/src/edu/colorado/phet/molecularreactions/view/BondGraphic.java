@@ -45,6 +45,8 @@ public class BondGraphic extends PPath implements SimpleObserver {
         setStroke( bondStroke );
         bond.addObserver( this );
 
+        setPickable( false );
+        
         update();
     }
 

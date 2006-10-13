@@ -68,9 +68,12 @@ public class CollisionAgent implements ModelElement {
                             }
                         }
                     }
-                    if( !collidedWithMolecule ) {
-                        moleculeA.setAcceleration( 0,0 );
-                    }
+                    
+                    // Don't know why this was here. rjl 10/13/06
+//                    if( !collidedWithMolecule ) {
+//                        moleculeA.setAcceleration( 0,0 );
+//                    }
+
 
                     // Check for collisions between the molecule and the box. Note that we have to
                     // do this several times so that cases in which a molecule

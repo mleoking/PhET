@@ -51,14 +51,17 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private static Color moleculeBColor = new Color( 0, 200, 0 );
     private static Color moleculeCColor = new Color( 100, 100, 240 );
     private static Color defaultMoleculeColor = new Color( 100, 100, 100 );
-    private static Stroke defaultStroke = new BasicStroke( 1 );
+    private static Stroke defaultStroke = new BasicStroke( 0f );
+//    private static Stroke defaultStroke = new BasicStroke( 1f );
     private static Stroke selectedStroke = new BasicStroke( 2 );
     private static Stroke nearestToSelectedStroke = new BasicStroke( 2 );
     private static Paint defaultStrokePaint = Color.black;
     private static Paint selectedStrokePaint = Color.magenta;
-    private static Paint cmPaint = Color.magenta;
+    private static Paint cmPaint = Color.green;
+//    private static Paint cmPaint = Color.magenta;
     private static Paint nearestToSelectedStrokePaint = new Color( 255, 0, 255 );
-    private static boolean MARK_SELECTED_MOLECULE = false;
+    private static boolean MARK_SELECTED_MOLECULE = true;
+//    private static boolean MARK_SELECTED_MOLECULE = false;
 
     static {
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
@@ -153,6 +156,24 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                 addChild( labelNode );
             }
 
+            // Halo and CM mark for use when showing the "selected molecule"
+            double radius = moleculeNode.getWidth() / 2;
+            Shape s = new Ellipse2D.Double( -radius,
+                                            -radius,
+                                            radius * 2,
+                                            radius * 2 );
+            pPath = new PPath( s, selectedStroke );
+            pPath.setStrokePaint( selectedStrokePaint );
+            addChild( pPath );
+            pPath.setVisible( false );
+
+            // The CM marker
+            cmNode = new PPath( new Ellipse2D.Double( -cmRad, -cmRad, cmRad * 2, cmRad * 2 ) );
+            cmNode.setPaint( cmPaint );
+            cmNode.setVisible( false );
+            addChild( cmNode );
+
+
         }
         else {
             double radius = molecule.getRadius() - BOND_OFFSET;
@@ -206,15 +227,26 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     // Implementation of SimpleMolecule.Listener
     //--------------------------------------------------------------------------------------------------
 
+    /**
+     * Highlights the selected molecule and the nearest one to it that can
+     * react with it
+     *
+     * @param molecule
+     */
     public void selectionStatusChanged( SimpleMolecule molecule ) {
-        if( true ) {
-            return;
-        }
+//        if( true ) {
+//            return;
+//        }
 
         if( MARK_SELECTED_MOLECULE ) {
             if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
-                pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
-                pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
+                if( glassMolecules ) {
+                    pPath.setVisible( true );
+                }
+                else {
+                    pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
+                    pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
+                }
             }
             else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
                 cmNode.setVisible( true );
@@ -223,8 +255,13 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
             }
             else {
                 cmNode.setVisible( false );
-                pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
-                pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+                if( glassMolecules ) {
+                    pPath.setVisible( false );
+                }
+                else {
+                    pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
+                    pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+                }
             }
         }
 

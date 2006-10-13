@@ -1,7 +1,4 @@
-- Reset All doesn't reset molecule type of pump
 - Hose on pump graphic is aliased
-- Radio buttons don't always properly reflect movement type of launcher after a reset
-- After reset, selected molecule isn't right.
 - Hard bonds not always going away
 - Temperature control will make model go crazy
 - molecules escaping box
@@ -96,3 +93,6 @@ Done
 10-11-06 - Provisional bonds not always going away.
 10-11-06 - Separation arrow on energy monitor panel doesn't display properly when there is any selected molecule
 10-11-06 - Modules have Reset All behavior, but are missing some elements of it.
+10-11-06 - Reset All doesn't reset molecule type of pump
+10-11-06 - Radio buttons don't always properly reflect movement type of launcher after a reset
+10-11-06 - After reset, selected molecule isn't right.
