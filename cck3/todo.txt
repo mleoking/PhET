@@ -2,6 +2,17 @@
 #Remaining Work
 #######################
 
+Sam,
+
+When Steve used CCK in class yesterday, some students interpreted the 
+"Disable" button in the advanced section as "disabling" or "turning off" 
+wire resistivity.  This is a reasonable, but wrong interpretation, and 
+it might be better to change the button from "enable/disable" to 
+"show/hide" to avoid this confusion in the future.
+
+Sam
+
+
 Noad F. just told me that something unexpected happened today when he was using the CCK in a lecture: He had a circuit partially built, then tried to undo something by reflexively hitting Ctrl-Z. His circuit dissappear, and was replaced by a battery and a resistor with electrons flowing in both directions through them. I tested this on my PC, and the same thing happened.
  
 Is this some test behavior you put in an forgot to take out? It should probably be take out.
