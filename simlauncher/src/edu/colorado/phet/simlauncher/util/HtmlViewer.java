@@ -35,7 +35,11 @@ public class HtmlViewer {
     public void view( String urlString ) {
 
         if( PhetUtilities.isMacintosh() ) {
-            String[]commands = new String[]{"open", "-a", "/Applications/Safari.app",};
+            // Strip the URL portion from the urlString, so we have a local reference to
+            // the file
+            String urlHeader = "://";
+            String fileName = urlString.substring( urlString.indexOf(urlHeader) + urlHeader.length() );
+            String[]commands = new String[]{"open", "-a", "/Applications/Safari.app", fileName };
             for( int i = 0; i < commands.length; i++ ) {
                 System.out.println( "commands[i] = " + commands[i] );
             }
