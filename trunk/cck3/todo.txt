@@ -6,6 +6,7 @@ Noad F. just told me that something unexpected happened today when he was using 
  
 Is this some test behavior you put in an forgot to take out? It should probably be take out.
 
+I was just talking with Steve Pollock about his use of the CCK in his class, and he presented a request: He would like to be able to reduce the number of significant figures in the ammeter so that the resistance in the wires doesn't keep the numbers from looking perfect when he constructs simple circuits. He said that when he first builds a simple parallel circuit, he would like the currents to look exactly the same in both branches. With three decimal places, they don't, and he has t explain it at a time when he'd rather not.
 
 See faraday's AC source graphics?
 
