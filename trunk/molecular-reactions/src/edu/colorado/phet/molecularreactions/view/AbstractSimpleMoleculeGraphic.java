@@ -57,11 +57,11 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private static Stroke nearestToSelectedStroke = new BasicStroke( 2 );
     private static Paint defaultStrokePaint = Color.black;
     private static Paint selectedStrokePaint = Color.magenta;
-    private static Paint cmPaint = Color.green;
+    private static Paint cmPaint = new Color( 60, 180, 00);
 //    private static Paint cmPaint = Color.magenta;
     private static Paint nearestToSelectedStrokePaint = new Color( 255, 0, 255 );
-    private static boolean MARK_SELECTED_MOLECULE = true;
-//    private static boolean MARK_SELECTED_MOLECULE = false;
+//    private static boolean MARK_SELECTED_MOLECULE = true;
+    private static boolean MARK_SELECTED_MOLECULE = false;
 
     static {
         AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
@@ -89,7 +89,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         return annotation;
     }
 
-    public static void setMARK_SELECTED_MOLECULE( boolean mark ) {
+    public static void setMarkSelectedMolecule( boolean mark ) {
         AbstractSimpleMoleculeGraphic.MARK_SELECTED_MOLECULE = mark;
     }
 
@@ -100,8 +100,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     private SimpleMolecule molecule;
     private PPath pPath;
     private PPath cmNode;
-    private double cmRad = 3;
-
+    private double cmRad = 4;
     private boolean glassMolecules = true;
 
     /**
@@ -169,6 +168,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
             // The CM marker
             cmNode = new PPath( new Ellipse2D.Double( -cmRad, -cmRad, cmRad * 2, cmRad * 2 ) );
+            cmNode.setStrokePaint( null );
             cmNode.setPaint( cmPaint );
             cmNode.setVisible( false );
             addChild( cmNode );
@@ -266,9 +266,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
         }
 
         // for debugging
-        if( cmNode != null ) {
-            cmNode.setVisible( DebugFlags.SHOW_CM );
-        }
+//        if( cmNode != null ) {
+//            cmNode.setVisible( DebugFlags.SHOW_CM );
+//        }
 
     }
 }
