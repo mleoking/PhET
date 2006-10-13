@@ -57,6 +57,12 @@ public class ComplexModule extends MRModule {
         getControlPanel().addControl( controlPanel );
     }
 
+    public void activate() {
+        super.activate();
+        // True marking of the selected molecule and its nearest neighbor
+        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
+    }
+
     public void reset() {
         super.reset();
         setInitialConditions();

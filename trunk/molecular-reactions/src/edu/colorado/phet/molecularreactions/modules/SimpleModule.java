@@ -44,9 +44,6 @@ public class SimpleModule extends MRModule {
         // Set up the model
         MRModel model = (MRModel)getModel();
 
-        // Disable marking of the selected molecule and its nearest neighbor
-        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( false );
-
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {
             public PNode createGraphic( ModelElement modelElement ) {
@@ -67,6 +64,12 @@ public class SimpleModule extends MRModule {
 
 //        // Set up the molecules
 //        setInitialConditions( model );
+    }
+
+    public void activate() {
+        super.activate();
+        // Disable marking of the selected molecule and its nearest neighbor
+        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( false );
     }
 
     public Launcher getLauncher() {
