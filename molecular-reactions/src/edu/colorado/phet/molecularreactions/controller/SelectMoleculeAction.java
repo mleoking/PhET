@@ -39,11 +39,15 @@ public class SelectMoleculeAction extends AbstractAction {
         if( molecule != null ) {
             molecule.setSelectionStatus( Selectable.NOT_SELECTED );
         }
+
+        if( listener != null ) {
+            model.removeSelectedMoleculeTrackerListener( listener );
+        }
+
         listener = new SelectedMoleculeTracker.Listener() {
             public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                      SimpleMolecule prevTrackedMolecule ) {
                 clock.start();
-                model.addSelectedMoleculeTrackerListener( listener );
             }
 
             public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {

@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.MoleculePopulationsStripChart;
+import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
@@ -42,7 +43,7 @@ public class ComplexModule extends MRModule {
         super( "Experiments" );
 
         // Disable marking of the selected molecule and its nearest neighbor
-//        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
+        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
 
         // Add the pump
         MRModel model = getMRModel();
