@@ -1,7 +1,6 @@
 - Hose on pump graphic is aliased
 - Hard bonds not always going away
 - Temperature control will make model go crazy
-- molecules escaping box
 
 - Clean up code by using AbstractMolecule.useFull<xxx> and AbstractMolecule.getFullMolecule()
 - halo isn't shown for selected molecule
@@ -96,3 +95,4 @@ Done
 10-11-06 - Reset All doesn't reset molecule type of pump
 10-11-06 - Radio buttons don't always properly reflect movement type of launcher after a reset
 10-11-06 - After reset, selected molecule isn't right.
+10-11-06 - molecules escaping box
