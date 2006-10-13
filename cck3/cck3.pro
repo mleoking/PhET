@@ -1,7 +1,7 @@
 -injars ant_output\jars\cck.jar
 -injars lib\grabbag.jar
 -injars lib\Jama-1.0.1.jar
--injars lib\jnlp.jar
+-injars phetcommon-dir\lib\jnlp.jar
 -injars lib\nanoxml-2.2.1.jar
 -injars lib\smoothmetal.jar
 -injars lib\junit.jar
