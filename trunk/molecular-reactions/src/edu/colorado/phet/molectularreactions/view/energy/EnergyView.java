@@ -83,7 +83,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
     private Font axisFont = UIManager.getFont( "Label.font" );
     private PNode moleculePaneAxisNode;
     private PNode moleculeLayer;
-    private ResizingArrow separationIndicatorArrow;
+    private SeparationIndicatorArrow separationIndicatorArrow;
     private MRModule module;
 
     /**
@@ -205,7 +205,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         // They are grouped in a single node so that they can be made visible or
         // invisible as necessary
         moleculePaneAxisNode = new PNode();
-        separationIndicatorArrow = new ResizingArrow( Color.black );
+        separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         moleculePaneAxisNode.addChild( separationIndicatorArrow );
         PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
         siaLabel.setFont( axisFont );

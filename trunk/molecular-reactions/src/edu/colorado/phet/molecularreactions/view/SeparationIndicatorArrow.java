@@ -19,12 +19,12 @@ import java.awt.geom.Line2D;
 import java.awt.*;
 
 /**
- * ResizingArrow
+ * SeparationIndicatorArrow
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ResizingArrow extends PNode {
+public class SeparationIndicatorArrow extends PNode {
     private PNode arrowheadNodeA;
     private PNode arrowheadNodeB;
     private Arrow arrowheadA;
@@ -37,7 +37,7 @@ public class ResizingArrow extends PNode {
     /**
      * @param color
      */
-    public ResizingArrow( Color color ) {
+    public SeparationIndicatorArrow( Color color ) {
         this.arrowheadA = new Arrow( new Point2D.Double( 0, headHeight ),
                                      new Point2D.Double(),
                                      headHeight,
