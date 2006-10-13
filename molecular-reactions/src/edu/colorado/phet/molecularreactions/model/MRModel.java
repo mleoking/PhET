@@ -201,10 +201,12 @@ public class MRModel extends PublishingModel {
 //        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
 
 
-//        monitorEnergy();
+        monitorEnergy();
     }
 
-    private void monitorEnergy() {
+    Vector2D lastM = new Vector2D.Double( );
+
+    public void monitorEnergy() {
         List modelElements = getModelElements();
         double pe = 0;
         double ke = 0;
@@ -212,7 +214,7 @@ public class MRModel extends PublishingModel {
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
             if( o instanceof PotentialEnergySource ) {
-                pe += ((PotentialEnergySource)o).getPE();
+//                pe += ((PotentialEnergySource)o).getPE();
             }
             if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
                 ke += ((Body)o).getKineticEnergy();
@@ -222,6 +224,11 @@ public class MRModel extends PublishingModel {
                 m.add(((Body)o).getMomentum());
             }
         }
+
+        if( lastM.getMagnitude() != m.getMagnitude() ) {
+            System.out.println( "MRModel.monitorEnergy >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
+        }
+        lastM = m;
         DecimalFormat df = new DecimalFormat( "#.000");
         System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }

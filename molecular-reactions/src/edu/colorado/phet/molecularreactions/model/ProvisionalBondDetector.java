@@ -57,6 +57,8 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
      */
     public void stepInTime( double dt ) {
 
+//        if( true ) return;
+
         // Determine how far apart two molecules can be and have a provisional bond
         // todo: get rid of 2 * in the following statement
         double provisionalBondMaxLength = model.getEnergyProfile().getThresholdWidth() / 2;

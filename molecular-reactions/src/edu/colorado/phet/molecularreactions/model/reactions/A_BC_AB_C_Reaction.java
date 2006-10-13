@@ -105,9 +105,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private void doReaction( MoleculeAB mAB, MoleculeC mC ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
-//        mB.setVelocity( mC.getVelocity() );
         MoleculeA mA = mAB.getMoleculeA();
-//        mA.setVelocity( mAB.getVelocity() );
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
         doReactionII( mAB, mBC, mC, mA );
     }
@@ -115,9 +113,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
-//        mB.setVelocity( mA.getVelocity() );
         MoleculeC mC = mBC.getMoleculeC();
-//        mC.setVelocity( mBC.getVelocity() );
         MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
         doReactionII( mBC, mAB, mA, mC );
     }
@@ -135,11 +131,32 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                AbstractMolecule oldFreeMolecule,
                                AbstractMolecule newFreeMolecule ) {
 
-//        System.out.println( "A_BC_AB_C_Reaction.doReactionII -------------------------------------" );
-
         model.removeModelElement( oldComposite );
-        model.addModelElement( newComposite );
+//        model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
+
+        SimpleMolecule a = (SimpleMolecule)oldFreeMolecule;
+        SimpleMolecule b = oldComposite.getComponentMolecules()[0] instanceof MoleculeB
+                             ? (SimpleMolecule)oldComposite.getComponentMolecules()[0]
+                             : (SimpleMolecule)oldComposite.getComponentMolecules()[1];
+        SimpleMolecule c = (SimpleMolecule)newFreeMolecule;
+
+        double vabx = ( b.getMass() * b.getVelocity().getX() + a.getMass() * a.getVelocity().getX() )
+                / ( b.getMass() + a.getMass() );
+        double vaby = ( b.getMass() * b.getVelocity().getY() + a.getMass() * a.getVelocity().getY() )
+                / ( b.getMass() + a.getMass() );
+        a.setVelocity( new Vector2D.Double( vabx, vaby ));
+        b.setVelocity( new Vector2D.Double( vabx, vaby ));
+
+        SimpleMolecule[] sms = new SimpleMolecule[]{ a, b };
+        if( newComposite instanceof MoleculeAB ) {
+            newComposite = new MoleculeAB( sms );
+        }
+        if( newComposite instanceof MoleculeBC ) {
+            newComposite = new MoleculeBC( sms );
+        }
+        model.addModelElement( newComposite );
+
 
         // assign velocities to the reaction products
 //        setReactionProductVelocities( oldFreeMolecule, oldComposite, newComposite, newFreeMolecule );
