@@ -111,7 +111,12 @@ public class MRModel extends PublishingModel {
     }
 
     public void removeModelElement( ModelElement modelElement ) {
+        if( modelElement instanceof ProvisionalBond ) {
+            System.out.println( "MRModel.removeModelElement" );
+        }
+
         super.removeModelElement( modelElement );
+
         if( modelElement instanceof PotentialEnergySource ) {
             potentialEnergySources.remove( modelElement );
         }
@@ -221,14 +226,16 @@ public class MRModel extends PublishingModel {
             }
 
             if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ((AbstractMolecule)o).isPartOfComposite() )) {
+//                Body b = (Body)o;
+//                System.out.println( "b = " + b.getClass() + "\tm = " + b.getMomentum() );
                 m.add(((Body)o).getMomentum());
             }
         }
 
-        if( lastM.getMagnitude() != m.getMagnitude() ) {
-            System.out.println( "MRModel.monitorEnergy >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
-        }
-        lastM = m;
+//        if( lastM.getMagnitude() != m.getMagnitude() ) {
+//            System.out.println( "MRModel.monitorEnergy >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
+//        }
+//        lastM = m;
         DecimalFormat df = new DecimalFormat( "#.000");
         System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }

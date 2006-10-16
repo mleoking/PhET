@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model.reactions;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
+import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
@@ -107,7 +108,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
-        doReactionII( mAB, mBC, mC, mA );
+        double pe = getEnergyProfile().getPeakLevel() - getEnergyProfile().getRightLevel();
+        doReactionII( mAB, mBC, mC, mA, pe );
     }
 
     private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
@@ -115,7 +117,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
         MoleculeB mB = mBC.getMoleculeB();
         MoleculeC mC = mBC.getMoleculeC();
         MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
-        doReactionII( mBC, mAB, mA, mC );
+        double pe = getEnergyProfile().getPeakLevel() - getEnergyProfile().getLeftLevel();
+        doReactionII( mBC, mAB, mA, mC, pe );
     }
 
     /**
@@ -129,26 +132,36 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private void doReactionII( AbstractMolecule oldComposite,
                                AbstractMolecule newComposite,
                                AbstractMolecule oldFreeMolecule,
-                               AbstractMolecule newFreeMolecule ) {
+                               AbstractMolecule newFreeMolecule,
+                               double pe ) {
 
         model.removeModelElement( oldComposite );
-//        model.addModelElement( newComposite );
+        model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
+
+//        ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
+//                                                                      getEnergyProfile().getThresholdWidth() / 2,
+//                                                                      getEnergyProfile().getThresholdWidth() / 2,
+//                                                                      new SimpleMolecule[]{(SimpleMolecule)newFreeMolecule,
+//                                                                              (SimpleMolecule)oldFreeMolecule} );
+//        model.addModelElement( spring );
+        if( true) return;
+
 
         SimpleMolecule a = (SimpleMolecule)oldFreeMolecule;
         SimpleMolecule b = oldComposite.getComponentMolecules()[0] instanceof MoleculeB
-                             ? (SimpleMolecule)oldComposite.getComponentMolecules()[0]
-                             : (SimpleMolecule)oldComposite.getComponentMolecules()[1];
+                           ? (SimpleMolecule)oldComposite.getComponentMolecules()[0]
+                           : (SimpleMolecule)oldComposite.getComponentMolecules()[1];
         SimpleMolecule c = (SimpleMolecule)newFreeMolecule;
 
         double vabx = ( b.getMass() * b.getVelocity().getX() + a.getMass() * a.getVelocity().getX() )
-                / ( b.getMass() + a.getMass() );
+                      / ( b.getMass() + a.getMass() );
         double vaby = ( b.getMass() * b.getVelocity().getY() + a.getMass() * a.getVelocity().getY() )
-                / ( b.getMass() + a.getMass() );
-        a.setVelocity( new Vector2D.Double( vabx, vaby ));
-        b.setVelocity( new Vector2D.Double( vabx, vaby ));
+                      / ( b.getMass() + a.getMass() );
+        a.setVelocity( new Vector2D.Double( vabx, vaby ) );
+        b.setVelocity( new Vector2D.Double( vabx, vaby ) );
 
-        SimpleMolecule[] sms = new SimpleMolecule[]{ a, b };
+        SimpleMolecule[] sms = new SimpleMolecule[]{a, b};
         if( newComposite instanceof MoleculeAB ) {
             newComposite = new MoleculeAB( sms );
         }
@@ -156,7 +169,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
             newComposite = new MoleculeBC( sms );
         }
         model.addModelElement( newComposite );
-
 
         // assign velocities to the reaction products
 //        setReactionProductVelocities( oldFreeMolecule, oldComposite, newComposite, newFreeMolecule );

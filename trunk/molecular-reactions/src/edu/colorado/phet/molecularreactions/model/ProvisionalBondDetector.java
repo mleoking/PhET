@@ -25,6 +25,9 @@ import java.util.List;
  * <p/>
  * This is a ModelElement. At each time step, it looks at all the molecules in the model
  * to see if any qualify for provisional bonds.
+ * <p>
+ * ProvisionalBonds are created whenever two molecules that could potential react are within
+ * a certain distance of each other. This detector only creates 
  *
  * @author Ron LeMaster
  * @version $Revision$

@@ -25,7 +25,7 @@ import java.awt.geom.Line2D;
  * <p/>
  * A spring that has SimpleMolecules attached at both ends. It is modeled as two
  * simple springs whose fixed ends are at the closest points of the two molecules.
- *
+ * <p/>
  * todo: take account of initial compression of spring
  *
  * @author Ron LeMaster
@@ -119,7 +119,6 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
     }
 
     /**
-     *
      * @param k
      * @param restingLength
      * @param bodies
@@ -135,7 +134,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
             componentSprings = createComponentSpringsCompressed( bodies );
         }
         else {
-        componentSprings = createComponentSprings( bodies );
+            componentSprings = createComponentSprings( bodies );
         }
     }
 
@@ -145,6 +144,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
 
     /**
      * Creates the springs that attach to each of the molecules
+     *
      * @param bodies
      * @return two springs
      */
@@ -178,6 +178,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
 
     /**
      * Creates the springs that attach to each of the molecules
+     *
      * @param bodies
      * @return two springs
      */
@@ -190,6 +191,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
         cb.addBody( bodies[0].getFullMolecule() );
         cb.addBody( bodies[1].getFullMolecule() );
         Point2D fixedPt = cb.getCM();
+        setMass( cb.getMass() );
 
         // Compute the spring constants for the two component springs
         double k0 = k * cb.getMass() / bodies[1].getFullMolecule().getMass();
@@ -209,21 +211,27 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
 
     /**
      * Incorporates code to check for energy being conserved
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
-
+//        setPosition( cb.getPosition() );
+//        setVelocity( cb.getVelocity() );
         super.stepInTime( dt );
-        double pe0  = getPotentialEnergy();
+        double pe0 = getPotentialEnergy();
         double ke0 = 0;
         double ke1 = 0;
         for( int i = 0; i < componentSprings.length; i++ ) {
             ke0 += componentSprings[i].getAttachedBody().getKineticEnergy();
+
+            // The spring is moving
+//            componentSprings[i].setVelocity( cb.getVelocity() );
+
             componentSprings[i].stepInTime( dt );
             ke1 += componentSprings[i].getAttachedBody().getKineticEnergy();
         }
         double pe1 = getPotentialEnergy();
-        double de =  pe1 + ke1 - (pe0 + ke0 );
+        double de = pe1 + ke1 - ( pe0 + ke0 );
 
         notifyObservers();
     }
@@ -242,6 +250,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
 
     /**
      * Returns the current length of the spring
+     *
      * @return the current length of the spring
      */
     public double getLength() {

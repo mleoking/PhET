@@ -13,10 +13,9 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
-import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.awt.geom.Point2D;
 
 /**
  * ProvisionalBond
@@ -40,6 +39,8 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
     private double maxBondLength;
     private MRModel model;
     private ReactionSpring spring;
+    private Point2D pUtilA = new Point2D.Double( );
+    private Point2D pUtilB = new Point2D.Double( );
 
     /**
      * @param sm1
@@ -54,19 +55,37 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
         molecules = new SimpleMolecule[]{sm1, sm2};
 
         // create the spring
-        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
+//        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
+
 //        double initialLength = model.getReaction().getCollisionDistance( sm1.getFullMolecule(),
 //                                                                         sm2.getFullMolecule() ) - this.maxBondLength;
 //        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2}, initialLength );
 
-        // Don't create a spring if the molecules are moving apart
+        // If the molecules are moving toward each other, create one sort of spring. If
+        // they're moving apart, create a releasing spring
+        pUtilA.setLocation( sm1.getPosition().getX() + sm1.getVelocity().getX(),
+                                  sm1.getPosition().getY() + sm1.getVelocity().getY() );
+        pUtilB.setLocation( sm2.getPosition().getX() + sm2.getVelocity().getX(),
+                                  sm2.getPosition().getY() + sm2.getVelocity().getY() );
         if( sm1.getPosition().distance( sm2.getPosition() )
-            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
+            > pUtilA.distance( pUtilB ) ) {
+//        if( sm1.getPosition().distance( sm2.getPosition() )
+//            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
+            double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
             spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
             model.addModelElement( spring );
             CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
             sm1.addListener( compositeStateMonitor );
             sm2.addListener( compositeStateMonitor );
+        }
+        else {
+            EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
+            double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
+            ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
+                                                                          energyProfile.getThresholdWidth() / 2,
+                                                                          energyProfile.getThresholdWidth() / 2,
+                                                                          new SimpleMolecule[]{sm1, sm2} );
+            model.addModelElement( spring );
         }
     }
 

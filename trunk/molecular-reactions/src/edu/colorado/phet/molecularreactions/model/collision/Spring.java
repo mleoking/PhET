@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
@@ -27,7 +28,8 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Spring extends SimpleObservable implements ModelElement, PotentialEnergySource {
+public class Spring extends Particle implements ModelElement, PotentialEnergySource {
+//public class Spring extends SimpleObservable implements ModelElement, PotentialEnergySource {
 
     double k;
     double omega;
@@ -270,16 +272,19 @@ public class Spring extends SimpleObservable implements ModelElement, PotentialE
             freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );
 
             // Update the velocity of the attached body
-            Vector2D v = getVelocity();
-//            attachedBody.setVelocity( v );
-            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
+            Vector2D v = getFreeEndVelocity();
+            attachedBody.setVelocity( v );
+//            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
         notifyObservers();
     }
 
-    private Vector2D getVelocity() {
+    private Vector2D getFreeEndVelocity() {
         Vector2D v = new Vector2D.Double( -omega * A * Math.cos( omega * t + phi ), 0 );
         v.rotate( angle );
+
+//        v.add( getVelocity() );
+
         return v;
     }
 
@@ -296,7 +301,7 @@ public class Spring extends SimpleObservable implements ModelElement, PotentialE
     }
 
     public double getLength() {
-        return fixedEnd.distance( freeEnd );    
+        return fixedEnd.distance( freeEnd );
     }
 
     public Line2D getExtent() {
@@ -316,5 +321,9 @@ public class Spring extends SimpleObservable implements ModelElement, PotentialE
 
     public double getPE() {
         return getPotentialEnergy();
+    }
+
+    public void setFixedEnd( Point2D position ) {
+        fixedEnd = position;
     }
 }
