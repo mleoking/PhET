@@ -43,7 +43,7 @@ public class SpringTestModule4 extends Module {
     private MoleculeC mC;
 
     public SpringTestModule4() {
-        super( "Spring Test 3", new SwingClock( 40, 1 ), true );
+        super( "Spring Test 4", new SwingClock( 40, 1 ), true );
 
         final MRModel model = new MRModel( getClock() ) {
             protected void stepInTime( double dt ) {

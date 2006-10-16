@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
+import edu.colorado.phet.molecularreactions.model.PotentialEnergySource;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -26,7 +27,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Spring extends SimpleObservable implements ModelElement {
+public class Spring extends SimpleObservable implements ModelElement, PotentialEnergySource {
 
     double k;
     double omega;
@@ -79,11 +80,24 @@ public class Spring extends SimpleObservable implements ModelElement {
         attachBodyAtRestingLength( body, vRel );
     }
 
+    /**
+     *
+     * @param k
+     * @param restingLength
+     * @param fixedEnd
+     * @param angle
+     */
     public Spring( double k, double restingLength, Point2D fixedEnd, double angle ) {
         this( k, restingLength, fixedEnd );
         setAngle( angle, fixedEnd, restingLength );
     }
 
+    /**
+     *
+     * @param k
+     * @param restingLength
+     * @param fixedEnd
+     */
     public Spring( double k, double restingLength, Point2D fixedEnd ) {
         this.k = k;
         this.restingLength = restingLength;
@@ -168,8 +182,7 @@ public class Spring extends SimpleObservable implements ModelElement {
 
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
-        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
-//        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+//        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
 
         double v0 = body.getVelocity().getMagnitude();
         if( v0 != 0 ) {
@@ -186,8 +199,6 @@ public class Spring extends SimpleObservable implements ModelElement {
         else {
             A = ( restingLength - length ) / Math.sin( phi );
         }
-//        A = Math.abs( A );
-//        A = v0 / ( omega * Math.cos( phi ) );
     }
 
     /**
@@ -284,12 +295,18 @@ public class Spring extends SimpleObservable implements ModelElement {
         return freeEnd;
     }
 
+    public double getLength() {
+        return fixedEnd.distance( freeEnd );    
+    }
+
     public Line2D getExtent() {
         extent.setLine( fixedEnd, freeEnd );
         return extent;
     }
 
     public double getPotentialEnergy() {
+        double dl = restingLength - (fixedEnd.distance( freeEnd ));
+        pe = k * dl * dl / 2;
         return pe;
     }
 
@@ -297,6 +314,7 @@ public class Spring extends SimpleObservable implements ModelElement {
         return attachedBody;
     }
 
-    public void setLength( double v ) {
+    public double getPE() {
+        return getPotentialEnergy();
     }
 }
