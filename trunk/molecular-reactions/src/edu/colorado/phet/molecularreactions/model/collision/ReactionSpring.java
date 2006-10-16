@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.CompositeBody;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.PotentialEnergySource;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
@@ -30,7 +31,7 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ReactionSpring extends Body implements ModelElement {
+public class ReactionSpring extends Body implements ModelElement, PotentialEnergySource {
 
     double k;
     double restingLength;
@@ -46,7 +47,19 @@ public class ReactionSpring extends Body implements ModelElement {
      * @param dl            The specified length of deformation
      * @param restingLength
      * @param bodies        An array of two Body instances
+     * @param isCompressed
      */
+    public ReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies, boolean isCompressed ) {
+        this( 2 * pe / ( dl * dl ), restingLength, bodies, isCompressed );
+    }
+
+    /**
+     * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
+     * @param dl            The specified length of deformation
+     * @param restingLength
+     * @param bodies        An array of two Body instances
+     */
+/*
     public ReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies, double initialLength ) {
 //        this( 2 * pe / ( dl * dl ), restingLength, bodies );
         // Find the CM of the bodies. This will be the fixed point
@@ -93,6 +106,7 @@ public class ReactionSpring extends Body implements ModelElement {
 
         componentSprings = springs;
     }
+*/
 
     /**
      * @param pe            The amount of energy stored in the spring when it's deformed by a specified length
@@ -101,16 +115,28 @@ public class ReactionSpring extends Body implements ModelElement {
      * @param bodies        An array of two Body instances
      */
     public ReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies ) {
-        this( 2 * pe / ( dl * dl ), restingLength, bodies );
+        this( 2 * pe / ( dl * dl ), restingLength, bodies, false );
     }
 
-    public ReactionSpring( double k, double restingLength, SimpleMolecule[] bodies ) {
+    /**
+     *
+     * @param k
+     * @param restingLength
+     * @param bodies
+     * @param isCompressed
+     */
+    public ReactionSpring( double k, double restingLength, SimpleMolecule[] bodies, boolean isCompressed ) {
         this.k = k;
         this.restingLength = restingLength;
         extent = new Line2D.Double();
 
         // Create component springs
+        if( isCompressed ) {
+            componentSprings = createComponentSpringsCompressed( bodies );
+        }
+        else {
         componentSprings = createComponentSprings( bodies );
+        }
     }
 
     public Spring[] getComponentSprings() {
@@ -151,6 +177,37 @@ public class ReactionSpring extends Body implements ModelElement {
     }
 
     /**
+     * Creates the springs that attach to each of the molecules
+     * @param bodies
+     * @return two springs
+     */
+    private Spring[] createComponentSpringsCompressed( SimpleMolecule[] bodies ) {
+        Spring[] springs = new Spring[2];
+
+        // Find the CM of the bodies. This will be the fixed point
+        // of the two springs
+        cb = new CompositeBody();
+        cb.addBody( bodies[0].getFullMolecule() );
+        cb.addBody( bodies[1].getFullMolecule() );
+        Point2D fixedPt = cb.getCM();
+
+        // Compute the spring constants for the two component springs
+        double k0 = k * cb.getMass() / bodies[1].getFullMolecule().getMass();
+        double k1 = k * cb.getMass() / bodies[0].getFullMolecule().getMass();
+
+        // Compute the resting lengths of the springs
+        double rl0 = restingLength * bodies[1].getFullMass() / cb.getMass();
+        double rl1 = restingLength * bodies[0].getFullMass() / cb.getMass();
+
+        // Make the component springs, with the bodies attached
+        springs[0] = new Spring( k0, rl0, fixedPt, 0 );
+        springs[0].attachBodyAtSpringLength( bodies[0], 0 );
+        springs[1] = new Spring( k1, rl1, fixedPt, 0 );
+        springs[1].attachBodyAtSpringLength( bodies[1], 0 );
+        return springs;
+    }
+
+    /**
      * Incorporates code to check for energy being conserved
      * @param dt
      */
@@ -179,7 +236,23 @@ public class ReactionSpring extends Body implements ModelElement {
         return cb.getMomentOfInertia();
     }
 
+    public double getRestingLength() {
+        return restingLength;
+    }
+
+    /**
+     * Returns the current length of the spring
+     * @return the current length of the spring
+     */
+    public double getLength() {
+        return componentSprings[0].getLength() + componentSprings[1].getLength();
+    }
+
     public double getPotentialEnergy() {
         return componentSprings[0].getPotentialEnergy() + componentSprings[1].getPotentialEnergy();
+    }
+
+    public double getPE() {
+        return getPotentialEnergy();
     }
 }

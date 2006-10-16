@@ -214,7 +214,7 @@ public class MRModel extends PublishingModel {
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
             if( o instanceof PotentialEnergySource ) {
-//                pe += ((PotentialEnergySource)o).getPE();
+                pe += ((PotentialEnergySource)o).getPE();
             }
             if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
                 ke += ((Body)o).getKineticEnergy();
