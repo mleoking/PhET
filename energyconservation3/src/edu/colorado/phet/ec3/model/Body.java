@@ -210,7 +210,8 @@ public class Body {
             }
         }
         if( !same ) {
-            setMode( new FreeSplineMode( model, spline ) );
+//            setMode( new FreeSplineMode( model, spline ) );
+            setMode( new FreeSplineMode2( model, spline ) );
         }
     }
 
