@@ -73,7 +73,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
 //        if( sm1.getPosition().distance( sm2.getPosition() )
 //            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
             double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-            if( !DebugFlags.HARD_COLLISIONS ) {
+            if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
                 spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
                 model.addModelElement( spring );
             }
@@ -90,7 +90,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
         EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
 //        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
 
-        if( !DebugFlags.HARD_COLLISIONS ) {
+        if( DebugFlags.PROVISIONAL_BOND_SPRINGS) {
             ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
                                                                           energyProfile.getThresholdWidth() / 2,
                                                                           energyProfile.getThresholdWidth() / 2,

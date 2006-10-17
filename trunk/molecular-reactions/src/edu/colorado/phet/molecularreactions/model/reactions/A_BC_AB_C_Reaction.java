@@ -93,6 +93,64 @@ public class A_BC_AB_C_Reaction extends Reaction {
     }
 
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
+
+        if( DebugFlags.LINDAS_COLLISIONS ) {
+            // Find the B molecule in the composite
+            MoleculeB mB = cm.getComponentMolecules()[0] instanceof MoleculeB
+                           ? (MoleculeB)cm.getComponentMolecules()[0]
+                           : (MoleculeB)cm.getComponentMolecules()[1];
+
+            // Get a reference to the other molecule in the composite
+            SimpleMolecule sm2 = cm.getComponentMolecules()[0] instanceof MoleculeB
+                                 ? cm.getComponentMolecules()[1]
+                                 : cm.getComponentMolecules()[0];
+
+            // Do a hard sphere collision between the B molecule and the simple one passed in, sm
+            HardBodyCollision collision = new HardBodyCollision();
+            collision.detectAndDoCollision( sm, mB );
+
+            // Do a hard sphere collision between the B molecule and the other one in the composite
+            collision.detectAndDoCollision( mB, sm2 );
+
+            // Remove the original composite from the model
+            model.removeModelElement( cm );
+            cm.getComponentMolecules()[0].setParentComposite( null );
+            cm.getComponentMolecules()[1].setParentComposite( null );
+
+            // Make a composite molecule between sm and the B molecule
+            CompositeMolecule cm2 = null;
+            if( sm instanceof MoleculeA ) {
+                cm2 = new MoleculeAB( new SimpleMolecule[]{sm, mB} );
+            }
+            else if( sm instanceof MoleculeC ) {
+                cm2 = new MoleculeBC( new SimpleMolecule[]{sm, mB} );
+            }
+
+            // Give the sm and B molecules the same velocity as their center of mass
+            sm.setVelocity( cm2.getVelocity() );
+            mB.setVelocity( cm2.getVelocity() );
+
+            // Move the sm and B molecules next to each other along the line connecting them
+            Vector2D vb = new Vector2D.Double( cm2.getCM(), mB.getPosition() ).normalize().scale( mB.getRadius() );
+            Vector2D vs = new Vector2D.Double( cm2.getCM(), sm.getPosition() ).normalize().scale( sm.getRadius() );
+            mB.setPosition( cm2.getCM().getX() + vb.getX(), cm2.getCM().getY() + vb.getY() );
+            sm.setPosition( cm2.getCM().getX() + vs.getX(), cm2.getCM().getY() + vs.getY() );
+
+            // Add the new composite to the model
+            model.addModelElement( cm2 );
+
+            // Step the simple molecule away from the new composite, so they won't react again on the
+            // next time step
+            Vector2D vcs = new Vector2D.Double( mB.getPosition(), sm2.getPosition() ).scale( 1.1 );
+//            vcs.setComponents( vcs.getX() + 2, vcs.getY() + 2 );
+            sm2.setPosition( mB.getPosition().getX() + vcs.getX(), mB.getPosition().getY() + vcs.getY() );
+
+            // Add potential energy to the reaction products equal to the difference between the top
+            // of the threshold and the floor on the appropriate side of the profile
+
+            return;
+        }
+
         if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
             doReaction( (MoleculeAB)cm, (MoleculeC)sm );
         }
@@ -140,6 +198,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
 
+
         MoleculeB mB = newComposite.getComponentMolecules()[0] instanceof MoleculeB
                        ? (MoleculeB)newComposite.getComponentMolecules()[0]
                        : (MoleculeB)newComposite.getComponentMolecules()[1];
@@ -150,7 +209,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        newComposite.getComponentMolecules()[1].setVelocity( 0,0 );
 //        newComposite.setVelocity( 0,0 );
 //
-        
+
 //        System.out.println( "A_BC_AB_C_Reaction.doReactionII" );
 
         if( !DebugFlags.HARD_COLLISIONS ) {
@@ -477,7 +536,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
                 classificationCriterionMet = true;
             }
 
-            if( !DebugFlags.HARD_COLLISIONS ) {
+            if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
+//            if( !DebugFlags.HARD_COLLISIONS ) {
                 return classificationCriterionMet;
             }
 

@@ -21,4 +21,6 @@ public class DebugFlags {
     public static boolean SHOW_CM = false;
 
     public static boolean HARD_COLLISIONS = true;
+    public static final boolean LINDAS_COLLISIONS = true;
+    public static final boolean PROVISIONAL_BOND_SPRINGS = false;
 }

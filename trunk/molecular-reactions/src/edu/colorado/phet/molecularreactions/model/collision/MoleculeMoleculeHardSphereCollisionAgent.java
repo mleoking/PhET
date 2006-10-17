@@ -102,8 +102,7 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelLi
             SimpleMolecule rmA = (SimpleMolecule)moleculeA;
             SimpleMolecule rmB = (SimpleMolecule)moleculeB;
             if( rmA.getPosition().distanceSq( rmB.getPosition() )
-                <= ( rmA.getRadius() + rmB.getRadius() )
-                   * ( rmA.getRadius() + rmB.getRadius() ) ) {
+                <= ( rmA.getRadius() + rmB.getRadius() ) * ( rmA.getRadius() + rmB.getRadius() ) ) {
 
                 double xDiff = rmA.getCM().getX() - rmB.getCM().getX();
                 double yDiff = rmA.getCM().getY() - rmB.getCM().getY();
