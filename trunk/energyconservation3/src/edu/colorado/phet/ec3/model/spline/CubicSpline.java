@@ -30,12 +30,10 @@ public class CubicSpline extends AbstractSpline {
     }
 
     public Point2D[] getInterpolationPoints() {
-        NatCubic natCubic = new NatCubic();
-        return natCubic.interpolate( getControlPoints(), numSegments );
+        return new NatCubic().interpolate( getControlPoints(), numSegments );
     }
 
     public Point2D evaluateAnalytical( double distAlongSpline ) {
-//        return new NatCubic().evaluate( );
         return new NatCubic().evaluate( getControlPoints(), distAlongSpline );
     }
 
