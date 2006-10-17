@@ -148,17 +148,12 @@ public class Body {
         return getShape().getBounds2D().getMaxY();
     }
 
-//    private Shape getShape() {
-//        return new Rectangle2D.Double( 0, 0, width, height );
-//    }
-
     public double getHeight() {
         return height;
     }
 
     public Point2D.Double getPosition() {
         return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
-//        return position;
     }
 
     public AbstractVector2D getAcceleration() {
@@ -192,7 +187,6 @@ public class Body {
     private void setMode( EnergyConservationModel model, UpdateMode mode ) {
         this.mode = mode;
         mode.init( model, this );
-//        System.out.println( "Mode="+mode.getClass() );
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
@@ -314,9 +308,6 @@ public class Body {
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
-//        if( attachmentPointRotation != 0 && cmRotation != 0 ) {
-//            throw new RuntimeException( "exception" );
-//        }
         return transform;
     }
 
@@ -324,24 +315,12 @@ public class Body {
         freeFall.reset();
     }
 
-//    public void setTotalSystemEnergy( double totalEnergy ) {
-//        this.totalSystemEnergy = totalEnergy;
-//    }
-
-//    public double getTotalSystemEnergy() {
-//        return totalSystemEnergy;
-//    }
-
     public double getWidth() {
         return width;
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-//        Point2D origLocation=new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY( ));
         attachmentPoint.setLocation( x, y );
-//        if (attachmentPoint.distance( origLocation )>1){
-//            new RuntimeException( "too far: "+attachmentPoint+", "+origLocation).printStackTrace( );
-//        }
     }
 
     public void setCMRotation( double angle ) {
@@ -368,7 +347,6 @@ public class Body {
                 System.out.println( "cmRotation = " + cmRotation );
                 cmRotation = 0;
             }
-
             Point2D center = getCenterOfMass();
             double attachmentPointRotation = getAttachmentPointRotation();
             setAttachmentPointRotation( 0 );
