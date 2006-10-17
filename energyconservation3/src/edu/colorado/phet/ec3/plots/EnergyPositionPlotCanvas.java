@@ -120,17 +120,17 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         };
         pe = new EnergyType( module, EnergySkateParkStrings.getString( "potential" ), module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
-                return super.getModel().getPotentialEnergy( getBody() );
+                return getBody().getPotentialEnergy();
             }
         };
         thermal = new EnergyType( module, EnergySkateParkStrings.getString( "thermal" ), module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
-                return getModel().getThermalEnergy();
+                return getBody().getThermalEnergy();
             }
         };
         total = new EnergyType( ec3Module, EnergySkateParkStrings.getString( "total" ), module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
-                return getModel().getTotalEnergy( getBody() );
+                return getBody().getTotalEnergy();
             }
         };
 

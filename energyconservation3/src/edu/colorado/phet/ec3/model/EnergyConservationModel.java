@@ -75,10 +75,6 @@ public class EnergyConservationModel {
         history.clear();
     }
 
-//    public double getMechanicalEnergy( Body body ) {
-//        return getPotentialEnergy( body ) + body.getKineticEnergy();
-//    }
-
     public void clearHeat() {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
@@ -310,11 +306,6 @@ public class EnergyConservationModel {
     public void addFloor( Floor floor ) {
         floors.add( floor );
     }
-//
-//    public double getPotentialEnergy( Body body ) {
-//        double h = zeroPointPotentialY - body.getCenterOfMass().getY();
-//        return body.getMass() * gravity * h;
-//    }
 
     public double getGravity() {
         return gravity;

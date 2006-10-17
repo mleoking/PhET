@@ -42,7 +42,14 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
 
         heatSeries = new TimeSeriesPNode( plot, new ValueAccessor( "Thermal", "Thermal", "Joules", "J", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor(), "Thermal Energy" ) {
             public double getValue( Object model ) {
-                return ec3Module.getEnergyConservationModel().getThermalEnergy();
+//                return ec3Module.getEnergyConservationModel().getThermalEnergy();
+                if( ec3Module.getEnergyConservationModel().numBodies() > 0 ) {
+                    Body body = ec3Module.getEnergyConservationModel().bodyAt( 0 );
+                    return body.getThermalEnergy();
+                }
+                else {
+                    return 0;
+                }
             }
         }, "", ec3Module.getTimeSeriesModel() );
         plot.addTimeSeries( heatSeries );
@@ -66,7 +73,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
             public double getValue( Object model ) {
                 if( ec3Module.getEnergyConservationModel().numBodies() > 0 ) {
                     Body body = ec3Module.getEnergyConservationModel().bodyAt( 0 );
-                    return ec3Module.getEnergyConservationModel().getPotentialEnergy( body );
+                    return body.getPotentialEnergy();
                 }
                 else {
                     return 0;
