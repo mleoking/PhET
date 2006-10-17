@@ -34,7 +34,7 @@ public class FreeSplineMode extends ForceMode {
     private static boolean errorYetThisStep = false;
     private static boolean debug = true;
     //    private static boolean debug = true;
-    private boolean debugState = false;
+    private boolean debugState = true;
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
         this.model = model;
@@ -99,7 +99,7 @@ public class FreeSplineMode extends ForceMode {
         }
 
         if( segment == null ) {
-            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            flyOffSurface( body, model, dt, originalState.getTotalEnergy() );
             debugState( "Fly off surface1" );
             return;
         }
@@ -109,7 +109,7 @@ public class FreeSplineMode extends ForceMode {
 
         segment = getSegment( body );
         if( segment == null ) {
-            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            flyOffSurface( body, model, dt, originalState.getTotalEnergy() );
             debugState( "Fly off surface 2" );
             return;
         }
@@ -118,6 +118,7 @@ public class FreeSplineMode extends ForceMode {
         debug( "bounce", preBounce, body );
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment, body ).dot( dx ) );
+        System.out.println( "getNormalForce( getEnergyModel(), segment, body ) = " + getNormalForce( getEnergyModel(), segment, body ) );
         if( frictiveWork == 0 && body.getFrictionCoefficient() > 0 ) {
             new RuntimeException( "weird friction values" ).printStackTrace();
         }
@@ -168,7 +169,7 @@ public class FreeSplineMode extends ForceMode {
         //we can easily edit the mechanical energy...
 
         if( Math.abs( originalState.getTotalEnergy() - new State( body ).getTotalEnergy() ) > 0 ) {
-            new EnergyConserver().fixEnergy( body, originalState.getTotalEnergy() - new State( body ).getHeat() );
+            new EnergyConserver().fixEnergy( body, originalState.getTotalEnergy() );
         }
         debug2( "after everything2", originalState.getTotalEnergy(), body );
 
@@ -227,8 +228,8 @@ public class FreeSplineMode extends ForceMode {
         if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
             body.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
-            double desiredMechEnergy = desiredEnergy - body.getThermalEnergy();
-            new EnergyConserver().fixEnergy( body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
+//            double desiredMechEnergy = desiredEnergy - body.getThermalEnergy();
+            new EnergyConserver().fixEnergy( body, desiredEnergy );//todo enhance energy conserver with thermal changes.
             debug( "FixEnergy", origState, body );
             //This may be causing other problems
         }
@@ -311,7 +312,7 @@ public class FreeSplineMode extends ForceMode {
 
         double perpendicularVelocity = body.getVelocity().dot( segment.getUnitNormalVector() );
         System.out.println( "perpendicularVelocity = " + perpendicularVelocity );
-        if( perpendicularVelocity >= -0.1 ) {//fall off
+        if( perpendicularVelocity >= -0.001 ) {//fall off
             System.out.println( "FALL OFF" );
             grabbed = false;
             bounced = false;

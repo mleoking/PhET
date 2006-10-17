@@ -11,7 +11,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 
 public class EnergyConserver {
-    public void fixEnergy( Body body, double desiredMechanicalEnergy ) {
+    public void fixEnergy( Body body, double desiredTotalEnergy ) {
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
@@ -19,7 +19,7 @@ public class EnergyConserver {
         double speedThreshold = 1;//reduced from 20.
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
-                boolean done = conserveEnergyViaV( body, desiredMechanicalEnergy );
+                boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
                 if( done ) {
                     break;
                 }
@@ -29,7 +29,7 @@ public class EnergyConserver {
         }
         if( Math.abs( body.getGravity() ) > 1.0 ) {
             for( int i = 0; i < 3; i++ ) {
-                boolean done = conserveEnergyViaH( body, desiredMechanicalEnergy );
+                boolean done = conserveEnergyViaH( body, desiredTotalEnergy );
                 if( done ) {
                     break;
                 }
@@ -39,8 +39,8 @@ public class EnergyConserver {
 //        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
     }
 
-    private boolean conserveEnergyViaV( Body body, double desiredMechanicalEnergy ) {
-        double dE = getDE( body, desiredMechanicalEnergy );
+    private boolean conserveEnergyViaV( Body body, double desiredTotalEnergy ) {
+        double dE = getDE( body, desiredTotalEnergy );
         if( dE == 0 ) {
             return true;
         }
@@ -52,8 +52,8 @@ public class EnergyConserver {
         return false;
     }
 
-    private double getDE( Body body, double desiredMechanicalEnergy ) {
-        return body.getMechanicalEnergy() - desiredMechanicalEnergy;
+    private double getDE( Body body, double desiredTotalEnergy ) {
+        return body.getTotalEnergy() - desiredTotalEnergy;
     }
 
     private boolean conserveEnergyViaH( Body body, double desiredMechEnergy ) {
