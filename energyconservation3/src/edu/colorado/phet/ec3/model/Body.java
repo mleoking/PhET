@@ -66,7 +66,8 @@ public class Body {
         }
         else if( this.mode instanceof FreeSplineMode ) {
             FreeSplineMode splineMode = ( (FreeSplineMode)this.mode );
-            copy.mode = new FreeSplineMode( splineMode.getEnergyModel(), splineMode.getSpline(), copy );
+            copy.mode = splineMode.copy();
+
         }
         copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
@@ -209,7 +210,7 @@ public class Body {
             }
         }
         if( !same ) {
-            setMode( new FreeSplineMode( model, spline, this ) );
+            setMode( new FreeSplineMode( model, spline ) );
         }
     }
 
