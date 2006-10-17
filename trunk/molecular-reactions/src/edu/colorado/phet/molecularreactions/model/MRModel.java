@@ -113,7 +113,7 @@ public class MRModel extends PublishingModel {
 
     public void removeModelElement( ModelElement modelElement ) {
         if( modelElement instanceof ProvisionalBond ) {
-            System.out.println( "MRModel.removeModelElement: ProvisionalBond" );
+//            System.out.println( "MRModel.removeModelElement: ProvisionalBond" );
         }
 
         super.removeModelElement( modelElement );

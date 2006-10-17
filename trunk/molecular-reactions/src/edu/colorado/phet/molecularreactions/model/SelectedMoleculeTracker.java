@@ -105,6 +105,17 @@ public class SelectedMoleculeTracker implements ModelElement,
                         || !moleculeTracked.isPartOfComposite() && testMolecule.isPartOfComposite() ) {
 //                    if( moleculeTracked instanceof MoleculeA && testMolecule instanceof MoleculeB
 //                        || moleculeTracked instanceof MoleculeC && testMolecule instanceof MoleculeB ) {
+
+
+                        // Make sure that the non-B molecule in the composite is not the same type as the
+                        // non-composite
+                        SimpleMolecule sm1 = moleculeTracked.isPartOfComposite() ? (SimpleMolecule)testMolecule : moleculeTracked;
+                        CompositeMolecule cm = moleculeTracked.isPartOfComposite() ? (CompositeMolecule)moleculeTracked.getFullMolecule() : (CompositeMolecule)testMolecule.getFullMolecule();
+                        SimpleMolecule sm2 = cm.getComponentMolecules()[0] instanceof MoleculeB ? cm.getComponentMolecules()[1] : cm.getComponentMolecules()[0];
+                        if( sm1.getClass() == sm2.getClass() ) {
+                            break;
+                        }
+
                         double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
                         if( distSq < closestDistSq ) {
                             closestDistSq = distSq;
@@ -120,6 +131,10 @@ public class SelectedMoleculeTracker implements ModelElement,
                 }
                 closestMolecule.setSelectionStatus( Selectable.NEAREST_TO_SELECTED );
                 listenerProxy.closestMoleculeChanged( closestMolecule, prevClosetMolecule );
+            }
+
+            if( !(closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB )) {
+                System.out.println( "SelectedMoleculeTracker.stepInTime" );
             }
         }
     }
