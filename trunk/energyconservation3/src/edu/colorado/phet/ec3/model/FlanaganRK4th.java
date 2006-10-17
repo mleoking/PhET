@@ -54,8 +54,7 @@ class Deriv implements DerivFunction {
     public double a = 0.0D;
 
     public double deriv( double x, double y ) {
-        double dydx = a * x * Math.sqrt( 1.0 - y * y );
-        return dydx;
+        return a * x * Math.sqrt( 1.0 - y * y );
     }
 }
 
