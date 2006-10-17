@@ -73,7 +73,7 @@ public class Body {
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
-        copy.potentialEnergyMetric = potentialEnergyMetric.copy();//todo does this need to be a deep copy?
+        copy.potentialEnergyMetric = potentialEnergyMetric.copy();
         return copy;
     }
 

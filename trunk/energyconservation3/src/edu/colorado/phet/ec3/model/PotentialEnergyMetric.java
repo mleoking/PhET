@@ -10,4 +10,6 @@ public interface PotentialEnergyMetric {
     double getPotentialEnergy( Body body );
 
     double getGravity();
+
+    PotentialEnergyMetric copy();
 }

@@ -61,10 +61,10 @@ public class PieChartIndicator extends PNode {
 
     private double getTotalEnergy( Body body ) {
         if( ignoreThermal ) {
-            return getModel().getMechanicalEnergy( body );
+            return body.getMechanicalEnergy();
         }
         else {
-            return getModel().getMechanicalEnergy( body ) + getModel().getThermalEnergy();
+            return body.getMechanicalEnergy() + body.getThermalEnergy();
         }
     }
 
@@ -76,8 +76,8 @@ public class PieChartIndicator extends PNode {
         if( module.getEnergyConservationModel().numBodies() > 0 ) {
             Body body = module.getEnergyConservationModel().bodyAt( 0 );
             double ke = body.getKineticEnergy();
-            double pe = module.getEnergyConservationModel().getPotentialEnergy( body );
-            double therm = module.getEnergyConservationModel().getThermalEnergy();
+            double pe = body.getPotentialEnergy();
+            double therm = body.getThermalEnergy();
 
             PieChartNode.PieValue[] values = new PieChartNode.PieValue[]{
                     new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),

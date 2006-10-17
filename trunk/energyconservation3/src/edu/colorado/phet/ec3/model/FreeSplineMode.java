@@ -199,14 +199,6 @@ public class FreeSplineMode extends ForceMode {
         errorYetThisStep = false;
     }
 
-//    private void convertVelocityToThermal( EnergyConservationModel model, State originalState, Body body ) {
-//        double ke0 = body.getKineticEnergy();
-//        body.setVelocity( body.getVelocity().getScaledInstance( 0.5 ) );
-//        double ke = body.getKineticEnergy();
-//        model.addThermalEnergy( Math.abs( ke - ke0 ) );
-////        body.setVelocity( body.getVelocity().getScaledInstance( 1.0 / Math.sqrt( A ) ) );
-//    }
-
     private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, double desiredEnergy, State origState ) {
 //        originalState=model.getDesiredEnergy(body);
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.

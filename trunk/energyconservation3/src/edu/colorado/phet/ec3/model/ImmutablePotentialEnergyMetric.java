@@ -17,14 +17,15 @@ public class ImmutablePotentialEnergyMetric implements PotentialEnergyMetric {
     }
 
     public double getPotentialEnergy( Body body ) {
-        return 0;
+        double h = zeroPointPotentialY - body.getCenterOfMass().getY();
+        return body.getMass() * gravity * h;
     }
 
     public double getGravity() {
-        return 0;
+        return gravity;
     }
 
     public PotentialEnergyMetric copy() {
-        return null;
+        return this;//we are immutable!
     }
 }
