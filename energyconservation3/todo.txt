@@ -10,6 +10,7 @@ Convert spline traversal to no longer be segment-based?  Segments could still be
 but for the character's motion, the actual spline could be used.
 
 When friction is turned on, man speeds up and runs away.
+    -due to wrong friction value, energy conservation runs wrong routine
 
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 

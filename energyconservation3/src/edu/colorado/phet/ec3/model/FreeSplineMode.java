@@ -32,9 +32,9 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
-    private static boolean debug = false;
+    private static boolean debug = true;
     //    private static boolean debug = true;
-    private boolean debugState = true;
+    private boolean debugState = false;
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
         this.model = model;
@@ -117,10 +117,14 @@ public class FreeSplineMode extends ForceMode {
         setupBounce( body, segment );
         debug( "bounce", preBounce, body );
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
-        double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+        double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment, body ).dot( dx ) );
+        if( frictiveWork == 0 && body.getFrictionCoefficient() > 0 ) {
+            new RuntimeException( "weird friction values" ).printStackTrace();
+        }
         body.addThermalEnergy( frictiveWork );
         debug( "newton or maybe setup bounce", originalState, body );
-        if( bounced && !grabbed && !lastGrabState ) {
+//        if( bounced && !grabbed && !lastGrabState ) {
+        if( bounced && !grabbed ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
             debugState( "Handle bounce & Fly off" );
             return;
@@ -151,9 +155,11 @@ public class FreeSplineMode extends ForceMode {
 
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( body, originalState.getTotalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
+                debug( "fixenergy for frictive work=0", originalState, body );
             }
             else {
                 patchEnergyInclThermal( frictiveWork, model, body, originalState.getTotalEnergy(), originalState );
+                debug( "patch energy incl thermal", originalState, body );
             }
         }
         debug2( "after everything", originalState.getTotalEnergy(), body );
@@ -304,17 +310,22 @@ public class FreeSplineMode extends ForceMode {
         this.grabbed = false;
 
         double perpendicularVelocity = body.getVelocity().dot( segment.getUnitNormalVector() );
-        if( perpendicularVelocity >= 0 ) {
+        System.out.println( "perpendicularVelocity = " + perpendicularVelocity );
+        if( perpendicularVelocity >= -0.1 ) {//fall off
+            System.out.println( "FALL OFF" );
             grabbed = false;
             bounced = false;
         }
-        else if( perpendicularVelocity > bounceThreshold ) {
+        else if( perpendicularVelocity < -bounceThreshold ) {
+            System.out.println( "perp=" + perpendicularVelocity + ", bounce threshold=" + bounceThreshold );
+            System.out.println( "BOUNCE" );
             bounced = true;
             grabbed = false;
             AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getUnitNormalVector().getAngle() );
             body.setVelocity( newVelocity );
         }
         else {
+            System.out.println( "GRAB" );
             bounced = false;
             grabbed = true;
             double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
@@ -427,9 +438,9 @@ public class FreeSplineMode extends ForceMode {
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 getGravityForce( model ),
-                getNormalForce( model, segment ),
+                getNormalForce( model, segment, body ),
                 getThrustForce(),
-                getFrictionForce( model, segment )
+                getFrictionForce( model, segment, body )
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
@@ -454,18 +465,19 @@ public class FreeSplineMode extends ForceMode {
         return model.getGravity() * body.getMass();
     }
 
-    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment, Body body ) {
+        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment, body ).getMagnitude();
         if( body.getVelocity().getMagnitude() > 0 ) {
-            return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );
+            return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );//todo fudge factor of five
         }
         else {
             return new ImmutableVector2D.Double( 0, 0 );
         }
     }
 
-    private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
-        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
+    private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment, Body body ) {
+        if( body.getVelocity().dot( segment.getUnitNormalVector() ) <= 0.1 ) {
+//        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
             return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
         }
         else {
