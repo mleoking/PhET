@@ -27,8 +27,8 @@ import java.util.ArrayList;
  */
 public class CollisionAgent implements ModelElement {
 
-    private SimpleCollisionAgentA moleculeMoleculeCollisionAgent;
-//    private MoleculeMoleculeHardSphereCollisionAgent moleculeMoleculeCollisionAgent;
+//    private SimpleCollisionAgentA moleculeMoleculeCollisionAgent;
+    private MoleculeMoleculeHardSphereCollisionAgent moleculeMoleculeCollisionAgent;
 //    private MoleculeMoleculeCollisionAgent moleculeMoleculeCollisionAgent;
     private MoleculeBoxCollisionAgent moleculeBoxCollisionAgent;
     private MRModel model;
@@ -39,8 +39,8 @@ public class CollisionAgent implements ModelElement {
         // todo: DEBUG. move elsewhere
         SpringCollision.Spring spring = new SpringCollision.Spring( 10, model.getReaction().getEnergyProfile().getThresholdWidth() / 2 );
 
-        moleculeMoleculeCollisionAgent = new SimpleCollisionAgentA( model );
-//        moleculeMoleculeCollisionAgent = new MoleculeMoleculeHardSphereCollisionAgent( model );
+//        moleculeMoleculeCollisionAgent = new SimpleCollisionAgentA( model );
+        moleculeMoleculeCollisionAgent = new MoleculeMoleculeHardSphereCollisionAgent( model );
 //        moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent( model,
 //                                                                             springCollision,
 ////                                                                             new HardSphereCollision() );

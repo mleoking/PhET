@@ -125,6 +125,8 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
      * @param isCompressed
      */
     public ReactionSpring( double k, double restingLength, SimpleMolecule[] bodies, boolean isCompressed ) {
+
+        System.out.println( "k = " + k );
         this.k = k;
         this.restingLength = restingLength;
         extent = new Line2D.Double();

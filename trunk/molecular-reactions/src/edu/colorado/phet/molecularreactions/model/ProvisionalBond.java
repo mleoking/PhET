@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
+import edu.colorado.phet.molecularreactions.DebugFlags;
 
 import java.awt.geom.Point2D;
 
@@ -72,8 +73,10 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
 //        if( sm1.getPosition().distance( sm2.getPosition() )
 //            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
             double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-            spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
-            model.addModelElement( spring );
+            if( !DebugFlags.HARD_COLLISIONS ) {
+                spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2} );
+                model.addModelElement( spring );
+            }
             CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
             sm1.addListener( compositeStateMonitor );
             sm2.addListener( compositeStateMonitor );
@@ -86,11 +89,14 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
         molecules = new SimpleMolecule[]{sm1, sm2};
         EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
 //        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-        ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
-                                                                      energyProfile.getThresholdWidth() / 2,
-                                                                      energyProfile.getThresholdWidth() / 2,
-                                                                      new SimpleMolecule[]{sm1, sm2} );
-        model.addModelElement( spring );
+
+        if( !DebugFlags.HARD_COLLISIONS ) {
+            ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
+                                                                          energyProfile.getThresholdWidth() / 2,
+                                                                          energyProfile.getThresholdWidth() / 2,
+                                                                          new SimpleMolecule[]{sm1, sm2} );
+            model.addModelElement( spring );
+        }
         CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
         sm1.addListener( compositeStateMonitor );
         sm2.addListener( compositeStateMonitor );
