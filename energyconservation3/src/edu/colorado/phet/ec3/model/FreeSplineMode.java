@@ -310,43 +310,42 @@ public class FreeSplineMode extends ForceMode {
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-
 //    private void setupBounce( Body body, Segment segment ) {
+//        Body origState=body.copyState();
+////        System.out.println( "PREBOUNCEbody.getVelocity() = " + body.getVelocity() );
 //        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-////        double bounceThreshold = 30;
-//
 //        this.bounced = false;
 //        this.grabbed = false;
-////        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
+//
 //        double originalPerpVel = origVector.getPerpendicular();
 //        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
 //            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
 //                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
 //                bounced = true;
+//                System.out.println( "A" );
 //            }
 //            else {//grab
 //                origVector.setPerpendicular( 0.0 );
 //                grabbed = true;
+//                System.out.println( "B" );
 //            }
 //        }
 //        if( !lastGrabState && grabbed ) {
 //            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
 //                //to make up for it all in dHeight.
 //                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
+//                System.out.println( "C" );
 //            }
 //            else if( origVector.getParallel() < 0 ) {
 //                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
+//                System.out.println( "D" );
 //            }
 //        }
-//
-//        Vector2D.Double newVelocity = origVector.toCartesianVector();
-//
-//        if( newVelocity.getMagnitude() == 0.0 ) {
-//            System.out.println( "newVelocity = " + newVelocity );
+//        body.setVelocity( origVector.toCartesianVector() );
+////        System.out.println( "POSTBOUNCE.getVelocity() = " + body.getVelocity() );
+//        if (origState.getEnergyDifferenceAbs( body )>1000){
+//            System.out.println( "?Error in Setup bounce: "+origState.getEnergyDifferenceAbs( body ) );
 //        }
-//
-//        EC3Debug.debug( "newVelocity = " + newVelocity );
-//        body.setVelocity( newVelocity );
 //    }
 
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
