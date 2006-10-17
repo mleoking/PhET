@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class FreeSplineMode extends ForceMode {
     private EnergyConservationModel model;
     private AbstractSpline spline;
-    private Body body;
+    //    private Body body;
     private double lastDA;
     private boolean lastGrabState = false;
     private boolean bounced = false;
@@ -36,10 +36,9 @@ public class FreeSplineMode extends ForceMode {
     //    private static boolean debug = true;
     private boolean debugState = true;
 
-    public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
+    public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         this.model = model;
         this.spline = spline;
-        this.body = body;
     }
 
     public static void debug( String type, State origState, Body body ) {
@@ -104,7 +103,7 @@ public class FreeSplineMode extends ForceMode {
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
-        setNetForce( computeNetForce( model, segment ) );
+        setNetForce( computeNetForce( model, segment, body ) );
         super.stepInTime( body, dt ); //apply newton's laws       
 
         segment = getSegment( body );
@@ -437,11 +436,11 @@ public class FreeSplineMode extends ForceMode {
         return dist;
     }
 
-    private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
+    private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment, Body body ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
-                getGravityForce( model ),
+                getGravityForce( model, body ),
                 getNormalForce( model, segment, body ),
-                getThrustForce(),
+                body.getThrust(),
                 getFrictionForce( model, segment, body )
         };
         Vector2D.Double sum = new Vector2D.Double();
@@ -455,20 +454,20 @@ public class FreeSplineMode extends ForceMode {
         return sum;
     }
 
-    private AbstractVector2D getGravityForce( EnergyConservationModel model ) {
-        return new Vector2D.Double( 0, getFGy( model ) );
+    private AbstractVector2D getGravityForce( EnergyConservationModel model, Body body ) {
+        return new Vector2D.Double( 0, getFGy( model, body ) );
     }
 
-    private AbstractVector2D getThrustForce() {
-        return body.getThrust();
-    }
+//    private AbstractVector2D getThrustForce() {
+//        return body.getThrust();
+//    }
 
-    private double getFGy( EnergyConservationModel model ) {
+    private double getFGy( EnergyConservationModel model, Body body ) {
         return model.getGravity() * body.getMass();
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment, Body body ) {
-        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment, body ).getMagnitude();
+        double fricMag = getFrictionCoefficient( body ) * getNormalForce( model, segment, body ).getMagnitude();
         if( body.getVelocity().getMagnitude() > 0 ) {
             return body.getVelocity().getInstanceOfMagnitude( -fricMag * 5 );//todo fudge factor of five
         }
@@ -480,14 +479,14 @@ public class FreeSplineMode extends ForceMode {
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment, Body body ) {
         if( body.getVelocity().dot( segment.getUnitNormalVector() ) <= 0.1 ) {
 //        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {//todo is this correct?
-            return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
+            return segment.getUnitNormalVector().getScaledInstance( getFGy( model, body ) * Math.cos( segment.getAngle() ) );
         }
         else {
             return new ImmutableVector2D.Double();
         }
     }
 
-    private double getFrictionCoefficient() {
+    private double getFrictionCoefficient( Body body ) {
         return body.getFrictionCoefficient();
     }
 
@@ -497,5 +496,9 @@ public class FreeSplineMode extends ForceMode {
 
     public EnergyConservationModel getEnergyModel() {
         return model;
+    }
+
+    public UpdateMode copy() {
+        return new FreeSplineMode( getEnergyModel(), getSpline() );
     }
 }
