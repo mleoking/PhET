@@ -28,7 +28,6 @@ public class EnergyConservationModel {
     private ArrayList splineSurfaces = new ArrayList();
     private double gravity = G_EARTH;
     private double zeroPointPotentialY;
-    private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
@@ -39,11 +38,15 @@ public class EnergyConservationModel {
         this.initZeroPointPotentialY = zeroPointPotentialY;
         potentialEnergyMetric = new PotentialEnergyMetric() {
             public double getPotentialEnergy( Body body ) {
-                return EnergyConservationModel.this.getPotentialEnergy( body );
+                return copy().getPotentialEnergy( body );
             }
 
             public double getGravity() {
                 return gravity;
+            }
+
+            public PotentialEnergyMetric copy() {
+                return new ImmutablePotentialEnergyMetric( EnergyConservationModel.this.zeroPointPotentialY, gravity );
             }
         };
     }
@@ -72,12 +75,15 @@ public class EnergyConservationModel {
         history.clear();
     }
 
-    public double getMechanicalEnergy( Body body ) {
-        return getPotentialEnergy( body ) + body.getKineticEnergy();
-    }
+//    public double getMechanicalEnergy( Body body ) {
+//        return getPotentialEnergy( body ) + body.getKineticEnergy();
+//    }
 
     public void clearHeat() {
-        thermalEnergy = 0.0;
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.clearHeat();
+        }
     }
 
     public void setGravity( double value ) {
@@ -144,7 +150,6 @@ public class EnergyConservationModel {
         }
         copy.history = new ArrayList( history );
         copy.time = time;
-        copy.thermalEnergy = thermalEnergy;
         copy.gravity = gravity;
         return copy;
     }
@@ -165,7 +170,6 @@ public class EnergyConservationModel {
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
-        this.thermalEnergy = model.thermalEnergy;
         this.gravity = model.gravity;
     }
 
@@ -306,15 +310,11 @@ public class EnergyConservationModel {
     public void addFloor( Floor floor ) {
         floors.add( floor );
     }
-
-    public double getPotentialEnergy( Body body ) {
-        double h = zeroPointPotentialY - body.getCenterOfMass().getY();
-        return body.getMass() * gravity * h;
-    }
-
-    public double getTotalEnergy( Body body ) {
-        return getMechanicalEnergy( body ) + getThermalEnergy();
-    }
+//
+//    public double getPotentialEnergy( Body body ) {
+//        double h = zeroPointPotentialY - body.getCenterOfMass().getY();
+//        return body.getMass() * gravity * h;
+//    }
 
     public double getGravity() {
         return gravity;
@@ -345,21 +345,12 @@ public class EnergyConservationModel {
         setZeroPointPotentialY( getZeroPointPotentialY() + dy );
     }
 
-    public double getThermalEnergy() {
-        return thermalEnergy;
-    }
-
     public void reset() {
         bodies.clear();
         splineSurfaces.clear();
         history.clear();
         gravity = G_EARTH;
-        thermalEnergy = 0.0;
         zeroPointPotentialY = initZeroPointPotentialY;
-    }
-
-    public void addThermalEnergy( double dE ) {
-        thermalEnergy += dE;
     }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {

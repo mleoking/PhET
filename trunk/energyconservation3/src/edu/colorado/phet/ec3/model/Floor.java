@@ -37,7 +37,7 @@ public class Floor {
 
     private void stepInTime( Body b, double dt ) {
         if( b.getMinY() < y ) {
-            double origEnergy = model.getMechanicalEnergy( b );
+            double origEnergy = b.getMechanicalEnergy();
             double overshoot = b.getMinY() - y;
             b.setAttachmentPointPosition( b.getX(), b.getY() - overshoot );
             AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), Math.abs( b.getVelocity().getY() ) );
