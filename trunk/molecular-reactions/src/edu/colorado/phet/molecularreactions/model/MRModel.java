@@ -17,6 +17,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.mechanics.Body;
 
 import java.util.List;
@@ -112,7 +113,7 @@ public class MRModel extends PublishingModel {
 
     public void removeModelElement( ModelElement modelElement ) {
         if( modelElement instanceof ProvisionalBond ) {
-            System.out.println( "MRModel.removeModelElement" );
+            System.out.println( "MRModel.removeModelElement: ProvisionalBond" );
         }
 
         super.removeModelElement( modelElement );
@@ -192,19 +193,6 @@ public class MRModel extends PublishingModel {
 //        clearForces();
         double ke1 = getTotalKineticEnergy();
         pe1 = potentialEnergyStored;
-//        System.out.println( "pe0 = " + pe0 + "\tpe1 = " + pe1 );
-//        double deltaPe = pe1 - pe0;
-//        pe0 = pe1;
-//        double f = ( ke0 - deltaPe ) / ke1;
-//        if( f < 0 ) {
-//            System.out.println( "MRModel.stepInTime" );
-//        }
-//        if( f > 0 ) {
-//            adjustKineticEnergy( Math.sqrt( f ) );
-//        }
-//        double ke2 = getTotalKineticEnergy();
-//        System.out.println( "ke0 = " + ke0 + "\tke1 = " + ke1 + "\tdeltaPe = " + deltaPe + "\tke2 = " + ke2 );
-
 
         monitorEnergy();
     }
@@ -216,8 +204,14 @@ public class MRModel extends PublishingModel {
         double pe = 0;
         double ke = 0;
         Vector2D m = new Vector2D.Double( );
+        int pBondCnt = 0;
+        int springCnt = 0;
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
+
+            pBondCnt += o instanceof ProvisionalBond ? 1 : 0;
+            springCnt += o instanceof ReactionSpring ? 1 : 0;
+
             if( o instanceof PotentialEnergySource ) {
                 pe += ((PotentialEnergySource)o).getPE();
             }
@@ -232,12 +226,14 @@ public class MRModel extends PublishingModel {
             }
         }
 
+//        System.out.println( "springCnt = " + springCnt + "\tpBondCnt = " + pBondCnt );
+
 //        if( lastM.getMagnitude() != m.getMagnitude() ) {
 //            System.out.println( "MRModel.monitorEnergy >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
 //        }
 //        lastM = m;
         DecimalFormat df = new DecimalFormat( "#.000");
-        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
+//        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
     private void adjustKineticEnergy( double eFactor ) {

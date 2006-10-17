@@ -39,8 +39,8 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
     private double maxBondLength;
     private MRModel model;
     private ReactionSpring spring;
-    private Point2D pUtilA = new Point2D.Double( );
-    private Point2D pUtilB = new Point2D.Double( );
+    private Point2D pUtilA = new Point2D.Double();
+    private Point2D pUtilB = new Point2D.Double();
 
     /**
      * @param sm1
@@ -54,21 +54,21 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
         this.model = model;
         molecules = new SimpleMolecule[]{sm1, sm2};
 
-        // create the spring
-//        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-
-//        double initialLength = model.getReaction().getCollisionDistance( sm1.getFullMolecule(),
-//                                                                         sm2.getFullMolecule() ) - this.maxBondLength;
-//        spring = new ReactionSpring( pe, this.maxBondLength, this.maxBondLength, new SimpleMolecule[]{sm1, sm2}, initialLength );
-
         // If the molecules are moving toward each other, create one sort of spring. If
         // they're moving apart, create a releasing spring
         pUtilA.setLocation( sm1.getPosition().getX() + sm1.getVelocity().getX(),
-                                  sm1.getPosition().getY() + sm1.getVelocity().getY() );
+                            sm1.getPosition().getY() + sm1.getVelocity().getY() );
         pUtilB.setLocation( sm2.getPosition().getX() + sm2.getVelocity().getX(),
-                                  sm2.getPosition().getY() + sm2.getVelocity().getY() );
+                            sm2.getPosition().getY() + sm2.getVelocity().getY() );
+
+        // todo:  Currently, I'm only doing this so that we won't make a spring for molecules that are
+        // released from a reaction. There should be a better way
+//        System.out.println( "ProvisionalBond.ProvisionalBond: bond created" );
         if( sm1.getPosition().distance( sm2.getPosition() )
             > pUtilA.distance( pUtilB ) ) {
+
+//            System.out.println( "ProvisionalBond.ProvisionalBond:          spring created " );
+
 //        if( sm1.getPosition().distance( sm2.getPosition() )
 //            < sm1.getPositionPrev().distance( sm2.getPositionPrev() ) ) {
             double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
@@ -78,16 +78,24 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
             sm1.addListener( compositeStateMonitor );
             sm2.addListener( compositeStateMonitor );
         }
-        else {
-            EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
-            double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
-            ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
-                                                                          energyProfile.getThresholdWidth() / 2,
-                                                                          energyProfile.getThresholdWidth() / 2,
-                                                                          new SimpleMolecule[]{sm1, sm2} );
-            model.addModelElement( spring );
-        }
     }
+
+    public ProvisionalBond( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model, double pe, boolean isCompressed ) {
+        this.maxBondLength = maxBondLength;
+        this.model = model;
+        molecules = new SimpleMolecule[]{sm1, sm2};
+        EnergyProfile energyProfile = model.getReaction().getEnergyProfile();
+//        double pe = model.getReaction().getThresholdEnergy( sm1.getFullMolecule(), sm2.getFullMolecule() );
+        ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
+                                                                      energyProfile.getThresholdWidth() / 2,
+                                                                      energyProfile.getThresholdWidth() / 2,
+                                                                      new SimpleMolecule[]{sm1, sm2} );
+        model.addModelElement( spring );
+        CompositeStateMonitor compositeStateMonitor = new CompositeStateMonitor();
+        sm1.addListener( compositeStateMonitor );
+        sm2.addListener( compositeStateMonitor );
+    }
+
 
     /**
      * If the molecules in the bond get too far apart the bond should go away
