@@ -45,7 +45,7 @@ public class FreeSplineMode extends ForceMode {
     public static void debug( String type, State origState, Body body ) {
         if( debug ) {
             double dE = new State( body ).getTotalEnergy() - origState.getTotalEnergy();
-            if( Math.abs( dE ) > 0.1 ) {
+            if( Math.abs( dE ) > 100 ) {
                 if( !errorYetThisStep ) {
                     errorYetThisStep = true;
                     debug( "Step Started---------" );
@@ -69,7 +69,8 @@ public class FreeSplineMode extends ForceMode {
     public void debug2( String type, double desiredEnergy, Body body ) {
         if( debug ) {
             double dE = new State( body ).getTotalEnergy() - desiredEnergy;
-            if( Math.abs( dE ) > 1E-6 ) {
+//            if( Math.abs( dE ) > 1E-6 ) {
+            if( Math.abs( dE ) > 1E1 ) {
                 System.out.println( type + ", dE = " + dE );
             }
         }

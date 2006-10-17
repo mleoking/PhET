@@ -77,10 +77,7 @@ public class Body {
         return copy;
     }
 
-    double time = 0.0;
-
     public void stepInTime( double dt ) {
-        time += dt;
         EnergyDebugger.stepStarted( this, dt );
         int NUM_STEPS_PER_UPDATE = 5;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
@@ -119,8 +116,16 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
+        Body origState = copyState();
         attachmentPoint.x += dx;
         attachmentPoint.y += dy;
+        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+        }
+    }
+
+    private double getEnergyDifferenceAbs( Body body ) {
+        return Math.abs( body.getTotalEnergy() - this.getTotalEnergy() );
     }
 
     public void setVelocity( AbstractVector2D vector2D ) {
@@ -128,7 +133,33 @@ public class Body {
     }
 
     public void setVelocity( double vx, double vy ) {
+        Body origState = copyState();
         velocity.setComponents( vx, vy );
+        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+        }
+    }
+
+    public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
+        this.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
+        setVelocity( velocity );
+        setAttachmentPointPosition( newPosition );
+    }
+
+    public void setMass( double value ) {
+        Body origState = copyState();
+        this.mass = value;
+        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+        }
+    }
+
+    public void setAttachmentPointPosition( double x, double y ) {
+        Body origState = copyState();
+        attachmentPoint.setLocation( x, y );
+        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+        }
     }
 
     public boolean isUserControlled() {
@@ -167,13 +198,6 @@ public class Body {
 
     public double getMass() {
         return mass;
-    }
-
-    public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
-        this.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
-        this.velocity.setComponents( velocity.getX(), velocity.getY() );
-        this.attachmentPoint.x = newPosition.getX();
-        this.attachmentPoint.y = newPosition.getY();
     }
 
     public void setSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
@@ -294,10 +318,6 @@ public class Body {
         this.coefficientOfRestitution = coefficientOfRestitution;
     }
 
-    public void setMass( double value ) {
-        this.mass = value;
-    }
-
     public Point2D.Double getAttachPoint() {
         return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
     }
@@ -322,10 +342,6 @@ public class Body {
 
     public double getWidth() {
         return width;
-    }
-
-    public void setAttachmentPointPosition( double x, double y ) {
-        attachmentPoint.setLocation( x, y );
     }
 
     public void setCMRotation( double angle ) {
