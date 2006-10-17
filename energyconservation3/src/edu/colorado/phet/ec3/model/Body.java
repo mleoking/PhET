@@ -446,6 +446,10 @@ public class Body {
         return potentialEnergyMetric.getPotentialEnergy( this );
     }
 
+    public AbstractVector2D getGravityForce() {
+        return new ImmutableVector2D.Double( 0, getGravity() * getMass() );
+    }
+
     public static interface Listener {
         void thrustChanged();
 
