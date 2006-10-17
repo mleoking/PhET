@@ -32,8 +32,8 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
-    //    private static boolean debug = false;
-    private static boolean debug = true;
+    private static boolean debug = false;
+    //    private static boolean debug = true;
     private boolean debugState = true;
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
@@ -303,9 +303,24 @@ public class FreeSplineMode extends ForceMode {
         this.bounced = false;
         this.grabbed = false;
 
-        double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
-        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
-        body.setVelocity( newVelocity );
+        double perpendicularVelocity = body.getVelocity().dot( segment.getUnitNormalVector() );
+        if( perpendicularVelocity >= 0 ) {
+            grabbed = false;
+            bounced = false;
+        }
+        else if( perpendicularVelocity > bounceThreshold ) {
+            bounced = true;
+            grabbed = false;
+            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getUnitNormalVector().getAngle() );
+            body.setVelocity( newVelocity );
+        }
+        else {
+            bounced = false;
+            grabbed = true;
+            double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
+            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
+            body.setVelocity( newVelocity );
+        }
     }
 
     //just kill the perpendicular part of velocity, if it is through the track.
