@@ -11,7 +11,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 
 public class EnergyConserver {
-    public void fixEnergy( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
+    public void fixEnergy( Body body, double desiredMechanicalEnergy ) {
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
@@ -19,7 +19,7 @@ public class EnergyConserver {
         double speedThreshold = 1;//reduced from 20.
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
-                boolean done = conserveEnergyViaV( model, body, desiredMechanicalEnergy );
+                boolean done = conserveEnergyViaV( body, desiredMechanicalEnergy );
                 if( done ) {
                     break;
                 }
@@ -27,9 +27,9 @@ public class EnergyConserver {
             else {
             }
         }
-        if( Math.abs( model.getGravity() ) > 1.0 ) {
+        if( Math.abs( body.getGravity() ) > 1.0 ) {
             for( int i = 0; i < 3; i++ ) {
-                boolean done = conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+                boolean done = conserveEnergyViaH( body, desiredMechanicalEnergy );
                 if( done ) {
                     break;
                 }
@@ -39,8 +39,8 @@ public class EnergyConserver {
 //        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
     }
 
-    private boolean conserveEnergyViaV( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
-        double dE = getDE( model, body, desiredMechanicalEnergy );
+    private boolean conserveEnergyViaV( Body body, double desiredMechanicalEnergy ) {
+        double dE = getDE( body, desiredMechanicalEnergy );
         if( dE == 0 ) {
             return true;
         }
@@ -52,16 +52,16 @@ public class EnergyConserver {
         return false;
     }
 
-    private double getDE( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
-        return model.getMechanicalEnergy( body ) - desiredMechanicalEnergy;
+    private double getDE( Body body, double desiredMechanicalEnergy ) {
+        return body.getMechanicalEnergy() - desiredMechanicalEnergy;
     }
 
-    private boolean conserveEnergyViaH( EnergyConservationModel model, Body body, double desiredMechEnergy ) {
-        double dE = getDE( model, body, desiredMechEnergy );
+    private boolean conserveEnergyViaH( Body body, double desiredMechEnergy ) {
+        double dE = getDE( body, desiredMechEnergy );
         if( dE == 0 ) {
             return true;
         }
-        double dh = dE / body.getMass() / model.getGravity();
+        double dh = dE / body.getMass() / body.getGravity();
         body.translate( 0, dh );
         return false;
 //        System.out.println( "------->requested mechEnergy = " + desiredMechEnergy+ ", obtained me=" + model.getMechanicalEnergy( body ));

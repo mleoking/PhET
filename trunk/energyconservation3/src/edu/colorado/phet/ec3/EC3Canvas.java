@@ -176,7 +176,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void addSkater() {
-        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight() );
+        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), ec3Model.getPotentialEnergyMetric() );
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
 

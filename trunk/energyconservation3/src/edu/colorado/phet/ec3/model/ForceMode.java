@@ -28,11 +28,11 @@ public abstract class ForceMode implements UpdateMode, Derivable {
         return netForce;
     }
 
-    public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        updateRK4( model, body, dt );
+    public void stepInTime( Body body, double dt ) {
+        updateRK4( body, dt );
     }
 
-    private void updateRK4( final EnergyConservationModel model, final Body body, double dt ) {
+    private void updateRK4( final Body body, double dt ) {
         double y[] = new double[]{body.getAttachPoint().getY(), body.getVelocity().getY()};
         RK4.Diff diffy = new RK4.Diff() {
             public void f( double t, double y[], double F[] ) {
@@ -105,7 +105,7 @@ public abstract class ForceMode implements UpdateMode, Derivable {
 //        body.setPosition( body.getX(), y[1] );
 //    }
 
-    private void updateFlanRK( EnergyConservationModel model, Body body, double dt ) {
+    private void updateFlanRK( Body body, double dt ) {
         double y = body.getY();
         double t = 0;
         double tFinal = t + dt;
@@ -124,7 +124,7 @@ public abstract class ForceMode implements UpdateMode, Derivable {
         double diff( double val );
     }
 
-    private void updateTechRK( EnergyConservationModel model, Body body, double dt ) {
+    private void updateTechRK( Body body, double dt ) {
         double xNew = integrate( body.getX(), body.getVelocity().getX(), dt, new Diff() {
             public double diff( double val ) {
                 return getNetForce().getX();
@@ -162,7 +162,7 @@ public abstract class ForceMode implements UpdateMode, Derivable {
         return 0;
     }
 
-    public void updateEuler( EnergyConservationModel model, Body body, double dt ) {
+    public void updateEuler( Body body, double dt ) {
         AbstractVector2D acceleration = getNetForce().getScaledInstance( 1.0 / body.getMass() );
         AbstractVector2D velocity = body.getVelocity().getAddedInstance( acceleration.getScaledInstance( dt ) );
         Point2D newPosition = new Point2D.Double( body.getX() + velocity.getX() * dt, body.getY() + velocity.getY() * dt );

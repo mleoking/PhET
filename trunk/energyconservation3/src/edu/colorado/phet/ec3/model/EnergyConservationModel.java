@@ -32,10 +32,20 @@ public class EnergyConservationModel {
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
+    private PotentialEnergyMetric potentialEnergyMetric;
 
     public EnergyConservationModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
+        potentialEnergyMetric = new PotentialEnergyMetric() {
+            public double getPotentialEnergy( Body body ) {
+                return EnergyConservationModel.this.getPotentialEnergy( body );
+            }
+
+            public double getGravity() {
+                return gravity;
+            }
+        };
     }
 
     public int numSplineSurfaces() {
@@ -104,6 +114,10 @@ public class EnergyConservationModel {
         }
     }
 
+    public PotentialEnergyMetric getPotentialEnergyMetric() {
+        return potentialEnergyMetric;
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
@@ -118,7 +132,7 @@ public class EnergyConservationModel {
         EnergyConservationModel copy = new EnergyConservationModel( zeroPointPotentialY );
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            copy.bodies.add( body.copyState( this ) );
+            copy.bodies.add( body.copyState() );
         }
         for( int i = 0; i < floors.size(); i++ ) {
             Floor floor = (Floor)floors.get( i );
@@ -140,7 +154,7 @@ public class EnergyConservationModel {
         floors.clear();
         splineSurfaces.clear();
         for( int i = 0; i < model.bodies.size(); i++ ) {
-            bodies.add( model.bodyAt( i ).copyState( this ) );
+            bodies.add( model.bodyAt( i ).copyState() );
         }
         for( int i = 0; i < model.splineSurfaces.size(); i++ ) {
             splineSurfaces.add( model.splineSurfaceAt( i ).copy() );
@@ -177,7 +191,7 @@ public class EnergyConservationModel {
         }
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            body.stepInTime( this, dt );
+            body.stepInTime( dt );
         }
         for( int i = 0; i < floors.size(); i++ ) {
             floorAt( i ).stepInTime( dt );
@@ -302,12 +316,6 @@ public class EnergyConservationModel {
         return getMechanicalEnergy( body ) + getThermalEnergy();
     }
 
-//    public double getTotalMechanicalEnergy( Body body ) {
-//        double ke = body.getKineticEnergy();
-//        double pe = getPotentialEnergy( body );
-//        return ke + pe;
-//    }
-
     public double getGravity() {
         return gravity;
     }
@@ -321,7 +329,7 @@ public class EnergyConservationModel {
     private void notifyBodiesSplineRemoved( AbstractSpline spline ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            body.splineRemoved( this, spline );
+            body.splineRemoved( spline );
         }
     }
 
