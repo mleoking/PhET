@@ -42,16 +42,19 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private double width;
     private double height;
+    private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
+    private double thermalEnergy = 0;
 
-    public Body( double width, double height ) {
+    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric ) {
         this.width = width;
         this.height = height;
+        this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
     }
 
-    public Body copyState( EnergyConservationModel model ) {
-        Body copy = new Body( width, height );
+    public Body copyState() {
+        Body copy = new Body( width, height, potentialEnergyMetric );
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
@@ -62,26 +65,28 @@ public class Body {
             copy.mode = copy.freeFall;
         }
         else if( this.mode instanceof FreeSplineMode ) {
-            copy.mode = new FreeSplineMode( ( (FreeSplineMode)this.mode ).getSpline(), copy );
+            FreeSplineMode splineMode = ( (FreeSplineMode)this.mode );
+            copy.mode = new FreeSplineMode( splineMode.getEnergyModel(), splineMode.getSpline(), copy );
         }
 
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
+        copy.potentialEnergyMetric = potentialEnergyMetric;//todo does this need to be a deep copy?
         return copy;
     }
 
     double time = 0.0;
 
-    public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
+    public void stepInTime( double dt ) {
         time += dt;
-        EnergyDebugger.stepStarted( energyConservationModel, this, dt );
+        EnergyDebugger.stepStarted( this, dt );
         int NUM_STEPS_PER_UPDATE = 5;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
-            double ei = new State( energyConservationModel, this ).getTotalEnergy();
-            getMode().stepInTime( energyConservationModel, this, dt / NUM_STEPS_PER_UPDATE );
-            double ef = new State( energyConservationModel, this ).getTotalEnergy();
+            double ei = new State( this ).getTotalEnergy();
+            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
+            double ef = new State( this ).getTotalEnergy();
             double err = Math.abs( ef - ei );
             if( err > 1E-6 ) {
                 System.out.println( "err=" + err + ", i=" + i );
@@ -90,7 +95,7 @@ public class Body {
         if( !isFreeFallMode() && !isUserControlled() ) {
             facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
         }
-        EnergyDebugger.stepFinished( energyConservationModel, this );
+        EnergyDebugger.stepFinished( this );
     }
 
     private UpdateMode getMode() {
@@ -130,13 +135,13 @@ public class Body {
         return mode == userMode;
     }
 
-    public void setUserControlled( EnergyConservationModel model, boolean userControlled ) {
+    public void setUserControlled( boolean userControlled ) {
         if( userControlled ) {
-            setMode( model, userMode );
+            setMode( userMode );
         }
         else {
             freeFall.setRotationalVelocity( 0.0 );
-            setMode( model, freeFall );
+            setMode( freeFall );
         }
     }
 
@@ -180,21 +185,21 @@ public class Body {
             }
         }
         if( !same ) {
-            setMode( model, new FreeSplineMode( spline, this ) );
+            setMode( new FreeSplineMode( model, spline, this ) );
         }
     }
 
-    private void setMode( EnergyConservationModel model, UpdateMode mode ) {
+    private void setMode( UpdateMode mode ) {
         this.mode = mode;
-        mode.init( model, this );
+        mode.init( this );
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
         freeFall.setRotationalVelocity( dA );
     }
 
-    public void setFreeFallMode( EnergyConservationModel model ) {
-        setMode( model, freeFall );
+    public void setFreeFallMode() {
+        setMode( freeFall );
     }
 
     void fixAngle() {
@@ -264,11 +269,11 @@ public class Body {
         return new ImmutableVector2D.Double( xThrust, yThrust );
     }
 
-    public void splineRemoved( EnergyConservationModel model, AbstractSpline spline ) {
+    public void splineRemoved( AbstractSpline spline ) {
         if( mode instanceof FreeSplineMode ) {
             FreeSplineMode spm = (FreeSplineMode)mode;
             if( spm.getSpline() == spline ) {
-                setFreeFallMode( model );
+                setFreeFallMode();
             }
         }
     }
@@ -393,6 +398,22 @@ public class Body {
             Listener listener = (Listener)listeners.get( i );
             listener.doRepaint();
         }
+    }
+
+    public double getMechanicalEnergy() {
+        return getKineticEnergy() + potentialEnergyMetric.getPotentialEnergy( this );
+    }
+
+    public double getTotalEnergy() {
+        return getMechanicalEnergy() + getThermalEnergy();
+    }
+
+    public double getThermalEnergy() {
+        return thermalEnergy;
+    }
+
+    public double getGravity() {
+        return potentialEnergyMetric.getGravity();
     }
 
     public static interface Listener {

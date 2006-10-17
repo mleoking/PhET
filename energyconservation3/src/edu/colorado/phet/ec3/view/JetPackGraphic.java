@@ -36,7 +36,7 @@ public class JetPackGraphic extends BodyGraphic {
 
     public void update() {
         if( origBody != null ) {
-            Body b = origBody.copyState( module.getEnergyConservationModel() );
+            Body b = origBody.copyState();
 //            b.translate( );
             double dist = 0.3;
             AbstractVector2D vec = AbstractVector2D.Double.parseAngleAndMagnitude( dist, origBody.getAttachmentPointRotation() + Math.PI / 2 );

@@ -26,8 +26,8 @@ public class EnergyDebugger {
         pCanvas.getLayer().addChild( orig );
     }
 
-    public static void stepStarted( EnergyConservationModel model, Body body, double dt ) {
-        origEnergy = new State( model, body ).getTotalEnergy();
+    public static void stepStarted( Body body, double dt ) {
+        origEnergy = new State( body ).getTotalEnergy();
         if( showEnergy ) {
             if( !frame.isVisible() ) {
                 frame.setVisible( true );
@@ -37,10 +37,10 @@ public class EnergyDebugger {
         }
     }
 
-    public static void stepFinished( EnergyConservationModel model, Body body ) {
-        double dE = new State( model, body ).getTotalEnergy() - origEnergy;
+    public static void stepFinished( Body body ) {
+        double dE = new State( body ).getTotalEnergy() - origEnergy;
         if( Math.abs( dE ) > 10E-6 ) {
-            System.out.println( "STEP FINISHED dE = " + dE + ", totalEnergy=" + new State( model, body ).getTotalEnergy() );
+            System.out.println( "STEP FINISHED dE = " + dE + ", totalEnergy=" + new State( body ).getTotalEnergy() );
         }
     }
 

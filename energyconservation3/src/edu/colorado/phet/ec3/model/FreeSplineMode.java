@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 
 public class FreeSplineMode extends ForceMode {
+    private EnergyConservationModel model;
     private AbstractSpline spline;
     private Body body;
     private double lastDA;
@@ -35,14 +36,15 @@ public class FreeSplineMode extends ForceMode {
     private static boolean debug = true;
     private boolean debugState = false;
 
-    public FreeSplineMode( AbstractSpline spline, Body body ) {
+    public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
+        this.model = model;
         this.spline = spline;
         this.body = body;
     }
 
-    public static void debug( String type, State origState, EnergyConservationModel model, Body body ) {
+    public static void debug( String type, State origState, Body body ) {
         if( debug ) {
-            double dE = new State( model, body ).getTotalEnergy() - origState.getTotalEnergy();
+            double dE = new State( body ).getTotalEnergy() - origState.getTotalEnergy();
             if( Math.abs( dE ) > 0.1 ) {
                 if( !errorYetThisStep ) {
                     errorYetThisStep = true;
@@ -64,9 +66,9 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    public void debug2( String type, double desiredEnergy, EnergyConservationModel model, Body body ) {
+    public void debug2( String type, double desiredEnergy, Body body ) {
         if( debug ) {
-            double dE = new State( model, body ).getTotalEnergy() - desiredEnergy;
+            double dE = new State( body ).getTotalEnergy() - desiredEnergy;
             if( Math.abs( dE ) > 1E-6 ) {
                 System.out.println( type + ", dE = " + dE );
             }
@@ -75,9 +77,9 @@ public class FreeSplineMode extends ForceMode {
 
     private ArrayList speedHistory = new ArrayList();
 
-    public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
+    public void stepInTime( Body body, double dt ) {
         stepStarted();
-        State originalState = new State( model, body );
+        State originalState = new State( body );
         if( body.isUserControlled() ) {
             speedHistory.clear();
         }
@@ -102,7 +104,7 @@ public class FreeSplineMode extends ForceMode {
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
         setNetForce( computeNetForce( model, segment ) );
-        super.stepInTime( model, body, dt ); //apply newton's laws       
+        super.stepInTime( body, dt ); //apply newton's laws       
 
         segment = getSegment( body );
         if( segment == null ) {
@@ -114,7 +116,7 @@ public class FreeSplineMode extends ForceMode {
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
         model.addThermalEnergy( frictiveWork );
-        debug( "newton or maybe setup bounce", originalState, model, body );
+        debug( "newton or maybe setup bounce", originalState, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
             debugState( "Handle bounce & Fly off" );
@@ -135,9 +137,9 @@ public class FreeSplineMode extends ForceMode {
 //                rotateBody( body, segment, dt, Math.PI / 64 );
 //                rotateBody( body, segment, dt, Math.PI / 64 );
                 rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
-                debug( "We just rotated body", originalState, model, body );
+                debug( "We just rotated body", originalState, body );
                 setBottomAtZero( segment, body );//can we find another implementation of this that preserves energy better?
-                debug( "set bottom to zero", originalState, model, body );
+                debug( "set bottom to zero", originalState, body );
             }
             segment = getSegment( body );//need to find our new segment after rotation.
             if( segment == null ) {
@@ -145,21 +147,21 @@ public class FreeSplineMode extends ForceMode {
             }
 
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-                new EnergyConserver().fixEnergy( model, body, originalState.getTotalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
+                new EnergyConserver().fixEnergy( body, originalState.getTotalEnergy() );//todo shouldn't this be origState.getTotalEnergy()?
             }
             else {
                 patchEnergyInclThermal( frictiveWork, model, body, originalState.getTotalEnergy(), originalState );
             }
         }
-        debug2( "after everything", originalState.getTotalEnergy(), model, body );
+        debug2( "after everything", originalState.getTotalEnergy(), body );
         //we want the total energy to be origState.getTotalEnergy().
         //currently the energy is new State(model,body).getTotalEnergy().
         //we can easily edit the mechanical energy...
 
-        if( Math.abs( originalState.getTotalEnergy() - new State( model, body ).getTotalEnergy() ) > 0 ) {
-            new EnergyConserver().fixEnergy( model, body, originalState.getTotalEnergy() - new State( model, body ).getHeat() );
+        if( Math.abs( originalState.getTotalEnergy() - new State( body ).getTotalEnergy() ) > 0 ) {
+            new EnergyConserver().fixEnergy( body, originalState.getTotalEnergy() - new State( body ).getHeat() );
         }
-        debug2( "after everything2", originalState.getTotalEnergy(), model, body );
+        debug2( "after everything2", originalState.getTotalEnergy(), body );
 
         lastGrabState = grabbed;
         lastSegment = segment;
@@ -185,7 +187,7 @@ public class FreeSplineMode extends ForceMode {
         return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && getNetForce().getMagnitude() < 100 && speedHistory.size() == 30 && !body.isUserControlled() && !model.isSplineUserControlled();
     }
 
-    public void init( EnergyConservationModel model, Body body ) {
+    public void init( Body body ) {
         body.convertToSpline();
     }
 
@@ -210,7 +212,7 @@ public class FreeSplineMode extends ForceMode {
         //modify the frictive work slightly so we don't have to account for all error energy in V and H.
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.2 );
 
-        debug( "Added thermal energy", origState, model, body );
+        debug( "Added thermal energy", origState, body );
         double finalEnergy = model.getMechanicalEnergy( body ) + model.getThermalEnergy();
         double energyError = finalEnergy - desiredEnergy;
 
@@ -219,13 +221,13 @@ public class FreeSplineMode extends ForceMode {
             model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
             double desiredMechEnergy = desiredEnergy - model.getThermalEnergy();
-            new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
-            debug( "FixEnergy", origState, model, body );
+            new EnergyConserver().fixEnergy( body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
+            debug( "FixEnergy", origState, body );
             //This may be causing other problems
         }
         else {
             model.addThermalEnergy( -energyError );
-            debug( "AddThermalEnergy", origState, model, body );
+            debug( "AddThermalEnergy", origState, body );
         }
     }
 
@@ -388,10 +390,10 @@ public class FreeSplineMode extends ForceMode {
             }
             body.setFreeFallRotationalVelocity( rot );
         }
-        body.setFreeFallMode( model );
+        body.setFreeFallMode();
         super.setNetForce( new Vector2D.Double( 0, 0 ) );
-        super.stepInTime( model, body, dt );
-        new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
+        super.stepInTime( body, dt );
+        new EnergyConserver().fixEnergy( body, origTotalEnergy );
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
@@ -464,4 +466,7 @@ public class FreeSplineMode extends ForceMode {
         return spline;
     }
 
+    public EnergyConservationModel getEnergyModel() {
+        return model;
+    }
 }

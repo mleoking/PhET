@@ -9,16 +9,10 @@ import java.awt.geom.Point2D;
  * Copyright (c) Oct 11, 2006 by Sam Reid
  */
 public class State {
-    private EnergyConservationModel model;
     private Body body;
 
-    public State( EnergyConservationModel model, Body body ) {
-        this.model = model.copyState();
-        this.body = body.copyState( model );
-    }
-
-    public EnergyConservationModel getModel() {
-        return model;
+    public State( Body body ) {
+        this.body = body.copyState();
     }
 
     public Body getBody() {
@@ -30,14 +24,14 @@ public class State {
     }
 
     public double getMechanicalEnergy() {
-        return model.getMechanicalEnergy( body );
+        return body.getMechanicalEnergy();
     }
 
     public double getTotalEnergy() {
-        return model.getMechanicalEnergy( body ) + model.getThermalEnergy();
+        return body.getTotalEnergy();
     }
 
     public double getHeat() {
-        return model.getThermalEnergy();
+        return body.getThermalEnergy();
     }
 }
