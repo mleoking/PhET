@@ -34,7 +34,7 @@ public class FreeSplineMode extends ForceMode {
     private static boolean errorYetThisStep = false;
     //    private static boolean debug = false;
     private static boolean debug = true;
-    private boolean debugState = false;
+    private boolean debugState = true;
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
         this.model = model;
@@ -113,7 +113,9 @@ public class FreeSplineMode extends ForceMode {
             debugState( "Fly off surface 2" );
             return;
         }
+        Body preBounce = body.copyState();
         setupBounce( body, segment );
+        debug( "bounce", preBounce, body );
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
         body.addThermalEnergy( frictiveWork );
@@ -167,6 +169,12 @@ public class FreeSplineMode extends ForceMode {
         lastGrabState = grabbed;
         lastSegment = segment;
         stepFinished();
+    }
+
+    private void debug( String type, Body before, Body after ) {
+        if( before.getEnergyDifferenceAbs( after ) > 100 ) {
+            System.out.println( type + " " + before.getEnergyDifferenceAbs( after ) );
+        }
     }
 
     private void debugState( String s ) {
@@ -291,55 +299,55 @@ public class FreeSplineMode extends ForceMode {
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-//    private void setupBounce( Body body, Segment segment ) {
-//        this.bounced = false;
-//        this.grabbed = false;
-//
-//        double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
-//        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
-//        body.setVelocity( newVelocity );
-//    }
+    private void setupBounce( Body body, Segment segment ) {
+        this.bounced = false;
+        this.grabbed = false;
+
+        double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
+        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
+        body.setVelocity( newVelocity );
+    }
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
 
-    private void setupBounce( Body body, Segment segment ) {
-        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-//        double bounceThreshold = 30;
-
-        this.bounced = false;
-        this.grabbed = false;
-//        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
-        double originalPerpVel = origVector.getPerpendicular();
-        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
-            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
-                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
-                bounced = true;
-            }
-            else {//grab
-                origVector.setPerpendicular( 0.0 );
-                grabbed = true;
-            }
-        }
-        if( !lastGrabState && grabbed ) {
-            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
-                //to make up for it all in dHeight.
-                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
-            }
-            else if( origVector.getParallel() < 0 ) {
-                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
-            }
-        }
-
-        Vector2D.Double newVelocity = origVector.toCartesianVector();
-
-        if( newVelocity.getMagnitude() == 0.0 ) {
-            System.out.println( "newVelocity = " + newVelocity );
-        }
-
-        EC3Debug.debug( "newVelocity = " + newVelocity );
-        body.setVelocity( newVelocity );
-    }
+//    private void setupBounce( Body body, Segment segment ) {
+//        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
+////        double bounceThreshold = 30;
+//
+//        this.bounced = false;
+//        this.grabbed = false;
+////        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
+//        double originalPerpVel = origVector.getPerpendicular();
+//        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
+//            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
+//                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
+//                bounced = true;
+//            }
+//            else {//grab
+//                origVector.setPerpendicular( 0.0 );
+//                grabbed = true;
+//            }
+//        }
+//        if( !lastGrabState && grabbed ) {
+//            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
+//                //to make up for it all in dHeight.
+//                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
+//            }
+//            else if( origVector.getParallel() < 0 ) {
+//                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
+//            }
+//        }
+//
+//        Vector2D.Double newVelocity = origVector.toCartesianVector();
+//
+//        if( newVelocity.getMagnitude() == 0.0 ) {
+//            System.out.println( "newVelocity = " + newVelocity );
+//        }
+//
+//        EC3Debug.debug( "newVelocity = " + newVelocity );
+//        body.setVelocity( newVelocity );
+//    }
 
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
         double bodyAngle = body.getAttachmentPointRotation();

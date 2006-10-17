@@ -124,7 +124,7 @@ public class Body {
         }
     }
 
-    private double getEnergyDifferenceAbs( Body body ) {
+    public double getEnergyDifferenceAbs( Body body ) {
         return Math.abs( body.getTotalEnergy() - this.getTotalEnergy() );
     }
 
