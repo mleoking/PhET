@@ -10,18 +10,28 @@ import java.awt.geom.Point2D;
  */
 
 public class NatCubicSpline2D implements Spline2D {
-    NatCubic.Cubic[] X;
-    NatCubic.Cubic[] Y;
+    private NatCubic.Cubic[] X;
+    private NatCubic.Cubic[] Y;
+
+    public NatCubicSpline2D( Point2D[] controlPoints ) {
+        NatCubic.PointArray pts = new NatCubic.PointArray( controlPoints );
+        this.X = NatCubic.calcNaturalCubic( pts.getXPoints() );
+        this.Y = NatCubic.calcNaturalCubic( pts.getYPoints() );
+    }
 
     public NatCubicSpline2D( NatCubic.Cubic[] x, NatCubic.Cubic[] y ) {
         X = x;
         Y = y;
     }
 
+    public double getLength() {
+        return X.length;
+    }
+
     public Point2D evaluate( double x ) {
         int i = (int)Math.floor( x );
         double distAlongCubic = x - i;
-        System.out.println( "x=" + x + ", i=" + i + ", dist=" + distAlongCubic + ", X.length=" + X.length );
+//        System.out.println( "x=" + x + ", i=" + i + ", dist=" + distAlongCubic + ", X.length=" + X.length );
         if( i == X.length && Math.abs( distAlongCubic ) < 1E-6 ) {
             i = X.length - 1;
             distAlongCubic = 0;
