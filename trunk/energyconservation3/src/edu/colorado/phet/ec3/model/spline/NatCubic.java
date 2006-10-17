@@ -9,7 +9,7 @@ http://www.cse.unsw.edu.au/~lambert/splines/NatCubic.java
 
 public class NatCubic {
 
-    class PointArray {
+    public static class PointArray {
         ArrayList points = new ArrayList();
 
         public PointArray() {
@@ -20,6 +20,10 @@ public class NatCubic {
                 Point2D point = points[i];
                 addPoint( point.getX(), point.getY() );
             }
+        }
+
+        public void addPoint( Point2D pt ) {
+            addPoint( pt.getX(), pt.getY() );
         }
 
         public void addPoint( double x, double y ) {
@@ -59,7 +63,7 @@ public class NatCubic {
         }
     }
 
-    class Cubic {
+    public static class Cubic {
 
         double a, b, c, d;         /* a + b*u + c*u^2 +d*u^3 */
 
@@ -75,7 +79,8 @@ public class NatCubic {
         }
     }
 
-    public Cubic[] calcNaturalCubic( int n, double[] x ) {
+    public Cubic[] calcNaturalCubic( double[] x ) {
+        int n = x.length - 1;
         double[] gamma = new double[n + 1];
         double[] delta = new double[n + 1];
         double[] D = new double[n + 1];
@@ -109,13 +114,13 @@ public class NatCubic {
 
     public Point2D evaluate( Point2D[] points, double distAlongSpline ) {
         PointArray pts = new PointArray( points );
-        Cubic[] X = calcNaturalCubic( pts.numPoints() - 1, pts.getXPoints() );
-        Cubic[] Y = calcNaturalCubic( pts.numPoints() - 1, pts.getYPoints() );
+        Cubic[] X = calcNaturalCubic( pts.getXPoints() );
+        Cubic[] Y = calcNaturalCubic( pts.getYPoints() );
         int index = (int)Math.floor( distAlongSpline );
         return new Point2D.Double( X[index].eval( distAlongSpline ), Y[index].eval( distAlongSpline ) );
     }
 
-    public Point2D[] interpolate( Point2D[] points, int segments ) {
+    public Point2D[] interpolate( Point2D[] points, int numSegsBetweenControlPoints ) {
         if( points.length < 2 ) {
             Point2D[] out = new Point2D[points.length];
             for( int i = 0; i < out.length; i++ ) {
@@ -125,21 +130,26 @@ public class NatCubic {
         }
         else {
             PointArray pts = new PointArray( points );
+            Cubic[] X = calcNaturalCubic( pts.getXPoints() );
+            Cubic[] Y = calcNaturalCubic( pts.getYPoints() );
+
             PointArray out = new PointArray();
-            Cubic[] X = calcNaturalCubic( pts.numPoints() - 1, pts.getXPoints() );
-            Cubic[] Y = calcNaturalCubic( pts.numPoints() - 1, pts.getYPoints() );
+            NatCubicSpline2D ncs = new NatCubicSpline2D( X, Y );
+            for( double t = 0; t < X.length; t += 1.0 / numSegsBetweenControlPoints ) {
+                out.addPoint( ncs.evaluate( t ) );
+            }
 
             /* very crude technique - just break each segment up into segments lines */
-            out.addPoint( X[0].eval( 0 ), Y[0].eval( 0 ) );
-            for( int i = 0; i < X.length; i++ ) {
-                for( int j = 1; j <= segments; j++ ) {
-                    float u = j / (float)segments;
-                    out.addPoint( ( X[i].eval( u ) ), ( Y[i].eval( u ) ) );
-                }
-            }
+//            out.addPoint( X[0].eval( 0 ), Y[0].eval( 0 ) );
+//            for( int i = 0; i < X.length; i++ ) {
+//                for( int j = 1; j <= numSegsBetweenControlPoints; j++ ) {
+//                    float u = j / (float)numSegsBetweenControlPoints;
+//                    out.addPoint( ( X[i].eval( u ) ), ( Y[i].eval( u ) ) );
+//                }
+//            }
+
             ArrayList mypath = new ArrayList();
-            mypath.add( new Point2D.Double( out.getX( 0 ), out.getY( 0 ) ) );
-            for( int i = 1; i < out.numPoints(); i++ ) {
+            for( int i = 0; i < out.numPoints(); i++ ) {
                 mypath.add( new Point2D.Double( out.getX( i ), out.getY( i ) ) );
             }
 
