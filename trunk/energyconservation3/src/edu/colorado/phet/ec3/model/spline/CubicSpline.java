@@ -34,6 +34,11 @@ public class CubicSpline extends AbstractSpline {
         return natCubic.interpolate( getControlPoints(), numSegments );
     }
 
+    public Point2D evaluateAnalytical( double distAlongSpline ) {
+//        return new NatCubic().evaluate( );
+        return new NatCubic().evaluate( getControlPoints(), distAlongSpline );
+    }
+
     public AbstractSpline createReverseSpline() {
         CubicSpline cubicSpline = new CubicSpline( numSegments );
         for( int i = 0; i < numControlPoints(); i++ ) {

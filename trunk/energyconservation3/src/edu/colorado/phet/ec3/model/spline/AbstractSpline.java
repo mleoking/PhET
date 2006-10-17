@@ -108,6 +108,8 @@ public abstract class AbstractSpline implements Cloneable {
         return path;
     }
 
+    public abstract Point2D evaluateAnalytical( double distAlongSpline );
+
     public Point2D evaluate( double distAlongSpline ) {
         return getSegmentPath().evaluate( distAlongSpline );
     }

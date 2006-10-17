@@ -111,8 +111,8 @@ public class NatCubic {
         PointArray pts = new PointArray( points );
         Cubic[] X = calcNaturalCubic( pts.numPoints() - 1, pts.getXPoints() );
         Cubic[] Y = calcNaturalCubic( pts.numPoints() - 1, pts.getYPoints() );
-
-        return new Point2D.Double( X[0].eval( distAlongSpline ), Y[0].eval( distAlongSpline ) );
+        int index = (int)Math.floor( distAlongSpline );
+        return new Point2D.Double( X[index].eval( distAlongSpline ), Y[index].eval( distAlongSpline ) );
     }
 
     public Point2D[] interpolate( Point2D[] points, int segments ) {
