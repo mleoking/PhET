@@ -132,7 +132,7 @@ public class FreeSplineMode extends ForceMode {
         }
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
-            if( v > 0.01 ) {
+            if( v > 0 ) {
                 flyOffSurface( body, model, dt, originalState.getTotalEnergy() );
                 if( getCollisionSegment( body ) != null ) {
                     body.setSplineMode( model, spline );
@@ -306,74 +306,75 @@ public class FreeSplineMode extends ForceMode {
 
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-    private void setupBounce( Body body, Segment segment ) {
-        this.bounced = false;
-        this.grabbed = false;
-
-        double perpendicularVelocity = body.getVelocity().dot( segment.getUnitNormalVector() );
-        System.out.println( "perpendicularVelocity = " + perpendicularVelocity );
-        if( perpendicularVelocity >= -0.001 ) {//fall off
-            System.out.println( "FALL OFF" );
-            grabbed = false;
-            bounced = false;
-        }
-        else if( perpendicularVelocity < -bounceThreshold ) {
-            System.out.println( "perp=" + perpendicularVelocity + ", bounce threshold=" + bounceThreshold );
-            System.out.println( "BOUNCE" );
-            bounced = true;
-            grabbed = false;
-            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getUnitNormalVector().getAngle() );
-            body.setVelocity( newVelocity );
-        }
-        else {
-            System.out.println( "GRAB" );
-            bounced = false;
-            grabbed = true;
-            double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
-            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
-            body.setVelocity( newVelocity );
-        }
-    }
-
-    //just kill the perpendicular part of velocity, if it is through the track.
-    // this should be lost to friction or to a bounce.
 //    private void setupBounce( Body body, Segment segment ) {
-//        Body origState=body.copyState();
-////        System.out.println( "PREBOUNCEbody.getVelocity() = " + body.getVelocity() );
-//        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
 //        this.bounced = false;
 //        this.grabbed = false;
 //
-//        double originalPerpVel = origVector.getPerpendicular();
-//        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
-//            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
-//                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
-//                bounced = true;
-//                System.out.println( "A" );
-//            }
-//            else {//grab
-//                origVector.setPerpendicular( 0.0 );
-//                grabbed = true;
-//                System.out.println( "B" );
-//            }
+//        double perpendicularVelocity = body.getVelocity().dot( segment.getUnitNormalVector() );
+//        System.out.println( "perpendicularVelocity = " + perpendicularVelocity );
+//        if( perpendicularVelocity > 0 ) {//fall off
+//            System.out.println( "FALL OFF" );
+//            grabbed = false;
+//            bounced = false;
 //        }
-//        if( !lastGrabState && grabbed ) {
-//            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
-//                //to make up for it all in dHeight.
-//                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
-//                System.out.println( "C" );
-//            }
-//            else if( origVector.getParallel() < 0 ) {
-//                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
-//                System.out.println( "D" );
-//            }
+//        else if( perpendicularVelocity < -bounceThreshold ) {
+//            System.out.println( "perp=" + perpendicularVelocity + ", bounce threshold=" + bounceThreshold );
+//            System.out.println( "BOUNCE" );
+//            bounced = true;
+//            grabbed = false;
+//            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getUnitNormalVector().getAngle() );
+//            body.setVelocity( newVelocity );
 //        }
-//        body.setVelocity( origVector.toCartesianVector() );
-////        System.out.println( "POSTBOUNCE.getVelocity() = " + body.getVelocity() );
-//        if (origState.getEnergyDifferenceAbs( body )>1000){
-//            System.out.println( "?Error in Setup bounce: "+origState.getEnergyDifferenceAbs( body ) );
+//        else {
+//            System.out.println( "GRAB" );
+//            bounced = false;
+//            grabbed = true;
+//            double angleOffset = body.getVelocity().dot( segment.getUnitDirectionVector() ) < 0 ? Math.PI : 0;
+//            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), segment.getAngle() + angleOffset );
+//            body.setVelocity( newVelocity );
 //        }
 //    }
+
+    //just kill the perpendicular part of velocity, if it is through the track.
+    // this should be lost to friction or to a bounce.
+
+    private void setupBounce( Body body, Segment segment ) {
+        Body origState = body.copyState();
+//        System.out.println( "PREBOUNCEbody.getVelocity() = " + body.getVelocity() );
+        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
+        this.bounced = false;
+        this.grabbed = false;
+
+        double originalPerpVel = origVector.getPerpendicular();
+        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
+            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
+                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
+                bounced = true;
+                System.out.println( "A" );
+            }
+            else {//grab
+                origVector.setPerpendicular( 0.0 );
+                grabbed = true;
+                System.out.println( "B" );
+            }
+        }
+        if( !lastGrabState && grabbed ) {
+            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
+                //to make up for it all in dHeight.
+                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
+                System.out.println( "C" );
+            }
+            else if( origVector.getParallel() < 0 ) {
+                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
+                System.out.println( "D" );
+            }
+        }
+        body.setVelocity( origVector.toCartesianVector() );
+//        System.out.println( "POSTBOUNCE.getVelocity() = " + body.getVelocity() );
+        if( origState.getEnergyDifferenceAbs( body ) > 1000 ) {
+            System.out.println( "?Error in Setup bounce: " + origState.getEnergyDifferenceAbs( body ) );
+        }
+    }
 
     private void rotateBody( Body body, Segment segment, double dt, double maxRotationDTheta ) {
         double bodyAngle = body.getAttachmentPointRotation();
