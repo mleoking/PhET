@@ -139,13 +139,43 @@ public class A_BC_AB_C_Reaction extends Reaction {
         model.addModelElement( newComposite );
         newFreeMolecule.setParentComposite( null );
 
-//        ReleasingReactionSpring spring = new ReleasingReactionSpring( pe,
-//                                                                      getEnergyProfile().getThresholdWidth() / 2,
-//                                                                      getEnergyProfile().getThresholdWidth() / 2,
-//                                                                      new SimpleMolecule[]{(SimpleMolecule)newFreeMolecule,
-//                                                                              (SimpleMolecule)oldFreeMolecule} );
-//        model.addModelElement( spring );
-        if( true) return;
+        MoleculeB mB = newComposite.getComponentMolecules()[0] instanceof MoleculeB
+                       ? (MoleculeB)newComposite.getComponentMolecules()[0]
+                       : (MoleculeB)newComposite.getComponentMolecules()[1];
+
+        // todo: TEMPORARY!!!!  To keep molecules from reacting again right away
+        newFreeMolecule.setVelocity( 0,0 );
+        newComposite.getComponentMolecules()[0].setVelocity( 0,0 );
+        newComposite.getComponentMolecules()[1].setVelocity( 0,0 );
+
+        System.out.println( "A_BC_AB_C_Reaction.doReactionII" );
+        // Move the molecules apart so they won't react on the next time step
+        Vector2D sep = new Vector2D.Double( mB.getPosition(), newFreeMolecule.getPosition() );
+        sep.normalize().scale( mB.getRadius() + ((SimpleMolecule)newFreeMolecule).getRadius() + 20);
+        newFreeMolecule.setPosition( mB.getPosition().getX() + sep.getX(), mB.getPosition().getY() + sep.getY() );
+
+        // Get the speeds at which the molecules are moving toward their CM, and add that KE to the PE passed in
+        CompositeBody cb = new CompositeBody();
+        cb.addBody( newFreeMolecule );
+        cb.addBody( newComposite );
+
+        Vector2D vFreeMoleculeRelCM = new Vector2D.Double( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
+        double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
+        Vector2D vCompositeMoleculeRelCM = new Vector2D.Double( newComposite.getVelocity() ).subtract( cb.getVelocity() );
+        double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
+        double ke = ( newFreeMolecule.getMass() * sFree * sFree  + newComposite.getMass()  * sComposite * sComposite ) / 2;
+
+        pe += ke;
+
+        ProvisionalBond provisionalBond = new ProvisionalBondPostReaction( (SimpleMolecule)newFreeMolecule,
+                                                               mB,
+                                                               getEnergyProfile().getThresholdWidth() / 2,
+                                                               model,
+                                                               pe );
+        model.addModelElement( provisionalBond );
+        if( true ) {
+            return;
+        }
 
 
         SimpleMolecule a = (SimpleMolecule)oldFreeMolecule;
