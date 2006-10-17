@@ -150,7 +150,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        newComposite.getComponentMolecules()[1].setVelocity( 0,0 );
 //        newComposite.setVelocity( 0,0 );
 //
-        System.out.println( "A_BC_AB_C_Reaction.doReactionII" );
+        
+//        System.out.println( "A_BC_AB_C_Reaction.doReactionII" );
 
         if( !DebugFlags.HARD_COLLISIONS ) {
             // Move the molecules apart so they won't react on the next time step
