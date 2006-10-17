@@ -31,11 +31,15 @@ public class ReleasingReactionSpring extends ReactionSpring {
     }
 
     public void stepInTime( double dt ) {
+        System.out.println( "getLength() = " + getLength() );
+        System.out.println( "getRestingLength()instanceof = " + getRestingLength());
         if( getLength() < getRestingLength() ) {
             super.stepInTime( dt );
+            System.out.println( "ReleasingReactionSpring.stepInTime:    push" );
         }
         else {
             changeListenerProxy.bodiesReleased( this );
+            System.out.println( "ReleasingReactionSpring.stepInTime:    release" );
         }
     }
 

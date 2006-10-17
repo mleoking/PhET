@@ -197,8 +197,8 @@ public class MRModel extends PublishingModel {
         monitorEnergy();
     }
 
-    Vector2D lastM = new Vector2D.Double( );
 
+    Vector2D lastM = new Vector2D.Double( );
     public void monitorEnergy() {
         List modelElements = getModelElements();
         double pe = 0;

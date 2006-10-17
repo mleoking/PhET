@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.DebugFlags;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 
@@ -143,36 +144,54 @@ public class A_BC_AB_C_Reaction extends Reaction {
                        ? (MoleculeB)newComposite.getComponentMolecules()[0]
                        : (MoleculeB)newComposite.getComponentMolecules()[1];
 
-        // todo: TEMPORARY!!!!  To keep molecules from reacting again right away
-        newFreeMolecule.setVelocity( 0,0 );
-        newComposite.getComponentMolecules()[0].setVelocity( 0,0 );
-        newComposite.getComponentMolecules()[1].setVelocity( 0,0 );
-
+//        // todo: TEMPORARY!!!!  To keep molecules from reacting again right away
+//        newFreeMolecule.setVelocity( 0,0 );
+//        newComposite.getComponentMolecules()[0].setVelocity( 0,0 );
+//        newComposite.getComponentMolecules()[1].setVelocity( 0,0 );
+//        newComposite.setVelocity( 0,0 );
+//
         System.out.println( "A_BC_AB_C_Reaction.doReactionII" );
-        // Move the molecules apart so they won't react on the next time step
-        Vector2D sep = new Vector2D.Double( mB.getPosition(), newFreeMolecule.getPosition() );
-        sep.normalize().scale( mB.getRadius() + ((SimpleMolecule)newFreeMolecule).getRadius() + 20);
-        newFreeMolecule.setPosition( mB.getPosition().getX() + sep.getX(), mB.getPosition().getY() + sep.getY() );
 
-        // Get the speeds at which the molecules are moving toward their CM, and add that KE to the PE passed in
-        CompositeBody cb = new CompositeBody();
-        cb.addBody( newFreeMolecule );
-        cb.addBody( newComposite );
+        if( !DebugFlags.HARD_COLLISIONS ) {
+            // Move the molecules apart so they won't react on the next time step
+            Vector2D sep = new Vector2D.Double( mB.getPosition(), newFreeMolecule.getPosition() );
+            sep.normalize().scale( mB.getRadius() + ( (SimpleMolecule)newFreeMolecule ).getRadius() + 2 );
+            newFreeMolecule.setPosition( mB.getPosition().getX() + sep.getX(), mB.getPosition().getY() + sep.getY() );
 
-        Vector2D vFreeMoleculeRelCM = new Vector2D.Double( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
-        double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
-        Vector2D vCompositeMoleculeRelCM = new Vector2D.Double( newComposite.getVelocity() ).subtract( cb.getVelocity() );
-        double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
-        double ke = ( newFreeMolecule.getMass() * sFree * sFree  + newComposite.getMass()  * sComposite * sComposite ) / 2;
+            // Get the speeds at which the molecules are moving toward their CM, and add that KE to the PE passed in
+            CompositeBody cb = new CompositeBody();
+            cb.addBody( newFreeMolecule );
+            cb.addBody( newComposite );
 
-        pe += ke;
+            Vector2D vFreeMoleculeRelCM = new Vector2D.Double( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
+            double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
+            Vector2D vCompositeMoleculeRelCM = new Vector2D.Double( newComposite.getVelocity() ).subtract( cb.getVelocity() );
+            double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
+            double ke = ( newFreeMolecule.getMass() * sFree * sFree + newComposite.getMass() * sComposite * sComposite ) / 2;
 
-        ProvisionalBond provisionalBond = new ProvisionalBondPostReaction( (SimpleMolecule)newFreeMolecule,
-                                                               mB,
-                                                               getEnergyProfile().getThresholdWidth() / 2,
-                                                               model,
-                                                               pe );
-        model.addModelElement( provisionalBond );
+            pe += ke;
+
+            ProvisionalBond provisionalBond = new ProvisionalBondPostReaction( (SimpleMolecule)newFreeMolecule,
+                                                                               mB,
+                                                                               getEnergyProfile().getThresholdWidth() / 2,
+                                                                               model,
+                                                                               pe );
+            model.addModelElement( provisionalBond );
+
+            // todo: TEMPORARY!!!!  To keep molecules from reacting again right away
+            newFreeMolecule.setVelocity( 0, 0 );
+            newComposite.getComponentMolecules()[0].setVelocity( 0, 0 );
+            newComposite.getComponentMolecules()[1].setVelocity( 0, 0 );
+            newComposite.setVelocity( 0, 0 );
+        }
+        else {
+
+            // Compute the kinematics of the released molecule
+            HardBodyCollision collision = new HardBodyCollision();
+            collision.detectAndDoCollision( newComposite, newFreeMolecule );
+        }
+
+
         if( true ) {
             return;
         }
@@ -210,8 +229,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //        newFreeMolecule.setVelocity( 0, 0 );
 
         // Compute the kinematics of the released molecule
-        HardBodyCollision collision = new HardBodyCollision();
-        collision.detectAndDoCollision( newComposite, newFreeMolecule );
+//        HardBodyCollision collision = new HardBodyCollision();
+//        collision.detectAndDoCollision( newComposite, newFreeMolecule );
 
 
         if( false ) {
@@ -457,27 +476,31 @@ public class A_BC_AB_C_Reaction extends Reaction {
                 classificationCriterionMet = true;
             }
 
-            return classificationCriterionMet;
+            if( !DebugFlags.HARD_COLLISIONS ) {
+                return classificationCriterionMet;
+            }
 
-            // The relative kinetic energy of the collision must be above the
-            // energy profile threshold
-//            if( classificationCriterionMet ) {
-//                CompositeMolecule cm = m1 instanceof CompositeMolecule
-//                                       ? (CompositeMolecule)m1
-//                                       : (CompositeMolecule)m2;
-//                double de = 0;
-//                if( cm instanceof MoleculeBC ) {
-//                    de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
-//                }
-//                else if( cm instanceof MoleculeAB ) {
-//                    de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
-//                }
-//                else {
-//                    throw new IllegalArgumentException( "internal error " );
-//                }
-//                result = getRelKE( m1, m2 ) > de;
-//            }
-//            return result;
+            else {
+                // The relative kinetic energy of the collision must be above the
+                // energy profile threshold
+                if( classificationCriterionMet ) {
+                    CompositeMolecule cm = m1 instanceof CompositeMolecule
+                                           ? (CompositeMolecule)m1
+                                           : (CompositeMolecule)m2;
+                    double de = 0;
+                    if( cm instanceof MoleculeBC ) {
+                        de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
+                    }
+                    else if( cm instanceof MoleculeAB ) {
+                        de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
+                    }
+                    else {
+                        throw new IllegalArgumentException( "internal error " );
+                    }
+                    result = getRelKE( m1, m2 ) > de;
+                }
+                return result;
+            }
         }
 
         /**
