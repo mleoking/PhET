@@ -2,6 +2,15 @@
 Remaining Work
 #######################################
 
+convert energy to be completely a property of the body?
+    -give body knowledge of gravity & zero-point energy
+    -give body knowledge of entire model?
+        
+Convert spline traversal to no longer be segment-based?  Segments could still be used for collisions,
+but for the character's motion, the actual spline could be used.
+
+When friction is turned on, man speeds up and runs away.
+
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
 constant, perhaps, but increases a little if you hold down the down 

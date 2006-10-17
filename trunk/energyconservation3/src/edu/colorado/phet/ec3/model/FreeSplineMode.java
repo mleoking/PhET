@@ -31,7 +31,8 @@ public class FreeSplineMode extends ForceMode {
     private double bounceThreshold = 4;
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
-    private static boolean debug = false;
+    //    private static boolean debug = false;
+    private static boolean debug = true;
     private boolean debugState = false;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
@@ -72,7 +73,7 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    ArrayList speedHistory = new ArrayList();
+    private ArrayList speedHistory = new ArrayList();
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         stepStarted();
