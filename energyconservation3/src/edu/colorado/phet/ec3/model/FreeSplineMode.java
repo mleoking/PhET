@@ -92,7 +92,7 @@ public class FreeSplineMode extends ForceMode {
         if( okayToStop( model, segment, body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
             double ke = body.getKineticEnergy();
             body.setVelocity( new Vector2D.Double( 0, 0 ) );
-            model.addThermalEnergy( ke );
+            body.addThermalEnergy( ke );
             debugState( "Stopping" );
             return;
         }
@@ -115,7 +115,7 @@ public class FreeSplineMode extends ForceMode {
         setupBounce( body, segment );
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
         double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
-        model.addThermalEnergy( frictiveWork );
+        body.addThermalEnergy( frictiveWork );
         debug( "newton or maybe setup bounce", originalState, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
@@ -213,20 +213,20 @@ public class FreeSplineMode extends ForceMode {
         double allowedToModifyHeat = Math.abs( frictiveWork * 0.2 );
 
         debug( "Added thermal energy", origState, body );
-        double finalEnergy = model.getMechanicalEnergy( body ) + model.getThermalEnergy();
+        double finalEnergy = body.getMechanicalEnergy() + body.getThermalEnergy();
         double energyError = finalEnergy - desiredEnergy;
 
         double energyErrorSign = MathUtil.getSign( energyError );
         if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
-            model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
+            body.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
-            double desiredMechEnergy = desiredEnergy - model.getThermalEnergy();
+            double desiredMechEnergy = desiredEnergy - body.getThermalEnergy();
             new EnergyConserver().fixEnergy( body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
             debug( "FixEnergy", origState, body );
             //This may be causing other problems
         }
         else {
-            model.addThermalEnergy( -energyError );
+            body.addThermalEnergy( -energyError );
             debug( "AddThermalEnergy", origState, body );
         }
     }
@@ -291,7 +291,7 @@ public class FreeSplineMode extends ForceMode {
         }
 
         double dE = initKE - finalKE;
-        model.addThermalEnergy( dE );
+        body.addThermalEnergy( dE );
 
         flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() - dE );
     }

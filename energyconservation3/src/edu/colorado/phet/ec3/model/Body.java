@@ -68,12 +68,12 @@ public class Body {
             FreeSplineMode splineMode = ( (FreeSplineMode)this.mode );
             copy.mode = new FreeSplineMode( splineMode.getEnergyModel(), splineMode.getSpline(), copy );
         }
-
+        copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
-        copy.potentialEnergyMetric = potentialEnergyMetric;//todo does this need to be a deep copy?
+        copy.potentialEnergyMetric = potentialEnergyMetric.copy();//todo does this need to be a deep copy?
         return copy;
     }
 
@@ -414,6 +414,18 @@ public class Body {
 
     public double getGravity() {
         return potentialEnergyMetric.getGravity();
+    }
+
+    public void clearHeat() {
+        thermalEnergy = 0.0;
+    }
+
+    public void addThermalEnergy( double dThermalEnergy ) {
+        thermalEnergy += dThermalEnergy;
+    }
+
+    public double getPotentialEnergy() {
+        return potentialEnergyMetric.getPotentialEnergy( this );
     }
 
     public static interface Listener {
