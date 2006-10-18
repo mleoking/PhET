@@ -20,6 +20,7 @@ public class FreeSplineMode2 implements UpdateMode {
     private double savedLocation;
     private Body lastState;
     private Body afterNewton;
+    private Vector2D.Double lastNormalForce;
 
     public FreeSplineMode2( EnergyConservationModel model, AbstractSpline spline ) {
         this.model = model;
@@ -31,10 +32,12 @@ public class FreeSplineMode2 implements UpdateMode {
         double x = savedLocation;
         double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
-        new ForceMode( createNetForce( body, x ) ).stepInTime( body, dt );
+        AbstractVector2D netForce = createNetForce( body, x );
+        new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
+
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
-        System.out.println( "x2=" + x2 );
+//        System.out.println( "x2=" + x2 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             body.setFreeFallMode();
             return;
@@ -43,12 +46,29 @@ public class FreeSplineMode2 implements UpdateMode {
             body.setFreeFallMode();
             return;
         }
+        double thermalEnergy = getFrictionForce( body, ( x + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
+        body.addThermalEnergy( thermalEnergy );
+
         savedLocation = x2;
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
         new EnergyConserver().fixEnergy( body, origState.getTotalEnergy() );
         lastState = body.copyState();
+
+        lastNormalForce = updateNormalForce( origState, body, netForce, dt );
+    }
+
+    private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
+        //numerically unstable, since we divide by dt^2
+        //2m/t^2 (x1-x0-v0t)-Fa
+        Vector2D.Double vec = new Vector2D.Double();
+        vec.add( body.getPositionVector() );
+        vec.subtract( origState.getPositionVector() );
+        vec.subtract( origState.getVelocity() );
+        vec.scale( 2 * body.getMass() / dt / dt );
+        vec.subtract( netForce );
+        return vec;
     }
 
     private void rotateBody( Body body, double x, double dt, double maxRotationDTheta ) {
@@ -87,7 +107,7 @@ public class FreeSplineMode2 implements UpdateMode {
         body.convertToSpline();
         savedLocation = getDistAlongSpline( body.getAttachPoint() );
         lastState = body.copyState();
-
+        lastNormalForce = new Vector2D.Double();
     }
 
     private double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
@@ -98,7 +118,6 @@ public class FreeSplineMode2 implements UpdateMode {
         //todo: normal should opposed both gravity and thrust when applicable
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 body.getGravityForce(),
-                getNormalForce( body, x ),
                 body.getThrust(),
                 getFrictionForce( body, x )
         };
@@ -114,7 +133,7 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private AbstractVector2D getFrictionForce( Body body, double x ) {
-        double fricMag = body.getFrictionCoefficient() * getNormalForce( body, x ).getMagnitude();
+        double fricMag = body.getFrictionCoefficient() * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
         if( body.getVelocity().getMagnitude() > 0 ) {
             return body.getVelocity().getInstanceOfMagnitude( -fricMag );
         }
@@ -123,16 +142,4 @@ public class FreeSplineMode2 implements UpdateMode {
         }
     }
 
-    private AbstractVector2D getNormalForce( Body body, double x ) {
-//        if( afterNewton != null ) {
-//            System.out.println( "afterNewton.getVelocity() = " + afterNewton.getVelocity() );
-//        }
-//        if( afterNewton == null || afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 ) {
-//        double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
-//        return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
-//        }
-//        else {
-        return new Vector2D.Double();
-//        }
-    }
 }
