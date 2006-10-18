@@ -31,19 +31,41 @@ public abstract class Body extends Particle {
     private double mass;
     private Vector2D momentum = new Vector2D.Double();
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+    public abstract Point2D getCM();
+
+    public abstract double getMomentOfInertia();
+
+
+    /**
+     *
+     */
     protected Body() {
     }
 
+    /**
+     *
+     * @param location
+     * @param velocity
+     * @param acceleration
+     * @param mass
+     * @param charge
+     */
     protected Body( Point2D location, Vector2D velocity,
                     Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration );
         setMass( mass );
     }
 
-    public abstract Point2D getCM();
-
-    public abstract double getMomentOfInertia();
-
+    /**
+     * Returns the total kinetic energy of the body, translational
+     * and rotational
+     *
+     * @return the kinetic energy
+     */
     public double getKineticEnergy() {
         return ( getMass() * getVelocity().getMagnitudeSq() / 2 ) +
                getMomentOfInertia() * omega * omega / 2;
