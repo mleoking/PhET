@@ -79,6 +79,10 @@ public class MRModule extends Module {
         return spatialView;
     }
 
+    protected EnergyView getEnergyView() {
+        return energyView;
+    }
+
     protected PSwingCanvas getPCanvas() {
         return (PSwingCanvas)getSimulationPanel();
     }

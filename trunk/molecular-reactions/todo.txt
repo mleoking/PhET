@@ -1,3 +1,4 @@
+- Closing the chart dialogs should uncheck the check boxes
 - Bug in SelectedM
 - Can't select a B type molecule
 - Hose on pump graphic is aliased

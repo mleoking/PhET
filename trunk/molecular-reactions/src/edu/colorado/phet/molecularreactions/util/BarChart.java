@@ -80,10 +80,6 @@ public class BarChart {
 
         // get a reference to the plot for further customisation...
         CategoryPlot plot = chart.getCategoryPlot();
-//        plot.setBackgroundPaint( Color.lightGray );
-//        plot.setDomainGridlinePaint( Color.white );
-//        plot.setDomainGridlinesVisible( true );
-//        plot.setRangeGridlinePaint( Color.white );
 
         plot.getRangeAxis().setRange( minY, maxY );
 

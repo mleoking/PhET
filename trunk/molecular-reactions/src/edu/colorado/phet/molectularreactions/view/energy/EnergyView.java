@@ -85,6 +85,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
     private PNode moleculeLayer;
     private SeparationIndicatorArrow separationIndicatorArrow;
     private MRModule module;
+    private PPath curvePane;
+    private TotalEnergyLine totalEnergyLine;
 
     /**
      *
@@ -107,7 +109,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         addChild( legendNode );
 
         // The pane that has the curve and cursor
-        addChild( createCurvePane( moleculePane, model ) );
+        curvePane = createCurvePane( moleculePane, model );
+        addChild( curvePane );
 
         // Listen for changes in the selected molecule and the molecule closest to it
         model.addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
@@ -128,6 +131,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
     }
 
+    /**
+     * Sets the visibility of the total energy line
+     * 
+     * @param visible
+     */
+    public void setTotalEnergyLineVisible( boolean visible ) {
+        totalEnergyLine.setVisible( visible );
+    }
 
     /**
      * Creates the pane that has the energy curve, cursor, and the total energy line
@@ -158,7 +169,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
-        TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
+        totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
         curveLayer.addChild( totalEnergyLine );
 
         // Create the cursor
@@ -185,6 +196,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
         return curvePane;
     }
+
 
     /**
      * Creates the pane that shows the molecules
@@ -354,6 +366,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
     public void setManualControl( boolean manualControl ) {
         cursor.setManualControlEnabled( manualControl );
     }
+
+    public PPath getCurvePane() {
+        return curvePane;
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
 
     private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,

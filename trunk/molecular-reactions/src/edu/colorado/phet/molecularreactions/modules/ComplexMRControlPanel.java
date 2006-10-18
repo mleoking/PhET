@@ -28,12 +28,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * TestControlPanel
+ * ComplexMRControlPanel
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public class ComplexMRControlPanel extends ControlPanel {
 public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private OptionsPanel optionsPanel;
@@ -47,8 +46,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 10, 0, 0, 0 ), 0, 0 );
-
-//        final ModelSlider thresholdEnergySlider = createThresholdEnergySlider( model );
 
         // Legend
 //        Legend legend = new Legend();
@@ -70,39 +67,14 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 module.reset();
             }
         } );
-//        resetBtn.addActionListener( new ResetAllAction( model ) );
 
         // Lay out the controls
         add( selectMoleculeBtn, gbc );
-//        add( thresholdEnergySlider, gbc );
         gbc.fill = GridBagConstraints.HORIZONTAL;
-//        add( legend, gbc );
         add( moleculeInstanceControlPanel, gbc );
         add( optionsPanel, gbc );
         gbc.fill = GridBagConstraints.NONE;
         add( resetBtn, gbc );
-    }
-
-    private ModelSlider createThresholdEnergySlider( final MRModel model ) {
-        final ModelSlider thresholdEnergySlider = new ModelSlider( "Threshold energy",
-                                                                   "",
-                                                                   0,
-                                                                   MRConfig.MAX_REACTION_THRESHOLD,
-                                                                   model.getEnergyProfile().getPeakLevel() );
-        thresholdEnergySlider.setNumMajorTicks( 0 );
-        thresholdEnergySlider.setNumMinorTicks( 0 );
-        thresholdEnergySlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                model.getEnergyProfile().setPeakLevel( thresholdEnergySlider.getValue() );
-            }
-        } );
-        model.getEnergyProfile().setPeakLevel( thresholdEnergySlider.getValue() );
-        model.getEnergyProfile().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                thresholdEnergySlider.setValue( ( (EnergyProfile)e.getSource() ).getPeakLevel() );
-            }
-        } );
-        return thresholdEnergySlider;
     }
 
     public MoleculeInstanceControlPanel getMoleculeInstanceControlPanel() {
@@ -122,6 +94,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private JCheckBox showStripChartCB;
         private JCheckBox nearestNeighborCB;
         private ComplexModule module;
+        private JCheckBox showBarChartCB;
 
         public OptionsPanel( final ComplexModule module ) {
             this.module = module;
@@ -141,6 +114,13 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 }
             } );
 
+            showBarChartCB = new JCheckBox( SimStrings.get( "Control.showBarChart"));
+            showBarChartCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setBarChartVisible( showBarChartCB.isSelected() );
+                }
+            } );
+
             nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
@@ -152,6 +132,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                              GridBagConstraints.NONE,
                                                              insets, 0, 0 );
             add( showStripChartCB, gbc );
+            add( showBarChartCB, gbc );
             add( showBondsCB, gbc );
             add( nearestNeighborCB, gbc );
         }
@@ -162,6 +143,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             nearestNeighborCB.setSelected( false );
 
             module.setStripChartVisible( showStripChartCB.isSelected() );
+            module.setBarChartVisible( showBarChartCB.isSelected() );
             module.setGraphicTypeVisible( showBondsCB.isSelected() );
         }
     }

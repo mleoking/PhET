@@ -77,8 +77,8 @@ public class MoleculePopulationsBarChart extends BarChart {
             if( timeSinceLastUpdate > updateInterval ) {
                 timeSinceLastUpdate = 0;
                 addData( counterA.getCnt(), seriesNames[0], "" );
-                addData( counterAB.getCnt(), seriesNames[1], "" );
-                addData( counterBC.getCnt(), seriesNames[2], "" );
+                addData( counterBC.getCnt(), seriesNames[1], "" );
+                addData( counterAB.getCnt(), seriesNames[2], "" );
                 addData( counterC.getCnt(), seriesNames[3], "" );
             }
         }
