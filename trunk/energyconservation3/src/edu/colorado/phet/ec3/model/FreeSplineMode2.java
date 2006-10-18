@@ -73,15 +73,21 @@ public class FreeSplineMode2 implements UpdateMode {
                 body.setThermalEnergy( origState.getThermalEnergy() );
             }
             else {
-                if( origState.getEnergyDifferenceAbs( body ) > 1E-8 ) {
-                    System.out.println( "fixed = " + fixed + ", body.getv=" + body.getVelocity() + ", error=" + origState.getEnergyDifferenceAbs( body ) );
-                    //look for neighboring locations that will give a slightly better energy
-
-                    double desiredTotalEnergy = origState.getStoredTotalEnergy();
-                    System.out.println( "desiredTotalEnergy = " + desiredTotalEnergy + ", body.total=" + body.getTotalEnergy() );
-                    new EnergyConserver().fixEnergyWithVelocity( body, desiredTotalEnergy, 15 );
-                    System.out.println( "desiredTotalEnergy2 = " + desiredTotalEnergy + ", body.total2=" + body.getTotalEnergy() );
+                if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
+                    body.setVelocity( origState.getVelocity() );
+                    body.setAttachmentPointPosition( origState.getAttachPoint() );
+                    body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                    body.setThermalEnergy( origState.getThermalEnergy() );
                 }
+//                else if( origState.getEnergyDifferenceAbs( body ) > 1E-8 ) {
+//                    System.out.println( "fixed = " + fixed + ", body.getv=" + body.getVelocity() + ", error=" + origState.getEnergyDifferenceAbs( body ) );
+//                    //look for neighboring locations that will give a slightly better energy
+//
+//                    double desiredTotalEnergy = origState.getStoredTotalEnergy();
+//                    System.out.println( "desiredTotalEnergy = " + desiredTotalEnergy + ", body.total=" + body.getTotalEnergy() );
+//                    new EnergyConserver().fixEnergyWithVelocity( body, desiredTotalEnergy, 15 );
+//                    System.out.println( "desiredTotalEnergy2 = " + desiredTotalEnergy + ", body.total2=" + body.getTotalEnergy() );
+//                }
             }
             //maybe could fix by rotation?, i think no.
             //could fix with friction, if friction is enabled.

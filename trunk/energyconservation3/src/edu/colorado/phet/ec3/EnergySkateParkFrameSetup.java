@@ -18,7 +18,11 @@ public class EnergySkateParkFrameSetup implements FrameSetup {
             new MaxExtent( new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 ) ).initialize( frame );
         }
         else {
-            new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width - 200, Toolkit.getDefaultToolkit().getScreenSize().height - 200 ).initialize( frame );
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            int x = 0;
+            int y = 0;
+            frame.setLocation( x, y );
+            frame.setSize( tk.getScreenSize().width - 200, tk.getScreenSize().height - 200 );
         }
 //        new CenteredWithInsets(50,50).initialize( frame );
     }

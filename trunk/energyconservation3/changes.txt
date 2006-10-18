@@ -1,3 +1,6 @@
+1.02.06 (10-18-2006)
+Added improved frame sizes for deployment
+
 1.02.05 (10-18-2006)
 Rewrote spline traversal physics.
 Added tests.
