@@ -52,6 +52,8 @@ public class MoleculePopulationsBarChart extends BarChart {
                                         double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, minY, maxY );
 
+        getChart().setBackgroundPaint( new Color( 0,0,0,0) );
+
         this.updateInterval = updateInterval;
 
         // Create counters for each of the molecule types
