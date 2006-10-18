@@ -176,7 +176,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
-        energyCanvas.addAttachmentPointGraphic( body );
+        
+//        energyCanvas.addAttachmentPointGraphic( body );
     }
 
     private Point2D getDefaultBodyPosition() {

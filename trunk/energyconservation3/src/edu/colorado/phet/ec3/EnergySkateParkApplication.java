@@ -27,6 +27,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
+        getPhetFrame().addMenu( new EnergySkateParkTestMenu(this, args ));
     }
 
     public static void main( final String[] args ) {

@@ -1,5 +1,7 @@
 1.02.06 (10-18-2006)
 Added improved frame sizes for deployment
+Added tests
+Bugfix in spline traversal (if error is too high, rollback change, don't use global energy)
 
 1.02.05 (10-18-2006)
 Rewrote spline traversal physics.
