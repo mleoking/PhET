@@ -2,6 +2,11 @@
 package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 
 /**
@@ -12,17 +17,11 @@ import edu.colorado.phet.common.math.Vector2D;
  */
 
 public class FreeFall extends ForceMode implements Derivable {
+    private EnergyConservationModel energyConservationModel;
     private double rotationalVelocity;
 
-    public double getRotationalVelocity() {
-        return rotationalVelocity;
-    }
-
-    public void setRotationalVelocity( double rotationalVelocity ) {
-        this.rotationalVelocity = rotationalVelocity;
-    }
-
-    public FreeFall( double rotationalVelocity ) {
+    public FreeFall( EnergyConservationModel energyConservationModel, double rotationalVelocity ) {
+        this.energyConservationModel = energyConservationModel;
         this.rotationalVelocity = rotationalVelocity;
     }
 
@@ -36,6 +35,7 @@ public class FreeFall extends ForceMode implements Derivable {
         if( DE > 1E-6 ) {
             System.out.println( "energy conservation error in free fall: " + DE );
         }
+        doGrab( body );
     }
 
     private Vector2D.Double getTotalForce( Body body ) {
@@ -51,4 +51,56 @@ public class FreeFall extends ForceMode implements Derivable {
 //        FreeSplineMode.State state = new FreeSplineMode.State( model, body );
         body.convertToFreefall();
     }
+
+
+    private void doGrab( Body body ) {
+        double bestScore = Double.POSITIVE_INFINITY;
+        AbstractSpline bestSpline = null;
+        ArrayList allSplines = energyConservationModel.getAllSplines();
+//        System.out.println( "allSplines.size() = " + allSplines.size() );
+        for( int i = 0; i < allSplines.size(); i++ ) {
+            AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
+            double score = getGrabScore( splineSurface, body );
+            if( !Double.isInfinite( score ) ) {
+//                System.out.println( "score[" + i + "] = " + score );
+            }
+            if( score < bestScore ) {
+                bestScore = score;
+                bestSpline = splineSurface;
+            }
+        }
+//        System.out.println( "set spline mode: "+bestSpline );
+        if( bestSpline != null ) {
+            body.setSplineMode( energyConservationModel, bestSpline );
+        }
+    }
+
+    private double getGrabScore( AbstractSpline splineSurface, Body body ) {
+        body.convertToSpline();
+        double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
+        Point2D pt = splineSurface.evaluateAnalytical( x );
+        double dist = pt.distance( body.getAttachPoint() );
+        if( dist < 0.1 ) {
+            return dist;
+        }
+        else {
+            return Double.POSITIVE_INFINITY;
+        }
+    }
+
+    boolean intersectsOrig( AbstractSpline spline, Body body ) {
+        Area area = new Area( body.getShape() );
+        area.intersect( spline.getArea() );
+        return !area.isEmpty();
+    }
+
+
+    public double getRotationalVelocity() {
+        return rotationalVelocity;
+    }
+
+    public void setRotationalVelocity( double rotationalVelocity ) {
+        this.rotationalVelocity = rotationalVelocity;
+    }
+
 }
