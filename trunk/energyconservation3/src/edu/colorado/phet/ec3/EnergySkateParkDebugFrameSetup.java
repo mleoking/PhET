@@ -13,7 +13,7 @@ import java.awt.*;
  * Copyright (c) May 25, 2006 by Sam Reid
  */
 
-public class EC3FrameSetup implements FrameSetup {
+public class EnergySkateParkDebugFrameSetup implements FrameSetup {
 
     public void initialize( JFrame frame ) {
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EnergySkateParkModule.energyFrameWidth,
