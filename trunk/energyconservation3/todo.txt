@@ -2,17 +2,11 @@
 Remaining Work
 #######################################
 
+Add friction for bounces, when friction is turned on.
+
+Jetpack is shown in an incorrect position when the character is on the track.
+
 Are history buttons giving total energy without thermal?
-
-convert energy to be completely a property of the body?
-    -give body knowledge of gravity & zero-point energy
-    -give body knowledge of entire model?
-        
-Convert spline traversal to no longer be segment-based?  Segments could still be used for collisions,
-but for the character's motion, the actual spline could be used.
-
-When friction is turned on, man speeds up and runs away.
-    -due to wrong friction value, energy conservation runs wrong routine
 
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
@@ -26,16 +20,6 @@ reference.  But, in the current simulation, even without friction the
 motion is damped and KE goes to zero (over a long period of time).  Do I 
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
-
-	Now when I make a loop and have the skater roll into it, as soon as
-he moves upside down, he immediately accelerates and shoots off the screen.
-This is very reproducible.
-
-Write automated tests for the dynamics.
-
-Add friction for bounces, when friction is turned on.
-
-Jetpack is shown in an incorrect position when the character is on the track.
          
 #################################################################
 Low Priority
