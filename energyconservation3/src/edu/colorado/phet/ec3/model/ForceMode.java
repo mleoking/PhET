@@ -188,4 +188,8 @@ public class ForceMode implements UpdateMode, Derivable {
 
     public void init( Body body ) {
     }
+
+    public UpdateMode copy() {
+        return new ForceMode();
+    }
 }

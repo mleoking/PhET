@@ -181,6 +181,14 @@ public class FreeSplineMode2 implements UpdateMode {
         }
     }
 
+    public AbstractSpline getSpline() {
+        return spline;
+    }
+
+    public UpdateMode copy() {
+        return new FreeSplineMode2( model, getSpline() );
+    }
+
     public static class GrabSpline {
         private EnergyConservationModel energyConservationModel;
 

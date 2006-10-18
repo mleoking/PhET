@@ -7,12 +7,11 @@ I move the track around some more an he eventually started up again.
 I found out that this can be repeated; he freezes when you raise the track. 
 It happens when there is only the original track and if you add another piece too. 
 I restarted the sim and could get him to freeze easily as well, so its not just after running for a while.
-
-Changing the track in mid-traversal doesn't update properly.
+>>is this solved?
 
 The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
 
-Add friction for bounces, when friction is turned on.
+Add friction for bounces, when friction is enbled.
 
 Jetpack is shown in an incorrect position when the character is on the track.
 

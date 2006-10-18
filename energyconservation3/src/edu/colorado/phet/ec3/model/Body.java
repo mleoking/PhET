@@ -68,14 +68,7 @@ public class Body {
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-        if( this.mode == freeFall ) {
-            copy.mode = copy.freeFall;
-        }
-        else if( this.mode instanceof FreeSplineMode ) {
-            FreeSplineMode splineMode = ( (FreeSplineMode)this.mode );
-            copy.mode = splineMode.copy();
-
-        }
+        copy.mode = this.mode.copy();
         copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
@@ -218,8 +211,8 @@ public class Body {
 
     public void setSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         boolean same = false;
-        if( mode instanceof FreeSplineMode ) {
-            FreeSplineMode sm = (FreeSplineMode)mode;
+        if( mode instanceof FreeSplineMode2 ) {
+            FreeSplineMode2 sm = (FreeSplineMode2)mode;
             if( sm.getSpline() == spline ) {
                 same = true;
             }
@@ -288,7 +281,7 @@ public class Body {
     }
 
     public boolean isSplineMode() {
-        return mode instanceof FreeSplineMode;
+        return mode instanceof FreeSplineMode || mode instanceof FreeSplineMode2;
     }
 
     public static PDimension createDefaultBodyRect() {
@@ -312,8 +305,8 @@ public class Body {
     }
 
     public void splineRemoved( AbstractSpline spline ) {
-        if( mode instanceof FreeSplineMode ) {
-            FreeSplineMode spm = (FreeSplineMode)mode;
+        if( mode instanceof FreeSplineMode2 ) {
+            FreeSplineMode2 spm = (FreeSplineMode2)mode;
             if( spm.getSpline() == spline ) {
                 setFreeFallMode();
             }
@@ -425,8 +418,8 @@ public class Body {
     }
 
     public boolean isOnSpline( SplineSurface splineSurface ) {
-        if( mode instanceof FreeSplineMode ) {
-            FreeSplineMode sm = (FreeSplineMode)mode;
+        if( mode instanceof FreeSplineMode2 ) {
+            FreeSplineMode2 sm = (FreeSplineMode2)mode;
             return splineSurface.contains( sm.getSpline() );
         }
         return false;
