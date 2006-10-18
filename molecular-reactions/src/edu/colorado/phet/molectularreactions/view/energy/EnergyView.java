@@ -158,7 +158,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
-        TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model );
+        TotalEnergyLine totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
         curveLayer.addChild( totalEnergyLine );
 
         // Create the cursor
