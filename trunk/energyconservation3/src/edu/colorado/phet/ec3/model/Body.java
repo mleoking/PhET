@@ -326,9 +326,14 @@ public class Body {
         return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
     }
 
+    public Shape getReducedShape() {
+        double dw = width * 0.2;
+        double dh = height * 0.2;
+        return getTransform().createTransformedShape( new Rectangle2D.Double( dw, dh, width - 2 * dw, height - 2 * dh ) );
+    }
+
     public Shape getShape() {
-        AffineTransform transform = getTransform();
-        return transform.createTransformedShape( new Rectangle2D.Double( 0, 0, width, height ) );
+        return getTransform().createTransformedShape( new Rectangle2D.Double( 0, 0, width, height ) );
     }
 
     public AffineTransform getTransform() {
@@ -468,6 +473,7 @@ public class Body {
     public long getLastFallTime() {
         return lastFallTime;
     }
+
 
     public static interface Listener {
         void thrustChanged();
