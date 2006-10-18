@@ -214,6 +214,7 @@ public class FreeSplineMode2 implements UpdateMode {
             }
             if( bestSpline != null ) {
                 Area area = new Area( bestSpline.getArea() );//todo duplicate computation
+                //todo: add restitution
                 area.intersect( new Area( body.getShape() ) );
                 Rectangle2D r = area.getBounds2D();
                 double x = bestSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, bestSpline.getLength(), 100 );
