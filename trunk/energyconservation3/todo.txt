@@ -8,7 +8,7 @@ Add friction for bounces, when friction is turned on.
 
 Jetpack is shown in an incorrect position when the character is on the track.
 
-Are history buttons giving total energy without thermal?
+Are history buttons displaying total energy without thermal, and calling it total?
 
 Track graphic is stopping one segment before the end of the track.
 
