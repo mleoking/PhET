@@ -33,10 +33,10 @@ public class Body {
     private double xThrust = 0.0;
     private double yThrust = 0.0;
 
-    private FreeFall freeFall = new FreeFall( 0 );
+    private FreeFall freeFall;
     private UserControlled userMode = new UserControlled();
 
-    private UpdateMode mode = freeFall;
+    private UpdateMode mode;
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
     private ArrayList listeners = new ArrayList();
@@ -46,15 +46,17 @@ public class Body {
     private double cmRotation = 0;
     private double thermalEnergy = 0;
 
-    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric ) {
+    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, FreeFall freeFall ) {
+        this.freeFall = freeFall;
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
+        mode = freeFall;
     }
 
     public Body copyState() {
-        Body copy = new Body( width, height, potentialEnergyMetric );
+        Body copy = new Body( width, height, potentialEnergyMetric, freeFall );
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
+import edu.colorado.phet.ec3.model.FreeFall;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
@@ -162,7 +163,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void init() {
-        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), energyModel.getPotentialEnergyMetric() );
+        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), energyModel.getPotentialEnergyMetric(), new FreeFall( getEnergyConservationModel(), 0 ) );
         body.setAttachmentPointPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();

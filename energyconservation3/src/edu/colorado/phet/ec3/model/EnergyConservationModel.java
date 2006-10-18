@@ -4,8 +4,6 @@ package edu.colorado.phet.ec3.model;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -195,19 +193,18 @@ public class EnergyConservationModel {
         for( int i = 0; i < floors.size(); i++ ) {
             floorAt( i ).stepInTime( dt );
         }
-        doGrabs();
     }
 
-    private void doGrabs() {
-//        System.out.println( "bodies.size() = " + bodies.size() );
-        for( int i = 0; i < bodies.size(); i++ ) {
-            if( bodyAt( i ).isFreeFallMode() ) {
-                doGrab( bodyAt( i ) );
-            }
-        }
-    }
+//    private void doGrabs() {
+////        System.out.println( "bodies.size() = " + bodies.size() );
+//        for( int i = 0; i < bodies.size(); i++ ) {
+//            if( bodyAt( i ).isFreeFallMode() ) {
+//                doGrab( bodyAt( i ) );
+//            }
+//        }
+//    }
 
-    private ArrayList getAllSplines() {
+    public ArrayList getAllSplines() {
         ArrayList list = new ArrayList();
         for( int i = 0; i < splineSurfaces.size(); i++ ) {
             SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
@@ -215,47 +212,6 @@ public class EnergyConservationModel {
             list.add( splineSurface.getBottom() );
         }
         return list;
-    }
-
-    private void doGrab( Body body ) {
-        double bestScore = Double.POSITIVE_INFINITY;
-        AbstractSpline bestSpline = null;
-        ArrayList allSplines = getAllSplines();
-//        System.out.println( "allSplines.size() = " + allSplines.size() );
-        for( int i = 0; i < allSplines.size(); i++ ) {
-            AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
-            double score = getGrabScore( splineSurface, body );
-            if( !Double.isInfinite( score ) ) {
-//                System.out.println( "score[" + i + "] = " + score );
-            }
-            if( score < bestScore ) {
-                bestScore = score;
-                bestSpline = splineSurface;
-            }
-        }
-//        System.out.println( "set spline mode: "+bestSpline );
-        if( bestSpline != null ) {
-            body.setSplineMode( this, bestSpline );
-        }
-    }
-
-    private double getGrabScore( AbstractSpline splineSurface, Body body ) {
-        body.convertToSpline();
-        double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
-        Point2D pt = splineSurface.evaluateAnalytical( x );
-        double dist = pt.distance( body.getAttachPoint() );
-        if( dist < 0.1 ) {
-            return dist;
-        }
-        else {
-            return Double.POSITIVE_INFINITY;
-        }
-    }
-
-    boolean intersectsOrig( AbstractSpline spline, Body body ) {
-        Area area = new Area( body.getShape() );
-        area.intersect( spline.getArea() );
-        return !area.isEmpty();
     }
 
 //    private double getGrabScore( AbstractSpline spline, Body body ) {
