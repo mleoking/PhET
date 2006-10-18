@@ -42,12 +42,14 @@ public class FreeSplineMode2 implements UpdateMode {
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
 //        System.out.println( "x2=" + x2 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
+            body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             return;
         }
         if( afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 ) {
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
+            body.setAngularVelocity( 0.0 );
             return;
         }
         double thermalEnergy = getFrictionForce( body, ( x + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
@@ -179,6 +181,7 @@ public class FreeSplineMode2 implements UpdateMode {
             for( int i = 0; i < allSplines.size(); i++ ) {
                 AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
                 double score = getGrabScore( splineSurface, body );
+                System.out.println( "grab score = " + score );
                 if( score < bestScore ) {
                     bestScore = score;
                     bestSpline = splineSurface;
@@ -202,7 +205,7 @@ public class FreeSplineMode2 implements UpdateMode {
                 AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
                 double score = getBounceScore( splineSurface, body );
                 if( !Double.isInfinite( score ) ) {
-                    System.out.println( "score = " + score );
+                    System.out.println( "bounce score = " + score );
                 }
                 if( score < bestScore ) {
                     bestScore = score;

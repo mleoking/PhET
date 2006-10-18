@@ -100,9 +100,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void addFloorSpline() {
-        CubicSpline floorSpline = new CubicSpline( 4 );
-        floorSpline.addControlPoint( -1000, 0 );
-        floorSpline.addControlPoint( 1000, 0 );
+        CubicSpline floorSpline = new FloorSpline();
 
         SplineSurface splineSurface = new SplineSurface( floorSpline );
         splineSurface.setInteractive( false );
