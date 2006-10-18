@@ -465,6 +465,7 @@ public class PhetApplication {
     /**
      * Close this PhetApplication cleanly without exiting the JVM;
      * Deactivates all modules and disposes of the associated PhetFrame for this PhetApplication.
+     * TODO: verify there are no memory leaks
      */
     public void closeApplication() {
         for( int i = 0; i < numModules(); i++ ) {

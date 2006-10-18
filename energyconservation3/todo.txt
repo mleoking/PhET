@@ -2,6 +2,8 @@
 Remaining Work
 #######################################
 
+The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
+
 Add friction for bounces, when friction is turned on.
 
 Jetpack is shown in an incorrect position when the character is on the track.
