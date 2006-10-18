@@ -21,7 +21,10 @@ public class EnergySkateParkApplication extends PhetApplication {
     private static final String VERSION = "1.02.05";
 
     public EnergySkateParkApplication( String[] args ) {
-        super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ), VERSION, new EC3FrameSetup() );
+        super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ),
+               VERSION,
+//               new EnergySkateParkDebugFrameSetup() );
+new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
     }
