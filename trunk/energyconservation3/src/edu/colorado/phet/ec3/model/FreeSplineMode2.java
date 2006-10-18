@@ -26,69 +26,38 @@ public class FreeSplineMode2 implements UpdateMode {
     public void stepInTime( Body body, double dt ) {
         Body origState = body.copyState();
 
-        double x = getDistAlongSpline( body );
-        System.out.println( "x = " + x );
+        double x = getDistAlongSpline( body.getAttachPoint() );
+        System.out.println( " createNetForce( body, x )  = " + createNetForce( body, x ) );
+        body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() ) );
         new ForceMode( createNetForce( body, x ) ).stepInTime( body, dt );
-        //move along the spline until we have a good match
-//        double epsilon = 1;
-//        double deltaT = 0.01;
-//        for( double t = x - epsilon; t <= x + epsilon; t += deltaT ) {
-//
-//        }
-        double x2 = getDistAlongSpline( body );
-
-        Point2D splineLocation = spline.getSegmentPath().evaluate( x2 );
+        double x2 = getDistAlongSpline( body.getAttachPoint(), Math.max( x - 1, 0 ), Math.min( x + 1, spline.getLength() ), 1000 );
+        Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
         new EnergyConserver().fixEnergy( body, origState.getTotalEnergy() );
-//        System.out.println( "origKE="+origState.getKineticEnergy()+", finalKE="+body.getKineticEnergy() );
+    }
+
+    private double getDistAlongSpline( Point2D attachPoint ) {
+        return getDistAlongSpline( attachPoint, 0, spline.getLength(), 1000 );
     }
 
     public void init( Body body ) {
         body.convertToSpline();
     }
 
-    private double getDistAlongSpline( Body body ) {//todo: binary search?
+    private double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
         double best = Double.POSITIVE_INFINITY;
         double scalar = 0.0;
-        int N = 1000;
-        for( int i = 0; i < N; i++ ) {
-            double splineLength = spline.getSegmentPath().getLength();
-            double alongSpline = i / ( (double)N ) * splineLength;
-//            System.out.println( "alongSpline = " + alongSpline );
-            Point2D loc = spline.evaluate( alongSpline );
-            double dist = body.getPosition().distance( loc );
-//            System.out.println( "i = " + i + ", scalar=" + alongSpline + ", score=" + dist );
+        for( double x = min; x <= max; x += ( max - min ) / numPts ) {
+            Point2D loc = spline.evaluateAnalytical( x );
+            double dist = pt.distance( loc );
             if( dist < best ) {
                 best = dist;
-                scalar = alongSpline;
+                scalar = x;
             }
         }
-        System.out.println( "found best=" + scalar + ", score=" + best );
+//        System.out.println( "found best=" + scalar + ", score=" + best );
         return scalar;
     }
-//    private double getDistAlongSpline( Body body ) {
-//        double x = getDistAlongSpline( body, 0, spline.getLength() );
-//        return x;
-//    }
-//
-//    private double getDistAlongSpline( Body body, double min, double max ) {//todo: binary search?
-//        double bestScore = Double.POSITIVE_INFINITY;
-//        double bestDist = 0.0;
-//        int N = 100;
-//        for( double alongSpline = min; alongSpline <= max; alongSpline += ( max - min ) / N ) {
-//
-////            double alongSpline = i / ( (double)N ) * splineLength;
-//            Point2D loc = spline.evaluate( alongSpline );
-//            double dist = body.getPosition().distance( loc );
-//            System.out.println( "alongSpline = " + alongSpline + ", dist=" + dist );
-//            if( dist < bestScore ) {
-//                bestScore = dist;
-//                bestDist = alongSpline;
-//            }
-//        }
-////        System.out.println( "found best=" + scalar + ", score=" + best );
-//        return bestDist;
-//    }
 
     private AbstractVector2D createNetForce( Body body, double x ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
@@ -119,6 +88,7 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private AbstractVector2D getNormalForce( Body body, double x ) {
-        return spline.getUnitNormalVector( x ).getScaledInstance( -body.getGravityForce().getMagnitude() * Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() ) );
+        double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
+        return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
     }
 }

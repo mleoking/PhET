@@ -230,4 +230,6 @@ public abstract class AbstractSpline implements Cloneable {
     public abstract AbstractVector2D getUnitNormalVector( double x );
 
     public abstract double getLength();
+
+    public abstract AbstractVector2D getUnitParallelVector( double x );
 }
