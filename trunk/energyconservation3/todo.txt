@@ -8,6 +8,8 @@ Jetpack is shown in an incorrect position when the character is on the track.
 
 Are history buttons giving total energy without thermal?
 
+Track graphic is stopping one segment before the end of the track.
+
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
 constant, perhaps, but increases a little if you hold down the down 
