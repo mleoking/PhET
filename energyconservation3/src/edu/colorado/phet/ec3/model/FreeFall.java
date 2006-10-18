@@ -48,28 +48,21 @@ public class FreeFall extends ForceMode implements Derivable {
 
     public void init( Body body ) {
         //going from spline to freefall mode
-//        FreeSplineMode.State state = new FreeSplineMode.State( model, body );
         body.convertToFreefall();
     }
-
 
     private void doGrab( Body body ) {
         double bestScore = Double.POSITIVE_INFINITY;
         AbstractSpline bestSpline = null;
         ArrayList allSplines = energyConservationModel.getAllSplines();
-//        System.out.println( "allSplines.size() = " + allSplines.size() );
         for( int i = 0; i < allSplines.size(); i++ ) {
             AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
             double score = getGrabScore( splineSurface, body );
-            if( !Double.isInfinite( score ) ) {
-//                System.out.println( "score[" + i + "] = " + score );
-            }
             if( score < bestScore ) {
                 bestScore = score;
                 bestSpline = splineSurface;
             }
         }
-//        System.out.println( "set spline mode: "+bestSpline );
         if( bestSpline != null ) {
             body.setSplineMode( energyConservationModel, bestSpline );
         }
@@ -80,7 +73,7 @@ public class FreeFall extends ForceMode implements Derivable {
         double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
         Point2D pt = splineSurface.evaluateAnalytical( x );
         double dist = pt.distance( body.getAttachPoint() );
-        if( dist < 0.1 ) {
+        if( dist < 0.05 ) {
             return dist;
         }
         else {

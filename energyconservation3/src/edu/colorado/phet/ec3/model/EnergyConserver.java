@@ -16,7 +16,7 @@ public class EnergyConserver {
             return;
         }
 //        EnergyDebugger.stepFinished( model, body );
-        double speedThreshold = 1;//reduced from 20.
+        double speedThreshold = 0;//reduced from 20.
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
                 boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
@@ -27,14 +27,14 @@ public class EnergyConserver {
             else {
             }
         }
-        if( Math.abs( body.getGravity() ) > 1.0 ) {
-            for( int i = 0; i < 3; i++ ) {
-                boolean done = conserveEnergyViaH( body, desiredTotalEnergy );
-                if( done ) {
-                    break;
-                }
-            }
-        }
+//        if( Math.abs( body.getGravity() ) > 1.0 ) {
+//            for( int i = 0; i < 3; i++ ) {
+//                boolean done = conserveEnergyViaH( body, desiredTotalEnergy );
+//                if( done ) {
+//                    break;
+//                }
+//            }
+//        }
 //        double mechEnergy = model.getMechanicalEnergy( body );
 //        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
     }
