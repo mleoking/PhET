@@ -231,4 +231,19 @@ public abstract class AbstractSpline implements Cloneable {
     public abstract double getLength();
 
     public abstract AbstractVector2D getUnitParallelVector( double x );
+
+    public double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
+        double best = Double.POSITIVE_INFINITY;
+        double scalar = 0.0;
+        for( double x = min; x <= max; x += ( max - min ) / numPts ) {
+            Point2D loc = evaluateAnalytical( x );
+            double dist = pt.distance( loc );
+            if( dist < best ) {
+                best = dist;
+                scalar = x;
+            }
+        }
+//        System.out.println( "found best=" + scalar + ", score=" + best );
+        return scalar;
+    }
 }

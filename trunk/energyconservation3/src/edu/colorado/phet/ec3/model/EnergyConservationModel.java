@@ -1,12 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model;
 
-import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
-import edu.colorado.phet.ec3.model.spline.Segment;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -240,40 +239,51 @@ public class EnergyConservationModel {
         }
     }
 
+    private double getGrabScore( AbstractSpline splineSurface, Body body ) {
+        body.convertToSpline();
+        double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
+        Point2D pt = splineSurface.evaluateAnalytical( x );
+        double dist = pt.distance( body.getAttachPoint() );
+        if( dist < 0.1 ) {
+            return dist;
+        }
+        else {
+            return Double.POSITIVE_INFINITY;
+        }
+    }
+
     boolean intersectsOrig( AbstractSpline spline, Body body ) {
         Area area = new Area( body.getShape() );
         area.intersect( spline.getArea() );
         return !area.isEmpty();
     }
 
-    private double getGrabScore( AbstractSpline spline, Body body ) {
-        if( spline.intersects( body.getShape() ) ) {
-//            System.out.println( "intersected" );
-            double position = 0;
-            try {
-                position = new SplineLogic( body ).guessPositionAlongSpline( spline );
-            }
-            catch( NullIntersectionException e ) {
-//                e.printStackTrace();
-                return Double.POSITIVE_INFINITY;
-            }
-            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-
-            double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-            double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-
-            double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-//            System.out.println( "y = " + y );
-            if( y > -60 ) {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
-                return -y;
-            }
-            else {
-                return Double.POSITIVE_INFINITY;
-            }
-
-        }
-        return Double.POSITIVE_INFINITY;
-    }
+//    private double getGrabScore( AbstractSpline spline, Body body ) {
+//        if( spline.intersects( body.getShape() ) ) {
+//            double position = 0;
+//            try {
+//                position = new SplineLogic( body ).guessPositionAlongSpline( spline );
+//            }
+//            catch( NullIntersectionException e ) {
+//                return Double.POSITIVE_INFINITY;
+//            }
+//            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
+//
+//            double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+//            double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+//
+//            double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+////            System.out.println( "y = " + y );
+//            if( y > -60 ) {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
+//                return -y;
+//            }
+//            else {
+//                return Double.POSITIVE_INFINITY;
+//            }
+//
+//        }
+//        return Double.POSITIVE_INFINITY;
+//    }
 
     public SplineSurface splineSurfaceAt( int i ) {
         return (SplineSurface)splineSurfaces.get( i );
