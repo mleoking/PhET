@@ -1,4 +1,4 @@
-1.02.04 (10-18-2006)
+1.02.05 (10-18-2006)
 Rewrote spline traversal physics.
 Added tests.
 
@@ -11,8 +11,7 @@ Bugfix: Jet pack isn't visible after reset.
 Bugfix: When I go to space or set gravity to zero, if I don't use the arrows before I hit RESET, the arrow keys don't work. 
         For example, if you go to space and then hit Reset, the arrows work the far right slider.
 Bugfix:  If you use the space simulation, and change to gravity and back, sometimes (can't be sure how exactly) the thruster/jets don't show on the skater in space mode, though he does move as if they are firing.  
-        Seems like the simulation of his jet pack is not quite getting reset.         
-        
+        Seems like the simulation of his jet pack is not quite getting reset.       
 
 1.02.02 (10-11-2006)
 Bugfix: When he's stationary and the track is moved he doesn't fall.
