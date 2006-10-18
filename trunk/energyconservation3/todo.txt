@@ -2,6 +2,8 @@
 Remaining Work
 #######################################
 
+Are history buttons giving total energy without thermal?
+
 convert energy to be completely a property of the body?
     -give body knowledge of gravity & zero-point energy
     -give body knowledge of entire model?
