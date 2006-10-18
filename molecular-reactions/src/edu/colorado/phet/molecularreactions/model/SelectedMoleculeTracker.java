@@ -134,7 +134,7 @@ public class SelectedMoleculeTracker implements ModelElement,
             }
 
             if( !(closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB )) {
-                System.out.println( "SelectedMoleculeTracker.stepInTime" );
+//                System.out.println( "SelectedMoleculeTracker.stepInTime" );
             }
         }
     }

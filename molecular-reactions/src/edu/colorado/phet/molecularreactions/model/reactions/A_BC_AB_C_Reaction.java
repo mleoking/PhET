@@ -14,6 +14,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
+import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.DebugFlags;
 import edu.colorado.phet.common.math.Vector2D;
@@ -92,9 +93,21 @@ public class A_BC_AB_C_Reaction extends Reaction {
         return thresholdEnergy;
     }
 
+    /**
+     * Performs the reaction itself. Removes to old CompositeMolecule and creates the
+     * new one that is the product of the reaction. Also adjusts the energy of the products
+     * so that it is conserved through the reaction.
+     *
+     * @param cm The composite molecule reactant
+     * @param sm The simple molecule reactant
+     */
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
 
         if( DebugFlags.LINDAS_COLLISIONS ) {
+
+            double pe0 = getPotentialEnergy( cm, sm );
+            double ke0 = cm.getKineticEnergy() + sm.getKineticEnergy();
+
             // Find the B molecule in the composite
             MoleculeB mB = cm.getComponentMolecules()[0] instanceof MoleculeB
                            ? (MoleculeB)cm.getComponentMolecules()[0]
@@ -139,15 +152,43 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Add the new composite to the model
             model.addModelElement( cm2 );
 
-            // Step the simple molecule away from the new composite, so they won't react again on the
+            // Move the simple molecule away from the new composite, so they won't react again on the
             // next time step
-            Vector2D vcs = new Vector2D.Double( mB.getPosition(), sm2.getPosition() ).scale( 1.1 );
-//            vcs.setComponents( vcs.getX() + 2, vcs.getY() + 2 );
+            Vector2D vcs = new Vector2D.Double( mB.getPosition(), sm2.getPosition() ).scale( 1.5 );
             sm2.setPosition( mB.getPosition().getX() + vcs.getX(), mB.getPosition().getY() + vcs.getY() );
 
             // Add potential energy to the reaction products equal to the difference between the top
             // of the threshold and the floor on the appropriate side of the profile
+            if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
+                double de = getThresholdEnergy( cm2, sm2 );
+                double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( de / cm2.getMass() ) );
+                double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( de / sm2.getMass() ) );
+                Vector2D dvCm2 = new Vector2D.Double( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
+                Vector2D dvSm2 = new Vector2D.Double( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
+                cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
+                sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
+            }
 
+            // Correct the overall energy
+            double pe1 = getPotentialEnergy( cm2, sm2 );
+            double ke1 = cm2.getKineticEnergy() + sm2.getKineticEnergy();
+            double dTe = (pe0 + ke0 ) - ( pe1 + ke1 );
+            double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( dTe / cm2.getMass() ) );
+            double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( dTe / sm2.getMass() ) );
+            Vector2D dvCm2 = new Vector2D.Double( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 );
+            Vector2D dvSm2 = new Vector2D.Double( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 );
+//            cm2.setVelocity( dvCm2 );
+//            sm2.setVelocity( dvSm2 );
+//            cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
+//            sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
+
+//            double ke2 = cm2.getKineticEnergy() + sm2.getKineticEnergy();
+//            System.out.println( "ke0 = " + ke0 );
+//            System.out.println( "ke1 = " + ke1 );
+//            System.out.println( "ke2 = " + ke2 );
+//            System.out.println( "(pe0+ke0) = " + ( pe0 + ke0 ) );
+//            System.out.println( "(pe1 + ke1) = " + ( pe1 + ke1 ) );
+//            System.out.println( "(pe1 + ke2) = " + ( pe1 + ke2 ) );
             return;
         }
 
@@ -162,6 +203,12 @@ public class A_BC_AB_C_Reaction extends Reaction {
         }
     }
 
+    /**
+     * Obsolete
+     *
+     * @param mAB
+     * @param mC
+     */
     private void doReaction( MoleculeAB mAB, MoleculeC mC ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
@@ -171,6 +218,12 @@ public class A_BC_AB_C_Reaction extends Reaction {
         doReactionII( mAB, mBC, mC, mA, pe );
     }
 
+    /**
+     * Obsolete
+     *
+     * @param mBC
+     * @param mA
+     */
     private void doReaction( MoleculeBC mBC, MoleculeA mA ) {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
@@ -179,6 +232,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         double pe = getEnergyProfile().getPeakLevel() - getEnergyProfile().getLeftLevel();
         doReactionII( mBC, mAB, mA, mC, pe );
     }
+
 
     /**
      * Removes the old composite molecule from the model, adds the new one, and
@@ -355,45 +409,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
         }
     }
 
-    private void setReactionProductVelocities( AbstractMolecule a, AbstractMolecule bc, AbstractMolecule ab, AbstractMolecule c ) {
-        // Get initial kinetic energy
-        double kei = a.getKineticEnergy() + bc.getKineticEnergy();
-
-        // Get the initial momentum
-        Vector2D Pi = new Vector2D.Double( a.getMomentum() ).add( bc.getMomentum() );
-        double pix = Pi.getX();
-        double piy = Pi.getY();
-
-        double vaix = a.getVelocity().getX();
-        double vbcix = bc.getVelocity().getX();
-        double vaiy = a.getVelocity().getY();
-        double vbciy = bc.getVelocity().getY();
-
-        double ma = a.getMass();
-        double mbc = bc.getMass();
-        double mab = ab.getMass();
-        double mc = c.getMass();
-
-        double qa = mc * mc / mab + mc;
-        double qbx = -( 2 * pix * mc / mab );
-        double qcx = ( pix * pix / mab ) - 2 * kei;
-        double[] rootsX = MathUtil.quadraticRoots( qa, qbx, qcx );
-        double qby = -( 2 * piy * mc / mab );
-        double qcy = ( piy * piy / mab ) - 2 * kei;
-        double[] rootsY = MathUtil.quadraticRoots( qa, qby, qcy );
-
-        Vector2D vcf = new Vector2D.Double( rootsX[1], rootsY[1] );
-        c.setVelocity( vcf );
-
-        double vabfx = ( pix - mc * vcf.getX() ) / mab;
-        double vabfy = ( piy - mc * vcf.getY() ) / mab;
-
-        Vector2D vabf = new Vector2D.Double( vabfx, vabfy );
-        ab.setVelocity( vabf );
-
-    }
-
-
     public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
         SimpleMolecule sm = null;
         if( moleculeAdded instanceof MoleculeA ) {
@@ -437,6 +452,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
     }
 
     /**
+     * Returns the distance between two molecules' potential collision points.
      * If the molecules aren't the proper type for the reaction, returns POSITIVE_INFINITY.
      *
      * @param mA
@@ -479,31 +495,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
         return v;
     }
 
-//    public void setCollisionDistance( Molecule mA, Molecule mB ) {
-//        if( moleculesAreProperTypes( mA, mB )) {
-//
-//            // One of the molecules must be a composite, and the other a simple one. Get references to them, and
-//            // get a reference to the B molecule in the composite
-//            CompositeMolecule cm = mA instanceof CompositeMolecule
-//                                   ? (CompositeMolecule)mA
-//                                   : (CompositeMolecule)mB;
-//            SimpleMolecule sm = mB instanceof CompositeMolecule
-//                                ? (SimpleMolecule)mA
-//                                : (SimpleMolecule)mB;
-//            SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
-//                                cm.getComponentMolecules()[0] :
-//                                cm.getComponentMolecules()[1];
-//
-//            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
-//            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
-//            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
-//            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
-//            Vector2D v = new Vector2D.Double( pcx - psx, pcy - psy );
-//            result = v.getMagnitude();
-//        }
-//
-//    }
-
     /**
      * The ReactionCriteria for this Reaction class
      */
@@ -536,11 +527,13 @@ public class A_BC_AB_C_Reaction extends Reaction {
                 classificationCriterionMet = true;
             }
 
+            // If we're using provisional bond spring, then as long as the reactants are touching,
+            // we have met the criteria, because the spring would have taken all the ke necessary
+            // to compress it.
+            // Otherwise, we need to consider their kinetic energies.
             if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
-//            if( !DebugFlags.HARD_COLLISIONS ) {
                 return classificationCriterionMet;
             }
-
             else {
                 // The relative kinetic energy of the collision must be above the
                 // energy profile threshold

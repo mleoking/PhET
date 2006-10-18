@@ -29,7 +29,6 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class Spring extends Particle implements ModelElement, PotentialEnergySource {
-//public class Spring extends SimpleObservable implements ModelElement, PotentialEnergySource {
 
     double k;
     double omega;

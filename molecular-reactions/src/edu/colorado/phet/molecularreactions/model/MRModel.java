@@ -180,19 +180,31 @@ public class MRModel extends PublishingModel {
     // Time-dependent behavior
     //--------------------------------------------------------------------------------------------------
 
-    double pe0 = 0;
-    double pe1 = 0;
-
     protected void stepInTime( double dt ) {
+        double pe0 = getTotalPotentialEnergy();
         double ke0 = getTotalKineticEnergy();
-//        double pe0 = pePrev;
-        potentialEnergyStored = 0;
 
-//        potentialEnergyStored = 0;
         super.stepInTime( dt );
 //        clearForces();
+//        double ke1 = getTotalKineticEnergy();
+
+        double pe1 = getTotalPotentialEnergy();
         double ke1 = getTotalKineticEnergy();
-        pe1 = potentialEnergyStored;
+
+        double keF = pe0 + ke0 - pe1;
+        double r = Math.sqrt( ke1 != 0 ? keF / ke1 : 1 );
+        if( r != 1 ) {
+//            System.out.println( "MRModel.stepInTime" );
+        }
+
+        List modelElements = getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof Body ) {
+                Body body = (Body)o;
+                body.setVelocity( body.getVelocity().scale( r ));
+            }
+        }
 
         monitorEnergy();
     }
@@ -233,7 +245,7 @@ public class MRModel extends PublishingModel {
 //        }
 //        lastM = m;
         DecimalFormat df = new DecimalFormat( "#.000");
-//        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
+        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
     private void adjustKineticEnergy( double eFactor ) {
@@ -260,7 +272,7 @@ public class MRModel extends PublishingModel {
         return keTotal;
     }
 
-    private double getTotalKineticEnergy() {
+    public double getTotalKineticEnergy() {
         double keTotal = 0;
         List modelElements = getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
@@ -271,6 +283,19 @@ public class MRModel extends PublishingModel {
             }
         }
         return keTotal;
+    }
+
+    public double getTotalPotentialEnergy() {
+        double peTotal = 0;
+        List modelElements = getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof PotentialEnergySource ) {
+                PotentialEnergySource body = (PotentialEnergySource)o;
+                peTotal += body.getPE();
+            }
+        }
+        return peTotal;
     }
 
     //--------------------------------------------------------------------------------------------------

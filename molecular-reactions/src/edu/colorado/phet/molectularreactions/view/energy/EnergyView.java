@@ -130,7 +130,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
 
     /**
-     * Creates the pane that has the energy curve and cursor
+     * Creates the pane that has the energy curve, cursor, and the total energy line
      *
      * @param moleculePane
      * @return a PNode

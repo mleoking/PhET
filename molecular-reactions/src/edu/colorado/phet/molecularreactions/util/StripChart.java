@@ -90,8 +90,6 @@ public class StripChart {
         renderer.setToolTipGenerator( new StandardXYToolTipGenerator() );
         renderer.setDefaultEntityRadius( 6 );
         plot.setRenderer( renderer );
-
-
     }
 
     public void setSeriesPaint( int seriesNum, Paint paint ) {
