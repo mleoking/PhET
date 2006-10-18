@@ -5,7 +5,9 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -32,7 +34,7 @@ public class FreeSplineMode2 implements UpdateMode {
         double x = savedLocation;
         double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
-        AbstractVector2D netForce = createNetForce( body, x );
+        AbstractVector2D netForce = getNetForcesWithoutNormal( body, x );
         new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
@@ -114,7 +116,7 @@ public class FreeSplineMode2 implements UpdateMode {
         return spline.getDistAlongSpline( pt, min, max, numPts );
     }
 
-    private AbstractVector2D createNetForce( Body body, double x ) {
+    private AbstractVector2D getNetForcesWithoutNormal( Body body, double x ) {
         //todo: normal should opposed both gravity and thrust when applicable
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 body.getGravityForce(),
@@ -142,4 +144,49 @@ public class FreeSplineMode2 implements UpdateMode {
         }
     }
 
+    public static class GrabSpline {
+        private EnergyConservationModel energyConservationModel;
+
+        public GrabSpline( EnergyConservationModel energyConservationModel ) {
+            this.energyConservationModel = energyConservationModel;
+        }
+
+        public void doGrab( Body body ) {
+            double bestScore = Double.POSITIVE_INFINITY;
+            AbstractSpline bestSpline = null;
+            ArrayList allSplines = energyConservationModel.getAllSplines();
+            for( int i = 0; i < allSplines.size(); i++ ) {
+                AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
+                double score = getGrabScore( splineSurface, body );
+                if( score < bestScore ) {
+                    bestScore = score;
+                    bestSpline = splineSurface;
+                }
+            }
+            if( bestSpline != null ) {
+                body.setSplineMode( energyConservationModel, bestSpline );
+            }
+        }
+
+        private double getGrabScore( AbstractSpline splineSurface, Body body ) {
+            body.convertToSpline();
+            double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
+            Point2D pt = splineSurface.evaluateAnalytical( x );
+            double dist = pt.distance( body.getAttachPoint() );
+            if( dist < 0.05 ) {
+                return dist;
+            }
+            else {
+                return Double.POSITIVE_INFINITY;
+            }
+        }
+
+        boolean intersectsOrig( AbstractSpline spline, Body body ) {
+            Area area = new Area( body.getShape() );
+            area.intersect( spline.getArea() );
+            return !area.isEmpty();
+        }
+
+
+    }
 }

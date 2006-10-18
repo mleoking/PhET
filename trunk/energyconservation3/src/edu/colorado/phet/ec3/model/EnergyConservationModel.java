@@ -174,14 +174,10 @@ public class EnergyConservationModel {
     }
 
     public void stepInTime( double dt ) {
-//        System.out.println( "numSplineSurfaces() = " + numSplineSurfaces() );
         time += dt;
-//        System.out.println( "time = " + time );
-
         if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
             history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
         }
-//        System.out.println( "EnergyConservationModel.stepInTime" );
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.preStep( dt );
@@ -195,15 +191,6 @@ public class EnergyConservationModel {
         }
     }
 
-//    private void doGrabs() {
-////        System.out.println( "bodies.size() = " + bodies.size() );
-//        for( int i = 0; i < bodies.size(); i++ ) {
-//            if( bodyAt( i ).isFreeFallMode() ) {
-//                doGrab( bodyAt( i ) );
-//            }
-//        }
-//    }
-
     public ArrayList getAllSplines() {
         ArrayList list = new ArrayList();
         for( int i = 0; i < splineSurfaces.size(); i++ ) {
@@ -213,33 +200,6 @@ public class EnergyConservationModel {
         }
         return list;
     }
-
-//    private double getGrabScore( AbstractSpline spline, Body body ) {
-//        if( spline.intersects( body.getShape() ) ) {
-//            double position = 0;
-//            try {
-//                position = new SplineLogic( body ).guessPositionAlongSpline( spline );
-//            }
-//            catch( NullIntersectionException e ) {
-//                return Double.POSITIVE_INFINITY;
-//            }
-//            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-//
-//            double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-//            double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-//
-//            double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-////            System.out.println( "y = " + y );
-//            if( y > -60 ) {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
-//                return -y;
-//            }
-//            else {
-//                return Double.POSITIVE_INFINITY;
-//            }
-//
-//        }
-//        return Double.POSITIVE_INFINITY;
-//    }
 
     public SplineSurface splineSurfaceAt( int i ) {
         return (SplineSurface)splineSurfaces.get( i );
