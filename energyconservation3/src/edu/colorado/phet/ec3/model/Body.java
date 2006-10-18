@@ -47,6 +47,8 @@ public class Body {
     private double thermalEnergy = 0;
     private double angularVelocity = 0;
 
+    private double storedTotalEnergy = 0.0;
+
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, FreeFall freeFall ) {
         this.freeFall = freeFall;
         this.width = width;
@@ -54,6 +56,7 @@ public class Body {
         this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
         mode = freeFall;
+        storedTotalEnergy = getTotalEnergy();
     }
 
     public Body copyState() {
@@ -79,10 +82,18 @@ public class Body {
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
         copy.potentialEnergyMetric = potentialEnergyMetric.copy();
+        copy.storedTotalEnergy = this.storedTotalEnergy;
         return copy;
     }
 
+    public double getStoredTotalEnergy() {
+        return storedTotalEnergy;
+    }
+
     public void stepInTime( double dt ) {
+        if( isUserControlled() ) {
+            this.storedTotalEnergy = getTotalEnergy();
+        }
         EnergyDebugger.stepStarted( this, dt );
         int NUM_STEPS_PER_UPDATE = 1;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
@@ -214,6 +225,7 @@ public class Body {
             }
         }
         if( !same ) {
+            this.storedTotalEnergy = getTotalEnergy();
 //            setMode( new FreeSplineMode( model, spline ) );
             setMode( new FreeSplineMode2( model, spline ) );
         }
@@ -445,6 +457,10 @@ public class Body {
 
     public void clearHeat() {
         thermalEnergy = 0.0;
+    }
+
+    public void setThermalEnergy( double thermalEnergy ) {
+        this.thermalEnergy = thermalEnergy;
     }
 
     public void addThermalEnergy( double dThermalEnergy ) {
