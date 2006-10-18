@@ -132,12 +132,12 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-        Body origState = copyState();
+//        Body origState = copyState();
         attachmentPoint.x += dx;
         attachmentPoint.y += dy;
-        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-        }
+//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+//        }
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -149,11 +149,11 @@ public class Body {
     }
 
     public void setVelocity( double vx, double vy ) {
-        Body origState = copyState();
+//        Body origState = copyState();
         velocity.setComponents( vx, vy );
-        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-        }
+//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+//        }
     }
 
     public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
@@ -163,19 +163,19 @@ public class Body {
     }
 
     public void setMass( double value ) {
-        Body origState = copyState();
+//        Body origState = copyState();
         this.mass = value;
-        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-        }
+//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+//        }
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-        Body origState = copyState();
+//        Body origState = copyState();
         attachmentPoint.setLocation( x, y );
-        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-        }
+//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
+//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
+//        }
     }
 
     public boolean isUserControlled() {
