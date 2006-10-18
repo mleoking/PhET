@@ -76,7 +76,7 @@ public abstract class AbstractSpline implements Cloneable {
         setAllDirty();
     }
 
-    private void setAllDirty() {
+    protected void setAllDirty() {
         segmentPathDirty = true;
         generalPathDirty = true;
         areaShapeDirty = true;

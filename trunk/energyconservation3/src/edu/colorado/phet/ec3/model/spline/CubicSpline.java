@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 
 public class CubicSpline extends AbstractSpline {
     private int numSegments;
+    private NatCubicSpline2D natcubicspline2d;
 
     public CubicSpline() {
         this( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
@@ -31,12 +32,20 @@ public class CubicSpline extends AbstractSpline {
         return cubicSpline;
     }
 
+    protected void setAllDirty() {
+        super.setAllDirty();
+        this.natcubicspline2d = null;
+    }
+
     public Point2D[] getInterpolationPoints() {
         return new NatCubic().interpolate( getControlPoints(), numSegments );
     }
 
     public Point2D evaluateAnalytical( double distAlongSpline ) {
-        return new NatCubicSpline2D( getControlPoints() ).evaluate( distAlongSpline );
+        if( natcubicspline2d == null ) {
+            natcubicspline2d = new NatCubicSpline2D( getControlPoints() );
+        }
+        return natcubicspline2d.evaluate( distAlongSpline );
     }
 
     public AbstractSpline createReverseSpline() {
