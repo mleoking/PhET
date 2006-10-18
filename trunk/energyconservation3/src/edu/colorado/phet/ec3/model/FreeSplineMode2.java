@@ -55,7 +55,11 @@ public class FreeSplineMode2 implements UpdateMode {
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
-        new EnergyConserver().fixEnergy( body, origState.getTotalEnergy() );
+        boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 10 );
+        if( !fixed ) {
+
+        }
+        //could still have an 
         lastState = body.copyState();
 
         lastNormalForce = updateNormalForce( origState, body, netForce, dt );
@@ -173,7 +177,7 @@ public class FreeSplineMode2 implements UpdateMode {
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
-            if( dist < 0.05 ) {
+            if( dist < 0.2 ) {
                 return dist;
             }
             else {
