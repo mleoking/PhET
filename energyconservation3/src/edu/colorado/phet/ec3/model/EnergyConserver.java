@@ -12,21 +12,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 
 public class EnergyConserver {
     public void fixEnergy( Body body, double desiredTotalEnergy ) {
-        if( body.getThrust().getMagnitude() != 0 ) {
-            return;
-        }
-//        EnergyDebugger.stepFinished( model, body );
-        double speedThreshold = 0;//reduced from 20.
-        for( int i = 0; i < 10; i++ ) {
-            if( body.getSpeed() > speedThreshold ) {
-                boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
-                if( done ) {
-                    break;
-                }
-            }
-            else {
-            }
-        }
+        fixEnergyWithVelocity( body, desiredTotalEnergy, 10 );
 //        if( Math.abs( body.getGravity() ) > 1.0 ) {
 //            for( int i = 0; i < 3; i++ ) {
 //                boolean done = conserveEnergyViaH( body, desiredTotalEnergy );
@@ -37,6 +23,21 @@ public class EnergyConserver {
 //        }
 //        double mechEnergy = model.getMechanicalEnergy( body );
 //        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
+    }
+
+    public boolean fixEnergyWithVelocity( Body body, double desiredTotalEnergy, int numIterations ) {
+        double speedThreshold = 0;//reduced from 20.
+        for( int i = 0; i < numIterations; i++ ) {
+            if( body.getSpeed() > speedThreshold ) {
+                boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
+                if( done ) {
+                    return true;
+                }
+            }
+            else {
+            }
+        }
+        return false;
     }
 
     private boolean conserveEnergyViaV( Body body, double desiredTotalEnergy ) {
