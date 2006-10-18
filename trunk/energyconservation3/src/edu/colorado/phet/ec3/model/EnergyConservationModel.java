@@ -117,6 +117,12 @@ public class EnergyConservationModel {
         return potentialEnergyMetric;
     }
 
+    public void removeAllSplineSurfaces() {
+        while( splineSurfaces.size() > 0 ) {
+            removeSplineSurface( splineSurfaceAt( 0 ) );
+        }
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 

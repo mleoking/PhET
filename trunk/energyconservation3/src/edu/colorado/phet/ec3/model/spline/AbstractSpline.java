@@ -82,6 +82,8 @@ public abstract class AbstractSpline implements Cloneable {
         areaShapeDirty = true;
         areaDirty = true;
 //        System.out.println( "All dirty @ t=" + System.currentTimeMillis() );
+//        System.out.println( "//add control points" );
+//        printControlPointCode();
     }
 
     public void addControlPoint( double x, double y ) {
