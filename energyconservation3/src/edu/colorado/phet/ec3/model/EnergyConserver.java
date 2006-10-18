@@ -12,6 +12,9 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 
 public class EnergyConserver {
     public void fixEnergy( Body body, double desiredTotalEnergy ) {
+        if( body.isUserControlled() ) {
+            return;
+        }
         fixEnergyWithVelocity( body, desiredTotalEnergy, 10 );
 //        if( Math.abs( body.getGravity() ) > 1.0 ) {
 //            for( int i = 0; i < 3; i++ ) {
@@ -26,6 +29,9 @@ public class EnergyConserver {
     }
 
     public boolean fixEnergyWithVelocity( Body body, double desiredTotalEnergy, int numIterations ) {
+        if( body.isUserControlled() ) {
+            return true;
+        }
         double speedThreshold = 0;//reduced from 20.
         for( int i = 0; i < numIterations; i++ ) {
             if( body.getSpeed() > speedThreshold ) {

@@ -452,6 +452,23 @@ public class Body {
         return new ImmutableVector2D.Double( 0, getGravity() * getMass() );
     }
 
+    AbstractSpline lastFallSpline;
+    long lastFallTime;
+
+    public void setLastFallTime( AbstractSpline spline, long time ) {
+        this.lastFallSpline = spline;
+        this.lastFallTime = time;
+    }
+
+
+    public AbstractSpline getLastFallSpline() {
+        return lastFallSpline;
+    }
+
+    public long getLastFallTime() {
+        return lastFallTime;
+    }
+
     public static interface Listener {
         void thrustChanged();
 
