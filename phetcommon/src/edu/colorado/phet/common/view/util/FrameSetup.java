@@ -97,4 +97,31 @@ public interface FrameSetup {
             frame.setExtendedState( state );
         }
     }
+
+    /**
+     * This FrameSetup centers the JFrame at the top of the screen, with the specified dimensions. 
+     */
+    public static class TopCenter implements FrameSetup {
+        private int width;
+        private int height;
+        
+        public TopCenter( int width, int height ) {
+            this.width = width;
+            this.height = height;
+        }
+
+        /**
+         * centers the JFrame at the top of the screen, with the specified dimensions.
+         * @param frame the frame to initialize.
+         */
+        // todo: add test to see that the requested dimensions aren't bigger than the screen
+        public void initialize( JFrame frame ) {
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            Dimension d = tk.getScreenSize();
+            int x = ( d.width - width ) / 2;
+            int y = 0;
+            frame.setLocation( x, y );
+            frame.setSize( width, height );
+        }
+    }
 }
