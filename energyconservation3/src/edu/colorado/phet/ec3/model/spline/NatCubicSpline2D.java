@@ -12,16 +12,17 @@ import java.awt.geom.Point2D;
 public class NatCubicSpline2D implements Spline2D {
     private NatCubic.Cubic[] X;
     private NatCubic.Cubic[] Y;
+    private Point2D[] controlPoints;
 
     public NatCubicSpline2D( Point2D[] controlPoints ) {
+        this.controlPoints = controlPoints;
         NatCubic.PointArray pts = new NatCubic.PointArray( controlPoints );
         this.X = NatCubic.calcNaturalCubic( pts.getXPoints() );
         this.Y = NatCubic.calcNaturalCubic( pts.getYPoints() );
     }
 
-    public NatCubicSpline2D( NatCubic.Cubic[] x, NatCubic.Cubic[] y ) {
-        X = x;
-        Y = y;
+    public Point2D[] getControlPoints() {
+        return controlPoints;
     }
 
     public double getLength() {

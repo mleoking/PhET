@@ -36,7 +36,7 @@ public class CubicSpline extends AbstractSpline {
     }
 
     public Point2D evaluateAnalytical( double distAlongSpline ) {
-        return new NatCubic().evaluate( getControlPoints(), distAlongSpline );
+        return new NatCubicSpline2D( getControlPoints() ).evaluate( distAlongSpline );
     }
 
     public AbstractSpline createReverseSpline() {
@@ -48,14 +48,16 @@ public class CubicSpline extends AbstractSpline {
     }
 
     public AbstractVector2D getUnitNormalVector( double x ) {
-        //todo ensure values are in bounds
-        double dx = 1E-4;
-        Vector2D.Double parallelEstimate = new Vector2D.Double( x - dx, x + dx );
-        return parallelEstimate.getNormalVector().getNormalizedInstance();
+        return getUnitParallelVector( x ).getNormalVector().getNormalizedInstance();
     }
 
     public double getLength() {
         return new NatCubicSpline2D( getControlPoints() ).getLength();
+    }
+
+    public AbstractVector2D getUnitParallelVector( double x ) {
+        double dx = 1E-4;
+        return new Vector2D.Double( evaluateAnalytical( Math.max( 0, x - dx ) ), evaluateAnalytical( Math.min( getLength(), x + dx ) ) ).getNormalizedInstance();
     }
 
 }
