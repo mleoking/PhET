@@ -13,18 +13,16 @@ import edu.colorado.phet.common.math.Vector2D;
 
 public class FreeFall extends ForceMode implements Derivable {
     private EnergyConservationModel energyConservationModel;
-    private double rotationalVelocity;
 
-    public FreeFall( EnergyConservationModel energyConservationModel, double rotationalVelocity ) {
+    public FreeFall( EnergyConservationModel energyConservationModel ) {
         this.energyConservationModel = energyConservationModel;
-        this.rotationalVelocity = rotationalVelocity;
     }
 
     public void stepInTime( Body body, double dt ) {
         double origEnergy = body.getTotalEnergy();
         setNetForce( getTotalForce( body ) );
         super.stepInTime( body, dt );
-        body.setCMRotation( body.getCMRotation() + rotationalVelocity * dt );
+        body.setCMRotation( body.getCMRotation() + body.getAngularVelocity() * dt );
         new EnergyConserver().fixEnergy( body, origEnergy );
         double DE = Math.abs( body.getMechanicalEnergy() - origEnergy );
         if( DE > 1E-6 ) {
@@ -37,21 +35,9 @@ public class FreeFall extends ForceMode implements Derivable {
         return new Vector2D.Double( 0 + body.getThrust().getX(), body.getMass() * body.getGravity() + body.getThrust().getY() );
     }
 
-    public void reset() {
-        rotationalVelocity = 0.0;
-    }
-
     public void init( Body body ) {
         //going from spline to freefall mode
         body.convertToFreefall();
-    }
-
-    public double getRotationalVelocity() {
-        return rotationalVelocity;
-    }
-
-    public void setRotationalVelocity( double rotationalVelocity ) {
-        this.rotationalVelocity = rotationalVelocity;
     }
 
 }

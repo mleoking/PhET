@@ -45,6 +45,7 @@ public class Body {
     private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
     private double thermalEnergy = 0;
+    private double angularVelocity = 0;
 
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, FreeFall freeFall ) {
         this.freeFall = freeFall;
@@ -57,6 +58,7 @@ public class Body {
 
     public Body copyState() {
         Body copy = new Body( width, height, potentialEnergyMetric, freeFall );
+        copy.angularVelocity = this.angularVelocity;
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
@@ -174,7 +176,7 @@ public class Body {
             setMode( userMode );
         }
         else {
-            freeFall.setRotationalVelocity( 0.0 );
+            setAngularVelocity( 0.0 );
             setMode( freeFall );
         }
     }
@@ -223,7 +225,7 @@ public class Body {
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
-        freeFall.setRotationalVelocity( dA );
+        setAngularVelocity( dA );
     }
 
     public void setFreeFallMode() {
@@ -346,7 +348,7 @@ public class Body {
     }
 
     public void resetMode() {
-        freeFall.reset();
+        setAngularVelocity( 0.0 );
     }
 
     public double getWidth() {
@@ -474,6 +476,14 @@ public class Body {
         return lastFallTime;
     }
 
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+
+    public void setAngularVelocity( double angularVelocity ) {
+        this.angularVelocity = angularVelocity;
+    }
 
     public static interface Listener {
         void thrustChanged();
