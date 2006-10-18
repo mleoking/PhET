@@ -60,7 +60,7 @@ public class FreeSplineMode2 implements UpdateMode {
         //make sure we sank into the spline before applying this change
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
-        boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 10 );
+        boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
         if( !fixed ) {
 
             //look for a nearby rotation and/or spline position that conserves energy...?
@@ -70,9 +70,18 @@ public class FreeSplineMode2 implements UpdateMode {
                 body.setVelocity( origState.getVelocity() );
                 body.setAttachmentPointPosition( origState.getAttachPoint() );
                 body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                body.setThermalEnergy( origState.getThermalEnergy() );
             }
             else {
-                System.out.println( "fixed = " + fixed );
+                if( origState.getEnergyDifferenceAbs( body ) > 1E-8 ) {
+                    System.out.println( "fixed = " + fixed + ", body.getv=" + body.getVelocity() + ", error=" + origState.getEnergyDifferenceAbs( body ) );
+                    //look for neighboring locations that will give a slightly better energy
+
+                    double desiredTotalEnergy = origState.getStoredTotalEnergy();
+                    System.out.println( "desiredTotalEnergy = " + desiredTotalEnergy + ", body.total=" + body.getTotalEnergy() );
+                    new EnergyConserver().fixEnergyWithVelocity( body, desiredTotalEnergy, 15 );
+                    System.out.println( "desiredTotalEnergy2 = " + desiredTotalEnergy + ", body.total2=" + body.getTotalEnergy() );
+                }
             }
             //maybe could fix by rotation?, i think no.
             //could fix with friction, if friction is enabled.

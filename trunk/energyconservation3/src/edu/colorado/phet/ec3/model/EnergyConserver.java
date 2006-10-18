@@ -32,7 +32,7 @@ public class EnergyConserver {
         if( body.isUserControlled() ) {
             return true;
         }
-        double speedThreshold = 0;//reduced from 20.
+        double speedThreshold = 0.001;//reduced from 20.
         for( int i = 0; i < numIterations; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
                 boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
