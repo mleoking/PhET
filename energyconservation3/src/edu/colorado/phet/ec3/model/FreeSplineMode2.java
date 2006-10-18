@@ -7,6 +7,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -170,7 +171,7 @@ public class FreeSplineMode2 implements UpdateMode {
             this.energyConservationModel = energyConservationModel;
         }
 
-        public void doGrab( Body body ) {
+        public void interactWithSplines( Body body ) {
             body.convertToSpline();
             double bestScore = Double.POSITIVE_INFINITY;
             AbstractSpline bestSpline = null;
@@ -187,15 +188,64 @@ public class FreeSplineMode2 implements UpdateMode {
                 body.setSplineMode( energyConservationModel, bestSpline );
             }
             else {
+                tryCollision( body );
                 body.convertToFreefall();
             }
+        }
+
+        private void tryCollision( Body body ) {
+            body.convertToSpline();
+            double bestScore = Double.POSITIVE_INFINITY;
+            AbstractSpline bestSpline = null;
+            ArrayList allSplines = energyConservationModel.getAllSplines();
+            for( int i = 0; i < allSplines.size(); i++ ) {
+                AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
+                double score = getBounceScore( splineSurface, body );
+                if( !Double.isInfinite( score ) ) {
+                    System.out.println( "score = " + score );
+                }
+                if( score < bestScore ) {
+                    bestScore = score;
+                    bestSpline = splineSurface;
+                }
+            }
+            if( bestSpline != null ) {
+                Area area = new Area( bestSpline.getArea() );//todo duplicate computation
+//                area.intersect( new Area( body.getReducedShape() ) );
+                area.intersect( new Area( body.getShape() ) );
+                Rectangle2D r = area.getBounds2D();
+                double x = bestSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, bestSpline.getLength(), 100 );
+                if( !feetAreClose( body, x, bestSpline ) ) {
+//                    AbstractVector2D norm = bestSpline.getUnitNormalVector( x );
+
+                    double parallelPart = bestSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
+                    double perpPart = bestSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
+                    Vector2D.Double newVelocity = new Vector2D.Double();
+                    newVelocity.add( bestSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
+                    newVelocity.add( bestSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
+                    body.setVelocity( newVelocity );
+                }
+            }
+            else {
+                body.convertToFreefall();
+            }
+        }
+
+        private boolean feetAreClose( Body body, double x, AbstractSpline bestSpline ) {
+            return bestSpline.evaluateAnalytical( x ).distance( body.getAttachPoint() ) < bestSpline.evaluateAnalytical( x ).distance( body.getCenterOfMass() );
+        }
+
+        private double getBounceScore( AbstractSpline splineSurface, Body body ) {
+            Area area = new Area( splineSurface.getArea() );
+            area.intersect( new Area( body.getShape() ) );
+            return area.isEmpty() ? Double.POSITIVE_INFINITY : 0.0;//todo don't need to compute others, could break
         }
 
         private double getGrabScore( AbstractSpline splineSurface, Body body ) {
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
-            if( dist < 0.4 && correctSide( body, x, pt, splineSurface ) && !justLeft( body, splineSurface ) ) {
+            if( dist < 0.5 && correctSide( body, x, pt, splineSurface ) && !justLeft( body, splineSurface ) ) {
                 return dist;
             }
             else {
@@ -213,13 +263,6 @@ public class FreeSplineMode2 implements UpdateMode {
             Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), cm );
             return cmVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0;
         }
-
-        boolean intersectsOrig( AbstractSpline spline, Body body ) {
-            Area area = new Area( body.getShape() );
-            area.intersect( spline.getArea() );
-            return !area.isEmpty();
-        }
-
 
     }
 }
