@@ -15,9 +15,7 @@ import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -107,13 +105,13 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        this(args,title,description,version,frameSetup, JTABBED_PANE_TYPE );
+        this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE );
     }
-    
+
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-                // Put up a dialog that lets the user know that the simulation is starting up
+        // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
-        this.tabbedPaneType=tabbedPaneType;
+        this.tabbedPaneType = tabbedPaneType;
         latestInstance = this;
         phetApplications.add( this );
 
@@ -128,6 +126,7 @@ public class PhetApplication {
         // Handle command line arguments
         parseArgs( args );
     }
+
     /**
      * Creates the PhetFrame for the application
      * <p/>
@@ -206,7 +205,7 @@ public class PhetApplication {
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
 
-         
+
         updateLogoVisibility();
 //        started = true;
     }
@@ -216,12 +215,12 @@ public class PhetApplication {
      * so that both aren't visible by default..
      * <p/>
      * This method appears to give the correct behavior in the test program: TestPiccoloPhetApplication
-     * 
+     * <p/>
      * This method and functionality will be removed if is too awkward in practice (for example, too confusing to override this default).
      */
     protected void updateLogoVisibility() {
         for( int i = 0; i < moduleManager.numModules(); i++ ) {
-            if (moduleAt( i).isLogoPanelVisible() &&phetFrame.getTabbedModulePane() != null &&phetFrame.getTabbedModulePane().getLogoVisible()){
+            if( moduleAt( i ).isLogoPanelVisible() && phetFrame.getTabbedModulePane() != null && phetFrame.getTabbedModulePane().getLogoVisible() ) {
                 moduleAt( i ).setLogoPanelVisible( false );
             }
         }
@@ -249,9 +248,10 @@ public class PhetApplication {
 
     /**
      * Creates the tabbed pane for the modules in the application.
+     *
      * @return a tabbed module pane
      */
-    public ITabbedModulePane createTabbedPane( ) {
+    public ITabbedModulePane createTabbedPane() {
         return tabbedPaneType.createTabbedPane();
     }
 
@@ -463,6 +463,17 @@ public class PhetApplication {
     }
 
     /**
+     * Close this PhetApplication cleanly without exiting the JVM;
+     * Deactivates all modules and disposes of the associated PhetFrame for this PhetApplication.
+     */
+    public void closeApplication() {
+        for( int i = 0; i < numModules(); i++ ) {
+            moduleAt( i ).deactivate();
+        }
+        getPhetFrame().dispose();
+    }
+
+    /**
      * Enumeration class used to specify the type of tabbed panes the application is to use in
      * its Module instances
      */
@@ -472,9 +483,9 @@ public class PhetApplication {
 
         public abstract ITabbedModulePane createTabbedPane();
     }
-    
+
     // Standard Swing JTabbedPanes
-    public static final TabbedPaneType JTABBED_PANE_TYPE = new TabbedPaneType(){
+    public static final TabbedPaneType JTABBED_PANE_TYPE = new TabbedPaneType() {
         public ITabbedModulePane createTabbedPane() {
             return new JTabbedModulePane();
         }
