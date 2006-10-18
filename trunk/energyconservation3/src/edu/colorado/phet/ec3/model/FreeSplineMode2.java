@@ -34,8 +34,8 @@ public class FreeSplineMode2 implements UpdateMode {
         double x = savedLocation;
         double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
-        AbstractVector2D netForce = getNetForcesWithoutNormal( body, x );
-        new ForceMode( netForce ).stepInTime( body, dt );
+        AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( body, x );
+        new ForceMode( netForceWithoutNormal ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
@@ -59,13 +59,25 @@ public class FreeSplineMode2 implements UpdateMode {
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
         boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 10 );
         if( !fixed ) {
+
+            //look for a nearby rotation and/or spline position that conserves energy...?
+            AbstractVector2D netForce = netForceWithoutNormal.getAddedInstance( lastNormalForce );
+            //wait until upside up to stop in a well
+            if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
+                body.setVelocity( origState.getVelocity() );
+                body.setAttachmentPointPosition( origState.getAttachPoint() );
+                body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+            }
+            else {
+                System.out.println( "fixed = " + fixed );
+            }
             //maybe could fix by rotation?, i think no.
             //could fix with friction, if friction is enabled.
         }
         //could still have an 
         lastState = body.copyState();
 
-        lastNormalForce = updateNormalForce( origState, body, netForce, dt );
+        lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
     }
 
     private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
@@ -180,7 +192,6 @@ public class FreeSplineMode2 implements UpdateMode {
         }
 
         private double getGrabScore( AbstractSpline splineSurface, Body body ) {
-
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
