@@ -45,6 +45,7 @@ public class FreeSplineMode2 implements UpdateMode {
             return;
         }
         if( afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 ) {
+            body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             return;
         }
@@ -183,12 +184,16 @@ public class FreeSplineMode2 implements UpdateMode {
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
-            if( dist < 0.4 && correctSide( body, x, pt, splineSurface ) ) {
+            if( dist < 0.4 && correctSide( body, x, pt, splineSurface ) && !justLeft( body, splineSurface ) ) {
                 return dist;
             }
             else {
                 return Double.POSITIVE_INFINITY;
             }
+        }
+
+        private boolean justLeft( Body body, AbstractSpline splineSurface ) {
+            return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 1000;
         }
 
         private boolean correctSide( Body body, double x, Point2D splineAttachPoint, AbstractSpline abstractSpline ) {
