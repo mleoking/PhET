@@ -1,4 +1,4 @@
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.ec3.test.apptests;
 
 import edu.colorado.phet.ec3.EC3LookAndFeel;
 import edu.colorado.phet.ec3.EnergySkateParkApplication;
@@ -13,33 +13,29 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
  * Copyright (c) Oct 9, 2006 by Sam Reid
  */
 
-public class TestLoop {
+public class TestUpsideDown {
     private EnergySkateParkApplication energySkateParkApplication;
 
-    public TestLoop( String[] args ) {
+    public TestUpsideDown( String[] args ) {
         energySkateParkApplication = new EnergySkateParkApplication( args );
     }
 
     public static void main( String[] args ) {
         EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
         new EC3LookAndFeel().initLookAndFeel();
-        new TestLoop( args ).start();
+        new TestUpsideDown( args ).start();
     }
 
     private void start() {
         energySkateParkApplication.startApplication();
         energySkateParkApplication.getModule().getEnergyConservationModel().removeAllSplineSurfaces();
         CubicSpline spline = new CubicSpline();
-//add control points
-        spline.addControlPoint( 2.856047700170355, 6.399488926746162 );
-        spline.addControlPoint( 7.202725724020448, 0.6311754684838161 );
-        spline.addControlPoint( 11.856047955241685, 2.3107228886329763 );
-        spline.addControlPoint( 10.617640530839696, 4.842325397610053 );
-        spline.addControlPoint( 8.365511016504522, 4.101089191193068 );
-        spline.addControlPoint( 9.250519214740605, 1.213525333233952 );
-        spline.addControlPoint( 11.60145654446832, 0.43431858330000445 );
-        spline.addControlPoint( 13.62360305213442, 1.073160150591316 );
-
+        //add control points
+        spline.addControlPoint( 2.9071550255536627, 6.9361158432708665 );
+        spline.addControlPoint( 6.5, 1.5 );
+        spline.addControlPoint( 12.098807750812382, 3.9589341322445595 );
+        spline.addControlPoint( 11.10316012198109, 5.302291326059799 );
+        spline.addControlPoint( 5.746260633054336, 5.366175482788927 );
         energySkateParkApplication.getModule().getEnergyConservationModel().addSplineSurface( new SplineSurface( spline ) );
     }
 }

@@ -1,4 +1,4 @@
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.ec3.test.apptests;
 
 import edu.colorado.phet.ec3.EC3LookAndFeel;
 import edu.colorado.phet.ec3.EnergySkateParkApplication;
@@ -11,21 +11,23 @@ import edu.colorado.phet.ec3.EnergySkateParkStrings;
  * Copyright (c) Oct 9, 2006 by Sam Reid
  */
 
-public class TestFallThrough {
+public class TestHeadBounce {
     private EnergySkateParkApplication energySkateParkApplication;
 
-    public TestFallThrough( String[] args ) {
+    public TestHeadBounce( String[] args ) {
         energySkateParkApplication = new EnergySkateParkApplication( args );
     }
 
     public static void main( String[] args ) {
         EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
         new EC3LookAndFeel().initLookAndFeel();
-        new TestFallThrough( args ).start();
+        new TestHeadBounce( args ).start();
     }
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergyConservationModel().bodyAt( 0 ).setFrictionCoefficient( 0.01 );
+        energySkateParkApplication.getModule().getEnergyConservationModel().bodyAt( 0 ).convertToFreefall();
+        energySkateParkApplication.getModule().getEnergyConservationModel().bodyAt( 0 ).setCMRotation( 0 );
+        energySkateParkApplication.getModule().getEnergyConservationModel().bodyAt( 0 ).setAttachmentPointPosition( 5, 8 );
     }
 }
