@@ -237,39 +237,8 @@ public class MRModel extends PublishingModel {
                 m.add(((Body)o).getMomentum());
             }
         }
-
-//        System.out.println( "springCnt = " + springCnt + "\tpBondCnt = " + pBondCnt );
-
-//        if( lastM.getMagnitude() != m.getMagnitude() ) {
-//            System.out.println( "MRModel.monitorEnergy >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
-//        }
-//        lastM = m;
         DecimalFormat df = new DecimalFormat( "#.000");
         System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
-    }
-
-    private void adjustKineticEnergy( double eFactor ) {
-        List modelElements = getModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof Body ) {
-                Body body = (Body)o;
-                body.setVelocity( body.getVelocity().getX() * eFactor, body.getVelocity().getY() * eFactor );
-            }
-        }
-    }
-
-    private double clearForces() {
-        double keTotal = 0;
-        List modelElements = getModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof Body ) {
-                Body body = (Body)o;
-                body.setAcceleration( 0, 0 );
-            }
-        }
-        return keTotal;
     }
 
     public double getTotalKineticEnergy() {
