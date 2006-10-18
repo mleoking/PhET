@@ -11,17 +11,17 @@ import edu.colorado.phet.ec3.EnergySkateParkStrings;
  * Copyright (c) Oct 9, 2006 by Sam Reid
  */
 
-public class TestFloorFeetBounce {
+public class TestLongDropToFloor {
     private EnergySkateParkApplication energySkateParkApplication;
 
-    public TestFloorFeetBounce( String[] args ) {
+    public TestLongDropToFloor( String[] args ) {
         energySkateParkApplication = new EnergySkateParkApplication( args );
     }
 
     public static void main( String[] args ) {
         EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
         new EC3LookAndFeel().initLookAndFeel();
-        new TestFloorFeetBounce( args ).start();
+        new TestLongDropToFloor( args ).start();
     }
 
     private void start() {

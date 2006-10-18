@@ -1,3 +1,7 @@
+1.02.04 (10-18-2006)
+Rewrote spline traversal physics.
+Added tests.
+
 1.02.03 (10-11-2006)
 Added smoothing for spline traversal (to smooth out jerkiness e.g. at bottom of parabola)
 Added code so the skater can fall off of spline when his velocity dotted with the unit normal of the segment is positive.
