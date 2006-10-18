@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
-    private static final String VERSION = "1.02.06";
+    private static final String VERSION = "1.02.07";
 
     public EnergySkateParkApplication( String[] args ) {
         super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ),
@@ -27,7 +27,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
-        getPhetFrame().addMenu( new EnergySkateParkTestMenu(this, args ));
+        getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
     }
 
     public static void main( final String[] args ) {

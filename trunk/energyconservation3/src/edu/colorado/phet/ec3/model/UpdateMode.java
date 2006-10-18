@@ -12,4 +12,6 @@ public interface UpdateMode {
     void stepInTime( Body body, double dt );
 
     void init( Body body );
+
+    UpdateMode copy();
 }

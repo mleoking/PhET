@@ -18,4 +18,8 @@ public class UserControlled implements UpdateMode {
         body.convertToFreefall();
     }
 
+    public UpdateMode copy() {
+        return new UserControlled();
+    }
+
 }
