@@ -39,6 +39,10 @@ public class FreeSplineMode2 implements UpdateMode {
             body.setFreeFallMode();
             return;
         }
+        if( afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 ) {
+            body.setFreeFallMode();
+            return;
+        }
         savedLocation = x2;
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
@@ -87,18 +91,7 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
-        double best = Double.POSITIVE_INFINITY;
-        double scalar = 0.0;
-        for( double x = min; x <= max; x += ( max - min ) / numPts ) {
-            Point2D loc = spline.evaluateAnalytical( x );
-            double dist = pt.distance( loc );
-            if( dist < best ) {
-                best = dist;
-                scalar = x;
-            }
-        }
-//        System.out.println( "found best=" + scalar + ", score=" + best );
-        return scalar;
+        return spline.getDistAlongSpline( pt, min, max, numPts );
     }
 
     private AbstractVector2D createNetForce( Body body, double x ) {
@@ -135,11 +128,11 @@ public class FreeSplineMode2 implements UpdateMode {
 //            System.out.println( "afterNewton.getVelocity() = " + afterNewton.getVelocity() );
 //        }
 //        if( afterNewton == null || afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 ) {
-        double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
-        return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
+//        double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
+//        return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
 //        }
 //        else {
-//            return new Vector2D.Double();
+        return new Vector2D.Double();
 //        }
     }
 }
