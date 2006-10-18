@@ -312,6 +312,12 @@ public class EnergyConservationModel {
     }
 
     public void removeSplineSurface( SplineSurface splineSurface ) {
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if( body.isOnSpline( splineSurface ) ) {
+                body.setFreeFallMode();
+            }
+        }
         notifyBodiesSplineRemoved( splineSurface.getTop() );
         notifyBodiesSplineRemoved( splineSurface.getBottom() );
         splineSurfaces.remove( splineSurface );

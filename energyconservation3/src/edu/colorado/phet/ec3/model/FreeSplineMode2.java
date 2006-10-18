@@ -31,8 +31,11 @@ public class FreeSplineMode2 implements UpdateMode {
         body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
         new ForceMode( createNetForce( body, x ) ).stepInTime( body, dt );
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
-        double distToSpline = ( body.getAttachPoint().distance( spline.evaluateAnalytical( x2 ) ) );
-
+        System.out.println( "x2=" + x2 );
+        if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
+            body.setFreeFallMode();
+            return;
+        }
         savedLocation = x2;
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
@@ -93,6 +96,8 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private AbstractVector2D createNetForce( Body body, double x ) {
+
+        //todo: normal should opposed both gravity and thrust when applicable
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 body.getGravityForce(),
                 getNormalForce( body, x ),
@@ -121,7 +126,12 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private AbstractVector2D getNormalForce( Body body, double x ) {
-        double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
-        return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
+        if( body.getVelocity().dot( spline.getUnitNormalVector( x ) ) <= 0.1 ) {
+            double cosA = Math.cos( spline.getUnitNormalVector( x ).getNormalVector().getAngle() );
+            return spline.getUnitNormalVector( x ).getScaledInstance( body.getGravityForce().getMagnitude() * cosA );
+        }
+        else {
+            return new Vector2D.Double();
+        }
     }
 }
