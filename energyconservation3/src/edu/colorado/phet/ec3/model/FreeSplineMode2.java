@@ -211,19 +211,18 @@ public class FreeSplineMode2 implements UpdateMode {
             }
             if( bestSpline != null ) {
                 Area area = new Area( bestSpline.getArea() );//todo duplicate computation
-//                area.intersect( new Area( body.getReducedShape() ) );
                 area.intersect( new Area( body.getShape() ) );
                 Rectangle2D r = area.getBounds2D();
                 double x = bestSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, bestSpline.getLength(), 100 );
                 if( !feetAreClose( body, x, bestSpline ) ) {
-//                    AbstractVector2D norm = bestSpline.getUnitNormalVector( x );
-
                     double parallelPart = bestSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
                     double perpPart = bestSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
                     Vector2D.Double newVelocity = new Vector2D.Double();
                     newVelocity.add( bestSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
                     newVelocity.add( bestSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
                     body.setVelocity( newVelocity );
+                    body.convertToFreefall();
+                    body.setAngularVelocity( parallelPart / 2 );
                 }
             }
             else {

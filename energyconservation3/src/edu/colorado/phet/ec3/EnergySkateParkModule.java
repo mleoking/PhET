@@ -163,7 +163,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void init() {
-        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), energyModel.getPotentialEnergyMetric(), new FreeFall( getEnergyConservationModel(), 0 ) );
+        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),
+                                    energyModel.getPotentialEnergyMetric(), new FreeFall( getEnergyConservationModel() ) );
         body.setAttachmentPointPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
@@ -178,12 +179,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
         energyCanvas.addAttachmentPointGraphic( body );
-//        getClock().addClockListener( new ClockAdapter() {
-//            public void simulationTimeChanged( ClockEvent clockEvent ) {
-//                super.simulationTimeChanged( clockEvent );
-//                System.out.println( "body.getPosition() = " + body.getPosition() );
-//            }
-//        } );
     }
 
     private Point2D getDefaultBodyPosition() {
