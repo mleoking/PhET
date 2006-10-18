@@ -79,8 +79,8 @@ public class MoleculePopulationsStripChart extends StripChart {
             if( timeSinceLastUpdate > updateInterval ) {
                 timeSinceLastUpdate = 0;
                 addData( 0, clockEvent.getSimulationTime(), counterA.getCnt() );
-                addData( 1, clockEvent.getSimulationTime(), counterAB.getCnt() );
-                addData( 2, clockEvent.getSimulationTime(), counterBC.getCnt() );
+                addData( 1, clockEvent.getSimulationTime(), counterBC.getCnt() );
+                addData( 2, clockEvent.getSimulationTime(), counterAB.getCnt() );
                 addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
             }
         }

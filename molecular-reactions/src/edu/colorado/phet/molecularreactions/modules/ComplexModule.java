@@ -41,6 +41,8 @@ public class ComplexModule extends MRModule {
     private JDialog stripChartDlg;
     private ComplexMRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
+    private PSwing barChartNode;
+    private JDialog barChartDlg;
 
     /**
      *
@@ -61,6 +63,9 @@ public class ComplexModule extends MRModule {
 
         controlPanel = new ComplexMRControlPanel( this );
         getControlPanel().addControl( controlPanel );
+
+        // Don't show the total energy line on the energy view
+        getEnergyView().setTotalEnergyLineVisible( false );
     }
 
     public void activate() {
@@ -81,16 +86,34 @@ public class ComplexModule extends MRModule {
 
     }
 
-    private void createControls() {
-        JButton setupGoBtn = new JButton();
-        setupGoBtn.addActionListener( new SetupGoAction( setupGoBtn, this ) );
-
-        getControlPanel().addControl( setupGoBtn );
-    }
-
     public void setCountersEditable( boolean editable ) {
         ComplexMRControlPanel controlPanel = (ComplexMRControlPanel)getMRControlPanel();
         controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
+    }
+
+    public void setBarChartVisible( boolean visible ) {
+        if( visible ) {
+            BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
+            ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
+            barChartPanel.setPreferredSize( new Dimension( 300, 200 ) );
+            barChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
+
+            // Dialog
+            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            PhetPCanvas barChartCanvas = new PhetPCanvas();
+            barChartCanvas.addScreenChild( barChartNode );
+            barChartCanvas.setPreferredSize( new Dimension( barChartPanel.getPreferredSize() ) );
+
+            barChartDlg.getContentPane().add( barChartCanvas );
+            barChartDlg.pack();
+
+            barChartDlg.setLocation( 500, 50 );
+            barChartDlg.setVisible( true );
+        }
+        else {
+            barChartNode = null;
+            barChartDlg.setVisible( false );
+        }
     }
 
     public void setStripChartVisible( boolean visible ) {
@@ -100,26 +123,12 @@ public class ComplexModule extends MRModule {
             chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
 
-            BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
-            ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
-            barChartPanel.setPreferredSize( new Dimension( 300, 200 ) );
-            PSwing barChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
-
             // Dialog
             stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
             PhetPCanvas stripChartCanvas = new PhetPCanvas();
             stripChartCanvas.addScreenChild( stripChartNode );
-            stripChartCanvas.addScreenChild( barChartNode );
-            barChartNode.setOffset( stripChartNode.getWidth(), 0 );
-            stripChartCanvas.setPreferredSize( new Dimension( (int)(chartPanel.getPreferredSize().getWidth() + barChartNode.getWidth()),
-                                                              (int)(chartPanel.getPreferredSize().getHeight())));
+            stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
 
-
-
-//            stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-//            PhetPCanvas stripChartCanvas = new PhetPCanvas();
-//            stripChartCanvas.addScreenChild( stripChartNode );
-//            stripChartCanvas.setPreferredSize( chartPanel.getPreferredSize() );
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
             stripChartDlg.setVisible( true );
