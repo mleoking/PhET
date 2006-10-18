@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model.spline;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
 import java.awt.*;
@@ -225,4 +226,8 @@ public abstract class AbstractSpline implements Cloneable {
     public boolean isUserControlled() {
         return userControlled;
     }
+
+    public abstract AbstractVector2D getUnitNormalVector( double x );
+
+    public abstract double getLength();
 }

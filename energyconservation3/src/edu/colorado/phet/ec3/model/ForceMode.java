@@ -13,11 +13,15 @@ import java.awt.geom.Point2D;
  * Copyright (c) Sep 28, 2005 by Sam Reid
  */
 
-public abstract class ForceMode implements UpdateMode, Derivable {
+public class ForceMode implements UpdateMode, Derivable {
     private Vector2D.Double netForce;
 
     public ForceMode() {
-        this.netForce = new Vector2D.Double();
+        this( new Vector2D.Double() );
+    }
+
+    public ForceMode( AbstractVector2D netForce ) {
+        this.netForce = new Vector2D.Double( netForce );
     }
 
     public void setNetForce( AbstractVector2D netForce ) {
@@ -180,5 +184,8 @@ public abstract class ForceMode implements UpdateMode, Derivable {
 //            return 9.8;
             return netForce.getY();
         }
+    }
+
+    public void init( Body body ) {
     }
 }
