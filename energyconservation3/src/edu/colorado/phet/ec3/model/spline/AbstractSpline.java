@@ -222,7 +222,6 @@ public abstract class AbstractSpline implements Cloneable {
         this.userControlled = userControlled;
     }
 
-
     public boolean isUserControlled() {
         return userControlled;
     }
