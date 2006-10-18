@@ -27,17 +27,27 @@ public class FreeSplineMode2 implements UpdateMode {
         Body origState = body.copyState();
 
         double x = getDistAlongSpline( body.getAttachPoint() );
-        System.out.println( " createNetForce( body, x )  = " + createNetForce( body, x ) );
-        body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() ) );
+        double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
+        body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
         new ForceMode( createNetForce( body, x ) ).stepInTime( body, dt );
-        double x2 = getDistAlongSpline( body.getAttachPoint(), Math.max( x - 1, 0 ), Math.min( x + 1, spline.getLength() ), 1000 );
+        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.2, 50, 2 );
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
         body.setAttachmentPointPosition( splineLocation );
         new EnergyConserver().fixEnergy( body, origState.getTotalEnergy() );
     }
 
+    private double getDistAlongSplineSearch( Point2D attachPoint, double center, double epsilon, int numPts, int numIterations ) {
+        double best = 0;
+        for( int i = 0; i < numIterations; i++ ) {
+            best = getDistAlongSpline( attachPoint, Math.max( center - epsilon, 0 ), Math.min( spline.getLength(), center + epsilon ), numPts );
+            center = best;
+            epsilon /= numPts;
+        }
+        return best;
+    }
+
     private double getDistAlongSpline( Point2D attachPoint ) {
-        return getDistAlongSpline( attachPoint, 0, spline.getLength(), 1000 );
+        return getDistAlongSpline( attachPoint, 0, spline.getLength(), 100 );
     }
 
     public void init( Body body ) {
