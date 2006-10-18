@@ -181,7 +181,7 @@ public class FreeSplineMode2 implements UpdateMode {
             for( int i = 0; i < allSplines.size(); i++ ) {
                 AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
                 double score = getGrabScore( splineSurface, body );
-                System.out.println( "grab score = " + score );
+//                System.out.println( "grab score = " + score );
                 if( score < bestScore ) {
                     bestScore = score;
                     bestSpline = splineSurface;
@@ -205,7 +205,7 @@ public class FreeSplineMode2 implements UpdateMode {
                 AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
                 double score = getBounceScore( splineSurface, body );
                 if( !Double.isInfinite( score ) ) {
-                    System.out.println( "bounce score = " + score );
+//                    System.out.println( "bounce score = " + score );
                 }
                 if( score < bestScore ) {
                     bestScore = score;
@@ -231,6 +231,12 @@ public class FreeSplineMode2 implements UpdateMode {
             else {
                 body.convertToFreefall();
             }
+        }
+
+        private boolean centerOfMassTooClose( AbstractSpline spline, Body body, double x ) {
+            double v = body.getCenterOfMass().distance( spline.evaluateAnalytical( x ) );
+            System.out.println( "v = " + v );
+            return v < 0.5;
         }
 
         private boolean feetAreClose( Body body, double x, AbstractSpline bestSpline ) {
