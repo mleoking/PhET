@@ -53,11 +53,13 @@ public class FreeSplineMode2 implements UpdateMode {
 
         savedLocation = x2;
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
+        //make sure we sank into the spline before applying this change
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
         boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 10 );
         if( !fixed ) {
-
+            //maybe could fix by rotation?, i think no.
+            //could fix with friction, if friction is enabled.
         }
         //could still have an 
         lastState = body.copyState();
@@ -156,6 +158,7 @@ public class FreeSplineMode2 implements UpdateMode {
         }
 
         public void doGrab( Body body ) {
+            body.convertToSpline();
             double bestScore = Double.POSITIVE_INFINITY;
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
@@ -170,19 +173,29 @@ public class FreeSplineMode2 implements UpdateMode {
             if( bestSpline != null ) {
                 body.setSplineMode( energyConservationModel, bestSpline );
             }
+            else {
+                body.convertToFreefall();
+            }
         }
 
         private double getGrabScore( AbstractSpline splineSurface, Body body ) {
-            body.convertToSpline();
+
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
-            if( dist < 0.2 ) {
+            if( dist < 0.4 && correctSide( body, x, pt, splineSurface ) ) {
                 return dist;
             }
             else {
                 return Double.POSITIVE_INFINITY;
             }
+        }
+
+        private boolean correctSide( Body body, double x, Point2D splineAttachPoint, AbstractSpline abstractSpline ) {
+            Point2D cm = body.getCenterOfMass();
+            Vector2D.Double cmVector = new Vector2D.Double( splineAttachPoint, cm );
+            Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), cm );
+            return cmVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0;
         }
 
         boolean intersectsOrig( AbstractSpline spline, Body body ) {
