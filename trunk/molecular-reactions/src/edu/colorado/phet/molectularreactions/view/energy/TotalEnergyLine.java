@@ -77,6 +77,14 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     }
 
     public void update() {
+        double e = model.getTotalKineticEnergy() + model.getTotalPotentialEnergy();
+        double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
+        line.setLine( 0, y, bounds.getWidth(), y );
+        lineNode.setPathTo( line );
+
+        if( true ) return;
+
+/*
         if( moleculeBeingTracked != null && nearestToMoleculeBeingTracked != null ) {
 
 //            double ke = moleculeBeingTracked.getFullKineticEnergy()
@@ -115,6 +123,7 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
             line.setLine( 0, y, bounds.getWidth(), y );
             lineNode.setPathTo( line );
         }
+*/
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -160,6 +169,9 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
         public void modelElementRemoved( ModelElement element ) {
             if( moleculeBeingTracked != null && element instanceof ProvisionalBond ) {
                 ProvisionalBond bond = (ProvisionalBond)element;
+                if( bond.getMolecules()[0] == null ) {
+                    System.out.println( "TotalEnergyLine$ProvisionalBondMonitor.modelElementRemoved" );
+                }
                 if( ( bond.getMolecules()[0].getFullMolecule() == moleculeBeingTracked.getFullMolecule()
                       && bond.getMolecules()[1].getFullMolecule() == nearestToMoleculeBeingTracked.getFullMolecule() )
                     || ( bond.getMolecules()[1].getFullMolecule() == moleculeBeingTracked.getFullMolecule()

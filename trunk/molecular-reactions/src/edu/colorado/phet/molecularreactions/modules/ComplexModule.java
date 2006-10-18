@@ -14,7 +14,9 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.MoleculePopulationsBarChart;
 import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhetUtilities;
@@ -23,6 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.util.List;
 
 import org.jfree.chart.ChartPanel;
@@ -39,6 +42,9 @@ public class ComplexModule extends MRModule {
     private ComplexMRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
 
+    /**
+     *
+     */
     public ComplexModule() {
         super( "Experiments" );
 
@@ -94,10 +100,26 @@ public class ComplexModule extends MRModule {
             chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
 
+            BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
+            ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
+            barChartPanel.setPreferredSize( new Dimension( 300, 200 ) );
+            PSwing barChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
+
+            // Dialog
             stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
             PhetPCanvas stripChartCanvas = new PhetPCanvas();
             stripChartCanvas.addScreenChild( stripChartNode );
-            stripChartCanvas.setPreferredSize( chartPanel.getPreferredSize() );
+            stripChartCanvas.addScreenChild( barChartNode );
+            barChartNode.setOffset( stripChartNode.getWidth(), 0 );
+            stripChartCanvas.setPreferredSize( new Dimension( (int)(chartPanel.getPreferredSize().getWidth() + barChartNode.getWidth()),
+                                                              (int)(chartPanel.getPreferredSize().getHeight())));
+
+
+
+//            stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+//            PhetPCanvas stripChartCanvas = new PhetPCanvas();
+//            stripChartCanvas.addScreenChild( stripChartNode );
+//            stripChartCanvas.setPreferredSize( chartPanel.getPreferredSize() );
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
             stripChartDlg.setVisible( true );

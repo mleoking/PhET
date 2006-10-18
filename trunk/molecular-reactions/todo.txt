@@ -1,3 +1,4 @@
+- Bug in SelectedM
 - Can't select a B type molecule
 - Hose on pump graphic is aliased
 - Hard bonds not always going away
