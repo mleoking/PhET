@@ -22,7 +22,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -96,9 +95,10 @@ public class ComplexModule extends MRModule {
         if( visible ) {
             BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
             ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
-            barChartPanel.setPreferredSize( new Dimension( 300, 200 ) );
+            barChartPanel.setPreferredSize( getEnergyView().getUpperPaneSize() );
             barChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
 
+            getEnergyView().addToUpperPane( barChartNode );
 //            getEnergyView().addChild( barChartNode );
 //            barChartNode.setOffset( 0,300 );
 //            JLabel component = new JLabel( "!!@#$!@#$!@#" );
@@ -113,20 +113,21 @@ public class ComplexModule extends MRModule {
 
 
             // Dialog
-            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-            PhetPCanvas barChartCanvas = new PhetPCanvas();
-            barChartCanvas.addScreenChild( barChartNode );
-            barChartCanvas.setPreferredSize( new Dimension( barChartPanel.getPreferredSize() ) );
-
-            barChartDlg.getContentPane().add( barChartCanvas );
-            barChartDlg.pack();
-
-            barChartDlg.setLocation( 700, 150 );
-            barChartDlg.setVisible( true );
+//            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+//            PhetPCanvas barChartCanvas = new PhetPCanvas();
+//            barChartCanvas.addScreenChild( barChartNode );
+//            barChartCanvas.setPreferredSize( new Dimension( barChartPanel.getPreferredSize() ) );
+//
+//            barChartDlg.getContentPane().add( barChartCanvas );
+//            barChartDlg.pack();
+//
+//            barChartDlg.setLocation( 700, 150 );
+//            barChartDlg.setVisible( true );
         }
         else {
+            getEnergyView().removeFromUpperPane( barChartNode );
             barChartNode = null;
-            barChartDlg.setVisible( false );
+//            barChartDlg.setVisible( false );
         }
     }
 
