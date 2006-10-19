@@ -66,7 +66,13 @@ public class JavaSimulation extends Simulation {
      * @throws SimResourceException
      */
     public void install() throws SimResourceException {
+
+        // Clear the stopped flag
         installationStopped = false;
+
+        // Clear the resource list, in case the simulation is being re-installed without
+        // the application having been closed and re-opened
+        getResources().clear();
 
         // Install the JNLP resource
         resourceCurrentlyDowloading = jnlpResource;

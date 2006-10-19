@@ -69,6 +69,16 @@ public class JnlpResource extends SimResource {
             BufferedWriter out = new BufferedWriter( new FileWriter( getLocalFileName() ) );
             out.write( jnlpFile.toString() );
             out.close();
+
+            // Write a copy of the JNLP file to the local codebase. This may or may not be the same as
+            // what we get from getLocalFileName(), because of possible redirections on the server.
+            String localCodebaseFilename = getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar + jnlpFile.getjnlpHref();
+//            String localCodebaseFilename = newCodebase + getLocalFile().getName();
+            BufferedWriter out2 = new BufferedWriter( new FileWriter( localCodebaseFilename ) );
+            out2.write( jnlpFile.toString() );
+            out2.close();
+
+            System.out.println( "localCodebaseFilename = " + localCodebaseFilename );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
