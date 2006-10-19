@@ -32,7 +32,7 @@ import java.awt.Cursor;
  * @author Ron LeMaster
  * @version $Revision$
  */
-class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.Listener {
+public class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.Listener {
     private double width = 10;
     private MouseHandler mouseHandler;
     private SimpleMolecule moleculeBeingTracked;
