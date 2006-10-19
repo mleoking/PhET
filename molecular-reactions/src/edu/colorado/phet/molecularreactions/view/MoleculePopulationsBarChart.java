@@ -52,7 +52,7 @@ public class MoleculePopulationsBarChart extends BarChart {
                                         double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, minY, maxY );
 
-        getChart().setBackgroundPaint( new Color( 0,0,0,0) );
+//        getChart().setBackgroundPaint( new Color( 0,0,0,0) );
 
         this.updateInterval = updateInterval;
 
@@ -69,7 +69,7 @@ public class MoleculePopulationsBarChart extends BarChart {
         setSeriesPaint( 3, new Color( 60, 10, 180 ) );
 
         // Hook up to the clock
-        clock.addClockListener( new MoleculePopulationsBarChart.StripChartUpdater() );
+        clock.addClockListener( new StripChartUpdater() );
     }
 
     private class StripChartUpdater extends ClockAdapter {
