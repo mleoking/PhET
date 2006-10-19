@@ -98,10 +98,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
         // The pane that has the molecules
         PPath moleculePane = createMoleculePane();
+        addChild( moleculePane );
+
+        // Add another pane on top of the molecule pane to display charts
         upperPane = new PNode();
         upperPane.setWidth( upperPaneSize.getWidth() );
         upperPane.setHeight( upperPaneSize.getHeight() );
-        upperPane.addChild( moleculePane );
         addChild( upperPane);
 
         // The graphic that shows the reaction mechanics
@@ -359,6 +361,31 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         else if( nearestToSelectedMoleculeGraphic != null ) {
             nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
         }
+    }
+
+    /**
+     * Sets the graphics that are shown to be those for the selected molecule and
+     * the nearestToSelectedMolecule. If one of them is part of a composite, the
+     * graphic for the composite is used.
+     *
+     * @param molecule
+     */
+    private void selectionStatusChanged( SimpleMolecule molecule ) {
+        if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
+            if( selectedMoleculeGraphic != null ) {
+                moleculeLayer.removeChild( selectedMoleculeGraphic );
+            }
+            selectedMolecule = molecule;
+            selectedMoleculeGraphic = new EnergyMoleculeGraphic( molecule );
+            moleculeLayer.addChild( selectedMoleculeGraphic );
+
+            molecule.addObserver( new SimpleObserver() {
+                public void update() {
+                    EnergyView.this.update();
+                }
+            } );
+        }
+        update();
     }
 
     public void setManualControl( boolean manualControl ) {
