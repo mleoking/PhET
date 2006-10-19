@@ -238,7 +238,7 @@ public class MRModel extends PublishingModel {
             }
         }
         DecimalFormat df = new DecimalFormat( "#.000");
-        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
+//        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
     public double getTotalKineticEnergy() {

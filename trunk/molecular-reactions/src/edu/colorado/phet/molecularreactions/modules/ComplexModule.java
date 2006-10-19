@@ -97,33 +97,32 @@ public class ComplexModule extends MRModule {
             BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
             ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
             barChartPanel.setPreferredSize( new Dimension( 300, 200 ) );
-            barChartPanel.setOpaque( false );
             barChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
 
 //            getEnergyView().addChild( barChartNode );
-            barChartNode.setOffset( 0,300 );
-            JLabel component = new JLabel( "!!@#$!@#$!@#" );
-            component.setForeground( Color.white );
-            PSwing pSwing = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
-            PText pText = new PText("AFASDFASD");
-            pText.setTextPaint( Color.white );
-            pText.setOffset( 0, 300);
-            pSwing.setOffset( 0, 300);
-            getEnergyView().addChild(  pSwing );
+//            barChartNode.setOffset( 0,300 );
+//            JLabel component = new JLabel( "!!@#$!@#$!@#" );
+//            component.setForeground( Color.white );
+//            PSwing pSwing = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
+//            PText pText = new PText("AFASDFASD");
+//            pText.setTextPaint( Color.white );
+//            pText.setOffset( 0, 300);
+//            pSwing.setOffset( 0, 300);
+//            getEnergyView().addChild(  pSwing );
 //            getEnergyView().addChild(  pText );
 
 
             // Dialog
-//            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-//            PhetPCanvas barChartCanvas = new PhetPCanvas();
-//            barChartCanvas.addScreenChild( barChartNode );
-//            barChartCanvas.setPreferredSize( new Dimension( barChartPanel.getPreferredSize() ) );
-//
-//            barChartDlg.getContentPane().add( barChartCanvas );
-//            barChartDlg.pack();
-//
-//            barChartDlg.setLocation( 500, 50 );
-//            barChartDlg.setVisible( true );
+            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            PhetPCanvas barChartCanvas = new PhetPCanvas();
+            barChartCanvas.addScreenChild( barChartNode );
+            barChartCanvas.setPreferredSize( new Dimension( barChartPanel.getPreferredSize() ) );
+
+            barChartDlg.getContentPane().add( barChartCanvas );
+            barChartDlg.pack();
+
+            barChartDlg.setLocation( 700, 150 );
+            barChartDlg.setVisible( true );
         }
         else {
             barChartNode = null;
