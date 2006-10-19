@@ -63,10 +63,10 @@ public class MoleculePopulationsBarChart extends BarChart {
         counterC = new MoleculeCounter( MoleculeC.class, model );
 
         // Set graphic attributes
-        setSeriesPaint( 0, new Color( 180, 180, 0 ) );
-        setSeriesPaint( 1, new Color( 180, 80, 100 ) );
-        setSeriesPaint( 2, new Color( 60, 180, 120 ) );
-        setSeriesPaint( 3, new Color( 60, 10, 180 ) );
+        setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class ) );
+        setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class ) );
+        setSeriesPaint( 2, MoleculePaints.getPaint( MoleculeAB.class ) );
+        setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class ) );
 
         // Hook up to the clock
         clock.addClockListener( new StripChartUpdater() );

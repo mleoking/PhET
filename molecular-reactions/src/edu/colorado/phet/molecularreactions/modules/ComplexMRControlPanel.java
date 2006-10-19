@@ -92,6 +92,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private class OptionsPanel extends JPanel implements Resetable {
         private JCheckBox showBondsCB;
         private JCheckBox showStripChartCB;
+        private JCheckBox showPieChartCB;
         private JCheckBox nearestNeighborCB;
         private ComplexModule module;
         private JCheckBox showBarChartCB;
@@ -121,6 +122,13 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 }
             } );
 
+            showPieChartCB = new JCheckBox( SimStrings.get( "Control.showPieChart"));
+            showPieChartCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPieChartVisible( showPieChartCB.isSelected() );
+                }
+            } );
+
             nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
@@ -133,8 +141,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                              insets, 0, 0 );
             add( showStripChartCB, gbc );
             add( showBarChartCB, gbc );
+            add( showPieChartCB, gbc );
             add( showBondsCB, gbc );
-            add( nearestNeighborCB, gbc );
+//            add( nearestNeighborCB, gbc );
         }
 
         public void reset() {

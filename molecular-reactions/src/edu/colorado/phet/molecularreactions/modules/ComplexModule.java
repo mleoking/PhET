@@ -11,12 +11,10 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.view.PumpGraphic;
-import edu.colorado.phet.molecularreactions.view.MoleculePopulationsStripChart;
-import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.view.MoleculePopulationsBarChart;
+import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.util.BarChart;
+import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhetUtilities;
@@ -26,6 +24,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import org.jfree.chart.ChartPanel;
@@ -43,6 +42,7 @@ public class ComplexModule extends MRModule {
     private PumpGraphic pumpGraphic;
     private PSwing barChartNode;
     private JDialog barChartDlg;
+    private PieChartNode pieChart;
 
     /**
      *
@@ -91,6 +91,19 @@ public class ComplexModule extends MRModule {
         controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
     }
 
+    public void setPieChartVisible( boolean visible ) {
+        if( visible ) {
+            Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0,
+                                                                getEnergyView().getUpperPaneSize().getWidth(),
+                                                                getEnergyView().getUpperPaneSize().getHeight() );
+            pieChart = new MoleculePopulationsPieChart( this, bounds, 1 );
+            getEnergyView().addToUpperPane( pieChart );
+        }
+        else {
+            getEnergyView().removeFromUpperPane( pieChart );
+        }
+    }
+
     public void setBarChartVisible( boolean visible ) {
         if( visible ) {
             BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
@@ -110,7 +123,6 @@ public class ComplexModule extends MRModule {
 //            pSwing.setOffset( 0, 300);
 //            getEnergyView().addChild(  pSwing );
 //            getEnergyView().addChild(  pText );
-
 
             // Dialog
 //            barChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );

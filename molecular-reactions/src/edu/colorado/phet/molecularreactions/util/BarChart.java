@@ -12,8 +12,6 @@ package edu.colorado.phet.molecularreactions.util;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.Series;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -21,9 +19,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 import javax.swing.*;
@@ -75,7 +71,7 @@ public class BarChart {
                 false                     // URLs?
         );
 
-        // set the background color for the chart...
+        // set the background paint for the chart...
 //        chart.setBackgroundPaint( Color.white );
 
         // get a reference to the plot for further customisation...
