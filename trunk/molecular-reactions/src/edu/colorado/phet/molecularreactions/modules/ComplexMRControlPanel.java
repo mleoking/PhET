@@ -12,20 +12,16 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Enumeration;
 
 /**
  * ComplexMRControlPanel
@@ -90,46 +86,64 @@ public class ComplexMRControlPanel extends MRControlPanel {
     //--------------------------------------------------------------------------------------------------
 
     private class OptionsPanel extends JPanel implements Resetable {
-        private JCheckBox showBondsCB;
-        private JCheckBox showStripChartCB;
-        private JCheckBox showPieChartCB;
-        private JCheckBox nearestNeighborCB;
         private ComplexModule module;
-        private JCheckBox showBarChartCB;
+        private JToggleButton showBondsBtn;
+        private JToggleButton showStripChartBtn;
+        private JToggleButton showPieChartBtn;
+        private JToggleButton nearestNeighborBtn;
+        private JToggleButton showBarChartBtn;
+        private JToggleButton showNoneBtn;
 
         public OptionsPanel( final ComplexModule module ) {
             this.module = module;
 
-            showBondsCB = new JCheckBox( SimStrings.get("Control.showBonds") );
-            showBondsCB.addActionListener( new ActionListener() {
+            showBondsBtn = new JCheckBox( SimStrings.get("Control.showBonds") );
+            showBondsBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setGraphicTypeVisible( showBondsCB.isSelected() );
+                    module.setGraphicTypeVisible( showBondsBtn.isSelected() );
                 }
             } );
-            showBondsCB.setSelected( true );
+            showBondsBtn.setSelected( true );
 
-            showStripChartCB = new JCheckBox( SimStrings.get("Control.showStripChart"));
-            showStripChartCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setStripChartVisible( showStripChartCB.isSelected() );
-                }
-            } );
+            //--------------------------------------------------------------------------------------------------
+            // The buttons that put things on the top pane of the energy view
+            //--------------------------------------------------------------------------------------------------
 
-            showBarChartCB = new JCheckBox( SimStrings.get( "Control.showBarChart"));
-            showBarChartCB.addActionListener( new ActionListener() {
+            showStripChartBtn = new JCheckBox( SimStrings.get("Control.showStripChart"));
+            showStripChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setBarChartVisible( showBarChartCB.isSelected() );
+                    module.setStripChartVisible( showStripChartBtn.isSelected() );
                 }
             } );
 
-            showPieChartCB = new JCheckBox( SimStrings.get( "Control.showPieChart"));
-            showPieChartCB.addActionListener( new ActionListener() {
+
+            final ButtonGroup chartOptionsBG = new ButtonGroup();
+            showBarChartBtn = new JRadioButton( SimStrings.get( "Control.showBarChart"));
+            showBarChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setPieChartVisible( showPieChartCB.isSelected() );
+                    module.setBarChartVisible( showBarChartBtn.isSelected() );
                 }
             } );
+            chartOptionsBG.add( showBarChartBtn );
 
-            nearestNeighborCB = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
+            showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart"));
+            showPieChartBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPieChartVisible( showPieChartBtn.isSelected() );
+                }
+            } );
+            chartOptionsBG.add( showPieChartBtn );
+
+            showNoneBtn = new JRadioButton( SimStrings.get( "Control.none"));
+            showNoneBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPieChartVisible( false );
+                    module.setBarChartVisible( false );
+                }
+            } );
+            chartOptionsBG.add( showNoneBtn );
+
+            nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
@@ -139,22 +153,24 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              insets, 0, 0 );
-            add( showStripChartCB, gbc );
-            add( showBarChartCB, gbc );
-            add( showPieChartCB, gbc );
-            add( showBondsCB, gbc );
-//            add( nearestNeighborCB, gbc );
+            add( showBarChartBtn, gbc );
+            add( showPieChartBtn, gbc );
+            add( showNoneBtn, gbc );
+            add( showStripChartBtn, gbc );
+            add( showBondsBtn, gbc );
+//            add( nearestNeighborBtn, gbc );
         }
 
         public void reset() {
-            showStripChartCB.setSelected( false );
-            showBondsCB.setSelected( true  );
-            nearestNeighborCB.setSelected( false );
+            showStripChartBtn.setSelected( false );
+            showBondsBtn.setSelected( true  );
+            nearestNeighborBtn.setSelected( false );
 
-            module.setStripChartVisible( showStripChartCB.isSelected() );
-            module.setBarChartVisible( showBarChartCB.isSelected() );
-            module.setGraphicTypeVisible( showBondsCB.isSelected() );
+            module.setStripChartVisible( showStripChartBtn.isSelected() );
+            module.setBarChartVisible( showBarChartBtn.isSelected() );
+            module.setGraphicTypeVisible( showBondsBtn.isSelected() );
         }
+
     }
 
 }

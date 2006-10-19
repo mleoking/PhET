@@ -138,7 +138,6 @@ public class BarChart {
     }
 
     public void addData( int value, String seriesName, String categoryName ) {
-        System.out.println( "value = " + value );
         dataset.setValue( value, seriesName, categoryName );
     }
 
