@@ -28,7 +28,9 @@ public class TestPhetAboutDialog {
     private PhetAboutDialog phetAboutDialog;
 
     public TestPhetAboutDialog( String[] args ) {
-        phetApplication = new PhetApplication( args, "Test Phet About Dialog", "This simulation is used to test the about dialog", "Version 0.01", new FrameSetup.CenteredWithSize( 400, 400 ) );
+//        String description = "This simulation is used to test the about dialog";
+        String description = "<html> This simulation is used to <br>test the about dialog, and HTML!!!</html>";
+        phetApplication = new PhetApplication( args, "Test Phet About Dialog", description, "Version 0.01", new FrameSetup.CenteredWithSize( 400, 400 ) );
         PiccoloModule module = new TestModule( "example module", new SwingClock( 30, 1 ) );
         module.setModel( new BaseModel() );
         phetApplication.addModule( module );
