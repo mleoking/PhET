@@ -169,7 +169,7 @@ public class LocalFileFilter extends FileFilter {
                 fullDescription += " (";
                 // build the description from the extension list
                 Enumeration extensions = filters.keys();
-                if( extensions != null ) {
+                if( extensions != null &&extensions.hasMoreElements()) {
                     fullDescription += "." + (String)extensions.nextElement();
                     while( extensions.hasMoreElements() ) {
                         fullDescription += ", " + (String)extensions.nextElement();
