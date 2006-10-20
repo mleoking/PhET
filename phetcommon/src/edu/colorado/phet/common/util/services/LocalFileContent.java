@@ -14,6 +14,12 @@ import javax.jnlp.FileContents;
 import javax.jnlp.JNLPRandomAccessFile;
 import java.io.*;
 
+/**
+ * Adapter from File to FileContents.
+ *
+ * @author Sam Reid
+ * @version $Revision$
+ */
 public class LocalFileContent implements FileContents {
     File f;
 

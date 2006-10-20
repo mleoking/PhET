@@ -1,3 +1,13 @@
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.util.services.PhetServiceManager;
@@ -20,12 +30,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * User: Sam Reid
- * Date: Oct 9, 2006
- * Time: 2:46:38 AM
- * Copyright (c) Oct 9, 2006 by Sam Reid
+ * This About Dialog shows information about the simulation, associated projects, and provides links to the PhET homepage.
+ * @author Sam Reid
+ * @version $Revision$ 
  */
-
 public class PhetAboutDialog extends JDialog {
     private VerticalLayoutPanel contentPanel;
     private String PHET_HOMEPAGE_URL = "http://phet.colorado.edu";
@@ -128,6 +136,11 @@ public class PhetAboutDialog extends JDialog {
         return readText( "phet-license.txt" );
     }
 
+    /**
+     * Reads the text from the specified file as a String object.
+     * @param textFilename the filename for the File from which to read the String
+     * @return the text from the specified file as a String object.
+     */
     public static String readText( String textFilename ) {
         String text = new String();
         try {
