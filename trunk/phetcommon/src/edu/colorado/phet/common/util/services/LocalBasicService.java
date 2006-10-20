@@ -16,6 +16,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Provides local implementations of some of the JNLP services, see JNLP services for more information.
+ * @author Sam Reid
+ * @version $Revision$
+ */
 public class LocalBasicService implements BasicService {
 
     public boolean showDocument( URL url ) {

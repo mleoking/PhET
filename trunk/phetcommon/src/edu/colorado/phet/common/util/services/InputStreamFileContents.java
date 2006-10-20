@@ -19,6 +19,8 @@ import java.io.OutputStream;
 
 /**
  * Adapter pattern from InputStream to FileContents.
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class InputStreamFileContents implements FileContents {
     private InputStream is;

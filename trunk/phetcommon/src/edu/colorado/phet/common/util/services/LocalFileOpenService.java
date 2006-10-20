@@ -17,6 +17,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Provides a File Open service that adheres to the JNLP FileOpenService interface
+ * @author Sam Reid
+ * @version $Revision$
+ */
 public class LocalFileOpenService implements FileOpenService {
     Component owner;
 
