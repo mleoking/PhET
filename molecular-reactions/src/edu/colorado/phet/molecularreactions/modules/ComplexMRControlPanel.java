@@ -122,6 +122,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             showBarChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setBarChartVisible( showBarChartBtn.isSelected() );
+                    module.setPieChartVisible( showPieChartBtn.isSelected() );
                 }
             } );
             chartOptionsBG.add( showBarChartBtn );
@@ -129,6 +130,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart"));
             showPieChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    module.setBarChartVisible( showBarChartBtn.isSelected() );
                     module.setPieChartVisible( showPieChartBtn.isSelected() );
                 }
             } );
@@ -137,10 +139,11 @@ public class ComplexMRControlPanel extends MRControlPanel {
             showNoneBtn = new JRadioButton( SimStrings.get( "Control.none"));
             showNoneBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setPieChartVisible( false );
                     module.setBarChartVisible( false );
+                    module.setPieChartVisible( false );
                 }
             } );
+            showNoneBtn.setSelected( true );
             chartOptionsBG.add( showNoneBtn );
 
             nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
