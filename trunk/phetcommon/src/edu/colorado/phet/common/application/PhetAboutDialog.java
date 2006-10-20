@@ -65,6 +65,7 @@ public class PhetAboutDialog extends JDialog {
             }
         };
         jTextArea.setEditable( false );
+        jTextArea.setOpaque( false );
         jTextArea.setBorder( BorderFactory.createEtchedBorder() );
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         final String msg = phetApplication.getTitle() + " (" + phetApplication.getVersion() + ")\n" + phetApplication.getDescription() + "\n\n" + javaVersion + "\n";
@@ -118,6 +119,7 @@ public class PhetAboutDialog extends JDialog {
         jTextArea.setLineWrap( true );
         jTextArea.setWrapStyleWord( true );
         jTextArea.setEditable( false );
+        jTextArea.setOpaque( false );
         //this line fails due to this known sun bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4545951
 //        JOptionPane.showMessageDialog( getOwner(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
 
