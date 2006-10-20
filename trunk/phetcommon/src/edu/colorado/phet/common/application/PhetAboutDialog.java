@@ -148,6 +148,7 @@ public class PhetAboutDialog extends JDialog {
         } );
         
         JButton okButton = new JButton( SimStrings.get( "Common.About.OKButton" ) );
+        getRootPane().setDefaultButton( okButton );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
