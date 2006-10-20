@@ -129,7 +129,6 @@ public class LocalFileFilter extends FileFilter {
             if( extension != null && filters.get( getExtension( f ) ) != null ) {
                 return true;
             }
-            ;
         }
         return false;
     }

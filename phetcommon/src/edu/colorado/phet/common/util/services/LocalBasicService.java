@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.util.services;
 
 import javax.jnlp.BasicService;
@@ -7,12 +16,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * User: Sam Reid
- * Date: Jun 22, 2004
- * Time: 1:31:43 AM
- * Copyright (c) Jun 22, 2004 by Sam Reid
- */
 public class LocalBasicService implements BasicService {
 
     public boolean showDocument( URL url ) {
