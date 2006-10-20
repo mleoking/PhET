@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
+import javax.jnlp.UnavailableServiceException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -168,6 +169,9 @@ public class PhetAboutDialog extends JDialog {
             PhetServiceManager.getBasicService().showDocument( new URL( PHET_HOMEPAGE_URL ) );
         }
         catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( UnavailableServiceException e ) {//todo better error handling
             e.printStackTrace();
         }
     }

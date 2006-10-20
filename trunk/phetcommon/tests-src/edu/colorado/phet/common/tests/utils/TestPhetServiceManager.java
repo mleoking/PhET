@@ -29,7 +29,7 @@ public class TestPhetServiceManager {
         }
     }
 
-    public static void main( String[] args ) throws MalformedURLException {
+    public static void main( String[] args ) throws MalformedURLException, UnavailableServiceException {
         URL url = new URL( "http://www.google.com" );
         boolean ok = showURL( url );
         System.out.println( "ok = " + ok );

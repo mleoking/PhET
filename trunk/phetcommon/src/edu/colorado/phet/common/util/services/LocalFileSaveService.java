@@ -1,5 +1,8 @@
 package edu.colorado.phet.common.util.services;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.DialogUtils;
+
 import javax.jnlp.FileContents;
 import javax.jnlp.FileSaveService;
 import javax.swing.*;
@@ -10,11 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam Reid
- * Date: Apr 4, 2003
- * Time: 9:05:31 PM
- * To change this template use Options | File Templates.
+ * Performs local file save feature that conforms to JNLP file save service interface.
+ * @author Sam Reid 
  */
 public class LocalFileSaveService implements FileSaveService {
     Component owner;
@@ -42,6 +42,13 @@ public class LocalFileSaveService implements FileSaveService {
             if( !f.exists() ) {
                 f.getParentFile().mkdirs();
                 f.createNewFile();
+            }
+            else {
+                String message = SimStrings.get( "Save.confirm.message" );
+                int reply = DialogUtils.showConfirmDialog( owner, message, JOptionPane.YES_NO_CANCEL_OPTION );
+                if( reply != JOptionPane.YES_OPTION ) {
+                    return null;
+                }
             }
 
             LocalFileContent lfc = new LocalFileContent( f );
