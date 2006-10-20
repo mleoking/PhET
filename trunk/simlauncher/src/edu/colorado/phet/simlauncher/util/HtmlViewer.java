@@ -22,6 +22,9 @@ import java.util.List;
 
 /**
  * HtmlViewer
+ * <p>
+ * Launches a web browser on a local file. This is specifically intended for launching Flash
+ * simulations that have been installed on the local computer
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -29,7 +32,6 @@ import java.util.List;
 public class HtmlViewer {
 
     private static boolean DEBUG;
-
     private Process process;
 
     public void view( String urlString ) {
