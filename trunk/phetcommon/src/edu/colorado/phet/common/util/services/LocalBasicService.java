@@ -18,6 +18,7 @@ import java.net.URL;
 
 /**
  * Provides local implementations of some of the JNLP services, see JNLP services for more information.
+ * see also http://www.javaworld.com/javaworld/javatips/jw-javatip66.html
  * @author Sam Reid
  * @version $Revision$
  */
