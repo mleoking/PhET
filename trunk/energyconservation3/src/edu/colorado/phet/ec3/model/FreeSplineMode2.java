@@ -74,6 +74,7 @@ public class FreeSplineMode2 implements UpdateMode {
             }
             else {
                 if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
+                    System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
                     body.setVelocity( origState.getVelocity() );
                     body.setAttachmentPointPosition( origState.getAttachPoint() );
                     body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );

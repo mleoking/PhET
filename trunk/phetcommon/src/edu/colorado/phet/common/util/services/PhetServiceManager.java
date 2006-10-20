@@ -1,8 +1,14 @@
-package edu.colorado.phet.common.util.services;
+/* Copyright 2006, University of Colorado */
 
-import edu.colorado.phet.common.util.services.LocalBasicService;
-import edu.colorado.phet.common.util.services.LocalFileOpenService;
-import edu.colorado.phet.common.util.services.LocalFileSaveService;
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+package edu.colorado.phet.common.util.services;
 
 import javax.jnlp.*;
 import java.awt.*;
@@ -11,40 +17,42 @@ import java.awt.*;
  * Provides the functionality of ServiceManager for both JNLP and local runtimes.
  * <p/>
  * We are prevented from extending ServiceManager since it is static and final, this is the workaround.
+ *
+ * @author Sam Reid
+ *         Revision : $Revision$
  */
 public class PhetServiceManager {
-    public static BasicService getBasicService() {
-        try {
+    /**
+     * Determine whether the application is running under java web start.
+     *
+     * @return true if the application is running under java web start.
+     */
+    public static boolean isJavaWebStart() {
+        return System.getProperty( "javawebstart.version" ) != null;
+    }
+
+    public static BasicService getBasicService() throws UnavailableServiceException {
+        if( isJavaWebStart() ) {
             return (BasicService)ServiceManager.lookup( BasicService.class.getName() );
         }
-        catch( UnavailableServiceException e ) {
+        else {
             return new LocalBasicService();
         }
     }
 
-    public static FileOpenService getFileOpenService( Component owner ) {
-        try {
-            FileOpenService fos = (FileOpenService)ServiceManager.lookup( "javax.jnlp.FileOpenService" );
-            if( fos == null ) {
-                throw new UnavailableServiceException( "temp" );
-            }
-            return fos;
+    public static FileOpenService getFileOpenService( Component owner ) throws UnavailableServiceException {
+        if( isJavaWebStart() ) {
+            return (FileOpenService)ServiceManager.lookup( "javax.jnlp.FileOpenService" );
         }
-        catch( UnavailableServiceException e ) {
+        else {
             return new LocalFileOpenService( owner );
         }
     }
 
-    public static FileSaveService getFileSaveService( Component owner ) {
-        try {
-            FileSaveService fos = (FileSaveService)ServiceManager.lookup( "javax.jnlp.FileSaveService" );
-            if( fos == null ) {
-                throw new UnavailableServiceException( "temp" );
-            }
-            return fos;
+    public static FileSaveService getFileSaveService( Component owner ) throws UnavailableServiceException {
+        if( isJavaWebStart() ) {
+            return (FileSaveService)ServiceManager.lookup( "javax.jnlp.FileSaveService" );
         }
-        catch( UnavailableServiceException e ) {
-            return new LocalFileSaveService( owner );
-        }
+        return new LocalFileSaveService( owner );
     }
 }
