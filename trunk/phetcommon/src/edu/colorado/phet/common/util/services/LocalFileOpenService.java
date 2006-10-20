@@ -1,3 +1,13 @@
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.util.services;
 
 import javax.jnlp.FileContents;
@@ -7,13 +17,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Sam Reid
- * Date: Apr 4, 2003
- * Time: 9:05:31 PM
- * To change this template use Options | File Templates.
- */
 public class LocalFileOpenService implements FileOpenService {
     Component owner;
 

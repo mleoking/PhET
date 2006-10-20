@@ -1,3 +1,14 @@
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.common.util.services;
 
 import javax.jnlp.FileContents;
@@ -6,13 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Sam Reid
- * Date: Apr 5, 2003
- * Time: 1:34:05 AM
- * To change this template use Options | File Templates.
- */
 public class InputStreamFileContents implements FileContents {
     private InputStream is;
     private String name;

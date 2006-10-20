@@ -19,7 +19,7 @@ import java.awt.*;
  * We are prevented from extending ServiceManager since it is static and final, this is the workaround.
  *
  * @author Sam Reid
- *         Revision : $Revision$
+ * @Revision : $Revision$
  */
 public class PhetServiceManager {
     /**

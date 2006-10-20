@@ -1,3 +1,14 @@
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.common.util.services;
 
 import edu.colorado.phet.common.view.util.SimStrings;
