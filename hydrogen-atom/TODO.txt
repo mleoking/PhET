@@ -49,6 +49,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/20/06) - add data/credits.html
 (10/19/06) - change sim title to "Models of the Hydrogen Atom"
 (10/5/06) - set default clock speed index = 2
 (10/5/06) - attach wiggleme to gun's on/off button, remove wiggleme position from SimStrings

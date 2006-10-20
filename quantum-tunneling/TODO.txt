@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(10/20/06) - add data/credits.html
 1.07.00...
 (10/4/06) - published new version to PhET web site
 (10/4/06) - fix bug in barrier solvers: when k2 or k4 is zero, set it to 0.00001, so that plane wave doesn't disapper when E=V

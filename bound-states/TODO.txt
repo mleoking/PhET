@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(10/20/06) - add data/credits.html
 (8/24/06) - remove unused args from BSAbstractApplication.initModules
 1.01.03...
 (8/10/06) - bugfix: add number of wells to persistence
