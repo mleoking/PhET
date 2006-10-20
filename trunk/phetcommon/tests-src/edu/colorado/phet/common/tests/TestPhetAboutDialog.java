@@ -28,9 +28,10 @@ public class TestPhetAboutDialog {
     private PhetAboutDialog phetAboutDialog;
 
     public TestPhetAboutDialog( String[] args ) {
-//        String description = "This simulation is used to test the about dialog";
-        String description = "<html> This simulation is used to <br>test the about dialog, and HTML!!!</html>";
-        phetApplication = new PhetApplication( args, "Test Phet About Dialog", description, "Version 0.01", new FrameSetup.CenteredWithSize( 400, 400 ) );
+        String title = "Test PhetAboutDialog";
+        String description = "<html>This is the simulation description, which can be (optionally)<br>specified using HTML. It is typically a couple of lines long.</html>";
+        String version = "0.01";
+        phetApplication = new PhetApplication( args, title, description, version, new FrameSetup.CenteredWithSize( 400, 400 ) );
         Module module = new TestModule( "example module", new SwingClock( 30, 1 ) );
         module.setModel( new BaseModel() );
         phetApplication.addModule( module );
