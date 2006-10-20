@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Adapter pattern from InputStream to FileContents.
+ */
 public class InputStreamFileContents implements FileContents {
     private InputStream is;
     private String name;
