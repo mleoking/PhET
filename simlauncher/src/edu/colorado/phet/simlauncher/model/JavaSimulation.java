@@ -101,10 +101,10 @@ public class JavaSimulation extends Simulation {
         }
     }
 
-    public void uninstall() {
-        jnlpResource.uninstall();
-        super.uninstall();
-    }
+//    public void uninstall() {
+//        jnlpResource.uninstall();
+//        super.uninstall();
+//    }
 
     /**
      * Tells if the simulation is installed locally

@@ -174,16 +174,16 @@ public abstract class Simulation implements SimContainer {
      */
     public void uninstall() {
         // Delete the resources other than the thumbnail, which is needed for display purposes
-//        for( int i = resources.size() - 1; i >= 0; i-- ) {
-//            SimResource simResource = (SimResource)resources.get( i );
-//            if( !( simResource instanceof ThumbnailResource ) ) {
-//                simResource.uninstall();
-//            }
-//        }
+        for( int i = resources.size() - 1; i >= 0; i-- ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            if( !( simResource instanceof ThumbnailResource ) ) {
+                simResource.uninstall();
+            }
+        }
 
         // Delete the rest of the contents of the directory for the simulation, and
         // the directory itself.
-//        FileUtil.deleteDir( new File( localPath ) );
+        FileUtil.deleteDir( new File( localPath ) );
 
         changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }

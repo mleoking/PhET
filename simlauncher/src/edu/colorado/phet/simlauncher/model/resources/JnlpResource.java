@@ -23,7 +23,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * ImageResource
+ * JnlpResource
+ * <p>
+ * The SimResource for the JNLP file.
+ * <p>
+ * There may be two separate copies of the JNLP file for this resource. This happens if the
+ * URL specified in the catalog is not the true URL where the server-baased JNLP file lives,
+ * and the URL in the catalog is redirected to a different URL. In that case, the jar files
+ * and other resources will be in a directory on the local computer that has a different path
+ * than what would be seen as the path to the JNLP file in the catalog. In this case, the two
+ * local JNLP files will be identical. The one in the path created from the URL in the catalog
+ * will href to the one in the path created from the actual location of the JNLP file on the
+ * server.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -34,6 +45,7 @@ public class JnlpResource extends SimResource {
     private static String LOCAL_CODEBASE_PREFIX = "file:" + FILE_SEPARATOR + FILE_SEPARATOR;
 
     private String remoteCodebase;
+    private String localCodebaseJnlpFilename;
 
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
@@ -43,7 +55,7 @@ public class JnlpResource extends SimResource {
     public void download() throws SimResourceException {
         super.download();
 
-        // Get the reomote codebase, and modify codebase of the local jnlp file
+        // Get the remoote codebase, and modify codebase of the local jnlp file
         JnlpFile jnlpFile = null;
         try {
             jnlpFile = new JnlpFile( getLocalFile() );
@@ -60,9 +72,10 @@ public class JnlpResource extends SimResource {
         // Set the codebase to the local location and write the local jnlp file
         try {
             String relativeCodebase = null;
-//            URL tempURL = new URL( Configuration.instance().);
             URL tempURL = new URL( remoteCodebase );
             relativeCodebase = tempURL.getHost() + tempURL.getPath();
+
+            // Make sure the codebase ends with a file separator character
             String lastChar = relativeCodebase.endsWith( "/" ) || relativeCodebase.endsWith( "\\" ) ? "" : FILE_SEPARATOR;
             String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar;
             jnlpFile.setCodebase( newCodebase );
@@ -72,13 +85,13 @@ public class JnlpResource extends SimResource {
 
             // Write a copy of the JNLP file to the local codebase. This may or may not be the same as
             // what we get from getLocalFileName(), because of possible redirections on the server.
-            String localCodebaseFilename = getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar + jnlpFile.getjnlpHref();
-//            String localCodebaseFilename = newCodebase + getLocalFile().getName();
-            BufferedWriter out2 = new BufferedWriter( new FileWriter( localCodebaseFilename ) );
+            localCodebaseJnlpFilename = getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar + jnlpFile.getjnlpHref();
+
+            BufferedWriter out2 = new BufferedWriter( new FileWriter( localCodebaseJnlpFilename ) );
             out2.write( jnlpFile.toString() );
             out2.close();
 
-            System.out.println( "localCodebaseFilename = " + localCodebaseFilename );
+            System.out.println( "localCodebaseJnlpFilename = " + localCodebaseJnlpFilename );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -136,6 +149,30 @@ public class JnlpResource extends SimResource {
             jarResources[i] = jarResource;
         }
         return jarResources;
+    }
+
+    /**
+     * Because there are situations where redirections on the server from the URL in the catalog
+     * end up with the actual server resources being at a different URL than the catalog shows,
+     * we may have a copy of the JNLP file in a local path that differs from the primary JNLP file
+     * created with the URL shown in the catalog. We need to delete that copy, it it exists
+     */
+    public void uninstall() {
+        super.uninstall();
+        // Delete the copy of the JNLP file that's in the local codebase, in case that is
+        // different than the one specified in the catalog
+        try {
+            File auxilliaryJnlpFile = new File( localCodebaseJnlpFilename );
+            System.out.println( "localCodebaseJnlpFilename = " + localCodebaseJnlpFilename );
+            if( auxilliaryJnlpFile.exists() ) {
+                auxilliaryJnlpFile.delete();
+            }
+        }
+        catch( Exception e )
+        {
+            System.out.println( "JnlpResource.uninstall" );
+
+        }
     }
 
     /**
