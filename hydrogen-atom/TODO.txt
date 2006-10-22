@@ -50,6 +50,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/22/06) - add enums for GunMode and LightType
 (10/20/06) - added Developer menu to menu bar
 (10/20/06) - add data/credits.html
 (10/19/06) - change sim title to "Models of the Hydrogen Atom"

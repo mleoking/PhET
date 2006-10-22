@@ -22,8 +22,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.enums.GunMode;
+import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -214,21 +215,21 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private void handleGunTypeChange() {
         _lightControls.setVisible( _gun.isPhotonsMode() );
         _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
-        int mode = ( _gunTypeControl.isPhotonsSelected() ? Gun.MODE_PHOTONS : Gun.MODE_ALPHA_PARTICLES );
+        GunMode mode = ( _gunTypeControl.isPhotonsSelected() ? GunMode.PHOTONS : GunMode.ALPHA_PARTICLES );
         _gun.setMode( mode );
     }
     
     private void handleLightTypeChange() {
-        int lightType = 0;
+        LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
             _wavelengthControl.setVisible( true );
-            lightType = Gun.LIGHT_TYPE_MONOCHROMATIC;
+            lightType = LightType.MONOCHROMATIC;
         }
         else {
             _lightIntensityControl.setColor( Color.WHITE );
             _wavelengthControl.setVisible( false );
-            lightType = Gun.LIGHT_TYPE_WHITE;
+            lightType = LightType.WHITE;
         }
         _gun.setLightType( lightType );
     }
