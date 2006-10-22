@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
+import edu.colorado.phet.hydrogenatom.util.ArgUtils;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
@@ -39,10 +40,18 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 public class HAApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Provide this program argument to enable developer-only features.
+    private static final String DEVELOPER_ARG = "-dev";
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private JDialog _legendDialog;
+    private HAModule _module;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,7 +71,7 @@ public class HAApplication extends PiccoloPhetApplication {
     {
         super( args, title, description, version, frameSetup );
         initModules();
-        initMenubar();
+        initMenubar( args );
     }
     
     //----------------------------------------------------------------------------
@@ -73,14 +82,14 @@ public class HAApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        HAModule module = new HAModule();
-        addModule( module );
+        _module = new HAModule();
+        addModule( _module );
     }
     
     /*
      * Initializes the menubar.
      */
-    private void initMenubar() {
+    private void initMenubar( String[] args ) {
 
         final PhetFrame frame = getPhetFrame();
         
@@ -88,6 +97,12 @@ public class HAApplication extends PiccoloPhetApplication {
         OptionsMenu optionsMenu = new OptionsMenu();
         frame.addMenu( optionsMenu );
 
+        // Developer menu
+        if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
+            DeveloperMenu developerMenu = new DeveloperMenu( _module );
+            getPhetFrame().addMenu( developerMenu );
+        }
+        
         // Help menu additions
         {
             HelpMenu helpMenu = frame.getHelpMenu();
