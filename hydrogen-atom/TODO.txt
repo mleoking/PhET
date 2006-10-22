@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- bug: more photons are produced at slower speeds than faster speeds, should be same
 - handle model-view transform properly
 - with gun on low intensty, 1 photon in box; high intensity, 10 photons
 - does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
@@ -51,6 +52,9 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/22/06) - add developer control for varying number of ticks between firing of photons and alpha particles
+(10/22/06) - create Developer Controls dialog
+(10/22/06) - create menu and dialog packages
 (10/22/06) - add enums for GunMode and LightType
 (10/20/06) - added Developer menu to menu bar
 (10/20/06) - add data/credits.html
