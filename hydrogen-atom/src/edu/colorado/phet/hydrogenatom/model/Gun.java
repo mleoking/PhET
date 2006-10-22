@@ -20,6 +20,8 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
+import com.sun.rsasign.al;
+
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.VisibleColor;
@@ -445,7 +447,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     }
     
     //----------------------------------------------------------------------------
-    // PhotonFiredListener
+    // GunFiredListener
     //----------------------------------------------------------------------------
     
     /**
@@ -457,6 +459,9 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         public void alphaParticleFired( GunFiredEvent event );
     }
     
+    /**
+     * GunFiredAdapter is a default implementation of GunFiredListener.
+     */
     public class GunFiredAdapter {
         public void photonFired( GunFiredEvent event ) {}
         public void alphaParticleFired( GunFiredEvent event ) {}
@@ -472,12 +477,14 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
 
         public GunFiredEvent( Object source, Photon photon ) {
             super( source );
+            assert( photon != null );
             _photon = photon;
             _alphaParticle = null;
         }
 
         public GunFiredEvent( Object source, AlphaParticle alphaParticle ) {
             super( source );
+            assert( alphaParticle != null );
             _photon = null;
             _alphaParticle = alphaParticle;
         }
@@ -505,7 +512,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      *
      * @param listener the listener
      */
-    public void removePhotonFiredListener( GunFiredListener listener ) {
+    public void removeGunFiredListener( GunFiredListener listener ) {
         _listenerList.remove( GunFiredListener.class, listener );
     }
 
