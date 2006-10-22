@@ -38,6 +38,8 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.hydrogenatom.enums.GunMode;
+import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.factory.AlphaParticleNodeFactory;
 import edu.colorado.phet.hydrogenatom.factory.ModelViewManager;
 import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
@@ -405,8 +407,8 @@ public class HAModule extends PiccoloModule {
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         
         _gun.setEnabled( false );
-        _gun.setMode( Gun.MODE_PHOTONS );
-        _gun.setLightType( Gun.LIGHT_TYPE_MONOCHROMATIC );
+        _gun.setMode( GunMode.PHOTONS );
+        _gun.setLightType( LightType.MONOCHROMATIC );
         _gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
         _gun.setLightIntensity( 1 );
         _gun.setAlphaParticlesIntensity( 1 );

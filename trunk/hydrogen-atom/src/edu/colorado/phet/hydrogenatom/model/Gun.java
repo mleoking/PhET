@@ -24,6 +24,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.enums.GunMode;
+import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 
 /**
@@ -38,7 +40,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @version $Revision$
  */
 public class Gun extends DynamicObject implements ClockListener, IModelObject {
-
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -52,12 +54,6 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     public static final String PROPERTY_WAVELENGTH = "waveLength";
     public static final String PROPERTY_ALPHA_PARTICLES_INTENSITY = "alphaParticlesIntensity";
     
-    public static final int MODE_PHOTONS = 0;
-    public static final int MODE_ALPHA_PARTICLES = 1;
-    
-    public static final int LIGHT_TYPE_WHITE = 0;
-    public static final int LIGHT_TYPE_MONOCHROMATIC = 1;
-    
     private static final double DEFAULT_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
@@ -70,9 +66,9 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     //----------------------------------------------------------------------------
     
     private boolean _enabled; // is the gun on or off?
-    private int _mode; // is the gun firing photons or alpha particles?
+    private GunMode _mode; // is the gun firing photons or alpha particles?
     private double _nozzleWidth; // width of the beam
-    private int _lightType; // type of light (white or monochromatic)
+    private LightType _lightType; // type of light (white or monochromatic)
     private double _lightIntensity; // intensity of the light, 0.0-1.0
     private double _wavelength; // wavelength of the light
     private double _minWavelength, _maxWavelength; // range of wavelength
@@ -101,9 +97,9 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         }
         
         _enabled = false;
-        _mode = MODE_PHOTONS;
+        _mode = GunMode.PHOTONS;
         _nozzleWidth = nozzleWidth;
-        _lightType = LIGHT_TYPE_MONOCHROMATIC;
+        _lightType = LightType.MONOCHROMATIC;
         _lightIntensity = DEFAULT_LIGHT_INTENSITY;
         _wavelength = DEFAULT_WAVELENGTH;
         _minWavelength = minWavelength;
@@ -129,17 +125,14 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         return _enabled;
     }
     
-    public void setMode( int mode ) {
-        if ( mode != MODE_PHOTONS && mode != MODE_ALPHA_PARTICLES ) {
-            throw new IllegalArgumentException( "invalid mode: " + mode );
-        }
+    public void setMode( GunMode mode ) {
         if ( mode != _mode ) {
             _mode = mode;
             notifyObservers( PROPERTY_MODE );
         }
     }
     
-    public int getMode() {
+    public GunMode getMode() {
         return _mode;
     }
     
@@ -157,14 +150,18 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         return _nozzleWidth;
     }
 
-    public void setLightType( int lightType ) {
-        if ( lightType != LIGHT_TYPE_WHITE && lightType != LIGHT_TYPE_MONOCHROMATIC ) {
+    public void setLightType( LightType lightType ) {
+        if ( lightType != LightType.WHITE && lightType != LightType.MONOCHROMATIC ) {
             throw new IllegalArgumentException( "invalid lightType: " + lightType );
         }
         if ( lightType != _lightType ) {
             _lightType = lightType;
             notifyObservers( PROPERTY_LIGHT_TYPE );
         }
+    }
+    
+    public LightType getLightType() {
+        return _lightType;
     }
     
     public void setLightIntensity( double lightIntensity ) {
@@ -227,7 +224,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * @return true or false
      */
     public boolean isPhotonsMode() {
-        return ( _mode == MODE_PHOTONS );
+        return ( _mode == GunMode.PHOTONS );
     }
     
     /**
@@ -236,7 +233,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * @return true or false
      */
     public boolean isAlphaParticlesMode() {
-        return ( _mode == MODE_ALPHA_PARTICLES );
+        return ( _mode == GunMode.ALPHA_PARTICLES );
     }
     
     /**
@@ -245,7 +242,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * @return true or false
      */
     public boolean isWhiteLightType() {
-        return ( _lightType == LIGHT_TYPE_WHITE );
+        return ( _lightType == LightType.WHITE );
     }
     
     /**
@@ -254,7 +251,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * @return true or false
      */
     public boolean isMonochromaticLightType() {
-        return ( _lightType == LIGHT_TYPE_MONOCHROMATIC );   
+        return ( _lightType == LightType.MONOCHROMATIC );   
     }
     
     /**
@@ -282,8 +279,8 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         Color c = null;
         
         if ( _enabled ) {
-            if ( _mode == MODE_PHOTONS ) {
-                if ( _lightType == LIGHT_TYPE_WHITE ) {
+            if ( _mode == GunMode.PHOTONS ) {
+                if ( _lightType == LightType.WHITE ) {
                     c = Color.WHITE;
                 }
                 else {
@@ -295,7 +292,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
             }
 
             if ( c != null ) {
-                double intensity = ( _mode == MODE_PHOTONS ) ? _lightIntensity : _alphaParticlesIntensity;
+                double intensity = ( _mode == GunMode.PHOTONS ) ? _lightIntensity : _alphaParticlesIntensity;
                 int a = (int) ( intensity * 255 );
                 beamColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), a );
             }
@@ -354,10 +351,10 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      */
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         if ( _enabled ) {
-            if ( _mode == MODE_PHOTONS && _lightIntensity > 0 ) {
+            if ( _mode == GunMode.PHOTONS && _lightIntensity > 0 ) {
                 firePhotons( clockEvent );
             }
-            else if ( _mode == MODE_ALPHA_PARTICLES && _alphaParticlesIntensity > 0 ) {
+            else if ( _mode == GunMode.ALPHA_PARTICLES && _alphaParticlesIntensity > 0 ) {
                 fireAlphaParticles( clockEvent );
             }
         }
@@ -401,7 +398,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
             
             // For white light, assign a random wavelength to each photon.
             double wavelength = _wavelength;
-            if ( _lightType == LIGHT_TYPE_WHITE ) {
+            if ( _lightType == LightType.WHITE ) {
                 wavelength = getRandomWavelength();
             }
             
