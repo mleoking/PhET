@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom;
+package edu.colorado.phet.hydrogenatom.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

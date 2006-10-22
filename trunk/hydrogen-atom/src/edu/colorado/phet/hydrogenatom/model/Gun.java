@@ -60,8 +60,8 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    private static final int PHOTONS_PER_DT = 1;
-    private static final int ALPHA_PARTICLES_PER_DT = 1;
+    private static final int DEFAULT_TICKS_PER_PHOTON = 5;
+    private static final int DEFAULT_TICKS_PER_ALPHA_PARTICLE = 5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -76,6 +76,10 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     private double _minWavelength, _maxWavelength; // range of wavelength
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
     private Random _random; // random number generator, for white light wavelength
+    private double _ticksPerPhoton;
+    private double _ticksPerAlphaParticle;
+    private double _ticksSincePhotonFired;
+    private double _ticksSinceAlphaParticleFired;
     
     private EventListenerList _listenerList;
     
@@ -108,6 +112,10 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
         _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
         _random = new Random();
+        _ticksPerPhoton = DEFAULT_TICKS_PER_PHOTON;
+        _ticksPerAlphaParticle = DEFAULT_TICKS_PER_ALPHA_PARTICLE;
+        _ticksSincePhotonFired = 0;
+        _ticksSinceAlphaParticleFired = 0;
         
         _listenerList = new EventListenerList();
     }
@@ -214,6 +222,24 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     
     public double getAlphaParticlesIntensity() {
         return _alphaParticlesIntensity;
+    }
+    
+    public void setTicksPerPhoton( double ticks ) {
+        assert( ticks > 0 );
+        _ticksPerPhoton = ticks;
+    }
+    
+    public double getTicksPerPhoton() {
+        return _ticksPerPhoton;
+    }
+    
+    public void setTicksPerAlphaParticle( double ticks ) {
+        assert( ticks > 0 );
+        _ticksPerAlphaParticle = ticks;
+    }
+    
+    public double getTicksPerAlphaParticle() {
+        return _ticksPerAlphaParticle;
     }
     
     //----------------------------------------------------------------------------
@@ -380,33 +406,29 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * Each photon is fired from a random location along the gun's nozzle.
      */
     private void firePhotons( ClockEvent clockEvent ) {
-        
-        // Determine how many photons to fire.
-        double dt = clockEvent.getSimulationTimeChange();
-        int numberOfPhotons = (int) ( _lightIntensity * dt * PHOTONS_PER_DT );
-        if ( numberOfPhotons == 0 && _lightIntensity > 0 ) {
-            numberOfPhotons = 1;
-        }
 
-        // Fire photons
-//        System.out.println( "firing " + numberOfPhotons + " photons" );//XXX
-        for ( int i = 0; i < numberOfPhotons; i++ ) {
+        _ticksSincePhotonFired += ( _lightIntensity * clockEvent.getSimulationTimeChange() );
+        
+        // Fire a photon?
+        if ( _ticksSincePhotonFired >= _ticksPerPhoton ) {
+            
+            _ticksSincePhotonFired = _ticksSincePhotonFired % _ticksPerPhoton;
             
             // Pick a randon location along the gun's nozzle width
             Point2D position = getRandomNozzlePoint();
-            
+
             // Direction of photon is same as gun's orientation.
             double orientation = getOrientation();
-            
+
             // For white light, assign a random wavelength to each photon.
             double wavelength = _wavelength;
             if ( _lightType == LightType.WHITE ) {
                 wavelength = getRandomWavelength();
             }
-            
+
             // Create the photon
             Photon photon = new Photon( position, orientation, wavelength );
-            
+
             // Fire the photon
             GunFiredEvent event = new GunFiredEvent( this, photon );
             firePhotonFiredEvent( event );
@@ -419,27 +441,22 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * Each alpha particle is fired from a random location along the gun's nozzle.
      */
     private void fireAlphaParticles( ClockEvent clockEvent ) {
-        
-        // Determine how many alpha particles to fire.
-        double dt = clockEvent.getSimulationTimeChange();
-        int numberOfAlphaParticles = (int) ( _alphaParticlesIntensity * dt * ALPHA_PARTICLES_PER_DT );
-        if ( numberOfAlphaParticles == 0 && _alphaParticlesIntensity > 0 ) {
-            numberOfAlphaParticles = 1;
-        }
 
-        // Fire alpha particles
-//        System.out.println( "firing " + numberOfAlphaParticles + " alpha particles" );//XXX
-        for ( int i = 0; i < numberOfAlphaParticles; i++ ) {
+        _ticksSinceAlphaParticleFired += ( _alphaParticlesIntensity * clockEvent.getSimulationTimeChange() );
+
+        if ( _ticksSinceAlphaParticleFired >= _ticksPerAlphaParticle ) {
+
+            _ticksSinceAlphaParticleFired = _ticksSinceAlphaParticleFired % _ticksPerAlphaParticle;
             
             // Pick a randon location along the gun's nozzle width
             Point2D position = getRandomNozzlePoint();
-            
+
             // Direction of alpha particle is same as gun's orientation.
             double orientation = getOrientation();
-            
+
             // Create the alpha particle
             AlphaParticle alphaParticle = new AlphaParticle( position, orientation );
-            
+
             // Fire the alpha particle
             GunFiredEvent event = new GunFiredEvent( this, alphaParticle );
             fireAlphaParticleFiredEvent( event );

@@ -26,6 +26,8 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
+import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.util.ArgUtils;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
