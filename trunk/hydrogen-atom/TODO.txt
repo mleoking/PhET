@@ -22,6 +22,7 @@ HIGH PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
+- bug: WavelengthControl sometimes gets stuck and can't be dragged to min/max
 - implement Solar System atomic model
 - implement Bohr atomic model
 - implement deBroglie atomic model
