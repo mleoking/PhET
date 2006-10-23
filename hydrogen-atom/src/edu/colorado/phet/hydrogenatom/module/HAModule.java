@@ -424,7 +424,7 @@ public class HAModule extends PiccoloModule {
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
     }
-
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
@@ -546,6 +546,8 @@ public class HAModule extends PiccoloModule {
         }
         
         initWiggleMe();
+        
+        applyLayoutHacks();
     }
     
     private void initWiggleMe() {
@@ -576,6 +578,21 @@ public class HAModule extends PiccoloModule {
             
             _wiggleMeInitialized = true;
         }
+    }
+
+    /*
+     * Various hacks that should be addressed in better ways.
+     */
+    private void applyLayoutHacks() {
+        /*
+         * For the drag bounds of the WavelengthControl to be updated.
+         * WavelengthControl uses a ConstrainedDragHandler which works in screen coordinates.
+         * When the screen position of the WavelengthControl is changed, it has no way of telling.
+         * So its ConstrainedDragHandler doesn't get its drag bounds updated.
+         * This should be addressed by making ConstrainedDragHandler work in the local 
+         * coordinates of the node that its constraining. (I think...)
+         */
+        _gunControlPanel.updateWavelengthControlDragBounds();
     }
 
     public void updateAtomicModelSelector() {

@@ -186,6 +186,10 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gun.addObserver( this );
     }
     
+    public void updateWavelengthControlDragBounds() {
+        _wavelengthControl.updateDragBounds();
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------

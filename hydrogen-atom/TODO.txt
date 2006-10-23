@@ -22,7 +22,6 @@ HIGH PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
-- bug: on first use of wave length control, dragging right gets stuck at 438 nm
 - implement Solar System atomic model
 - implement Bohr atomic model
 - implement deBroglie atomic model
@@ -51,6 +50,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/23/06) - hack to workaroud problem with drag bounds of WavelengthControl not being updated
 (10/22/06) - add developer control for varying number of ticks between firing of photons and alpha particles
 (10/22/06) - create Developer Controls dialog
 (10/22/06) - create menu and dialog packages
