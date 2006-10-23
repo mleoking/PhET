@@ -59,12 +59,14 @@ public class TestWavelengthControl extends JFrame {
         
         // UV & IR
         WavelengthControl c3 = new WavelengthControl( canvas, 90, 900 );
+        c3.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c3 );
         c3.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
         
         // UV only
         WavelengthControl c4 = new WavelengthControl( canvas, 90, VisibleColor.MAX_WAVELENGTH );
+        c4.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c4 );
         c4.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
@@ -77,13 +79,14 @@ public class TestWavelengthControl extends JFrame {
         
         // UV & IR with no room for labels
         WavelengthControl c6 = new WavelengthControl( canvas, VisibleColor.MIN_WAVELENGTH - 15, VisibleColor.MAX_WAVELENGTH + 15 );
+        c6.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c6 );
         c6.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
         
         // UV & IR with custom colors, fonts, etc
         final WavelengthControl c7 = new WavelengthControl( canvas, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
-        c7.setWavelength( 300 );
+        c7.setWavelength( VisibleColor.MIN_WAVELENGTH );
         c7.setTextFieldColors( c7.getWavelengthColor(), Color.BLACK );
         c7.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
