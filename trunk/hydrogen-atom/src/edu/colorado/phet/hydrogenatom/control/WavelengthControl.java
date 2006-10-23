@@ -449,10 +449,16 @@ public class WavelengthControl extends PhetPNode {
         _cursor.setOffset( cursorX, cursorY );
     }
     
-    /*
+    /**
      * Updates drag bounds for the knob.
+     * <p>
+     * HACK: This is public because of a problem with ConstrainedDragHandler.
+     * ConstrainedDragHandler works in global coordinates, but WavelengthControl
+     * has no way of knowing when its global position has changed. 
+     * So you will need to call this method explicitly if you do something
+     * to change the global position (eg, call setOffset on some ancestor node).
      */
-    private void updateDragBounds() {
+    public void updateDragBounds() {
         PBounds trackGFB = _track.getGlobalFullBounds();
         PBounds knobGFB = _knob.getGlobalFullBounds();
         Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - (knobGFB.getWidth()/2), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
