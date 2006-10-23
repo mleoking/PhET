@@ -9,13 +9,14 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.particle;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
+import edu.colorado.phet.hydrogenatom.view.SphericalNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

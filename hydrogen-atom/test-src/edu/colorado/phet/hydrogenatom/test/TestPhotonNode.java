@@ -19,7 +19,7 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.hydrogenatom.view.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 
 public class TestPhotonNode extends JFrame {

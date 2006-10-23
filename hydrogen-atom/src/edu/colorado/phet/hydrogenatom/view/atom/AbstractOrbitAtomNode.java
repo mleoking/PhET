@@ -9,15 +9,13 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.*;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
+import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

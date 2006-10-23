@@ -21,7 +21,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.view.ElectronNode;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

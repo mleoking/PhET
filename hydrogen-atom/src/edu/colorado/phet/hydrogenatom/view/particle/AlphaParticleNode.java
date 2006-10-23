@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.particle;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -19,6 +19,8 @@ import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
