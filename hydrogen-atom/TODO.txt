@@ -22,7 +22,6 @@ MEDIUM PRIORITY:
 - implement BohrModel
 - implement DeBroglieModel
 - implement spectrometer model
-- design code to accommodate zoom controls on animation region (possible feature)
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - port spectrometer from Discharge Lamps sim
@@ -47,9 +46,11 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 - bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
+- design code to accommodate zoom controls on animation region (possible feature)
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/23/06) - add notification mechanism to AbstractHydrogenAtom for absorbing/emitting photons
 (10/23/06) - move all particle nodes to hydrogenatom.view.particle
 (10/23/06) - move all atom nodes to hydrogenatom.view.atom
 (10/23/06) - create atomic models dynamically in HAModule
