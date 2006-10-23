@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.hydrogenatom.factory;
 
-import edu.colorado.phet.hydrogenatom.factory.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.model.IModelObject;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
+import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.SchrodingerNode;
 import edu.umd.cs.piccolo.PNode;
 

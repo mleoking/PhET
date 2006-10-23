@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.module;
+package edu.colorado.phet.hydrogenatom.view;
 
 import edu.colorado.phet.hydrogenatom.factory.*;
 import edu.colorado.phet.hydrogenatom.model.Model;

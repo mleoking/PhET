@@ -42,7 +42,6 @@ import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.factory.AlphaParticleNodeFactory;
 import edu.colorado.phet.hydrogenatom.factory.BilliardBallNodeFactory;
-import edu.colorado.phet.hydrogenatom.factory.ModelViewManager;
 import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
