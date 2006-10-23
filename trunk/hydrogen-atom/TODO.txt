@@ -13,11 +13,8 @@ MEDIUM PRIORITY:
 - draw interior window of spectrometer using PPath
 - fix spectrometer layout
 - add SpectrometerNode.setSize(Dimension)
-- add WavelengthControl.setTrackSize(Dimension)
-- add WavelengthControl.setKnobSize(Dimension)
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
-- size "UV" and "IR" labels to fit WavelengthControl track height
-- photons and alphaParticles should go behing ExperimentAtomNode
+- should photons and alphaParticles should go behind ExperimentAtomNode?
 - implement SolarSystemModel
 - implement BohrModel
 - implement DeBroglieModel
@@ -40,6 +37,9 @@ LOW PRIORITY:
 - implement energy diagrams, reuse Ron's stuff
 - message for when atom has been ionized
 - message for when atom has been destroyed
+- add WavelengthControl.setTrackSize(Dimension)
+- add WavelengthControl.setKnobSize(Dimension)
+- size "UV" and "IR" labels to fit WavelengthControl track height
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
