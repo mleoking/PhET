@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - handle model-view transform properly
-- implement Billiard Ball atomic model
+- implement BilliardBallModel
 
 MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
@@ -17,9 +17,9 @@ MEDIUM PRIORITY:
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - photons and alphaParticles should go behing ExperimentAtomNode
-- implement Solar System atomic model
-- implement Bohr atomic model
-- implement deBroglie atomic model
+- implement SolarSystemModel
+- implement BohrModel
+- implement DeBroglieModel
 - implement spectrometer model
 - design code to accommodate zoom controls on animation region (possible feature)
 - create layout nodes for creating Piccolo-based control panels
@@ -34,8 +34,9 @@ MEDIUM PRIORITY:
 - does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
 
 LOW PRIORITY:
-- implement Plum Pudding atomic model
-- implement Schrodinger atomic model
+- implement PlumPuddingModel
+- implement SchrodingerModel
+- implement ExperimentModel
 - implement energy diagrams, reuse Ron's stuff
 - message for when atom has been ionized
 - message for when atom has been destroyed
