@@ -6,11 +6,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - handle model-view transform properly
-- with gun on low intensty, 1 photon in box; high intensity, 10 photons
-- does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
-- add photon velocity control to Developer dialog
 - implement Billiard Ball atomic model
-- generalize creating a "panel" node to fit under a collection of nodes
+
+MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
 - fix spectrometer layout
@@ -18,8 +16,6 @@ HIGH PRIORITY:
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
-
-MEDIUM PRIORITY:
 - photons and alphaParticles should go behing ExperimentAtomNode
 - implement Solar System atomic model
 - implement Bohr atomic model
@@ -35,9 +31,9 @@ MEDIUM PRIORITY:
 - ignore spectral line table entries with node>6
 - handle AlphaParticle orientation in AlphaParticleNode
 - handle Photon orientation in PhotonNode
+- does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
 
 LOW PRIORITY:
-- handle rotation of PhotonNode and AlphaParticleNode
 - implement Plum Pudding atomic model
 - implement Schrodinger atomic model
 - implement energy diagrams, reuse Ron's stuff
@@ -48,6 +44,7 @@ LOW PRIORITY:
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - animate opening/closing of Atomic Model selection panel
 - bug: spectrometer buttons are fully transparent on Win98
+- generalize creating a "panel" node to fit under a collection of nodes
 
 DONE:
 (10/23/06) - put a box around '?' in ExperimentAtomNode
