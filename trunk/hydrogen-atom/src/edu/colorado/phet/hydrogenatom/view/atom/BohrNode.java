@@ -9,21 +9,22 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.atom;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
+import edu.colorado.phet.hydrogenatom.view.*;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
+import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 
-public class BohrAtomNode extends AbstractOrbitAtomNode {
+public class BohrNode extends AbstractOrbitAtomNode implements Observer {
 
     private static final int DEFAULT_SELECTED_ORBIT = 1; //XXX hack, for demo purposes
     private static final int NUMBER_OF_ORBITS = 6;
@@ -32,8 +33,13 @@ public class BohrAtomNode extends AbstractOrbitAtomNode {
     private ProtonNode _protonNode;
     private ElectronNode _electronNode;
     
-    public BohrAtomNode() {
+    private BohrModel _hydrogenAtom;
+    
+    public BohrNode( BohrModel hydrogenAtom ) {
         super();
+        
+        _hydrogenAtom = hydrogenAtom;
+        _hydrogenAtom.addObserver( this );
         
         _orbitNodes = new ArrayList();
         for ( int orbit = 1; orbit <= NUMBER_OF_ORBITS; orbit++ ) {
@@ -56,5 +62,11 @@ public class BohrAtomNode extends AbstractOrbitAtomNode {
         _protonNode.setOffset( 0, 0 );
         PNode orbitNode = (PNode)_orbitNodes.get( DEFAULT_SELECTED_ORBIT - 1 );
         _electronNode.setOffset( orbitNode.getFullBounds().getWidth() / 2, 0 );
+        
+        update( null, null );
+    }
+
+    public void update( Observable o, Object arg ) {
+        setOffset( ModelViewTransform.translate( _hydrogenAtom.getPosition() ) ); 
     }
 }

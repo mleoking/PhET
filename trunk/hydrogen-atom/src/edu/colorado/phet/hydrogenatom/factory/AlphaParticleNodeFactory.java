@@ -14,7 +14,7 @@ package edu.colorado.phet.hydrogenatom.factory;
 import edu.colorado.phet.hydrogenatom.factory.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
 import edu.colorado.phet.hydrogenatom.model.IModelObject;
-import edu.colorado.phet.hydrogenatom.view.AlphaParticleNode;
+import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -30,10 +30,6 @@ public class AlphaParticleNodeFactory extends NodeFactory {
     }
 
     public PNode createNode( IModelObject modelObject ) {
-        PNode node = null;
-        if ( modelObject instanceof AlphaParticle ) {
-            node = new AlphaParticleNode( (AlphaParticle) modelObject );
-        }
-        return node;
+        return new AlphaParticleNode( (AlphaParticle) modelObject );
     }
 }

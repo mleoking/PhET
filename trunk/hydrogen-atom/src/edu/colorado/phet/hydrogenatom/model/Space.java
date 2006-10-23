@@ -61,6 +61,20 @@ public class Space implements GunFiredListener, Observer, ClockListener, IModelO
     }
     
     //----------------------------------------------------------------------------
+    // Accesors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the point that is at the center of space.
+     * The origin (0,0) is at the bottom-center of space.
+     * 
+     * @return Point2D
+     */
+    public Point2D getCenter() {
+        return new Point2D.Double( 0, -_bounds.getHeight() / 2 );
+    }
+    
+    //----------------------------------------------------------------------------
     // Photon and Alpha Particle management
     //----------------------------------------------------------------------------
     

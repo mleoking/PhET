@@ -12,24 +12,20 @@
 package edu.colorado.phet.hydrogenatom.factory;
 
 import edu.colorado.phet.hydrogenatom.factory.ModelViewManager.NodeFactory;
+import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
 import edu.colorado.phet.hydrogenatom.model.IModelObject;
 import edu.colorado.phet.hydrogenatom.model.Photon;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.atom.BilliardBallNode;
 import edu.umd.cs.piccolo.PNode;
 
-/**
- * PhotonNodeFactory creates PNodes that display photon model objects.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
- */
-public class PhotonNodeFactory extends NodeFactory {
 
-    public PhotonNodeFactory( PNode parent ) {
-        super( Photon.class, parent );
+public class BilliardBallNodeFactory extends NodeFactory {
+
+    public BilliardBallNodeFactory( PNode parent ) {
+        super( BilliardBallModel.class, parent );
     }
 
     public PNode createNode( IModelObject modelObject ) {
-        return new PhotonNode( (Photon) modelObject );
+        return new BilliardBallNode( (BilliardBallModel) modelObject );
     }
 }

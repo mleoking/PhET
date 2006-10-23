@@ -47,6 +47,11 @@ LOW PRIORITY:
 - generalize creating a "panel" node to fit under a collection of nodes
 
 DONE:
+(10/23/06) - move all particle nodes to hydrogenatom.view.particle
+(10/23/06) - move all atom nodes to hydrogenatom.view.atom
+(10/23/06) - create atomic models dynamically in HAModule
+(10/23/06) - node factories for all atomic models
+(10/23/06) - stubs for all atomic models
 (10/23/06) - put a box around '?' in ExperimentAtomNode
 (10/23/06) - hack to workaroud problem with drag bounds of WavelengthControl not being updated
 (10/22/06) - add developer control for varying number of ticks between firing of photons and alpha particles

@@ -41,13 +41,11 @@ import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.factory.AlphaParticleNodeFactory;
+import edu.colorado.phet.hydrogenatom.factory.BilliardBallNodeFactory;
 import edu.colorado.phet.hydrogenatom.factory.ModelViewManager;
 import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
-import edu.colorado.phet.hydrogenatom.model.Gun;
-import edu.colorado.phet.hydrogenatom.model.HAClock;
-import edu.colorado.phet.hydrogenatom.model.Model;
-import edu.colorado.phet.hydrogenatom.model.Space;
+import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
@@ -87,13 +85,6 @@ public class HAModule extends PiccoloModule {
     // Animation region
     private AnimationRegionNode _animationRegionNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
-    private ExperimentAtomNode _experimentAtomNode;
-    private BilliardBallAtomNode _billiardBallAtomNode;
-    private BohrAtomNode _bohrAtomNode;
-    private DeBroglieAtomNode _deBroglieAtomNode;
-    private PlumPuddingAtomNode _plumPuddingAtomNode;
-    private SchrodingerAtomNode _schrodingerAtomNode;
-    private SolarSystemAtomNode _solarSystemAtomNode;
 
     // Spectrometer
     private JCheckBox _spectrometerCheckBox;
@@ -119,9 +110,12 @@ public class HAModule extends PiccoloModule {
     private Model _model;
     private Gun _gun;
     private Space _space;
+    private AbstractHydrogenAtom _hydrogenAtomModel;
     
     private HAWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
+    
+    private HAModelViewManager _modelViewManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -159,11 +153,14 @@ public class HAModule extends PiccoloModule {
         }
         
         // Space
+        Point2D spaceCenter = new Point2D.Double();
         {
             double spaceWidth = _gun.getNozzleWidth();
             double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
             Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight, spaceWidth, spaceHeight );
             _space = new Space( bounds, _gun, _model );
+            
+            spaceCenter.setLocation( 0, -spaceHeight / 2 );
         }
         
         _model.addModelObject( _gun );
@@ -251,43 +248,6 @@ public class HAModule extends PiccoloModule {
 
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();
-
-            // atoms
-            _experimentAtomNode = new ExperimentAtomNode();
-            _billiardBallAtomNode = new BilliardBallAtomNode();
-            _bohrAtomNode = new BohrAtomNode();
-            _deBroglieAtomNode = new DeBroglieAtomNode();
-            _plumPuddingAtomNode = new PlumPuddingAtomNode();
-            _schrodingerAtomNode = new SchrodingerAtomNode();
-            _solarSystemAtomNode = new SolarSystemAtomNode();
-
-            // layering order
-            _animationRegionNode.addChild( _experimentAtomNode );
-            _animationRegionNode.addChild( _billiardBallAtomNode );
-            _animationRegionNode.addChild( _bohrAtomNode );
-            _animationRegionNode.addChild( _deBroglieAtomNode );
-            _animationRegionNode.addChild( _plumPuddingAtomNode );
-            _animationRegionNode.addChild( _schrodingerAtomNode );
-            _animationRegionNode.addChild( _solarSystemAtomNode );
-            
-            // positioning, centered in region
-            {
-                PBounds ab = _animationRegionNode.getFullBounds();
-                double x, y;
-                
-                x = ( ab.getWidth() - _experimentAtomNode.getFullBounds().getWidth() ) / 2;
-                y = ( ab.getHeight() - _experimentAtomNode.getFullBounds().getHeight() ) / 2;
-                _experimentAtomNode.setOffset( x, y );
-
-                x = ab.getWidth() / 2;
-                y = ab.getHeight() / 2;
-                _billiardBallAtomNode.setOffset( x, y );
-                _bohrAtomNode.setOffset( x, y );
-                _deBroglieAtomNode.setOffset( x, y );
-                _plumPuddingAtomNode.setOffset( x, y );
-                _schrodingerAtomNode.setOffset( x, y );
-                _solarSystemAtomNode.setOffset( x, y );
-            }
         }
 
         // Gun control panel
@@ -361,11 +321,7 @@ public class HAModule extends PiccoloModule {
         // Model-View management
         //----------------------------------------------------------------------------
         
-        ModelViewManager modelViewManager = new ModelViewManager( _model );
-        PhotonNodeFactory photonNodeFactory = new PhotonNodeFactory( _animationRegionNode );
-        modelViewManager.addNodeFactory( photonNodeFactory );
-        AlphaParticleNodeFactory alphaParticleNodeFactory = new AlphaParticleNodeFactory( _animationRegionNode );
-        modelViewManager.addNodeFactory( alphaParticleNodeFactory );
+        _modelViewManager = new HAModelViewManager( _model, _animationRegionNode );
         
         //----------------------------------------------------------------------------
         // Control
@@ -601,39 +557,40 @@ public class HAModule extends PiccoloModule {
 
     public void updateAtomicModel() {
 
-        AtomicModel atomicModel = _atomicModelSelector.getSelection();
-
-        _experimentAtomNode.setVisible( false );
-        _billiardBallAtomNode.setVisible( false );
-        _bohrAtomNode.setVisible( false );
-        _deBroglieAtomNode.setVisible( false );
-        _plumPuddingAtomNode.setVisible( false );
-        _schrodingerAtomNode.setVisible( false );
-        _solarSystemAtomNode.setVisible( false );
-
+        if ( _hydrogenAtomModel != null ) {
+            _model.removeModelObject( _hydrogenAtomModel );
+            _hydrogenAtomModel = null;
+        }
+        
+        Point2D position = _space.getCenter();
+        
         if ( _modeSwitch.isExperimentSelected() ) {
-            _experimentAtomNode.setVisible( true );
+            _hydrogenAtomModel = new ExperimentModel( position );
         }
         else {
+            AtomicModel atomicModel = _atomicModelSelector.getSelection();
             if ( atomicModel == AtomicModel.BILLIARD_BALL ) {
-                _billiardBallAtomNode.setVisible( true );
+                _hydrogenAtomModel = new BilliardBallModel( position );
             }
             else if ( atomicModel == AtomicModel.BOHR ) {
-                _bohrAtomNode.setVisible( true );
+                _hydrogenAtomModel = new BohrModel( position );
             }
             else if ( atomicModel == AtomicModel.DEBROGLIE ) {
-                _deBroglieAtomNode.setVisible( true );
+                _hydrogenAtomModel = new DeBroglieModel( position );
             }
             else if ( atomicModel == AtomicModel.PLUM_PUDDING ) {
-                _plumPuddingAtomNode.setVisible( true );
+                _hydrogenAtomModel = new PlumPuddingModel( position );
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
-                _schrodingerAtomNode.setVisible( true );
+                _hydrogenAtomModel = new SchrodingerModel( position );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
-                _solarSystemAtomNode.setVisible( true );
+                _hydrogenAtomModel = new SolarSystemModel( _space.getCenter() );
             }
         }
+        
+        assert ( _hydrogenAtomModel != null );
+        _model.addModelObject( _hydrogenAtomModel );
     }
 
     public void updateEnergyDiagram() {
