@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- put a box around '?' inside atom box
 - handle model-view transform properly
 - with gun on low intensty, 1 photon in box; high intensity, 10 photons
 - does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
@@ -21,6 +20,7 @@ HIGH PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 
 MEDIUM PRIORITY:
+- photons and alphaParticles should go behing ExperimentAtomNode
 - implement Solar System atomic model
 - implement Bohr atomic model
 - implement deBroglie atomic model
@@ -37,6 +37,7 @@ MEDIUM PRIORITY:
 - handle Photon orientation in PhotonNode
 
 LOW PRIORITY:
+- handle rotation of PhotonNode and AlphaParticleNode
 - implement Plum Pudding atomic model
 - implement Schrodinger atomic model
 - implement energy diagrams, reuse Ron's stuff
@@ -49,6 +50,7 @@ LOW PRIORITY:
 - bug: spectrometer buttons are fully transparent on Win98
 
 DONE:
+(10/23/06) - put a box around '?' in ExperimentAtomNode
 (10/23/06) - hack to workaroud problem with drag bounds of WavelengthControl not being updated
 (10/22/06) - add developer control for varying number of ticks between firing of photons and alpha particles
 (10/22/06) - create Developer Controls dialog
