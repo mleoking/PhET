@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - add SpectrometerNode.setSize(Dimension)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
+- fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - photons and alphaParticles should go behing ExperimentAtomNode
 - implement SolarSystemModel
@@ -46,6 +47,7 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 - bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
+- verify that behavior is correct when clock is paused
 
 DONE:
 (10/23/06) - move all particle nodes to hydrogenatom.view.particle
