@@ -48,7 +48,7 @@ public class DGApplication extends PiccoloPhetApplication {
     public static void main( String[] args ) {
 //        PhetLookAndFeel.setLookAndFeel();
 //        new PhetLookAndFeel().apply();
-        new QWIPhetLookAndFeel() .initLookAndFeel();
+        new QWIPhetLookAndFeel().initLookAndFeel();
         DGApplication schrodingerApplication = new DGApplication( args );
         schrodingerApplication.startApplication();
 //        System.out.println( "SchrodingerApplication.main" );

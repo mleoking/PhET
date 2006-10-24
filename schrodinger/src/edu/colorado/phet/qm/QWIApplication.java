@@ -1,11 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -82,30 +79,19 @@ public class QWIApplication extends PiccoloPhetApplication {
         return new SwingClock( 30, 1 );
     }
 
-    class MyTabbedModulePane extends TabbedModulePane {
-
-        public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
-            super( application, modules );
-        }
-    }
-
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                oldmain( args );
+                QWIStrings.init( args );
+                new QWIPhetLookAndFeel().initLookAndFeel();
+                final QWIApplication QWIApplication = new QWIApplication( args );
+                QWIApplication.startApplication();
+                if( QWIApplication.intensityModule != null ) {
+                    addWiggleMe( QWIApplication );
+                }
+                System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
             }
         } );
-    }
-
-    private static void oldmain( String[] args ) {
-        QWIStrings.init( args );
-        new QWIPhetLookAndFeel() .initLookAndFeel();
-        final QWIApplication QWIApplication = new QWIApplication( args );
-        QWIApplication.startApplication();
-        if( QWIApplication.intensityModule != null ) {
-            addWiggleMe( QWIApplication );
-        }
-        System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
     }
 
     private static void addWiggleMe( final QWIApplication QWIApplication ) {
@@ -116,8 +102,9 @@ public class QWIApplication extends PiccoloPhetApplication {
         helpBalloon.setBalloonVisible( true );
         helpBalloon.setBalloonFillPaint( new Color( 128, 128, 128, 200 ) );
 
-        helpBalloon.animateTo( QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), QWIApplication.intensityModule.getSchrodingerPanel() );
         QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
+        helpBalloon.animateTo( QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic() );
+
         QWIApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 helpBalloon.setVisible( false );
