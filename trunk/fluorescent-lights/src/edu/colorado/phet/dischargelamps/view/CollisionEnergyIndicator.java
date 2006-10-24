@@ -90,8 +90,9 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         atom = (DischargeLampAtom)module.getAtom();
         atom.addChangeListener( new AtomChangeListener() );
         this.energyYTx = elmp.getEnergyYTx();
-        energyYTx.addListener( new ModelViewTransform1D.Observer() {
-            public void transformChanged( ModelViewTransform1D transform ) {
+        elmp.addChangeListener( new DischargeLampEnergyLevelMonitorPanel.ChangeListener() {
+            public void energyTxChanged( ModelViewTransform1D energyTx ) {
+                energyYTx = energyTx;
                 update();
             }
         } );
@@ -114,10 +115,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         }
         // Must correct the distance between the plate and the atom by the radii of the atom and an electron. Note
         // the sign of the electron radius correction. This seems to work(???)
-//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) + Electron.ELECTRON_RADIUS;
-//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
         plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() - Electron.ELECTRON_RADIUS;
-//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() + Electron.ELECTRON_RADIUS;
 
         Point2D p1Upper = new Point2D.Double( model.getLeftHandPlate().getPosition().getX(),
                                          model.getLeftHandPlate().getPosition().getY() +
@@ -171,7 +169,6 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
         // Determine the y location of the line. Don't let it go off the top of the panel
-//        new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
 

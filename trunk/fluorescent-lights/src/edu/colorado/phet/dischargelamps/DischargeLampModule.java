@@ -121,20 +121,14 @@ public class DischargeLampModule extends PhetGraphicsModule {
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
 
-        // Create a listener on the apparatus panel that will maintain the bounds of the model
-        // to be conformant with the panel
-//        apparatusPanel.addChangeListener( new ApparatusPanel2.ChangeListener() {
-//            public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-//                model.setBounds( new Rectangle2D.Double( 0, 0, event.getCanvasSize().getWidth(), event.getCanvasSize().getHeight() ) );
-//            }
-//        } );
-
         // Create the element properties we will use
         configurableElement = new ConfigurableElementProperties( 2, model );
         elementProperties = new ElementProperties[]{
                 new HydrogenProperties(),
-//            new NeonProperties(),
-            configurableElement
+                new NeonProperties(),
+                new SodiumProperties(),
+                new MercuryProperties(),
+                configurableElement
         };
 
         // Add graphics
@@ -322,16 +316,9 @@ public class DischargeLampModule extends PhetGraphicsModule {
                 }
             } );
             currentSlider.setValue( 10 );
-
-            // Add an energy level monitor panel.
-            energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model,
-                                                                             model.getAtomicStates(),
-                                                                             200,
-                                                                             300,
-                                                                             configurableElement );
-            controlPanel.addControl( energyLevelsMonitorPanel );
         }
 
+        // Options
         {
             optionsPanel = new JPanel( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, //0,
@@ -351,7 +338,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
                     model.getSpectrometer().start();
                 }
             } );
-//            cbPanel.add( spectrometerCB );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
             squiggleCB = new JCheckBox( SimStrings.get( "Controls.Squiggles" ) );
@@ -363,9 +349,18 @@ public class DischargeLampModule extends PhetGraphicsModule {
             cbPanel.add( squiggleCB );
             optionsPanel.add( spectrometerCB, gbc );
             optionsPanel.add( squiggleCB, gbc );
-//            optionsPanel.add( cbPanel, gbc );
             optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
             controlPanel.addControlFullWidth( optionsPanel );
+        }
+
+        // Add an energy level monitor panel.
+        {
+            energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model,
+                                                                             model.getAtomicStates(),
+                                                                             200,
+                                                                             300,
+                                                                             configurableElement );
+            controlPanel.addControl( energyLevelsMonitorPanel );
         }
     }
 
@@ -480,7 +475,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
         squiggleCB.setSelected( true );
         energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
     }
-
 
     //-------------------------------------------------------------------------------------------------
     // Event handling

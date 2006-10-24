@@ -217,7 +217,6 @@ public class ApparatusPanel extends JPanel {
 
     public void addGraphic( PhetGraphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
-//        graphic.repaint();//Automatically repaint the added graphic.//This is/should be done in GraphicLayerSet
     }
 
     /**

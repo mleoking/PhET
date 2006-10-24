@@ -93,16 +93,16 @@ public class SingleAtomModule extends DischargeLampModule {
                                                                         Color.black,
                                                                         110,
                                                                         270 );
-        elmp.getElmp().addGraphic( groundStateTextGraphic, -1);
+        elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1);
 
         // Put the current slider in a set of controls with the Fire button
         final CurrentSlider currentSlider = getCurrentSlider();
         currentSlider.setMaxCurrent( maxCurrent );
         getCurrentSlider().setValue( 25 );
 
+        // Add a button for firing a single electron. This also tells the energy level panel that if an
+        // electron has been produced
         {
-            // Add a button for firing a single electron. This also tells the energy level panel that if an
-            // electron has been produced
             final JButton singleShotBtn = new JButton( SimStrings.get( "Controls.FireElectron" ) );
             singleShotBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -161,8 +161,8 @@ public class SingleAtomModule extends DischargeLampModule {
         // Set the size of the panel
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
 
-        getControlPanel().remove( getOptionsPanel() );
-        ( (ControlPanel)getControlPanel() ).addFullWidth( getOptionsPanel() );
+//        getControlPanel().remove( getOptionsPanel() );
+//        ( (ControlPanel)getControlPanel() ).addFullWidth( getOptionsPanel() );
     }
 
     /**

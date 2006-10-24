@@ -13,17 +13,16 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 import edu.colorado.phet.quantum.model.Atom;
@@ -43,6 +42,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.EventListener;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -107,6 +107,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
     private boolean squigglesEnabled;
+    private PhetTextGraphic2 groundStateTextGraphic;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -131,13 +132,22 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         } );
 
         // Determine locations and dimensions
-        this.panelHeight = panelHeight;
-        this.minPanelWidth = panelWidth;
-        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
         this.levelLineOriginX = (int)origin.getX() + levelLineOffsetX;
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
+
+        // The size of the panel changes with the range of energy levels for the atom. The
+        // scale is set according to the requested panelWidth and panelHeight applied to
+        // hydrogen properties (Request of Sam M., 10/24/06)
+//        this.panelHeight = panelHeight;
+//        this.minPanelWidth = panelWidth;
+//        HydrogenProperties hProps = new HydrogenProperties();
+//        double hPropsEnergyRange = hProps.getEnergyLevels()[hProps.getEnergyLevels().length-1] - hProps.getEnergyLevels()[0];
+//        double atomicStatesEnergyRange = atomicStates[atomicStates.length - 1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
+//        double scaleY = atomicStatesEnergyRange * (panelHeight - headingOffsetY - footerOffsetY) / hPropsEnergyRange;
+//        setPreferredSize( new Dimension( (int)panelWidth, (int)(panelHeight * scaleY )) );
+        setPanelSize( panelWidth, panelHeight, atomicStates );
 
         this.setBackground( Color.white );
 
@@ -150,6 +160,24 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
+    }
+
+    /**
+     * Computes the height of the panel normalized t0 a specified height for the range of energies
+     * needed to represent hydrogen.
+     *
+     * @param panelWidth
+     * @param panelHeight
+     * @param atomicStates
+     */
+    private void setPanelSize( int panelWidth, int panelHeight, AtomicState[] atomicStates ) {
+        this.panelHeight = panelHeight;
+        this.minPanelWidth = panelWidth;
+        HydrogenProperties hProps = new HydrogenProperties();
+        double hPropsEnergyRange = hProps.getEnergyLevels()[hProps.getEnergyLevels().length - 1] - hProps.getEnergyLevels()[0];
+        double atomicStatesEnergyRange = atomicStates[atomicStates.length - 1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
+        double scaleY = atomicStatesEnergyRange / hPropsEnergyRange;
+        setPreferredSize( new Dimension( (int)panelWidth, (int)( panelHeight * scaleY ) ) );
     }
 
     /**
@@ -211,17 +239,16 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     public void setEnergyLevels( AtomicState[] atomicStates ) {
 
         // Find the minimum and maximum energy levels
-//        maxEnergy = 0;
-        maxEnergy = -Double.MAX_VALUE;
+//        maxEnergy = -Double.MAX_VALUE;
         groundStateEnergy = Double.MAX_VALUE;
         for( int i = 0; i < atomicStates.length; i++ ) {
             AtomicState atomicState = atomicStates[i];
             double energy = atomicState.getEnergyLevel();
-            maxEnergy = energy > maxEnergy ? energy : maxEnergy;
+//            maxEnergy = energy > maxEnergy ? energy : maxEnergy;
             groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
         }
 
-        // todo:  DEBUG!!! REMOVE!!
+        // Max energy is 0, in all cases (requested by Sam M., 10/24/06
         maxEnergy = DischargeLampsConfig.MAX_ENERGY_LEVEL;
 
         // Remove any energy level graphics we might have
@@ -235,7 +262,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         levelGraphics = new EnergyLevelGraphic[atomicStates.length];
         levelLineLength = (int)( ( numAtoms - 1 ) * ( atomDiam * ( 1 - atomGraphicOverlap ) ) + atomDiam * 1.5 );
         for( int i = 0; i < levelGraphics.length; i++ ) {
-             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
+            levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
                                                        atomicStates[0].getEnergyLevel(),
                                                        levelLineOriginX,
                                                        levelLineLength,
@@ -244,11 +271,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             levelGraphics[i].setArrowsEnabled( false );
             // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );
-
-            // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
-//            Atom atom = new Atom( model, levelGraphics.length, true );
-//            atom.setStates( atomicStates );
-//            atom.setCurrState( atomicStates[i] );
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
             // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they
@@ -262,7 +284,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             atom.setStates( newStates );
             atom.setCurrState( newStates[i] );
             levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
-//            levelGraphics[i].setLevelIcon( new LevelIcon( this, atom, i ) );
 
             // Set the minimum distance this graphic must have between it and the ones next to it
             levelGraphics[i].setMinPixelsBetweenLevels( minEnergyLevelSpacing );
@@ -275,13 +296,22 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                     initializeStateCounters();
                 }
             } );
+
+//            // If this is the ground state, set the position of the ground state label
+//            if( i == 0 && groundStateTextGraphic != null ) {
+//                groundStateTextGraphic.setLocation( (int)groundStateTextGraphic.getLocation().getX(),
+//                                                    (int)levelGraphics[i].getLocation().getY() );
+//            }
         }
 
-        // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon
+        // Set the width of the panel so it can show all the atoms. 35 gives us a margin for the level icon
         int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 35 );
-        setPreferredSize( new Dimension( width, (int)panelHeight ) );
+//        setPreferredSize( new Dimension( width, (int)panelHeight ) );
+        setPanelSize( width, panelHeight, atomicStates );
+
         // Needed to set the energyYTx
         adjustPanel();
+
         // Set up the counters for the number of atoms in each state
         initializeStateCounters();
 
@@ -300,14 +330,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
     }
 
-//    public void setAveragingPeriod( long value ) {
-//        averagingPeriod = value;
-//    }
-//
-//    public long getAveragingPeriod() {
-//        return averagingPeriod;
-//    }
-
     //----------------------------------------------------------------
     // Rendering
     //----------------------------------------------------------------
@@ -324,9 +346,16 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY,
                                               (int)bounds.getBounds().getMaxY() - footerOffsetY );
-        for( int i = 0; i < levelGraphics.length; i++ ) {
+        for( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
             levelGraphics[i].update( energyYTx );
+            if( i == 0 && groundStateTextGraphic != null ) {
+                int y = (int)energyYTx.modelToView( atomicStates[0].getEnergyLevel() );
+                groundStateTextGraphic.setLocation( (int)groundStateTextGraphic.getLocation().getX(),
+                                                    y - groundStateTextGraphic.getHeight() / 2 );
+            }
         }
+
+        changeListenerProxy.energyTxChanged( energyYTx );
     }
 
     /**
@@ -368,9 +397,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         atx.translate( line.getLinePosition().getX() - atomDiam / 2,
                        line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
-
-//        System.out.println( "line.getLinePosition().getY() = " + line.getLinePosition().getY() );
-
         for( int i = 0; i < numInLevel; i++ ) {
             atx.translate( atomDiam * ( 1 - atomGraphicOverlap ) / scale, 0 );
             g2.drawRenderedImage( bi, atx );
@@ -494,6 +520,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         new ElectronGraphicManager( electron );
     }
 
+    public void addGroundStateLabel( final PhetTextGraphic2 groundStateTextGraphic, int layer ) {
+        this.groundStateTextGraphic = groundStateTextGraphic;
+        addGraphic( groundStateTextGraphic, layer );
+    }
+
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -538,5 +569,23 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             electronGraphic.setBoundsDirty();
             electronGraphic.repaint();
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public interface ChangeListener extends EventListener {
+        void energyTxChanged( ModelViewTransform1D energyTx );
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener) {
+        changeEventChannel.removeListener( listener );
     }
 }
