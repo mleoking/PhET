@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
-import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

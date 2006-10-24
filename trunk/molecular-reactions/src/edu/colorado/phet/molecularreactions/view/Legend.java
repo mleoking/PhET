@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeB;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Legend

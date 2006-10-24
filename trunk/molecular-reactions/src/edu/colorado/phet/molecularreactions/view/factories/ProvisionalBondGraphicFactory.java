@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.view.factories;
 
-import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
-import edu.colorado.phet.molecularreactions.view.ProvisionalBondGraphic;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
+import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
+import edu.colorado.phet.molecularreactions.view.ProvisionalBondGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 /**

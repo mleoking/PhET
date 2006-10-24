@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.util;
 
-import javax.swing.*;
-
 /**
  * Resetable
  *

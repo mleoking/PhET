@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.Bond;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Line2D;
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * BondGraphic

@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.view.factories;
 
-import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
-import edu.colorado.phet.molecularreactions.view.CompositeMoleculeGraphic;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
+import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
+import edu.colorado.phet.molecularreactions.view.CompositeMoleculeGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 /**

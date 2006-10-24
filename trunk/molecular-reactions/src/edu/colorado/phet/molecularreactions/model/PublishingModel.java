@@ -17,8 +17,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.EventListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 
 /**
  * PublishingModel

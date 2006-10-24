@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.colorado.phet.molecularreactions.model.*;
 
 import javax.swing.*;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * MoleculeCounter

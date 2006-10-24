@@ -8,35 +8,38 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view.energy;
+package edu.colorado.phet.molecularreactions.view.energy;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.view.*;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.view.*;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * EnergyView
  * <p/>
  * A view of the MRModel that shows the potential energy of two individual molecules,
  * or their composite molecule. This is a fairly abstract view.
+ * <p>
+ * The diagram below shows the basic layout of this view, with the names of fields
+ * corresponding to its main elements
  * <p/>
  * -------------------------------------------
  * |                                         |
  * |                                         |
- * |           moleculePane                  |
+ * |           upperPane                     |
  * |                                         |
  * |                                         |
  * -------------------------------------------
@@ -148,10 +151,18 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         return upperPaneSize;
     }
 
+    /**
+     * Adds a pNode to the upper pane
+     * @param pNode
+     */
     public void addToUpperPane( PNode pNode ) {
         upperPane.addChild( pNode );
     }
 
+    /**
+     * Removes a pNode from the upper pane
+     * @param pNode
+     */
     public void removeFromUpperPane( PNode pNode ) {
         upperPane.removeChild( pNode );
     }
@@ -221,7 +232,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
         return curvePane;
     }
-
 
     /**
      * Creates the pane that shows the molecules

@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Enumeration;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * ComplexMRControlPanel
@@ -57,7 +58,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         optionsPanel = new OptionsPanel( module );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "Control.reset") );
+        JButton resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -92,12 +93,13 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private JToggleButton showPieChartBtn;
         private JToggleButton nearestNeighborBtn;
         private JToggleButton showBarChartBtn;
+        private JToggleButton trackMoleculeBtn;
         private JToggleButton showNoneBtn;
 
         public OptionsPanel( final ComplexModule module ) {
             this.module = module;
 
-            showBondsBtn = new JCheckBox( SimStrings.get("Control.showBonds") );
+            showBondsBtn = new JCheckBox( SimStrings.get( "Control.showBonds" ) );
             showBondsBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setGraphicTypeVisible( showBondsBtn.isSelected() );
@@ -105,46 +107,65 @@ public class ComplexMRControlPanel extends MRControlPanel {
             } );
             showBondsBtn.setSelected( true );
 
-            //--------------------------------------------------------------------------------------------------
-            // The buttons that put things on the top pane of the energy view
-            //--------------------------------------------------------------------------------------------------
-
-            showStripChartBtn = new JCheckBox( SimStrings.get("Control.showStripChart"));
+            showStripChartBtn = new DialogCheckBox( SimStrings.get( "Control.showStripChart" ) );
+//            showStripChartBtn = new JCheckBox( SimStrings.get( "Control.showStripChart" ) );
             showStripChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartVisible( showStripChartBtn.isSelected() );
                 }
             } );
 
+            //--------------------------------------------------------------------------------------------------
+            // The buttons that put things on the top pane of the energy view
+            //--------------------------------------------------------------------------------------------------
 
-            final ButtonGroup chartOptionsBG = new ButtonGroup();
-            showBarChartBtn = new JRadioButton( SimStrings.get( "Control.showBarChart"));
-            showBarChartBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setBarChartVisible( showBarChartBtn.isSelected() );
-                    module.setPieChartVisible( showPieChartBtn.isSelected() );
-                }
-            } );
-            chartOptionsBG.add( showBarChartBtn );
+            JPanel chartOptionsPanel = new JPanel( new GridBagLayout() );
+            {
+                chartOptionsPanel.setBorder( ControlBorderFactory.createSecondaryBorder( SimStrings.get("Control.chartOptions")));
+                GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                 1, 1, 1, 1,
+                                                                 GridBagConstraints.WEST,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+                final ButtonGroup chartOptionsBG = new ButtonGroup();
+                trackMoleculeBtn = new JRadioButton( SimStrings.get( "Control.trackMolecule" ) );
+                trackMoleculeBtn .addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setEnergyViewChartOptions( module );
+                    }
+                } );
+                chartOptionsBG.add( trackMoleculeBtn );
 
-            showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart"));
-            showPieChartBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setBarChartVisible( showBarChartBtn.isSelected() );
-                    module.setPieChartVisible( showPieChartBtn.isSelected() );
-                }
-            } );
-            chartOptionsBG.add( showPieChartBtn );
+                showBarChartBtn = new JRadioButton( SimStrings.get( "Control.showBarChart" ) );
+                showBarChartBtn.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setEnergyViewChartOptions( module );
+                    }
+                } );
+                chartOptionsBG.add( showBarChartBtn );
 
-            showNoneBtn = new JRadioButton( SimStrings.get( "Control.none"));
-            showNoneBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setBarChartVisible( false );
-                    module.setPieChartVisible( false );
-                }
-            } );
-            showNoneBtn.setSelected( true );
-            chartOptionsBG.add( showNoneBtn );
+                showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart" ) );
+                showPieChartBtn.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setEnergyViewChartOptions( module );
+                    }
+                } );
+                chartOptionsBG.add( showPieChartBtn );
+
+                showNoneBtn = new JRadioButton( SimStrings.get( "Control.none" ) );
+                showNoneBtn.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setEnergyViewChartOptions( module );
+                    }
+                } );
+                showNoneBtn.setSelected( true );
+                chartOptionsBG.add( showNoneBtn );
+
+                chartOptionsPanel.add( trackMoleculeBtn, gbc );
+                chartOptionsPanel.add( showBarChartBtn, gbc );
+                chartOptionsPanel.add( showPieChartBtn, gbc );
+                chartOptionsPanel.add( showNoneBtn, gbc );
+            }
 
             nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
 
@@ -156,17 +177,29 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              insets, 0, 0 );
-            add( showBarChartBtn, gbc );
-            add( showPieChartBtn, gbc );
-            add( showNoneBtn, gbc );
+//            add( trackMoleculeBtn, gbc );
+//            add( showBarChartBtn, gbc );
+//            add( showPieChartBtn, gbc );
+//            add( showNoneBtn, gbc );
+            add( chartOptionsPanel, gbc );
             add( showStripChartBtn, gbc );
             add( showBondsBtn, gbc );
 //            add( nearestNeighborBtn, gbc );
         }
 
+        /**
+         * Shows/hides charts in the EnergyView based on the state of the radio buttons
+         *
+         * @param module
+         */
+        private void setEnergyViewChartOptions( ComplexModule module ) {
+            module.setBarChartVisible( showBarChartBtn.isSelected() );
+            module.setPieChartVisible( showPieChartBtn.isSelected() );
+        }
+
         public void reset() {
             showStripChartBtn.setSelected( false );
-            showBondsBtn.setSelected( true  );
+            showBondsBtn.setSelected( true );
             nearestNeighborBtn.setSelected( false );
 
             module.setStripChartVisible( showStripChartBtn.isSelected() );
@@ -176,4 +209,43 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    // A check box that opens/closes a dialog, and unchecks if the dialog is
+    // closed independently
+    private static class DialogCheckBox extends JCheckBox implements WindowListener {
+        public DialogCheckBox( String text ) {
+            super( text );
+        }
+
+        public void windowActivated( WindowEvent e ) {
+
+        }
+
+        public void windowClosed( WindowEvent e ) {
+            setSelected( false );
+        }
+
+        public void windowClosing( WindowEvent e ) {
+
+        }
+
+        public void windowDeactivated( WindowEvent e ) {
+
+        }
+
+        public void windowDeiconified( WindowEvent e ) {
+
+        }
+
+        public void windowIconified( WindowEvent e ) {
+
+        }
+
+        public void windowOpened( WindowEvent e ) {
+
+        }
+    }
 }

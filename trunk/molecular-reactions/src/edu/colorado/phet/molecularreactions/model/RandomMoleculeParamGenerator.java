@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 /**

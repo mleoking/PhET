@@ -10,19 +10,14 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.PublishingModel;
-import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.model.ModelElement;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * ProvisionalBondGraphic

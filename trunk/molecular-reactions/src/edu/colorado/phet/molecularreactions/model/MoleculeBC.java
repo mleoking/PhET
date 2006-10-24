@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 
 /**
  * MoleculeAB

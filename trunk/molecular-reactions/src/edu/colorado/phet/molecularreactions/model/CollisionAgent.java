@@ -12,12 +12,11 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeBoxCollisionAgent;
-import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeHardSphereCollisionAgent;
-import edu.colorado.phet.molecularreactions.model.collision.SimpleCollisionAgentA;
+import edu.colorado.phet.molecularreactions.model.collision.SpringCollision;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CollisionAgent

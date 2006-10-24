@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.common.view.graphics.Arrow;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * SeparationIndicatorArrow

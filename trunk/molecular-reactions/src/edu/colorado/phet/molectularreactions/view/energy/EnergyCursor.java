@@ -8,23 +8,22 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view.energy;
+package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.math.MathUtil;
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.*;
-import java.awt.Cursor;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Cursor

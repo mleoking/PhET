@@ -10,24 +10,23 @@
  */
 package edu.colorado.phet.molecularreactions.util;
 
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.BarRenderer;
-
-import javax.swing.*;
-import java.awt.*;
-
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * edu.colorado.phet.molecularreactions.util.BarChart

@@ -10,10 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.DefaultBody;
 
 import java.awt.geom.Point2D;
@@ -47,7 +46,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
 
     private Point2D restingTipLocation;
     private double maxPlungerDraw;
-    private double springK = 1;
+    private double springK = .5;
     private SimpleMolecule bodyToLaunch;
     private MovementType movementType = TWO_DIMENSIONAL;
     private boolean enabled;

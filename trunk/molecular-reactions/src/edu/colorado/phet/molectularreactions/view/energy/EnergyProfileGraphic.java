@@ -8,19 +8,19 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view.energy;
+package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.PNode;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Line2D;
 

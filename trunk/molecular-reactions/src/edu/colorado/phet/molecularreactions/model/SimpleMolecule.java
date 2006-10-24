@@ -27,7 +27,7 @@ import java.util.EventListener;
  */
 public class SimpleMolecule extends AbstractMolecule implements Selectable {
 
-    private static double areaToMassFactor = .3;
+    private static double areaToMassFactor = .2;
 
     private double radius;
     private Rectangle2D boundingBox = new Rectangle2D.Double();

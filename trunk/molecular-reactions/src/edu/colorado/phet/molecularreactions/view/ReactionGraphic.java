@@ -10,18 +10,21 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.common.view.graphics.Arrow;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * ReactionGraphic

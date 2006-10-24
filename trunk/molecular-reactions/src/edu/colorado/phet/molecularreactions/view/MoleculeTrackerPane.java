@@ -10,25 +10,23 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.view.energy.EnergyCursor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molectularreactions.view.energy.EnergyView;
-import edu.colorado.phet.molectularreactions.view.energy.EnergyCursor;
-import edu.colorado.phet.molectularreactions.view.energy.TotalEnergyLine;
 
 import javax.swing.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * MoleculeTrackerPane

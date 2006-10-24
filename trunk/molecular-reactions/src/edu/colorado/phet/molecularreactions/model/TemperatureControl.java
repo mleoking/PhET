@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.DefaultBody;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.List;
-import java.awt.geom.Point2D;
 
 /**
  * TemperatureControl

@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.molecularreactions.controller;
 
-import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * RunAction
