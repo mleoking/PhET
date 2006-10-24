@@ -75,7 +75,7 @@ public class SplitModel extends QWIModel {
 
     }
 
-    private void synchronizeDetectorRegions() {
+    public void synchronizeDetectorRegions() {
         Rectangle[] areas = getDoubleSlitPotential().getSlitAreas();
         leftDetector.setRect( areas[0] );
         rightDetector.setRect( areas[1] );
