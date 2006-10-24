@@ -1,6 +1,7 @@
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
 Upgraded to latest phetcommon (About Dialog, etc.)
+An unexpected change in phetcommon makes the wiggle me come up in a slightly different spot.
 
 1.02.00 (6-28-2006) Posted on main site as 1.02
 

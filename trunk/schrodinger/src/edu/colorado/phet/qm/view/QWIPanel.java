@@ -42,6 +42,7 @@ import java.util.ArrayList;
  */
 
 public class QWIPanel extends BufferedPhetPCanvas {
+    //public class QWIPanel extends PhetPCanvas {
     private QWIModel QWIModel;
     private QWIModule module;
     private Photon photon;
