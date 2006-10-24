@@ -5,3 +5,4 @@ qwi-4-21-2006
 10-24-2006: removed c++ code for schrodinger propagator, directory ="cpp" at root.
 
 10-24-2006: tag "qwi-10-24-2006_3rdparty" includes several 3rd party tests, after this tag, some will be removed.
+10-24-2006: removed "C:\PhET\projects\qwi\osp_core-1.0.1", the opensourcephysics root, kept FFT and FFT2D in qwi/src (not currently used)
