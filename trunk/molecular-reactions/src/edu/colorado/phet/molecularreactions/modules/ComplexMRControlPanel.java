@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 
 import javax.swing.*;
@@ -89,7 +90,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private class OptionsPanel extends JPanel implements Resetable {
         private ComplexModule module;
         private JToggleButton showBondsBtn;
-        private JToggleButton showStripChartBtn;
+        private DialogCheckBox showStripChartBtn;
         private JToggleButton showPieChartBtn;
         private JToggleButton nearestNeighborBtn;
         private JToggleButton showBarChartBtn;
@@ -111,7 +112,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 //            showStripChartBtn = new JCheckBox( SimStrings.get( "Control.showStripChart" ) );
             showStripChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setStripChartVisible( showStripChartBtn.isSelected() );
+                    module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
                 }
             } );
 
@@ -202,50 +203,10 @@ public class ComplexMRControlPanel extends MRControlPanel {
             showBondsBtn.setSelected( true );
             nearestNeighborBtn.setSelected( false );
 
-            module.setStripChartVisible( showStripChartBtn.isSelected() );
+            module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
             module.setBarChartVisible( showBarChartBtn.isSelected() );
             module.setGraphicTypeVisible( showBondsBtn.isSelected() );
         }
 
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
-    //--------------------------------------------------------------------------------------------------
-
-    // A check box that opens/closes a dialog, and unchecks if the dialog is
-    // closed independently
-    private static class DialogCheckBox extends JCheckBox implements WindowListener {
-        public DialogCheckBox( String text ) {
-            super( text );
-        }
-
-        public void windowActivated( WindowEvent e ) {
-
-        }
-
-        public void windowClosed( WindowEvent e ) {
-            setSelected( false );
-        }
-
-        public void windowClosing( WindowEvent e ) {
-
-        }
-
-        public void windowDeactivated( WindowEvent e ) {
-
-        }
-
-        public void windowDeiconified( WindowEvent e ) {
-
-        }
-
-        public void windowIconified( WindowEvent e ) {
-
-        }
-
-        public void windowOpened( WindowEvent e ) {
-
-        }
     }
 }

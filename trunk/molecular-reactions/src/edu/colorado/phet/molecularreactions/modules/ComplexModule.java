@@ -19,6 +19,7 @@ import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
 import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -83,7 +84,7 @@ public class ComplexModule extends MRModule {
     }
 
     private void setInitialConditions() {
-        setStripChartVisible( false );
+        setStripChartVisible( false, null );
 
     }
 
@@ -119,7 +120,7 @@ public class ComplexModule extends MRModule {
         }
     }
 
-    public void setStripChartVisible( boolean visible ) {
+    public void setStripChartVisible( boolean visible, DialogCheckBox showStripChartBtn ) {
         if( visible ) {
             StripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
@@ -135,6 +136,10 @@ public class ComplexModule extends MRModule {
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
             stripChartDlg.setVisible( true );
+
+            if( showStripChartBtn != null ) {
+                stripChartDlg.addComponentListener( showStripChartBtn );
+            }
         }
         else if( stripChartNode != null ) {
             stripChartNode = null;

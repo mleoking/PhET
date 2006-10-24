@@ -30,7 +30,7 @@ import java.awt.event.ActionListener;
 //public class TestControlPanel extends ControlPanel {
 public class SimpleMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
-    private SimpleMRControlPanel.OptionsPanel optionsPanel;
+    private SimpleMRControlPanel.LauncherOptionsPanel launcherOptionsPanel;
 
     public SimpleMRControlPanel( final SimpleModule module ) {
         super( new GridBagLayout() );
@@ -40,8 +40,8 @@ public class SimpleMRControlPanel extends MRControlPanel {
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 10, 0, 0, 0 ), 0, 0 );
-        optionsPanel = new OptionsPanel( module );
-        add( optionsPanel, gbc );
+        launcherOptionsPanel = new LauncherOptionsPanel( module );
+        add( launcherOptionsPanel, gbc );
 
         JButton resetBtn = new JButton( SimStrings.get( "Control.reset") );
         resetBtn.addActionListener( new ActionListener() {
@@ -54,16 +54,16 @@ public class SimpleMRControlPanel extends MRControlPanel {
     }
 
     public void reset() {
-        optionsPanel.reset();
+        launcherOptionsPanel.reset();
     }
 
 
-    private class OptionsPanel extends JPanel implements  Resetable {
+    private class LauncherOptionsPanel extends JPanel implements  Resetable {
         private SimpleModule module;
         private JRadioButton oneDRB;
         private JRadioButton twoDRB;
 
-        public OptionsPanel( final SimpleModule module ) {
+        public LauncherOptionsPanel( final SimpleModule module ) {
             this.module = module;
 
             ButtonGroup numDimensionsBG = new ButtonGroup();
@@ -90,7 +90,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
-            Insets insets = new Insets( 0, 20, 0, 0 );
+            Insets insets = new Insets( 0, 10, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
