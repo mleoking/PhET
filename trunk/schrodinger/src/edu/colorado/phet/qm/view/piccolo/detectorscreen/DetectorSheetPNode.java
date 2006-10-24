@@ -204,7 +204,8 @@ public class DetectorSheetPNode extends PhetPNode {
     public void reset() {
         recreateImage();
         screenGraphic.setImage( bufferedImage );
-        detectorSheetControlPanel.setClearButtonVisible( false );
+        //clear button should always be enabled
+//        detectorSheetControlPanel.setClearButtonVisible( false );
     }
 
     private void recreateImage() {
