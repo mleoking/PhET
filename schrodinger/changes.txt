@@ -1,4 +1,4 @@
-1.02.02
+1.02.02 (10-24-2006)
 Fixed: If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
                 They should appear right away.  Same for disabling the slits.
 Fixed: The barriers do appear if you add them when the simulation is paused (as they should), 
@@ -15,8 +15,7 @@ Fixed: The thin blue detector outline on the black background is very hard to se
                         Added imaginary color from QT
                         Increased stroke width.
 Fixed: Fixed: If I add double slits, and then add a detector on the left slit, 
-                without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.                        
-                        
+                without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.                                                
 
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.

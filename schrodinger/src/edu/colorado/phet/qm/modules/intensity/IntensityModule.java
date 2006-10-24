@@ -14,6 +14,8 @@ import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
 import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,13 @@ public class IntensityModule extends QWIModule {
         getSchrodingerPanel().addListener( new QWIPanel.Adapter() {
             public void inverseSlitsChanged() {
                 updateDetectors();
+            }
+        } );
+
+        //•	Fixed: If I add double slits, and then add a detector on the left slit, without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be. 
+        getSchrodingerPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                splitModel.synchronizeDetectorRegions();
             }
         } );
     }
@@ -156,6 +165,7 @@ public class IntensityModule extends QWIModule {
     private void setDetectorEnabled( Detector detector, boolean selected ) {
         boolean splitMode = shouldBeSplitMode();
         if( selected ) {
+//            splitModel.synchronizeDetectorRegions();//todo this is covered by a componentAdapter on the QWIPanel, see above
             splitModel.addDetector( detector );
             DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( intensityBeamPanel, detector );
             intensityBeamPanel.addDetectorGraphic( detectorGraphic );
