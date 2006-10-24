@@ -53,6 +53,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private MyConnectorGraphic connectorGraphic;
     private final double shearAngle = 0.4636;
     private PText title = new PText();
+    public static final int DEFAULT_FADE_DELAY = 10;
 
     public DetectorSheetPNode( final QWIPanel QWIPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
@@ -78,7 +79,7 @@ public class DetectorSheetPNode extends PhetPNode {
             private boolean isContinuousDisplay() {
                 return DetectorSheetPNode.this.isContinuousDisplay();
             }
-        }, 10 );
+        }, DEFAULT_FADE_DELAY );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
         detectorSheetControlPanelPNode = new PSwing( QWIPanel, new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
@@ -107,6 +108,10 @@ public class DetectorSheetPNode extends PhetPNode {
         addChild( detectorSheetControlPanelPNode );
 
         addChild( title );
+    }
+
+    public void setFadeDelay( int delay ) {
+        fadeElement.setInterval( delay );
     }
 
     private boolean isContinuousDisplay() {
