@@ -1,5 +1,5 @@
-- Closing the chart dialogs should uncheck the check boxes
-- Bug in SelectedM
+- Reaction happens when total energy is less than peak in Simple module
+- Exceptions thrown when lots of molecules in the box
 - Can't select a B type molecule
 - Hose on pump graphic is aliased
 - Hard bonds not always going away
@@ -99,3 +99,6 @@ Done
 10-13-06 - molecules escaping box
 10-13-06 - halo isn't shown for selected molecule
 10-13-06 - CM marker isn't shown for nearest-to-selected molecule
+
+10-20-06 - Bug in SelectedM
+10-24-06 - Closing the chart dialogs should uncheck the check boxes

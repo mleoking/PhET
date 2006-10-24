@@ -46,7 +46,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
 
     private Point2D restingTipLocation;
     private double maxPlungerDraw;
-    private double springK = .5;
+    private double springK = .2;
     private SimpleMolecule bodyToLaunch;
     private MovementType movementType = TWO_DIMENSIONAL;
     private boolean enabled;
@@ -96,7 +96,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
             return getRestingTipLocation();
         }
         else {
-            return new Point2D.Double( getRestingTipLocation().getX() ,
+            return new Point2D.Double( getRestingTipLocation().getX(),
                                        getRestingTipLocation().getY() - bodyToLaunch.getRadius() );
         }
     }

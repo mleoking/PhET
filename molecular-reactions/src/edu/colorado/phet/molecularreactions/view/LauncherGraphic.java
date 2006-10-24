@@ -33,14 +33,35 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
     private double maxTheta = Math.PI / 3;
     private Launcher launcher;
     private PImage plungerNode;
+    private PImage plungerFrameNode;
+    private PImage plunger2DFrameNode;
+    private PImage plunger2DFrameStrutsNode;
 
 
     public LauncherGraphic( Launcher launcher ) {
         this.launcher = launcher;
+
         plungerNode = PImageFactory.create( "images/launcher-plunger.png" );
         double scale = 100.0 / plungerNode.getImage().getHeight( null );
         plungerNode.scale( scale );
+
+//        plunger2DFrameStrutsNode = PImageFactory.create( "images/2D-struts.png" );
+//        plunger2DFrameStrutsNode.scale( scale );
+
+        plungerFrameNode = PImageFactory.create( "images/plunger-frame.png" );
+        plungerFrameNode.scale( scale );
+        plungerFrameNode.setPickable( false );
+
+        plunger2DFrameNode = PImageFactory.create( "images/2D-plunger-frame.png" );
+        plunger2DFrameNode.scale( scale );
+
+//        addChild( plunger2DFrameStrutsNode );
         addChild( plungerNode );
+        addChild( plungerFrameNode );
+//        addChild( plunger2DFrameNode );
+
+
+
         setRegistrationPoint( getFullBounds().getWidth() / 2, 0 );
 
         // Add mouse handler
@@ -52,6 +73,10 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
     public void update() {
         plungerNode.setOffset( launcher.getTipLocation() );
+        plungerFrameNode.setOffset( launcher.getRestingTipLocation().getX(),
+                                    launcher.getRestingTipLocation().getY() + 15 );
+//        plunger2DFrameNode.setOffset( launcher.getPivotPoint().getX(),
+//                                    launcher.getPivotPoint().getY()+ 15 );
         this.rotateAboutPoint( launcher.getTheta() - this.getRotation(), launcher.getPivotPoint() );
     }
 
@@ -101,7 +126,8 @@ public class LauncherGraphic extends RegisterablePNode implements SimpleObserver
 
                 // Constrain the motion of the handle to be within the bounds of the PNode containing
                 // the PumpGraphic, and the initial location of the handle.
-                if( yLoc >= launcher.getPivotPoint().getY() ) {
+                if( yLoc >= launcher.getPivotPoint().getY()
+                        && yLoc <= launcher.getPivotPoint().getY() + plungerFrameNode.getHeight() - 20) {
                     launcher.translate( 0, dy );
                 }
 
