@@ -14,6 +14,9 @@ Fixed: The thin blue detector outline on the black background is very hard to se
                 The blue used here for the imaginary part might be a good option.)
                         Added imaginary color from QT
                         Increased stroke width.
+Fixed: Fixed: If I add double slits, and then add a detector on the left slit, 
+                without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.                        
+                        
 
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
