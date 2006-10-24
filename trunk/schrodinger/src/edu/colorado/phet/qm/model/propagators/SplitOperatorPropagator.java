@@ -95,21 +95,22 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public void propagate( Wavefunction w ) {
-        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
-        Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
-        Wavefunction temp = getTempWavefunction( w.getWidth(), w.getHeight() );
-        multiplyPointwise( expV, w, temp );
-        Wavefunction phi = QWIFFT2D.forwardFFT( temp );
-        if( displayMomentumWavefunction ) {
-            if( momentumDisplay == null ) {
-                initMomentumDisplay();
-            }
-            momentumDisplay.setWavefunction( phi.copy(), new VisualColorMap3() );
-        }
-        multiplyPointwise( expT, phi, temp );
-        Wavefunction psi2 = QWIFFT2D.inverseFFT( temp );
-        multiplyPointwise( expV, psi2, temp );
-        w.setWavefunction( temp );
+        throw new RuntimeException( "QWIFFT2D not defined (see opensourcephysics dependence)" );
+//        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
+//        Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
+//        Wavefunction temp = getTempWavefunction( w.getWidth(), w.getHeight() );
+//        multiplyPointwise( expV, w, temp );
+//        Wavefunction phi = QWIFFT2D.forwardFFT( temp );
+//        if( displayMomentumWavefunction ) {
+//            if( momentumDisplay == null ) {
+//                initMomentumDisplay();
+//            }
+//            momentumDisplay.setWavefunction( phi.copy(), new VisualColorMap3() );
+//        }
+//        multiplyPointwise( expT, phi, temp );
+//        Wavefunction psi2 = QWIFFT2D.inverseFFT( temp );
+//        multiplyPointwise( expV, psi2, temp );
+//        w.setWavefunction( temp );
     }
 
     private Wavefunction getTempWavefunction( int width, int height ) {
