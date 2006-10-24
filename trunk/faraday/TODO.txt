@@ -8,6 +8,8 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- bug: physics is incorrect for transformer (voltage in the secondary circuit should be proportional to the ratio of
+the number of loops in the secondary to the number in the primary)
 
 LOW PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
