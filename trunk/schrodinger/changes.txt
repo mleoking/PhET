@@ -12,6 +12,7 @@ Fixed: The thin blue detector outline on the black background is very hard to se
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
                 Maybe this wasn't a problem in webstart version?
+                            Could be a java version issue.
                 Not 100% certain that the full clip is being drawn. 
 Upgraded to latest phetcommon (About Dialog, etc.)
 An unexpected change in phetcommon makes the wiggle me come up in a slightly different spot.

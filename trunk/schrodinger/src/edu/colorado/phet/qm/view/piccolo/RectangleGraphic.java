@@ -36,7 +36,7 @@ public class RectangleGraphic extends PNode {
         this.rectangularObject = rectangularObject;
         areaGraphic = new PPath();//todo transparent green.
         areaGraphic.setStrokePaint( Color.blue );
-        areaGraphic.setStroke( new BasicStroke( 1.0f ) );
+        areaGraphic.setStroke( new BasicStroke( 2.0f ) );
         areaGraphic.setPaint( fill );
         addChild( areaGraphic );
         areaGraphic.addInputEventListener( new ContinuousDrag( new LocationGetter() {
