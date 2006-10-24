@@ -6,7 +6,8 @@ Fixed: The barriers do appear if you add them when the simulation is paused (as 
                 the outline goes away but the red square is still there.  Everything should go away, even if it's paused.
 Fixed: After hitting the "Potential Barriers" button, it says "Hide Potential Barriers".  
                 This is confusing because this control doesn't actually hide the potential barriers, 
-                just the potential barrier controls.  The word "Hide" should be deleted. 
+                just the potential barrier controls.  The word "Hide" should be deleted.
+Fixed: The thin blue detector outline on the black background is very hard to see on a projector.  The color needs to be lighter and/or the outline thicker.  (See the black background color setting in Quantum Tunneling for examples of colors that have been found to show up well on black backgrounds on projectors.  The blue used here for the imaginary part might be a good option.)                 
 
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
