@@ -10,6 +10,8 @@ Fixed: After hitting the "Potential Barriers" button, it says "Hide Potential Ba
 
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
+                Maybe this wasn't a problem in webstart version?
+                Not 100% certain that the full clip is being drawn. 
 Upgraded to latest phetcommon (About Dialog, etc.)
 An unexpected change in phetcommon makes the wiggle me come up in a slightly different spot.
 
