@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import java.util.ArrayList;

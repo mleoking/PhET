@@ -10,17 +10,14 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.molecularreactions.DebugFlags;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.Bond;
-import edu.colorado.phet.molecularreactions.DebugFlags;
 
-import java.awt.geom.Ellipse2D;
 import java.awt.*;
-import java.util.HashMap;
+import java.awt.geom.Ellipse2D;
 
 /**
  * CompositeMoleculeGraphic

@@ -8,23 +8,22 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molectularreactions.view.energy;
+package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
+import edu.colorado.phet.molecularreactions.model.CompositeBody;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Line2D;
 import java.awt.*;
-import java.text.DecimalFormat;
+import java.awt.geom.Line2D;
 
 /**
  * TotalEnergyLine

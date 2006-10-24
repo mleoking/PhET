@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.mechanics.Vector3D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.mechanics.Vector3D;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 
 import java.awt.geom.Point2D;
 

@@ -12,7 +12,6 @@ package edu.colorado.phet.molecularreactions.util;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
-import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 

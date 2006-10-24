@@ -10,19 +10,19 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.view.graphics.Arrow;
 
 import javax.swing.*;
-import java.awt.geom.Point2D;
 import java.awt.*;
-import java.util.Set;
-import java.util.HashSet;
+import java.awt.geom.Point2D;
 
 /**
- * EnergyProfilePanel
+ * AxisNode
+ * <p>
+ * A PNode with text and an arrow to designate an axis of the EnergyView
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -39,9 +39,9 @@ public class AxisNode extends PNode {
     }
     public static final Orientation HORIZONTAL = new Orientation();
     public static final Orientation VERTICAL = new Orientation();
-    public static final Font axisFont = UIManager.getFont( "Label.font" );
 
 
+    public Font axisFont;
 
     public AxisNode( String label,
                      double length,
@@ -58,6 +58,8 @@ public class AxisNode extends PNode {
         arrowNode.setStrokePaint( color );
         addChild( arrowNode );
 
+        Font defaultFont = UIManager.getFont( "Label.font" );
+        axisFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
         PText labelNode = new PText( label );
         labelNode.setFont( axisFont );
         labelNode.setTextPaint( color );

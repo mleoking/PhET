@@ -13,8 +13,8 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.List;
 import java.util.EventListener;
+import java.util.List;
 
 /**
  * SelectedMoleculeTracker

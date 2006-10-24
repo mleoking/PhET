@@ -10,24 +10,25 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.view.*;
-import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.ProvisionalBond;
 import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-
-import org.jfree.chart.ChartPanel;
 
 /**
  * MRModule

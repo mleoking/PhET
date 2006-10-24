@@ -11,9 +11,9 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
@@ -23,10 +23,10 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * SpringTestModule

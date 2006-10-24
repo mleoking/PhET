@@ -12,9 +12,9 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.molecularreactions.DebugFlags;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
-import edu.colorado.phet.molecularreactions.DebugFlags;
 
 import java.awt.geom.Point2D;
 

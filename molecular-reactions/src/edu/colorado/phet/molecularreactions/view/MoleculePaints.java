@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * MoleculePaints

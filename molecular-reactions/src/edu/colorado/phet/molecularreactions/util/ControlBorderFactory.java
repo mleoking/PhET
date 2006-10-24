@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.util;
 
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import javax.swing.*;
 import java.awt.*;
 
 /**

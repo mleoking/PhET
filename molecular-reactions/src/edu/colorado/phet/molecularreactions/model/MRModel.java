@@ -10,21 +10,21 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.collision.Box2D;
-import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
-import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
-import java.util.List;
-import java.util.EventListener;
-import java.util.ArrayList;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 /**
  * MRModel

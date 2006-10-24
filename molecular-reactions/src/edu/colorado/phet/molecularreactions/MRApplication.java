@@ -10,21 +10,16 @@
  */
 package edu.colorado.phet.molecularreactions;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.molecularreactions.modules.*;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.modules.ComplexModule;
+import edu.colorado.phet.molecularreactions.modules.SimpleModule;
+import edu.colorado.phet.molecularreactions.modules.SpringTestModule;
+import edu.colorado.phet.molecularreactions.modules.SpringTestModule2;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.lang.reflect.InvocationTargetException;
 
 /**

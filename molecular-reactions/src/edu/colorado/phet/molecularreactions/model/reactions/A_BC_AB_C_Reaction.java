@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.model.reactions;
 
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
-import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
-import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
-import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.DebugFlags;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.molecularreactions.DebugFlags;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
+import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeCollisionSpec;
 
 /**
  * A_AB_BC_C_Reaction

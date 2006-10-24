@@ -12,9 +12,8 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.util.EventChannel;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * EnergyProfile
