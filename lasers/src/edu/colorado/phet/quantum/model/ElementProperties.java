@@ -19,7 +19,8 @@ import java.util.Arrays;
  * required by the model.
  * <p>
  * The ElementProperties has an array of AtomicStates, which must have at least one element, which is the
- * ground state.
+ * ground state. The array of states must be ordered in ascending order of energy. I.e. the ground state
+ * must be at [0], and the states ordered upward from there.
  *
  * @author Ron LeMaster
  * @version $Revision$
