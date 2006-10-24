@@ -73,8 +73,8 @@ public class QWIScreenNode extends PNode {
     private PNode gunTypeChooserGraphic;
     private PSwing stopwatchPanelPSwing;
     private PNode gunControlPanelPSwing;
-//    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
-//    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
+    //    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
+    //    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
     private String slowdownText = QWIStrings.getString( "slowing.down.time" );
     private String speedupText = QWIStrings.getString( "speeding.up.time" );
     private boolean rescaleWaveGraphic = false;
@@ -97,7 +97,7 @@ public class QWIScreenNode extends PNode {
             }
         } );
 
-        String[]digits = new String[11];
+        String[] digits = new String[11];
         for( int i = 0; i < digits.length; i++ ) {
             digits[i] = new String( i + "" );
         }
@@ -174,6 +174,20 @@ public class QWIScreenNode extends PNode {
         module.getQWIModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 setUnits( particleUnits );//see note in setUnits.
+            }
+        } );
+
+        //•	If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
+        // They should appear right away.  Same for disabling the slits.
+        module.getQWIModel().addListener( new QWIModel.Adapter() {
+            public void potentialChanged() {
+                updateWaveGraphic();
+                repaint();
+            }
+
+            public void doubleSlitVisibilityChanged() {
+                updateWaveGraphic();
+                repaint();
             }
         } );
     }
@@ -417,7 +431,7 @@ resolution, and a quarter as many times for high resolution.*/
         stopwatchPanel.setTimeFormat( new DecimalFormat( "0.000" ) );
         stopwatchPanel.reset();
         String newTimeUnits = particleUnits.getDt().getUnits();
-        String[]times = new String[]{QWIStrings.getString( "ns" ), QWIStrings.getString( "ps" ), QWIStrings.getString( "fs" )};
+        String[] times = new String[]{QWIStrings.getString( "ns" ), QWIStrings.getString( "ps" ), QWIStrings.getString( "fs" )};
         ArrayList list = new ArrayList( Arrays.asList( times ) );
 
         int change = list.indexOf( newTimeUnits ) - list.indexOf( origTimeUnits );
@@ -495,7 +509,7 @@ resolution, and a quarter as many times for high resolution.*/
     }
 
     private void updateRulerUnits() {
-        String[]readings = new String[particleUnits.getNumRulerReadings()];
+        String[] readings = new String[particleUnits.getNumRulerReadings()];
         double dx = particleUnits.getRulerWidth() / ( readings.length - 1 );
         for( int i = 0; i < readings.length; i++ ) {
             double v = i * dx;

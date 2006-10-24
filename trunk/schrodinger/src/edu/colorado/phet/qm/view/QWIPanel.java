@@ -42,7 +42,7 @@ import java.util.ArrayList;
  */
 
 public class QWIPanel extends BufferedPhetPCanvas {
-    //public class QWIPanel extends PhetPCanvas {
+    //    public class QWIPanel extends PhetPCanvas {
     private QWIModel QWIModel;
     private QWIModule module;
     private Photon photon;
@@ -89,6 +89,7 @@ public class QWIPanel extends BufferedPhetPCanvas {
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+
 //        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
 //        schrodingerScreenNode.addChild( intensityReader );
     }
@@ -137,9 +138,6 @@ public class QWIPanel extends BufferedPhetPCanvas {
 
     public void reset() {
         QWIScreenNode.reset();
-    }
-
-    public void updateGraphics() {
     }
 
     public QWIModel getDiscreteModel() {
