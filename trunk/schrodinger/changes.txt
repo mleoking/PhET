@@ -1,9 +1,12 @@
 1.02.02
-Bugfix: If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
+Fixed: If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
                 They should appear right away.  Same for disabling the slits.
-Bugfix: The barriers do appear if you add them when the simulation is paused (as they should), 
+Fixed: The barriers do appear if you add them when the simulation is paused (as they should), 
                 but if you hit "remove all" while it's paused, 
                 the outline goes away but the red square is still there.  Everything should go away, even if it's paused.
+Fixed: After hitting the "Potential Barriers" button, it says "Hide Potential Barriers".  
+                This is confusing because this control doesn't actually hide the potential barriers, 
+                just the potential barrier controls.  The word "Hide" should be deleted. 
 
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
