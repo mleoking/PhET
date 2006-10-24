@@ -19,7 +19,19 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 /**
- *
+ * Atom
+ * <p>
+ * An atom has a set of AtomicState instances, which are specifically its
+ * possible energy levels. How an atom transitions between those states is
+ * dtermined by other classes. The intention is that a Strategy pattern be
+ * used for this purpose. The length of time that an atom spends in an
+ * elevated energy state before falling to a less energetic one is, however,
+ * partially determined by the atom itself, based on a flag that indicates
+ * whether its lifetime is a state is fixed or determined by some other means,
+ * e.g. probabilistically.
+ * <p>
+ * Two of the atom's states are distinguished: the groundState and highestEnergyState.
+ * The groundState has an infinited lifetime, and the highestEnergyState can't be exceeded. 
  */
 public class Atom extends SolidSphere {
 
@@ -111,10 +123,6 @@ public class Atom extends SolidSphere {
     public void setNumEnergyLevels( int numEnergyLevels, QuantumModel model ) {
         states = new AtomicState[numEnergyLevels];
         states[0] = model.getGroundState();
-//        states[1] = model.getMiddleEnergyState();
-//        if( numEnergyLevels == 3 ) {
-//            states[2] = model.getHighEnergyState();
-//        }
         groundState = states[0];
         highestEnergyState = states[states.length - 1];
     }
@@ -267,7 +275,8 @@ public class Atom extends SolidSphere {
     //----------------------------------------------------------------
 
     /**
-     * ChangeEvent and associated code
+     * Events and listeners for the Atom changing its "state", which in this case
+     * specifically means its energy level, and changing its location
      */
     public class ChangeEvent extends EventObject {
         private AtomicState currState;
@@ -317,9 +326,8 @@ public class Atom extends SolidSphere {
         stateChangeChannel.removeListener( listener );
     }
 
-
     /**
-     * LeftSystemEvent and associated code
+     * Events and listeners for the Atom leaving the model
      */
     public class LeftSystemEvent extends EventObject {
         public LeftSystemEvent( Object source ) {
