@@ -182,12 +182,10 @@ public class QWIScreenNode extends PNode {
         module.getQWIModel().addListener( new QWIModel.Adapter() {
             public void potentialChanged() {
                 updateWaveGraphic();
-                repaint();
             }
 
             public void doubleSlitVisibilityChanged() {
                 updateWaveGraphic();
-                repaint();
             }
         } );
     }
@@ -195,10 +193,6 @@ public class QWIScreenNode extends PNode {
     protected WavefunctionGraphic createWavefunctionGraphic() {
         return new WavefunctionGraphic( getDiscreteModel(), module.getQWIModel().getWavefunction() );
     }
-
-//    private void updateWavefunctionGraphic() {
-//        wavefunctionGraphic.update();
-//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return wavefunctionGraphic;
