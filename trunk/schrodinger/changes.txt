@@ -1,4 +1,4 @@
-1.02.03
+1.02.03 (10-24-2006)
 Fixed: The clear button on the screen controls is disabled.  When I looked at this before, I thought it was only disabled in average intensity mode, 
                 but now it seems to be disabled all the time.  It shouldn’t be disabled ever.  
                 I've noticed repeatedly that this annoys people and they think it's broken, 
@@ -8,7 +8,6 @@ Fixed: If I run QWI on auto-repeat for single particles and a double slit for a 
                 The rate of fading should be much slower in single particle mode than in the other two cases, since the dots don’t build up as fast.
 Fixed: It would be nice to be have the fade checkbox in single particle mode so that I can turn it off.
                 
-
 1.02.02 (10-24-2006)
 Fixed: If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
                 They should appear right away.  Same for disabling the slits.
