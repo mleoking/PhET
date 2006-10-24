@@ -31,7 +31,6 @@ public class Laplace {
             colors[i] = Color.white;
         }
 
-
         // initialize all points with reasonable starting values for the potential
         for( int i = 1; i < N; i++ ) {
             for( int j = 1; j < N; j++ ) {

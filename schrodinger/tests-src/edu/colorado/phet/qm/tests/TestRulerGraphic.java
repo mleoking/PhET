@@ -20,7 +20,7 @@ public class TestRulerGraphic {
         frame.setContentPane( pCanvas );
         frame.setSize( 800, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        String[]digits = new String[11];
+        String[] digits = new String[11];
         for( int i = 0; i < digits.length; i++ ) {
             digits[i] = new String( i + "" );
         }

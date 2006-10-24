@@ -1,9 +1,9 @@
-package edu.colorado.phet.qm.tests.thirdparty;// QuantumBox.java (C) 2001 by Paul Falstad, www.falstad.com
+package org.falstad;// Ripple.java (c) 2001 by Paul Falstad, www.falstad.com
 
 import java.awt.*;
 
-public class QuantumBoxLayout implements LayoutManager {
-    public QuantumBoxLayout() {
+public class RippleLayout implements LayoutManager {
+    public RippleLayout() {
     }
 
     public void addLayoutComponent( String name, Component c ) {
@@ -38,7 +38,7 @@ public class QuantumBoxLayout implements LayoutManager {
                 if( m instanceof Scrollbar ) {
                     d.width = barwidth;
                 }
-                if( m instanceof Choice ) {
+                if( m instanceof Choice && d.width > barwidth ) {
                     d.width = barwidth;
                 }
                 if( m instanceof Label ) {
@@ -52,8 +52,6 @@ public class QuantumBoxLayout implements LayoutManager {
         }
     }
 };
-
-;
 
 ;
 

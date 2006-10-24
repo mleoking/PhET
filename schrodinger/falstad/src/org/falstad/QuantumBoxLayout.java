@@ -1,11 +1,9 @@
-package edu.colorado.phet.qm.tests.thirdparty;// QuantumStates.java (C) 2002 by Paul Falstad, www.falstad.com import java.awt.*;
+package org.falstad;// QuantumBox.java (C) 2001 by Paul Falstad, www.falstad.com
 
 import java.awt.*;
 
-import edu.colorado.phet.qm.tests.thirdparty.DecentScrollbar;
-
-public class QuantumStatesLayout implements LayoutManager {
-    public QuantumStatesLayout() {
+public class QuantumBoxLayout implements LayoutManager {
+    public QuantumBoxLayout() {
     }
 
     public void addLayoutComponent( String name, Component c ) {
@@ -23,33 +21,24 @@ public class QuantumStatesLayout implements LayoutManager {
     }
 
     public void layoutContainer( Container target ) {
-        int barwidth = 0;
-        int i;
-        for( i = 1; i < target.getComponentCount(); i++ ) {
-            Component m = target.getComponent( i );
-            if( m.isVisible() ) {
-                Dimension d = m.getPreferredSize();
-                if( d.width > barwidth ) {
-                    barwidth = d.width;
-                }
-            }
-        }
         Insets insets = target.insets();
         int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw - barwidth;
+        int cw = targetw * 7 / 10;
         int targeth = target.size().height - ( insets.top + insets.bottom );
         target.getComponent( 0 ).move( insets.left, insets.top );
         target.getComponent( 0 ).resize( cw, targeth );
+        int barwidth = targetw - cw;
         cw += insets.left;
+        int i;
         int h = insets.top;
         for( i = 1; i < target.getComponentCount(); i++ ) {
             Component m = target.getComponent( i );
             if( m.isVisible() ) {
                 Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar || m instanceof DecentScrollbar ) {
+                if( m instanceof Scrollbar ) {
                     d.width = barwidth;
                 }
-                if( m instanceof Choice && d.width > barwidth ) {
+                if( m instanceof Choice ) {
                     d.width = barwidth;
                 }
                 if( m instanceof Label ) {
@@ -68,4 +57,3 @@ public class QuantumStatesLayout implements LayoutManager {
 
 ;
 
-;

@@ -123,7 +123,7 @@ public class PangShooting {
 // Method to calculate the wavefunction.
 
     public void wave( double energy ) {
-        double y[] = new double [nx + 1];
+        double y[] = new double[nx + 1];
         double u0 = 0, u1 = 0.01;
 
         // Set up function q(x) in the equation
