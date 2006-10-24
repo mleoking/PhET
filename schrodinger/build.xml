@@ -1,4 +1,4 @@
-<project name="General Ant Build Script" default="Publish Executables" basedir=".">
+<project name="General Ant Build Script" default="Build and Deploy" basedir=".">
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
@@ -138,5 +138,8 @@
             <arg value="${phet-root}/${dev-path}/${dev-version}"/>
         </exec>
     </target>
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Update html,Post Dev,Post Docs,Show Browser"/>
+    <target name="Build and Deploy" description="build and deploy it"
+            depends="ProGuard,Update JNLP,Update html,Post Dev,Post Docs,Show Browser">
+        <echo message="done"/>
+    </target>
 </project>
