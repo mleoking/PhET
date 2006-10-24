@@ -2,12 +2,12 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.QWIModel;
+import edu.colorado.phet.qm.phetcommon.BufferedPhetPCanvas;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class QWIPanel extends PhetPCanvas {
+public class QWIPanel extends BufferedPhetPCanvas {
     private QWIModel QWIModel;
     private QWIModule module;
     private Photon photon;

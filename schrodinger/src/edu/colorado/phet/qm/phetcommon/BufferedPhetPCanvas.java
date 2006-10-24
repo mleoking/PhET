@@ -17,7 +17,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
     private Graphics2D bufferedGraphics;
 
     public void paintComponent( Graphics g ) {
-        Rectangle clip = g.getClipBounds();//todo is this in the correct coordinate frame?
+//        Rectangle clip = g.getClipBounds();//todo is this in the correct coordinate frame?
 //        System.out.println( "clip=" + clip + ", r=" + r );
 
         getBufferedGraphics().setClip( g.getClipBounds() );
