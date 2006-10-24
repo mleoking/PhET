@@ -30,6 +30,7 @@ public class DetectorGraphic extends RectangleGraphic {
     private static Color fill = new Color( 200, 180, 150, 0 );
     private boolean probDisplayAllowedToBeVisible = true;
     private QWIPanel qwiPanel;
+    private Color enabledStrokeColor = new Color( 0, 185, 255 );
 
     public DetectorGraphic( final QWIPanel QWIPanel, final Detector detector ) {
         super( QWIPanel, detector, fill );
@@ -87,7 +88,7 @@ public class DetectorGraphic extends RectangleGraphic {
             probDisplay.setText( formatted + " %" );
             probDisplay.setOffset( getViewRectangle().x, getViewRectangle().y );
             probDisplay.setVisible( detector.isEnabled() && probDisplayAllowedToBeVisible );
-            getAreaGraphic().setStrokePaint( detector.isEnabled() ? Color.blue : Color.gray );
+            getAreaGraphic().setStrokePaint( detector.isEnabled() ? enabledStrokeColor : Color.gray );
             closeGraphic.setOffset( (int)( getViewRectangle().x - closeGraphic.getWidth() ), getViewRectangle().y - closeGraphic.getHeight() );
         }
     }
