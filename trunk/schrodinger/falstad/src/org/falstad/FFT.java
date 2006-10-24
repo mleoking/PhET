@@ -1,7 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
-
-import edu.colorado.phet.qm.tests.thirdparty.QuantumCircFrame;
+package org.falstad;
 
 /**
  * User: Sam Reid

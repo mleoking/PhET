@@ -1,12 +1,19 @@
-package edu.colorado.phet.qm.tests.thirdparty;// QuantumCirc.java (C) 2001 by Paul Falstad, www.falstad.com
+/* Copyright 2004, Sam Reid */
+package org.falstad;
 
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class QuantumCirc extends Applet implements ComponentListener {
-    QuantumCircFrame ogf;
+/**
+ * User: Sam Reid
+ * Date: Feb 9, 2006
+ * Time: 9:19:12 PM
+ * Copyright (c) Feb 9, 2006 by Sam Reid
+ */
+public class Ripple extends Applet implements ComponentListener {
+    RippleFrame ogf;
 
     void destroyFrame() {
         if( ogf != null ) {
@@ -25,7 +32,7 @@ public class QuantumCirc extends Applet implements ComponentListener {
     void showFrame() {
         if( ogf == null ) {
             started = true;
-            ogf = new QuantumCircFrame( this );
+            ogf = new RippleFrame( this );
             ogf.init();
             repaint();
         }
@@ -65,6 +72,4 @@ public class QuantumCirc extends Applet implements ComponentListener {
         ogf = null;
         repaint();
     }
-};
-
-;
+}

@@ -1,8 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
-
-import edu.colorado.phet.qm.tests.thirdparty.QuantumCirc;
-import edu.colorado.phet.qm.tests.thirdparty.QuantumCircCanvas;
+package org.falstad;
 
 import java.awt.*;
 import java.awt.event.*;

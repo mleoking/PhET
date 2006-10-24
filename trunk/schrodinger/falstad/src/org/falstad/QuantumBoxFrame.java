@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
+package org.falstad;
 
 import java.awt.*;
-import java.awt.image.MemoryImageSource;
 import java.awt.event.*;
-import java.util.Random;
+import java.awt.image.MemoryImageSource;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -433,7 +433,7 @@ class QuantumBoxFrame extends Frame
                 v.pixels[i] = 0xFF000000;
             }
             v.imageSource = new MemoryImageSource( v.width, v.height,
-                                                                  v.pixels, 0, v.width );
+                                                   v.pixels, 0, v.width );
             v.imageSource.setAnimated( true );
             v.imageSource.setFullBufferUpdates( true );
             v.memimage = cv.createImage( v.imageSource );
@@ -1358,7 +1358,7 @@ class QuantumBoxFrame extends Frame
     double phasecoefcos[][];
     double phasecoefsin[][];
     double phasecoefadj[][];
-//    double modephasecos;
+    //    double modephasecos;
     double elevels[][];
     float data[];
     static final double pi = 3.14159265358979323846;
@@ -1386,7 +1386,7 @@ class QuantumBoxFrame extends Frame
         int oldMaxTerms = maxTerms;
         maxTerms = sampleCount;
         System.out.print( "sampleCount = " + maxTerms + "\n" );
-        double oldmagcoef     [][] = magcoef;
+        double oldmagcoef[][] = magcoef;
         double oldphasecoefadj[][] = phasecoefadj;
         magcoef = new double[maxTerms][maxTerms];
         phasecoef = new double[maxTerms][maxTerms];

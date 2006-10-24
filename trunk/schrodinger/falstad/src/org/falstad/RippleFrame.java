@@ -1,15 +1,15 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
+package org.falstad;
 
 import java.awt.*;
-import java.awt.image.MemoryImageSource;
-import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import java.util.Random;
-import java.util.Vector;
-import java.util.StringTokenizer;
+import java.awt.image.BufferedImage;
+import java.awt.image.MemoryImageSource;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * User: Sam Reid
@@ -464,8 +464,7 @@ class RippleFrame extends Frame
                         medium[gi] != medium[gi + 1];
                 if( ( x == 1 || x == gridSizeX - 2 ) &&
                     medium[gi] != medium[gridSizeX - 1 - x + gw * ( y + 1 )] ||
-                                                                             medium[gi] != medium[gridSizeX - 1 - x + gw * ( y - 1 )] )
-                {
+                                                                             medium[gi] != medium[gridSizeX - 1 - x + gw * ( y - 1 )] ) {
                     exceptional[gi] = true;
                 }
             }
@@ -873,15 +872,15 @@ class RippleFrame extends Frame
                     double a2 = d2 * d4;
                     double a3 = d1 * d3;
                     double a4 = d2 * d3;
-                    colR = (int)( negColor. getRed() * a1 +
+                    colR = (int)( negColor.getRed() * a1 +
                                   zeroColor.getRed() * a2 +
                                   negMedColor.getRed() * a3 +
                                   medColor.getRed() * a4 );
-                    colG = (int)( negColor. getGreen() * a1 +
+                    colG = (int)( negColor.getGreen() * a1 +
                                   zeroColor.getGreen() * a2 +
                                   negMedColor.getGreen() * a3 +
                                   medColor.getGreen() * a4 );
-                    colB = (int)( negColor. getBlue() * a1 +
+                    colB = (int)( negColor.getBlue() * a1 +
                                   zeroColor.getBlue() * a2 +
                                   negMedColor.getBlue() * a3 +
                                   medColor.getBlue() * a4 );
@@ -895,15 +894,15 @@ class RippleFrame extends Frame
                     double a2 = d2 * d4;
                     double a3 = d1 * d3;
                     double a4 = d2 * d3;
-                    colR = (int)( posColor. getRed() * a1 +
+                    colR = (int)( posColor.getRed() * a1 +
                                   zeroColor.getRed() * a2 +
                                   posMedColor.getRed() * a3 +
                                   medColor.getRed() * a4 );
-                    colG = (int)( posColor. getGreen() * a1 +
+                    colG = (int)( posColor.getGreen() * a1 +
                                   zeroColor.getGreen() * a2 +
                                   posMedColor.getGreen() * a3 +
                                   medColor.getGreen() * a4 );
-                    colB = (int)( posColor. getBlue() * a1 +
+                    colB = (int)( posColor.getBlue() * a1 +
                                   zeroColor.getBlue() * a2 +
                                   posMedColor.getBlue() * a3 +
                                   medColor.getBlue() * a4 );

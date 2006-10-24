@@ -1,9 +1,9 @@
-package edu.colorado.phet.qm.tests.thirdparty;// Ripple.java (c) 2001 by Paul Falstad, www.falstad.com
+package org.falstad;// QuantumStates.java (C) 2002 by Paul Falstad, www.falstad.com import java.awt.*;
 
 import java.awt.*;
 
-public class RippleLayout implements LayoutManager {
-    public RippleLayout() {
+public class QuantumStatesLayout implements LayoutManager {
+    public QuantumStatesLayout() {
     }
 
     public void addLayoutComponent( String name, Component c ) {
@@ -21,21 +21,30 @@ public class RippleLayout implements LayoutManager {
     }
 
     public void layoutContainer( Container target ) {
+        int barwidth = 0;
+        int i;
+        for( i = 1; i < target.getComponentCount(); i++ ) {
+            Component m = target.getComponent( i );
+            if( m.isVisible() ) {
+                Dimension d = m.getPreferredSize();
+                if( d.width > barwidth ) {
+                    barwidth = d.width;
+                }
+            }
+        }
         Insets insets = target.insets();
         int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw * 7 / 10;
+        int cw = targetw - barwidth;
         int targeth = target.size().height - ( insets.top + insets.bottom );
         target.getComponent( 0 ).move( insets.left, insets.top );
         target.getComponent( 0 ).resize( cw, targeth );
-        int barwidth = targetw - cw;
         cw += insets.left;
-        int i;
         int h = insets.top;
         for( i = 1; i < target.getComponentCount(); i++ ) {
             Component m = target.getComponent( i );
             if( m.isVisible() ) {
                 Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar ) {
+                if( m instanceof Scrollbar || m instanceof DecentScrollbar ) {
                     d.width = barwidth;
                 }
                 if( m instanceof Choice && d.width > barwidth ) {
@@ -55,3 +64,6 @@ public class RippleLayout implements LayoutManager {
 
 ;
 
+;
+
+;

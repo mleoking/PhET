@@ -1,15 +1,15 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
+package org.falstad;
+
+import org.netlib.lapack.Dstedc;
+import org.netlib.util.intW;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Random;
 import java.util.Vector;
-import java.text.NumberFormat;
-import java.text.DecimalFormat;
-
-import org.netlib.util.intW;
-import org.netlib.lapack.Dstedc;
 
 /**
  * User: Sam Reid
@@ -940,8 +940,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
         g.setColor( Color.gray ); /* double scaler = 1e-10; while (scaler*view.scale*view.ymult*600 < view.height) scaler *= 10; System.out.print(scaler + "\n"); for (i = 0; i != 20; i++) { int y = (int) (view.ymult * i * view.scale * scaler * 10); System.out.print(i + " " + y + "\n"); if (y > view.height/2) break; g.drawLine(winSize.width-5, view.mid_y - y, winSize.width, view.mid_y - y); } */
-        if( ( probCheckItem.getState() || probPhaseCheckItem.getState() || magPhaseCheckItem.getState() ) && fi != null )
-        { // draw probability or magnitude
+        if( ( probCheckItem.getState() || probPhaseCheckItem.getState() || magPhaseCheckItem.getState() ) && fi != null ) { // draw probability or magnitude
             g.setColor( Color.white );
             double mult = view.ymult2 * view.scale;
             for( i = 0; i != count; i++ ) {
@@ -1197,8 +1196,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             editFuncPoint( x, y );
             dragY = y;
         }
-        else
-        { // need to draw a line from old x,y to new x,y and // call editFuncPoint for each point on that line. yuck.
+        else { // need to draw a line from old x,y to new x,y and // call editFuncPoint for each point on that line. yuck.
             int x1 = ( x < dragX ) ? x : dragX;
             int y1 = ( x < dragX ) ? y : dragY;
             int x2 = ( x > dragX ) ? x : dragX;
@@ -1757,10 +1755,10 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         for( i = 0; i != waveFunctionMenu.countItems(); i++ ) {
             if( e.getItemSelectable() == waveFunctionMenu.getItem( i ) ) {
                 int j;
-                ( (CheckboxMenuItem)waveFunctionMenu.getItem( i ) ) .setState( true );
+                ( (CheckboxMenuItem)waveFunctionMenu.getItem( i ) ).setState( true );
                 for( j = 0; j != waveFunctionMenu.countItems(); j++ ) {
                     if( i != j ) {
-                        ( (CheckboxMenuItem)waveFunctionMenu.getItem( j ) ) .setState( false );
+                        ( (CheckboxMenuItem)waveFunctionMenu.getItem( j ) ).setState( false );
                     }
                 }
                 rescaleGraphs();

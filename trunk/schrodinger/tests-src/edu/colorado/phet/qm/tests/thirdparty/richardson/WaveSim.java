@@ -1,11 +1,9 @@
-package edu.colorado.phet.qm.tests.thirdparty;/*
+package edu.colorado.phet.qm.tests.thirdparty.richardson;/*
  * Integrating the Schrodinger Wave Equation
  * John L. Richardson
  * jlr@sgi.com
  * December 1995
  */
-
-import edu.colorado.phet.qm.tests.thirdparty.complex;
 
 import java.awt.*;
 
@@ -370,7 +368,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         }
     }
 
-//    private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
+    //    private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
     private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0};
 
     public double Norm() {

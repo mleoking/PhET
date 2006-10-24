@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.thirdparty;
+package org.falstad;
 
 import java.applet.Applet;
-import java.awt.event.ComponentListener;
-import java.awt.event.ComponentEvent;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
  * User: Sam Reid

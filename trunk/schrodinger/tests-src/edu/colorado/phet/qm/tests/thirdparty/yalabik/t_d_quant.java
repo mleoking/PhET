@@ -1,3 +1,5 @@
+package edu.colorado.phet.qm.tests.thirdparty.yalabik;
+
 import java.applet.Applet;
 import java.awt.*;
 

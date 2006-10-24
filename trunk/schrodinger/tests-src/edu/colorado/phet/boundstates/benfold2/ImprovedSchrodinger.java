@@ -71,8 +71,7 @@ public class ImprovedSchrodinger extends Schrodinger {
 
         public void solve( double x0, double step, double[] vals ) {
             synchronized( this ) {
-                if( ( cache == null ) || ( x0 != last_x0 ) || ( step != last_step ) || ( vals.length != cache.length ) )
-                {
+                if( ( cache == null ) || ( x0 != last_x0 ) || ( step != last_step ) || ( vals.length != cache.length ) ) {
                     cache = new double[vals.length];
                     src.solve( last_x0 = x0, last_step = step, cache );
                 }

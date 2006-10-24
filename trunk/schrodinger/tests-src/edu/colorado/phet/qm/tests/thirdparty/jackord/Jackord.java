@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests.thirdparty;/*
+package edu.colorado.phet.qm.tests.thirdparty.jackord;/*
 
 http://www.kw.igs.net/~jackord/bp/n4.html
 
@@ -63,15 +63,15 @@ public class Jackord extends Applet
 
     public void paint( Graphics g ) {
         int n, nf, c, frame, timeStep, delt;                       // Declarations
-        double [] yReal = new double[NUM_LATTICE_PTS];
-        double [] yReal2 = new double[NUM_LATTICE_PTS];
-        double [] dyReal = new double[NUM_LATTICE_PTS];
-        double [] yImag = new double[NUM_LATTICE_PTS];
-        double [] yImag2 = new double[NUM_LATTICE_PTS];
-        double [] dyImag = new double[NUM_LATTICE_PTS];
+        double[] yReal = new double[NUM_LATTICE_PTS];
+        double[] yReal2 = new double[NUM_LATTICE_PTS];
+        double[] dyReal = new double[NUM_LATTICE_PTS];
+        double[] yImag = new double[NUM_LATTICE_PTS];
+        double[] yImag2 = new double[NUM_LATTICE_PTS];
+        double[] dyImag = new double[NUM_LATTICE_PTS];
 
-        int [] polygonXValues = new int[NUM_LATTICE_PTS];
-        int [] polygonYValues = new int[NUM_LATTICE_PTS];
+        int[] polygonXValues = new int[NUM_LATTICE_PTS];
+        int[] polygonYValues = new int[NUM_LATTICE_PTS];
         double dt, pi, phi, energy;
         n = NUM_LATTICE_PTS - 1;
         nf = 320;

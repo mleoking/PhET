@@ -61,7 +61,7 @@ public class TestBenFold {
 
     public void plot( double energy ) {
         schrodinger.setEnergy( energy );
-        double []soln = new double[steps];
+        double[] soln = new double[steps];
         double step = functionWidth / steps;
         schrodinger.solve( -functionWidth / 2, step, soln );
 
@@ -72,7 +72,7 @@ public class TestBenFold {
         ChartFrame chartFrame = new ChartFrame( "Shooting Method", plot );
         chartFrame.setSize( 800, 600 );
         normalize( soln );
-        for( int i = 0; i < soln.length; i ++ ) {
+        for( int i = 0; i < soln.length; i++ ) {
             series.add( i, soln[i] );
         }
         chartFrame.setVisible( true );
@@ -88,7 +88,7 @@ public class TestBenFold {
         }
     }
 
-    private double[]getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
+    private double[] getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
         ArrayList energies = new ArrayList();
         double epsilon = 0.0001;
         double max = min + initWindowSize;
@@ -107,7 +107,7 @@ public class TestBenFold {
             max = min + initWindowSize;
             iteration++;
         }
-        double[]values = new double[energies.size()];
+        double[] values = new double[energies.size()];
         for( int i = 0; i < energies.size(); i++ ) {
             values[i] = ( (Number)energies.get( i ) ).doubleValue();
         }
