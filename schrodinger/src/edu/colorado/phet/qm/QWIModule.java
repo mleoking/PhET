@@ -141,7 +141,6 @@ public class QWIModule extends PiccoloModule {
 
     public void fireParticle( WaveSetup waveSetup ) {
         qwiModel.fireParticle( waveSetup );
-        QWIPanel.updateGraphics();
     }
 
     public void setGridSize( final int nx, final int ny ) {
@@ -288,11 +287,11 @@ public class QWIModule extends PiccoloModule {
         }
     }
 
-    public static ResolutionControl.ResolutionSetup[]getResolutionSetups() {
-        int[]configFor1024x768 = new int[]{8, 4, 2};
-        String[]names = new String[]{"low", "medium", "high"};
-        double[]lightFudge = new double[]{1, 0.5, 0.25};
-        double[]particleFudge = new double[]{1, 1.0 / 4.0, 1.0 / 16.0};
+    public static ResolutionControl.ResolutionSetup[] getResolutionSetups() {
+        int[] configFor1024x768 = new int[]{8, 4, 2};
+        String[] names = new String[]{"low", "medium", "high"};
+        double[] lightFudge = new double[]{1, 0.5, 0.25};
+        double[] particleFudge = new double[]{1, 1.0 / 4.0, 1.0 / 16.0};
         ResolutionControl.ResolutionSetup[] resolutionSetup = new ResolutionControl.ResolutionSetup[configFor1024x768.length];
         for( int i = 0; i < resolutionSetup.length; i++ ) {
             resolutionSetup[i] = new ResolutionControl.ResolutionSetup( configFor1024x768[i], names[i], lightFudge[i], particleFudge[i] );

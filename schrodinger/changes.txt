@@ -1,3 +1,7 @@
+1.02.02
+Bugfix: If the simulation is paused and you hit the "Double Slits" button, the slits don't appear until you unpause it.  
+            They should appear right away.  Same for disabling the slits.
+
 1.02.01 (10-24-2006)
 Added buffering to reduce choppy graphics.
 Upgraded to latest phetcommon (About Dialog, etc.)
