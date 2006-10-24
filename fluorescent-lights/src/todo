@@ -1,3 +1,5 @@
+- remove the "Materials" strings from DischargeLamps.properties
+
 - cache photons at angles. lots of time spent creating rotated images
 - Turn off photon/atom collisions
 - Atom hot spot is not correct

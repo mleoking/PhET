@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 
 /**
  * HydrogenProperties
@@ -19,16 +21,21 @@ package edu.colorado.phet.dischargelamps.model;
  */
 public class NeonProperties extends DischargeLampElementProperties {
     private static double[] energyLevels = {
-        -13.6,
-        -3.4,
-        -1.511,
-        -0.850,
-        -0.544,
-        -0.378
+            -21.56,
+            -4.94,
+            -4.89,
+            -4.84,
+            -4.71,
+            -3.18,
+            -2.99,
+            -2.94,
+            -2.85,
+            -2.59
     };
 
     public NeonProperties() {
-        super( "Neon", energyLevels,
+        super( SimStrings.get( "Element.neon" ),
+               energyLevels,
                new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );

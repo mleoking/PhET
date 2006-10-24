@@ -36,11 +36,9 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     private DischargeLampModel model;
     private JSpinner numLevelsSpinner;
     private JPanel spinnerPanel;
-//    private ConfigurableElementProperties configurableElement;
 
     /**
      * @param model
-     * @param clock
      * @param atomicStates
      * @param panelWidth
      * @param panelHeight
