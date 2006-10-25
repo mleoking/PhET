@@ -21,7 +21,7 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 /**
- * RadioButtonWithIcon
+ * RadioButtonWithIcon adds an icon to the right of a JRadioButton. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -30,6 +30,11 @@ public class RadioButtonWithIcon extends JPanel {
 
     private JRadioButton _radioButton;
     
+    /**
+     * Constructor.
+     * @param label
+     * @param icon
+     */
     public RadioButtonWithIcon( String label, Icon icon ) {
         super();
         _radioButton = new JRadioButton( label );
@@ -50,6 +55,10 @@ public class RadioButtonWithIcon extends JPanel {
         layout.addComponent( iconLabel, row, col );
     }
     
+    /**
+     * Gets the JRadioButton.
+     * @return JRadioButton
+     */
     public JRadioButton getRadioButton() {
         return _radioButton;
     }

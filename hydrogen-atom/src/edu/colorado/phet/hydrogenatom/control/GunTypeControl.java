@@ -59,6 +59,12 @@ public class GunTypeControl extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param canvas used to put Piccolo wrapper around Swing components
+     * @param font
+     */
     public GunTypeControl( PSwingCanvas canvas, Font font ) {
         super();
         

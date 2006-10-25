@@ -30,7 +30,13 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
-
+/**
+ * IntensityControl is an intensity control, with range from 0-100 %.
+ * It combines a ColorIntensitySlider and an editable text field.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class IntensityControl extends JPanel {
     
     //----------------------------------------------------------------------------
@@ -47,6 +53,12 @@ public class IntensityControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param size
+     * @param font
+     */
     public IntensityControl( Dimension size, Font font ) {
         super();
         
@@ -118,6 +130,11 @@ public class IntensityControl extends JPanel {
     // Private
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the slider to match the text field.
+     * If the text field contains a bogus value, we warn the user and reset 
+     * the text field value.
+     */
     private void updateSlider() {
         boolean error = false;
         
@@ -141,6 +158,9 @@ public class IntensityControl extends JPanel {
         }
     }
     
+    /*
+     * Updates the text field to match the slider value.
+     */
     private void updateTextField() {
         final int value = _slider.getValue();
         String s = "" + value;

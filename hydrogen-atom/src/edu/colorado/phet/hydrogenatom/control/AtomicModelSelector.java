@@ -96,6 +96,9 @@ public class AtomicModelSelector extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     */
     public AtomicModelSelector() {
         
         // PNodes in this list are used to determine the width of the panel
@@ -397,16 +400,35 @@ public class AtomicModelSelector extends PhetPNode {
         setSelection( AtomicModel.BILLIARD_BALL );
     }
     
+    /*
+     * Handles alignment of a button.
+     */
+    private void setOffsetCentered( PNode node, PNode nodeAbove, PNode panel, PNode continuumNode, double spacing ) {
+        double x = ( panel.getFullBounds().getWidth() - continuumNode.getFullBounds().getHeight() - CONTINUUM_SPACING - node.getFullBounds().getWidth() ) / 2;
+        double y = nodeAbove.getFullBounds().getMaxY() + spacing;
+        node.setOffset( x, y );
+    }
+    
     //----------------------------------------------------------------------------
-    // Mutators
+    // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the selection.
+     * 
+     * @param model which model to select
+     */
     public void setSelection( AtomicModel model ) {
         _selectedModel = model;
         updateUI();
         fireChangeEvent( new ChangeEvent( this ) );
     }
     
+    /**
+     * Sets the selection.
+     * 
+     * @return AtomicModel
+     */
     public AtomicModel getSelection() {
         return _selectedModel;
     }
@@ -439,12 +461,10 @@ public class AtomicModelSelector extends PhetPNode {
     // Event handling
     //----------------------------------------------------------------------------
     
-    private void setOffsetCentered( PNode node, PNode nodeAbove, PNode panel, PNode continuumNode, double spacing ) {
-        double x = ( panel.getFullBounds().getWidth() - continuumNode.getFullBounds().getHeight() - CONTINUUM_SPACING - node.getFullBounds().getWidth() ) / 2;
-        double y = nodeAbove.getFullBounds().getMaxY() + spacing;
-        node.setOffset( x, y );
-    }
-    
+    /*
+     * Updates the UI to match the selected model.
+     * This controls highlighting, etc.
+     */
     private void updateUI() {
         
         _billiardBallLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );

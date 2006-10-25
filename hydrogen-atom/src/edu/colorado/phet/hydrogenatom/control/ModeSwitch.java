@@ -241,6 +241,10 @@ public class ModeSwitch extends PhetPNode {
         fireChangeEvent( new ChangeEvent( this ) );
     }
     
+    /*
+     * Updates the UI to match the selected mode.
+     * This moves the switch and changes the color of text.
+     */
     private void updateUI() {
         
         boolean isUpVisible = EXPERIMENT_IS_AT_TOP ? _isExperimentMode : !_isExperimentMode;
