@@ -131,9 +131,15 @@ public class NatCubic {
         else {
             NatCubicSpline2D ncs = new NatCubicSpline2D( points );
             PointArray out = new PointArray();
-            for( double t = 0; t <= points.length - 1; t += 1.0 / numSegsBetweenControlPoints ) {
+            double t = 0;
+            for( int i = 0; i < ( points.length - 1 ) * numSegsBetweenControlPoints + 1; i++ ) {
                 out.addPoint( ncs.evaluate( t ) );
+                t += 1.0 / numSegsBetweenControlPoints;
             }
+//            for( double t = 0; t <= points.length - 1 + 1E-6; t += 1.0 / numSegsBetweenControlPoints ) {
+//                System.out.println( "t = " + t + ", numSegs=" + numSegsBetweenControlPoints + ", points.length=" + points.length );
+//                out.addPoint( ncs.evaluate( t ) );
+//            }
             ArrayList mypath = new ArrayList();
             for( int i = 0; i < out.numPoints(); i++ ) {
                 mypath.add( new Point2D.Double( out.getX( i ), out.getY( i ) ) );
@@ -142,4 +148,11 @@ public class NatCubic {
         }
     }
 
+    public static void main( String[] args ) {
+        Point2D[] pts = new NatCubic().interpolate( new Point2D[]{new Point2D.Double( 0, 0 ), new Point2D.Double( 1, 0 )}, 5 );
+        for( int i = 0; i < pts.length; i++ ) {
+            Point2D pt = pts[i];
+            System.out.println( "pt[" + i + "]=" + pt );
+        }
+    }
 }

@@ -13,7 +13,7 @@ public class FloorSpline extends CubicSpline {
 
     public FloorSpline() {
         super( 4 );
-        addControlPoint( 0, 0 );
+        addControlPoint( -5, 0 );
         addControlPoint( 20, 0 );
     }
 }

@@ -130,7 +130,6 @@ public abstract class AbstractSpline implements Cloneable {
     }
 
     private GeneralPath createInterpolationPath() {
-
         Point2D[] pts = getInterpolationPoints();
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( pts[0].getX(), pts[0].getY() );
