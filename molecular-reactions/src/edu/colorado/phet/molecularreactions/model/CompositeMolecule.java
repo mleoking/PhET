@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventListener;
 import java.util.List;
+import java.text.DecimalFormat;
 
 /**
  * CompositeMolecule
@@ -39,6 +40,7 @@ import java.util.List;
  * @version $Revision$
  */
 abstract public class CompositeMolecule extends AbstractMolecule implements PotentialEnergySource {
+    private Vector2D velocity;
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -241,10 +243,6 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         return components;
     }
 
-//    public Bond[] getBonds() {
-//        return bonds;
-//    }
-
     public Rectangle2D getBoundingBox() {
         boundingBox.setRect( components[0].getBoundingBox() );
         for( int i = 1; i < components.length; i++ ) {
@@ -359,8 +357,6 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         return getMass();
     }
 
-    ;
-
     public double getFullKineticEnergy() {
         return getKineticEnergy();
     }
@@ -431,4 +427,19 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
             }
         }
     }
+
+//    public double getKineticEnergy() {
+//        DecimalFormat df = new DecimalFormat( "#.0000");
+//        System.out.println( "getOmega() = " + df.format( getOmega() ) + "\tgetSpeed() = " + df.format( getSpeed() ));
+////        return super.getKineticEnergy();
+//
+//        double angKE = getMomentOfInertia() * getOmega()* getOmega()/ 2;
+//        Vector2D v = new Vector2D.Double( );
+//        for( int i = 0; i < components.length; i++ ) {
+//            SimpleMolecule component = components[i];
+//            v.add( component.getVelocity());
+//        }
+//        double ke = 0.5 * getMass() * v.getMagnitudeSq();
+//        return ke + angKE;
+//    }
 }

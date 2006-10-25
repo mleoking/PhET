@@ -550,6 +550,9 @@ public class A_BC_AB_C_Reaction extends Reaction {
                         throw new IllegalArgumentException( "internal error " );
                     }
                     result = getRelKE( m1, m2 ) > de;
+                    if( result ) {
+                        System.out.println( "A_BC_AB_C_Reaction$Criteria.criteriaMet" );
+                    }
                 }
                 return result;
             }
@@ -603,13 +606,16 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
         private static double getRelKE( AbstractMolecule m1, AbstractMolecule m2 ) {
             // Determine the kinetic energy in the collision. We consider this to be the
-            // kinetic energy of an object whose mass is equal to the total masses of
-            // the two molecules, moving at a speed equal to the magnitude of the
-            // relative velocity of the two molecules
+            // sum of the two molecules' kinetic energies along the line connecting their
+            // CMs
             Vector2D loa = new Vector2D.Double( m2.getPosition().getX() - m1.getPosition().getX(),
                                                 m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
             double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
-            double ke = 0.5 * ( m1.getMass() + m2.getMass() ) * sRel * sRel;
+
+            double s1 = m1.getVelocity().dot(loa );
+            double s2 = -m2.getVelocity().dot( loa );
+            int sign = MathUtil.getSign( s2 );
+            double ke = 0.5 * ( m1.getMass() * s1 * s1 + m2.getMass() * s2 * s2 );
             return ke;
         }
     }
