@@ -26,14 +26,39 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
-
+/**
+ * AlphaParticleNode is the visual representation of an alpha particle.
+ * It's local origin is at its center.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class AlphaParticleNode extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    /* overlay percentage between neurtons and protons */
     private static final double OVERLAP = 0.333;
+    
+    /* common image used for all alpha particles */
     private static Image IMAGE = null;
     
-    private AlphaParticle _alphaParticle;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
+    private AlphaParticle _alphaParticle; // model element
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param alphaParticle model element
+     */
     public AlphaParticleNode( AlphaParticle alphaParticle ) {
         super();
         
@@ -53,6 +78,10 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
         _alphaParticle.addObserver( this );
     }
         
+    /**
+     * Creates the image used to represent an alpha particle.
+     * @return Image
+     */
     public static final Image createImage() {
         
         if ( IMAGE == null ) {
@@ -81,6 +110,13 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
         return IMAGE;
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the model.
+     */
     public void update( Observable o, Object arg ) {
         update();
     }

@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * 
- * ProtonNode draws a proton.
+ * ProtonNode is the visual representation of a proton.
  * A proton is red, and has a specular highlight with the light source coming from below.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

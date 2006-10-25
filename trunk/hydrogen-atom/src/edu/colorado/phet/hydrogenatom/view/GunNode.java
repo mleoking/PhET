@@ -45,7 +45,7 @@ public class GunNode extends PhetPNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Gun _gun;
+    private Gun _gun; // model element
     private PImage _onButton, _offButton;
     
     //----------------------------------------------------------------------------
