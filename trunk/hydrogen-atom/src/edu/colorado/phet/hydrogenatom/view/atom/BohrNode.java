@@ -23,27 +23,48 @@ import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * BohrNode is the visual representation of the Bohr model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
 
-public class BohrNode extends AbstractOrbitAtomNode implements Observer {
-
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int DEFAULT_SELECTED_ORBIT = 1; //XXX hack, for demo purposes
     private static final int NUMBER_OF_ORBITS = 6;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private ArrayList _orbitNodes; // array of PNode
     private ProtonNode _protonNode;
     private ElectronNode _electronNode;
     
-    private BohrModel _hydrogenAtom;
+    private BohrModel _atom;
     
-    public BohrNode( BohrModel hydrogenAtom ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor
+     * @param atom
+     */
+    public BohrNode( BohrModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
         _orbitNodes = new ArrayList();
         for ( int orbit = 1; orbit <= NUMBER_OF_ORBITS; orbit++ ) {
-            PNode orbitNode = createOrbitNode( orbit );
+            PNode orbitNode = OrbitFactory.createOrbitNode( orbit );
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
         }
@@ -66,7 +87,16 @@ public class BohrNode extends AbstractOrbitAtomNode implements Observer {
         update( null, null );
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) ); 
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
     }
 }

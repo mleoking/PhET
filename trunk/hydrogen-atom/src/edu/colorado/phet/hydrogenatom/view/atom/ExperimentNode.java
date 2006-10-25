@@ -40,6 +40,9 @@ public class ExperimentNode extends PhetPNode implements Observer {
     public ExperimentNode( ExperimentModel hydrogenAtom ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         _hydrogenAtom = hydrogenAtom;
         _hydrogenAtom.addObserver( this );
         

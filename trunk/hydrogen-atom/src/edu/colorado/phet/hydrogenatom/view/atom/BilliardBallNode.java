@@ -30,21 +30,42 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
+/**
+ * BilliardBallNode is the visual representation of the "billiard ball" model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class BilliardBallNode extends AbstractHydrogenAtomNode implements Observer {
 
-public class BilliardBallNode extends AbstractAtomNode implements Observer {
-
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Color COLOR = new Color( 196, 78, 14 ); // orange
     private static final Color HILITE_COLOR = new Color( 255, 141, 21 ); // lighter orange
     
-    private BilliardBallModel _hydrogenAtom;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
-    public BilliardBallNode( BilliardBallModel hydrogenAtom ) {
+    private BilliardBallModel _atom; // model element
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param atom
+     */
+    public BilliardBallNode( BilliardBallModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
-        double radius = ModelViewTransform.transform( _hydrogenAtom.getRadius() );
+        double radius = ModelViewTransform.transform( _atom.getRadius() );
         double diameter = 2 * radius;
         Paint roundGradient = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), COLOR );
         PNode billiardBallNode = new SphericalNode( diameter, roundGradient, true /* convertToImage */ );
@@ -52,8 +73,17 @@ public class BilliardBallNode extends AbstractAtomNode implements Observer {
 
         update( null, null );
     }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
 
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) );
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
     }
 }
