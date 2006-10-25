@@ -34,6 +34,7 @@ public abstract class AbstractSpline implements Cloneable {
 
     public static final float SPLINE_THICKNESS = 0.25f;//meters
     private boolean userControlled = false;
+    private double frictionCoefficient = 0;
 //    private AbstractSpline reverseSpline = null;
 
     public boolean equals( Object obj ) {
@@ -246,5 +247,13 @@ public abstract class AbstractSpline implements Cloneable {
         }
 //        System.out.println( "found best=" + scalar + ", score=" + best );
         return scalar;
+    }
+
+    public double getFrictionCoefficient() {
+        return frictionCoefficient;
+    }
+
+    public void setFrictionCoefficient( double frictionCoefficient ) {
+        this.frictionCoefficient = frictionCoefficient;
     }
 }
