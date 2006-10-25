@@ -50,6 +50,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/25/06) - javadoc
 (10/25/06) - change BilliardBallNode to use shape instead of image file
 (10/25/06) - implement collision detection and handling for BilliardBallModel
 (10/25/06) - add collision detection interface to AbstractHydrogenAtom and HAModel
