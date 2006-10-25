@@ -76,14 +76,15 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
                 update();
             }
         });
-//        model.addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                update();
-//            }
-//        } );
     }
 
     public void update() {
+        double peak = model.getEnergyProfile().getPeakLevel();
+//        System.out.println( "peak = " + peak );
+        double ke = model.getTotalKineticEnergy();
+        double pe = model.getTotalPotentialEnergy();
+//        System.out.println( "pe = " + pe );
+        System.out.println( "ke = " + ke );
         double e = model.getTotalKineticEnergy() + model.getTotalPotentialEnergy();
         double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );

@@ -200,6 +200,7 @@ public class MRModel extends PublishingModel {
         List modelElements = getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
+//            if( o instanceof SimpleMolecule ) {
             if( o instanceof Body ) {
                 Body body = (Body)o;
                 body.setVelocity( body.getVelocity().scale( r ));
