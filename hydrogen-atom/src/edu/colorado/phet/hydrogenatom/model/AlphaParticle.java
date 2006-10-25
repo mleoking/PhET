@@ -25,16 +25,31 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  */
 public class AlphaParticle extends DynamicObject implements ModelElement {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private static final double DISTANCE_PER_DT = 5;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public AlphaParticle( Point2D position, double orientation ) {
         super( position, orientation );
     }
     
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
     public void stepInTime( double dt ) {
         move( DISTANCE_PER_DT * dt );
     }
     
+    /*
+     * Moves the alpha particles a specified distance, in the direction of its orientation.
+     */
     private void move( double distance ) {
         double direction = getOrientation();
         double dx = Math.cos( direction ) * distance;
@@ -42,8 +57,11 @@ public class AlphaParticle extends DynamicObject implements ModelElement {
         double x = getX() + dx;
         double y = getY() + dy;
         setPosition( x, y );
-//        System.out.println( "AlphaParticle.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
     }
+    
+    //----------------------------------------------------------------------------
+    // Object overrides
+    //----------------------------------------------------------------------------
     
     public String toString() {
         String s = "Photon ";

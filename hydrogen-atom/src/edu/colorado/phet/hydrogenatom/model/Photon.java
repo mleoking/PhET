@@ -29,10 +29,28 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  */
 public class Photon extends DynamicObject implements ModelElement {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double DISTANCE_PER_DT = 5;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private double _wavelength;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param position
+     * @param orientation rotation angle, in radians
+     * @param wavelength wavelength, in nanometers
+     */
     public Photon( Point2D position, double orientation, double wavelength ) {
         super( position, orientation );
         if ( wavelength < 0 ) {
@@ -41,18 +59,37 @@ public class Photon extends DynamicObject implements ModelElement {
         _wavelength = wavelength;
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the photon's wavelength.
+     * @param wavelength in nanometers
+     */
     public double getWavelength() {
         return _wavelength;
     }
     
+    /**
+     * Gets the Color associated with the photon's wavelength.
+     * @return Color
+     */
     public Color getColor() {
         return ColorUtils.wavelengthToColor( _wavelength );
     }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
         move( DISTANCE_PER_DT * dt );
     }
     
+    /*
+     * Moves the photon a specified distance, in the direction of its orientation.
+     */
     private void move( double distance ) {
         double direction = getOrientation();
         double dx = Math.cos( direction ) * distance;
@@ -61,6 +98,10 @@ public class Photon extends DynamicObject implements ModelElement {
         double y = getY() + dy;
         setPosition( x, y );
     }
+    
+    //----------------------------------------------------------------------------
+    // Object overrides
+    //----------------------------------------------------------------------------
     
     public String toString() {
         String s = "Photon ";

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 
 /**
- * DynamicObject
+ * DynamicObject is an object that has a mutable position and orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
