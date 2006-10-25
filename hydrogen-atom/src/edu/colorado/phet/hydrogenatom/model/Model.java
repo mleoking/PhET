@@ -18,18 +18,19 @@ import java.util.Iterator;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 
 
-public class Model {
+public class Model extends ClockAdapter {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IClock _clock;
-    private ArrayList _modelObjects; // array of IModelObject
+    private ArrayList _modelElements; // array of ModelElement
     private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
@@ -37,33 +38,43 @@ public class Model {
     //----------------------------------------------------------------------------
     
     public Model( IClock clock ) {
-        _clock = clock;
-        _modelObjects = new ArrayList();
+        clock.addClockListener( this );
+        _modelElements = new ArrayList();
         _listenerList = new EventListenerList();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ClockListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void clockTicked( ClockEvent clockEvent ) {
+        double dt = clockEvent.getSimulationTimeChange();
+       
+        // Iterator through a copy of the list, in case the list changes.
+        ArrayList modelElements = new ArrayList( _modelElements );
+        Iterator i = modelElements.iterator();
+        while ( i.hasNext() ) {
+            ModelElement modelElement = (ModelElement)i.next();
+            modelElement.stepInTime( dt );
+        }
     }
     
     //----------------------------------------------------------------------------
     // Model Object management
     //----------------------------------------------------------------------------
     
-    public ArrayList getModelObjects() {
-        return _modelObjects;
+    public ArrayList getModelElements() {
+        return _modelElements;
     }
     
-    public void addModelObject( IModelObject modelObject ) {
-        _modelObjects.add( modelObject );
-        if ( modelObject instanceof ClockListener ) {
-            _clock.addClockListener( (ClockListener) modelObject );
-        }
-        fireModelObjectAdded( new ModelEvent( this, modelObject ) );
+    public void addModelElement( ModelElement modelElement ) {
+        _modelElements.add( modelElement );
+        fireModelObjectAdded( new ModelEvent( this, modelElement ) );
     }
 
-    public void removeModelObject( IModelObject modelObject ) {
-        _modelObjects.remove( modelObject );
-        if ( modelObject instanceof ClockListener ) {
-            _clock.removeClockListener( (ClockListener) modelObject );
-        }
-        fireModelObjectRemoved( new ModelEvent( this, modelObject ) );
+    public void removeModelElement( ModelElement modelElement ) {
+        _modelElements.remove( modelElement );
+        fireModelObjectRemoved( new ModelEvent( this, modelElement ) );
     }
     
     //----------------------------------------------------------------------------
@@ -71,26 +82,26 @@ public class Model {
     //----------------------------------------------------------------------------
     
     public static interface ModelListener extends EventListener {
-        public void modelObjectAdded( ModelEvent event);
-        public void modelObjectRemoved( ModelEvent event);
+        public void modelElementAdded( ModelEvent event);
+        public void modelElementRemoved( ModelEvent event);
     }
 
     public static class ModelListenerAdapter implements ModelListener {
-        public void modelObjectAdded( ModelEvent event ) {}
-        public void modelObjectRemoved( ModelEvent event ) {}
+        public void modelElementAdded( ModelEvent event ) {}
+        public void modelElementRemoved( ModelEvent event ) {}
     }
     
     public class ModelEvent extends EventObject {
 
-        private IModelObject _modelObject;
+        private ModelElement _modelElement;
 
-        public ModelEvent( Object source, IModelObject modelObject ) {
+        public ModelEvent( Object source, ModelElement modelElement ) {
             super( source );
-            _modelObject = modelObject;
+            _modelElement = modelElement;
         }
 
-        public IModelObject getModelObject() {
-            return _modelObject;
+        public ModelElement getModelElement() {
+            return _modelElement;
         }
     }
     
@@ -106,7 +117,7 @@ public class Model {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ModelListener.class ) {
-                ( (ModelListener)listeners[i + 1] ).modelObjectAdded( event );
+                ( (ModelListener)listeners[i + 1] ).modelElementAdded( event );
             }
         }
     }
@@ -115,7 +126,7 @@ public class Model {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ModelListener.class ) {
-                ( (ModelListener)listeners[i + 1] ).modelObjectRemoved( event );
+                ( (ModelListener)listeners[i + 1] ).modelElementRemoved( event );
             }
         }
     }

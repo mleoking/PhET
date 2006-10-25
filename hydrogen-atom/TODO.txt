@@ -50,6 +50,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/24/06) - HAModel extends Model and keeps separate lists of atoms, photons, alpha particles
+(10/24/06) - change model so that Model class is the only ClockListener, all other things are ModelElements
 (10/23/06) - add notification mechanism to AbstractHydrogenAtom for absorbing/emitting photons
 (10/23/06) - move all particle nodes to hydrogenatom.view.particle
 (10/23/06) - move all atom nodes to hydrogenatom.view.atom

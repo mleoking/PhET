@@ -106,9 +106,9 @@ public class HAModule extends PiccoloModule {
     
     private Font _spectrometerFont;
 
-    private Model _model;
+    private HAModel _model;
     private Gun _gun;
-    private Space _space;
+    private Space _space; 
     private AbstractHydrogenAtom _hydrogenAtomModel;
     
     private HAWiggleMe _wiggleMe;
@@ -140,7 +140,7 @@ public class HAModule extends PiccoloModule {
         
         // Model
         {
-            _model = new Model( clock );
+            _model = new HAModel( clock );
         }
         
         // Photon gun
@@ -162,8 +162,8 @@ public class HAModule extends PiccoloModule {
             spaceCenter.setLocation( 0, -spaceHeight / 2 );
         }
         
-        _model.addModelObject( _gun );
-        _model.addModelObject( _space );
+        _model.addModelElement( _gun );
+        _model.addModelElement( _space );
         
         //----------------------------------------------------------------------------
         // View
@@ -557,7 +557,7 @@ public class HAModule extends PiccoloModule {
     public void updateAtomicModel() {
 
         if ( _hydrogenAtomModel != null ) {
-            _model.removeModelObject( _hydrogenAtomModel );
+            _model.removeModelElement( _hydrogenAtomModel );
             _hydrogenAtomModel = null;
         }
         
@@ -589,7 +589,7 @@ public class HAModule extends PiccoloModule {
         }
         
         assert ( _hydrogenAtomModel != null );
-        _model.addModelObject( _hydrogenAtomModel );
+        _model.addModelElement( _hydrogenAtomModel );
     }
 
     public void updateEnergyDiagram() {

@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.factory;
 
-import edu.colorado.phet.hydrogenatom.model.IModelObject;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.SolarSystemNode;
@@ -24,8 +24,9 @@ public class SolarSystemNodeFactory extends NodeFactory {
         super( SolarSystemModel.class, parent );
     }
 
-    public PNode createNode( IModelObject modelObject ) {
-        return new SolarSystemNode( (SolarSystemModel) modelObject );
+    public PNode createNode( ModelElement modelElement ) {
+        assert( modelElement instanceof SolarSystemModel );
+        return new SolarSystemNode( (SolarSystemModel) modelElement );
     }
 }
 

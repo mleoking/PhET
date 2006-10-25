@@ -13,7 +13,7 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.util.DebugUtils;
 
 /**
@@ -23,7 +23,7 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AlphaParticle extends DynamicObject implements IModelObject {
+public class AlphaParticle extends DynamicObject implements ModelElement {
     
     private static final double DISTANCE_PER_DT = 5;
     
@@ -31,10 +31,8 @@ public class AlphaParticle extends DynamicObject implements IModelObject {
         super( position, orientation );
     }
     
-    public void simulationTimeChanged( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        double distance = DISTANCE_PER_DT * dt;
-        move( distance );
+    public void stepInTime( double dt ) {
+        move( DISTANCE_PER_DT * dt );
     }
     
     private void move( double distance ) {

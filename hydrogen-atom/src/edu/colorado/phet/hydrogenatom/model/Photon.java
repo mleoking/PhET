@@ -14,8 +14,8 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.util.DebugUtils;
 
@@ -27,7 +27,7 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Photon extends DynamicObject implements IModelObject {
+public class Photon extends DynamicObject implements ModelElement {
 
     private static final double DISTANCE_PER_DT = 5;
     
@@ -49,10 +49,8 @@ public class Photon extends DynamicObject implements IModelObject {
         return ColorUtils.wavelengthToColor( _wavelength );
     }
     
-    public void simulationTimeChanged( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        double distance = DISTANCE_PER_DT * dt;
-        move( distance );
+    public void stepInTime( double dt ) {
+        move( DISTANCE_PER_DT * dt );
     }
     
     private void move( double distance ) {
@@ -62,7 +60,6 @@ public class Photon extends DynamicObject implements IModelObject {
         double x = getX() + dx;
         double y = getY() + dy;
         setPosition( x, y );
-//        System.out.println( "Photon.move distance=" + distance + " dx=" + dx + " dy=" + dy + " " + this );
     }
     
     public String toString() {

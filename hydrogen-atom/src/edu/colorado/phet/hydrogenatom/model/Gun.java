@@ -20,10 +20,8 @@ import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
-import com.sun.rsasign.al;
-
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
@@ -41,7 +39,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Gun extends DynamicObject implements ClockListener, IModelObject {
+public class Gun extends DynamicObject implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -351,7 +349,7 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     private Point2D getRandomNozzlePoint() {
         
         // Start with the gun's origin at zero, gun pointing to the right
-        double x = 0;
+        double x = 1;
         double y = ( _random.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
 
         // Rotate by gun's orientation
@@ -370,31 +368,23 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
     }
     
     //----------------------------------------------------------------------------
-    // ClockListener implementation
+    // ModelElement implementation
     //----------------------------------------------------------------------------
 
     /*
-     * Fires photons or alpha particles each time the clock ticks.
+     * Fires photons or alpha particles each time that time advances.
      * If the gun is disabled, do nothing.
      */
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    public void stepInTime( double dt ) {
         if ( _enabled ) {
             if ( _mode == GunMode.PHOTONS && _lightIntensity > 0 ) {
-                firePhotons( clockEvent );
+                firePhotons( dt );
             }
             else if ( _mode == GunMode.ALPHA_PARTICLES && _alphaParticlesIntensity > 0 ) {
-                fireAlphaParticles( clockEvent );
+                fireAlphaParticles( dt );
             }
         }
     }
-
-    public void clockTicked( ClockEvent clockEvent ) {}
-
-    public void clockStarted( ClockEvent clockEvent ) {}
-
-    public void clockPaused( ClockEvent clockEvent ) {}
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {}
     
     //----------------------------------------------------------------------------
     // Fire photons and alpha particles
@@ -405,9 +395,9 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * The number of photons fired is based on clock ticks and intensity.
      * Each photon is fired from a random location along the gun's nozzle.
      */
-    private void firePhotons( ClockEvent clockEvent ) {
+    private void firePhotons( double dt ) {
 
-        _ticksSincePhotonFired += ( _lightIntensity * clockEvent.getSimulationTimeChange() );
+        _ticksSincePhotonFired += ( _lightIntensity * dt );
         
         // Fire a photon?
         if ( _ticksSincePhotonFired >= _ticksPerPhoton ) {
@@ -440,9 +430,9 @@ public class Gun extends DynamicObject implements ClockListener, IModelObject {
      * The number of alpha particles fired is based on clock ticks and intensity.
      * Each alpha particle is fired from a random location along the gun's nozzle.
      */
-    private void fireAlphaParticles( ClockEvent clockEvent ) {
+    private void fireAlphaParticles( double dt ) {
 
-        _ticksSinceAlphaParticleFired += ( _alphaParticlesIntensity * clockEvent.getSimulationTimeChange() );
+        _ticksSinceAlphaParticleFired += ( _alphaParticlesIntensity * dt );
 
         if ( _ticksSinceAlphaParticleFired >= _ticksPerAlphaParticle ) {
 
