@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Oct 19 - Oct 25, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - dev version 0.00.05
+  - implemented "Billiard Ball" model
+  - dynamically create atoms/photons/alpha particles using NodeFactory framework from MRI sim
+  - light and alpha particle intensity controls are operational
+  - added "Developer>Developer Controls" in menu bar
+  - added developer control for rate of photon production
+  - added developer control for rate of alpha particle production
+  - put box around '?' in Experiment mode
+  - set default clock speed to "medium"
+  - changed sim title to "Models of the Hydrogen Atom"
+  - fixed bug that sometimes caused wavelength slider to get stuck
+  - new "About" dialog with license and third-party library credits
+  - implemented framework for notification of photon absorption and emission
+  
+  Common:
+  - revised new About dialog
+  - reviewed PhetServiceManager
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  o October 27-30
+  
+--

@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - fix spectrometer layout
 - add SpectrometerNode.setSize(Dimension)
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
-- should photons and alphaParticles should go behind ExperimentAtomNode?
+- photons and alphaParticles should go behind ExperimentAtomNode
 - implement BohrModel
 - implement DeBroglieModel
 - implement spectrometer model
