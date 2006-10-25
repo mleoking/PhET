@@ -18,7 +18,7 @@ import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * PhotonNodeFactory creates PNodes that display photon model objects.
+ * PhotonNodeFactory creates PNodes that display photon model elements.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

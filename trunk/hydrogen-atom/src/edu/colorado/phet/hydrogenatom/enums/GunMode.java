@@ -11,7 +11,13 @@
 
 package edu.colorado.phet.hydrogenatom.enums;
 
-
+/**
+ * GunMode is an enumeration of "modes" for the gun.
+ * The gun can fire with photons or alpha particles.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class GunMode extends AbstractEnum {
 
     /* This class is not intended for instantiation. */

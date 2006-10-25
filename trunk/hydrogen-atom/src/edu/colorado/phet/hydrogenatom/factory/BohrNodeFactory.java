@@ -17,7 +17,13 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.BohrNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * BohrNodeFactory creates PNodes that display
+ * the Bohr model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BohrNodeFactory extends NodeFactory {
 
     public BohrNodeFactory( PNode parent ) {

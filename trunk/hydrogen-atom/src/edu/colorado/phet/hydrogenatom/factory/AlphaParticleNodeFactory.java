@@ -18,7 +18,7 @@ import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * AlphaParticleNodeFactory creates PNodes that display alpha particle model objects.
+ * AlphaParticleNodeFactory creates PNodes that display alpha particle model elements.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
