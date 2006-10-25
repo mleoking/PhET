@@ -27,9 +27,20 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
+/**
+ * PhotonNode is the visual representation of a photon.
+ * The look is loosely based on examples that Wendy Adams found on a 
+ * Disney website at http://disney.go.com/fairies/meetfairies.html.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class PhotonNode extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
     
     private static final double DEFAULT_DIAMETER = 30;
@@ -38,8 +49,20 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     private static final int PHOTON_COLOR_ALPHA = 130;
     
-    private Photon _photon;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
+    private Photon _photon; // model element
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param photon
+     */
     public PhotonNode( Photon photon ) {
         super();
         
@@ -66,6 +89,11 @@ public class PhotonNode extends PhetPNode implements Observer {
         _photon.addObserver( this );
     }
     
+    /**
+     * Creates the image used to represent a photon.
+     * 
+     * @return Image
+     */
     public static final Image createPhotonImage( Color photonColor )
     {
         PNode parentNode = new PNode();
@@ -108,6 +136,9 @@ public class PhotonNode extends PhetPNode implements Observer {
         return parentNode.toImage();
     }
     
+    /*
+     * Creates the crosshairs that appear in the center of the image.
+     */
     private static PNode createCrosshair( double diameter ) {
 
         final double crosshairWidth = diameter;
@@ -132,6 +163,13 @@ public class PhotonNode extends PhetPNode implements Observer {
         return crosshairs;
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the model.
+     */
     public void update( Observable o, Object arg ) {
         update();
     }

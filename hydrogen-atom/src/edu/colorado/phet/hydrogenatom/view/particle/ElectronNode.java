@@ -20,8 +20,7 @@ import edu.colorado.phet.hydrogenatom.view.SphericalNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * 
- * ElectronNode draws an electron.
+ * ElectronNode is the visual representation of an electron.
  * An electron is blue, and has a specular highlight with the light source coming from below.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
