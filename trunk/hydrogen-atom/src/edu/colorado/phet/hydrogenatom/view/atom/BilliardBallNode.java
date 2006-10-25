@@ -11,22 +11,31 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
+import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.colorado.phet.hydrogenatom.view.SphericalNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 
 public class BilliardBallNode extends AbstractAtomNode implements Observer {
 
+    private static final Color COLOR = new Color( 196, 78, 14 ); // orange
+    private static final Color HILITE_COLOR = new Color( 255, 141, 21 ); // lighter orange
+    
     private BilliardBallModel _hydrogenAtom;
     
     public BilliardBallNode( BilliardBallModel hydrogenAtom ) {
@@ -35,26 +44,16 @@ public class BilliardBallNode extends AbstractAtomNode implements Observer {
         _hydrogenAtom = hydrogenAtom;
         _hydrogenAtom.addObserver( this );
         
-        PImage billiardBallNode = PImageFactory.create( HAConstants.IMAGE_BILLIARD_BALL );
-        double desiredRadius = _hydrogenAtom.getRadius();
-        double actualRadius = billiardBallNode.getFullBounds().getWidth();
-        double scale = desiredRadius / actualRadius;
-        billiardBallNode.scale( scale );
+        double radius = ModelViewTransform.transform( _hydrogenAtom.getRadius() );
+        double diameter = 2 * radius;
+        Paint roundGradient = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), COLOR );
+        PNode billiardBallNode = new SphericalNode( diameter, roundGradient, true /* convertToImage */ );
         addChild( billiardBallNode );
-        
-        OriginNode originNode = new OriginNode( Color.GREEN );
-        if ( HAConstants.SHOW_ORIGIN_NODES ) {
-            addChild( originNode );
-        }
 
         update( null, null );
     }
 
     public void update( Observable o, Object arg ) {
-        Point2D p = ModelViewTransform.translate( _hydrogenAtom.getPosition() );
-        PBounds fb = getFullBounds();
-        double x = p.getX() - ( fb.getWidth() / 2 );
-        double y = p.getY() - ( fb.getHeight() / 2 );
-        setOffset( x, y );
+        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) );
     }
 }

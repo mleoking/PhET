@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -27,12 +28,34 @@ import edu.colorado.phet.common.model.ModelElement;
  */
 public abstract class AbstractHydrogenAtom extends DynamicObject implements ModelElement {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private EventListenerList _listenerList;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public AbstractHydrogenAtom( Point2D position, double orientation ) {
         super( position, orientation );
         _listenerList = new EventListenerList();
     }
+    
+    //----------------------------------------------------------------------------
+    // Collision detection
+    //----------------------------------------------------------------------------
+    
+    public void detectCollision( Photon photon ) {}
+    
+    public void detectCollision( AlphaParticle alphaParticle ) {}
+    
+    //----------------------------------------------------------------------------
+    // ModelElement default implementation
+    //----------------------------------------------------------------------------
+    
+    public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
     // AbsorptionListener

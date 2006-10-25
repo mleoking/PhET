@@ -63,7 +63,7 @@ public class ExperimentNode extends PhetPNode implements Observer {
     }
     
     public void update( Observable o, Object arg ) {
-        Point2D p = ModelViewTransform.translate( _hydrogenAtom.getPosition() );
+        Point2D p = ModelViewTransform.transform( _hydrogenAtom.getPosition() );
         PBounds fb = getFullBounds();
         double x = p.getX() - ( fb.getWidth() / 2 );
         double y = p.getY() - ( fb.getHeight() / 2 );

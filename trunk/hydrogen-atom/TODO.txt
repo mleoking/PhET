@@ -5,10 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement collision detection framework
-- implement BilliardBallModel
 - implement SolarSystemModel
-- handle model-view transform differently?
 
 MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
@@ -30,6 +27,7 @@ MEDIUM PRIORITY:
 - handle AlphaParticle orientation in AlphaParticleNode
 - handle Photon orientation in PhotonNode
 - does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
+- handle model-view transform differently?
 
 LOW PRIORITY:
 - implement PlumPuddingModel
@@ -51,6 +49,11 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/25/06) - change BilliardBallNode to use shape instead of image file
+(10/25/06) - implement collision detection and handling for BilliardBallModel
+(10/25/06) - add collision detection interface to AbstractHydrogenAtom and HAModel
+(10/25/06) - move default implementation of stepInTime (no-op) into AbstractHydrogenAtom
+(10/25/06) - add model-view transform for distances
 (10/24/06) - HAModel extends Model and keeps separate lists of atoms, photons, alpha particles
 (10/24/06) - change model so that Model class is the only ClockListener, all other things are ModelElements
 (10/23/06) - add notification mechanism to AbstractHydrogenAtom for absorbing/emitting photons

@@ -51,6 +51,6 @@ public class SolarSystemNode extends AbstractAtomNode implements Observer {
     }
 
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.translate( _hydrogenAtom.getPosition() ) ); 
+        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) ); 
     }
 }
