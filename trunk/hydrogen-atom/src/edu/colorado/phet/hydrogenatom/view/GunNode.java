@@ -26,7 +26,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * GunNode
+ * GunNode is the visual representation of the gun.
+ * It includes on/off controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -51,6 +52,11 @@ public class GunNode extends PhetPNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param gun the gun model
+     */
     public GunNode( Gun gun ) {
         super();
         
@@ -111,12 +117,18 @@ public class GunNode extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Synchronizes the display with the gun model.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_ENABLED ) {
             updateAll();
         }
     }
     
+    /*
+     * Updates the state of the on/off buttons to match the model.
+     */
     public void updateAll() {
         boolean enabled = _gun.isEnabled();
         _onButton.setVisible( enabled );

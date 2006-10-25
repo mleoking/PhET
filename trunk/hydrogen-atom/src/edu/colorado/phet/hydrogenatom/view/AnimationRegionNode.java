@@ -19,7 +19,13 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolox.nodes.PClip;
 
-
+/**
+ * AnimationRegionNode is the region in which animation
+ * of atoms, photons and alpha particles takes place.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class AnimationRegionNode extends PClip {
 
     public static final Stroke STROKE = new BasicStroke( 2f );

@@ -28,10 +28,24 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SphericalNode extends PhetPNode {
     
+    /**
+     * Constructs a spherical node with no stroke.
+     * @param diameter
+     * @param fillPaint
+     * @param convertToImage
+     */
     public SphericalNode( double diameter, Paint fillPaint, boolean convertToImage ) {
         this( diameter, fillPaint, null, null, convertToImage );
     }
-        
+       
+    /**
+     * Constructor.
+     * @param diameter
+     * @param fillPaint
+     * @param stroke
+     * @param strokePaint
+     * @param convertToImage
+     */
     public SphericalNode( double diameter, Paint fillPaint, Stroke stroke, Paint strokePaint, boolean convertToImage ) {
         super();
 
@@ -52,6 +66,10 @@ public class SphericalNode extends PhetPNode {
         }
     }
     
+    /**
+     * Gets the diameter of the node.
+     * @return double
+     */
     public double getDiameter() {
         return getFullBounds().getWidth();
     }

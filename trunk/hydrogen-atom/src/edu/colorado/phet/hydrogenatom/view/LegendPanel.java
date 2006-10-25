@@ -54,6 +54,9 @@ public class LegendPanel extends JPanel {
     // Constructors data
     //----------------------------------------------------------------------------
 
+    /**
+     * Constructor.
+     */
     public LegendPanel() {
         super();
 
@@ -121,11 +124,17 @@ public class LegendPanel extends JPanel {
         col = 0;
     }
 
+    /*
+     * Converts an Image to a JLabel.
+     */
     private JLabel toJLabel( Image image ) {
         Icon icon = new ImageIcon( image );
         return new JLabel( icon );
     }
     
+    /*
+     * Converts a PNode to a JLabel.
+     */
     private JLabel toJLabel( PNode node ) {
         Icon icon = new ImageIcon( node.toImage() );
         return new JLabel( icon );

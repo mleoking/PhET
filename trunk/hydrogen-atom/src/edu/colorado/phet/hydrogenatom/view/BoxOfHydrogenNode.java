@@ -26,7 +26,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * BoxOfHydrogenNode is the small "box of hydrogen" into which
+ * the gun fires photons and alpha particles.  A "tiny box"
+ * indicates the portion of the box of hydrogen that is shown
+ * in the "exploded" view.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BoxOfHydrogenNode extends PhetPNode {
 
     //----------------------------------------------------------------------------
@@ -60,6 +68,11 @@ public class BoxOfHydrogenNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * @param boxSize
+     * @param tinyBoxSize
+     */
     public BoxOfHydrogenNode( Dimension boxSize, Dimension tinyBoxSize ) {
         super();
         
@@ -133,6 +146,13 @@ public class BoxOfHydrogenNode extends PhetPNode {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the global bounds of the tiny box that shows the "exploded" 
+     * part of the box of hydrogen.  We use these bounds to attached
+     * dashed lines between the box of hydrogen and the exploded view.
+     * 
+     * @return PBounds
+     */
     public PBounds getTinyBoxGlobalBounds() {
         PBounds fb = _tinyBoxNode.getFullBounds();
         Point2D gp = localToGlobal( fb.getOrigin() );

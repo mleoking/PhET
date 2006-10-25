@@ -60,6 +60,9 @@ public class BeamNode extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the beam to match the gun model.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _gun ) {
             updateAll();
