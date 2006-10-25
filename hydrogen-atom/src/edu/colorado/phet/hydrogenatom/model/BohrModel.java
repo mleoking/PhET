@@ -19,8 +19,4 @@ public class BohrModel extends AbstractHydrogenAtom {
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
     }
-    
-    public void stepInTime( double dt ) {
-        //XXX
-    }
 }

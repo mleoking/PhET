@@ -28,6 +28,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SphericalNode extends PhetPNode {
     
+    public SphericalNode( double diameter, Paint fillPaint, boolean convertToImage ) {
+        this( diameter, fillPaint, null, null, convertToImage );
+    }
+        
     public SphericalNode( double diameter, Paint fillPaint, Stroke stroke, Paint strokePaint, boolean convertToImage ) {
         super();
 

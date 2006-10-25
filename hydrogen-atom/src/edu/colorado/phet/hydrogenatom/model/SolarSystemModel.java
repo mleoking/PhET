@@ -19,8 +19,4 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     public SolarSystemModel( Point2D position ) {
         super( position, 0 /* orientation */ );
     }
-    
-    public void stepInTime( double dt ) {
-        //XXX
-    }
 }

@@ -58,8 +58,8 @@ public class Gun extends DynamicObject implements ModelElement {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    private static final int DEFAULT_TICKS_PER_PHOTON = 5;
-    private static final int DEFAULT_TICKS_PER_ALPHA_PARTICLE = 5;
+    private static final int DEFAULT_TICKS_PER_PHOTON = 10;
+    private static final int DEFAULT_TICKS_PER_ALPHA_PARTICLE = 10;
     
     //----------------------------------------------------------------------------
     // Instance data

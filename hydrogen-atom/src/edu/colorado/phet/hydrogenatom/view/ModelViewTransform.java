@@ -24,13 +24,27 @@ public class ModelViewTransform {
     
     private ModelViewTransform() {}
     
-    public static final Point2D translate( Point2D p ) {
+    public static final Point2D transform( Point2D p ) {
         if ( transform == null ) {
-            int boxWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
-            int boxHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
-            transform = new AffineTransform();
-            transform.translate( boxWidth / 2, boxHeight );
+            initTransform();
         }
         return transform.transform( p, null );
+    }
+    
+    public static final double transform( double distance ) {
+        if ( transform == null ) {
+            initTransform();
+        }
+        Point2D p = new Point2D.Double( 0, distance );
+        Point2D p2 = transform( p );
+        return p2.getY() - SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+    }
+    
+    private static void initTransform() {
+        int boxWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
+        int boxHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+        transform = new AffineTransform();
+        transform.scale( 1, 1 );
+        transform.translate( boxWidth / 2, boxHeight );
     }
 }
