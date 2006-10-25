@@ -1,4 +1,5 @@
 -injars /Volumes/files/phet-workspace/jars/hydrogenatom.jar
+-injars /Volumes/files/phet-workspace/phetcommon/lib/jnlp.jar
 -outjars /Volumes/files/phet-workspace/jars/hydrogenatom-pro.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
