@@ -38,6 +38,12 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param position
+     * @param orientation
+     */
     public AbstractHydrogenAtom( Point2D position, double orientation ) {
         super( position, orientation );
         _listenerList = new EventListenerList();
@@ -47,14 +53,30 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
     // Collision detection
     //----------------------------------------------------------------------------
     
+    /**
+     * Detects a collision with a photon.
+     * The default implementation does nothing.
+     * It is up to the implementer to determine if there is a collision,
+     * and (if so) to take the proper action.
+     */
     public void detectCollision( Photon photon ) {}
-    
+   
+    /**
+     * Detects a collision with an alpha particle.
+     * The default implementation does nothing.
+     * It is up to the implementer to determine if there is a collision,
+     * and (if so) to take the proper action.
+     */
     public void detectCollision( AlphaParticle alphaParticle ) {}
     
     //----------------------------------------------------------------------------
     // ModelElement default implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Called when time has advanced by some delta.
+     * The default implementation does nothing.
+     */
     public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------

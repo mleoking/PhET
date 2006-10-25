@@ -25,7 +25,10 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
 
 /**
  * Space models the space that photons and alpha particles travel through,
- * and where they encounter atoms.
+ * and where they encounter atoms.  Space is responsible for adding and 
+ * removing photons and alpha particles to/from the model. Photons and
+ * alpha particles are added when the gun fires them; they are removed 
+ * when they travel outside the bounds of Space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -46,6 +49,12 @@ public class Space implements ModelElement, Observer, GunFiredListener {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * @param bounds
+     * @param gun
+     * @param model
+     */
     public Space( Rectangle2D bounds, Gun gun, Model model ) {
         
         _bounds = new Rectangle2D.Double();
@@ -77,6 +86,9 @@ public class Space implements ModelElement, Observer, GunFiredListener {
     // Photon and Alpha Particle management
     //----------------------------------------------------------------------------
     
+    /**
+     * Removes all photons from the model.
+     */
     public void removeAllPhotons() {
         ArrayList a = new ArrayList( _photons );
         Iterator i = a.iterator();
@@ -85,6 +97,9 @@ public class Space implements ModelElement, Observer, GunFiredListener {
         }
     }
     
+    /**
+     * Removes all alpha particles from the model.
+     */
     public void removeAllAlphaParticles() {
         ArrayList a = new ArrayList( _alphaParticles );
         Iterator i = a.iterator();
@@ -93,31 +108,49 @@ public class Space implements ModelElement, Observer, GunFiredListener {
         }
     }
     
+    /**
+     * Adds a specific photon to the model.
+     * @param photon
+     */
     private void addPhoton( Photon photon ) {
         assert( photon != null );
         _photons.add( photon );
         _model.addModelElement( photon );
     }
     
+    /**
+     * Removes a specific photon from the model.
+     * @param photon
+     */
     private void removePhoton( Photon photon ) {
         assert( photon != null );
         _photons.remove( photon );
         _model.removeModelElement( photon );
     }
     
+    /**
+     * Adds a specific alpha particle to the model.
+     * @param alphaParticle
+     */
     private void addAlphaParticle( AlphaParticle alphaParticle ) {
         assert( alphaParticle != null );
         _alphaParticles.add( alphaParticle ); 
         _model.addModelElement( alphaParticle );
     }
     
+    /**
+     * Removes a specific alpha particle from the model.
+     * @param alphaParticle
+     */
     private void removeAlphaParticle( AlphaParticle alphaParticle ) {
         assert( alphaParticle != null );
         _alphaParticles.remove( alphaParticle );
         _model.removeModelElement( alphaParticle );
     }
     
-    // Remove photons that are outside the space.
+    /* 
+     * Removes photons that are outside the bounds of space.
+     */
     private void updatePhotons() {
             ArrayList a = new ArrayList( _photons );
             Iterator i = a.iterator();
@@ -130,7 +163,9 @@ public class Space implements ModelElement, Observer, GunFiredListener {
             }
     }
     
-    // Remove alpha particles that are outside the space.
+    /* 
+     * Removes alpha particles that are outside the bounds of space.
+     */
     private void updateAlphaParticles() {
         ArrayList a = new ArrayList( _alphaParticles );
         Iterator i = a.iterator();
@@ -147,6 +182,12 @@ public class Space implements ModelElement, Observer, GunFiredListener {
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Whenever time advances, look for photons and alpha particles
+     * that have moved outside the bounds of space.
+     * 
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         updateAlphaParticles();
         updatePhotons();
@@ -173,10 +214,20 @@ public class Space implements ModelElement, Observer, GunFiredListener {
     // GunFiredListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * When the gun fires a photon, add the photon to the model.
+     * 
+     * @param event
+     */
     public void photonFired( GunFiredEvent event ) {
         addPhoton( event.getPhoton() );
     }
     
+    /**
+     * When the gun fires an alpha particle, add the alpha particle to the model.
+     * 
+     * @param event
+     */
     public void alphaParticleFired( GunFiredEvent event ) {
         addAlphaParticle( event.getAlphaParticle() );
     }

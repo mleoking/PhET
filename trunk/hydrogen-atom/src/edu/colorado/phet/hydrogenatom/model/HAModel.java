@@ -18,12 +18,25 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 
-
+/**
+ * HAModel is the model for this simulation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class HAModel extends Model {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private ArrayList _atoms; // array of AbstractHydrogenAtom
     private ArrayList _photons; // array of Photon
     private ArrayList _alphaParticles; // array of AlphaParticle
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public HAModel( IClock clock ) {
         super( clock );
@@ -33,6 +46,16 @@ public class HAModel extends Model {
         _alphaParticles = new ArrayList();
     }
     
+    //----------------------------------------------------------------------------
+    // ModelElement management
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When a model element is added, also add it to one of 
+     * the lists used for collision detection.
+     * 
+     * @param modelElement
+     */
     public void addModelElement( ModelElement modelElement ) {
         if ( modelElement instanceof AbstractHydrogenAtom ) {
             _atoms.add( modelElement );
@@ -46,6 +69,12 @@ public class HAModel extends Model {
         super.addModelElement( modelElement );
     }
 
+    /**
+     * When a model element is removed, also remove it from one of 
+     * the lists used for collision detection.
+     * 
+     * @param modelElement
+     */
     public void removeModelElement( ModelElement modelElement ) {
         if ( modelElement instanceof AbstractHydrogenAtom ) {
             _atoms.remove( modelElement );
@@ -59,11 +88,25 @@ public class HAModel extends Model {
         super.removeModelElement( modelElement );
     }
     
-    public void clockTicked( ClockEvent clockEvent ) {
-        super.clockTicked( clockEvent );
+    //----------------------------------------------------------------------------
+    // ClockListener overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Detect collisions whenever the clock ticks.
+     * 
+     * @param event
+     */
+    public void clockTicked( ClockEvent event ) {
+        super.clockTicked( event );
         detectCollisions();
     }
     
+    /*
+     * Detect collisions by iterating through each atom-photon
+     * and atom-alphaParticle pair. The atom is responsible for
+     * detecting and handling any collisions.
+     */
     private void detectCollisions() {
         Iterator i = _atoms.iterator();
         while ( i.hasNext() ) {
