@@ -186,6 +186,10 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gun.addObserver( this );
     }
     
+    /**
+     * Forces an update of the wavelength control's drag bounds.
+     * This is a workaround for a problem with the wavelength control's ConstrainedDragHandler.
+     */
     public void updateWavelengthControlDragBounds() {
         _wavelengthControl.updateDragBounds();
     }
@@ -194,6 +198,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
     // Event handling
     //----------------------------------------------------------------------------
     
+    /*
+     * Listens for changes to the gun controls.
+     */
     private class GunChangeListener implements ChangeListener {
 
         public void stateChanged( ChangeEvent event ) {
@@ -216,6 +223,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
         }   
     }
     
+    /*
+     * Handles selection gun type (photons or alpha particles).
+     */
     private void handleGunTypeChange() {
         _lightControls.setVisible( _gun.isPhotonsMode() );
         _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
@@ -223,6 +233,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gun.setMode( mode );
     }
     
+    /*
+     * Handles selection of light type (white or monochrome).
+     */
     private void handleLightTypeChange() {
         LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
@@ -238,16 +251,25 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gun.setLightType( lightType );
     }
     
+    /*
+     * Handles changes to light intensity control.
+     */
     private void handleLightIntensityChange() {
         double intensity = _lightIntensityControl.getValue() / 100d;
         _gun.setLightIntensity( intensity );
     }
     
+    /*
+     * Handles changes to light wavelength control.
+     */
     private void handleWavelengthChange() {
         _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
         _gun.setWavelength( _wavelengthControl.getWavelength() );
     }
     
+    /*
+     * Handles changes to alpha particle intensity control.
+     */
     private void handleAlphaParticlesIntensityChange() {
         double intensity = _alphaParticlesIntensityControl.getValue() / 100d;
         _gun.setAlphaParticlesIntensity( intensity );
@@ -257,6 +279,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Updates the control panel when the gun model changes.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _gun ) {
             if ( arg == Gun.PROPERTY_MODE ) {
@@ -279,6 +307,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
         }
     }
     
+    /*
+     * Synchronizes all controls with the state of the gun model.
+     */
     private void updateAll() {
         _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
         _lightControls.setVisible( _gun.isPhotonsMode() );

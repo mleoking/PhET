@@ -28,6 +28,7 @@ MEDIUM PRIORITY:
 - handle Photon orientation in PhotonNode
 - does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
 - handle model-view transform differently?
+- replace AtomicModelSelection.getSelectionName
 
 LOW PRIORITY:
 - implement PlumPuddingModel

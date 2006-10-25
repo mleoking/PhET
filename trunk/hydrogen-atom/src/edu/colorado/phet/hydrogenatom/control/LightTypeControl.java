@@ -48,6 +48,11 @@ public class LightTypeControl extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param font
+     */
     public LightTypeControl( Font font ) {
         super();
         
