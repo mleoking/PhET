@@ -23,31 +23,52 @@ import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
-
-public class DeBroglieNode extends AbstractOrbitAtomNode implements Observer {
+/**
+ * DeBroglieNode is the visual representation of the deBroglie model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final int DEFAULT_SELECTED_ORBIT = 1; //XXX hack, for demo purposes
     private static final int NUMBER_OF_ORBITS = 6;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private ArrayList _orbitNodes; // array of PNode
     private ProtonNode _protonNode;
     
-    private DeBroglieModel _hydrogenAtom;
+    private DeBroglieModel _atom; // model element
     
-    public DeBroglieNode( DeBroglieModel hydrogenAtom ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param atom
+     */
+    public DeBroglieNode( DeBroglieModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
         _orbitNodes = new ArrayList();
         for ( int orbit = 1; orbit <= NUMBER_OF_ORBITS; orbit++ ) {
             PNode orbitNode = null;
             if ( orbit == DEFAULT_SELECTED_ORBIT ) {
-                orbitNode = createExcitedNode( orbit );
+                orbitNode = OrbitFactory.createExcitedNode( orbit );
             }
             else {
-                orbitNode = createOrbitNode( orbit );
+                orbitNode = OrbitFactory.createOrbitNode( orbit );
             }
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
@@ -66,7 +87,16 @@ public class DeBroglieNode extends AbstractOrbitAtomNode implements Observer {
         update( null, null );
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) ); 
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
     }
 }

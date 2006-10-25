@@ -22,16 +22,33 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
-
-public class SchrodingerNode extends AbstractAtomNode implements Observer {
+/**
+ * SchrodingerNode is the visual representation of the Schrodinger model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observer {
     
-    private SchrodingerModel _hydrogenAtom;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
-    public SchrodingerNode( SchrodingerModel hydrogenAtom ) {
+    private SchrodingerModel _atom;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param atom
+     */
+    public SchrodingerNode( SchrodingerModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
         PImage imageNode = PImageFactory.create( HAConstants.IMAGE_SCHRODINGER_ATOM );
         addChild( imageNode );
@@ -39,8 +56,17 @@ public class SchrodingerNode extends AbstractAtomNode implements Observer {
         update( null, null );
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        Point2D p = ModelViewTransform.transform( _hydrogenAtom.getPosition() );
+        Point2D p = ModelViewTransform.transform( _atom.getPosition() );
         PBounds fb = getFullBounds();
         double x = p.getX() - ( fb.getWidth() / 2 );
         double y = p.getY() - ( fb.getHeight() / 2 );

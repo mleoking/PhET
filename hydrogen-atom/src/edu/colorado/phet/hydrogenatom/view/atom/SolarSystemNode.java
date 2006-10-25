@@ -22,16 +22,33 @@ import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 
+/**
+ * SolarSystemNode is the visual representation of the "solar system" model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observer {
 
-public class SolarSystemNode extends AbstractAtomNode implements Observer {
-
-    private SolarSystemModel _hydrogenAtom;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
-    public SolarSystemNode( SolarSystemModel hydrogenAtom ) {
+    private SolarSystemModel _atom;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param atom
+     */
+    public SolarSystemNode( SolarSystemModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
         ProtonNode protonNode = new ProtonNode();
         ElectronNode electronNode = new ElectronNode();
@@ -50,7 +67,16 @@ public class SolarSystemNode extends AbstractAtomNode implements Observer {
         update( null, null );
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) ); 
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
     }
 }

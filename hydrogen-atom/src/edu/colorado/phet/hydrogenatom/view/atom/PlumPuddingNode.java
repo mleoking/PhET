@@ -24,16 +24,33 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
+/**
+ * PlumPuddingNode is the visual representation of the "plum pudding" model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observer {
 
-public class PlumPuddingNode extends AbstractAtomNode implements Observer {
-
-    private PlumPuddingModel _hydrogenAtom;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
-    public PlumPuddingNode( PlumPuddingModel hydrogenAtom ) {
+    private PlumPuddingModel _atom;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param atom
+     */
+    public PlumPuddingNode( PlumPuddingModel atom ) {
         super();
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
         PImage puddingNode = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING );
         puddingNode.scale( 0.65 );
@@ -55,7 +72,16 @@ public class PlumPuddingNode extends AbstractAtomNode implements Observer {
         update( null, null );
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _hydrogenAtom.getPosition() ) ); 
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
     }
 }
