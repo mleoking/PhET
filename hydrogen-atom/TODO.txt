@@ -5,8 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- handle model-view transform properly
+- implement collision detection framework
 - implement BilliardBallModel
+- implement SolarSystemModel
+- handle model-view transform differently?
 
 MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
@@ -15,7 +17,6 @@ MEDIUM PRIORITY:
 - add SpectrometerNode.setSize(Dimension)
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - should photons and alphaParticles should go behind ExperimentAtomNode?
-- implement SolarSystemModel
 - implement BohrModel
 - implement DeBroglieModel
 - implement spectrometer model
