@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.hydrogenatom.HAApplication
 
-CVS-Tag: hydrogenatom-0-00-04-2006-10-04
+CVS-Tag: hydrogenatom-0-00-05-2006-10-25
 
 
 
