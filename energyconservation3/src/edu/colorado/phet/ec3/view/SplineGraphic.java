@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
+import edu.colorado.phet.ec3.FloorSpline;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -192,9 +193,6 @@ public class SplineGraphic extends PNode {
     public void updateAll() {
         setPickable( splineSurface.isInteractive() );
         setChildrenPickable( splineSurface.isInteractive() );
-//        setVisible( splineSurface.isInteractive() );
-
-//        System.out.println( "changed() = " + changed() );
         if( changed() ) {
             pathLayer.removeAllChildren();
             pathLayer.setPathTo( spline.getInterpolationPath() );
@@ -220,6 +218,7 @@ public class SplineGraphic extends PNode {
             updateReverseSpline();
             lastRenderState = splineSurface.copy();
         }
+        setVisible( !( spline instanceof FloorSpline ) );
     }
 
     private boolean changed() {

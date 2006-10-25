@@ -30,13 +30,14 @@ public class NatCubicSpline2D implements Spline2D {
     }
 
     public Point2D evaluate( double x ) {
-        int i = (int)Math.floor( x );
-        double distAlongCubic = x - i;
+        int segmentIndex = (int)Math.floor( x );
+        double distAlongSegment = x - segmentIndex;
 //        System.out.println( "x=" + x + ", i=" + i + ", dist=" + distAlongCubic + ", X.length=" + X.length );
-        if( i == X.length && Math.abs( distAlongCubic ) < 1E-6 ) {
-            i = X.length - 1;
-            distAlongCubic = 0;
+        //this hack covers the case in which we accidentally stepped slightly past the end of the spline.
+        if( segmentIndex == X.length && Math.abs( distAlongSegment ) < 1E-6 ) {
+            segmentIndex = X.length - 1;
+            distAlongSegment = 1;
         }
-        return new Point2D.Double( X[i].eval( distAlongCubic ), Y[i].eval( distAlongCubic ) );
+        return new Point2D.Double( X[segmentIndex].eval( distAlongSegment ), Y[segmentIndex].eval( distAlongSegment ) );
     }
 }
