@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.factory;
 
-import edu.colorado.phet.hydrogenatom.model.IModelObject;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.PlumPuddingNode;
@@ -24,7 +24,8 @@ public class PlumPuddingNodeFactory extends NodeFactory {
         super( PlumPuddingModel.class, parent );
     }
 
-    public PNode createNode( IModelObject modelObject ) {
-        return new PlumPuddingNode( (PlumPuddingModel) modelObject );
+    public PNode createNode( ModelElement modelElement ) {
+        assert( modelElement instanceof PlumPuddingModel );
+        return new PlumPuddingNode( (PlumPuddingModel) modelElement );
     }
 }

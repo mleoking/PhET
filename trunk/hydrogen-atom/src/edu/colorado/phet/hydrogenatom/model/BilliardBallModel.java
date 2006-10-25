@@ -68,4 +68,8 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
     private void updateShape() {
         _shape = new Ellipse2D.Double( getX() - _radius, getY() - _radius, 2 * _radius, 2 * _radius );
     }
+    
+    public void stepInTime( double dt ) {
+        //XXX
+    }
 }

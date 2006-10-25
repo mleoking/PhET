@@ -13,7 +13,7 @@ package edu.colorado.phet.hydrogenatom.view;
 
 import java.util.HashMap;
 
-import edu.colorado.phet.hydrogenatom.model.IModelObject;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
@@ -32,8 +32,8 @@ public class ModelViewManager implements ModelListener {
     //----------------------------------------------------------------------------
     
     private Model _model;
-    private HashMap _modelObjectClassToNodeFactoryMap; // maps model element classes to NodeFactory instances
-    private HashMap _modelObjectToNodeRecordMap; // maps model element instances to NodeRecord instances
+    private HashMap _modelElementClassToNodeFactoryMap; // maps model element classes to NodeFactory instances
+    private HashMap _modelElementToNodeRecordMap; // maps model element instances to NodeRecord instances
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,8 +45,8 @@ public class ModelViewManager implements ModelListener {
      */
     public ModelViewManager( Model model ) {
 
-        _modelObjectClassToNodeFactoryMap = new HashMap();
-        _modelObjectToNodeRecordMap = new HashMap();
+        _modelElementClassToNodeFactoryMap = new HashMap();
+        _modelElementToNodeRecordMap = new HashMap();
         
         _model = model;
         _model.addModelListener( this );
@@ -61,7 +61,7 @@ public class ModelViewManager implements ModelListener {
      * @param factory
      */
     public void addNodeFactory( NodeFactory factory ) {
-        _modelObjectClassToNodeFactoryMap.put( factory.getModelObjectClass(), factory );
+        _modelElementClassToNodeFactoryMap.put( factory.getModelObjectClass(), factory );
     }
     
     /**
@@ -69,7 +69,7 @@ public class ModelViewManager implements ModelListener {
      * @param factory
      */
     public void removeNodeFactory( NodeFactory factory ) {
-        _modelObjectClassToNodeFactoryMap.remove( factory.getModelObjectClass() );
+        _modelElementClassToNodeFactoryMap.remove( factory.getModelObjectClass() );
     }
     
     //----------------------------------------------------------------------------
@@ -84,18 +84,16 @@ public class ModelViewManager implements ModelListener {
      * 
      * @param event
      */
-    public void modelObjectAdded( ModelEvent event ) {
+    public void modelElementAdded( ModelEvent event ) {
 
-//        System.out.println( "ModelViewManager.modelObjectAdded " + event.getModelObject() );//XXX
-        
-        IModelObject modelObject = event.getModelObject();
-        Class modelObjectClass = modelObject.getClass();
-        NodeFactory factory = (NodeFactory) _modelObjectClassToNodeFactoryMap.get( modelObjectClass );
+        ModelElement modelElement = event.getModelElement();
+        Class modelElementClass = modelElement.getClass();
+        NodeFactory factory = (NodeFactory) _modelElementClassToNodeFactoryMap.get( modelElementClass );
 
         if ( factory != null ) {
-            PNode node = factory.createNode( modelObject );
+            PNode node = factory.createNode( modelElement );
             PNode parent = factory.getParent();
-            _modelObjectToNodeRecordMap.put( modelObject, new NodeRecord( node, parent ) );
+            _modelElementToNodeRecordMap.put( modelElement, new NodeRecord( node, parent ) );
             parent.addChild( node );
         }
     }
@@ -107,18 +105,16 @@ public class ModelViewManager implements ModelListener {
      * 
      * @param event
      */
-    public void modelObjectRemoved( ModelEvent event ) {
+    public void modelElementRemoved( ModelEvent event ) {
         
-//        System.out.println( "ModelViewManager.modelObjectRemoved " + event.getModelObject() );//XXX
-        
-        IModelObject modelObject = event.getModelObject();
-        NodeRecord nodeRecord = (NodeRecord) _modelObjectToNodeRecordMap.get( modelObject );
+        ModelElement modelElement = event.getModelElement();
+        NodeRecord nodeRecord = (NodeRecord) _modelElementToNodeRecordMap.get( modelElement );
         
         if ( nodeRecord != null ) {
             PNode node = nodeRecord.getNode();
             PNode parent = nodeRecord.getParent();
             parent.removeChild( node );
-            _modelObjectToNodeRecordMap.remove( modelObject );
+            _modelElementToNodeRecordMap.remove( modelElement );
         }
     }
     
@@ -148,7 +144,7 @@ public class ModelViewManager implements ModelListener {
             return _parent;
         }
 
-        public abstract PNode createNode( IModelObject modelObject );
+        public abstract PNode createNode( ModelElement modelElement );
     }
     
     /*

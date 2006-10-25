@@ -22,7 +22,7 @@ import edu.colorado.phet.common.model.clock.ClockListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DynamicObject extends HAObservable implements ClockListener {
+public class DynamicObject extends HAObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -151,18 +151,4 @@ public class DynamicObject extends HAObservable implements ClockListener {
             notifyObservers( PROPERTY_ORIENTATION );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // ClockListener implementation - does nothing by default
-    //----------------------------------------------------------------------------
-    
-    public void clockTicked( ClockEvent clockEvent ) {}
-
-    public void clockStarted( ClockEvent clockEvent ) {}
-
-    public void clockPaused( ClockEvent clockEvent ) {}
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {}
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }

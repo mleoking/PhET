@@ -17,8 +17,7 @@ import java.util.EventObject;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
+import edu.colorado.phet.common.model.ModelElement;
 
 /**
  * AbstractHydrogenAtom is the base class for all hydrogen atom models.
@@ -26,7 +25,7 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractHydrogenAtom extends DynamicObject implements IModelObject {
+public abstract class AbstractHydrogenAtom extends DynamicObject implements ModelElement {
 
     private EventListenerList _listenerList;
     
