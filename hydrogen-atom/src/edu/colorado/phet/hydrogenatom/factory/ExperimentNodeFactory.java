@@ -18,7 +18,13 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.ExperimentNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * ExperimentNodeFactory creates PNodes that display the representation
+ * of the hydrogen atom when the simulation is in "Experiment" mode.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class ExperimentNodeFactory extends NodeFactory {
 
     public ExperimentNodeFactory( PNode parent ) {

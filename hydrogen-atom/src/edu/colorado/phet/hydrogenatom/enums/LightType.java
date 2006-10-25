@@ -11,7 +11,13 @@
 
 package edu.colorado.phet.hydrogenatom.enums;
 
-
+/**
+ * LightType is an enumeration of light types.
+ * The light type can be either white or monochrome.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class LightType extends AbstractEnum {
 
     /* This class is not intended for instantiation. */

@@ -17,7 +17,13 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.SolarSystemNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * SolarSystemNodeFactory creates PNodes that display
+ * the "solar system" model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class SolarSystemNodeFactory extends NodeFactory {
 
     public SolarSystemNodeFactory( PNode parent ) {

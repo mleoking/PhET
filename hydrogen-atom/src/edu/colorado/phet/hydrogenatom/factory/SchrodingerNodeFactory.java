@@ -17,7 +17,13 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.SchrodingerNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * SchrodingerNodeFactory creates PNodes that display
+ * the Schrodinger model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class SchrodingerNodeFactory extends NodeFactory {
 
     public SchrodingerNodeFactory( PNode parent ) {

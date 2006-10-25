@@ -17,7 +17,13 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * DeBroglieNodeFactory creates PNodes that display
+ * the deBroglie model of the hydrogen atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class DeBroglieNodeFactory extends NodeFactory {
 
     public DeBroglieNodeFactory( PNode parent ) {

@@ -29,15 +29,33 @@ import edu.colorado.phet.hydrogenatom.control.SliderControl;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 
-
+/**
+ * DeveloperControlsDialog is a dialog that contains "developer only" controls.
+ * These controls will not be available to the user, and are not localized.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class DeveloperControlsDialog extends JDialog {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private HAModule _module;
     
     private SliderControl _ticksPerPhotonSlider;
     private SliderControl _ticksPerAlphaParticleSlider;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DeveloperControlsDialog( Frame owner, HAModule module ) {
         super( owner, "Developer Controls" );
@@ -84,6 +102,10 @@ public class DeveloperControlsDialog extends JDialog {
         return panel;
     }
     
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
     private class EventListener implements ChangeListener {
         
         public EventListener() {}
@@ -91,13 +113,21 @@ public class DeveloperControlsDialog extends JDialog {
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
             if ( source == _ticksPerPhotonSlider ) {
-                Gun gun = _module.getGun();
-                gun.setTicksPerPhoton( _ticksPerPhotonSlider.getValue() );
+                handleTicksPerPhotonSlider();
             }
             else if ( source == _ticksPerAlphaParticleSlider ) {
-                Gun gun = _module.getGun();
-                gun.setTicksPerAlphaParticle( _ticksPerAlphaParticleSlider.getValue() );  
+                handleTicksPerAlphaParticleSlider();
             }
         }
+    }
+    
+    private void handleTicksPerPhotonSlider() {
+        Gun gun = _module.getGun();
+        gun.setTicksPerPhoton( _ticksPerPhotonSlider.getValue() );
+    }
+    
+    private void handleTicksPerAlphaParticleSlider() {
+        Gun gun = _module.getGun();
+        gun.setTicksPerAlphaParticle( _ticksPerAlphaParticleSlider.getValue() ); 
     }
 }
