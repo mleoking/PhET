@@ -15,7 +15,13 @@ import edu.colorado.phet.hydrogenatom.factory.*;
 import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * HAModelViewManager is an extension of ModelViewManager that
+ * constains node factories specific to this simulation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class HAModelViewManager extends ModelViewManager {
 
     public HAModelViewManager( Model model, PNode parentNode ) {

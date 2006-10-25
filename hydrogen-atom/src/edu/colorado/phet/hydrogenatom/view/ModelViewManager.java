@@ -20,7 +20,7 @@ import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * ModelViewManager
+ * ModelViewManager manages the creation of PNodes for ModelElements.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
