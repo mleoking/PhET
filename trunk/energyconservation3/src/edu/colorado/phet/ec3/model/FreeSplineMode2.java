@@ -173,7 +173,9 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     private AbstractVector2D getFrictionForce( Body body, double x ) {
-        double fricMag = body.getFrictionCoefficient() * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
+        //todo kind of a funny workaround for getting friction on the ground.
+        double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
+        double fricMag = coefficient * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
         if( body.getVelocity().getMagnitude() > 0 ) {
             return body.getVelocity().getInstanceOfMagnitude( -fricMag );
         }
