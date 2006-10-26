@@ -550,9 +550,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
                         throw new IllegalArgumentException( "internal error " );
                     }
                     result = getRelKE( m1, m2 ) > de;
-                    if( result ) {
-                        System.out.println( "A_BC_AB_C_Reaction$Criteria.criteriaMet" );
-                    }
                 }
                 return result;
             }
