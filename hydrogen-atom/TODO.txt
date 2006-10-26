@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement SolarSystemModel
+- message for when Solar System atom has been destroyed
 
 MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
@@ -36,7 +36,6 @@ LOW PRIORITY:
 - implement ExperimentModel
 - implement energy diagrams, reuse Ron's stuff
 - message for when atom has been ionized
-- message for when atom has been destroyed
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
@@ -50,6 +49,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/26/06) - implement SolarSystemModel
 (10/26/06) - sync with phetcommon
 ***** CVS tag hydrogenatom-0-00-05-2006-10-25
 (10/25/06) - javadoc
