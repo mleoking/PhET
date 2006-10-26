@@ -46,16 +46,20 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     public static final String PROPERTY_DESTROYED = "destroyed";
     
     /* initial distance between electron and proton */
-    private static final double ELECTRON_DISTANCE = 100;
-    private static final double ELECTRON_ACCELERATION = 1.1;
-    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
+    private static final double ELECTRON_DISTANCE = 150;
+    private static final double ELECTRON_DISTANCE_DELTA = 1;
+    private static final double MIN_ELECTRON_DISTANCE = 5;
+    private static final double ELECTRON_ACCELERATION = 1.008;
+    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 4 );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private double _electronAngle; // in radians
+    private double _electronAngleDelta; // in radians
     private Point2D _electronPosition;
+    private double _electronDistance; // absolute distance from electron to proton
     private boolean _destroyed;
     
     //----------------------------------------------------------------------------
@@ -70,11 +74,13 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
         super( position, 0 /* orientation */ );
         
         _electronAngle = Math.random() * Math.toRadians( 360 );
+        _electronAngleDelta = ELECTRON_ANGLE_DELTA;
         _electronPosition = new Point2D.Double();
+        _electronDistance = ELECTRON_DISTANCE;
         _destroyed = false;
         
-        double x = getX() + ( ELECTRON_DISTANCE * Math.cos( _electronAngle ) );
-        double y = getY() + ( ELECTRON_DISTANCE * Math.sin( _electronAngle ) );
+        double x = getX() + ( _electronDistance * Math.cos( _electronAngle ) );
+        double y = getY() + ( _electronDistance * Math.sin( _electronAngle ) );
         _electronPosition.setLocation( x, y );
     }
     
@@ -114,12 +120,17 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
-    
+
     public void stepInTime( double dt ) {
         if ( !_destroyed ) {
-            _electronAngle += ELECTRON_ANGLE_DELTA;
-            double x = getX() + ( ELECTRON_DISTANCE * Math.cos( _electronAngle ) );
-            double y = getY() + ( ELECTRON_DISTANCE * Math.sin( _electronAngle ) );
+            _electronAngle += ( _electronAngleDelta * dt );
+            _electronAngleDelta *= ELECTRON_ACCELERATION;
+            _electronDistance -= ( ELECTRON_DISTANCE_DELTA * dt );
+            if ( _electronDistance <= MIN_ELECTRON_DISTANCE ) {
+                _electronDistance = 0;
+            }
+            double x = getX() + ( _electronDistance * Math.cos( _electronAngle ) );
+            double y = getY() + ( _electronDistance * Math.sin( _electronAngle ) );
             _electronPosition.setLocation( x, y );
             notifyObservers( PROPERTY_ELECTRON_POSITION );
         }
