@@ -77,6 +77,8 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         addChild( plungerNode );
         addChild( plunger2DFrameNode );
         addChild( plungerFrameNode );
+        plunger2DFrameNode.setVisible( false );
+        plunger2DFrameStrutsNode.setVisible( false );
 
         pivotPt = new Point2D.Double( getFullBounds().getWidth() / 2, 0 );
         double centerX = getFullBounds().getWidth() / 2;

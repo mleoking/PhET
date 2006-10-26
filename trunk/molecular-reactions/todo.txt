@@ -1,3 +1,6 @@
+- Tighten up launcher control panel
+- Clean up launcher loader code and class fields
+- A molecule got outside the box today
 - Temperature control doesn't work properly
 - Exceptions thrown when lots of molecules in the box
 - Can't select a B type molecule
