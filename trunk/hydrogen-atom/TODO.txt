@@ -50,6 +50,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/26/06) - sync with phetcommon
 ***** CVS tag hydrogenatom-0-00-05-2006-10-25
 (10/25/06) - javadoc
 (10/25/06) - change BilliardBallNode to use shape instead of image file
