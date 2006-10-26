@@ -84,7 +84,7 @@ public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
         double ke = model.getTotalKineticEnergy();
         double pe = model.getTotalPotentialEnergy();
 //        System.out.println( "pe = " + pe );
-        System.out.println( "ke = " + ke );
+//        System.out.println( "ke = " + ke );
         double e = model.getTotalKineticEnergy() + model.getTotalPotentialEnergy();
         double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );

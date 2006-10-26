@@ -1,7 +1,6 @@
 - Tighten up launcher control panel
 - Clean up launcher loader code and class fields
 - A molecule got outside the box today
-- Temperature control doesn't work properly
 - Exceptions thrown when lots of molecules in the box
 - Can't select a B type molecule
 - Hose on pump graphic is aliased
@@ -107,3 +106,5 @@ Done
 10-24-06 - Closing the chart dialogs should uncheck the check boxes
 10-24-06 - Reaction happens when total energy is less than peak in Simple module.
     Ke of reactants wasn't being computed properly
+
+10-26-06 - Temperature control doesn't work properly
