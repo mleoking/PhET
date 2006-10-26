@@ -38,19 +38,22 @@ public class MoleculePopulationsPieChart extends PieChartNode {
     private MoleculeCounter counterC;
     private Rectangle currentSize = new Rectangle();
     private Point2D pieCenter;
+    private Insets insets = new Insets( 5, 0, 5, 0 );
 
     public MoleculePopulationsPieChart( MRModule module, Rectangle2D bounds, double updateInterval ) {
-        super( new Rectangle());
+        super( new Rectangle() );
 
         setBounds( bounds );
+
+        // If we don't position it here, the stripped paints get seams in them 
         pieCenter = new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() );
 
         this.updateInterval = updateInterval;
 
-        values[0] = new PieValue( 0, MoleculePaints.getPaint( MoleculeA.class ));
-        values[1] = new PieValue( 0, MoleculePaints.getPaint( MoleculeBC.class ));
-        values[2] = new PieValue( 0, MoleculePaints.getPaint( MoleculeAB.class ));
-        values[3] = new PieValue( 0, MoleculePaints.getPaint( MoleculeC.class ));
+        values[0] = new PieValue( 0, MoleculePaints.getPaint( MoleculeA.class ) );
+        values[1] = new PieValue( 0, MoleculePaints.getPaint( MoleculeBC.class ) );
+        values[2] = new PieValue( 0, MoleculePaints.getPaint( MoleculeAB.class ) );
+        values[3] = new PieValue( 0, MoleculePaints.getPaint( MoleculeC.class ) );
         setPieValues( values );
 
         // Create counters for each of the molecule types
@@ -63,12 +66,20 @@ public class MoleculePopulationsPieChart extends PieChartNode {
     }
 
     private void update() {
+        values[0].setValue( counterA.getCnt() );
+        values[1].setValue( counterBC.getCnt() );
+        values[2].setValue( counterAB.getCnt() );
+        values[3].setValue( counterC.getCnt() );
         int numMolecules = counterA.getCnt() + counterBC.getCnt() + counterAB.getCnt() + counterC.getCnt();
-        double diam = Math.max( 4, Math.min( getBounds().getHeight(), numMolecules )) * 2;
+        double diam = Math.max( 4, Math.min( getBounds().getHeight() - insets.top - insets.bottom,
+                                             numMolecules * 2 ) );
+
+        System.out.println( "getBounds().getHeight() = " + getBounds().getHeight() );
+
         currentSize.setFrameFromCenter( pieCenter.getX(),
                                         pieCenter.getY(),
                                         pieCenter.getX() - diam / 2,
-                                        pieCenter.getY() - diam / 2);
+                                        pieCenter.getY() - diam / 2 );
         setArea( currentSize );
         setPieValues( values );
     }
@@ -80,14 +91,8 @@ public class MoleculePopulationsPieChart extends PieChartNode {
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();
             if( timeSinceLastUpdate > updateInterval ) {
                 timeSinceLastUpdate = 0;
-                values[0].setValue( counterA.getCnt() );
-                values[1].setValue( counterBC.getCnt() );
-                values[2].setValue( counterAB.getCnt() );
-                values[3].setValue( counterC.getCnt() );
                 update();
             }
         }
     }
-
-
 }

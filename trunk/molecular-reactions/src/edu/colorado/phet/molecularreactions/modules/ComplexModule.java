@@ -21,6 +21,7 @@ import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +46,8 @@ public class ComplexModule extends MRModule {
     private PumpGraphic pumpGraphic;
     private PNode barChartNode;
     private JDialog barChartDlg;
-    private PieChartNode pieChart;
+    private MoleculePopulationsPieChartNode pieChart;
+//    private PieChartNode pieChart;
 
     /**
      *
@@ -98,7 +100,8 @@ public class ComplexModule extends MRModule {
             Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0,
                                                                 getEnergyView().getUpperPaneSize().getWidth(),
                                                                 getEnergyView().getUpperPaneSize().getHeight() );
-            pieChart = new MoleculePopulationsPieChart( this, bounds, 1 );
+            pieChart = new MoleculePopulationsPieChartNode( this, bounds );
+//            pieChart = new MoleculePopulationsPieChart( this, bounds, 1 );
             getEnergyView().addToUpperPane( pieChart );
         }
         else if( pieChart != null ) {
