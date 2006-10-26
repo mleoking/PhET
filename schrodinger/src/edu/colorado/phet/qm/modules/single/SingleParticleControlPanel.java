@@ -27,9 +27,11 @@ public class SingleParticleControlPanel extends QWIControlPanel {
     private IVisualizationPanel particleVisPanel;
     private IVisualizationPanel photonVisPanel;
     private VisualizationPanelContainer visPanel;
+    private SingleParticleModule singleParticleModule;
 
-    public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
+    public SingleParticleControlPanel( final SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
+        this.singleParticleModule = singleParticleModule;
         AdvancedPanel potentialPanel = new AdvancedPanel( QWIStrings.getString( "potential.barriers" ), QWIStrings.getString( "hide.potential.barriers" ) );
         potentialPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
         AdvancedPanel detectorPanel = new AdvancedPanel( QWIStrings.getString( "detectors1" ), QWIStrings.getString( "detectors" ) );
@@ -84,6 +86,16 @@ public class SingleParticleControlPanel extends QWIControlPanel {
         addControl( doubleSlitPanel );
         addControl( potentialPanel );
         addControl( detectorPanel );
+
+        // this is just for debugging
+        // 
+        final JCheckBox rapid = new JCheckBox( "Rapid", false );
+        rapid.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                singleParticleModule.setRapid( rapid.isSelected() );
+            }
+        } );
+        addControl( rapid );
 
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }

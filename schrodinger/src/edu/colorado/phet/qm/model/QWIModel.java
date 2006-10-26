@@ -34,13 +34,13 @@ public class QWIModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
-//    private boolean oneShotDetectors = false;
+    //    private boolean oneShotDetectors = false;
     private Damping damping;
     private boolean paused = false;
     private WaveSetup initter;
 
     private HorizontalDoubleSlit doubleSlitPotential;
-//    private MeasurementScale measurementScale;
+    //    private MeasurementScale measurementScale;
     private boolean doubleSlitEnabled;
 
     public static final int DEFAULT_WIDTH = 100;
@@ -124,21 +124,9 @@ public class QWIModel implements ModelElement {
         return sourceWaveModel;
     }
 
-//    public MeasurementScale getMeasurementScale() {
-//        return measurementScale;
-//    }
-
     protected static ZeroWave createInitWave() {
         return new ZeroWave();
     }
-
-//    protected static double createInitDT() {
-//        return 1E-5;
-//    }
-//
-//    public void setPropagatorModifiedRichardson() {
-//        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
-//    }
 
     public Wave getWave() {
         return wave;
@@ -250,8 +238,7 @@ public class QWIModel implements ModelElement {
 
     //todo refactor using WaveModel
     private void copyActualToSource( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator()instanceof ClassicalWavePropagator )
-        {
+        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator actualPropagator = (ClassicalWavePropagator)getPropagator();
             ClassicalWavePropagator sourcePropagator = (ClassicalWavePropagator)getSourcePropagator();
             if( actualPropagator.getLast() != null && sourcePropagator.getLast() != null ) {
@@ -274,8 +261,7 @@ public class QWIModel implements ModelElement {
     }
 
     private void copySourceToActual( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator()instanceof ClassicalWavePropagator )
-        {
+        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator actualPropagator = (ClassicalWavePropagator)getPropagator();
             ClassicalWavePropagator sourcePropagator = (ClassicalWavePropagator)getSourcePropagator();
             if( actualPropagator.getLast() != null && sourcePropagator.getLast() != null ) {
@@ -521,7 +507,7 @@ public class QWIModel implements ModelElement {
             double scale = newMagnitude <= 0.0 ? 0.0 : newMagnitude / magnitude;
             getWavefunction().scale( scale );
             getSourceWave().scale( scale );
-            if( getPropagator()instanceof ClassicalWavePropagator ) {
+            if( getPropagator() instanceof ClassicalWavePropagator ) {
                 ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)getPropagator();
                 classicalWavePropagator.scale( scale );
             }

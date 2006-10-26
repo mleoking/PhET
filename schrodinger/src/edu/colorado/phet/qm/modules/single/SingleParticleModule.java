@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -32,5 +33,20 @@ public class SingleParticleModule extends QWIModule {
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().updatePSwing();
         finishInit();
+    }
+
+    public void rapidTest() {
+//        AbstractGunNode gun = getSchrodingerPanel().getGunGraphic();
+//        if( gun instanceof SingleParticleGunNode ) {
+//            SingleParticleGunNode singleParticleGunNode = (SingleParticleGunNode)gun;
+//            singleParticleGunNode.fireParticle();
+//        }
+        SwingClock clock = (SwingClock)getClock();
+        clock.setDelay( 0 );
+    }
+
+    public void setRapid( boolean rapid ) {
+        SwingClock clock = (SwingClock)getClock();
+        clock.setDelay( rapid ? 0 : 30 );
     }
 }
