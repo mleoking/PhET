@@ -34,13 +34,11 @@ public class QWIModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
-    //    private boolean oneShotDetectors = false;
     private Damping damping;
     private boolean paused = false;
     private WaveSetup initter;
 
     private HorizontalDoubleSlit doubleSlitPotential;
-    //    private MeasurementScale measurementScale;
     private boolean doubleSlitEnabled;
 
     public static final int DEFAULT_WIDTH = 100;
@@ -66,7 +64,6 @@ public class QWIModel implements ModelElement {
         this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, compositePotential, 1, 1 ) );
 
         detectorSet = new DetectorSet( getWavefunction() );
-//        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
@@ -288,7 +285,6 @@ public class QWIModel implements ModelElement {
         }
     }
 
-
     protected void incrementTimeStep() {
         timeStep++;
     }
@@ -435,16 +431,6 @@ public class QWIModel implements ModelElement {
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
-
-//    public void setOneShotDetectors( boolean oneShotDetectors ) {
-//        this.oneShotDetectors = oneShotDetectors;
-////        detectorSet.setOneShotDetectors( oneShotDetectors );
-//        enableAllDetectors();
-//    }
-
-//    public boolean isOneShotDetectors() {
-//        return oneShotDetectors;
-//    }
 
     public void setPropagator( Propagator propagator ) {
         this.getPropagator().deactivate();
