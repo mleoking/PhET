@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -28,12 +29,12 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class LauncherLoadPanel extends JPanel {
-        private JRadioButton aRB;
-        private JRadioButton cRB;
-        private Class currentMoleculeType;
+    private JRadioButton aRB;
+    private JRadioButton cRB;
+    private Class currentMoleculeType;
     private SimpleModule module;
 
-    public LauncherLoadPanel( SimpleModule module) {
+    public LauncherLoadPanel( SimpleModule module ) {
         this.module = module;
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.launcherType" ) ) );
         setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
@@ -74,15 +75,20 @@ public class LauncherLoadPanel extends JPanel {
         currentMoleculeType = MoleculeA.class;
     }
 
-        private class MoleculeSelectorRBAction extends AbstractAction {
+    public void setMolecule( SimpleMolecule launcherMolecule ) {
+        aRB.setSelected( launcherMolecule instanceof MoleculeA );
+        cRB.setSelected( launcherMolecule instanceof MoleculeC );
+    }
 
-            public void actionPerformed( ActionEvent e ) {
-                if( aRB.isSelected() ) {
-                    module.setMolecules( module.getMRModel(), new MoleculeA() );
-                }
-                if( cRB.isSelected() ) {
-                    module.setMolecules( module.getMRModel(), new MoleculeC() );
-                }
+    private class MoleculeSelectorRBAction extends AbstractAction {
+
+        public void actionPerformed( ActionEvent e ) {
+            if( aRB.isSelected() ) {
+                module.setMolecules( module.getMRModel(), new MoleculeA() );
+            }
+            if( cRB.isSelected() ) {
+                module.setMolecules( module.getMRModel(), new MoleculeC() );
             }
         }
     }
+}

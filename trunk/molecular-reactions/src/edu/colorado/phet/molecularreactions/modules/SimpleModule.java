@@ -43,6 +43,7 @@ public class SimpleModule extends MRModule {
     private SimpleMolecule m3;
     private CompositeMolecule cm;
     private SimpleMolecule launcherMolecule;
+    private LauncherLoadPanel launcherLoadPanel;
 
     public SimpleModule() {
         super( "Simple" );
@@ -60,8 +61,9 @@ public class SimpleModule extends MRModule {
         // Set the location for the launcher and  add it's Swing control
         launcherTipLocation = new Point2D.Double( ( model.getBox().getMinX() + model.getBox().getMaxX() ) / 2,
                                                   model.getBox().getMaxY() );
+        launcherLoadPanel = new LauncherLoadPanel( this );
         PSwing launcherMoleculeSelector = new PSwing( getPCanvas(),
-                                                      new LauncherLoadPanel( this ) );
+                                               launcherLoadPanel );
         getSpatialView().addChild( launcherMoleculeSelector );
         launcherMoleculeSelector.setOffset( launcherTipLocation.getX() - launcherMoleculeSelector.getFullBounds().getWidth() - 70,
                                             launcherTipLocation.getY() + 15 );
@@ -134,13 +136,13 @@ public class SimpleModule extends MRModule {
         tempCtrl.setPosition( model.getBox().getMaxX() - 50, tempCtrl.getPosition().getY() );
 
         // Add the launcher and its graphic
-//        Point2D launcherTipLocation = new Point2D.Double( (model.getBox().getMinX() + model.getBox().getMaxX()) / 2,
-//                                                          model.getBox().getMaxY() );
         launcher = new Launcher( launcherTipLocation );
         launcher.setTipLocation( launcherTipLocation );
         model.addModelElement( launcher );
 
-        setMolecules( model, new MoleculeC() );
+        MoleculeC launcherMolecule = new MoleculeC();
+        setMolecules( model, launcherMolecule );
+        launcherLoadPanel.setMolecule( launcherMolecule );
     }
 
     /**
