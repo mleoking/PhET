@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.util;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -54,7 +55,8 @@ public class BarChart {
                      String yAxisLabel,
                      PlotOrientation orientation,
                      int minY,
-                     int maxY ) {
+                     int maxY,
+                     boolean showLegend ) {
 
         dataset = createDataset( seriesNames );
 
@@ -65,13 +67,13 @@ public class BarChart {
                 yAxisLabel,               // range axis label
                 dataset,                  // data
                 orientation,              // orientation
-                true,                     // include legend
+                showLegend,               // include legend
                 true,                     // tooltips?
                 false                     // URLs?
         );
 
         // set the background paint for the chart...
-//        chart.setBackgroundPaint( Color.white );
+        chart.setBackgroundPaint( Color.white );
 
         // get a reference to the plot for further customisation...
         CategoryPlot plot = chart.getCategoryPlot();
@@ -152,7 +154,7 @@ public class BarChart {
                                                 "Species",
                                                 "n",
                                                 PlotOrientation.VERTICAL,
-                                                -12, 12 );
+                                                -12, 12, false );
         ChartPanel chartPanel = new ChartPanel( barChart.getChart() );
         chartPanel.setPreferredSize( new Dimension( 200, 200 ) );
         frame.setContentPane( chartPanel );
