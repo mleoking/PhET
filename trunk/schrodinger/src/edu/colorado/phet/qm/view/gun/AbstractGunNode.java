@@ -30,13 +30,14 @@ import java.util.Map;
  */
 
 public abstract class AbstractGunNode extends PNode {
-    protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel-2.gif";
-    public static final int GUN_PARTICLE_OFFSET = 35;
     private QWIPanel QWIPanel;
     private PImage gunImageGraphic;
     private ArrayList listeners = new ArrayList();
     private ImagePComboBox comboBox;
     private PNode onGunGraphic;
+
+    protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel-2.gif";
+    public static final int GUN_PARTICLE_OFFSET = 35;
 
     public AbstractGunNode( final QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
