@@ -60,6 +60,11 @@ public class MRModel extends PublishingModel {
     private double potentialEnergyStored;
     private List potentialEnergySources = new ArrayList();
     private TemperatureControl tempCtrl;
+    // The amount of energy added or removed from the model in a time step
+    // by objects such as the temperature control. This is used in tweaking
+    // the total amount of energy in the system at the end of each time step
+    // so it is conserved.
+    private double dEnergy;
 
     /**
      * Constructor
@@ -181,33 +186,30 @@ public class MRModel extends PublishingModel {
     //--------------------------------------------------------------------------------------------------
 
     protected void stepInTime( double dt ) {
+        dEnergy = 0;
         double pe0 = getTotalPotentialEnergy();
         double ke0 = getTotalKineticEnergy();
 
         super.stepInTime( dt );
 //        clearForces();
-//        double ke1 = getTotalKineticEnergy();
 
         double pe1 = getTotalPotentialEnergy();
         double ke1 = getTotalKineticEnergy();
 
-        double keF = pe0 + ke0 - pe1;
+        // Adjust the velocities of objects so energy is conserved
+        double keF = pe0 + ke0 - pe1 + dEnergy;
         double r = Math.sqrt( ke1 != 0 ? keF / ke1 : 1 );
-        if( r != 1 ) {
-//            System.out.println( "MRModel.stepInTime" );
-        }
-
         List modelElements = getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
-//            if( o instanceof SimpleMolecule ) {
             if( o instanceof Body ) {
                 Body body = (Body)o;
                 body.setVelocity( body.getVelocity().scale( r ));
+                body.setOmega( body.getOmega() * r );
             }
         }
 
-        monitorEnergy();
+//        monitorEnergy();
     }
 
 
@@ -266,6 +268,10 @@ public class MRModel extends PublishingModel {
             }
         }
         return peTotal;
+    }
+
+    public void addEnergy( double de ) {
+        dEnergy = de;
     }
 
     //--------------------------------------------------------------------------------------------------

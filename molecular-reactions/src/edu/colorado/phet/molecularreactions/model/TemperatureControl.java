@@ -33,19 +33,27 @@ public class TemperatureControl extends DefaultBody {
 
     public void stepInTime( double dt ) {
         if( setting != 0 ) {
+            double de = 0;
             List modelElements = model.getModelElements();
-            double scaleFactor = 1 + setting / ( 10 * modelElements.size() );
+            double scaleFactor = 1 + setting / ( 1000 * modelElements.size() );
             for( int i = 0; i < modelElements.size(); i++ ) {
                 Object o = modelElements.get( i );
                 if( o instanceof SimpleMolecule ) {
                     SimpleMolecule molecule = (SimpleMolecule)o;
+                    double ke0 = molecule.getKineticEnergy();
                     molecule.setVelocity( molecule.getVelocity().scale( scaleFactor) );
+                    double ke1 = molecule.getKineticEnergy();
+                    de += ( ke1 - ke0 );
                 }
                 if( o instanceof CompositeMolecule ) {
                     CompositeMolecule compositeMolecule = (CompositeMolecule)o;
+                    double ke0 = compositeMolecule.getKineticEnergy();
                     compositeMolecule.setOmega( compositeMolecule.getOmega() *  scaleFactor );
+                    double ke1 = compositeMolecule.getKineticEnergy();
+                    de += ( ke1 - ke0 );
                 }
             }
+            model.addEnergy( de );
         }
     }
 
