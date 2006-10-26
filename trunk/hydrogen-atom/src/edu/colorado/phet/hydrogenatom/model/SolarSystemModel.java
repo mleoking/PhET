@@ -39,27 +39,45 @@ import java.awt.geom.Point2D;
 public class SolarSystemModel extends AbstractHydrogenAtom {
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Public class data
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_ELECTRON_POSITION = "electronPosition";
     public static final String PROPERTY_DESTROYED = "destroyed";
     
+    //----------------------------------------------------------------------------
+    // Private class data
+    //----------------------------------------------------------------------------
+    
+    /*
+     * NOTE! Tweak these VERY carefully, and test often! 
+     * They must be set so that the atom is destroyed before 
+     * any photons or alpha particles reach it.
+     */
+    
     /* initial distance between electron and proton */
     private static final double ELECTRON_DISTANCE = 150;
-    private static final double ELECTRON_DISTANCE_DELTA = 1;
+    
+    /* amount the distance between the proton and electron is reduce per dt */
+    private static final double ELECTRON_DISTANCE_DELTA = 4;
+    
+    /* any distance smaller than this is effectively zero */
     private static final double MIN_ELECTRON_DISTANCE = 5;
+    
+    /* change in electron's rotation angle per dt */
+    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 16 );
+    
+    /* scaling of electron's rotation delta */
     private static final double ELECTRON_ACCELERATION = 1.008;
-    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 4 );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _electronAngle; // in radians
-    private double _electronAngleDelta; // in radians
     private Point2D _electronPosition;
     private double _electronDistance; // absolute distance from electron to proton
+    private double _electronAngle; // in radians
+    private double _electronAngleDelta; // in radians
     private boolean _destroyed;
     
     //----------------------------------------------------------------------------
@@ -73,15 +91,13 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     public SolarSystemModel( Point2D position ) {
         super( position, 0 /* orientation */ );
         
-        _electronAngle = Math.random() * Math.toRadians( 360 );
-        _electronAngleDelta = ELECTRON_ANGLE_DELTA;
         _electronPosition = new Point2D.Double();
         _electronDistance = ELECTRON_DISTANCE;
+        _electronAngle = Math.random() * Math.toRadians( 360 );
+        _electronAngleDelta = ELECTRON_ANGLE_DELTA;
         _destroyed = false;
         
-        double x = getX() + ( _electronDistance * Math.cos( _electronAngle ) );
-        double y = getY() + ( _electronDistance * Math.sin( _electronAngle ) );
-        _electronPosition.setLocation( x, y );
+        setElectronPosition( _electronAngle, _electronDistance );
     }
     
     //----------------------------------------------------------------------------
@@ -123,16 +139,36 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
 
     public void stepInTime( double dt ) {
         if ( !_destroyed ) {
+            
+            // increment the orbit angle
             _electronAngle += ( _electronAngleDelta * dt );
+            // increase the rate of change of the orbit angle
             _electronAngleDelta *= ELECTRON_ACCELERATION;
+            // decrease the electron's distance from the proton
             _electronDistance -= ( ELECTRON_DISTANCE_DELTA * dt );
+            // is the distance effectively zero?
             if ( _electronDistance <= MIN_ELECTRON_DISTANCE ) {
                 _electronDistance = 0;
             }
-            double x = getX() + ( _electronDistance * Math.cos( _electronAngle ) );
-            double y = getY() + ( _electronDistance * Math.sin( _electronAngle ) );
-            _electronPosition.setLocation( x, y );
+            
+            // move the electron and notify observers
+            setElectronPosition( _electronAngle, _electronDistance );
             notifyObservers( PROPERTY_ELECTRON_POSITION );
+            
+            // was the atom destroyed?
+            if ( _electronDistance == 0 ) {
+                _destroyed = true;
+                notifyObservers( PROPERTY_DESTROYED ); 
+            }
         }
+    }
+    
+    /*
+     * Sets the electron's position based on its angle and distance from the proton.
+     */
+    private void setElectronPosition( double electronAngle, double electronDistance ) {
+        double x = getX() + ( electronDistance * Math.cos( electronAngle ) );
+        double y = getY() + ( electronDistance * Math.sin( electronAngle ) );
+        _electronPosition.setLocation( x, y );
     }
 }
