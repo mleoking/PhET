@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.view;
+package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import org.jfree.chart.plot.PlotOrientation;
 
 import java.awt.*;

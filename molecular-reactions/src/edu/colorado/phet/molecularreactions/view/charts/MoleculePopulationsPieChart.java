@@ -8,13 +8,14 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.view;
+package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
+import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
