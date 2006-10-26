@@ -14,15 +14,16 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.*;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChart;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
@@ -85,7 +86,6 @@ public class ComplexModule extends MRModule {
 
     private void setInitialConditions() {
         setStripChartVisible( false, null );
-
     }
 
     public void setCountersEditable( boolean editable ) {
@@ -108,38 +108,9 @@ public class ComplexModule extends MRModule {
 
     public void setBarChartVisible( boolean visible ) {
         if( visible ) {
-            BarChart barChart = new MoleculePopulationsBarChart( getMRModel(), getClock(), 4, 0, 30, 1 );
-            ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
-            barChartPanel.setPreferredSize( new Dimension( (int)getEnergyView().getUpperPaneSize().getWidth(),
-                                                           (int)( getEnergyView().getUpperPaneSize().getHeight() - 40 ) ) );
-            PSwing barChartPSwing = new PSwing( (PhetPCanvas)getSimulationPanel(), barChartPanel );
-            barChartNode = new PNode();
-            barChartNode.addChild( barChartPSwing );
-            PNode mANode = new PImage( new MoleculeIcon( MoleculeA.class ).getImage() );
-            PNode mBCNode = new PImage( new MoleculeIcon( MoleculeBC.class ).getImage() );
-            PNode mABNode = new PImage( new MoleculeIcon( MoleculeAB.class ).getImage() );
-            PNode mCNode = new PImage( new MoleculeIcon( MoleculeC.class ).getImage() );
-            barChartNode.addChild( mANode );
-            barChartNode.addChild( mBCNode );
-            barChartNode.addChild( mABNode );
-            barChartNode.addChild( mCNode );
-
-            double y = barChartPSwing.getFullBounds().getHeight() + 18;
-            double xIncr = 58;
-            double x = 84;
-            mANode.setOffset( x - mANode.getFullBounds().getWidth() / 2,
-                              y - mANode.getFullBounds().getHeight() / 2);
-            x += xIncr;
-            mBCNode.setOffset( x - mBCNode.getFullBounds().getWidth() / 2,
-                               y - mBCNode.getFullBounds().getHeight() / 2);
-            x += xIncr;
-            mABNode.setOffset( x - mABNode.getFullBounds().getWidth() / 2,
-                               y - mABNode.getFullBounds().getHeight() / 2);
-            x += xIncr;
-            mCNode.setOffset( x - mCNode.getFullBounds().getWidth() / 2,
-                              y - mCNode.getFullBounds().getHeight() / 2);
-
-//            barChartNode.setPaint( );
+            barChartNode = new MoleculePopulationsBarChartNode( this,
+                                                                                                                 getEnergyView().getUpperPaneSize(),
+                                                                                                                 (PhetPCanvas)getSimulationPanel() );
             getEnergyView().addToUpperPane( barChartNode );
         }
         else if( barChartNode != null ) {
