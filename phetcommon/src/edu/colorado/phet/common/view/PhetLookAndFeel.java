@@ -53,7 +53,7 @@ public class PhetLookAndFeel {
     //----------------------------------------------------------------------------
 
     public static final String PHET_LOGO_120x50 = "images/phet-logo-120x50.jpg";
-    
+
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
             "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
@@ -74,7 +74,7 @@ public class PhetLookAndFeel {
     private Font tabFont;
     private Color foregroundColor;
     private Color backgroundColor;
-    private Color textFieldBackgroundColor;
+    private Color textFieldBackgroundColor = Color.white;//necessary to get white textfields on webstart under 1.5?
     private Insets insets;
 
     //----------------------------------------------------------------------------
