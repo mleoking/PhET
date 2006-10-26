@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- message for when Solar System atom has been destroyed
+- message and reset button when Solar System atom has been destroyed
 
 MEDIUM PRIORITY:
 - add x-axis ticks and labels to spectrometer
