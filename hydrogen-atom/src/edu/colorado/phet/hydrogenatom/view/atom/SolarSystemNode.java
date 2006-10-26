@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,6 +36,8 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
     //----------------------------------------------------------------------------
     
     private SolarSystemModel _atom;
+    private ProtonNode _protonNode;
+    private ElectronNode _electronNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,21 +53,19 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
         _atom = atom;
         _atom.addObserver( this );
         
-        ProtonNode protonNode = new ProtonNode();
-        ElectronNode electronNode = new ElectronNode();
+        _protonNode = new ProtonNode();
+        _electronNode = new ElectronNode();
        
-        addChild( protonNode );
-        addChild( electronNode );
+        addChild( _protonNode );
+        addChild( _electronNode );
           
         OriginNode originNode = new OriginNode( Color.GREEN );
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
             addChild( originNode );
         }
 
-        protonNode.setOffset( 0, 0 );
-        electronNode.setOffset( 100, -100 );
-        
-        update( null, null );
+        update( _atom, SolarSystemModel.PROPERTY_POSITION );
+        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
     }
 
     //----------------------------------------------------------------------------
@@ -77,6 +78,22 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
+        if ( o == _atom ) {
+            if ( arg == SolarSystemModel.PROPERTY_POSITION ) {
+                // the entire atom has moved
+                Point2D atomPosition = _atom.getPosition();
+                Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+                System.out.println( "atomPosition=" + atomPosition + " nodePosition=" + nodePosition );//XXX
+                setOffset( nodePosition );
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_ELECTRON_POSITION ) {
+                // the electron has moved
+                Point2D relativeElectronPosition = _atom.getRelativeElectronPosition();
+                // treat coordinates as distances, since _electronNode is a child node
+                double nodeX = ModelViewTransform.transform( relativeElectronPosition.getX() );
+                double nodeY = ModelViewTransform.transform( relativeElectronPosition.getY() );
+                _electronNode.setOffset( nodeX, nodeY );
+            }
+        }
     }
 }
