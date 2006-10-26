@@ -28,6 +28,9 @@ import java.awt.*;
 
 /**
  * MoleculePopulationsBarChartNode
+ * <p>
+ * A PNode that has a MoleculePopulationsBarChart and icons beneath
+ * it for each type of molecule in the chart
  *
  * @author Ron LeMaster
  * @version $Revision$
