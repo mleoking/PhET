@@ -32,7 +32,7 @@ import java.awt.geom.Rectangle2D;
  * <p/>
  * A view of the MRModel that shows the potential energy of two individual molecules,
  * or their composite molecule. This is a fairly abstract view.
- * <p>
+ * <p/>
  * The diagram below shows the basic layout of this view, with the names of fields
  * corresponding to its main elements
  * <p/>
@@ -65,7 +65,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyView extends PNode implements SimpleObserver, Resetable{
+public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private int width = 300;
     private Dimension upperPaneSize = new Dimension( width, 150 );
@@ -107,7 +107,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         upperPane = new PNode();
         upperPane.setWidth( upperPaneSize.getWidth() );
         upperPane.setHeight( upperPaneSize.getHeight() );
-        addChild( upperPane);
+        addChild( upperPane );
 
         // The graphic that shows the reaction mechanics
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 40 ) );
@@ -153,6 +153,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
     /**
      * Adds a pNode to the upper pane
+     *
      * @param pNode
      */
     public void addToUpperPane( PNode pNode ) {
@@ -161,15 +162,18 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
 
     /**
      * Removes a pNode from the upper pane
+     *
      * @param pNode
      */
     public void removeFromUpperPane( PNode pNode ) {
-        upperPane.removeChild( pNode );
+        if( upperPane.getChildrenReference().contains( pNode ) ) {
+            upperPane.removeChild( pNode );
+        }
     }
 
     /**
      * Sets the visibility of the total energy line
-     * 
+     *
      * @param visible
      */
     public void setTotalEnergyLineVisible( boolean visible ) {
@@ -246,7 +250,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
         moleculeLayer = new PNode();
         moleculeLayer.setOffset( curveAreaInsets.left, 0 );
         moleculePane.addChild( moleculeLayer );
-
 
         // Axis: An arrow that shows separation of molecules and text label
         // They are grouped in a single node so that they can be made visible or
@@ -405,7 +408,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable{
     public PPath getCurvePane() {
         return curvePane;
     }
-    
+
     //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------

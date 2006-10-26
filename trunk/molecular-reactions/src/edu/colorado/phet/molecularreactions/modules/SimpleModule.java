@@ -17,12 +17,9 @@ import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
-import edu.colorado.phet.molecularreactions.view.MoleculeIcon;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -31,7 +28,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.awt.*;
 
 /**
  * MRModule
@@ -43,10 +39,10 @@ public class SimpleModule extends MRModule {
     private Launcher launcher;
     private SimpleMRControlPanel controlPanel;
     private Point2D launcherTipLocation;
-    private SimpleMolecule m1;
-    private SimpleMolecule m1a;
+    private SimpleMolecule moleculeB;
+    private SimpleMolecule m3;
     private CompositeMolecule cm;
-    private SimpleMolecule m2;
+    private SimpleMolecule launcherMolecule;
 
     public SimpleModule() {
         super( "Simple" );
@@ -64,7 +60,8 @@ public class SimpleModule extends MRModule {
         // Set the location for the launcher and  add it's Swing control
         launcherTipLocation = new Point2D.Double( ( model.getBox().getMinX() + model.getBox().getMaxX() ) / 2,
                                                   model.getBox().getMaxY() );
-        PSwing launcherMoleculeSelector = new PSwing( getPCanvas(), new LauncherLoadPanel() );
+        PSwing launcherMoleculeSelector = new PSwing( getPCanvas(),
+                                                      new LauncherLoadPanel( this ) );
         getSpatialView().addChild( launcherMoleculeSelector );
         launcherMoleculeSelector.setOffset( launcherTipLocation.getX() - launcherMoleculeSelector.getFullBounds().getWidth() - 70,
                                             launcherTipLocation.getY() + 15 );
@@ -146,58 +143,65 @@ public class SimpleModule extends MRModule {
         setMolecules( model, new MoleculeC() );
     }
 
-    private void setMolecules( MRModel model, SimpleMolecule m2 ) {
+    /**
+     * Sets the molecules that will be used in this module
+     * @param model
+     * @param launcherMolecule
+     */
+    public void setMolecules( MRModel model, SimpleMolecule launcherMolecule ) {
 
-        if( this.m2 != null ) {
-            model.removeModelElement( this.m2 );
+        if( this.launcherMolecule != null ) {
+            model.removeModelElement( this.launcherMolecule );
         }
-        if( m1 != null ) {
-            model.removeModelElement( m1 );
+        if( moleculeB != null ) {
+            model.removeModelElement( moleculeB );
         }
-        if( m1a != null ) {
-            model.removeModelElement( m1a);
+        if( m3 != null ) {
+            model.removeModelElement( m3 );
         }
         if( cm != null ){
             model.removeModelElement( cm );
         }
 
-        this.m2 = m2;
-        m2.setPosition( launcher.getTipLocation().getX(), launcher.getTipLocation().getY() - m2.getRadius() );
-        model.addModelElement( m2 );
-        launcher.setBodyToLaunch( m2 );
+        this.launcherMolecule = launcherMolecule;
+        launcherMolecule.setPosition( launcher.getTipLocation().getX(), launcher.getTipLocation().getY() - launcherMolecule.getRadius() );
+        model.addModelElement( launcherMolecule );
+        launcher.setBodyToLaunch( launcherMolecule );
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
 
-        m1 = new MoleculeB();
+        moleculeB = new MoleculeB();
         double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;
-        m1.setPosition( m2.getPosition().getX(), yLoc );
-        m1.setVelocity( 0, 0 );
-        model.addModelElement( m1 );
+        moleculeB.setPosition( launcherMolecule.getPosition().getX(), yLoc );
+        moleculeB.setVelocity( 0, 0 );
+        model.addModelElement( moleculeB );
 
-        m1a = null;
-        if( m2 instanceof MoleculeC ) {
-            m1a = new MoleculeA();
+        m3 = null;
+        if( launcherMolecule instanceof MoleculeC ) {
+            m3 = new MoleculeA();
         }
         else {
-            m1a = new MoleculeC();
+            m3 = new MoleculeC();
         }
 
-        m1a.setPosition( m1.getPosition().getX(), yLoc - m1.getRadius() - m1a.getRadius() );
-        m1a.setVelocity( 0, 0 );
-        model.addModelElement( m1a );
+        m3.setPosition( moleculeB.getPosition().getX(), yLoc - moleculeB.getRadius() - m3.getRadius() );
+        m3.setVelocity( 0, 0 );
+        model.addModelElement( m3 );
 
         cm = null;
-        if( m2 instanceof MoleculeC ) {
-            cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
+        if( launcherMolecule instanceof MoleculeC ) {
+            cm = new SimpleMoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
+//            cm = new MoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
         }
         else {
-            cm = new MoleculeBC( new SimpleMolecule[]{m1, m1a} );
+            cm = new SimpleMoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
+//            cm = new MoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
         }
 
         cm.setOmega( 0 );
         cm.setVelocity( 0, 0 );
         model.addModelElement( cm );
 
-        m2.setSelectionStatus( Selectable.SELECTED );
+        launcherMolecule.setSelectionStatus( Selectable.SELECTED );
     }
 
     public void reset() {
@@ -207,61 +211,37 @@ public class SimpleModule extends MRModule {
         controlPanel.reset();
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
 
-    class LauncherLoadPanel extends JPanel {
-        private JRadioButton aRB;
-        private JRadioButton cRB;
-        private Class currentMoleculeType;
-
-        public LauncherLoadPanel() {
-            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.launcherType" ) ) );
-            setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
-
-            ButtonGroup bg = new ButtonGroup();
-            aRB = new JRadioButton();
-            cRB = new JRadioButton();
-            bg.add( aRB );
-            bg.add( cRB );
-
-            aRB.addActionListener( new MoleculeSelectorRBAction() );
-            cRB.addActionListener( new MoleculeSelectorRBAction() );
-
-            aRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
-            cRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
-
-            setLayout( new GridBagLayout() );
-            int rbAnchor = GridBagConstraints.CENTER;
-            int iconAnchor = GridBagConstraints.CENTER;
-            Insets insets = new Insets( 3, 15, 3, 15 );
-            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                             1, 1, 1, 1,
-                                                             rbAnchor,
-                                                             GridBagConstraints.HORIZONTAL,
-                                                             insets, 0, 0 );
-            add( aRB, gbc );
-            add( cRB, gbc );
-            gbc.gridy = 0;
-            gbc.gridy = GridBagConstraints.RELATIVE;
-            gbc.gridx = 1;
-            gbc.anchor = iconAnchor;
-            add( new JLabel( new MoleculeIcon( MoleculeA.class ) ), gbc );
-            add( new JLabel( new MoleculeIcon( MoleculeC.class ) ), gbc );
-
-            cRB.setSelected( true );
-            currentMoleculeType = MoleculeA.class;
+    /**
+     * These classes attempt tokeep the composite molecule from rotating when the mode is
+     * 1D
+     */
+    private class SimpleMoleculeAB extends MoleculeAB {
+        public SimpleMoleculeAB( SimpleMolecule[] components ) {
+            super( components );
         }
 
-        private class MoleculeSelectorRBAction extends AbstractAction {
-
-            public void actionPerformed( ActionEvent e ) {
-                if( aRB.isSelected() ) {
-                    setMolecules( getMRModel(), new MoleculeA() );
-                }
-                if( cRB.isSelected() ) {
-                    setMolecules( getMRModel(), new MoleculeC() );
-                }
-            }
+        public void stepInTime( double dt ) {
+            setOmega( 0 );
+            super.stepInTime( dt );
+            setOmega( 0 );
         }
     }
+
+    private class SimpleMoleculeBC extends MoleculeBC {
+        public SimpleMoleculeBC( SimpleMolecule[] components ) {
+            super( components );
+        }
+
+        public void stepInTime( double dt ) {
+            setOmega( 0 );
+            super.stepInTime( dt );
+            setOmega( 0 );
+        }
+    }
+
 }
 

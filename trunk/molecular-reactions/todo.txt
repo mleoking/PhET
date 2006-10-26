@@ -1,5 +1,6 @@
-- Tighten up launcher control panel
-- Clean up launcher loader code and class fields
+- Pie chart need legend
+- Remove "Time" from bar chart, and put icons for molecules
+- Make font on energy pane bigger
 - A molecule got outside the box today
 - Exceptions thrown when lots of molecules in the box
 - Can't select a B type molecule
