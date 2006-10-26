@@ -83,7 +83,6 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 // the entire atom has moved
                 Point2D atomPosition = _atom.getPosition();
                 Point2D nodePosition = ModelViewTransform.transform( atomPosition );
-                System.out.println( "atomPosition=" + atomPosition + " nodePosition=" + nodePosition );//XXX
                 setOffset( nodePosition );
             }
             else if ( arg == SolarSystemModel.PROPERTY_ELECTRON_POSITION ) {
