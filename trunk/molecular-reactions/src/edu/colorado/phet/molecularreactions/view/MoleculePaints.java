@@ -59,10 +59,10 @@ public class MoleculePaints {
         }
     }
 
-    private static Paint moleculeAPaint = new Color( 180, 180, 0 );
+    private static Paint moleculeAPaint = new Color( 220, 220, 80 );
 //    private static Paint moleculeBCPaint = new Color( 180, 80, 100 ) ;
 //    private static Paint moleculeABPaint = new Color( 60, 180, 120 );
-    private static Paint moleculeCPaint = new Color( 60, 10, 180 );
+    private static Paint moleculeCPaint = new Color( 70, 80, 180 );
     static {
         moleculeTypeToPaint.put( MoleculeA.class, moleculeAPaint );
         moleculeTypeToPaint.put( MoleculeBC.class, moleculeBCPaint );

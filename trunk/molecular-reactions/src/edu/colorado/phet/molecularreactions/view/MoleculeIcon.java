@@ -32,7 +32,6 @@ public class MoleculeIcon extends ImageIcon {
     public MoleculeIcon( Class moleculeClass ) {
         PNode pNode = null;
         Image image = null;
-        SimpleMolecule m = null;
         if( moleculeClass == MoleculeA.class ) {
             pNode = new IconGraphic( new MoleculeA() );
         }
