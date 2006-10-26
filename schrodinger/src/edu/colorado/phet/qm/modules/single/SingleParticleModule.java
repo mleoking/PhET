@@ -8,6 +8,7 @@ import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 /**
  * User: Sam Reid
@@ -48,5 +49,9 @@ public class SingleParticleModule extends QWIModule {
     public void setRapid( boolean rapid ) {
         SwingClock clock = (SwingClock)getClock();
         clock.setDelay( rapid ? 0 : 30 );
+    }
+
+    public IntensityManager getIntensityManager() {
+        return getSchrodingerPanel().getSchrodingerScreenNode().getIntensityDisplay();
     }
 }

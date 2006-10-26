@@ -25,12 +25,13 @@ public class IntensityManager {
 
     private DetectorSheetPNode detectorSheetPNode;
     private Random random;
-    private int h = 2;
-    private int y = 2;
+    private int detectorRegionHeight = 2;
+    private int detectionRegionY = 2;
     private double probabilityScaleFudgeFactor = 1.0;
     public static double NORM_DECREMENT = 1.0;
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
+    private double minimumProbabalityForDetection = 0.05;
 
     public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
@@ -42,9 +43,10 @@ public class IntensityManager {
     public void tryDetecting() {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
+//        System.out.println( "probability = " + sub.getMagnitude());
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
-            if( rand <= probability ) {
+            if( rand <= probability && sub.getMagnitude() >= minimumProbabalityForDetection ) {
                 detectOne( sub );
                 updateWavefunctionAfterDetection();
                 notifyDetection();
@@ -62,6 +64,14 @@ public class IntensityManager {
     public void reset() {
     }
 
+    public double getMinimumProbabilityForDetection() {
+        return minimumProbabalityForDetection;
+    }
+
+    public void setMinimumProbabilityForDetection( double value ) {
+        this.minimumProbabalityForDetection = value;
+    }
+
     public static interface Listener {
         void detectionOccurred();
     }
@@ -77,8 +87,8 @@ public class IntensityManager {
         listeners.add( listener );
     }
 
-    private void detectOne( Wavefunction sub ) {
-        Point pt = new CollapseComputation().getCollapsePoint( sub, sub.getBounds() );
+    private void detectOne( Wavefunction detectionRegion ) {
+        Point pt = new CollapseComputation().getCollapsePoint( detectionRegion, detectionRegion.getBounds() );
         double sep = Math.abs( getModelToViewTransform1d().evaluate( pt.x ) - getModelToViewTransform1d().evaluate( pt.x + 1 ) );
         double MAX_RAND_OFFSET = sep / 2;
 //        System.out.println( "MAX_RAND_OFFSET = " + MAX_RAND_OFFSET );
@@ -105,12 +115,12 @@ public class IntensityManager {
     }
 
     public Wavefunction getDetectionRegion() {
-        return getDiscreteModel().getDetectionRegion( 0, getDetectionY(),
-                                                      getDiscreteModel().getWavefunction().getWidth(), h );
+        return getDiscreteModel().getDetectionRegion( 0, getDetectionRegionY(),
+                                                      getDiscreteModel().getWavefunction().getWidth(), detectorRegionHeight );
     }
 
-    private int getDetectionY() {
-        return y;
+    private int getDetectionRegionY() {
+        return detectionRegionY;
     }
 
     public QWIPanel getSchrodingerPanel() {

@@ -1,3 +1,9 @@
+1.02.04 (10-25-2006)
+Added a probability threshold that has to be surpassed before detection is made in Single Particle Module.
+Added developer controls (in control panel) for Single Particle Module.
+                Rapid button to speed things up a bit.
+                Control over probability threshold.
+
 1.02.03 (10-24-2006)
 Fixed: The clear button on the screen controls is disabled.  When I looked at this before, I thought it was only disabled in average intensity mode, 
                 but now it seems to be disabled all the time.  It shouldn’t be disabled ever.  
