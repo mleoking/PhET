@@ -11,12 +11,14 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
+import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +52,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 //        Legend legend = new Legend();
 
         // Button to pause and select a molecule
-        selectMoleculeBtn = new JButton( SimStrings.get("Control.trackMoleculeBtnText" ));
+        selectMoleculeBtn = new JButton( SimStrings.get( "Control.trackMoleculeBtnText" ) );
         selectMoleculeBtn.addActionListener( new SelectMoleculeAction( module.getClock(), model ) );
         selectMoleculeBtn.setVisible( false );
 
@@ -89,6 +91,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
+    /**
+     * Panel with chart options some others, too
+     */
     private class OptionsPanel extends JPanel implements Resetable {
         private ComplexModule module;
         private JToggleButton showBondsBtn;
@@ -111,7 +116,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
             showBondsBtn.setSelected( true );
 
             showStripChartBtn = new DialogCheckBox( SimStrings.get( "Control.showStripChart" ) );
-//            showStripChartBtn = new JCheckBox( SimStrings.get( "Control.showStripChart" ) );
             showStripChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
@@ -124,7 +128,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
             JPanel chartOptionsPanel = new JPanel( new GridBagLayout() );
             {
-                chartOptionsPanel.setBorder( ControlBorderFactory.createSecondaryBorder( SimStrings.get("Control.chartOptions")));
+                chartOptionsPanel.setBorder( ControlBorderFactory.createSecondaryBorder( SimStrings.get( "Control.chartOptions" ) ) );
                 GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                                  1, 1, 1, 1,
                                                                  GridBagConstraints.WEST,
@@ -180,14 +184,14 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              insets, 0, 0 );
-//            add( trackMoleculeBtn, gbc );
-//            add( showBarChartBtn, gbc );
-//            add( showPieChartBtn, gbc );
-//            add( showNoneBtn, gbc );
             add( chartOptionsPanel, gbc );
             add( showStripChartBtn, gbc );
             add( showBondsBtn, gbc );
-//            add( nearestNeighborBtn, gbc );
+
+            // Create a listener to the model that will enable/disable the option for tracking
+            // molecules
+            module.getMRModel().addListener( new MoleculeTrackingOptionEnabler( module.getMRModel(),
+                                                                                trackMoleculeBtn ) );
         }
 
         /**
@@ -210,6 +214,40 @@ public class ComplexMRControlPanel extends MRControlPanel {
             module.setBarChartVisible( showBarChartBtn.isSelected() );
             module.setGraphicTypeVisible( showBondsBtn.isSelected() );
         }
+    }
 
+
+    /**
+     * Listens to the model to see if there are molecules that can be tracked, and
+     * enables/disables the option accordingly
+     */
+    private static class MoleculeTrackingOptionEnabler implements PublishingModel.ModelListener {
+        MoleculeCounter mACounter;
+        MoleculeCounter mBCCounter;
+        MoleculeCounter mABCounter;
+        MoleculeCounter mCCounter;
+        private JComponent button;
+
+        public MoleculeTrackingOptionEnabler( MRModel model, JComponent button ) {
+            this.button = button;
+            mACounter = new MoleculeCounter( MoleculeA.class, model );
+            mBCCounter = new MoleculeCounter( MoleculeBC.class, model );
+            mABCounter = new MoleculeCounter( MoleculeAB.class, model );
+            mCCounter = new MoleculeCounter( MoleculeC.class, model );
+            enableDisableBtn();
+        }
+
+        public void modelElementAdded( ModelElement element ) {
+            enableDisableBtn();
+        }
+
+        public void modelElementRemoved( ModelElement element ) {
+            enableDisableBtn();
+        }
+
+        private void enableDisableBtn() {
+            button.setEnabled( ( mACounter.getCnt() > 0 && mBCCounter.getCnt() > 0 )
+                               || ( mCCounter.getCnt() > 0 && mABCounter.getCnt() > 0 ) );
+        }
     }
 }

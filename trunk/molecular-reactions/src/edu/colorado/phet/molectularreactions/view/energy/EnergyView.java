@@ -90,7 +90,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private MRModule module;
     private PPath curvePane;
     private TotalEnergyLine totalEnergyLine;
-    private PNode upperPane;
+    private PPath upperPane;
+    private PPath moleculePane;
 
     /**
      *
@@ -100,13 +101,19 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         MRModel model = module.getMRModel();
 
         // The pane that has the molecules
-        PPath moleculePane = createMoleculePane();
+        moleculePane = createMoleculePane();
         addChild( moleculePane );
 
-        // Add another pane on top of the molecule pane to display charts
-        upperPane = new PNode();
+        // Add another pane on top of the molecule pane to display charts.
+        // It's a reall hack, but this pane is made visible when another
+        upperPane = new PPath( new Rectangle2D.Double( 0, 0,
+                                                              upperPaneSize.getWidth(),
+                                                              upperPaneSize.getHeight() ) );
         upperPane.setWidth( upperPaneSize.getWidth() );
         upperPane.setHeight( upperPaneSize.getHeight() );
+        upperPane.setPaint( moleculePaneBackgroundColor );
+        upperPane.setStroke( null );
+        upperPane.setVisible( false );
         addChild( upperPane );
 
         // The graphic that shows the reaction mechanics
@@ -158,6 +165,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      */
     public void addToUpperPane( PNode pNode ) {
         upperPane.addChild( pNode );
+        upperPane.setVisible( true );
     }
 
     /**
@@ -168,6 +176,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void removeFromUpperPane( PNode pNode ) {
         if( upperPane.getChildrenReference().contains( pNode ) ) {
             upperPane.removeChild( pNode );
+            upperPane.setVisible( false );
         }
     }
 
@@ -238,7 +247,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     /**
-     * Creates the pane that shows the molecules
+     * Creates the pane that shows the molecules being tracked
      *
      * @return a PNode
      */
@@ -357,8 +366,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // Set the size of the separation indicator arrow
             separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2 + 10, yMin,
                                                    curveAreaInsets.left / 2 + 10, yMax );
-//            separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2, midPoint.getY() - edgeDist / 2,
-//                                                   curveAreaInsets.left / 2, midPoint.getY() + edgeDist / 2 );
 
             // Set the location of the bond graphic
             if( bondGraphic != null ) {
@@ -416,9 +423,13 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
+
+//            moleculePane.setVisible( selectedMolecule != null );
+
             if( selectedMolecule != null ) {
                 selectedMolecule.removeObserver( EnergyView.this );
             }
+
             selectedMolecule = newTrackedMolecule;
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
@@ -428,17 +439,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
-//                if( bondGraphic != null ) {
-//                    removeChild( bondGraphic );
-//                }
-//                if( newTrackedMolecule.isPartOfComposite() ) {
-//                    bondGraphic = new MyBondGraphic( selectedMoleculeGraphic );
-//                    addChild( bondGraphic );
-//                }
                 moleculePaneAxisNode.setVisible( true );
             }
             else {
                 moleculePaneAxisNode.setVisible( false );
+
             }
 
             cursor.setVisible( selectedMolecule != null );
@@ -449,6 +454,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             if( nearestToSelectedMolecule != null ) {
                 nearestToSelectedMolecule.removeObserver( EnergyView.this );
             }
+
             nearestToSelectedMolecule = newClosestMolecule;
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );

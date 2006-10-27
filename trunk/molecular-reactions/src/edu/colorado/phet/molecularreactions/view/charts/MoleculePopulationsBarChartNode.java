@@ -22,6 +22,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
 
@@ -54,6 +55,7 @@ public class MoleculePopulationsBarChartNode extends PNode {
         this.addChild( mBCNode );
         this.addChild( mABNode );
         this.addChild( mCNode );
+        this.addChild( new PPath( new Rectangle(0,0, (int)size.getWidth(), (int)size.getHeight() )));
 
         double y = barChartPSwing.getFullBounds().getHeight() + 18;
         double xIncr = 58;

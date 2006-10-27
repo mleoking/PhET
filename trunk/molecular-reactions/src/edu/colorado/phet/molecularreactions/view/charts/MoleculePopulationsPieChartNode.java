@@ -70,6 +70,7 @@ public class MoleculePopulationsPieChartNode extends PNode {
         addChild( mBCTextNode );
         addChild( mABTextNode );
         addChild( mCTextNode );
+        this.addChild( new PPath( bounds ));
 
         Insets paintSwatchInsets = new Insets( 5, 0, 5, 80 );
         Insets textInsets = new Insets( 5, 0, 5, 50 );

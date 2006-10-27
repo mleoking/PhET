@@ -1,11 +1,9 @@
+- Switching the launch molecule type resets the motion to 1D
+- It doesn't look like the composite molecule in the simple module can spin.
+- If a molecule is selected in the Complex module and "None" is selected for upper pane,
+    the selected molecule still appears
+- Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
 
-- Track a molecule feature causes the program to freeze if you hit the track a
-    molecule button a second time.
-- If you press select a molecule and then change to pie chart, the separation action
-    is still visible in the pie chart window. The molecule stays selected when you
-    go to bar or none too, but the separation window is not visible.
-
-- Y axis of bar chart needs smaller scale
 - 1D in Simple module becomes 2D over time
 - Components of CompositeMolecule in molecule tracker aren't next to each other
 - Make font on energy pane bigger
@@ -120,3 +118,9 @@ Done
 10-26-06 - Pie chart need legend
 10-27-06 - Changed the max value on the bar chart to 20.
 10-27-06 - Changed the scaling factor on the pie chart to 3 from 2.
+10-27-06 - Track a molecule feature causes the program to freeze if you hit the track a
+    molecule button a second time.
+10-27-06 - Y axis of bar chart needs smaller scale
+10-27-06 - If you press select a molecule and then change to pie chart, the separation action
+    is still visible in the pie chart window. The molecule stays selected when you
+    go to bar or none too, but the separation window is not visible.
