@@ -16,6 +16,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -72,9 +73,7 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         values[3].setValue( counterC.getCnt() );
         int numMolecules = counterA.getCnt() + counterBC.getCnt() + counterAB.getCnt() + counterC.getCnt();
         double diam = Math.max( 4, Math.min( getBounds().getHeight() - insets.top - insets.bottom,
-                                             numMolecules * 2 ) );
-
-        System.out.println( "getBounds().getHeight() = " + getBounds().getHeight() );
+                                             numMolecules * MRConfig.PIE_CHART_DIAM_FACTOR ) );
 
         currentSize.setFrameFromCenter( pieCenter.getX(),
                                         pieCenter.getY(),

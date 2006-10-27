@@ -32,7 +32,6 @@ public class MoleculePopulationsBarChart extends BarChart {
     static String title = SimStrings.get( "StripChart.title" );
     static String[] seriesNames = new String[]{"A", "BC", "AB", "C"};
     static String xAxisLabel = "";
-//    static String xAxisLabel = SimStrings.get( "StripChart.time" );
     static String yAxisLabel = SimStrings.get( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
     private MoleculeCounter counterA;
@@ -45,12 +44,11 @@ public class MoleculePopulationsBarChart extends BarChart {
     /**
      * @param model
      * @param clock
-     * @param xAxisRange
      * @param minY
      * @param maxY
      * @param updateInterval
      */
-    public MoleculePopulationsBarChart( MRModel model, IClock clock, double xAxisRange, int minY, int maxY,
+    public MoleculePopulationsBarChart( MRModel model, IClock clock, int minY, int maxY,
                                         double updateInterval ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, minY, maxY, false );
 
