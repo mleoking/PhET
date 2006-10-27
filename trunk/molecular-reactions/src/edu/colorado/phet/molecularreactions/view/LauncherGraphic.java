@@ -48,10 +48,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     private String frame2DImageFile = baseImagePath + "2D-frame.png";
     private String strutsImageFile = baseImagePath + "struts.png";
     private Point2D pivotPt;
-    private double frameOffsetX;
-    private double plungerOffsetX;
     private double scale;
-    private PPath pp;
 
 
     public LauncherGraphic( Launcher launcher ) {
@@ -87,12 +84,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         plunger2DFrameStrutsNode.setOffset( centerX - plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
         plungerFrameNode.setOffset( centerX - plungerFrameNode.getFullBounds().getWidth() / 2, 0 );
 
-        pp = new PPath( plungerFrameNode.getFullBounds() );
-        addChild( pp );
-
-        frameOffsetX = plungerFrameNode.getFullBounds().getWidth();
-        plungerOffsetX = plungerNode.getFullBounds().getWidth();
-
         plunger2DFrameNode.setOffset( centerX - plunger2DFrameNode.getFullBounds().getWidth() / 2, 0 );
         plunger2DFrameStrutsNode.setOffset( centerX - plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
 
@@ -110,28 +101,28 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     }
 
     public void update() {
-//        plungerNode.setOffset( getFullBounds().getWidth() / 2 - plungerNode.getFullBounds().getWidth() / 2,
-//                               launcher.getTipLocation().getY() - launcher.getRestingTipLocation().getY() );
 
-        plungerNode.setTransform( new AffineTransform( ) );
-        plungerNode.setScale( scale );
-        plungerNode.setOffset( pivotPt.getX() - plungerNode.getFullBounds().getWidth()/2, pivotPt.getY() );
-//        plungerNode.setOffset( getFullBounds().getWidth() / 2 - plungerNode.getFullBounds().getWidth() / 2,
-//                               launcher.getTipLocation().getY() - launcher.getRestingTipLocation().getY() );
-        System.out.println( "plungerNode = " + plungerNode.getGlobalFullBounds() );
-
-
-
-        plungerFrameNode.setTransform( new AffineTransform( ) );
-        plungerFrameNode.translate( pivotPt.getX() - (plungerFrameNode.getFullBounds().getWidth()/2 * scale), pivotPt.getY());
-        plungerFrameNode.rotateAboutPoint( launcher.getTheta(), plungerFrameNode.getFullBounds().getWidth()/2 * scale, 0 );
-        plungerFrameNode.setScale( scale );
-
-        pp.setPathTo( plungerFrameNode.getFullBounds());
+        double d = launcher.getRestingTipLocation().distance( launcher.getTipLocation() ) / scale;
+        updateTransform( plungerNode, d, launcher.getTheta() );
+        updateTransform( plungerFrameNode, 0 , launcher.getTheta() );
 
         boolean twoD = launcher.getMovementType() == Launcher.TWO_DIMENSIONAL;
         plunger2DFrameStrutsNode.setVisible( twoD );
         plunger2DFrameNode.setVisible( twoD );
+    }
+
+    private void updateTransform( PNode node, double d, double theta) {
+        node.setTransform( new AffineTransform( ) );
+        node.translate( pivotPt.getX() - (node.getFullBounds().getWidth()/2 * scale), pivotPt.getY() );
+        node.rotateAboutPoint( theta, node.getFullBounds().getWidth()/2 * scale, 0 );
+        node.setScale( scale );
+        node.translate( 0, d );
+//        plungerNode.setTransform( new AffineTransform( ) );
+//        plungerNode.translate( pivotPt.getX() - (plungerNode.getFullBounds().getWidth()/2 * scale), pivotPt.getY() );
+//        plungerNode.rotateAboutPoint( launcher.getTheta(), plungerNode.getFullBounds().getWidth()/2 * scale, 0 );
+//        plungerNode.setScale( scale );
+//        double d = launcher.getRestingTipLocation().distance( launcher.getTipLocation() ) / scale;
+//        plungerNode.translate( 0, d );
     }
 
 
@@ -188,11 +179,14 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 // Rotate the plunger if the  mouse move left or right
                 double dx = event.getDelta().getWidth();
                 if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                    double r = Math.sqrt( plungerNode.getFullBounds().getHeight() * plungerNode.getFullBounds().getHeight()
-                                          + plungerNode.getFullBounds().getWidth() * plungerNode.getFullBounds().getWidth() );
-                    double dTheta = Math.asin( -dx / r );
-                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
-                    launcher.setTheta( theta );
+                    Point2D eventLoc = event.getPositionRelativeTo( LauncherGraphic.this );
+                    double r = eventLoc.distance( pivotPt );
+//                    double r = Math.sqrt( plungerNode.getFullBounds().getHeight() * plungerNode.getFullBounds().getHeight()
+//                                          + plungerNode.getFullBounds().getWidth() * plungerNode.getFullBounds().getWidth() );
+//                    double dTheta = Math.asin( -dx / r );
+//                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
+                    double theta = Math.atan2( eventLoc.getY() - pivotPt.getY(), eventLoc.getX() - pivotPt.getX());
+                    launcher.setTheta( theta - Math.PI /2);
                 }
             }
         }
