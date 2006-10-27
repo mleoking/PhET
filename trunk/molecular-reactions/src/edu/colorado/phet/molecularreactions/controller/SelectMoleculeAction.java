@@ -37,6 +37,8 @@ public class SelectMoleculeAction extends AbstractAction {
 
     public void actionPerformed( ActionEvent e ) {
         clock.pause();
+
+        // Un-select the currently selected molecule, if there is one
         SimpleMolecule molecule = model.getMoleculeBeingTracked();
         if( molecule != null ) {
             molecule.setSelectionStatus( Selectable.NOT_SELECTED );
