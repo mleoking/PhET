@@ -137,7 +137,7 @@ public class SimpleModule extends MRModule {
 
         // Add the launcher and its graphic
         launcher = new Launcher( launcherTipLocation );
-//        launcher.setTipLocation( launcherTipLocation );
+        launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
 
@@ -171,7 +171,7 @@ public class SimpleModule extends MRModule {
         launcherMolecule.setPosition( launcher.getRestingTipLocation().getX(), launcher.getRestingTipLocation().getY() - launcherMolecule.getRadius() );
         model.addModelElement( launcherMolecule );
         launcher.setBodyToLaunch( launcherMolecule );
-        launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
+        launcher.setTheta( 0 );
 
         moleculeB = new MoleculeB();
         double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;
@@ -193,12 +193,12 @@ public class SimpleModule extends MRModule {
 
         cm = null;
         if( launcherMolecule instanceof MoleculeC ) {
-            cm = new SimpleMoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
-//            cm = new MoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
+//            cm = new SimpleMoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
+            cm = new MoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
         }
         else {
-            cm = new SimpleMoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
-//            cm = new MoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
+//            cm = new SimpleMoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
+            cm = new MoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
         }
 
         cm.setOmega( 0 );
@@ -223,29 +223,29 @@ public class SimpleModule extends MRModule {
      * These classes attempt tokeep the composite molecule from rotating when the mode is
      * 1D
      */
-    private class SimpleMoleculeAB extends MoleculeAB {
-        public SimpleMoleculeAB( SimpleMolecule[] components ) {
-            super( components );
-        }
-
-        public void stepInTime( double dt ) {
-            setOmega( 0 );
-            super.stepInTime( dt );
-            setOmega( 0 );
-        }
-    }
-
-    private class SimpleMoleculeBC extends MoleculeBC {
-        public SimpleMoleculeBC( SimpleMolecule[] components ) {
-            super( components );
-        }
-
-        public void stepInTime( double dt ) {
-            setOmega( 0 );
-            super.stepInTime( dt );
-            setOmega( 0 );
-        }
-    }
+//    private class SimpleMoleculeAB extends MoleculeAB {
+//        public SimpleMoleculeAB( SimpleMolecule[] components ) {
+//            super( components );
+//        }
+//
+//        public void stepInTime( double dt ) {
+//            setOmega( 0 );
+//            super.stepInTime( dt );
+//            setOmega( 0 );
+//        }
+//    }
+//
+//    private class SimpleMoleculeBC extends MoleculeBC {
+//        public SimpleMoleculeBC( SimpleMolecule[] components ) {
+//            super( components );
+//        }
+//
+//        public void stepInTime( double dt ) {
+//            setOmega( 0 );
+//            super.stepInTime( dt );
+//            setOmega( 0 );
+//        }
+//    }
 
 }
 

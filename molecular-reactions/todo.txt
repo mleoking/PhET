@@ -1,5 +1,3 @@
-- Switching the launch molecule type resets the motion to 1D
-- It doesn't look like the composite molecule in the simple module can spin.
 - If a molecule is selected in the Complex module and "None" is selected for upper pane,
     the selected molecule still appears
 - Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
