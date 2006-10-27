@@ -88,7 +88,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
                 }
             } );
 
-            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
+            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.launcherOptions" ) ) );
             setLayout( new GridBagLayout() );
             Insets insets = new Insets( 0, 10, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,

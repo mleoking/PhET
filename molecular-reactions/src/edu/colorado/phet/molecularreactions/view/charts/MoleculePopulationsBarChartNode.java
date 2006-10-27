@@ -18,6 +18,7 @@ import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChart;
 import edu.colorado.phet.molecularreactions.view.MoleculeIcon;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -38,7 +39,7 @@ import java.awt.*;
 public class MoleculePopulationsBarChartNode extends PNode {
 
     public MoleculePopulationsBarChartNode( ComplexModule module, Dimension size, PhetPCanvas phetPCanvas ) {
-        BarChart barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 4, 0, 30, 1 );
+        BarChart barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
         ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
         barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth(),
                                                        (int)( size.getHeight() - 40 ) ) );

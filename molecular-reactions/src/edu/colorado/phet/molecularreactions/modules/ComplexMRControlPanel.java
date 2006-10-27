@@ -34,6 +34,7 @@ import java.awt.event.WindowListener;
 public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private OptionsPanel optionsPanel;
+    private JButton selectMoleculeBtn;
 
     public ComplexMRControlPanel( final ComplexModule module ) {
         super( new GridBagLayout() );
@@ -49,8 +50,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
 //        Legend legend = new Legend();
 
         // Button to pause and select a molecule
-        JButton selectMoleculeBtn = new JButton( "<html><center>Select molecule<br>to track" );
+        selectMoleculeBtn = new JButton( SimStrings.get("Control.trackMoleculeBtnText" ));
         selectMoleculeBtn.addActionListener( new SelectMoleculeAction( module.getClock(), model ) );
+        selectMoleculeBtn.setVisible( false );
 
         // Controls for adding and removing molecules
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
@@ -67,11 +69,11 @@ public class ComplexMRControlPanel extends MRControlPanel {
         } );
 
         // Lay out the controls
-        add( selectMoleculeBtn, gbc );
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( moleculeInstanceControlPanel, gbc );
         add( optionsPanel, gbc );
         gbc.fill = GridBagConstraints.NONE;
+        add( selectMoleculeBtn, gbc );
         add( resetBtn, gbc );
     }
 
@@ -196,6 +198,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private void setEnergyViewChartOptions( ComplexModule module ) {
             module.setBarChartVisible( showBarChartBtn.isSelected() );
             module.setPieChartVisible( showPieChartBtn.isSelected() );
+            selectMoleculeBtn.setVisible( trackMoleculeBtn.isSelected() );
         }
 
         public void reset() {

@@ -29,14 +29,17 @@ public class MRConfig {
     public static boolean DEBUG = true;
 
     // Model constants
-//    public static double MAX_REACTION_THRESHOLD = 20E3;
     public static double MAX_REACTION_THRESHOLD = 5E2;
-//    public static double MAX_REACTION_THRESHOLD = 5E3;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
+    public static final double MAX_SPEED = 3;
+
+    // View Constants
+    public static final int BAR_CHART_MAX_Y = 20;
+    public static final int PIE_CHART_DIAM_FACTOR = 3;
+    public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;
 
     // Colors
     public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 225 );
-//    public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 200 );
     public static final Color MOLECULE_PANE_BACKGROUND = new Color( 237, 255, 235 );
 
     // Images
@@ -46,6 +49,4 @@ public class MRConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_DIRECTORY + "ice.gif";
     public static final String PUMP_BODY_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
     public static final String PUMP_HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "pump-handle.gif";
-    public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;
-    public static final double MAX_SPEED = 3;
 }
