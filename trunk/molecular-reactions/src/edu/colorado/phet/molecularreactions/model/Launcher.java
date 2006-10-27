@@ -14,13 +14,14 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.DefaultBody;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 /**
  * Launcher
- * <p>
+ * <p/>
  * A spring-based thing for launching a molecule into the box. It is supposed to be something
  * like the launcher on a pinball machine
  *
@@ -37,6 +38,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
         private MovementType() {
         }
     }
+
     public static MovementType ONE_DIMENSIONAL = new MovementType();
     public static MovementType TWO_DIMENSIONAL = new MovementType();
 
@@ -50,9 +52,10 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     private SimpleMolecule bodyToLaunch;
     private MovementType movementType = TWO_DIMENSIONAL;
     private boolean enabled;
+    // The distance that the launcher is drawn back from its resting position.
+    private double extension;
 
     /**
-     *
      * @param restingTipLocation
      */
     public Launcher( Point2D restingTipLocation ) {
@@ -61,7 +64,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
 
     public void setBodyToLaunch( SimpleMolecule bodyToLaunch ) {
         this.bodyToLaunch = bodyToLaunch;
-        bodyToLaunch.setVelocity( 0,0 );
+        bodyToLaunch.setVelocity( 0, 0 );
         setEnabled( true );
     }
 
@@ -74,7 +77,8 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
             bodyToLaunch = null;
             enabled = false;
         }
-        setTipLocation( restingTipLocation );
+//        setTipLocation( restingTipLocation );
+        setExtension( 0.0 );
     }
 
     private void setEnabled( boolean enabled ) {
@@ -86,9 +90,13 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public double getPE() {
-        double dl = getTipLocation().distance( restingTipLocation );
+        double dl = getExtension();
         double pe = springK * dl * dl / 2;
         return pe;
+    }
+
+    public double getExtension() {
+        return extension;
     }
 
     public Point2D getPivotPoint() {
@@ -101,13 +109,11 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
         }
     }
 
-    public Point2D getTipLocation() {
-        return getPosition();
-    }
-
     public void setTheta( double theta ) {
-        super.setTheta( theta );
-        notifyObservers();
+        if( theta >= MRConfig.LAUNCHER_MIN_THETA && theta <= MRConfig.LAUNCHER_MAX_THETA ) {
+            super.setTheta( theta );
+            notifyObservers();
+        }
     }
 
     public void stepInTime( double dt ) {
@@ -118,12 +124,10 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
         return restingTipLocation;
     }
 
-    public void setTipLocation( Point2D p ) {
-        setTipLocation( p.getX(), p.getY() );
+    public void setExtension( double extension ) {
+        if( extension >= 0 && extension <= MRConfig.LAUNCHER_MAX_EXTENSION ) { 
+        this.extension = extension;
     }
-
-    public void setTipLocation( double x, double y ) {
-        setPosition( x, y );
     }
 
     public void setMovementType( MovementType movementType ) {

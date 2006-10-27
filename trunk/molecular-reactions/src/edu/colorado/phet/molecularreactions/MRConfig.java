@@ -32,6 +32,9 @@ public class MRConfig {
     public static double MAX_REACTION_THRESHOLD = 5E2;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 3;
+    public static final double LAUNCHER_MIN_THETA = -Math.PI / 4;
+    public static final double LAUNCHER_MAX_THETA = Math.PI / 4;
+    public static final double LAUNCHER_MAX_EXTENSION = 70;
 
     // View Constants
     public static final int BAR_CHART_MAX_Y = 20;

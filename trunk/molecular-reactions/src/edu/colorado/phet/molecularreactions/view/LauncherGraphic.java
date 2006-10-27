@@ -12,19 +12,16 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.Launcher;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 /**
  * LauncherGraphic
@@ -102,19 +99,19 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
     public void update() {
 
-        double d = launcher.getRestingTipLocation().distance( launcher.getTipLocation() ) / scale;
+        double d = launcher.getExtension()/ scale;
         updateTransform( plungerNode, d, launcher.getTheta() );
-        updateTransform( plungerFrameNode, 0 , launcher.getTheta() );
+        updateTransform( plungerFrameNode, 0, launcher.getTheta() );
 
         boolean twoD = launcher.getMovementType() == Launcher.TWO_DIMENSIONAL;
         plunger2DFrameStrutsNode.setVisible( twoD );
         plunger2DFrameNode.setVisible( twoD );
     }
 
-    private void updateTransform( PNode node, double d, double theta) {
-        node.setTransform( new AffineTransform( ) );
-        node.translate( pivotPt.getX() - (node.getFullBounds().getWidth()/2 * scale), pivotPt.getY() );
-        node.rotateAboutPoint( theta, node.getFullBounds().getWidth()/2 * scale, 0 );
+    private void updateTransform( PNode node, double d, double theta ) {
+        node.setTransform( new AffineTransform() );
+        node.translate( pivotPt.getX() - ( node.getFullBounds().getWidth() / 2 * scale ), pivotPt.getY() );
+        node.rotateAboutPoint( theta, node.getFullBounds().getWidth() / 2 * scale, 0 );
         node.setScale( scale );
         node.translate( 0, d );
 //        plungerNode.setTransform( new AffineTransform( ) );
@@ -149,7 +146,26 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
             }
         }
 
+        double originalAngle;
+        double originalR;
+        Point2D startPoint;
+
         public void mousePressed( PInputEvent event ) {
+            originalAngle = launcher.getTheta();
+            originalR = launcher.getExtension();
+            this.startPoint = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
+        }
+
+        public void mouseDragged( PInputEvent event ) {
+            Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
+            Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
+            Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
+
+            double dTheta = v2.getAngle() - v1.getAngle();
+            launcher.setTheta( originalAngle + dTheta );
+
+            double dr = v2.getMagnitude() - v1.getMagnitude();
+            launcher.setExtension( originalR + dr );
         }
 
         public void mouseReleased( PInputEvent event ) {
@@ -164,32 +180,33 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
          *
          * @param event
          */
-        public void mouseDragged( PInputEvent event ) {
-            if( launcher.isEnabled() ) {
-                double dy = event.getDelta().getHeight();
-                double yLoc = plungerNode.getOffset().getY() + dy;
+//        public void mouseDragged( PInputEvent event ) {
+//            if( launcher.isEnabled() ) {
+//                double dy = event.getDelta().getHeight();
+//                double yLoc = plungerNode.getOffset().getY() + dy;
+//
+//                // Constrain the motion of the handle to be within the bounds of the PNode containing
+//                // the PumpGraphic, and the initial location of the handle.
+//                if( yLoc >= 1
+//                    && yLoc <= launcher.getPivotPoint().getY() + plungerFrameNode.getHeight() - 20 ) {
+//                    launcher.translate( 0, dy );
+//                }
+//
+//                // Rotate the plunger if the  mouse move left or right
+//                double dx = event.getDelta().getWidth();
+//                if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+//                    Point2D eventLoc = event.getPositionRelativeTo( LauncherGraphic.this );
+//                    double r = eventLoc.distance( pivotPt );
+////                    double r = Math.sqrt( plungerNode.getFullBounds().getHeight() * plungerNode.getFullBounds().getHeight()
+////                                          + plungerNode.getFullBounds().getWidth() * plungerNode.getFullBounds().getWidth() );
+////                    double dTheta = Math.asin( -dx / r );
+////                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
+//                    double theta = Math.atan2( eventLoc.getY() - pivotPt.getY(), eventLoc.getX() - pivotPt.getX());
+//                    launcher.setTheta( theta - Math.PI /2);
+//                }
+//            }
+//        }
 
-                // Constrain the motion of the handle to be within the bounds of the PNode containing
-                // the PumpGraphic, and the initial location of the handle.
-                if( yLoc >= 1
-                    && yLoc <= launcher.getPivotPoint().getY() + plungerFrameNode.getHeight() - 20 ) {
-                    launcher.translate( 0, dy );
-                }
-
-                // Rotate the plunger if the  mouse move left or right
-                double dx = event.getDelta().getWidth();
-                if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                    Point2D eventLoc = event.getPositionRelativeTo( LauncherGraphic.this );
-                    double r = eventLoc.distance( pivotPt );
-//                    double r = Math.sqrt( plungerNode.getFullBounds().getHeight() * plungerNode.getFullBounds().getHeight()
-//                                          + plungerNode.getFullBounds().getWidth() * plungerNode.getFullBounds().getWidth() );
-//                    double dTheta = Math.asin( -dx / r );
-//                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
-                    double theta = Math.atan2( eventLoc.getY() - pivotPt.getY(), eventLoc.getX() - pivotPt.getX());
-                    launcher.setTheta( theta - Math.PI /2);
-                }
-            }
-        }
     }
 
 }

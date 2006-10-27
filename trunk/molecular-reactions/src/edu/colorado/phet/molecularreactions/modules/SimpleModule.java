@@ -63,7 +63,7 @@ public class SimpleModule extends MRModule {
                                                   model.getBox().getMaxY() );
         launcherLoadPanel = new LauncherLoadPanel( this );
         PSwing launcherMoleculeSelector = new PSwing( getPCanvas(),
-                                               launcherLoadPanel );
+                                                      launcherLoadPanel );
         getSpatialView().addChild( launcherMoleculeSelector );
         launcherMoleculeSelector.setOffset( launcherTipLocation.getX() - launcherMoleculeSelector.getFullBounds().getWidth() - 70,
                                             launcherTipLocation.getY() + 15 );
@@ -137,7 +137,8 @@ public class SimpleModule extends MRModule {
 
         // Add the launcher and its graphic
         launcher = new Launcher( launcherTipLocation );
-        launcher.setTipLocation( launcherTipLocation );
+//        launcher.setTipLocation( launcherTipLocation );
+        launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
 
         MoleculeC launcherMolecule = new MoleculeC();
@@ -147,6 +148,7 @@ public class SimpleModule extends MRModule {
 
     /**
      * Sets the molecules that will be used in this module
+     *
      * @param model
      * @param launcherMolecule
      */
@@ -161,12 +163,12 @@ public class SimpleModule extends MRModule {
         if( m3 != null ) {
             model.removeModelElement( m3 );
         }
-        if( cm != null ){
+        if( cm != null ) {
             model.removeModelElement( cm );
         }
 
         this.launcherMolecule = launcherMolecule;
-        launcherMolecule.setPosition( launcher.getTipLocation().getX(), launcher.getTipLocation().getY() - launcherMolecule.getRadius() );
+        launcherMolecule.setPosition( launcher.getRestingTipLocation().getX(), launcher.getRestingTipLocation().getY() - launcherMolecule.getRadius() );
         model.addModelElement( launcherMolecule );
         launcher.setBodyToLaunch( launcherMolecule );
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
