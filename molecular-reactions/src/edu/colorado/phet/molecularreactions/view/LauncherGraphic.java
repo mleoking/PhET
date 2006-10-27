@@ -99,7 +99,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
     public void update() {
 
-        double d = launcher.getExtension()/ scale;
+        double d = launcher.getExtension() / scale;
         updateTransform( plungerNode, d, launcher.getTheta() );
         updateTransform( plungerFrameNode, 0, launcher.getTheta() );
 
@@ -128,6 +128,10 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
      */
     private class PlungerMouseHandler extends PBasicInputEventHandler {
         double dySinceLastMolecule;
+        double originalAngle;
+        double originalR;
+        Point2D startPoint;
+
 
         public void mouseEntered( PInputEvent event ) {
             if( launcher.isEnabled() ) {
@@ -146,10 +150,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
             }
         }
 
-        double originalAngle;
-        double originalR;
-        Point2D startPoint;
-
         public void mousePressed( PInputEvent event ) {
             originalAngle = launcher.getTheta();
             originalR = launcher.getExtension();
@@ -161,8 +161,11 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
             Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
             Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
 
-            double dTheta = v2.getAngle() - v1.getAngle();
-            launcher.setTheta( originalAngle + dTheta );
+            // If the launcher supports 2D motion, compute its angle
+            if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                double dTheta = v2.getAngle() - v1.getAngle();
+                launcher.setTheta( originalAngle + dTheta );
+            }
 
             double dr = v2.getMagnitude() - v1.getMagnitude();
             launcher.setExtension( originalR + dr );

@@ -44,7 +44,7 @@ public class SelectedMoleculeTracker implements ModelElement,
 
     private void setMoleculeTracked( SimpleMolecule moleculeTracked ) {
         SimpleMolecule prevMolecule = this.moleculeTracked;
-        if( prevMolecule != null ) {
+        if( prevMolecule != null && prevMolecule.getSelectionStatus() != Selectable.NOT_SELECTED ) {
             prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
         }
         this.moleculeTracked = moleculeTracked;
@@ -96,6 +96,7 @@ public class SelectedMoleculeTracker implements ModelElement,
             }
 
             SimpleMolecule prevClosetMolecule = closestMolecule;
+            closestMolecule = null;
             double closestDistSq = Double.POSITIVE_INFINITY;
             for( int i = 0; i < modelElements.size(); i++ ) {
                 Object o = modelElements.get( i );

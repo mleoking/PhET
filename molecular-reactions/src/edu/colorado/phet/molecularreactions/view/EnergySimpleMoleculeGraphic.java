@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.Selectable;
 
 /**
  * SimpleMoleculeGraphic
@@ -26,5 +27,12 @@ public class EnergySimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
 
     public void update() {
         super.update();
+    }
+
+    public void selectionStatusChanged( SimpleMolecule molecule ) {
+        if( molecule.getSelectionStatus() == Selectable.NOT_SELECTED ) {
+            setVisible( false );
+        }
+        super.selectionStatusChanged( molecule );
     }
 }

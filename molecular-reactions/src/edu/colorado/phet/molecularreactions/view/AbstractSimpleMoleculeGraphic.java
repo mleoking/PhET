@@ -233,9 +233,6 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
      * @param molecule
      */
     public void selectionStatusChanged( SimpleMolecule molecule ) {
-//        if( true ) {
-//            return;
-//        }
 
         if( MARK_SELECTED_MOLECULE ) {
             if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
