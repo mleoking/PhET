@@ -15,6 +15,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.PNode;
@@ -38,6 +39,10 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     private PNode plungerFrameNode;
     private PNode plunger2DFrameNode;
     private PNode plunger2DFrameStrutsNode;
+//    private RegisterablePNode plungerNode;
+//    private RegisterablePNode plungerFrameNode;
+//    private RegisterablePNode plunger2DFrameNode;
+//    private RegisterablePNode plunger2DFrameStrutsNode;
 
     private String baseImagePath = "images/";
     private String plungerImageFile = baseImagePath + "plunger.png";
@@ -52,10 +57,12 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         this.launcher = launcher;
 
         plungerNode = PImageFactory.create( plungerImageFile );
+//        plungerNode = new RegisterablePNode( PImageFactory.create( plungerImageFile ) );
         scale = 100.0 / plungerNode.getFullBounds().getHeight();
         plungerNode.scale( scale );
 
         plungerFrameNode = PImageFactory.create( frameImageFile );
+//        plungerFrameNode = new RegisterablePNode( PImageFactory.create( frameImageFile ) );
 //        plungerFrameNode = new PPath( new Rectangle2D.Double( 0,0,50,50));
         plungerFrameNode.scale( scale );
         plungerFrameNode.setPickable( false );
@@ -63,9 +70,11 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
         // Objects for the 2D plunger
         plunger2DFrameStrutsNode = PImageFactory.create( strutsImageFile );
+//        plunger2DFrameStrutsNode = new RegisterablePNode( PImageFactory.create( strutsImageFile ) );
         plunger2DFrameStrutsNode.scale( scale );
 
         plunger2DFrameNode = PImageFactory.create( frame2DImageFile );
+//        plunger2DFrameNode = new RegisterablePNode( PImageFactory.create( frame2DImageFile ) );
         plunger2DFrameNode.scale( scale );
 
         addChild( plunger2DFrameStrutsNode );
@@ -77,16 +86,21 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
         // The pivot point
         double centerX = getFullBounds().getWidth() / 2;
+//        plungerNode.setRegistrationPoint( plungerNode.getFullBounds().getWidth() / 2, 0 );
+//        plungerFrameNode.setRegistrationPoint( plungerFrameNode.getFullBounds().getWidth() / 2, 0 );
+//        plunger2DFrameNode.setRegistrationPoint( plunger2DFrameNode.getFullBounds().getWidth() / 2, 0 );
+//        plunger2DFrameStrutsNode.setRegistrationPoint( plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
         plungerNode.setOffset( centerX - plungerNode.getFullBounds().getWidth() / 2, 0 );
-        plunger2DFrameStrutsNode.setOffset( centerX - plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
         plungerFrameNode.setOffset( centerX - plungerFrameNode.getFullBounds().getWidth() / 2, 0 );
-
         plunger2DFrameNode.setOffset( centerX - plunger2DFrameNode.getFullBounds().getWidth() / 2, 0 );
         plunger2DFrameStrutsNode.setOffset( centerX - plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
 
         // Determine the pivot point of the launcher
         pivotPt = new Point2D.Double( centerX, 0 );
 
+//        setRegistrationPoint( getFullBounds().getWidth() / 2, 0);
+//        setOffset( launcher.getRestingTipLocation().getX() - getFullBounds().getWidth() / 2,
+//                   launcher.getRestingTipLocation().getY() );
         setOffset( launcher.getRestingTipLocation().getX() - getFullBounds().getWidth() / 2,
                    launcher.getRestingTipLocation().getY() );
 
