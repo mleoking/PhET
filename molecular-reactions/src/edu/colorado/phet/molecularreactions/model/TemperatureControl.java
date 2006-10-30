@@ -35,7 +35,7 @@ public class TemperatureControl extends DefaultBody {
         if( setting != 0 ) {
             double de = 0;
             List modelElements = model.getModelElements();
-            double scaleFactor = 1 + setting / ( 1000 * modelElements.size() );
+            double scaleFactor = 1 + setting / ( 10000 );
             for( int i = 0; i < modelElements.size(); i++ ) {
                 Object o = modelElements.get( i );
                 if( o instanceof SimpleMolecule ) {

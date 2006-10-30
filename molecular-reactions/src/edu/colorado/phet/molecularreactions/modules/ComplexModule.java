@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.util.StripChart;
@@ -34,7 +35,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
- * MRModule
+ * ComplexModule
+ * <p>
+ * This module has controls for putting lots of molecules in the box and
+ * charting their properties is different ways
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -45,15 +49,13 @@ public class ComplexModule extends MRModule {
     private ComplexMRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
     private PNode barChartNode;
-    private JDialog barChartDlg;
     private MoleculePopulationsPieChartNode pieChart;
-//    private PieChartNode pieChart;
 
     /**
      *
      */
     public ComplexModule() {
-        super( "Experiments" );
+        super( SimStrings.get( "Module.complexModuleTitle" ));
 
         // Disable marking of the selected molecule and its nearest neighbor
         AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -101,7 +103,6 @@ public class ComplexModule extends MRModule {
                                                                 getEnergyView().getUpperPaneSize().getWidth(),
                                                                 getEnergyView().getUpperPaneSize().getHeight() );
             pieChart = new MoleculePopulationsPieChartNode( this, bounds );
-//            pieChart = new MoleculePopulationsPieChart( this, bounds, 1 );
             getEnergyView().addToUpperPane( pieChart );
         }
         else if( pieChart != null ) {
@@ -112,8 +113,8 @@ public class ComplexModule extends MRModule {
     public void setBarChartVisible( boolean visible ) {
         if( visible ) {
             barChartNode = new MoleculePopulationsBarChartNode( this,
-                                                                                                                 getEnergyView().getUpperPaneSize(),
-                                                                                                                 (PhetPCanvas)getSimulationPanel() );
+                                                                getEnergyView().getUpperPaneSize(),
+                                                                (PhetPCanvas)getSimulationPanel() );
             getEnergyView().addToUpperPane( barChartNode );
         }
         else if( barChartNode != null ) {
@@ -148,7 +149,6 @@ public class ComplexModule extends MRModule {
             stripChartDlg.setVisible( false );
         }
     }
-
 
     /**
      * Cycles through the labels on the button, and sets the state
