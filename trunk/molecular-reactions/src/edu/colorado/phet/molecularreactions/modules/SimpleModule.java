@@ -46,7 +46,7 @@ public class SimpleModule extends MRModule {
     private LauncherLoadPanel launcherLoadPanel;
 
     public SimpleModule() {
-        super( "Simple" );
+        super( SimStrings.get( "Module.simpleModuleTitle" ) );
 
         // Set up the model
         MRModel model = (MRModel)getModel();
@@ -210,7 +210,6 @@ public class SimpleModule extends MRModule {
 
     public void reset() {
         super.reset();
-        ( (MRModel)getModel() ).setInitialConditions();
         setInitialConditions( (MRModel)getModel() );
         controlPanel.reset();
     }

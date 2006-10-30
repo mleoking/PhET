@@ -107,8 +107,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         // Add another pane on top of the molecule pane to display charts.
         // It's a reall hack, but this pane is made visible when another
         upperPane = new PPath( new Rectangle2D.Double( 0, 0,
-                                                              upperPaneSize.getWidth(),
-                                                              upperPaneSize.getHeight() ) );
+                                                       upperPaneSize.getWidth(),
+                                                       upperPaneSize.getHeight() ) );
         upperPane.setWidth( upperPaneSize.getWidth() );
         upperPane.setHeight( upperPaneSize.getHeight() );
         upperPane.setPaint( moleculePaneBackgroundColor );
@@ -142,8 +142,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         selectedMolecule = null;
         nearestToSelectedMolecule = null;
 
-        moleculeLayer.removeChild( selectedMoleculeGraphic );
-        moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
+        if( selectedMoleculeGraphic != null ) {
+            moleculeLayer.removeChild( selectedMoleculeGraphic );
+        }
+        if( nearestToSelectedMoleculeGraphic != null ) {
+            moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
+        }
         selectedMoleculeGraphic = null;
         nearestToSelectedMoleculeGraphic = null;
 
@@ -414,6 +418,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     public PPath getCurvePane() {
         return curvePane;
+    }
+
+    public void hideSelectedMolecule( boolean hide ) {
+        upperPane.setVisible( hide );
     }
 
     //--------------------------------------------------------------------------------------------------

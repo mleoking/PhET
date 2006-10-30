@@ -67,11 +67,12 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory( bondLayer ) );
         megm.addGraphicFactory( new ProvisionalBondGraphicFactory( bondLayer ) );
         megm.addGraphicFactory( new BondGraphicFactory( bondLayer ) );
+        megm.addGraphicFactory( new TemperatureControlGraphicFactory( pSwingCanvas, bondLayer ) );
         megm.scanModel();
 
-        // Temperature control
-        createTemperatureControl( model, pSwingCanvas );
-
+//        // Temperature control
+//        createTemperatureControl( model, pSwingCanvas );
+//
         // Graphic that shows the components of the reaction
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black );
         reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
@@ -132,6 +133,21 @@ public class SpatialView extends PNode {
             BoxGraphic boxGraphic = new BoxGraphic( (Box2D)modelElement );
             boxGraphic.setOffset( ((Box2D)modelElement).getPosition() );
             return boxGraphic;
+        }
+    }
+
+    private class TemperatureControlGraphicFactory extends ModelElementGraphicManager.GraphicFactory {
+        private PSwingCanvas pSwingCanvas;
+
+        protected TemperatureControlGraphicFactory( PSwingCanvas pSwingCanvas, PNode layer ) {
+            super( TemperatureControl.class, layer );
+            this.pSwingCanvas = pSwingCanvas;
+        }
+
+        public PNode createGraphic( ModelElement modelElement ) {
+            TemperatureControlGraphic graphic = new TemperatureControlGraphic( pSwingCanvas,
+                                                                               (TemperatureControl)modelElement );
+            return graphic;
         }
     }
 

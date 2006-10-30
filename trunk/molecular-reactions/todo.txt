@@ -1,5 +1,3 @@
-- If a molecule is selected in the Complex module and "None" is selected for upper pane,
-    the selected molecule still appears
 - Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
 
 - 1D in Simple module becomes 2D over time
@@ -122,3 +120,9 @@ Done
 10-27-06 - If you press select a molecule and then change to pie chart, the separation action
     is still visible in the pie chart window. The molecule stays selected when you
     go to bar or none too, but the separation window is not visible.
+
+10-30-06 - If a molecule is selected in the Complex module and "None" is selected for upper pane,
+    the selected molecule still appears
+10-30-06 - With just a few molecules, added heat. Then reset. Exception thrown on reset. Problem was
+    I was trying to remove graphics that were null from the energy view.
+10-30-06 - Temperature control doesn't work after reset.

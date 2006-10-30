@@ -23,7 +23,7 @@ import java.util.List;
  * Instances of the SelectedMoleculeTracker find the coleset molecule to the
  * *selected molecule* that could react with it. These two molecules are then
  * represented on the EnergyView.
- * <p>
+ * <p/>
  * Instances of the class attach themselves as listeners to all instances of SimpleMolecule,
  * and listener for changes in their selection status.
  *
@@ -44,7 +44,12 @@ public class SelectedMoleculeTracker implements ModelElement,
 
     private void setMoleculeTracked( SimpleMolecule moleculeTracked ) {
         SimpleMolecule prevMolecule = this.moleculeTracked;
-        if( prevMolecule != null && prevMolecule.getSelectionStatus() != Selectable.NOT_SELECTED ) {
+        // If the previously tracked molecule is different than the one we are to
+        // track now, tell the previously tracked molecule that it is no longer
+        // selected
+        if( prevMolecule != null &&
+            prevMolecule != moleculeTracked &&
+            prevMolecule.getSelectionStatus() != Selectable.NOT_SELECTED ) {
             prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
         }
         this.moleculeTracked = moleculeTracked;
@@ -66,8 +71,8 @@ public class SelectedMoleculeTracker implements ModelElement,
         // same type
         if( moleculeTracked != null ) {
 
-            Class nearestMoleculeType = null;
             // Determine which type of molecules are eligible to be "closest".
+            Class nearestMoleculeType = null;
             if( moleculeTracked instanceof MoleculeA ) {
                 if( moleculeTracked.isPartOfComposite() ) {
                     nearestMoleculeType = MoleculeC.class;
@@ -95,6 +100,7 @@ public class SelectedMoleculeTracker implements ModelElement,
                 }
             }
 
+            // Find the closest eligible molecule to the selected molecule
             SimpleMolecule prevClosetMolecule = closestMolecule;
             closestMolecule = null;
             double closestDistSq = Double.POSITIVE_INFINITY;
@@ -107,13 +113,13 @@ public class SelectedMoleculeTracker implements ModelElement,
 //                    if( moleculeTracked instanceof MoleculeA && testMolecule instanceof MoleculeB
 //                        || moleculeTracked instanceof MoleculeC && testMolecule instanceof MoleculeB ) {
 
-
                         // Make sure that the non-B molecule in the composite is not the same type as the
                         // non-composite
                         SimpleMolecule sm1 = moleculeTracked.isPartOfComposite() ? (SimpleMolecule)testMolecule : moleculeTracked;
                         CompositeMolecule cm = moleculeTracked.isPartOfComposite() ? (CompositeMolecule)moleculeTracked.getFullMolecule() : (CompositeMolecule)testMolecule.getFullMolecule();
                         SimpleMolecule sm2 = cm.getComponentMolecules()[0] instanceof MoleculeB ? cm.getComponentMolecules()[1] : cm.getComponentMolecules()[0];
                         if( sm1.getClass() == sm2.getClass() ) {
+                            System.out.println( "SelectedMoleculeTracker.stepInTime" );
                             break;
                         }
 
@@ -134,7 +140,7 @@ public class SelectedMoleculeTracker implements ModelElement,
                 listenerProxy.closestMoleculeChanged( closestMolecule, prevClosetMolecule );
             }
 
-            if( !(closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB )) {
+            if( !( closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB ) ) {
 //                System.out.println( "SelectedMoleculeTracker.stepInTime" );
             }
         }
