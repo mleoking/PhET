@@ -51,7 +51,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     private JButton pause;
     private JButton step;
     private IClock clock;
-    public JPanel buttonPanel;
+    private JPanel buttonPanel;
 
     public ClockControlPanel( final IClock clock ) {
         this.clock = clock;
