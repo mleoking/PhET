@@ -98,10 +98,10 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
             }
             else if ( arg == SolarSystemModel.PROPERTY_ELECTRON_POSITION ) {
                 // the electron has moved
-                Point2D relativeElectronPosition = _atom.getElectronPosition();
+                Point2D electronOffset = _atom.getElectronOffset();
                 // treat coordinates as distances, since _electronNode is a child node
-                double nodeX = ModelViewTransform.transform( relativeElectronPosition.getX() );
-                double nodeY = ModelViewTransform.transform( relativeElectronPosition.getY() );
+                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
             else if ( arg == SolarSystemModel.PROPERTY_DESTROYED ) {

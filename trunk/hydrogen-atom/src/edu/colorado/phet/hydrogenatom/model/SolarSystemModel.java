@@ -74,7 +74,7 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Point2D _electronPosition; // postion of electron relative to center of atom
+    private Point2D _electronOffset; // relative to center of atom
     private double _electronDistance; // absolute distance from electron to proton
     private double _electronAngle; // in radians
     private double _electronAngleDelta; // in radians
@@ -91,7 +91,7 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     public SolarSystemModel( Point2D position ) {
         super( position, 0 /* orientation */ );
         
-        _electronPosition = new Point2D.Double();
+        _electronOffset = new Point2D.Double();
         _electronDistance = ELECTRON_DISTANCE;
         _electronAngle = Math.random() * Math.toRadians( 360 );
         _electronAngleDelta = ELECTRON_ANGLE_DELTA;
@@ -117,8 +117,8 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
      * Gets the electron position, relative to the center of the atom.
      * @return Point2D
      */
-    public Point2D getElectronPosition() {
-        return _electronPosition;
+    public Point2D getElectronOffset() {
+        return _electronOffset;
     }
     
     //----------------------------------------------------------------------------
@@ -158,6 +158,6 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     private void setElectronPosition( double electronAngle, double electronDistance ) {
         double x = electronDistance * Math.cos( electronAngle );
         double y = electronDistance * Math.sin( electronAngle );
-        _electronPosition.setLocation( x, y );
+        _electronOffset.setLocation( x, y );
     }
 }
