@@ -80,25 +80,25 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
     public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
-    // AbsorptionListener
+    // PhotonAbsorbedListener
     //----------------------------------------------------------------------------
     
     /**
-     * AbsorptionListener is the interface implemented by all listeners
+     * PhotonAbsorbedListener is the interface implemented by all listeners
      * who wish to be informed when a photon is absorbed.
      */
-    public interface AbsorptionListener extends EventListener {
-        public void photonAbsorbed( AbsorptionEvent event );
+    public interface PhotonAbsorbedListener extends EventListener {
+        public void photonAbsorbed( PhotonAbsorbedEvent event );
     }
 
     /**
-     * AbsorptionEvent indicates that a photon has been absorbed.
+     * PhotonAbsorbedEvent indicates that a photon has been absorbed.
      */
-    public class AbsorptionEvent extends EventObject {
+    public class PhotonAbsorbedEvent extends EventObject {
 
         private Photon _photon;
 
-        public AbsorptionEvent( Object source, Photon photon ) {
+        public PhotonAbsorbedEvent( Object source, Photon photon ) {
             super( source );
             assert( photon != null );
             _photon = photon;
@@ -110,58 +110,58 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
     }
     
     /**
-     * Adds an AbsorptionListener.
+     * Adds an PhotonAbsorbedListener.
      *
      * @param listener the listener
      */
-    public void addAbsorptionListener( AbsorptionListener listener ) {
-        _listenerList.add( AbsorptionListener.class, listener );
+    public void addAbsorptionListener( PhotonAbsorbedListener listener ) {
+        _listenerList.add( PhotonAbsorbedListener.class, listener );
     }
 
     /**
-     * Removes an AbsorptionListener.
+     * Removes an PhotonAbsorbedListener.
      *
      * @param listener the listener
      */
-    public void removeAbsorptionListener( AbsorptionListener listener ) {
-        _listenerList.remove( AbsorptionListener.class, listener );
+    public void removeAbsorptionListener( PhotonAbsorbedListener listener ) {
+        _listenerList.remove( PhotonAbsorbedListener.class, listener );
     }
 
     /*
-     * Fires an AbsorptionEvent when a photon is absorbed.
+     * Fires a PhotonAbsorbedEvent when a photon is absorbed.
      *
      * @param event the event
      */
-    protected void fireAbsorptionEvent( AbsorptionEvent event ) {
+    protected void firePhotonAbsorbedEvent( PhotonAbsorbedEvent event ) {
         assert( event.getPhoton() != null );
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == AbsorptionListener.class ) {
-                ( (AbsorptionListener)listeners[i + 1] ).photonAbsorbed( event );
+            if( listeners[i] == PhotonAbsorbedListener.class ) {
+                ( (PhotonAbsorbedListener)listeners[i + 1] ).photonAbsorbed( event );
             }
         }
     }
     
     //----------------------------------------------------------------------------
-    // EmissionListener
+    // PhotonEmittedListener
     //----------------------------------------------------------------------------
     
     /**
-     * EmissionListener is the interface implemented by all listeners
+     * PhotonEmittedListener is the interface implemented by all listeners
      * who wish to be informed when a photon is emitted.
      */
-    public interface EmissionListener extends EventListener {
-        public void photonEmitted( EmissionEvent event );
+    public interface PhotonEmittedListener extends EventListener {
+        public void photonEmitted( PhotonEmittedEvent event );
     }
 
     /**
-     * EmissionEvent indicates that a photon has been emitted.
+     * PhotonEmittedEvent indicates that a photon has been emitted.
      */
-    public class EmissionEvent extends EventObject {
+    public class PhotonEmittedEvent extends EventObject {
 
         private Photon _photon;
 
-        public EmissionEvent( Object source, Photon photon ) {
+        public PhotonEmittedEvent( Object source, Photon photon ) {
             super( source );
             assert( photon != null );
             _photon = photon;
@@ -177,8 +177,8 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      *
      * @param listener the listener
      */
-    public void addEmissionListener( EmissionListener listener ) {
-        _listenerList.add( EmissionListener.class, listener );
+    public void addEmissionListener( PhotonEmittedListener listener ) {
+        _listenerList.add( PhotonEmittedListener.class, listener );
     }
 
     /**
@@ -186,21 +186,21 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      *
      * @param listener the listener
      */
-    public void removeEmissionListener( EmissionListener listener ) {
-        _listenerList.remove( EmissionListener.class, listener );
+    public void removeEmissionListener( PhotonEmittedListener listener ) {
+        _listenerList.remove( PhotonEmittedListener.class, listener );
     }
 
     /*
-     * Fires an EmissionEvent when a photon is emitted.
+     * Fires a PhotonEmittedEvent when a photon is emitted.
      *
      * @param event the event
      */
-    protected void fireEmissionEvent( EmissionEvent event ) {
+    protected void firePhotonEmittedEvent( PhotonEmittedEvent event ) {
         assert( event.getPhoton() != null );
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == EmissionListener.class ) {
-                ( (EmissionListener)listeners[i + 1] ).photonEmitted( event );
+            if( listeners[i] == PhotonEmittedListener.class ) {
+                ( (PhotonEmittedListener)listeners[i + 1] ).photonEmitted( event );
             }
         }
     }
