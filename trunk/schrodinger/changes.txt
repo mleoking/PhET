@@ -1,4 +1,4 @@
-1.02.06
+1.02.06 (10-31-2006)
 Added brightness control to Single Particle Mode.
 Added developer control for fade delay for Single Particle Mode.
 

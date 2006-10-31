@@ -7,6 +7,7 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
@@ -36,10 +37,10 @@ public class QWIApplication extends PiccoloPhetApplication {
                VERSION, new QWIFrameSetup() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
-//        intensityModule = new IntensityModule( QWIApplication.this, createClock() );
-//        addModule( intensityModule );
+        intensityModule = new IntensityModule( QWIApplication.this, createClock() );
+        addModule( intensityModule );
         addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
-//        addModule( new MandelModule( QWIApplication.this, createClock() ) );
+        addModule( new MandelModule( QWIApplication.this, createClock() ) );
         JMenuItem save = new JMenuItem( QWIStrings.getString( "save.detectors.barriers" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
