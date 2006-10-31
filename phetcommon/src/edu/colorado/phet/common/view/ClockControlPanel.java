@@ -51,6 +51,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     private JButton pause;
     private JButton step;
     private IClock clock;
+    public JPanel buttonPanel;
 
     public ClockControlPanel( final IClock clock ) {
         this.clock = clock;
@@ -100,7 +101,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         } );
 
         setLayout( new BorderLayout() );
-        JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.add( play );
         buttonPanel.add( pause );
         buttonPanel.add( step );
@@ -109,6 +110,14 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         stateChanged( clock.isPaused() );
     }
 
+    /**
+     * Adds a component to the sub-panel which contains the main content for this control panel.
+     * @param control
+     */
+    public void addControl(JComponent control){
+        buttonPanel.add(control);
+    }
+    
     private BufferedImage loadImage( String s ) {
         try {
             return ImageLoader.loadBufferedImage( s );
