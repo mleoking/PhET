@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 /**
@@ -24,10 +23,10 @@ public class SingleParticleModule extends QWIModule {
         final SingleParticleSchrodingerPanel schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
         setSchrodingerPanel( schrodingerSchrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
-        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
+//        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
 
         //•	If I run QWI on auto-repeat for single particles and a double slit for a long time, I would like an interference pattern to build up, but it doesn’t because the dots on the screen fade too fast.  The rate of fading should be much slower in single particle mode than in the other two cases, since the dots don’t build up as fast.
-        getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( DetectorSheetPNode.DEFAULT_FADE_DELAY * 10 );
+//        getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( DetectorSheetPNode.DEFAULT_FADE_DELAY * 10 );
 
         //•	It would be nice to be have the fade checkbox in single particle mode so that I can turn it off.
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );

@@ -54,7 +54,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private final double shearAngle = 0.4636;
     private PText title = new PText();
     //    public static final int DEFAULT_FADE_DELAY = 10;//before edits on 10-31-06
-    public static final int DEFAULT_FADE_DELAY = 50;
+    public static final int DEFAULT_FADE_DELAY = 500;
 
     public DetectorSheetPNode( final QWIPanel QWIPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
@@ -293,6 +293,10 @@ public class DetectorSheetPNode extends PhetPNode {
 
     public void setTitle( String s ) {
         title.setText( s );
+    }
+
+    public int getFadeDelay() {
+        return fadeElement.getInterval();
     }
 
     static class ScreenGraphic extends PNode {
