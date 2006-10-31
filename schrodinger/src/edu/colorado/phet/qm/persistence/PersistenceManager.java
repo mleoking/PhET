@@ -36,7 +36,7 @@ import java.text.MessageFormat;
  */
 public class PersistenceManager {
 
-//    private PhetApplication _app; // the application whose configuration we are managing
+    //    private PhetApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
     private boolean _useJNLP; // whether to use JNLP services
     private JComponent parent;

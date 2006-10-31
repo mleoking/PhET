@@ -55,7 +55,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         slider.setSnapToTicks( true );
         Hashtable labels = new Hashtable();
         System.out.println( "getNumSliderValues() = " + getNumSliderValues() );
-        for( int i = 0; i <= getNumSliderValues() - 1; i ++ ) {
+        for( int i = 0; i <= getNumSliderValues() - 1; i++ ) {
             labels.put( new Integer( i ), new JLabel( format.format( transform( i, sliderFrame, viewFrame ) ) ) );
         }
         slider.setLabelTable( labels );

@@ -21,7 +21,7 @@ public class ShinyBorder extends CompoundBorder {
     }
 
     protected static CompoundBorder createCompoundBorder() {
-        Color[]gradient = new Color[8];
+        Color[] gradient = new Color[8];
         for( int i = 0; i < gradient.length; i++ ) {
             float value = ( (float)i ) / ( gradient.length - 1 );
             gradient[i] = new Color( 1 - value, 1 - value, 1 - value );

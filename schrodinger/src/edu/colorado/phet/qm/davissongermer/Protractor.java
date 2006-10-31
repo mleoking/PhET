@@ -156,7 +156,7 @@ public class Protractor extends PhetPNode {
 
     class ReadoutGraphic extends PNode {
 
-//        private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0.00" );
+        //        private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0.00" );
         private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0" );
         private PText text;
 

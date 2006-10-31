@@ -26,11 +26,11 @@ import java.io.IOException;
  */
 
 public class SchrodingerRulerGraphic extends PhetPNode {
-//public class SchrodingerRulerGraphic extends PComposite {
+    //public class SchrodingerRulerGraphic extends PComposite {
     private QWIModel QWIModel;
     public RulerGraphic rulerGraphic;
     boolean horizontal = true;
-//    private PPath dragBounds;
+    //    private PPath dragBounds;
     private PSwingCanvas component;
 //    public BufferedImage horiz;
 //    public BufferedImage vert;

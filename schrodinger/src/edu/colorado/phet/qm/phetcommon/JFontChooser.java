@@ -247,8 +247,7 @@ public class JFontChooser extends JDialog {
     }
 
     private Font getCurrentFont() {
-        if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null )
-        {
+        if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null ) {
             return new Font( "Lucida Sans", Font.PLAIN, 12 );
         }
         String fontFamily = (String)fontList.getSelectedValue();

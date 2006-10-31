@@ -14,8 +14,8 @@ import java.awt.*;
 
 public class Damping extends QWIModel.Adapter {
 
-//    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
-//    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
+    //    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
+    //    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
     private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
 //    private double[] wallDamp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
 //    private double[] damp = new double[]{0.999, 0.99, 0.95, 0.9, 0.85, 0.8, 0.7,0.6,0.5};

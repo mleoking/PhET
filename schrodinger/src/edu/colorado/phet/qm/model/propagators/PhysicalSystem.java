@@ -59,13 +59,13 @@ public class PhysicalSystem {
         /* Coordinate grid */
         double dx = ( xmax - xmin ) / (double)( nr_points - 1 );
         double x = xmin;
-        double[]xLattice = new double[nr_points];
+        double[] xLattice = new double[nr_points];
         for( int i = 0; i < nr_points; i++ ) {
             xLattice[i] = x;
             x += dx;
         }
 
-        double[]pLattice = new double[nr_points];
+        double[] pLattice = new double[nr_points];
         /* Momentum grid */
         double dp = 2.0 * Math.PI * hbar / dx / nr_points;
         double p = 0.0;
@@ -79,7 +79,7 @@ public class PhysicalSystem {
     /* Setup Kinetic part of the propagator
     http://www.tldp.org/linuxfocus/common/March1998/example2.c
     */
-    void K_setupTLDP( long nx, double hbar, double tau, double mass, double[]p, double[]expK ) {
+    void K_setupTLDP( long nx, double hbar, double tau, double mass, double[] p, double[] expK ) {
         double tmp = tau / ( 4.0 * hbar * mass );
         for( int i = 0; i < nx; i++ ) {
             double theta = tmp * Math.pow( p[i], 2 );

@@ -12,7 +12,7 @@ import java.awt.image.WritableRaster;
  */
 
 public class ImageFade {
-//    private double scaleFactor = 0.95;
+    //    private double scaleFactor = 0.95;
     private int dVal = -10;
 
     public ImageFade() {

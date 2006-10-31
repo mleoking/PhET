@@ -22,7 +22,7 @@ public class QWIStrings {
         return ResourceBundle.getBundle( bundleName, SimStrings.getLocalizedLocale() );
     }
 
-    public static void init( String[]args ) {
+    public static void init( String[] args ) {
         SimStrings.init( args, bundleName );
     }
 }
