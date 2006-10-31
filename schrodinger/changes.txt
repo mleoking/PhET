@@ -1,4 +1,8 @@
-1.02.05
+1.02.06
+Added brightness control to Single Particle Mode.
+Added developer control for fade delay for Single Particle Mode.
+
+1.02.05 (10-31-2006)
 Changed default probability threshold to 0.04
 Made fade dots last 5x as long.
 Moved "rapid" checkbox to the clock control panel.
