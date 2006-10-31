@@ -22,9 +22,14 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * SolarSystemNode is the visual representation of the "solar system" model of the hydrogen atom.
+ * SolarSystemNode is the visual representation of the "solar system" model of 
+ * the hydrogen atom. The electron spirals into the proton, reaching the proton
+ * before any photons or alpha particles.  When the electron reaches the proton,
+ * the atom is considered "destroyed" and an explosion graphic is shown.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -38,6 +43,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
     private SolarSystemModel _atom;
     private ProtonNode _protonNode;
     private ElectronNode _electronNode;
+    private PImage _kaboomNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -55,9 +61,14 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
         
         _protonNode = new ProtonNode();
         _electronNode = new ElectronNode();
+        _kaboomNode = PImageFactory.create( HAConstants.IMAGE_KABOOM );
+        
+        _kaboomNode.setVisible( false );
+        _kaboomNode.setOffset( -_kaboomNode.getWidth() / 2, -_kaboomNode.getHeight() / 2 );
        
         addChild( _protonNode );
         addChild( _electronNode );
+        addChild( _kaboomNode );
           
         OriginNode originNode = new OriginNode( Color.GREEN );
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
@@ -92,6 +103,12 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 double nodeX = ModelViewTransform.transform( relativeElectronPosition.getX() );
                 double nodeY = ModelViewTransform.transform( relativeElectronPosition.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_DESTROYED ) {
+                _protonNode.setVisible( false );
+                _electronNode.setVisible( false );
+                _kaboomNode.setVisible( true );
+
             }
         }
     }
