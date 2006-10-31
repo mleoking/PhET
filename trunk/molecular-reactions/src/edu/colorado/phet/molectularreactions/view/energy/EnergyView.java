@@ -301,10 +301,16 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 boundMolecule = nearestToSelectedMolecule;
                 freeMolecule = selectedMolecule;
             }
+            // If neither molecule is part of a composite, then the selected molecule might
+            // have just gone through a reaction and is now on its own, but the rest of the
+            // model hasn't gone through the time step so the SelectedMoleculeTracker hasn't
+            // had a chance to change the nearestToSelectedMolecule. The easiest thing to do
+            // in this case is take a pass for now...
             else {
                 System.out.println( "selectedMolecule = " + selectedMolecule );
                 System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
-                throw new RuntimeException( "internal error" );
+                return;
+//                throw new RuntimeException( "internal error" );
             }
 
             // Figure out on which side of the centerline the molecules should appear
