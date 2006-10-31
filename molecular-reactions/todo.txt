@@ -1,4 +1,31 @@
+- Makethings resizable
+- "Rescale" button on the strip chart
+- Strip chart dialog should not be resizable
+- Make vertical axis for bar chart "number"
+- Add title to pic chart
+- Change order of pie slices
+- Phet logo should be centered over the control panel
+- When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
+    is still highlighted
+- Profile snouldn't be manipulable on the Simple panel. Also, profile should be constrained by the
+    black panel.
+- Profile should be fixed by default on Complex module. Add a check box for "design your
+    own reaction."
+- Reset All should reset the profile (doesn't on Simple module. May not on Complex, either)
+- When user selects "Track molecule" radio button, prompt dialog will appear right away.
+- Option to show bonds of selected molecule only
+- Improve visibility of selected molecule
+- C molecule in reaction legend isn't lined up vertically
+- Ability to select B for tracking
+- Reset & Reset All for Simple module
+- Losing B molecule in tracker
+- Thermometer
+- Wiggle me: Pull to Launch
+- If there are a lot of molecules in the box, the energy view throws an exception sometimes when
+    neither the selected molecule nor the nearest molecule are part of a composite. This may be because
+    things are in the middle of a time step.
 - Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
+    Put in 2 As. Pause. Put 0 in the spinner, hit enter and it goes to -1
 
 - 1D in Simple module becomes 2D over time
 - Components of CompositeMolecule in molecule tracker aren't next to each other

@@ -49,7 +49,7 @@ public class MoleculePaints {
     private static Paint moleculeABPaint;
     static {
         try {
-            moleculeABPaintImg = ImageLoader.loadBufferedImage( "images/molecule-AB-paint.gif");
+            moleculeABPaintImg = ImageLoader.loadBufferedImage( "images/molecule-ab-paint.gif");
             moleculeABPaint = new TexturePaint( moleculeABPaintImg, new Rectangle( 0,0,
                                                                                    moleculeABPaintImg.getWidth(),
                                                                                    moleculeABPaintImg.getHeight()) ) ;

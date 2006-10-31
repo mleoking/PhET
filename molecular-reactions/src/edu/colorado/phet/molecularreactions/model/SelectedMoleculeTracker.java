@@ -172,6 +172,10 @@ public class SelectedMoleculeTracker implements ModelElement,
         }
     }
 
+    public void compositeStateChanged( AbstractMolecule molecule ) {
+
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
