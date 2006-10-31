@@ -153,6 +153,7 @@ public class HAConstants {
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
     public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
     public static final String IMAGE_GUN_PANEL = IMAGES_DIRECTORY + "gunPanel.png";
+    public static final String IMAGE_KABOOM = IMAGES_DIRECTORY + "kaboom.png";
     public static final String IMAGE_MODE_PANEL = IMAGES_DIRECTORY + "modePanel.png";
     public static final String IMAGE_MODE_SWITCH_DOWN = IMAGES_DIRECTORY + "modeSwitchDown.png";
     public static final String IMAGE_MODE_SWITCH_UP = IMAGES_DIRECTORY + "modeSwitchUp.png";

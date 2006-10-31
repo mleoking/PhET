@@ -49,6 +49,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/31/06) - when SolarSystem atom is destroyed, replace proton & electron with "kaboom" image
 (10/26/06) - implement SolarSystemModel
 (10/26/06) - sync with phetcommon
 ***** CVS tag hydrogenatom-0-00-05-2006-10-25
