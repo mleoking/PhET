@@ -53,7 +53,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private MyConnectorGraphic connectorGraphic;
     private final double shearAngle = 0.4636;
     private PText title = new PText();
-//    public static final int DEFAULT_FADE_DELAY = 10;//before edits on 10-31-06
+    //    public static final int DEFAULT_FADE_DELAY = 10;//before edits on 10-31-06
     public static final int DEFAULT_FADE_DELAY = 50;
 
     public DetectorSheetPNode( final QWIPanel QWIPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {

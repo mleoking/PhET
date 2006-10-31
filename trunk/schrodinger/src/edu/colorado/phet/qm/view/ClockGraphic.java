@@ -32,7 +32,7 @@ public class ClockGraphic extends PNode {
     class HandGraphic extends PNode {
         double angle;
         double length;
-//        double width;
+        //        double width;
         private PPath shape;
         private double headHeight = 6;
         private double headWidth = 8;

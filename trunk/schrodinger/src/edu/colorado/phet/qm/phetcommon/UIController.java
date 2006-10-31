@@ -70,7 +70,7 @@ public class UIController extends VerticalLayoutPanel {
     }
 
     private void synchronizeUI() {
-        Frame[]frames = JFrame.getFrames();
+        Frame[] frames = JFrame.getFrames();
         for( int i = 0; i < frames.length; i++ ) {
             Frame frame = frames[i];
             updateComponentTreeUI( frame );

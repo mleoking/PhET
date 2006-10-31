@@ -22,7 +22,7 @@ public class ContinuousDisplay {
     private QWIPanel QWIPanel;
     private IntensityManager intensityManager;
     private double[] histogram;
-//    private Photon photon;
+    //    private Photon photon;
     private double brightness = 1.0f;
     private ColorData colorData;
 

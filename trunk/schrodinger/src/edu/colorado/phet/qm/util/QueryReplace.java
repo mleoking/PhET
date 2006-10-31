@@ -23,7 +23,7 @@ public class QueryReplace {
     private void queryReplace( File f ) throws IOException {
         System.out.println( "looking in f=" + f );
         if( f.isDirectory() ) {
-            File[]files = f.listFiles( new FileFilter() {
+            File[] files = f.listFiles( new FileFilter() {
                 public boolean accept( File pathname ) {
                     return ( pathname.isFile() && pathname.getAbsolutePath().toLowerCase().endsWith( ".java" ) ) || pathname.isDirectory();
                 }

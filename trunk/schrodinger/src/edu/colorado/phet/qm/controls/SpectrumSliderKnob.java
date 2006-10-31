@@ -109,6 +109,7 @@ public class SpectrumSliderKnob extends PPath {
     /*
      * Updates the knob's shape, based on its size and angle.
      */
+
     private void updateShape() {
 
         GeneralPath path = new GeneralPath();

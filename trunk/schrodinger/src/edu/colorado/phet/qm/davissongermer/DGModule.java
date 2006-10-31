@@ -123,7 +123,7 @@ public class DGModule extends IntensityModule {
 
     private void updatePotentialGraphics() {
         getSchrodingerPanel().clearPotential();
-        AtomPotential[]atomPotentials = dgModel.getConcreteAtomLattice().getPotentials();
+        AtomPotential[] atomPotentials = dgModel.getConcreteAtomLattice().getPotentials();
         for( int i = 0; i < atomPotentials.length; i++ ) {
             AtomPotential atomPotential = atomPotentials[i];
             addAtomPotentialGraphic( atomPotential );

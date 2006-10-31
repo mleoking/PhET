@@ -97,8 +97,8 @@ public class ParticleUnits {
     }
 
     private static double scaleDownMaxVel = 0.5;
-//    private static double scaleMinVel = 0.5;
-//    private static double scaleMinVel = 1.0;
+    //    private static double scaleMinVel = 0.5;
+    //    private static double scaleMinVel = 1.0;
     private static double scaleMinVel = 0.5;
 
     public int getNumRulerReadings() {

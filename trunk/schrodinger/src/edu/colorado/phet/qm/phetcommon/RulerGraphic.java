@@ -39,7 +39,7 @@ public class RulerGraphic extends PhetPNode {
 
     }
 
-    public void setReadings( String[]readings ) {
+    public void setReadings( String[] readings ) {
         this.readings = readings;
         update();
     }
