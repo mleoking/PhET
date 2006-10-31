@@ -31,7 +31,7 @@ public class IntensityManager {
     public static double NORM_DECREMENT = 1.0;
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
-    private double minimumProbabalityForDetection = 0.04;
+    private double minimumProbabalityForDetection = 0.0;
 
     public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
@@ -44,6 +44,7 @@ public class IntensityManager {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
 //        System.out.println( "probability = " + sub.getMagnitude());
+//        System.out.println( "minimumProbabalityForDetection = " + minimumProbabalityForDetection );
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
             if( rand <= probability && sub.getMagnitude() >= minimumProbabalityForDetection ) {

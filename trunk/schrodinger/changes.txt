@@ -1,8 +1,7 @@
 1.02.05
 Changed default probability threshold to 0.04
 Made fade dots last 5x as long.
-Moved "rapid" checkbox to the clock control panel.
-                 
+Moved "rapid" checkbox to the clock control panel.                
 
 1.02.04 (10-25-2006)
 Added a probability threshold that has to be surpassed before detection is made in Single Particle Module.

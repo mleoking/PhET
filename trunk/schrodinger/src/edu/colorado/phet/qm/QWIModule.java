@@ -307,6 +307,10 @@ public class QWIModule extends PiccoloModule {
         this.resolution = value;
     }
 
+    public void setMinimumProbabilityForDetection( double minimumProbabilityForDetection ) {
+        getSchrodingerPanel().getIntensityDisplay().setMinimumProbabilityForDetection( minimumProbabilityForDetection );
+    }
+
     public static interface Listener {
         void deactivated();
 
