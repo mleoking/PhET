@@ -12,11 +12,13 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
+import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
@@ -37,6 +39,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
     //----------------------------------------------------------------------------
     
     private PlumPuddingModel _atom;
+    private ElectronNode _electronNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -55,10 +58,10 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         PImage puddingNode = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING );
         puddingNode.scale( 0.65 );
         
-        ElectronNode electronNode = new ElectronNode();
+        _electronNode = new ElectronNode();
         
         addChild( puddingNode );
-        addChild( electronNode );
+        addChild( _electronNode );
         
         OriginNode originNode = new OriginNode( Color.GREEN );
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
@@ -67,9 +70,9 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         
         PBounds pb = puddingNode.getFullBounds();
         puddingNode.setOffset( -pb.getWidth()/2, -pb.getHeight()/2 );
-        electronNode.setOffset( 10, 10 );
         
-        update( null, null );
+        update( _atom, SolarSystemModel.PROPERTY_POSITION );
+        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
     }
     
     //----------------------------------------------------------------------------
@@ -82,6 +85,19 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
+        if ( arg == PlumPuddingModel.PROPERTY_POSITION ) {
+            // the entire atom has moved
+            Point2D atomPosition = _atom.getPosition();
+            Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+            setOffset( nodePosition );
+        }
+        else if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_POSITION ) {
+            // the electron has moved
+            Point2D electronOffset = _atom.getElectronOffset();
+            // treat coordinates as distances, since _electronNode is a child node
+            double nodeX = ModelViewTransform.transform( electronOffset.getX() );
+            double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+            _electronNode.setOffset( nodeX, nodeY );
+        }
     }
 }
