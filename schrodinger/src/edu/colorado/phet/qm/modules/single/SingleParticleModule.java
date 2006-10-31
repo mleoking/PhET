@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -33,6 +34,9 @@ public class SingleParticleModule extends QWIModule {
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().updatePSwing();
+        
+        setClockControlPanel( new SingleParticleClockControlPanel( this, clock ) );
+        
         finishInit();
     }
 
