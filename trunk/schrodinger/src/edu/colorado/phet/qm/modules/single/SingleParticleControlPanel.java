@@ -88,16 +88,14 @@ public class SingleParticleControlPanel extends QWIControlPanel {
         addControl( potentialPanel );
         addControl( detectorPanel );
 
-        // this is just for debugging
-        // 
-        final JCheckBox rapid = new JCheckBox( "Rapid", false );
-        rapid.setBorder( BorderFactory.createLineBorder( Color.blue ) );
-        rapid.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                singleParticleModule.setRapid( rapid.isSelected() );
-            }
-        } );
-        addControl( rapid );
+//        final JCheckBox rapid = new JCheckBox( "Rapid", false );
+//        rapid.setBorder( BorderFactory.createLineBorder( Color.blue ) );
+//        rapid.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                singleParticleModule.setRapid( rapid.isSelected() );
+//            }
+//        } );
+//        addControl( rapid );
 //        final LabeledTextField labeledTextField = new LabeledTextField( "M.P.D.", singleParticleModule.getIntensityManager().getMinimumProbabilityForDetection() );
         final LabeledTextField labeledTextField = new LabeledTextField( "<html>Minimum<br>probability<br>for<br>detection</html>", singleParticleModule.getIntensityManager().getMinimumProbabilityForDetection() );
         labeledTextField.setBorder( BorderFactory.createLineBorder( Color.blue ) );

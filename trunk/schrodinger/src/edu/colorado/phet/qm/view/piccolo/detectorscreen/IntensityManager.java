@@ -31,7 +31,7 @@ public class IntensityManager {
     public static double NORM_DECREMENT = 1.0;
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
-    private double minimumProbabalityForDetection = 0.05;
+    private double minimumProbabalityForDetection = 0.04;
 
     public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
