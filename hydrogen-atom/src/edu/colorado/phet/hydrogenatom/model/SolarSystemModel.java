@@ -74,7 +74,7 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Point2D _electronPosition;
+    private Point2D _electronPosition; // postion of electron relative to center of atom
     private double _electronDistance; // absolute distance from electron to proton
     private double _electronAngle; // in radians
     private double _electronAngleDelta; // in radians
@@ -114,23 +114,11 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Gets the absolute electron position.
+     * Gets the electron position, relative to the center of the atom.
      * @return Point2D
      */
     public Point2D getElectronPosition() {
         return _electronPosition;
-    }
-    
-    /**
-     * Gets the electron's position relative to the local coordinate system of the atom.
-     * The proton is at the origin (0,0) of the atom's local coordinate system.
-     * @return Point2D
-     */
-    public Point2D getRelativeElectronPosition() {
-        Point2D atomPosition = getPosition();
-        double x = _electronPosition.getX() - atomPosition.getX();
-        double y = _electronPosition.getY() - atomPosition.getY();
-        return new Point2D.Double( x, y );
     }
     
     //----------------------------------------------------------------------------
@@ -164,11 +152,12 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Sets the electron's position based on its angle and distance from the proton.
+     * Sets the electron's position relative to the center of the atom,
+     * based on its angle and distance from the proton.
      */
     private void setElectronPosition( double electronAngle, double electronDistance ) {
-        double x = getX() + ( electronDistance * Math.cos( electronAngle ) );
-        double y = getY() + ( electronDistance * Math.sin( electronAngle ) );
+        double x = electronDistance * Math.cos( electronAngle );
+        double y = electronDistance * Math.sin( electronAngle );
         _electronPosition.setLocation( x, y );
     }
 }
