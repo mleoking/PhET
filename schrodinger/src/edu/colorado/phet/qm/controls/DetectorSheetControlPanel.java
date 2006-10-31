@@ -54,7 +54,12 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        brightnessModelSlider = new ModelSlider( QWIStrings.getString( "screen.brightness" ), "", 0, 1.0, 0.2, new DecimalFormat( "0.0" ) );
+        brightnessModelSlider = new ModelSlider( QWIStrings.getString( "screen.brightness" ), "", 0, 1.0, getBrightess(), new DecimalFormat( "0.0" ) );
+        detectorSheetPNode.addListener( new DetectorSheetPNode.Listener() {
+            public void brightnessChanged() {
+                brightnessModelSlider.setValue( getBrightess() );
+            }
+        } );
         brightnessModelSlider.setTextFieldVisible( false );
 //        brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
         brightnessModelSlider.setModelTicks( new double[]{0, 0.5, 1.0} );
@@ -110,6 +115,10 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         add( brightnessModelSlider );
         add( displayPanel );
 //        saveClear.setForeground( Color.blue);
+    }
+
+    private double getBrightess() {
+        return detectorSheetPNode.getBrightness();
     }
 
     public void setBrightness() {

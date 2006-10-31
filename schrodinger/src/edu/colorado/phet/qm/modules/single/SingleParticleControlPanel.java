@@ -123,6 +123,7 @@ public class SingleParticleControlPanel extends QWIControlPanel {
                     singleParticleModule.getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( (int)modelSlider.getValue() );
                 }
             } );
+            setBorder( BorderFactory.createLineBorder( Color.blue ) );
         }
     }
 

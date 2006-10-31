@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -54,6 +55,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private final double shearAngle = 0.4636;
     private PText title = new PText();
     //    public static final int DEFAULT_FADE_DELAY = 10;//before edits on 10-31-06
+    private ArrayList listeners = new ArrayList();
     public static final int DEFAULT_FADE_DELAY = 500;
 
     public DetectorSheetPNode( final QWIPanel QWIPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
@@ -67,7 +69,7 @@ public class DetectorSheetPNode extends PhetPNode {
         title.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         screenGraphic = new ScreenGraphic( bufferedImage );
 
-        setBrightness( 1.0 );
+        setBrightness( 0.2 );
         imageFade = new ImageFade();
         fadeElement = new IntegralModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -157,9 +159,30 @@ public class DetectorSheetPNode extends PhetPNode {
         return QWIPanel.isFadeEnabled();
     }
 
+    public double getBrightness() {
+        return brightness;
+    }
+
     public void setBrightness( double value ) {
         this.brightness = value;
         setOpacity( toOpacity( brightness ) );
+        notifyBrightnessChanged();
+    }
+
+
+    public static interface Listener {
+        void brightnessChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyBrightnessChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.brightnessChanged();
+        }
     }
 
     private int toOpacity( double brightness ) {
