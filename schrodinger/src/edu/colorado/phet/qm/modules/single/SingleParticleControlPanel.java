@@ -106,7 +106,24 @@ public class SingleParticleControlPanel extends QWIControlPanel {
         } );
         addControl( labeledTextField );
 
+        addControl( new FadeRateControl( singleParticleModule ) );
+
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
+    }
+
+    static class FadeRateControl extends JPanel {
+        private SingleParticleModule singleParticleModule;
+
+        public FadeRateControl( final SingleParticleModule singleParticleModule ) {
+            this.singleParticleModule = singleParticleModule;
+            final ModelSlider modelSlider = new ModelSlider( "Fade Delay", "", 1, 1000, singleParticleModule.getSchrodingerPanel().getDetectorSheetPNode().getFadeDelay() );
+            add( modelSlider );
+            modelSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    singleParticleModule.getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( (int)modelSlider.getValue() );
+                }
+            } );
+        }
     }
 
     private void updateVisualizationPanel() {
