@@ -49,6 +49,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(10/31/06) - specify SolarSystemModel's electron position relative to atom's center
 (10/31/06) - when SolarSystem atom is destroyed, replace proton & electron with "kaboom" image
 (10/26/06) - implement SolarSystemModel
 (10/26/06) - sync with phetcommon

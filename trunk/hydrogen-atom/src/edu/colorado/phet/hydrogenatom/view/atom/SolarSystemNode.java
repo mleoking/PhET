@@ -98,7 +98,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
             }
             else if ( arg == SolarSystemModel.PROPERTY_ELECTRON_POSITION ) {
                 // the electron has moved
-                Point2D relativeElectronPosition = _atom.getRelativeElectronPosition();
+                Point2D relativeElectronPosition = _atom.getElectronPosition();
                 // treat coordinates as distances, since _electronNode is a child node
                 double nodeX = ModelViewTransform.transform( relativeElectronPosition.getX() );
                 double nodeY = ModelViewTransform.transform( relativeElectronPosition.getY() );
@@ -108,7 +108,6 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 _protonNode.setVisible( false );
                 _electronNode.setVisible( false );
                 _kaboomNode.setVisible( true );
-
             }
         }
     }
