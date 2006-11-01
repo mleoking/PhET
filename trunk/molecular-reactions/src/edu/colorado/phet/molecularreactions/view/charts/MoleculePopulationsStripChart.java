@@ -17,8 +17,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.plot.PlotOrientation;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -70,6 +73,18 @@ public class MoleculePopulationsStripChart extends StripChart {
 
         // Hook up to the clock
         clock.addClockListener( new Updater() );
+    }
+
+    public void rescale() {
+        // Find largest molecule population
+        int maxCnt = 0;
+        maxCnt = Math.max( maxCnt, counterA.getCnt() );
+        maxCnt = Math.max( maxCnt, counterBC.getCnt() );
+        maxCnt = Math.max( maxCnt, counterAB.getCnt() );
+        maxCnt = Math.max( maxCnt, counterC.getCnt() );
+
+        // Make vertical scale 1.5x the max count
+        super.setYRange( 0, (int)(maxCnt * 1.5 ));
     }
 
     private class Updater extends ClockAdapter {

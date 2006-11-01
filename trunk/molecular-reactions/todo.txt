@@ -1,7 +1,5 @@
 - Make things resizable
-- "Rescale" button on the strip chart
-- Make vertical axis for bar chart "number"
-- Add title to pic chart
+- Add title to pie chart
 - Phet logo should be centered over the control panel
 - When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
     is still highlighted
@@ -153,3 +151,7 @@ Done
     black panel.
 11-01-06 - Profile should be fixed by default on Complex module. Add a check box for "design your
     own reaction."
+11-01-06 - Make vertical axis for strip chart "number"
+11-01-06 - Make vertical axis for bar chart "number"
+11-01-06 - "Rescale" button on the strip chart
+11-01-06 - Make things resizable
