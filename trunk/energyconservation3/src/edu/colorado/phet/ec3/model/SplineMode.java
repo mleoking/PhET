@@ -296,7 +296,7 @@ public class SplineMode implements UpdateMode {
         private double getBounceScore( AbstractSpline splineSurface, Body body ) {
             Area area = new Area( splineSurface.getArea() );
             area.intersect( new Area( body.getShape() ) );
-            return area.isEmpty() ? Double.POSITIVE_INFINITY : 0.0;//todo don't need to compute others, could break
+            return area.isEmpty() ? Double.POSITIVE_INFINITY : 0.0;//Todo: don't need to compute others, could break
         }
 
         private double getGrabScore( AbstractSpline splineSurface, Body body ) {
@@ -316,10 +316,11 @@ public class SplineMode implements UpdateMode {
         }
 
         private boolean correctSide( Body body, double x, Point2D splineAttachPoint, AbstractSpline abstractSpline ) {
-            Point2D cm = body.getCenterOfMass();
-            Vector2D.Double cmVector = new Vector2D.Double( splineAttachPoint, cm );
-            Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), cm );
-            return cmVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0;
+            return true;
+//            Point2D cm = body.getCenterOfMass();
+//            Vector2D.Double cmVector = new Vector2D.Double( splineAttachPoint, cm );
+//            Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), cm );
+//            return cmVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0;
         }
 
     }
