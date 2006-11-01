@@ -33,21 +33,26 @@ public class Body {
     private double xThrust = 0.0;
     private double yThrust = 0.0;
 
-    private FreeFall freeFall;
-    private UserControlled userMode = new UserControlled();
-
-    private UpdateMode mode;
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
-    private ArrayList listeners = new ArrayList();
+
     private double width;
     private double height;
     private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
     private double thermalEnergy = 0;
     private double angularVelocity = 0;
-
     private double storedTotalEnergy = 0.0;
+
+    private FreeFall freeFall;
+    private UserControlled userMode = new UserControlled();
+    private UpdateMode mode;
+    private boolean freefall = true;
+
+    AbstractSpline lastFallSpline;
+    long lastFallTime;
+
+    private ArrayList listeners = new ArrayList();
 
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, FreeFall freeFall ) {
         this.freeFall = freeFall;
@@ -77,6 +82,10 @@ public class Body {
         copy.potentialEnergyMetric = potentialEnergyMetric.copy();
         copy.storedTotalEnergy = this.storedTotalEnergy;
         return copy;
+    }
+
+    public static PDimension createDefaultBodyRect() {
+        return new PDimension( 1.3, 1.8 );
     }
 
     public double getStoredTotalEnergy() {
@@ -125,12 +134,8 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-//        Body origState = copyState();
         attachmentPoint.x += dx;
         attachmentPoint.y += dy;
-//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-//        }
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -142,11 +147,7 @@ public class Body {
     }
 
     public void setVelocity( double vx, double vy ) {
-//        Body origState = copyState();
         velocity.setComponents( vx, vy );
-//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-//        }
     }
 
     public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
@@ -156,19 +157,11 @@ public class Body {
     }
 
     public void setMass( double value ) {
-//        Body origState = copyState();
         this.mass = value;
-//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-//        }
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-//        Body origState = copyState();
         attachmentPoint.setLocation( x, y );
-//        if( origState.getEnergyDifferenceAbs( this ) > 500 ) {
-//            System.out.println( "origState.getEnergyDifferenceAbs( this ) = " + origState.getEnergyDifferenceAbs( this ) );
-//        }
     }
 
     public boolean isUserControlled() {
@@ -211,16 +204,15 @@ public class Body {
 
     public void setSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         boolean same = false;
-        if( mode instanceof FreeSplineMode2 ) {
-            FreeSplineMode2 sm = (FreeSplineMode2)mode;
+        if( mode instanceof SplineMode ) {
+            SplineMode sm = (SplineMode)mode;
             if( sm.getSpline() == spline ) {
                 same = true;
             }
         }
         if( !same ) {
             this.storedTotalEnergy = getTotalEnergy();
-//            setMode( new FreeSplineMode( model, spline ) );
-            setMode( new FreeSplineMode2( model, spline ) );
+            setMode( new SplineMode( model, spline ) );
         }
     }
 
@@ -237,7 +229,7 @@ public class Body {
         setMode( freeFall );
     }
 
-    void fixAngle() {
+    private void clampAngle() {
         while( attachmentPointRotation < 0 ) {
             attachmentPointRotation += Math.PI * 2;
         }
@@ -273,7 +265,7 @@ public class Body {
 
     public void rotateAboutAttachmentPoint( double dA ) {
         attachmentPointRotation += dA;
-        fixAngle();
+        clampAngle();
     }
 
     public boolean isFreeFallMode() {
@@ -281,11 +273,7 @@ public class Body {
     }
 
     public boolean isSplineMode() {
-        return mode instanceof FreeSplineMode || mode instanceof FreeSplineMode2;
-    }
-
-    public static PDimension createDefaultBodyRect() {
-        return new PDimension( 1.3, 1.8 );
+        return mode instanceof FreeSplineMode || mode instanceof SplineMode;
     }
 
     public boolean isFacingRight() {
@@ -305,8 +293,8 @@ public class Body {
     }
 
     public void splineRemoved( AbstractSpline spline ) {
-        if( mode instanceof FreeSplineMode2 ) {
-            FreeSplineMode2 spm = (FreeSplineMode2)mode;
+        if( mode instanceof SplineMode ) {
+            SplineMode spm = (SplineMode)mode;
             if( spm.getSpline() == spline ) {
                 setFreeFallMode();
             }
@@ -375,8 +363,6 @@ public class Body {
         return cmRotation;
     }
 
-    boolean freefall = true;
-
     public void convertToFreefall() {
         if( !freefall ) {
             this.freefall = true;
@@ -418,8 +404,8 @@ public class Body {
     }
 
     public boolean isOnSpline( SplineSurface splineSurface ) {
-        if( mode instanceof FreeSplineMode2 ) {
-            FreeSplineMode2 sm = (FreeSplineMode2)mode;
+        if( mode instanceof SplineMode ) {
+            SplineMode sm = (SplineMode)mode;
             return splineSurface.contains( sm.getSpline() );
         }
         return false;
@@ -468,14 +454,10 @@ public class Body {
         return new ImmutableVector2D.Double( 0, getGravity() * getMass() );
     }
 
-    AbstractSpline lastFallSpline;
-    long lastFallTime;
-
     public void setLastFallTime( AbstractSpline spline, long time ) {
         this.lastFallSpline = spline;
         this.lastFallTime = time;
     }
-
 
     public AbstractSpline getLastFallSpline() {
         return lastFallSpline;
@@ -488,7 +470,6 @@ public class Body {
     public double getAngularVelocity() {
         return angularVelocity;
     }
-
 
     public void setAngularVelocity( double angularVelocity ) {
         this.angularVelocity = angularVelocity;
