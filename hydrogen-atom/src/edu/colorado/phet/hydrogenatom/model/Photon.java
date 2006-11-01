@@ -40,6 +40,7 @@ public class Photon extends DynamicObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private double _wavelength;
+    private boolean _emitted;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,10 +53,22 @@ public class Photon extends DynamicObject implements ModelElement {
      * @param wavelength wavelength, in nanometers
      */
     public Photon( Point2D position, double orientation, double wavelength ) {
+        this( position, orientation, wavelength, false /* emitted */ );
+    }
+    
+    /**
+     * Constructor.
+     * @param position
+     * @param orientation rotation angle, in radians
+     * @param wavelength wavelength, in nanometers
+     * @param emitted was this photon emitted by an atom?
+     */
+    public Photon( Point2D position, double orientation, double wavelength, boolean emitted ) {
         super( position, orientation );
         if ( wavelength < 0 ) {
             throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
         }
+        _emitted = emitted;
         _wavelength = wavelength;
     }
     
@@ -77,6 +90,10 @@ public class Photon extends DynamicObject implements ModelElement {
      */
     public Color getColor() {
         return ColorUtils.wavelengthToColor( _wavelength );
+    }
+    
+    public boolean wasEmitted() {
+        return _emitted;
     }
     
     //----------------------------------------------------------------------------
