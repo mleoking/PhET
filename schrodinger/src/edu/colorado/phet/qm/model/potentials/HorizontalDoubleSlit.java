@@ -5,6 +5,7 @@ import edu.colorado.phet.qm.model.Potential;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -182,6 +183,11 @@ public class HorizontalDoubleSlit implements Potential {
     public void setInverseSlits( boolean inverseSlits ) {
         this.inverse = inverseSlits;
         update();
+    }
+
+    public void debugSymmetry() {
+        System.out.println( "Arrays.asList( getSlitAreas( )) = " + Arrays.asList( getSlitAreas() ) );
+        System.out.println( "Arrays.asList( getBlockAreas( )) = " + Arrays.asList( getBlockAreas() ) );
     }
 
     public static interface Listener {
