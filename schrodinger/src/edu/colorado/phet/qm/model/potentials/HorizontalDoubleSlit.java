@@ -27,8 +27,6 @@ public class HorizontalDoubleSlit implements Potential {
     private Rectangle rightSlit;
     private ArrayList listeners = new ArrayList();
     private boolean inverse = false;
-    private int leftSlitStart;
-    private int rightSlitStart;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
@@ -77,13 +75,18 @@ public class HorizontalDoubleSlit implements Potential {
             numCellsToSlit = -1;
         }
 
-        leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
-        rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
+        int leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
+        int rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
         this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
         this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
-        Rectangle[] bars = toBars();
         debugSymmetry2();
 
+        updatePotentialDelegate();
+        notifyListeners();
+    }
+
+    private void updatePotentialDelegate() {
+        Rectangle[] bars = toBars();
         CompositePotential compositePotential = new CompositePotential();
         if( inverse ) {
             compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
@@ -95,46 +98,30 @@ public class HorizontalDoubleSlit implements Potential {
             compositePotential.addPotential( new BarrierPotential( bars[2], potential ) );
         }
         this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
-        notifyListeners();
     }
 
     private Rectangle[] toBars() {
         return new Rectangle[]{
-                new Rectangle( 0, y, leftSlitStart, height ),
-                new Rectangle( leftSlit.x + leftSlit.width, y, rightSlitStart - leftSlit.x - leftSlit.width, height ),
-                new Rectangle( rightSlit.x + rightSlit.width, y, leftSlitStart, height )
+                new Rectangle( 0, y, leftSlit.x, height ),
+                new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height ),
+                new Rectangle( rightSlit.x + rightSlit.width, y, leftSlit.x, height )
         };
     }
 
     private void updateEven() {
         System.out.println( "update even not symmetric yet" );
-        int leftSlitCenter = round( gridWidth / 2.0 - slitSeparation / 2.0 );
-        int rightSlitCenter = round( gridWidth / 2.0 + slitSeparation / 2.0 );
-        int midWidth = round( gridWidth / 2.0 - slitSeparation / 2.0 - slitWidth / 2.0 );
-
-        Rectangle leftBar = new Rectangle( 0, y, round( leftSlitCenter - slitWidth / 2.0 ), height );
-        Rectangle midBar = new Rectangle( round( leftSlitCenter + slitWidth / 2.0 ), y, slitSeparation - slitWidth, height );
-        Rectangle rightBar = new Rectangle( round( rightSlitCenter + slitWidth / 2.0 ), y, midWidth + 1, height );
-
-        this.leftSlit = new Rectangle( leftBar.x + leftBar.width, y, slitWidth, height );
-        this.rightSlit = new Rectangle( midBar.x + midBar.width, y, slitWidth, height );
-
-//        debugSymmetry3( leftSlit, rightSlit );
-//        debugSymmetry3( leftBar, rightBar );
-//        debugSymmetry3( midBar );
-//        debugSymmetry2();
-
-        CompositePotential compositePotential = new CompositePotential();
-        if( inverse ) {
-            compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
-            compositePotential.addPotential( new BarrierPotential( rightSlit, potential ) );
+        int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
+        int numCellsToSlit = slitSeparation / 2 - slitWidth / 2;
+        if( numCellsToSlit < -1 ) {
+            numCellsToSlit = -1;
         }
-        else {
-            compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
-            compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
-            compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
-        }
-        this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
+
+        int leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
+        int rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
+        this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
+        this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
+
+        updatePotentialDelegate();
         notifyListeners();
     }
 
