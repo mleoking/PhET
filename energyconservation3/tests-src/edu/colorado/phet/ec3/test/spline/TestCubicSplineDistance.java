@@ -1,10 +1,10 @@
 package edu.colorado.phet.ec3.test.spline;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.ec3.common.PhetPPath;
 import edu.colorado.phet.ec3.model.spline.NatCubicSpline2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
