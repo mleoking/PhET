@@ -29,7 +29,6 @@ public class HorizontalDoubleSlit implements Potential {
     private boolean inverse = false;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
-//        System.out.println( "init: y=" + y );
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.y = y;
@@ -43,7 +42,6 @@ public class HorizontalDoubleSlit implements Potential {
     public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
-//        System.out.println( "reset, y=" + y );
         this.y = y;
         this.height = height;
         this.slitSize = slitSize;
@@ -67,6 +65,9 @@ public class HorizontalDoubleSlit implements Potential {
 
         this.leftSlit = new Rectangle( leftBar.x + leftBar.width, y, slitSize, height );
         this.rightSlit = new Rectangle( midBar.x + midBar.width, y, slitSize, height );
+
+        debugSymmetry2();
+
         CompositePotential compositePotential = new CompositePotential();
         if( inverse ) {
             compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
@@ -79,6 +80,15 @@ public class HorizontalDoubleSlit implements Potential {
         }
         this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
         notifyListeners();
+    }
+
+    private void debugSymmetry2() {
+        double waveModelCenter = gridWidth / 2.0;
+        double leftSlitCenter = leftSlit.getCenterX();
+        double rightSlitCenter = rightSlit.getCenterX();
+        double distToLeftCenter = Math.abs( waveModelCenter - leftSlitCenter );
+        double distToRightCenter = Math.abs( waveModelCenter - rightSlitCenter );
+        System.out.println( "distToRightCenter = " + distToRightCenter + ", distToLeftCenter=" + distToLeftCenter );
     }
 
     private int round( double v ) {
@@ -104,7 +114,6 @@ public class HorizontalDoubleSlit implements Potential {
 
     public void setY( int y ) {
         this.y = y;
-//        System.out.println( "changed: y=" + y );
         update();
     }
 
@@ -115,13 +124,11 @@ public class HorizontalDoubleSlit implements Potential {
 
     public void setSlitSize( int slitSize ) {
         this.slitSize = slitSize;
-//        System.out.println( "slitSize = " + slitSize );
         update();
     }
 
     public void setSlitSeparation( int slitSeparation ) {
         this.slitSeparation = slitSeparation;
-//        System.out.println( "slitSeparation = " + slitSeparation );
         update();
     }
 
