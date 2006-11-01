@@ -13,19 +13,34 @@ import java.awt.*;
  */
 
 public class TestHorizontalDoubleSlit extends TestCase {
+    public void testMediumEvenExample() {
+        HorizontalDoubleSlit horizontalDoubleSlit = new HorizontalDoubleSlit( 8, 1, 0, 1, 2, 2, 1.0 );
+        Rectangle[] knownSlits = new Rectangle[]{
+                new Rectangle( 1, 0, 2, 1 ),
+                new Rectangle( 5, 0, 2, 1 )
+        };
+        assertRectangleArrayEquals( "medium even slits", knownSlits, horizontalDoubleSlit.getSlitAreas() );
+        Rectangle[] knownBlocks = new Rectangle[]{
+                new Rectangle( 0, 0, 1, 1 ),
+                new Rectangle( 3, 0, 2, 1 ),
+                new Rectangle( 7, 0, 1, 1 )
+        };
+        assertRectangleArrayEquals( "medium even blocks", knownBlocks, horizontalDoubleSlit.getBlockAreas() );
+    }
+
     public void testMediumExample() {
         HorizontalDoubleSlit horizontalDoubleSlit = new HorizontalDoubleSlit( 13, 1, 0, 1, 2, 3, 1.0 );
         Rectangle[] knownSlits = new Rectangle[]{
                 new Rectangle( 3, 0, 2, 1 ),
                 new Rectangle( 8, 0, 2, 1 )
         };
-        assertRectangleArrayEquals( "medium slits", knownSlits, horizontalDoubleSlit.getSlitAreas() );
+        assertRectangleArrayEquals( "medium odd slits", knownSlits, horizontalDoubleSlit.getSlitAreas() );
         Rectangle[] knownBlocks = new Rectangle[]{
                 new Rectangle( 0, 0, 3, 1 ),
                 new Rectangle( 5, 0, 3, 1 ),
                 new Rectangle( 10, 0, 3, 1 )
         };
-        assertRectangleArrayEquals( "medium blocks", knownBlocks, horizontalDoubleSlit.getBlockAreas() );
+        assertRectangleArrayEquals( "medium odd blocks", knownBlocks, horizontalDoubleSlit.getBlockAreas() );
     }
 
     public void testSmallExample() {
@@ -40,8 +55,8 @@ public class TestHorizontalDoubleSlit extends TestCase {
                 new Rectangle( 2, 0, 1, 1 ),
                 new Rectangle( 4, 0, 1, 1 )
         };
-        assertRectangleArrayEquals( "small slits", knownSlits, horizontalDoubleSlit.getSlitAreas() );
-        assertRectangleArrayEquals( "small blocks", knownBlocks, horizontalDoubleSlit.getBlockAreas() );
+        assertRectangleArrayEquals( "small odd slits", knownSlits, horizontalDoubleSlit.getSlitAreas() );
+        assertRectangleArrayEquals( "small odd blocks", knownBlocks, horizontalDoubleSlit.getBlockAreas() );
     }
 
     private void assertRectangleArrayEquals( String type, Rectangle[] expected, Rectangle[] actual ) {
