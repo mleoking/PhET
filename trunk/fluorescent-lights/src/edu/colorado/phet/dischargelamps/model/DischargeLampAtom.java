@@ -40,11 +40,17 @@ public class DischargeLampAtom extends Atom {
     public DischargeLampAtom( LaserModel model, ElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
+
         if( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
         setStates( elementProperties.getStates() );
         setCurrState( elementProperties.getStates()[0] );
+    }
+
+    public DischargeLampAtom( LaserModel model, ElementProperties elementProperties, EnergyEmissionStrategy ees ) {
+        this( model, elementProperties );
+        energyEmissionStrategy = ees;
     }
 
     /**

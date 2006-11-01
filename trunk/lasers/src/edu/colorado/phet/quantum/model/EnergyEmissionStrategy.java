@@ -14,11 +14,19 @@ package edu.colorado.phet.quantum.model;
 
 
 /**
- * EnergyAbsorptionStrategy
+ * EnergyEmissionStrategy
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public interface EnergyEmissionStrategy {
+
+    /**
+     * Given a specified atom, determine its new state after going through a
+     * quantum decrease in energy
+     *
+     * @param atom
+     * @return the atom's new state
+     */
     public AtomicState emitEnergy( Atom atom );
 }

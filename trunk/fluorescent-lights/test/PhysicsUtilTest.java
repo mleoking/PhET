@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.util.PhysicsUtil;
 
 /**
  * PhysicsUtilTest
