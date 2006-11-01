@@ -27,10 +27,8 @@ public class HorizontalDoubleSlit implements Potential {
     private Rectangle rightSlit;
     private ArrayList listeners = new ArrayList();
     private boolean inverse = false;
-    public int leftSlitStart;
-    public int rightSlitStart;
-    public int indexOfCenterSquare;
-    public int numCellsToSlit;
+    private int leftSlitStart;
+    private int rightSlitStart;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
@@ -43,7 +41,7 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
-    public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
+    public void setState( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.y = y;
@@ -68,16 +66,11 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void updateOdd() {
-        while( slitSeparation % 4 != 0 ) {
-            System.out.println( "slitSeparation wasn't odd...." );
-            slitSeparation++;
-        }
-
-        indexOfCenterSquare = ( gridWidth - 1 ) / 2;
-        numCellsToSlit = slitSeparation / 4;
+        int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
+        int numCellsToSlit = slitSeparation / 2;
 
         leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitSize;
-        rightSlitStart = indexOfCenterSquare + numCellsToSlit;
+        rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
         this.leftSlit = new Rectangle( leftSlitStart, y, slitSize, height );
         this.rightSlit = new Rectangle( rightSlitStart, y, slitSize, height );
         Rectangle[] bars = toBars();
@@ -138,7 +131,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void debugSymmetry2() {
-        double waveModelCenter = ( gridWidth - 1 ) / 2.0;
+        double waveModelCenter = ( gridWidth ) / 2.0;
         double leftSlitCenter = leftSlit.getCenterX();
         double rightSlitCenter = rightSlit.getCenterX();
         double distToLeftCenter = Math.abs( waveModelCenter - leftSlitCenter );
@@ -234,12 +227,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     public Rectangle[] getBlockAreas() {
-        int y = leftSlit.y + 1;
-        int height = leftSlit.height;
-        Rectangle leftBlock = new Rectangle( 0, y, leftSlit.x, height );
-        Rectangle centerBlock = new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height );
-        Rectangle rightBlock = new Rectangle( rightSlit.x + rightSlit.width, y, gridWidth - rightSlit.x - rightSlit.width, height );
-        return new Rectangle[]{leftBlock, centerBlock, rightBlock};
+        return toBars();
     }
 
     public void setInverseSlits( boolean inverseSlits ) {
