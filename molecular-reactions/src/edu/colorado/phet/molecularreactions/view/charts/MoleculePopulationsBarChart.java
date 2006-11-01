@@ -71,7 +71,7 @@ public class MoleculePopulationsBarChart extends BarChart {
         getChart().setBorderPaint( Color.black );
 
         // Hook up to the clock
-        clock.addClockListener( new StripChartUpdater() );
+        clock.addClockListener( new Updater() );
         updateChart();
     }
 
@@ -85,7 +85,7 @@ public class MoleculePopulationsBarChart extends BarChart {
     /**
      * Updates the strip chart at specified intervals
      */
-    private class StripChartUpdater extends ClockAdapter {
+    private class Updater extends ClockAdapter {
 
         public void clockTicked( ClockEvent clockEvent ) {
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();

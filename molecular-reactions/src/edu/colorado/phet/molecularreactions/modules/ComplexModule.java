@@ -132,6 +132,7 @@ public class ComplexModule extends MRModule {
 
             // Dialog
             stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            stripChartDlg.setResizable( false );
             PhetPCanvas stripChartCanvas = new PhetPCanvas();
             stripChartCanvas.addScreenChild( stripChartNode );
             stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
