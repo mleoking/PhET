@@ -52,11 +52,16 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
+    public String toString() {
+        return "gridWidth=" + gridWidth + ", gridHeight=" + gridHeight + ", y=" + y + ", height=" + height + ", slitSize=" + slitSize + ", slitsep=" + slitSeparation;
+    }
+
     public void addListener( Listener listener ) {
         this.listeners.add( listener );
     }
 
     private void update() {
+        System.out.println( "this = " + this );
         if( gridWidth % 2 == 0 ) {
             updateEven();
         }
@@ -114,7 +119,7 @@ public class HorizontalDoubleSlit implements Potential {
 //        debugSymmetry3( leftSlit, rightSlit );
 //        debugSymmetry3( leftBar, rightBar );
 //        debugSymmetry3( midBar );
-        debugSymmetry2();
+//        debugSymmetry2();
 
         CompositePotential compositePotential = new CompositePotential();
         if( inverse ) {

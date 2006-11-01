@@ -43,9 +43,9 @@ public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
                                                             } );
             addFullWidth( potentialSpinner );
         }
-        SlitSpinner sizeSpinner = new SlitSpinner( QWIStrings.getString( "size" ), new SpinnerNumberModel( slit.getSlitSize(), 0, slit.getGridWidth() / 2, 1 ), new ChangeHandler() {
+        SlitSpinner sizeSpinner = new SlitSpinner( QWIStrings.getString( "size" ), new SpinnerNumberModel( slit.getSlitWidth(), 0, slit.getGridWidth() / 2, 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
-                slit.setSlitSize( value.intValue() );
+                slit.setSlitWidth( value.intValue() );
             }
         } );
         addFullWidth( sizeSpinner );
