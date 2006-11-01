@@ -73,6 +73,9 @@ public class HorizontalDoubleSlit implements Potential {
     private void updateOdd() {
         int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
         int numCellsToSlit = slitSeparation / 2 - slitWidth / 2;
+        if( numCellsToSlit < -1 ) {
+            numCellsToSlit = -1;
+        }
 
         leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
         rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
