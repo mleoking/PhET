@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - change plum pudding image to be more rectangular or elliptical
 - change oscillation line each time PlumPudding's electron starts oscillating
 - plum pudding electron oscillation should always stop at (0,0)
-- add debug code to PlumPuddingNode to show model's bounds
 - randomize the electron line in PlumPuddingModel
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
 
@@ -57,6 +56,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/1/06) - add debug code to PlumPuddingNode to show model's bounds
+(11/1/06) - sync with phetcommon
 (11/1/06) - pick a random point inside plum pudding shape from which to emit photon
 (11/1/06) - change PlumPuddingModel shape to an ellipse
 (11/1/06) - make HAModel a PhotoAbsorbedListener and PhotonEmittedListener of its atom

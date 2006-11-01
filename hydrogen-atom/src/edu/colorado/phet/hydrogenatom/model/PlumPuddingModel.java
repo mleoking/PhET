@@ -96,8 +96,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         return _electronOffset;
     }
     
-    public Shape getShape() {
-        return _shape;
+    public Dimension getSize() {
+        return _size;
     }
     
     //----------------------------------------------------------------------------
