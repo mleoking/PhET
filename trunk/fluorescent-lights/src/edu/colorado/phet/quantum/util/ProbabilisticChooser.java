@@ -35,10 +35,10 @@ public class ProbabilisticChooser {
 
     private Entry[] _entries;
 
-    
+
     /**
      *
-     * @param entries
+     * @param entries   The entries can be in any order in the array
      */
     public ProbabilisticChooser( Entry[] entries ) {
         _entries = new Entry[ entries.length];

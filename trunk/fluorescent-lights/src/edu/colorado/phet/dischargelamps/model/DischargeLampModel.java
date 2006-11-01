@@ -202,6 +202,9 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     //----------------------------------------------------------------
 
     public void setElementProperties( DischargeLampElementProperties elementProperties ) {
+        if( elementProperties instanceof HydrogenProperties ) {
+            System.out.println( "DischargeLampModel.setElementProperties: " + elementProperties );
+        }
         this.elementProperties = elementProperties;
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );

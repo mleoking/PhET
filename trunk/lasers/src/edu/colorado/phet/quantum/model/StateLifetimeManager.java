@@ -77,6 +77,11 @@ class StateLifetimeManager implements ModelElement {
         if( lifeTime >= deathTime ) {
 
             AtomicState nextState = atom.getEnergyStateAfterEmission();
+            if(  nextState == null ) {
+                System.out.println( "StateLifetimeManager.stepInTime" );
+                atom.getEnergyStateAfterEmission();
+            }
+
             if( emitOnStateChange ) {
                 double speed = Photon.SPEED;
                 double theta = emissionDirectionStrategy.getEmissionDirection();
