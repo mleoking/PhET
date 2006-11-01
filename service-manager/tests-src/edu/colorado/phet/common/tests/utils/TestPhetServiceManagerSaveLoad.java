@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.tests;
+package edu.colorado.phet.common.tests.utils;
 
 import edu.colorado.phet.common.util.services.PhetServiceManager;
 
