@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,6 +27,7 @@ import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -33,6 +37,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @version $Revision$
  */
 public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean SHOW_MODEL_SHAPE = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,6 +73,19 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         addChild( puddingNode );
         addChild( _electronNode );
 
+        if ( SHOW_MODEL_SHAPE ) {
+            PPath shapeNode = new PPath();
+            Dimension size = _atom.getSize();
+            double x = -size.width / 2;
+            double y = -size.height / 2;
+            double w = size.width;
+            double h = size.height;
+            shapeNode.setPathTo( new Ellipse2D.Double( x, y, w, h ) );
+            shapeNode.setStroke( new BasicStroke( 1f ) );
+            shapeNode.setStrokePaint( Color.GREEN );
+            addChild( shapeNode );
+        }
+        
         if ( HAConstants.SHOW_ORIGIN_NODES ) {
             OriginNode originNode = new OriginNode( Color.GREEN );
             addChild( originNode );
