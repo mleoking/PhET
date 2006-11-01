@@ -273,7 +273,7 @@ public class Body {
     }
 
     public boolean isSplineMode() {
-        return mode instanceof FreeSplineMode || mode instanceof SplineMode;
+        return mode instanceof SplineMode;
     }
 
     public boolean isFacingRight() {

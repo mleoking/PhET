@@ -30,6 +30,10 @@ public class SplineMode implements UpdateMode {
         this.spline = spline;
     }
 
+    public boolean isUserControlled( Body body ) {
+        return body.isUserControlled() || spline.isUserControlled();
+    }
+
     public void stepInTime( Body body, double dt ) {
         Body origState = body.copyState();
         double x = savedLocation;
@@ -57,43 +61,38 @@ public class SplineMode implements UpdateMode {
 
         savedLocation = x2;
         Point2D splineLocation = spline.evaluateAnalytical( x2 );
+
         //make sure we sank into the spline before applying this change
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
-        boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
-        if( !fixed ) {
+        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
+        if( !isUserControlled( body ) ) {
+            boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
 
-            //look for a nearby rotation and/or spline position that conserves energy...?
-            AbstractVector2D netForce = netForceWithoutNormal.getAddedInstance( lastNormalForce );
-            //wait until upside up to stop in a well
-            if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
-                body.setVelocity( origState.getVelocity() );
-                body.setAttachmentPointPosition( origState.getAttachPoint() );
-                body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
-                body.setThermalEnergy( origState.getThermalEnergy() );
-            }
-            else {
-                if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
-                    System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+            if( !fixed ) {
+                //look for a nearby rotation and/or spline position that conserves energy...?
+                AbstractVector2D netForce = netForceWithoutNormal.getAddedInstance( lastNormalForce );
+                //wait until upside up to stop in a well
+                if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
+                {
                     body.setVelocity( origState.getVelocity() );
                     body.setAttachmentPointPosition( origState.getAttachPoint() );
                     body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
                     body.setThermalEnergy( origState.getThermalEnergy() );
                 }
-//                else if( origState.getEnergyDifferenceAbs( body ) > 1E-8 ) {
-//                    System.out.println( "fixed = " + fixed + ", body.getv=" + body.getVelocity() + ", error=" + origState.getEnergyDifferenceAbs( body ) );
-//                    //look for neighboring locations that will give a slightly better energy
-//
-//                    double desiredTotalEnergy = origState.getStoredTotalEnergy();
-//                    System.out.println( "desiredTotalEnergy = " + desiredTotalEnergy + ", body.total=" + body.getTotalEnergy() );
-//                    new EnergyConserver().fixEnergyWithVelocity( body, desiredTotalEnergy, 15 );
-//                    System.out.println( "desiredTotalEnergy2 = " + desiredTotalEnergy + ", body.total2=" + body.getTotalEnergy() );
-//                }
+                else {
+                    if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
+                        System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+                        body.setVelocity( origState.getVelocity() );
+                        body.setAttachmentPointPosition( origState.getAttachPoint() );
+                        body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                        body.setThermalEnergy( origState.getThermalEnergy() );
+                    }
+                }
+                //maybe could fix by rotation?, i think no.
+                //could fix with friction, if friction is enabled.
             }
-            //maybe could fix by rotation?, i think no.
-            //could fix with friction, if friction is enabled.
         }
-        //could still have an 
         lastState = body.copyState();
 
         lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
@@ -246,7 +245,8 @@ public class SplineMode implements UpdateMode {
                 double x = bestSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, bestSpline.getLength(), 100 );
                 if( !feetAreClose( body, x, bestSpline ) ) {
                     double epsilon = 0.05;
-                    if( ( x <= epsilon || x >= bestSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, bestSpline, x ) ) {
+                    if( ( x <= epsilon || x >= bestSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, bestSpline, x ) )
+                    {
                         System.out.println( "Collision with end." );
                         body.setVelocity( body.getVelocity().getScaledInstance( -1 ) );
                         double angle = body.getVelocity().getAngle();
