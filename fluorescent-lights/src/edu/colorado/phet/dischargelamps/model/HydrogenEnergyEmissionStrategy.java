@@ -25,6 +25,10 @@ import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
  */
 public class HydrogenEnergyEmissionStrategy implements EnergyEmissionStrategy {
 
+    public HydrogenEnergyEmissionStrategy() {
+        super();
+    }
+
     public AtomicState emitEnergy( Atom atom ) {
         AtomicState newState = null;
         AtomicState[] states = atom.getStates();

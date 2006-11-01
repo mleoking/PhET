@@ -44,4 +44,29 @@ public class DischargeLampElementProperties extends ElementProperties {
         this.energyAbsorptionStrategy = energyAbsorptionStrategy;
     }
 
+
+
+    public static class TransitionEntry {
+        int sourceStateIdx;
+        int targetStateIdx;
+        double txStrength;
+
+        public TransitionEntry( int sourceStateIdx, int targetStateIdx, double txStrength ) {
+            this.sourceStateIdx = sourceStateIdx;
+            this.targetStateIdx = targetStateIdx;
+            this.txStrength = txStrength;
+        }
+
+        public int getSourceStateIdx() {
+            return sourceStateIdx;
+        }
+
+        public int getTargetStateIdx() {
+            return targetStateIdx;
+        }
+
+        public double getTxStrength() {
+            return txStrength;
+        }
+    }
 }
