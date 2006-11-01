@@ -13,9 +13,9 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.Dimension;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
@@ -47,7 +47,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final double MAX_DEFLECTION_ANGLE = Math.toRadians( 5 );
     
     /* number of discrete steps in the electron line */
-    private static final int ELECTRON_LINE_SEGMENTS = 20;
+    private static final int ELECTRON_LINE_SEGMENTS = 30;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -114,7 +114,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private void updateShape() {
         double w = _size.getWidth();
         double h = _size.getHeight();
-        _shape = new Rectangle2D.Double( getX() - ( w / 2 ), getY() - ( h / 2 ), w, h );
+        _shape = new Ellipse2D.Double( getX() - ( w / 2 ), getY() - ( h / 2 ), w, h );
     }
     
     //----------------------------------------------------------------------------
