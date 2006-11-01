@@ -10,12 +10,12 @@ package edu.colorado.phet.ec3.model.spline;
 
 public class SplineSurface {
     private AbstractSpline top;
-    private AbstractSpline bottom;
+//    private AbstractSpline bottom;
     private boolean interactive = true;
 
     public SplineSurface( AbstractSpline top ) {
         this.top = top;
-        this.bottom = top.createReverseSpline();
+//        this.bottom = top.createReverseSpline();
     }
 
     public SplineSurface copy() {
@@ -23,16 +23,16 @@ public class SplineSurface {
     }
 
     public boolean isUserControlled() {
-        return top.isUserControlled() || bottom.isUserControlled();
+        return top.isUserControlled();// || bottom.isUserControlled();
     }
 
     public AbstractSpline getTop() {
         return top;
     }
 
-    public AbstractSpline getBottom() {
-        return bottom;
-    }
+//    public AbstractSpline getBottom() {
+//        return bottom;
+//    }
 
     public void printControlPointCode() {
         top.printControlPointCode();
@@ -48,7 +48,7 @@ public class SplineSurface {
 
     public void translate( double x, double y ) {
         getTop().translate( x, y );
-        getBottom().translate( x, y );
+//        getBottom().translate( x, y );
     }
 
     public void setInteractive( boolean b ) {
@@ -60,6 +60,6 @@ public class SplineSurface {
     }
 
     public boolean contains( AbstractSpline spline ) {
-        return top == spline || bottom == spline;
+        return top == spline;
     }
 }

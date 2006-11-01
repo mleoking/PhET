@@ -34,7 +34,6 @@ import java.util.Collections;
 public class SplineGraphic extends PNode {
     private EC3Canvas ec3Canvas;
     private AbstractSpline spline;
-    private AbstractSpline reverse;
     private PPath pathLayer;
     private PNode controlPointLayer;
 
@@ -48,13 +47,12 @@ public class SplineGraphic extends PNode {
     private PBasicInputEventHandler dragHandler;
 
     public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
-        this( ec3Canvas, splineSurface.getTop(), splineSurface.getBottom(), splineSurface );
+        this( ec3Canvas, splineSurface.getTop(), splineSurface );
     }
 
-    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse, SplineSurface splineSurface ) {
+    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, SplineSurface splineSurface ) {
         this.ec3Canvas = ec3Canvas;
         this.spline = spline;
-        this.reverse = reverse;
         this.splineSurface = splineSurface;
         pathLayer = new PPath();
         pathLayer.setStroke( new BasicStroke( AbstractSpline.SPLINE_THICKNESS ) );
@@ -105,7 +103,6 @@ public class SplineGraphic extends PNode {
     public void setSplineSurface( SplineSurface splineSurface ) {
         this.splineSurface = splineSurface;
         this.spline = splineSurface.getTop();
-        this.reverse = splineSurface.getBottom();
         updateAll();
     }
 
@@ -161,7 +158,6 @@ public class SplineGraphic extends PNode {
     private boolean proposeMatchTrunk( int index ) {
         SplineMatch match = getTrunkMatch( index );
         if( match != null ) {
-//            System.out.println( "match=" + match );
             spline.controlPointAt( index ).setLocation( match.getTarget().getFullBounds().getCenter2D() );
             updateAll();
             return true;
@@ -269,7 +265,7 @@ public class SplineGraphic extends PNode {
     }
 
     private void updateReverseSpline() {
-        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
+//        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
     }
 
     class ControlCirclePopupMenu extends JPopupMenu {

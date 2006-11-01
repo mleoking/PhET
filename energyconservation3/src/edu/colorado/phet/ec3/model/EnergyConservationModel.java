@@ -202,7 +202,7 @@ public class EnergyConservationModel {
         for( int i = 0; i < splineSurfaces.size(); i++ ) {
             SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
             list.add( splineSurface.getTop() );
-            list.add( splineSurface.getBottom() );
+//            list.add( splineSurface.getBottom() );
         }
         return list;
     }
@@ -251,7 +251,7 @@ public class EnergyConservationModel {
             }
         }
         notifyBodiesSplineRemoved( splineSurface.getTop() );
-        notifyBodiesSplineRemoved( splineSurface.getBottom() );
+//        notifyBodiesSplineRemoved( splineSurface.getBottom() );
         splineSurfaces.remove( splineSurface );
     }
 
