@@ -103,6 +103,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private JToggleButton showBarChartBtn;
         private JToggleButton trackMoleculeBtn;
         private JToggleButton showNoneBtn;
+        private JToggleButton designReactionBtn;
 
         public OptionsPanel( final ComplexModule module ) {
             this.module = module;
@@ -174,7 +175,19 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 chartOptionsPanel.add( showNoneBtn, gbc );
             }
 
-            nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
+            designReactionBtn = new JCheckBox( SimStrings.get( "Control.designReaction"));
+            designReactionBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.getEnergyView().setProfileManipulable( designReactionBtn.isSelected() );
+                }
+            } );
+
+//            nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
+
+
+            //--------------------------------------------------------------------------------------------------
+            // Lay out the panel
+            //--------------------------------------------------------------------------------------------------
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
@@ -187,6 +200,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             add( chartOptionsPanel, gbc );
             add( showStripChartBtn, gbc );
             add( showBondsBtn, gbc );
+            add( designReactionBtn, gbc );
 
             // Create a listener to the model that will enable/disable the option for tracking
             // molecules
