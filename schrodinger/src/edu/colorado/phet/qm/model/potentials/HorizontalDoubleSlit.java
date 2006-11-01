@@ -27,6 +27,10 @@ public class HorizontalDoubleSlit implements Potential {
     private Rectangle rightSlit;
     private ArrayList listeners = new ArrayList();
     private boolean inverse = false;
+    public int leftSlitStart;
+    public int rightSlitStart;
+    public int indexOfCenterSquare;
+    public int numCellsToSlit;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
@@ -55,6 +59,54 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void update() {
+        if( gridWidth % 2 == 0 ) {
+            updateEven();
+        }
+        else {
+            updateOdd();
+        }
+    }
+
+    private void updateOdd() {
+        while( slitSeparation % 4 != 0 ) {
+            System.out.println( "slitSeparation wasn't odd...." );
+            slitSeparation++;
+        }
+
+        indexOfCenterSquare = ( gridWidth - 1 ) / 2;
+        numCellsToSlit = slitSeparation / 4;
+
+        leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitSize;
+        rightSlitStart = indexOfCenterSquare + numCellsToSlit;
+        this.leftSlit = new Rectangle( leftSlitStart, y, slitSize, height );
+        this.rightSlit = new Rectangle( rightSlitStart, y, slitSize, height );
+        Rectangle[] bars = toBars();
+        debugSymmetry2();
+
+        CompositePotential compositePotential = new CompositePotential();
+        if( inverse ) {
+            compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
+            compositePotential.addPotential( new BarrierPotential( rightSlit, potential ) );
+        }
+        else {
+            compositePotential.addPotential( new BarrierPotential( bars[0], potential ) );
+            compositePotential.addPotential( new BarrierPotential( bars[1], potential ) );
+            compositePotential.addPotential( new BarrierPotential( bars[2], potential ) );
+        }
+        this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
+        notifyListeners();
+    }
+
+    private Rectangle[] toBars() {
+        return new Rectangle[]{
+                new Rectangle( 0, y, leftSlitStart, height ),
+                new Rectangle( leftSlit.x + leftSlit.width, y, rightSlitStart - leftSlit.x - leftSlit.width, height ),
+                new Rectangle( rightSlit.x + rightSlit.width, y, leftSlitStart, height )
+        };
+    }
+
+    private void updateEven() {
+        System.out.println( "update even not symmetric yet" );
         int leftSlitCenter = round( gridWidth / 2.0 - slitSeparation / 2.0 );
         int rightSlitCenter = round( gridWidth / 2.0 + slitSeparation / 2.0 );
         int midWidth = round( gridWidth / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
@@ -66,6 +118,9 @@ public class HorizontalDoubleSlit implements Potential {
         this.leftSlit = new Rectangle( leftBar.x + leftBar.width, y, slitSize, height );
         this.rightSlit = new Rectangle( midBar.x + midBar.width, y, slitSize, height );
 
+//        debugSymmetry3( leftSlit, rightSlit );
+//        debugSymmetry3( leftBar, rightBar );
+//        debugSymmetry3( midBar );
         debugSymmetry2();
 
         CompositePotential compositePotential = new CompositePotential();
@@ -83,7 +138,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void debugSymmetry2() {
-        double waveModelCenter = gridWidth / 2.0;
+        double waveModelCenter = ( gridWidth - 1 ) / 2.0;
         double leftSlitCenter = leftSlit.getCenterX();
         double rightSlitCenter = rightSlit.getCenterX();
         double distToLeftCenter = Math.abs( waveModelCenter - leftSlitCenter );
