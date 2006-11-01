@@ -37,6 +37,7 @@ public class StripChart {
     private JFreeChart chart;
     private double xAxisRange;
     private XYLineAndShapeRenderer renderer;
+    private XYPlot plot;
 
     /**
      *
@@ -77,7 +78,7 @@ public class StripChart {
                 false
         );
 
-        XYPlot plot = (XYPlot)chart.getPlot();
+        plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setRange( minY, maxY );
 
         renderer = new XYLineAndShapeRenderer();
@@ -142,5 +143,15 @@ public class StripChart {
         } );
         clock.start();
 
+    }
+
+    /**
+     * Set the vertical range of the chart
+     * 
+     * @param minY
+     * @param maxY
+     */
+    public void setYRange( int minY, int maxY ) {
+        plot.getRangeAxis().setRange( minY, maxY );
     }
 }

@@ -25,12 +25,14 @@ import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStrip
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -125,7 +127,7 @@ public class ComplexModule extends MRModule {
 
     public void setStripChartVisible( boolean visible, DialogCheckBox showStripChartBtn ) {
         if( visible ) {
-            StripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
+            final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
             chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
             stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
@@ -136,6 +138,18 @@ public class ComplexModule extends MRModule {
             PhetPCanvas stripChartCanvas = new PhetPCanvas();
             stripChartCanvas.addScreenChild( stripChartNode );
             stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
+
+            // Add a rescale button
+            JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale"));
+            rescaleBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    stripChart.rescale();
+                }
+            } );
+            PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
+            rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
+                                   chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
+            stripChartCanvas.addScreenChild( rescaleNode );
 
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
