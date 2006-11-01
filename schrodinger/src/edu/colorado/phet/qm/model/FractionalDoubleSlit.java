@@ -9,7 +9,7 @@ package edu.colorado.phet.qm.model;
  */
 
 public class FractionalDoubleSlit {
-    private QWIModel QWIModel;
+    private QWIModel qwiModel;
     private double y;
     private double height;
     private double slitSize;
@@ -17,7 +17,7 @@ public class FractionalDoubleSlit {
     private double potential;
 
     public FractionalDoubleSlit( QWIModel QWIModel, double y, double height, double slitSize, double slitSeparation ) {
-        this.QWIModel = QWIModel;
+        this.qwiModel = QWIModel;
         this.y = y;
         this.height = height;
         this.slitSize = slitSize;
@@ -40,12 +40,16 @@ public class FractionalDoubleSlit {
     }
 
     private void update() {
-        QWIModel.getDoubleSlitPotential().setGridWidth( QWIModel.getGridWidth() );
-        QWIModel.getDoubleSlitPotential().setGridHeight( QWIModel.getGridHeight() );
-        QWIModel.getDoubleSlitPotential().setHeight( round( height * QWIModel.getGridHeight() ) );
-        QWIModel.getDoubleSlitPotential().setSlitSeparation( roundEven( slitSeparation * QWIModel.getGridWidth() ) );
-        QWIModel.getDoubleSlitPotential().setSlitWidth( roundEven( this.slitSize * QWIModel.getGridWidth() ) );
-        QWIModel.getDoubleSlitPotential().setY( round( y * QWIModel.getGridHeight() ) );
+        qwiModel.getDoubleSlitPotential().setGridWidth( qwiModel.getGridWidth() );
+        qwiModel.getDoubleSlitPotential().setGridHeight( qwiModel.getGridHeight() );
+        qwiModel.getDoubleSlitPotential().setHeight( round( height * qwiModel.getGridHeight() ) );
+
+        int integralSlitWidth = roundEven( this.slitSize * qwiModel.getGridWidth() );
+        qwiModel.getDoubleSlitPotential().setSlitWidth( integralSlitWidth );
+        qwiModel.getDoubleSlitPotential().setY( round( y * qwiModel.getGridHeight() ) );
+
+        int a = (int)( qwiModel.getGridWidth() * slitSeparation - integralSlitWidth );
+        qwiModel.getDoubleSlitPotential().setNumCellsBetweenSlits( a );
     }
 
     private int roundEven( double v ) {

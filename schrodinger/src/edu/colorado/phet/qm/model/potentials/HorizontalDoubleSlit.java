@@ -20,7 +20,7 @@ public class HorizontalDoubleSlit implements Potential {
     private int y;
     private int height;
     private int slitWidth;
-    private int slitSeparation;
+    private int numCellsBetweenSlits;
     private double potential;
     private Potential potentialDelegate;
     private Rectangle leftSlit;
@@ -34,7 +34,7 @@ public class HorizontalDoubleSlit implements Potential {
         this.y = y;
         this.height = height;
         this.slitWidth = slitSize;
-        this.slitSeparation = slitSeparation;
+        this.numCellsBetweenSlits = slitSeparation;
         this.potential = potential;
         update();
     }
@@ -45,13 +45,13 @@ public class HorizontalDoubleSlit implements Potential {
         this.y = y;
         this.height = height;
         this.slitWidth = slitSize;
-        this.slitSeparation = slitSeparation;
+        this.numCellsBetweenSlits = slitSeparation;
         this.potential = potential;
         update();
     }
 
     public String toString() {
-        return "gridWidth=" + gridWidth + ", gridHeight=" + gridHeight + ", y=" + y + ", height=" + height + ", slitSize=" + slitWidth + ", slitsep=" + slitSeparation;
+        return "gridWidth=" + gridWidth + ", gridHeight=" + gridHeight + ", y=" + y + ", height=" + height + ", slitSize=" + slitWidth + ", slitsep=" + numCellsBetweenSlits;
     }
 
     public void addListener( Listener listener ) {
@@ -70,13 +70,10 @@ public class HorizontalDoubleSlit implements Potential {
 
     private void updateOdd() {
         int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
-        int numCellsToSlit = slitSeparation / 2 - slitWidth / 2;
-        if( numCellsToSlit < -1 ) {
-            numCellsToSlit = -1;
-        }
+        int numCellsToSlitEachSide = numCellsBetweenSlits / 2;
 
-        int leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
-        int rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
+        int leftSlitStart = indexOfCenterSquare - numCellsToSlitEachSide - slitWidth;
+        int rightSlitStart = indexOfCenterSquare + numCellsToSlitEachSide + 1;
         this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
         this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
         debugSymmetry2();
@@ -111,7 +108,7 @@ public class HorizontalDoubleSlit implements Potential {
     private void updateEven() {
         System.out.println( "update even not symmetric yet" );
         int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
-        int numCellsToSlit = slitSeparation / 2 - slitWidth / 2;
+        int numCellsToSlit = numCellsBetweenSlits / 2 - slitWidth / 2;
         if( numCellsToSlit < -1 ) {
             numCellsToSlit = -1;
         }
@@ -170,8 +167,8 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
-    public void setSlitSeparation( int slitSeparation ) {
-        this.slitSeparation = slitSeparation;
+    public void setNumCellsBetweenSlits( int slitSeparation ) {
+        this.numCellsBetweenSlits = slitSeparation;
         update();
     }
 
@@ -209,8 +206,8 @@ public class HorizontalDoubleSlit implements Potential {
         return slitWidth;
     }
 
-    public int getSlitSeparation() {
-        return slitSeparation;
+    public int getNumCellsBetweenSlits() {
+        return numCellsBetweenSlits;
     }
 
     public double getPotential() {
