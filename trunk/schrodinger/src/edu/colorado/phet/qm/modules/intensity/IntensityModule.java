@@ -69,6 +69,7 @@ public class IntensityModule extends QWIModule {
                 splitModel.synchronizeDetectorRegions();
             }
         } );
+        getSchrodingerPanel().getDetectorSheetPNode().setFadeDelay( 10 );
     }
 
     private boolean isInverseSlits() {
