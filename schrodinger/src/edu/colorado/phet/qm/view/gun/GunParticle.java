@@ -130,6 +130,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
         return active;
     }
 
+    public abstract double getMinimumProbabilityForDetection();
+
     protected class ChangeHandler implements ChangeListener {
         private AbstractGunNode.MomentumChangeListener momentumChangeListener;
 

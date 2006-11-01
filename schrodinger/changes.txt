@@ -1,3 +1,7 @@
+1.02.07 (11-1-2006)
+Changed default probability threshold for single photon detection to 0.05, and 0.00 for single matter particle detection.
+                Removed the "probability threshold" developer control.
+
 1.02.06 (10-31-2006)
 Added brightness control to Single Particle Mode.
 Added developer control for fade delay for Single Particle Mode.

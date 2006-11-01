@@ -156,6 +156,10 @@ public class DefaultGunParticle extends GunParticle {
         return false;//firing is always a one-shot deal, so we're never in the middle of a shot.
     }
 
+    public double getMinimumProbabilityForDetection() {
+        return 0.0;
+    }
+
     public static DefaultGunParticle createElectron( AbstractGunNode gun ) {
         return new DefaultGunParticle( gun, QWIStrings.getString( "electrons" ), "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
     }

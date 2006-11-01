@@ -52,7 +52,7 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
         abstractGun.reset();
     }
 
-    public SingleParticleGunNode getAbstractGun() {
+    public SingleParticleGunNode getSingleParticleGunNode() {
         return abstractGun;
     }
 }

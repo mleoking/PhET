@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
+import edu.colorado.phet.qm.view.gun.SingleParticleGunNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 /**
@@ -17,10 +18,12 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
  */
 
 public class SingleParticleModule extends QWIModule {
+    public SingleParticleSchrodingerPanel schrodingerSchrodingerPanel;
+
     public SingleParticleModule( QWIApplication application, IClock clock ) {
         super( QWIStrings.getString( "single.particles" ), application, clock );
         setQWIModel( new QWIModel() );
-        final SingleParticleSchrodingerPanel schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
+        schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
         setSchrodingerPanel( schrodingerSchrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
@@ -32,10 +35,25 @@ public class SingleParticleModule extends QWIModule {
 //        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().updatePSwing();
-        setMinimumProbabilityForDetection( 0.04 );
+//        setMinimumProbabilityForDetection( 0.05 );
+        getSingleParticleGunNode().addSingleParticleGunNodeListener( new SingleParticleGunNode.SingleParticleGunNodeListener() {
+            public void gunParticleTypeChanged() {
+//                System.out.println( "type=" + getSingleParticleGunNode().getGunParticle() );
+                updateProbabilityThreshold();
+            }
+        } );
+        updateProbabilityThreshold();
         setClockControlPanel( new SingleParticleClockControlPanel( this, clock ) );
 
         finishInit();
+    }
+
+    private void updateProbabilityThreshold() {
+        setMinimumProbabilityForDetection( getSingleParticleGunNode().getGunParticle().getMinimumProbabilityForDetection() );
+    }
+
+    private SingleParticleGunNode getSingleParticleGunNode() {
+        return schrodingerSchrodingerPanel.getSingleParticleGunNode();
     }
 
     public void rapidTest() {

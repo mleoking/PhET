@@ -71,6 +71,7 @@ public class IntensityManager {
 
     public void setMinimumProbabilityForDetection( double value ) {
         this.minimumProbabalityForDetection = value;
+        System.out.println( "this.minimumProbabalityForDetection = " + this.minimumProbabalityForDetection );
     }
 
     public static interface Listener {
