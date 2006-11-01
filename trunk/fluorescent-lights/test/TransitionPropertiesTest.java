@@ -18,6 +18,8 @@ import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.model.LaserModel;
 
+import java.util.*;
+
 /**
  * TransitionPropertiesTest
  *
@@ -46,10 +48,22 @@ public class TransitionPropertiesTest {
         }
 
         public void testB() {
-            for( int i = 0; i < 10; i++ ) {
+            Map results = new HashMap();
+            for( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getHighestEnergyState() );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
-                System.out.println( "stateF = " + stateF );
+
+                Integer cnt = (Integer)results.get( stateF );
+                if( cnt == null ) {
+                    cnt = new Integer( 0 );
+                }
+                results.put( stateF, new Integer( cnt.intValue() + 1));
+            }
+
+            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+                Object o = iterator.next();
+                Integer cnt = (Integer)results.get( o );
+                System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
