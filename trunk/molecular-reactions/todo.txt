@@ -155,3 +155,4 @@ Done
 11-01-06 - Make things resizable
 11-01-06 - Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
     Put in 2 As. Pause. Put 0 in the spinner, hit enter and it goes to -1
+11-01-06 - Clicking on a molecule graphic under the pump should select that radio button
