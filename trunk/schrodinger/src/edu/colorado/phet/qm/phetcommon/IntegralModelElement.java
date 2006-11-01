@@ -29,7 +29,6 @@ public class IntegralModelElement implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        System.out.println( "step = " + step + ", interval=" + interval );
         step++;
         if( step >= interval ) {
             modelElement.stepInTime( dt );
