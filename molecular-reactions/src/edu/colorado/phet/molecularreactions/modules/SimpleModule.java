@@ -51,6 +51,7 @@ public class SimpleModule extends MRModule {
         // Set up the model
         MRModel model = (MRModel)getModel();
 
+        // Add a graphic factory for the launcher graphic
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {
             public PNode createGraphic( ModelElement modelElement ) {
@@ -74,6 +75,9 @@ public class SimpleModule extends MRModule {
         // create the control panel
         controlPanel = new SimpleMRControlPanel( this );
         getControlPanel().addControl( controlPanel );
+
+        // Disable user manipulation of the profile
+        getEnergyView().setProfileManipulable( false );
 
         // Add Manual and Run Control buttons
 //        createManualRunButtons();

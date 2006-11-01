@@ -5,8 +5,6 @@
 - Phet logo should be centered over the control panel
 - When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
     is still highlighted
-- Profile snouldn't be manipulable on the Simple panel. Also, profile should be constrained by the
-    black panel.
 - Profile should be fixed by default on Complex module. Add a check box for "design your
     own reaction."
 - Reset All should reset the profile (doesn't on Simple module. May not on Complex, either)
@@ -153,3 +151,5 @@ Done
 10-30-06 - Temperature control doesn't work after reset.
 11-01-06 - Strip chart dialog should not be resizable
 11-01-06 - Change order of pie slices
+11-01-06 - Profile shouldn't be manipulable on the Simple panel. Also, profile should be constrained by the
+    black panel.
