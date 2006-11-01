@@ -30,11 +30,39 @@ public class MercuryProperties extends DischargeLampElementProperties {
             -0.85
     };
 
+
+    // Likelihoods of emission transitions from one
+    // state to another
+    static TransitionEntry[] teA = new TransitionEntry[]{
+            new TransitionEntry( 2, 0, 0.08 ),
+            new TransitionEntry( 8, 2, 0.50 ),
+            new TransitionEntry( 7, 1, 0.45 ),
+            new TransitionEntry( 8, 3, 0.62 ),
+            new TransitionEntry( 7, 2, 0.66 ),
+            new TransitionEntry( 7, 3, 1.48 ),
+            new TransitionEntry( 5, 1, 0.21 ),
+            new TransitionEntry( 6, 2, 0.04 ),
+            new TransitionEntry( 8, 4, 0.11 ),
+            new TransitionEntry( 5, 2, 0.56 ),
+            new TransitionEntry( 5, 3, 0.49 ),
+            new TransitionEntry( 7, 4, 0.24 ),
+            new TransitionEntry( 8, 5, 0.03 ),
+            new TransitionEntry( 6, 4, 0.27 ),
+            new TransitionEntry( 3, 3, 1 ),
+            new TransitionEntry( 4, 4, 1 ),
+            new TransitionEntry( 1, 1, 1 ),
+            new TransitionEntry( 0, 0, 1 ),
+    };
+
+    static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
+
     public MercuryProperties() {
         super( SimStrings.get( "Element.mercury" ),
                MercuryProperties.energyLevels,
-               new HydrogenEnergyEmissionStrategy(),
+               energyEmissionStrategy ,
+//               new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+        energyEmissionStrategy.setStates( getStates() );
     }
 }

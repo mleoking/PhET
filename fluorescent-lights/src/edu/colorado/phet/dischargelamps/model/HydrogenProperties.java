@@ -28,11 +28,9 @@ public class HydrogenProperties extends DischargeLampElementProperties {
         -0.544,
         -0.378};
 
-
+    // Likelihoods of emission transitions from one
+    // state to another
     static TransitionEntry[] teA = new TransitionEntry[]{
-//            new TransitionEntry( 5, 1, 1 ),
-//            new TransitionEntry( 5, 2, 1 ),
-//            new TransitionEntry( 5, 0, 1 ),
             new TransitionEntry( 5, 0, 0.39 ),
             new TransitionEntry( 5, 1, 0.06 ),
             new TransitionEntry( 5, 2, 0.02 ),
@@ -44,7 +42,8 @@ public class HydrogenProperties extends DischargeLampElementProperties {
             new TransitionEntry( 3, 2, 0.07 ),
             new TransitionEntry( 2, 0, 3.34 ),
             new TransitionEntry( 2, 1, 0.87 ),
-            new TransitionEntry( 1, 0, 12.53 )
+            new TransitionEntry( 1, 0, 12.53 ),
+            new TransitionEntry( 0, 0, 1 ),
     };
 
     static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
@@ -56,6 +55,7 @@ public class HydrogenProperties extends DischargeLampElementProperties {
                new FiftyPercentAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
          energyEmissionStrategy.setStates( getStates() );
+        toString();
     }
 }
 
