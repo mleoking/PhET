@@ -41,11 +41,9 @@ public class QWIModule extends PiccoloModule {
     private ParticleUnits particleUnits;
     private ArrayList listeners = new ArrayList();
     private ResolutionControl.ResolutionSetup resolution;
-    static final Random random = new Random( 0 );
 
-    /**
-     * @param schrodingerApplication
-     */
+    private static final Random random = new Random( 0 );
+
     public QWIModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
@@ -309,6 +307,10 @@ public class QWIModule extends PiccoloModule {
 
     public void setMinimumProbabilityForDetection( double minimumProbabilityForDetection ) {
         getSchrodingerPanel().getIntensityDisplay().setMinimumProbabilityForDetection( minimumProbabilityForDetection );
+    }
+
+    public void debugSymmetry() {
+        qwiModel.debugSymmetry();
     }
 
     public static interface Listener {

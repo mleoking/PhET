@@ -111,4 +111,8 @@ public class WaveModel {
     public boolean containsLocation( int i, int k ) {
         return wavefunction.containsLocation( i, k );
     }
+
+    public void debugSymmetry() {
+        System.out.println( "Wave size, w=" + getWidth() + "h=" + getHeight() );
+    }
 }

@@ -181,6 +181,17 @@ public class QWIModel implements ModelElement {
         return compositePotential;
     }
 
+    public void debugSymmetry() {
+        waveModel.debugSymmetry();
+        doubleSlitPotential.debugSymmetry();
+        double waveModelCenter = waveModel.getWidth() / 2.0;
+        double leftSlitCenter = doubleSlitPotential.getSlitAreas()[0].getCenterX();
+        double rightSlitCenter = doubleSlitPotential.getSlitAreas()[1].getCenterX();
+        double distToLeftCenter = Math.abs( waveModelCenter - leftSlitCenter );
+        double distToRightCenter = Math.abs( waveModelCenter - rightSlitCenter );
+        System.out.println( "distToRightCenter = " + distToRightCenter + ", distToLeftCenter=" + distToLeftCenter );
+    }
+
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             defaultPropagate();

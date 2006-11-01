@@ -65,6 +65,7 @@ public class QWIPanel extends BufferedPhetPCanvas {
             }
         } );
         addKeyListener( new PDebugKeyHandler() );
+        addKeyListener( new DebugSymmetry( module ) );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
