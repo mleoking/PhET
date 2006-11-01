@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Copyright (c) Oct 17, 2006 by Sam Reid
  */
 
-public class FreeSplineMode2 implements UpdateMode {
+public class SplineMode implements UpdateMode {
     private EnergyConservationModel model;
     private AbstractSpline spline;
     private double savedLocation;
@@ -25,7 +25,7 @@ public class FreeSplineMode2 implements UpdateMode {
     private Body afterNewton;
     private Vector2D.Double lastNormalForce;
 
-    public FreeSplineMode2( EnergyConservationModel model, AbstractSpline spline ) {
+    public SplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         this.model = model;
         this.spline = spline;
     }
@@ -189,7 +189,7 @@ public class FreeSplineMode2 implements UpdateMode {
     }
 
     public UpdateMode copy() {
-        return new FreeSplineMode2( model, getSpline() );
+        return new SplineMode( model, getSpline() );
     }
 
     public static class GrabSpline {
