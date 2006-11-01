@@ -59,7 +59,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void update() {
-        System.out.println( "this = " + this );
+//        System.out.println( "this = " + this );
         if( gridWidth % 2 == 0 ) {
             updateEven();
         }
@@ -76,7 +76,7 @@ public class HorizontalDoubleSlit implements Potential {
         int rightSlitStart = indexOfCenterSquare + numCellsToSlitEachSide + 1;
         this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
         this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
-        debugSymmetry2();
+//        debugSymmetry2();
 
         updatePotentialDelegate();
         notifyListeners();
@@ -90,7 +90,7 @@ public class HorizontalDoubleSlit implements Potential {
         int rightSlitStart = indexOfCenterPair + numCellsToSlitEachSide + 2;
         this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
         this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
-        debugSymmetry2();
+//        debugSymmetry2();
 
         updatePotentialDelegate();
         notifyListeners();
