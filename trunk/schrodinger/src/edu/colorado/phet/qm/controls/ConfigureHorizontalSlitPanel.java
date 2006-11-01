@@ -50,9 +50,9 @@ public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( sizeSpinner );
 
-        SlitSpinner sepSpinner = new SlitSpinner( QWIStrings.getString( "separation" ), new SpinnerNumberModel( slit.getSlitSeparation(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner sepSpinner = new SlitSpinner( QWIStrings.getString( "separation" ), new SpinnerNumberModel( slit.getNumCellsBetweenSlits(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
-                slit.setSlitSeparation( value.intValue() );
+                slit.setNumCellsBetweenSlits( value.intValue() );
             }
         } );
         addFullWidth( sepSpinner );
