@@ -40,9 +40,6 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
-import edu.colorado.phet.hydrogenatom.factory.AlphaParticleNodeFactory;
-import edu.colorado.phet.hydrogenatom.factory.BilliardBallNodeFactory;
-import edu.colorado.phet.hydrogenatom.factory.PhotonNodeFactory;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
@@ -107,8 +104,6 @@ public class HAModule extends PiccoloModule {
     private Font _spectrometerFont;
 
     private HAModel _model;
-    private Gun _gun;
-    private Space _space; 
     private AbstractHydrogenAtom _hydrogenAtomModel;
     
     private HAWiggleMe _wiggleMe;
@@ -138,33 +133,23 @@ public class HAModule extends PiccoloModule {
 
         IClock clock = getClock();
         
-        // Model
         {
-            _model = new HAModel( clock );
-        }
-        
-        // Photon gun
-        {
+            // Gun
             Point2D position = new Point2D.Double( 0, 0 );
             double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
             double nozzleWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
-            _gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
-        }
-        
-        // Space
-        Point2D spaceCenter = new Point2D.Double();
-        {
-            double spaceWidth = _gun.getNozzleWidth();
-            double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
-            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth/2, -spaceHeight, spaceWidth, spaceHeight );
-            _space = new Space( bounds, _gun, _model );
+            Gun gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
             
-            spaceCenter.setLocation( 0, -spaceHeight / 2 );
+            // Space
+            double spaceWidth = gun.getNozzleWidth();
+            double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+            Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth / 2, -spaceHeight, spaceWidth, spaceHeight );
+            Space space = new Space( bounds );
+
+            // Model
+            _model = new HAModel( clock, gun, space );
         }
-        
-        _model.addModelElement( _gun );
-        _model.addModelElement( _space );
-        
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -191,8 +176,8 @@ public class HAModule extends PiccoloModule {
         _modeSwitch = new ModeSwitch();
         _modeSwitch.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               _space.removeAllAlphaParticles();
-               _space.removeAllPhotons();
+               _model.removeAllAlphaParticles();
+               _model.removeAllPhotons();
            }
         });
 
@@ -200,8 +185,8 @@ public class HAModule extends PiccoloModule {
         _atomicModelSelector = new AtomicModelSelector();
         _atomicModelSelector.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                _space.removeAllAlphaParticles();
-                _space.removeAllPhotons();
+                _model.removeAllAlphaParticles();
+                _model.removeAllPhotons();
             }
          });
         
@@ -211,8 +196,8 @@ public class HAModule extends PiccoloModule {
             _boxBeamGunParent = new PNode();
 
             _boxOfHydrogenNode = new BoxOfHydrogenNode( HAConstants.BOX_OF_HYDROGEN_SIZE, HAConstants.TINY_BOX_SIZE );
-            _beamNode = new BeamNode( HAConstants.BEAM_SIZE, _gun );
-            _gunNode = new GunNode( _gun );
+            _beamNode = new BeamNode( HAConstants.BEAM_SIZE, _model.getGun() );
+            _gunNode = new GunNode( _model.getGun() );
 
             // Layering order
             _boxBeamGunParent.addChild( _beamNode );
@@ -250,7 +235,7 @@ public class HAModule extends PiccoloModule {
         }
 
         // Gun control panel
-        _gunControlPanel = new GunControlPanel( _canvas, _gun );
+        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun() );
 
         // Spectrometer
         {
@@ -357,7 +342,7 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     public Gun getGun() {
-        return _gun;
+        return _model.getGun();
     }
     
     //----------------------------------------------------------------------------
@@ -369,12 +354,13 @@ public class HAModule extends PiccoloModule {
         _modeSwitch.setPredictionSelected();
         _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
         
-        _gun.setEnabled( false );
-        _gun.setMode( GunMode.PHOTONS );
-        _gun.setLightType( LightType.MONOCHROMATIC );
-        _gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
-        _gun.setLightIntensity( 1 );
-        _gun.setAlphaParticlesIntensity( 1 );
+        Gun gun = _model.getGun();
+        gun.setEnabled( false );
+        gun.setMode( GunMode.PHOTONS );
+        gun.setLightType( LightType.MONOCHROMATIC );
+        gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
+        gun.setLightIntensity( 1 );
+        gun.setAlphaParticlesIntensity( 1 );
         
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );
@@ -561,7 +547,7 @@ public class HAModule extends PiccoloModule {
             _hydrogenAtomModel = null;
         }
         
-        Point2D position = _space.getCenter();
+        Point2D position = _model.getSpace().getCenter();
         
         if ( _modeSwitch.isExperimentSelected() ) {
             _hydrogenAtomModel = new ExperimentModel( position );
@@ -584,7 +570,7 @@ public class HAModule extends PiccoloModule {
                 _hydrogenAtomModel = new SchrodingerModel( position );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
-                _hydrogenAtomModel = new SolarSystemModel( _space.getCenter() );
+                _hydrogenAtomModel = new SolarSystemModel( position );
             }
         }
         
