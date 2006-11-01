@@ -105,6 +105,10 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private JToggleButton showNoneBtn;
         private JToggleButton designReactionBtn;
 
+        /**
+         *
+         * @param module
+         */
         public OptionsPanel( final ComplexModule module ) {
             this.module = module;
 

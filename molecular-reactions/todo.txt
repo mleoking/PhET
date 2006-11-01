@@ -16,8 +16,6 @@
 - If there are a lot of molecules in the box, the energy view throws an exception sometimes when
     neither the selected molecule nor the nearest molecule are part of a composite. This may be because
     things are in the middle of a time step.
-- Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
-    Put in 2 As. Pause. Put 0 in the spinner, hit enter and it goes to -1
 
 - 1D in Simple module becomes 2D over time
 - Components of CompositeMolecule in molecule tracker aren't next to each other
@@ -155,3 +153,5 @@ Done
 11-01-06 - Make vertical axis for bar chart "number"
 11-01-06 - "Rescale" button on the strip chart
 11-01-06 - Make things resizable
+11-01-06 - Molecule counter in control panel can get off. Try putting in some molecules, then spinning them out.
+    Put in 2 As. Pause. Put 0 in the spinner, hit enter and it goes to -1

@@ -36,11 +36,6 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class )  );
         JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
         JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
-//        JLabel aLabel = new JLabel( "A" );
-//        JLabel cLabel = new JLabel( "C" );
-//        JLabel abLabel = new JLabel( "AB" );
-//        JLabel bcLabel = new JLabel( "BC" );
-
 
         MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model );
         counters.add( aMC );
@@ -50,7 +45,6 @@ public class MoleculeInstanceControlPanel extends JPanel {
         counters.add( abMC );
         MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model );
         counters.add( bcMC );
-
 
         // Lay out the controls
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get("Control.numMolecules")) );
