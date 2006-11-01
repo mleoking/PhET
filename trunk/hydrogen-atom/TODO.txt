@@ -54,6 +54,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/1/06) - move photon and alphaParticle management out of Space and into HAModel
+(11/1/06) - add _emitted flag to Photon, used to exclude emitted atoms from collision detection
 (11/1/06) - add debug code to PlumPuddingNode to show model's bounds
 (11/1/06) - sync with piccolo-phet
 (10/31/06) - first pass at PlumbPuddingModel and electron animation in PlumPuddingNode
