@@ -31,13 +31,13 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private EventListenerList _listenerList;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
      * 
@@ -48,11 +48,11 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
         super( position, orientation );
         _listenerList = new EventListenerList();
     }
-    
+
     //----------------------------------------------------------------------------
     // Collision detection
     //----------------------------------------------------------------------------
-    
+
     /**
      * Detects a collision with a photon.
      * The default implementation does nothing.
@@ -60,7 +60,7 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      * and (if so) to take the proper action.
      */
     public void detectCollision( Photon photon ) {}
-   
+
     /**
      * Detects a collision with an alpha particle.
      * The default implementation does nothing.
@@ -68,26 +68,27 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      * and (if so) to take the proper action.
      */
     public void detectCollision( AlphaParticle alphaParticle ) {}
-    
+
     //----------------------------------------------------------------------------
     // ModelElement default implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Called when time has advanced by some delta.
      * The default implementation does nothing.
      */
     public void stepInTime( double dt ) {}
-    
+
     //----------------------------------------------------------------------------
     // PhotonAbsorbedListener
     //----------------------------------------------------------------------------
-    
+
     /**
      * PhotonAbsorbedListener is the interface implemented by all listeners
      * who wish to be informed when a photon is absorbed.
      */
     public interface PhotonAbsorbedListener extends EventListener {
+
         public void photonAbsorbed( PhotonAbsorbedEvent event );
     }
 
@@ -100,21 +101,21 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
 
         public PhotonAbsorbedEvent( Object source, Photon photon ) {
             super( source );
-            assert( photon != null );
+            assert ( photon != null );
             _photon = photon;
         }
-        
+
         public Photon getPhoton() {
             return _photon;
         }
     }
-    
+
     /**
      * Adds an PhotonAbsorbedListener.
      *
      * @param listener the listener
      */
-    public void addAbsorptionListener( PhotonAbsorbedListener listener ) {
+    public void addPhotonAbsorbedListener( PhotonAbsorbedListener listener ) {
         _listenerList.add( PhotonAbsorbedListener.class, listener );
     }
 
@@ -123,7 +124,7 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      *
      * @param listener the listener
      */
-    public void removeAbsorptionListener( PhotonAbsorbedListener listener ) {
+    public void removePhotonAbsorbedListener( PhotonAbsorbedListener listener ) {
         _listenerList.remove( PhotonAbsorbedListener.class, listener );
     }
 
@@ -133,24 +134,25 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      * @param event the event
      */
     protected void firePhotonAbsorbedEvent( PhotonAbsorbedEvent event ) {
-        assert( event.getPhoton() != null );
+        assert ( event.getPhoton() != null );
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == PhotonAbsorbedListener.class ) {
-                ( (PhotonAbsorbedListener)listeners[i + 1] ).photonAbsorbed( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == PhotonAbsorbedListener.class ) {
+                ( (PhotonAbsorbedListener) listeners[i + 1] ).photonAbsorbed( event );
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // PhotonEmittedListener
     //----------------------------------------------------------------------------
-    
+
     /**
      * PhotonEmittedListener is the interface implemented by all listeners
      * who wish to be informed when a photon is emitted.
      */
     public interface PhotonEmittedListener extends EventListener {
+
         public void photonEmitted( PhotonEmittedEvent event );
     }
 
@@ -163,21 +165,21 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
 
         public PhotonEmittedEvent( Object source, Photon photon ) {
             super( source );
-            assert( photon != null );
+            assert ( photon != null );
             _photon = photon;
         }
-        
+
         public Photon getPhoton() {
             return _photon;
         }
     }
-    
+
     /**
      * Adds an EmissionListener.
      *
      * @param listener the listener
      */
-    public void addEmissionListener( PhotonEmittedListener listener ) {
+    public void addPhotonEmittedListener( PhotonEmittedListener listener ) {
         _listenerList.add( PhotonEmittedListener.class, listener );
     }
 
@@ -186,7 +188,7 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      *
      * @param listener the listener
      */
-    public void removeEmissionListener( PhotonEmittedListener listener ) {
+    public void removePhotonEmittedListener( PhotonEmittedListener listener ) {
         _listenerList.remove( PhotonEmittedListener.class, listener );
     }
 
@@ -196,11 +198,11 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      * @param event the event
      */
     protected void firePhotonEmittedEvent( PhotonEmittedEvent event ) {
-        assert( event.getPhoton() != null );
+        assert ( event.getPhoton() != null );
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == PhotonEmittedListener.class ) {
-                ( (PhotonEmittedListener)listeners[i + 1] ).photonEmitted( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == PhotonEmittedListener.class ) {
+                ( (PhotonEmittedListener) listeners[i + 1] ).photonEmitted( event );
             }
         }
     }
