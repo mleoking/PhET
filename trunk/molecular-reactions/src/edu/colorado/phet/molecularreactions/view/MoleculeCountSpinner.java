@@ -32,7 +32,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class MoleculeCountSpinner extends JSpinner implements PublishingModel.ModelListener,
-                                                         AbstractMolecule.ClassListener {
+                                                              AbstractMolecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
     private int cnt;
@@ -48,7 +48,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     public MoleculeCountSpinner( final Class moleculeClass, final MRModel model ) {
 
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
-        tf.setColumns(2);
+        tf.setColumns( 2 );
 
         this.moleculeClass = moleculeClass;
         this.model = model;
@@ -71,36 +71,40 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 selfUpdating = true;
-                int diff = ( (Integer)getValue() ).intValue() - cnt;
+                final int diff = ( (Integer)getValue() ).intValue() - cnt;
                 for( int i = 0; i < Math.abs( diff ); i++ ) {
 
-                    // Do we need to add molecules?
-                    if( diff > 0 ) {
-                        Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
-                                                        model.getBox().getMinY() + 120 );
-                        Vector2D v = new Vector2D.Double( 2, 2 );
-                        AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
-                                                                     moleculeParamGenerator );
-                        addMoleculeToModel( m, model );
-                        cnt++;
-                    }
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
 
-                    // Do we need to remove molecules?
-                    else if( diff < 0 ) {
-                        List modelElements = model.getModelElements();
-                        for( int j = modelElements.size() - 1; j >= 0; j-- ) {
-                            Object o = modelElements.get( j );
-                            if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() ) {
-                                AbstractMolecule molecule = (AbstractMolecule)o;
-                                removeMoleculeFromModel( molecule, model );
-                                cnt--;
-                                break;
+                            // Do we need to add molecules?
+                            if( diff > 0 ) {
+                                Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
+                                                                model.getBox().getMinY() + 120 );
+                                Vector2D v = new Vector2D.Double( 2, 2 );
+                                AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
+                                                                                     moleculeParamGenerator );
+                                addMoleculeToModel( m, model );
+                            }
+
+                            // Do we need to remove molecules?
+                            else if( diff < 0 ) {
+                                List modelElements = model.getModelElements();
+                                for( int j = modelElements.size() - 1; j >= 0; j-- ) {
+                                    Object o = modelElements.get( j );
+                                    if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() )
+                                    {
+                                        AbstractMolecule molecule = (AbstractMolecule)o;
+                                        removeMoleculeFromModel( molecule, model );
+                                        break;
+                                    }
+                                }
+                                // We need to set the value in the text field in case we were asked to remove a
+                                // molecule that couldn't be removed
+                                setMoleculeCount();
                             }
                         }
-                        // We need to set the value in the text field in case we were asked to remove a
-                        // molecule that couldn't be removed
-                        setValue( new Integer( cnt ) );
-                    }
+                    } );
                 }
 
                 selfUpdating = false;
