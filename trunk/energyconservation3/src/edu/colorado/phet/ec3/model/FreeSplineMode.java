@@ -24,7 +24,6 @@ public class FreeSplineMode implements UpdateMode {
     private ForceMode forceMode;
     private EnergyConservationModel model;
     private AbstractSpline spline;
-    //    private Body body;
     private double lastDA;
     private boolean lastGrabState = false;
     private boolean bounced = false;
@@ -34,8 +33,8 @@ public class FreeSplineMode implements UpdateMode {
     private final double flipTimeThreshold = 1.0;
     private static boolean errorYetThisStep = false;
     private static boolean debug = true;
-    //    private static boolean debug = true;
     private boolean debugState = true;
+    private ArrayList speedHistory = new ArrayList();
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         forceMode = new ForceMode();
@@ -70,14 +69,11 @@ public class FreeSplineMode implements UpdateMode {
     public void debug2( String type, double desiredEnergy, Body body ) {
         if( debug ) {
             double dE = new State( body ).getTotalEnergy() - desiredEnergy;
-//            if( Math.abs( dE ) > 1E-6 ) {
             if( Math.abs( dE ) > 1E1 ) {
                 System.out.println( type + ", dE = " + dE );
             }
         }
     }
-
-    private ArrayList speedHistory = new ArrayList();
 
     public void stepInTime( Body body, double dt ) {
         stepStarted();
@@ -460,10 +456,6 @@ public class FreeSplineMode implements UpdateMode {
     private AbstractVector2D getGravityForce( EnergyConservationModel model, Body body ) {
         return new Vector2D.Double( 0, getFGy( model, body ) );
     }
-
-//    private AbstractVector2D getThrustForce() {
-//        return body.getThrust();
-//    }
 
     private double getFGy( EnergyConservationModel model, Body body ) {
         return model.getGravity() * body.getMass();
