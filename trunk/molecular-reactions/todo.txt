@@ -1,12 +1,10 @@
-- Makethings resizable
+- Make things resizable
 - "Rescale" button on the strip chart
 - Make vertical axis for bar chart "number"
 - Add title to pic chart
 - Phet logo should be centered over the control panel
 - When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
     is still highlighted
-- Profile should be fixed by default on Complex module. Add a check box for "design your
-    own reaction."
 - Reset All should reset the profile (doesn't on Simple module. May not on Complex, either)
 - When user selects "Track molecule" radio button, prompt dialog will appear right away.
 - Option to show bonds of selected molecule only
@@ -153,3 +151,5 @@ Done
 11-01-06 - Change order of pie slices
 11-01-06 - Profile shouldn't be manipulable on the Simple panel. Also, profile should be constrained by the
     black panel.
+11-01-06 - Profile should be fixed by default on Complex module. Add a check box for "design your
+    own reaction."

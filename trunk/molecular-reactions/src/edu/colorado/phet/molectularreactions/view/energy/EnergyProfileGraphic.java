@@ -46,7 +46,7 @@ class EnergyProfileGraphic extends PNode {
     double peakGrabTolerance = 10;
     private EnergyProfile energyProfile;
     private Dimension size;
-    private boolean manipulable = true;
+    private boolean manipulable;
 
     /**
      * @param size  size of the area in which the curve is to be drawn
