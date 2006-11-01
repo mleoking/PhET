@@ -30,12 +30,12 @@ public class HydrogenProperties extends DischargeLampElementProperties {
 
 
     static TransitionEntry[] teA = new TransitionEntry[]{
-            new TransitionEntry( 5, 1, 1 ),
-            new TransitionEntry( 5, 2, 1 ),
-            new TransitionEntry( 5, 0, 1 ),
-//            new TransitionEntry( 5, 0, 0.39 ),
-//            new TransitionEntry( 5, 1, 0.06 ),
-//            new TransitionEntry( 5, 2, 0.02 ),
+//            new TransitionEntry( 5, 1, 1 ),
+//            new TransitionEntry( 5, 2, 1 ),
+//            new TransitionEntry( 5, 0, 1 ),
+            new TransitionEntry( 5, 0, 0.39 ),
+            new TransitionEntry( 5, 1, 0.06 ),
+            new TransitionEntry( 5, 2, 0.02 ),
             new TransitionEntry( 4, 0, 0.69 ),
             new TransitionEntry( 4, 1, 0.11 ),
             new TransitionEntry( 4, 3, 0.04 ),
