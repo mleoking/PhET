@@ -82,6 +82,20 @@ public class HorizontalDoubleSlit implements Potential {
         notifyListeners();
     }
 
+    private void updateEven() {
+        int indexOfCenterPair = ( gridWidth - 1 ) / 2;
+        int numCellsToSlitEachSide = numCellsBetweenSlits / 2 - 1;
+
+        int leftSlitStart = indexOfCenterPair - numCellsToSlitEachSide - slitWidth;
+        int rightSlitStart = indexOfCenterPair + numCellsToSlitEachSide + 2;
+        this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
+        this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
+        debugSymmetry2();
+
+        updatePotentialDelegate();
+        notifyListeners();
+    }
+
     private void updatePotentialDelegate() {
         Rectangle[] bars = toBars();
         CompositePotential compositePotential = new CompositePotential();
@@ -105,23 +119,6 @@ public class HorizontalDoubleSlit implements Potential {
         };
     }
 
-    private void updateEven() {
-        System.out.println( "update even not symmetric yet" );
-        int indexOfCenterSquare = ( gridWidth - 1 ) / 2;
-        int numCellsToSlit = numCellsBetweenSlits / 2 - slitWidth / 2;
-        if( numCellsToSlit < -1 ) {
-            numCellsToSlit = -1;
-        }
-
-        int leftSlitStart = indexOfCenterSquare - numCellsToSlit - slitWidth;
-        int rightSlitStart = indexOfCenterSquare + numCellsToSlit + 1;
-        this.leftSlit = new Rectangle( leftSlitStart, y, slitWidth, height );
-        this.rightSlit = new Rectangle( rightSlitStart, y, slitWidth, height );
-
-        updatePotentialDelegate();
-        notifyListeners();
-    }
-
     private void debugSymmetry2() {
         double waveModelCenter = ( gridWidth ) / 2.0;
         double leftSlitCenter = leftSlit.getCenterX();
@@ -129,10 +126,6 @@ public class HorizontalDoubleSlit implements Potential {
         double distToLeftCenter = Math.abs( waveModelCenter - leftSlitCenter );
         double distToRightCenter = Math.abs( waveModelCenter - rightSlitCenter );
         System.out.println( "distToRightCenter = " + distToRightCenter + ", distToLeftCenter=" + distToLeftCenter );
-    }
-
-    private int round( double v ) {
-        return (int)v;
     }
 
     private void notifyListeners() {
