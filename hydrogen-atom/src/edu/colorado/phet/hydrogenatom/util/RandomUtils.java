@@ -33,4 +33,31 @@ public class RandomUtils {
         assert( max > min );
         return min + ( Math.random() * ( max - min ) );
     }
+    
+    /**
+     * Gets a random boolean.
+     * 
+     * @return true or false
+     */
+    public static boolean nextBoolean() {
+        return ( Math.random() < 0.5 );
+    }
+    
+    /**
+     * Gets a random sign.
+     * 
+     * @return +1 or -1
+     */
+    public static int nextSign() {
+        return ( ( Math.random() < 0.5 ) ? +1 : -1 );
+    }
+    
+    /**
+     * Gets a random orientation.
+     * 
+     * @return value in the range 0 to 2*PI radians
+     */
+    public static double nextOrientation() {
+        return nextDouble( 0, 2 * Math.PI );
+    }
 }
