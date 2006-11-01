@@ -5,12 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add debug code to PlumPuddingNode to show model's bounds
 - randomize the electron line in PlumPuddingModel
+- alpha particles don't collide correctly with plum pudding
 - make HAModel a PhotoAbsorbedListener and PhotonEmittedListener of its atom
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
 
 MEDIUM PRIORITY:
+- use constructive geometry to create plum pudding shape that matches image file
 - move common PROPERTY constants to AbstractHydrogenAtom
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
@@ -53,6 +54,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/1/06) - add debug code to PlumPuddingNode to show model's bounds
+(11/1/06) - sync with piccolo-phet
 (10/31/06) - first pass at PlumbPuddingModel and electron animation in PlumPuddingNode
 (10/31/06) - specify SolarSystemModel's electron position relative to atom's center
 (10/31/06) - when SolarSystem atom is destroyed, replace proton & electron with "kaboom" image
