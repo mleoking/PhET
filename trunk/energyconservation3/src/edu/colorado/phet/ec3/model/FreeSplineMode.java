@@ -20,7 +20,8 @@ import java.util.ArrayList;
  * Copyright (c) Sep 26, 2005 by Sam Reid
  */
 
-public class FreeSplineMode extends ForceMode {
+public class FreeSplineMode implements UpdateMode {
+    private ForceMode forceMode;
     private EnergyConservationModel model;
     private AbstractSpline spline;
     //    private Body body;
@@ -37,6 +38,7 @@ public class FreeSplineMode extends ForceMode {
     private boolean debugState = true;
 
     public FreeSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
+        forceMode = new ForceMode();
         this.model = model;
         this.spline = spline;
     }
@@ -89,7 +91,8 @@ public class FreeSplineMode extends ForceMode {
         }
 
         Segment segment = getSegment( body );
-        if( okayToStop( model, segment, body ) ) {//hack to stop when almost stopped near the bottom of a potential well.
+        if( okayToStop( model, segment, body ) )
+        {//hack to stop when almost stopped near the bottom of a potential well.
             double ke = body.getKineticEnergy();
             body.setVelocity( new Vector2D.Double( 0, 0 ) );
             body.addThermalEnergy( ke );
@@ -103,8 +106,8 @@ public class FreeSplineMode extends ForceMode {
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
-        setNetForce( computeNetForce( model, segment, body ) );
-        super.stepInTime( body, dt ); //apply newton's laws       
+        forceMode.setNetForce( computeNetForce( model, segment, body ) );
+        forceMode.stepInTime( body, dt ); //apply newton's laws       
 
         segment = getSegment( body );
         if( segment == null ) {
@@ -199,7 +202,7 @@ public class FreeSplineMode extends ForceMode {
 //        System.out.println( "avgSpeed="+avgSpeed+", getnetforce.getm="+getNetForce().getMagnitude() );
 //        System.out.println( "getNetForce().getMagnitude() = " + computeNetForce( model, segment ).getMagnitude() );
 //        return body.getFrictionCoefficient() > 0 && avgSpeed < 1 && getNetForce().getMagnitude() < 100&&speedHistory.size()==30;
-        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && getNetForce().getMagnitude() < 100 && speedHistory.size() == 30 && !body.isUserControlled() && !model.isSplineUserControlled();
+        return body.getFrictionCoefficient() > 0 && avgSpeed < 0.2 && forceMode.getNetForce().getMagnitude() < 100 && speedHistory.size() == 30 && !body.isUserControlled() && !model.isSplineUserControlled();
     }
 
     public void init( Body body ) {
@@ -418,8 +421,8 @@ public class FreeSplineMode extends ForceMode {
             body.setFreeFallRotationalVelocity( rot );
         }
         body.setFreeFallMode();
-        super.setNetForce( new Vector2D.Double( 0, 0 ) );
-        super.stepInTime( body, dt );
+        forceMode.setNetForce( new Vector2D.Double( 0, 0 ) );
+        forceMode.stepInTime( body, dt );
         new EnergyConserver().fixEnergy( body, origTotalEnergy );
     }
 
