@@ -68,7 +68,10 @@ public class SRRWavelengthSlider extends PNode {
         phetTextGraphic = new PText( "" );
 
         colorBackgroundNode.setOffset( 0, getTextOffsetY() );
-        spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );
+        double CYAN = image.getWidth() * 0.28;
+        double YELLOW = image.getWidth() / 2.0;
+        double defaultValue = CYAN;
+        spectrumSliderKnob.setOffset( defaultValue, image.getHeight() + getTextOffsetY() );
         addChild( phetTextGraphic );
         addChild( colorBackgroundNode );
         addChild( spectrumSliderKnob );
