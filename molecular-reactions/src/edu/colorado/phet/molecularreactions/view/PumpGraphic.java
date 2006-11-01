@@ -28,6 +28,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -183,6 +185,15 @@ public class PumpGraphic extends PNode implements Resetable {
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
+            JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+            iconA.addMouseListener( new MoleculeIconMouseAdapter( aRB ) );
+            JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
+            iconBC.addMouseListener( new MoleculeIconMouseAdapter( bcRB ) );
+            JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
+            iconAB.addMouseListener( new MoleculeIconMouseAdapter( abRB ) );
+            JLabel iconC = new JLabel( new MoleculeIcon( MoleculeC.class ) );
+            iconC.addMouseListener( new MoleculeIconMouseAdapter( cRB ) );
+
             setLayout( new GridBagLayout() );
             int rbAnchor = GridBagConstraints.CENTER;
             int iconAnchor = GridBagConstraints.CENTER;
@@ -200,10 +211,11 @@ public class PumpGraphic extends PNode implements Resetable {
             gbc.gridy = GridBagConstraints.RELATIVE;
             gbc.gridx = 1;
             gbc.anchor = iconAnchor;
-            add( new JLabel( new MoleculeIcon( MoleculeA.class ) ), gbc );
-            add( new JLabel( new MoleculeIcon( MoleculeBC.class ) ), gbc );
-            add( new JLabel( new MoleculeIcon( MoleculeAB.class ) ), gbc );
-            add( new JLabel( new MoleculeIcon( MoleculeC.class ) ), gbc );
+
+            add( iconA, gbc );
+            add( iconBC, gbc );
+            add( iconAB, gbc );
+            add( iconC, gbc );
 
             aRB.setSelected( true );
             currentMoleculeType = MoleculeA.class;
@@ -212,24 +224,41 @@ public class PumpGraphic extends PNode implements Resetable {
         private class MoleculeSelectorRBAction extends AbstractAction {
 
             public void actionPerformed( ActionEvent e ) {
-                if( aRB.isSelected() ) {
-                    currentMoleculeType = MoleculeA.class;
-                }
-                if( cRB.isSelected() ) {
-                    currentMoleculeType = MoleculeC.class;
-                }
-                if( abRB.isSelected() ) {
-                    currentMoleculeType = MoleculeAB.class;
-                }
-                if( bcRB.isSelected() ) {
-                    currentMoleculeType = MoleculeBC.class;
-                }
+                setMoleculeType();
+            }
+        }
+
+        private void setMoleculeType() {
+            if( aRB.isSelected() ) {
+                currentMoleculeType = MoleculeA.class;
+            }
+            if( cRB.isSelected() ) {
+                currentMoleculeType = MoleculeC.class;
+            }
+            if( abRB.isSelected() ) {
+                currentMoleculeType = MoleculeAB.class;
+            }
+            if( bcRB.isSelected() ) {
+                currentMoleculeType = MoleculeBC.class;
             }
         }
 
         public void reset() {
             aRB.setSelected( true );
             currentMoleculeType = MoleculeA.class;
+        }
+
+        private class MoleculeIconMouseAdapter extends MouseAdapter {
+            JToggleButton toggleBtn;
+
+            public MoleculeIconMouseAdapter( JToggleButton toggleBtn ) {
+                this.toggleBtn = toggleBtn;
+            }
+
+            public void mouseClicked( MouseEvent e ) {
+                toggleBtn.setSelected( true );
+                setMoleculeType();
+            }
         }
     }
 
