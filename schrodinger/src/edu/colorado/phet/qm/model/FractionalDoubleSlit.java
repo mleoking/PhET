@@ -44,7 +44,7 @@ public class FractionalDoubleSlit {
         QWIModel.getDoubleSlitPotential().setGridHeight( QWIModel.getGridHeight() );
         QWIModel.getDoubleSlitPotential().setHeight( round( height * QWIModel.getGridHeight() ) );
         QWIModel.getDoubleSlitPotential().setSlitSeparation( roundEven( slitSeparation * QWIModel.getGridWidth() ) );
-        QWIModel.getDoubleSlitPotential().setSlitSize( roundEven( this.slitSize * QWIModel.getGridWidth() ) );
+        QWIModel.getDoubleSlitPotential().setSlitWidth( roundEven( this.slitSize * QWIModel.getGridWidth() ) );
         QWIModel.getDoubleSlitPotential().setY( round( y * QWIModel.getGridHeight() ) );
     }
 
