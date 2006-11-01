@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -20,8 +21,8 @@ import java.util.Map;
 
 public class SingleParticleGunNode extends AbstractGunNode implements FireParticle {
     private PlainFireButton fireOne;
-    private GunParticle currentObject;
-    private GunParticle[] gunItems;
+    private GunParticle gunParticle;
+    private GunParticle[] gunParticles;
     private AutoFire autoFire;
 
     private PhotonBeamParticle photonBeamParticle;
@@ -39,7 +40,7 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
         this.gunControlPanel = createGunControlPanel();
 //        addChild( gunControlPanel.getPSwing() );
 
-        setGunParticle( gunItems[0] );
+        setGunParticle( gunParticles[0] );
 //        setOnGunControl( new PSwing( schrodingerPanel, fireOne ) );
         setOnGunControl( fireOne );
     }
@@ -59,8 +60,8 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     protected Point getGunLocation() {
-        if( currentObject != null ) {
-            return currentObject.getGunLocation();
+        if( gunParticle != null ) {
+            return gunParticle.getGunLocation();
         }
         else {
             return new Point();
@@ -78,31 +79,49 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     public void fireParticle() {
-        currentObject.fireParticle();
+        gunParticle.fireParticle();
         notifyFireListeners();
     }
 
-    public GunParticle getCurrentObject() {
-        return currentObject;
+    public GunParticle getGunParticle() {
+        return gunParticle;
     }
 
     public void addMomentumChangeListener( MomentumChangeListener momentumChangeListener ) {
-        for( int i = 0; i < gunItems.length; i++ ) {
-            gunItems[i].addMomentumChangeListerner( momentumChangeListener );
+        for( int i = 0; i < gunParticles.length; i++ ) {
+            gunParticles[i].addMomentumChangeListerner( momentumChangeListener );
         }
     }
 
     protected void setGunParticle( GunParticle particle ) {
-        if( particle != currentObject ) {
+        if( particle != gunParticle ) {
             getDiscreteModel().clearWavefunction();
-            if( currentObject != null ) {
-                currentObject.deactivate( this );
+            if( gunParticle != null ) {
+                gunParticle.deactivate( this );
             }
             particle.activate( this );
-            currentObject = particle;
+            gunParticle = particle;
         }
         updateGunLocation();
         getSchrodingerModule().beamTypeChanged();
+        notifyGunParticleTypeChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface SingleParticleGunNodeListener {
+        void gunParticleTypeChanged();
+    }
+
+    public void addSingleParticleGunNodeListener( SingleParticleGunNodeListener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyGunParticleTypeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            SingleParticleGunNodeListener listener = (SingleParticleGunNodeListener)listeners.get( i );
+            listener.gunParticleTypeChanged();
+        }
     }
 
     protected ImagePComboBox initComboBox() {
@@ -110,19 +129,19 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
         photonBeamParticle = new PhotonBeamParticle( this, QWIStrings.getString( "photons" ), photonBeam );
 
-        gunItems = new GunParticle[]{
+        gunParticles = new GunParticle[]{
                 photonBeamParticle,
                 DefaultGunParticle.createElectron( this ),
                 DefaultGunParticle.createNeutron( this ),
                 DefaultGunParticle.createHelium( this ),
         };
 
-        final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
+        final ImagePComboBox imageComboBox = new ImagePComboBox( gunParticles );
 //        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();
-                setGunParticle( gunItems[index] );
+                setGunParticle( gunParticles[index] );
             }
         } );
         return imageComboBox;
@@ -132,8 +151,8 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
         gunControlPanel.setGunControls( gunControls );
     }
 
-    public GunParticle[] getGunItems() {
-        return gunItems;
+    public GunParticle[] getGunParticles() {
+        return gunParticles;
     }
 
     public void reset() {
@@ -143,7 +162,7 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
 
     public Map getModelParameters() {
         Map sup = super.getModelParameters();
-        sup.putAll( currentObject.getModelParameters() );
+        sup.putAll( gunParticle.getModelParameters() );
         return sup;
     }
 
@@ -152,10 +171,10 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     public boolean isPhotonMode() {
-        return currentObject instanceof PhotonBeamParticle;
+        return gunParticle instanceof PhotonBeamParticle;
     }
 
     public boolean isFiring() {
-        return currentObject.isFiring();
+        return gunParticle.isFiring();
     }
 }

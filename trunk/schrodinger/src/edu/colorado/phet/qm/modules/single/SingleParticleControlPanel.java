@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.phetcommon.LabeledTextField;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -97,14 +96,15 @@ public class SingleParticleControlPanel extends QWIControlPanel {
 //        } );
 //        addControl( rapid );
 //        final LabeledTextField labeledTextField = new LabeledTextField( "M.P.D.", singleParticleModule.getIntensityManager().getMinimumProbabilityForDetection() );
-        final LabeledTextField labeledTextField = new LabeledTextField( "<html>Minimum<br>probability<br>for<br>detection</html>", singleParticleModule.getIntensityManager().getMinimumProbabilityForDetection() );
-        labeledTextField.setBorder( BorderFactory.createLineBorder( Color.blue ) );
-        labeledTextField.addListener( new LabeledTextField.Listener() {
-            public void valueChanged() {
-                singleParticleModule.getIntensityManager().setMinimumProbabilityForDetection( labeledTextField.getValue() );
-            }
-        } );
-        addControl( labeledTextField );
+
+//        final LabeledTextField labeledTextField = new LabeledTextField( "<html>Minimum<br>probability<br>for<br>detection</html>", singleParticleModule.getIntensityManager().getMinimumProbabilityForDetection() );
+//        labeledTextField.setBorder( BorderFactory.createLineBorder( Color.blue ) );
+//        labeledTextField.addListener( new LabeledTextField.Listener() {
+//            public void valueChanged() {
+//                singleParticleModule.getIntensityManager().setMinimumProbabilityForDetection( labeledTextField.getValue() );
+//            }
+//        } );
+//        addControl( labeledTextField );
 
         addControl( new FadeRateControl( singleParticleModule ) );
 

@@ -140,6 +140,10 @@ public class PhotonBeamParticle extends GunParticle {
         return containsModelElement( rampUp ) || containsModelElement( rampDown ) || containsModelElement( pauser );
     }
 
+    public double getMinimumProbabilityForDetection() {
+        return 0.05;
+    }
+
     private boolean containsModelElement( ModelElement element ) {
         return getSchrodingerModule().getModel().containsModelElement( element );
     }
