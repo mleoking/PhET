@@ -53,8 +53,8 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
         values[0] = new PieValue( 0, MoleculePaints.getPaint( MoleculeA.class ) );
         values[1] = new PieValue( 0, MoleculePaints.getPaint( MoleculeBC.class ) );
-        values[2] = new PieValue( 0, MoleculePaints.getPaint( MoleculeAB.class ) );
-        values[3] = new PieValue( 0, MoleculePaints.getPaint( MoleculeC.class ) );
+        values[2] = new PieValue( 0, MoleculePaints.getPaint( MoleculeC.class ) );
+        values[3] = new PieValue( 0, MoleculePaints.getPaint( MoleculeAB.class ) );
         setPieValues( values );
 
         // Create counters for each of the molecule types
@@ -69,8 +69,8 @@ public class MoleculePopulationsPieChart extends PieChartNode {
     private void update() {
         values[0].setValue( counterA.getCnt() );
         values[1].setValue( counterBC.getCnt() );
-        values[2].setValue( counterAB.getCnt() );
-        values[3].setValue( counterC.getCnt() );
+        values[2].setValue( counterC.getCnt() );
+        values[3].setValue( counterAB.getCnt() );
         int numMolecules = counterA.getCnt() + counterBC.getCnt() + counterAB.getCnt() + counterC.getCnt();
         double diam = Math.max( 4, Math.min( getBounds().getHeight() - insets.top - insets.bottom,
                                              numMolecules * MRConfig.PIE_CHART_DIAM_FACTOR ) );

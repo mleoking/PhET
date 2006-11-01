@@ -69,10 +69,10 @@ public class MoleculePopulationsStripChart extends StripChart {
         setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class ) );
 
         // Hook up to the clock
-        clock.addClockListener( new StripChartUpdater() );
+        clock.addClockListener( new Updater() );
     }
 
-    private class StripChartUpdater extends ClockAdapter {
+    private class Updater extends ClockAdapter {
 
         public void clockTicked( ClockEvent clockEvent ) {
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();

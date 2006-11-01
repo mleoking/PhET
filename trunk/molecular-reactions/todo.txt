@@ -1,9 +1,7 @@
 - Makethings resizable
 - "Rescale" button on the strip chart
-- Strip chart dialog should not be resizable
 - Make vertical axis for bar chart "number"
 - Add title to pic chart
-- Change order of pie slices
 - Phet logo should be centered over the control panel
 - When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
     is still highlighted
@@ -153,3 +151,5 @@ Done
 10-30-06 - With just a few molecules, added heat. Then reset. Exception thrown on reset. Problem was
     I was trying to remove graphics that were null from the energy view.
 10-30-06 - Temperature control doesn't work after reset.
+11-01-06 - Strip chart dialog should not be resizable
+11-01-06 - Change order of pie slices
