@@ -2,6 +2,8 @@
 Changed default probability threshold for single photon detection to 0.05, and 0.00 for single matter particle detection.
                 Removed the "probability threshold" developer control.
 Set the default wavelengths to cyan.
+Disabled fade for particle module as default.
+Restored fade delay for high-intensity mode to original value.
 
 1.02.06 (10-31-2006)
 Added brightness control to Single Particle Mode.
