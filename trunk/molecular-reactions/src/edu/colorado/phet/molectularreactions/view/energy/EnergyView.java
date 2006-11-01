@@ -92,6 +92,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private TotalEnergyLine totalEnergyLine;
     private PPath upperPane;
     private PPath moleculePane;
+    private EnergyProfileGraphic energyProfileGraphic;
 
     /**
      *
@@ -216,9 +217,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         // Create the curve
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
-        EnergyProfileGraphic energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
-                                                                              curveAreaSize,
-                                                                              curveColor );
+        energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
+                                                         curveAreaSize,
+                                                         curveColor );
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
@@ -286,7 +287,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * Updates the positions of the graphics
      */
     public void update() {
-        if( selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
+        if( selectedMolecule != null && selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
 
             // Which side of the profile the molecules show up on depends on their type
 
@@ -430,6 +431,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane.setVisible( hide );
     }
 
+    public void setProfileManipulable( boolean manipulable ) {
+        energyProfileGraphic.setManipulable( manipulable );    
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------
@@ -445,7 +450,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
 
             selectedMolecule = newTrackedMolecule;
-            if( selectedMoleculeGraphic != null ) {
+            if( selectedMoleculeGraphic != null
+                && moleculeLayer.getChildrenReference().contains( selectedMoleculeGraphic )) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
             }
 

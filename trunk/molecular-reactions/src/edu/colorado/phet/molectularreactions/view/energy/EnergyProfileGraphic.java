@@ -46,9 +46,10 @@ class EnergyProfileGraphic extends PNode {
     double peakGrabTolerance = 10;
     private EnergyProfile energyProfile;
     private Dimension size;
+    private boolean manipulable = true;
 
     /**
-     * @param size size of the area in which the curve is to be drawn
+     * @param size  size of the area in which the curve is to be drawn
      * @param color
      */
     EnergyProfileGraphic( EnergyProfile energyProfile, Dimension size, Color color ) {
@@ -111,6 +112,10 @@ class EnergyProfileGraphic extends PNode {
         centralCurve.setPathTo( centralPath.getGeneralPath() );
     }
 
+    public void setManipulable( boolean manipulable ) {
+        this.manipulable = manipulable;
+    }
+
     /**
      * Handles mousing on the left and right floors. Each floor gets
      * an instance
@@ -123,8 +128,10 @@ class EnergyProfileGraphic extends PNode {
         }
 
         public void mouseEntered( PInputEvent event ) {
-            PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
-            ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
+            if( manipulable ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
+            }
         }
 
         public void mouseExited( PInputEvent event ) {
@@ -133,13 +140,16 @@ class EnergyProfileGraphic extends PNode {
         }
 
         public void mouseDragged( PInputEvent event ) {
-            double dy = event.getDelta().getHeight();
-            double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
-            if( eventX <= x1 ) {
-                energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy / modelToViewScale );
-            }
-            else if( eventX >= x3 ) {
-                energyProfile.setRightLevel(energyProfile.getRightLevel() - dy / modelToViewScale );
+            double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
+            if( eventY >= 0 && eventY <= size.height && manipulable ) {
+                double dy = event.getDelta().getHeight();
+                double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
+                if( eventX <= x1 ) {
+                    energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy / modelToViewScale );
+                }
+                else if( eventX >= x3 ) {
+                    energyProfile.setRightLevel( energyProfile.getRightLevel() - dy / modelToViewScale );
+                }
             }
         }
     }
@@ -166,7 +176,7 @@ class EnergyProfileGraphic extends PNode {
 
         public void mouseEntered( PInputEvent event ) {
             double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
-            if( eventX >= xMin && eventX <= xMax ) {
+            if( eventX >= xMin && eventX <= xMax && manipulable ) {
                 PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
                 ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
             }
@@ -178,13 +188,16 @@ class EnergyProfileGraphic extends PNode {
         }
 
         public void mouseDragged( PInputEvent event ) {
-            double dy = event.getDelta().getHeight();
-            energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy / modelToViewScale );
+            double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
+            if( eventY >= 0 && eventY <= size.height && manipulable ) {
+                double dy = event.getDelta().getHeight();
+                energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy / modelToViewScale );
+            }
         }
     }
 
     /**
-     * Hanldes changes in the model 
+     * Hanldes changes in the model
      */
     private class EnergyProfileChangeListener implements ChangeListener {
         public void stateChanged( ChangeEvent e ) {

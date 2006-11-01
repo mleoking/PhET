@@ -170,6 +170,11 @@ public class SelectedMoleculeTracker implements ModelElement,
         if( molecule.getSelectionStatus() == Selectable.SELECTED ) {
             setMoleculeTracked( molecule );
         }
+
+        if( getMoleculeTracked() == molecule && molecule.getSelectionStatus() != Selectable.SELECTED ) {
+            setMoleculeTracked( null );
+            closestMolecule = null;
+        }
     }
 
     public void compositeStateChanged( AbstractMolecule molecule ) {

@@ -204,6 +204,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
             module.setPieChartVisible( showPieChartBtn.isSelected() );
             selectMoleculeBtn.setVisible( trackMoleculeBtn.isSelected() );
             module.getEnergyView().hideSelectedMolecule( !trackMoleculeBtn.isSelected() );
+            if( showNoneBtn.isSelected() ) {
+                module.getMRModel().getMoleculeBeingTracked().setSelectionStatus( Selectable.NOT_SELECTED );
+            }
         }
 
         public void reset() {
