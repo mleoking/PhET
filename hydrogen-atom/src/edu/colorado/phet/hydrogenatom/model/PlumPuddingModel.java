@@ -27,12 +27,13 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_ELECTRON_POSITION = "electronPosition";
+    public static final double PHOTON_EMISSION_PROBABILITY = 0.1;
     
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     
-    /* default size of the atom */
+    /* default size of the atom, tweaked to match image size of PlumPuddingNode */
     private static final Dimension DEFAULT_SIZE = new Dimension( 225, 125 );
     
     /* maximum number of photons that can be absorbed */
@@ -46,7 +47,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final double MAX_DEFLECTION_ANGLE = Math.toRadians( 5 );
     
     /* number of discrete steps in the electron line */
-    private static final int ELECTRON_LINE_SEGMENTS = 10;
+    private static final int ELECTRON_LINE_SEGMENTS = 20;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -58,6 +59,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private Point2D _electronOffset; // relative to atom's center
     private Line2D _electronLine; // line on which the electron ocsillates
     private double _electronLineLength; // distance between end points of _electronLine
+    private double _electronDistanceDelta; // change in distance when amplitude is 1.0
     private boolean _electronDirectionPositive; // determines the electron's direction
     
     //----------------------------------------------------------------------------
@@ -75,6 +77,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         _electronOffset = new Point2D.Double( 0, 0 );
         _electronLine = new Line2D.Double( -size.getWidth()/2, 0, size.getWidth()/2, 0 );//XXX randomize
         _electronLineLength = _electronLine.getP1().distance( _electronLine.getP2() );
+        _electronDistanceDelta = _electronLineLength / ELECTRON_LINE_SEGMENTS;
         _electronDirectionPositive = true;
         updateShape();
     }
@@ -111,7 +114,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private void updateShape() {
         double w = _size.getWidth();
         double h = _size.getHeight();
-        _shape = new Rectangle2D.Double( -w/2, -h/2, w, h );
+        _shape = new Rectangle2D.Double( getX() - ( w / 2 ), getY() - ( h / 2 ), w, h );
     }
     
     //----------------------------------------------------------------------------
@@ -119,19 +122,17 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     private void absorbPhoton( Photon photon ) {
-        System.out.println( "PlumPuddingModel.absorbPhoton" );//XXX
         _numberOfPhotonsAbsorbed += 1;
         PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
         firePhotonAbsorbedEvent( event );
     }
     
     private void emitPhoton() {
-        System.out.println( "PlumPuddingModel.emitPhoton" );//XXX
         if ( _numberOfPhotonsAbsorbed > 0 ) {
             _numberOfPhotonsAbsorbed -= 1;
             Point2D position = getPositionRef(); //XXX
             double orientation = RandomUtils.nextDouble( 0, 2 * Math.PI );
-            Photon photon = new Photon( position, orientation, PHOTON_EMISSION_WAVELENGTH );
+            Photon photon = new Photon( position, orientation, PHOTON_EMISSION_WAVELENGTH, true );
             PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
             firePhotonEmittedEvent( event );
         }
@@ -148,7 +149,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * @param photon
      */
     public void detectCollision( Photon photon ) {
-        if ( _numberOfPhotonsAbsorbed < MAX_PHOTONS_ABSORBED ) {
+        if ( _numberOfPhotonsAbsorbed < MAX_PHOTONS_ABSORBED && !photon.wasEmitted() ) {
             Point2D position = photon.getPosition();
             if ( _shape.contains( position ) ) {
                 absorbPhoton( photon );
@@ -184,27 +185,33 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         if ( _numberOfPhotonsAbsorbed > 0 ) {
             
             // Move the electron
-            final double distanceDelta = dt * ( ( _electronLineLength * getAmplitude() / ELECTRON_LINE_SEGMENTS ) );
-            final double sign = getElectronDirectionSign();
-            double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
-            double y = 0;//XXX assumes a horizontal line
-            //XXX bounds must be adjusted based on amplitude!
-            if ( x < _electronLine.getX1() || y < _electronLine.getY1() ) {
-                x = _electronLine.getX1();
-                y = _electronLine.getY1();
-                _electronDirectionPositive = !_electronDirectionPositive;
+            {
+                final double a = getAmplitude();
+                
+                // Where to move it to
+                final double distanceDelta = dt * ( ( a * _electronDistanceDelta ) );
+                final double sign = getElectronDirectionSign();
+                double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
+                double y = 0;//XXX assumes a horizontal line
+
+                // Is the new location past the ends of the oscillation line?
+                if ( x < a * _electronLine.getX1() || y < a * _electronLine.getY1() ) {
+                    x = a * _electronLine.getX1();
+                    y = a * _electronLine.getY1();
+                    _electronDirectionPositive = !_electronDirectionPositive;
+                }
+                else if ( x > a * _electronLine.getX2() || y > a * _electronLine.getY2() ) {
+                    x = a * _electronLine.getX2();
+                    y = a * _electronLine.getY2();
+                    _electronDirectionPositive = !_electronDirectionPositive;
+                }
+                
+                _electronOffset.setLocation( x, y );
+                notifyObservers( PROPERTY_ELECTRON_POSITION );
             }
-            else if ( x > _electronLine.getX2() || y > _electronLine.getY2() ) {
-                x = _electronLine.getX2();
-                y = _electronLine.getY2();
-                _electronDirectionPositive = !_electronDirectionPositive;
-            }
-            _electronOffset.setLocation( x, y );
-            notifyObservers( PROPERTY_ELECTRON_POSITION );
            
             // Randomly emit a photon
-            boolean emit = ( Math.random() < 0.1 );
-            if ( emit ) {
+            if ( Math.random() < PHOTON_EMISSION_PROBABILITY ) {
                 emitPhoton();
             }
         }
