@@ -43,7 +43,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private PauseIndicator pauseIndicator;
     private Legend legend;
     private BackgroundNode screenBackground;
-    private SplineToolbox2 splineToolbox;
+    private SplineToolbox splineToolbox;
 //    private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
@@ -60,7 +60,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        toolboxPlaceholder = new PNode();
 
 //        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
-        splineToolbox = new SplineToolbox2( ec3Canvas, this );
+        splineToolbox = new SplineToolbox( ec3Canvas, this );
 
         double coordScale = 1.0 / 1.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?

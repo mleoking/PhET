@@ -1,113 +1,128 @@
-///* Copyright 2004, Sam Reid */
-//package edu.colorado.phet.ec3;
-//
-//import edu.colorado.phet.ec3.model.spline.AbstractSpline;
-//import edu.colorado.phet.ec3.model.spline.CubicSpline;
-//import edu.colorado.phet.ec3.model.spline.SplineSurface;
-//import edu.colorado.phet.ec3.view.SplineGraphic;
-//import edu.umd.cs.piccolo.PNode;
-//import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-//import edu.umd.cs.piccolo.event.PInputEvent;
-//import edu.umd.cs.piccolo.nodes.PPath;
-//import edu.umd.cs.piccolo.nodes.PText;
-//import edu.umd.cs.piccolo.util.PBounds;
-//import edu.umd.cs.piccolo.util.PDimension;
-//
-//import java.awt.*;
-//import java.awt.event.ComponentAdapter;
-//import java.awt.event.ComponentEvent;
-//import java.awt.geom.AffineTransform;
-//import java.awt.geom.Dimension2D;
-//import java.awt.geom.Rectangle2D;
-//
-///**
-// * User: Sam Reid
-// * Date: Sep 30, 2005
-// * Time: 12:03:00 AM
-// * Copyright (c) Sep 30, 2005 by Sam Reid
-// */
-//
-//public class SplineToolbox extends PNode {
-//    private EnergySkateParkSimulationPanel ec3Canvas;
-//    private PText textGraphic;
-//    private EnergySkateParkRootNode ec3RootNode;
-//    private SplineGraphic currentIcon;
-//
-//    public SplineToolbox( final EnergySkateParkSimulationPanel ec3Canvas, EnergySkateParkRootNode ec3RootNode ) {
-//        this.ec3RootNode = ec3RootNode;
-//        this.ec3Canvas = ec3Canvas;
-//        SplineGraphic splineGraphic = createSplineGraphic();
-//
-//        currentIcon = splineGraphic;
-//
-//        PPath boundGraphic = new PPath( new Rectangle( 200, 60 ) );
-//        boundGraphic.setStroke( new BasicStroke( 2 ) );
-//        boundGraphic.setStrokePaint( Color.blue );
-//        boundGraphic.setPaint( Color.yellow );
-//        addChild( boundGraphic );
-//        textGraphic = new PText( EnergySkateParkStrings.getString( "drag.to.add.track" ) );
-//        textGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-//        textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
-//        addChild( textGraphic );
-//        addToRoot( splineGraphic );
-//
-//        ec3Canvas.addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                centerTheNode();
-//            }
-//        } );
-//        centerTheNode();
-//    }
-//
-//    public void centerTheNode() {
-//        currentIcon.setTransform( new AffineTransform() );
-//        currentIcon.setSplineSurface( createSplineSurface() );
-//
-//        PBounds globalIconBounds = currentIcon.getGlobalFullBounds();
-//        Rectangle2D globalMyBounds = getGlobalFullBounds();
-//        Dimension2D globalDX = new PDimension( globalMyBounds.getX() - globalIconBounds.x + 20, globalMyBounds.getY() - globalIconBounds.y + 30 );
-//        currentIcon.globalToLocal( globalDX );
-//
-//        currentIcon.getSplineSurface().translate( globalDX.getWidth() / 2, globalDX.getHeight() / 2 );
-//        currentIcon.updateAll();
-//    }
-//
-////    private void addToRoot( SplineGraphic splineGraphic ) {
-////        ec3RootNode.getToolboxPlaceholder().addChild( splineGraphic );
-////    }
-////
-////    private void removeFromRoot( SplineGraphic splineGraphic ) {
-////        ec3RootNode.getToolboxPlaceholder().removeChild( splineGraphic );
-////    }
-//
-//    private SplineGraphic createSplineGraphic() {
-//        SplineSurface surface = createSplineSurface();
-//
-//        final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, surface );
-//        splineGraphic.setControlPointsPickable( false );
-//        splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
-//            public void mouseDragged( PInputEvent event ) {
-//                splineGraphic.removeInputEventListener( this );
-//                removeFromRoot( splineGraphic );
-//
-//                ec3Canvas.getEnergyConservationModel().addSplineSurface( splineGraphic.getSplineSurface() );
-//                ec3Canvas.addSplineGraphic( splineGraphic );
-//                splineGraphic.setControlPointsPickable( true );
-//
-//                SplineGraphic newSplineGraphic = createSplineGraphic();
-//                addToRoot( newSplineGraphic );
-//                currentIcon = newSplineGraphic;
-//                centerTheNode();
-//            }
-//        } );
-//        return splineGraphic;
-//    }
-//
-//    private SplineSurface createSplineSurface() {
-//        AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
-//        spline.addControlPoint( 0, 0 );
-//        spline.addControlPoint( 1, 0 );
-//        spline.addControlPoint( 2.0, 0 );
-//        return new SplineSurface( spline );
-//    }
-//}
+package edu.colorado.phet.ec3;
+
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
+import edu.colorado.phet.ec3.view.SplineGraphic;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
+
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+
+/**
+ * User: Sam Reid
+ * Date: Sep 30, 2005
+ * Time: 12:03:00 AM
+ * Copyright (c) Sep 30, 2005 by Sam Reid
+ */
+
+public class SplineToolbox extends PNode {
+    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
+    private PText textGraphic;
+    private EnergySkateParkRootNode energySkateParkRootNode;
+    private PNode draggableIcon;
+    private PPath boundGraphic;
+    private boolean created = false;
+    private SplineSurface createdSurface;
+
+    public SplineToolbox( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkRootNode energySkateParkRootNode ) {
+        this.energySkateParkRootNode = energySkateParkRootNode;
+        this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
+        this.draggableIcon = new PNodeFacade( createSplineGraphic() );
+        draggableIcon.addInputEventListener( new CursorHandler() );
+        draggableIcon.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                if( !created ) {
+                    create( event );
+                    created = true;
+                }
+                else {
+                    drag( event );
+                }
+            }
+
+            private void drag( PInputEvent event ) {
+                energySkateParkSimulationPanel.dragSplineSurface( event, createdSurface );
+            }
+
+            private void create( PInputEvent event ) {
+                Point2D pt = new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
+                energySkateParkSimulationPanel.getRootNode().screenToWorld( pt );
+                AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
+                spline.addControlPoint( pt.getX() - 1, pt.getY() );
+                spline.addControlPoint( pt.getX(), pt.getY() );
+                spline.addControlPoint( pt.getX() + 1, pt.getY() );
+
+                createdSurface = new SplineSurface( spline );
+                energySkateParkSimulationPanel.getEnergyConservationModel().addSplineSurface( createdSurface );
+                energySkateParkSimulationPanel.redrawAllGraphics();
+                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalDropEvent();
+                created = false;
+            }
+        } );
+
+        boundGraphic = new PPath( new Rectangle( 200, 60 ) );
+        boundGraphic.setStroke( new BasicStroke( 2 ) );
+        boundGraphic.setStrokePaint( Color.blue );
+        boundGraphic.setPaint( Color.yellow );
+        addChild( boundGraphic );
+        textGraphic = new PText( EnergySkateParkStrings.getString( "drag.to.add.track" ) );
+        textGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
+        addChild( textGraphic );
+        addChild( this.draggableIcon );
+
+        energySkateParkSimulationPanel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                centerTheNode();
+            }
+        } );
+        centerTheNode();
+    }
+
+    public void centerTheNode() {
+        draggableIcon.setScale( 60 );
+        draggableIcon.setOffset( boundGraphic.getFullBounds().getWidth() / 2 - draggableIcon.getFullBounds().getWidth() / 2, boundGraphic.getFullBounds().getHeight() / 2 );
+    }
+
+    private SplineGraphic createSplineGraphic() {
+        SplineSurface surface = createSplineSurface();
+
+        final SplineGraphic splineGraphic = new SplineGraphic( energySkateParkSimulationPanel, surface );
+        splineGraphic.setControlPointsPickable( false );
+        splineGraphic.updateAll();
+        return splineGraphic;
+    }
+
+    public static class PNodeFacade extends PNode {
+        public PNodeFacade( PNode target ) {
+            addChild( target );
+            target.setPickable( false );
+            target.setChildrenPickable( false );
+            PBounds bounds = target.getFullBounds();
+            addChild( new PhetPPath( bounds, new Color( 0, 0, 0, 0 ) ) );
+        }
+    }
+
+    private SplineSurface createSplineSurface() {
+        AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
+        spline.addControlPoint( 0, 0 );
+        spline.addControlPoint( 1, 0 );
+        spline.addControlPoint( 2.0, 0 );
+
+        return new SplineSurface( spline );
+    }
+}
