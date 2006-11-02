@@ -217,6 +217,17 @@ public class SplineMode implements UpdateMode {
 
         public void interactWithSplines( Body body ) {
             body.convertToSpline();
+            AbstractSpline grabSpline = getGrabSpline( body );
+            if( grabSpline != null ) {
+                body.setSplineMode( energyConservationModel, grabSpline );
+            }
+            else {
+                tryCollision( body );
+                body.convertToFreefall();
+            }
+        }
+
+        private AbstractSpline getGrabSpline( Body body ) {
             double bestScore = Double.POSITIVE_INFINITY;
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
@@ -227,17 +238,54 @@ public class SplineMode implements UpdateMode {
                     bestSpline = (AbstractSpline)allSplines.get( i );
                 }
             }
-            if( bestSpline != null ) {
-                body.setSplineMode( energyConservationModel, bestSpline );
-            }
-            else {
-                tryCollision( body );
-                body.convertToFreefall();
-            }
+            return bestSpline;
         }
 
         private void tryCollision( Body body ) {
             body.convertToSpline();
+            AbstractSpline collisionSpline = getCollisionSpline( body );
+            if( collisionSpline != null ) {
+                doCollision( collisionSpline, body );
+            }
+            else {
+                body.convertToFreefall();
+            }
+        }
+
+        private void doCollision( AbstractSpline collisionSpline, Body body ) {
+            Area area = new Area( collisionSpline.getArea() );//todo: remove this duplicate computation
+            //todo: add restitution
+            area.intersect( new Area( body.getShape() ) );
+            Rectangle2D r = area.getBounds2D();
+            double x = collisionSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, collisionSpline.getLength(), 100 );
+            if( !feetAreClose( body, x, collisionSpline ) ) {
+                double epsilon = 0.05;
+                if( ( x <= epsilon || x >= collisionSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, collisionSpline, x ) )
+                {
+                    System.out.println( "Collision with end." );
+                    body.setVelocity( body.getVelocity().getScaledInstance( -1 ) );
+                    double angle = body.getVelocity().getAngle();
+                    double maxDTheta = Math.PI / 16;
+                    double dTheta = ( Math.random() * 2 - 1 ) * maxDTheta;
+                    body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), angle + dTheta ) );
+                    body.setAngularVelocity( dTheta * 10 );
+                    body.convertToFreefall();
+                }
+                else {//( !feetAreClose( body, x, bestSpline ) ) {
+                    double parallelPart = collisionSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
+                    double perpPart = collisionSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
+                    Vector2D.Double newVelocity = new Vector2D.Double();
+                    newVelocity.add( collisionSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
+                    newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
+                    body.setVelocity( newVelocity );
+                    body.convertToFreefall();
+                    body.setAngularVelocity( parallelPart / 2 );
+                    //                    System.out.println( "Collision, feet far@,x = "+x );
+                }
+            }
+        }
+
+        private AbstractSpline getCollisionSpline( Body body ) {
             double bestScore = Double.POSITIVE_INFINITY;
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
@@ -248,41 +296,7 @@ public class SplineMode implements UpdateMode {
                     bestSpline = (AbstractSpline)allSplines.get( i );
                 }
             }
-            if( bestSpline != null ) {
-                Area area = new Area( bestSpline.getArea() );//todo: remove this duplicate computation
-                //todo: add restitution
-                area.intersect( new Area( body.getShape() ) );
-                Rectangle2D r = area.getBounds2D();
-                double x = bestSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, bestSpline.getLength(), 100 );
-                if( !feetAreClose( body, x, bestSpline ) ) {
-                    double epsilon = 0.05;
-                    if( ( x <= epsilon || x >= bestSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, bestSpline, x ) )
-                    {
-                        System.out.println( "Collision with end." );
-                        body.setVelocity( body.getVelocity().getScaledInstance( -1 ) );
-                        double angle = body.getVelocity().getAngle();
-                        double maxDTheta = Math.PI / 16;
-                        double dTheta = ( Math.random() * 2 - 1 ) * maxDTheta;
-                        body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), angle + dTheta ) );
-                        body.setAngularVelocity( dTheta * 10 );
-                        body.convertToFreefall();
-                    }
-                    else {//( !feetAreClose( body, x, bestSpline ) ) {
-                        double parallelPart = bestSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
-                        double perpPart = bestSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
-                        Vector2D.Double newVelocity = new Vector2D.Double();
-                        newVelocity.add( bestSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
-                        newVelocity.add( bestSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
-                        body.setVelocity( newVelocity );
-                        body.convertToFreefall();
-                        body.setAngularVelocity( parallelPart / 2 );
-//                    System.out.println( "Collision, feet far@,x = "+x );
-                    }
-                }
-            }
-            else {
-                body.convertToFreefall();
-            }
+            return bestSpline;
         }
 
         private boolean isBodyMovingTowardSpline( Body body, AbstractSpline bestSpline, double x ) {
