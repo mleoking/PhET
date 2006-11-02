@@ -314,7 +314,7 @@ public class SplineMode implements UpdateMode {
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
-            if( dist < 0.5 && !justLeft( body, splineSurface ) ) {
+            if( dist < 0.5 && !justLeft( body, splineSurface ) && movingTowards( splineSurface, body, x, pt ) ) {
                 return dist;
             }
             else {
@@ -322,8 +322,20 @@ public class SplineMode implements UpdateMode {
             }
         }
 
+        private boolean movingTowards( AbstractSpline splineSurface, Body body, double x, Point2D pt ) {
+            Point2D cm = body.getCenterOfMass();
+            Vector2D.Double cmToPoint = new Vector2D.Double( cm, pt );
+            double dot = cmToPoint.dot( body.getVelocity() );
+            if( dot >= 0 ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
         private boolean justLeft( Body body, AbstractSpline splineSurface ) {
-            return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 1000;
+            return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 500;
         }
 
     }
