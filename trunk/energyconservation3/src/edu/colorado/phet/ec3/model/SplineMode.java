@@ -297,12 +297,6 @@ public class SplineMode implements UpdateMode {
             return v < -1;
         }
 
-//        private boolean centerOfMassTooClose( AbstractSpline spline, Body body, double x ) {
-//            double v = body.getCenterOfMass().distance( spline.evaluateAnalytical( x ) );
-//            System.out.println( "v = " + v );
-//            return v < 0.5;
-//        }
-
         private boolean feetAreClose( Body body, double x, AbstractSpline bestSpline ) {
             return bestSpline.evaluateAnalytical( x ).distance( body.getAttachPoint() ) < bestSpline.evaluateAnalytical( x ).distance( body.getCenterOfMass() );
         }
@@ -328,14 +322,6 @@ public class SplineMode implements UpdateMode {
         private boolean justLeft( Body body, AbstractSpline splineSurface ) {
             return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 1000;
         }
-
-//        private boolean correctSide( Body body, double x, Point2D splineAttachPoint, AbstractSpline abstractSpline ) {
-//            return true;
-////            Point2D cm = body.getCenterOfMass();
-////            Vector2D.Double cmVector = new Vector2D.Double( splineAttachPoint, cm );
-////            Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), cm );
-////            return cmVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( abstractSpline.getUnitNormalVector( x ) ) > 0;
-//        }
 
     }
 }
