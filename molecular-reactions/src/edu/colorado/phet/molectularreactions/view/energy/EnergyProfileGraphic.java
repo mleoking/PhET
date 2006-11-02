@@ -139,16 +139,26 @@ class EnergyProfileGraphic extends PNode {
             ppc.setCursor( Cursor.getDefaultCursor() );
         }
 
+        /**
+         * Set the level in the model.
+         * @param event
+         */
         public void mouseDragged( PInputEvent event ) {
             double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
             if( eventY >= 0 && eventY <= size.height && manipulable ) {
                 double dy = event.getDelta().getHeight();
                 double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
                 if( eventX <= x1 ) {
-                    energyProfile.setLeftLevel( energyProfile.getLeftLevel() - dy / modelToViewScale );
+                    double level = Math.min( size.height/ modelToViewScale,
+                                             Math.max( 0,
+                                                       energyProfile.getLeftLevel() - dy / modelToViewScale ) );
+                    energyProfile.setLeftLevel( level );
                 }
                 else if( eventX >= x3 ) {
-                    energyProfile.setRightLevel( energyProfile.getRightLevel() - dy / modelToViewScale );
+                    double level = Math.min( size.height / modelToViewScale,
+                                             Math.max( 0,
+                                                       energyProfile.getRightLevel() - dy / modelToViewScale ) );
+                    energyProfile.setRightLevel( level );
                 }
             }
         }
@@ -191,7 +201,10 @@ class EnergyProfileGraphic extends PNode {
             double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
             if( eventY >= 0 && eventY <= size.height && manipulable ) {
                 double dy = event.getDelta().getHeight();
-                energyProfile.setPeakLevel( energyProfile.getPeakLevel() - dy / modelToViewScale );
+                double level = Math.min( size.height/ modelToViewScale,
+                                         Math.max( 0,
+                                                   energyProfile.getPeakLevel() - dy / modelToViewScale ) );
+                energyProfile.setPeakLevel( level );
             }
         }
     }

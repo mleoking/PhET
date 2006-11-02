@@ -12,7 +12,6 @@
 - When user selects "Track molecule" radio button, prompt dialog will appear right away.
 - Option to show bonds of selected molecule only
 - Improve visibility of selected molecule
-- C molecule in reaction legend isn't lined up vertically
 - Ability to select B for tracking
 - Reset & Reset All for Simple module
 - Losing B molecule in tracker
