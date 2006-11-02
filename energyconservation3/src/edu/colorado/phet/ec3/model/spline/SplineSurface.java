@@ -9,46 +9,39 @@ package edu.colorado.phet.ec3.model.spline;
  */
 
 public class SplineSurface {
-    private AbstractSpline top;
-//    private AbstractSpline bottom;
+    private AbstractSpline spline;
     private boolean interactive = true;
 
     public SplineSurface( AbstractSpline top ) {
-        this.top = top;
-//        this.bottom = top.createReverseSpline();
+        this.spline = top;
     }
 
     public SplineSurface copy() {
-        return new SplineSurface( top.copySpline() );
+        return new SplineSurface( spline.copySpline() );
     }
 
     public boolean isUserControlled() {
-        return top.isUserControlled();// || bottom.isUserControlled();
+        return spline.isUserControlled();
     }
 
-    public AbstractSpline getTop() {
-        return top;
+    public AbstractSpline getSpline() {
+        return spline;
     }
-
-//    public AbstractSpline getBottom() {
-//        return bottom;
-//    }
 
     public void printControlPointCode() {
-        top.printControlPointCode();
+        spline.printControlPointCode();
     }
 
     public double getLength() {
-        return top.getSegmentPath().getLength();
+        return spline.getSegmentPath().getLength();
     }
 
     public boolean equals( Object obj ) {
-        return obj instanceof SplineSurface && ( (SplineSurface)obj ).getTop().equals( getTop() );
+        return obj instanceof SplineSurface && ( (SplineSurface)obj ).getSpline().equals( getSpline() );
     }
 
     public void translate( double x, double y ) {
-        getTop().translate( x, y );
-//        getBottom().translate( x, y );
+        getSpline().translate( x, y );
     }
 
     public void setInteractive( boolean b ) {
@@ -60,6 +53,6 @@ public class SplineSurface {
     }
 
     public boolean contains( AbstractSpline spline ) {
-        return top == spline;
+        return this.spline == spline;
     }
 }
