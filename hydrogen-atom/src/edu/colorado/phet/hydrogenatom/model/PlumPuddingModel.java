@@ -37,7 +37,10 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final Dimension DEFAULT_SIZE = new Dimension( 225, 180 );
     
     /* maximum number of photons that can be absorbed */
-    private static final int MAX_PHOTONS_ABSORBED = 5;
+    private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING! Untested with values != 1
+    
+    /* how close a photon and electron must be to collide */
+    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = 20;
     
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
@@ -96,6 +99,12 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         return _electronOffset;
     }
     
+    private Point2D getElectronPosition() {
+        double x = getX() + _electronOffset.getX();
+        double y = getY() + _electronOffset.getY();
+        return new Point2D.Double( x, y );
+    }
+    
     public Dimension getSize() {
         return _size;
     }
@@ -126,13 +135,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         return ( _electronDirectionPositive == true ) ? +1 : -1;
     }
     
-    private Point2D getRandomPointInsideAtom() {
-        double x = getX() + ( RandomUtils.nextSign() * _size.getWidth() * Math.random() / 2 );
-        double y = getY() + ( RandomUtils.nextSign() * _size.getHeight() * Math.random() / 2 );
-        Point2D p = new Point2D.Double( x, y );
-        return p;
-    }
-    
     //----------------------------------------------------------------------------
     // Photon absorption and emission
     //----------------------------------------------------------------------------
@@ -148,8 +150,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             
             _numberOfPhotonsAbsorbed -= 1;
             
-            // Pick a random point inside the atom
-            Point2D position = getRandomPointInsideAtom();
+            // Emit photon at the electron's position
+            Point2D position = getElectronPosition();
             
             // Pick a random orientation
             double orientation = RandomUtils.nextOrientation();
@@ -173,8 +175,9 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     public void detectCollision( Photon photon ) {
         if ( _numberOfPhotonsAbsorbed < MAX_PHOTONS_ABSORBED && !photon.wasEmitted() ) {
-            Point2D position = photon.getPosition();
-            if ( _shape.contains( position ) ) {
+            Point2D electronPosition = getElectronPosition();
+            Point2D photonPosition = photon.getPosition();
+            if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
                 absorbPhoton( photon );
             }
         }
@@ -194,6 +197,15 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             final double orientation = alphaParticle.getOrientation() + deflection;
             alphaParticle.setOrientation( orientation );
         }
+    }
+    
+    /*
+     * Determines if two points collide.
+     */
+    private static boolean pointsCollide( Point2D p1, Point2D p2, double threshold ) {
+        boolean xClose = ( Math.abs( p1.getX() - p2.getX() ) < threshold );
+        boolean yClose = ( Math.abs( p1.getY() - p2.getY() ) < threshold );
+        return ( xClose && yClose );
     }
     
     //----------------------------------------------------------------------------
