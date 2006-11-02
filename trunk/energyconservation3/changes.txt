@@ -1,4 +1,4 @@
-1.02.09
+1.02.09 (11-2-2006)
 Improvements in spline traversal.
 Consolidate top/bottom splines.
 Rewrote Track Toolbox to work at different scales.
