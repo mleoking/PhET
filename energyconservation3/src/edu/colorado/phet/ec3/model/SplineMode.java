@@ -221,12 +221,10 @@ public class SplineMode implements UpdateMode {
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
             for( int i = 0; i < allSplines.size(); i++ ) {
-                AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
-                double score = getGrabScore( splineSurface, body );
-//                System.out.println( "grab score = " + score );
+                double score = getGrabScore( (AbstractSpline)allSplines.get( i ), body );
                 if( score < bestScore ) {
                     bestScore = score;
-                    bestSpline = splineSurface;
+                    bestSpline = (AbstractSpline)allSplines.get( i );
                 }
             }
             if( bestSpline != null ) {
@@ -244,14 +242,10 @@ public class SplineMode implements UpdateMode {
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
             for( int i = 0; i < allSplines.size(); i++ ) {
-                AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
-                double score = getBounceScore( splineSurface, body );
-                if( !Double.isInfinite( score ) ) {
-//                    System.out.println( "bounce score = " + score );
-                }
+                double score = getBounceScore( (AbstractSpline)allSplines.get( i ), body );
                 if( score < bestScore ) {
                     bestScore = score;
-                    bestSpline = splineSurface;
+                    bestSpline = (AbstractSpline)allSplines.get( i );
                 }
             }
             if( bestSpline != null ) {
@@ -296,8 +290,7 @@ public class SplineMode implements UpdateMode {
             Point2D cm = body.getCenterOfMass();
             Vector2D.Double dir = new Vector2D.Double( loc, cm );
             double v = dir.dot( body.getVelocity() );
-            System.out.println( "v = " + v );
-            return v < -1;
+            return v < 0;
         }
 
         private boolean feetAreClose( Body body, double x, AbstractSpline bestSpline ) {
@@ -325,13 +318,7 @@ public class SplineMode implements UpdateMode {
         private boolean movingTowards( AbstractSpline splineSurface, Body body, double x, Point2D pt ) {
             Point2D cm = body.getCenterOfMass();
             Vector2D.Double cmToPoint = new Vector2D.Double( cm, pt );
-            double dot = cmToPoint.dot( body.getVelocity() );
-            if( dot >= 0 ) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return cmToPoint.dot( body.getVelocity() ) >= 0;
         }
 
         private boolean justLeft( Body body, AbstractSpline splineSurface ) {
