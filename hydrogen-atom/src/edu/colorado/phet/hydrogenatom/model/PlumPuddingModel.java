@@ -27,7 +27,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_ELECTRON_POSITION = "electronPosition";
-    public static final double PHOTON_EMISSION_PROBABILITY = 0.1;
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -37,13 +36,16 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final Dimension DEFAULT_SIZE = new Dimension( 225, 180 );
     
     /* maximum number of photons that can be absorbed */
-    private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING! Untested with values != 1
+    private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
     
     /* how close a photon and electron must be to collide */
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = 20;
     
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
+    
+    /* probability that photon will be emitted with dt=1 */
+    public static final double PHOTON_EMISSION_PROBABILITY = 0.05; // 1.0 = 100%
     
     /* range of the deflection angle for alpha particles */
     private static final double MIN_DEFLECTION_ANGLE = Math.toRadians( 2 );
@@ -247,7 +249,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             }
            
             // Randomly emit a photon
-            if ( Math.random() < PHOTON_EMISSION_PROBABILITY ) {
+            if ( Math.random() < ( dt * PHOTON_EMISSION_PROBABILITY ) ) {
                 emitPhoton();
             }
         }
