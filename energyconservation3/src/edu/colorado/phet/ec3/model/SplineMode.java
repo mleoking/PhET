@@ -41,7 +41,7 @@ public class SplineMode implements UpdateMode {
         double x1 = savedLocation;
         double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
-        AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( body, x1 );
+        AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( x1 );
         new ForceMode( body, netForceWithoutNormal ).stepInTime( dt );
         afterNewton = body.copyState();
 
@@ -50,13 +50,13 @@ public class SplineMode implements UpdateMode {
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
         }
-        else if( shouldFlyOff( x2, body ) ) {
+        else if( shouldFlyOff( x2 ) ) {
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             body.setAngularVelocity( 0.0 );
         }
         else {
-            double thermalEnergy = getFrictionForce( body, ( x1 + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
+            double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
             body.addThermalEnergy( thermalEnergy );
 
             savedLocation = x2;
@@ -64,7 +64,7 @@ public class SplineMode implements UpdateMode {
 
             //make sure we sank into the spline before applying this change
             body.setAttachmentPointPosition( splineLocation );
-            rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
+            rotateBody( x2, dt, Double.POSITIVE_INFINITY );
 //        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
             if( !isUserControlled() ) {
                 boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
@@ -99,9 +99,9 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    private boolean shouldFlyOff( double x2, Body body ) {
-        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 && isSplineTop( body, x2 );
-        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) < 0 && !isSplineTop( body, x2 );
+    private boolean shouldFlyOff( double x2 ) {
+        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 && isSplineTop( x2 );
+        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) < 0 && !isSplineTop( x2 );
         return flyOffTop || flyOffBottom;
     }
 
@@ -117,7 +117,7 @@ public class SplineMode implements UpdateMode {
         return vec;
     }
 
-    private void rotateBody( Body body, double x, double dt, double maxRotationDTheta ) {
+    private void rotateBody( double x, double dt, double maxRotationDTheta ) {
         double bodyAngle = body.getAttachmentPointRotation();
         double dA = spline.getUnitParallelVector( x ).getAngle() - bodyAngle;
         if( dA > Math.PI ) {
@@ -132,11 +132,11 @@ public class SplineMode implements UpdateMode {
         else if( dA < -maxRotationDTheta ) {
             dA = -maxRotationDTheta;
         }
-        double offset = isSplineTop( body, x ) ? 0.0 : Math.PI;
+        double offset = isSplineTop( x ) ? 0.0 : Math.PI;
         body.rotateAboutAttachmentPoint( dA + offset );
     }
 
-    private boolean isSplineTop( Body body, double x ) {
+    private boolean isSplineTop( double x ) {
         Vector2D.Double cmVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
         Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
         return cmVector.dot( spline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( spline.getUnitNormalVector( x ) ) > 0;
@@ -167,12 +167,12 @@ public class SplineMode implements UpdateMode {
         return spline.getDistAlongSpline( pt, min, max, numPts );
     }
 
-    private AbstractVector2D getNetForcesWithoutNormal( Body body, double x ) {
+    private AbstractVector2D getNetForcesWithoutNormal( double x ) {
         //todo: normal should opposed both gravity and thrust when applicable
         AbstractVector2D[] forces = new AbstractVector2D[]{
                 body.getGravityForce(),
                 body.getThrust(),
-                getFrictionForce( body, x )
+                getFrictionForce( x )
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
@@ -185,7 +185,7 @@ public class SplineMode implements UpdateMode {
         return sum;
     }
 
-    private AbstractVector2D getFrictionForce( Body body, double x ) {
+    private AbstractVector2D getFrictionForce( double x ) {
         //todo kind of a funny workaround for getting friction on the ground.
         double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
         double fricMag = coefficient * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
