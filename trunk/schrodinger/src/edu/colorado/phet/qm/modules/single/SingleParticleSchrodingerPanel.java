@@ -31,8 +31,8 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
 
         getIntensityDisplay().setMultiplier( 1 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
-//        getDetectorSheetPNode().setOpacity( 255 );
-        getDetectorSheetPNode().setBrightness( 1.0 );
+
+        getDetectorSheetPNode().setBrightness( 0.75 );
         getIntensityDisplay().setNormDecrement( 1.0 );
 
         getIntensityDisplay().addListener( new IntensityManager.Listener() {
