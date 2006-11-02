@@ -1,3 +1,9 @@
+1.02.09
+Improvements in spline traversal.
+Consolidate top/bottom splines.
+Rewrote Track Toolbox to work at different scales.
+Track Toolbox code is more elegant.
+
 1.02.08 (10-25-2006)
 Removed track graphic at ground-level.
 Added friction to ground.
