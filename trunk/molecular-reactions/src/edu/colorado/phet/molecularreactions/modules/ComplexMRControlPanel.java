@@ -99,7 +99,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
         private JToggleButton showBondsBtn;
         private DialogCheckBox showStripChartBtn;
         private JToggleButton showPieChartBtn;
-        private JToggleButton nearestNeighborBtn;
         private JToggleButton showBarChartBtn;
         private JToggleButton trackMoleculeBtn;
         private JToggleButton showNoneBtn;
@@ -186,9 +185,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 }
             } );
 
-//            nearestNeighborBtn = new JCheckBox( SimStrings.get( "Control.nearestNeighbor" ) );
-
-
             //--------------------------------------------------------------------------------------------------
             // Lay out the panel
             //--------------------------------------------------------------------------------------------------
@@ -222,7 +218,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             module.setPieChartVisible( showPieChartBtn.isSelected() );
             selectMoleculeBtn.setVisible( trackMoleculeBtn.isSelected() );
             module.getEnergyView().hideSelectedMolecule( !trackMoleculeBtn.isSelected() );
-            if( showNoneBtn.isSelected() ) {
+            if( showNoneBtn.isSelected() && module.getMRModel().getMoleculeBeingTracked() != null ) {
                 module.getMRModel().getMoleculeBeingTracked().setSelectionStatus( Selectable.NOT_SELECTED );
             }
         }
@@ -230,7 +226,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
         public void reset() {
             showStripChartBtn.setSelected( false );
             showBondsBtn.setSelected( true );
-            nearestNeighborBtn.setSelected( false );
 
             module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
             module.setBarChartVisible( showBarChartBtn.isSelected() );
