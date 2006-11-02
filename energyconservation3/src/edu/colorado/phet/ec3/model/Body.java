@@ -168,7 +168,7 @@ public class Body {
     }
 
     public boolean isUserControlled() {
-        return mode == userMode;
+        return mode == userMode || getThrust().getMagnitude() > 0;
     }
 
     public void setUserControlled( boolean userControlled ) {
