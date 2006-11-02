@@ -41,13 +41,7 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
         this.model = model;
 
         // Initialize the counter to number of existing molecules
-        List modelElements = model.getModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( moleculeClass.isInstance( o )) {
-                cnt++;
-            }
-        }
+        setMoleculeCount();
 
         model.addListener( this );
         AbstractMolecule.addClassListener( this );

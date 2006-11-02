@@ -71,6 +71,8 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         counterC = new MoleculeCounter( MoleculeC.class, module.getMRModel() );
 
         module.getClock().addClockListener( new PieChartUpdater() );
+
+        update();
     }
 
     private void update() {
