@@ -1,3 +1,8 @@
+1.02.11 (11-2-2006)
+For Autofire:
+            1. Shrink the wave magnitude more aggressively after a sufficiently long time has passed (200 iterations)
+            2. After a certain time has passed (400 iterations) simply assume the wave is stuck and fire a new particle.
+
 1.02.10 (11-2-2006)
 For Autofire:
             1. Increased threshold below which the magnitude of the wave must fall before another shot is fired.
