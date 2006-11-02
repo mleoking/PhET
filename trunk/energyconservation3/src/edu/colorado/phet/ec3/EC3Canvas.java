@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
-import edu.colorado.phet.ec3.model.FreeFall;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
@@ -177,7 +176,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void addSkater() {
-        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), ec3Model.getPotentialEnergyMetric(), new FreeFall( ec3Model ) );
+        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), ec3Model.getPotentialEnergyMetric(), ec3Model );
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
 

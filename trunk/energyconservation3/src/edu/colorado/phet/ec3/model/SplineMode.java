@@ -20,27 +20,29 @@ import java.util.ArrayList;
 public class SplineMode implements UpdateMode {
     private EnergyConservationModel model;
     private AbstractSpline spline;
+    private Body body;
     private double savedLocation;
     private Body lastState;
     private Body afterNewton;
     private Vector2D.Double lastNormalForce;
 
-    public SplineMode( EnergyConservationModel model, AbstractSpline spline ) {
+    public SplineMode( EnergyConservationModel model, AbstractSpline spline, Body body ) {
         this.model = model;
         this.spline = spline;
+        this.body = body;
     }
 
-    public boolean isUserControlled( Body body ) {
+    public boolean isUserControlled() {
         return body.isUserControlled() || spline.isUserControlled();
     }
 
-    public void stepInTime( Body body, double dt ) {
+    public void stepInTime( double dt ) {
         Body origState = body.copyState();
         double x1 = savedLocation;
         double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
         AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( body, x1 );
-        new ForceMode( netForceWithoutNormal ).stepInTime( body, dt );
+        new ForceMode( body, netForceWithoutNormal ).stepInTime( dt );
         afterNewton = body.copyState();
 
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
@@ -64,7 +66,7 @@ public class SplineMode implements UpdateMode {
             body.setAttachmentPointPosition( splineLocation );
             rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
 //        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
-            if( !isUserControlled( body ) ) {
+            if( !isUserControlled() ) {
                 boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
 
                 if( !fixed ) {
@@ -154,7 +156,7 @@ public class SplineMode implements UpdateMode {
         return getDistAlongSpline( attachPoint, 0, spline.getLength(), 100 );
     }
 
-    public void init( Body body ) {
+    public void init() {
         body.convertToSpline();
         savedLocation = getDistAlongSpline( body.getAttachPoint() );
         lastState = body.copyState();
@@ -200,7 +202,7 @@ public class SplineMode implements UpdateMode {
     }
 
     public UpdateMode copy() {
-        return new SplineMode( model, getSpline() );
+        return new SplineMode( model, getSpline(), body );
     }
 
     public static class GrabSpline {
