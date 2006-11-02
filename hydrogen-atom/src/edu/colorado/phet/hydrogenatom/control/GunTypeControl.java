@@ -71,7 +71,7 @@ public class GunTypeControl extends PhetPNode {
         _listenerList = new EventListenerList();
         
         // Photon icon
-        Image photonImage = PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_COLOR );
+        Image photonImage = PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH );
         Icon photonIcon = new ImageIcon( photonImage );
         
         // Alpha Particle icon

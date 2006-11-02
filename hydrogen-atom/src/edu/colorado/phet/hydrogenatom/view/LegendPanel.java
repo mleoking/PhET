@@ -63,7 +63,7 @@ public class LegendPanel extends JPanel {
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_COLOR ) );
+        JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );
         JLabel photonText = new JLabel( SimStrings.get( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );

@@ -19,6 +19,7 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 
@@ -36,8 +37,8 @@ public class TestPhotonNode extends JFrame {
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
         panel.add( createPanel( Color.BLACK ) );
         panel.add( createPanel( Color.WHITE ) );
-        panel.add( createPanel( Color.LIGHT_GRAY ) );
-        panel.add( createPanel( new Color( 255, 102, 0 ) ) ); // pumpkin orange
+//        panel.add( createPanel( Color.LIGHT_GRAY ) );
+//        panel.add( createPanel( new Color( 255, 102, 0 ) ) ); // pumpkin orange
         
         getContentPane().add( panel );
         pack();
@@ -53,19 +54,23 @@ public class TestPhotonNode extends JFrame {
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
-        layout.addComponent( createLabel( Color.RED ), row, col++ );
-        layout.addComponent( createLabel( Color.GREEN ), row, col++ );
-        layout.addComponent( createLabel( Color.BLUE ), row, col++ );
+        layout.addComponent( createLabel( 300 ), row, col++ );
+        layout.addComponent( createLabel( 400 ), row, col++ );
+        layout.addComponent( createLabel( 440 ), row, col++ );
+        layout.addComponent( createLabel( 475 ), row, col++ );
+        layout.addComponent( createLabel( 525 ), row, col++ );
         row++;
         col = 0;
-        layout.addComponent( createLabel( Color.MAGENTA ), row, col++ );
-        layout.addComponent( createLabel( Color.YELLOW ), row, col++ );
-        layout.addComponent( createLabel( Color.CYAN ), row, col++ );
+        layout.addComponent( createLabel( 575 ), row, col++ );
+        layout.addComponent( createLabel( 610 ), row, col++ );
+        layout.addComponent( createLabel( 660 ), row, col++ );
+        layout.addComponent( createLabel( 750 ), row, col++ );
+        layout.addComponent( createLabel( 800 ), row, col++ );
         return panel;
     }
     
-    private static JLabel createLabel( Color photonColor ) {
-        Image image = PhotonNode.createPhotonImage( photonColor );
+    private static JLabel createLabel( double wavelength ) {
+        Image image = PhotonNode.createPhotonImage( wavelength );
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
         label.setOpaque( false );

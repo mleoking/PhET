@@ -5,6 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- plum pudding should emit photons from electron location
+- plum pudding should absorb photons when they are "close" to electron
+- plum pudding should absorb only 1 photon
+- set UV photon crosshairs to violet
+- set IR photon crosshairs to red
 - fix PlumPuddingModel.stepInTime, it assumes that atom position is (0,0)
 - change oscillation line each time PlumPudding's electron starts oscillating
 - plum pudding electron oscillation should always stop at (0,0)
@@ -54,6 +59,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/2/06) - set UV photon crosshairs to violet
+(11/2/06) - set IR photon crosshairs to red
 (11/1/06) - change plum pudding image to be more elliptical
 (11/1/06) - add debug code to PlumPuddingNode to show model's bounds
 (11/1/06) - sync with phetcommon
