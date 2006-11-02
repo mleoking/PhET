@@ -3,6 +3,7 @@ Improvements in spline traversal.
 Consolidate top/bottom splines.
 Rewrote Track Toolbox to work at different scales.
 Track Toolbox code is more elegant.
+Bugfix: Dragging a control point of the skater's track can cause him to freeze. 
 
 1.02.08 (10-25-2006)
 Removed track graphic at ground-level.
