@@ -12,11 +12,13 @@ package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -45,6 +47,11 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         super( new Rectangle() );
 
         setBounds( bounds );
+
+        // Add the title
+        PText titleNode = new PText( SimStrings.get("StripChart.title") );
+//        titleNode.setOffset( bounds.getX() + bounds.getWidth() / 2, bounds.getY() + 5);
+        addChild( titleNode );
 
         // If we don't position it here, the stripped paints get seams in them 
         pieCenter = new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() );
