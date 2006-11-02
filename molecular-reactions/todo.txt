@@ -1,10 +1,8 @@
 - Check reset on 2D launcher
 - With strip chart up for a long time, the sim choked
 - Put rescale button on bar chart
-- Mouse handler for profile is off. Try dragging way out of the pane.
 - Tracking pane loses the B molecule
 - Make things resizable
-- Add title to pie chart
 - Phet logo should be centered over the control panel
 - When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
     is still highlighted
@@ -162,3 +160,5 @@ Done
 11-01-06 - Clicking on a molecule graphic under the pump should select that radio button
 11-01-06 - C segment on pie chart is sometimes wrong. If you put in just AB and BC molecules, the chart
     shows Cs.
+11-01-06 - Mouse handler for profile is off. Try dragging way out of the pane.
+11-01-06 - Add title to pie chart
