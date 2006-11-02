@@ -45,7 +45,7 @@ public class Body {
     private double storedTotalEnergy = 0.0;
 
     private FreeFall freeFall;
-    private UserControlled userMode = new UserControlled();
+    private UserControlled userMode;
     private UpdateMode mode;
     private boolean freefall = true;
 
@@ -53,9 +53,12 @@ public class Body {
     long lastFallTime;
 
     private ArrayList listeners = new ArrayList();
+    private EnergyConservationModel energyConservationModel;
 
-    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, FreeFall freeFall ) {
-        this.freeFall = freeFall;
+    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
+        this.energyConservationModel = energyConservationModel;
+        userMode = new UserControlled( this );
+        this.freeFall = new FreeFall( energyConservationModel, this );
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
@@ -65,7 +68,7 @@ public class Body {
     }
 
     public Body copyState() {
-        Body copy = new Body( width, height, potentialEnergyMetric, freeFall );
+        Body copy = new Body( width, height, potentialEnergyMetric, energyConservationModel );
         copy.angularVelocity = this.angularVelocity;
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
@@ -100,7 +103,7 @@ public class Body {
         int NUM_STEPS_PER_UPDATE = 1;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             double ei = new State( this ).getTotalEnergy();
-            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
+            getMode().stepInTime( dt / NUM_STEPS_PER_UPDATE );
             double ef = new State( this ).getTotalEnergy();
             double err = Math.abs( ef - ei );
             if( err > 1E-6 ) {
@@ -212,13 +215,13 @@ public class Body {
         }
         if( !same ) {
             this.storedTotalEnergy = getTotalEnergy();
-            setMode( new SplineMode( model, spline ) );
+            setMode( new SplineMode( model, spline, this ) );
         }
     }
 
     private void setMode( UpdateMode mode ) {
         this.mode = mode;
-        mode.init( this );
+        mode.init();
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {

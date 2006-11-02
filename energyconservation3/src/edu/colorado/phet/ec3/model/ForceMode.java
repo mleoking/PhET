@@ -15,13 +15,15 @@ import java.awt.geom.Point2D;
 
 public class ForceMode implements UpdateMode, Derivable {
     private Vector2D.Double netForce;
+    private Body body;
 
-    public ForceMode() {
-        this( new Vector2D.Double() );
+    public ForceMode( Body body ) {
+        this( body, new Vector2D.Double() );
     }
 
-    public ForceMode( AbstractVector2D netForce ) {
+    public ForceMode( Body body, AbstractVector2D netForce ) {
         this.netForce = new Vector2D.Double( netForce );
+        this.body = body;
     }
 
     public void setNetForce( AbstractVector2D netForce ) {
@@ -32,11 +34,11 @@ public class ForceMode implements UpdateMode, Derivable {
         return netForce;
     }
 
-    public void stepInTime( Body body, double dt ) {
-        updateRK4( body, dt );
+    public void stepInTime( double dt ) {
+        updateRK4( dt );
     }
 
-    private void updateRK4( final Body body, double dt ) {
+    private void updateRK4( double dt ) {
         double y[] = new double[]{body.getAttachPoint().getY(), body.getVelocity().getY()};
         RK4.Diff diffy = new RK4.Diff() {
             public void f( double t, double y[], double F[] ) {
@@ -186,10 +188,10 @@ public class ForceMode implements UpdateMode, Derivable {
         }
     }
 
-    public void init( Body body ) {
+    public void init() {
     }
 
     public UpdateMode copy() {
-        return new ForceMode();
+        return new ForceMode( body );
     }
 }
