@@ -442,9 +442,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
-
-//            moleculePane.setVisible( selectedMolecule != null );
-
             if( selectedMolecule != null ) {
                 selectedMolecule.removeObserver( EnergyView.this );
             }
@@ -456,7 +453,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
 
             if( newTrackedMolecule != null ) {
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule() );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
                 moleculePaneAxisNode.setVisible( true );
@@ -465,7 +462,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 moleculePaneAxisNode.setVisible( false );
 
             }
-
             cursor.setVisible( selectedMolecule != null );
         }
 
@@ -479,7 +475,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule );
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule() );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );

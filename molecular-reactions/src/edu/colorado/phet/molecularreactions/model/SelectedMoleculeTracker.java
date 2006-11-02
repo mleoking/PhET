@@ -138,6 +138,9 @@ public class SelectedMoleculeTracker implements ModelElement,
                 }
                 closestMolecule.setSelectionStatus( Selectable.NEAREST_TO_SELECTED );
                 listenerProxy.closestMoleculeChanged( closestMolecule, prevClosetMolecule );
+                // Send this message, too, in case a reaction happened and the tracked molecule
+                // is now part of a composite, or vice versa
+                listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
             }
 
             if( !( closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB ) ) {
