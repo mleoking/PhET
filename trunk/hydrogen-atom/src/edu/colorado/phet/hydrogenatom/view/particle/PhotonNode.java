@@ -17,8 +17,10 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
@@ -46,6 +48,8 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final double DEFAULT_DIAMETER = 30;
     private static final double CROSSHAIRS_ANGLE = 18; // degrees
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
+    private static final Color UV_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 400 );
+    private static final Color IR_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 715 );
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     private static final int PHOTON_COLOR_ALPHA = 130;
     
@@ -66,7 +70,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     public PhotonNode( Photon photon ) {
         super();
         
-        Image image = createPhotonImage( photon.getColor() );
+        Image image = createPhotonImage( photon.getWavelength() );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         
@@ -94,9 +98,11 @@ public class PhotonNode extends PhetPNode implements Observer {
      * 
      * @return Image
      */
-    public static final Image createPhotonImage( Color photonColor )
+    public static final Image createPhotonImage( double wavelength )
     {
         PNode parentNode = new PNode();
+        
+        Color photonColor = ColorUtils.wavelengthToColor( wavelength );
         
         // Outer transparent ring
         final double outerDiameter = DEFAULT_DIAMETER;
@@ -121,8 +127,8 @@ public class PhotonNode extends PhetPNode implements Observer {
         // Crosshairs
         PNode crosshairs = new PNode();
         {
-            PNode bigCrosshair = createCrosshair( 1.15 * innerDiameter );
-            PNode smallCrosshair = createCrosshair( 0.8 * innerDiameter );
+            PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
+            PNode smallCrosshair = createCrosshair( wavelength, 0.8 * innerDiameter );
             smallCrosshair.rotate( Math.toRadians( 45 ) );
             crosshairs.addChild( smallCrosshair );
             crosshairs.addChild( bigCrosshair );
@@ -139,20 +145,28 @@ public class PhotonNode extends PhetPNode implements Observer {
     /*
      * Creates the crosshairs that appear in the center of the image.
      */
-    private static PNode createCrosshair( double diameter ) {
+    private static PNode createCrosshair( double wavelength, double diameter ) {
 
+        Color crosshairsColor = CROSSHAIRS_COLOR;
+        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+            crosshairsColor = UV_CROSSHAIRS_COLOR;
+        }
+        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+            crosshairsColor = IR_CROSSHAIRS_COLOR;
+        }
+        
         final double crosshairWidth = diameter;
         final double crosshairHeight = 0.15 * crosshairWidth;
         Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
 
         PPath horizontalPart = new PPath();
         horizontalPart.setPathTo( crosshairShape );
-        horizontalPart.setPaint( CROSSHAIRS_COLOR );
+        horizontalPart.setPaint( crosshairsColor );
         horizontalPart.setStroke( null );
 
         PPath verticalPart = new PPath();
         verticalPart.setPathTo( crosshairShape );
-        verticalPart.setPaint( CROSSHAIRS_COLOR );
+        verticalPart.setPaint( crosshairsColor );
         verticalPart.setStroke( null );
         verticalPart.rotate( Math.toRadians( 90 ) );
 
