@@ -21,7 +21,7 @@ public class SplineMode implements UpdateMode {
     private EnergyConservationModel model;
     private AbstractSpline spline;
     private Body body;
-    private double savedLocation;
+    private double lastX;
     private Body lastState;
     private Body afterNewton;
     private Vector2D.Double lastNormalForce;
@@ -38,7 +38,7 @@ public class SplineMode implements UpdateMode {
 
     public void stepInTime( double dt ) {
         Body origState = body.copyState();
-        double x1 = savedLocation;
+        double x1 = lastX;
         double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
         AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( x1 );
@@ -58,12 +58,10 @@ public class SplineMode implements UpdateMode {
         else {
             double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
             body.addThermalEnergy( thermalEnergy );
-
-            savedLocation = x2;
-            Point2D splineLocation = spline.evaluateAnalytical( x2 );
+            lastX = x2;
 
             //make sure we sank into the spline before applying this change
-            body.setAttachmentPointPosition( splineLocation );
+            body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY );
 
             if( !isUserControlled() ) {
@@ -79,22 +77,15 @@ public class SplineMode implements UpdateMode {
         boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
-
             //wait until upside up to stop in a well
             if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
             {
-                body.setVelocity( origState.getVelocity() );
-                body.setAttachmentPointPosition( origState.getAttachPoint() );
-                body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
-                body.setThermalEnergy( origState.getThermalEnergy() );
+                setBodyState( origState );
             }
             else {
                 if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
                     System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
-                    body.setVelocity( origState.getVelocity() );
-                    body.setAttachmentPointPosition( origState.getAttachPoint() );
-                    body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
-                    body.setThermalEnergy( origState.getThermalEnergy() );
+                    setBodyState( origState );
                 }
             }
             //maybe could fix by rotation?, i think no.
@@ -102,9 +93,16 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    private boolean shouldFlyOff( double x2 ) {
-        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 && isSplineTop( x2 );
-        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) < 0 && !isSplineTop( x2 );
+    private void setBodyState( Body state ) {
+        body.setVelocity( state.getVelocity() );
+        body.setAttachmentPointPosition( state.getAttachPoint() );
+        body.setAttachmentPointRotation( state.getAttachmentPointRotation() );
+        body.setThermalEnergy( state.getThermalEnergy() );
+    }
+
+    private boolean shouldFlyOff( double x ) {
+        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 && isSplineTop( x );
+        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) < 0 && !isSplineTop( x );
         return flyOffTop || flyOffBottom;
     }
 
@@ -161,7 +159,7 @@ public class SplineMode implements UpdateMode {
 
     public void init() {
         body.convertToSpline();
-        savedLocation = getDistAlongSpline( body.getAttachPoint() );
+        lastX = getDistAlongSpline( body.getAttachPoint() );
         lastState = body.copyState();
         lastNormalForce = new Vector2D.Double();
     }
