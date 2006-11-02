@@ -1,3 +1,9 @@
+1.02.10 (11-2-2006)
+For Autofire:
+            1. Increased threshold below which the magnitude of the wave must fall before another shot is fired.
+            2. Added a function that causes the wave magnitude to start shrinking after a sufficiently long time has elapsed.
+Removed developer controls.
+
 1.02.09 (11-1-2006)
 Changed default screen brightness to 0.75 for single-particle mode.
 Set fade to be enabled by default for single-particle mode.

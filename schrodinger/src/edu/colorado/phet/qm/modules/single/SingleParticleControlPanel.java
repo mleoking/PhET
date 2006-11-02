@@ -106,7 +106,8 @@ public class SingleParticleControlPanel extends QWIControlPanel {
 //        } );
 //        addControl( labeledTextField );
 
-        addControl( new FadeRateControl( singleParticleModule ) );
+        //developer control
+//        addControl( new FadeRateControl( singleParticleModule ) );
 
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }
