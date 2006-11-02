@@ -6,14 +6,12 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fix PlumPuddingModel.stepInTime, it assumes that atom position is (0,0)
-- change plum pudding image to be more rectangular or elliptical
 - change oscillation line each time PlumPudding's electron starts oscillating
 - plum pudding electron oscillation should always stop at (0,0)
 - randomize the electron line in PlumPuddingModel
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
 
 MEDIUM PRIORITY:
-- use constructive geometry to create plum pudding shape that matches image file
 - move common PROPERTY constants to AbstractHydrogenAtom
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
@@ -56,6 +54,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/1/06) - change plum pudding image to be more elliptical
 (11/1/06) - add debug code to PlumPuddingNode to show model's bounds
 (11/1/06) - sync with phetcommon
 (11/1/06) - pick a random point inside plum pudding shape from which to emit photon
@@ -260,6 +259,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(11/1/06) - use constructive geometry to create plum pudding shape that matches image file (approximate as an ellipse)
 (10/5/06) - add zoom buttons to atom box so that it's supported (complicates implementation, unlikely feature)
 (9/14/06) - design a gun control that shoots either one-shot or continuous (intensity controls do this)
 (9/14/06) - delete intensity controls for gun (keep them)

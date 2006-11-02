@@ -34,7 +34,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /* default size of the atom, tweaked to match image size of PlumPuddingNode */
-    private static final Dimension DEFAULT_SIZE = new Dimension( 225, 125 );
+    private static final Dimension DEFAULT_SIZE = new Dimension( 225, 180 );
     
     /* maximum number of photons that can be absorbed */
     private static final int MAX_PHOTONS_ABSORBED = 5;
