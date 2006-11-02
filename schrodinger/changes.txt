@@ -1,3 +1,6 @@
+1.02.09 (11-1-2006)
+Changed default screen brightness to 0.75 for single-particle mode.
+
 1.02.08 (11-1-2006)
 Changed slits representation to ensure symmetry.
 
