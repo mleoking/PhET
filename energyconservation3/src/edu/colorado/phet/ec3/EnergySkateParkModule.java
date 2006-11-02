@@ -31,7 +31,7 @@ import java.awt.geom.Point2D;
 
 public class EnergySkateParkModule extends PiccoloModule {
     private EnergyConservationModel energyModel;
-    private EC3Canvas energyCanvas;
+    private EnergySkateParkSimulationPanel energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
     private JDialog barChartFrame;
     private double floorY = 0.0;
@@ -67,7 +67,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
         clock.addClockListener( energyTimeSeriesModel );
 
-        energyCanvas = new EC3Canvas( this );
+        energyCanvas = new EnergySkateParkSimulationPanel( this );
         setSimulationPanel( energyCanvas );
 
         EC3ControlPanel EC3ControlPanel = new EC3ControlPanel( this );
@@ -123,7 +123,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         return energyLookAndFeel;
     }
 
-    public EC3Canvas getEnergyConservationCanvas() {
+    public EnergySkateParkSimulationPanel getEnergyConservationCanvas() {
         return energyCanvas;
     }
 

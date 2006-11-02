@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
-import edu.colorado.phet.ec3.EC3Canvas;
-import edu.colorado.phet.ec3.EC3RootNode;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
+import edu.colorado.phet.ec3.EnergySkateParkRootNode;
+import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -27,12 +27,12 @@ import java.awt.event.ActionListener;
 public class PauseIndicator extends PNode {
 
     private EnergySkateParkModule module;
-    private EC3Canvas canvas;
-    private EC3RootNode ec3RootNode;
+    private EnergySkateParkSimulationPanel canvas;
+    private EnergySkateParkRootNode ec3RootNode;
     private int insetX = 5;
     private int insetY = 5;
 
-    public PauseIndicator( final EnergySkateParkModule module, EC3Canvas canvas, EC3RootNode ec3RootNode ) {
+    public PauseIndicator( final EnergySkateParkModule module, EnergySkateParkSimulationPanel canvas, EnergySkateParkRootNode ec3RootNode ) {
         this.module = module;
         this.canvas = canvas;
         this.ec3RootNode = ec3RootNode;

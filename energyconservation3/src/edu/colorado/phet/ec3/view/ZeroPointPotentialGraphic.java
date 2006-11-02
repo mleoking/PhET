@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
-import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -24,9 +24,9 @@ import java.awt.geom.Point2D;
  */
 
 public class ZeroPointPotentialGraphic extends PhetPNode {
-    private EC3Canvas canvas;
+    private EnergySkateParkSimulationPanel canvas;
 
-    public ZeroPointPotentialGraphic( final EC3Canvas canvas ) {
+    public ZeroPointPotentialGraphic( final EnergySkateParkSimulationPanel canvas ) {
         this.canvas = canvas;
         PPath path = new PPath( new Line2D.Double( 0, 0, 5000, 0 ) );
         path.setStroke( new BasicStroke( 3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3, new float[]{16, 8}, 0 ) );

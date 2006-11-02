@@ -18,11 +18,11 @@ import java.awt.image.BufferedImage;
  */
 
 public class BackgroundNode extends PhetPNode {
-    private EC3Canvas ec3Canvas;
+    private EnergySkateParkSimulationPanel ec3Canvas;
     private Image backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundNode( EC3Canvas ec3Canvas, Image backgroundImage, PNode floorGraphic ) {
+    public BackgroundNode( EnergySkateParkSimulationPanel ec3Canvas, Image backgroundImage, PNode floorGraphic ) {
         this.ec3Canvas = ec3Canvas;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
@@ -58,7 +58,7 @@ public class BackgroundNode extends PhetPNode {
             ec3Canvas.setBackground( new Color( im.getRGB( im.getWidth() / 2, 30 ) ) );
         }
         else {
-            ec3Canvas.setBackground( EC3RootNode.SKY_COLOR );
+            ec3Canvas.setBackground( EnergySkateParkRootNode.SKY_COLOR );
         }
         if( this.backgroundImage != image ) {
             this.backgroundImage = image;

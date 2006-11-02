@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
-import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.FloorSpline;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
@@ -32,7 +32,7 @@ import java.util.Collections;
  */
 
 public class SplineGraphic extends PNode {
-    private EC3Canvas ec3Canvas;
+    private EnergySkateParkSimulationPanel ec3Canvas;
     private AbstractSpline spline;
     private PPath pathLayer;
     private PNode controlPointLayer;
@@ -46,11 +46,11 @@ public class SplineGraphic extends PNode {
     private SplineSurface lastRenderState;
     private PBasicInputEventHandler dragHandler;
 
-    public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
+    public SplineGraphic( EnergySkateParkSimulationPanel ec3Canvas, SplineSurface splineSurface ) {
         this( ec3Canvas, splineSurface.getSpline(), splineSurface );
     }
 
-    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, SplineSurface splineSurface ) {
+    private SplineGraphic( EnergySkateParkSimulationPanel ec3Canvas, AbstractSpline spline, SplineSurface splineSurface ) {
         this.ec3Canvas = ec3Canvas;
         this.spline = spline;
         this.splineSurface = splineSurface;
@@ -91,6 +91,10 @@ public class SplineGraphic extends PNode {
 
     private void dragSpline( PInputEvent event ) {
         Point2D.Double tx = new Point2D.Double( event.getDeltaRelativeTo( this ).width, event.getDeltaRelativeTo( this ).height );
+        dragSpline( tx );
+    }
+
+    private void dragSpline( Point2D.Double tx ) {
         translateAll( tx );
         proposeMatchesTrunk();
         updateAll();
@@ -110,8 +114,20 @@ public class SplineGraphic extends PNode {
         lastRenderState = null;
     }
 
+    public void processExternalStartDragEvent() {
+        initDragSpline();
+    }
+
+    public void processExternalDragEvent( double dx, double dy ) {
+        dragSpline( new Point2D.Double( dx, dy ) );
+    }
+
+    public void processExternalDropEvent() {
+        finishDragSpline();
+    }
+
     class PathPopupMenu extends JPopupMenu {
-        public PathPopupMenu( final EC3Canvas ec3Canvas ) {
+        public PathPopupMenu( final EnergySkateParkSimulationPanel ec3Canvas ) {
             JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

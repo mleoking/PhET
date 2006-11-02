@@ -18,11 +18,11 @@ import java.awt.geom.Point2D;
  */
 
 public class AttachmentPointNode extends PhetPNode {
-    private EC3Canvas ec3Canvas;
+    private EnergySkateParkSimulationPanel ec3Canvas;
     private Body body;
     private Timer timer;
 
-    public AttachmentPointNode( EC3Canvas ec3Canvas, Body body ) {
+    public AttachmentPointNode( EnergySkateParkSimulationPanel ec3Canvas, Body body ) {
         this.ec3Canvas = ec3Canvas;
         this.body = body;
         PPath child = new PPath( new Rectangle( -1, -1, 2, 2 ) );
