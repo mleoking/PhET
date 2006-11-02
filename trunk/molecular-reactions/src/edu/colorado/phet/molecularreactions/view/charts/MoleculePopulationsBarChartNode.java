@@ -20,13 +20,17 @@ import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarCh
 import edu.colorado.phet.molecularreactions.view.MoleculeIcon;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * MoleculePopulationsBarChartNode
@@ -40,11 +44,13 @@ import java.awt.*;
 public class MoleculePopulationsBarChartNode extends PNode {
 
     public MoleculePopulationsBarChartNode( ComplexModule module, Dimension size, PhetPCanvas phetPCanvas ) {
-        BarChart barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
+        final MoleculePopulationsBarChart barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
         ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
-        barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth(),
+        Insets barChartInsets = new Insets( 0, 10, 0,0);
+        barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth() - barChartInsets.left + barChartInsets.right,
                                                        (int)( size.getHeight() - 40 ) ) );
         PSwing barChartPSwing = new PSwing( phetPCanvas, barChartPanel );
+        barChartPSwing.setOffset( barChartInsets.left,0 );
 
         this.addChild( barChartPSwing );
         PNode mANode = new PImage( new MoleculeIcon( MoleculeA.class ).getImage() );
@@ -59,7 +65,7 @@ public class MoleculePopulationsBarChartNode extends PNode {
 
         double y = barChartPSwing.getFullBounds().getHeight() + 18;
         double xIncr = 58;
-        double x = 84;
+        double x = 84 + barChartInsets.left;
         mANode.setOffset( x - mANode.getFullBounds().getWidth() / 2,
                           y - mANode.getFullBounds().getHeight() / 2 );
         x += xIncr;
@@ -71,5 +77,18 @@ public class MoleculePopulationsBarChartNode extends PNode {
         x += xIncr;
         mCNode.setOffset( x - mCNode.getFullBounds().getWidth() / 2,
                           y - mCNode.getFullBounds().getHeight() / 2 );
+
+        // Add a rescale button
+        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale"));
+        rescaleBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                barChart.rescale();
+            }
+        } );
+        PSwing rescaleNode = new PSwing( phetPCanvas, rescaleBtn );
+        rescaleNode.setOffset( 5,
+                               getFullBounds().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
+        addChild( rescaleNode );
+
     }
 }

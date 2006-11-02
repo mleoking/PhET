@@ -84,6 +84,19 @@ public class MoleculePopulationsBarChart extends BarChart {
         addData( counterC.getCnt(), seriesNames[3], "" );
     }
 
+    public void rescale() {
+
+        // Find largest molecule population
+        int maxCnt = 0;
+        maxCnt = Math.max( maxCnt, counterA.getCnt() );
+        maxCnt = Math.max( maxCnt, counterBC.getCnt() );
+        maxCnt = Math.max( maxCnt, counterAB.getCnt() );
+        maxCnt = Math.max( maxCnt, counterC.getCnt() );
+
+        // Make vertical scale 1.5x the max count
+        setYRange( 0, (int)(maxCnt * 1.5 ));
+    }
+
     /**
      * Updates the strip chart at specified intervals
      */

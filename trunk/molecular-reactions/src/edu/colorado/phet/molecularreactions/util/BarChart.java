@@ -171,6 +171,15 @@ public class BarChart {
             }
         } );
         clock.start();
+    }
 
+    /**
+     * Set the vertical range of the chart
+     *
+     * @param minY
+     * @param maxY
+     */
+    public void setYRange( int minY, int maxY ) {
+        getChart().getCategoryPlot().getRangeAxis().setRange( minY, maxY );
     }
 }

@@ -43,14 +43,23 @@ public class SimpleMRControlPanel extends MRControlPanel {
         launcherOptionsPanel = new LauncherOptionsPanel( module );
         add( launcherOptionsPanel, gbc );
 
-        JButton resetBtn = new JButton( SimStrings.get( "Control.reset") );
-        resetBtn.addActionListener( new ActionListener() {
+        JButton reloadBtn = new JButton( SimStrings.get("Control.reload"));
+        reloadBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.reload();
+            }
+        } );
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( reloadBtn, gbc );
+
+        JButton resetAllBtn = new JButton( SimStrings.get( "Control.reset") );
+        resetAllBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
             }
         } );
         gbc.anchor = GridBagConstraints.CENTER;
-        add( resetBtn, gbc );
+        add( resetAllBtn, gbc );
     }
 
     public void reset() {
@@ -102,6 +111,13 @@ public class SimpleMRControlPanel extends MRControlPanel {
             // Assign behaviors
             oneDRB.addActionListener( new LauncherRBActionListener() );
             twoDRB.addActionListener( new LauncherRBActionListener() );
+
+            module.getLauncher().addChangeListener( new Launcher.ChangeListener() {
+                public void stateChanged( Launcher launcher ) {
+                    oneDRB.setSelected( module.getLauncher().getMovementType() == Launcher.ONE_DIMENSIONAL );
+                    twoDRB.setSelected( module.getLauncher().getMovementType() == Launcher.TWO_DIMENSIONAL );
+                }
+            } );
         }
 
         private class LauncherRBActionListener implements ActionListener {

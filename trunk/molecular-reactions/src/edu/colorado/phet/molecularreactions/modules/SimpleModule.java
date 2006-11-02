@@ -30,7 +30,9 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 /**
- * MRModule
+ * SimpleMRModule
+ * <p>
+ * Module has just a few molecules
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -45,6 +47,9 @@ public class SimpleModule extends MRModule {
     private SimpleMolecule launcherMolecule;
     private LauncherLoadPanel launcherLoadPanel;
 
+    /**
+     *
+     */
     public SimpleModule() {
         super( SimStrings.get( "Module.simpleModuleTitle" ) );
 
@@ -140,7 +145,9 @@ public class SimpleModule extends MRModule {
         tempCtrl.setPosition( model.getBox().getMaxX() - 50, tempCtrl.getPosition().getY() );
 
         // Add the launcher and its graphic
-        launcher = new Launcher( launcherTipLocation );
+        if( launcher == null ) {
+            launcher = new Launcher( launcherTipLocation );
+        }
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
@@ -197,11 +204,9 @@ public class SimpleModule extends MRModule {
 
         cm = null;
         if( launcherMolecule instanceof MoleculeC ) {
-//            cm = new SimpleMoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
             cm = new MoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
         }
         else {
-//            cm = new SimpleMoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
             cm = new MoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
         }
 
@@ -218,37 +223,14 @@ public class SimpleModule extends MRModule {
         controlPanel.reset();
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
-    //--------------------------------------------------------------------------------------------------
-
-    /**
-     * These classes attempt tokeep the composite molecule from rotating when the mode is
-     * 1D
-     */
-//    private class SimpleMoleculeAB extends MoleculeAB {
-//        public SimpleMoleculeAB( SimpleMolecule[] components ) {
-//            super( components );
-//        }
-//
-//        public void stepInTime( double dt ) {
-//            setOmega( 0 );
-//            super.stepInTime( dt );
-//            setOmega( 0 );
-//        }
-//    }
-//
-//    private class SimpleMoleculeBC extends MoleculeBC {
-//        public SimpleMoleculeBC( SimpleMolecule[] components ) {
-//            super( components );
-//        }
-//
-//        public void stepInTime( double dt ) {
-//            setOmega( 0 );
-//            super.stepInTime( dt );
-//            setOmega( 0 );
-//        }
-//    }
-
+    public void reload() {
+        Launcher.MovementType movementType = launcher.getMovementType();
+        SimpleMolecule savedLauncherMolecule = this.launcherMolecule;
+        reset();
+        MoleculeC launcherMolecule = new MoleculeC();
+        setMolecules( getMRModel(), savedLauncherMolecule );
+        launcherLoadPanel.setMolecule( savedLauncherMolecule );
+        launcher.setMovementType( movementType );
+    }
 }
 
