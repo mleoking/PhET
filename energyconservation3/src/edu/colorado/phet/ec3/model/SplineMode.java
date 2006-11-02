@@ -36,68 +36,68 @@ public class SplineMode implements UpdateMode {
 
     public void stepInTime( Body body, double dt ) {
         Body origState = body.copyState();
-        double x = savedLocation;
-        double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
-        body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
-        AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( body, x );
+        double x1 = savedLocation;
+        double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
+        body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
+        AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( body, x1 );
         new ForceMode( netForceWithoutNormal ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
-        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
+        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
-            return;
         }
-        if( isFlyingOff( x2, body ) ) {
+        else if( shouldFlyOff( x2, body ) ) {
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             body.setAngularVelocity( 0.0 );
-            return;
         }
-        double thermalEnergy = getFrictionForce( body, ( x + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
-        body.addThermalEnergy( thermalEnergy );
+        else {
+            double thermalEnergy = getFrictionForce( body, ( x1 + x2 ) / 2 ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
+            body.addThermalEnergy( thermalEnergy );
 
-        savedLocation = x2;
-        Point2D splineLocation = spline.evaluateAnalytical( x2 );
+            savedLocation = x2;
+            Point2D splineLocation = spline.evaluateAnalytical( x2 );
 
-        //make sure we sank into the spline before applying this change
-        body.setAttachmentPointPosition( splineLocation );
-        rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
+            //make sure we sank into the spline before applying this change
+            body.setAttachmentPointPosition( splineLocation );
+            rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
 //        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
-        if( !isUserControlled( body ) ) {
-            boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
+            if( !isUserControlled( body ) ) {
+                boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
 
-            if( !fixed ) {
-                //look for a nearby rotation and/or spline position that conserves energy...?
-                AbstractVector2D netForce = netForceWithoutNormal.getAddedInstance( lastNormalForce );
-                //wait until upside up to stop in a well
-                if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
-                {
-                    body.setVelocity( origState.getVelocity() );
-                    body.setAttachmentPointPosition( origState.getAttachPoint() );
-                    body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
-                    body.setThermalEnergy( origState.getThermalEnergy() );
-                }
-                else {
-                    if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
-                        System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+                if( !fixed ) {
+                    //look for a nearby rotation and/or spline position that conserves energy...?
+                    AbstractVector2D netForce = netForceWithoutNormal.getAddedInstance( lastNormalForce );
+                    //wait until upside up to stop in a well
+                    if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
+                    {
                         body.setVelocity( origState.getVelocity() );
                         body.setAttachmentPointPosition( origState.getAttachPoint() );
                         body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
                         body.setThermalEnergy( origState.getThermalEnergy() );
                     }
+                    else {
+                        if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
+                            System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+                            body.setVelocity( origState.getVelocity() );
+                            body.setAttachmentPointPosition( origState.getAttachPoint() );
+                            body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                            body.setThermalEnergy( origState.getThermalEnergy() );
+                        }
+                    }
+                    //maybe could fix by rotation?, i think no.
+                    //could fix with friction, if friction is enabled.
                 }
-                //maybe could fix by rotation?, i think no.
-                //could fix with friction, if friction is enabled.
             }
-        }
-        lastState = body.copyState();
+            lastState = body.copyState();
 
-        lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
+            lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
+        }
     }
 
-    private boolean isFlyingOff( double x2, Body body ) {
+    private boolean shouldFlyOff( double x2, Body body ) {
         boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 && isSplineTop( body, x2 );
         boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) < 0 && !isSplineTop( body, x2 );
         return flyOffTop || flyOffBottom;

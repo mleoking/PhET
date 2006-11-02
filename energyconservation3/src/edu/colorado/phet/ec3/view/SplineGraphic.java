@@ -47,7 +47,7 @@ public class SplineGraphic extends PNode {
     private PBasicInputEventHandler dragHandler;
 
     public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
-        this( ec3Canvas, splineSurface.getTop(), splineSurface );
+        this( ec3Canvas, splineSurface.getSpline(), splineSurface );
     }
 
     private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, SplineSurface splineSurface ) {
@@ -102,7 +102,7 @@ public class SplineGraphic extends PNode {
 
     public void setSplineSurface( SplineSurface splineSurface ) {
         this.splineSurface = splineSurface;
-        this.spline = splineSurface.getTop();
+        this.spline = splineSurface.getSpline();
         updateAll();
     }
 

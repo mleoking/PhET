@@ -29,7 +29,7 @@ public class SplineMatch {
     }
 
     public AbstractSpline getTopSplineMatch() {
-        return target.getSplineSurface().getTop();
+        return target.getSplineSurface().getSpline();
     }
 
     public boolean matchesBeginning() {
