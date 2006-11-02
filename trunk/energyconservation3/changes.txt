@@ -41,7 +41,7 @@ Fixed a memory leak.
 Bugfix: 'Reset Skater' turns him upside down sometimes.
 Bugfix: Reset doesn't work any more ... the skater is just frozen (and the 
             red dot doesn't go with him).
-Bugfix: After a long time, the man is stopped and when I tried to grab him, all I could more around 
+Bugfix: After a long time, the man is stopped and when I tried to grab him, all I could move around 
             was the little red dot, not the actual skater.
 
 1.02.01 (10-11-2006)
