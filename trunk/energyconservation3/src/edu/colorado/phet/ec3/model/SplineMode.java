@@ -44,13 +44,12 @@ public class SplineMode implements UpdateMode {
         afterNewton = body.copyState();
 
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x, 0.3, 60, 2 );
-//        System.out.println( "x2=" + x2 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             return;
         }
-        if( afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 ) {
+        if( isFlyingOff( x2, body ) ) {
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             body.setAngularVelocity( 0.0 );
@@ -65,7 +64,7 @@ public class SplineMode implements UpdateMode {
         //make sure we sank into the spline before applying this change
         body.setAttachmentPointPosition( splineLocation );
         rotateBody( body, x2, dt, Double.POSITIVE_INFINITY );
-        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
+//        System.out.println( "isUserControlled( body ) = " + isUserControlled( body ) );
         if( !isUserControlled( body ) ) {
             boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
 
@@ -98,6 +97,12 @@ public class SplineMode implements UpdateMode {
         lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
     }
 
+    private boolean isFlyingOff( double x2, Body body ) {
+        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) > 0 && isSplineTop( body, x2 );
+        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x2 ) ) < 0 && !isSplineTop( body, x2 );
+        return flyOffTop || flyOffBottom;
+    }
+
     private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
         //numerically unstable, since we divide by dt^2
         //2m/t^2 (x1-x0-v0t)-Fa
@@ -125,7 +130,14 @@ public class SplineMode implements UpdateMode {
         else if( dA < -maxRotationDTheta ) {
             dA = -maxRotationDTheta;
         }
-        body.rotateAboutAttachmentPoint( dA );
+        double offset = isSplineTop( body, x ) ? 0.0 : Math.PI;
+        body.rotateAboutAttachmentPoint( dA + offset );
+    }
+
+    private boolean isSplineTop( Body body, double x ) {
+        Vector2D.Double cmVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
+        Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
+        return cmVector.dot( spline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( spline.getUnitNormalVector( x ) ) > 0;
     }
 
     private double getDistAlongSplineSearch( Point2D attachPoint, double center, double epsilon, int numPts, int numIterations ) {
@@ -238,7 +250,7 @@ public class SplineMode implements UpdateMode {
                 }
             }
             if( bestSpline != null ) {
-                Area area = new Area( bestSpline.getArea() );//todo duplicate computation
+                Area area = new Area( bestSpline.getArea() );//todo: remove this duplicate computation
                 //todo: add restitution
                 area.intersect( new Area( body.getShape() ) );
                 Rectangle2D r = area.getBounds2D();

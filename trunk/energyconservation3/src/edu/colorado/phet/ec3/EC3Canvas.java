@@ -247,7 +247,7 @@ public class EC3Canvas extends PhetPCanvas {
         removeSpline( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        AbstractSpline a = splineGraphic.getSplineSurface().getTop();
+        AbstractSpline a = splineGraphic.getSplineSurface().getSpline();
         AbstractSpline b = match.getTopSplineMatch();
         if( index == 0 ) {
             for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
