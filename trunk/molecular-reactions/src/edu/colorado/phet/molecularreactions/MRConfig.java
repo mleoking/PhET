@@ -1,5 +1,6 @@
 package edu.colorado.phet.molecularreactions;
 
+import javax.swing.*;
 import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 
 /*
@@ -52,4 +53,7 @@ public class MRConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_DIRECTORY + "ice.gif";
     public static final String PUMP_BODY_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
     public static final String PUMP_HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "pump-handle.gif";
+
+    // Fonts
+    public static final Font CHART_TITLE_FONT = UIManager.getFont( "InternalFrame.titleFont" );
 }

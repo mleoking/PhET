@@ -19,7 +19,10 @@ import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
 import edu.colorado.phet.molecularreactions.model.MoleculeC;
 import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.common.view.util.SimStrings;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -42,6 +45,13 @@ public class MoleculePopulationsPieChartNode extends PNode {
         // paints. This means I have to reposition the pie chart here. It's ugly, but I don't feel
         // like taking the time right now to figure out the thing with the striped paints.
         pieChart.setOffset( -bounds.getWidth() / 6, 0 );
+
+        // Title
+        PText title = new PText( SimStrings.get( "StripChart.title"));
+        title.setFont( MRConfig.CHART_TITLE_FONT );
+        addChild( title );
+        title.setOffset( bounds.getX() + ( bounds.getWidth() - title.getFullBounds().getWidth()) / 2,
+                         title.getFullBounds().getHeight() / 2 );
 
         // Legend
         double paintSwatchWidth = 15;

@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import org.jfree.chart.plot.PlotOrientation;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -69,6 +70,7 @@ public class MoleculePopulationsBarChart extends BarChart {
         getChart().setBackgroundPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
         getChart().setBorderStroke( new BasicStroke( 1 ) );
         getChart().setBorderPaint( Color.black );
+        getChart().getTitle().setFont( MRConfig.CHART_TITLE_FONT );
 
         // Hook up to the clock
         clock.addClockListener( new Updater() );
