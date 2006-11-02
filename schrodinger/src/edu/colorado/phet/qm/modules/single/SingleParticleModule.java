@@ -42,7 +42,7 @@ public class SingleParticleModule extends QWIModule {
                 updateProbabilityThreshold();
             }
         } );
-        getSchrodingerPanel().setFadeEnabled( false );
+        getSchrodingerPanel().setFadeEnabled( true );
         updateProbabilityThreshold();
         setClockControlPanel( new SingleParticleClockControlPanel( this, clock ) );
 
