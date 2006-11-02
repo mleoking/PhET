@@ -69,7 +69,7 @@ public class ReactionGraphic extends RegisterablePNode {
             plusC.setFont( font );
             plusC.setTextPaint( arrowColor );
 
-            aNode.setOffset( 0, -aNode.getHeight() );
+            aNode.setOffset( 0, -aNode.getFullBounds().getHeight() / 2 );
             setChainedOffset( plusA, aNode, insets );
             setChainedOffset( bcNode, plusA, insets );
             setChainedOffset( arrowNode, bcNode, insets );
@@ -94,7 +94,7 @@ public class ReactionGraphic extends RegisterablePNode {
 
     private void setChainedOffset( PNode nodeToSet, PNode nodeToLeft, Insets insets) {
         Point2D offset = new Point2D.Double( nodeToLeft.getOffset().getX() + nodeToLeft.getFullBounds().getWidth() + insets.left + insets.right,
-                                             -nodeToSet.getFullBounds().getHeight() );
+                                             -nodeToSet.getFullBounds().getHeight() / 2 );
         nodeToSet.setOffset( offset );
     }
 }
