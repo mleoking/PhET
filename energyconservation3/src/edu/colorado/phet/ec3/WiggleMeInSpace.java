@@ -45,7 +45,7 @@ public class WiggleMeInSpace {
 
     private void startHint() {
         module.getEnergyConservationCanvas().requestFocus();
-        EC3RootNode root = module.getEnergyConservationCanvas().getRootNode();
+        EnergySkateParkRootNode root = module.getEnergyConservationCanvas().getRootNode();
         root.addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
         hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
