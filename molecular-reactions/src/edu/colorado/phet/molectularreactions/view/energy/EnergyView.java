@@ -123,7 +123,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePaneSize.getHeight() );
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white );
         legendNode.addChild( reactionGraphic );
-        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 10 );
+        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
         addChild( legendNode );
 
         // The pane that has the curve and cursor
@@ -432,7 +432,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public void setProfileManipulable( boolean manipulable ) {
-        energyProfileGraphic.setManipulable( manipulable );    
+        energyProfileGraphic.setManipulable( manipulable );
     }
 
     //--------------------------------------------------------------------------------------------------
