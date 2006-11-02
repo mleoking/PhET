@@ -10,8 +10,6 @@ Jetpack is shown in an incorrect position when the character is on the track.
 
 Are history buttons displaying total energy without thermal, and calling it total?
 
-Track graphic is stopping one segment before the end of the track.
-
 I was trying to simulate gravity using a downward thrust on the skater, 
 and it essentially works, but it appears that the thrust is not 
 constant, perhaps, but increases a little if you hold down the down 
@@ -24,6 +22,8 @@ reference.  But, in the current simulation, even without friction the
 motion is damped and KE goes to zero (over a long period of time).  Do I 
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
+>> Could I do this by just adding energy when thrust is turned on/off, 
+        and modeling the thrust as another term in the 'total' gravity?
          
 #################################################################
 Low Priority
