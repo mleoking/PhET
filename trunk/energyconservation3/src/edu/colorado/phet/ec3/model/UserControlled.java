@@ -9,17 +9,23 @@ package edu.colorado.phet.ec3.model;
  */
 
 public class UserControlled implements UpdateMode {
-    public void stepInTime( Body body, double dt ) {
+    Body body;
+
+    public UserControlled( Body body ) {
+        this.body = body;
     }
 
-    public void init( Body body ) {
+    public void stepInTime( double dt ) {
+    }
+
+    public void init() {
 //        body.setCMRotation( 0 );
 //        body.setAttachmentPointRotation( Math.PI );
         body.convertToFreefall();
     }
 
     public UpdateMode copy() {
-        return new UserControlled();
+        return new UserControlled( body );
     }
 
 }
