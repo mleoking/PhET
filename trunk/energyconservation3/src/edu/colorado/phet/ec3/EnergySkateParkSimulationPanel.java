@@ -15,6 +15,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -31,20 +33,20 @@ import java.util.Comparator;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EC3Canvas extends PhetPCanvas {
+public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     private EnergySkateParkModule ec3Module;
     private EnergyConservationModel ec3Model;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
-    private EC3RootNode rootNode;
+    private EnergySkateParkRootNode rootNode;
     private double matchThresholdWorldCoordinates = 1.5;
 
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 
-    public EC3Canvas( EnergySkateParkModule ec3Module ) {
+    public EnergySkateParkSimulationPanel( EnergySkateParkModule ec3Module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
-        this.rootNode = new EC3RootNode( ec3Module, this );
+        this.rootNode = new EnergySkateParkRootNode( ec3Module, this );
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
@@ -114,15 +116,15 @@ public class EC3Canvas extends PhetPCanvas {
     private void addKeyHandling() {
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                EC3Canvas.this.keyPressed( e );
+                EnergySkateParkSimulationPanel.this.keyPressed( e );
             }
 
             public void keyReleased( KeyEvent e ) {
-                EC3Canvas.this.keyReleased( e );
+                EnergySkateParkSimulationPanel.this.keyReleased( e );
             }
 
             public void keyTyped( KeyEvent e ) {
-                EC3Canvas.this.keyTyped( e );
+                EnergySkateParkSimulationPanel.this.keyTyped( e );
             }
         } );
     }
@@ -348,7 +350,7 @@ public class EC3Canvas extends PhetPCanvas {
         rootNode.setPieChartVisible( selected );
     }
 
-    public EC3RootNode getRootNode() {
+    public EnergySkateParkRootNode getRootNode() {
         return rootNode;
     }
 
@@ -378,5 +380,21 @@ public class EC3Canvas extends PhetPCanvas {
         removeScreenChild( o );
         o.delete();
         attachmentPointGraphics.remove( o );
+    }
+
+    public void dragSplineSurface( PInputEvent event, SplineSurface createdSurface ) {
+        SplineGraphic splineGraphic = getSplineGraphic( createdSurface );
+        PDimension delta = event.getCanvasDelta();
+        rootNode.screenToWorld( delta );
+        splineGraphic.processExternalDragEvent( delta.width, delta.height );
+    }
+
+    public SplineGraphic getSplineGraphic( SplineSurface createdSurface ) {
+        for( int i = 0; i < numSplineGraphics(); i++ ) {
+            if( splineGraphicAt( i ).getSplineSurface() == createdSurface ) {
+                return splineGraphicAt( i );
+            }
+        }
+        return null;
     }
 }

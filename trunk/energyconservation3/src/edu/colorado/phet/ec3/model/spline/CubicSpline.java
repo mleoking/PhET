@@ -3,7 +3,7 @@ package edu.colorado.phet.ec3.model.spline;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 
 import java.awt.geom.Point2D;
 
@@ -19,7 +19,7 @@ public class CubicSpline extends AbstractSpline {
     private NatCubicSpline2D natcubicspline2d;
 
     public CubicSpline() {
-        this( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
+        this( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
     }
 
     public CubicSpline( int numSegments ) {
@@ -53,7 +53,7 @@ public class CubicSpline extends AbstractSpline {
         for( int i = 0; i < numControlPoints(); i++ ) {
             cubicSpline.addControlPoint( controlPointAt( numControlPoints() - 1 - i ) );
         }
-        cubicSpline.setFrictionCoefficient(getFrictionCoefficient());
+        cubicSpline.setFrictionCoefficient( getFrictionCoefficient() );
         return cubicSpline;
     }
 

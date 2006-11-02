@@ -17,11 +17,11 @@ import java.awt.event.ActionListener;
  */
 
 public class BodyShapeNode extends PhetPNode {
-    private EC3Canvas ec3Canvas;
+    private EnergySkateParkSimulationPanel ec3Canvas;
     private Body body;
     private PPath child;
 
-    public BodyShapeNode( EC3Canvas ec3Canvas, Body body ) {
+    public BodyShapeNode( EnergySkateParkSimulationPanel ec3Canvas, Body body ) {
         this.ec3Canvas = ec3Canvas;
         this.body = body;
         child = new PPath( new Rectangle( -1, -1, 2, 2 ) );

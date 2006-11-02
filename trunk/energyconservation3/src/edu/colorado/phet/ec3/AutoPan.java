@@ -17,13 +17,13 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class AutoPan {
     private EnergySkateParkModule module;
 
-    public AutoPan( final EC3Canvas energyCanvas, EnergySkateParkModule module ) {
+    public AutoPan( final EnergySkateParkSimulationPanel energyCanvas, EnergySkateParkModule module ) {
         this.module = module;
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 //set zoom related to speed
                 //set center on player.
-                EC3RootNode rootNode = energyCanvas.getRootNode();
+                EnergySkateParkRootNode rootNode = energyCanvas.getRootNode();
                 if( rootNode.numBodyGraphics() > 0 ) {
                     BodyGraphic bodyGraphic = rootNode.bodyGraphicAt( 0 );
                     PBounds bodyBounds = bodyGraphic.getGlobalFullBounds();

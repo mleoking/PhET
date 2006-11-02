@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3.view.bargraphs;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,20 +18,20 @@ import java.awt.image.BufferedImage;
  */
 
 public class BarGraphSuite extends PNode {
-    private EC3Canvas eC3Canvas;
+    private EnergySkateParkSimulationPanel energySkaterSimulationPanel;
     private EnergyConservationModel energyConservationModel;
 
     private BarGraphSet workBarGraphSet;
     private BarGraphSet energyBarGraphSet;
     private ModelViewTransform1D transform1D;
 
-    public BarGraphSuite( EC3Canvas eC3Canvas, final EnergyConservationModel energyConservationModel ) {
-        this.eC3Canvas = eC3Canvas;
+    public BarGraphSuite( EnergySkateParkSimulationPanel energySkaterSimulationPanel, final EnergyConservationModel energyConservationModel ) {
+        this.energySkaterSimulationPanel = energySkaterSimulationPanel;
         this.energyConservationModel = energyConservationModel;
 
         transform1D = new ModelViewTransform1D( 0, 600, 0, 3 );
-        workBarGraphSet = new WorkBarGraphSet( eC3Canvas, energyConservationModel, transform1D );
-        energyBarGraphSet = new EnergyBarGraphSet( eC3Canvas, energyConservationModel, transform1D );
+        workBarGraphSet = new WorkBarGraphSet( energySkaterSimulationPanel, energyConservationModel, transform1D );
+        energyBarGraphSet = new EnergyBarGraphSet( energySkaterSimulationPanel, energyConservationModel, transform1D );
         addChild( workBarGraphSet );
         addChild( energyBarGraphSet );
 

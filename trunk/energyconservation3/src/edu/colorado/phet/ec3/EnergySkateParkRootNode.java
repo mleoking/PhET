@@ -26,13 +26,13 @@ import java.io.IOException;
  * Copyright (c) Oct 21, 2005 by Sam Reid
  */
 
-public class EC3RootNode extends PhetRootPNode {
+public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
     private PNode jetPackGraphics = new PNode();
     private PNode splineGraphics = new PNode();
     private PNode buses;
     private EnergySkateParkModule ec3Module;
-    private EC3Canvas ec3Canvas;
+    private EnergySkateParkSimulationPanel ec3Canvas;
     private PNode historyGraphics = new PNode();
     private MeasuringTape measuringTape;
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
@@ -43,24 +43,24 @@ public class EC3RootNode extends PhetRootPNode {
     private PauseIndicator pauseIndicator;
     private Legend legend;
     private BackgroundNode screenBackground;
-    private SplineToolbox splineToolbox;
-    private PNode toolboxPlaceholder;
+    private SplineToolbox2 splineToolbox;
+//    private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
 
-    public EC3RootNode( EnergySkateParkModule ec3Module, EC3Canvas ec3Canvas ) {
+    public EnergySkateParkRootNode( EnergySkateParkModule ec3Module, EnergySkateParkSimulationPanel ec3Canvas ) {
         this.ec3Module = ec3Module;
         this.ec3Canvas = ec3Canvas;
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
         ec3Canvas.setBackground( SKY_COLOR );
-        toolboxPlaceholder = new PNode();
+//        toolboxPlaceholder = new PNode();
 
 //        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
-        splineToolbox = new SplineToolbox( ec3Canvas, this );
+        splineToolbox = new SplineToolbox2( ec3Canvas, this );
 
         double coordScale = 1.0 / 1.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
@@ -85,7 +85,7 @@ public class EC3RootNode extends PhetRootPNode {
         addScreenChild( pieCharts );
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
-        addWorldChild( toolboxPlaceholder );
+//        addWorldChild( toolboxPlaceholder );
         addScreenChild( zeroPointPotentialGraphic );
         addScreenChild( offscreenManIndicator );
         addWorldChild( gridNode );
@@ -109,9 +109,9 @@ public class EC3RootNode extends PhetRootPNode {
         setZeroPointVisible( false );
     }
 
-    public PNode getToolboxPlaceholder() {
-        return toolboxPlaceholder;
-    }
+//    public PNode getToolboxPlaceholder() {
+//        return toolboxPlaceholder;
+//    }
 
 
     public BackgroundNode getBackground() {
@@ -381,7 +381,7 @@ public class EC3RootNode extends PhetRootPNode {
         legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, getEC3Panel().getHeight() - legend.getFullBounds().getHeight() - insetY );
     }
 
-    private EC3Canvas getEC3Panel() {
+    private EnergySkateParkSimulationPanel getEC3Panel() {
         return ec3Canvas;
     }
 

@@ -47,7 +47,7 @@ new EnergySkateParkFrameSetup() );
     private void start() {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
-        final EC3Canvas c = module.getEnergyConservationCanvas();
+        final EnergySkateParkSimulationPanel c = module.getEnergyConservationCanvas();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
             public boolean dispatchKeyEvent( KeyEvent e ) {
                 if( !c.hasFocus() ) {
