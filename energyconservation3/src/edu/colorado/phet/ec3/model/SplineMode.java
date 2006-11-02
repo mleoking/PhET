@@ -256,8 +256,8 @@ public class SplineMode implements UpdateMode {
             Area area = new Area( collisionSpline.getArea() );//todo: remove this duplicate computation
             //todo: add restitution
             area.intersect( new Area( body.getShape() ) );
-            Rectangle2D r = area.getBounds2D();
-            double x = collisionSpline.getDistAlongSpline( new Point2D.Double( r.getCenterX(), r.getCenterY() ), 0, collisionSpline.getLength(), 100 );
+            Rectangle2D intersectionBounds = area.getBounds2D();
+            double x = collisionSpline.getDistAlongSpline( new Point2D.Double( intersectionBounds.getCenterX(), intersectionBounds.getCenterY() ), 0, collisionSpline.getLength(), 100 );
             if( !feetAreClose( body, x, collisionSpline ) ) {
                 double epsilon = 0.05;
                 if( ( x <= epsilon || x >= collisionSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, collisionSpline, x ) )
@@ -271,7 +271,7 @@ public class SplineMode implements UpdateMode {
                     body.setAngularVelocity( dTheta * 10 );
                     body.convertToFreefall();
                 }
-                else {//( !feetAreClose( body, x, bestSpline ) ) {
+                else {
                     double parallelPart = collisionSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
                     double perpPart = collisionSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
                     Vector2D.Double newVelocity = new Vector2D.Double();
@@ -280,7 +280,6 @@ public class SplineMode implements UpdateMode {
                     body.setVelocity( newVelocity );
                     body.convertToFreefall();
                     body.setAngularVelocity( parallelPart / 2 );
-                    //                    System.out.println( "Collision, feet far@,x = "+x );
                 }
             }
         }
