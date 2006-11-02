@@ -1,21 +1,19 @@
-- Check reset on 2D launcher
 - With strip chart up for a long time, the sim choked
-- Tracking pane loses the B molecule
 - Make things resizable
 - Phet logo should be centered over the control panel
-- When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
-    is still highlighted
-- Reset All should reset the profile (doesn't on Simple module. May not on Complex, either)
-- When user selects "Track molecule" radio button, prompt dialog will appear right away.
 - Option to show bonds of selected molecule only
-- Improve visibility of selected molecule
-- Ability to select B for tracking
-- Losing B molecule in tracker
 - Thermometer
 - Wiggle me: Pull to Launch
 - If there are a lot of molecules in the box, the energy view throws an exception sometimes when
     neither the selected molecule nor the nearest molecule are part of a composite. This may be because
     things are in the middle of a time step.
+
+- When Track a Molecule is de-selected, the cursor still moves and the old selected molecule
+    is still highlighted
+- Reset All should reset the profile (doesn't on Simple module. May not on Complex, either)
+- When user selects "Track molecule" radio button, prompt dialog should appear right away.
+- Ability to select B for tracking
+- Improve visibility of selected molecule
 
 - 1D in Simple module becomes 2D over time
 - Components of CompositeMolecule in molecule tracker aren't next to each other
@@ -163,3 +161,5 @@ Done
 11-02-06 - Add title to pie chart
 11-02-06 - Put rescale button on bar chart
 11-02-06 - Reload button for Simple module
+11-02-06 - Tracking pane loses the B molecule
+
