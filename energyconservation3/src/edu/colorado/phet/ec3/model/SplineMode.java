@@ -75,7 +75,10 @@ public class SplineMode implements UpdateMode {
     void fixEnergyOnSpline( final Body origState, double x2 ) {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
-        double epsilon = 0.1;
+//        double epsilon = 0.01;//1E-7
+//        double epsilon = 0.001;//1E-8     
+//        double epsilon = 0.0001;//0.5 sometimes     
+        double epsilon = 0.01;
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
@@ -83,7 +86,9 @@ public class SplineMode implements UpdateMode {
             }
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
-        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() );
+        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
+        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
+//        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
     }
 
     private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
