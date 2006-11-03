@@ -18,6 +18,7 @@ public class LiveMode extends Mode {
     }
 
     public void initialize() {
+        getTimeSeriesModel().setModelState( getTimeSeriesModel().getSeries().getLastPoint().getValue() );
     }
 
     public void step() {
