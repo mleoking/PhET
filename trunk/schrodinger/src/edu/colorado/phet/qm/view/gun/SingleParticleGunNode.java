@@ -48,15 +48,8 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     private GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.setFillNone();
-//        gunControlPanel.add( fireOne );
         gunControlPanel.add( autoFireJCheckBox );
-
         return gunControlPanel;
-    }
-
-    protected void layoutChildren() {
-        super.layoutChildren();
-//        gunControlPanel.getPSwing().setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
     }
 
     protected Point getGunLocation() {
