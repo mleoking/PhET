@@ -26,7 +26,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Public class data
     //----------------------------------------------------------------------------
     
-    public static final String PROPERTY_ELECTRON_POSITION = "electronPosition";
+    public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -44,8 +44,11 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
     
-    /* probability that photon will be emitted with dt=1 */
+    /* probability that photon will be emitted */
     public static final double PHOTON_EMISSION_PROBABILITY = 0.05; // 1.0 = 100%
+    
+    /* probability that photon will be absorbed */
+    public static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
     /* range of the deflection angle for alpha particles */
     private static final double MIN_DEFLECTION_ANGLE = Math.toRadians( 2 );
@@ -58,28 +61,56 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // number of photons the atom has absorded and is "holding"
     private int _numberOfPhotonsAbsorbed;
+    // dimensions of the shape used to represent the atom
     private Dimension _size;
+    // shape used to represent the atom, in world coordinates
     private Shape _shape;
-    private Point2D _electronOffset; // relative to atom's center
-    private Line2D _electronLine; // line on which the electron oscillates, relative to atom's center
-    private double _electronDistanceDelta; // change in distance when amplitude is 1.0
-    private boolean _electronDirectionPositive; // determines the electron's direction
+    // offset of the electron relative to atom's center
+    private Point2D _electronOffset;
+    // line on which the electron oscillates, relative to atom's center
+    private Line2D _electronLine;
+    // change in distance when amplitude is 1.0
+    private double _electronDistanceDelta;
+    // determines the electron's direction
+    private boolean _electronDirectionPositive;
+    
+    // is the electron moving?
+    private boolean _electronIsMoving;
+    // how many times has the electron crossed the atom's center since it started moving?
+    private int _numberOfZeroCrossings;
+    private double _previousAmplitude;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructs an atom with a default size.
+     * @param position
+     */
     public PlumPuddingModel( Point2D position ) {
         this( position, DEFAULT_SIZE );
     }
     
-    public PlumPuddingModel( Point2D position, Dimension size ) {
+    /*
+     * Constructor.
+     * @param position
+     * @param size
+     */
+    private PlumPuddingModel( Point2D position, Dimension size ) {
         super( position, 0 /* orientation */ );
+        
         _numberOfPhotonsAbsorbed = 0;
         _size = new Dimension( size );
         _electronOffset = new Point2D.Double( 0, 0 );
         _electronLine = new Line2D.Double();
+        
+        _electronIsMoving = false;
+        _numberOfZeroCrossings = 0;
+        _previousAmplitude = 0;
+        
         updateShape();
         updateElectronLine();
     }
@@ -88,23 +119,44 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the size of the atom.
+     * @return Dimension
+     */
     public Dimension getSize() {
         return _size;
     }
     
+    /**
+     * Sets the atom's position and updates its shape.
+     * @param p
+     */
     public void setPosition( Point2D p ) {
         setPosition( p.getX(), p.getY() );
     }
     
+    /**
+     * Sets the atom's position and updates its shape.
+     * @param x
+     * @param y
+     */
     public void setPosition( double x, double y ) {
         super.setPosition( x, y );
         updateShape();
     }
     
+    /**
+     * Gets the electron's offset, relative to the atom's center.
+     * @return Point2D
+     */
     public Point2D getElectronOffset() {
         return _electronOffset;
     }
     
+    /*
+     * Gets the electron's position in world coordinates.
+     * This is the electron's offset adjusted by the atom's position.
+     */
     private Point2D getElectronPosition() {
         double x = getX() + _electronOffset.getX();
         double y = getY() + _electronOffset.getY();
@@ -115,51 +167,106 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // utilities
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the line that determines the electron's oscillation path
+     * when the electron is moving at maximum amplitude.
+     * The line is specified in coordinates relative to the atom's center.
+     */
     private void updateElectronLine() {
-        // line is relative to atom's center!
+        
         _electronLine.setLine( -_size.getWidth()/2, 0, _size.getWidth()/2, 0 );//XXX randomize
         double electronLineLength = _electronLine.getP1().distance( _electronLine.getP2() );
         _electronDistanceDelta = electronLineLength / ELECTRON_LINE_SEGMENTS;
         _electronDirectionPositive = RandomUtils.nextBoolean();
+        
+        // move electron back to center
+        _electronOffset.setLocation( 0, 0 );
+        notifyObservers( PROPERTY_ELECTRON_OFFSET );
     }
     
+    /*
+     * Updates the shape used to represent the atom.
+     * The shape is specified in world coordinates.
+     */
     private void updateShape() {
         double w = _size.getWidth();
         double h = _size.getHeight();
         _shape = new Ellipse2D.Double( getX() - ( w / 2 ), getY() - ( h / 2 ), w, h );
     }
     
+    /*
+     * Gets the electron's amplitude.
+     * This is ratio of the number of photons actually absorbed to
+     * the number of photons the electron is capable of absorbing.
+     */
     private double getElectronAmplitude() {
         return ( _numberOfPhotonsAbsorbed / (double)MAX_PHOTONS_ABSORBED );
     }
     
+    /*
+     * Gets the sign (+-) that corresponds to the electron's direction.
+     * +x is to the right, +y is down.
+     */
     private int getElectronDirectionSign() {
         return ( _electronDirectionPositive == true ) ? +1 : -1;
+    }
+    
+    /*
+     * Gets the number of oscillations that the electron has completed 
+     * since it started moving. This is a function of the number of times
+     * the electron has crossed the center of the atom.
+     */
+    private int getNumberOfElectronOscillations() {
+        return ( _numberOfZeroCrossings % 2 );
+    }
+    
+    /*
+     * Cannot absorb a photon if any of these are true:
+     * - the photon was emitted by the atom
+     * - we've already absorbed the max
+     * - we've emitted out last photon and haven't completed oscillation.
+     */
+    private boolean canAbsorb( Photon photon ) {
+        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == MAX_PHOTONS_ABSORBED || ( _numberOfPhotonsAbsorbed == 0 && _electronIsMoving ) );
+    }
+    
+    /*
+     * Determines if the sign (+-) on two numbers is different.
+     */
+    private boolean signIsDifferent( double d1, double d2 ) {
+        return ( ( d1 > 0 && d2 < 0 ) || ( d1 < 0 && d2 > 0 ) );
     }
     
     //----------------------------------------------------------------------------
     // Photon absorption and emission
     //----------------------------------------------------------------------------
     
+    /*
+     * Absorbed the specified photon.
+     */
     private void absorbPhoton( Photon photon ) {
         _numberOfPhotonsAbsorbed += 1;
+        assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
         PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
         firePhotonAbsorbedEvent( event );
     }
     
+    /*
+     * Emits a photon from the electron's location, at a random orientation.
+     */
     private void emitPhoton() {
         if ( _numberOfPhotonsAbsorbed > 0 ) {
             
             _numberOfPhotonsAbsorbed -= 1;
             
-            // Emit photon at the electron's position
+            // Use the electron's position
             Point2D position = getElectronPosition();
             
             // Pick a random orientation
             double orientation = RandomUtils.nextOrientation();
             
-            // Create and emit the photon
-            Photon photon = new Photon( position, orientation, PHOTON_EMISSION_WAVELENGTH, true );
+            // Create and emit a photon
+            Photon photon = new Photon( position, orientation, PHOTON_EMISSION_WAVELENGTH, true /* emitted */ );
             PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
             firePhotonEmittedEvent( event );
         }
@@ -171,16 +278,19 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     
     /**
      * Detects and handles collision with a photon.
-     * If a collision occurs, the photon may be absorbed or it may pass through.
+     * A collision occurs when a photon comes "close" to the electron.
+     * If a collision occurs, there is a probability of absorption.
      * 
      * @param photon
      */
     public void detectCollision( Photon photon ) {
-        if ( _numberOfPhotonsAbsorbed < MAX_PHOTONS_ABSORBED && !photon.wasEmitted() ) {
+        if ( canAbsorb( photon ) ) {
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
             if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
-                absorbPhoton( photon );
+                if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
+                    absorbPhoton( photon );
+                }
             }
         }
     }
@@ -217,40 +327,79 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     /**
      * Oscillates the electron inside the atom.
      * Emits photon at random time.
+     * After emitting its last photon, the electron completes its oscillation
+     * and returns to (0,0).
      */
     public void stepInTime( double dt ) {
-        if ( _numberOfPhotonsAbsorbed > 0 ) {
+        
+       if ( _numberOfPhotonsAbsorbed > 0 ) {
+           
+            _electronIsMoving = true;
             
             // Move the electron
-            {
-                final double a = getElectronAmplitude();
-                
-                // Electron's new offset
-                final double distanceDelta = dt * ( ( a * _electronDistanceDelta ) );
-                final double sign = getElectronDirectionSign();
-                double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
-                double y = 0;//XXX assumes a horizontal line
-
-                // Is the new offset past the ends of the oscillation line?
-                if ( x < a * _electronLine.getX1() || y < a * _electronLine.getY1() ) {
-                    x = a * _electronLine.getX1();
-                    y = a * _electronLine.getY1();
-                    _electronDirectionPositive = !_electronDirectionPositive;
-                }
-                else if ( x > a * _electronLine.getX2() || y > a * _electronLine.getY2() ) {
-                    x = a * _electronLine.getX2();
-                    y = a * _electronLine.getY2();
-                    _electronDirectionPositive = !_electronDirectionPositive;
-                }
-                
-                _electronOffset.setLocation( x, y );
-                notifyObservers( PROPERTY_ELECTRON_POSITION );
-            }
-           
-            // Randomly emit a photon
-            if ( Math.random() < ( dt * PHOTON_EMISSION_PROBABILITY ) ) {
+            final double amplitude = getElectronAmplitude();
+            moveElectron( dt, amplitude );
+            
+            // Randomly emit a photon after completing an oscillation cycle
+            boolean b1 = ( Math.random() < PHOTON_EMISSION_PROBABILITY );
+            boolean b2 = ( getNumberOfElectronOscillations() != 0 );
+            if ( b1 && b2 ) {
                 emitPhoton();
+                if ( _numberOfPhotonsAbsorbed == 0 ) {
+                    // If we have not more photons, remember amplitude so we can complete oscillation.
+                    _previousAmplitude = amplitude;
+                }
             }
         }
+        else if ( _electronIsMoving && _numberOfPhotonsAbsorbed == 0 ) {
+            
+            // Stop the electron when it completes its current oscillation
+            int before = getNumberOfElectronOscillations();
+            moveElectron( dt, _previousAmplitude );
+            int after = getNumberOfElectronOscillations();
+            if ( before != after ) {
+                _electronIsMoving = false;
+                _numberOfZeroCrossings = 0;
+                _previousAmplitude = 0;
+                _electronOffset.setLocation( 0, 0 );
+                notifyObservers( PROPERTY_ELECTRON_OFFSET );
+            }
+        }
+    }
+    
+    /*
+     * Moves the electron along its oscillation path with some amplitude.
+     */
+    private void moveElectron( double dt, double amplitude ) {
+
+        // Remember the old offset 
+        final double xo = _electronOffset.getX();
+        final double yo = _electronOffset.getY();
+        
+        // Electron's new offset
+        final double distanceDelta = dt * ( ( amplitude * _electronDistanceDelta ) );
+        final double sign = getElectronDirectionSign();
+        double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
+        double y = 0;//XXX assumes a horizontal line
+
+        // Is the new offset past the ends of the oscillation line?
+        if ( x < amplitude * _electronLine.getX1() || y < amplitude * _electronLine.getY1() ) {
+            x = amplitude * _electronLine.getX1();
+            y = amplitude * _electronLine.getY1();
+            _electronDirectionPositive = !_electronDirectionPositive;
+        }
+        else if ( x > amplitude * _electronLine.getX2() || y > amplitude * _electronLine.getY2() ) {
+            x = amplitude * _electronLine.getX2();
+            y = amplitude * _electronLine.getY2();
+            _electronDirectionPositive = !_electronDirectionPositive;
+        }
+        
+        // Did we cross the origin?
+        if ( ( x == 0 && y == 0 ) || signIsDifferent( x, xo ) || signIsDifferent( y, yo ) ) {
+            _numberOfZeroCrossings++;
+        }
+
+        _electronOffset.setLocation( x, y );
+        notifyObservers( PROPERTY_ELECTRON_OFFSET );
     }
 }
