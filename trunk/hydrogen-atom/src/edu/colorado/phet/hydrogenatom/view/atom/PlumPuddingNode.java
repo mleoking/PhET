@@ -114,7 +114,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
             Point2D nodePosition = ModelViewTransform.transform( atomPosition );
             setOffset( nodePosition );
         }
-        else if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_POSITION ) {
+        else if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
             // the electron has moved
             Point2D electronOffset = _atom.getElectronOffset();
             // treat coordinates as distances, since _electronNode is a child node
