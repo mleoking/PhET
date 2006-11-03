@@ -117,12 +117,12 @@ public class SplineMode implements UpdateMode {
             //wait until upside up to stop in a well
             if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
             {
-                System.out.println( "SplineMode.fixEnergy: Stopping!" );
+                System.out.println( "Looks like the bottom of a well: Stopping..." );
                 setBodyState( origState );
             }
             else {
                 if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
-                    System.out.println( "Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+                    System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
                     setBodyState( origState );
                 }
             }
