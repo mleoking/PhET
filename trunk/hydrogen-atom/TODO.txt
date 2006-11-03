@@ -52,6 +52,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/3/06) - remove UV and IR photons from legend
 (11/3/06) - randomize the electron line in PlumPuddingModel
 (11/3/06) - change oscillation line each time PlumPudding's electron starts oscillating
 (11/3/06) - change plum pudding shape to a circle, in anticipation of Rutherford scattering
