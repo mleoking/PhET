@@ -14,17 +14,56 @@ import java.util.Random;
 
 /**
  * ProbabilisticChooser
- * <p>
+ * <p/>
  * An object that selects from a collection of objects based on probabilities.
- * <p>
+ * <p/>
  * The object is constructed with an array of ProbabilisticChooser.Entry objects, each
  * of which contains a reference to an arbitrary object and the likelihood that it should
  * be chosen. The likelihoods can be expressed as any sort of number. The chooser
  * normalizes the likelihoods. The likelihoods could, for example, be expressed as the
  * count of a particular object in a population.
- * <p>
+ * <p/>
  * When the chooser is asked to get() an object, an object from the collection of
  * entries will be returned with the likelihood expressed in its particular entry.
+ * <p/>
+ * Example:
+ * <pre>
+ *
+ *      public static void main( String[] args ) {
+ *
+ *           class TestClass {
+ *               public String toString() {
+ *                   return getClass().getName();
+ *               }
+ *           }
+ *           class Cat extends TestClass{};
+ *           class Dog extends TestClass{};
+ *           class Hamster extends TestClass{};
+ *
+ *           // A chooser based on floating point probabilities
+ *           ProbabilisticChooser.Entry[] entriesA = new ProbabilisticChooser.Entry[]{
+ *                   new ProbabilisticChooser.Entry( new Cat(), .3 ),
+ *                   new ProbabilisticChooser.Entry( new Dog(), .5 ),
+ *                   new ProbabilisticChooser.Entry( new Hamster(), .2 )
+ *           };
+ *
+ *           ProbabilisticChooser pcA = new ProbabilisticChooser( entriesA );
+ *           for( int i = 0; i < 100; i++ ) {
+ *               System.out.println( "pcA.get() = " + pcA.get() );
+ *           }
+ *
+ *           // A chooser based on numbers of elements in a population
+ *           ProbabilisticChooser.Entry[] entriesB = new ProbabilisticChooser.Entry[]{
+ *                   new ProbabilisticChooser.Entry( new Cat(), 6 ),
+ *                   new ProbabilisticChooser.Entry( new Dog(), 4 ),
+ *                   new ProbabilisticChooser.Entry( new Hamster(), 3 )
+ *           };
+ *
+ *           ProbabilisticChooser pcB = new ProbabilisticChooser( entries );
+ *           for( int i = 0; i < 100; i++ ) {
+ *               System.out.println( "pcB.get() = " + pcB.get() );
+ *           }
+ *      }
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -35,10 +74,13 @@ public class ProbabilisticChooser {
 
     private Entry[] _entries;
 
-
     /**
+     * Takes an array of ProbabilisticChooser.Entry instances. Each contains an object
+     * and a number that defines the likelihood that it will be selected.
+     * <p/>
+     * The order of the entries can be in the array is immaterial.
      *
-     * @param entries   The entries can be in any order in the array
+     * @param entries An array of ProbabilisticChooser.Entry objects
      */
     public ProbabilisticChooser( Entry[] entries ) {
         _entries = new Entry[ entries.length];
@@ -57,16 +99,17 @@ public class ProbabilisticChooser {
         double p = 0;
         for( int i = 0; i < entries.length; i++ ) {
             p += entries[i].getP() * fNorm;
-            _entries[i] = new Entry( entries[i].getObj() , p );
+            _entries[i] = new Entry( entries[i].getObj(), p );
         }
     }
 
     /**
      * Choose an object from the entries
+     *
      * @return An object from the entries
      */
     public Object get() {
-        return get( RANDOM.nextDouble());
+        return get( RANDOM.nextDouble() );
     }
 
     /**
@@ -95,10 +138,9 @@ public class ProbabilisticChooser {
         private double p;
 
         /**
-         *
-         * @param obj   An object to be put in the chooser
-         * @param p     The likelihood that the object should be chosen, or count of the object
-         *              instances in the total population
+         * @param obj An object to be put in the chooser
+         * @param p   The likelihood that the object should be chosen, or count of the object
+         *            instances in the total population
          */
         public Entry( Object obj, double p ) {
             this.obj = obj;
