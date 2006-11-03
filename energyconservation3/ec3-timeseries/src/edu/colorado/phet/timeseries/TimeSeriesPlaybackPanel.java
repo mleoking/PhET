@@ -87,7 +87,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         step = createButton( EnergySkateParkStrings.getString( "step" ), "StepForward" );
         step.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.step();
+                timeSeriesModel.stepMode();
             }
         } );
 
@@ -144,7 +144,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
 
             public void recordingFinished() {
-                setButtons( true, false, true, true, false, true, true );
+                setButtons( true, false, true, true, false, true, false );
             }
 
             public void playbackFinished() {
@@ -156,7 +156,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
 
             public void playbackPaused() {
-                setButtons( true, true, true, true, false, true, false );
+                setButtons( true, true, true, true, false, true, true );
             }
 
             public void reset() {
@@ -165,6 +165,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
             public void rewind() {
                 setButtons( true, true, true, true, false, false, true );
+            }
+
+            public void liveModePaused() {
+                setButtons( true, true, false, false, false, false, true );
             }
         };
         timeSeriesModel.addListener( timeListener );

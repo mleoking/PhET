@@ -104,6 +104,9 @@ public abstract class TimeSeriesModel implements ClockListener {
             if( mode == recordMode ) {
                 timeSeriesModelListener.recordingPaused();
             }
+            else if( mode == liveMode ) {
+                timeSeriesModelListener.liveModePaused();
+            }
             else {
                 timeSeriesModelListener.playbackPaused();
             }
@@ -257,7 +260,7 @@ public abstract class TimeSeriesModel implements ClockListener {
         return mode == recordMode && !isPaused();
     }
 
-    public abstract void updateModel( ClockEvent clockEvent );
+    public abstract void updateModel( double simulationTimeChange );
 
     public abstract Object getModelState();
 
@@ -306,7 +309,11 @@ public abstract class TimeSeriesModel implements ClockListener {
         setMode( liveMode );
     }
 
-    public abstract void step();
+    public abstract void stepLive();
+
+    public void stepMode() {
+        mode.step();
+    }
 
     public interface PlaybackTimeListener {
         public void timeChanged();

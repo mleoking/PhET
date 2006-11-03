@@ -2,6 +2,7 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.EnergySkateParkApplication;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
 
@@ -25,6 +26,10 @@ public class RecordMode extends Mode {
 //        timeSeriesModel.setReplayTime( recTime );
     }
 
+    public void step() {
+        doStep( EnergySkateParkApplication.SIMULATION_TIME_DT );
+    }
+
     public void reset() {
         timer.reset();
     }
@@ -34,19 +39,23 @@ public class RecordMode extends Mode {
     }
 
     public void clockTicked( ClockEvent event ) {
-        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
         double dt = event.getSimulationTimeChange();
+        if( !getTimeSeriesModel().isPaused() ) {
+            doStep( dt );
+        }
+    }
+
+    private void doStep( double dt ) {
+        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();
-        if( !timeSeriesModel.isPaused() ) {
-            double newTime = recorderTime + dt;// * timer.getTimerScale();
-            if( newTime > maxTime ) {
-                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
-            }
-            timer.stepInTime( dt, maxTime );//this could go over the max.
-            timeSeriesModel.updateModel( event );
-            timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
+        double newTime = recorderTime + dt;// * timer.getTimerScale();
+        if( newTime > maxTime ) {
+            dt = ( maxTime - recorderTime );// / timer.getTimerScale();
         }
+        timer.stepInTime( dt, maxTime );//this could go over the max.
+        timeSeriesModel.updateModel( dt );
+        timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
     }
 
     public void initAgain( TimeSeriesModel timeSeriesModel ) {
