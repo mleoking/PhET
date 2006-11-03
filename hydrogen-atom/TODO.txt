@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- make plum pudding shape a circle
 - change coordinate system so that atom's origin is at (0,0)
 - plum pudding should absorb only 1 photon
 - change oscillation line each time PlumPudding's electron starts oscillating
@@ -57,6 +58,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/3/06) - add UV and IR photons to legend
 (11/2/06) - remove support in model for multiple atoms (unnecessary complication)
 (11/2/06) - add a slower clock speed, remove the fastest one
 (11/2/06) - plum pudding should emit photons from electron location
