@@ -32,7 +32,10 @@ public class EnergyConserver {
         if( body.isUserControlled() ) {
             return true;
         }
-        double speedThreshold = 0.001;//reduced from 20.
+//        double speedThreshold = 0.001;//reduced from 20.
+//        double speedThreshold = 0.01;//reduced from 20.
+        //increasing this from 0.001 to 0.1 causes the moon-sticking problem to go away.
+        double speedThreshold = 0.1;//reduced from 20.
         for( int i = 0; i < numIterations; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
                 boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
