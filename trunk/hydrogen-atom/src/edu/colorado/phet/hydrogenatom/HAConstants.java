@@ -72,11 +72,11 @@ public class HAConstants {
     // The clock control area has a slider for choosing a clock "speed".
     // These are the clock steps that correspond to each speed setting.
     public static final double[] CLOCK_STEPS = {
-        0.5, 1, 2, 3, 4
+        0.5, 1, 2, 3
     };
        
     // Defaults
-    public static final int DEFAULT_CLOCK_INDEX = 2;
+    public static final int DEFAULT_CLOCK_INDEX = 1;
     public static final double DEFAULT_CLOCK_STEP = CLOCK_STEPS[ DEFAULT_CLOCK_INDEX ];
     
     //----------------------------------------------------------------------------
