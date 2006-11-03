@@ -73,7 +73,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
     
     /* probability that photon will be emitted */
-    public static final double PHOTON_EMISSION_PROBABILITY = 0.05; // 1.0 = 100%
+    public static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
     
     /* probability that photon will be absorbed */
     public static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
