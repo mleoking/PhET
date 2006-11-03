@@ -65,7 +65,7 @@ public class SplineMode implements UpdateMode {
             rotateBody( x2, dt, Double.POSITIVE_INFINITY );
 
             if( !isUserControlled() ) {
-                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ) );
+                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2 );
             }
             lastState = body.copyState();
 
@@ -73,8 +73,40 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    private void fixEnergy( Body origState, AbstractVector2D netForce ) {
-        boolean fixed = new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15 );
+    void fixEnergyOnSpline( final Body origState, double x2 ) {
+        //look for an adjacent position with a more accurate energy
+        double epsilon = 0.1;
+        double x3 = spline.minimizeCriteria( x2 - epsilon, x2 + epsilon, 60, new AbstractSpline.SplineCriteria() {
+            public double evaluate( Point2D loc ) {
+                body.setAttachmentPointPosition( loc );
+                return Math.abs( body.getTotalEnergy() - origState.getTotalEnergy() );
+            }
+        } );
+        System.out.println( "x2=" + x2 + ", x3=" + x3 );
+        body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
+    }
+
+    private double getDistAlongSplineSearchEnergy( Point2D attachPoint, double center, double epsilon, int numPts, int numIterations, double totalEnergy ) {
+        double best = 0;
+        for( int i = 0; i < numIterations; i++ ) {
+            best = getDistAlongSpline( attachPoint, Math.max( center - epsilon, 0 ), Math.min( spline.getLength(), center + epsilon ), numPts );
+            center = best;
+            epsilon = epsilon / numPts * 2;
+        }
+        return best;
+    }
+
+    private void fixEnergy( Body origState, AbstractVector2D netForce, double x2 ) {
+        boolean fixed = false;
+        if( body.getSpeed() >= 1 ) {
+            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.1 );
+        }
+        else {
+            fixEnergyOnSpline( origState, x2 );
+            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.1 );
+        }
+        //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
+
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well

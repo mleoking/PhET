@@ -15,27 +15,14 @@ public class EnergyConserver {
         if( body.isUserControlled() ) {
             return;
         }
-        fixEnergyWithVelocity( body, desiredTotalEnergy, 10 );
-//        if( Math.abs( body.getGravity() ) > 1.0 ) {
-//            for( int i = 0; i < 3; i++ ) {
-//                boolean done = conserveEnergyViaH( body, desiredTotalEnergy );
-//                if( done ) {
-//                    break;
-//                }
-//            }
-//        }
-//        double mechEnergy = model.getMechanicalEnergy( body );
-//        System.out.println( "requested mechEnergy = " + desiredMechanicalEnergy + ", obtained me=" + mechEnergy );
+        fixEnergyWithVelocity( body, desiredTotalEnergy, 10, 0.1 );
     }
 
-    public boolean fixEnergyWithVelocity( Body body, double desiredTotalEnergy, int numIterations ) {
+    public boolean fixEnergyWithVelocity( Body body, double desiredTotalEnergy, int numIterations, double speedThreshold ) {
         if( body.isUserControlled() ) {
             return true;
         }
-//        double speedThreshold = 0.001;//reduced from 20.
-//        double speedThreshold = 0.01;//reduced from 20.
-        //increasing this from 0.001 to 0.1 causes the moon-sticking problem to go away.
-        double speedThreshold = 0.1;//reduced from 20.
+        //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
         for( int i = 0; i < numIterations; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
                 boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
