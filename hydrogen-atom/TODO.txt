@@ -11,9 +11,10 @@ HIGH PRIORITY:
 - make plum pudding electron go through 1 full oscillation before emitting
 - plum pudding electron oscillation should always stop at (0,0)
 - randomize the electron line in PlumPuddingModel
-- message and reset ("new atom"?) button when Solar System atom has been destroyed
+- change plum pudding to use Rutherford scattering for alpha particles
 
 MEDIUM PRIORITY:
+- message and reset ("new atom"?) button when Solar System atom has been destroyed
 - move common PROPERTY constants to AbstractHydrogenAtom
 - add x-axis ticks and labels to spectrometer
 - draw interior window of spectrometer using PPath
