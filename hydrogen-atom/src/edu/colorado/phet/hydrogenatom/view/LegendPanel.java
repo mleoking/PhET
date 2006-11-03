@@ -121,12 +121,12 @@ public class LegendPanel extends JPanel {
         layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
-        col = 0;
-        layout.addComponent( irPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
-        col = 0;
+//        layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+//        layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+//        col = 0;
+//        layout.addComponent( irPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+//        layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+//        col = 0;
         layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
