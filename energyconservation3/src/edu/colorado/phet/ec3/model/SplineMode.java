@@ -107,6 +107,7 @@ public class SplineMode implements UpdateMode {
         if( body.getSpeed() >= 0.1 ) {
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
         }
+
         else {
             fixed = fixed || fixEnergyOnSpline( origState, x2 );
             if( !fixed ) {
