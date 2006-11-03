@@ -3,7 +3,8 @@ Remaining Work
 #######################################
 
 Bugs: 
-- slow motion button doesn't seem to work right 
+- slow motion button doesn't seem to work right
+        Clarification question is in.
 - when I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.) 
 - in space, the thruster doesn't seem to work like gravity still 
 - the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot. 
