@@ -20,6 +20,7 @@ import javax.swing.border.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.view.particle.*;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -67,6 +68,16 @@ public class LegendPanel extends JPanel {
         JLabel photonText = new JLabel( SimStrings.get( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
+        
+        JLabel uvPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1 ) );
+        JLabel uvPhotonText = new JLabel( SimStrings.get( "label.uvPhoton" ) );
+        uvPhotonText.setFont( font );
+        uvPhotonText.setForeground( LABEL_COLOR );
+        
+        JLabel irPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1 ) );
+        JLabel irPhotonText = new JLabel( SimStrings.get( "label.irPhoton" ) );
+        irPhotonText.setFont( font );
+        irPhotonText.setForeground( LABEL_COLOR );
 
         JLabel alphaParticleImage = toJLabel( AlphaParticleNode.createImage() );
         JLabel alphaParticleText = new JLabel( SimStrings.get( "label.alphaParticle" ) );
@@ -109,6 +120,12 @@ public class LegendPanel extends JPanel {
         int col = 0;
         layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+        col = 0;
+        layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+        layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+        col = 0;
+        layout.addComponent( irPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+        layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
         layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
