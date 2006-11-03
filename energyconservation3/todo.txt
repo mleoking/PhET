@@ -2,6 +2,13 @@
 Remaining Work
 #######################################
 
+Sorry, I was having a hard time getting any attachments to send yesterday. 
+I saw two problems, one that he hung up on the top of the ramp easily if I was trying to retest my track. 
+The other was that  I noticed that the skater was just barely out of screen, 
+so I didn't know to grab him and the Return skater did not pop up. 
+I realized that the play area was partially under the tool section. 
+If you need me to I'll try to make a new file to send you. 
+
 Bugs: 
 - slow motion button doesn't seem to work right
         Clarifying this issue...
