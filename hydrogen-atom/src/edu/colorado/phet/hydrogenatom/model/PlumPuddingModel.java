@@ -19,7 +19,35 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
-
+/**
+ * PlumPuddingModel models the hydrogen atom as plum pudding.
+ * <p>
+ * Physical representation:
+ * The proton is a blob of pudding (or "goo"), modeled as an ellipse.
+ * An electron oscillates inside the goo along a straight line 
+ * that passes through the center of the goo and has its end points
+ * on the ellipse.  
+ * <p>
+ * Collision behavior:
+ * Photons collide with the electron when they are "close".
+ * Alpha particles collide with the goo and are deflected 
+ * using a Rutherford scattering algorithm.
+ * <p>
+ * Absorption behavior:
+ * The electron can absorb N photons.
+ * When any photon collides with the electron, it is absorbed with
+ * some probability, and (if absorbed) causes the electron to start oscillating.
+ * Alpha particles are not absorbed.
+ * <p>
+ * Emission behavior:
+ * The electron can emit one UV photon for each photon absorbed.
+ * Photons are emitted at the electron's location.
+ * No photons are emitted until the electron has completed one
+ * oscillation cycle, and after emitting its last photon,
+ * the electron completes its current oscillation cycles,
+ * coming to rest at the atoms center.
+ * Alpha particles are not emitted.
+ */
 public class PlumPuddingModel extends AbstractHydrogenAtom {
 
     //----------------------------------------------------------------------------
