@@ -28,6 +28,11 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
 
 /**
  * HAModel is the model for this simulation.
+ * The model consists of "space" that contain:
+ * - 1 gun
+ * - 1 hydrogen atom
+ * - N photons
+ * - N electrons
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -107,6 +112,9 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
         else if ( modelElement instanceof Space ) {
             throw new IllegalArgumentException( "Space must be added in constructor" );
         }
+        else {
+            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
+        }
         super.addModelElement( modelElement );
     }
 
@@ -133,6 +141,9 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
         }
         else if ( modelElement == _space ) {
             throw new IllegalArgumentException( "Space cannot be removed" );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
         }
         super.removeModelElement( modelElement );
     }
