@@ -58,6 +58,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/3/06) - replace crosshairs with labels on UV and IR photons
 (11/3/06) - add UV and IR photons to legend
 (11/2/06) - remove support in model for multiple atoms (unnecessary complication)
 (11/2/06) - add a slower clock speed, remove the fastest one
