@@ -72,7 +72,7 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    void fixEnergyOnSpline( final Body origState, double x2 ) {
+    boolean fixEnergyOnSpline( final Body origState, double x2 ) {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
 //        double epsilon = 0.01;//1E-7
@@ -88,6 +88,7 @@ public class SplineMode implements UpdateMode {
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
         double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
         double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
+        return newError == 0;//probably never
 //        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
     }
 
@@ -103,12 +104,14 @@ public class SplineMode implements UpdateMode {
 
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2 ) {
         boolean fixed = false;
-        if( body.getSpeed() >= 1 ) {
+        if( body.getSpeed() >= 0.1 ) {
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
         }
         else {
-            fixEnergyOnSpline( origState, x2 );
-            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
+            fixed = fixed || fixEnergyOnSpline( origState, x2 );
+            if( !fixed ) {
+                fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
+            }
         }
         //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
 
