@@ -137,50 +137,6 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         collision.detectAndDoCollision( this, molecule );
     }
 
-    /**
-     * Adds a component moleculeAdded to the composite moleculeAdded
-     *
-     * @param moleculeAdded
-     */
-    public void addSimpleMolecule( SimpleMolecule moleculeAdded, Bond bond, Reaction reaction ) {
-
-        double mt1 = moleculeAdded.getMomentum().add( this.getMomentum() ).getMagnitude();
-
-        // Determine which component molecule is staying in the composite
-        SimpleMolecule moleculeRemaining = reaction.getMoleculeToKeep( this, moleculeAdded );
-
-        // Tell the new component that it is part of a composite, and set its position
-        moleculeAdded.setParentComposite( this );
-        Vector2D d = new Vector2D.Double( moleculeRemaining.getCM(), moleculeAdded.getCM() );
-        d.normalize().scale( moleculeRemaining.getRadius() + moleculeAdded.getRadius() );
-        moleculeAdded.setPosition( MathUtil.radialToCartesian( d.getMagnitude(),
-                                                               d.getAngle(),
-                                                               moleculeRemaining.getPosition() ) );
-
-        // Add the moleculeAdded to the list of components
-        List componentList = new ArrayList( Arrays.asList( components ) );
-        componentList.add( moleculeAdded );
-        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
-
-        // Factor in the new component's kinematics
-        this.computeKinematicsFromComponents( components );
-        double mt2 = this.getMomentum().getMagnitude();
-
-        // Remove the molecule that's getting kicked out
-        SimpleMolecule moleculeToRemove = reaction.getMoleculeToRemove( this, moleculeAdded );
-        if( moleculeToRemove != null ) {
-            removeSimpleMolecule( moleculeToRemove );
-        }
-
-        // Notify listeners
-        listenerProxy.componentAdded( moleculeAdded, bond );
-
-        double mt3 = moleculeToRemove.getMomentum().add( this.getMomentum() ).getMagnitude();
-        System.out.println( "mt1 = " + mt1 );
-        System.out.println( "mt2 = " + mt2 );
-        System.out.println( "mt3 = " + mt3 );
-
-    }
 
     /**
      * Determines the CM (and position), velocity and acceleration of the

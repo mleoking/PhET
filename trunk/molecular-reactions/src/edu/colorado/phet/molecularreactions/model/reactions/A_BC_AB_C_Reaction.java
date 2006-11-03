@@ -175,18 +175,6 @@ public class A_BC_AB_C_Reaction extends Reaction {
             double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( dTe / sm2.getMass() ) );
             Vector2D dvCm2 = new Vector2D.Double( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 );
             Vector2D dvSm2 = new Vector2D.Double( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 );
-//            cm2.setVelocity( dvCm2 );
-//            sm2.setVelocity( dvSm2 );
-//            cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
-//            sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
-
-//            double ke2 = cm2.getKineticEnergy() + sm2.getKineticEnergy();
-//            System.out.println( "ke0 = " + ke0 );
-//            System.out.println( "ke1 = " + ke1 );
-//            System.out.println( "ke2 = " + ke2 );
-//            System.out.println( "(pe0+ke0) = " + ( pe0 + ke0 ) );
-//            System.out.println( "(pe1 + ke1) = " + ( pe1 + ke1 ) );
-//            System.out.println( "(pe1 + ke2) = " + ( pe1 + ke2 ) );
             return;
         }
 
