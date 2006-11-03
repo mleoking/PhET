@@ -19,13 +19,14 @@ import java.awt.event.KeyEvent;
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     private static final String VERSION = "1.02.09";
+    public static double SIMULATION_TIME_DT = 0.03;
 
     public EnergySkateParkApplication( String[] args ) {
         super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ),
                VERSION,
 //               new EnergySkateParkDebugFrameSetup() );
 new EnergySkateParkFrameSetup() );
-        module = new EnergySkateParkModule( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
+        module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
     }

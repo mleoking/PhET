@@ -14,6 +14,7 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 public class EC3TimeSeriesModel extends TimeSeriesModel {
     private EnergySkateParkModule module;
+    private static final double STEP_DT = EnergySkateParkApplication.SIMULATION_TIME_DT;
 
     public EC3TimeSeriesModel( EnergySkateParkModule module ) {
         super( Double.POSITIVE_INFINITY );
@@ -29,6 +30,10 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
         return true;
     }
 
+    public void step() {
+        module.stepModel( STEP_DT );
+    }
+
     public Object getModelState() {
         return module.getModelState();
     }
@@ -36,4 +41,5 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
     public void updateModel( ClockEvent clockEvent ) {
         module.stepModel( clockEvent.getSimulationTimeChange() );
     }
+
 }
