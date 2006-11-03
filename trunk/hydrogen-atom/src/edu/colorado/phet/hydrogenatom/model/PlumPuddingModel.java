@@ -89,7 +89,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // number of photons the atom has absorded and is "holding"
+    // number of photons the atom has absorbed and is "holding"
     private int _numberOfPhotonsAbsorbed;
     // radius of the atom's goo
     private double _radius;
@@ -99,9 +99,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private Point2D _electronOffset;
     // line on which the electron oscillates, relative to atom's center
     private Line2D _electronLine;
-    // change in distance when amplitude is 1.0
-    private double _electronDistanceDelta;
-    // determines the electron's direction
+    // the electron's direction of motion, relative to the X (horizontal) axis
     private boolean _electronDirectionPositive;
     
     // is the electron moving?
@@ -202,14 +200,12 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     private void updateElectronLine() {
         
-        double angle = RandomUtils.nextSign() * RandomUtils.nextOrientation();
-        double x = _radius * Math.sin( angle );
-        double y = _radius * Math.cos( angle );
-        _electronLine.setLine( x, y, -x, -y );
-        _electronLine.setLine( -_radius, 0, _radius, 0 );//XXX remove
+        double angle = RandomUtils.nextOrientation();
+        double x = Math.abs( _radius * Math.sin( angle ) );
+        double y = RandomUtils.nextSign() * _radius * Math.cos( angle );
+        _electronLine.setLine( -x, -y, x, y );
+        assert( _electronLine.getX1() < _electronLine.getX2() ); // required by moveElectron()
         
-        double electronLineLength = _electronLine.getP1().distance( _electronLine.getP2() );
-        _electronDistanceDelta = electronLineLength / ELECTRON_LINE_SEGMENTS;
         _electronDirectionPositive = RandomUtils.nextBoolean();
         
         // move electron back to center
@@ -412,28 +408,45 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     private void moveElectron( double dt, double amplitude ) {
 
+        // Assumptions about the electron's oscillation line...
+        assert( _electronLine.getX1() < _electronLine.getX2() );
+        assert( Math.abs( _electronLine.getX1() ) == Math.abs( _electronLine.getX2() ) );
+        assert( Math.abs( _electronLine.getY1() ) == Math.abs( _electronLine.getY2() ) );
+        
         // Remember the old offset 
         final double xo = _electronOffset.getX();
         final double yo = _electronOffset.getY();
-        
-        // Electron's new offset
-        final double distanceDelta = dt * ( ( amplitude * _electronDistanceDelta ) );
+
+        // Determine dx and dy
+        double distanceDelta = dt * ( amplitude * ( 2 * _radius ) / ELECTRON_LINE_SEGMENTS );
+        double dx = Math.abs( _electronLine.getX1() ) * ( distanceDelta / _radius );
+        double dy = Math.abs( _electronLine.getY1() ) * ( distanceDelta / _radius );
+
+        // Adjust signs for electron's horizontal direction
         final double sign = getElectronDirectionSign();
-        double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
-        double y = 0;//XXX assumes a horizontal line
+        dx *= sign;
+        dy *= sign;
+        if ( _electronLine.getY1() > _electronLine.getY2() ) {
+            dy *= -1;
+        }
+
+        // Electron's new offset
+        double x = _electronOffset.getX() + dx;
+        double y = _electronOffset.getY() + dy;
 
         // Is the new offset past the ends of the oscillation line?
-        if ( x < amplitude * _electronLine.getX1() || y < amplitude * _electronLine.getY1() ) {
-            x = amplitude * _electronLine.getX1();
-            y = amplitude * _electronLine.getY1();
-            _electronDirectionPositive = !_electronDirectionPositive;
+        if ( Math.abs( x ) > Math.abs( _electronLine.getX1() ) || Math.abs( y ) > Math.abs( _electronLine.getY1() ) ) {
+            if ( _electronDirectionPositive ) {
+                x = _electronLine.getX2();
+                y = _electronLine.getY2();
+            }
+            else {
+                x = _electronLine.getX1();
+                y = _electronLine.getY1();
+            }
+            changeElectronDirection();
         }
-        else if ( x > amplitude * _electronLine.getX2() || y > amplitude * _electronLine.getY2() ) {
-            x = amplitude * _electronLine.getX2();
-            y = amplitude * _electronLine.getY2();
-            _electronDirectionPositive = !_electronDirectionPositive;
-        }
-        
+
         // Did we cross the origin?
         if ( ( x == 0 && y == 0 ) || signIsDifferent( x, xo ) || signIsDifferent( y, yo ) ) {
             _numberOfZeroCrossings++;
