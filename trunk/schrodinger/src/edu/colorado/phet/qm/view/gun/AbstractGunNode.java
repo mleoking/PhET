@@ -146,7 +146,7 @@ public abstract class AbstractGunNode extends PNode {
         return listeners.contains( listener );
     }
 
-    protected void notifyFireListeners() {
+    protected void notifyGunFired() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.gunFired();

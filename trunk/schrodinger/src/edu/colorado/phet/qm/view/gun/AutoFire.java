@@ -35,9 +35,9 @@ public class AutoFire implements IntensityManager.Listener {
 
     private void checkDetection() {
         count++;
-        if( count > 200 ) {
-            reduceWavefunction();
-        }
+//        if( count > 200 ) {
+//            reduceWavefunction();
+//        }
         if( count > 400 ) {
             fire();
         }
@@ -56,15 +56,15 @@ public class AutoFire implements IntensityManager.Listener {
         }
     }
 
-    private void reduceWavefunction() {
-        double origMagnitude = gunGraphic.getSchrodingerModule().getQWIModel().getWavefunction().getMagnitude();
-        double newMagnitude = ( Math.max( origMagnitude - 0.01, 0 ) ) * 0.9;
-//        double newMagnitude = origMagnitude * 0.9;
-//        System.out.println( "origMag=" + origMagnitude + ", newMag=" + newMagnitude );
-//        gunGraphic.getSchrodingerModule().getQWIModel().getWavefunction().setMagnitude( newMagnitude );
-        gunGraphic.getSchrodingerModule().getQWIModel().getWaveModel().setMagnitude( newMagnitude );
-//        System.out.println( "zeroed mag" );
-    }
+//    private void reduceWavefunction() {
+//        double origMagnitude = gunGraphic.getSchrodingerModule().getQWIModel().getWavefunction().getMagnitude();
+//        double newMagnitude = ( Math.max( origMagnitude - 0.01, 0 ) ) * 0.9;
+////        double newMagnitude = origMagnitude * 0.9;
+////        System.out.println( "origMag=" + origMagnitude + ", newMag=" + newMagnitude );
+////        gunGraphic.getSchrodingerModule().getQWIModel().getWavefunction().setMagnitude( newMagnitude );
+//        gunGraphic.getSchrodingerModule().getQWIModel().getWaveModel().setMagnitude( newMagnitude );
+////        System.out.println( "zeroed mag" );
+//    }
 
     private long timeSinceFire() {
         return System.currentTimeMillis() - lastFire;
