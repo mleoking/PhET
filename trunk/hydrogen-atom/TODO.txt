@@ -5,9 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change coordinate system so that atom's origin is at (0,0)
 - plum pudding should absorb only 1 photon
-- fix PlumPuddingModel.stepInTime, it assumes that atom position is (0,0)
 - change oscillation line each time PlumPudding's electron starts oscillating
+- make plum pudding electron go through 1 full oscillation before emitting
 - plum pudding electron oscillation should always stop at (0,0)
 - randomize the electron line in PlumPuddingModel
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
@@ -55,6 +56,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/2/06) - remove support in model for multiple atoms (unnecessary complication)
+(11/2/06) - add a slower clock speed, remove the fastest one
 (11/2/06) - plum pudding should emit photons from electron location
 (11/2/06) - plum pudding should absorb photons when they are "close" to electron
 (11/2/06) - set UV photon crosshairs to violet

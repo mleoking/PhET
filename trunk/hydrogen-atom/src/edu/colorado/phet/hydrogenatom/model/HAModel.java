@@ -40,8 +40,7 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
     
     private Gun _gun;
     private Space _space;
-
-    private ArrayList _atoms; // array of AbstractHydrogenAtom
+    private AbstractHydrogenAtom _atom;
     private ArrayList _photons; // array of Photon
     private ArrayList _alphaParticles; // array of AlphaParticle
     
@@ -60,7 +59,7 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
         _space = space;
         super.addModelElement( _space );
         
-        _atoms = new ArrayList();
+        _atom = null;
         _photons = new ArrayList();
         _alphaParticles = new ArrayList();
     }
@@ -88,17 +87,19 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
      * @param modelElement
      */
     public void addModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof AbstractHydrogenAtom ) {
-            AbstractHydrogenAtom atom = (AbstractHydrogenAtom) modelElement;
-            _atoms.add( atom );
-            atom.addPhotonAbsorbedListener( this );
-            atom.addPhotonEmittedListener( this );
-        }
-        else if ( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             _photons.add( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
             _alphaParticles.add( modelElement );
+        }
+        else if ( modelElement instanceof AbstractHydrogenAtom ) {
+            if ( _atom != null ) {
+                throw new IllegalArgumentException( "model already contains an AbstractHydrogenAtom" );
+            }
+            _atom = (AbstractHydrogenAtom) modelElement;
+            _atom.addPhotonAbsorbedListener( this );
+            _atom.addPhotonEmittedListener( this );
         }
         else if ( modelElement instanceof Gun ) {
             throw new IllegalArgumentException( "Gun must be added in constructor" );
@@ -116,22 +117,21 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
      * @param modelElement
      */
     public void removeModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof AbstractHydrogenAtom ) {
-            AbstractHydrogenAtom atom = (AbstractHydrogenAtom) modelElement;
-            _atoms.remove( atom );
-            atom.removePhotonAbsorbedListener( this );
-            atom.removePhotonEmittedListener( this );
-        }
-        else if ( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             _photons.remove( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
             _alphaParticles.remove( modelElement );
         }
-        else if ( modelElement instanceof Gun ) {
+        else if ( modelElement == _atom ) {
+            _atom.removePhotonAbsorbedListener( this );
+            _atom.removePhotonEmittedListener( this );
+            _atom = null;
+        }
+        else if ( modelElement == _gun ) {
             throw new IllegalArgumentException( "Gun cannot be removed" );
         }
-        else if ( modelElement instanceof Space ) {
+        else if ( modelElement == _space ) {
             throw new IllegalArgumentException( "Space cannot be removed" );
         }
         super.removeModelElement( modelElement );
@@ -176,28 +176,26 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
     }
     
     /*
-     * Detect collisions by iterating through each atom-photon
-     * and atom-alphaParticle pair. The atom is responsible for
-     * detecting and handling any collisions.
+     * Detect collisions with the atom.
      */
     private void detectCollisions() {
-        Iterator i = _atoms.iterator();
-        while ( i.hasNext() ) {
+        
+        if ( _atom != null ) {
             
-            AbstractHydrogenAtom atom = (AbstractHydrogenAtom)i.next();
-            
+            // Photon collisions
             ArrayList photonsCopy = new ArrayList( _photons ); // copy
             Iterator p = photonsCopy.iterator();
             while ( p.hasNext() ) {
-                Photon photon = (Photon)p.next();
-                atom.detectCollision( photon );
+                Photon photon = (Photon) p.next();
+                _atom.detectCollision( photon );
             }
-            
+
+            // Alpha Particle collisions
             ArrayList alphaParticlesCopy = new ArrayList( _alphaParticles ); // copy
             Iterator a = alphaParticlesCopy.iterator();
             while ( a.hasNext() ) {
-                AlphaParticle alphaParticle = (AlphaParticle)a.next();
-                atom.detectCollision( alphaParticle );
+                AlphaParticle alphaParticle = (AlphaParticle) a.next();
+                _atom.detectCollision( alphaParticle );
             }
         }
     }
