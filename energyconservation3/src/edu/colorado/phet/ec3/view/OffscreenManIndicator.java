@@ -5,7 +5,6 @@ import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -40,12 +39,10 @@ public class OffscreenManIndicator extends PhetPNode {
         } );
         buttonNode = ( new PSwing( canvas, bringBackSkater ) );
         addChild( buttonNode );
-//        connectorGraphic = new ConnectorGraphic( this, body == null ? this : (PNode)body );
     }
 
     public void setBodyGraphic( BodyGraphic body ) {
         this.body = body;
-//        connectorGraphic.set
         update();
     }
 
@@ -59,12 +56,7 @@ public class OffscreenManIndicator extends PhetPNode {
             setVisible( false );
         }
         else {
-            PBounds s = body.getGlobalFullBounds();
-            Rectangle visBounds = getVisibleBounds();
-//            setVisible( !visBounds.contains( s ) );
-            boolean offscreen = visBounds.intersection( s.getBounds() ).isEmpty();
-//            System.out.println( "offscreen = " + offscreen );
-            setVisible( offscreen );
+            setVisible( !getVisibleBounds().contains( body.getGlobalFullBounds() ) );
         }
     }
 
