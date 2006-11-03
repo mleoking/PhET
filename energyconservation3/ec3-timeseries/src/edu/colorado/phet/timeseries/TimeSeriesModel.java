@@ -306,6 +306,8 @@ public abstract class TimeSeriesModel implements ClockListener {
         setMode( liveMode );
     }
 
+    public abstract void step();
+
     public interface PlaybackTimeListener {
         public void timeChanged();
     }

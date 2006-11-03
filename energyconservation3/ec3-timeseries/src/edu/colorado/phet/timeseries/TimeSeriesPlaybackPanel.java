@@ -22,6 +22,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private JButton record;
     private JButton play;
     private JButton pause;
+    private JButton step;
     private JButton rewind;
     private JButton slowMotion;
     private JButton clear;
@@ -82,6 +83,14 @@ public class TimeSeriesPlaybackPanel extends JPanel {
                 timeSeriesModel.setPaused( true );
             }
         } );
+
+        step = createButton( EnergySkateParkStrings.getString( "step" ), "StepForward" );
+        step.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                timeSeriesModel.step();
+            }
+        } );
+
         play = createButton( EnergySkateParkStrings.getString( "playback" ), "Forward" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -117,44 +126,45 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( play );
         add( slowMotion );
         add( pause );
+        add( step );
         add( rewind );
         add( clear );
 
         TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
             public void liveModeStarted() {
-                setButtons( false, true, false, false, true, false );
+                setButtons( false, true, false, false, true, false, false );
             }
 
             public void recordingStarted() {
-                setButtons( false, false, false, false, true, false );
+                setButtons( false, false, false, false, true, false, false );
             }
 
             public void recordingPaused() {
-                setButtons( true, true, true, true, false, true );
+                setButtons( true, true, true, true, false, true, true );
             }
 
             public void recordingFinished() {
-                setButtons( true, false, true, true, false, true );
+                setButtons( true, false, true, true, false, true, true );
             }
 
             public void playbackFinished() {
-                setButtons( true, true, false, false, false, true );
+                setButtons( true, true, false, false, false, true, false );
             }
 
             public void playbackStarted() {
-                setButtons( false, false, false, false, true, true );
+                setButtons( false, false, false, false, true, true, false );
             }
 
             public void playbackPaused() {
-                setButtons( true, true, true, true, false, true );
+                setButtons( true, true, true, true, false, true, false );
             }
 
             public void reset() {
-                setButtons( true, true, false, false, false, false );
+                setButtons( true, true, false, false, false, false, true );
             }
 
             public void rewind() {
-                setButtons( true, true, true, true, false, false );
+                setButtons( true, true, true, true, false, false, true );
             }
         };
         timeSeriesModel.addListener( timeListener );
@@ -175,13 +185,14 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         return image;
     }
 
-    private void setButtons( boolean liveBtn, boolean recordBtn, boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {
+    private void setButtons( boolean liveBtn, boolean recordBtn, boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn, boolean stepButton ) {
         live.setEnabled( liveBtn );
         record.setEnabled( recordBtn );
         play.setEnabled( playBtn );
         slowMotion.setEnabled( slowBtn );
         pause.setEnabled( pauseBtn );
         rewind.setEnabled( rewindBtn );
+        step.setEnabled( stepButton );
     }
 
 }

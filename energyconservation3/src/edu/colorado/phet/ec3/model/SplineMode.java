@@ -187,6 +187,10 @@ public class SplineMode implements UpdateMode {
     }
 
     private AbstractVector2D getFrictionForce( double x ) {
+        if( lastNormalForce == null ) {
+            System.out.println( "SplineMode.getFrictionForce" );
+            return new Vector2D.Double();
+        }
         //todo kind of a funny workaround for getting friction on the ground.
         double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
         double fricMag = coefficient * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
