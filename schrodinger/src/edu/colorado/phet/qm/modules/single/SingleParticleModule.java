@@ -1,12 +1,15 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;
+import edu.colorado.phet.qm.model.WaveModel;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.gun.SingleParticleGunNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
@@ -19,6 +22,7 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 public class SingleParticleModule extends QWIModule {
     public SingleParticleSchrodingerPanel schrodingerSchrodingerPanel;
+    int count;
 
     public SingleParticleModule( QWIApplication application, IClock clock ) {
         super( QWIStrings.getString( "single.particles" ), application, clock );
@@ -46,7 +50,30 @@ public class SingleParticleModule extends QWIModule {
         updateProbabilityThreshold();
         setClockControlPanel( new SingleParticleClockControlPanel( this, clock ) );
 
+        getSingleParticleGunNode().addListener( new AbstractGunNode.Listener() {
+            public void gunFired() {
+                count = 0;
+            }
+        } );
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                count++;
+
+                if( count > 100 ) {
+                    reduceWavefunction();
+                }
+            }
+
+        } );
         finishInit();
+    }
+
+    private void reduceWavefunction() {
+        WaveModel waveModel = getQWIModel().getWaveModel();
+        double origMagnitude = waveModel.getWavefunction().getMagnitude();
+        double newMagnitude = ( Math.max( origMagnitude - 0.01, 0 ) ) * 0.9;
+//        System.out.println( "origMagnitude = " + origMagnitude+", new="+newMagnitude );
+        waveModel.setMagnitude( newMagnitude );
     }
 
     private void updateProbabilityThreshold() {

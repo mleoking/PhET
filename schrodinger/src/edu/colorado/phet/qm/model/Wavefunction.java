@@ -215,7 +215,8 @@ public class Wavefunction {
                 runningSum = runningSum.plus( term );
             }
         }
-        return runningSum.abs();
+        double val = runningSum.abs();
+        return Double.isNaN( val ) ? 0.0 : val;
     }
 
     public void clear() {

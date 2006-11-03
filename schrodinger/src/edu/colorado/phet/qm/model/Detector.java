@@ -61,6 +61,10 @@ public class Detector extends RectangularObject {
             }
         }
         this.probability = runningSum;
+//        System.out.println( "probability = " + probability );
+        if( Double.isNaN( probability ) ) {
+            probability = 0;
+        }
         if( origProb != probability ) {
             notifyObservers();//todo probabilty change event.
         }
