@@ -1,5 +1,7 @@
 1.02.10
 Added a "Step" button to playback, live, and record modes.
+Added another mechanism to reduce energy errors in spline traversal mode.
+            This prevents the problem where the skater gets stuck at a high point at slow velocity.
 
 1.02.09 (11-2-2006)
 Improvements in spline traversal.

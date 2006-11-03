@@ -76,9 +76,9 @@ public class SplineMode implements UpdateMode {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
 //        double epsilon = 0.01;//1E-7
-//        double epsilon = 0.001;//1E-8     
+        double epsilon = 0.001;//1E-8     
 //        double epsilon = 0.0001;//0.5 sometimes     
-        double epsilon = 0.01;
+//        double epsilon = 0.01;
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
