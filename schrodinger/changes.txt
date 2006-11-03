@@ -1,5 +1,7 @@
-1.02.12
+1.02.12 (11-2-2006)
+Added wave-reduction code for Single Particle mode, which causes the wavefunction to decay after 200 iterations of propagation.
 Bugfix: Detector would crash sometimes (not-a-number value getting to graphics).
+Bugfix: Wavefunction was sometimes returning not-a-number for its magnitude.
 
 1.02.11 (11-2-2006)
 For Autofire:

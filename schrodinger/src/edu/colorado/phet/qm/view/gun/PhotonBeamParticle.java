@@ -101,6 +101,7 @@ public class PhotonBeamParticle extends GunParticle {
                 removeModelElement( this );
                 addModelElement( pauser );
                 photonBeam.setIntensity( 0.0 );
+                getGunGraphic().notifyGunFired();
             }
         }
 

@@ -73,7 +73,7 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
 
     public void fireParticle() {
         gunParticle.fireParticle();
-        notifyFireListeners();
+        notifyGunFired();
     }
 
     public GunParticle getGunParticle() {

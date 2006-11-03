@@ -59,6 +59,7 @@ public class SingleParticleModule extends QWIModule {
             public void stepInTime( double dt ) {
                 count++;
 
+//                System.out.println( "count = " + count );
                 if( count > 100 ) {
                     reduceWavefunction();
                 }
