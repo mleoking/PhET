@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
- * BilliardBall models the hydrogen atom as a billiard ball.
+ * BilliardBallModel models the hydrogen atom as a billiard ball.
  * <p>
  * Physical representation:
  * The ball is spherical, with its local origin at its center.
