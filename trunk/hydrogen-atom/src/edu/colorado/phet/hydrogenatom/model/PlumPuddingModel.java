@@ -78,10 +78,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     /* probability that photon will be absorbed */
     public static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
-    /* range of the deflection angle for alpha particles */
-    private static final double MIN_DEFLECTION_ANGLE = Math.toRadians( 2 );
-    private static final double MAX_DEFLECTION_ANGLE = Math.toRadians( 5 );
-    
     /* number of discrete steps in the electron line */
     private static final int ELECTRON_LINE_SEGMENTS = 30;
     
@@ -332,17 +328,15 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     
     /**
      * Detects and handles collision with an alpha particle.
-     * If a collision occurs, the alpha particle is deflected as it passes through the pudding.
+     * If a collision occurs, the alpha particle is deflected using
+     * a Rutherford Scattering algorithm.
      * 
      * @param alphaParticle
      */
     public void detectCollision( AlphaParticle alphaParticle ) {
         Point2D position = alphaParticle.getPosition();
         if ( _shape.contains( position ) ) {
-            final int sign = ( position.getX() > getX() ) ? 1 : -1;
-            final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
-            final double orientation = alphaParticle.getOrientation() + deflection;
-            alphaParticle.setOrientation( orientation );
+            //XXX use Rutherford Scattering algorithm
         }
     }
     
