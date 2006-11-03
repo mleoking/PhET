@@ -62,7 +62,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private Dimension _size;
     private Shape _shape;
     private Point2D _electronOffset; // relative to atom's center
-    private Line2D _electronLine; // line on which the electron ocsillates
+    private Line2D _electronLine; // line on which the electron oscillates, relative to atom's center
     private double _electronDistanceDelta; // change in distance when amplitude is 1.0
     private boolean _electronDirectionPositive; // determines the electron's direction
     
@@ -88,6 +88,10 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    public Dimension getSize() {
+        return _size;
+    }
+    
     public void setPosition( Point2D p ) {
         setPosition( p.getX(), p.getY() );
     }
@@ -107,16 +111,12 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         return new Point2D.Double( x, y );
     }
     
-    public Dimension getSize() {
-        return _size;
-    }
-    
     //----------------------------------------------------------------------------
     // utilities
     //----------------------------------------------------------------------------
     
     private void updateElectronLine() {
-        //XXX fix this code, the line isn't adjusted for the atom's position
+        // line is relative to atom's center!
         _electronLine.setLine( -_size.getWidth()/2, 0, _size.getWidth()/2, 0 );//XXX randomize
         double electronLineLength = _electronLine.getP1().distance( _electronLine.getP2() );
         _electronDistanceDelta = electronLineLength / ELECTRON_LINE_SEGMENTS;
@@ -231,7 +231,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
                 double x = _electronOffset.getX() + ( sign * distanceDelta ); //XXX assumes a horizontal line
                 double y = 0;//XXX assumes a horizontal line
 
-                //XXX fix this code, it assumes that atom position is (0,0)
                 // Is the new offset past the ends of the oscillation line?
                 if ( x < a * _electronLine.getX1() || y < a * _electronLine.getY1() ) {
                     x = a * _electronLine.getX1();
