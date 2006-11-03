@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
-    private static final String VERSION = "1.02.09";
+    private static final String VERSION = "1.02.10";
     public static double SIMULATION_TIME_DT = 0.03;
 
     public EnergySkateParkApplication( String[] args ) {
