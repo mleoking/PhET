@@ -5,11 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make plum pudding shape a circle
-- change coordinate system so that atom's origin is at (0,0)
-- plum pudding should absorb only 1 photon
 - change oscillation line each time PlumPudding's electron starts oscillating
 - randomize the electron line in PlumPuddingModel
+- change coordinate system so that atom's origin is at (0,0)
 - change plum pudding to use Rutherford scattering for alpha particles
 
 MEDIUM PRIORITY:
@@ -56,10 +54,12 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/3/06) - change plum pudding shape to a circle, in anticipation of Rutherford scattering
 (11/3/06) - make plum pudding electron go through 1 full oscillation before emitting
 (11/3/06) - after photon emission, make plum pudding electron complete its oscillation and stop at (0,0)
 (11/3/06) - replace crosshairs with labels on UV and IR photons
 (11/3/06) - add UV and IR photons to legend
+(11/2/06) - plum pudding should absorb only 1 photon (try to continue supporting N)
 (11/2/06) - remove support in model for multiple atoms (unnecessary complication)
 (11/2/06) - add a slower clock speed, remove the fastest one
 (11/2/06) - plum pudding should emit photons from electron location

@@ -23,10 +23,10 @@ import edu.colorado.phet.hydrogenatom.util.RandomUtils;
  * PlumPuddingModel models the hydrogen atom as plum pudding.
  * <p>
  * Physical representation:
- * The proton is a blob of pudding (or "goo"), modeled as an ellipse.
+ * The proton is a blob of pudding (or "goo"), modeled as a circle.
  * An electron oscillates inside the goo along a straight line 
  * that passes through the center of the goo and has its end points
- * on the ellipse.  
+ * on the circle.  
  * <p>
  * Collision behavior:
  * Photons collide with the electron when they are "close".
@@ -60,8 +60,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // Private class data
     //----------------------------------------------------------------------------
     
-    /* default size of the atom, tweaked to match image size of PlumPuddingNode */
-    private static final Dimension DEFAULT_SIZE = new Dimension( 225, 180 );
+    /* default radius of the atom, tweaked to match PlumPuddingNode image */
+    private static final double DEFAULT_RADIUS = 90;
     
     /* maximum number of photons that can be absorbed */
     private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
@@ -91,8 +91,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     
     // number of photons the atom has absorded and is "holding"
     private int _numberOfPhotonsAbsorbed;
-    // dimensions of the shape used to represent the atom
-    private Dimension _size;
+    // radius of the atom's goo
+    private double _radius;
     // shape used to represent the atom, in world coordinates
     private Shape _shape;
     // offset of the electron relative to atom's center
@@ -119,19 +119,19 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * @param position
      */
     public PlumPuddingModel( Point2D position ) {
-        this( position, DEFAULT_SIZE );
+        this( position, DEFAULT_RADIUS );
     }
     
     /*
      * Constructor.
      * @param position
-     * @param size
+     * @param radius
      */
-    private PlumPuddingModel( Point2D position, Dimension size ) {
+    private PlumPuddingModel( Point2D position, double radius ) {
         super( position, 0 /* orientation */ );
         
         _numberOfPhotonsAbsorbed = 0;
-        _size = new Dimension( size );
+        _radius = radius;
         _electronOffset = new Point2D.Double( 0, 0 );
         _electronLine = new Line2D.Double();
         
@@ -148,11 +148,11 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the size of the atom.
-     * @return Dimension
+     * Gets the radius of the atom.
+     * @return radius
      */
-    public Dimension getSize() {
-        return _size;
+    public double getRadius() {
+        return _radius;
     }
     
     /**
@@ -202,7 +202,12 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     private void updateElectronLine() {
         
-        _electronLine.setLine( -_size.getWidth()/2, 0, _size.getWidth()/2, 0 );//XXX randomize
+        double angle = RandomUtils.nextSign() * RandomUtils.nextOrientation();
+        double x = _radius * Math.sin( angle );
+        double y = _radius * Math.cos( angle );
+        _electronLine.setLine( x, y, -x, -y );
+        _electronLine.setLine( -_radius, 0, _radius, 0 );//XXX remove
+        
         double electronLineLength = _electronLine.getP1().distance( _electronLine.getP2() );
         _electronDistanceDelta = electronLineLength / ELECTRON_LINE_SEGMENTS;
         _electronDirectionPositive = RandomUtils.nextBoolean();
@@ -213,13 +218,12 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Updates the shape used to represent the atom.
+     * Updates the shape (a circle) used to represent the atom's goo.
      * The shape is specified in world coordinates.
      */
     private void updateShape() {
-        double w = _size.getWidth();
-        double h = _size.getHeight();
-        _shape = new Ellipse2D.Double( getX() - ( w / 2 ), getY() - ( h / 2 ), w, h );
+        double diameter = ( 2 * _radius );
+        _shape = new Ellipse2D.Double( getX() - _radius, getY() - _radius, diameter, diameter );
     }
     
     /*
@@ -237,6 +241,13 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     private int getElectronDirectionSign() {
         return ( _electronDirectionPositive == true ) ? +1 : -1;
+    }
+    
+    /*
+     * Changes the electron's direction.
+     */
+    private void changeElectronDirection() {
+        _electronDirectionPositive = !_electronDirectionPositive;
     }
     
     /*
@@ -389,6 +400,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
                 _electronIsMoving = false;
                 _numberOfZeroCrossings = 0;
                 _previousAmplitude = 0;
+                updateElectronLine();
                 _electronOffset.setLocation( 0, 0 );
                 notifyObservers( PROPERTY_ELECTRON_OFFSET );
             }

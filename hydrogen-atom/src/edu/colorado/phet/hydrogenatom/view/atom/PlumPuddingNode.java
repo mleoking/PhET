@@ -75,12 +75,9 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
 
         if ( SHOW_MODEL_SHAPE ) {
             PPath shapeNode = new PPath();
-            Dimension size = _atom.getSize();
-            double x = -size.width / 2;
-            double y = -size.height / 2;
-            double w = size.width;
-            double h = size.height;
-            shapeNode.setPathTo( new Ellipse2D.Double( x, y, w, h ) );
+            double r = _atom.getRadius();
+            double d = ( 2 * r );
+            shapeNode.setPathTo( new Ellipse2D.Double( -r, -r, d, d ) );
             shapeNode.setStroke( new BasicStroke( 1f ) );
             shapeNode.setStrokePaint( Color.GREEN );
             addChild( shapeNode );
