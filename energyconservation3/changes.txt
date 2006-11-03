@@ -1,5 +1,6 @@
 1.02.11
 Made the "Return The Skater" button pop up when the skater is partially offscreen (rather than when he is completely offscreen).
+Bugfix: The man jiggles around when on a nearly horizontal piece of track.
 
 1.02.10 (11-3-2006)
 Added a "Step" button to playback, live, and record modes.
