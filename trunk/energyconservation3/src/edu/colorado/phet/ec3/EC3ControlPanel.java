@@ -32,7 +32,6 @@ import java.io.IOException;
 public class EC3ControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
 
-
     public EC3ControlPanel( final EnergySkateParkModule module ) {
         this.module = module;
         JButton reset = new JButton( EnergySkateParkStrings.getString( "reset" ) );

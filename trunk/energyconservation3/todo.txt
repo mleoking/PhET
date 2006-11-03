@@ -4,11 +4,6 @@ Remaining Work
 
 The skater hung up on the top of the ramp easily if I was trying to retest my track. 
 
-I noticed that the skater was just barely out of screen, 
-so I didn't know to grab him and the Return skater did not pop up.
-        I realized that the play area was partially under the tool section. 
- 
-
 Bugs: 
 - slow motion button doesn't seem to work right
         Clarifying this issue...
