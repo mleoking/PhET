@@ -260,6 +260,10 @@ public abstract class TimeSeriesModel implements ClockListener {
         return mode == recordMode && !isPaused();
     }
 
+    public ObjectTimeSeries getSeries() {
+        return series;
+    }
+
     public abstract void updateModel( double simulationTimeChange );
 
     public abstract Object getModelState();
