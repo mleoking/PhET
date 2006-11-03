@@ -5,10 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change oscillation line each time PlumPudding's electron starts oscillating
-- randomize the electron line in PlumPuddingModel
-- change coordinate system so that atom's origin is at (0,0)
 - change plum pudding to use Rutherford scattering for alpha particles
+- change coordinate system so that atom's origin is at (0,0)
 
 MEDIUM PRIORITY:
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
@@ -54,6 +52,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/3/06) - randomize the electron line in PlumPuddingModel
+(11/3/06) - change oscillation line each time PlumPudding's electron starts oscillating
 (11/3/06) - change plum pudding shape to a circle, in anticipation of Rutherford scattering
 (11/3/06) - make plum pudding electron go through 1 full oscillation before emitting
 (11/3/06) - after photon emission, make plum pudding electron complete its oscillation and stop at (0,0)
