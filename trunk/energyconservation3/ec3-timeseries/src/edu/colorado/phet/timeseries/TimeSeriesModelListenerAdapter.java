@@ -36,4 +36,7 @@ public class TimeSeriesModelListenerAdapter implements TimeSeriesModelListener {
 
     public void rewind() {
     }
+
+    public void liveModePaused() {
+    }
 }

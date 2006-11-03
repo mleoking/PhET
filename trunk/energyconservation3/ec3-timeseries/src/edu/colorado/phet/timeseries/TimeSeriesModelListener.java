@@ -25,4 +25,6 @@ public interface TimeSeriesModelListener {
     void reset();
 
     void rewind();
+
+    void liveModePaused();
 }

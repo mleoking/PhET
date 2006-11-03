@@ -41,4 +41,6 @@ public abstract class Mode implements ClockListener {
 
     public void simulationTimeReset( ClockEvent clockEvent ) {
     }
+
+    public abstract void step();
 }
