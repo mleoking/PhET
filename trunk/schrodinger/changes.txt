@@ -1,3 +1,6 @@
+1.02.12
+Bugfix: Detector would crash sometimes (not-a-number value getting to graphics).
+
 1.02.11 (11-2-2006)
 For Autofire:
             1. Shrink the wave magnitude more aggressively after a sufficiently long time has passed (200 iterations)

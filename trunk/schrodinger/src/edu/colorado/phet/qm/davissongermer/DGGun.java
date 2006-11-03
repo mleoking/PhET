@@ -68,7 +68,7 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         dgParticle.setIntensityScale( 1.0 );
         dgParticle.fireParticle();
         dgParticle.setIntensityScale( intensityScale );
-        notifyFireListeners();
+        notifyGunFired();
     }
 
 //    public double getVelocityRealUnits() {
