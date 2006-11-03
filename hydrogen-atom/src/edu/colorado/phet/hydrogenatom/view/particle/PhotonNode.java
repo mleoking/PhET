@@ -28,6 +28,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * PhotonNode is the visual representation of a photon.
@@ -45,11 +46,16 @@ public class PhotonNode extends PhetPNode implements Observer {
     
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
     
-    private static final double DEFAULT_DIAMETER = 30;
+    private static final double DIAMETER = 30;
+    
+    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
+    
     private static final double CROSSHAIRS_ANGLE = 18; // degrees
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
     private static final Color UV_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 400 );
     private static final Color IR_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 715 );
+    private static final Color UV_LABEL_COLOR = ColorUtils.wavelengthToColor( 400 );
+    private static final Color IR_LABEL_COLOR = ColorUtils.wavelengthToColor( 715 );
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     private static final int PHOTON_COLOR_ALPHA = 130;
     
@@ -78,7 +84,7 @@ public class PhotonNode extends PhetPNode implements Observer {
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
         
         if ( DEBUG_SHOW_FULL_DIAMETER ) {
-            PPath diameterNode = new PPath( new Ellipse2D.Double( -DEFAULT_DIAMETER/2, -DEFAULT_DIAMETER/2, DEFAULT_DIAMETER, DEFAULT_DIAMETER ) );
+            PPath diameterNode = new PPath( new Ellipse2D.Double( -DIAMETER/2, -DIAMETER/2, DIAMETER, DIAMETER ) );
             diameterNode.setStroke( new BasicStroke( 1f ) );
             diameterNode.setStrokePaint( Color.WHITE );
             addChild( diameterNode );
@@ -105,7 +111,7 @@ public class PhotonNode extends PhetPNode implements Observer {
         Color photonColor = ColorUtils.wavelengthToColor( wavelength );
         
         // Outer transparent ring
-        final double outerDiameter = DEFAULT_DIAMETER;
+        final double outerDiameter = DIAMETER;
         Shape outerShape = new Ellipse2D.Double( -outerDiameter/2, -outerDiameter/2, outerDiameter, outerDiameter );
         Color outerColor = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 0 );
         Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( 0.4 * outerDiameter, 0.4 * outerDiameter ), outerColor );
@@ -113,9 +119,10 @@ public class PhotonNode extends PhetPNode implements Observer {
         outerOrb.setPathTo( outerShape );
         outerOrb.setPaint( outerPaint );
         outerOrb.setStroke( null );
+        parentNode.addChild( outerOrb );
         
         // Inner orb, saturated color with hilite in center
-        final double innerDiameter = 0.5 * DEFAULT_DIAMETER;
+        final double innerDiameter = 0.5 * DIAMETER;
         Shape innerShape = new Ellipse2D.Double( -innerDiameter/2, -innerDiameter/2, innerDiameter, innerDiameter );
         Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
         Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
@@ -123,21 +130,37 @@ public class PhotonNode extends PhetPNode implements Observer {
         innerOrb.setPathTo( innerShape );
         innerOrb.setPaint( innerPaint );
         innerOrb.setStroke( null );
-
-        // Crosshairs
-        PNode crosshairs = new PNode();
-        {
-            PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
-            PNode smallCrosshair = createCrosshair( wavelength, 0.8 * innerDiameter );
-            smallCrosshair.rotate( Math.toRadians( 45 ) );
-            crosshairs.addChild( smallCrosshair );
-            crosshairs.addChild( bigCrosshair );
-        }
-        crosshairs.rotate( Math.toRadians( CROSSHAIRS_ANGLE ) );
-
-        parentNode.addChild( outerOrb );
         parentNode.addChild( innerOrb );
-        parentNode.addChild( crosshairs );
+
+        // Crosshairs for visible wavelengths
+        if ( wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH ) {
+            PNode crosshairs = new PNode();
+            {
+                PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
+                PNode smallCrosshair = createCrosshair( wavelength, 0.8 * innerDiameter );
+                smallCrosshair.rotate( Math.toRadians( 45 ) );
+                crosshairs.addChild( smallCrosshair );
+                crosshairs.addChild( bigCrosshair );
+            }
+            crosshairs.rotate( Math.toRadians( CROSSHAIRS_ANGLE ) );
+            parentNode.addChild( crosshairs );
+        }
+        
+        // Labels for UV and IR wavelengths
+        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+            PText uvText = new PText( "UV" );
+            uvText.setFont( UV_IR_FONT );
+            uvText.setTextPaint( UV_LABEL_COLOR );
+            uvText.setOffset( -uvText.getWidth()/2, -uvText.getHeight()/2 );
+            parentNode.addChild( uvText );
+        }
+        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+            PText irText = new PText( "IR" );
+            irText.setFont( UV_IR_FONT );
+            irText.setTextPaint( IR_LABEL_COLOR );
+            irText.setOffset( -irText.getWidth()/2, -irText.getHeight()/2 );
+            parentNode.addChild( irText );
+        }
         
         return parentNode.toImage();
     }
