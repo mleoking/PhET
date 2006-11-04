@@ -36,7 +36,7 @@ public class TestPhotonNode extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
         panel.add( createPanel( Color.BLACK ) );
-        panel.add( createPanel( Color.WHITE ) );
+//        panel.add( createPanel( Color.WHITE ) );
 //        panel.add( createPanel( Color.LIGHT_GRAY ) );
 //        panel.add( createPanel( new Color( 255, 102, 0 ) ) ); // pumpkin orange
         

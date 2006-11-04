@@ -50,6 +50,9 @@ public class PhotonNode extends PhetPNode implements Observer {
     /* determines whether UV and IR photons are labeled */
     private static final boolean SHOW_UV_IR_LABELS = false;
     
+    /* determines whether to color the crosshairs for UV and IR photons */
+    private static final boolean SHOW_UV_IR_CROSSHAIRS = true;
+    
     private static final double DIAMETER = 30;
     
     private static final int PHOTON_COLOR_ALPHA = 130;
@@ -176,11 +179,13 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static PNode createCrosshair( double wavelength, double diameter ) {
 
         Color crosshairsColor = CROSSHAIRS_COLOR;
-        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            crosshairsColor = UV_CROSSHAIRS_COLOR;
-        }
-        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            crosshairsColor = IR_CROSSHAIRS_COLOR;
+        if ( SHOW_UV_IR_CROSSHAIRS ) {
+            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+                crosshairsColor = UV_CROSSHAIRS_COLOR;
+            }
+            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+                crosshairsColor = IR_CROSSHAIRS_COLOR;
+            }
         }
         
         final double crosshairWidth = diameter;
