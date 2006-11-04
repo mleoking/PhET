@@ -43,6 +43,8 @@ public class LegendPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
 
+    private static final boolean SHOW_UV_IR_PHOTONS = false;
+
     private static final Color PANEL_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.WHITE;
 
@@ -50,7 +52,7 @@ public class LegendPanel extends JPanel {
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
     private static final String FONT_SIZE_RESOURCE = "legend.font.size";
-    
+
     //----------------------------------------------------------------------------
     // Constructors data
     //----------------------------------------------------------------------------
@@ -63,17 +65,17 @@ public class LegendPanel extends JPanel {
 
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
-        
+
         JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );
         JLabel photonText = new JLabel( SimStrings.get( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
-        
+
         JLabel uvPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1 ) );
         JLabel uvPhotonText = new JLabel( SimStrings.get( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
-        
+
         JLabel irPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1 ) );
         JLabel irPhotonText = new JLabel( SimStrings.get( "label.irPhoton" ) );
         irPhotonText.setFont( font );
@@ -102,7 +104,7 @@ public class LegendPanel extends JPanel {
         // Border
         Border border = null;
         {
-            EmptyBorder emptyBorder = new EmptyBorder( new Insets( 5,5,5,5 ) );
+            EmptyBorder emptyBorder = new EmptyBorder( new Insets( 5, 5, 5, 5 ) );
             LineBorder lineBorder = new LineBorder( LABEL_COLOR, 1 );
             TitledBorder titledBorder = new TitledBorder( lineBorder, SimStrings.get( "label.legend" ) );
             titledBorder.setTitleFont( font );
@@ -110,7 +112,7 @@ public class LegendPanel extends JPanel {
             border = new CompoundBorder( emptyBorder, titledBorder );
         }
         setBorder( border );
-        
+
         // Layout
         setBackground( PANEL_COLOR );
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -121,12 +123,14 @@ public class LegendPanel extends JPanel {
         layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-//        layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-//        layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
-//        col = 0;
-//        layout.addComponent( irPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-//        layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
-//        col = 0;
+        if ( SHOW_UV_IR_PHOTONS ) {
+            layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+            layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+            col = 0;
+            layout.addComponent( irPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+            layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+            col = 0;
+        }
         layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
@@ -148,7 +152,7 @@ public class LegendPanel extends JPanel {
         Icon icon = new ImageIcon( image );
         return new JLabel( icon );
     }
-    
+
     /*
      * Converts a PNode to a JLabel.
      */
@@ -156,11 +160,11 @@ public class LegendPanel extends JPanel {
         Icon icon = new ImageIcon( node.toImage() );
         return new JLabel( icon );
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /**
      * LegendNode displays the legend as a Piccolo node.
      */
@@ -183,16 +187,16 @@ public class LegendPanel extends JPanel {
             super( owner );
             createUI( owner );
         }
-        
+
         private void createUI( Frame parent ) {
-            
+
             JPanel legendPanel = new LegendPanel();
-            
+
             JPanel actionsPanel = createActionsPanel();
             JPanel bottomPanel = new JPanel( new BorderLayout() );
             bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
             bottomPanel.add( actionsPanel, BorderLayout.CENTER );
-            
+
             JPanel mainPanel = new JPanel( new BorderLayout() );
             mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
             mainPanel.add( legendPanel, BorderLayout.CENTER );
@@ -203,23 +207,23 @@ public class LegendPanel extends JPanel {
             this.setResizable( false );
             this.setLocationRelativeTo( parent );
         }
-        
-        private JPanel createActionsPanel()
-        {   
-          JButton closeButton = new JButton( SimStrings.get( "button.close" ) );
-          closeButton.addActionListener( new ActionListener() {
-              public void actionPerformed( ActionEvent event ) {
-                  dispose();
-              }
-          });
-          
-          JPanel innerPanel = new JPanel( new GridLayout(1,1,0,0) );
-          innerPanel.add( closeButton );
-            
-          JPanel actionPanel = new JPanel( new FlowLayout() );
-          actionPanel.add( innerPanel );
 
-          return actionPanel;
+        private JPanel createActionsPanel() {
+            JButton closeButton = new JButton( SimStrings.get( "button.close" ) );
+            closeButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent event ) {
+                    dispose();
+                }
+            } );
+
+            JPanel innerPanel = new JPanel( new GridLayout( 1, 1, 0, 0 ) );
+            innerPanel.add( closeButton );
+
+            JPanel actionPanel = new JPanel( new FlowLayout() );
+            actionPanel.add( innerPanel );
+
+            return actionPanel;
         }
     }
 }

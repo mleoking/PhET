@@ -53,6 +53,8 @@ LOW PRIORITY:
 
 DONE:
 ***** CVS tag hydrogenatom-0-00-06-2006-11-03
+(11/4/06) - make UV/IR photons switchable in legend
+(11/4/06) - make photon representations for UV/IR switchable (roll in)
 (11/3/06) - increase probability of photon emission in plum pudding
 (11/3/06) - reduce number of clock speeds, set default to a slower speed
 (11/3/06) - remove UV and IR photons from legend
