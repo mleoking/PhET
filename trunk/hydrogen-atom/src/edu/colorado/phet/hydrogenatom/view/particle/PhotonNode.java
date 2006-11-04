@@ -48,7 +48,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
     
     /* determines whether UV and IR photons are labeled */
-    private static final boolean SHOW_UV_IR_LABELS = true;
+    private static final boolean SHOW_UV_IR_LABELS = false;
     
     private static final double DIAMETER = 30;
     
