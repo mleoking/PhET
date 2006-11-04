@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Vector3D;
+import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
@@ -40,7 +41,7 @@ import java.text.DecimalFormat;
  * @version $Revision$
  */
 abstract public class CompositeMolecule extends AbstractMolecule implements PotentialEnergySource {
-    private Vector2D velocity;
+//    private Vector2D velocity;
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -84,6 +85,24 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
      */
     public CompositeMolecule( SimpleMolecule[] molecules ) {
         setComponents( molecules );
+    }
+
+    public Vector2D getVelocity() {
+//        if( components != null ) {
+//            double vx = 0;
+//            double vy = 0;
+//            double px = 0;
+//            double py = 0;
+//            for( int i = 0; i < components.length; i++ ) {
+//                Body body = (Body)components[i];
+//                vx += body.getVelocity().getX() * body.getMass() / this.getMass();
+//                vy += body.getVelocity().getY() * body.getMass() / this.getMass();
+//                px += body.getPosition().getX() * body.getMass() / this.getMass();
+//                py += body.getPosition().getY() * body.getMass() / this.getMass();
+//            }
+//            setVelocity( vx, vy );
+//        }
+        return super.getVelocity();
     }
 
     public Bond[] getBonds() {
@@ -277,6 +296,19 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         setOmega( omegaNew );
         setAlpha( alphaNew );
 
+        double vx = 0;
+        double vy = 0;
+        double px = 0;
+        double py = 0;
+        for( int i = 0; i < components.length; i++ ) {
+            Body body = (Body)components[i];
+            vx += body.getVelocity().getX() * body.getMass() / this.getMass();
+            vy += body.getVelocity().getY() * body.getMass() / this.getMass();
+            px += body.getPosition().getX() * body.getMass() / this.getMass();
+            py += body.getPosition().getY() * body.getMass() / this.getMass();
+        }
+        setVelocity( vx, vy );
+
         super.stepInTime( dt );
 
         updateComponents( dTheta );
@@ -341,7 +373,6 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         eventChannel.removeListener( listener );
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------
@@ -351,7 +382,7 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
      * the model, and removes the bonds when the CompositeMolecule is removed from the model
      */
     public static class DependentModelElementMonitor implements PublishingModel.ModelListener {
-        private PublishingModel model ;
+        private PublishingModel model;
 
         public DependentModelElementMonitor( PublishingModel model ) {
             this.model = model;
@@ -359,11 +390,11 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
 
         public void modelElementAdded( ModelElement element ) {
             if( element instanceof CompositeMolecule ) {
-                CompositeMolecule  cm = (CompositeMolecule)element;
+                CompositeMolecule cm = (CompositeMolecule)element;
                 Bond[] bonds = cm.getBonds();
                 for( int i = 0; i < bonds.length; i++ ) {
                     Bond bond = bonds[i];
-                    if( !model.getModelElements().contains( bond )) {
+                    if( !model.getModelElements().contains( bond ) ) {
                         model.addModelElement( bond );
                     }
                 }
@@ -372,11 +403,11 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
 
         public void modelElementRemoved( ModelElement element ) {
             if( element instanceof CompositeMolecule ) {
-                CompositeMolecule  cm = (CompositeMolecule)element;
+                CompositeMolecule cm = (CompositeMolecule)element;
                 Bond[] bonds = cm.getBonds();
                 for( int i = 0; i < bonds.length; i++ ) {
                     Bond bond = bonds[i];
-                    if( model.getModelElements().contains( bond )) {
+                    if( model.getModelElements().contains( bond ) ) {
                         model.removeModelElement( bond );
                     }
                 }

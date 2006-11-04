@@ -1,3 +1,11 @@
+- New collision model
+    - Molecules overlap. They come into contact at the foot of the profile hill, and
+    proceed until they either have expended their relative kinetic energy, or the
+    center of the smaller molecule has reached the edge of the larger one.
+    - Scale the width of the hill on the energy panel so users can see the molecules
+    climbing the hill.
+    - Maybe make the molecules larger on the simple module
+
 - With strip chart up for a long time, the sim choked
 - Make things resizable
 - Phet logo should be centered over the control panel

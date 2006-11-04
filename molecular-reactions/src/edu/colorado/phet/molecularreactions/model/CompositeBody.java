@@ -74,8 +74,8 @@ public class CompositeBody extends Body {
         double vy = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            vx += velocity.getX() + ( body.getVelocity().getX() * body.getMass() / this.getMass() );
-            vy += velocity.getY() + ( body.getVelocity().getY() * body.getMass() / this.getMass() );
+            vx += body.getVelocity().getX() * body.getMass() / this.getMass();
+            vy += body.getVelocity().getY() * body.getMass() / this.getMass();
         }
         velocity.setComponents( vx, vy );
         return velocity;

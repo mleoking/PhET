@@ -447,7 +447,25 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB ) {
         if( moleculesAreProperTypes( mA, mB ) ) {
-            return getCollisionVector( mA, mB ).getMagnitude();
+            double collisionDist = getCollisionVector( mA, mB ).getMagnitude();
+
+            // Determine if the molecules are overlapping
+            // One of the molecules must be a composite, and the other a simple one.
+            // Get references to them, and get a reference to the B molecule in the composite
+            CompositeMolecule cm = mA instanceof CompositeMolecule
+                                   ? (CompositeMolecule)mA
+                                   : (CompositeMolecule)mB;
+            SimpleMolecule sm = mB instanceof CompositeMolecule
+                                ? (SimpleMolecule)mA
+                                : (SimpleMolecule)mB;
+            SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
+                                cm.getComponentMolecules()[0] :
+                                cm.getComponentMolecules()[1];
+            if( sm.getPosition().distanceSq( bm.getPosition()) < (sm.getRadius() + bm.getRadius())* (sm.getRadius() + bm.getRadius())) {
+                collisionDist = - collisionDist;
+            }
+
+            return collisionDist;
         }
         else {
             return Double.POSITIVE_INFINITY;
@@ -470,13 +488,21 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
 
-            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
-            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
-            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
-            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
+//            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
+//            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
+//            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
+//            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
+
+            double dx = bm.getPosition().getX() - sm.getPosition().getX();
+            double dy = bm.getPosition().getY() - sm.getPosition().getY();
+            double d = bm.getPosition().distance( sm.getPosition() );
+            double theta = Math.atan2( dy, dx );
+            dx -= Math.cos( theta) * ( bm.getRadius() + sm.getRadius());
+            dy -= Math.sin( theta ) * ( bm.getRadius() + sm.getRadius() );
 
             int sign = ( mA == cm ) ? -1 : 1;
-            v = new Vector2D.Double( sign * ( pcx - psx ), sign * ( pcy - psy ) );
+            v = new Vector2D.Double( sign * dx, sign * dy );
+//            v = new Vector2D.Double( sign * ( pcx - psx ), sign * ( pcy - psy ) );
         }
         return v;
     }
