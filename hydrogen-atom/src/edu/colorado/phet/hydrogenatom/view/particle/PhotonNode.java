@@ -44,20 +44,23 @@ public class PhotonNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    /* draws an outline around the full bonds of the node */
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
+    
+    /* determines whether UV and IR photons are labeled */
+    private static final boolean SHOW_UV_IR_LABELS = true;
     
     private static final double DIAMETER = 30;
     
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
-    
+    private static final int PHOTON_COLOR_ALPHA = 130;
+    private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     private static final double CROSSHAIRS_ANGLE = 18; // degrees
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
     private static final Color UV_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 400 );
     private static final Color IR_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 715 );
-    private static final Color UV_LABEL_COLOR = ColorUtils.wavelengthToColor( 400 );
-    private static final Color IR_LABEL_COLOR = ColorUtils.wavelengthToColor( 715 );
-    private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
-    private static final int PHOTON_COLOR_ALPHA = 130;
+    private static final Color UV_LABEL_COLOR = UV_CROSSHAIRS_COLOR;
+    private static final Color IR_LABEL_COLOR = IR_CROSSHAIRS_COLOR;
+    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 9 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -132,8 +135,8 @@ public class PhotonNode extends PhetPNode implements Observer {
         innerOrb.setStroke( null );
         parentNode.addChild( innerOrb );
 
-        // Crosshairs for visible wavelengths
-        if ( wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH ) {
+        // Crosshairs (disabled if we're showing UV/IR labels)
+        if ( !SHOW_UV_IR_LABELS || ( SHOW_UV_IR_LABELS && wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH ) ) {
             PNode crosshairs = new PNode();
             {
                 PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
@@ -147,19 +150,21 @@ public class PhotonNode extends PhetPNode implements Observer {
         }
         
         // Labels for UV and IR wavelengths
-        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            PText uvText = new PText( "UV" );
-            uvText.setFont( UV_IR_FONT );
-            uvText.setTextPaint( UV_LABEL_COLOR );
-            uvText.setOffset( -uvText.getWidth()/2, -uvText.getHeight()/2 );
-            parentNode.addChild( uvText );
-        }
-        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            PText irText = new PText( "IR" );
-            irText.setFont( UV_IR_FONT );
-            irText.setTextPaint( IR_LABEL_COLOR );
-            irText.setOffset( -irText.getWidth()/2, -irText.getHeight()/2 );
-            parentNode.addChild( irText );
+        if ( SHOW_UV_IR_LABELS ) {
+            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+                PText uvText = new PText( "UV" );
+                uvText.setFont( UV_IR_FONT );
+                uvText.setTextPaint( UV_LABEL_COLOR );
+                uvText.setOffset( -uvText.getWidth() / 2, -uvText.getHeight() / 2 );
+                parentNode.addChild( uvText );
+            }
+            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+                PText irText = new PText( "IR" );
+                irText.setFont( UV_IR_FONT );
+                irText.setTextPaint( IR_LABEL_COLOR );
+                irText.setOffset( -irText.getWidth() / 2, -irText.getHeight() / 2 );
+                parentNode.addChild( irText );
+            }
         }
         
         return parentNode.toImage();
