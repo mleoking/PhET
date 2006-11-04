@@ -52,6 +52,8 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+***** CVS tag hydrogenatom-0-00-07-2006-11-04
+(11/4/06) - remove UV/IR labels from photons, use colored crosshairs
 ***** CVS tag hydrogenatom-0-00-06-2006-11-03
 (11/4/06) - make UV/IR photons switchable in legend (roll in)
 (11/4/06) - make photon representations for UV/IR switchable (roll in)
