@@ -30,7 +30,10 @@ public class RutherfordScattering {
     
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
-     * 
+     * <p>
+     * NOTE: Our model has +y down, and this algorithm has +y up.
+     * So we'll be flipping the sign on the y coordinate (see inline comments).
+     *
      * @param atom the atom
      * @param alphaParticle the alpha particle
      * @param dt the time step
@@ -38,22 +41,23 @@ public class RutherfordScattering {
      */
     public static void move( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt, final double D ) {
         
-        final double atomX = atom.getX();
-        final double atomY = atom.getY();
-
-        /*
-         * Model has +y down, algorithm has +y up.
-         * So we'll be doing some sign flipping for y coordinates, as noted.
-         */
-        final double x = alphaParticle.getX() - atomX;
-        final double y = -( alphaParticle.getY() - atomY ); // flip y sign from model to algorithm
-        
-        final double b = alphaParticle.getInitialPosition().getX() - atomX;
-        final double r = Math.sqrt( ( x * x ) + ( y * y ) );
-        final double phi = Math.atan( -x / y );
+        // initial distance between alpha particle and the y-axis
+        final double b = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
+        // alpha particle speed
         final double v = alphaParticle.getSpeed();
+        // alpha particle initial speed
         final double v0 = alphaParticle.getInitialSpeed();
 
+        // alpha particle's current position, adjusted for atom position
+        final double x = alphaParticle.getX() - atom.getX();
+        final double y = -( alphaParticle.getY() - atom.getY() ); // flip y sign from model to algorithm
+        
+        // convert current position to Polar coordinates
+        final double r = Math.sqrt( ( x * x ) + ( y * y ) );
+        final double phi = Math.atan( -x / y );
+        System.out.println( "current: (" + x + "," + y + ") (" + r + "," + Math.toDegrees(phi) + ")" );//XXX
+
+        // new position in Polar coordinates
         double phiNew = 0;
         {
             double t1 = ( b * v * dt );
@@ -61,7 +65,6 @@ public class RutherfordScattering {
             double t3 = ( r * r * t2 * t2 );
             phiNew = phi + ( t1 / ( r * Math.sqrt( b + t3 ) ));
         }
-        
         double rNew = 0;
         {
             double t1 = ( b * Math.sin( phiNew ) );
@@ -69,12 +72,15 @@ public class RutherfordScattering {
             rNew = ( b * b ) / ( t1 + t2 );
         }
         
+        // convert new position to Cartesian coordinates, adjusted for atom position
+        double xNew = ( rNew * Math.sin( phiNew ) ) + atom.getX();
+        double yNew = ( -rNew * Math.cos( phiNew ) ) + atom.getY();
+        System.out.println( "new: (" + xNew + "," + yNew + ") (" + rNew + "," + Math.toDegrees(phiNew) + ")" );//XXX
+
+        // new velocity
         double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
         
-        double xNew = ( rNew * Math.sin( phiNew ) ) + atomX;
-        double yNew = ( -rNew * Math.cos( phiNew ) ) + atomY;
-        
-        alphaParticle.setPosition( xNew, -yNew );  // flip y sign from algorithm to model
+        alphaParticle.setPosition( xNew, -yNew ); // flip y sign from algorithm to model
         alphaParticle.setSpeed( vNew );
     }
 }
