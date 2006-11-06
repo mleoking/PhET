@@ -52,7 +52,7 @@ public class RutherfordScattering {
         final double x = alphaParticle.getX() - atom.getX();
         final double y = -( alphaParticle.getY() - atom.getY() ); // flip y sign from model to algorithm
         
-        // convert current position to Polar coordinates
+        // convert current position to Polar coordinates, measured counterclockwise from the -y axis
         final double r = Math.sqrt( ( x * x ) + ( y * y ) );
         final double phi = Math.atan( -x / y );
         System.out.println( "current: (" + x + "," + y + ") (" + r + "," + Math.toDegrees(phi) + ")" );//XXX
