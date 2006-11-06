@@ -16,6 +16,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import com.sun.rsasign.al;
+
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
@@ -349,6 +351,29 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         boolean xClose = ( Math.abs( p1.getX() - p2.getX() ) < threshold );
         boolean yClose = ( Math.abs( p1.getY() - p2.getY() ) < threshold );
         return ( xClose && yClose );
+    }
+    
+    /**
+     * Move an alpha particle using a Rutherford Scattering algorithm.
+     * If the alpha particle's initial x position is the same as the atom's,
+     * then divide-by-zero errors can occur (since b=0), so simply use 
+     * the default method of moving the alpha particle.
+     * 
+     * @param alphaParticle
+     * @param dt
+     */
+    public void move( AlphaParticle alphaParticle, final double dt ) {
+        final double b = alphaParticle.getInitialPosition().getX() - getX();
+        if ( b == 0 ) {
+            super.move( alphaParticle, dt );
+        }
+        else {
+            final double L = HAConstants.ANIMATION_BOX_SIZE.height;
+            final double R = _radius;
+            final double DB = L / 4;
+            final double D = ( b <= R ) ? ( ( DB * b * b ) / ( R * R ) ) : DB;
+            RutherfordScattering.move( this, alphaParticle, dt, D );
+        }
     }
     
     //----------------------------------------------------------------------------

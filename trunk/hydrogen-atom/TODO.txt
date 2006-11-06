@@ -52,6 +52,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/6/06) - first attempt at Rutherford Scattering of alpha particles (coded to spec), doesn't work
 (11/6/06) - rearchitect model so that alpha particles move based on algorithm supplied by atom
 (11/6/06) - make photons and alpha particles subclasses of MovingObject (mutable postion, orientation, speed)
 (11/6/06) - make Gun and atoms subclasses of FixedObject (immutable position and orientation)
