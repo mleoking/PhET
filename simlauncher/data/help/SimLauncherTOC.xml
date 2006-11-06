@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+<toc version="1.0">
+  <tocitem text="PhET SimLauncher">
+    <tocitem text="Introduction" target="intro"/>
+    <tocitem text="Installing simulations" target="installing" />
+    <tocitem text="Running simulations" target="running" />
+    <tocitem text="Updating simulations" target="updating" />
+    <tocitem text="Uninstalling simulations" target="uninstalling" />
+    <tocitem text="Getting links to simulations" target="getting-sim-links" />
+    <tocitem text="Tips &amp; Tricks" target="tips-tricks" />
+  </tocitem>
+</toc>
