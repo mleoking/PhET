@@ -1,3 +1,7 @@
+1.04.01 (11-6-2006)
+Bugfix: Hits were not visible in intensity mode.
+Bugfix: Electron, Hydrogen and Helium particles rarely detected at screen in Single Particle mode.
+
 1.04 (11-6-2006)
 Posted on main site as 1.04
 

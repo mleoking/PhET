@@ -132,6 +132,10 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     public abstract double getMinimumProbabilityForDetection();
 
+    public abstract boolean getTimeThresholdAllowed();
+
+    public abstract int getTimeThresholdCount();
+
     protected class ChangeHandler implements ChangeListener {
         private AbstractGunNode.MomentumChangeListener momentumChangeListener;
 

@@ -309,6 +309,14 @@ public class QWIModule extends PiccoloModule {
         getSchrodingerPanel().getIntensityDisplay().setMinimumProbabilityForDetection( minimumProbabilityForDetection );
     }
 
+    public void setTimeThresholdCount( int timeThresholdCount ) {
+        getSchrodingerPanel().getIntensityDisplay().setTimeThreshold( timeThresholdCount );
+    }
+
+    public void setTimeThreshold( boolean timeThresholdAllowed ) {
+        getSchrodingerPanel().getIntensityDisplay().setTimeThreshold( timeThresholdAllowed );
+    }
+
     public void debugSymmetry() {
         qwiModel.debugSymmetry();
     }
