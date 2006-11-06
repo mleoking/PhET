@@ -145,6 +145,14 @@ public class PhotonBeamParticle extends GunParticle {
         return 0.05;
     }
 
+    public boolean getTimeThresholdAllowed() {
+        return true;
+    }
+
+    public int getTimeThresholdCount() {
+        return 30;
+    }
+
     private boolean containsModelElement( ModelElement element ) {
         return getSchrodingerModule().getModel().containsModelElement( element );
     }

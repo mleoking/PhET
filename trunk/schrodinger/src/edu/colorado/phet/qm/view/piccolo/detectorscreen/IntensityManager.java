@@ -34,6 +34,8 @@ public class IntensityManager {
     private double minimumProbabalityForDetection = 0.0;
     private int countsAboveZero = 0;
     private boolean allowProbabilityThreshold = false;
+    private boolean allowTimeThreshold = false;
+    private int timeThresholdCount = 0;
 
     public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
@@ -62,16 +64,19 @@ public class IntensityManager {
             countsAboveZero++;
         }
 //        System.out.println( "probability = " + sub.getMagnitude() + ", counts=" + countsAboveZero );
-//        System.out.println( "minimumProbabalityForDetection = " + minimumProbabalityForDetection );
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
-            if( countsAboveZero > 30 && rand <= probability && isAboveThreshold( sub ) ) {
+            if( isAboveTimeThreshold() && rand <= probability && isAboveThreshold( sub ) ) {
                 detectOne( sub );
                 updateWavefunctionAfterDetection();
                 notifyDetection();
                 countsAboveZero = 0;
             }
         }
+    }
+
+    private boolean isAboveTimeThreshold() {
+        return allowTimeThreshold ? countsAboveZero > timeThresholdCount : true;
     }
 
     private boolean isAboveThreshold( Wavefunction sub ) {
@@ -92,9 +97,19 @@ public class IntensityManager {
         return minimumProbabalityForDetection;
     }
 
+    public void setTimeThreshold( boolean allowTimeThreshold ) {
+        this.allowTimeThreshold = allowTimeThreshold;
+        System.out.println( "allowTimeThreshold = " + allowTimeThreshold );
+    }
+
     public void setMinimumProbabilityForDetection( double value ) {
         this.minimumProbabalityForDetection = value;
         System.out.println( "this.minimumProbabalityForDetection = " + this.minimumProbabalityForDetection );
+    }
+
+    public void setTimeThreshold( int timeThresholdCount ) {
+        this.timeThresholdCount = timeThresholdCount;
+        System.out.println( "timeThresholdCount = " + timeThresholdCount );
     }
 
     public static interface Listener {

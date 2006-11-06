@@ -160,6 +160,14 @@ public class DefaultGunParticle extends GunParticle {
         return 0.0;
     }
 
+    public boolean getTimeThresholdAllowed() {
+        return true;
+    }
+
+    public int getTimeThresholdCount() {
+        return 5;
+    }
+
     public static DefaultGunParticle createElectron( AbstractGunNode gun ) {
         return new DefaultGunParticle( gun, QWIStrings.getString( "electrons" ), "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
     }

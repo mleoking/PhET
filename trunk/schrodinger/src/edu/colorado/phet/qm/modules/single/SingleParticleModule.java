@@ -43,11 +43,11 @@ public class SingleParticleModule extends QWIModule {
         getSingleParticleGunNode().addSingleParticleGunNodeListener( new SingleParticleGunNode.SingleParticleGunNodeListener() {
             public void gunParticleTypeChanged() {
 //                System.out.println( "type=" + getSingleParticleGunNode().getGunParticle() );
-                updateProbabilityThreshold();
+                updateDetectionThresholds();
             }
         } );
         getSchrodingerPanel().setFadeEnabled( true );
-        updateProbabilityThreshold();
+        updateDetectionThresholds();
         setClockControlPanel( new SingleParticleClockControlPanel( this, clock ) );
 
         getSingleParticleGunNode().addListener( new AbstractGunNode.Listener() {
@@ -77,9 +77,12 @@ public class SingleParticleModule extends QWIModule {
         waveModel.setMagnitude( newMagnitude );
     }
 
-    private void updateProbabilityThreshold() {
+    private void updateDetectionThresholds() {
         setMinimumProbabilityForDetection( getSingleParticleGunNode().getGunParticle().getMinimumProbabilityForDetection() );
+        setTimeThreshold( getSingleParticleGunNode().getGunParticle().getTimeThresholdAllowed() );
+        setTimeThresholdCount( getSingleParticleGunNode().getGunParticle().getTimeThresholdCount() );
     }
+
 
     private SingleParticleGunNode getSingleParticleGunNode() {
         return schrodingerSchrodingerPanel.getSingleParticleGunNode();

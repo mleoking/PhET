@@ -74,6 +74,14 @@ public class Photon extends GunParticle {
         return 0.05;
     }
 
+    public boolean getTimeThresholdAllowed() {
+        return true;
+    }
+
+    public int getTimeThresholdCount() {
+        return 30;
+    }
+
     protected double getStartY() {
         return getDiscreteModel().getGridHeight() * 0.9;
     }
