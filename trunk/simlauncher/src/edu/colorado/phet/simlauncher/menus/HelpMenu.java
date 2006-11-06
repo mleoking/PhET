@@ -15,9 +15,13 @@ import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.SimLauncher;
 import edu.colorado.phet.simlauncher.actions.SimLauncherHelpAction;
 
+import javax.help.CSH;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 /**
  * HelpMenu
@@ -32,6 +36,29 @@ class HelpMenu extends JMenu {
         JMenuItem simLauncherHelp = new JMenuItem( "SimLauncher help");
         simLauncherHelp.addActionListener( new SimLauncherHelpAction() );
         add( simLauncherHelp );
+
+
+        // Find the HelpSet file and create the HelpSet object:
+        String helpHS = "help/SimLauncherHelp.hs";
+        ClassLoader cl = this.getClass().getClassLoader();
+        HelpSet hs = null;
+        try {
+            URL hsURL = HelpSet.findHelpSet( cl, helpHS );
+            hs = new HelpSet( null, hsURL );
+        }
+        catch( Exception ee ) {
+            // Say what the exception really is
+            System.out.println( "HelpSet " + ee.getMessage() );
+            System.out.println( "HelpSet " + helpHS + " not found" );
+            return;
+        }
+        // Create a HelpBroker object:
+        HelpBroker hb = hs.createHelpBroker();
+        // Create a "Help" menu item to trigger the help viewer:
+        JMenuItem helpTopicsMI = new JMenuItem( "Help Topics");
+        helpTopicsMI.addActionListener(new CSH.DisplayHelpFromSource( hb )  );
+        add(helpTopicsMI);
+
 
         JMenuItem aboutMI = new JMenuItem( "About" );
         aboutMI.addActionListener( new ActionListener() {

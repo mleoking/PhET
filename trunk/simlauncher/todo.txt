@@ -308,3 +308,6 @@ Bugs fixed
 7/26/06 - Move simlauncher on spot out from the simulations directory
 8/06/06 - Once a simtable has been built for a category, changing "show thumbnails" state in another category doesn't
     change the state in the first category
+
+10/20/06 - Now handles properly the situation in which the URL in the catalog is
+    redirected to a different URL. This was needed after the move to the new server.        

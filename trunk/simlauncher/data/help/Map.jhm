@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+    <mapID target="intro" url="pages/introduction.html" />
+    <mapID target="installing" url="pages/installing-sims.html" />
+    <mapID target="running" url="pages/running-sims.html" />
+    <mapID target="updating" url="pages/update-sims.html" />
+    <mapID target="uninstalling" url="pages/uninstalling-sims.html" />
+    <mapID target="getting-sim-links" url="pages/getting-sim-links.html" />
+    <mapID target="tips-tricks" url="pages/tips-tricks.html" />
+</map>
