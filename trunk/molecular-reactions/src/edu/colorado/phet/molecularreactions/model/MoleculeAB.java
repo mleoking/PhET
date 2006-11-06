@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 
 /**
@@ -42,4 +43,18 @@ public class MoleculeAB extends CompositeMolecule {
         A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)((MRModel)PhetUtilities.getActiveModule().getModel()).getReaction();
         return reaction.getPotentialEnergy( this, this );
     }
+
+//    public void setVelocity( Vector2D velocity ) {
+//        if( velocity.getMagnitude() == 0 ) {
+//            System.out.println( "MoleculeAB.setVelocity" );
+//        }
+//        super.setVelocity( velocity );
+//    }
+//
+//    public void setVelocity( double vx, double vy ) {
+//        super.setVelocity( vx, vy );
+//        if(getVelocity().getMagnitude() == 0 ) {
+//            System.out.println( "MoleculeAB.setVelocity B" );
+//        }
+//    }
 }

@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.model.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 
 import java.awt.geom.Point2D;
 
@@ -34,6 +35,8 @@ public class MoleculeMoleculeCollisionSpec {
     private Point2D.Double collisionPt;
     private SimpleMolecule moleculeA;
     private SimpleMolecule moleculeB;
+    private SimpleMolecule freeMolecule;
+    private CompositeMolecule compositeMolecule;
 
     public MoleculeMoleculeCollisionSpec( Vector2D loa,
                                           Point2D.Double collisionPt,
@@ -43,6 +46,25 @@ public class MoleculeMoleculeCollisionSpec {
         this.moleculeA = moleculeA;
         this.loa = loa;
         this.collisionPt = collisionPt;
+
+        if( !moleculeA.isPartOfComposite() ) {
+            freeMolecule = moleculeA;
+            if( !moleculeB.isPartOfComposite()) {
+                compositeMolecule = (CompositeMolecule)moleculeB.getFullMolecule();
+            }
+            else {
+                throw new IllegalArgumentException( "internal error");
+            }
+        }
+        else if( !moleculeB.isPartOfComposite() ) {
+            freeMolecule = moleculeB;
+            if( moleculeA.isPartOfComposite() ) {
+                compositeMolecule = (CompositeMolecule)moleculeA.getFullMolecule();
+            }
+            else {
+                throw new IllegalArgumentException( "internal error");
+            }
+        }
     }
 
     public Vector2D getLoa() {
@@ -67,6 +89,14 @@ public class MoleculeMoleculeCollisionSpec {
      */
     public SimpleMolecule getSimpleMoleculeB() {
         return moleculeB;
+    }
+
+    public SimpleMolecule getFreeMolecule() {
+        return freeMolecule;
+    }
+
+    public CompositeMolecule getCompositeMolecule() {
+        return compositeMolecule;
     }
 }
 
