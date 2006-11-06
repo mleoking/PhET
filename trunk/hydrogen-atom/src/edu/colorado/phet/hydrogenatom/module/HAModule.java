@@ -137,12 +137,12 @@ public class HAModule extends PiccoloModule {
             // Gun
             Point2D position = new Point2D.Double( 0, 0 );
             double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
-            double nozzleWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
+            double nozzleWidth = SimStrings.getInt( "animationRegion.width", HAConstants.ANIMATION_BOX_SIZE.width );
             Gun gun = new Gun( position, orientation, nozzleWidth, HAConstants.MIN_WAVELENGTH, HAConstants.MAX_WAVELENGTH );
             
             // Space
             double spaceWidth = gun.getNozzleWidth();
-            double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+            double spaceHeight = SimStrings.getInt( "animationRegion.height", HAConstants.ANIMATION_BOX_SIZE.height );
             Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth / 2, -spaceHeight, spaceWidth, spaceHeight );
             Space space = new Space( bounds );
 
@@ -223,8 +223,8 @@ public class HAModule extends PiccoloModule {
         // Animation region
         {
             // Load the region dimensions from the localization file
-            int width = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
-            int height = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+            int width = SimStrings.getInt( "animationRegion.width", HAConstants.ANIMATION_BOX_SIZE.width );
+            int height = SimStrings.getInt( "animationRegion.height", HAConstants.ANIMATION_BOX_SIZE.height );
             Dimension size = new Dimension( width, height );
             
             // animation box

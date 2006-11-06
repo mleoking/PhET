@@ -54,15 +54,15 @@ public class ModelViewTransform {
         }
         Point2D p = new Point2D.Double( 0, distance );
         Point2D p2 = transform( p );
-        return p2.getY() - SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+        return p2.getY() - SimStrings.getInt( "animationRegion.height", HAConstants.ANIMATION_BOX_SIZE.height );
     }
     
     /*
      * Initializes the transform.
      */
     private static void initTransform() {
-        int boxWidth = SimStrings.getInt( "animationRegion.width", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.width );
-        int boxHeight = SimStrings.getInt( "animationRegion.height", HAConstants.DEFAULT_ANIMATION_REGION_SIZE.height );
+        int boxWidth = SimStrings.getInt( "animationRegion.width", HAConstants.ANIMATION_BOX_SIZE.width );
+        int boxHeight = SimStrings.getInt( "animationRegion.height", HAConstants.ANIMATION_BOX_SIZE.height );
         transform = new AffineTransform();
         transform.scale( 1, 1 );
         transform.translate( boxWidth / 2, boxHeight );
