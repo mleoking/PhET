@@ -296,18 +296,18 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         setOmega( omegaNew );
         setAlpha( alphaNew );
 
-        double vx = 0;
-        double vy = 0;
-        double px = 0;
-        double py = 0;
-        for( int i = 0; i < components.length; i++ ) {
-            Body body = (Body)components[i];
-            vx += body.getVelocity().getX() * body.getMass() / this.getMass();
-            vy += body.getVelocity().getY() * body.getMass() / this.getMass();
-            px += body.getPosition().getX() * body.getMass() / this.getMass();
-            py += body.getPosition().getY() * body.getMass() / this.getMass();
-        }
-        setVelocity( vx, vy );
+//        double vx = 0;
+//        double vy = 0;
+//        double px = 0;
+//        double py = 0;
+//        for( int i = 0; i < components.length; i++ ) {
+//            Body body = (Body)components[i];
+//            vx += body.getVelocity().getX() * body.getMass() / this.getMass();
+//            vy += body.getVelocity().getY() * body.getMass() / this.getMass();
+//            px += body.getPosition().getX() * body.getMass() / this.getMass();
+//            py += body.getPosition().getY() * body.getMass() / this.getMass();
+//        }
+//        setVelocity( vx, vy );
 
         super.stepInTime( dt );
 

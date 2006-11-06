@@ -29,7 +29,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeMoleculeHardSphereCollisionAgent implements MRModel.ModelListener {
+public class MoleculeMoleculeHardSphereCollisionAgent implements MRCollisionAgent,  MRModel.ModelListener {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
