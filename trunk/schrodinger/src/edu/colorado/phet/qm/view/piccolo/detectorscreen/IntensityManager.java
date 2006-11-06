@@ -32,27 +32,50 @@ public class IntensityManager {
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
     private double minimumProbabalityForDetection = 0.0;
+    private int countsAboveZero = 0;
+    private boolean allowProbabilityThreshold = false;
 
     public IntensityManager( QWIModule qwiModule, QWIPanel QWIPanel, DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
         this.qwiModule = qwiModule;
         this.QWIPanel = QWIPanel;
         this.random = new Random();
+        qwiModule.getQWIModel().addListener( new QWIModel.Adapter() {
+            public void propagatorChanged() {
+                countsAboveZero = 0;
+            }
+
+            public void sizeChanged() {
+                countsAboveZero = 0;
+            }
+
+            public void particleFired( QWIModel QWIModel ) {
+                countsAboveZero = 0;
+            }
+        } );
     }
 
     public void tryDetecting() {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
-//        System.out.println( "probability = " + sub.getMagnitude());
+        if( probability >= 1E-4 ) {
+            countsAboveZero++;
+        }
+//        System.out.println( "probability = " + sub.getMagnitude() + ", counts=" + countsAboveZero );
 //        System.out.println( "minimumProbabalityForDetection = " + minimumProbabalityForDetection );
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
-            if( rand <= probability && sub.getMagnitude() >= minimumProbabalityForDetection ) {
+            if( countsAboveZero > 30 && rand <= probability && isAboveThreshold( sub ) ) {
                 detectOne( sub );
                 updateWavefunctionAfterDetection();
                 notifyDetection();
+                countsAboveZero = 0;
             }
         }
+    }
+
+    private boolean isAboveThreshold( Wavefunction sub ) {
+        return allowProbabilityThreshold ? sub.getMagnitude() >= minimumProbabalityForDetection : true;
     }
 
     public void setHighIntensityMode() {
