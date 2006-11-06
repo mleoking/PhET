@@ -91,7 +91,10 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         PBounds pb = puddingNode.getFullBounds();
         puddingNode.setOffset( -pb.getWidth()/2, -pb.getHeight()/2 );
         
-        update( _atom, SolarSystemModel.PROPERTY_POSITION );
+        Point2D atomPosition = _atom.getPosition();
+        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        setOffset( nodePosition );
+        
         update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
     }
     
@@ -105,19 +108,15 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( arg == PlumPuddingModel.PROPERTY_POSITION ) {
-            // the entire atom has moved
-            Point2D atomPosition = _atom.getPosition();
-            Point2D nodePosition = ModelViewTransform.transform( atomPosition );
-            setOffset( nodePosition );
-        }
-        else if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
-            // the electron has moved
-            Point2D electronOffset = _atom.getElectronOffset();
-            // treat coordinates as distances, since _electronNode is a child node
-            double nodeX = ModelViewTransform.transform( electronOffset.getX() );
-            double nodeY = ModelViewTransform.transform( electronOffset.getY() );
-            _electronNode.setOffset( nodeX, nodeY );
+        if ( o == _atom ) {
+            if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
+                // the electron has moved
+                Point2D electronOffset = _atom.getElectronOffset();
+                // treat coordinates as distances, since _electronNode is a child node
+                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+                _electronNode.setOffset( nodeX, nodeY );
+            }
         }
     }
 }

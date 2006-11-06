@@ -97,6 +97,7 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
         }
         else if ( modelElement instanceof AlphaParticle ) {
             _alphaParticles.add( modelElement );
+            ( (AlphaParticle) modelElement ).setAtom( _atom );
         }
         else if ( modelElement instanceof AbstractHydrogenAtom ) {
             if ( _atom != null ) {

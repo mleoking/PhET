@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - change plum pudding to use Rutherford scattering for alpha particles
-- change coordinate system so that atom's origin is at (0,0)
+- change global coordinate system so that atom is centered at the origin
 
 MEDIUM PRIORITY:
 - message and reset ("new atom"?) button when Solar System atom has been destroyed
@@ -52,6 +52,9 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/6/06) - rearchitect model so that alpha particles move based on algorithm supplied by atom
+(11/6/06) - make photons and alpha particles subclasses of MovingObject (mutable postion, orientation, speed)
+(11/6/06) - make Gun and atoms subclasses of FixedObject (immutable position and orientation)
 (11/4/06) - switchable between 3 different "looks" for UV/IR photons
 ***** CVS tag hydrogenatom-0-00-07-2006-11-04
 (11/4/06) - remove UV/IR labels from photons, use colored crosshairs

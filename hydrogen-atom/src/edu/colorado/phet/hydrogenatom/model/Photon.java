@@ -23,17 +23,12 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * Photon is the model of a photon.
  * A photon has a position and direction of motion.
  * It also has an immutable wavelength.
+ * Photons move with constant speed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Photon extends DynamicObject implements ModelElement {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double DISTANCE_PER_DT = 5;
+public class Photon extends MovingObject implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,23 +43,25 @@ public class Photon extends DynamicObject implements ModelElement {
     
     /**
      * Constructor.
+     * @param wavelength wavelength, in nanometers
      * @param position
      * @param orientation rotation angle, in radians
-     * @param wavelength wavelength, in nanometers
+     * @param speed distance per dt
      */
-    public Photon( Point2D position, double orientation, double wavelength ) {
-        this( position, orientation, wavelength, false /* emitted */ );
+    public Photon( double wavelength, Point2D position, double orientation, double speed ) {
+        this( wavelength, position, orientation, speed, false /* emitted */ );
     }
     
     /**
      * Constructor.
+     * @param wavelength wavelength, in nanometers
      * @param position
      * @param orientation rotation angle, in radians
-     * @param wavelength wavelength, in nanometers
+     * @param speed distance per dt
      * @param emitted was this photon emitted by an atom?
      */
-    public Photon( Point2D position, double orientation, double wavelength, boolean emitted ) {
-        super( position, orientation );
+    public Photon( double wavelength, Point2D position, double orientation, double speed, boolean emitted ) {
+        super( position, orientation, speed );
         if ( wavelength < 0 ) {
             throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
         }
@@ -101,7 +98,8 @@ public class Photon extends DynamicObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        move( DISTANCE_PER_DT * dt );
+        double distance = getSpeed() * dt;
+        move( distance );
     }
     
     /*

@@ -26,7 +26,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractHydrogenAtom extends DynamicObject implements ModelElement {
+public abstract class AbstractHydrogenAtom extends FixedObject implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -49,6 +49,14 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
         _listenerList = new EventListenerList();
     }
 
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+    
+    public void setPosition( double x, double y ) {
+        throw new UnsupportedOperationException( "model does not support moving atoms!" );
+    }
+    
     //----------------------------------------------------------------------------
     // Collision detection
     //----------------------------------------------------------------------------
@@ -79,6 +87,29 @@ public abstract class AbstractHydrogenAtom extends DynamicObject implements Mode
      */
     public void stepInTime( double dt ) {}
 
+    //----------------------------------------------------------------------------
+    // Alpha particle movement
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Moves the alpha particle in time.
+     * In the default implementation, the atom has no influence on the
+     * alpha particle's speed or orientation.
+     * 
+     * @param alphaParticle
+     * @param dt
+     */
+    public void move( AlphaParticle alphaParticle, double dt ) {
+        double speed = alphaParticle.getSpeed();
+        double distance = speed * dt;
+        double direction = alphaParticle.getOrientation();
+        double dx = Math.cos( direction ) * distance;
+        double dy = Math.sin( direction ) * distance;
+        double x = alphaParticle.getX() + dx;
+        double y = alphaParticle.getY() + dy;
+        alphaParticle.setPosition( x, y );
+    }
+    
     //----------------------------------------------------------------------------
     // PhotonAbsorbedListener
     //----------------------------------------------------------------------------

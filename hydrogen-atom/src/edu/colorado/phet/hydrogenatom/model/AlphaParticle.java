@@ -23,20 +23,28 @@ import edu.colorado.phet.hydrogenatom.util.DebugUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AlphaParticle extends DynamicObject implements ModelElement {
+public class AlphaParticle extends MovingObject implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private static final double DISTANCE_PER_DT = 5;
+    private AbstractHydrogenAtom _atom; // atom that determines the alpha particle's motion
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AlphaParticle( Point2D position, double orientation ) {
-        super( position, orientation );
+    public AlphaParticle( Point2D position, double orientation, double speed ) {
+        super( position, orientation, speed );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors implementation
+    //----------------------------------------------------------------------------
+    
+    public void setAtom( AbstractHydrogenAtom atom ) {
+        _atom = atom;
     }
     
     //----------------------------------------------------------------------------
@@ -44,19 +52,7 @@ public class AlphaParticle extends DynamicObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        move( DISTANCE_PER_DT * dt );
-    }
-    
-    /*
-     * Moves the alpha particles a specified distance, in the direction of its orientation.
-     */
-    private void move( double distance ) {
-        double direction = getOrientation();
-        double dx = Math.cos( direction ) * distance;
-        double dy = Math.sin( direction ) * distance;
-        double x = getX() + dx;
-        double y = getY() + dy;
-        setPosition( x, y );
+        _atom.move( this, dt );
     }
     
     //----------------------------------------------------------------------------
