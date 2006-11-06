@@ -1,6 +1,5 @@
 1.04 (11-6-2006)
 Posted on main site as 1.04
-Added new about dialogs.
 
 1.03.01 (11-6-2006)
 Changed the thresholding mechanism at the screen to avoid some buggy behavior.
