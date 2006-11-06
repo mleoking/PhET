@@ -39,7 +39,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Gun extends DynamicObject implements ModelElement {
+public class Gun extends FixedObject implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -409,6 +409,8 @@ public class Gun extends DynamicObject implements ModelElement {
 
             // Direction of photon is same as gun's orientation.
             double orientation = getOrientation();
+            
+            double speed = HAConstants.PHOTON_INITIAL_SPEED;
 
             // For white light, assign a random wavelength to each photon.
             double wavelength = _wavelength;
@@ -417,7 +419,7 @@ public class Gun extends DynamicObject implements ModelElement {
             }
 
             // Create the photon
-            Photon photon = new Photon( position, orientation, wavelength );
+            Photon photon = new Photon( wavelength, position, orientation, speed );
 
             // Fire the photon
             GunFiredEvent event = new GunFiredEvent( this, photon );
@@ -443,9 +445,11 @@ public class Gun extends DynamicObject implements ModelElement {
 
             // Direction of alpha particle is same as gun's orientation.
             double orientation = getOrientation();
+            
+            double speed = HAConstants.ALPHA_PARTICLE_INITIAL_SPEED;
 
             // Create the alpha particle
-            AlphaParticle alphaParticle = new AlphaParticle( position, orientation );
+            AlphaParticle alphaParticle = new AlphaParticle( position, orientation, speed );
 
             // Fire the alpha particle
             GunFiredEvent event = new GunFiredEvent( this, alphaParticle );

@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.hydrogenatom.model;
 
-import java.awt.Dimension;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
@@ -296,8 +296,10 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             // Pick a random orientation
             double orientation = RandomUtils.nextOrientation();
             
+            double speed = HAConstants.PHOTON_INITIAL_SPEED;
+            
             // Create and emit a photon
-            Photon photon = new Photon( position, orientation, PHOTON_EMISSION_WAVELENGTH, true /* emitted */ );
+            Photon photon = new Photon( PHOTON_EMISSION_WAVELENGTH, position, orientation, speed, true /* emitted */ );
             PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
             firePhotonEmittedEvent( event );
         }
