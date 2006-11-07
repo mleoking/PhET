@@ -390,6 +390,10 @@ public class Body {
         }
     }
 
+    public boolean isFreeFallFrame() {
+        return freefall;
+    }
+
     public void convertToSpline() {
         if( freefall ) {
             if( attachmentPointRotation != 0 ) {
@@ -494,6 +498,16 @@ public class Body {
 
     public void setAcceleration( double ax, double ay ) {
         acceleration.setComponents( ax, ay );
+    }
+
+    public void convertToFreefall( boolean freeFrame ) {
+        this.freefall = !freeFrame;//to ensure the code is called...? awkward!
+        if( freeFrame ) {
+            convertToFreefall();
+        }
+        else {
+            convertToSpline();
+        }
     }
 
     public static interface Listener {
