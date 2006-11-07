@@ -274,24 +274,31 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void save() throws UnavailableServiceException, IOException {
-        FileSaveService service = PhetServiceManager.getFileSaveService( getSimulationPanel() );
-        service.saveAsFileDialog( null, new String[]{"esp"}, getContents() );
-    }
+        FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
+        String sw = "hello!!!";
 
-    private FileContents getContents() {
-        StringWriter out = new StringWriter();
-        BufferedWriter bufferedWriter = new BufferedWriter( out );
-        InputStream in = new ByteArrayInputStream( "Hello".getBytes() );
-        return new InputStreamFileContents( "name", in );
+        String outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
+        InputStream stream = new ByteArrayInputStream( outputString.getBytes() );
+        FileContents data = new InputStreamFileContents( "esp_output", stream );
+        FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
+        System.out.println( "out = " + out );
+
     }
 
     public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
-        FileOpenService fileOpenService = PhetServiceManager.getFileOpenService( getSimulationPanel() );
-        FileContents ofd = fileOpenService.openFileDialog( null, new String[]{"esp"} );
-        InputStream input = ofd.getInputStream();
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( input ) );
-        String line = bufferedReader.readLine();
-        System.out.println( "line = " + line );
-
+        FileOpenService fos = PhetServiceManager.getFileOpenService( getSimulationPanel() );
+        FileContents open = fos.openFileDialog( null, new String[]{"esp"} );
+        if( open == null ) {
+            return;
+        }
+        InputStreamReader isr = new InputStreamReader( open.getInputStream() );
+        BufferedReader br = new BufferedReader( isr );
+        String str = "";
+        while( br.ready() ) {
+            String read = br.readLine();
+            System.out.println( "read = " + read );
+            str += read;
+        }
+        System.out.println( "str = " + str );
     }
 }
