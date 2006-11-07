@@ -27,6 +27,7 @@ import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.beans.XMLEncoder;
 import java.io.*;
 
 /**
@@ -276,8 +277,13 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void save() throws UnavailableServiceException, IOException {
         FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
         String sw = "hello!!!";
-
         String outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
+        StringWriter stringWriter = new StringWriter();
+        InputStreamReader in = new InputStreamReader();
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter();
+
+        String
+        XMLEncoder xmlEncoder = new XMLEncoder( new PrintStream() );
         InputStream stream = new ByteArrayInputStream( outputString.getBytes() );
         FileContents data = new InputStreamFileContents( "esp_output", stream );
         FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
