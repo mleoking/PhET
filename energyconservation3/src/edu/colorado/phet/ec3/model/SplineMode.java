@@ -364,7 +364,7 @@ public class SplineMode implements UpdateMode {
             AbstractSpline bestSpline = null;
             ArrayList allSplines = energyConservationModel.getAllSplines();
             for( int i = 0; i < allSplines.size(); i++ ) {
-                double score = getBounceScore( (AbstractSpline)allSplines.get( i ), body );
+                double score = getCollisionScore( (AbstractSpline)allSplines.get( i ), body );
                 if( score < bestScore ) {
                     bestScore = score;
                     bestSpline = (AbstractSpline)allSplines.get( i );
@@ -385,10 +385,11 @@ public class SplineMode implements UpdateMode {
             return bestSpline.evaluateAnalytical( x ).distance( body.getAttachPoint() ) < bestSpline.evaluateAnalytical( x ).distance( body.getCenterOfMass() );
         }
 
-        private double getBounceScore( AbstractSpline splineSurface, Body body ) {
+        private double getCollisionScore( AbstractSpline splineSurface, Body body ) {
             Area area = new Area( splineSurface.getArea() );
             area.intersect( new Area( body.getShape() ) );
-            return area.isEmpty() ? Double.POSITIVE_INFINITY : 0.0;//Todo: don't need to compute others, could break
+            boolean bounce = !area.isEmpty();
+            return bounce ? 0.0 : Double.POSITIVE_INFINITY;
         }
 
         private double getGrabScore( AbstractSpline splineSurface, Body body ) {
