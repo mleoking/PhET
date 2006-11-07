@@ -69,15 +69,6 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
-    public void setPosition( Point2D p ) {
-        setPosition( p.getX(), p.getY() );
-    }
-    
-    public void setPosition( double x, double y ) {
-        super.setPosition( x, y );
-        updateShape();
-    }
-    
     public double getRadius() {
         return _radius;
     }
@@ -94,20 +85,23 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /**
-     * Detects and handles collision with a photon.
-     * If a collision occurs, the photon bounces back at a "steep but random" angle.
+     * Moves a photon.
+     * If the photon collides with the atom, the photon bounces back 
+     * at a "steep but random" angle. Otherwise it continues to move
+     * in its current direction.
      * 
      * @param photon
+     * @param dt
      */
-    public void detectCollision( Photon photon ) {
+    public void movePhoton( Photon photon, double dt ) {
         Point2D position = photon.getPosition();
         if ( _shape.contains( position ) ) {
             final int sign = ( position.getX() > getX() ) ? 1 : -1;
             final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
             final double orientation = photon.getOrientation() + deflection;
             photon.setOrientation( orientation );
-            photon.stepInTime( 1 ); //HACK to prevent particle from getting stuck inside atom
         }
+        super.movePhoton( photon, dt );
     }
     
     /**
@@ -115,15 +109,16 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
      * If a collision occurs, the alpha particle bounces back at a "steep but random" angle.
      * 
      * @param alphaParticle
+     * @param dt
      */
-    public void detectCollision( AlphaParticle alphaParticle ) {
+    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
         Point2D position = alphaParticle.getPosition();
         if ( _shape.contains( position ) ) {
             final int sign = ( position.getX() > getX() ) ? 1 : -1;
             final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
             final double orientation = alphaParticle.getOrientation() + deflection;
             alphaParticle.setOrientation( orientation );
-            alphaParticle.stepInTime( 1 ); //HACK to prevent particle from getting stuck inside atom
         }
+        super.moveAlphaParticle( alphaParticle, dt );
     }
 }

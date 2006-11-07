@@ -97,22 +97,8 @@ public class Photon extends MovingObject implements ModelElement {
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
-    public void stepInTime( double dt ) {
-        double distance = getSpeed() * dt;
-        move( distance );
-    }
-    
-    /*
-     * Moves the photon a specified distance, in the direction of its orientation.
-     */
-    private void move( double distance ) {
-        double direction = getOrientation();
-        double dx = Math.cos( direction ) * distance;
-        double dy = Math.sin( direction ) * distance;
-        double x = getX() + dx;
-        double y = getY() + dy;
-        setPosition( x, y );
-    }
+    /** Do nothing */
+    public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
     // Object overrides

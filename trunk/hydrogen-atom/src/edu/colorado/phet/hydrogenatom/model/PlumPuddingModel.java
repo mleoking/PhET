@@ -16,10 +16,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import com.sun.rsasign.al;
-
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
+import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
  * PlumPuddingModel models the hydrogen atom as plum pudding.
@@ -69,7 +68,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
     
     /* how close a photon and electron must be to collide */
-    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = 20;
+    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER;
     
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
@@ -91,8 +90,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private int _numberOfPhotonsAbsorbed;
     // radius of the atom's goo
     private double _radius;
-    // shape used to represent the atom, in world coordinates
-    private Shape _shape;
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
     // line on which the electron oscillates, relative to atom's center
@@ -135,7 +132,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         _numberOfZeroCrossings = 0;
         _previousAmplitude = 0;
         
-        updateShape();
         updateElectronLine();
     }
     
@@ -149,24 +145,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     public double getRadius() {
         return _radius;
-    }
-    
-    /**
-     * Sets the atom's position and updates its shape.
-     * @param p
-     */
-    public void setPosition( Point2D p ) {
-        setPosition( p.getX(), p.getY() );
-    }
-    
-    /**
-     * Sets the atom's position and updates its shape.
-     * @param x
-     * @param y
-     */
-    public void setPosition( double x, double y ) {
-        super.setPosition( x, y );
-        updateShape();
     }
     
     /**
@@ -209,15 +187,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         // move electron back to center
         _electronOffset.setLocation( 0, 0 );
         notifyObservers( PROPERTY_ELECTRON_OFFSET );
-    }
-    
-    /*
-     * Updates the shape (a circle) used to represent the atom's goo.
-     * The shape is specified in world coordinates.
-     */
-    private void updateShape() {
-        double diameter = ( 2 * _radius );
-        _shape = new Ellipse2D.Double( getX() - _radius, getY() - _radius, diameter, diameter );
     }
     
     /*
@@ -275,7 +244,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /*
-     * Absorbed the specified photon.
+     * Absorbs the specified photon.
      */
     private void absorbPhoton( Photon photon ) {
         _numberOfPhotonsAbsorbed += 1;
@@ -312,49 +281,34 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /**
-     * Detects and handles collision with a photon.
+     * Moves a photon.
      * A collision occurs when a photon comes "close" to the electron.
      * If a collision occurs, there is a probability of absorption.
      * 
      * @param photon
      */
-    public void detectCollision( Photon photon ) {
+    public void movePhoton( Photon photon, double dt ) {
+        
+        boolean absorbed = false;
+        
         if ( canAbsorb( photon ) ) {
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
             if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
                 if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
                     absorbPhoton( photon );
+                    absorbed = true;
                 }
             }
         }
-    }
-    
-    /**
-     * Detects and handles collision with an alpha particle.
-     * If a collision occurs, the alpha particle is deflected using
-     * a Rutherford Scattering algorithm.
-     * 
-     * @param alphaParticle
-     */
-    public void detectCollision( AlphaParticle alphaParticle ) {
-        Point2D position = alphaParticle.getPosition();
-        if ( _shape.contains( position ) ) {
-            //XXX use Rutherford Scattering algorithm
+        
+        if ( !absorbed ) {
+            super.movePhoton( photon, dt );
         }
     }
     
-    /*
-     * Determines if two points collide.
-     */
-    private static boolean pointsCollide( Point2D p1, Point2D p2, double threshold ) {
-        boolean xClose = ( Math.abs( p1.getX() - p2.getX() ) < threshold );
-        boolean yClose = ( Math.abs( p1.getY() - p2.getY() ) < threshold );
-        return ( xClose && yClose );
-    }
-    
     /**
-     * Move an alpha particle using a Rutherford Scattering algorithm.
+     * Moves an alpha particle using a Rutherford Scattering algorithm.
      * If the alpha particle's initial x position is the same as the atom's,
      * then divide-by-zero errors can occur (since b=0), so simply use 
      * the default method of moving the alpha particle.
@@ -362,10 +316,10 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * @param alphaParticle
      * @param dt
      */
-    public void move( AlphaParticle alphaParticle, final double dt ) {
+    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
         final double b = alphaParticle.getInitialPosition().getX() - getX();
         if ( b == 0 ) {
-            super.move( alphaParticle, dt );
+            super.moveAlphaParticle( alphaParticle, dt );
         }
         else {
             final double L = HAConstants.ANIMATION_BOX_SIZE.height;

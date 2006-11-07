@@ -23,12 +23,12 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Move an alpha particle using a Rutherford Scattering algorithm.
+     * Moves an alpha particle using a Rutherford Scattering algorithm.
      * 
      * @param alphaParticle
      * @param dt
      */
-    public void move( AlphaParticle alphaParticle, final double dt ) {
+    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
         final double L = HAConstants.ANIMATION_BOX_SIZE.height;
         final double D = L / 4;
         RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
