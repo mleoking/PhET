@@ -9,15 +9,14 @@ HIGH PRIORITY:
 - debug Rutherford Scattering for alpha particles
 
 MEDIUM PRIORITY:
-- photons and alphaParticles should go behind ExperimentAtomNode
 - implement DeBroglie model
 - implement Schrodinger model
-- implement Experiment model
+- implement Experiment model (particles should go behind black box)
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
-- message and reset ("new atom"?) button when Solar System atom has been destroyed
-- message for when atom has been ionized
+- "atom destroyed" message for Solar System model
+- "atom ionized" message for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - ignore spectral line table entries with node>6
 - handle model-view transform differently?
