@@ -1,0 +1,95 @@
+package edu.colorado.phet.ec3.serialization;
+
+import edu.colorado.phet.ec3.EnergySkateParkModule;
+import edu.colorado.phet.ec3.model.Body;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+/**
+ * User: Sam Reid
+ * Date: Nov 7, 2006
+ * Time: 12:49:52 PM
+ * Copyright (c) Nov 7, 2006 by Sam Reid
+ */
+
+public class EnergySkateParkModuleBean {
+    private ArrayList bodies = new ArrayList();
+
+    public EnergySkateParkModuleBean() {
+    }
+
+    public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
+        for( int i = 0; i < module.getEnergyConservationModel().numBodies(); i++ ) {
+            Body body = module.getEnergyConservationModel().bodyAt( i );
+            addBody( body );
+        }
+    }
+
+    private void addBody( Body body ) {
+        bodies.add( new BodyElement( body ) );
+    }
+
+    public static class BodyElement {
+        private Point2D.Double position;
+        private Point2D.Double velocity;
+        private Point2D.Double acceleration;
+
+        public BodyElement() {
+        }
+
+        public BodyElement( Body body ) {
+            position = body.getPosition();
+            velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
+            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
+        }
+
+        public Point2D.Double getPosition() {
+            return position;
+        }
+
+        public void setPosition( Point2D.Double position ) {
+            this.position = position;
+        }
+
+        public Point2D.Double getVelocity() {
+            return velocity;
+        }
+
+        public void setVelocity( Point2D.Double velocity ) {
+            this.velocity = velocity;
+        }
+
+        public Point2D.Double getAcceleration() {
+            return acceleration;
+        }
+
+        public void setAcceleration( Point2D.Double acceleration ) {
+            this.acceleration = acceleration;
+        }
+
+        public void apply( Body body ) {
+            body.setAttachmentPointPosition( position );
+            body.setVelocity( velocity.x, velocity.y );
+            body.setAcceleration( acceleration.x, acceleration.y );
+        }
+    }
+
+    public ArrayList getBodies() {
+        return bodies;
+    }
+
+    public void setBodies( ArrayList bodies ) {
+        this.bodies = bodies;
+    }
+
+    public void apply( EnergySkateParkModule module ) {
+        module.getEnergyConservationModel().removeAllBodies();
+        for( int i = 0; i < bodies.size(); i++ ) {
+            BodyElement bodyElement = (BodyElement)bodies.get( i );
+            Body body = new Body( module.getEnergyConservationModel() );
+            bodyElement.apply( body );
+            module.getEnergyConservationModel().addBody( body );
+        }
+    }
+}

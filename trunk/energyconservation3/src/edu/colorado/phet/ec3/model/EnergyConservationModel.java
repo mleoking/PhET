@@ -123,6 +123,16 @@ public class EnergyConservationModel {
         }
     }
 
+    public void removeAllBodies() {
+        while( bodies.size() > 0 ) {
+            removeBody( 0 );
+        }
+    }
+
+    private void removeBody( int i ) {
+        bodies.remove( i );
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 

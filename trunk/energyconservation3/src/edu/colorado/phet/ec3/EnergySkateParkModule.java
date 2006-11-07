@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.util.services.InputStreamFileContents;
 import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -16,7 +17,7 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
 import edu.colorado.phet.ec3.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.ec3.plots.EnergyTimePlotCanvas;
-import edu.colorado.phet.ec3.serialization.EnergySkateParkModelBean;
+import edu.colorado.phet.ec3.serialization.EnergySkateParkModuleBean;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -283,7 +284,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
         StringOutputStream stringOutputStream = new StringOutputStream();
         XMLEncoder xmlEncoder = new XMLEncoder( stringOutputStream );
-        xmlEncoder.writeObject( new EnergySkateParkModelBean( this ) );
+        xmlEncoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
+        xmlEncoder.writeObject( new EnergySkateParkModuleBean( this ) );
         xmlEncoder.close();
         System.out.println( "String=" + stringOutputStream.toString() );
 
@@ -303,5 +305,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         XMLDecoder xmlDecoder = new XMLDecoder( open.getInputStream() );
         Object obj = xmlDecoder.readObject();
         System.out.println( "obj = " + obj );
+        if( obj instanceof EnergySkateParkModuleBean ) {
+            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
+            energySkateParkModelBean.apply( this );
+        }
     }
 }
