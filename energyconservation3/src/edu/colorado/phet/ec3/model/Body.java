@@ -55,6 +55,10 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private EnergyConservationModel energyConservationModel;
 
+    public Body( EnergyConservationModel model ) {
+        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
+    }
+
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
         this.energyConservationModel = energyConservationModel;
         userMode = new UserControlled();
@@ -486,6 +490,10 @@ public class Body {
         else {
             return null;
         }
+    }
+
+    public void setAcceleration( double ax, double ay ) {
+        acceleration.setComponents( ax, ay );
     }
 
     public static interface Listener {
