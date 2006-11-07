@@ -209,7 +209,8 @@ public class SimpleModule extends MRModule {
             m3 = new MoleculeC();
         }
 
-        m3.setPosition( moleculeB.getPosition().getX(), yLoc - moleculeB.getRadius() - m3.getRadius() );
+        m3.setPosition( moleculeB.getPosition().getX(), yLoc - Math.max(moleculeB.getRadius(), m3.getRadius()) );
+//        m3.setPosition( moleculeB.getPosition().getX(), yLoc - moleculeB.getRadius() - m3.getRadius() );
         m3.setVelocity( 0, 0 );
         model.addModelElement( m3 );
 
