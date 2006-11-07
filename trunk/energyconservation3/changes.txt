@@ -1,4 +1,7 @@
-1.02.11
+1.02.12
+Bugfix: When you move from space to earth the "use arrow keys to thrust" stays up.
+
+1.02.11 (11-3-2006)
 Made the "Return The Skater" button pop up when the skater is partially offscreen (rather than when he is completely offscreen).
 Bugfix: The man jiggles around when on a nearly horizontal piece of track.
 
