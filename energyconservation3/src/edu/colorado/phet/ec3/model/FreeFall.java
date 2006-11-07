@@ -19,6 +19,11 @@ public class FreeFall extends ForceMode implements Derivable {
     }
 
     public void stepInTime( Body body, double dt ) {
+        stepIgnoreSplines( body, dt );
+        new SplineMode.GrabSpline( energyConservationModel ).interactWithSplines( body );
+    }
+
+    public void stepIgnoreSplines( Body body, double dt ) {
         double origEnergy = body.getTotalEnergy();
         setNetForce( getTotalForce( body ) );
         super.stepInTime( body, dt );
@@ -28,7 +33,6 @@ public class FreeFall extends ForceMode implements Derivable {
         if( DE > 1E-6 ) {
             System.out.println( "energy conservation error in free fall: " + DE );
         }
-        new SplineMode.GrabSpline( energyConservationModel ).interactWithSplines( body );
     }
 
     private Vector2D.Double getTotalForce( Body body ) {
