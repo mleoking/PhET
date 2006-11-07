@@ -2,9 +2,6 @@
 Remaining Work
 #######################################
 
-He just froze after the 20th time along this track.  You can see below the situation where he moves right through the track, 
-the thrust message remains and he froze.
-
 Bugs: 
 - when I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.) 
 - the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot. 
@@ -54,6 +51,10 @@ If I create a track that has another slightly above, he just slides right throug
 
 Sometimes he bounces off the end of a track that he should just fly off of.
  >>I can't reproduce this yet.
+ 
+ He just froze after the 20th time along this track.  You can see below the situation where he moves right through the track, 
+the thrust message remains and he froze.
+>>Can't reproduce
          
 #################################################################
 Low Priority

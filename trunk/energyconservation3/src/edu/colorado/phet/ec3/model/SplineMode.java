@@ -36,13 +36,14 @@ public class SplineMode implements UpdateMode {
         return body.isUserControlled() || spline.isUserControlled();
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( Body body, double dt ) {
+        this.body = body;
         Body origState = body.copyState();
         double x1 = lastX;
         double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
         body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
         AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( x1 );
-        new ForceMode( body, netForceWithoutNormal ).stepInTime( dt );
+        new ForceMode( body, netForceWithoutNormal ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
@@ -244,8 +245,8 @@ public class SplineMode implements UpdateMode {
         return spline;
     }
 
-    public UpdateMode copy() {
-        return new SplineMode( model, getSpline(), body );
+    public UpdateMode copy( Body body ) {
+        return new SplineMode( model, spline, body );
     }
 
     public static class GrabSpline {

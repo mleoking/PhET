@@ -34,7 +34,8 @@ public class ForceMode implements UpdateMode, Derivable {
         return netForce;
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( Body body, double dt ) {
+        this.body = body;
         updateRK4( dt );
     }
 
@@ -191,7 +192,7 @@ public class ForceMode implements UpdateMode, Derivable {
     public void init() {
     }
 
-    public UpdateMode copy() {
+    public UpdateMode copy( Body body ) {
         return new ForceMode( body );
     }
 }

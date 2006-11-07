@@ -15,7 +15,8 @@ public class UserControlled implements UpdateMode {
         this.body = body;
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( Body body, double dt ) {
+        this.body = body;
     }
 
     public void init() {
@@ -24,7 +25,7 @@ public class UserControlled implements UpdateMode {
         body.convertToFreefall();
     }
 
-    public UpdateMode copy() {
+    public UpdateMode copy( Body body ) {
         return new UserControlled( body );
     }
 

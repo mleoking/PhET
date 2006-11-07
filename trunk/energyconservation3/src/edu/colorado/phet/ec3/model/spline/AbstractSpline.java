@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 
 public abstract class AbstractSpline implements Cloneable {
+
     private ArrayList points = new ArrayList();
 
     private boolean segmentPathDirty = true;
