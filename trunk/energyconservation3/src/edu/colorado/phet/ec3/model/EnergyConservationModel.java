@@ -166,6 +166,11 @@ public class EnergyConservationModel {
         for( int i = 0; i < model.floors.size(); i++ ) {
             floors.add( model.floorAt( i ).copyState() );
         }
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.convertToFreefall();
+            body.setFreeFallMode();
+        }
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;

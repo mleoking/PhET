@@ -49,8 +49,8 @@ public class Body {
     private UpdateMode mode;
     private boolean freefall = true;
 
-    AbstractSpline lastFallSpline;
-    long lastFallTime;
+    private AbstractSpline lastFallSpline;
+    private long lastFallTime;
 
     private ArrayList listeners = new ArrayList();
     private EnergyConservationModel energyConservationModel;
