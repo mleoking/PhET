@@ -39,36 +39,40 @@ public class EnergySkateParkModuleBean {
         splines.add( new SplineElement( splineSurface ) );
     }
 
-    public static class SplineElement {
-        private Point2D[] controlPoints;
-
-        public SplineElement() {
-        }
-
-        public SplineElement( SplineSurface splineSurface ) {
-            controlPoints = splineSurface.getSpline().getControlPoints();
-        }
-
-        public Point2D[] getControlPoints() {
-            return controlPoints;
-        }
-
-        public void setControlPoints( Point2D[] controlPoints ) {
-            this.controlPoints = controlPoints;
-        }
-
-        public SplineSurface toSplineSurface() {
-            CubicSpline top = new CubicSpline();
-            for( int i = 0; i < controlPoints.length; i++ ) {
-                Point2D controlPoint = controlPoints[i];
-                top.addControlPoint( controlPoint );
-            }
-            return new SplineSurface( top );
-        }
-    }
-
     private void addBody( Body body ) {
         bodies.add( new BodyElement( body ) );
+    }
+
+
+    public ArrayList getSplines() {
+        return splines;
+    }
+
+    public void setSplines( ArrayList splines ) {
+        this.splines = splines;
+    }
+
+    public ArrayList getBodies() {
+        return bodies;
+    }
+
+    public void setBodies( ArrayList bodies ) {
+        this.bodies = bodies;
+    }
+
+    public void apply( EnergySkateParkModule module ) {
+        module.getEnergyConservationModel().removeAllBodies();
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = new Body( module.getEnergyConservationModel() );
+            ( (BodyElement)bodies.get( i ) ).apply( body );
+            module.getEnergyConservationModel().addBody( body );
+        }
+
+        module.getEnergyConservationModel().removeAllSplineSurfaces();
+        for( int i = 0; i < splines.size(); i++ ) {
+            module.getEnergyConservationModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
+        }
+        module.addFloorSpline();
     }
 
     public static class BodyElement {
@@ -116,34 +120,31 @@ public class EnergySkateParkModuleBean {
         }
     }
 
-    public ArrayList getSplines() {
-        return splines;
-    }
+    public static class SplineElement {
+        private Point2D[] controlPoints;
 
-    public void setSplines( ArrayList splines ) {
-        this.splines = splines;
-    }
-
-    public ArrayList getBodies() {
-        return bodies;
-    }
-
-    public void setBodies( ArrayList bodies ) {
-        this.bodies = bodies;
-    }
-
-    public void apply( EnergySkateParkModule module ) {
-        module.getEnergyConservationModel().removeAllBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = new Body( module.getEnergyConservationModel() );
-            ( (BodyElement)bodies.get( i ) ).apply( body );
-            module.getEnergyConservationModel().addBody( body );
+        public SplineElement() {
         }
 
-        module.getEnergyConservationModel().removeAllSplineSurfaces();
-        for( int i = 0; i < splines.size(); i++ ) {
-            module.getEnergyConservationModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
+        public SplineElement( SplineSurface splineSurface ) {
+            controlPoints = splineSurface.getSpline().getControlPoints();
         }
-        module.addFloorSpline();
+
+        public Point2D[] getControlPoints() {
+            return controlPoints;
+        }
+
+        public void setControlPoints( Point2D[] controlPoints ) {
+            this.controlPoints = controlPoints;
+        }
+
+        public SplineSurface toSplineSurface() {
+            CubicSpline top = new CubicSpline();
+            for( int i = 0; i < controlPoints.length; i++ ) {
+                Point2D controlPoint = controlPoints[i];
+                top.addControlPoint( controlPoint );
+            }
+            return new SplineSurface( top );
+        }
     }
 }
