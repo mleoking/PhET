@@ -11,7 +11,7 @@ package edu.colorado.phet.ec3.model;
 public interface UpdateMode {
     void stepInTime( Body body, double dt );
 
-    void init();
+    void init( Body body );
 
-    UpdateMode copy( Body body );
+    UpdateMode copy();
 }
