@@ -170,6 +170,15 @@ public class EnergyConservationModel {
         this.history.addAll( model.history );
         this.time = model.time;
         this.gravity = model.gravity;
+
+//        for( int i = 0; i < bodies.size(); i++ ) {
+//            Body body = (Body)bodies.get( i );
+//            body.setFreeFallMode();
+//            body.convertToFreefall();
+//            new SplineMode.GrabSpline(this ).interactWithSplines( body );
+//        }
+
+        //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
     }
 
     public double timeSinceLastHistory() {

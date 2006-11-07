@@ -76,7 +76,7 @@ public class Body {
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-        copy.mode = this.mode.copy();
+        copy.mode = this.mode.copy( this );
         copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
@@ -103,7 +103,7 @@ public class Body {
         int NUM_STEPS_PER_UPDATE = 1;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             double ei = new State( this ).getTotalEnergy();
-            getMode().stepInTime( dt / NUM_STEPS_PER_UPDATE );
+            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
             double ef = new State( this ).getTotalEnergy();
             double err = Math.abs( ef - ei );
             if( err > 1E-6 ) {
@@ -476,6 +476,16 @@ public class Body {
 
     public void setAngularVelocity( double angularVelocity ) {
         this.angularVelocity = angularVelocity;
+    }
+
+    public AbstractSpline getSpline() {
+        if( mode instanceof SplineMode ) {
+            SplineMode splineMode = (SplineMode)mode;
+            return splineMode.getSpline();
+        }
+        else {
+            return null;
+        }
     }
 
     public static interface Listener {

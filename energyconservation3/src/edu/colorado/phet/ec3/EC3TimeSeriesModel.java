@@ -21,8 +21,7 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
     }
 
     protected void setModelState( Object v ) {
-        EnergyConservationModel model = (EnergyConservationModel)v;
-        module.setState( model );
+        module.setState( (EnergyConservationModel)v );
     }
 
     protected boolean confirmReset() {
