@@ -243,7 +243,11 @@ public class SplineMode implements UpdateMode {
     }
 
     public UpdateMode copy() {
-        return new SplineMode( model, spline );
+        SplineMode splineMode = new SplineMode( model, spline );
+        splineMode.lastX = lastX;
+        splineMode.lastNormalForce = lastNormalForce == null ? null : new Vector2D.Double( lastNormalForce );
+        //todo: shouldn't we have to do some portion of copying the body states?
+        return splineMode;
     }
 
     public static class GrabSpline {
