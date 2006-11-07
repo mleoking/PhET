@@ -52,6 +52,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/6/06) - add basic code for moving particles and absorbing/emitting photons to BohrModel
 (11/6/06) - remove call to super.stepInTime in HAModel.stepInTime
 (11/6/06) - give HAModel responsibility for moving particles
 (11/6/06) - remove knowledge of atom from alpha particle model
