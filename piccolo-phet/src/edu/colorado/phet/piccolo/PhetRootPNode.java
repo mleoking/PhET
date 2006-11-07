@@ -63,6 +63,21 @@ public class PhetRootPNode extends PNode {
     }
 
     /**
+     * Removes the specified node from the screen.
+     * @param screenChild the node to be removed.
+     */
+    public void removeScreenChild(PNode screenChild){
+        removeChild( indexOfChild( screenChild ));
+    }
+    
+    /**
+     * Removes the specified node from the world.
+     * @param worldChild the node to be removed.
+     */
+    public void removeWorldChild(PNode worldChild){
+        removeChild( indexOfChild( worldChild ));
+    }
+    /**
      * Adds the child as a screen child at the specified index.
      *
      * @param index
