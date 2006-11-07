@@ -127,7 +127,6 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
                 return;
             }
             _alphaParticles.add( modelElement );
-            ( (AlphaParticle) modelElement ).setAtom( _atom );
         }
         else if ( modelElement instanceof AbstractHydrogenAtom ) {
             if ( _atom != null ) {
@@ -211,16 +210,18 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
      * @param event
      */
     public void clockTicked( ClockEvent event ) {
-        super.clockTicked( event );
-        detectCollisions();
-        detectSpaceBounds();
+        final double dt = event.getSimulationTimeChange();
+        _gun.stepInTime( dt );
+        _atom.stepInTime( dt );
+        moveParticles( dt );
+        cullParticles();
 //        System.out.println( "photons=" + _photons.size() + " alphaParticles=" + _alphaParticles.size() );//XXX
     }
     
     /*
-     * Detect collisions with the atom.
+     * Moves photons and alpha particles.
      */
-    private void detectCollisions() {
+    private void moveParticles( double dt ) {
         
         if ( _atom != null ) {
             
@@ -229,7 +230,7 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
             Iterator p = photonsCopy.iterator();
             while ( p.hasNext() ) {
                 Photon photon = (Photon) p.next();
-                _atom.detectCollision( photon );
+                _atom.movePhoton( photon, dt );
             }
 
             // Alpha Particle collisions
@@ -237,16 +238,15 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
             Iterator a = alphaParticlesCopy.iterator();
             while ( a.hasNext() ) {
                 AlphaParticle alphaParticle = (AlphaParticle) a.next();
-                _atom.detectCollision( alphaParticle );
+                _atom.moveAlphaParticle( alphaParticle, dt );
             }
         }
     }
     
     /*
-     * Detect and remove photons and alpha particles that have left 
-     * the bounds of space.
+     * Culls photons and alpha particles that have left the bounds of space.
      */
-    private void detectSpaceBounds() {
+    private void cullParticles() {
         
         ArrayList photonsCopy = new ArrayList( _photons ); // copy
         Iterator p = photonsCopy.iterator();

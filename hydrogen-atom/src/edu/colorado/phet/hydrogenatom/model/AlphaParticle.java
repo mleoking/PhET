@@ -29,7 +29,6 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractHydrogenAtom _atom; // atom that determines the alpha particle's motion
     private Point2D _initialPosition; // required by Rutherford Scattering algorithm
     private double _initialSpeed; // required by Rutherford Scattering algorithm
     
@@ -47,10 +46,6 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     // Mutators and accessors implementation
     //----------------------------------------------------------------------------
     
-    public void setAtom( AbstractHydrogenAtom atom ) {
-        _atom = atom;
-    }
-    
     public Point2D getInitialPosition() {
         return _initialPosition;
     }
@@ -63,9 +58,8 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
-    public void stepInTime( double dt ) {
-        _atom.move( this, dt );
-    }
+    /** Do nothing */
+    public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
     // Object overrides
