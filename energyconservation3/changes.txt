@@ -1,5 +1,6 @@
 1.02.12
 Bugfix: When you move from space to earth the "use arrow keys to thrust" stays up.
+Bugfix: When I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.)
 
 1.02.11 (11-3-2006)
 Made the "Return The Skater" button pop up when the skater is partially offscreen (rather than when he is completely offscreen).
