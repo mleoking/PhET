@@ -67,7 +67,6 @@ new EnergySkateParkFrameSetup() );
                             System.out.println( "unknown key event type" );
                             break;
                     }
-
                 }
                 return false;
             }
