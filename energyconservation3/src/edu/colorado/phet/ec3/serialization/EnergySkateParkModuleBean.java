@@ -1,6 +1,7 @@
 package edu.colorado.phet.ec3.serialization;
 
 import edu.colorado.phet.ec3.EnergySkateParkModule;
+import edu.colorado.phet.ec3.FloorSpline;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
@@ -27,7 +28,10 @@ public class EnergySkateParkModuleBean {
             addBody( module.getEnergyConservationModel().bodyAt( i ) );
         }
         for( int i = 0; i < module.getEnergyConservationModel().numSplineSurfaces(); i++ ) {
-            addSplineSurface( module.getEnergyConservationModel().splineSurfaceAt( i ) );
+            SplineSurface splineSurface = module.getEnergyConservationModel().splineSurfaceAt( i );
+            if( !( splineSurface.getSpline() instanceof FloorSpline ) ) {
+                addSplineSurface( splineSurface );
+            }
         }
     }
 
@@ -131,16 +135,15 @@ public class EnergySkateParkModuleBean {
     public void apply( EnergySkateParkModule module ) {
         module.getEnergyConservationModel().removeAllBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
-            BodyElement bodyElement = (BodyElement)bodies.get( i );
             Body body = new Body( module.getEnergyConservationModel() );
-            bodyElement.apply( body );
+            ( (BodyElement)bodies.get( i ) ).apply( body );
             module.getEnergyConservationModel().addBody( body );
         }
 
         module.getEnergyConservationModel().removeAllSplineSurfaces();
         for( int i = 0; i < splines.size(); i++ ) {
-            SplineElement splineElement = (SplineElement)splines.get( i );
-            module.getEnergyConservationModel().addSplineSurface( splineElement.toSplineSurface() );
+            module.getEnergyConservationModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
         }
+        module.addFloorSpline();
     }
 }
