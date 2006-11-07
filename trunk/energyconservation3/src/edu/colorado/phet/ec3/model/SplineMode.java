@@ -304,26 +304,49 @@ public class SplineMode implements UpdateMode {
                 double epsilon = 0.05;
                 if( ( x <= epsilon || x >= collisionSpline.getLength() - epsilon ) && isBodyMovingTowardSpline( body, collisionSpline, x ) )
                 {
-                    System.out.println( "Collision with end." );
-                    body.setVelocity( body.getVelocity().getScaledInstance( -1 ) );
-                    double angle = body.getVelocity().getAngle();
-                    double maxDTheta = Math.PI / 16;
-                    double dTheta = ( Math.random() * 2 - 1 ) * maxDTheta;
-                    body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), angle + dTheta ) );
-                    body.setAngularVelocity( dTheta * 10 );
-                    body.convertToFreefall();
+                    collideWithEnd( body );
                 }
                 else {
-                    double parallelPart = collisionSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
-                    double perpPart = collisionSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
-                    Vector2D.Double newVelocity = new Vector2D.Double();
-                    newVelocity.add( collisionSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
-                    newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
-                    body.setVelocity( newVelocity );
-                    body.convertToFreefall();
-                    body.setAngularVelocity( parallelPart / 2 );
+                    collideWithTrack( collisionSpline, x, body );
                 }
             }
+        }
+
+        private void collideWithTrack( AbstractSpline collisionSpline, double x, Body body ) {
+            double origSpeed = body.getSpeed();
+            double origEnergy = body.getTotalEnergy();
+            double parallelPart = collisionSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
+            double perpPart = collisionSpline.getUnitNormalVector( x ).dot( body.getVelocity() );
+            Vector2D.Double newVelocity = new Vector2D.Double();
+            newVelocity.add( collisionSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
+            newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
+
+            double alpha = 20.0;
+            double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
+            double newSpeed = body.getSpeed() * speedScale;
+            if( newSpeed > origSpeed ) {
+                throw new RuntimeException( "Body gained speed on collision" );
+            }
+            body.setVelocity( newVelocity.getInstanceOfMagnitude( newSpeed ) );
+
+            double newTotalEnergy = body.getTotalEnergy();
+            double energyLostInCollision = newTotalEnergy - origEnergy;
+            body.addThermalEnergy( -energyLostInCollision );
+            System.out.println( "speedScale=" + speedScale + ", origSpeed=" + origSpeed + ", newSpeed=" + newSpeed + ", friction=" + body.getFrictionCoefficient() + ", energyLostInCollision=" + energyLostInCollision );
+
+            body.convertToFreefall();
+            body.setAngularVelocity( parallelPart / 2 );
+        }
+
+        private void collideWithEnd( Body body ) {
+            System.out.println( "Collision with end." );
+            body.setVelocity( body.getVelocity().getScaledInstance( -1 ) );
+            double angle = body.getVelocity().getAngle();
+            double maxDTheta = Math.PI / 16;
+            double dTheta = ( Math.random() * 2 - 1 ) * maxDTheta;
+            body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude(), angle + dTheta ) );
+            body.setAngularVelocity( dTheta * 10 );
+            body.convertToFreefall();
         }
 
         private AbstractSpline getCollisionSpline( Body body ) {
