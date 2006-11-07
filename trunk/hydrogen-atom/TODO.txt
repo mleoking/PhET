@@ -52,6 +52,7 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/6/06) - add developer control for Rutherford Scattering debug output
 (11/6/06) - add developer control for limiting the model to 1 particle (photon or alpha particle)
 (11/6/06) - add extensive debug output to Rutherford Scattering
 (11/6/06) - corrections to Rutherford Scattering, still doesn't work
