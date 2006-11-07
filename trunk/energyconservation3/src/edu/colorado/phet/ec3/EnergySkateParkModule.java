@@ -112,7 +112,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         new WiggleMeInSpace( this ).start();
     }
 
-    private void addFloorSpline() {
+    public void addFloorSpline() {
         CubicSpline floorSpline = new FloorSpline();
 
         SplineSurface splineSurface = new SplineSurface( floorSpline );
