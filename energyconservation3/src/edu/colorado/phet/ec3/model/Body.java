@@ -57,8 +57,8 @@ public class Body {
 
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
         this.energyConservationModel = energyConservationModel;
-        userMode = new UserControlled( this );
-        this.freeFall = new FreeFall( energyConservationModel, this );
+        userMode = new UserControlled();
+        this.freeFall = new FreeFall( energyConservationModel );
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
@@ -76,7 +76,7 @@ public class Body {
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-        copy.mode = this.mode.copy( this );
+        copy.mode = this.mode.copy();
         copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
@@ -215,13 +215,13 @@ public class Body {
         }
         if( !same ) {
             this.storedTotalEnergy = getTotalEnergy();
-            setMode( new SplineMode( model, spline, this ) );
+            setMode( new SplineMode( model, spline ) );
         }
     }
 
     private void setMode( UpdateMode mode ) {
         this.mode = mode;
-        mode.init();
+        mode.init( this );
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
