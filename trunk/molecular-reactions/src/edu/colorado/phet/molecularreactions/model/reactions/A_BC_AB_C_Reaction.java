@@ -47,7 +47,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      *
      * @param m1
      * @param m2
-     * @return
+     * @return the potential energy
      */
     public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 ) {
         double pe = 0;
@@ -69,7 +69,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      *
      * @param mA
      * @param mB
-     * @return
+     * @return the energy
      */
     public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB ) {
         double thresholdEnergy = 0;
@@ -144,8 +144,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Move the sm and B molecules next to each other along the line connecting them
             Vector2D vb = new Vector2D.Double( cm2.getCM(), mB.getPosition() ).normalize().scale( mB.getRadius() );
             Vector2D vs = new Vector2D.Double( cm2.getCM(), sm.getPosition() ).normalize().scale( sm.getRadius() );
-            mB.setPosition( cm2.getCM().getX() + vb.getX(), cm2.getCM().getY() + vb.getY() );
-            sm.setPosition( cm2.getCM().getX() + vs.getX(), cm2.getCM().getY() + vs.getY() );
+//            mB.setPosition( cm2.getCM().getX() + vb.getX(), cm2.getCM().getY() + vb.getY() );
+//            sm.setPosition( cm2.getCM().getX() + vs.getX(), cm2.getCM().getY() + vs.getY() );
 
             // Add the new composite to the model
             model.addModelElement( cm2 );
@@ -443,7 +443,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      *
      * @param mA
      * @param mB
-     * @return
+     * @return the distance
      */
     public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB ) {
         if( moleculesAreProperTypes( mA, mB ) ) {
@@ -472,6 +472,14 @@ public class A_BC_AB_C_Reaction extends Reaction {
         }
     }
 
+    /**
+     * Returns a vector that goes from the center of the simple molecule in the collision
+     * to the center of the B molecule in the collision
+     *
+     * @param mA
+     * @param mB
+     * @return a vector
+     */
     public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
         Vector2D v = null;
         if( moleculesAreProperTypes( mA, mB ) ) {
@@ -488,21 +496,14 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
 
-//            double pcx = bm.getPosition().getX() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getX() - sm.getCM().getX() );
-//            double psx = sm.getPosition().getX() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getX() - bm.getPosition().getX() );
-//            double pcy = bm.getPosition().getY() - bm.getRadius() * MathUtil.getSign( bm.getPosition().getY() - sm.getCM().getY() );
-//            double psy = sm.getPosition().getY() - sm.getRadius() * MathUtil.getSign( sm.getPosition().getY() - bm.getPosition().getY() );
-
             double dx = bm.getPosition().getX() - sm.getPosition().getX();
             double dy = bm.getPosition().getY() - sm.getPosition().getY();
-            double d = bm.getPosition().distance( sm.getPosition() );
             double theta = Math.atan2( dy, dx );
             dx -= Math.cos( theta) * ( bm.getRadius() + sm.getRadius());
             dy -= Math.sin( theta ) * ( bm.getRadius() + sm.getRadius() );
 
             int sign = ( mA == cm ) ? -1 : 1;
             v = new Vector2D.Double( sign * dx, sign * dy );
-//            v = new Vector2D.Double( sign * ( pcx - psx ), sign * ( pcy - psy ) );
         }
         return v;
     }

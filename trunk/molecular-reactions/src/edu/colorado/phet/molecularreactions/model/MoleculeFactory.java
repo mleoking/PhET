@@ -40,23 +40,31 @@ public class MoleculeFactory {
         double angularVelocity = params.getAngularVelocity();
         if( moleculeClass == MoleculeAB.class ) {
             SimpleMolecule mA = new MoleculeA();
-            mA.setPosition( position.getX() - mA.getRadius(), position.getY() );
+//            mA.setPosition( position.getX() - mA.getRadius(), position.getY() );
             mA.setVelocity( velocity );
             SimpleMolecule mB = new MoleculeB();
-            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
+//            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
             molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB} );
             molecule.setOmega( angularVelocity );
+
+            double d = getComponentMoleculesOffset( mA, mB );
+            mA.setPosition( position.getX() - d/2, position.getY() );
+            mB.setPosition( position.getX() + d/2, position.getY() );
         }
         else if( moleculeClass == MoleculeBC.class ) {
             SimpleMolecule mC = new MoleculeC();
-            mC.setPosition( position.getX() - mC.getRadius(), position.getY() );
+//            mC.setPosition( position.getX() - mC.getRadius(), position.getY() );
             mC.setVelocity( velocity );
             SimpleMolecule mB = new MoleculeB();
-            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
+//            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
             molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB} );
             molecule.setOmega( angularVelocity );
+
+            double d = getComponentMoleculesOffset( mC, mB );
+            mC.setPosition( position.getX() - d/2, position.getY() );
+            mB.setPosition( position.getX() + d/2, position.getY() );
         }
         else {
             try {
@@ -74,5 +82,9 @@ public class MoleculeFactory {
         molecule.setVelocity( velocity );
 
         return molecule;
+    }
+
+    private static double getComponentMoleculesOffset( SimpleMolecule mA, SimpleMolecule mB ) {
+        return Math.min( mA.getRadius(), mB.getRadius());
     }
 }
