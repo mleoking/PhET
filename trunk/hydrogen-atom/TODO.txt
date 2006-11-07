@@ -5,40 +5,26 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change plum pudding to use Rutherford scattering for alpha particles
-- change global coordinate system so that atom is centered at the origin
+- flesh out Bohr model
+- debug Rutherford Scattering for alpha particles
 
 MEDIUM PRIORITY:
-- message and reset ("new atom"?) button when Solar System atom has been destroyed
-- move common PROPERTY constants to AbstractHydrogenAtom
-- add x-axis ticks and labels to spectrometer
-- draw interior window of spectrometer using PPath
-- fix spectrometer layout
-- add SpectrometerNode.setSize(Dimension)
-- fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - photons and alphaParticles should go behind ExperimentAtomNode
-- implement BohrModel
-- implement DeBroglieModel
+- implement DeBroglie model
+- implement Schrodinger model
+- implement Experiment model
+- finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
-- create layout nodes for creating Piccolo-based control panels
-- rewrite AtomicModelSelector to use inner classes, or layout node
-- port spectrometer from Discharge Lamps sim
-- show compressed UV and IR range in spectrometer (like in Discharge Lamps)
+- implement energy diagrams, reuse Ron's stuff
+- message and reset ("new atom"?) button when Solar System atom has been destroyed
+- message for when atom has been ionized
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
-- get model details from Sam McKagan & Mike Dubson
 - ignore spectral line table entries with node>6
-- handle AlphaParticle orientation in AlphaParticleNode
-- handle Photon orientation in PhotonNode
-- does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
 - handle model-view transform differently?
 - replace AtomicModelSelection.getSelectionName
 
 LOW PRIORITY:
-- implement PlumPuddingModel
-- implement SchrodingerModel
-- implement ExperimentModel
-- implement energy diagrams, reuse Ron's stuff
-- message for when atom has been ionized
+- move common PROPERTY constants to AbstractHydrogenAtom
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
@@ -50,16 +36,22 @@ LOW PRIORITY:
 - generalize creating a "panel" node to fit under a collection of nodes
 - design code to accommodate zoom controls on animation region (possible feature)
 - verify that behavior is correct when clock is paused
+- does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
+- handle Photon orientation in PhotonNode
+- fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
+- create layout nodes for creating Piccolo-based control panels
+- rewrite AtomicModelSelector to use inner classes, or layout node
+- update images on atom model selector buttons
 
 DONE:
-(11/6/06) - add basic code for moving particles and absorbing/emitting photons to BohrModel
-(11/6/06) - remove call to super.stepInTime in HAModel.stepInTime
-(11/6/06) - give HAModel responsibility for moving particles
-(11/6/06) - remove knowledge of atom from alpha particle model
-(11/6/06) - add developer control for Rutherford Scattering debug output
-(11/6/06) - add developer control for limiting the model to 1 particle (photon or alpha particle)
-(11/6/06) - add extensive debug output to Rutherford Scattering
-(11/6/06) - corrections to Rutherford Scattering, still doesn't work
+(11/7/06) - add basic code for moving particles and absorbing/emitting photons to BohrModel
+(11/7/06) - remove call to super.stepInTime in HAModel.stepInTime
+(11/7/06) - give HAModel responsibility for moving particles
+(11/7/06) - remove knowledge of atom from alpha particle model
+(11/7/06) - add developer control for Rutherford Scattering debug output
+(11/7/06) - add developer control for limiting the model to 1 particle (photon or alpha particle)
+(11/7/06) - add extensive debug output to Rutherford Scattering
+(11/7/06) - corrections to Rutherford Scattering, still doesn't work
 (11/6/06) - first attempt at Rutherford Scattering of alpha particles (coded to spec), doesn't work
 (11/6/06) - rearchitect model so that alpha particles move based on algorithm supplied by atom
 (11/6/06) - make photons and alpha particles subclasses of MovingObject (mutable postion, orientation, speed)
@@ -292,6 +284,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(11/7/06) - change global coordinate system so that atom is centered at the origin (not necessary, too destabilizing, code would not be general)
+(11/6/06) - handle AlphaParticle orientation in AlphaParticleNode (not supported by Rutherford Scattering algorith, and Sam McKagan says not necessary)
 (11/1/06) - use constructive geometry to create plum pudding shape that matches image file (approximate as an ellipse)
 (10/5/06) - add zoom buttons to atom box so that it's supported (complicates implementation, unlikely feature)
 (9/14/06) - design a gun control that shoots either one-shot or continuous (intensity controls do this)
