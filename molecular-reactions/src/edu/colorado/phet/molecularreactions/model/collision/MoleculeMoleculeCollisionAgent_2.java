@@ -160,8 +160,12 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
             SimpleMolecule mA = collisionSpec.getFreeMolecule();
             SimpleMolecule mB = collisionSpec.getSimpleMoleculeB();
             EnergyProfile profile = model.getEnergyProfile();
-            double thresholdWidth = Math.min( mA.getRadius() * 2, mB.getRadius() * 2 );
-            double slope = Math.atan2( profile.getPeakLevel() - profile.getRightLevel(), thresholdWidth );
+            double thresholdWidth = Math.min( mA.getRadius(), mB.getRadius() );
+//            double thresholdWidth = Math.min( mA.getRadius() * 2, mB.getRadius() * 2 );
+            double floorLevel = collisionSpec.getCompositeMolecule() instanceof MoleculeAB ?
+                                profile.getRightLevel() : profile.getLeftLevel();
+            double slope = Math.atan2( profile.getPeakLevel() - floorLevel, thresholdWidth );
+//            double slope = Math.atan2( profile.getPeakLevel() - profile.getRightLevel(), thresholdWidth );
 
             boolean outOfEnergy = false;
             boolean reactionReached = false;

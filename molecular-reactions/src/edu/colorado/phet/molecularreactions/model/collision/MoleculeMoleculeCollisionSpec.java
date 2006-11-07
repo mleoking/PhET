@@ -49,11 +49,11 @@ public class MoleculeMoleculeCollisionSpec {
 
         if( !moleculeA.isPartOfComposite() ) {
             freeMolecule = moleculeA;
-            if( !moleculeB.isPartOfComposite()) {
+            if( moleculeB.isPartOfComposite()) {
                 compositeMolecule = (CompositeMolecule)moleculeB.getFullMolecule();
             }
             else {
-                throw new IllegalArgumentException( "internal error");
+                compositeMolecule = null;
             }
         }
         else if( !moleculeB.isPartOfComposite() ) {
@@ -62,7 +62,7 @@ public class MoleculeMoleculeCollisionSpec {
                 compositeMolecule = (CompositeMolecule)moleculeA.getFullMolecule();
             }
             else {
-                throw new IllegalArgumentException( "internal error");
+                compositeMolecule = null;
             }
         }
     }
