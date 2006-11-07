@@ -333,19 +333,8 @@ public class SplineMode implements UpdateMode {
             double energyLostInCollision = newTotalEnergy - origEnergy;
             body.addThermalEnergy( -energyLostInCollision );
 //            System.out.println( "speedScale=" + speedScale + ", origSpeed=" + origSpeed + ", newSpeed=" + newSpeed + ", friction=" + body.getFrictionCoefficient() + ", energyLostInCollision=" + energyLostInCollision );
-
-//            Body origState = body.copyState();
             body.convertToFreefall();
             body.setAngularVelocity( parallelPart / 2 );
-            //while they are still collided, walk back out of it.
-//            int count = 0;
-//            while( getCollisionSpline( body ) == collisionSpline && count <= 10 ) {
-//                new FreeFall( energyConservationModel ).stepIgnoreSplines( body, 0.01 );
-//                count++;
-//            }
-//            if( count >= 10 ) {
-//                body.setState( origState.getAcceleration(), origState.getVelocity(), origState.getPosition() );
-//            }
         }
 
         private void collideWithEnd( Body body ) {
