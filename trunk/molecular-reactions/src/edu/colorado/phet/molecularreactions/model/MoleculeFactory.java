@@ -85,6 +85,6 @@ public class MoleculeFactory {
     }
 
     private static double getComponentMoleculesOffset( SimpleMolecule mA, SimpleMolecule mB ) {
-        return Math.min( mA.getRadius(), mB.getRadius());
+        return Math.max( mA.getRadius(), mB.getRadius());
     }
 }
