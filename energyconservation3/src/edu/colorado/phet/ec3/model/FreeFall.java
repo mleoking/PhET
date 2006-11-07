@@ -21,10 +21,11 @@ public class FreeFall extends ForceMode implements Derivable {
         this.body = body;
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( Body body, double dt ) {
+        this.body = body;
         double origEnergy = body.getTotalEnergy();
         setNetForce( getTotalForce( body ) );
-        super.stepInTime( dt );
+        super.stepInTime( body, dt );
         body.setCMRotation( body.getCMRotation() + body.getAngularVelocity() * dt );
         new EnergyConserver().fixEnergy( body, origEnergy );
         double DE = Math.abs( body.getMechanicalEnergy() - origEnergy );
@@ -43,4 +44,7 @@ public class FreeFall extends ForceMode implements Derivable {
         body.convertToFreefall();
     }
 
+    public UpdateMode copy() {
+        return new FreeFall( energyConservationModel, body );
+    }
 }
