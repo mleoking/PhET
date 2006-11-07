@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.hydrogenatom.control.SliderControl;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.HAModel;
+import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 
 /**
@@ -55,6 +56,7 @@ public class DeveloperControlsDialog extends JDialog {
     private SliderControl _ticksPerPhotonSlider;
     private SliderControl _ticksPerAlphaParticleSlider;
     private JCheckBox _particleLimitCheckBox;
+    private JCheckBox _rutherfordScatteringOutputCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,6 +98,11 @@ public class DeveloperControlsDialog extends JDialog {
         _particleLimitCheckBox.setSelected( HAModel.isSingleParticleLimitEnabled() );
         _particleLimitCheckBox.addChangeListener( listener );
         
+        // Enables debug output from Rutherford Scattering algorithm
+        _rutherfordScatteringOutputCheckBox = new JCheckBox( "Rutherford Scattering debug output" );
+        _rutherfordScatteringOutputCheckBox.setSelected( RutherfordScattering.isDebugOutputEnabled() );
+        _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
+        
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -108,6 +115,8 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( _ticksPerAlphaParticleSlider, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _particleLimitCheckBox, row++, 0 );
+        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
         
         return panel;
     }
@@ -131,6 +140,9 @@ public class DeveloperControlsDialog extends JDialog {
             else if ( source == _particleLimitCheckBox ) {
                 handleParticleLimitCheckBox();
             }
+            else if ( source == _rutherfordScatteringOutputCheckBox ) {
+                handleRutherfordScatteringOutputCheckBox();
+            }
         }
     }
     
@@ -146,5 +158,9 @@ public class DeveloperControlsDialog extends JDialog {
     
     private void handleParticleLimitCheckBox() {
         HAModel.setSingleParticleLimitEnabled( _particleLimitCheckBox.isSelected() );
+    }
+    
+    private void handleRutherfordScatteringOutputCheckBox() {
+        RutherfordScattering.setDebugOutputEnabled( _rutherfordScatteringOutputCheckBox.isSelected() );
     }
 }
