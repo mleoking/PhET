@@ -5,9 +5,13 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
 
+import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -29,6 +33,43 @@ new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
+
+        JMenuItem saveItem = new JMenuItem( "Save" );
+        saveItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    module.save();
+                }
+                catch( UnavailableServiceException e1 ) {
+                    e1.printStackTrace();
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+
+        JMenuItem openItem = new JMenuItem( "Open" );
+        openItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    module.open();
+                }
+                catch( UnavailableServiceException e1 ) {
+                    e1.printStackTrace();
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+                catch( ClassNotFoundException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        getPhetFrame().addFileMenuItem( openItem );
+        getPhetFrame().addFileMenuItem( saveItem );
+
+        getPhetFrame().addFileMenuSeparator();
     }
 
     public static void main( final String[] args ) {
