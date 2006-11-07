@@ -31,6 +31,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     public void move( AlphaParticle alphaParticle, final double dt ) {
         final double L = HAConstants.ANIMATION_BOX_SIZE.height;
         final double D = L / 4;
-        RutherfordScattering.move( this, alphaParticle, dt, D );
+        RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
     }
 }
