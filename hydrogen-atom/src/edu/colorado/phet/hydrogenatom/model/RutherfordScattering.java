@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.hydrogenatom.model;
 
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**
@@ -26,61 +28,100 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
  */
 public class RutherfordScattering {
 
-    private RutherfordScattering() {}
+    // Prints debugging output
+    private static final boolean PRINT_DEBUG = true;
+    // Formatter, for debug output
+    private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
+    /* Not intended for instantiation */
+    private RutherfordScattering() {}
+
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
      * <p>
-     * NOTE: Our model has +y down, and this algorithm has +y up.
-     * So we'll be flipping the sign on the y coordinate (see inline comments).
+     * NOTE: The algorithm assumes that the atom is located at (0,0).
+     * This is not the case in our model. So coordindates are adjusted 
+     * as described in the comments.
+     * <p>
+     * NOTE: The algorithm assumes that +y is up.  Our model has +y down.
+     * So we'll be adjusting the sign on y coordinates, as described
+     * in the comments.
      *
      * @param atom the atom
      * @param alphaParticle the alpha particle
      * @param dt the time step
      * @param D the constant D
      */
-    public static void move( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt, final double D ) {
+    public static void moveParticle( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt, final double D ) {
+
+        // This algorithm assumes that alpha particles oriented parallel to the y axis.
+        assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
         
-        // initial distance between alpha particle and the y-axis
+        // initial distance between particle and the y-axis
         final double b = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
-        // alpha particle speed
-        final double v = alphaParticle.getSpeed();
-        // alpha particle initial speed
+        // particle initial speed
         final double v0 = alphaParticle.getInitialSpeed();
 
-        // alpha particle's current position, adjusted for atom position
-        final double x = alphaParticle.getX() - atom.getX();
-        final double y = -( alphaParticle.getY() - atom.getY() ); // flip y sign from model to algorithm
+        // particle's current position and speed
+        double x = alphaParticle.getX();
+        double y = alphaParticle.getY(); 
+        double v = alphaParticle.getSpeed();
+        
+        // adjust for atom position
+        x -= atom.getX();
+        y -= atom.getY();
+        
+        // flip y sign from model to algorithm
+        y *= -1;
         
         // convert current position to Polar coordinates, measured counterclockwise from the -y axis
         final double r = Math.sqrt( ( x * x ) + ( y * y ) );
         final double phi = Math.atan( -x / y );
-        System.out.println( "current: (" + x + "," + y + ") (" + r + "," + Math.toDegrees(phi) + ")" );//XXX
 
-        // new position in Polar coordinates
-        double phiNew = 0;
-        {
-            double t1 = ( b * v * dt );
-            double t2 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
-            double t3 = ( r * r * t2 * t2 );
-            phiNew = phi + ( t1 / ( r * Math.sqrt( b + t3 ) ));
-        }
-        double rNew = 0;
-        {
-            double t1 = ( b * Math.sin( phiNew ) );
-            double t2 = ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) );
-            rNew = ( b * b ) / ( t1 + t2 );
+        // new position (in Polar coordinates) and speed
+        final double t1 = ( r / b );
+        final double t2 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
+        final double phiNew = phi + ( ( b * v * dt ) / ( r * Math.sqrt( ( b * b ) + ( t1 * t1 * t2 * t2 ) ) ) );
+        final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
+        final double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
+        
+        // convert new position to Cartesian coordinates
+        double xNew = rNew * Math.sin( phiNew );
+        double yNew = -rNew * Math.cos( phiNew );
+        
+        // Debugging output, in coordinates relative to atom's center
+        if ( PRINT_DEBUG ) {
+            System.out.println( "RutherfordScattering.moveParticle" );
+            System.out.println( "  particle id=" + alphaParticle.getId() );
+            System.out.println( "  atom type=" + atom.getClass().getName() );
+            System.out.println( "  constants:" );
+            System.out.println( "    L=" + F.format( HAConstants.ANIMATION_BOX_SIZE.height ) );
+            System.out.println( "    dt=" + F.format( dt ) );
+            System.out.println( "    v0=" + F.format( v0 ) );
+            System.out.println( "    b=" + F.format( b ) );
+            System.out.println( "    D=" + F.format( D ) );
+            System.out.println( "  current state:" );
+            System.out.println( "    x=" + F.format( x ) );
+            System.out.println( "    y=" + F.format( y ) );
+            System.out.println( "    r=" + F.format( r ) );
+            System.out.println( "    phi=" + F.format( phi ) + " (" + F.format( Math.toDegrees( phi ) ) + " degrees)" );
+            System.out.println( "    v=" + F.format( v ) );
+            System.out.println( "  new state:" );
+            System.out.println( "    rNew=" + F.format( rNew ) );
+            System.out.println( "    phiNew=" + F.format( phiNew ) + " (" + F.format( Math.toDegrees( phiNew ) ) + " degrees)" );
+            System.out.println( "    xNew=" + F.format( xNew ) );
+            System.out.println( "    yNew=" + F.format( yNew ) );
+            System.out.println( "    vNew=" + F.format( vNew ) );
         }
         
-        // convert new position to Cartesian coordinates, adjusted for atom position
-        double xNew = ( rNew * Math.sin( phiNew ) ) + atom.getX();
-        double yNew = ( -rNew * Math.cos( phiNew ) ) + atom.getY();
-        System.out.println( "new: (" + xNew + "," + yNew + ") (" + rNew + "," + Math.toDegrees(phiNew) + ")" );//XXX
-
-        // new velocity
-        double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
+        // adjust for atom position
+        xNew += atom.getX();
+        yNew += atom.getY();
         
-        alphaParticle.setPosition( xNew, -yNew ); // flip y sign from algorithm to model
+        // flip y sign from algorithm to model
+        y *= -1;
+        
+        alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( vNew );
     }
 }
