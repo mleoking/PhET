@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.services.InputStreamFileContents;
 import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.ec3.common.StringOutputStream;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -15,6 +16,7 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
 import edu.colorado.phet.ec3.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.ec3.plots.EnergyTimePlotCanvas;
+import edu.colorado.phet.ec3.serialization.EnergySkateParkModelBean;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -27,8 +29,11 @@ import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * User: Sam Reid
@@ -276,15 +281,13 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void save() throws UnavailableServiceException, IOException {
         FileSaveService fos = PhetServiceManager.getFileSaveService( getSimulationPanel() );
-        String sw = "hello!!!";
-        String outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
-        StringWriter stringWriter = new StringWriter();
-        InputStreamReader in = new InputStreamReader();
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter();
+        StringOutputStream stringOutputStream = new StringOutputStream();
+        XMLEncoder xmlEncoder = new XMLEncoder( stringOutputStream );
+        xmlEncoder.writeObject( new EnergySkateParkModelBean( this ) );
+        xmlEncoder.close();
+        System.out.println( "String=" + stringOutputStream.toString() );
 
-        String
-        XMLEncoder xmlEncoder = new XMLEncoder( new PrintStream() );
-        InputStream stream = new ByteArrayInputStream( outputString.getBytes() );
+        InputStream stream = new ByteArrayInputStream( stringOutputStream.toString().getBytes() );
         FileContents data = new InputStreamFileContents( "esp_output", stream );
         FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
         System.out.println( "out = " + out );
@@ -296,14 +299,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         if( open == null ) {
             return;
         }
-        InputStreamReader isr = new InputStreamReader( open.getInputStream() );
-        BufferedReader br = new BufferedReader( isr );
-        String str = "";
-        while( br.ready() ) {
-            String read = br.readLine();
-            System.out.println( "read = " + read );
-            str += read;
-        }
-        System.out.println( "str = " + str );
+
+        XMLDecoder xmlDecoder = new XMLDecoder( open.getInputStream() );
+        Object obj = xmlDecoder.readObject();
+        System.out.println( "obj = " + obj );
     }
 }

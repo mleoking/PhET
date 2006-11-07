@@ -13,25 +13,35 @@ import java.awt.geom.Point2D;
  */
 
 public class EnergySkateParkModelBean {
-    private Point2D.Double bodyZeroPosition;
+    private double x;
+    private double y;
 
     public EnergySkateParkModelBean() {
     }
 
     public EnergySkateParkModelBean( EnergySkateParkModule module ) {
         Body body = module.getEnergyConservationModel().bodyAt( 0 );
-        bodyZeroPosition = body.getPosition();
+        x = body.getX();
+        y = body.getY();
     }
 
-    public Point2D.Double getBodyZeroPosition() {
-        return bodyZeroPosition;
+    public double getX() {
+        return x;
     }
 
-    public void setBodyZeroPosition( Point2D.Double bodyZeroPosition ) {
-        this.bodyZeroPosition = bodyZeroPosition;
+    public void setX( double x ) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY( double y ) {
+        this.y = y;
     }
 
     public void apply( EnergySkateParkModule module ) {
-        module.getEnergyConservationModel().bodyAt( 0 ).setAttachmentPointPosition( bodyZeroPosition );
+        module.getEnergyConservationModel().bodyAt( 0 ).setAttachmentPointPosition( new Point2D.Double( x, y ) );
     }
 }
