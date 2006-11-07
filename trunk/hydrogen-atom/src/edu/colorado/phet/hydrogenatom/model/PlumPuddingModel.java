@@ -101,6 +101,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private boolean _electronIsMoving;
     // how many times has the electron crossed the atom's center since it started moving?
     private int _numberOfZeroCrossings;
+    // the amplitude of the electron just before emitting its last photon
     private double _previousAmplitude;
     
     //----------------------------------------------------------------------------
