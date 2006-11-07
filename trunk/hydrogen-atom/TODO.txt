@@ -52,6 +52,9 @@ LOW PRIORITY:
 - verify that behavior is correct when clock is paused
 
 DONE:
+(11/6/06) - add developer control for limiting the model to 1 particle (photon or alpha particle)
+(11/6/06) - add extensive debug output to Rutherford Scattering
+(11/6/06) - corrections to Rutherford Scattering, still doesn't work
 (11/6/06) - first attempt at Rutherford Scattering of alpha particles (coded to spec), doesn't work
 (11/6/06) - rearchitect model so that alpha particles move based on algorithm supplied by atom
 (11/6/06) - make photons and alpha particles subclasses of MovingObject (mutable postion, orientation, speed)

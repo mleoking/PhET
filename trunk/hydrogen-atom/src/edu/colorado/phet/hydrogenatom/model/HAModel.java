@@ -40,6 +40,21 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
 public class HAModel extends Model implements Observer, GunFiredListener, PhotonAbsorbedListener, PhotonEmittedListener {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Restricts the model to 1 photon or alpha particle at a time, for debugging.
+    private static boolean _particleLimit = false;
+    
+    public static boolean getParticleLimit() {
+        return _particleLimit;
+    }
+    
+    public static void setParticleLimit( boolean limit ) {
+        _particleLimit = limit;
+    }
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -93,9 +108,15 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
      */
     public void addModelElement( ModelElement modelElement ) {
         if ( modelElement instanceof Photon ) {
+            if ( _particleLimit && _photons.size() > 0 ) {
+                return;
+            }
             _photons.add( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
+            if ( _particleLimit && _alphaParticles.size() > 0 ) {
+                return;
+            }
             _alphaParticles.add( modelElement );
             ( (AlphaParticle) modelElement ).setAtom( _atom );
         }
@@ -130,6 +151,7 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
             _photons.remove( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
+            System.out.println( "- alpha particle " + ((AlphaParticle)modelElement).getId() );//XXX
             _alphaParticles.remove( modelElement );
         }
         else if ( modelElement == _atom ) {
