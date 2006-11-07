@@ -4,8 +4,6 @@ Remaining Work
 
 Bugs: 
  
-- the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot. 
-
 The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
 
 Add friction for bounces, when friction is enabled.
@@ -55,6 +53,9 @@ Sometimes he bounces off the end of a track that he should just fly off of.
  He just froze after the 20th time along this track.  You can see below the situation where he moves right through the track, 
 the thrust message remains and he froze.
 >>Can't reproduce
+
+- the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot.
+ >>Having trouble reproducing this.
          
 #################################################################
 Low Priority
