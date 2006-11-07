@@ -282,7 +282,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         FileContents data = new InputStreamFileContents( "esp_output", stream );
         FileContents out = fos.saveAsFileDialog( null, new String[]{"esp"}, data );
         System.out.println( "out = " + out );
-
     }
 
     public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
