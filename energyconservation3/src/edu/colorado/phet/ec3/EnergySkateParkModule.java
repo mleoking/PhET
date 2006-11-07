@@ -3,6 +3,8 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.services.InputStreamFileContents;
+import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
@@ -18,9 +20,14 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.*;
 
 /**
  * User: Sam Reid
@@ -266,4 +273,25 @@ public class EnergySkateParkModule extends PiccoloModule {
         }
     }
 
+    public void save() throws UnavailableServiceException, IOException {
+        FileSaveService service = PhetServiceManager.getFileSaveService( getSimulationPanel() );
+        service.saveAsFileDialog( null, new String[]{"esp"}, getContents() );
+    }
+
+    private FileContents getContents() {
+        StringWriter out = new StringWriter();
+        BufferedWriter bufferedWriter = new BufferedWriter( out );
+        InputStream in = new ByteArrayInputStream( "Hello".getBytes() );
+        return new InputStreamFileContents( "name", in );
+    }
+
+    public void open() throws UnavailableServiceException, IOException, ClassNotFoundException {
+        FileOpenService fileOpenService = PhetServiceManager.getFileOpenService( getSimulationPanel() );
+        FileContents ofd = fileOpenService.openFileDialog( null, new String[]{"esp"} );
+        InputStream input = ofd.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( input ) );
+        String line = bufferedReader.readLine();
+        System.out.println( "line = " + line );
+
+    }
 }
