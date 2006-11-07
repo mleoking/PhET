@@ -372,7 +372,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             final double R = _radius;
             final double DB = L / 4;
             final double D = ( b <= R ) ? ( ( DB * b * b ) / ( R * R ) ) : DB;
-            RutherfordScattering.move( this, alphaParticle, dt, D );
+            RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
         }
     }
     
