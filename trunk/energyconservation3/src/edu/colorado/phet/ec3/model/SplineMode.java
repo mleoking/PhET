@@ -321,7 +321,7 @@ public class SplineMode implements UpdateMode {
             newVelocity.add( collisionSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
             newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
 
-            double alpha = 20;
+            double alpha = 5;
             double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
             double newSpeed = body.getSpeed() * speedScale;
             if( newSpeed > origSpeed ) {
@@ -332,10 +332,20 @@ public class SplineMode implements UpdateMode {
             double newTotalEnergy = body.getTotalEnergy();
             double energyLostInCollision = newTotalEnergy - origEnergy;
             body.addThermalEnergy( -energyLostInCollision );
-            System.out.println( "speedScale=" + speedScale + ", origSpeed=" + origSpeed + ", newSpeed=" + newSpeed + ", friction=" + body.getFrictionCoefficient() + ", energyLostInCollision=" + energyLostInCollision );
+//            System.out.println( "speedScale=" + speedScale + ", origSpeed=" + origSpeed + ", newSpeed=" + newSpeed + ", friction=" + body.getFrictionCoefficient() + ", energyLostInCollision=" + energyLostInCollision );
 
+//            Body origState = body.copyState();
             body.convertToFreefall();
             body.setAngularVelocity( parallelPart / 2 );
+            //while they are still collided, walk back out of it.
+//            int count = 0;
+//            while( getCollisionSpline( body ) == collisionSpline && count <= 10 ) {
+//                new FreeFall( energyConservationModel ).stepIgnoreSplines( body, 0.01 );
+//                count++;
+//            }
+//            if( count >= 10 ) {
+//                body.setState( origState.getAcceleration(), origState.getVelocity(), origState.getPosition() );
+//            }
         }
 
         private void collideWithEnd( Body body ) {
