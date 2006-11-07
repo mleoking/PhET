@@ -25,7 +25,8 @@ motion is damped and KE goes to zero (over a long period of time).  Do I
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
 >> Could I do this by just adding energy when thrust is turned on/off, 
-        and modeling the thrust as another term in the 'total' gravity?       
+        and modeling the thrust as another term in the 'total' gravity?
+>>Question is in to the group.
 
 Energy is not conserved when I move the gravity slider.  
 Sometimes when I move the slider to higher gravity he’ll gain energy and go off the end of a track that he was previously 
