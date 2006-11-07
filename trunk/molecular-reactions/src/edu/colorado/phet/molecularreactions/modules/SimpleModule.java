@@ -31,7 +31,7 @@ import java.awt.geom.Point2D;
 
 /**
  * SimpleMRModule
- * <p>
+ * <p/>
  * Module has just a few molecules
  *
  * @author Ron LeMaster
@@ -45,6 +45,7 @@ public class SimpleModule extends MRModule {
     private SimpleMolecule m3;
     private CompositeMolecule cm;
     private SimpleMolecule launcherMolecule;
+    private Class launcherMoleculeClass = MoleculeC.class;
     private LauncherLoadPanel launcherLoadPanel;
 
     /**
@@ -152,7 +153,14 @@ public class SimpleModule extends MRModule {
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
 
-        MoleculeC launcherMolecule = new MoleculeC();
+        // Create the appropriate molecule for the launcher
+        SimpleMolecule launcherMolecule = null;
+        if( launcherMoleculeClass == MoleculeC.class ) {
+            launcherMolecule = new MoleculeC();
+        }
+        else if( launcherMoleculeClass == MoleculeA.class ) {
+            launcherMolecule = new MoleculeA();
+        }
         setMolecules( model, launcherMolecule );
         launcherLoadPanel.setMolecule( launcherMolecule );
     }
@@ -164,6 +172,9 @@ public class SimpleModule extends MRModule {
      * @param launcherMolecule
      */
     public void setMolecules( MRModel model, SimpleMolecule launcherMolecule ) {
+
+        // Save the class so we know what to make if we are asked to reload
+        launcherMoleculeClass = launcherMolecule.getClass();
 
         if( this.launcherMolecule != null ) {
             model.removeModelElement( this.launcherMolecule );
@@ -225,11 +236,9 @@ public class SimpleModule extends MRModule {
 
     public void reload() {
         Launcher.MovementType movementType = launcher.getMovementType();
-        SimpleMolecule savedLauncherMolecule = this.launcherMolecule;
+        launcherMoleculeClass = this.launcherMolecule.getClass();
         reset();
-        MoleculeC launcherMolecule = new MoleculeC();
-        setMolecules( getMRModel(), savedLauncherMolecule );
-        launcherLoadPanel.setMolecule( savedLauncherMolecule );
+        launcherLoadPanel.setMolecule( launcherMolecule );
         launcher.setMovementType( movementType );
     }
 }
