@@ -93,7 +93,7 @@ public class DeveloperControlsDialog extends JDialog {
         
         // Limits model to one particle at a time
         _particleLimitCheckBox = new JCheckBox( "Limit model to 1 particle" );
-        _particleLimitCheckBox.setSelected( HAModel.getParticleLimit() );
+        _particleLimitCheckBox.setSelected( HAModel.isSingleParticleLimitEnabled() );
         _particleLimitCheckBox.addChangeListener( listener );
         
         // Layout
@@ -145,6 +145,6 @@ public class DeveloperControlsDialog extends JDialog {
     }
     
     private void handleParticleLimitCheckBox() {
-        HAModel.setParticleLimit( _particleLimitCheckBox.isSelected() );
+        HAModel.setSingleParticleLimitEnabled( _particleLimitCheckBox.isSelected() );
     }
 }
