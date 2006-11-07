@@ -321,7 +321,7 @@ public class SplineMode implements UpdateMode {
             newVelocity.add( collisionSpline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
             newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
 
-            double alpha = 20.0;
+            double alpha = 20;
             double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
             double newSpeed = body.getSpeed() * speedScale;
             if( newSpeed > origSpeed ) {
