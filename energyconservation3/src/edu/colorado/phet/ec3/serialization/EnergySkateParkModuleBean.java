@@ -2,6 +2,8 @@ package edu.colorado.phet.ec3.serialization;
 
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -15,14 +17,49 @@ import java.util.ArrayList;
 
 public class EnergySkateParkModuleBean {
     private ArrayList bodies = new ArrayList();
+    private ArrayList splines = new ArrayList();
 
     public EnergySkateParkModuleBean() {
     }
 
     public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
         for( int i = 0; i < module.getEnergyConservationModel().numBodies(); i++ ) {
-            Body body = module.getEnergyConservationModel().bodyAt( i );
-            addBody( body );
+            addBody( module.getEnergyConservationModel().bodyAt( i ) );
+        }
+        for( int i = 0; i < module.getEnergyConservationModel().numSplineSurfaces(); i++ ) {
+            addSplineSurface( module.getEnergyConservationModel().splineSurfaceAt( i ) );
+        }
+    }
+
+    private void addSplineSurface( SplineSurface splineSurface ) {
+        splines.add( new SplineElement( splineSurface ) );
+    }
+
+    public static class SplineElement {
+        private Point2D[] controlPoints;
+
+        public SplineElement() {
+        }
+
+        public SplineElement( SplineSurface splineSurface ) {
+            controlPoints = splineSurface.getSpline().getControlPoints();
+        }
+
+        public Point2D[] getControlPoints() {
+            return controlPoints;
+        }
+
+        public void setControlPoints( Point2D[] controlPoints ) {
+            this.controlPoints = controlPoints;
+        }
+
+        public SplineSurface toSplineSurface() {
+            CubicSpline top = new CubicSpline();
+            for( int i = 0; i < controlPoints.length; i++ ) {
+                Point2D controlPoint = controlPoints[i];
+                top.addControlPoint( controlPoint );
+            }
+            return new SplineSurface( top );
         }
     }
 
@@ -75,6 +112,14 @@ public class EnergySkateParkModuleBean {
         }
     }
 
+    public ArrayList getSplines() {
+        return splines;
+    }
+
+    public void setSplines( ArrayList splines ) {
+        this.splines = splines;
+    }
+
     public ArrayList getBodies() {
         return bodies;
     }
@@ -90,6 +135,12 @@ public class EnergySkateParkModuleBean {
             Body body = new Body( module.getEnergyConservationModel() );
             bodyElement.apply( body );
             module.getEnergyConservationModel().addBody( body );
+        }
+
+        module.getEnergyConservationModel().removeAllSplineSurfaces();
+        for( int i = 0; i < splines.size(); i++ ) {
+            SplineElement splineElement = (SplineElement)splines.get( i );
+            module.getEnergyConservationModel().addSplineSurface( splineElement.toSplineSurface() );
         }
     }
 }
