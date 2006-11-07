@@ -85,6 +85,7 @@ public class EnergySkateParkModuleBean {
         private double mass;
         private double thermalEnergy;
         private boolean freeFrame;
+        private double attachmentPointRotation;
 
         public BodyElement() {
         }
@@ -99,6 +100,7 @@ public class EnergySkateParkModuleBean {
             mass = body.getMass();
             thermalEnergy = body.getThermalEnergy();
             freeFrame = body.isFreeFallMode();
+            this.attachmentPointRotation = body.getAttachmentPointRotation();
         }
 
         public void apply( Body body ) {
@@ -111,6 +113,23 @@ public class EnergySkateParkModuleBean {
             body.setMass( mass );
             body.setThermalEnergy( thermalEnergy );
             body.convertToFreefall( freeFrame );
+            body.setAttachmentPointRotation( attachmentPointRotation );
+        }
+
+        public boolean isFreeFrame() {
+            return freeFrame;
+        }
+
+        public void setFreeFrame( boolean freeFrame ) {
+            this.freeFrame = freeFrame;
+        }
+
+        public double getAttachmentPointRotation() {
+            return attachmentPointRotation;
+        }
+
+        public void setAttachmentPointRotation( double attachmentPointRotation ) {
+            this.attachmentPointRotation = attachmentPointRotation;
         }
 
         public double getCmRotation() {
