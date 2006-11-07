@@ -396,6 +396,7 @@ public class SplineMode implements UpdateMode {
             double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
             Point2D pt = splineSurface.evaluateAnalytical( x );
             double dist = pt.distance( body.getAttachPoint() );
+//            if( dist < 0.5 && !justLeft( body, splineSurface ) && movingTowards( splineSurface, body, x, pt ) ) {
             if( dist < 0.5 && !justLeft( body, splineSurface ) && movingTowards( splineSurface, body, x, pt ) ) {
                 return dist;
             }
