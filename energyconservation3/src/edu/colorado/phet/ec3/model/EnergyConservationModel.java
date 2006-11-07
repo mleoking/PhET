@@ -166,13 +166,6 @@ public class EnergyConservationModel {
         for( int i = 0; i < model.floors.size(); i++ ) {
             floors.add( model.floorAt( i ).copyState() );
         }
-//        for( int i = 0; i < bodies.size(); i++ ) {
-//            Body body = (Body)bodies.get( i );
-//            if (body.isSplineMode()){
-//                body.setSplineMode( this, splineSurfaceAt( 0).getSpline() );
-//            }
-//            body.stepInTime( 0.001);
-//        }
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
