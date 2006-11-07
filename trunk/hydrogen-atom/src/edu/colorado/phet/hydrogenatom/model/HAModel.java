@@ -160,7 +160,6 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
             _photons.remove( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
-            System.out.println( "- alpha particle " + ((AlphaParticle)modelElement).getId() );//XXX
             _alphaParticles.remove( modelElement );
         }
         else if ( modelElement == _atom ) {
