@@ -19,6 +19,7 @@ import java.awt.*;
 public class WiggleMeInSpace {
     private EnergySkateParkModule module;
     private MotionHelpBalloon hintNode;
+    private boolean hintDone = false;
 
     public WiggleMeInSpace( final EnergySkateParkModule module ) {
         this.module = module;
@@ -28,10 +29,11 @@ public class WiggleMeInSpace {
         hintNode.setShadowTextOffset( 1 );
         module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
-                super.gravityChanged();
-                if( module.getEnergyConservationModel().getGravity() == 0.0 ) {
+                if( module.getEnergyConservationModel().getGravity() == 0.0 && !hintDone ) {
                     startHint();
-                    module.getEnergyConservationModel().removeEnergyModelListener( this );
+                }
+                else {
+                    closeHint();
                 }
             }
         } );
@@ -43,21 +45,30 @@ public class WiggleMeInSpace {
         } );
     }
 
+    private void closeHint() {
+//        hintNode.setVisible( false );
+        getRootNode().removeScreenChild( hintNode );
+    }
+
     private void startHint() {
         module.getEnergyConservationCanvas().requestFocus();
-        EnergySkateParkRootNode root = module.getEnergyConservationCanvas().getRootNode();
-        root.addScreenChild( hintNode );
+        getRootNode().addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
         hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
         module.getEnergyConservationModel().bodyAt( 0 ).addListener( new Body.Listener() {
             public void thrustChanged() {
                 hintNode.setVisible( false );
+                hintDone = true;
             }
 
             public void doRepaint() {
             }
         } );
 //        hintNode.st
+    }
+
+    private EnergySkateParkRootNode getRootNode() {
+        return module.getEnergyConservationCanvas().getRootNode();
     }
 
     public void start() {

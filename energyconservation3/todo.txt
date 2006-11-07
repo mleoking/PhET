@@ -2,21 +2,13 @@
 Remaining Work
 #######################################
 
-Energy is not conserved when I move the gravity slider.  
-Sometimes when I move the slider to higher gravity he’ll gain energy and go off the end of a track that he was previously 
-confined to when on earth.  Other times when I move the slider from earth to Jupiter to earth he will not 
-get as high in the earth frame as he had been in the earth before changing gravity.  
+When you move from space to earth the use arrow keys to thrust stays up.
+
+He just froze after the 20th time along this track.  You can see below the situation where he moves right through the track, the thrust message remains and he froze.
 
 Sometimes he bounces off the end of a track that he should just fly off of. 
 
-When you move from space to earth the use arrow keys to thrust stays up.
-
-The skater hung up on the top of the ramp easily if I was trying to retest my track.
-        Clarifying...
-
 Bugs: 
-- slow motion button doesn't seem to work right
-        Clarifying...
 - when I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.) 
 - in space, the thruster doesn't seem to work like gravity still 
 - the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot. 
@@ -42,7 +34,27 @@ motion is damped and KE goes to zero (over a long period of time).  Do I
 have the interpretation incorrect?  Or did you create the functionality 
 as you did for another reason?
 >> Could I do this by just adding energy when thrust is turned on/off, 
-        and modeling the thrust as another term in the 'total' gravity?
+        and modeling the thrust as another term in the 'total' gravity?       
+
+Energy is not conserved when I move the gravity slider.  
+Sometimes when I move the slider to higher gravity he’ll gain energy and go off the end of a track that he was previously 
+confined to when on earth.  
+Other times when I move the slider from earth to Jupiter to earth he will not 
+get as high in the earth frame as he had been in the earth before changing gravity.  
+>>Clarifying.
+
+The skater hung up on the top of the ramp easily if I was trying to retest my track.
+        Clarifying...
+        
+- slow motion button doesn't seem to work right
+        Clarifying...
+        
+He gains energy when you move the track around.  I’m not sure how serious this is because moving the track is not exactly the usual routine while a skater is on the track.
+
+If I create a track that has another slightly above, he just slides right through like it’s not there – again maybe not a priority.
+
+Sometimes he bounces off the end of a track that he should just fly off of.
+ >>I can't reproduce this yet.
          
 #################################################################
 Low Priority
