@@ -28,8 +28,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
     private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                     MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
-//                                                                    100 );
-50 );
+                                                                    100 );
+//50 );
     private MRModel model;
 
     /**
@@ -141,11 +141,14 @@ public class A_BC_AB_C_Reaction extends Reaction {
             sm.setVelocity( cm2.getVelocity() );
             mB.setVelocity( cm2.getVelocity() );
 
-            // Move the sm and B molecules next to each other along the line connecting them
-            Vector2D vb = new Vector2D.Double( cm2.getCM(), mB.getPosition() ).normalize().scale( mB.getRadius() );
-            Vector2D vs = new Vector2D.Double( cm2.getCM(), sm.getPosition() ).normalize().scale( sm.getRadius() );
-//            mB.setPosition( cm2.getCM().getX() + vb.getX(), cm2.getCM().getY() + vb.getY() );
-//            sm.setPosition( cm2.getCM().getX() + vs.getX(), cm2.getCM().getY() + vs.getY() );
+            // Move the sm and B molecules next to each other along the line connecting them,
+            // with the proper amount of overlap
+            Vector2D vb = new Vector2D.Double( cm2.getCM(), mB.getPosition() );
+            Vector2D vs = new Vector2D.Double( cm2.getCM(), sm.getPosition() );
+            double d = mB.getPosition().distance( sm.getPosition() );
+            double r = MoleculeFactory.getComponentMoleculesOffset( sm, mB ) / d;
+            mB.setPosition( cm2.getCM().getX() + vb.getX() * r, cm2.getCM().getY() + vb.getY() * r );
+            sm.setPosition( cm2.getCM().getX() + vs.getX() * r, cm2.getCM().getY() + vs.getY() * r );
 
             // Add the new composite to the model
             model.addModelElement( cm2 );
@@ -170,7 +173,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Correct the overall energy
             double pe1 = getPotentialEnergy( cm2, sm2 );
             double ke1 = cm2.getKineticEnergy() + sm2.getKineticEnergy();
-            double dTe = (pe0 + ke0 ) - ( pe1 + ke1 );
+            double dTe = ( pe0 + ke0 ) - ( pe1 + ke1 );
             double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( dTe / cm2.getMass() ) );
             double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( dTe / sm2.getMass() ) );
             Vector2D dvCm2 = new Vector2D.Double( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 );
@@ -438,6 +441,35 @@ public class A_BC_AB_C_Reaction extends Reaction {
     }
 
     /**
+     * Returns the distance that the centers of two molecules must be apart for them to react
+     * @param mA
+     * @param mB
+     * @return
+     */
+    public static double getReactionOffset( AbstractMolecule mA, AbstractMolecule mB  ){
+        double result = Double.POSITIVE_INFINITY;
+        if( moleculesAreProperTypes( mA, mB ) ) {
+            CollisionParams params = new CollisionParams( mA, mB );
+            result = Math.max( params.getFreeMolecule().getRadius(), params.getbMolecule().getRadius() );
+        }
+        return result;
+    }
+
+    public static double getDistanceToReaction( AbstractMolecule mA, AbstractMolecule mB ) {
+        double result = Double.POSITIVE_INFINITY;
+        if( moleculesAreProperTypes( mA, mB ) ) {
+            CollisionParams params = new CollisionParams( mA, mB );
+
+            // Get the distance the molecules would be apart from each other when a reaction occured
+            double reactionDist = Math.max( params.getbMolecule().getRadius(), params.getFreeMolecule().getRadius() );
+
+            double distBetweenReactants = params.getbMolecule().getPosition().distance( params.getFreeMolecule().getPosition());
+            result = distBetweenReactants - reactionDist;
+        }
+        return result;
+    }
+
+    /**
      * Returns the distance between two molecules' potential collision points.
      * If the molecules aren't the proper type for the reaction, returns POSITIVE_INFINITY.
      *
@@ -445,7 +477,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      * @param mB
      * @return the distance
      */
-    public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB ) {
+    public double getDistanceToCollision( AbstractMolecule mA, AbstractMolecule mB ) {
         if( moleculesAreProperTypes( mA, mB ) ) {
             double collisionDist = getCollisionVector( mA, mB ).getMagnitude();
 
@@ -461,7 +493,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
             SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
-            if( sm.getPosition().distanceSq( bm.getPosition()) < (sm.getRadius() + bm.getRadius())* (sm.getRadius() + bm.getRadius())) {
+            if( sm.getPosition().distanceSq( bm.getPosition() ) < ( sm.getRadius() + bm.getRadius() ) * ( sm.getRadius() + bm.getRadius() ) )
+            {
                 collisionDist = - collisionDist;
             }
 
@@ -499,7 +532,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             double dx = bm.getPosition().getX() - sm.getPosition().getX();
             double dy = bm.getPosition().getY() - sm.getPosition().getY();
             double theta = Math.atan2( dy, dx );
-            dx -= Math.cos( theta) * ( bm.getRadius() + sm.getRadius());
+            dx -= Math.cos( theta ) * ( bm.getRadius() + sm.getRadius() );
             dy -= Math.sin( theta ) * ( bm.getRadius() + sm.getRadius() );
 
             int sign = ( mA == cm ) ? -1 : 1;
@@ -624,7 +657,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
                                                 m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
             double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
 
-            double s1 = m1.getVelocity().dot(loa );
+            double s1 = m1.getVelocity().dot( loa );
             double s2 = -m2.getVelocity().dot( loa );
             int sign = MathUtil.getSign( s2 );
             double ke = 0.5 * ( m1.getMass() * s1 * s1 + m2.getMass() * s2 * s2 );

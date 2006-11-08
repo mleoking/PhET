@@ -51,7 +51,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
      */
     public ProvisionalBond( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model ) {
         this.maxBondLength = maxBondLength;
-//        this.maxBondLength =  model.getReaction().getCollisionDistance( sm1.getFullMolecule(), sm2.getFullMolecule() );
+//        this.maxBondLength =  model.getReaction().getDistanceToCollision( sm1.getFullMolecule(), sm2.getFullMolecule() );
         this.model = model;
         molecules = new SimpleMolecule[]{sm1, sm2};
 
@@ -109,7 +109,7 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
      * @param dt
      */
     public void stepInTime( double dt ) {
-        double dist = model.getReaction().getCollisionDistance( molecules[0].getFullMolecule(), molecules[1].getFullMolecule() );
+        double dist = model.getReaction().getDistanceToCollision( molecules[0].getFullMolecule(), molecules[1].getFullMolecule() );
         if( dist > maxBondLength ) {
             model.removeModelElement( this );
             model.removeModelElement( spring );

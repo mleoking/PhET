@@ -27,11 +27,34 @@ public class MRModelUtil {
      * bodies relative to their combined center of mass, if they are moving toward
      * each other, and 0 if they are not moving toward each other
      *
-     * @param sm    The simple molecule involved in the collision
-     * @param comp  The composite molecule in the collision
+     * @param sm   The simple molecule involved in the collision
+     * @param comp The composite molecule in the collision
      * @return the collision energy
      */
     public static double getCollisionEnergy( SimpleMolecule sm, CompositeMolecule comp ) {
+
+        CollisionParams params = new CollisionParams( sm, comp );
+        Vector2D cv = new Vector2D.Double( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
+        cv.normalize();
+
+        // Get the speed of each molecule along the vector connecting them
+        {
+//            System.out.println( "(sm.getKineticEnergy() + comp.getKineticEnergy()) = " + (sm.getKineticEnergy() + comp.getKineticEnergy()) );
+//            if( true) return sm.getKineticEnergy() + comp.getKineticEnergy();
+
+            double speedF = params.getFreeMolecule().getVelocity().dot( cv );
+            double speedC = params.getCompositeMolecule().getVelocity().dot( cv );
+            double signF = -MathUtil.getSign( speedF );
+            double signC = MathUtil.getSign( speedC );
+            double ce = ( signF * sm.getMass() * speedF * speedF
+                          + signC * comp.getMass() * speedC* speedC) / 2;
+            ce = Math.max( ce, 0 );
+
+            System.out.println( "ce = " + ce );
+
+            if( true ) return ce;
+
+        }
 
         MoleculeB mB = comp.getComponentMolecules()[0] instanceof MoleculeB
                        ? (MoleculeB)comp.getComponentMolecules()[0]
@@ -41,7 +64,7 @@ public class MRModelUtil {
         Vector2D sep = new Vector2D.Double( mB.getPosition(), sm.getPosition() );
         sep.normalize().scale( mB.getRadius() + ( (SimpleMolecule)sm ).getRadius() + 2 );
 
-        // Get the speeds at which the molecules are moving toward their CM, and add that KE to the PE passed in
+        // Get the speeds at which the molecules are moving toward their CM
         CompositeBody cb = new CompositeBody();
         cb.addBody( sm );
         cb.addBody( comp );
@@ -57,10 +80,13 @@ public class MRModelUtil {
         // Compute the *collision energy*. This is the combined kinetic energy of the colliding
         // bodies relative to their combined center of mass, if they are moving toward
         // each other, and 0 if they are not moving toward each other
-        double s1 = -MathUtil.getSign( vFreeMoleculeRelCM.dot( sep ));
-        double s2 = MathUtil.getSign( vCompositeMoleculeRelCM.dot( sep ));
-        double ce = ( s1* sm.getMass() * sFree * sFree + s2 * comp.getMass() * sComposite * sComposite ) / 2;
+        double s1 = -MathUtil.getSign( vFreeMoleculeRelCM.dot( sep ) );
+        double s2 = MathUtil.getSign( vCompositeMoleculeRelCM.dot( sep ) );
+        double ce = ( s1 * sm.getMass() * sFree * sFree + s2 * comp.getMass() * sComposite * sComposite ) / 2;
         ce = Math.max( ce, 0 );
+
+        System.out.println( "ce = " + ce );
+
         return ce;
     }
 }

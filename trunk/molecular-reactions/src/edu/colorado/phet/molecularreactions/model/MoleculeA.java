@@ -23,6 +23,10 @@ import java.awt.geom.Point2D;
 public class MoleculeA extends SimpleMolecule {
     private static double RADIUS = 12;
 
+    public static double getRADIUS() {
+        return RADIUS;
+    }
+
     public MoleculeA() {
         super( RADIUS );
     }

@@ -149,31 +149,29 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
             return;
         }
 
-        // Get the total energy of the two objects, so we can conserve it
-        double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
-
         // Create a composite molecule if ReactionCriteria are met
         if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
                                                          (AbstractMolecule)bodyB ) ) {
-
-
             SimpleMolecule mA = collisionSpec.getFreeMolecule();
             SimpleMolecule mB = collisionSpec.getSimpleMoleculeB();
             EnergyProfile profile = model.getEnergyProfile();
-            double thresholdWidth = Math.min( mA.getRadius(), mB.getRadius() );
-//            double thresholdWidth = Math.min( mA.getRadius() * 2, mB.getRadius() * 2 );
+            double thresholdWidth = Math.max( mA.getRadius(), mB.getRadius() );
+//            double thresholdWidth = Math.min( mA.getRadius(), mB.getRadius() );
             double floorLevel = collisionSpec.getCompositeMolecule() instanceof MoleculeAB ?
                                 profile.getRightLevel() : profile.getLeftLevel();
-            double slope = Math.atan2( profile.getPeakLevel() - floorLevel, thresholdWidth );
-//            double slope = Math.atan2( profile.getPeakLevel() - profile.getRightLevel(), thresholdWidth );
+            double hillHeight = profile.getPeakLevel() - floorLevel;
+            System.out.println( "hillHeight = " + hillHeight );
+            double slope = Math.atan2( hillHeight, thresholdWidth );
 
             boolean outOfEnergy = false;
             boolean reactionReached = false;
-            double collisionDistance = model.getReaction().getCollisionDistance( collisionSpec.getFreeMolecule(),
-                                                                                 collisionSpec.getCompositeMolecule() );
+            double collisionDistance = model.getReaction().getDistanceToCollision( collisionSpec.getFreeMolecule(),
+                                                                                   collisionSpec.getCompositeMolecule() );
 
             // If the molecules are overlapping enough, then there is a reaction
-            reactionReached = -collisionDistance >= thresholdWidth;
+            double dCE = MRModelUtil.getCollisionEnergy( collisionSpec.getFreeMolecule(),
+                                                         collisionSpec.getCompositeMolecule() );
+            reactionReached = -collisionDistance >= thresholdWidth && dCE > hillHeight;
             if( reactionReached ) {
                 A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
                 reaction.doReaction( collisionSpec.getCompositeMolecule(), collisionSpec.getFreeMolecule() );
@@ -181,29 +179,23 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
                 return;
             }
 
-            // Otherwise, see if they have enough energy to keep getting closer
-            double dE = Math.tan( slope ) * Math.abs( collisionDistance );
-            double dCE = MRModelUtil.getCollisionEnergy( collisionSpec.getFreeMolecule(),
-                                                         collisionSpec.getCompositeMolecule() );
-            System.out.println( "dE = " + dE );
-            System.out.println( "dCE = " + dCE );
-            System.out.println( "collisionDistance = " + collisionDistance );
-            outOfEnergy = dE > dCE;
+            // Otherwise we need to know whether they have gotten as far up the slope of the
+            // energy profile as they can get, and need to start moving appart
+            else {
 
-            // If they do, then don't bother them
-            if( !outOfEnergy ) {
-                // todo: this is a bad place to exit the method!
-                return;
+                // Otherwise, see if they have enough energy to keep getting closer
+                double dE = Math.tan( slope ) * Math.abs( collisionDistance );
+//                double dCE = MRModelUtil.getCollisionEnergy( collisionSpec.getFreeMolecule(),
+//                                                             collisionSpec.getCompositeMolecule() );
+                outOfEnergy = dE > dCE;
+
+                // If are out of energy, do a hard sphere collision
+                if( outOfEnergy ) {
+                    double d = model.getReaction().getDistanceToCollision( collisionSpec.getFreeMolecule(),
+                                                                           collisionSpec.getCompositeMolecule() );
+                    doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
+                }
             }
-
-            // If they don't then do a hard collision
-
-            double d = model.getReaction().getCollisionDistance( collisionSpec.getFreeMolecule(),
-                                                                 collisionSpec.getCompositeMolecule() );
-            System.out.println( "outOfEnergy = " + outOfEnergy );
-            System.out.println( "d = " + d );
-
-            doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
         }
     }
 

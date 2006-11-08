@@ -32,7 +32,8 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class EnergyCursor extends RegisterablePNode implements SelectedMoleculeTracker.Listener {
-    private double width = 10;
+    private double width = 4;
+//    private double width = 10;
     private MouseHandler mouseHandler;
     private SimpleMolecule moleculeBeingTracked;
     private SimpleMolecule closestToTracked;
