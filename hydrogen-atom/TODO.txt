@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - flesh out Bohr model
-- debug Rutherford Scattering for alpha particles
 
 MEDIUM PRIORITY:
 - implement DeBroglie model
