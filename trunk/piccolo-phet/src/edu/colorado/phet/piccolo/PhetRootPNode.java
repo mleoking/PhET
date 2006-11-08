@@ -215,6 +215,10 @@ public class PhetRootPNode extends PNode {
         worldNode.globalToLocal( dim );
     }
 
+    public double getWorldScale(){
+        return worldNode.getScale();
+    }
+    
     public void setWorldScale( double scale ) {
         worldNode.setScale( scale );
         updateWorldNodes();
