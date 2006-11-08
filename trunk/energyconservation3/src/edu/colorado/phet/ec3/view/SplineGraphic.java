@@ -128,12 +128,21 @@ public class SplineGraphic extends PNode {
 
     class PathPopupMenu extends JPopupMenu {
         public PathPopupMenu( final EnergySkateParkSimulationPanel ec3Canvas ) {
+            final JCheckBoxMenuItem rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
+            rollerCoasterMode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
+                }
+            } );
+
             JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "delete.track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ec3Canvas.removeSpline( SplineGraphic.this );
                 }
             } );
+            add( rollerCoasterMode );
+            addSeparator();
             add( delete );
         }
     }
