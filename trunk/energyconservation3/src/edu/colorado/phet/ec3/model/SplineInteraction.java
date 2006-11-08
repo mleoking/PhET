@@ -65,7 +65,7 @@ public class SplineInteraction {
     }
 
     private boolean justLeft( Body body, AbstractSpline splineSurface ) {
-        return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 500;
+        return body.getLastFallSpline() == splineSurface && ( System.currentTimeMillis() - body.getLastFallTime() ) < 100;
     }
 
     private void tryCollision( Body body ) {
