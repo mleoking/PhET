@@ -67,11 +67,11 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    boolean fixEnergyOnSpline( final Body origState, double x2, final Body body ) {
+    boolean fixEnergyOnSpline( final Body origState, double x2, final Body body, double epsilon ) {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
 //        double epsilon = 0.01;//1E-7
-        double epsilon = 0.001;//1E-8     
+
 //        double epsilon = 0.0001;//0.5 sometimes     
 //        double epsilon = 0.01;
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
@@ -105,7 +105,8 @@ public class SplineMode implements UpdateMode {
         }
 //        System.out.println( "spline.getUnitNormalVector( x2) = " + spline.getUnitNormalVector( x2 ) );
         if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 ) {
-            fixed = fixed || fixEnergyOnSpline( origState, x2, body );
+            double epsilon = 0.001;//1E-8     
+            fixed = fixed || fixEnergyOnSpline( origState, x2, body, epsilon );
         }
         if( !fixed ) {
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
@@ -121,7 +122,12 @@ public class SplineMode implements UpdateMode {
             }
             else {
                 if( origState.getEnergyDifferenceAbs( body ) > 1E1 ) {
-                    System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes." );
+                    double finalE = body.getTotalEnergy();
+                    double origE = origState.getTotalEnergy();
+                    boolean finalGreater = finalE > origE;
+                    String text = finalGreater ? "Gained Energy" : "Lost Energy";
+                    System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes: " + text );
+
                     setBodyState( origState, body );
                 }
             }
