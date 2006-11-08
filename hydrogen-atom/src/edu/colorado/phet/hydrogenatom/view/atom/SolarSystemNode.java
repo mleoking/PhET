@@ -17,6 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
@@ -79,7 +80,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
-        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
+        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
     }
 
     //----------------------------------------------------------------------------
@@ -93,7 +94,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
      */
     public void update( Observable o, Object arg ) {
         if ( o == _atom ) {
-            if ( arg == SolarSystemModel.PROPERTY_ELECTRON_POSITION ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffset();
                 // treat coordinates as distances, since _electronNode is a child node
@@ -101,7 +102,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
-            else if ( arg == SolarSystemModel.PROPERTY_DESTROYED ) {
+            else if ( arg == SolarSystemModel.PROPERTY_ATOM_DESTROYED ) {
                 _protonNode.setVisible( false );
                 _electronNode.setVisible( false );
                 _kaboomNode.setVisible( true );

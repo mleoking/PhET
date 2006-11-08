@@ -50,12 +50,6 @@ import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
  * Alpha particles are not emitted.
  */
 public class PlumPuddingModel extends AbstractHydrogenAtom {
-
-    //----------------------------------------------------------------------------
-    // Public class data
-    //----------------------------------------------------------------------------
-    
-    public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
     
     //----------------------------------------------------------------------------
     // Private class data

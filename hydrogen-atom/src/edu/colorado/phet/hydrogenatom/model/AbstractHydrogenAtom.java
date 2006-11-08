@@ -29,6 +29,15 @@ import edu.colorado.phet.common.model.ModelElement;
 public abstract class AbstractHydrogenAtom extends FixedObject implements ModelElement {
 
     //----------------------------------------------------------------------------
+    // Public class data
+    //----------------------------------------------------------------------------
+    
+    public static final String PROPERTY_ELECTRON_STATE = "electronState";
+    public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
+    public static final String PROPERTY_ATOM_DESTROYED = "atomDestroyed";
+    public static final String PROPERTY_ATOM_IONIZED = "atomIonized";
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 

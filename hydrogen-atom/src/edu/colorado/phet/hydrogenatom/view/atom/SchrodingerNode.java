@@ -16,7 +16,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
+import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -53,7 +55,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         PImage imageNode = PImageFactory.create( HAConstants.IMAGE_SCHRODINGER_ATOM );
         addChild( imageNode );
         
-        update( null, null );
+        Point2D p = ModelViewTransform.transform( _atom.getPosition() );
+        PBounds fb = getFullBounds();
+        double x = p.getX() - ( fb.getWidth() / 2 );
+        double y = p.getY() - ( fb.getHeight() / 2 );
+        setOffset( x, y );
+        
+        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
     }
     
     //----------------------------------------------------------------------------
@@ -66,10 +74,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        Point2D p = ModelViewTransform.transform( _atom.getPosition() );
-        PBounds fb = getFullBounds();
-        double x = p.getX() - ( fb.getWidth() / 2 );
-        double y = p.getY() - ( fb.getHeight() / 2 );
-        setOffset( x, y );
+        if ( o == _atom ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
+                //XXX
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+                //XXX
+            }
+        }
     }
 }

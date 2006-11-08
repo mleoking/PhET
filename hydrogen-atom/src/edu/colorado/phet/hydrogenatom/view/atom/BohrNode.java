@@ -18,10 +18,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
-import edu.colorado.phet.hydrogenatom.view.*;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -78,19 +80,12 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
             addChild( originNode );
         }
         
-        _protonNode.setOffset( 0, 0 );
-        PNode orbitNode = getOrbitNode( atom.getState() );
-        _electronNode.setOffset( orbitNode.getFullBounds().getWidth() / 2, 0 );
-        
         Point2D atomPosition = _atom.getPosition();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
-        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
-    }
-    
-    private PNode getOrbitNode( int state ) {
-        return (PNode)_orbitNodes.get( state - 1 );
+        _protonNode.setOffset( 0, 0 );
+        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
     }
 
     //----------------------------------------------------------------------------
@@ -104,13 +99,16 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
      */
     public void update( Observable o, Object arg ) {
         if ( o == _atom ) {
-            if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffset();
                 // treat coordinates as distances, since _electronNode is a child node
                 double nodeX = ModelViewTransform.transform( electronOffset.getX() );
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+                //XXX
             }
         }
     }

@@ -25,13 +25,6 @@ import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 public class BohrModel extends AbstractHydrogenAtom {
 
     //----------------------------------------------------------------------------
-    // Public class data
-    //----------------------------------------------------------------------------
-    
-    public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
-    public static final String PROPERTY_STATE = "state";
-    
-    //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     

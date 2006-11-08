@@ -12,14 +12,18 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
+import edu.colorado.phet.hydrogenatom.view.atom.AbstractHydrogenAtomNode.OrbitFactory;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,13 +34,6 @@ import edu.umd.cs.piccolo.PNode;
  * @version $Revision$
  */
 public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int DEFAULT_SELECTED_ORBIT = 1; //XXX hack, for demo purposes
-    private static final int NUMBER_OF_ORBITS = 6;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,14 +59,10 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         _atom.addObserver( this );
         
         _orbitNodes = new ArrayList();
-        for ( int orbit = 1; orbit <= NUMBER_OF_ORBITS; orbit++ ) {
-            PNode orbitNode = null;
-            if ( orbit == DEFAULT_SELECTED_ORBIT ) {
-                orbitNode = OrbitFactory.createExcitedNode( orbit );
-            }
-            else {
-                orbitNode = OrbitFactory.createOrbitNode( orbit );
-            }
+        int numberOfStates = atom.getNumberOfStates();
+        for ( int i = 1; i <= numberOfStates; i++ ) {
+            double radius = atom.getOrbitRadius( i );
+            PNode orbitNode = OrbitFactory.createOrbitNode( radius );
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
         }
@@ -82,9 +75,12 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
             addChild( originNode );
         }
         
-        _protonNode.setOffset( 0, 0 );
+        Point2D atomPosition = _atom.getPosition();
+        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        setOffset( nodePosition );
         
-        update( null, null );
+        _protonNode.setOffset( 0, 0 );
+        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
     }
     
     //----------------------------------------------------------------------------
@@ -97,6 +93,13 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
+        if ( o == _atom ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
+                //XXX
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+                //XXX
+            }
+        }
     }
 }
