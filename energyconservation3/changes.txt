@@ -1,4 +1,4 @@
-1.02.12
+1.02.12 (11-8-2006)
 Bugfix: When you move from space to earth the "use arrow keys to thrust" stays up.
 Bugfix: When I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.)
 Added friction for bounces, when friction is enabled.
