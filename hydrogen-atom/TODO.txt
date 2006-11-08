@@ -16,7 +16,7 @@ MEDIUM PRIORITY:
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
 - "atom destroyed" message for Solar System model
-- "atom ionized" message for Plum Pudding, Bohr, deBroglie, Schrodinger models
+- "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
 - ignore spectral line table entries with node>6
 - handle model-view transform differently?
@@ -42,6 +42,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/8/06) - remove model dependency that ground state = 1
 (11/8/06) - remove model stuff from DeBroglieNode
 (11/8/06) - move all PROPERTY constants to AbstractHydrogenAtom
 (11/8/06) - DeBroglieModel extends BohrModel (they are identical, different visual representation)

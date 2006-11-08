@@ -31,6 +31,9 @@ public class BohrModel extends AbstractHydrogenAtom {
     /* Number of electron states supported by this model */
     private static final int NUMBER_OF_STATES = 6;
     
+    /* Ground state */
+    private static final int GROUND_STATE = 1;
+    
     /* Radius of the electron's ground state */
     private static final double GROUND_ORBIT_RADIUS = 8.5;
     
@@ -50,8 +53,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // Current state that the electron is in, 1=ground
-    private int _state;
+    // electron state
+    private int _electronState;
     // orbit radii
     private double[] _orbitRadii;
     // number of photons the atom has absorbed and is "holding"
@@ -65,10 +68,10 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
-        _state = 3;
+        _electronState = GROUND_STATE;
         _orbitRadii = createOrbitRadii( NUMBER_OF_STATES );
         _numberOfPhotonsAbsorbed = 0;
-        _electronOffset = new Point2D.Double( getOrbitRadius( _state ), 0 ); //XXX randomize position on 1st orbit?
+        _electronOffset = new Point2D.Double( getOrbitRadius( _electronState ), 0 ); //XXX randomize position on 1st orbit?
     }
     
     //----------------------------------------------------------------------------
@@ -76,12 +79,11 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the state that the electron is in.
-     * Zero is the ground state.
+     * Gets the electron's state.
      * @return int
      */
-    public int getState() {
-        return _state;
+    public int getElectronState() {
+        return _electronState;
     }
     
     /**
@@ -94,12 +96,20 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
+     * Gets the ground state.
+     * @return
+     */
+    public int getGroundState() {
+        return GROUND_STATE;
+    }
+    
+    /**
      * Gets the radius for a specified state.
      * @param state
      * @return
      */
     public double getOrbitRadius( int state ) {
-        return _orbitRadii[ state - 1 ];
+        return _orbitRadii[ state - GROUND_STATE ];
     }
     
     /**
