@@ -42,6 +42,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/8/06) - Rutherford Scattering working, but particles get stuck at center of plum pudding atom
 (11/8/06) - another attempt at Rutherford Scattering after Sam McKagan rewrote, still not working
 (11/8/06) - remove model dependency that ground state = 1
 (11/8/06) - remove model stuff from DeBroglieNode
