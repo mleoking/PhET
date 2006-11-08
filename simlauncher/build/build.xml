@@ -92,8 +92,8 @@ ignorepath      (those elements of the ant classpath that should not be
         <javac srcdir="${src}" destdir="${classes}">
             <src path="${project_home}/BrowserLauncher2-all-10rc4/source"/>
             <src path="${project_home}/phetcommon-module/src"/>
-            <classpath path="${project_home}/jdom-classes"/>
-            <!--<classpath path="${project_home}/lib/jdom.jar"/>-->
+            <!--<classpath path="${project_home}/jdom-classes"/>-->
+            <classpath path="${project_home}/lib/jdom.jar:${project_home}/lib/jhbasic.jar"/>
         </javac>
     </target>
 
@@ -108,7 +108,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
             <fileset dir="${project_home}/phetcommon-module/data"/>
-            <fileset dir="${project_home}/jdom-classes"/>
+            <!--<fileset dir="${project_home}/jdom-classes"/>-->
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
