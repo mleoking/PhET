@@ -23,14 +23,16 @@ public class FloorGraphic extends PNode {
     public FloorGraphic( Floor floor ) {
         this.floor = floor;
         double y = floor.getY();
-        float offset = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
-//        double offset= 0.0;
-        PPath earth = new PPath( new Rectangle2D.Double( -100, y - 1000, 10000, 1000 + offset ) );
+        float offsetY = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
+        double xMin = -1000;
+        double xMax = 1000;
+        double height = 1000;
+        PPath earth = new PPath( new Rectangle2D.Double( xMin, y - height, xMax - xMin, height + offsetY ) );
         earth.setPaint( new Color( 100, 170, 100 ) );
         earth.setStroke( null );
         addChild( earth );
 
-        Line2D.Double line = new Line2D.Double( -100, y + offset, 10000, y + offset );
+        Line2D.Double line = new Line2D.Double( xMin, y + offsetY, xMax, y + offsetY );
         PPath path = new PPath( line );
         path.setStroke( new BasicStroke( 0.03f ) );
         path.setStrokePaint( new Color( 0, 130, 0 ) );
