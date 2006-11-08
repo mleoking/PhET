@@ -39,10 +39,7 @@ The skater hung up on the top of the ramp easily if I was trying to retest my tr
         
 - slow motion button doesn't seem to work right
         Clarifying...
-
-- in space, the thruster doesn't seem to work like gravity still
- >>Clarifying....
-
+ 
 He gains energy when you move the track around.  I’m not sure how serious this is because moving the track is not exactly the usual routine while a skater is on the track.
 >>I think this is the desired behavior.
 
