@@ -43,13 +43,19 @@ public class RutherfordScattering {
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
      * <p>
-     * NOTE: The algorithm assumes that the atom is located at (0,0).
+     * NOTES: 
+     * (1) The algorithm assumes that the atom is located at (0,0).
      * This is not the case in our model. So coordindates are adjusted 
      * as described in the comments.
-     * <p>
-     * NOTE: The algorithm assumes that +y is up.  Our model has +y down.
+     * (2) The algorithm assumes that +y is up.  Our model has +y down.
      * So we'll be adjusting the sign on y coordinates, as described
      * in the comments.
+     * (3) The algoritm fails for negative values of x. This is not
+     * mentioned in the specification document. So we have to convert
+     * to positive values of x, then convert back.
+     * (4) Using "phi=arctan(-x,y)" as described in the spec causes
+     * particles to jump discontinuously when they go above the y axis.
+     * This is fixed by using Math.atan2 instead.
      *
      * @param atom the atom
      * @param alphaParticle the alpha particle
