@@ -20,7 +20,7 @@ public class FreeFall extends ForceMode implements Derivable {
 
     public void stepInTime( Body body, double dt ) {
         stepIgnoreSplines( body, dt );
-        new SplineMode.GrabSpline( energyConservationModel ).interactWithSplines( body );
+        new SplineInteraction( energyConservationModel ).interactWithSplines( body );
     }
 
     public void stepIgnoreSplines( Body body, double dt ) {
