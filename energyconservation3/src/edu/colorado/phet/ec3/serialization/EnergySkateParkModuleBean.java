@@ -200,12 +200,14 @@ public class EnergySkateParkModuleBean {
 
     public static class SplineElement {
         private Point2D[] controlPoints;
+        private boolean rollerCoaster;
 
         public SplineElement() {
         }
 
         public SplineElement( SplineSurface splineSurface ) {
             controlPoints = splineSurface.getSpline().getControlPoints();
+            rollerCoaster = splineSurface.getSpline().isRollerCoasterMode();
         }
 
         public Point2D[] getControlPoints() {
@@ -222,7 +224,9 @@ public class EnergySkateParkModuleBean {
                 Point2D controlPoint = controlPoints[i];
                 top.addControlPoint( controlPoint );
             }
-            return new SplineSurface( top );
+            SplineSurface splineSurface = new SplineSurface( top );
+            splineSurface.getSpline().setRollerCoasterMode( rollerCoaster );
+            return splineSurface;
         }
     }
 }
