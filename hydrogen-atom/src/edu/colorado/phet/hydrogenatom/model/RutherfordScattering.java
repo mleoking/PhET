@@ -35,7 +35,7 @@ public class RutherfordScattering {
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
     // Value of x used when x==0 (this algorithm fails when x==0)
-    public static final double X_MIN = 0.00000001;
+    public static final double X_MIN = 0.0000001;
     
     /* Not intended for instantiation */
     private RutherfordScattering() {}
@@ -114,11 +114,11 @@ public class RutherfordScattering {
         
         // convert current position to Polar coordinates, measured counterclockwise from the -y axis
         final double r = Math.sqrt( ( x * x ) + ( y * y ) );
-        final double phi = Math.atan2( -y, x );
+        final double phi = Math.atan2( x, -y );
 
         // new position (in Polar coordinates) and speed
         final double t1 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
-        final double phiNew = phi + ( ( b * b * v * dt ) / ( r * Math.sqrt( Math.pow( b, 4 )  + ( r * r * t1 * t1 ) ) ) );
+        final double phiNew = phi + ( ( b * b * v * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
         final double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
         
@@ -133,22 +133,19 @@ public class RutherfordScattering {
             System.out.println( "  atom type=" + atom.getClass().getName() );
             System.out.println( "  constants:" );
             System.out.println( "    L=" + F.format( HAConstants.ANIMATION_BOX_SIZE.height ) );
+            System.out.println( "    D=" + F.format( D ) );
             System.out.println( "    dt=" + F.format( dt ) );
+            System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
             System.out.println( "    v0=" + F.format( v0 ) );
             System.out.println( "    b=" + F.format( b ) );
-            System.out.println( "    D=" + F.format( D ) );
             System.out.println( "  current state:" );
-            System.out.println( "    x=" + F.format( x ) );
-            System.out.println( "    y=" + F.format( y ) );
-            System.out.println( "    r=" + F.format( r ) );
-            System.out.println( "    phi=" + F.format( phi ) + " (" + F.format( Math.toDegrees( phi ) ) + " degrees)" );
+            System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
+            System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
             System.out.println( "    v=" + F.format( v ) );
             System.out.println( "  new state:" );
-            System.out.println( "    rNew=" + F.format( rNew ) );
-            System.out.println( "    phiNew=" + F.format( phiNew ) + " (" + F.format( Math.toDegrees( phiNew ) ) + " degrees)" );
-            System.out.println( "    xNew=" + F.format( xNew ) );
-            System.out.println( "    yNew=" + F.format( yNew ) );
-            System.out.println( "    vNew=" + F.format( vNew ) );
+            System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
+            System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
+            System.out.println( "    v=" + F.format( vNew ) );
         }
         
         // Adjust the sign of x.
