@@ -30,7 +30,7 @@ import java.awt.*;
  */
 public class MRModule extends Module {
 
-    private Dimension size = new Dimension( 600, 600 );
+    private Dimension size = new Dimension( 850, 575 );
     private ControlPanel mrControlPanel;
     private SpatialView spatialView;
     private EnergyView energyView;

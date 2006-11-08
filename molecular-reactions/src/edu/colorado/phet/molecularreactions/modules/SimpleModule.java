@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
 import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.model.*;
@@ -179,14 +180,12 @@ public class SimpleModule extends MRModule {
         if( this.launcherMolecule != null ) {
             model.removeModelElement( this.launcherMolecule );
         }
-        if( moleculeB != null ) {
-            model.removeModelElement( moleculeB );
-        }
-        if( m3 != null ) {
-            model.removeModelElement( m3 );
-        }
         if( cm != null ) {
             model.removeModelElement( cm );
+            for( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
+                SimpleMolecule simpleMolecule = cm.getComponentMolecules()[i];
+                model.removeModelElement( simpleMolecule );
+            }
         }
 
         this.launcherMolecule = launcherMolecule;
@@ -195,36 +194,25 @@ public class SimpleModule extends MRModule {
         launcher.setBodyToLaunch( launcherMolecule );
         launcher.setTheta( 0 );
 
-        moleculeB = new MoleculeB();
-        double yLoc = model.getBox().getMinY() + model.getBox().getHeight() / 2;
-        moleculeB.setPosition( launcherMolecule.getPosition().getX(), yLoc );
-        moleculeB.setVelocity( 0, 0 );
-        model.addModelElement( moleculeB );
-
-        m3 = null;
-        if( launcherMolecule instanceof MoleculeC ) {
-            m3 = new MoleculeA();
-        }
-        else {
-            m3 = new MoleculeC();
-        }
-
-        m3.setPosition( moleculeB.getPosition().getX(), yLoc - Math.max(moleculeB.getRadius(), m3.getRadius()) );
-//        m3.setPosition( moleculeB.getPosition().getX(), yLoc - moleculeB.getRadius() - m3.getRadius() );
-        m3.setVelocity( 0, 0 );
-        model.addModelElement( m3 );
-
         cm = null;
+        Class compositeMoleculeClass = null;
+        MoleculeParamGenerator moleculeParamGenerator = new MoleculeParamGenerator( launcherMolecule, model );
         if( launcherMolecule instanceof MoleculeC ) {
-            cm = new MoleculeAB( new SimpleMolecule[]{moleculeB, m3} );
+            compositeMoleculeClass = MoleculeAB.class;
         }
         else {
-            cm = new MoleculeBC( new SimpleMolecule[]{moleculeB, m3} );
+            compositeMoleculeClass = MoleculeBC.class;
         }
-
+        cm = (CompositeMolecule)MoleculeFactory.createMolecule( compositeMoleculeClass,
+                                                                moleculeParamGenerator );
+        cm.rotate( Math.PI / 2 );
         cm.setOmega( 0 );
         cm.setVelocity( 0, 0 );
         model.addModelElement( cm );
+        for( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
+            SimpleMolecule simpleMolecule = cm.getComponentMolecules()[i];
+            model.addModelElement( simpleMolecule );
+        }
 
         launcherMolecule.setSelectionStatus( Selectable.SELECTED );
     }
@@ -241,6 +229,25 @@ public class SimpleModule extends MRModule {
         reset();
         launcherLoadPanel.setMolecule( launcherMolecule );
         launcher.setMovementType( movementType );
+    }
+
+    /**
+     * Parameter generator for the composite molecules used in this module.
+     */
+    private static class MoleculeParamGenerator implements edu.colorado.phet.molecularreactions.model.MoleculeParamGenerator {
+        private final SimpleMolecule launcherMolecule;
+        private final MRModel model;
+
+        public MoleculeParamGenerator( SimpleMolecule launcherMolecule, MRModel model ) {
+            this.launcherMolecule = launcherMolecule;
+            this.model = model;
+        }
+
+        public Params generate() {
+            return new Params( new Point2D.Double( launcherMolecule.getPosition().getX(),
+                                                   model.getBox().getMinY() + model.getBox().getHeight() / 2 ),
+                               new Vector2D.Double(), 0 );
+        }
     }
 }
 

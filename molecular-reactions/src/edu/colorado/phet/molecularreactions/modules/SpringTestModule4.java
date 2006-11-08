@@ -127,7 +127,7 @@ public class SpringTestModule4 extends Module {
 //                ReactionSpring cs = null;
 //
 //                public void stepInTime( double dt ) {
-//                    double d = model.getReaction().getCollisionDistance( mA.getFullMolecule(),
+//                    double d = model.getReaction().getDistanceToCollision( mA.getFullMolecule(),
 //                                                                         mBC.getFullMolecule() );
 //                    if( cs == null && d <= restingLength ) {
 //                        cs = new ReactionSpring( leftDPE,

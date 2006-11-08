@@ -197,19 +197,19 @@ public class MoleculeCollisionTest {
 
             // Check that the collision distance is properly computed
             {
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 2 );
             }
 
             {
                 setVelocities( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 0 );
             }
 
             {
                 setVelocities( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == -2 );
             }
         }
@@ -219,7 +219,7 @@ public class MoleculeCollisionTest {
             setPositions( new Point2D.Double( 0, 0 ), new Point2D.Double( 0 + mA.getRadius() + mB.getRadius() - 4, 0 ) );
 
             // Compute the energy level reached on the threshold hill
-            double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+            double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
             assertTrue( collisionDistance == -4 );
             double dE = Math.tan( slope ) * Math.abs( collisionDistance );
             double dECheck = ( profile.getPeakLevel() - profile.getRightLevel() ) * ( -collisionDistance / ( profile.getThresholdWidth() / 2 ) );
@@ -232,19 +232,19 @@ public class MoleculeCollisionTest {
 
             // Compute the energy level reached on the threshold hill
             {
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 4 );
             }
 
             {
                 setVelocities( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 2 );
             }
 
             {
                 setVelocities( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
-                double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 0 );
             }
 
@@ -252,7 +252,7 @@ public class MoleculeCollisionTest {
                 boolean outOfEnergy = false;
                 for( int i = 0; i < 100 && !outOfEnergy; i++ ) {
                     setVelocities( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
-                    double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                    double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                     double dE = Math.tan( slope ) * Math.abs( collisionDistance );
                     double dCE = MRModelUtil.getCollisionEnergy( mA, mBC );
                     System.out.println( "dE = " + dE );
@@ -261,7 +261,7 @@ public class MoleculeCollisionTest {
 
                     outOfEnergy = dE > dCE;
                 }
-                double d = model.getReaction().getCollisionDistance( mA, mBC );
+                double d = model.getReaction().getDistanceToCollision( mA, mBC );
                 System.out.println( "d = " + d );
                 assertTrue( Math.abs( d ) < profile.getThresholdWidth() / 2 );
             }
@@ -282,7 +282,7 @@ public class MoleculeCollisionTest {
                 boolean reactionReached = false;
                 for( int i = 0; i < 100 && !outOfEnergy && !reactionReached; i++ ) {
                     setVelocities( new Vector2D.Double( 1.8476, 0 ), new Vector2D.Double( -1.8476, 0 ) );
-                    double collisionDistance = model.getReaction().getCollisionDistance( mA, mBC );
+                    double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                     double dE = Math.tan( slope ) * Math.abs( collisionDistance );
                     double dCE = MRModelUtil.getCollisionEnergy( mA, mBC );
                     if( dCE <= 0 ) {
@@ -295,7 +295,7 @@ public class MoleculeCollisionTest {
                     outOfEnergy = dE > dCE;
                     reactionReached = -collisionDistance >= thresholdWidth;
                 }
-                double d = model.getReaction().getCollisionDistance( mA, mBC );
+                double d = model.getReaction().getDistanceToCollision( mA, mBC );
                 System.out.println( "outOfEnergy = " + outOfEnergy );
                 assertTrue( reactionReached );
                 System.out.println( "d = " + d );
