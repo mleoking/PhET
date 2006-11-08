@@ -9,11 +9,11 @@
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
 
+-dontshrink
 -dontoptimize
 -dontobfuscate
 -dontusemixedcaseclassnames
 -verbose
-
 
 # Keep - Applications. Keep all application classes that have a main method.
 -keepclasseswithmembers public class edu.colorado.phet.ec3.EnergySkateParkApplication{
