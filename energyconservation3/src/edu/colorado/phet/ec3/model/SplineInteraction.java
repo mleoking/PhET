@@ -48,16 +48,14 @@ public class SplineInteraction {
         return bestSpline;
     }
 
-    private double getGrabScore( AbstractSpline splineSurface, Body body ) {
-        double x = splineSurface.getDistAlongSpline( body.getAttachPoint(), 0, splineSurface.getLength(), 100 );
-        Point2D pt = splineSurface.evaluateAnalytical( x );
-        double dist = pt.distance( body.getAttachPoint() );
-        if( dist < 0.5 && !justLeft( body, splineSurface ) && movingTowards( body, pt ) ) {
-            return dist;
-        }
-        else {
-            return Double.POSITIVE_INFINITY;
-        }
+    private double getGrabScore( AbstractSpline spline, Body body ) {
+        Area feet = new Area( body.getFeetShape() );
+        Area splineArea = new Area( spline.getArea() );
+        splineArea.intersect( feet );
+        boolean collide = !splineArea.isEmpty();
+        boolean recentGrab = justLeft( body, spline );
+        Point2D pt = spline.evaluateAnalytical( spline.getDistAlongSpline( body.getCenterOfMass(), 0, spline.getLength(), 100 ) );
+        return collide && !recentGrab && movingTowards( body, pt ) ? 0 : Double.POSITIVE_INFINITY;
     }
 
     private boolean movingTowards( Body body, Point2D pt ) {

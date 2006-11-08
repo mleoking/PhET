@@ -61,6 +61,7 @@ public class Body {
         return stateRecordHistory.size();
     }
 
+
     public static class StateRecord {
         private ArrayList splines = new ArrayList();
         private ArrayList sides = new ArrayList();
@@ -410,6 +411,10 @@ public class Body {
         double dw = width * scale;
         double dh = height * scale;
         return getTransform().createTransformedShape( new Rectangle2D.Double( dw, dh, width - 2 * dw, height - 2 * dh ) );
+    }
+
+    public Shape getFeetShape() {
+        return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * 2.0 / 3.0, width, height / 3 ) );
     }
 
     public Shape getShape() {
