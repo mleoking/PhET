@@ -311,13 +311,14 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * problem in RutherfordScattering; particles get stuck at the 
      * center of the plum pudding atom, or they seem to stick slightly
      * and then accelerate off.  The value of "closeness" was set 
-     * through trial and error, to eliminate these problems.
+     * through trial and error, to eliminate these problems while still
+     * making the motion look continuous.
      * 
      * @param alphaParticle
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        final double closeness = 7;
+        final double closeness = 10;
         if ( alphaParticle.getX() - getX() < closeness ) {
             // This workaround assumes that alpha particles are moving vertically from bottom to top.
             assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
