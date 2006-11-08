@@ -29,7 +29,7 @@ import java.io.IOException;
  */
 
 public class QWIApplication extends PiccoloPhetApplication {
-    public static String VERSION = "1.04.01";
+    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
 
     public QWIApplication( String[] args ) {
