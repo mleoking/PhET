@@ -305,33 +305,27 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     /**
      * Moves an alpha particle using a Rutherford Scattering algorithm.
      * <p>
-     * 
+     * WORKAROUND -
+     * If the particle is "close" to the atom's center, then it simply
+     * passes through at constant speed.  This is a workaround for a 
+     * problem in RutherfordScattering; particles get stuck at the 
+     * center of the plum pudding atom, or they seem to stick slightly
+     * and then accelerate off.  The value of "closeness" was set 
+     * through trial and error, to eliminate these problems.
      * 
      * @param alphaParticle
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        final double D = getD( alphaParticle );
-        RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
-    }
-    
-    /**
-     * Gets the constant D, used by Rutherford Scattering algorithm.
-     * See data/Rutherford_Scattering.pdf
-     * <p>
-     * If the alpha particle's initial x position is the same as the atom's,
-     * then divide-by-zero errors can occur (since b=0), so we make sure 
-     * that x0 is never exactly zero.
-     * 
-     * @param alphaParticle
-     * @return double
-     */
-    private double getD( AlphaParticle alphaParticle ) {
-        final double DB = BohrModel.getD();
-        final double x0 = RutherfordScattering.getX0( this, alphaParticle );
-        final double R = _radius;
-        final double D = ( x0 <= R ) ? ( ( DB * x0 * x0 ) / ( R * R ) ) : DB;
-        return D;
+        final double closeness = 7;
+        if ( alphaParticle.getX() - getX() < closeness ) {
+            // This workaround assumes that alpha particles are moving vertically from bottom to top.
+            assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
+            super.moveAlphaParticle( alphaParticle, dt );
+        }
+        else {
+            RutherfordScattering.moveParticle( this, alphaParticle, dt );
+        }
     }
     
     //----------------------------------------------------------------------------
