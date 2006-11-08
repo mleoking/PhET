@@ -257,6 +257,21 @@ public class MRModel extends PublishingModel {
         return keTotal;
     }
 
+    public double getAverageKineticEnergy() {
+        double keTotal = 0;
+        List modelElements = getModelElements();
+        int cnt = 0;
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof Body ) {
+                Body body = (Body)o;
+                cnt++;
+                keTotal += body.getKineticEnergy();
+            }
+        }
+        return keTotal / cnt;        
+    }
+
     public double getTotalPotentialEnergy() {
         double peTotal = 0;
         List modelElements = getModelElements();

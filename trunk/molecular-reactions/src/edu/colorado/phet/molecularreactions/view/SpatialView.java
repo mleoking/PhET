@@ -78,6 +78,15 @@ public class SpatialView extends PNode {
         reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
                                    canvas.getHeight() - reactionGraphic.getHeight() - 20 );
         canvas.addChild( reactionGraphic );
+
+        // Add the thermometer
+        ThermometerGraphic thermometerGraphic = new ThermometerGraphic( model,
+                                                                        module.getClock(),
+                                                                        10,
+                                                                        80 );
+        thermometerGraphic.setOffset( model.getBox().getMaxX() - 20,
+                                      model.getBox().getMinY() - 20 );
+        canvas.addChild( thermometerGraphic );
     }
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
