@@ -9,6 +9,7 @@ Added code that prevents the skater from bouncing back and forth centered on a t
 Added save/load for splines & skaters.
 Added roller-coaster mode (sticky tracks).
 Deleted some spline traversal code that caused the skater to get stuck.
+Added code that prevents the skater's center of mass from passing through a spline. 
 
 1.02.11 (11-3-2006)
 Made the "Return The Skater" button pop up when the skater is partially offscreen (rather than when he is completely offscreen).

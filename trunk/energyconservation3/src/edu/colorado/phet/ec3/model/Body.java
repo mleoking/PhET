@@ -61,40 +61,57 @@ public class Body {
         return stateRecordHistory.size();
     }
 
+    public void clearCollisionHistory() {
+        stateRecordHistory.clear();
+    }
+
 
     public static class StateRecord {
-        private ArrayList splines = new ArrayList();
-        private ArrayList sides = new ArrayList();
+        private ArrayList states = new ArrayList();
         private Body body;
 
         public StateRecord( Body body ) {
             this.body = body;
         }
 
-        public void addCollisionSpline( AbstractSpline spline, boolean top ) {
-            splines.add( spline );
-            sides.add( new Boolean( top ) );
+        public void addCollisionSpline( AbstractSpline spline, TraversalState top ) {
+            states.add( top );
         }
 
         public boolean containsSpline( AbstractSpline spline ) {
-            return splines.contains( spline );
+            for( int i = 0; i < states.size(); i++ ) {
+                TraversalState traversalState = (TraversalState)states.get( i );
+                if( traversalState.getSpline() == spline ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public Body getBody() {
             return body;
         }
 
-        //todo this is a simplification that just check if it was top for any collision spline
-        public boolean isTop() {
-            return sides.size() > 0 && ( (Boolean)sides.get( 0 ) ).equals( new Boolean( true ) );
+        public AbstractSpline getSpline( int i ) {
+            return getTraversalState( i ).getSpline();
         }
 
-        public AbstractSpline getSpline( int i ) {
-            return (AbstractSpline)splines.get( i );
+        public TraversalState getTraversalState( int i ) {
+            return (TraversalState)states.get( i );
         }
 
         public int getSplineCount() {
-            return splines.size();
+            return states.size();
+        }
+
+        public TraversalState getTraversalState( AbstractSpline spline ) {
+            for( int i = 0; i < states.size(); i++ ) {
+                TraversalState traversalState = getTraversalState( i );
+                if( traversalState.getSpline() == spline ) {
+                    return traversalState;
+                }
+            }
+            return null;
         }
     }
 
@@ -172,22 +189,53 @@ public class Body {
         StateRecord stateRecord = new StateRecord( copyState() );
         ArrayList splines = energyConservationModel.getAllSplines();
         for( int i = 0; i < splines.size(); i++ ) {
-            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
-            if( new SplineInteraction( energyConservationModel ).isColliding( abstractSpline, this ) ) {
-                boolean side = getSide( abstractSpline );
-                stateRecord.addCollisionSpline( abstractSpline, side );
+            AbstractSpline spline = (AbstractSpline)splines.get( i );
+            if( new SplineInteraction( energyConservationModel ).isColliding( spline, this ) ) {
+                stateRecord.addCollisionSpline( spline, getTraversalState( spline ) );
             }
         }
         return stateRecord;
     }
 
-    private boolean getSide( AbstractSpline spline ) {
-        double pt = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
-        Point2D point2D = spline.evaluateAnalytical( pt );
+    static class TraversalState {
+        boolean top;
+        double scalarAlongSpline;
+        Point2D closestSplineLocation;
+        private AbstractSpline spline;
+
+        public TraversalState( boolean top, double scalarAlongSpline, Point2D closestSplineLocation, AbstractSpline spline ) {
+            this.top = top;
+            this.scalarAlongSpline = scalarAlongSpline;
+            this.closestSplineLocation = closestSplineLocation;
+            this.spline = spline;
+        }
+
+        public boolean isTop() {
+            return top;
+        }
+
+        public double getScalarAlongSpline() {
+            return scalarAlongSpline;
+        }
+
+        public Point2D getClosestSplineLocation() {
+            return closestSplineLocation;
+        }
+
+        public AbstractSpline getSpline() {
+            return spline;
+        }
+    }
+
+    private TraversalState getTraversalState( AbstractSpline spline ) {
+        double x = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
+//        System.out.println( "pt = " + pt );
+        Point2D point2D = spline.evaluateAnalytical( x );
 
         Vector2D.Double cmVector = new Vector2D.Double( point2D, getCenterOfMass() );
-        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( pt ) );
-        return normal.dot( cmVector ) >= 0;
+        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( x ) );
+        boolean top = normal.dot( cmVector ) >= 0;
+        return new TraversalState( top, x, point2D, spline );
     }
 
     public StateRecord getCollisionStateFromEnd( int i ) {
@@ -414,7 +462,8 @@ public class Body {
     }
 
     public Shape getFeetShape() {
-        return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * 2.0 / 3.0, width, height / 3 ) );
+        double feetFraction = 0.6;
+        return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * ( 1 - feetFraction ), width, height * feetFraction ) );
     }
 
     public Shape getShape() {

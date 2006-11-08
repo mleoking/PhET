@@ -54,17 +54,17 @@ public class BodyGraphic extends PNode {
             pImage = new PImage( image );
             addChild( pImage );
 
-            centerDebugger = new PPath();
-            centerDebugger.setStroke( null );
-            centerDebugger.setPaint( Color.red );
-            if( debugCenter ) {
-                addChild( centerDebugger );
-            }
 
             feetDebugger = new PhetPPath( Color.green );
             if( debugFeet ) {
                 addChild( feetDebugger );
             }
+
+            centerDebugger = new PhetPPath( Color.red );
+            if( debugCenter ) {
+                addChild( centerDebugger );
+            }
+
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -153,7 +153,8 @@ public class BodyGraphic extends PNode {
         boundsDebugPPath.setPathTo( body.getShape() );
 
         pImage.setTransform( createSkaterTransform() );
-        centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
+//        centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
+        centerDebugger.setPathTo( new Rectangle2D.Double( body.getCenterOfMass().getX(), body.getCenterOfMass().getY(), 0.1, 0.1 ) );
         feetDebugger.setPathTo( body.getFeetShape() );
 //        invalidateFullBounds();
     }

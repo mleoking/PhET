@@ -6,6 +6,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -132,6 +133,16 @@ public class SplineMode implements UpdateMode {
                         fixed = fixed || new EnergyConserver().conserveEnergyViaH( body, origState.getTotalEnergy() );
                     }
                     System.out.println( "after some iterations of fixing the height, fixed=" + fixed );
+                    if( Math.abs( body.getY() - origState.getY() ) > 0.5 ) {
+                        System.out.println( "had a huge change in vertical position to fix energy." );
+                        double dx = 0.2;
+                        body.setAttachmentPointPosition( origState.getAttachPoint().getX() + ( random.nextDouble() - 0.5 ) * 2 * dx, origState.getAttachPoint().getY() );
+                        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( origState.getSpeed(), random.nextDouble() * Math.PI * 2 );
+                        body.setVelocity( newVelocity );
+                        body.setLastFallTime( spline, System.currentTimeMillis() );
+                        body.convertToFreefall();
+                        body.setFreeFallMode();
+                    }
                     //setBodyState( origState, body );
                 }
             }
@@ -139,6 +150,8 @@ public class SplineMode implements UpdateMode {
             //could fix with friction, if friction is enabled.
         }
     }
+
+    static final Random random = new Random();
 
     private void setBodyState( Body state, Body body ) {
         body.setVelocity( state.getVelocity() );
